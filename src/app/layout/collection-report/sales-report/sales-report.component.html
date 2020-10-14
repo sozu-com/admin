@@ -9,8 +9,14 @@
   </div>
 
 <div class="white-bg marginT15 padding15">
-    <div class="page-title-4">
-        <h3>{{'reports.statsAndTrendAnalytics' | translate}}</h3>
+    <div class="page-title-4 row">
+        <h3 class="col-10">{{'reports.statsAndTrendAnalytics' | translate}}</h3>
+        <span class="pull-right col-2">
+              <select class="form-control" [(ngModel)]="reportType">
+                    <option value="1">{{'collectionReport.graphicalview' | translate}}</option>
+                    <option value="2">{{'collectionReport.tabularView' | translate}}</option>
+              </select>
+        </span>
     </div>
     
     <div class="filters row">
@@ -88,8 +94,28 @@
       </div>
     </div>
       
-    <div class="graph-area">
+    <div class="graph-area" [style.display]="reportType==1 ? 'block' : 'none'">
       <div id="chartContainer" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
+    </div>
+
+    <div class="table-responsive main-table" *ngIf="reportType == 2" style="width: 90%; margin-left:auto;margin-right:auto;">
+      <h5>{{'collectionReport.tabularView' | translate}}<span class=" pull-right">
+            <button class="btn btn-primary-new export-btn" (click)="exportData()">{{'collectionReport.export' | translate}}</button>
+      </span></h5>
+      <table class="table table-bordered table-striped">
+            <thead>
+                  <th>{{'collectionReport.month' | translate}}</th>
+                  <th>{{'collectionReport.InhouseAgentApprovedCollections' | translate}}</th>
+                  <th>{{'collectionReport.OutsideAgentApprovedCollections' | translate}}</th>
+            </thead>
+            <tbody>
+                  <tr *ngFor="let item of items">
+                        <td>{{item.label}}</td>
+                        <td>{{item.approved_count}}</td>
+                        <td>{{item.unapproved_count}}</td>
+                  </tr>
+            </tbody>
+      </table>
     </div>
   </div>
     

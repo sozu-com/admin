@@ -868,9 +868,9 @@ export class AddEditCollectionComponent implements OnInit {
           }
           this.model.collection_commissions.push(obj);
 
-          this.ccsum = parseFloat(this.ccsum) + (obj['amount'] ? parseFloat(obj['amount']) : 0.00);
-          this.pcsum = parseFloat(this.pcsum) + (obj['purchase_comm_amount'] ? parseFloat(obj['purchase_comm_amount']) : 0.00);
-          this.acsum = parseFloat(this.acsum) + (obj['agent_comm_amount'] ? parseFloat(obj['agent_comm_amount']) : 0.00);
+          this.ccsum = parseFloat(this.ccsum) + (obj['amount'] && obj['add_collection_commission'] ? parseFloat(obj['amount']) : 0.00);
+          this.pcsum = parseFloat(this.pcsum) + (obj['purchase_comm_amount'] && obj['add_purchase_commission'] ? parseFloat(obj['purchase_comm_amount']) : 0.00);
+          this.acsum = parseFloat(this.acsum) + (obj['agent_comm_amount'] && obj['add_agent_commission'] ? parseFloat(obj['agent_comm_amount']) : 0.00);
       }
     }
   }
@@ -1901,9 +1901,9 @@ export class AddEditCollectionComponent implements OnInit {
       });
     }
     pcArray.map(e => {
-      this.ccsum = parseFloat(this.ccsum) + parseFloat(e.amount);
-      this.pcsum = parseFloat(this.pcsum) + parseFloat(e.purchase_comm_amount);
-      this.acsum = parseFloat(this.acsum) + parseFloat(e.agent_comm_amount);
+      this.ccsum = parseFloat(this.ccsum) + e.add_collection_commission ? parseFloat(e.amount) : 0.00;
+      this.pcsum = parseFloat(this.pcsum) + e.add_purchase_commission ? parseFloat(e.purchase_comm_amount) : 0.00;
+      this.acsum = parseFloat(this.acsum) + e.add_agent_commission ? parseFloat(e.agent_comm_amount) : 0.00;
     });
     this.addFormStep5.controls['collection_commissions'].patchValue(pcArray);
   }
@@ -1927,9 +1927,9 @@ export class AddEditCollectionComponent implements OnInit {
       });
     }
     pcArray.map(e => {
-      this.ccsum = parseFloat(this.ccsum) + parseFloat(e.amount);
-      this.pcsum = parseFloat(this.pcsum) + parseFloat(e.purchase_comm_amount);
-      this.acsum = parseFloat(this.acsum) + parseFloat(e.agent_comm_amount);
+      this.ccsum = parseFloat(this.ccsum) + e.add_collection_commission ? parseFloat(e.amount) : 0.00;
+      this.pcsum = parseFloat(this.pcsum) + e.add_purchase_commission ? parseFloat(e.purchase_comm_amount) : 0.00;
+      this.acsum = parseFloat(this.acsum) + e.add_agent_commission ? parseFloat(e.agent_comm_amount) : 0.00;
     });
     this.addFormStep5.controls['collection_commissions'].patchValue(pcArray);
   }
@@ -1951,9 +1951,9 @@ export class AddEditCollectionComponent implements OnInit {
       }
     }
     pcArray.map(e => {
-      this.ccsum = parseFloat(this.ccsum) + parseFloat(e.amount);
-      this.pcsum = parseFloat(this.pcsum) + parseFloat(e.purchase_comm_amount);
-      this.acsum = parseFloat(this.acsum) + parseFloat(e.agent_comm_amount);
+      this.ccsum = parseFloat(this.ccsum) + e.add_collection_commission ? parseFloat(e.amount) : 0.00;
+      this.pcsum = parseFloat(this.pcsum) + e.add_purchase_commission ? parseFloat(e.purchase_comm_amount) : 0.00;
+      this.acsum = parseFloat(this.acsum) + e.add_agent_commission ? parseFloat(e.agent_comm_amount) : 0.00;
     });
     this.addFormStep5.controls['collection_commissions'].patchValue(pcArray);
   }
@@ -1964,9 +1964,9 @@ export class AddEditCollectionComponent implements OnInit {
     this.ccsum = 0;
     this.pcsum = 0;
     pcArray.map(e => {
-      this.ccsum = parseFloat(this.ccsum) + parseFloat(e.amount);
-      this.pcsum = parseFloat(this.pcsum) + parseFloat(e.purchase_comm_amount);
-      this.acsum = parseFloat(this.acsum) + parseFloat(e.agent_comm_amount);
+      this.ccsum = parseFloat(this.ccsum) + e.add_collection_commission ? parseFloat(e.amount) : 0.00;
+      this.pcsum = parseFloat(this.pcsum) + e.add_purchase_commission ? parseFloat(e.purchase_comm_amount) : 0.00;
+      this.acsum = parseFloat(this.acsum) + e.add_agent_commission ? parseFloat(e.agent_comm_amount) : 0.00;
     });
     this.addFormStep5.controls['collection_commissions'].patchValue(pcArray);
   }
@@ -1977,9 +1977,9 @@ export class AddEditCollectionComponent implements OnInit {
     this.ccsum = 0;
     this.pcsum = 0;
     pcArray.map(e => {
-      this.ccsum = parseFloat(this.ccsum) + parseFloat(e.amount);
-      this.pcsum = parseFloat(this.pcsum) + parseFloat(e.purchase_comm_amount);
-      this.acsum = parseFloat(this.acsum) + parseFloat(e.agent_comm_amount);
+      this.ccsum = parseFloat(this.ccsum) + e.add_collection_commission ? parseFloat(e.amount) : 0.00;
+      this.pcsum = parseFloat(this.pcsum) + e.add_purchase_commission ? parseFloat(e.purchase_comm_amount) : 0.00;
+      this.acsum = parseFloat(this.acsum) + e.add_agent_commission ? parseFloat(e.agent_comm_amount) : 0.00;
     });
     this.addFormStep5.controls['collection_commissions'].patchValue(pcArray);
   }

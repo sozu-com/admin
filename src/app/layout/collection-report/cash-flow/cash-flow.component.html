@@ -9,9 +9,15 @@
     </div>
   
   <div class="white-bg marginT15 padding15">
-      <div class="page-title-4">
-          <h3>{{'collectionReport.expectedAndRealCashFlow' | translate}}</h3>
-      </div>
+      <div class="page-title-4 row">
+            <h3 class="col-10">{{'collectionReport.expectedAndRealCashFlow' | translate}}</h3>
+            <span class="pull-right col-2">
+                  <select class="form-control" [(ngModel)]="reportType">
+                        <option value="1">{{'collectionReport.graphicalview' | translate}}</option>
+                        <option value="2">{{'collectionReport.tabularView' | translate}}</option>
+                  </select>
+            </span>
+        </div>
       
       <div class="filters row">
         <div class="col-lg-2 col-md-2">
@@ -77,19 +83,38 @@
         </div>
       </div>
         
-      <div class="graph-area">
+      <div class="graph-area" [style.display]="reportType==1 ? 'block' : 'none'">
             <p>Expected Cash Flow</p>
         <div id="chartContainer" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
       </div>
 
-      <div class="graph-area">
+      <div class="graph-area" [style.display]="reportType==1 ? 'block' : 'none'">
             <p>Real Cash Flow</p>
             <div id="chartContainer1" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
       </div>
 
-      <div class="graph-area">
+      <div class="graph-area" [style.display]="reportType==1 ? 'block' : 'none'">
             <p>Expected & Real Cash Flow</p>
             <div id="chartContainer2" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
+      </div>
+      <div class="table-responsive main-table" *ngIf="reportType == 2" style="width: 90%; margin-left:auto;margin-right:auto;">
+            <h5>{{'collectionReport.tabularView' | translate}}<span class=" pull-right">
+                  <button class="btn btn-primary-new export-btn" (click)="exportData()">{{'collectionReport.export' | translate}}</button>
+            </span></h5>
+            <table class="table table-bordered table-striped">
+                  <thead>
+                        <th>{{'collectionReport.month' | translate}}</th>
+                        <th>{{'collectionReport.expectedAmt' | translate}}</th>
+                        <th>{{'collectionReport.actualAmt' | translate}}</th>
+                  </thead>
+                  <tbody>
+                        <tr *ngFor="let item of items">
+                              <td>{{item.label}}</td>
+                              <td>{{(item.expected || 0) | currency}}</td>
+                              <td>{{(item.actual || 0) | currency}}</td>
+                        </tr>
+                  </tbody>
+            </table>
       </div>
     </div>
       

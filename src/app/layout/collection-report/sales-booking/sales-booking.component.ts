@@ -6,6 +6,10 @@ import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
 import { CollectionReport } from 'src/app/models/collection-report.model';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
   selector: 'app-sales-booking',
@@ -28,6 +32,7 @@ export class SalesBookingComponent implements OnInit {
   locale: any;
   today = new Date();
   reportData: any;
+  reportType: number;
   constructor(public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService) {
@@ -36,6 +41,7 @@ export class SalesBookingComponent implements OnInit {
   onSelect(event) {}
 
   ngOnInit() {
+    this.reportType = 1;
     this.input = new CollectionReport();
     this.input.sort_sales_by = 1;
     this.input.start_date = moment().subtract(12, 'months').toDate();
@@ -133,6 +139,7 @@ export class SalesBookingComponent implements OnInit {
 
 
   getReportData () {
+    this.reportType = 1;
     const input: any = JSON.parse(JSON.stringify(this.input));
     input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
     input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
@@ -149,11 +156,11 @@ export class SalesBookingComponent implements OnInit {
     this.spinner.show();
     this.admin.postDataApi('graphs/sales-booking', input).subscribe(r => {
       this.spinner.hide();
-      this.reportData = r['data'];
+      this.reportData = r['data']['trends'];
       let s = 0;
       if (input.sort_sales_by == 2) {
-        for (let index = 0; index < this.reportData['trends'].length; index++) {
-          const element = this.reportData['trends'][index];
+        for (let index = 0; index < this.reportData.length; index++) {
+          const element = this.reportData[index];
           s = element.y + s;
           element.y = s;
         }
@@ -168,6 +175,8 @@ export class SalesBookingComponent implements OnInit {
   plotData() {
     const chart = new CanvasJS.Chart('chartContainer', {
       animationEnabled: true,
+      exportFileName: 'sales-booking',
+      exportEnabled: true,
       theme: 'light2',
       title: {
         // text: "Simple Line Chart"
@@ -178,7 +187,7 @@ export class SalesBookingComponent implements OnInit {
       data: [{
         type: 'line',
         indexLabelFontSize: 16,
-        dataPoints: this.reportData['trends']
+        dataPoints: this.reportData
       }]
     });
     chart.render();
@@ -190,5 +199,52 @@ export class SalesBookingComponent implements OnInit {
     this.input.end_date = moment().toDate();
     this.selectedCurrencies = [];
     this.selctedProjects = [];
+  }
+
+  exportData() {
+    if (this.reportData) {
+      const finalData = [];
+      for (let index = 0; index < this.reportData.length; index++) {
+        const p = this.reportData[index];
+
+        finalData.push({
+          'Month': p.label || '',
+          'Count': p.y || 0
+        });
+      }
+      this.exportAsExcelFile(finalData, 'salesBooking-');
+    }
+  }
+  // will be used in case of excel
+  public exportAsExcelFile(json: any[], excelFileName: string): void {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { data: worksheet },
+      SheetNames: ['data']
+    };
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array'
+    });
+    this.saveAsExcelFile(excelBuffer, excelFileName);
+  }
+
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    const today = new Date();
+    const date =
+      today.getDate() +
+      '-' +
+      today.getMonth() +
+      '-' +
+      today.getFullYear() +
+      '_' +
+      today.getHours() +
+      '_' +
+      today.getMinutes() +
+      '_' +
+      today.getSeconds();
+    fileName = fileName + date;
+    FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
   }
 }

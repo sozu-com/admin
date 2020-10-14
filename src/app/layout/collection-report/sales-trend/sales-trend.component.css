@@ -1,3 +1,9 @@
 .filters{
     padding: 30px 20px 60px 20px;
 }
+button.btn.btn-primary-new.export-btn {
+    margin-bottom: 10px;
+}
+.main-table table{
+    text-align: center;
+}

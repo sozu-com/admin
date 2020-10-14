@@ -6,6 +6,10 @@ import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
 import { CollectionReport } from 'src/app/models/collection-report.model';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
   selector: 'app-cash-flow',
@@ -33,6 +37,8 @@ export class CashFlowComponent implements OnInit {
   finalData: Array<any>;
   finalData1: Array<any>;
   finalData2: Array<any>;
+  items: Array<any>;
+  reportType: number;
   constructor(public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService) {
@@ -41,6 +47,7 @@ export class CashFlowComponent implements OnInit {
   onSelect(event) {}
 
   ngOnInit() {
+    this.reportType = 1;
     this.input = new CollectionReport();
     this.input.start_date = moment().subtract(12, 'months').toDate();
     this.input.end_date = moment().toDate();
@@ -147,6 +154,7 @@ export class CashFlowComponent implements OnInit {
   }
 
   getReportData() {
+    this.reportType = 1;
     this.getReportData1();
     this.getReportData2();
   }
@@ -184,6 +192,7 @@ export class CashFlowComponent implements OnInit {
           type: 'stackedColumn',
           dataPoints: ff
         });
+
       }
       this.plotData();
 
@@ -227,6 +236,14 @@ export class CashFlowComponent implements OnInit {
     this.admin.postDataApi('graphs/cash-flows', input).subscribe(r => {
       this.spinner.hide();
       this.reportData = r['data'];
+
+      this.items = [];
+      for (let index = 0; index < this.reportData['expected'].length; index++) {
+        const element = this.reportData['expected'][index];
+        // array to export
+        const obj = {label: element.label, expected: element.y, actual: this.reportData['actual'][index].y};
+        this.items.push(obj);
+      }
       this.plotData2();
     }, error => {
       this.spinner.hide();
@@ -236,6 +253,8 @@ export class CashFlowComponent implements OnInit {
   plotData() {
     const chart = new CanvasJS.Chart('chartContainer', {
       animationEnabled: true,
+      exportFileName: 'cash-flow',
+      exportEnabled: true,
       title: {
         // text: "Crude Oil Reserves vs Production, 2016"
       },
@@ -256,6 +275,8 @@ export class CashFlowComponent implements OnInit {
   plotData1() {
     const chart = new CanvasJS.Chart('chartContainer1', {
       animationEnabled: true,
+      exportFileName: 'cash-flow',
+      exportEnabled: true,
       title: {
         // text: "Crude Oil Reserves vs Production, 2016"
       },
@@ -276,6 +297,8 @@ export class CashFlowComponent implements OnInit {
   plotData2() {
     const chart = new CanvasJS.Chart('chartContainer2', {
       animationEnabled: true,
+      exportFileName: 'cash-flow',
+      exportEnabled: true,
       title: {
         // text: "Crude Oil Reserves vs Production, 2016"
       },
@@ -323,5 +346,52 @@ export class CashFlowComponent implements OnInit {
     this.input.end_date = moment().toDate();
     this.selectedCurrencies = [];
     this.selctedProjects = [];
+  }
+  exportData() {
+    if (this.items) {
+      const finalData = [];
+      for (let index = 0; index < this.items.length; index++) {
+        const p = this.items[index];
+
+        finalData.push({
+          'Month': p.label || '',
+          'Expected Amount': p.expected || 0,
+          'Actual Amount': p.actual || 0
+        });
+      }
+      this.exportAsExcelFile(finalData, 'cashFlow-');
+    }
+  }
+  // will be used in case of excel
+  public exportAsExcelFile(json: any[], excelFileName: string): void {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { data: worksheet },
+      SheetNames: ['data']
+    };
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array'
+    });
+    this.saveAsExcelFile(excelBuffer, excelFileName);
+  }
+
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    const today = new Date();
+    const date =
+      today.getDate() +
+      '-' +
+      today.getMonth() +
+      '-' +
+      today.getFullYear() +
+      '_' +
+      today.getHours() +
+      '_' +
+      today.getMinutes() +
+      '_' +
+      today.getSeconds();
+    fileName = fileName + date;
+    FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
   }
 }

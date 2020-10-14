@@ -1,5 +1,6 @@
 export class ApiConstants {
     public possession_status_id = '9'; // pre-sale
+    public payment_method_id = '1'; // pre-sale
     public possessionStatus = {
         preSale: 9,
         sale: 8

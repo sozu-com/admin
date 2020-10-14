@@ -6,6 +6,10 @@ import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
 import { CollectionReport } from 'src/app/models/collection-report.model';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
   selector: 'app-sales-report',
@@ -27,6 +31,8 @@ export class SalesReportComponent implements OnInit {
   locale: any;
   today = new Date();
   reportData: any;
+  items: Array<any>;
+  reportType: number;
   constructor(public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService) {
@@ -35,6 +41,7 @@ export class SalesReportComponent implements OnInit {
   onSelect(event) {}
 
   ngOnInit() {
+    this.reportType = 1;
     this.input = new CollectionReport();
     this.input.sort_sales_by = 1;
     this.input.start_date = moment().subtract(12, 'months').toDate();
@@ -130,8 +137,8 @@ export class SalesReportComponent implements OnInit {
       );
   }
 
-
   getReportData () {
+    this.reportType = 1;
     const input: any = JSON.parse(JSON.stringify(this.input));
     input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
     input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
@@ -149,6 +156,12 @@ export class SalesReportComponent implements OnInit {
     this.admin.postDataApi('graphs/sales-reports-2', input).subscribe(r => {
       this.spinner.hide();
       this.reportData = r['data'];
+      this.items = [];
+      for (let index = 0; index < this.reportData.approved.length; index++) {
+        const e = this.reportData.approved[index];
+        const obj = {label: e.label, approved_count: e.y, unapproved_count: this.reportData.unapproved[index].y};
+        this.items.push(obj);
+      }
       this.plotData();
     }, error => {
       this.spinner.hide();
@@ -159,6 +172,8 @@ export class SalesReportComponent implements OnInit {
 
     const chart = new CanvasJS.Chart('chartContainer', {
       animationEnabled: true,
+      exportFileName: 'sales-report',
+      exportEnabled: true,
       // title:{
       //   fontFamily: "arial black",
       //   fontColor: "#695A42"
@@ -212,5 +227,53 @@ export class SalesReportComponent implements OnInit {
     this.input.end_date = moment().toDate();
     this.selectedCurrencies = [];
     this.selctedProjects = [];
+  }
+
+  exportData() {
+    if (this.items) {
+      const finalData = [];
+      for (let index = 0; index < this.items.length; index++) {
+        const p = this.items[index];
+
+        finalData.push({
+          'Month': p.label || '',
+          'Inhouse Agent Approved Collections': p.approved_count || 0,
+          'Outside Agent Approved Collections': p.unapproved_count || 0
+        });
+      }
+      this.exportAsExcelFile(finalData, 'salesReport-');
+    }
+  }
+  // will be used in case of excel
+  public exportAsExcelFile(json: any[], excelFileName: string): void {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { data: worksheet },
+      SheetNames: ['data']
+    };
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array'
+    });
+    this.saveAsExcelFile(excelBuffer, excelFileName);
+  }
+
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    const today = new Date();
+    const date =
+      today.getDate() +
+      '-' +
+      today.getMonth() +
+      '-' +
+      today.getFullYear() +
+      '_' +
+      today.getHours() +
+      '_' +
+      today.getMinutes() +
+      '_' +
+      today.getSeconds();
+    fileName = fileName + date;
+    FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
   }
 }

@@ -5,6 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { IProperty } from 'src/app/common/property';
 import { SellerSelections } from 'src/app/models/addProperty.model';
 import { Constant } from 'src/app/common/constants';
+import { ApiConstants } from 'src/app/common/api-constants';
 import { AdminService } from 'src/app/services/admin.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PropertyService } from 'src/app/services/property.service';
@@ -65,6 +66,7 @@ export class CollectionsComponent implements OnInit {
   penaltyPercent: number;
   paymentAmount: any;
   ivaAmount: any;
+  cashSum: any;
   paymentConcepts: Array<any>;
   add_collection_commission: any;
   percent: number;
@@ -97,6 +99,7 @@ export class CollectionsComponent implements OnInit {
   payment_bank: any;
   seller_type: any;
   isPenaltyFormSub: boolean;
+  cashLimit: any;
 
   @ViewChild('viewDesModal') viewDesModal: ElementRef;
   @ViewChild('viewDesModalClose') viewDesModalClose: ElementRef;
@@ -142,6 +145,7 @@ export class CollectionsComponent implements OnInit {
 
   constructor(
     public constant: Constant,
+    public apiConstants: ApiConstants,
     public admin: AdminService,
     private propertyService: PropertyService,
     private spinner: NgxSpinnerService,
@@ -155,6 +159,9 @@ export class CollectionsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.admin.globalSettings$.subscribe(success => {
+      this.cashLimit = success['cash_limit'];
+    });
     this.isPenaltyFormSub = false;
     this.invoiceKeys = false;
     this.showError = false;
@@ -897,8 +904,25 @@ export class CollectionsComponent implements OnInit {
     if (check) {
       this.disablePayToRemaining = false;
     }
+    this.calculateCash();
     this.showPaymentBanks(item);
     this.paymentModalOpen.nativeElement.click();
+  }
+
+  calculateCash() {
+    this.cashSum = 0;
+    for (let index = 0; index < this.paymentConcepts.length; index++) {
+      const m = this.paymentConcepts[index];
+      if (m.collection_paymentss && m.collection_paymentss.length > 0) {
+        for (let i = 0; i < m.collection_paymentss.length; i++) {
+          const paymnts = m.collection_paymentss[i];
+          console.log(paymnts);
+          if (paymnts.payment_method_id == this.apiConstants.payment_method_id) {
+            this.cashSum = parseFloat(this.cashSum) + parseFloat(paymnts.amount);
+          }
+        }
+      }
+    }
   }
 
   showPaymentBanks(item: any) {
@@ -1107,6 +1131,11 @@ export class CollectionsComponent implements OnInit {
     if (this.surplus_payment_type == '4' && !this.surplus_payment_choice_id) {
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseChoosePayments'), this.translate.instant('swal.error'));
+      return false;
+    }
+    if (this.typeOfPayment == 'apply-popup' && (this.cashSum + this.paymentAmount > this.cashLimit)) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.cashLimitReached'), this.translate.instant('swal.error'));
       return false;
     }
 

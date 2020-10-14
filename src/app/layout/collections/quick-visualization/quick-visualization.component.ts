@@ -13,6 +13,7 @@ import { CurrencyPipe } from '@angular/common';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { ApiConstants } from 'src/app/common/api-constants';
 
 @Component({
   selector: 'app-quick-visualization',
@@ -58,6 +59,7 @@ export class QuickVisualizationComponent implements OnInit {
   item: any;
   paymentMethods: Array<any>;
   surplus_payment_type: string;
+  cashSum: any;
   payment_choice_id: any;
   surplus_payment_choice_id: any;
   selectedPaymentConcept: any;
@@ -80,12 +82,13 @@ export class QuickVisualizationComponent implements OnInit {
   payment_bank: any;
   paymentBank: any;
   data2: any;
-
+  cashLimit: any;
   @ViewChild('stickyMenu') menuElement: ElementRef;
 
   constructor(
     private route: ActivatedRoute,
     public model: Collection,
+    public apiConstants: ApiConstants,
     private admin: AdminService,
     private spinner: NgxSpinnerService,
     private currencyPipe: CurrencyPipe,
@@ -95,6 +98,10 @@ export class QuickVisualizationComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    this.admin.globalSettings$.subscribe(success => {
+      this.cashLimit = success['cash_limit'];
+    });
     this.today1 = new Date();
     this.setDatePickerLocale();
     this.getPaymentMethods();
@@ -575,6 +582,7 @@ export class QuickVisualizationComponent implements OnInit {
     if (check) {
       this.disablePayToRemaining = false;
     }
+    this.calculateCash();
     // payment banks
     this.paymentBanks = [];
     if (this.model.payment_received_by) {
@@ -655,6 +663,21 @@ export class QuickVisualizationComponent implements OnInit {
     this.paymentModalOpen.nativeElement.click();
   }
 
+  calculateCash() {
+    this.cashSum = 0;
+    for (let index = 0; index < this.paymentConcepts.length; index++) {
+      const m = this.paymentConcepts[index];
+      if (m.collection_paymentss && m.collection_paymentss.length > 0) {
+        for (let i = 0; i < m.collection_paymentss.length; i++) {
+          const paymnts = m.collection_paymentss[i];
+          console.log(paymnts);
+          if (paymnts.payment_method_id == this.apiConstants.payment_method_id) {
+            this.cashSum = parseFloat(this.cashSum) + parseFloat(paymnts.amount);
+          }
+        }
+      }
+    }
+  }
   applyCollectionPayment() {
     // checking if date selected and receipt selected
     if (!this.paymentDate) {
@@ -677,7 +700,11 @@ export class QuickVisualizationComponent implements OnInit {
       this.toastr.error(this.translate.instant('message.error.pleaseChoosePayments'), this.translate.instant('swal.error'));
       return false;
     }
-
+    if (this.cashSum + this.paymentAmount > this.cashLimit) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.cashLimitReached'), this.translate.instant('swal.error'));
+      return false;
+    }
     let amt = this.paymentAmount;
     // in case of pay to following, if user is paying surplus money ask the user, what he wants to do with durplus money
     if (this.payment_type == 1 && this.calculatedPayAmount < this.paymentAmount) {

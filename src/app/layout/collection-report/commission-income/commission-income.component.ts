@@ -7,6 +7,10 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
 import { CollectionReport } from 'src/app/models/collection-report.model';
 declare let swal: any;
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
   selector: 'app-commission-income',
@@ -32,6 +36,8 @@ export class CommissionIncomeComponent implements OnInit {
   today = new Date();
   reportData: any;
   avgValue: number;
+  reportType: number;
+  items: Array<any>;
   constructor(public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService) {
@@ -40,6 +46,7 @@ export class CommissionIncomeComponent implements OnInit {
   onSelect(event) {}
 
   ngOnInit() {
+    this.reportType = 1;
     this.commissionsType = [
       {id: 1, name: this.translate.instant('collectionReport.purchaseCommission')},
       {id: 2, name: this.translate.instant('collectionReport.collectionCommission')},
@@ -160,6 +167,7 @@ export class CommissionIncomeComponent implements OnInit {
   }
 
   getReportData () {
+    this.reportType = 1;
     const input: any = JSON.parse(JSON.stringify(this.input));
     input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
     input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
@@ -189,7 +197,13 @@ export class CommissionIncomeComponent implements OnInit {
     this.spinner.show();
     this.admin.postDataApi('graphs/sozu-commission-income', input).subscribe(r => {
       this.spinner.hide();
+      this.items = [];
       this.reportData = r['data'];
+      for (let index = 0; index < this.reportData.commission.length; index++) {
+        const e = this.reportData.commission[index];
+        const obj = {label: e.label, commission: e.y, iva_amount: this.reportData.iva_amount[index].y};
+        this.items.push(obj);
+      }
       this.plotData();
     }, error => {
       this.spinner.hide();
@@ -199,6 +213,8 @@ export class CommissionIncomeComponent implements OnInit {
   plotData() {
     const chart = new CanvasJS.Chart('chartContainer', {
       animationEnabled: true,
+      exportFileName: 'commission-report',
+      exportEnabled: true,
       theme: 'light2',
       dataPointWidth: 30,
       title: {
@@ -244,5 +260,52 @@ export class CommissionIncomeComponent implements OnInit {
     this.selectedCurrencies = [];
     this.selctedProjects = [];
     this.selectedCommissions = [];
+  }
+  exportData() {
+    if (this.items) {
+      const finalData = [];
+      for (let index = 0; index < this.items.length; index++) {
+        const p = this.items[index];
+
+        finalData.push({
+          'Month': p.label || '',
+          'Commission Amount': p.commission || 0,
+          'IVA Amount': p.iva_amount || 0
+        });
+      }
+      this.exportAsExcelFile(finalData, 'commissionReport-');
+    }
+  }
+  // will be used in case of excel
+  public exportAsExcelFile(json: any[], excelFileName: string): void {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { data: worksheet },
+      SheetNames: ['data']
+    };
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array'
+    });
+    this.saveAsExcelFile(excelBuffer, excelFileName);
+  }
+
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    const today = new Date();
+    const date =
+      today.getDate() +
+      '-' +
+      today.getMonth() +
+      '-' +
+      today.getFullYear() +
+      '_' +
+      today.getHours() +
+      '_' +
+      today.getMinutes() +
+      '_' +
+      today.getSeconds();
+    fileName = fileName + date;
+    FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
   }
 }

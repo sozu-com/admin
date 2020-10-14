@@ -7,6 +7,10 @@ import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
 import { CollectionReport } from '../../../models/collection-report.model';
 import { Towers } from 'src/app/models/addProject.model';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
   selector: 'app-buyer-report',
@@ -426,5 +430,52 @@ export class BuyerReportComponent implements OnInit {
     this.selectedBuyerDev = [];
     this.selectedProperties = [];
     this.selectedLegalReps = [];
+  }
+  exportData() {
+    if (this.items) {
+      const finalData = [];
+      for (let index = 0; index < this.items.length; index++) {
+        const p = this.items[index];
+
+        finalData.push({
+          'Month': p.label || '',
+          'Commission Amount': p.commission || 0,
+          'IVA Amount': p.iva_amount || 0
+        });
+      }
+      this.exportAsExcelFile(finalData, 'commissionReport-');
+    }
+  }
+  // will be used in case of excel
+  public exportAsExcelFile(json: any[], excelFileName: string): void {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { data: worksheet },
+      SheetNames: ['data']
+    };
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array'
+    });
+    this.saveAsExcelFile(excelBuffer, excelFileName);
+  }
+
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    const today = new Date();
+    const date =
+      today.getDate() +
+      '-' +
+      today.getMonth() +
+      '-' +
+      today.getFullYear() +
+      '_' +
+      today.getHours() +
+      '_' +
+      today.getMinutes() +
+      '_' +
+      today.getSeconds();
+    fileName = fileName + date;
+    FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
   }
 }
