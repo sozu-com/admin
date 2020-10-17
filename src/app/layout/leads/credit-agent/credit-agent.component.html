@@ -3,13 +3,13 @@
   <div class="row">
       <div class="col-md-4">
           <div class="form-group">
-              <p class="p16">{{'leads.CSRRenterLeads' | translate}}</p>
+              <p class="p16">{{'leads.CreditAgentLeads' | translate}}</p>
           </div>
       </div>
   </div>
   <div class="row">
       <div class="col-md-4">
-          <div class="form-group" *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 && !this.parameter.assignee_id">
+          <div class="form-group" *ngIf="admin?.admin_acl['Credit Agent Lead Management']?.can_read==1 && !this.parameter.assignee_id">
               <div class="d-flex">
               <div class="autocomplete">
                   <input placeholder="{{'addForm.placeholder.searchCSRSeller' | translate}}" style="max-width:200px" list="amenities" [(ngModel)]="parameter.keyword" (input)="getCsrListing()" class="form-control" type="text" name="keyword" (focusout)="closeCsrListing()">
@@ -70,7 +70,7 @@
       </div>
   </div>
   <div class="listingResults" >
-      <div class="row" *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 && !this.parameter.assignee_id">
+      <div class="row" *ngIf="admin?.admin_acl['Credit Agent Lead Management']?.can_read==1 && !this.parameter.assignee_id">
           <div class="col-md-2">
               <div class="form-group">
               <label>{{'filters.location.country' | translate}}</label>
@@ -164,11 +164,11 @@
                <div class="one-row">
                   <div class="o-block">
                      <h5>{{'table.th.leads' | translate}}</h5>
-                     <small>{{'table.th.withoutProperty' | translate}}</small>
+                     <small>{{'leads.leadsOpen' | translate}}</small>
                   </div>
                   <div class="o-block">
                      <a class="view-all" href="javascript://">{{'table.th.viewAll' | translate}}</a>
-                     <h4>{{dash?.lead_without_property || 0}}</h4>
+                     <h4>{{dash?.lead_open || 0}}</h4>
                   </div>
                </div>
             </div>
@@ -180,11 +180,11 @@
                <div class="one-row ">
                   <div class="o-block">
                      <h5>{{'table.th.leads' | translate}}</h5>
-                     <small>{{'table.th.withProperty' | translate}}</small>
+                     <small>{{'leads.leadsClosed' | translate}}</small>
                   </div>
                   <div class="o-block">
                      <a class="view-all" href="javascript://">{{'table.th.viewAll' | translate}}</a>
-                     <h4>{{dash?.lead_with_property || 0}}</h4>
+                     <h4>{{dash?.lead_close || 0}}</h4>
                   </div>
                </div>
             </div>
@@ -192,11 +192,11 @@
                <div class="one-row">
                   <div class="o-block">
                      <h5>{{'table.th.leads' | translate}}</h5>
-                     <small>{{'table.th.pendingProperties' | translate}}</small>
+                     <small>{{'leads.leadsLost' | translate}}</small>
                   </div>
                   <div class="o-block">
                      <a class="view-all" href="javascript://">{{'table.th.viewAll' | translate}}</a>
-                     <h4>{{dash?.lead_property_pending || 0}}</h4>
+                     <h4>{{dash?.lead_lost || 0}}</h4>
                   </div>
                </div>
             </div>
@@ -228,7 +228,7 @@
          </h5>
       </div>
    </div>
-   <div class="col-lg-6 col-md-6 col-5" *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 && !this.parameter.assignee_id">
+   <div class="col-lg-6 col-md-6 col-5" *ngIf="admin?.admin_acl['Credit Agent Lead Management']?.can_read==1 && !this.parameter.assignee_id">
       <div class="add-new text-right">
           <a class="btn" (click)="bulkAssign()" href="javascript://">{{'table.th.bulkReassign' | translate}}</a>
       </div>
@@ -240,7 +240,7 @@
          <table class="table table-striped border-0">
             <tbody>
             <tr>
-              <th *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 && !this.parameter.assignee_id" style="width:5%;">
+              <!-- <th *ngIf="admin?.admin_acl['Credit Agent Lead Management']?.can_read==1 && !this.parameter.assignee_id" style="width:5%;">
                   <div class="table-search">
                       <label>{{'table.th.all' | translate}}</label>
                       <div>
@@ -250,13 +250,13 @@
                           </label>
                       </div>
                   </div>
-              </th>
+              </th> -->
               <th style="width:5%;">
                   <div class="table-search">
                           <label>{{'table.th.image' | translate}}</label>
                   </div>
               </th>
-              <th style="width:15%;">
+              <th style="width:10%;">
                   <div class="table-search">
                           <label>{{'table.th.name' | translate}}</label>
                      <div class="searh-3">
@@ -265,7 +265,17 @@
                     </div>
                   </div>
               </th>
-              <th style="width:15%;">
+              <th style="width:10%;">
+                  <div class="table-search">
+                          <label>{{'table.th.firstSurname' | translate}}</label>
+                  </div>
+              </th>
+              <th style="width:10%;">
+                  <div class="table-search">
+                          <label>{{'table.th.secondSurname' | translate}}</label>
+                  </div>
+              </th>
+              <th style="width:10%;">
                   <div class="table-search">
                           <label>{{'table.th.contactNumber' | translate}}</label>
                      <div class="searh-3">
@@ -285,107 +295,63 @@
                </th>
                <th style="width:10%;">
                   <div class="table-search">
+                          <label>{{'table.th.price' | translate}}</label>
+                  </div>
+               </th>
+               <th style="width:10%;">
+                  <div class="table-search">
                           <label>{{'table.th.assignee' | translate}}</label>
                   </div>
                </th>
-               <th style="width:5%;">
-                  <div class="table-search">
-                          <label>{{'table.th.chatWithSeller' | translate}}</label>
-                  </div>
-               </th>
-               <th style="width:5%;">
-                  <div class="table-search">
-                          <label>{{'table.th.chatWithAgent' | translate}}</label>
-                  </div>
-               </th>
-               <th style="width:5%;">
-                  <div class="table-search">
-                          <label>{{'table.th.properties' | translate}}</label>
-                  </div>
-                  <div class="ppties">
-                      <a href="javascript://" (click)="sort_by(3)" data-toggle="tooltip" data-placement="top" title="{{'table.title.Attracted' | translate}}" data-original-title="Attracted">A<img [ngClass]="{'upsidedown':parameter.sort_by_flag==3 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a>
-                  </div>
-               </th>
-               <th style="width:5%;">
-                 <label>&nbsp;</label>
-                <div class="ppties">
-                   <a href="javascript://" (click)="sort_by(4)" data-toggle="tooltip" data-placement="top" title="{{'table.title.Contacted' | translate}}" data-original-title="Contacted">C<img [ngClass]="{'upsidedown':parameter.sort_by_flag==4 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a>
-                   </div>
-               </th>
-               <th style="width:5%;">
+               <th style="width:15%;">
                 <label>&nbsp;</label>
-                <div class="ppties">
-                   <a href="javascript://" (click)="sort_by(2)" data-toggle="tooltip" data-placement="top" title="{{'table.title.Scheduled' | translate}}" data-original-title="Scheduled">S<img [ngClass]="{'upsidedown':parameter.sort_by_flag==2 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a>
-                   </div>
-               </th>
-               <th style="width:5%;">
-                <label>&nbsp;</label>
-                <div class="ppties">
-                   <a href="javascript://" (click)="sort_by(1)"  data-toggle="tooltip" data-placement="top" title="{{'table.title.Negotiating' | translate}}" data-original-title="Negotiating">N<img [ngClass]="{'upsidedown':parameter.sort_by_flag==1 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a>
-                   </div>
-               </th>
-               <th style="width:5%;">
-                <label>&nbsp;</label>
-                <div class="ppties">
-                   <a href="javascript://" (click)="sort_by(5)" data-toggle="tooltip" data-placement="top" title="{{'table.title.Layaway' | translate}}" data-original-title="Layaway">L<img [ngClass]="{'upsidedown':parameter.sort_by_flag==5 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a>
-                   </div>
-               </th>
-               <th style="width:5%;">
-                <label>&nbsp;</label>
-                <div class="ppties">
-                   <a href="javascript://" (click)="sort_by(1)"  data-toggle="tooltip" data-placement="top" title="{{'table.title.Deal Done' | translate}}" data-original-title="Deal Done">D<img [ngClass]="{'upsidedown':parameter.sort_by_flag==1 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a>
-                   </div>
-               </th>
-               <th style="width:5%;">
-                <label>&nbsp;</label>
-                <div class="ppties">
-                   <a href="javascript://" (click)="sort_by(5)" data-toggle="tooltip" data-placement="top" title="{{'table.title.Lead Lost' | translate}}" data-original-title="Lead Lost">L<img [ngClass]="{'upsidedown':parameter.sort_by_flag==5 && parameter.sort_by_order==0}" src="assets/img/top-arrow.png" alt="img"></a>
-                   </div>
                </th>
             </tr>
-            <tr class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}" *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }"
+            <tr class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}" *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i =index"
             >
-              <td *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 && !this.parameter.assignee_id" (click)="$event.stopPropagation()">
+              <!-- <td *ngIf="admin?.admin_acl['Credit Agent Lead Management']?.can_read==1 && !this.parameter.assignee_id" (click)="$event.stopPropagation()">
                   <label class="cust-check-bx marginT0">
                   <input type="checkbox" [(ngModel)]="item.selected" name="document">
                   <span class="checkmark"></span>
                   </label>
-                  <!-- <i class="fa" [ngClass]="item.selected?'fa-check-square-o':'fa-square-o'" (click)="item.selected = !item.selected" aria-hidden="true"></i> -->
-              </td>
-              <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}">
+              </td> -->
+              <td >
                   <img class="rounded-circle" *ngIf="item.image" onerror='src="assets/img/default_img.png"' alt="img"
                             [defaultImage]="item.image| img:'thumb'" [lazyLoad]="item.image">
                   <img class="rounded-circle" *ngIf="!item.image" src="assets/img/default_img.png" alt="img">
               </td>
-              <td class="text-left" routerLink="/dashboard/leads/csr-sellers/{{item.id}}">
+              <td class="text-left">
                 <span class="name">{{item.name | titlecase}}</span>
                </td>
-               <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}" class="text-left" *ngIf="item.phone">{{item.dial_code}}-{{item.phone.trim()}}</td>
-               <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}" class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
-              <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}" class="text-left">
+               <td class="text-left">
+                 <span class="name">{{item.first_surname | titlecase}}</span>
+                </td>
+                <td class="text-left">
+                  <span class="name">{{item.second_surname | titlecase}}</span>
+                 </td>
+               <td class="text-left" *ngIf="item.phone">{{item.dial_code}}-{{item.phone.trim()}}</td>
+               <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
+              <td class="text-left">
                   {{item.email}}
               </td>
-               <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}" class="text-left">{{item.csr_seller_name?item.csr_seller_name:('table.tr.td.NA' | translate)}}</td>
-               <td class="text-left" (click)="getCSRSellerChat($event, 1, item.assigned_csr_seller_id, item.id)">
-                   <a class="green-color fontW500" href="javascript://">{{'table.th.chatWithSeller' | translate}}</a>
-               </td>
-               <td class="text-left" (click)="getCSRSellerChat($event, 2, item.assigned_csr_seller_id, item.id)">
-                  <a class="green-color fontW500" href="javascript://">{{'table.th.chatWithAgent' | translate}}</a>
-              </td>
-               <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}">
-                {{item.approved_count}}
-               </td>
-               <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}">
-                {{item.rejected_count}}
-               </td>
-               <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}">
-                  {{item.pending_count}}
-               </td>
-               <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}">
-                  {{item.draft_count}}
-               </td>
-               <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}">
-                  {{item.total_count}}
+              <td class="text-left">
+                {{(item.price || 0) | currency}}
+            </td>
+               <td class="text-left">{{item?.admin ? item?.admin?.name:('table.tr.td.NA' | translate)}}</td>
+               <td>
+                  
+                <button *ngIf="item.lead_status_agent==1" [disabled]="admin?.admin_acl['Credit Agent Lead Management']?.can_update==0"
+                title="{{'table.title.openLeads' | translate}}" (click)="changeLeadStatus(0, item.id, i)"
+                class="action-icon"><img src="assets/img/open-lock.png" alt="img"></button>
+                
+                <button *ngIf="!item.lead_status_agent || item.lead_status_agent==2" [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
+                (click)="changeLeadStatus(1, item.id, i)" title="{{'table.title.closeLeads' | translate}}" 
+                class="action-icon"><img src="assets/img/locked-padlock.png" alt="img"></button>  
+                
+                <button *ngIf="!item.lead_status_agent" [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
+                (click)="changeLeadStatus(2, item.id, i)" title="{{'table.title.lostLeads' | translate}}" 
+                class="action-icon"><img src="assets/img/lost-items.png" alt="img"></button>  
+
                </td>
             </tr>
          </tbody></table>

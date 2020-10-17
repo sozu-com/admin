@@ -80,6 +80,15 @@ export class UsersComponent implements OnInit {
     this.getBuyers(this.parameter.type, this.parameter.page, this.parameter.name, this.parameter.phone, this.parameter.email);
   }
 
+  setUserType(is_credit: any) {
+    if (is_credit == 2) {
+      this.parameter.is_credit = 1
+    } else {
+      this.parameter.is_credit = '';
+    }
+    this.getBuyers(this.parameter.type, this.parameter.page, this.parameter.name, this.parameter.phone, this.parameter.email);
+  }
+
   getBuyers(type: any, page: any, name: string, phone: string, email: string) {
     this.parameter.page = page;
     this.parameter.type = type;

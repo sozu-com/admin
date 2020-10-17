@@ -149,7 +149,7 @@ export class CreditAgentComponent implements OnInit {
   changeCountFlag(flag: number) {
     this.parameter.count_flag = flag;
     this.leadsService.sellerLeadsCountFlag = flag;
-    this.getListing();
+    // this.getListing();
   }
 
   getCsrListing() {
@@ -239,20 +239,20 @@ export class CreditAgentComponent implements OnInit {
       input.assignee_id = this.parameter.assignee_id;
     }
 
-    this.admin.postDataApi('leads/csr-seller-dash-count', input).subscribe(r => {
-      this.dash = [] // r.data;
+    this.admin.postDataApi('leads/credit-agent-dash-count', input).subscribe(r => {
+      this.dash = r.data;
       this.chartView = [
         {
-          'name': this.translate.instant('leads.propertyPending'),
-          'value':0 // parseInt(this.dash.lead_property_pending, 10)
+          'name': this.translate.instant('leads.leadsOpen'),
+          'value':parseInt(this.dash.lead_open, 10)
         },
         {
-          'name': this.translate.instant('leads.leadWithProperty'),
-          'value': 0 // parseInt(this.dash.lead_with_property, 10)
+          'name': this.translate.instant('leads.leadsClosed'),
+          'value': parseInt(this.dash.lead_close, 10)
         },
         {
-          'name': this.translate.instant('leads.leadWithoutProperty'),
-          'value': 0 //parseInt(this.dash.lead_without_property, 10)
+          'name': this.translate.instant('leads.leadsLost'),
+          'value': parseInt(this.dash.lead_lost, 10)
         }
       ];
     });
@@ -278,12 +278,12 @@ export class CreditAgentComponent implements OnInit {
       input.assignee_id = this.parameter.assignee_id;
     }
     this.spinner.show();
-    this.admin.postDataApi('leads/csr-seller', input).subscribe(
+    this.admin.postDataApi('leads/credit-agent', input).subscribe(
       success => {
         this.spinner.hide();
-        this.items = [] // success.data;
+        this.items = success.data;
         if (this.items.length <= 0) { this.parameter.noResultFound = true; }
-        this.parameter.total = 0 //success.total_count;
+        this.parameter.total = success.total_count;
       }, error => {
         this.spinner.hide();
       });
@@ -363,5 +363,25 @@ export class CreditAgentComponent implements OnInit {
     } else {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.noCSRSellerAssigned'), 'error');
     }
+  }
+
+  changeLeadStatus(status: number, id: any, index: number) {
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+        this.translate.instant('message.error.wantToChangeStatus'),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.admin.postDataApi('leads/changeLeadStatus', {status: status, id: id})
+          .subscribe(
+            success => {
+              this.items[index]['lead_status_agent'] = status;
+            });
+      }
+    });
   }
 }

@@ -183,4 +183,5 @@ export interface IProperty {
   user_type?: number;
   collection_status?: any;
   property_name?: string;
+  is_credit?: any;
 }

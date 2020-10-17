@@ -768,6 +768,9 @@
       "saveAmount": "Save Amount",
       "propertyImage": "Property Image",
       "editDetails": "Edit Details",
+      "lostLeads": "Lost Leads",
+      "openLeads": "Open Leads",
+      "closeLeads": "Close Leads",
       "collectionNotes": "Collection Notes",
       "collectionFolders": "Folders and Documents",
       "cancelCollection": "Cancel Collection",
@@ -1310,6 +1313,7 @@
     "properties": "Lead (Properties)",
     "leadsOpen": "Lead (Open)",
     "leadsClosed": "Lead (Closed)",
+    "leadsLost": "Lead (Lost)",
     "dealFinalised": "Leads (Deal finalized)",
     "notaryNotAssigned": "Notary (Not assigned)",
     "bankNotAssigned": "Bank (Not assigned)"
