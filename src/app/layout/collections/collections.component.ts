@@ -1136,7 +1136,7 @@ export class CollectionsComponent implements OnInit {
     if (this.typeOfPayment == 'apply-popup' && (this.cashSum + this.paymentAmount > this.cashLimit)) {
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.cashLimitReached'), this.translate.instant('swal.error'));
-      return false;
+      // return false;
     }
 
     let amt = this.paymentAmount;
