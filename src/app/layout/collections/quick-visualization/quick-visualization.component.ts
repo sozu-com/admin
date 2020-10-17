@@ -14,6 +14,8 @@ import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiConstants } from 'src/app/common/api-constants';
+import { Constant } from 'src/app/common/constants';
+declare let swal: any;
 
 @Component({
   selector: 'app-quick-visualization',
@@ -87,6 +89,7 @@ export class QuickVisualizationComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    public constant: Constant,
     public model: Collection,
     public apiConstants: ApiConstants,
     private admin: AdminService,
@@ -679,6 +682,7 @@ export class QuickVisualizationComponent implements OnInit {
     }
   }
   applyCollectionPayment() {
+    let callApi = true;
     // checking if date selected and receipt selected
     if (!this.paymentDate) {
       this.toastr.clear();
@@ -700,11 +704,11 @@ export class QuickVisualizationComponent implements OnInit {
       this.toastr.error(this.translate.instant('message.error.pleaseChoosePayments'), this.translate.instant('swal.error'));
       return false;
     }
-    if (this.cashSum + this.paymentAmount > this.cashLimit) {
-      this.toastr.clear();
-      this.toastr.error(this.translate.instant('message.error.cashLimitReached'), this.translate.instant('swal.error'));
-      return false;
-    }
+    // if (this.cashSum + this.paymentAmount > this.cashLimit) {
+    //   this.toastr.clear();
+    //   this.toastr.error(this.translate.instant('message.error.cashLimitReached'), this.translate.instant('swal.error'));
+    //   // return false;
+    // }
     let amt = this.paymentAmount;
     // in case of pay to following, if user is paying surplus money ask the user, what he wants to do with durplus money
     if (this.payment_type == 1 && this.calculatedPayAmount < this.paymentAmount) {
@@ -838,6 +842,68 @@ export class QuickVisualizationComponent implements OnInit {
       input['collection_payment_choice_id'] = this.payment_choice_id['id'];
     }
     input['type'] = this.payment_type;
+
+    if ((this.cashSum + this.paymentAmount > this.cashLimit)) {
+      callApi = false;
+      swal({
+        html: this.translate.instant('message.error.cashLimitReached'),
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: this.constant.confirmButtonColor,
+        cancelButtonColor: this.constant.cancelButtonColor,
+        confirmButtonText: 'Ok'
+      }).then((result) => {
+        if (result.value) {
+          // continue;
+          this.callToPaymentApi(input);
+        } else {
+          return;
+        }
+      });
+      // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.cashLimitReached'), 'error');
+      // this.toastr.clear();
+      // this.toastr.error(this.translate.instant('message.error.cashLimitReached'), this.translate.instant('swal.error'));
+      // return false;
+    }
+
+
+    if (callApi) {
+      this.isApplyBtnClicked = true;
+      this.admin.postDataApi('applyCollectionPayment', input).subscribe(r => {
+        this.isApplyBtnClicked = false;
+        if (this.surplus_payment_type) {
+          input['amount'] = this.paymentAmount - this.calculatedPayAmount;
+          input['type'] = this.surplus_payment_type;
+          input['parent_id'] = r.data['id'];   // send parent_id in case of type 1 and surplus (to make parent delete)
+          if (this.surplus_payment_type == '4') {
+            input['collection_payment_choice_id'] = this.surplus_payment_choice_id;
+          }
+  
+          this.admin.postDataApi('applyCollectionPayment', input).subscribe(r => {
+            // if (this.surplus_payment_type == '1' || this.surplus_payment_type == '4') {
+            //   input['collection_payment_choice_id'] = this.payment_choice_id['id']
+            // }
+          });
+        }
+  
+        this.paymentModalClose.nativeElement.click();
+        this.closeCollReceiptModal();
+        this.getCollectionDetails();
+  
+        this.toastr.clear();
+        this.toastr.success(this.translate.instant('message.success.savedSuccessfully'), this.translate.instant('swal.success'));
+      }, error => {
+        this.paymentConcepts = [];
+        this.isApplyBtnClicked = false;
+        this.paymentModalClose.nativeElement.click();
+        this.closeCollReceiptModal();
+        this.getCollectionDetails();
+        return false;
+      });
+    }
+  }
+
+  callToPaymentApi(input) {
     this.isApplyBtnClicked = true;
     this.admin.postDataApi('applyCollectionPayment', input).subscribe(r => {
       this.isApplyBtnClicked = false;
