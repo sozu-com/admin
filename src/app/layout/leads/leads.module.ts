@@ -54,6 +54,11 @@ const routes: Routes = [
     path: 'credit-agents', component: CreditAgentComponent,
     canActivate: [AclUserGuard], data: { roles: ['Credit Agent Lead Management', 'can_read', 'can_credit_agent'] }
   },
+  // lead wrt credit-agents
+  {
+    path: 'credit-agents-leads/:id', component: CreditAgentComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Credit Agent Lead Management', 'can_read', 'can_credit_agent'] }
+  },
   {
     path: 'collection-agents', component: CsrRenterComponent,
     canActivate: [AclUserGuard], data: { roles: ['Renter Lead Management', 'can_read', 'can_csr_renter'] }

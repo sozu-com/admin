@@ -154,7 +154,7 @@
               </div>
             </th>
             <th *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'outside-broker' || parameter.userType == 'csr-closers' ||
-            parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers'" style="width:5%; vertical-align: top;">
+            parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers' || parameter.userType=='credit-agents'" style="width:5%; vertical-align: top;">
               <div class="d-flex table-search">
                 <label>{{'table.th.leads' | translate}}<a (click)="setLeadSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.lead_sort==2}" src="assets/img/top-arrow.png" alt="img"></a></label>
               </div>
@@ -191,7 +191,7 @@
               <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
               <td class="text-left">{{item.email}}</td>
               <td class="text-left" (click)="showLeads(item.id)" *ngIf="parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers' ||
-                    parameter.userType == 'inhouse-broker' || parameter.userType == 'outside-broker' || parameter.userType == 'csr-closers'; else showBuildings">
+                    parameter.userType == 'inhouse-broker' || parameter.userType=='credit-agents' || parameter.userType == 'outside-broker' || parameter.userType == 'csr-closers'; else showBuildings">
                 <span class="green-color cursor-pointer">{{item.lead_count?item.lead_count:'0'}}</span>
               </td>
               <td class="text-left" *ngIf="parameter.userType == 'data-collectors'" >{{item.added_buildings_count?item.added_buildings_count:'0'}}</td>
@@ -224,6 +224,9 @@
                   <a *ngIf="admin?.admin_acl['Closer Lead Management']?.can_read==1 && parameter.userType == 'csr-closers'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/csr-closers-leads/{{item.id}}" class="icon-block edit-icon">
                     <img src="assets/img/ic_leads.png" alt="img">
                   </a>
+                  <!-- <a *ngIf="admin?.admin_acl['Credit Agent Lead Management']?.can_read==1 && parameter.userType == 'credit-agents'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/credit-agents-leads/{{item.id}}" class="icon-block edit-icon">
+                    <img src="assets/img/ic_leads.png" alt="img">
+                  </a> -->
                   
                   <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#view" #viewModalOpen></a>
                   <a title="{{'table.title.viewRoles' | translate}}" href="javascript://" (click)="viewDetails(item, i)" class="icon-block edit-icon"><img src="assets/img/eye-icon.png" alt="img"></a>
