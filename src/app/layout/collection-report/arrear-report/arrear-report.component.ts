@@ -6,6 +6,10 @@ import { Constant } from 'src/app/common/constants';
 import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
 import { CollectionReport } from '../../../models/collection-report.model';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
   selector: 'app-arrear-report',
@@ -309,4 +313,62 @@ export class ArrearReportComponent implements OnInit {
     this.selectedBuyers = [];
   }
 
+  exportData() {
+    if (this.finalData) {
+      const finalData = [];
+      for (let index = 0; index < this.finalData.length; index++) {
+        const item = this.finalData[index];
+
+        if (item.id != 'Total') {
+          finalData.push({
+            'Account ID': item.id || '',
+            'Buyer Name': item.buyer_name || '',
+            'Seller Name': item.seller_name || '',
+            Project: item.project_name || '',
+            Tower: item.tower_name || '',
+            Model: item.model || '',
+            'Property Name': item.property_name || '',
+            Currency: item.code || '',
+            'concept': item.NAME || '',
+            'date': item.date || '',
+            'paymentTotal': item.symbol + (item.amount || 0),
+            'totalArrear': item.symbol + (item.total_amount || 0)
+          });
+        }
+      }
+      this.exportAsExcelFile(finalData, 'arrearReport-');
+    }
+  }
+  // will be used in case of excel
+  public exportAsExcelFile(json: any[], excelFileName: string): void {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { data: worksheet },
+      SheetNames: ['data']
+    };
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array'
+    });
+    this.saveAsExcelFile(excelBuffer, excelFileName);
+  }
+
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    const today = new Date();
+    const date =
+      today.getDate() +
+      '-' +
+      today.getMonth() +
+      '-' +
+      today.getFullYear() +
+      '_' +
+      today.getHours() +
+      '_' +
+      today.getMinutes() +
+      '_' +
+      today.getSeconds();
+    fileName = fileName + date;
+    FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
+  }
 }
