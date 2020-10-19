@@ -432,18 +432,44 @@ export class BuyerReportComponent implements OnInit {
     this.selectedLegalReps = [];
   }
   exportData() {
-    if (this.items) {
+    if (this.finalData) {
       const finalData = [];
-      for (let index = 0; index < this.items.length; index++) {
-        const p = this.items[index];
+      for (let index = 0; index < this.finalData.length; index++) {
+        const item = this.finalData[index];
+        let buyer = '';
+        if (item.buyer_type !=2) {
+          buyer = item.buyer.name ? (item.buyer.name + ' ' + item.buyer.first_surname + ' ' + item.buyer.second_surname) : '';
+        } else {
+          buyer = item.buyer_legal_entity.comm_name ? item.buyer_legal_entity.comm_name : '';
+        }
+
+        let seller = '';
+        if (item.seller_type != 2) {
+          seller = item.seller.name ? (item.seller.name + ' ' + item.seller.first_surname + ' ' + item.seller.second_surname) : '';
+        } else {
+          seller = item.seller_legal_entity.comm_name ? item.seller_legal_entity.comm_name : '';
+        }
 
         finalData.push({
-          'Month': p.label || '',
-          'Commission Amount': p.commission || 0,
-          'IVA Amount': p.iva_amount || 0
+          'Buyer Name': buyer,
+          'Seller Name': seller,
+          'Destiny Bank': item.payment_received_by == 1 ? item.property.building.agency.name : 'Seller',
+          Project: item.property.building.name || '',
+          Tower: item.property.building_towers.tower_name || '',
+          Model: item.property.building_configuration.name || '',
+          'Property Name': item.property.name || '',
+          Currency: item.currency.code || '',
+          Date: item.payment_date,
+          'Amount Paid By User': item.amt_paid || '',
+          'Bank Name': item.bank_name || '',
+          'Account Number': item.account_number || '',
+          'Clabe Swift': item.swift || '',
+          'Bank Currency': item.bank_currency || '',
+          'Total Paid': item.total_amt_paid || '',
+          Remaining: (item.deal_price - (item.penalty || 0)) || '',
         });
       }
-      this.exportAsExcelFile(finalData, 'commissionReport-');
+      this.exportAsExcelFile(finalData, 'buyerReport-');
     }
   }
   // will be used in case of excel
