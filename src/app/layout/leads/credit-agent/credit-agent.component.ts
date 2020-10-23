@@ -384,4 +384,32 @@ export class CreditAgentComponent implements OnInit {
       }
     });
   }
+
+  deletePopup(item: any, index: number) {
+
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+        this.translate.instant('message.error.wantToDeleteLead'),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.delete(item, index);
+      }
+    });
+  }
+
+  delete(item: any, index: number) {
+    this.admin.postDataApi('leads/deleteCreditLead',
+      { id: item.id }).subscribe(r => {
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
+        this.items.splice(index, 1);
+      },
+        error => {
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
+        });
+  }
 }

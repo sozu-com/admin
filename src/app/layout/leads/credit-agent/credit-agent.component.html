@@ -300,6 +300,11 @@
                </th>
                <th style="width:10%;">
                   <div class="table-search">
+                          <label>{{'table.th.mortgageLoanType' | translate}}</label>
+                  </div>
+               </th>
+               <th style="width:10%;">
+                  <div class="table-search">
                           <label>{{'table.th.assignee' | translate}}</label>
                   </div>
                </th>
@@ -337,6 +342,9 @@
               <td class="text-left">
                 {{(item.price || 0) | currency}}
             </td>
+            <td>
+                <span *ngFor="let m of item?.mortgage_loan_types; let j=index">{{m.name_es}} <span *ngIf="j<item?.mortgage_loan_types?.length-1">, </span> </span>
+            </td>
                <td class="text-left">{{item?.admin ? item?.admin?.name:('table.tr.td.NA' | translate)}}</td>
                <td>
                   
@@ -351,6 +359,10 @@
                 <button *ngIf="!item.lead_status_agent" [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
                 (click)="changeLeadStatus(2, item.id, i)" title="{{'table.title.lostLeads' | translate}}" 
                 class="action-icon"><img src="assets/img/lost-items.png" alt="img"></button>  
+                
+                <button [disabled]="admin?.admin_acl['Manage Collections']?.can_purge==0"
+                (click)="deletePopup(item, i)" title="{{'table.title.delete' | translate}}" 
+                class="action-icon"><img src="assets/img/ic_delete.png" alt="img"></button>  
 
                </td>
             </tr>
