@@ -83,6 +83,7 @@
                 </div>
             </div>
             
+            
             <div class="col-12">
               <label>{{'addCollection.bankName' | translate}}
                 <!-- <span class="color-red">*</span> -->
@@ -263,6 +264,12 @@
               </div>
           </div>
 
+          <div class="col-12">
+            <div class="form-group-2 row">
+              <label class="col-4">{{'addForm.pleaseProvideAccessToSystem' | translate}}</label>
+              <input type="checkbox" class="col-6 form-control have_dev_panel_access" [(ngModel)]="model.legal_representative.have_dev_panel_access" name="have_dev_panel_access">
+            </div>
+          </div>
           <div class="col-12">
             <label>{{'addCollection.bankAccount' | translate}}
               <!-- <span class="color-red">*</span> -->

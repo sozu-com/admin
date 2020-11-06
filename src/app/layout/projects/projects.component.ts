@@ -339,6 +339,14 @@ export class ProjectsComponent implements OnInit {
     }
   }
 
+  viewLegalEntity(item: any) {
+    if (item.legal_entity && item.legal_entity.comm_name) {
+      this.router.navigate(['/dashboard/legal-entities/view-all', item.legal_entity.comm_name]);
+    } else {
+      this.router.navigate(['/dashboard/projects/edit-project', item.id]);
+    }
+  }
+
   viewCompanyManager(item: any) {
     if (item.manager && item.manager.id) {
       this.router.navigate(['/dashboard/managers/view-all', 'manager', item.manager.name]);

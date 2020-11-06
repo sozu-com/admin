@@ -94,6 +94,7 @@ export class AddLegalEntityComponent implements OnInit {
         country_code: [''],
         dial_code: [''],
         email: [''],
+        have_dev_panel_access: [''],
         // fed_tax_pay: ['', [Validators.required]],
         fed_tax_pay: [''],
         legal_rep_banks: this.fb.array([])
@@ -227,6 +228,8 @@ export class AddLegalEntityComponent implements OnInit {
     formData['dial_code'] = this.model.dial_code;
     formData['legal_rep']['country_code'] = this.model.country_code;
     formData['legal_rep']['dial_code'] = this.model.dial_code;
+    formData['legal_rep']['have_dev_panel_access'] = formData['legal_rep']['have_dev_panel_access'] ? 1 : 0;
+
     if (this.model.id) {
       formData['id'] = this.model.id;
     }
@@ -235,8 +238,8 @@ export class AddLegalEntityComponent implements OnInit {
       formData['lng'] = this.model.lng;
       formData['address'] = this.model.address;
     }
-    if (formData['legal_rep'].name || formData['legal_rep'].first_surname || formData['legal_rep'].phone 
-      || formData['legal_rep'].fed_tax_pay || formData['legal_rep'].email) {
+    if (formData['legal_rep'].name || formData['legal_rep'].first_surname || formData['legal_rep'].phone
+       || formData['legal_rep'].email) {
         // if any of key present, then all must be entered
       if (!formData['legal_rep'].name) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeName'), 'error');
@@ -255,13 +258,13 @@ export class AddLegalEntityComponent implements OnInit {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeEmail'), 'error');
         return;
       }
-      if (!formData['legal_rep'].fed_tax_pay) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeFTPR'), 'error');
-        return;
-      }
+      // if (!formData['legal_rep'].fed_tax_pay) {
+      //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeFTPR'), 'error');
+      //   return;
+      // }
     }
     if (!formData['legal_rep'].name || !formData['legal_rep'].first_surname || !formData['legal_rep'].phone
-      || !formData['legal_rep'].fed_tax_pay || !formData['legal_rep'].email) {
+      || !formData['legal_rep'].email) {
         delete formData['legal_rep'];
     }
 

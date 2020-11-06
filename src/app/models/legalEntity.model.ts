@@ -32,5 +32,6 @@ export class LegalRepresentative {
     phone: string;
     email: string;
     fed_tax_pay: string;
+    have_dev_panel_access?: number;
     legal_rep_banks: Array<Banks>;
 }

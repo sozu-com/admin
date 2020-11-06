@@ -222,6 +222,12 @@
                 </div>
 
                 <div class="col-12">
+                  <div class="form-group-2 row">
+                    <label class="col-4">{{'addForm.pleaseProvideAccessToSystem' | translate}}</label>
+                    <input type="checkbox" class="col-6 form-control have_dev_panel_access" formControlName="have_dev_panel_access" name="have_dev_panel_access">
+                  </div>
+                </div>
+                <div class="col-12">
                     <label>{{'addCollection.bankAccount' | translate}}
                       <span class="pull-right"><a class="add" (click)="addLegalRepBank($event)" href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
                     </label>

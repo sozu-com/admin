@@ -145,8 +145,10 @@ export class AddDeveloperComponent implements OnInit {
     if (modelSave.images) {
       modelSave.images = modelSave.images.map(r => r.image);
     }
+
+    modelSave.legal_representative.have_dev_panel_access = modelSave.legal_representative.have_dev_panel_access ? 1 : 0;
     if (modelSave.legal_representative.name || modelSave.legal_representative.first_surname || modelSave.legal_representative.phone 
-      || modelSave.legal_representative.fed_tax_pay || modelSave.legal_representative.email) {
+       || modelSave.legal_representative.email) {
         // if any of key present, then all must be entered
       if (!modelSave.legal_representative.name) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeName'), 'error');
@@ -165,13 +167,13 @@ export class AddDeveloperComponent implements OnInit {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeEmail'), 'error');
         return;
       }
-      if (!modelSave.legal_representative.fed_tax_pay) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeFTPR'), 'error');
-        return;
-      }
+      // if (!modelSave.legal_representative.fed_tax_pay) {
+      //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeFTPR'), 'error');
+      //   return;
+      // }
     }
     if (!modelSave.legal_representative.name || !modelSave.legal_representative.first_surname || !modelSave.legal_representative.phone 
-      || !modelSave.legal_representative.fed_tax_pay || !modelSave.legal_representative.email) {
+      || !modelSave.legal_representative.email) {
         delete modelSave.legal_representative;
     }
 
@@ -199,6 +201,7 @@ export class AddDeveloperComponent implements OnInit {
         }
       }
     }
+    modelSave.have_dev_panel_access = modelSave.have_dev_panel_access ? 1 : 0;
     this.spinner.show();
     this.admin.postDataApi('addDeveloper', modelSave)
       .subscribe(

@@ -1,3 +1,7 @@
 .form-group-2 select{
     padding-left: 10px;
 }
+.have_dev_panel_access{
+    width: 25px;
+    height: 25px;
+}
