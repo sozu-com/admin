@@ -228,9 +228,14 @@
                              <label>{{'table.th.locality' | translate}}</label>
                           </div>
                        </th>
-                       <th style="vertical-align:top; width: 110px;">
+                       <th style="vertical-align:top; width: 230px;">
                           <div (click)="sort_by(1)" class="d-flex table-search">
                              <label>{{'table.th.purchaseDate' | translate}}</label>
+                           </div>
+                           <div class="">
+                            <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true" [(ngModel)]="parameter.deal_purchase_date" showButtonBar="true" class=""
+                            [monthNavigator]="true" [yearNavigator]="true" (onSelect)="getListing()"  yearRange="2000:2040"></p-calendar>
+                              <!-- <button *ngIf="parameter.deal_purchase_date" (click)="getListing()"><i class="fa fa-search"></i></button> -->
                            </div>
                        </th>
 
