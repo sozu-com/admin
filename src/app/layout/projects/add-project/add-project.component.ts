@@ -1922,8 +1922,8 @@ export class AddProjectComponent implements OnInit {
 
   setAgency(item: any) {
     this.canEditdeveloperInfo = false;
-    this.model.legal_entity = item;
-    this.model.legal_entity_id = item.id;
+    this.model.agency = item;
+    this.model.agency_id = item.id;
     this.closeAgencyListModel.nativeElement.click();
   }
 

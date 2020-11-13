@@ -48,7 +48,7 @@
                 <div class="form-group-2">
                   <!-- name is commercial name -->
                   <label>{{'addForm.commercialName' | translate}} <span class="color-red">*</span></label>
-                  <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.name" name="name">
+                  <input autocomplete="off" minlength="1" maxlength="80" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.name" name="name">
                 </div>
             </div>
             <div class="col-12">

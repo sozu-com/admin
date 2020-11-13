@@ -1119,8 +1119,8 @@
                   <div class="form-group-3">
                     <label>{{'addForm.legalEntity.phoneNumber' | translate}}</label>
                     <input [disabled]="!canEditdeveloperInfo" 
-                      type="text" class="form-control" id="phone" placeholder="{{'addForm.placeholder.phoneNumber' | translate}}"
-                      minlength="1" [(ngModel)]="model.legal_entity.phone" name="phone3" ng2TelInput
+                      type="text" class="form-control" id="phone2" placeholder="{{'addForm.placeholder.phoneNumber' | translate}}"
+                      minlength="1" [(ngModel)]="model.legal_entity.phone" name="phone2" ng2TelInput
                       [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
                   </div>
                 </div>
@@ -1128,7 +1128,7 @@
                   <div class="form-group-3">
                     <label>{{'addForm.legalEntity.email' | translate}}</label>
                     <input [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.legal_entity.email"
-                      class="form-control" type="email" name="email3" placeholder="{{'addForm.placeholder.developerEmail' | translate}}"
+                      class="form-control" type="email" name="email2" placeholder="{{'addForm.placeholder.developerEmail' | translate}}"
                       pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
                   </div>
                 </div>
