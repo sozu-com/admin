@@ -22,8 +22,10 @@
                 </div>
                 <div class="col-6">
                     <div class="btn-cont text-right">
-                        <button *ngIf="!model.id" type="submit" [disabled]="!addDataForm.valid" class="btn btn-primary">{{'addForm.addBtn' | translate}}</button>
-                        <button *ngIf="model?.id" type="submit" class="btn btn-primary">{{'addForm.updateBtn' | translate}}</button>
+                      <button *ngIf="!model?.id" type="submit" (click)="setValue(1)" [disabled]="!addDataForm.valid" class="btn btn-primary marginR10">{{'addForm.addSendMail' | translate}}</button>
+                      <button *ngIf="model?.id" type="submit" (click)="setValue(1)" class="btn btn-primary marginR10">{{'addForm.editSendMail' | translate}}</button>
+                      <button *ngIf="!model.id" type="submit" (click)="setValue(0)" [disabled]="!addDataForm.valid" class="btn btn-primary">{{'addForm.addBtn' | translate}}</button>
+                      <button *ngIf="model?.id" type="submit" (click)="setValue(0)" class="btn btn-primary">{{'addForm.updateBtn' | translate}}</button>
                     </div>
                 </div>
                 <div class="col-12">
@@ -220,13 +222,56 @@
                       formControlName="fed_tax_pay" name="fed_tax_pay1">
                     </div>
                 </div>
-
+      
                 <div class="col-12">
                   <div class="form-group-2 row">
                     <label class="col-4">{{'addForm.pleaseProvideAccessToSystem' | translate}}</label>
                     <input type="checkbox" class="col-6 form-control have_dev_panel_access" formControlName="have_dev_panel_access" name="have_dev_panel_access">
                   </div>
                 </div>
+                
+                <div class="col-12">
+                  <div class="form-group-2 row">
+                    <label class="col-4">{{'addForm.typeOfService' | translate}}</label>
+                    <div class="col-1">
+                      <div class="clearfix"></div>
+                      <label class="cust-radio">
+                        <input class="form-control" type="radio" (change)="setSaleComm(1)" formControlName="sales_commission"
+                        value="1" [checked]="model.legal_rep.sales_commission == 1 ? 'checked' :''"
+                        name="sales_commission">
+                        <span class="checkmark">{{'addForm.Sale' | translate}}</span>
+                      </label>
+                      </div>
+                      <div class="col-4">
+                      <label class="cust-radio">
+                        <input class="form-control" type="radio" (change)="setSaleComm(2)" formControlName="sales_commission"
+                        value="2" [checked]="model.legal_rep.sales_commission == 2 ? 'checked' :''"
+                        name="sales_commission">
+                        <span class="checkmark">{{'addForm.SaleCommission' | translate}}</span>
+                      </label>
+                      <div class="clearfix"></div>
+                  </div>
+                  </div>
+                </div>
+                
+                <div class="col-12">
+                      <div class="form-group-2 row">
+                        <label class="col-4">{{'addForm.pleaseSelectProjects' | translate}}</label>
+                      <div class="clearfix"></div>
+                            <ng-multiselect-dropdown *ngIf="projects?.length>0" class="col-3 section-section2 multi-select"
+                                  [placeholder]="''"
+                                  [data]="projects"
+                                  [(ngModel)]="selctedProjects"
+                                  formControlName="building_ids"
+                                  [settings]="multiDropdownSettings"
+                                  (onSelect)="setProject($event, 'selctedProjects')"
+                                  (onDeSelect)="unsetProject($event, 'selctedProjects')"
+                                  (onSelectAll)="onSelectAll($event)">
+                            </ng-multiselect-dropdown>
+                      <div class="clearfix"></div>
+                      </div>
+                </div>
+
                 <div class="col-12">
                     <label>{{'addCollection.bankAccount' | translate}}
                       <span class="pull-right"><a class="add" (click)="addLegalRepBank($event)" href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>

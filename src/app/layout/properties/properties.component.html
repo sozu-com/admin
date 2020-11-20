@@ -284,7 +284,9 @@
                            </th>
                            <th style="width:10%; text-align:left;">
                               <div class="table-search">
-                                 <label>{{'table.th.nameOfApartment' | translate}}</label>
+                                 <label>{{'table.th.apartment' | translate}}
+                                    <a (click)="sort_by(4)" href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==4}" src="assets/img/top-arrow.png" alt="img"></a>
+                                 </label>
                                  <div class="searh-3">
                                     <input class="width120px" type="text" [(ngModel)]="parameter.name" (keyup.enter)="getListing()" >
                                     <button *ngIf="parameter.name" (click)="getListing()"><i class="fa fa-search"></i></button>

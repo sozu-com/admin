@@ -19,6 +19,7 @@ export class Users {
     selected: any;
     is_developer?: string;
     have_dev_panel_access?: number;
+    send_mail?: number;
     developer_company?: string;
     developer_desc?: string;
     developer_address?: string;

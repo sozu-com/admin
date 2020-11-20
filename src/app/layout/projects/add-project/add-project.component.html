@@ -953,7 +953,21 @@
                   <div class="form-group-3">
                     <label>{{'addForm.managedBy.managerName' | translate}}</label>
                     <input autocomplete="off" [disabled]="true" [(ngModel)]="model.manager.name" class="form-control"
-                      type="text" name="developer_name">
+                      type="text" name="manager_name">
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.managedBy.firstSurname' | translate}}</label>
+                    <input autocomplete="off" [disabled]="true" [(ngModel)]="model.manager.first_surname" class="form-control"
+                      type="text" name="first_surname">
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.managedBy.secondSurname' | translate}}</label>
+                    <input autocomplete="off" [disabled]="true" [(ngModel)]="model.manager.second_surname" class="form-control"
+                      type="text" name="second_surname">
                   </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-12">
@@ -998,7 +1012,7 @@
                   <div class="form-group-3">
                       <label>{{'addForm.managedBy.companyName' | translate}}</label>
                     <input autocomplete="off" [disabled]="true" [(ngModel)]="model.company.name" class="form-control"
-                      type="text" name="developer_name">
+                      type="text" name="developer_name1">
                   </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-12">
@@ -1574,7 +1588,7 @@
                   <div class="n-avail-profile">
                     <img [src]="item.image| img:'thumb'" onerror='src="assets/img/default_img.png"' alt="img">
                     <div class="n-avail-info">
-                      <p class="p12">{{item.name}}</p>
+                      <p class="p12">{{item.name}} {{item?.first_surname || ''}} {{item?.second_surname || ''}}</p>
                       <p class="p10">{{'addForm.phone' | translate}} : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
                     </div>
                   </div>

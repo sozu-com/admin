@@ -34,6 +34,9 @@ export class AddDeveloperComponent implements OnInit {
   developer_image: any;
   model: Users;
   currencies: Array<any>;
+  projects: Array<any>;
+  selctedProjects: Array<any>;
+  multiDropdownSettings: any;
   constructor(
     public constant: Constant,
     private cs: CommonService,
@@ -47,20 +50,52 @@ export class AddDeveloperComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.selctedProjects = [];
     this.file4 = new FileUpload(false, this.admin);
     this.initModel();
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
     this.getCurrencies();
+    this.iniDropDownSetting();
       this.parameter.sub = this.route.params.subscribe(params => {
         if (params['id'] !== '0') {
           this.model.id = params['id'];
-          this.getUserById(this.model.id);
+          this.getDeveloperAllProjects(this.model.id);
         } else {
           this.model.id = '';
           this.model.images = [];
         }
       });
+  }
+
+  iniDropDownSetting() {
+    this.multiDropdownSettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'name',
+      selectAllText: this.translate.instant('commonBlock.selectAll'),
+      unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
+      searchPlaceholderText: this.translate.instant('commonBlock.search'),
+      allowSearchFilter: true,
+      itemsShowLimit: 1
+    };
+  }
+
+  setProject(item: any) {
+    this.selctedProjects.push(item);
+  }
+
+  unsetProject(item: any) {
+    let i = 0;
+    this.selctedProjects.map(r => {
+      if (r.id == item.id) {
+        this.selctedProjects.splice(i, 1);
+      }
+      i = i + 1;
+    });
+  }
+
+  onSelectAll(obj: any) {
   }
 
   initModel() {
@@ -84,6 +119,18 @@ export class AddDeveloperComponent implements OnInit {
       );
   }
 
+  getDeveloperAllProjects(id: string) {
+    this.spinner.show();
+    this.admin.postDataApi('getDeveloperAllProjects', {'developer_id': id})
+    .subscribe(
+      success => {
+        this.projects = success['data'];
+        this.getUserById(this.model.id);
+      }, error => {
+        this.spinner.hide();
+      });
+  }
+
   getUserById(id: string) {
     this.spinner.show();
     this.admin.postDataApi('getUserById', {'user_id': id})
@@ -98,9 +145,24 @@ export class AddDeveloperComponent implements OnInit {
         this.model.legal_representative.legal_rep_banks = success.data.legal_representative.legal_rep_banks; // Array(new Banks());
         this.image = this.model.image;
         this.developer_image = this.model.developer_image;
+        if (success.data.legal_representative && success.data.legal_representative.legal_rep_buildings) {
+          for (let index = 0; index < success.data.legal_representative.legal_rep_buildings.length; index++) {
+            const element = success.data.legal_representative.legal_rep_buildings[index];
+            const d = this.projects.filter(r => r.id == element.building_id);
+            this.selctedProjects.push({id: d[0].id, name: d[0].name});
+          }
+        }
       }, error => {
         this.spinner.hide();
       });
+  }
+
+  setSaleComm(sales_commission: number) {
+    this.model.legal_representative.sales_commission = sales_commission;
+  }
+
+  setValue(send_mail: number) {
+    this.model.send_mail = send_mail;
   }
 
   set() {
@@ -202,6 +264,10 @@ export class AddDeveloperComponent implements OnInit {
       }
     }
     modelSave.have_dev_panel_access = modelSave.have_dev_panel_access ? 1 : 0;
+    if (this.selctedProjects) {
+      const d = this.selctedProjects.map(o => o.id);
+      modelSave['legal_representative']['building_ids'] = d;
+    }
     this.spinner.show();
     this.admin.postDataApi('addDeveloper', modelSave)
       .subscribe(

@@ -165,6 +165,9 @@ cd-themify-icons
 font-awesome
 (OFL-1.1 AND MIT)
 
+ng-multiselect-dropdown
+MIT
+
 socket.io-parser
 MIT
 (The MIT License)
@@ -830,9 +833,6 @@ Apache-2.0
    See the License for the specific language governing permissions and
    limitations under the License.
 
-
-ng-multiselect-dropdown
-MIT
 
 tslib
 Apache-2.0
