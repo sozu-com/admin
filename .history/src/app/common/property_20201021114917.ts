@@ -184,6 +184,4 @@ export interface IProperty {
   collection_status?: any;
   property_name?: string;
   is_credit?: any;
-  deal_to_date?: any;
-  deal_from_date?: any;
 }

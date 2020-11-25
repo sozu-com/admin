@@ -254,23 +254,15 @@
                       <label>{{'table.th.locality' | translate}}</label>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 140px;z-index: 2;">
+                  <th style="vertical-align:top; width: 110px;">
                     <div class="table-search">
                       <div (click)="sort_by(1)" class="d-flex table-search">
                         <label>{{'table.th.purchaseDate' | translate}}</label>
                       </div>
-                      <div>
-                        <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true"
-                          [(ngModel)]="parameter.deal_from_date" [maxDate]="today" showButtonBar="true"
-                          [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
-                        <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true"
-                          [(ngModel)]="parameter.deal_to_date" [minDate]="parameter.deal_from_date" [maxDate]="today"
-                          showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040">
-                        </p-calendar>
-
-                        <!-- <input autocomplete="off" class="width100" type="date"
-                          [(ngModel)]="parameter.deal_from_date">
-                        <input autocomplete="off" class="width100" type="date" [(ngModel)]="parameter.deal_to_date"> -->
+                      <div class="searh-3">
+                        <input autocomplete="off" class="width100px" type="date"
+                          [(ngModel)]="parameter.deal_from_date"><br />
+                        <input autocomplete="off" class="width100px" type="date" [(ngModel)]="parameter.deal_to_date">
                         <button *ngIf="parameter.deal_from_date && parameter.deal_to_date" (click)="getListing()"><i
                             class="fa fa-search"></i></button>
                       </div>

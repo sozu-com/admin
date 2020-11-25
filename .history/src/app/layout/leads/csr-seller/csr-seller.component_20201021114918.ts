@@ -17,7 +17,7 @@ declare let swal: any;
   providers: [Constant]
 })
 export class CsrSellerComponent implements OnInit {
-  public scrollbarOptions = { axis: 'y', theme: 'dark' };
+  public scrollbarOptions = { axis: 'y', theme: 'dark'};
   @ViewChild('openAssignModel') openAssignModel: ElementRef;
   @ViewChild('closeAssignModel') closeAssignModel: ElementRef;
 
@@ -255,7 +255,6 @@ export class CsrSellerComponent implements OnInit {
     }
 
     this.admin.postDataApi('leads/csr-seller-dash-count', input).subscribe(r => {
-      console.log('pie chart data ', r);
       this.dash = r.data;
       this.chartView = [
         {

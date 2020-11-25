@@ -239,11 +239,6 @@ export class CollectionsComponent implements OnInit {
   getListing() {
     this.spinner.show();
     const input: any = JSON.parse(JSON.stringify(this.parameter));
-    if (this.parameter.deal_to_date && this.parameter.deal_from_date) {
-      input.deal_to_date = this.parameter.deal_to_date;
-      input.deal_from_date = this.parameter.deal_from_date;
-      console.log('this.parameter.deal_from_date', this.parameter.deal_from_date);
-    }
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
     } else {
@@ -257,7 +252,6 @@ export class CollectionsComponent implements OnInit {
     input.is_approved = this.parameter.flag;
     this.admin.postDataApi('getCollection', input).subscribe(
       success => {
-        console.log('getcollection ', success);
         this.items = success.data;
         this.total = success.total_count;
 
@@ -294,49 +288,49 @@ export class CollectionsComponent implements OnInit {
             cc_percent = cc_percent + (ele.add_collection_commission ? ele.percent : 0);
             cc_received = cc_received + (ele.add_collection_commission ? ele.amount : 0);
             if (ele.add_collection_commission) {
-              cc_active++;
+              cc_active ++;
             }
             if (ele.payment) {
-              cc_receipt++;
+              cc_receipt ++;
               if (ele.payment.invoice_id) {
-                cc_invoice++;
+                cc_invoice ++;
               }
             }
 
             pc_received = pc_received + (ele.add_purchase_commission ? ele.purchase_comm_amount : 0);
             if (ele.add_purchase_commission) {
-              pc_active++;
+              pc_active ++;
             }
             if (ele.purchase_payment) {
-              pc_receipt++;
+              pc_receipt ++;
               if (ele.purchase_payment.invoice_id) {
-                pc_invoice++;
+                pc_invoice ++;
               }
             }
 
             if (ele.add_agent_commission) {
-              ac_active++;
+              ac_active ++;
             }
             if (ele.agent_payment) {
-              ac_receipt++;
+              ac_receipt ++;
               if (ele.agent_payment.invoice_id) {
-                ac_invoice++;
+                ac_invoice ++;
               }
             }
           }
           element['sum_pc'] = pc_received;
           element['cc_percent'] = this.numberUptoNDecimal((cc_percent / cc_active), 3);
           element['cc_received'] = element.iva_percent && element.add_iva_to_cc ?
-            (cc_received + (cc_received * element.iva_percent) / 100) : cc_received;
-          element['cc_receipt'] = cc_receipt == cc_active && cc_receipt != 0 ? 1 : 0;
-          element['cc_invoice'] = cc_invoice == cc_active && cc_invoice != 0 ? 1 : 0;
+                                  (cc_received + (cc_received * element.iva_percent)/ 100) : cc_received;
+          element['cc_receipt'] = cc_receipt == cc_active && cc_receipt!=0 ? 1 : 0;
+          element['cc_invoice'] = cc_invoice == cc_active && cc_invoice!=0 ? 1 : 0;
           element['pc_received'] = element.iva_percent && element.add_iva_to_pc ?
-            (pc_received + (pc_received * element.iva_percent) / 100) : pc_received;
-          element['pc_receipt'] = pc_receipt == pc_active && pc_receipt != 0 ? 1 : 0;
-          element['pc_invoice'] = pc_invoice == pc_active && pc_invoice != 0 ? 1 : 0;
+                                  (pc_received + (pc_received * element.iva_percent) / 100) : pc_received;
+          element['pc_receipt'] = pc_receipt == pc_active && pc_receipt!=0 ? 1 : 0;
+          element['pc_invoice'] = pc_invoice == pc_active && pc_invoice!=0 ? 1 : 0;
 
-          element['ac_receipt'] = ac_receipt == ac_active && ac_receipt != 0 ? 1 : 0;
-          element['ac_invoice'] = ac_invoice == ac_active && ac_invoice != 0 ? 1 : 0;
+          element['ac_receipt'] = ac_receipt == ac_active && ac_receipt!=0 ? 1 : 0;
+          element['ac_invoice'] = ac_invoice == ac_active && ac_invoice!=0 ? 1 : 0;
         }
 
         this.spinner.hide();
@@ -486,8 +480,8 @@ export class CollectionsComponent implements OnInit {
       this.toastr.success(this.translate.instant('message.success.collectionStatusChanged'), this.translate.instant('swal.success'));
     },
       error => {
-        this.toastr.clear();
-        this.toastr.error(error.error.message, this.translate.instant('swal.error'));
+      this.toastr.clear();
+      this.toastr.error(error.error.message, this.translate.instant('swal.error'));
       });
   }
 
@@ -526,9 +520,9 @@ export class CollectionsComponent implements OnInit {
 
   deleteCollection(item: any, index: number) {
     this.admin.postDataApi('deleteCollection', { id: item.id }).subscribe(r => {
-      this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
-      this.items.splice(index, 1);
-    },
+        this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+        this.items.splice(index, 1);
+      },
       error => {
         this.toastr.error(error.error.message, this.translate.instant('swal.error'));
       });
@@ -536,8 +530,8 @@ export class CollectionsComponent implements OnInit {
 
   cancelPopup(item: any, index: number, status: number) {
     const t = status == 1 ?
-      this.translate.instant('message.error.wantToCancelCollection') :
-      this.translate.instant('message.error.wantToActiveCollection');
+    this.translate.instant('message.error.wantToCancelCollection') :
+    this.translate.instant('message.error.wantToActiveCollection');
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' + t,
       type: 'warning',
@@ -554,21 +548,21 @@ export class CollectionsComponent implements OnInit {
 
   cancelPropertyCollections(item: any, index: number, status: number) {
     this.admin.postDataApi('cancelPropertyCollections',
-      { property_collection_id: item.id, status: status }).subscribe(r => {
-        const t = status == 1 ?
-          this.translate.instant('message.success.cancelledSuccessfully') :
-          this.translate.instant('message.success.activedSuccessfully');
-        this.toastr.success(t, this.translate.instant('swal.success'));
+    { property_collection_id: item.id, status: status }).subscribe(r => {
+      const t = status == 1 ?
+      this.translate.instant('message.success.cancelledSuccessfully') :
+      this.translate.instant('message.success.activedSuccessfully');
+      this.toastr.success(t, this.translate.instant('swal.success'));
         this.items[index].is_cancelled = status;
       },
-        error => {
-          this.toastr.error(error.error.message, this.translate.instant('swal.error'));
-        });
+      error => {
+        this.toastr.error(error.error.message, this.translate.instant('swal.error'));
+      });
   }
 
   getNotes(item) {
     this.property_collection_id = item.id;
-    const input = { property_collection_id: item.id };
+    const input = {property_collection_id: item.id};
     this.admin.postDataApi('getCollectionNote', input).subscribe(r => {
       this.parameter.items = r.data;
       this.notesModalOpen.nativeElement.click();
@@ -584,7 +578,7 @@ export class CollectionsComponent implements OnInit {
       return;
     }
     this.spinner.show();
-    this.admin.postDataApi('collectionNote', { property_collection_id: this.property_collection_id, note: this.model.note }).subscribe(r => {
+    this.admin.postDataApi('collectionNote', {property_collection_id: this.property_collection_id, note: this.model.note}).subscribe(r => {
       this.spinner.hide();
       this.model = new Notes();
       this.parameter.items.push(r.data);
@@ -612,7 +606,7 @@ export class CollectionsComponent implements OnInit {
   }
 
   deleteLeadNote(note_id, index) {
-    this.admin.postDataApi('deleteCollectionNote', { id: note_id }).subscribe(r => {
+    this.admin.postDataApi('deleteCollectionNote', {id: note_id}).subscribe(r => {
       this.parameter.items.splice(index, 1);
       this.toastr.clear();
       this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
@@ -765,7 +759,7 @@ export class CollectionsComponent implements OnInit {
               payment_type: 1,  // in real its 2
               paid_amount: paymnts.amount,
               amount: paymnts.amount,
-              payment_date: this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
+              payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
               receipt: paymnts.receipt,
               description: paymnts.description,
               payment_method: paymnts.payment_method,
@@ -780,7 +774,7 @@ export class CollectionsComponent implements OnInit {
               payment_type: 3,  // in real its 3
               paid_amount: paymnts.full_amount,
               amount: paymnts.full_amount,
-              payment_date: this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
+              payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
               receipt: paymnts.receipt,
               description: paymnts.description,
               payment_method: paymnts.payment_method,
@@ -795,7 +789,7 @@ export class CollectionsComponent implements OnInit {
               payment_type: 5,  // in real its 5
               paid_amount: paymnts.full_amount,
               amount: paymnts.full_amount,
-              payment_date: this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
+              payment_date:  this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
               receipt: paymnts.receipt,
               description: paymnts.description,
               payment_method: paymnts.payment_method,
@@ -851,7 +845,7 @@ export class CollectionsComponent implements OnInit {
                     name: 'Payment to remaining (Reduce Amount)',
                     payment_type: 1,  // in real its 3
                     paid_amount: v,
-                    payment_date: this.getDateWRTTimezone(ele.payment_date, 'YYYY-MM-DD'),
+                    payment_date:  this.getDateWRTTimezone(ele.payment_date, 'YYYY-MM-DD'),
                     receipt: ele.receipt,
                     description: ele.description,
                     payment_method: ele.payment_method,
@@ -879,10 +873,10 @@ export class CollectionsComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         // this.admin.postDataApi('deleteCollectionPayment', {payment_id: payment_id})
-        this.admin.postDataApi('deletePayment', { parent_id: payment_id })
+        this.admin.postDataApi('deletePayment', {parent_id: payment_id})
           .subscribe(
             success => {
-              // this.paymentConcepts[mainIndex].collection_paymentss.splice(index, 1);
+            // this.paymentConcepts[mainIndex].collection_paymentss.splice(index, 1);
               this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
               this.closeEditPaymentModal();
               this.toastr.clear();
@@ -937,27 +931,27 @@ export class CollectionsComponent implements OnInit {
     if (item.payment_received_by) {
       // payment directly received by agency
       if (item.property.building && item.property.building.agency_id) {
-        // agency banks
-        for (let index = 0; index < item.property.building.agency.agency_banks.length; index++) {
-          const element = item.property.building.agency.agency_banks[index];
-          element.name = 'Agency Bank | ' + element.bank_name;
-          element.is_agency = 1;
-          element.bank_id = element.id;
-          element.legal_rep_bank_id = null;
-          this.paymentBanks.push(element);
-        }
-
-        // agency legal representative banks
-        if (item.property.building.agency.legal_representative) {
-          for (let index = 0; index < item.property.building.agency.legal_representative.legal_rep_banks.length; index++) {
-            const element = item.property.building.agency.legal_representative.legal_rep_banks[index];
-            element.name = 'Agency Legal Rep Bank | ' + element.bank_name;
+          // agency banks
+          for (let index = 0; index < item.property.building.agency.agency_banks.length; index++) {
+            const element = item.property.building.agency.agency_banks[index];
+            element.name = 'Agency Bank | ' + element.bank_name;
             element.is_agency = 1;
-            element.bank_id = null;
-            element.legal_rep_bank_id = element.id;
+            element.bank_id = element.id;
+            element.legal_rep_bank_id = null;
             this.paymentBanks.push(element);
           }
-        }
+
+          // agency legal representative banks
+          if (item.property.building.agency.legal_representative) {
+            for (let index = 0; index < item.property.building.agency.legal_representative.legal_rep_banks.length; index++) {
+              const element = item.property.building.agency.legal_representative.legal_rep_banks[index];
+              element.name = 'Agency Legal Rep Bank | ' + element.bank_name;
+              element.is_agency = 1;
+              element.bank_id = null;
+              element.legal_rep_bank_id = element.id;
+              this.paymentBanks.push(element);
+            }
+          }
       }
     } else {
       // payment directly received by seller
@@ -1022,23 +1016,23 @@ export class CollectionsComponent implements OnInit {
   setPaymentAmount(item: any) {
     if (this.typeOfPayment === 'commission-popup') {
       if (this.commission_type == 1 && item.add_purchase_commission == 0) {
-        this.toastr.clear();
-        this.toastr.error(this.translate.instant('message.error.pleaseEnablePurchaseCommission'), this.translate.instant('swal.error'));
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnablePurchaseCommission'), this.translate.instant('swal.error'));
         this.closeCollReceiptModal();
         return false;
       }
       if (this.commission_type == 2 && item.add_collection_commission == 0) {
-        this.toastr.clear();
-        this.toastr.error(this.translate.instant('message.error.pleaseEnableCollectionCommission'), this.translate.instant('swal.error'));
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnableCollectionCommission'), this.translate.instant('swal.error'));
         this.closeCollReceiptModal();
         return false;
       }
       if (this.commission_type == 3 && item.add_agent_commission == 0) {
         this.toastr.clear();
         this.toastr.error(this.translate.instant('message.error.pleaseEnableAgentCommission'), this.translate.instant('swal.error'));
-        this.closeCollReceiptModal();
-        return false;
-      }
+          this.closeCollReceiptModal();
+          return false;
+        }
       this.ivaAmount = 0;
       if (this.commission_type == 1) {
         this.paymentAmount = item.purchase_comm_amount || 0;
@@ -1076,12 +1070,12 @@ export class CollectionsComponent implements OnInit {
         this.pendingPayment = 0.00; // amt already paid
         this.currentAmount = (parseFloat(currentAmt) - parseFloat(currentAmtPaid)).toFixed(2);
         this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment) +
-          parseFloat(this.penaltyAmount)).toFixed(2);
+        parseFloat(this.penaltyAmount)).toFixed(2);
         this.calculatedPayAmount = [...this.paymentAmount];
       } else if (this.payment_type == 1) {
         for (let index = 0; index < this.paymentConcepts.length; index++) {
           const r = this.paymentConcepts[index];
-          currentAmt = r['amount'];
+          currentAmt = r['amount']; 
           currentAmtPaid = r['calc_payment_amount'] || 0;
           if (r['id'] != item['id']) {
             penaltyamt = r['penalty'] ? parseFloat(r['penalty']['amount']) : 0;
@@ -1191,7 +1185,7 @@ export class CollectionsComponent implements OnInit {
       let a: any = 0;
       let index = this.paymentConcepts.length - 1;
       for (index; index >= 0; index--) {
-        const v = this.paymentConcepts[index];
+        const v = this.paymentConcepts[index]  ;
         if (!v['is_paid_calculated'] && v.name.includes('Monthly Installment')) {
           const remaining_amt = parseFloat(v['amount']) - parseFloat(v['calc_payment_amount']);
           a = parseFloat(a) + remaining_amt + (v['penalty'] ? parseFloat(v['penalty']['amount']) : 0);
@@ -1206,8 +1200,8 @@ export class CollectionsComponent implements OnInit {
           this.toastr.clear();
           this.toastr.error(this.translate.instant('message.error.payToRemainingReduceTimecheck'), this.translate.instant('swal.error'));
           this.surplus_payment_type == '3' ?
-            this.surplusMoneyModalClose.nativeElement.click() :
-            this.paymentModalClose.nativeElement.click();
+                  this.surplusMoneyModalClose.nativeElement.click() :
+                  this.paymentModalClose.nativeElement.click();
           return false;
         }
       }
@@ -1240,7 +1234,7 @@ export class CollectionsComponent implements OnInit {
       is_agency: this.payment_bank ? this.payment_bank.is_agency : null,
       bank_id: this.payment_bank ? this.payment_bank.bank_id : null,
       legal_rep_bank_id: this.payment_bank ? this.payment_bank.legal_rep_bank_id : null,
-      amount: amt,
+      amount : amt,
       receipt: this.docFile,
       description: this.description,
       payment_date: this.paymentDate,
@@ -1431,7 +1425,7 @@ export class CollectionsComponent implements OnInit {
     this.paymentConcepts = item.collection_commissions;
     this.typeOfPayment = type;
     this.is_external_agent = item.deal_commission_agents && item.deal_commission_agents.length > 0 ?
-      item.deal_commission_agents[0].broker.is_external_agent : 0;
+    item.deal_commission_agents[0].broker.is_external_agent : 0;
     this.collectionReceiptOpen.nativeElement.click();
   }
 
@@ -1464,7 +1458,7 @@ export class CollectionsComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.admin.postDataApi('deleteCommissionPayment', { id: item.id, commission_type: item.commission_type })
+        this.admin.postDataApi('deleteCommissionPayment', {id: item.id, commission_type: item.commission_type})
           .subscribe(
             success => {
               this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
@@ -1556,7 +1550,7 @@ export class CollectionsComponent implements OnInit {
     const paymentConceptAmount = this.penaltyForm.controls.payment_concept_amt.value;
     if (!paymentConceptAmount || paymentConceptAmount == 0) {
       this.toastr.clear();
-      this.toastr.error(this.translate.instant('message.error.pleaseChoosePaymentConcept'), this.translate.instant('swal.error'),);
+      this.toastr.error(this.translate.instant('message.error.pleaseChoosePaymentConcept'), this.translate.instant('swal.error'), );
       this.penaltyForm.controls.amount.patchValue(0);
       return;
     }
@@ -1572,7 +1566,7 @@ export class CollectionsComponent implements OnInit {
       this.collectionTypeSelect.nativeElement.value = '';
       this.applyPaymentMethodId1.nativeElement.value = '';
       this.applyPaymentChoiceId1.nativeElement.value = '';
-    } else if (this.commission_type == 2) {
+    } else if (this.commission_type == 2)  {
       this.collectionTypeSelect.nativeElement.value = '';
       this.applyPaymentMethodId1.nativeElement.value = '';
       this.applyPaymentChoiceId2.nativeElement.value = '';
@@ -1615,7 +1609,7 @@ export class CollectionsComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.admin.postDataApi('deleteCollectionPenalty', { id: i.id, collection_payment_choice_id: i.collection_payment_choice_id })
+        this.admin.postDataApi('deleteCollectionPenalty', {id: i.id, collection_payment_choice_id: i.collection_payment_choice_id})
           .subscribe(
             success => {
               this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
@@ -1688,20 +1682,20 @@ export class CollectionsComponent implements OnInit {
     this.closeCollReceiptModal();
     if (this.payment_type == 5) {
       let amt: any = 0; let penaltyamt: any = 0;
-      let amtPaid: any = 0;
-      let currentAmt: any = 0;
-      let currentAmtPaid: any = 0;
-      this.penaltyAmount = 0;
-      for (let index = 0; index < this.paymentConcepts.length; index++) {
-        const r = this.paymentConcepts[index];
-        currentAmt = r['amount'];
-        currentAmtPaid = r['calc_payment_amount'] || 0;
-        penaltyamt = r['penalty'] ? parseFloat(r['penalty']['amount']) : 0;
-        amt = parseFloat(amt) + parseFloat(r['amount']) + parseFloat(penaltyamt);
-        amtPaid = parseFloat(amtPaid) + parseFloat(currentAmtPaid);
-      }
-      this.paymentAmount = (amt - amtPaid).toFixed(2);
-      this.calculatedPayAmount = [...this.paymentAmount];
+        let amtPaid: any = 0;
+        let currentAmt: any = 0;
+        let currentAmtPaid: any = 0;
+        this.penaltyAmount = 0;
+        for (let index = 0; index < this.paymentConcepts.length; index++) {
+          const r = this.paymentConcepts[index];
+          currentAmt = r['amount'];
+          currentAmtPaid = r['calc_payment_amount'] || 0;
+          penaltyamt = r['penalty'] ? parseFloat(r['penalty']['amount']) : 0;
+          amt = parseFloat(amt) + parseFloat(r['amount']) + parseFloat(penaltyamt);
+          amtPaid = parseFloat(amtPaid) + parseFloat(currentAmtPaid);
+        }
+        this.paymentAmount = (amt - amtPaid).toFixed(2);
+        this.calculatedPayAmount = [...this.paymentAmount];
     }
     this.applyPaymentMethodId.nativeElement.value = '';
   }
@@ -1757,9 +1751,9 @@ export class CollectionsComponent implements OnInit {
     // payment_type == 3 means => pay to remaining (reduce time) => show same
     if (item.last_payment.payment_type == 1 || item.last_payment.payment_type == 4) {
       return item.last_payment.name;
-    } else if (item.last_payment.payment_type == 2) {
+    } else if (item.last_payment.payment_type == 2){
       return 'Payment to remaining (Reduce Amount)';
-    } else if (item.last_payment.payment_type == 3) {
+    } else if (item.last_payment.payment_type == 3){
       return 'Payment to remaining (Reduce Amount)';
     } else {
       return 'Total Payment';
@@ -1810,7 +1804,7 @@ export class CollectionsComponent implements OnInit {
       this.toastr.error(this.translate.instant('message.error.pleaseEnterDocuFile'), this.translate.instant('swal.error'));
       return;
     }
-    const input = { name: this.docsName, display_name: this.docFile, collection_folder_id: collection_folder_id };
+    const input = {name: this.docsName, display_name: this.docFile, collection_folder_id: collection_folder_id};
     const allDocx: Array<any> = this.collectionFolders[folderIndex].folder_docs;
     this.admin.postDataApi('addFolderDoc', input).subscribe(success => {
       input['id'] = success['data'];
@@ -1842,7 +1836,7 @@ export class CollectionsComponent implements OnInit {
   deleteDocs(item: any, folderIndex: number, docIndex: number) {
     this.collectionFolders[folderIndex].folder_docs.splice(docIndex, 1);
     if (item.id) {
-      this.admin.postDataApi('deleteFolderDoc', { id: item.id }).subscribe(success => {
+      this.admin.postDataApi('deleteFolderDoc', {id: item.id}).subscribe(success => {
         this.toastr.clear();
         this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
       });

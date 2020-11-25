@@ -239,11 +239,6 @@ export class CollectionsComponent implements OnInit {
   getListing() {
     this.spinner.show();
     const input: any = JSON.parse(JSON.stringify(this.parameter));
-    if (this.parameter.deal_to_date && this.parameter.deal_from_date) {
-      input.deal_to_date = this.parameter.deal_to_date;
-      input.deal_from_date = this.parameter.deal_from_date;
-      console.log('this.parameter.deal_from_date', this.parameter.deal_from_date);
-    }
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
     } else {
