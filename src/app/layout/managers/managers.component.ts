@@ -229,6 +229,8 @@ export class ManagersComponent implements OnInit {
     } else {
       this.model.is_company = 'false';
     }
+    this.model.rfc_legal_id = userdata.rfc_legal_id && userdata.rfc_legal_id != 'null' ? userdata.rfc_legal_id : '';
+    this.model.address = userdata.address && userdata.address != 'null' ? userdata.address : '';
     this.model.img_loader = false; this.model.logo_loader = false;
     if (this.obj) {
       this.obj.intlTelInput('setCountry', this.model.country_code ? this.model.country_code : this.constant.country_code);

@@ -267,6 +267,11 @@
                           </th>
                           <th style="width:15%">
                             <div class="table-search">
+                              <label>{{'table.th.legalEntity' | translate}}</label>
+                            </div>
+                          </th>
+                          <th style="width:15%">
+                            <div class="table-search">
                               <label>{{'table.th.managedBy' | translate}}</label>
                             </div>
                           </th>
@@ -329,6 +334,10 @@
                             <td [ngClass]="{'green-color cursor-pointer': p?.developer?.name}" (click)="viewDeveloper(p)"><span>{{p?.developer?.name ? p?.developer?.name : ('table.tr.td.NA' | translate)}}</span></td>
                             <td [ngClass]="{'green-color cursor-pointer': p?.agency?.name}" (click)="viewAgency(p)">
                               <span>{{p?.agency?.name ? p?.agency?.name : ('table.tr.td.NA' | translate)}}</span>
+                            </td>
+                            <!-- (click)="viewLegalEntity(p)" -->
+                            <td [ngClass]="{'green-color cursor-pointer': p?.legal_entity?.comm_name}" >
+                              <span>{{p?.legal_entity?.comm_name ? p?.legal_entity?.comm_name : ('table.tr.td.NA' | translate)}}</span>
                             </td>
                             <td [ngClass]="{'green-color cursor-pointer': p?.manager?.id || p?.company?.id}" (click)="viewCompanyManager(p)">
                               <span>{{p?.manager?.id ? p?.manager?.name : p?.company?.id ? p?.company?.name : ('table.tr.td.NA' | translate)}}</span>

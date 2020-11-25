@@ -32,6 +32,9 @@ export class AddLegalEntityComponent implements OnInit {
   currencies: Array<any>;
   addDataForm: FormGroup;
   all_developers: Array<Developer>;
+  projects: Array<any>;
+  selctedProjects: Array<any>;
+  multiDropdownSettings: any;
 
   constructor(
     public constant: Constant,
@@ -46,6 +49,7 @@ export class AddLegalEntityComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.iniDropDownSetting();
     this.model = new LegalEntity();
     this.model.legal_rep = new LegalRepresentative();
     this.model.country_code = this.constant.country_code;
@@ -60,7 +64,7 @@ export class AddLegalEntityComponent implements OnInit {
       this.parameter.sub = this.route.params.subscribe(params => {
         if (params['id'] !== '0') {
           this.model.id = params['id'];
-          this.getLegalEntityById(this.model.id);
+          this.getLegalEntityAllProjects(this.model.id);
         } else {
           this.model.id = '';
         }
@@ -68,6 +72,18 @@ export class AddLegalEntityComponent implements OnInit {
       this.getCurrencies();
   }
 
+  iniDropDownSetting() {
+    this.multiDropdownSettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'name',
+      selectAllText: this.translate.instant('commonBlock.selectAll'),
+      unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
+      searchPlaceholderText: this.translate.instant('commonBlock.search'),
+      allowSearchFilter: true,
+      itemsShowLimit: 1
+    };
+  }
   initForm() {
     this.addDataForm = this.fb.group({
       id: [''],
@@ -94,9 +110,12 @@ export class AddLegalEntityComponent implements OnInit {
         country_code: [''],
         dial_code: [''],
         email: [''],
+        have_dev_panel_access: [''],
         // fed_tax_pay: ['', [Validators.required]],
         fed_tax_pay: [''],
-        legal_rep_banks: this.fb.array([])
+        legal_rep_banks: this.fb.array([]),
+        building_ids: [''],
+        sales_commission: ['']
       })
     });
 
@@ -176,6 +195,34 @@ export class AddLegalEntityComponent implements OnInit {
     });
   }
 
+  getLegalEntityAllProjects(id: string) {
+    this.spinner.show();
+    this.admin.postDataApi('getLegalEntityAllProjects', {'legal_entity_id': id})
+    .subscribe(
+      success => {
+        this.projects = success['data'];
+        this.getLegalEntityById(this.model.id);
+      }, error => {
+        this.spinner.hide();
+      });
+  }
+
+  setProject(item: any) {
+    this.selctedProjects.push(item);
+  }
+
+  unsetProject(item: any) {
+    let i = 0;
+    this.selctedProjects.map(r => {
+      if (r.id == item.id) {
+        this.selctedProjects.splice(i, 1);
+      }
+      i = i + 1;
+    });
+  }
+
+  onSelectAll(obj: any) {
+  }
   getLegalEntityById(id: string) {
     this.spinner.show();
     this.admin.postDataApi('getLegalEntityById', {id: id})
@@ -183,6 +230,13 @@ export class AddLegalEntityComponent implements OnInit {
       success => {
         this.spinner.hide();
         // this.model = success.data;
+        if (success.data.legal_representative && success.data.legal_representative.legal_rep_buildings) {
+          for (let index = 0; index < success.data.legal_representative.legal_rep_buildings.length; index++) {
+            const element = success.data.legal_representative.legal_rep_buildings[index];
+            const d = this.projects.filter(r => r.id == element.building_id);
+            this.selctedProjects.push({id: d[0].id, name: d[0].name});
+          }
+        }
         this.patchForm(success.data);
       }, error => {
         this.spinner.hide();
@@ -203,6 +257,9 @@ export class AddLegalEntityComponent implements OnInit {
       });
     }
     this.addDataForm.patchValue({legal_rep: data.legal_reps});
+    if (data.legal_reps) {
+      this.model.legal_rep.sales_commission = data.legal_reps.sales_commission;
+    }
     const repBanks = this.addDataForm.get('legal_rep').get('legal_rep_banks') as FormArray;
     if (data.legal_reps && data.legal_reps.legal_rep_banks) {
       data.legal_reps.legal_rep_banks.forEach(x => {
@@ -211,6 +268,9 @@ export class AddLegalEntityComponent implements OnInit {
     }
   }
 
+  setSaleComm(sales_commission: number) {
+    this.model.legal_rep.sales_commission = sales_commission;
+  }
 
   set() {
     this.show = true;
@@ -227,6 +287,8 @@ export class AddLegalEntityComponent implements OnInit {
     formData['dial_code'] = this.model.dial_code;
     formData['legal_rep']['country_code'] = this.model.country_code;
     formData['legal_rep']['dial_code'] = this.model.dial_code;
+    formData['legal_rep']['have_dev_panel_access'] = formData['legal_rep']['have_dev_panel_access'] ? 1 : 0;
+    formData['send_mail'] = this.model.send_mail ? this.model.send_mail : 0;
     if (this.model.id) {
       formData['id'] = this.model.id;
     }
@@ -235,8 +297,8 @@ export class AddLegalEntityComponent implements OnInit {
       formData['lng'] = this.model.lng;
       formData['address'] = this.model.address;
     }
-    if (formData['legal_rep'].name || formData['legal_rep'].first_surname || formData['legal_rep'].phone 
-      || formData['legal_rep'].fed_tax_pay || formData['legal_rep'].email) {
+    if (formData['legal_rep'].name || formData['legal_rep'].first_surname || formData['legal_rep'].phone
+       || formData['legal_rep'].email) {
         // if any of key present, then all must be entered
       if (!formData['legal_rep'].name) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeName'), 'error');
@@ -255,13 +317,13 @@ export class AddLegalEntityComponent implements OnInit {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeEmail'), 'error');
         return;
       }
-      if (!formData['legal_rep'].fed_tax_pay) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeFTPR'), 'error');
-        return;
-      }
+      // if (!formData['legal_rep'].fed_tax_pay) {
+      //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeFTPR'), 'error');
+      //   return;
+      // }
     }
     if (!formData['legal_rep'].name || !formData['legal_rep'].first_surname || !formData['legal_rep'].phone
-      || !formData['legal_rep'].fed_tax_pay || !formData['legal_rep'].email) {
+      || !formData['legal_rep'].email) {
         delete formData['legal_rep'];
     }
 
@@ -288,7 +350,11 @@ export class AddLegalEntityComponent implements OnInit {
         }
       }
     }
-
+    console.log(this.selctedProjects);
+    if (this.selctedProjects) {
+      const d = this.selctedProjects.map(o => o.id);
+      formData['legal_rep']['building_ids'] = d;
+    }
     this.spinner.show();
     this.admin.postDataApi('addLegalEntity', formData)
       .subscribe(
@@ -375,5 +441,9 @@ export class AddLegalEntityComponent implements OnInit {
         }
       });
     }
+  }
+
+  setValue(send_mail: number) {
+    this.model.send_mail = send_mail;
   }
 }

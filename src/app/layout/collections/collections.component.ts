@@ -61,7 +61,7 @@ export class CollectionsComponent implements OnInit {
   xml_url: any;
   pdf_url: any;
   invoice_id: string;
-  invoice_date: any = new Date();
+  invoice_date: any;
   currentAmount: any;
   penaltyPercent: number;
   paymentAmount: any;
@@ -254,6 +254,12 @@ export class CollectionsComponent implements OnInit {
     } else {
       delete input.max;
     }
+    if (this.parameter.deal_purchase_date) {
+      input.deal_purchase_date = moment(this.parameter.deal_purchase_date).format('YYYY-MM-DD');
+    } else {
+      delete input.deal_purchase_date;
+    }
+
     input.is_approved = this.parameter.flag;
     this.admin.postDataApi('getCollection', input).subscribe(
       success => {
@@ -1259,11 +1265,13 @@ export class CollectionsComponent implements OnInit {
       input['amount'] = amt - this.ivaAmount;
       input['iva_amount'] = this.ivaAmount;
 
-      const offset1 = new Date(this.invoice_date).getTimezoneOffset();
-      if (offset < 0) {
-        input['invoice_date'] = moment(this.invoice_date).subtract(offset1, 'minutes').toDate();
-      } else {
-        input['invoice_date'] = moment(this.invoice_date).add(offset1, 'minutes').toDate();
+      if (this.invoice_date) {
+        const offset1 = new Date(this.invoice_date).getTimezoneOffset();
+        if (offset < 0) {
+          input['invoice_date'] = moment(this.invoice_date).subtract(offset1, 'minutes').toDate();
+        } else {
+          input['invoice_date'] = moment(this.invoice_date).add(offset1, 'minutes').toDate();
+        }
       }
     } else {
       // applying payment

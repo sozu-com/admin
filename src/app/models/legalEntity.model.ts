@@ -10,6 +10,7 @@ export class LegalEntity {
     lat?: any;
     lng?: any;
     description?: string;
+    send_mail?: number;
     legal_entity_banks: Array<Banks>;
     legal_rep: LegalRepresentative;
 }
@@ -32,5 +33,8 @@ export class LegalRepresentative {
     phone: string;
     email: string;
     fed_tax_pay: string;
+    have_dev_panel_access?: number;
     legal_rep_banks: Array<Banks>;
+    building_ids?: Array<any>;
+    sales_commission?: number;
 }

@@ -15,6 +15,7 @@ import { Manager, Company } from 'src/app/models/company.model';
 import { Developer } from 'src/app/models/global.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Agency } from 'src/app/models/agency.model';
+import { LegalEntity } from 'src/app/models/legalEntity.model';
 
 declare const google;
 declare let swal: any;
@@ -52,9 +53,12 @@ export class AddProjectComponent implements OnInit {
   @ViewChild('closeManagedByModel') closeManagedByModel: ElementRef;
 
   @ViewChild('towerEditAmenitiesModal') towerEditAmenitiesModal: ElementRef;
-  
+
   @ViewChild('openAgencyModel') openAgencyModel: ElementRef;
   @ViewChild('closeAgencyListModel') closeAgencyListModel: ElementRef;
+
+  @ViewChild('openLegalEnityModel') openLegalEnityModel: ElementRef;
+  @ViewChild('closeLegalEnityListModel') closeLegalEnityListModel: ElementRef;
   myform: FormGroup;
   myform2: FormGroup;
 
@@ -81,6 +85,7 @@ export class AddProjectComponent implements OnInit {
   all_configurations: any = [];
   all_developers: Array<Developer>;
   agencies: Array<Agency>;
+  legalEntities: Array<LegalEntity>;
   all_managers: Array<Manager>;
   all_companies: Array<Company>;
   amenity_index: number;
@@ -190,6 +195,7 @@ export class AddProjectComponent implements OnInit {
           this.model.manager = r.data.manager ? r.data.manager : new Manager();
           this.model.company = r.data.company ? r.data.company : new Company();
           this.model.agency = r.data.agency ? r.data.agency : new Agency();
+          this.model.legal_entity = r.data.legal_entity ? r.data.legal_entity : new LegalEntity();
           // this.model.videos = this.model.videos && this.model.videos.length > 0 ? JSON.parse(this.model.videos) : [];
           if (r.data['locality']) {
             this.setCountryToLocality(r.data['locality']);
@@ -287,6 +293,7 @@ export class AddProjectComponent implements OnInit {
           this.model.manager = r.data.manager ? r.data.manager : new Manager();
           this.model.company = r.data.company ? r.data.company : new Company();
           this.model.agency = r.data.agency ? r.data.agency : new Agency();
+          this.model.legal_entity = r.data.legal_entity ? r.data.legal_entity : new LegalEntity();
           if (r.data['locality']) {
             this.setCountryToLocality(r.data['locality']);
           }
@@ -1228,6 +1235,7 @@ export class AddProjectComponent implements OnInit {
       modelSave.manager_id = modelSave.manager && modelSave.manager.id ? modelSave.manager.id : null;
       modelSave.company_id = modelSave.company && modelSave.company.id ? modelSave.company.id : null;
       modelSave.agency_id = modelSave.agency && modelSave.agency.id ? modelSave.agency.id : null;
+      modelSave.legal_entity_id = modelSave.legal_entity && modelSave.legal_entity.id ? modelSave.legal_entity.id : null;
       this.spinner.show();
       this.admin.postDataApi('updateProject', modelSave).subscribe(success => {
         this.spinner.hide();
@@ -1917,6 +1925,24 @@ export class AddProjectComponent implements OnInit {
     this.model.agency = item;
     this.model.agency_id = item.id;
     this.closeAgencyListModel.nativeElement.click();
+  }
+
+  selectLegalEntity(name: string, type: number) {
+    this.spinner.show();
+    this.admin.postDataApi('getAllLegalEntities', { name: name }).subscribe(r => {
+      this.spinner.hide();
+      this.legalEntities = r.data;
+      if (type !== 2) {
+        this.openLegalEnityModel.nativeElement.click();
+      }
+    });
+  }
+
+  setLegalEntity(item: any) {
+    this.canEditdeveloperInfo = false;
+    this.model.legal_entity = item;
+    this.model.legal_entity_id = item.id;
+    this.closeLegalEnityListModel.nativeElement.click();
   }
 
   changeListner(event: any, paramLoader: string, param: any) {

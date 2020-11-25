@@ -805,11 +805,15 @@ export class AddEditCollectionComponent implements OnInit {
 
     // this.addFormStep5.controls.deal_commission_agents.patchValue(data.deal_commission_agents);
     const control1 = this.addFormStep5.get('deal_commission_agents') as FormArray;
+    console.log(control1);
     if (data.deal_commission_agents && data.deal_commission_agents.length > 0) {
       for (let index = 0; index < data.deal_commission_agents.length; index++) {
         const x = data.deal_commission_agents[index].broker;
-        if (index === 0) {
+        console.log(control1);
+        if (index === 0 && x) {
           control1.push(this.fb.group(x));
+        } else {
+          this.addAgent('');
         }
       }
     } else {

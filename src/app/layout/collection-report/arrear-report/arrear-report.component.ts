@@ -288,12 +288,13 @@ export class ArrearReportComponent implements OnInit {
 
         for (let index = 0; index < this.paymentChoices.length; index++) {
           const element = this.paymentChoices[index];
-          const expected_amt = this.incomeProjection.filter(r => { if (r.id == element.id) {return r['expected_amt']}});
-          const penalty = this.incomeProjection.filter(r => { if (r.id == element.id) {return r['expected_penalty']}});
+          let expected_amt = []; let penalty = [];
+          expected_amt = this.incomeProjection.filter(r => { if (r.id == element.id) {return r['expected_amt']}});
+          penalty = this.incomeProjection.filter(r => { if (r.id == element.id) {return r['expected_penalty']}});
+          const ea = expected_amt && expected_amt.length > 0 ? expected_amt[0].expected_amt : 0;
+          const p = penalty && penalty.length > 0 ? penalty[0].expected_penalty : 0;
           const paid_amount = this.paidConcepts.filter(r => { if (r.id == element.id) {return r['paid_amount']}});
           element.paid_amount = paid_amount && paid_amount.length > 0 ? paid_amount[0].paid_amount : 0;
-          const ea = expected_amt && expected_amt.length > 0 ? expected_amt[0].expected_amt : 0;
-          const p = penalty && penalty.length > 0 ? penalty[0].penalty : 0;
           element.total = (ea + p).toFixed(2);
         }
       },

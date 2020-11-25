@@ -9,6 +9,7 @@ import { Ng2TelInputModule } from 'ng2-tel-input';
 import { AgmCoreModule } from '@agm/core';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 // general components
 import { AclUserGuard } from 'src/app/guards/acl-user.guard';
@@ -45,7 +46,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     Ng2TelInputModule,
     SharedModule,
-    TranslateModule
+    TranslateModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   declarations: [
     DevelopersComponent,

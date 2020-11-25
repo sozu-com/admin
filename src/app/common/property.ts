@@ -186,4 +186,5 @@ export interface IProperty {
   is_credit?: any;
   deal_to_date?: any;
   deal_from_date?: any;
+  deal_purchase_date?: any;
 }

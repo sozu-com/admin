@@ -70,16 +70,19 @@ export class AddPropertyComponent implements OnInit {
     {
       id: 1,
       name: this.translate.instant('addForm.maritalStatus.married'),
+      name_en: 'Married',
       checked: false
     },
     {
       id: 2,
       name: this.translate.instant('addForm.maritalStatus.unmarried'),
+      name_en: 'Unmarried',
       checked: false
     },
     {
       id: 3,
       name: this.translate.instant('addForm.maritalStatus.divorced'),
+      name_en: 'Divorced',
       checked: false
     }
   ];
@@ -309,7 +312,7 @@ export class AddPropertyComponent implements OnInit {
           for (let index = 0; index < this.testMarital.length; index++) {
             if (success['data'].marital_statuses.length !== 0) {
               for (let i = 0; i < success['data'].marital_statuses.length; i++) {
-                if (this.testMarital[index].name === success['data'].marital_statuses[i].name_en) {
+                if (this.testMarital[index].name_en === success['data'].marital_statuses[i].name_en) {
                   this.testMarital[index].checked = true;
                 }
               }
@@ -433,7 +436,7 @@ export class AddPropertyComponent implements OnInit {
     for (let index = 0; index < this.testMarital.length; index++) {
       if (data.marital_statuses.length !== 0) {
         for (let i = 0; i < data.marital_statuses.length; i++) {
-          if (this.testMarital[index].name === data.marital_statuses[i].name_en) {
+          if (this.testMarital[index].name_en === data.marital_statuses[i].name_en) {
             this.testMarital[index].checked = true;
           }
         }
@@ -1150,7 +1153,7 @@ export class AddPropertyComponent implements OnInit {
     for (let index = 0; index < this.testMarital.length; index++) {
       if (building.marital_statuses && building.marital_statuses.length !== 0) {
         for (let i = 0; i < building.marital_statuses.length; i++) {
-          if (this.testMarital[index].name === building.marital_statuses[i].name_en) {
+          if (this.testMarital[index].name_en === building.marital_statuses[i].name_en) {
             this.testMarital[index].checked = true;
           }
         }

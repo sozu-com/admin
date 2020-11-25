@@ -953,7 +953,21 @@
                   <div class="form-group-3">
                     <label>{{'addForm.managedBy.managerName' | translate}}</label>
                     <input autocomplete="off" [disabled]="true" [(ngModel)]="model.manager.name" class="form-control"
-                      type="text" name="developer_name">
+                      type="text" name="manager_name">
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.managedBy.firstSurname' | translate}}</label>
+                    <input autocomplete="off" [disabled]="true" [(ngModel)]="model.manager.first_surname" class="form-control"
+                      type="text" name="first_surname">
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.managedBy.secondSurname' | translate}}</label>
+                    <input autocomplete="off" [disabled]="true" [(ngModel)]="model.manager.second_surname" class="form-control"
+                      type="text" name="second_surname">
                   </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-12">
@@ -998,7 +1012,7 @@
                   <div class="form-group-3">
                       <label>{{'addForm.managedBy.companyName' | translate}}</label>
                     <input autocomplete="off" [disabled]="true" [(ngModel)]="model.company.name" class="form-control"
-                      type="text" name="developer_name">
+                      type="text" name="developer_name1">
                   </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-12">
@@ -1092,6 +1106,49 @@
 
               <!-- End of Agency Info Section -->
 
+              
+              <!-- Legal Entity Info Section -->
+              <div class="row">
+                <div class="col-12">
+                  <div class="page-title paddingL0 paddingR0">
+                    <h3>{{'addForm.legalEntity.label' | translate}}
+                      <!-- <span class="color-red">*</span> -->
+                      <span class="tower pull-right"
+                        (click)="selectLegalEntity('', 1)">{{model?.legal_entity?.id ? ('addForm.legalEntity.changeLegalEntity' | translate) : ('addForm.legalEntity.selectLegalEntity' | translate)}} </span>
+                    </h3>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="row" *ngIf="model?.legal_entity?.id">
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.companyCommercialName' | translate}}</label>
+                    <input [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.legal_entity.comm_name"
+                      class="form-control" type="text" name="comm_name" placeholder="{{'addForm.placeholder.developerName' | translate}}">
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.legalEntity.phoneNumber' | translate}}</label>
+                    <input [disabled]="!canEditdeveloperInfo" 
+                      type="text" class="form-control" id="phone2" placeholder="{{'addForm.placeholder.phoneNumber' | translate}}"
+                      minlength="1" [(ngModel)]="model.legal_entity.phone" name="phone2" ng2TelInput
+                      [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.legalEntity.email' | translate}}</label>
+                    <input [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.legal_entity.email"
+                      class="form-control" type="email" name="email2" placeholder="{{'addForm.placeholder.developerEmail' | translate}}"
+                      pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- End of Legal Entity Info Section -->
 
               <div class="row">
                 <div class="col-12">
@@ -1531,7 +1588,7 @@
                   <div class="n-avail-profile">
                     <img [src]="item.image| img:'thumb'" onerror='src="assets/img/default_img.png"' alt="img">
                     <div class="n-avail-info">
-                      <p class="p12">{{item.name}}</p>
+                      <p class="p12">{{item.name}} {{item?.first_surname || ''}} {{item?.second_surname || ''}}</p>
                       <p class="p10">{{'addForm.phone' | translate}} : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
                     </div>
                   </div>
@@ -1597,6 +1654,58 @@
               </tr>
               <tr *ngIf="agencies?.length<1">
                 <p class="show-not-found">{{'addForm.no' | translate}} {{parameter.managedBy == 1 ? ('addForm.managerAdded' | translate) : ('addForm.companyAdded' | translate)}} </p>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<a #openLegalEnityModel class="btn-third btn btn-block" data-target="#legal-entity-list" data-toggle="modal"></a>
+<div class="modal" id="legal-entity-list">
+  <div class="modal-dialog">
+    <div class="modal-content notary-avail">
+      <div class="modal-header popup-header">
+        <h4 class="modal-title">{{'addForm.selectLegakEntity' | translate}}</h4>
+        <button type="button" class="close" data-dismiss="modal" #closeLegalEnityListModel>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-8 col-6">
+            <input style="max-width:200px" [(ngModel)]="name" class="form-control" type="text" name="keyword"
+              placeholder="{{'addForm.placeholder.search' | translate}}">
+          </div>
+          <div class="col-md-4 col-5 btn-cont">
+            <a class="btn btn-primary pull-right" href="javascript://"
+              (click)="selectLegalEntity(name, 2)">{{'addForm.search' | translate}}</a>
+          </div>
+        </div>
+        <div class="spacer40"></div>
+        <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+          <div class="table-scroll">
+            <table class="table">
+              <tr *ngFor="let item of legalEntities">
+                <td *ngIf="item.is_blocked!=1">
+                  <div class="n-avail-profile">
+                    <img [src]="item.image| img:'thumb'" onerror='src="assets/img/default_img.png"' alt="img">
+                    <div class="n-avail-info">
+                      <p class="p12">{{item.comm_name}}</p>
+                      <p class="p10">{{'addForm.phone' | translate}} : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
+                    </div>
+                  </div>
+                </td>
+                <td *ngIf="item.is_blocked!=1">
+                  <label class="cust-check-bx float-right">
+                    <input type="radio" name="id" (click)="setLegalEntity(item)">
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+              </tr>
+              <tr *ngIf="legalEntities?.length<1">
+                <p class="show-not-found">{{'addForm.no' | translate}} </p>
               </tr>
             </table>
           </div>
