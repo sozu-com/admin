@@ -205,7 +205,7 @@ export class ArrearReportComponent implements OnInit {
         });
   }
   getBuyers() {
-    this.admin.postDataApi('getAllBuyersForCollections', { user_type : 1 })
+    this.admin.postDataApi('getAllBuyersForCollections', { user_type: 1 })
       .subscribe(
         success => {
           this.buyers = success.data;
@@ -213,7 +213,7 @@ export class ArrearReportComponent implements OnInit {
   }
 
   getLegalRep() {
-    this.admin.postDataApi('getAllBuyersForCollections', { user_type : 2 })
+    this.admin.postDataApi('getAllBuyersForCollections', { user_type: 2 })
       .subscribe(
         success => {
           this.legalReps = success.data;
@@ -225,7 +225,7 @@ export class ArrearReportComponent implements OnInit {
     const input: any = JSON.parse(JSON.stringify(this.input));
     input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
     input.year = new Date(this.input.end_date).getFullYear(),
-    input.month = new Date(this.input.end_date).getMonth() + 1;
+      input.month = new Date(this.input.end_date).getMonth() + 1;
 
     this.previousMonth = moment(this.input.end_date).subtract(1, 'months').toDate();
     this.nextMonth = moment(this.input.end_date).add(1, 'months').toDate();
@@ -284,16 +284,17 @@ export class ArrearReportComponent implements OnInit {
           // grand_total = grand_total + (element['amount'] || 0) + (element['penalty'] || 0)
           grand_total_amount = grand_total_amount + (element['total_amount'] || 0);
         }
-        this.finalData.push({id: 'Total', key: 1, amount: grand_amount, penelty: grand_penalty, total_amount: grand_total_amount});
+        this.finalData.push({ id: 'Total', key: 1, amount: grand_amount, penelty: grand_penalty, total_amount: grand_total_amount });
+        console.log('finalData', this.finalData, 'response', success['data']);
 
         for (let index = 0; index < this.paymentChoices.length; index++) {
           const element = this.paymentChoices[index];
           let expected_amt = []; let penalty = [];
-          expected_amt = this.incomeProjection.filter(r => { if (r.id == element.id) {return r['expected_amt']}});
-          penalty = this.incomeProjection.filter(r => { if (r.id == element.id) {return r['expected_penalty']}});
+          expected_amt = this.incomeProjection.filter(r => { if (r.id == element.id) { return r['expected_amt']; } });
+          penalty = this.incomeProjection.filter(r => { if (r.id == element.id) { return r['expected_penalty']; } });
           const ea = expected_amt && expected_amt.length > 0 ? expected_amt[0].expected_amt : 0;
           const p = penalty && penalty.length > 0 ? penalty[0].expected_penalty : 0;
-          const paid_amount = this.paidConcepts.filter(r => { if (r.id == element.id) {return r['paid_amount']}});
+          const paid_amount = this.paidConcepts.filter(r => { if (r.id == element.id) { return r['paid_amount']; } });
           element.paid_amount = paid_amount && paid_amount.length > 0 ? paid_amount[0].paid_amount : 0;
           element.total = (ea + p).toFixed(2);
         }

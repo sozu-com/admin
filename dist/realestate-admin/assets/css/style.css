@@ -538,7 +538,8 @@ color: #434B52;
 font-size: 12px;
 font-family: 'sf_ui_textmedium';
 }
-.add-new a {
+.add-new a,
+.export-project a {
 height: 24px;
 min-width: 136px;
 border-radius: 12px;

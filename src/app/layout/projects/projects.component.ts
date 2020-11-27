@@ -28,6 +28,7 @@ export class ProjectsComponent implements OnInit {
   countries: any;
   reason: string;
   locale: any;
+  baseUrl = this.admin.baseUrl + 'exportProject';
   constructor(
     public constant: Constant,
     public apiConstant: ApiConstants,
@@ -40,7 +41,7 @@ export class ProjectsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
+    console.log('baseurl', this.admin.baseUrl);
     this.locale = {
       firstDayOfWeek: 0,
       dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
@@ -120,7 +121,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   getPropertyConfigurations() {
-    this.admin.postDataApi('getConfigurations', {hide_blocked: 1}).subscribe(r => {
+    this.admin.postDataApi('getConfigurations', { hide_blocked: 1 }).subscribe(r => {
       this.configurations = r['data'];
     });
   }
@@ -356,7 +357,7 @@ export class ProjectsComponent implements OnInit {
       this.router.navigate(['/dashboard/projects/edit-project', item.id]);
     }
   }
-  
+
   viewDocument(document: string) {
     window.open(document, '_blank');
   }

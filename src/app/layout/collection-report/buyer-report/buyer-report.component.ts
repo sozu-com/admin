@@ -33,6 +33,7 @@ export class BuyerReportComponent implements OnInit {
   paymentConcepts: Array<any>;
   model: Array<any>;
   finalData: Array<any>;
+  exportfinalData: Array<any>;
   buyers: Array<any>;
   buyersAsDev: Array<any>;
   legalReps: Array<any>;
@@ -94,7 +95,7 @@ export class BuyerReportComponent implements OnInit {
         dayNamesShort: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
         dayNamesMin: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
         monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
-            'November', 'December'],
+          'November', 'December'],
         monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         today: 'Today',
         clear: 'Clear',
@@ -254,14 +255,14 @@ export class BuyerReportComponent implements OnInit {
     for (let index = 0; index < this.projects.length; index++) {
       if (this.projects[index].id == this.input.building_id) {
         const bt = this.projects[index].building_towers;
-        for(let i = 0; i < bt.length; i++) {
+        for (let i = 0; i < bt.length; i++) {
           if (bt[i].id == building_towers_id) {
             this.towers = bt[i];
             this.towers['floors'] = [];
             // floors
             this.towers['unique_floors'].map(s => {
               let obj = {};
-              obj = {id: s, name: s == 0 ? 'Ground Floor' : 'Floor ' + s};
+              obj = { id: s, name: s == 0 ? 'Ground Floor' : 'Floor ' + s };
               this.towers['floors'].push(obj);
               this.floors.push(obj);
             });
@@ -306,7 +307,7 @@ export class BuyerReportComponent implements OnInit {
   }
 
   getBuyers() {
-    this.admin.postDataApi('getAllBuyersForCollections', { user_type : 1 })
+    this.admin.postDataApi('getAllBuyersForCollections', { user_type: 1 })
       .subscribe(
         success => {
           this.buyers = success.data;
@@ -314,7 +315,7 @@ export class BuyerReportComponent implements OnInit {
   }
 
   getLegalRep() {
-    this.admin.postDataApi('getAllBuyersForCollections', { user_type : 2 })
+    this.admin.postDataApi('getAllBuyersForCollections', { user_type: 2 })
       .subscribe(
         success => {
           this.legalReps = success.data;
@@ -322,7 +323,7 @@ export class BuyerReportComponent implements OnInit {
   }
 
   getBuyersAsDev() {
-    this.admin.postDataApi('getAllBuyersForCollections', { user_type : 3 })
+    this.admin.postDataApi('getAllBuyersForCollections', { user_type: 3 })
       .subscribe(
         success => {
           this.buyersAsDev = success.data;
@@ -378,7 +379,7 @@ export class BuyerReportComponent implements OnInit {
         this.finalData = success['data'];
         for (let index = 0; index < this.finalData.length; index++) {
           const element = this.finalData[index];
-          var b = '';
+          let b = '';
           if (element.payment_received_by == 1) {
             if (element.bank_id) {
               b = element.agency_bank_name;
@@ -432,12 +433,12 @@ export class BuyerReportComponent implements OnInit {
     this.selectedLegalReps = [];
   }
   exportData() {
-    if (this.finalData) {
-      const finalData = [];
-      for (let index = 0; index < this.finalData.length; index++) {
-        const item = this.finalData[index];
+    if (this.exportfinalData) {
+      const exportfinalData = [];
+      for (let index = 0; index < this.exportfinalData.length; index++) {
+        const item = this.exportfinalData[index];
         let buyer = '';
-        if (item.buyer_type !=2) {
+        if (item.buyer_type != 2) {
           buyer = item.buyer.name ? (item.buyer.name + ' ' + item.buyer.first_surname + ' ' + item.buyer.second_surname) : '';
         } else {
           buyer = item.buyer_legal_entity.comm_name ? item.buyer_legal_entity.comm_name : '';
@@ -450,7 +451,7 @@ export class BuyerReportComponent implements OnInit {
           seller = item.seller_legal_entity.comm_name ? item.seller_legal_entity.comm_name : '';
         }
 
-        finalData.push({
+        exportfinalData.push({
           'Buyer Name': buyer,
           'Seller Name': seller,
           'Destiny Bank': item.payment_received_by == 1 ? item.property.building.agency.name : 'Seller',
@@ -469,8 +470,96 @@ export class BuyerReportComponent implements OnInit {
           Remaining: (item.deal_price - (item.penalty || 0)) || '',
         });
       }
-      this.exportAsExcelFile(finalData, 'buyerReport-');
+      this.exportAsExcelFile(exportfinalData, 'buyerReport-');
     }
+  }
+  getExportlisting() {
+    this.spinner.show();
+
+    const input: any = JSON.parse(JSON.stringify(this.input));
+    input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
+    input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
+    input.page = 0;
+
+    if (this.selectedDevelopers) {
+      const d = this.selectedDevelopers.map(o => o.id);
+      input.developer_id = d;
+    }
+    if (this.selctedProjects) {
+      const d = this.selctedProjects.map(o => o.id);
+      input.building_id = d;
+    }
+    if (this.selectedTowers) {
+      const d = this.selectedTowers.map(o => o.id);
+      input.building_towers_id = d;
+    }
+    if (this.selectedFloors) {
+      const d = this.selectedFloors.map(o => o.id);
+      input['floor_num'] = d;
+    }
+    if (this.selectedProperties) {
+      const d = this.selectedProperties.map(o => o.id);
+      input.property_id = d;
+    }
+    if (this.selectedBuyers) {
+      const d = this.selectedBuyers.map(o => o.id);
+      input.buyer_id = d;
+    }
+    if (this.selectedLegalReps) {
+      const d = this.selectedLegalReps.map(o => o.id);
+      input.legal_rep_id = d;
+    }
+    if (this.selectedBuyerDev) {
+      const d = this.selectedBuyerDev.map(o => o.id);
+      input.buyer_dev_id = d;
+    }
+    if (this.selectedCurrencies) {
+      const d = this.selectedCurrencies.map(o => o.id);
+      input.currency_id = d;
+    }
+    this.admin.postDataApi('generateCollectionbuyerReport', input).subscribe(
+      success => {
+        this.total = success['total'];
+        this.exportfinalData = success['data'];
+        // for (let index = 0; index < this.exportfinalData.length; index++) {
+        //   const element = this.exportfinalData[index];
+        //   let b = '';
+        //   if (element.payment_received_by == 1) {
+        //     if (element.bank_id) {
+        //       b = element.agency_bank_name;
+        //     } else {
+        //       b = element.legal_representative_banks_name;
+        //     }
+        //   } else {
+        //     if (element.seller_type != 2) {  // seller as person or developer
+        //       if (element.bank_id) {
+        //         b = element.legal_representative_banks_name;
+        //       } else if (element.legal_rep_bank_id) {
+        //         b = element.legal_representative_banks_name;
+        //       }
+        //     } else {  // seller as legal entity
+        //       if (element.bank_id) {
+        //         b = element.legal_entitiy_bank_name;
+        //       } else if (element.legal_rep_bank_id) {
+        //         b = element.legal_representative_banks_name;
+        //       }
+        //     }
+        //   }
+
+        //   if (b) {
+        //     const bn = b.split(',');
+        //     element.bank_name = bn[0];
+        //     element.account_number = bn[1];
+        //     element.swift = bn[2];
+        //     element.bank_currency = bn[3];
+        //   }
+        // }
+        this.exportData();
+        // this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      });
   }
   // will be used in case of excel
   public exportAsExcelFile(json: any[], excelFileName: string): void {
@@ -483,6 +572,7 @@ export class BuyerReportComponent implements OnInit {
       bookType: 'xlsx',
       type: 'array'
     });
+    this.spinner.hide();
     this.saveAsExcelFile(excelBuffer, excelFileName);
   }
 
