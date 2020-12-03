@@ -264,7 +264,7 @@ export class AddDeveloperComponent implements OnInit {
       }
     }
     modelSave.have_dev_panel_access = modelSave.have_dev_panel_access ? 1 : 0;
-    if (this.selctedProjects) {
+    if (modelSave['legal_representative'] && this.selctedProjects && this.selctedProjects.length > 0) {
       const d = this.selctedProjects.map(o => o.id);
       modelSave['legal_representative']['building_ids'] = d;
     }

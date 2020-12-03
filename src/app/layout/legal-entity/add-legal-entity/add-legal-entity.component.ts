@@ -350,8 +350,7 @@ export class AddLegalEntityComponent implements OnInit {
         }
       }
     }
-    console.log(this.selctedProjects);
-    if (this.selctedProjects) {
+    if (formData['legal_rep'] && this.selctedProjects && this.selctedProjects.length > 0) {
       const d = this.selctedProjects.map(o => o.id);
       formData['legal_rep']['building_ids'] = d;
     }
