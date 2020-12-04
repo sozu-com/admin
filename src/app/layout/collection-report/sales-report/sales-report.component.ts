@@ -174,10 +174,6 @@ export class SalesReportComponent implements OnInit {
       animationEnabled: true,
       exportFileName: 'sales-report',
       exportEnabled: true,
-      // title:{
-      //   fontFamily: "arial black",
-      //   fontColor: "#695A42"
-      // },
       axisY: {
         gridColor: '#222222ab',
         tickColor: '#222222ab'
