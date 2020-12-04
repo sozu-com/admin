@@ -93,6 +93,10 @@
                   <div id="chartContainer" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
                 </div>
   
+            <div class="graph-area" [style.display]="reportType==1 ? 'block' : 'none'">
+                  <div id="chartContainer1" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
+            </div>
+
               <div class="table-responsive main-table" *ngIf="reportType == 2" style="width: 90%; margin-left:auto;margin-right:auto;">
                     <h5>{{'collectionReport.tabularView' | translate}}<span class=" pull-right">
                           <button class="btn btn-primary-new export-btn" (click)="exportData()">{{'collectionReport.export' | translate}}</button>

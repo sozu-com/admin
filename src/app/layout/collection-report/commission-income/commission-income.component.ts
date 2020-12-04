@@ -205,6 +205,7 @@ export class CommissionIncomeComponent implements OnInit {
         this.items.push(obj);
       }
       this.plotData();
+      this.plotData1();
     }, error => {
       this.spinner.hide();
     });
@@ -248,6 +249,43 @@ export class CommissionIncomeComponent implements OnInit {
           name: 'IVA Amount',
           color: '#00b96f61',
           dataPoints: this.reportData['iva_amount']
+      }]
+    });
+    chart.render();
+  }
+
+  plotData1() {
+    const chart = new CanvasJS.Chart('chartContainer1', {
+      animationEnabled: true,
+      exportFileName: 'commission-report',
+      exportEnabled: true,
+      theme: 'light2',
+      dataPointWidth: 30,
+      title: {
+        // text: "Top Oil Reserves"
+      },
+      axisY: {
+        gridColor: '#222222ab',
+        tickColor: '#222222ab'
+      },
+      // data: [{
+      //   type: 'column',
+      //   color: '#00b96f',
+      //   showInLegend: true,
+      //   legendMarkerColor: 'grey',
+      //   legendText: this.selectedCommissions[0].name,
+      //   dataPoints: this.reportData['commission']
+      // }]
+      toolTip: {
+        shared: true
+      },
+      data: [{
+        type: 'column',
+        name: 'Expected Commission',
+        legendText: 'Expected Commission',
+        color: '#4a85ff',
+        showInLegend: true,
+        dataPoints: this.reportData['expected']
       }]
     });
     chart.render();

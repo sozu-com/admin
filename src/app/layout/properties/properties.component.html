@@ -625,20 +625,20 @@
                            
                            <div class="n-avail-info">
                               <p class="p12">{{item?.name ? item?.name : item?.comm_name}}</p>
-                              <p class="p12" *ngIf="item?.legal_reps?.id">{{item?.legal_reps?.name}}</p>
+                              <p class="p12" *ngIf="item?.legal_reps && item?.legal_reps?.id">{{item?.legal_reps?.name}}</p>
                               <p class="p10 marginB0">{{'viewProperty.phone' | translate}} : {{item?.dial_code ? item?.dial_code : constant.dial_code}}-{{item?.phone}}</p>
                               <!-- <p class="p10">{{item?.is_developer==1 ? ('viewProperty.developer' | translate) : ('viewProperty.seller' | translate)}}</p> -->
                            </div>
                            </div>
                         </td>
                         <td *ngIf="user_type=='seller'">
-                           <button *ngIf="seller_type==2 ? parameter.seller_id!=item.legal_reps.id : parameter.seller_id!=item.id" 
+                           <button *ngIf="seller_type==2 ? parameter.seller_id!=item?.legal_reps?.id : parameter.seller_id!=item?.id" 
                               (click)="changeStatusPopUp(parameter.property_id, 
                                                       (seller_type==2 ? item.legal_reps.id : item.id), 
                                                       (seller_type==2 ? item.comm_name : item.name), 
                                                       1, 'link')" class="action-icon" title="{{'table.title.acceptRequest' | translate}}">
                               <img src="assets/img/green-icon.png" alt="img"></button>
-                           <button *ngIf="seller_type==2 ? parameter.seller_id==item.legal_reps.id : parameter.seller_id==item.id" 
+                           <button *ngIf="seller_type==2 ? parameter.seller_id==item?.legal_reps?.id : parameter.seller_id==item.id" 
                            (click)="changeStatusPopUp(parameter.property_id, 
                               (seller_type==2 ? item.legal_reps.id : item.id), 
                               (seller_type==2 ? item.comm_name : item.name), 
@@ -648,13 +648,13 @@
                                  <img src="assets/img/ic_disapprove.png" alt="img"></button>
                         </td>
                         <td *ngIf="user_type=='buyer'">
-                           <button *ngIf="seller_type==2 ? parameter.buyer_id!=item.legal_reps.id : parameter.buyer_id!=item.id" 
+                           <button *ngIf="seller_type==2 ? parameter.buyer_id!=item?.legal_reps?.id : parameter.buyer_id!=item?.id" 
                               (click)="changeStatusPopUp(parameter.property_id, 
                                                       (seller_type==2 ? item.legal_reps.id : item.id), 
                                                       (seller_type==2 ? item.comm_name : item.name), 
                                                       1, 'link')" class="action-icon" title="{{'table.title.acceptRequest' | translate}}">
                               <img src="assets/img/green-icon.png" alt="img"></button>
-                           <button *ngIf="seller_type==2 ? parameter.buyer_id==item.legal_reps.id : parameter.buyer_id==item.id" 
+                           <button *ngIf="seller_type==2 ? parameter.buyer_id==item?.legal_reps?.id : parameter.buyer_id==item.id" 
                            (click)="changeStatusPopUp(parameter.property_id, 
                                                       (seller_type==2 ? item.legal_reps.id : item.id), 
                                                       (seller_type==2 ? item.comm_name : item.name), 

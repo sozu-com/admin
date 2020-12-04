@@ -479,7 +479,7 @@ export class BuyerReportComponent implements OnInit {
     const input: any = JSON.parse(JSON.stringify(this.input));
     input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
     input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
-    input.page = 0;
+    input.page = -1;
 
     if (this.selectedDevelopers) {
       const d = this.selectedDevelopers.map(o => o.id);
@@ -519,7 +519,6 @@ export class BuyerReportComponent implements OnInit {
     }
     this.admin.postDataApi('generateCollectionbuyerReport', input).subscribe(
       success => {
-        this.total = success['total'];
         this.exportfinalData = success['data'];
         // for (let index = 0; index < this.exportfinalData.length; index++) {
         //   const element = this.exportfinalData[index];

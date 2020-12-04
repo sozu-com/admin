@@ -170,7 +170,7 @@ export class CollectionsComponent implements OnInit {
     this.parameter.flag = 1;
     this.model = new Notes();
     this.initPenaltyForm();
-    this.parameter.itemsPerPage = this.constant.itemsPerPage;
+    this.parameter.itemsPerPage = 25; // this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.dash_flag = this.propertyService.dash_flag ? this.propertyService.dash_flag : this.constant.dash_flag;
     this.getPaymentMethods();
