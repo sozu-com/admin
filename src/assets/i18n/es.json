@@ -862,6 +862,7 @@
       "unlinkedSuccessfully": "Desvinculado exitosamente",
       "doneSuccessfully": "Realizado exitosamente.",
       "changedSuccessfully": "Se hizo el cambio exitosamente",
+      "cannotDeleteProperty": "No es posible eliminar la propiedad porque tiene una cuenta de cobranza activa",
       "logoutSuccessfully": "Sesión cerrada exitosamente",
       "dealFinalisedSucc": "El acuerdo ha sido finalizado exitosamente.",
       "intestredRemovedSuccessfully": "El departamento de su interés fue eliminado exitosamente .",

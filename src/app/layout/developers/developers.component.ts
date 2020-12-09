@@ -145,4 +145,15 @@ export class DevelopersComponent implements OnInit {
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
     });
   }
+
+  changeStatus(item: any, status: number) {
+    item.is_approved = status;
+    const input = { id: item.id, is_approved: status };
+    this.admin.postDataApi('approveDeveloper', input).subscribe(r => {
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
+    },
+      error => {
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
+      });
+  }
 }

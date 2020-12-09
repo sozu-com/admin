@@ -95,6 +95,17 @@
                     routerLink="/dashboard/notary/view-notary-leads/{{item.id}}" class="icon-block edit-icon">
                     <img src="assets/img/ic_leads.png" alt="img">
                   </a> -->
+
+                  <button *ngIf="item.is_approved == 1"
+                  [disabled]="admin?.admin_acl['Developers Management']?.can_update==0" (click)="changeStatus(item, 0);"
+                  class="action-icon" title="{{'table.title.unapprove' | translate}}"><img
+                    src="assets/img/ic_disapprove.png" alt="img"></button>
+
+                <button *ngIf="item.is_approved == 0"
+                  [disabled]="admin?.admin_acl['Developers Management']?.can_update==0" (click)="changeStatus(item, 1);"
+                  class="action-icon" title="{{'table.title.approve' | translate}}"><img src="assets/img/tick.png"
+                    alt="img"></button>
+
                   <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Developers Management']?.can_update==0" (click)="editUser(item)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                   <button [disabled]="admin?.admin_acl['Developers Management']?.can_delete==0"
                     (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1)" 
