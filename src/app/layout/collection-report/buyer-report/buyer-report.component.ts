@@ -479,7 +479,7 @@ export class BuyerReportComponent implements OnInit {
     const input: any = JSON.parse(JSON.stringify(this.input));
     input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
     input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
-    input.page = -1;
+    input.page = 0;
 
     if (this.selectedDevelopers) {
       const d = this.selectedDevelopers.map(o => o.id);
