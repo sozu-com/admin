@@ -527,6 +527,7 @@
       "closed": "Closed"
     },
     "th": {
+      "carpetArea": "Carpet Area",
       "all": "All",
       "currency":"Currency",
       "systemDashboardAccess": "System Dashboard",
@@ -613,6 +614,7 @@
       "propertiesForSale": "Properties Available For Sale",
       "document":"Document",
       "avgPrice": "Avg Price",
+      "avgCarpetArea": "Avg Carpet Area",
       "assignee": "Assignee",
       "mortgageLoanType": "Mortgage Loan Types",
       "branch": "Branch",

@@ -527,6 +527,7 @@
       "closed": "Cerrado"
     },
     "th": {
+      "carpetArea": "Área de piso",
       "all": "All",
       "currency":"Moneda",
       "systemDashboardAccess": "Tablero del sistema",
@@ -613,6 +614,7 @@
       "propertiesForSale": "Departamentos disponibles para venta",
       "document":"Documento",
       "avgPrice": "Precio promedio",
+      "avgCarpetArea": "Área de alfombra promedio",
       "assignee": "Beneficiario",
       "mortgageLoanType": "Tipos de préstamos hipotecarios",
       "branch": "Sucursal",

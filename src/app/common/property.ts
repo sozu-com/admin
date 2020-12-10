@@ -187,4 +187,5 @@ export interface IProperty {
   deal_to_date?: any;
   deal_from_date?: any;
   deal_purchase_date?: any;
+  agency_name?: string;
 }

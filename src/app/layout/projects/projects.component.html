@@ -279,6 +279,10 @@
                 <th style="width:15%">
                   <div class="table-search">
                     <label>{{'table.th.agency' | translate}}</label>
+                    <div class="searh-3">
+                      <input class="width100px" type="text" [(ngModel)]="parameter.agency_name" (keyup.enter)="getListing()">
+                      <button *ngIf="parameter.agency_name" (click)="getListing()"><i class="fa fa-search"></i></button>
+                    </div>
                   </div>
                 </th>
                 <th style="width:15%">
@@ -325,6 +329,14 @@
                     <a (click)="sortData(parameter.property_sort==2?1:2)" href="javascript://"><img
                         [ngClass]="{'upsidedown':parameter.property_sort==2}" src="assets/img/top-arrow.png"
                         alt="img"></a>
+                  </div>
+                </th>
+                <th style="vertical-align:top;width:5%">
+                  <div class="d-flex table-search">
+                    <span><label>{{'table.th.avgCarpetArea' | translate}}</label></span>
+                    <!-- <a (click)="sortData(parameter.property_sort==2?1:2)" href="javascript://"><img
+                        [ngClass]="{'upsidedown':parameter.property_sort==2}" src="assets/img/top-arrow.png"
+                        alt="img"></a> -->
                   </div>
                 </th>
                 <th style="vertical-align:top;width:5%">
@@ -392,6 +404,7 @@
                       class="green-color">{{p?.sale_count_all | numberWithCommas}}</span></a>
                 </td>
                 <td><span>${{ p.avg_price ? (p.avg_price | number : '1.2-2') : 0.00}}</span></td>
+                <td><span>{{ p.avg_carpet_area ? (p.avg_carpet_area | number : '1.2-2') : 0.00}}</span></td>
                 <td>
                   <span *ngIf="!p?.document">{{'table.tr.td.NA' | translate}}</span>
                   <button *ngIf="p?.document" [disabled]="admin?.admin_acl['Project Management']?.can_read==0"
