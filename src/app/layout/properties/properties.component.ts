@@ -582,7 +582,7 @@ export class PropertiesComponent implements OnInit {
 
   deletePopup(property: any, index: number) {
 
-    if (property.collection) {
+    if (property.collection && property.collection.is_cancelled!=1) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.success.cannotDeleteProperty'), 'error');
       return;
     }
@@ -664,7 +664,7 @@ export class PropertiesComponent implements OnInit {
 
   editPricePopup(item: any, index: number) {
 
-    if (item.collection) {
+    if (item.collection && item.collection.is_cancelled!=1) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.success.cannotDeleteProperty'), 'error');
       return;
     }
