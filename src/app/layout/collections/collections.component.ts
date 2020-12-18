@@ -1438,7 +1438,7 @@ export class CollectionsComponent implements OnInit {
     this.collectionIndex = i;
     this.paymentConcepts = item.collection_commissions;
     this.typeOfPayment = type;
-    this.is_external_agent = item.deal_commission_agents && item.deal_commission_agents.length > 0 ?
+    this.is_external_agent = item.deal_commission_agents && item.deal_commission_agents.length > 0 && item.deal_commission_agents[0].broker ?
       item.deal_commission_agents[0].broker.is_external_agent : 0;
     this.collectionReceiptOpen.nativeElement.click();
   }

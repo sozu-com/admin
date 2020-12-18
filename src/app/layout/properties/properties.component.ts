@@ -581,8 +581,8 @@ export class PropertiesComponent implements OnInit {
   }
 
   deletePopup(property: any, index: number) {
-console.log(this.admin.permissions)
-    if (property.collection && property.collection.is_cancelled!=1 && this.admin.permissions && this.admin.permissions.can_collection_agent!=1) {
+
+    if (property.collection && property.collection.is_cancelled!=1) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.success.cannotDeleteProperty'), 'error');
       return;
     }
@@ -664,7 +664,7 @@ console.log(this.admin.permissions)
 
   editPricePopup(item: any, index: number) {
 
-    if (item.collection && item.collection.is_cancelled!=1) {
+    if (item.collection && item.collection.is_cancelled!=1 && this.admin.permissions && this.admin.permissions.can_collection_agent!=1) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.success.cannotDeleteProperty'), 'error');
       return;
     }

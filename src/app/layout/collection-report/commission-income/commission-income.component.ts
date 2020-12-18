@@ -225,14 +225,6 @@ export class CommissionIncomeComponent implements OnInit {
         gridColor: '#222222ab',
         tickColor: '#222222ab'
       },
-      // data: [{
-      //   type: 'column',
-      //   color: '#00b96f',
-      //   showInLegend: true,
-      //   legendMarkerColor: 'grey',
-      //   legendText: this.selectedCommissions[0].name,
-      //   dataPoints: this.reportData['commission']
-      // }]
       toolTip: {
         shared: true
       },
@@ -268,25 +260,23 @@ export class CommissionIncomeComponent implements OnInit {
         gridColor: '#222222ab',
         tickColor: '#222222ab'
       },
-      // data: [{
-      //   type: 'column',
-      //   color: '#00b96f',
-      //   showInLegend: true,
-      //   legendMarkerColor: 'grey',
-      //   legendText: this.selectedCommissions[0].name,
-      //   dataPoints: this.reportData['commission']
-      // }]
       toolTip: {
         shared: true
       },
       data: [{
-        type: 'column',
-        name: 'Expected Commission',
-        legendText: 'Expected Commission',
-        color: '#4a85ff',
+        type: 'stackedColumn',
         showInLegend: true,
+        name: 'Expected Commission',
+        color: '#4a85ff',
         dataPoints: this.reportData['expected']
-      }]
+      },
+      {
+        type: 'stackedColumn',
+        showInLegend: true,
+        name: 'Expected IVA Amount',
+        color: '#4a84ff69',
+        dataPoints: this.reportData['iva_amount_expected']
+    }]
     });
     chart.render();
   }
