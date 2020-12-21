@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PropertyService } from 'src/app/services/property.service';
 import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
+declare var $: any; 
 
 @Component({
   selector: 'app-properties',
@@ -115,6 +116,11 @@ export class PropertiesComponent implements OnInit {
       this.floors.push(obj);
     }
   }
+
+  close() {
+    $('.modal').modal('hide');
+}
+
 
   getListing() {
     this.spinner.show();

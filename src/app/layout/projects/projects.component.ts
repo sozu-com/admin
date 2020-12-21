@@ -9,7 +9,7 @@ import { AdminService } from 'src/app/services/admin.service';
 import { ProjectService } from 'src/app/services/project.service';
 import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
-
+declare var $: any; 
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
@@ -29,6 +29,7 @@ export class ProjectsComponent implements OnInit {
   reason: string;
   locale: any;
   baseUrl = this.admin.baseUrl + 'exportProject';
+
   constructor(
     public constant: Constant,
     public apiConstant: ApiConstants,
@@ -37,7 +38,7 @@ export class ProjectsComponent implements OnInit {
     public projectService: ProjectService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
-    private router: Router
+    private router: Router,private elementRef: ElementRef
   ) { }
 
   ngOnInit() {
@@ -88,6 +89,9 @@ export class ProjectsComponent implements OnInit {
     } else {
       delete input.max;
     }
+    // if (this.parameter.min_price) {
+    //   input.min_price = this.parameter.min_price;
+    // }
     if (this.parameter.userType === 'developer') {
       input.developer_id = this.parameter.id;
     }
@@ -106,6 +110,7 @@ export class ProjectsComponent implements OnInit {
     this.admin.postDataApi('projectHome', input).subscribe(
       success => {
         this.items = success.data;
+        console.log(this.items,"projectHome")
         this.total = success.total_count;
         this.spinner.hide();
       },
@@ -113,6 +118,10 @@ export class ProjectsComponent implements OnInit {
         this.spinner.hide();
       });
   }
+
+  close() {
+    $('.modal').modal('hide');
+}
 
   getCountries() {
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
@@ -271,6 +280,10 @@ export class ProjectsComponent implements OnInit {
     this.parameter.index = index;
     this.modalOpen.nativeElement.click();
   }
+
+  // priceRangePopup() {
+  //   this.closeModal();
+  // }
 
   closeModal() {
     this.modalClose.nativeElement.click();

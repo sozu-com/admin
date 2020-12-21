@@ -217,7 +217,7 @@
          <div class="cust-tabs">
          <div class="row flex-wrap-reverse">
             
-            <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12">
             <ul class="nav nav-tabs">
                <li class="nav-item">
                   <a [ngClass]="{'active':parameter.flag==3}" (click)="changePropertyFlag(3)" class="nav-link cursor-pointer" >{{'filters.flag.approved' | translate}}</a>
@@ -236,13 +236,20 @@
                </li> -->
             </ul>
             </div>
-            <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
+             <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
                <div class="add-new text-left">
+                  <a  class="btn" #modalOpen data-toggle="modal" data-target="#advancedSearch"
+                  routerLink="/dashboard/properties/add-bulk-property/0/0">
+                     Advanced Search</a>
+               </div>
+            </div>
+            <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
+               <div class="add-new text-center">
                   <a *ngIf="admin?.admin_acl['Property Management']?.can_create==1" class="btn" href="javascript://" routerLink="/dashboard/properties/add-bulk-property/0/0">{{'viewProperty.addBulkProperty' | translate}}</a>
                </div>
             </div>
             <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
-               <div class="add-new text-left">
+               <div class="add-new text-right">
                   <a *ngIf="admin?.admin_acl['Property Management']?.can_create==1" class="btn" href="javascript://" routerLink="/dashboard/properties/add-property/0/0">{{'viewProperty.addNewProperty' | translate}}</a>
                </div>
             </div>
@@ -857,3 +864,48 @@
       </div>
    </div>
 </div>
+
+
+<div class="modal animated" id="advancedSearch">
+   <div class="modal-dialog fadeIndown">
+     <div class="modal-content" style="
+     border-top-style: solid;
+     border-top-width: thick;
+     border-top-color: rgb(0, 185, 111);
+     padding: 10px; border-radius: 5px;
+     box-shadow: 0px -2px 0px 7px rgb(105,105,105);">
+       <div class="modal-header modal-header-new" style="background-color: white;">
+         <h4 class="modal-title">Advanced Search</h4>
+       </div>
+ 
+       <form class="form-horizontal form-model0P form-model-newP">
+         <h4 style="color: rgb(48, 46, 46); font-size: 18px;">Range Price</h4>
+         <div class="row">
+           <div class="form-group col-md-6">
+             <input type="text" class="form-control" placeholder="Min">
+           </div>
+           <div class="form-group col-md-6">
+             <input type="text" class="form-control" placeholder="Max">
+           </div>
+         </div>
+         <h4 style="color: rgb(48, 46, 46); font-size: 18px;">Range Carpet Area</h4>
+         <div class="row">
+           <div class="form-group col-md-6">
+             <input type="text" class="form-control" placeholder="Min">
+           </div>
+           <div class="form-group col-md-6">
+             <input type="text" class="form-control" placeholder="Max">
+           </div>
+         </div>
+       
+           <div class="btn-cont text-right">
+             <button type="button" class="btn btn-success" style="border-left-color: rgb(0, 185, 111);
+             border-right-color: rgb(0, 185, 111);">Apply</button>&nbsp;&nbsp;
+         <button type="button" class="btn btn-danger" (click)="close()"
+         style="background-color: rgb(238, 123, 124);">Cancel</button>
+           </div>
+         
+       </form>
+     </div>
+   </div>
+ </div>
