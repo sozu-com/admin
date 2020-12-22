@@ -163,7 +163,7 @@ export class PropertiesComponent implements OnInit {
       });
   }
 
-  searchProject(min_price,max_price,min_carpet_area,max_carpet_area, flag) {
+  searchProject(min_price,max_price,min_carpet_area,max_carpet_area) {
     console.log(min_price,max_price,min_carpet_area,max_carpet_area,"Function Runing !")
      let flg = this.parameter.flag = 3;
     const body = { 
