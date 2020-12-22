@@ -242,10 +242,10 @@
             translate}}</a>
         </div>
         <div class="export-project pull-right mr-4">
-          <a class="btn" target="_blank" [href]="[baseUrl]">Export</a>
+          <a class="btn" href="javascript://" (click)="getExportlisting()">Export</a>
         </div>
         <div class="export-project pull-right mr-4">
-          <a class="btn" #modalOpen data-toggle="modal" data-target="#advancedSearch" [href]="[baseUrl]">
+          <a  class="btn" href="javascript://" data-toggle="modal" data-target="#advancedSearch">
             Advanced Search</a>
         </div>
       </div>
@@ -537,15 +537,14 @@
         <button type="button" class="close" (click)="close()">&times;</button>
       </div>
 
-      <form class="form-horizontal form-model0P form-model-newP" #addFilterForm="ngForm"
-      (ngSubmit)="addFilterForm.reset();">
+      <form class="form-horizontal form-model0P form-model-newP" #addFilterForm="ngForm">
         <h4 style="color: rgb(48, 46, 46); font-size: 18px;">Range Price</h4>
         <div class="row">
           <div class="form-group col-md-6">
-            <input type="text" class="form-control" placeholder="Min" name="min_price" [(ngModel)]="min_price">
+            <input type="text" class="form-control" placeholder="Min" name="min_price" [(ngModel)]="parameter.min_price">
           </div>
           <div class="form-group col-md-6">
-            <input type="text" class="form-control" placeholder="Max" name="max_price" [(ngModel)]="max_price">
+            <input type="text" class="form-control" placeholder="Max" name="max_price" [(ngModel)]="parameter.max_price">
           </div>
         </div>
        
@@ -553,17 +552,17 @@
         <div class="row">
           <div class="form-group col-md-6">
             <input type="text" class="form-control" placeholder="Min" name="min_carpet_area"
-              [(ngModel)]="min_carpet_area">
+              [(ngModel)]="parameter.min_carpet_area">
           </div>
           <div class="form-group col-md-6">
             <input type="text" class="form-control" placeholder="Max" name="max_carpet_area"
-              [(ngModel)]="max_carpet_area">
+              [(ngModel)]="parameter.max_carpet_area">
           </div>
         </div>
 
         <!-- <div class="btn-cont text-right"> -->
 
-           <button type="submit" class="btn btn-success" (click)="searchProject(min_price,max_price,min_carpet_area,max_carpet_area)"
+           <button type="submit" class="btn btn-success" (click)="searchProject()"
         style="border-left-color: rgb(0, 185, 111);
           border-right-color: rgb(0, 185, 111);">Apply</button>&nbsp;&nbsp;
 

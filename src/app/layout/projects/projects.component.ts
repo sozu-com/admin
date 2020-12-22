@@ -9,6 +9,10 @@ import { AdminService } from 'src/app/services/admin.service';
 import { ProjectService } from 'src/app/services/project.service';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 declare let swal: any;
 declare var $: any;
 @Component({
@@ -34,6 +38,7 @@ export class ProjectsComponent implements OnInit {
   max_price: any;
   min_carpet_area: any;
   max_carpet_area: any;
+  exportfinalData: Array<any>;
   
   constructor(
     public constant: Constant,
@@ -71,6 +76,10 @@ export class ProjectsComponent implements OnInit {
     this.parameter.dash_flag = this.projectService.dash_flag ? this.projectService.dash_flag : this.constant.dash_flag;
     this.parameter.property_sort = 2;
     this.parameter.possession_filter = 0; // 0-all, 9-presale, 8-sale
+    this.parameter.min_price = 0;
+    this.parameter.max_price = 0;
+    this.parameter.min_carpet_area = 0;
+    this.parameter.max_carpet_area = 0;
     this.getCountries();
     // this.getPropertyConfigurations();
     this.getListing();
@@ -94,18 +103,10 @@ export class ProjectsComponent implements OnInit {
     } else {
       delete input.max;
     }
-
-    if (this.parameter.min_price) {
-      input.min_price = this.parameter.min_price;
-    } else {
-      delete input.min_price;
-    }
-
-    if (this.parameter.max_price) {
-      input.max_price = this.parameter.max_price;
-    } else {
-      delete input.max_price;
-    }
+    input.min_price = this.parameter.min_price;
+    input.max_price = this.parameter.max_price;
+    input.min_carpet_area = this.parameter.min_carpet_area;
+    input.max_carpet_area = this.parameter.max_carpet_area;
 
     if (this.parameter.userType === 'developer') {
       input.developer_id = this.parameter.id;
@@ -296,24 +297,9 @@ export class ProjectsComponent implements OnInit {
     this.modalOpen.nativeElement.click();
   }
 
-  searchProject(min_price,max_price,min_carpet_area,max_carpet_area) {
-     console.log(min_price,max_price,min_carpet_area,max_carpet_area,"Function Runing !")
-    const body = { 
-      min_price: min_price, 
-      max_price: max_price,
-      min_carpet_area :min_carpet_area,
-      max_carpet_area : max_carpet_area
-    };
-    console.log(body,"body");
-     this.admin.postDataApi('projectHome',body).subscribe(r=>{
-      this.items = r['data']; 
-      let avg_price = this.items.map(a => a.avg_price);
-       console.log(avg_price, "avg_price")
-      this.close();
-    },
-      error => {
-        swal(this.translate.instant('swal.error'), error.error.message, 'error');
-      }); 
+  searchProject() {
+    this.close();
+    this.getListing();
   }
 
   closeModal() {
@@ -330,6 +316,10 @@ export class ProjectsComponent implements OnInit {
     // this.selectedUser = '';
     this.parameter.keyword = '';
     this.parameter.count_flag = 1;
+    this.parameter.min_price = null;
+    this.parameter.max_price = null;
+    this.parameter.min_carpet_area = null;
+    this.parameter.max_carpet_area = null;
     this.resetDates();
     this.getListing();
   }
@@ -404,5 +394,104 @@ export class ProjectsComponent implements OnInit {
 
   viewDocument(document: string) {
     window.open(document, '_blank');
+  }
+
+  getExportlisting() {
+    this.spinner.show();
+    const input: any = JSON.parse(JSON.stringify(this.parameter));
+    input.page = 0;
+    if (this.parameter.min) {
+      input.min = moment(this.parameter.min).format('YYYY-MM-DD');
+    } else {
+      delete input.min;
+    }
+    if (this.parameter.max) {
+      input.max = moment(this.parameter.max).format('YYYY-MM-DD');
+    } else {
+      delete input.max;
+    }
+
+    if (this.parameter.userType === 'developer') {
+      input.developer_id = this.parameter.id;
+    }
+    if (this.parameter.userType === 'data-collector') {
+      input.data_collector_id = this.parameter.id;
+    }
+    if (this.parameter.userType === 'manager') {
+      input.manager_id = this.parameter.id;
+    }
+    if (this.parameter.userType === 'company') {
+      input.company_id = this.parameter.id;
+    }
+    if (this.parameter.userType === 'agency') {
+      input.agency_id = this.parameter.id;
+    }
+    this.admin.postDataApi('projectHome', input).subscribe(
+      success => {
+        this.exportfinalData = success['data'];
+        this.exportData();
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      });
+  }
+
+  exportData() {
+    if (this.exportfinalData) {
+      const exportfinalData = [];
+      for (let index = 0; index < this.exportfinalData.length; index++) {
+        const p = this.exportfinalData[index];
+        
+        exportfinalData.push({
+          'Name': p.name || '',
+          'Developer Name': p.developer && p.developer.name ? p.developer.name : '',
+          'Agency Name': p.agency && p.agency.name ? p.agency.name : '',
+          'Legal Entity Name': p.legal_entity && p.legal_entity.comm_name ? p.legal_entity.comm_name : '',
+          'Manager Name': p.manager && p.manager.name ? p.manager.name : '',
+          'Company Name': p.company && p.company.name ? p.company.name : '',
+          'Possession Status': p.possession_status_id == this.apiConstant.possessionStatus.sale ? 'Sale' : 'Presale',
+          'Properties': p.properties_count_all || 0,
+          'Properties available for rent': p.rent_count_all || 0,
+          'Properties available for sale': p.sale_count_all || 0,
+          'Avg Price': p.avg_price || 0,
+          'Avg Carpet Price': p.avg_carpet_area || 0,
+        });
+      }
+      this.exportAsExcelFile(exportfinalData, 'projects-');
+    }
+  }
+
+  public exportAsExcelFile(json: any[], excelFileName: string): void {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { data: worksheet },
+      SheetNames: ['data']
+    };
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array'
+    });
+    this.spinner.hide();
+    this.saveAsExcelFile(excelBuffer, excelFileName);
+  }
+
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    const today = new Date();
+    const date =
+      today.getDate() +
+      '-' +
+      today.getMonth() +
+      '-' +
+      today.getFullYear() +
+      '_' +
+      today.getHours() +
+      '_' +
+      today.getMinutes() +
+      '_' +
+      today.getSeconds();
+    fileName = fileName + date;
+    FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
   }
 }

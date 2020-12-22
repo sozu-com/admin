@@ -190,4 +190,6 @@ export interface IProperty {
   deal_from_date?: any;
   deal_purchase_date?: any;
   agency_name?: string;
+  min_carpet_area?: any;
+  max_carpet_area?: any;
 }
