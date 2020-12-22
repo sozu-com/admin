@@ -109,8 +109,8 @@
     <div class="col-md-2">
       <div class="form-group btn-cont">
         <label style="display: block; margin-top: 3px;">&nbsp;</label>
-        <button type="button" (click)="getListing()"
-          class="btn btn-primary-new width100P">{{'filters.location.applyBtn' | translate}}</button>
+        <button type="button" (click)="getListing()" class="btn btn-primary-new width100P">{{'filters.location.applyBtn'
+          | translate}}</button>
       </div>
     </div>
 
@@ -238,15 +238,14 @@
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="add-new pull-right">
           <a *ngIf="admin?.admin_acl['Project Management']?.can_create==1 || admin?.permissions?.can_data_collector==1"
-            class="btn" href="javascript://"
-            routerLink="/dashboard/projects/add-project">{{'viewProjects.addBtn' | translate}}</a>
+            class="btn" href="javascript://" routerLink="/dashboard/projects/add-project">{{'viewProjects.addBtn' |
+            translate}}</a>
         </div>
         <div class="export-project pull-right mr-4">
           <a class="btn" target="_blank" [href]="[baseUrl]">Export</a>
         </div>
         <div class="export-project pull-right mr-4">
-          <a class="btn" #modalOpen data-toggle="modal" data-target="#advancedSearch" 
-          [href]="[baseUrl]">
+          <a class="btn" #modalOpen data-toggle="modal" data-target="#advancedSearch" [href]="[baseUrl]">
             Advanced Search</a>
         </div>
       </div>
@@ -285,7 +284,8 @@
                   <div class="table-search">
                     <label>{{'table.th.agency' | translate}}</label>
                     <div class="searh-3">
-                      <input class="width100px" type="text" [(ngModel)]="parameter.agency_name" (keyup.enter)="getListing()">
+                      <input class="width100px" type="text" [(ngModel)]="parameter.agency_name"
+                        (keyup.enter)="getListing()">
                       <button *ngIf="parameter.agency_name" (click)="getListing()"><i class="fa fa-search"></i></button>
                     </div>
                   </div>
@@ -322,11 +322,13 @@
                 </th>
                 <th style="vertical-align:top;width:5%">
                   <div class="d-flex table-search">
-                    <span><label>{{'table.th.propertiesForRent' | translate}}</label></span></div>
+                    <span><label>{{'table.th.propertiesForRent' | translate}}</label></span>
+                  </div>
                 </th>
                 <th style="vertical-align:top;width:5%">
                   <div class="d-flex table-search">
-                    <span><label>{{'table.th.propertiesForSale' | translate}}</label></span></div>
+                    <span><label>{{'table.th.propertiesForSale' | translate}}</label></span>
+                  </div>
                 </th>
                 <th style="vertical-align:top;width:5%">
                   <div class="d-flex table-search">
@@ -374,24 +376,29 @@
                   <strong>{{p?.name}}</strong>
                 </td>
                 <td [ngClass]="{'green-color cursor-pointer': p?.developer?.name}" (click)="viewDeveloper(p)">
-                  <span>{{p?.developer?.name ? p?.developer?.name : ('table.tr.td.NA' | translate)}}</span></td>
+                  <span>{{p?.developer?.name ? p?.developer?.name : ('table.tr.td.NA' | translate)}}</span>
+                </td>
                 <td [ngClass]="{'green-color cursor-pointer': p?.agency?.name}" (click)="viewAgency(p)">
                   <span>{{p?.agency?.name ? p?.agency?.name : ('table.tr.td.NA' | translate)}}</span>
                 </td>
                 <!-- (click)="viewLegalEntity(p)" -->
                 <td [ngClass]="{'green-color cursor-pointer': p?.legal_entity?.comm_name}">
-                  <span>{{p?.legal_entity?.comm_name ? p?.legal_entity?.comm_name : ('table.tr.td.NA' | translate)}}</span>
+                  <span>{{p?.legal_entity?.comm_name ? p?.legal_entity?.comm_name : ('table.tr.td.NA' |
+                    translate)}}</span>
                 </td>
                 <td [ngClass]="{'green-color cursor-pointer': p?.manager?.id || p?.company?.id}"
                   (click)="viewCompanyManager(p)">
-                  <span>{{p?.manager?.id ? p?.manager?.name : p?.company?.id ? p?.company?.name : ('table.tr.td.NA' | translate)}}</span>
+                  <span>{{p?.manager?.id ? p?.manager?.name : p?.company?.id ? p?.company?.name : ('table.tr.td.NA' |
+                    translate)}}</span>
                   <div class="clearfix"></div>
                   <small>
-                    {{p?.manager?.id ? ('table.tr.td.manager' | translate) : p?.company?.id ? ('table.tr.td.company' | translate) : ''}}
+                    {{p?.manager?.id ? ('table.tr.td.manager' | translate) : p?.company?.id ? ('table.tr.td.company' |
+                    translate) : ''}}
                   </small>
                 </td>
                 <td>
-                  <span>{{p?.possession_status_id == apiConstant.possessionStatus.sale ? ('table.tr.td.sale' | translate) : ('table.tr.td.presale' | translate)}}</span>
+                  <span>{{p?.possession_status_id == apiConstant.possessionStatus.sale ? ('table.tr.td.sale' |
+                    translate) : ('table.tr.td.presale' | translate)}}</span>
                 </td>
                 <td>
                   <a title="{{'table.title.clickToViewProperties' | translate}}"
@@ -505,8 +512,8 @@
             </div>
             <div class="col-12">
               <div class="btn-cont text-right">
-                <button type="submit" [disabled]="!addForm.valid"
-                  class="btn btn-primary">{{'viewProjects.addReasonBtn' | translate}}</button>
+                <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">{{'viewProjects.addReasonBtn'
+                  | translate}}</button>
               </div>
             </div>
           </div>
@@ -526,9 +533,12 @@
     box-shadow: 0px -2px 0px 7px rgb(105,105,105);">
       <div class="modal-header modal-header-new" style="background-color: white;">
         <h4 class="modal-title">Advanced Search</h4>
+        <button style="display: none;" type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
+        <button type="button" class="close" (click)="close()">&times;</button>
       </div>
 
-      <form class="form-horizontal form-model0P form-model-newP" #addFilterForm="ngForm">
+      <form class="form-horizontal form-model0P form-model-newP" #addFilterForm="ngForm"
+      (ngSubmit)="addFilterForm.reset();">
         <h4 style="color: rgb(48, 46, 46); font-size: 18px;">Range Price</h4>
         <div class="row">
           <div class="form-group col-md-6">
@@ -538,25 +548,29 @@
             <input type="text" class="form-control" placeholder="Max" name="max_price" [(ngModel)]="max_price">
           </div>
         </div>
+       
         <h4 style="color: rgb(48, 46, 46); font-size: 18px;">Range Carpet Area</h4>
         <div class="row">
           <div class="form-group col-md-6">
-            <input type="text" class="form-control" placeholder="Min" name="min_carpet_area" [(ngModel)]="min_carpet_area">
+            <input type="text" class="form-control" placeholder="Min" name="min_carpet_area"
+              [(ngModel)]="min_carpet_area">
           </div>
           <div class="form-group col-md-6">
-            <input type="text" class="form-control" placeholder="Max" name="max_carpet_area" [(ngModel)]="max_carpet_area">
+            <input type="text" class="form-control" placeholder="Max" name="max_carpet_area"
+              [(ngModel)]="max_carpet_area">
           </div>
         </div>
-      
-          <div class="btn-cont text-right">
 
-            <button type="submit" class="btn btn-success" style="border-left-color: rgb(0, 185, 111);
-            border-right-color: rgb(0, 185, 111);" [disabled]="!addFilterForm.valid">Apply</button>&nbsp;&nbsp;
+        <!-- <div class="btn-cont text-right"> -->
+
+           <button type="submit" class="btn btn-success" (click)="searchProject(min_price,max_price,min_carpet_area,max_carpet_area)"
+        style="border-left-color: rgb(0, 185, 111);
+          border-right-color: rgb(0, 185, 111);">Apply</button>&nbsp;&nbsp;
 
           <button type="button" class="btn btn-danger" (click)="close()"
-           style="background-color: rgb(238, 123, 124);">Cancel</button>
-          </div>
-        
+            style="background-color: rgb(238, 123, 124);">Cancel</button>
+        <!-- </div> -->
+
       </form>
     </div>
   </div>

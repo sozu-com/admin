@@ -144,6 +144,8 @@ export interface IProperty {
   assignee_id?: string;
   min?: any;
   max?: any;
+  min_price?: any;
+  max_price?: any;
   lead_sort?: number;
   start_date?: any;
   end_date?: any;

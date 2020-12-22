@@ -8,8 +8,9 @@ import { Constant } from 'src/app/common/constants';
 import { AdminService } from 'src/app/services/admin.service';
 import { ProjectService } from 'src/app/services/project.service';
 import { TranslateService } from '@ngx-translate/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
 declare let swal: any;
-declare var $: any; 
+declare var $: any;
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
@@ -29,7 +30,11 @@ export class ProjectsComponent implements OnInit {
   reason: string;
   locale: any;
   baseUrl = this.admin.baseUrl + 'exportProject';
-
+  min_price: any;
+  max_price: any;
+  min_carpet_area: any;
+  max_carpet_area: any;
+  
   constructor(
     public constant: Constant,
     public apiConstant: ApiConstants,
@@ -37,8 +42,8 @@ export class ProjectsComponent implements OnInit {
     public admin: AdminService,
     public projectService: ProjectService,
     private spinner: NgxSpinnerService,
-    private translate: TranslateService,
-    private router: Router,private elementRef: ElementRef
+    private translate: TranslateService,private http: HttpClient,
+    private router: Router, private elementRef: ElementRef
   ) { }
 
   ngOnInit() {
@@ -89,9 +94,19 @@ export class ProjectsComponent implements OnInit {
     } else {
       delete input.max;
     }
-    // if (this.parameter.min_price) {
-    //   input.min_price = this.parameter.min_price;
-    // }
+
+    if (this.parameter.min_price) {
+      input.min_price = this.parameter.min_price;
+    } else {
+      delete input.min_price;
+    }
+
+    if (this.parameter.max_price) {
+      input.max_price = this.parameter.max_price;
+    } else {
+      delete input.max_price;
+    }
+
     if (this.parameter.userType === 'developer') {
       input.developer_id = this.parameter.id;
     }
@@ -110,7 +125,7 @@ export class ProjectsComponent implements OnInit {
     this.admin.postDataApi('projectHome', input).subscribe(
       success => {
         this.items = success.data;
-        console.log(this.items,"projectHome")
+        console.log(this.items, "projectHome")
         this.total = success.total_count;
         this.spinner.hide();
       },
@@ -121,7 +136,7 @@ export class ProjectsComponent implements OnInit {
 
   close() {
     $('.modal').modal('hide');
-}
+  }
 
   getCountries() {
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
@@ -281,9 +296,25 @@ export class ProjectsComponent implements OnInit {
     this.modalOpen.nativeElement.click();
   }
 
-  // priceRangePopup() {
-  //   this.closeModal();
-  // }
+  searchProject(min_price,max_price,min_carpet_area,max_carpet_area) {
+     console.log(min_price,max_price,min_carpet_area,max_carpet_area,"Function Runing !")
+    const body = { 
+      min_price: min_price, 
+      max_price: max_price,
+      min_carpet_area :min_carpet_area,
+      max_carpet_area : max_carpet_area
+    };
+    console.log(body,"body");
+     this.admin.postDataApi('projectHome',body).subscribe(r=>{
+      this.items = r['data']; 
+      let avg_price = this.items.map(a => a.avg_price);
+       console.log(avg_price, "avg_price")
+      this.close();
+    },
+      error => {
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
+      }); 
+  }
 
   closeModal() {
     this.modalClose.nativeElement.click();

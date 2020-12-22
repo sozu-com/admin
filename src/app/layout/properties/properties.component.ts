@@ -9,6 +9,7 @@ import { AdminService } from 'src/app/services/admin.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PropertyService } from 'src/app/services/property.service';
 import { TranslateService } from '@ngx-translate/core';
+import { HttpParams } from '@angular/common/http';
 declare let swal: any;
 declare var $: any; 
 
@@ -21,7 +22,7 @@ export class PropertiesComponent implements OnInit {
 
   public parameter: IProperty = {};
   public location: IProperty = {};
-
+  
   items: any = [];
   total: any = 0;
   configurations: any = [];
@@ -43,6 +44,10 @@ export class PropertiesComponent implements OnInit {
   floors: Array<any>;
   seller_type: number;
   user_type: string;
+  min_price: any;
+  max_price: any;
+  min_carpet_area: any;
+  max_carpet_area: any;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
 
   @ViewChild('modalOpen') modalOpen: ElementRef;
@@ -158,6 +163,27 @@ export class PropertiesComponent implements OnInit {
       });
   }
 
+  searchProject(min_price,max_price,min_carpet_area,max_carpet_area, flag) {
+    console.log(min_price,max_price,min_carpet_area,max_carpet_area,"Function Runing !")
+     let flg = this.parameter.flag = 3;
+    const body = { 
+      min_price: min_price, 
+      max_price: max_price,
+      min_carpet_area :min_carpet_area,
+      max_carpet_area : max_carpet_area,
+      flag :flg
+    };
+    console.log(body,"body");
+     this.admin.postDataApi('propertyHome', body).subscribe(r=>{
+      this.items = r['data']; 
+      this.close();
+    },
+      error => {
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
+      }); 
+  }
+
+  
   getCountries() {
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
       this.location.countries = r['data'];
