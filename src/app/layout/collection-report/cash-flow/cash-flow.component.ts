@@ -39,6 +39,8 @@ export class CashFlowComponent implements OnInit {
   finalData2: Array<any>;
   items: Array<any>;
   reportType: number;
+  start_purchase_date: any;
+  end_purchase_date: any
   constructor(public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService) {
@@ -173,6 +175,12 @@ export class CashFlowComponent implements OnInit {
       input.currency_id = d;
     }
 
+    if (this.start_purchase_date) {
+      input.start_purchase_date = moment(this.start_purchase_date).format('YYYY-MM-DD');
+    }
+    if (this.end_purchase_date) {
+      input.end_purchase_date = moment(this.end_purchase_date).format('YYYY-MM-DD');
+    }
     this.spinner.show();
     this.admin.postDataApi('graphs/cash-flow', input).subscribe(r => {
       this.spinner.hide();
@@ -230,6 +238,13 @@ export class CashFlowComponent implements OnInit {
     if (this.selectedCurrencies) {
       const d = this.selectedCurrencies.map(o => o.id);
       input.currency_id = d;
+    }
+
+    if (this.start_purchase_date) {
+      input.start_purchase_date = moment(this.start_purchase_date).format('YYYY-MM-DD');
+    }
+    if (this.end_purchase_date) {
+      input.end_purchase_date = moment(this.end_purchase_date).format('YYYY-MM-DD');
     }
 
     this.spinner.show();
@@ -344,6 +359,8 @@ export class CashFlowComponent implements OnInit {
     this.input = new CollectionReport();
     this.input.start_date = moment().subtract(6, 'months').toDate();
     this.input.end_date = moment().toDate();
+    this.start_purchase_date = null;
+    this.end_purchase_date = null;
     this.selectedCurrencies = [];
     this.selctedProjects = [];
   }
