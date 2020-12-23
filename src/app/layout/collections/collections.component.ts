@@ -299,6 +299,8 @@ export class CollectionsComponent implements OnInit {
             const ele = element.collection_commissions[i];
             cc_percent = cc_percent + (ele.add_collection_commission ? ele.percent : 0);
             cc_received = cc_received + (ele.add_collection_commission ? ele.amount : 0);
+            pc_received = pc_received + (ele.add_purchase_commission ? ele.purchase_comm_amount : 0);
+            // console.log('aaaaa', pc_received, ele.purchase_comm_amount)
             if (ele.add_collection_commission) {
               cc_active++;
             }
@@ -309,7 +311,6 @@ export class CollectionsComponent implements OnInit {
               }
             }
 
-            pc_received = pc_received + (ele.add_purchase_commission ? ele.purchase_comm_amount : 0);
             if (ele.add_purchase_commission) {
               pc_active++;
             }
@@ -330,6 +331,7 @@ export class CollectionsComponent implements OnInit {
               }
             }
           }
+          // console.log('pc_received', pc_received)
           element['sum_pc'] = pc_received;
           element['cc_percent'] = this.numberUptoNDecimal((cc_percent / cc_active), 3);
           element['cc_received'] = element.iva_percent && element.add_iva_to_cc ?

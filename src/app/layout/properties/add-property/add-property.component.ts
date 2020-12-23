@@ -361,10 +361,10 @@ export class AddPropertyComponent implements OnInit {
     // this.getCities(data.locality.city.state.id, '');
     // this.getLocalities(data.locality.city.id, '');
 
-    this.model.locality_id = data.locality.id;
-    this.model.city_id = data.locality.city.id;
-    this.model.state_id = data.locality.city.state.id;
-    this.model.country_id = data.locality.city.state.country.id;
+    this.model.locality_id = data.locality ? data.locality.id : '';
+    this.model.city_id = data.locality ? data.locality.city.id : '';
+    this.model.state_id = data.locality ? data.locality.city.state.id : '';
+    this.model.country_id = data.locality ? data.locality.city.state.country.id : '';
 
     this.model.configuration_id = data.configuration ? data.configuration.id : '';
     this.model.building_configuration_id = data.building_configuration_id ? data.building_configuration_id : '';

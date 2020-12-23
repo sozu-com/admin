@@ -370,6 +370,10 @@ export class PropertiesComponent implements OnInit {
     this.parameter.dash_flag = 2;
     this.parameter.total = 0;
     this.parameter.count_flag = 1;
+    this.parameter.min_price = null;
+    this.parameter.max_price = null;
+    this.parameter.min_carpet_area = null;
+    this.parameter.max_carpet_area = null;
     this.resetDates();
     this.getListing();
   }
