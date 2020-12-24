@@ -2056,5 +2056,12 @@
     "phoneMax15Limit": "Se permiten un máximo de 15 caracteres.",
     "emailInvalid": "Por favor introduzca un correo electrónico válido",
     "percentMax100Limit": "El valor máximo puede ser 100"
+  },
+  "advanceSearch":{
+    "advancedSearch": "Búsqueda Avanzada",
+    "rangePrice": "Precio de rango",
+    "rangeCarpetArea": "Área de alfombra de gama",
+    "apply": "Aplicar",
+    "cancel": "Cancelar"
   }
 }

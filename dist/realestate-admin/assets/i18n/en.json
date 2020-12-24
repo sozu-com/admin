@@ -2053,5 +2053,12 @@
     "phoneMax15Limit": "Maximum 15 characters are allowed",
     "emailInvalid": "Enter valid email",
     "percentMax100Limit": "Maximum value can be 100"
+  },
+  "advanceSearch":{
+    "advancedSearch": "Advanced Search",
+    "rangePrice": "Range Price",
+    "rangeCarpetArea": "Range Carpet Area",
+    "apply": "Apply",
+    "cancel": "Cancel"
   }
 }
