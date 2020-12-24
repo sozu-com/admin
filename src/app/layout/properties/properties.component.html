@@ -255,13 +255,13 @@
             <div class="add-new text-left">
                <a class="btn" #modalOpen data-toggle="modal" data-target="#advancedSearch"
                routerLink="/dashboard/properties/add-bulk-property/0/0">
-                  Advanced Search</a>
+               {{'advanceSearch.advancedSearch' | translate}}</a>
             </div>
          </div>
          <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="add-new text-left">
                <a class="btn" (click)="getExportlisting()" href="javascript://">
-               Export</a>
+                  {{'table.exportDataBtn' | translate}}</a>
             </div>
          </div>
          <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -1021,13 +1021,13 @@
      padding: 10px; border-radius: 5px;
      box-shadow: 0px -2px 0px 7px rgb(105,105,105);">
          <div class="modal-header modal-header-new" style="background-color: white;">
-            <h4 class="modal-title">Advanced Search</h4>
+            <h4 class="modal-title">{{'advanceSearch.advancedSearch' | translate}}</h4>
             <button style="display: none;" type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
             <button type="button" class="close" (click)="close()">&times;</button>
          </div>
 
          <form class="form-horizontal form-model0P form-model-newP">
-            <h4 style="color: rgb(48, 46, 46); font-size: 18px;">Range Price</h4>
+            <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.rangePrice' | translate}}</h4>
             <div class="row">
                <div class="form-group col-md-6">
                   <input type="text" class="form-control" placeholder="Min" name="min_price" [(ngModel)]="parameter.min_price">
@@ -1036,7 +1036,7 @@
                   <input type="text" class="form-control" placeholder="Max" name="max_price" [(ngModel)]="parameter.max_price">
                </div>
             </div>
-            <h4 style="color: rgb(48, 46, 46); font-size: 18px;">Range Carpet Area</h4>
+            <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.rangeCarpetArea' | translate}}</h4>
             <div class="row">
                <div class="form-group col-md-6">
                   <input type="text" class="form-control" placeholder="Min" name="min_carpet_area"
@@ -1052,11 +1052,11 @@
             (click)="searchProperties()"
                style="border-left-color: rgb(0, 185, 111);
                border-right-color: rgb(0, 185, 111);">
-               Apply
+               {{'advanceSearch.apply' | translate}}
             </button>&nbsp;&nbsp;
 
             <button type="button" class="btn btn-danger" (click)="close()"
-               style="background-color: rgb(238, 123, 124);">Cancel</button>
+               style="background-color: rgb(238, 123, 124);">{{'advanceSearch.cancel' | translate}}</button>
 
          </form>
       </div>

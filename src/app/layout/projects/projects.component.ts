@@ -459,7 +459,7 @@ export class ProjectsComponent implements OnInit {
           'Avg Price ($)': p.avg_price || 0,
           'Min Carpet Price ($)': p.min_carpet_area || 0,
           'Max Carpet Price ($)': p.max_carpet_area || 0,
-          'Avg Carpet Price ($)': p.avg_carpet_area || 0,
+          'Avg Carpet Area': p.avg_carpet_area || 0,
           'Avg Price per m2': p.avg_price && p.avg_carpet_area ? p.avg_price / p.avg_carpet_area : 0,
           'Towers': p.building_towers ? p.building_towers.length : 0
         });

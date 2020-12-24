@@ -842,7 +842,7 @@ export class PropertiesComponent implements OnInit {
           'Configuration Bath': p.configuration ? p.configuration.bathroom + ' Bath': '0 Bath',
           'Configuration Half Bath': p.configuration ? p.configuration.half_bathroom + ' Half Bath': '0 Half Bath',
           'Price': p.min_price  || 0,
-          'Avg Carpet Price': p.max_area || 0,
+          'Carpet Area': p.max_area || 0,
           'Agent Commission (in %)': p.broker_commision || 0,
           'Total Commission (in %)': p.total_commission || 0,
           'Leads': p.lead_properties_count || 0,
