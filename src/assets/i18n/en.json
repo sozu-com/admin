@@ -1891,6 +1891,8 @@
     "buyerReport": "Buyer Report",
     "start_date": "Start Date",
     "end_date":"End Date",
+    "start_purchase_date": "Start Purchase Date",
+    "end_purchase_date":"End Purchase Date",
     "graphicalview": "Graphical View",
     "tabularView": "Tabular View",
     "InhouseAgentApprovedCollections": "Inhouse Agent Approved Collections",

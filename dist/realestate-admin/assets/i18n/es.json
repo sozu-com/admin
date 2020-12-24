@@ -1896,6 +1896,8 @@
     "buyerReport": "Informe del comprador",
     "start_date": "Fecha de inicio",
     "end_date":"Fecha final",
+    "start_purchase_date": "Fecha de inicio de compra",
+    "end_purchase_date":"Fecha final de compra",
     "graphicalview": "Vista gráfica",
     "tabularView": "Vista tabular",
     "InhouseAgentApprovedCollections": "Colecciones aprobadas por agentes internos",

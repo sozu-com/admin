@@ -248,8 +248,7 @@ export class CashFlowComponent implements OnInit {
     if (this.end_purchase_date) {
       input.end_purchase_date = moment(this.end_purchase_date).format('YYYY-MM-DD');
     }
-    input.start_purchase_date = moment(this.start_purchase_date).format('YYYY-MM-DD');
-    input.end_purchase_date = moment(this.end_purchase_date).format('YYYY-MM-DD');
+    
     this.spinner.show();
     this.admin.postDataApi('graphs/cash-flows', input).subscribe(r => {
       this.spinner.hide();

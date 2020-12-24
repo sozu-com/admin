@@ -871,7 +871,7 @@ export class AddEditCollectionComponent implements OnInit {
             control1.push(this.fb.group(obj));
           }
           this.model.collection_commissions.push(obj);
-
+console.log('obj', obj['id'])
           this.ccsum = parseFloat(this.ccsum) + (obj['amount'] && obj['add_collection_commission'] ? parseFloat(obj['amount']) : 0.00);
           this.pcsum = parseFloat(this.pcsum) + (obj['purchase_comm_amount'] && obj['add_purchase_commission'] ? parseFloat(obj['purchase_comm_amount']) : 0.00);
           this.acsum = parseFloat(this.acsum) + (obj['agent_comm_amount'] && obj['add_agent_commission'] ? parseFloat(obj['agent_comm_amount']) : 0.00);
