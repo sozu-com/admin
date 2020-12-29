@@ -62,6 +62,7 @@ export class DevelopersComponent implements OnInit {
           this.spinner.hide();
           this.items = success.data;
           this.parameter.total = success.total;
+          console.log(success.data,"all developers data")
         }, error => {
           this.spinner.hide();
         });

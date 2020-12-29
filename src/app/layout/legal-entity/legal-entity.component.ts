@@ -66,6 +66,7 @@ export class LegalEntityComponent implements OnInit {
           this.spinner.hide();
           this.items = success.data;
           this.parameter.total = success.total_count;
+          console.log(success.data,"getLegalEntity data")
         }, error => {
           this.spinner.hide();
         });
