@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgForm, FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { NgForm, FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { MapsAPILoader } from '@agm/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { IProperty } from 'src/app/common/property';
@@ -18,7 +18,6 @@ declare let swal: any;
   styleUrls: ['./add-legal-entity.component.css']
 })
 export class AddLegalEntityComponent implements OnInit {
-
   @ViewChild('mapDiv') mapDiv: ElementRef;
   @ViewChild('search') searchElementRef: ElementRef;
   @ViewChild('openDeveloperModel') openDeveloperModel: ElementRef;
@@ -32,9 +31,10 @@ export class AddLegalEntityComponent implements OnInit {
   currencies: Array<any>;
   addDataForm: FormGroup;
   all_developers: Array<Developer>;
-  projects: Array<any>;
-  selctedProjects: Array<any>;
+  projects = Array<any>();
+  selctedProjects= Array<any>();
   multiDropdownSettings: any;
+  data_fetch: boolean = false;
 
   constructor(
     public constant: Constant,
@@ -46,7 +46,8 @@ export class AddLegalEntityComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
     private fb: FormBuilder
-  ) { }
+  ) { 
+  }
 
   ngOnInit() {
     this.iniDropDownSetting();
@@ -81,7 +82,7 @@ export class AddLegalEntityComponent implements OnInit {
       unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
       searchPlaceholderText: this.translate.instant('commonBlock.search'),
       allowSearchFilter: true,
-      itemsShowLimit: 1
+      itemsShowLimit: 2
     };
   }
   initForm() {
@@ -223,21 +224,28 @@ export class AddLegalEntityComponent implements OnInit {
 
   onSelectAll(obj: any) {
   }
+
   getLegalEntityById(id: string) {
+    let self = this;
+    this.data_fetch = false;
     this.spinner.show();
     this.admin.postDataApi('getLegalEntityById', {id: id})
     .subscribe(
       success => {
         this.spinner.hide();
         // this.model = success.data;
-        if (success.data.legal_representative && success.data.legal_representative.legal_rep_buildings) {
-          for (let index = 0; index < success.data.legal_representative.legal_rep_buildings.length; index++) {
-            const element = success.data.legal_representative.legal_rep_buildings[index];
+        if (success.data.legal_reps && success.data.legal_reps.legal_rep_buildings) {
+          for (let index = 0; index < success.data.legal_reps.legal_rep_buildings.length; index++) {
+            const element = success.data.legal_reps.legal_rep_buildings[index];
             const d = this.projects.filter(r => r.id == element.building_id);
-            this.selctedProjects.push({id: d[0].id, name: d[0].name});
+            const projectIndex = self.selctedProjects.find(item=> item.id == d[0].id)
+            if(!projectIndex){
+            self.selctedProjects.push({id: d[0].id, name: d[0].name});
+           }
           }
         }
         this.patchForm(success.data);
+        self.data_fetch = true; 
       }, error => {
         this.spinner.hide();
       });
