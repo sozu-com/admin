@@ -252,9 +252,9 @@
         <div class="col-4">
           <div class="form-group-3">
             <label>{{'addForm.ZIP' | translate}}</label>
-            <input minlength="8" maxlength="15" autocomplete="off" type="text" [pattern]="constant.phonePattern"
-              class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone" ng2TelInput
-              [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
+            <input minlength="8" maxlength="15" autocomplete="off" type="text" 
+              class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone" 
+               />
           </div>
         </div>
       </div>
