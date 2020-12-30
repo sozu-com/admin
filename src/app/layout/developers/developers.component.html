@@ -80,7 +80,7 @@
               <td class="text-left">{{item.developer_company ? item.developer_company : ('table.tr.td.NA' | translate)}}</td>
               <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
               <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
-              <td><input name="have_dev_panel_access{{i}}" disabled class="form-control checkbox_size" type="checkbox" [checked]="item?.have_dev_panel_access ? 'checked' : ''" readonly> </td>
+              <td><input name="have_dev_panel_access{{i}}" disabled class="form-control checkbox_size" type="checkbox" [checked]="item?.legal_representative?.have_dev_panel_access ? 'checked' : ''" readonly> </td>
               <td class="text-left">
                 <a title="{{'table.title.clickToViewBuildings' | translate}}" routerLink="/dashboard/projects/view-projects/developer/{{item.id}}">
                   <span class="green-color">{{item.buildings_count | numberWithCommas}}</span></a>
