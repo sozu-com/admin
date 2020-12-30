@@ -123,10 +123,13 @@
     "firstSurname": "First Surname",
     "secondSurname": "Second Surname",
     "gender":"Gender",
+    "male": "Male",
+    "female": "Female",
     "dateOfBirth":"Date Of Birth",
     "CURP":"CURP",
-    "nacionality":"Nacionality",
+    "nacionality":"Nationality",
     "marital":"Marital Status",
+    "marital_status": "Marital Status",
     "streetAddress":"Street Address",
     "externalNumber":"External Number",
     "internalNumber":"Internal Number",
@@ -135,7 +138,7 @@
     "city":"City",
     "ZIP":"ZIP code",
     "state":"State",
-
+    "email":"Email",
     "phone": "Phone",
     "company":"Company",
     "developerName":"Developer",
@@ -227,8 +230,11 @@
     "selectDeveloper": "Select Developer",
     "maritalStatus": {
       "married": "Married",
-      "unmarried": "Unmarried",
-      "divorced": "Divorced"
+      "connivance": "Connivance",
+      "divorced": "Divorced",
+      "single": "Single",
+      "freeUnion": "Free union",
+      "window" : "Window"
     },
     "addProject": "Add Project",
     "editProject": "Edit Project",

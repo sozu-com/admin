@@ -47,7 +47,7 @@
         </div>
         <div class="col-4">
           <div class="form-group-3">
-            <label>{{'addForm.secondSurname' | translate}}
+            <label>{{'secondSurname' | translate}}
               <!-- <span class="color-red">*</span> -->
             </label>
             <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces" type="text"
@@ -62,13 +62,13 @@
         <div class="col-4">
           <div class="form-group-3">
             <label>{{'addForm.gender' | translate}}</label><br />
-            <input type="radio" name="gender" value="male">Male &nbsp;&nbsp;
-            <input type="radio" name="gender" value="female">Female
+            <input type="radio" name="gender" value="male">{{'addForm.male' | translate}} &nbsp;&nbsp;
+            <input type="radio" name="gender" value="female">{{'addForm.female' | translate}}
           </div>
         </div>
         <div class="col-4">
           <div class="form-group-3">
-            <label>{{'addForm.emailId' | translate}} <span class="color-red">*</span></label>
+            <label>{{'addForm.email' | translate}} <span class="color-red">*</span></label>
             <input (keydown.space)="$event.preventDefault();" autocomplete="off" required
               [pattern]="constant.emailPattern" type="email" class="form-control" [(ngModel)]="model.email"
               name="email">
@@ -76,7 +76,7 @@
         </div>
         <div class="col-4">
           <div class="form-group-3">
-            <label>{{'addForm.contactNumber' | translate}} <span class="color-red">*</span></label>
+            <label>{{'addForm.contact_number' | translate}} <span class="color-red">*</span></label>
             <input minlength="8" maxlength="15" autocomplete="off" type="text" [pattern]="constant.phonePattern"
               class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone" ng2TelInput
               [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
@@ -124,11 +124,15 @@
         </div>
         <div class="col-4">
           <div class="form-group-3">
-            <label class="p16-two">{{'addForm.marital' | translate}}</label>
+            <label class="p16-two">{{'addForm.marital_status' | translate}}</label>
             <select title="Select Marital Status" name="country" required class="form-control">
               <option value="Marital Status" disabled></option>
-              <option value="Single">Single</option>
-              <option value="Married">Married</option>
+              <option value="Single">{{'addForm.maritalStatus.married' | translate}}</option>
+              <option value="Married">{{'addForm.maritalStatus.connivance' | translate}}</option>
+              <option value="Married">{{'addForm.maritalStatus.divorced' | translate}}</option>
+              <option value="Married">{{'addForm.maritalStatus.single' | translate}}</option>
+              <option value="Married">{{'addForm.maritalStatus.freeUnion' | translate}}</option>
+              <option value="Married">{{'addForm.maritalStatus.window' | translate}}</option>
             </select>
 
           </div>
