@@ -216,6 +216,7 @@
     "rfcLegalId": "RFC (Legal ID)",
     "razonSocial": "Razon Social (Legal Name)",
     "locationPinOnMap": "Location Pin on Map",
+    "googleSearchAddress": "Google Search Address",
     "description": "Description",
     "websiteURL": "Website URL",
     "branchOffice": "Branch Office",

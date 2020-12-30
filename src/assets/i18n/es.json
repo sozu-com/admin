@@ -217,6 +217,7 @@
     "rfcLegalId": "RFC (identificación legal)",
     "razonSocial": "Razon Social (Nombre legal)",
     "locationPinOnMap": "Ubicación del Pin en el mapa",
+    "googleSearchAddress": "Búscado de dirección google",
     "description": "Descripción",
     "websiteURL": "URL del sitio web",
     "branchOffice": "Sucursal",
