@@ -34,9 +34,11 @@ export class AddDeveloperComponent implements OnInit {
   developer_image: any;
   model: Users;
   currencies: Array<any>;
-  projects: Array<any>;
+  projects = Array<any>();
   selctedProjects: Array<any>;
   multiDropdownSettings: any;
+  data_fetch: boolean = false;
+
   constructor(
     public constant: Constant,
     private cs: CommonService,
@@ -77,7 +79,7 @@ export class AddDeveloperComponent implements OnInit {
       unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
       searchPlaceholderText: this.translate.instant('commonBlock.search'),
       allowSearchFilter: true,
-      itemsShowLimit: 1
+      itemsShowLimit: 2
     };
   }
 
@@ -133,6 +135,8 @@ export class AddDeveloperComponent implements OnInit {
   }
 
   getUserById(id: string) {
+    let self = this;
+    this.data_fetch = false;
     this.spinner.show();
     this.admin.postDataApi('getUserById', { 'user_id': id })
       .subscribe(
@@ -151,9 +155,13 @@ export class AddDeveloperComponent implements OnInit {
             for (let index = 0; index < success.data.legal_representative.legal_rep_buildings.length; index++) {
               const element = success.data.legal_representative.legal_rep_buildings[index];
               const d = this.projects.filter(r => r.id == element.building_id);
+              const projectIndex = self.selctedProjects.find(item=> item.id == d[0].id)
+            if(!projectIndex){
               this.selctedProjects.push({ id: d[0].id, name: d[0].name });
             }
+            }
           }
+          self.data_fetch = true;
         }, error => {
           this.spinner.hide();
         });

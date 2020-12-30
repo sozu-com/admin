@@ -332,18 +332,23 @@
               </div>
             </div>
 
-            <div class="col-12">
+            <!-- <div class="col-12">
               <div class="form-group-2 row">
                 <label class="col-4">{{'addForm.pleaseSelectProjects' | translate}}</label>
                 <div class="clearfix"></div>
-                <ng-multiselect-dropdown *ngIf="projects?.length>0" class="col-3 section-section2 multi-select"
-                  [placeholder]="''" [data]="projects" [(ngModel)]="selctedProjects" formControlName="building_ids"
-                  [settings]="multiDropdownSettings" (onSelect)="setProject($event, 'selctedProjects')"
-                  (onDeSelect)="unsetProject($event, 'selctedProjects')" (onSelectAll)="onSelectAll($event)">
+                <ng-multiselect-dropdown *ngIf="projects?.length>0" 
+                  class="col-3 section-section2 multi-select"
+                  [placeholder]="''" 
+                  [data]="projects" 
+                  [(ngModel)]="model.legal_representative.legal_rep_buildings"
+                  [settings]="multiDropdownSettings" 
+                  (onSelect)="setProject($event, 'selctedProjects')"
+                  (onDeSelect)="unsetProject($event, 'selctedProjects')" 
+                  (onSelectAll)="onSelectAll($event)">
                 </ng-multiselect-dropdown>
                 <div class="clearfix"></div>
               </div>
-            </div>
+            </div> -->
 
             <div class="col-12">
               <label>{{'addCollection.bankAccount' | translate}}
@@ -400,6 +405,23 @@
           </div>
         </div>
       </form>
+      <div class="col-12">
+        <div class="form-group-2 row" *ngIf="data_fetch">
+          <label class="col-4">{{'addForm.pleaseSelectProjects' | translate}}</label>
+          <div class="clearfix"></div>
+          <ng-multiselect-dropdown *ngIf="projects?.length>0" 
+            class="col-3 section-section2 multi-select"
+            [placeholder]="''" 
+            [data]="projects" 
+            [(ngModel)]="selctedProjects"
+            [settings]="multiDropdownSettings" 
+            (onSelect)="setProject($event, 'selctedProjects')"
+            (onDeSelect)="unsetProject($event, 'selctedProjects')" 
+            (onSelectAll)="onSelectAll($event)">
+          </ng-multiselect-dropdown>
+          <div class="clearfix"></div>
+        </div>
+      </div>
     </div>
   </div>
 
