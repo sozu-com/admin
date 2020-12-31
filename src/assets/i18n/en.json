@@ -135,6 +135,7 @@
     "internalNumber":"Internal Number",
     "neighborhood":"Neighborhood",
     "municipality":"Municipality",
+    "contact_number": "Contact Number",
     "city":"City",
     "ZIP":"ZIP code",
     "state":"State",
@@ -230,6 +231,7 @@
     "selectCompany": "Select Company",
     "selectDeveloper": "Select Developer",
     "maritalStatus": {
+      "selectMaritalStatus": "Select marital status",
       "married": "Married",
       "connivance": "Connivance",
       "divorced": "Divorced",
@@ -559,6 +561,7 @@
       "firstSurname": "First Surname",
       "secondSurname": "Second Surname",
       "contactNumber": "Contact Number",
+      "contact_number": "Contact Number",
       "emailAddress": "Email Address",
       "emailId": "Email ID",
       "leads": "Leads",

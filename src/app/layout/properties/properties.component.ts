@@ -198,10 +198,14 @@ export class PropertiesComponent implements OnInit {
 
   onCountryChange(id) {
     this.parameter.country_id = id;
-    this.location.states = []; this.parameter.state_id = '0';
-    this.location.cities = []; this.parameter.city_id = '0';
-    this.location.localities = []; this.parameter.locality_id = '0';
-    this.parameter.buildings = []; this.parameter.building_id = '0';
+    this.location.states = []; 
+    this.parameter.state_id = '0';
+    this.location.cities = []; 
+    this.parameter.city_id = '0';
+    this.location.localities = []; 
+    this.parameter.locality_id = '0';
+    this.parameter.buildings = []; 
+    this.parameter.building_id = '0';
     if (!id || id.toString() === '0') {
       return false;
     }

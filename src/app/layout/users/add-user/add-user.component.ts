@@ -11,6 +11,7 @@ import { CommonService } from 'src/app/services/common.service';
 import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LegalRepresentative, Banks } from 'src/app/models/legalEntity.model';
+import { IMarritalStatus } from 'src/app/common/marrital-status-interface';
 declare const google;
 declare let swal: any;
 
@@ -30,7 +31,11 @@ export class AddUserComponent implements OnInit {
   file4: FileUpload;
   developer_image: any;
   model: Users;
-  currencies: Array<any>;
+  currencies= Array<any>();
+  location: IProperty = {};
+  marrital_status_list = Array<IMarritalStatus>();
+  language_code: string;
+  
   constructor(
     public constant: Constant,
     private cs: CommonService,
@@ -44,7 +49,10 @@ export class AddUserComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.language_code = localStorage.getItem('language_code');
     this.initModel();
+    this.getCountries();
+    this.getMarritalStatusList();
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
     this.getCurrencies();
@@ -88,8 +96,10 @@ export class AddUserComponent implements OnInit {
         this.model.legal_rep_banks = success.data.legal_rep_banks;
         this.model.legal_representative = success.data.legal_representative || new LegalRepresentative();
         this.model.legal_representative.legal_rep_banks = success.data.legal_representative.legal_rep_banks; // Array(new Banks());
-
         this.image = this.model.image;
+
+        this.model.country_id ? this.getStatesNew1(this.model.country_id) : undefined;
+        this.model.state_id ? this.getCitiesNew1(this.model.state_id) : undefined;
       }, error => {
         this.spinner.hide();
       });
@@ -118,11 +128,11 @@ export class AddUserComponent implements OnInit {
     reader.readAsDataURL(event.target.files[0]);
   }
 
-  onCountryChange(e) {
-    this.model.country_code = e.iso2;
-    this.model.dial_code = '+' + e.dialCode;
-    this.initialCountry = {initialCountry: e.iso2};
-  }
+  // onCountryChange(e) {
+  //   this.model.country_code = e.iso2;
+  //   this.model.dial_code = '+' + e.dialCode;
+  //   this.initialCountry = {initialCountry: e.iso2};
+  // }
 
   add(formData: NgForm) {
     const modelSave: Users = JSON.parse(JSON.stringify(this.model));
@@ -191,6 +201,7 @@ export class AddUserComponent implements OnInit {
         }
       }
     }
+
     this.spinner.show();
     this.admin.postDataApi('addSeller', modelSave)
       .subscribe(
@@ -323,5 +334,94 @@ export class AddUserComponent implements OnInit {
       });
     }
   }
+
+  selectGender(gender){
+    this.model.gender = gender;
+  }
+
+  isChecked(gender){
+   return gender == this.model.gender? true : false;
+    
+  }
+
+  getCountries() {
+    let self = this;
+    this.parameter.statesAdd = []; this.parameter.citiesAdd = []; this.parameter.localitiesAdd = [];
+    this.parameter.buildingsAdd = [];
+    this.admin.postDataApi('getCountries', {})
+      .subscribe(success => { 
+        this.parameter.countriesAdd = success.data; 
+        this.location.countries = '0';
+        this.location.states = '0'; 
+        this.location.cities = '0'; 
+      });
+  }
+
+  getMarritalStatusList() {
+    this.admin.postDataApi('getmaritalStatus', {}).subscribe(r => {
+      this.marrital_status_list = r['data'];
+    });
+  }
+
+  getMaritalStatus(maritalStatusId){
+this.model.marital_statuses_id = maritalStatusId;
+  }
+
+  getStatesNew1(country_id) {
+    this.parameter.citiesAdd = []; this.parameter.localitiesAdd = []; this.parameter.buildingsAdd = [];
+    this.parameter.country_id = country_id;
+
+    if (country_id !== '' && country_id !== '0') {
+      this.admin.postDataApi('country/getStates', {country_id: country_id})
+      .subscribe(
+        success => {
+          this.parameter.statesAdd = success.data;
+          this.location.countries = country_id;
+          this.model.country_id = country_id;
+          this.location.states = '0';
+          this.location.cities = '0';
+          this.location.localities = '0';
+        });
+    } else {
+      this.parameter.statesAdd = [];
+      this.location.countries = country_id; 
+      this.model.country_id = country_id;
+      this.location.states = '0';
+      this.location.cities = '0'; 
+    }
+  }
+
+  getCitiesNew1(state_id) {
+
+    this.parameter.localitiesAdd = [];
+    this.parameter.state_id = state_id;
+
+    if (state_id !== '' && state_id !== '0') {
+      this.admin.postDataApi('getCities', {state_id: state_id})
+      .subscribe(
+        success => {
+          this.parameter.citiesAdd = success.data;
+          this.location.states = state_id; 
+          this.model.state_id = state_id; 
+          this.location.cities = '0';
+        });
+    } else {
+      this.parameter.citiesAdd = []; 
+      this.location.states = state_id;
+      this.model.state_id = state_id; 
+      this.location.cities = '0';     
+    }
+  }
+
+  getLocalitiesNew(city_id) {
+    this.parameter.city_id = city_id;
+    this.model.city_id = city_id;
+    this.location.cities = city_id;
+
+    if (city_id === '' || city_id === '0') {
+      return false;
+    }
+  }
+  
 }
 

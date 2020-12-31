@@ -231,6 +231,7 @@
     "selectCompany": "Seleccionar empresa",
     "selectDeveloper": "Seleccionar desarrolladora",
     "maritalStatus": {
+      "selectMaritalStatus": "Seleccionar estado civil",
       "married": "Casado(a)",
       "connivance": "Convivencia",
       "divorced": "Divorciado(a)",

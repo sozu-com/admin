@@ -42,4 +42,16 @@ export class Users {
     developer_url?: string;
     legal_rep_banks?: Array<Banks>;
     legal_representative?: LegalRepresentative;
+    gender?: string;
+    dob?: string;
+    curp?: string;
+    nationality?: string;
+    marital_statuses_id?: number;
+    street_address?: string;
+    external_number?: number;
+    internal_number?: number;
+    municipality?: string;
+    zipcode?: number;
+    neighborhood?: string;
+
 }
