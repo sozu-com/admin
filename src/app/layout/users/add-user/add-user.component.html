@@ -32,7 +32,7 @@
         <div class="col-4">
           <div class="form-group-3">
             <label>{{'addForm.names' | translate}} <span class="color-red">*</span></label>
-            <input autocomplete="off" minlength="1" maxlength="80" [pattern]="constant.onlyWhiteSpaces" required
+            <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces" required
               type="text" class="form-control" [(ngModel)]="model.name" name="name1">
           </div>
         </div>
@@ -77,8 +77,8 @@
         <div class="col-4">
           <div class="form-group-3">
             <label>{{'addForm.contact_number' | translate}} <span class="color-red">*</span></label>
-            <input minlength="8" maxlength="15" autocomplete="off" type="text" [pattern]="constant.phonePattern"
-              class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone" ng2TelInput
+            <input minlength="10" maxlength="10" autocomplete="off" type="text" [pattern]="constant.phonePattern"
+              class="form-control" id="phone" required [(ngModel)]="model.phone" name="phone" ng2TelInput
               [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
           </div>
         </div>
@@ -98,13 +98,13 @@
           <div class="form-group-3">
             <label>{{'addForm.CURP' | translate}} <span class="color-red">*</span></label>
             <input (keydown.space)="$event.preventDefault();" autocomplete="off" required
-               type="text" class="form-control" [(ngModel)]="model.curp" name="curp">
+               type="text" minlength="18" maxlength="18" class="form-control" [(ngModel)]="model.curp" name="curp">
           </div>
         </div>
         <div class="col-4">
           <div class="form-group-3">
             <label>{{'addForm.fedralTaxPayerRegistry' | translate}}</label>
-            <input autocomplete="off" minlength="12" maxlength="13" [pattern]="constant.onlyWhiteSpaces" type="text"
+            <input autocomplete="off" minlength="13" maxlength="13" [pattern]="constant.onlyWhiteSpaces" type="text"
               class="form-control" [(ngModel)]="model.fed_tax_pay" name="fed_tax_pay">
           </div>
         </div>
@@ -280,7 +280,7 @@
           <div class="form-group-3">
             <label>{{'addForm.ZIP' | translate}}</label>
             <input minlength="8" maxlength="15" autocomplete="off" type="text" 
-              class="form-control" id="phone" minlength="1" [(ngModel)]="model.zipcode" name="phone" required
+              class="form-control" id="zipcode" minlength="1" [(ngModel)]="model.zipcode" name="zipcode" required
                />
           </div>
         </div>
@@ -378,7 +378,7 @@
         <div class="col-4">
           <div class="form-group-3">
             <label>{{'addForm.fedralTaxPayerRegistry' | translate}}</label>
-            <input autocomplete="off" minlength="12" maxlength="13" [pattern]="constant.onlyWhiteSpaces" type="text"
+            <input autocomplete="off" minlength="13" maxlength="13" [pattern]="constant.onlyWhiteSpaces" type="text"
               class="form-control" [(ngModel)]="model.legal_representative.fed_tax_pay" name="le_fed_tax_pay">
           </div>
         </div>
