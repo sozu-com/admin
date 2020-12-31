@@ -210,13 +210,13 @@
         <div class="col-sm-3">
           <div class="form-group-3">
             <label>{{'addForm.externalNumber' | translate}}</label>
-            <input type="text" class="form-control" name="external_number" [(ngModel)]="model.external_number"/>
+            <input type="text" class="form-control" name="external_number" [pattern]="constant.numberPattern" [(ngModel)]="model.external_number"/>
           </div>
         </div>
         <div class="col-sm-3">
           <div class="form-group-3">
             <label>{{'addForm.internalNumber' | translate}}</label>
-            <input type="text" class="form-control" name="internal_number" [(ngModel)]="model.internal_number"/>
+            <input type="text" class="form-control" name="internal_number" [pattern]="constant.numberPattern" [(ngModel)]="model.internal_number"/>
           </div>
         </div>
         <div class="col-3">
