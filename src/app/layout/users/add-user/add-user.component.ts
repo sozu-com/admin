@@ -128,11 +128,11 @@ export class AddUserComponent implements OnInit {
     reader.readAsDataURL(event.target.files[0]);
   }
 
-  // onCountryChange(e) {
-  //   this.model.country_code = e.iso2;
-  //   this.model.dial_code = '+' + e.dialCode;
-  //   this.initialCountry = {initialCountry: e.iso2};
-  // }
+  onCountryChange(e) {
+    // this.model.country_code = e.iso2;
+    // this.model.dial_code = '+' + e.dialCode;
+    // this.initialCountry = {initialCountry: e.iso2};
+  }
 
   add(formData: NgForm) {
     const modelSave: Users = JSON.parse(JSON.stringify(this.model));

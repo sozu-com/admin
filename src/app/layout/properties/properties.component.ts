@@ -839,7 +839,7 @@ export class PropertiesComponent implements OnInit {
         exportfinalData.push({
           'Name of Building': p.building && p.building.name ? p.building.name : '',
           'Name of Tower': p.building_towers && p.building_towers.tower_name ? p.building_towers.tower_name : '',
-          'Floor': p.floor_num >= 0? p.floor_num : '',
+          'Floor': p.floor_num > 0? 'Floor ' + p.floor_num : 'Ground Floor',
           'Apartment': p.name || '',
           'Model': p.building_configuration && p.building_configuration.name ? p.building_configuration.name : '',
           'Configuration Bed': p.configuration ? p.configuration.bedroom + ' Bed' : "0 Bed",

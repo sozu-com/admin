@@ -252,7 +252,7 @@
         <div class="col-4">
           <div class="form-group-3">
             <label>{{'filters.location.state' | translate}}</label>
-      <select [disabled]="status" class="form-control" (change)="getCitiesNew1($event.target.value)" required>
+      <select class="form-control" (change)="getCitiesNew1($event.target.value)" required>
         <option value="" disabled>{{'filters.location.selectState' | translate}}</option>
         <option value="0" [selected]="location.states!='' && location.states==0">{{'filters.location.allOption' | translate}}</option>
         <option *ngFor="let stateAdd of parameter.statesAdd" [selected]="stateAdd.id == model.state_id" value="{{stateAdd.id}}">{{stateAdd.name}}</option>
@@ -269,7 +269,7 @@
         <div class="col-4">
           <div class="form-group-3">
             <label>{{'filters.location.city' | translate}}</label>
-            <select [disabled]="status" class="form-control" (change)="getLocalitiesNew($event.target.value)" required>
+            <select class="form-control" (change)="getLocalitiesNew($event.target.value)" required>
             <option value="" disabled>{{'filters.location.selectCity' | translate}}</option>
             <option value="0" [selected]="location.cities!='' && location.cities==0">{{'filters.location.allOption' | translate}}</option>
             <option *ngFor="let cityAdd of parameter.citiesAdd" [selected]="cityAdd.id == model.city_id" value="{{cityAdd.id}}">{{cityAdd.name}}</option>
