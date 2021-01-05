@@ -155,10 +155,12 @@ export class AddDeveloperComponent implements OnInit {
             for (let index = 0; index < success.data.legal_representative.legal_rep_buildings.length; index++) {
               const element = success.data.legal_representative.legal_rep_buildings[index];
               const d = this.projects.filter(r => r.id == element.building_id);
+              if(d.length != 0){
               const projectIndex = self.selctedProjects.find(item=> item.id == d[0].id)
             if(!projectIndex){
               this.selctedProjects.push({ id: d[0].id, name: d[0].name });
             }
+          }
             }
           }
           self.data_fetch = true;
