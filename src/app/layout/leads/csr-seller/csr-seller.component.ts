@@ -294,7 +294,7 @@ export class CsrSellerComponent implements OnInit {
       input.assignee_id = this.parameter.assignee_id;
     }
     this.spinner.show();
-    this.admin.postDataApi('leads/csr-seller', input).subscribe(
+    this.admin.postDataApi('leads/csr-seller-v2', input).subscribe(
       success => {
         this.spinner.hide();
         this.items = success.data;

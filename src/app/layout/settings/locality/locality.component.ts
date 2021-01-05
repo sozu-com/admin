@@ -216,7 +216,7 @@ export class LocalityComponent implements OnInit {
             // this.setSelection(polygon);
             const singlePolygon = new google.maps.Polygon({
               paths: polygon,
-              editable: false,
+              editable: true,
               strokeColor: '#FF0000',
               strokeOpacity: 0.8,
               strokeWeight: 2,
@@ -224,7 +224,7 @@ export class LocalityComponent implements OnInit {
               fillOpacity: 0.35
             });
             locality.overlay = singlePolygon;
-
+          
             // showing selected first locality
             if (all_overlays_index === 0) { this.setSelection(singlePolygon, locality.id); }
             all_overlays_index++;
@@ -233,10 +233,16 @@ export class LocalityComponent implements OnInit {
             google.maps.event.addListener(singlePolygon, 'click', () => {
               this.setSelection(singlePolygon, locality.id);
             });
-
-            // google.maps.event.addListener(singlePolygon, 'mouseup', function(muEvent) {
-            //   this.setSelection(singlePolygon);
-            // });
+           let self = this;
+            google.maps.event.addListener(singlePolygon, 'mouseup', function(muEvent) {
+              console.log(singlePolygon);
+              console.log(muEvent.latLng.lat(),"current_lat", muEvent.latLng.lng(),"current_lng");
+              let overlay = self.all_overlays.find(x => x.id == self.selectedLocality)
+              console.log(overlay.poly_coordinates,"save db")
+              let p = JSON.parse(overlay.poly_coordinates);
+              self.editLocality(overlay.id, overlay.name_en, overlay.name_es, overlay.price_per_sqft, overlay.status, overlay.poly_coordinates);
+              self.localityOpen.nativeElement.click();
+            });
 
             singlePolygon.setMap(map);
 
