@@ -5,7 +5,7 @@ export class Constant {
     public p = 1;
     public flag = 2;    // this month
     public count_flag = 1;      // dashboard filters
-    public dash_flag = 2;
+    public dash_flag = 0;
     public country_code = 'mx';
     public dial_code = '+52';
     public propertyPlaceholder = 'assets/img/placeholder.png';

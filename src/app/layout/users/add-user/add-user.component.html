@@ -61,7 +61,7 @@
       <div class="row">
         <div class="col-4">
           <div class="form-group-3">
-            <label>{{'addForm.gender' | translate}} <span class="color-red">*</span></label><br />
+            <label>{{'addForm.gender' | translate}}</label><br />
             <input type="radio" name="gender" value="male" [checked]="isChecked('male')" (change)="selectGender($event.target.value)">{{'addForm.male' | translate}} &nbsp;&nbsp;
             <input type="radio" name="gender" value="female" [checked]="isChecked('female')" (change)="selectGender($event.target.value)">{{'addForm.female' | translate}}
           </div>
@@ -96,8 +96,8 @@
         </div>
         <div class="col-4">
           <div class="form-group-3">
-            <label>{{'addForm.CURP' | translate}} <span class="color-red">*</span></label>
-            <input (keydown.space)="$event.preventDefault();" autocomplete="off" required
+            <label>{{'addForm.CURP' | translate}}</label>
+            <input (keydown.space)="$event.preventDefault();" autocomplete="off"
                type="text" minlength="18" maxlength="18" class="form-control" [(ngModel)]="model.curp" name="curp">
           </div>
         </div>
@@ -117,8 +117,8 @@
       <div class="row">
         <div class="col-4">
           <div class="form-group-3">
-            <label>{{'addForm.nacionality' | translate}} <span class="color-red">*</span></label>
-            <input (keydown.space)="$event.preventDefault();" autocomplete="off" required
+            <label>{{'addForm.nacionality' | translate}}</label>
+            <input (keydown.space)="$event.preventDefault();" autocomplete="off"
               type="text" class="form-control" [(ngModel)]="model.nationality" name="nationality">
           </div>
         </div>
@@ -242,7 +242,7 @@
         <div class="col-4">
           <div class="form-group-3">
             <label>{{'filters.location.country' | translate}}</label>
-            <select class="form-control" (change)="getStatesNew1($event.target.value)" required>
+            <select class="form-control" (change)="getStatesNew1($event.target.value)">
               <option value="" disabled>{{'filters.location.selectCountry' | translate}}</option>
               <option value="0" [selected]="location.countries!='' && location.countries==0">{{'filters.location.allOption' | translate}}</option>
               <option *ngFor="let countryAdd of parameter.countriesAdd" [selected]="countryAdd.id == model.country_id" value="{{countryAdd.id}}">{{countryAdd.name}}</option>
@@ -252,7 +252,7 @@
         <div class="col-4">
           <div class="form-group-3">
             <label>{{'filters.location.state' | translate}}</label>
-      <select class="form-control" (change)="getCitiesNew1($event.target.value)" required>
+      <select class="form-control" (change)="getCitiesNew1($event.target.value)">
         <option value="" disabled>{{'filters.location.selectState' | translate}}</option>
         <option value="0" [selected]="location.states!='' && location.states==0">{{'filters.location.allOption' | translate}}</option>
         <option *ngFor="let stateAdd of parameter.statesAdd" [selected]="stateAdd.id == model.state_id" value="{{stateAdd.id}}">{{stateAdd.name}}</option>
@@ -269,7 +269,7 @@
         <div class="col-4">
           <div class="form-group-3">
             <label>{{'filters.location.city' | translate}}</label>
-            <select class="form-control" (change)="getLocalitiesNew($event.target.value)" required>
+            <select class="form-control" (change)="getLocalitiesNew($event.target.value)">
             <option value="" disabled>{{'filters.location.selectCity' | translate}}</option>
             <option value="0" [selected]="location.cities!='' && location.cities==0">{{'filters.location.allOption' | translate}}</option>
             <option *ngFor="let cityAdd of parameter.citiesAdd" [selected]="cityAdd.id == model.city_id" value="{{cityAdd.id}}">{{cityAdd.name}}</option>
@@ -280,7 +280,7 @@
           <div class="form-group-3">
             <label>{{'addForm.ZIP' | translate}}</label>
             <input minlength="8" maxlength="15" autocomplete="off" type="text" 
-              class="form-control" id="zipcode" minlength="1" [(ngModel)]="model.zipcode" name="zipcode" required
+              class="form-control" id="zipcode" minlength="1" [(ngModel)]="model.zipcode" name="zipcode"
                />
           </div>
         </div>
