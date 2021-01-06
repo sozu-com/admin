@@ -235,18 +235,20 @@ export class LocalityComponent implements OnInit {
             });
            let self = this;
             google.maps.event.addListener(singlePolygon, 'mouseup', function(muEvent) {
-              console.log(singlePolygon);
-              console.log(muEvent.latLng.lat(),"current_lat", muEvent.latLng.lng(),"current_lng");
+              // console.log(singlePolygon);
+              // console.log(muEvent.latLng.lat(),"current_lat", muEvent.latLng.lng(),"current_lng");
               let overlay = self.all_overlays.find(x => x.id == self.selectedLocality)
-              console.log(overlay.poly_coordinates,"save db")
-              const newPoint = new google.maps.LatLng(muEvent.latLng.lat(), muEvent.latLng.lng());
-              let p = JSON.parse(overlay.poly_coordinates);
-              if(muEvent.vertex >= 0){
-                p[muEvent.vertex] = newPoint.toUrlValue();
-              }else if(muEvent.edge>=0){
-                p.splice(muEvent.edge + 1, 0, newPoint.toUrlValue());
-              }              
-              self.editLocality(overlay.id, overlay.name_en, overlay.name_es, overlay.price_per_sqft, overlay.status, JSON.stringify(p));
+              // console.log(overlay.poly_coordinates,"save db")
+              // const newPoint = new google.maps.LatLng(muEvent.latLng.lat(), muEvent.latLng.lng());
+              // let p = JSON.parse(overlay.poly_coordinates);
+              // if(muEvent.vertex >= 0){
+              //   p[muEvent.vertex] = newPoint.toUrlValue();
+              // }else if(muEvent.edge>=0){
+              //   p.splice(muEvent.edge + 1, 0, newPoint.toUrlValue());
+              // } 
+              // console.log(self.getPolygonCoords(singlePolygon)) ;
+              self.editLocality(overlay.id, overlay.name_en, overlay.name_es, overlay.price_per_sqft, overlay.status, JSON.stringify(self.getPolygonCoords(singlePolygon)));
+             // self.editLocality(overlay.id, overlay.name_en, overlay.name_es, overlay.price_per_sqft, overlay.status, JSON.stringify(p));
              // self.editLocality(overlay.id, overlay.name_en, overlay.name_es, overlay.price_per_sqft, overlay.status, overlay.poly_coordinates);
               self.localityOpen.nativeElement.click();
             });
