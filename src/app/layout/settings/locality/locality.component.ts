@@ -224,12 +224,12 @@ export class LocalityComponent implements OnInit {
               fillOpacity: 0.35
             });
             locality.overlay = singlePolygon;
-          
+
             // showing selected first locality
             if (all_overlays_index === 0) { this.setSelection(singlePolygon, locality.id); }
             all_overlays_index++;
 
-            // this.all_overlays.push(singlePolygon);
+
             google.maps.event.addListener(singlePolygon, 'click', () => {
               this.setSelection(singlePolygon, locality.id);
             });
@@ -254,7 +254,6 @@ export class LocalityComponent implements OnInit {
             });
 
             singlePolygon.setMap(map);
-
           });
 
 
@@ -571,7 +570,7 @@ export class LocalityComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.admin.postDataApi('deleteLocality', {id: locality.id}).subscribe(
+        this.admin.postDataApi('deleteLocality', { id: locality.id }).subscribe(
           r => {
             this.parameter.localities.splice(index, 1);
             swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
