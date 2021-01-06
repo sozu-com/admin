@@ -224,35 +224,36 @@ export class LocalityComponent implements OnInit {
               fillOpacity: 0.35
             });
             locality.overlay = singlePolygon;
-          
+
             // showing selected first locality
             if (all_overlays_index === 0) { this.setSelection(singlePolygon, locality.id); }
             all_overlays_index++;
 
-            // this.all_overlays.push(singlePolygon);
+
             google.maps.event.addListener(singlePolygon, 'click', () => {
               this.setSelection(singlePolygon, locality.id);
             });
-           let self = this;
-            google.maps.event.addListener(singlePolygon, 'mouseup', function(muEvent) {
+
+            // edit coordinates
+            let self = this;
+            google.maps.event.addListener(singlePolygon, 'mouseup', function (muEvent) {
               console.log(singlePolygon);
-              console.log(muEvent.latLng.lat(),"current_lat", muEvent.latLng.lng(),"current_lng");
+              console.log(muEvent.latLng.lat(), "current_lat", muEvent.latLng.lng(), "current_lng");
               let overlay = self.all_overlays.find(x => x.id == self.selectedLocality)
-              console.log(overlay.poly_coordinates,"save db")
+              console.log(overlay.poly_coordinates, "save db")
               const newPoint = new google.maps.LatLng(muEvent.latLng.lat(), muEvent.latLng.lng());
               let p = JSON.parse(overlay.poly_coordinates);
-              if(muEvent.vertex >= 0){
+              if (muEvent.vertex >= 0) {
                 p[muEvent.vertex] = newPoint.toUrlValue();
-              }else if(muEvent.edge>=0){
+              } else if (muEvent.edge >= 0) {
                 p.splice(muEvent.edge + 1, 0, newPoint.toUrlValue());
-              }              
+              }
               self.editLocality(overlay.id, overlay.name_en, overlay.name_es, overlay.price_per_sqft, overlay.status, JSON.stringify(p));
-             // self.editLocality(overlay.id, overlay.name_en, overlay.name_es, overlay.price_per_sqft, overlay.status, overlay.poly_coordinates);
+              // self.editLocality(overlay.id, overlay.name_en, overlay.name_es, overlay.price_per_sqft, overlay.status, overlay.poly_coordinates);
               self.localityOpen.nativeElement.click();
             });
 
             singlePolygon.setMap(map);
-
           });
 
 
@@ -569,7 +570,7 @@ export class LocalityComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.admin.postDataApi('deleteLocality', {id: locality.id}).subscribe(
+        this.admin.postDataApi('deleteLocality', { id: locality.id }).subscribe(
           r => {
             this.parameter.localities.splice(index, 1);
             swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
