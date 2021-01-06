@@ -41,6 +41,7 @@ export class CsrBuyerComponent implements OnInit {
   };
   chartView: any = [];
   showSearchText: boolean;
+  allSelected: boolean = false;
 
   public scrollbarOptions = { axis: 'y', theme: 'dark'};
   constructor(
@@ -334,9 +335,11 @@ export class CsrBuyerComponent implements OnInit {
 
   assignNow() {
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
+    const users_ids = this.items.filter(x=> x.selected).map(y=> y.admin.id);
     const input = {
       csr_buyer_id: this.assignItem.id,
-      leads: leads_ids
+      leads: leads_ids,
+      users: users_ids
     };
     this.spinner.show();
     this.admin.postDataApi('leads/bulkAssignBuyer', input).subscribe(r => {
@@ -344,6 +347,7 @@ export class CsrBuyerComponent implements OnInit {
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.assignedSuccessfully'), 'success');
       this.closeAssignModel.nativeElement.click();
       this.getListing();
+      this.allSelected = false;
     },
       error => {
         this.spinner.hide();

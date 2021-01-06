@@ -1,3 +1,4 @@
+import { UserModel } from "./inhouse-users.model";
 import { LegalEntity, Banks, LegalRepresentative } from "./legalEntity.model";
 
 export class Users {
@@ -53,5 +54,5 @@ export class Users {
     municipality?: string;
     zipcode?: number;
     neighborhood?: string;
-
+    admin: UserModel;
 }

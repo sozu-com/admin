@@ -259,7 +259,7 @@
                                     <label>{{'table.th.all' | translate}}</label>
                                     <div>
                                         <label class="cust-check-bx">
-                                            <input class="width1" type="checkbox"
+                                            <input class="width1" type="checkbox" [(ngModel)]="allSelected"
                                                 (click)="selectAll(parameter.is_selected)" name="document">
                                             <span class="checkmark"></span>
                                         </label>

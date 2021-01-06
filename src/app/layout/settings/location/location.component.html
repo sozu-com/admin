@@ -68,6 +68,12 @@
                         title="{{country.status==1 ? ('table.title.block' | translate) : ('table.title.unblock' | translate)}}" [ngClass]="{'unblock-bg':country.status==0}"
                         class="action-icon"><img src="assets/img/block.png" alt="img">
                       </button>
+
+                      <button [disabled]="admin?.admin_acl['Settings']?.can_delete==0"
+                          (click)="deletePopup('Country')" class="action-icon"
+                          title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png"
+                          alt="img">
+                  </button>
                   </td>
                 </tr>
             </table>
@@ -144,6 +150,12 @@
                       title="{{state.status==1 ? ('table.title.block' | translate) : ('table.title.unblock' | translate)}}" [ngClass]="{'unblock-bg':state.status==0}"
                       class="action-icon"><img src="assets/img/block.png" alt="img">
                     </button>
+
+                    <button [disabled]="admin?.admin_acl['Settings']?.can_delete==0"
+                          (click)="deletePopup('State')" class="action-icon"
+                          title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png"
+                          alt="img">
+                  </button>
                   </td>
                 </tr>
             </table>
@@ -227,6 +239,12 @@
                     (click)="blockUnblockCity(city.state_id, city.name_en, city.name_es, city.status==1?0:1, city.id, ci)" 
                     title="{{city.status==1 ? ('table.title.block' | translate) : ('table.title.unblock' | translate)}}" [ngClass]="{'unblock-bg':city.status==0}"
                     class="action-icon"><img src="assets/img/block.png" alt="img">
+                  </button>
+
+                  <button [disabled]="admin?.admin_acl['Settings']?.can_delete==0"
+                          (click)="deletePopup('City')" class="action-icon"
+                          title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png"
+                          alt="img">
                   </button>
               </td>
               </tr>

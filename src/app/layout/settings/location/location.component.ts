@@ -426,4 +426,20 @@ export class LocationComponent implements OnInit {
     });
   }
 
+  deletePopup(value){
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+        this.translate.instant('message.error.wantToDelete'+ value),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        //this.deleteProperty(property, index);
+      }
+    });
+  }
+
 }

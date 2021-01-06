@@ -31,6 +31,7 @@ export class CsrSellerComponent implements OnInit {
   users: any = [];
   selectedUser: any;
   initSelection = false;
+  allSelected: boolean = false;
 
   dash: any = {
     lead_total: 0,
@@ -354,9 +355,11 @@ export class CsrSellerComponent implements OnInit {
 
   assignNow() {
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
+    const users_ids = this.items.filter(x=> x.selected).map(y=> y.admin.id);
     const input = {
       csr_seller_id: this.assignItem.id,
-      leads: leads_ids
+      leads: leads_ids,
+      users: users_ids
     };
     this.spinner.show();
     this.admin.postDataApi('leads/bulkAssignSeller', input).subscribe(r => {
@@ -364,6 +367,7 @@ export class CsrSellerComponent implements OnInit {
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.assignedSuccessfully'), 'success');
       this.closeAssignModel.nativeElement.click();
       this.getListing();
+      this.allSelected = false;
     },
       error => {
         this.spinner.hide();
