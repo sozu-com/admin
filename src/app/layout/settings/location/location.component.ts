@@ -6,6 +6,7 @@ import { Location } from 'src/app/models/location.model';
 import { Constant } from 'src/app/common/constants';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
+import { value } from 'numeral';
 declare let swal: any;
 
 @Component({
@@ -19,7 +20,7 @@ export class LocationComponent implements OnInit {
 
   public parameter: IProperty = {};
   public modalRef: BsModalRef;
-
+  items: any = [];
   searchCountry: string;
   searchState: string;
   searchCity: string;
@@ -426,10 +427,11 @@ export class LocationComponent implements OnInit {
     });
   }
 
-  deletePopup(value){
+// delete country , state , city
+  deletePopup(country : any, index: number, state : any,city : any ){
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' +
-        this.translate.instant('message.error.wantToDelete'+ value),
+        this.translate.instant('message.error.wantToDelete'),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -437,9 +439,47 @@ export class LocationComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        //this.deleteProperty(property, index);
+        this.deleteCountry(country, index);
+        this.deleteState(state, index);
+        this.deleteCity(city, index);
       }
     });
   }
 
+  deleteCountry(country: any, index: number) {
+    this.admin.postDataApi('deleteCountry',
+      { country_id: country.id }).subscribe(r => {
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
+        this.getCountries('', '');
+        this.items.splice(index, 1);
+      },
+        error => {
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
+        });
+  }
+
+  deleteState(state: any, index: number) {
+    this.admin.postDataApi('deleteState',
+      { state_id: state.id }).subscribe(r => {
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
+        this.getStates(this.parameter.country_id1, '', 1);
+          this.getStates(this.parameter.country_id2, '', 2);
+        this.items.splice(index, 1);
+      },
+        error => {
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
+        });
+  }
+
+  deleteCity(city: any, index: number) {
+    this.admin.postDataApi('deleteCity',
+      { city_id: city.id }).subscribe(r => {
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
+        this.getCities(this.parameter.state_id1, '', 1);
+        this.items.splice(index, 1);
+      },
+        error => {
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
+        });
+  }
 }
