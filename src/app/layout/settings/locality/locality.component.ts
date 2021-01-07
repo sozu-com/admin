@@ -201,8 +201,8 @@ export class LocalityComponent implements OnInit {
           });
           this.map = map;
 
-          let all_overlays_index = 0;
-          this.all_overlays.forEach(locality => {
+          //let all_overlays_index = 0;
+          this.all_overlays.forEach((locality,overlays_index) => {
 
             const poly_coordinates = JSON.parse(locality.poly_coordinates);
             const polygon = poly_coordinates.map(ll => {
@@ -226,8 +226,13 @@ export class LocalityComponent implements OnInit {
             locality.overlay = singlePolygon;
 
             // showing selected first locality
-            if (all_overlays_index === 0) { this.setSelection(singlePolygon, locality.id); }
-            all_overlays_index++;
+            if (overlays_index === 0) { 
+              this.setSelection(singlePolygon, locality.id); 
+            }
+            else{
+               singlePolygon.setEditable(false);
+            }
+            //all_overlays_index++;
 
 
             google.maps.event.addListener(singlePolygon, 'click', () => {
@@ -431,7 +436,7 @@ export class LocalityComponent implements OnInit {
       r => {
         this.spinner.hide();
         this.closeModal();
-        // this.init();
+        this.init();
       }, error => {
         this.spinner.hide();
       });
