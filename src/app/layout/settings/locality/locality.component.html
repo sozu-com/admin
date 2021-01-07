@@ -196,7 +196,7 @@
         (ngSubmit)="checkIfLocalitySpanishNameEntered(addForm.value.name_en, addForm.value.name_es, addForm.value.price_per_sqft)">
         <div class="modal-body model-body10P">
           <div class="form-group">
-            <input autocomplete="off" type="text" class="form-control" placeholder="{{'addForm.placeholder.localityNameEn' | translate}}"
+            <input autocomplete="off" type="text" class="form-control" placeholder="{{'location.localityNameEn' | translate}}"
               id="name_en" required [(ngModel)]="model.name_en" name="name_en" #name_en="ngModel">
             <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-not-found">
                 <div [hidden]="!name_en.errors.required">
@@ -206,7 +206,7 @@
           </div>
           <div class="form-group">
             <input autocomplete="off" type="text" name="name_es" class="form-control"
-              placeholder="{{'addForm.placeholder.localityNameEs' | translate}}" [(ngModel)]="model.name_es">
+              placeholder="{{'location.localityNameEs' | translate}}" [(ngModel)]="model.name_es">
           </div>
 
           <!-- <div class="form-group">
