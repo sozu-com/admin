@@ -41,6 +41,8 @@ export class LocalityComponent implements OnInit {
   shapeName: any;
 
   showModal = true;
+  private editOverlay:any = null;
+  private isaddNewLocality:boolean = false;
 
   @ViewChild('mapDiv') mapDiv: ElementRef;
 
@@ -226,12 +228,27 @@ export class LocalityComponent implements OnInit {
             locality.overlay = singlePolygon;
 
             // showing selected first locality
-            if (overlays_index === 0) { 
-              this.setSelection(singlePolygon, locality.id); 
-            }
-            else{
-               singlePolygon.setEditable(false);
-            }
+            if(this.isaddNewLocality){
+              if(overlays_index >= this.all_overlays.length){
+                this.setSelection(singlePolygon, locality.id);
+                this.isaddNewLocality = false;
+              }else{
+                singlePolygon.setEditable(false);
+              }
+            }else if(this.editOverlay){
+                if(locality.id === this.editOverlay.id){
+                  this.setSelection(singlePolygon, locality.id);
+                }else{
+                  singlePolygon.setEditable(false);
+                }
+            }else {
+              if (overlays_index === 0) { 
+                this.setSelection(singlePolygon, locality.id); 
+              }
+              else{
+                 singlePolygon.setEditable(false);
+              }
+            }            
             //all_overlays_index++;
 
 
@@ -243,6 +260,7 @@ export class LocalityComponent implements OnInit {
               // console.log(singlePolygon);
               // console.log(muEvent.latLng.lat(),"current_lat", muEvent.latLng.lng(),"current_lng");
               let overlay = self.all_overlays.find(x => x.id == self.selectedLocality)
+              self.editOverlay = overlay;
               // console.log(overlay.poly_coordinates,"save db")
               // const newPoint = new google.maps.LatLng(muEvent.latLng.lat(), muEvent.latLng.lng());
               // let p = JSON.parse(overlay.poly_coordinates);
@@ -418,6 +436,11 @@ export class LocalityComponent implements OnInit {
 
   addLocality(name_en: string, name_es: string, price_per_sqft: string) {
     // this.localityClose.nativeElement.click();
+    if(this.model.id){
+      this.isaddNewLocality = false;
+    }else{
+      this.isaddNewLocality = true;
+    }
     this.spinner.show();
     const locality = {
       name_en: name_en,
