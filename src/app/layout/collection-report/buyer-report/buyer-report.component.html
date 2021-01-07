@@ -327,8 +327,9 @@
                                                       <td><span>{{item?.swift}}</span></td>
                                                       <td><span>{{item?.bank_currency}}</span></td>
                                                       <td><span>{{item?.total_amt_paid | currency}}</span></td>
-                                                      <td><span>{{(item?.deal_price - (item?.penalty || 0)) | currency}}</span>
-                                                      </td>
+                                                      <!-- <td><span>{{(item?.deal_price - (item?.penalty || 0)) | currency}}</span>
+                                                      </td> -->
+                                                      <td><span>{{item?.remaning_amount}}</span></td>
                                                 </tr>
                                           </tbody>
                                     </table>
