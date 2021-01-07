@@ -229,9 +229,8 @@ export class LocalityComponent implements OnInit {
 
             // showing selected first locality
             if(this.isaddNewLocality){
-              if(overlays_index >= this.all_overlays.length){
+              if((overlays_index + 1) === this.all_overlays.length){
                 this.setSelection(singlePolygon, locality.id);
-                this.isaddNewLocality = false;
               }else{
                 singlePolygon.setEditable(false);
               }
@@ -436,6 +435,7 @@ export class LocalityComponent implements OnInit {
 
   addLocality(name_en: string, name_es: string, price_per_sqft: string) {
     // this.localityClose.nativeElement.click();
+    this.isaddNewLocality = false;
     if(this.model.id){
       this.isaddNewLocality = false;
     }else{
