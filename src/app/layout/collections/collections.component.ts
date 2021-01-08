@@ -102,6 +102,7 @@ export class CollectionsComponent implements OnInit {
   isPenaltyFormSub: boolean;
   cashLimit: any;
   folderId: number;
+  payment_folder_id: number;
 
   @ViewChild('viewDesModal') viewDesModal: ElementRef;
   @ViewChild('viewDesModalClose') viewDesModalClose: ElementRef;
@@ -1804,9 +1805,10 @@ export class CollectionsComponent implements OnInit {
     return dateA > dateB ? 1 : -1;
   }
 
-  openFoldersModal(collectionFolders: Array<any>) {
+  openFoldersModal(collectionFolders: Array<any>, payment_folder_id) {
     this.collectionFolders = [];
     this.collectionFolders = collectionFolders;
+    this.payment_folder_id = payment_folder_id;
     this.foldersModalOpen.nativeElement.click();
   }
 

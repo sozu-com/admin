@@ -629,7 +629,7 @@
                           alt="img"></button>
 
                       <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
-                        (click)="openFoldersModal(p.collection_folders)"
+                        (click)="openFoldersModal(p.collection_folders, p.payment_folder_id)"
                         title="{{'table.title.viewFolders' | translate}}" class="action-icon"><img
                           src="assets/img/ic_folder_1.svg" alt="img"></button>
 
@@ -1838,13 +1838,13 @@
                       <span></span>
                     </div>
                     <a class="edit" href="javascript://"
-                      (click)="editDocsPopup(item, i, s)">{{'addCollection.edit' | translate}}</a>
+                      (click)="editDocsPopup(item, i, s)" *ngIf="payment_folder_id != p.id">{{'addCollection.edit' | translate}}</a>
 
                     <a class="delete" href="javascript://"
-                      (click)="deleteDocsPopup(item, i, s)">{{'commonBlock.delete' | translate}}</a>
+                      (click)="deleteDocsPopup(item, i, s)" *ngIf="payment_folder_id != p.id">{{'commonBlock.delete' | translate}}</a>
 
                     <ng-template #noDeletePermissiom>
-                      <a class="delete" href="javascript://">{{'commonBlock.delete' | translate}}</a>
+                      <a class="delete" href="javascript://" *ngIf="payment_folder_id != p.id">{{'commonBlock.delete' | translate}}</a>
                     </ng-template>
                     <p class="time" title="'Click to view'">
                       <a target="_blank" href="{{item.display_name}}">
