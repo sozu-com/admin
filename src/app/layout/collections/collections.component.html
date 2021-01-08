@@ -1837,6 +1837,9 @@
                     <div class="circle">
                       <span></span>
                     </div>
+                    <a class="edit" href="javascript://"
+                      (click)="editDocsPopup(item, i, s)">{{'addCollection.edit' | translate}}</a>
+
                     <a class="delete" href="javascript://"
                       (click)="deleteDocsPopup(item, i, s)">{{'commonBlock.delete' | translate}}</a>
 
@@ -1865,5 +1868,41 @@
         </table>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- Trigger the modal with a button -->
+<button type="button" style="display: none;" class="btn btn-info" data-toggle="modal" data-target="#myModal"
+  #localityOpen>Open Modal</button>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header my-modal-header">
+        <button type="button" class="close" (click)="closeEditModal()">&times;</button>
+        <h4 class="modal-title"> {{'editDocName.title' | translate}}</h4>
+      </div>
+      <form class="form-horizontal form-model0P" role="form" novalidate #addForm="ngForm"
+        (ngSubmit)="checkIfLocalitySpanishNameEntered(addForm)">
+        <div class="modal-body model-body10P">
+          <div class="form-group">
+            <input autocomplete="off" type="text" class="form-control" placeholder="{{'editDocName.name' | translate}}"
+              id="name_en" required [(ngModel)]="modelForDoc.name_en" name="name_en" #name_en="ngModel">
+          </div>
+
+        </div>
+        <div class="modal-footer btn-cont">
+          <button type="submit" [disabled]="addForm.invalid" class="btn btn-primary-new">{{'editDocName.submit' | translate}}</button>
+          <button style="display:none;" type="button" class="btn btn-default" #localityClose
+            data-dismiss="modal">{{'addForm.close' | translate}}</button>
+          <button type="button" class="btn btn-default" (click)="closeEditModal()">{{'editDocName.close' | translate}}</button>
+        </div>
+      </form>
+
+    </div>
+
   </div>
 </div>

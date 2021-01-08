@@ -1662,7 +1662,8 @@
     "NA": "NA",
     "viewedProjects": "Viewed Projects",
     "viewedProperties": "Viewed Properties",
-    "search": "Search"
+    "search": "Search",
+    "edit": "Edit"
   },
   "viewCollections": {
     "choose": "Choose",
@@ -2087,5 +2088,11 @@
     "rangeCarpetArea": "Range Carpet Area",
     "apply": "Apply",
     "cancel": "Cancel"
-  }
+  },
+   "editDocName":{
+     "title": "Edit Document Name",
+     "name":"Document Name",
+     "submit": "Submit",
+     "close": "Close"
+   }
 }
