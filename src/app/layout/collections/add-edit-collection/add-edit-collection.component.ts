@@ -109,6 +109,7 @@ export class AddEditCollectionComponent implements OnInit {
   configurations: Array<any>;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
   showError:  boolean;
+  payment_folder_id: number;
   availabilityStatus = [
     { id: '1', name: this.translate.instant('leadDetails.purchase'), checked: false },
     { id: '2', name: this.translate.instant('leadDetails.rent'), checked: false }];
@@ -880,6 +881,7 @@ console.log('obj', obj['id'])
   }
 
   setFolders(data: any) {
+    this.payment_folder_id = data.payment_folder_id;
     this.collectionFolders = data['collection_folders'];
   }
 
