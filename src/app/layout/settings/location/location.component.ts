@@ -454,7 +454,7 @@ export class LocationComponent implements OnInit {
         this.items.splice(index, 1);
       },
         error => {
-          swal(this.translate.instant('swal.error'), error.error.message, 'error');
+          swal(this.translate.instant('swal.error'), error.message, 'error');
         });
   }
 
@@ -467,7 +467,7 @@ export class LocationComponent implements OnInit {
         this.items.splice(index, 1);
       },
         error => {
-          swal(this.translate.instant('swal.error'), error.error.message, 'error');
+          swal(this.translate.instant('swal.error'), error.message, 'error');
         });
   }
 
@@ -479,7 +479,7 @@ export class LocationComponent implements OnInit {
         this.items.splice(index, 1);
       },
         error => {
-          swal(this.translate.instant('swal.error'), error.error.message, 'error');
+          swal(this.translate.instant('swal.error'), error.message, 'error');
         });
   }
 }
