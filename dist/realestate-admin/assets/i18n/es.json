@@ -2089,5 +2089,11 @@
     "rangeCarpetArea": "Área de alfombra de gama",
     "apply": "Aplicar",
     "cancel": "Cancelar"
+  },
+  "editDocName":{
+    "title": "Editar el nombre del documento",
+    "name":"Nombre del documento",
+    "submit": "Enviar",
+    "close": "Cerrar"
   }
 }
