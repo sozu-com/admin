@@ -269,6 +269,9 @@
                                                             </div>
                                                       </th>
                                                       <th style="width:7%; text-align:left;">
+                                                            <b>{{'collectionReport.paymentMethod' | translate}}</b>
+                                                      </th>
+                                                      <th style="width:7%; text-align:left;">
                                                             <b>{{'collectionReport.bankName' | translate}}</b>
                                                       </th>
                                                       <th style="width:7%; text-align:left;">
@@ -322,6 +325,7 @@
                                                       </td>
                                                       <td><span>{{item?.payment_date}}</span></td>
                                                       <td><span>{{item?.amt_paid | currency}}</span></td>
+                                                      <td><span >{{item?.payment_method?.name}}</span></td>
                                                       <td><span>{{item?.bank_name}}</span></td>
                                                       <td><span>{{item?.account_number}}</span></td>
                                                       <td><span>{{item?.swift}}</span></td>

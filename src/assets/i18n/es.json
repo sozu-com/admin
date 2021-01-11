@@ -1999,7 +1999,8 @@
     "clabeSwift": "Clabe / Swift",
     "incomeProjection": "Proyección de ingresos",
     "paymentconcpets": "Conceptos de pago",
-    "paymentMade": "Pago realizado"
+    "paymentMade": "Pago realizado",
+    "paymentMethod": "Método de pago"
   },
   "quickVisualization": {
     "label":"Visualización rápida",

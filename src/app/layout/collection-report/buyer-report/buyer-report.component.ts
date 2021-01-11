@@ -56,6 +56,7 @@ export class BuyerReportComponent implements OnInit {
   currencies: Array<any>;
   buildingTowers: any;
   floors: Array<any>;
+  paymentMethods = new Array<any>();
 
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
 
@@ -68,6 +69,7 @@ export class BuyerReportComponent implements OnInit {
 
   ngOnInit() {
     this.finalData = [];
+    this.getPaymentMethods();
     this.iniDropDownSetting();
     this.today = new Date();
     this.input = new CollectionReport();
@@ -462,6 +464,7 @@ export class BuyerReportComponent implements OnInit {
           Currency: item.currency.code || '',
           Date: item.payment_date,
           'Amount Paid By User': item.amt_paid || '',
+          'Payment Method':item.payment_method.name || '',
           'Bank Name': item.bank_name || '',
           'Account Number': item.account_number || '',
           'Clabe Swift': item.swift || '',
@@ -592,5 +595,16 @@ export class BuyerReportComponent implements OnInit {
       today.getSeconds();
     fileName = fileName + date;
     FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
+  }
+
+  getPaymentMethods() {
+    this.admin.postDataApi('getPaymentMethods', {})
+      .subscribe(
+        success => {
+          this.paymentMethods = success.data;
+        }, error => {
+          this.spinner.hide();
+        }
+      );
   }
 }
