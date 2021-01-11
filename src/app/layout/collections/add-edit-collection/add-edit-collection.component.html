@@ -2193,7 +2193,7 @@
               </div>
               <div class="col-12">
                   <div class="btn-cont text-right">
-                      <button *ngIf="!selectedFolder.id else UpdateNote" [disabled]="!addForm.valid" type="submit" class="btn btn-primary">{{'commonBlock.addBtn' | translate}}</button>
+                      <button *ngIf="!selectedFolder.id else UpdateNote" type="submit" class="btn btn-primary">{{'commonBlock.addBtn' | translate}}</button>
                       <ng-template #UpdateNote>
                           <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">{{'commonBlock.updateBtn' | translate}}</button>
                       </ng-template>

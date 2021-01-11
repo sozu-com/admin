@@ -112,7 +112,7 @@ export class AddEditCollectionComponent implements OnInit {
   configurations: Array<any>;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
   showError:  boolean;
-  payment_folder_id: number;
+  payment_folder_id: number = 0;
   folderId: number;
   oldDocName: string;
   availabilityStatus = [
@@ -1352,6 +1352,7 @@ console.log('obj', obj['id'])
   }
 
   closeFolderModal() {
+    this.folderName = '';
     this.folderModalClose.nativeElement.click();
   }
 
