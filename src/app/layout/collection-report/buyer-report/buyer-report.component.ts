@@ -435,22 +435,27 @@ export class BuyerReportComponent implements OnInit {
     this.selectedLegalReps = [];
   }
   exportData() {
+    let self = this;
     if (this.exportfinalData) {
       const exportfinalData = [];
       for (let index = 0; index < this.exportfinalData.length; index++) {
-        const item = this.exportfinalData[index];
+        const item = self.exportfinalData[index];
         let buyer = '';
         if (item.buyer_type != 2) {
           buyer = item.buyer.name ? (item.buyer.name + ' ' + item.buyer.first_surname + ' ' + item.buyer.second_surname) : '';
         } else {
-          buyer = item.buyer_legal_entity.comm_name ? item.buyer_legal_entity.comm_name : '';
+          if(!!item.buyer_legal_entity && !!item.buyer_legal_entity.comm_name){
+          buyer = item.buyer_legal_entity && item.buyer_legal_entity.comm_name ? item.buyer_legal_entity.comm_name : '';
+          }
         }
 
         let seller = '';
         if (item.seller_type != 2) {
           seller = item.seller.name ? (item.seller.name + ' ' + item.seller.first_surname + ' ' + item.seller.second_surname) : '';
         } else {
-          seller = item.seller_legal_entity.comm_name ? item.seller_legal_entity.comm_name : '';
+          if(!!item.seller_legal_entity && !!item.seller_legal_entity.comm_name){
+            seller = item.seller_legal_entity && item.seller_legal_entity.comm_name ? item.seller_legal_entity.comm_name : '';
+            }
         }
 
         exportfinalData.push({
