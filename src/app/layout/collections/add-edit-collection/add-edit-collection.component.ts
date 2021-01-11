@@ -15,13 +15,14 @@ import { TranslateService } from '@ngx-translate/core';
 import { SelectItem } from 'primeng/primeng';
 import { Collection, Seller } from 'src/app/models/collection.model';
 import { ToastrService } from 'ngx-toastr';
+import {Document} from 'src/app/models/document.model';
 declare let swal: any;
 
 @Component({
   selector: 'app-add-edit-collection',
   templateUrl: './add-edit-collection.component.html',
   styleUrls: ['./add-edit-collection.component.css'],
-  providers: [AddPropertyModel, Building, Constant, HttpInterceptor, Collection]
+  providers: [AddPropertyModel, Building, Constant, HttpInterceptor, Collection, Document]
 })
 export class AddEditCollectionComponent implements OnInit {
 
@@ -39,6 +40,8 @@ export class AddEditCollectionComponent implements OnInit {
   @ViewChild('folderModalClose') folderModalClose: ElementRef;
   @ViewChild('docsFile') docsFile: ElementRef;
   @ViewChild('selectedPaymentChoice') selectedPaymentChoice: ElementRef;
+  @ViewChild('localityOpen') localityOpen: ElementRef;
+  @ViewChild('localityClose') localityClose: ElementRef;
   public latitude: number;
   public longitude: number;
   public searchControl: FormControl;
@@ -110,6 +113,8 @@ export class AddEditCollectionComponent implements OnInit {
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
   showError:  boolean;
   payment_folder_id: number;
+  folderId: number;
+  oldDocName: string;
   availabilityStatus = [
     { id: '1', name: this.translate.instant('leadDetails.purchase'), checked: false },
     { id: '2', name: this.translate.instant('leadDetails.rent'), checked: false }];
@@ -124,7 +129,8 @@ export class AddEditCollectionComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
     private fb: FormBuilder,
-    private toastr: ToastrService) {
+    private toastr: ToastrService,
+    public modelForDoc: Document) {
   }
 
   ngOnInit() {
@@ -1379,6 +1385,7 @@ console.log('obj', obj['id'])
     this.folderIndex = index;
     this.folderName = folder.name;
     this.docs = folder.folder_docs;
+    this.folderId = folder.id;
     this.docsModalOpen.nativeElement.click();
   }
 
@@ -2307,4 +2314,72 @@ console.log('obj', obj['id'])
       return moment(date).add(offset, 'minutes').toDate();
     }
   }
+
+  editDocsPopup(item: any, folderIndex: number, docIndex: number){
+    this.modelForDoc.name_en = item.name;
+    this.modelForDoc.id = item.id;
+    this.folderId = item.collection_folder_id;
+    this.oldDocName = item.name;
+    this.localityOpen.nativeElement.click();
+  }
+
+  checkIfLocalitySpanishNameEntered(document) {
+    const self = this;
+    if (document.name === '') {
+      swal({
+        text: this.translate.instant('message.error.saveName'),
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: this.constant.confirmButtonColor,
+        cancelButtonColor: this.constant.cancelButtonColor,
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          this.editDocument(document);
+        }
+      });
+    } else {
+      self.editDocument(document);
+    }
+  } 
+
+  closeEditModal() {
+    this.localityClose.nativeElement.click();
+  }
+
+  editDocument(document){
+    let self = this;
+    this.spinner.show();
+    let param = {
+      id:this.modelForDoc.id,
+      name:this.modelForDoc.name_en
+    }
+    if(!this.modelForDoc.id){
+      this.docs.filter(doc =>{
+        if(doc.name == this.oldDocName){
+          doc.name = self.modelForDoc.name_en;
+        }
+      });
+      self.spinner.hide();
+      self.closeEditModal();
+    }
+    else{
+    this.us.postDataApi('updateDocFolderName', param).subscribe(
+      r => {
+        self.spinner.hide();
+        self.collectionFolders.filter(folder =>{
+          if(folder.id == self.folderId){
+          folder.folder_docs.filter(doc =>{
+            if(doc.id == self.modelForDoc.id){
+            doc.name = self.modelForDoc.name_en;
+          }
+        });
+      }
+        });
+        self.closeEditModal();
+      }, error => {
+        self.spinner.hide();
+      });
+  }
+}
 }
