@@ -280,6 +280,16 @@
                                     </div>
                                 </div>
                             </th>
+                            <th style="width:15%;">
+                                <div class="table-search">
+                                        <label>{{'table.th.firstSurname' | translate}}</label>
+                                </div>
+                            </th>
+                            <th style="width:15%;">
+                                <div class="table-search">
+                                        <label>{{'table.th.secondSurname' | translate}}</label>
+                                </div>
+                            </th>
                             <th style="width:19%; text-align:left;">
                                 <div class="table-search">
                                     <label>{{'table.th.contactNumber' | translate}}</label>
@@ -340,6 +350,12 @@
                                 <span *ngIf="item.name" class="name">{{item?.user?.name ? item?.user?.name : item?.name | titlecase}}</span>
                                 <span class="name" *ngIf="!item.name">{{'table.tr.td.NA' | translate}}</span>
                             </td>
+                            <td class="text-left">
+                                <span class="name">{{item.first_surname | titlecase}}</span>
+                               </td>
+                               <td class="text-left">
+                                <span class="name">{{item.second_surname | titlecase}}</span>
+                               </td>
                             <td class="text-left" *ngIf="item?.phone">
                                 {{item?.dial_code ? item?.dial_code : constant.dial_code}}-{{item?.user?.phone ? item?.user?.phone : item.phone}}</td>
                             <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
