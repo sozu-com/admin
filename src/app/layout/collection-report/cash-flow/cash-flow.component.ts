@@ -41,7 +41,8 @@ export class CashFlowComponent implements OnInit {
    ff : Array<any>;
   reportType: number;
   start_purchase_date: any;
-  end_purchase_date: any
+  end_purchase_date: any;
+  y: any;
   constructor(public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService) {
