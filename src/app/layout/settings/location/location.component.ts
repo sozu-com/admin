@@ -428,10 +428,10 @@ export class LocationComponent implements OnInit {
   }
 
 // delete country , state , city
-  deletePopup(country : any, index: number, state : any,city : any ){
+  deletePopup(data : any, index: number, value : string ){
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' +
-        this.translate.instant('message.error.wantToDelete'),
+        this.translate.instant('message.error.wantToDelete' + value),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -439,9 +439,9 @@ export class LocationComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.deleteCountry(country, index);
-        this.deleteState(state, index);
-        this.deleteCity(city, index);
+        value == 'Country'? this.deleteCountry(data, index) : value == 'State'?
+        this.deleteState(data, index): value == 'City'?
+        this.deleteCity(data, index): undefined;
       }
     });
   }
@@ -454,7 +454,7 @@ export class LocationComponent implements OnInit {
         this.items.splice(index, 1);
       },
         error => {
-          swal(this.translate.instant('swal.error'), error.error.message, 'error');
+          swal(this.translate.instant('swal.error'), error.message, 'error');
         });
   }
 
@@ -467,7 +467,7 @@ export class LocationComponent implements OnInit {
         this.items.splice(index, 1);
       },
         error => {
-          swal(this.translate.instant('swal.error'), error.error.message, 'error');
+          swal(this.translate.instant('swal.error'), error.message, 'error');
         });
   }
 
@@ -479,7 +479,7 @@ export class LocationComponent implements OnInit {
         this.items.splice(index, 1);
       },
         error => {
-          swal(this.translate.instant('swal.error'), error.error.message, 'error');
+          swal(this.translate.instant('swal.error'), error.message, 'error');
         });
   }
 }

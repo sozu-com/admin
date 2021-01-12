@@ -56,6 +56,7 @@ export class BuyerReportComponent implements OnInit {
   currencies: Array<any>;
   buildingTowers: any;
   floors: Array<any>;
+  paymentMethods = new Array<any>();
 
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
 
@@ -68,6 +69,7 @@ export class BuyerReportComponent implements OnInit {
 
   ngOnInit() {
     this.finalData = [];
+    this.getPaymentMethods();
     this.iniDropDownSetting();
     this.today = new Date();
     this.input = new CollectionReport();
@@ -433,22 +435,27 @@ export class BuyerReportComponent implements OnInit {
     this.selectedLegalReps = [];
   }
   exportData() {
+    let self = this;
     if (this.exportfinalData) {
       const exportfinalData = [];
       for (let index = 0; index < this.exportfinalData.length; index++) {
-        const item = this.exportfinalData[index];
+        const item = self.exportfinalData[index];
         let buyer = '';
         if (item.buyer_type != 2) {
           buyer = item.buyer.name ? (item.buyer.name + ' ' + item.buyer.first_surname + ' ' + item.buyer.second_surname) : '';
         } else {
-          buyer = item.buyer_legal_entity.comm_name ? item.buyer_legal_entity.comm_name : '';
+          if(!!item.buyer_legal_entity && !!item.buyer_legal_entity.comm_name){
+          buyer = item.buyer_legal_entity && item.buyer_legal_entity.comm_name ? item.buyer_legal_entity.comm_name : '';
+          }
         }
 
         let seller = '';
         if (item.seller_type != 2) {
           seller = item.seller.name ? (item.seller.name + ' ' + item.seller.first_surname + ' ' + item.seller.second_surname) : '';
         } else {
-          seller = item.seller_legal_entity.comm_name ? item.seller_legal_entity.comm_name : '';
+          if(!!item.seller_legal_entity && !!item.seller_legal_entity.comm_name){
+            seller = item.seller_legal_entity && item.seller_legal_entity.comm_name ? item.seller_legal_entity.comm_name : '';
+            }
         }
 
         exportfinalData.push({
@@ -462,6 +469,7 @@ export class BuyerReportComponent implements OnInit {
           Currency: item.currency.code || '',
           Date: item.payment_date,
           'Amount Paid By User': item.amt_paid || '',
+          'Payment Method':item.payment_method.name || '',
           'Bank Name': item.bank_name || '',
           'Account Number': item.account_number || '',
           'Clabe Swift': item.swift || '',
@@ -592,5 +600,16 @@ export class BuyerReportComponent implements OnInit {
       today.getSeconds();
     fileName = fileName + date;
     FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
+  }
+
+  getPaymentMethods() {
+    this.admin.postDataApi('getPaymentMethods', {})
+      .subscribe(
+        success => {
+          this.paymentMethods = success.data;
+        }, error => {
+          this.spinner.hide();
+        }
+      );
   }
 }

@@ -267,6 +267,16 @@
                 </th>
                 <th style="width:15%;">
                     <div class="table-search">
+                            <label>{{'table.th.firstSurname' | translate}}</label>
+                    </div>
+                </th>
+                <th style="width:15%;">
+                    <div class="table-search">
+                            <label>{{'table.th.secondSurname' | translate}}</label>
+                    </div>
+                </th>
+                <th style="width:15%;">
+                    <div class="table-search">
                             <label>{{'table.th.contactNumber' | translate}}</label>
                        <div class="searh-3">
                             <input autocomplete="off" type="text" name="phone" [(ngModel)]="parameter.phone" (keyup.enter)="getListing()">
@@ -348,6 +358,12 @@
                 <td class="text-left" routerLink="/dashboard/leads/csr-sellers/{{item.id}}">
                   <span class="name">{{item.name | titlecase}}</span>
                  </td>
+                 <td class="text-left" routerLink="/dashboard/leads/csr-sellers/{{item.id}}">
+                    <span class="name">{{item.first_surname | titlecase}}</span>
+                   </td>
+                   <td class="text-left" routerLink="/dashboard/leads/csr-sellers/{{item.id}}">
+                    <span class="name">{{item.second_surname | titlecase}}</span>
+                   </td>
                  <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}" class="text-left" *ngIf="item.phone">{{item.dial_code}}-{{item.phone.trim()}}</td>
                  <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}" class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
                 <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}" class="text-left">

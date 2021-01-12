@@ -1662,7 +1662,8 @@
     "NA": "NA",
     "viewedProjects": "Viewed Projects",
     "viewedProperties": "Viewed Properties",
-    "search": "Search"
+    "search": "Search",
+    "edit": "Edit"
   },
   "viewCollections": {
     "choose": "Choose",
@@ -1995,7 +1996,8 @@
     "clabeSwift": "Clabe/Swift",
     "incomeProjection": "Income Projection",
     "paymentconcpets": "Payment Concepts",
-    "paymentMade": "Payment Made"
+    "paymentMade": "Payment Made",
+    "paymentMethod": "Payment Method"
   },
   "quickVisualization": {
     "label":"Quick Visualization",
@@ -2087,5 +2089,11 @@
     "rangeCarpetArea": "Range Carpet Area",
     "apply": "Apply",
     "cancel": "Cancel"
-  }
+  },
+   "editDocName":{
+     "title": "Edit Document Name",
+     "name":"Document Name",
+     "submit": "Submit",
+     "close": "Close"
+   }
 }

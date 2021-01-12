@@ -1999,7 +1999,8 @@
     "clabeSwift": "Clabe / Swift",
     "incomeProjection": "Proyección de ingresos",
     "paymentconcpets": "Conceptos de pago",
-    "paymentMade": "Pago realizado"
+    "paymentMade": "Pago realizado",
+    "paymentMethod": "Método de pago"
   },
   "quickVisualization": {
     "label":"Visualización rápida",
@@ -2089,5 +2090,11 @@
     "rangeCarpetArea": "Área de alfombra de gama",
     "apply": "Aplicar",
     "cancel": "Cancelar"
+  },
+  "editDocName":{
+    "title": "Editar el nombre del documento",
+    "name":"Nombre del documento",
+    "submit": "Enviar",
+    "close": "Cerrar"
   }
 }

@@ -35,3 +35,19 @@
     width: 25px;
     height: 25px;
 }
+
+.edit{
+    padding-right: 60px !important;
+    color: rgba(0,0,0,0.5);
+    font-size: 11px;
+    position: absolute;
+    right: -20px;
+    top: 0;
+  }
+  
+  .model-body10P{
+    padding: 10px !important;
+  }
+  .my-modal-header{
+    display: inline;
+  }

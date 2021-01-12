@@ -38,6 +38,7 @@ export class CashFlowComponent implements OnInit {
   finalData1: Array<any>;
   finalData2: Array<any>;
   items: Array<any>;
+   ff : Array<any>;
   reportType: number;
   start_purchase_date: any;
   end_purchase_date: any
@@ -59,8 +60,41 @@ export class CashFlowComponent implements OnInit {
     this.initCalendarLocale();
     this.getAllPaymentChoices();
     this.getReportData();
+    this.getListing();
   }
 
+  getListing() {
+    this.spinner.show();
+    const input: any = JSON.parse(JSON.stringify(this.parameter));
+    input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
+    input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
+    this.admin.postDataApi('graphs/cash-flow', input).subscribe(
+      success => {
+         this.items = success.data;
+         console.log(this.items, "test..")
+        this.spinner.hide();
+        this.reportData = success['data'];
+        console.log(this.reportData, "reportData..")
+        for (let index = 0; index < this.reportData['expected'].length; index++) {
+          const element = this.reportData['expected'][index];
+          console.log(element, "expected..")
+          const ff = []; let d = {};
+          for (let ind = 0; ind < element.y.length; ind++) {
+            d = {y: element.y[ind].y};
+            console.log(d, "y..")
+            ff.push(d);
+            console.log(ff, "ff..")
+          }
+          // array to export
+          // const obj = {label: element.label, expected: element.y, actual: this.reportData['actual'][index].y};
+          // this.items.push(obj);
+        }
+      },
+      error => {
+        this.spinner.hide();
+      });
+  }
+  
   initCalendarLocale() {
     if (this.translate.defaultLang === 'en') {
       this.locale = {

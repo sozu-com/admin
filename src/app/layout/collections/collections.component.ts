@@ -15,19 +15,14 @@ import { CommonService } from '../../services/common.service';
 import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ExcelDownload } from 'src/app/common/excelDownload';
-// excel download
-import * as FileSaver from 'file-saver';
-import * as XLSX from 'xlsx';
-const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-const EXCEL_EXTENSION = '.xlsx';
-
+import {Document} from 'src/app/models/document.model';
 declare let swal: any;
 
 @Component({
   selector: 'app-collections',
   templateUrl: './collections.component.html',
   styleUrls: ['./collections.component.css'],
-  providers: [Notes]
+  providers: [Notes, Document]
 })
 export class CollectionsComponent implements OnInit {
 
@@ -108,6 +103,8 @@ export class CollectionsComponent implements OnInit {
   isPenaltyFormSub: boolean;
   cashLimit: any;
   private exportfinalData: Array<any>;
+  folderId: number;
+  payment_folder_id: number;
 
   @ViewChild('viewDesModal') viewDesModal: ElementRef;
   @ViewChild('viewDesModalClose') viewDesModalClose: ElementRef;
@@ -141,6 +138,8 @@ export class CollectionsComponent implements OnInit {
   @ViewChild('docsFile') docsFile: ElementRef;
   @ViewChild('foldersModalOpen') foldersModalOpen: ElementRef;
   @ViewChild('foldersModalClose') foldersModalClose: ElementRef;
+  @ViewChild('localityOpen') localityOpen: ElementRef;
+  @ViewChild('localityClose') localityClose: ElementRef;
 
   collectionStatusFilter = [
     { name: 'Up to Date', value: 1 },
@@ -163,7 +162,8 @@ export class CollectionsComponent implements OnInit {
     public model: Notes,
     private cs: CommonService,
     private fb: FormBuilder,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    public modelForDoc: Document
   ) { }
 
   ngOnInit() {
@@ -661,7 +661,7 @@ export class CollectionsComponent implements OnInit {
     this.payment_id = item.id;
     this.payment_type = item.payment_type;
     this.payment_method_id = item.payment_method.id;
-    this.payment_bank = item.payment_bank.id;
+    this.payment_bank =  item.payment_bank? item.payment_bank.id: 0;
     this.description = item.description;
     this.docFile = item.receipt;
     this.payment_date = item.payment_date ? this.getDateWRTTimezone(item.payment_date, 'DD/MMM/YYYY') : '';
@@ -1807,9 +1807,10 @@ export class CollectionsComponent implements OnInit {
     return dateA > dateB ? 1 : -1;
   }
 
-  openFoldersModal(collectionFolders: Array<any>) {
+  openFoldersModal(collectionFolders: Array<any>, payment_folder_id) {
     this.collectionFolders = [];
     this.collectionFolders = collectionFolders;
+    this.payment_folder_id = payment_folder_id;
     this.foldersModalOpen.nativeElement.click();
   }
 
@@ -2045,5 +2046,60 @@ export class CollectionsComponent implements OnInit {
       }
       new ExcelDownload().exportAsExcelFile(tempExportData, 'collections');
     }
+  }
+  editDocsPopup(item: any, folderIndex: number, docIndex: number){
+    this.modelForDoc.name_en = item.name;
+    this.modelForDoc.id = item.id
+    this.folderId = this.collectionFolders[folderIndex].id;
+    this.localityOpen.nativeElement.click();
+  }
+
+  checkIfLocalitySpanishNameEntered(document) {
+    const self = this;
+    if (document.name === '') {
+      swal({
+        text: this.translate.instant('message.error.saveName'),
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: this.constant.confirmButtonColor,
+        cancelButtonColor: this.constant.cancelButtonColor,
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          this.editDocument(document);
+        }
+      });
+    } else {
+      self.editDocument(document);
+    }
+  } 
+
+  closeEditModal() {
+    this.localityClose.nativeElement.click();
+  }
+
+  editDocument(document){
+    let self = this;
+    this.spinner.show();
+    let param = {
+      id:this.modelForDoc.id,
+      name:this.modelForDoc.name_en
+    }
+    this.admin.postDataApi('updateDocFolderName', param).subscribe(
+      r => {
+        self.spinner.hide();
+        self.collectionFolders.filter(folder =>{
+          if(folder.id == self.folderId){
+          folder.folder_docs.filter(doc =>{
+            if(doc.id == self.modelForDoc.id){
+            doc.name = self.modelForDoc.name_en;
+          }
+        });
+      }
+        });
+        self.closeEditModal();
+      }, error => {
+        self.spinner.hide();
+      });
   }
 }
