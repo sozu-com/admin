@@ -659,7 +659,7 @@ export class CollectionsComponent implements OnInit {
     this.payment_id = item.id;
     this.payment_type = item.payment_type;
     this.payment_method_id = item.payment_method.id;
-    this.payment_bank =  item.payment_bank? item.payment_bank.id: 0;
+    this.payment_bank =  item.payment_bank? item.payment_bank.id : 0;
     this.description = item.description;
     this.docFile = item.receipt;
     this.payment_date = item.payment_date ? this.getDateWRTTimezone(item.payment_date, 'DD/MMM/YYYY') : '';
