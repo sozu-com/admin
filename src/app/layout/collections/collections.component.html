@@ -136,7 +136,7 @@
   <div class="cust-tabs">
     <div class="row flex-wrap-reverse">
 
-      <div class="col-xl-10 col-lg-12 col-md-12 col-sm-12 col-12">
+      <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12">
         <ul class="nav nav-tabs">
           <li class="nav-item">
             <a [ngClass]="{'active':parameter.flag==1}" (click)="changeAppUnappFlag(1)"
@@ -148,6 +148,12 @@
           </li>
         </ul>
       </div>
+      <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="add-new pull-right text-left">
+           <a class="btn" (click)="this.getExportlisting()" href="javascript://">
+              {{'table.exportDataBtn' | translate}}</a>
+        </div>
+     </div>
       <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="add-new pull-right">
           <a *ngIf="admin?.admin_acl['Manage Collections']?.can_create==1" class="btn" href="javascript://"
