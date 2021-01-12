@@ -2026,7 +2026,7 @@ export class CollectionsComponent implements OnInit {
           'PC Amount': '$ ' + (p.pc_received || 0),
           'PC Receipt': p.pc_receipt ? 'Yes' : 'No',
           'PC Invoice': p.pc_invoice ? 'Yes' : 'No',
-          'Collection Commission (in %)': p.cc_percent,
+          'Collection Commission (in %)': p.cc_percent || 0,
           'IVA Added in Amount 2': p.add_iva_to_cc ? 'Yes' : 'No',
           'CC Amount': '$ ' + (p.cc_received || 0),
           'CC Receipt': p.cc_receipt ? 'Yes' : 'No',
