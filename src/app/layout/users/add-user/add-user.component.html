@@ -249,7 +249,7 @@
               <option value="other">{{'filters.location.other' | translate}}</option>
             </select>
           <div>
-            <input *ngIf="showInput" [(ngModel)]="model.country_name" name="country_name" autocomplete="off" type="text" class="form-control" placeholder="Enter Country Name" style="margin-top: 20px;">
+            <input *ngIf="showInput" [(ngModel)]="model.country_name" (ngModelChange)="modelChanged()" name="country_name" autocomplete="off" type="text" class="form-control" placeholder="Enter Country Name" style="margin-top: 20px;">
           </div>
           </div>
         </div>
@@ -261,7 +261,7 @@
         <option value="0" [selected]="location.states!='' && location.states==0">{{'filters.location.allOption' | translate}}</option>
         <option *ngFor="let stateAdd of parameter.statesAdd" [selected]="stateAdd.id == model.state_id" value="{{stateAdd.id}}">{{stateAdd.name}}</option>
       </select>
-      <input *ngIf="showInput" [(ngModel)]="model.state_name" name="state_name" autocomplete="off" type="text" class="form-control" placeholder="Enter State Name">
+      <input *ngIf="showInput" [attr.disabled]="stateDisable? '' : null" [(ngModel)]="model.state_name" (ngModelChange)="modelChanged()" name="state_name" autocomplete="off" type="text" class="form-control" placeholder="Enter State Name">
           </div>
         </div>
       </div>
@@ -279,7 +279,7 @@
             <option value="0" [selected]="location.cities!='' && location.cities==0">{{'filters.location.allOption' | translate}}</option>
             <option *ngFor="let cityAdd of parameter.citiesAdd" [selected]="cityAdd.id == model.city_id" value="{{cityAdd.id}}">{{cityAdd.name}}</option>
           </select>
-          <input *ngIf="showInput" [(ngModel)]="model.city_name" name="city_name" autocomplete="off" type="text" class="form-control" placeholder="Enter City Name">
+          <input *ngIf="showInput" [attr.disabled]="cityDisable? '' : null" [(ngModel)]="model.city_name" name="city_name" autocomplete="off" type="text" class="form-control" placeholder="Enter City Name">
           </div>
         </div>
         <div class="col-4">

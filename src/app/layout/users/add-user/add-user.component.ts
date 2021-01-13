@@ -36,6 +36,8 @@ export class AddUserComponent implements OnInit {
   marrital_status_list = Array<IMarritalStatus>();
   language_code: string;
   showInput: boolean = false;
+  cityDisable: boolean;
+  stateDisable: boolean;
   
   constructor(
     public constant: Constant,
@@ -149,7 +151,7 @@ export class AddUserComponent implements OnInit {
     //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterAllCountryStateAndCity'), 'error');
     //   return;
     // }
-    if(modelSave.country_name && modelSave.state_name && modelSave.city_name && this.showInput){
+    if(this.showInput){
        modelSave.country_id = 0;
        modelSave.state_id = 0;
        modelSave.city_id = 0;
@@ -402,6 +404,8 @@ this.model.marital_statuses_id = maritalStatusId;
         this.model.country_name = null;
         this.model.state_name = null;
         this.model.city_name = null;
+        this.stateDisable = true;
+        this.cityDisable = true;
       }
       else{
         this.showInput = false;
@@ -446,5 +450,19 @@ this.model.marital_statuses_id = maritalStatusId;
     }
   }
   
+  modelChanged(){
+    if(!this.model.country_name){
+       this.stateDisable = true;
+       this.cityDisable = true;
+       this.model.state_name = null;
+       this.model.city_name = null;
+    }
+    else if(this.model.country_name && !this.model.state_name){
+      this.stateDisable = false;
+    }
+    else if(this.model.country_name && this.model.state_name){
+      this.cityDisable = false;
+    }
+  }
 }
 
