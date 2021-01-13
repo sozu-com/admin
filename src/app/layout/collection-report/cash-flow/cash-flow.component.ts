@@ -38,7 +38,10 @@ export class CashFlowComponent implements OnInit {
   finalData1: Array<any>;
   finalData2: Array<any>;
   items: Array<any>;
-   ff : Array<any>;
+  finalDataExpacted: Array<any>;
+  finalDataActual: Array<any>;
+  finalDataPending: Array<any>;
+  finalDatadue: Array<any>;
   reportType: number;
   start_purchase_date: any;
   end_purchase_date: any;
@@ -65,35 +68,70 @@ export class CashFlowComponent implements OnInit {
   }
 
   getListing() {
-    this.spinner.show();
-    const input: any = JSON.parse(JSON.stringify(this.parameter));
+    const input: any = JSON.parse(JSON.stringify(this.input));
     input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
     input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
-    this.admin.postDataApi('graphs/cash-flow', input).subscribe(
-      success => {
-         this.items = success.data;
-         console.log(this.items, "test..")
-        this.spinner.hide();
-        this.reportData = success['data'];
-        console.log(this.reportData, "reportData..")
-        for (let index = 0; index < this.reportData['expected'].length; index++) {
-          const element = this.reportData['expected'][index];
-          console.log(element, "expected..")
-          const ff = []; let d = {};
-          for (let ind = 0; ind < element.y.length; ind++) {
-            d = {y: element.y[ind].y};
-            console.log(d, "y..")
-            ff.push(d);
-            console.log(ff, "ff..")
-          }
-          // array to export
-          // const obj = {label: element.label, expected: element.y, actual: this.reportData['actual'][index].y};
-          // this.items.push(obj);
+
+    if (this.selctedProjects) {
+      const d = this.selctedProjects.map(o => o.id);
+      input.building_id = d;
+    }
+    if (this.selectedCurrencies) {
+      const d = this.selectedCurrencies.map(o => o.id);
+      input.currency_id = d;
+    }
+   
+    if (this.start_purchase_date) {
+      input.start_purchase_date = moment(this.start_purchase_date).format('YYYY-MM-DD');
+    }
+    if (this.end_purchase_date) {
+      input.end_purchase_date = moment(this.end_purchase_date).format('YYYY-MM-DD');
+    }
+  
+
+    this.spinner.show();
+    this.spinner.show();
+    this.admin.postDataApi('graphs/cash-flow', input).subscribe(r => {
+      this.spinner.hide();
+      this.finalDataExpacted = [];
+      this.finalDataActual = [];
+      this.finalDataPending = [];
+      this.finalDatadue = []
+      const reportData = r['data'];
+      console.log(reportData,"reportData")
+      for (let index = 0; index < reportData['expected'].length; index++) {
+        const element = reportData['expected'][index];
+        for (let ind = 0; ind < element.y.length; ind++) {
+          const obj = {expected: element.y[ind].y, label: element.y[ind].label};
+        this.finalDataExpacted.push(obj);
         }
-      },
-      error => {
-        this.spinner.hide();
-      });
+      }
+      for (let index = 0; index < reportData['actual'].length; index++) {
+        const element = reportData['actual'][index];
+        for (let ind = 0; ind < element.y.length; ind++) {
+          const obj = {actual: element.y[ind].y, label: element.y[ind].label};
+        this.finalDataActual.push(obj);
+        }
+      }
+      for (let index = 0; index < reportData['pending'].length; index++) {
+        const element = reportData['pending'][index];
+        for (let ind = 0; ind < element.y.length; ind++) {
+          const obj = {pending: element.y[ind].y, label: element.y[ind].label};
+        this.finalDataPending.push(obj);
+        }
+      }
+
+      for (let index = 0; index < reportData['total_over_due'].length; index++) {
+        const element = reportData['total_over_due'][index];
+        for (let ind = 0; ind < element.y.length; ind++) {
+          const obj = {total_over_due: element.y[ind].y, label: element.y[ind].label};
+        this.finalDatadue.push(obj);
+        }
+      }
+
+    }, error => {
+      this.spinner.hide();
+    });
   }
   
   initCalendarLocale() {

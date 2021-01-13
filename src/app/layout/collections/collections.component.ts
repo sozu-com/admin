@@ -905,7 +905,7 @@ export class CollectionsComponent implements OnInit {
               this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
             },
             error => {
-              this.toastr.error(error.error.message, this.translate.instant('swal.error'));
+              this.toastr.error(error.message, this.translate.instant('swal.error'));
             });
       }
     });

@@ -143,31 +143,32 @@
                   </table>
             </div>
       </div>
+     
       <div class="table-responsive">
             <table style="width:100%">
                   <tr>
                         <th>Month:</th>
-                        <td *ngFor="let expected of items;">{{expected?.label}}</td>
+                        <td *ngFor="let item of finalDataExpacted" class="month">{{item.label}}</td>
                   </tr>
                   <tr>
                         <th>Expected est:</th>
-                        <td>{{y}}</td>
+                        <td *ngFor="let item of finalDataExpacted">{{(item.expected || 0) | currency}}</td>
                   </tr>
                   <tr>
                         <th>Expected din:</th>
-                        <td>actual</td>
+                        <td *ngFor="let item of finalDataActual">{{(item.actual || 0) | currency}}</td>
                   </tr>
-                  <tr>
+                  <!-- <tr>
                         <th>Real:</th>
                         <td>555 77 855</td>
-                  </tr>
+                  </tr> -->
                   <tr>
                         <th>Arrear est:</th>
-                        <td>pending</td>
+                        <td *ngFor="let item of finalDataPending">{{(item.pending || 0) | currency}}</td>
                   </tr>
                   <tr>
                         <th>Arrear din:</th>
-                        <td>total_over_due</td>
+                        <td *ngFor="let item of finalDatadue">{{(item.total_over_due || 0) | currency}}</td>
                   </tr>
             </table>
       </div>

@@ -32,9 +32,11 @@ export class AddLegalEntityComponent implements OnInit {
   addDataForm: FormGroup;
   all_developers: Array<Developer>;
   projects = Array<any>();
-  selctedProjects= Array<any>();
+  selctedProjects = Array<any>();
   multiDropdownSettings: any;
   data_fetch: boolean = false;
+
+  public system_dashboard_formGroup: FormGroup;
 
   constructor(
     public constant: Constant,
@@ -46,7 +48,10 @@ export class AddLegalEntityComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
     private fb: FormBuilder
-  ) { 
+  ) {
+    this.system_dashboard_formGroup = this.fb.group({
+      system_dashboard_formArray: this.fb.array([])
+    });
   }
 
   ngOnInit() {
@@ -61,16 +66,16 @@ export class AddLegalEntityComponent implements OnInit {
     this.parameter.p = this.constant.p;
     this.initForm();
     this.getDevelopers('');
-    this.initialCountry = {initialCountry: this.constant.country_code};
-      this.parameter.sub = this.route.params.subscribe(params => {
-        if (params['id'] !== '0') {
-          this.model.id = params['id'];
-          this.getLegalEntityAllProjects(this.model.id);
-        } else {
-          this.model.id = '';
-        }
-      });
-      this.getCurrencies();
+    this.initialCountry = { initialCountry: this.constant.country_code };
+    this.parameter.sub = this.route.params.subscribe(params => {
+      if (params['id'] !== '0') {
+        this.model.id = params['id'];
+        this.getLegalEntityAllProjects(this.model.id);
+      } else {
+        this.model.id = '';
+      }
+    });
+    this.getCurrencies();
   }
 
   iniDropDownSetting() {
@@ -126,7 +131,7 @@ export class AddLegalEntityComponent implements OnInit {
     };
     this.addDataForm.controls.country_code.patchValue(this.model.country_code);
     this.addDataForm.controls.dial_code.patchValue(this.model.dial_code);
-    this.addDataForm.patchValue({legal_rep: countryDialCode});
+    this.addDataForm.patchValue({ legal_rep: countryDialCode });
 
     this.setCurrentPosition();
   }
@@ -164,7 +169,7 @@ export class AddLegalEntityComponent implements OnInit {
     $event.stopPropagation();
     this.legalEntityBanks.removeAt(i);
     if (item && item.value.id) {
-      this.admin.postDataApi('deleteLegalEntityBank', {id: item.value.id}).subscribe(success => {
+      this.admin.postDataApi('deleteLegalEntityBank', { id: item.value.id }).subscribe(success => {
         this.spinner.hide();
       }, error => {
         this.spinner.hide();
@@ -198,14 +203,14 @@ export class AddLegalEntityComponent implements OnInit {
 
   getLegalEntityAllProjects(id: string) {
     this.spinner.show();
-    this.admin.postDataApi('getLegalEntityAllProjects', {'legal_entity_id': id})
-    .subscribe(
-      success => {
-        this.projects = success['data'];
-        this.getLegalEntityById(this.model.id);
-      }, error => {
-        this.spinner.hide();
-      });
+    this.admin.postDataApi('getLegalEntityAllProjects', { 'legal_entity_id': id })
+      .subscribe(
+        success => {
+          this.projects = success['data'];
+          this.getLegalEntityById(this.model.id);
+        }, error => {
+          this.spinner.hide();
+        });
   }
 
   setProject(item: any) {
@@ -229,26 +234,26 @@ export class AddLegalEntityComponent implements OnInit {
     let self = this;
     this.data_fetch = false;
     this.spinner.show();
-    this.admin.postDataApi('getLegalEntityById', {id: id})
-    .subscribe(
-      success => {
-        this.spinner.hide();
-        // this.model = success.data;
-        if (success.data.legal_reps && success.data.legal_reps.legal_rep_buildings) {
-          for (let index = 0; index < success.data.legal_reps.legal_rep_buildings.length; index++) {
-            const element = success.data.legal_reps.legal_rep_buildings[index];
-            const d = this.projects.filter(r => r.id == element.building_id);
-            const projectIndex = self.selctedProjects.find(item=> item.id == d[0].id)
-            if(!projectIndex){
-            self.selctedProjects.push({id: d[0].id, name: d[0].name});
-           }
+    this.admin.postDataApi('getLegalEntityById', { id: id })
+      .subscribe(
+        success => {
+          this.spinner.hide();
+          // this.model = success.data;
+          if (success.data.legal_reps && success.data.legal_reps.legal_rep_buildings) {
+            for (let index = 0; index < success.data.legal_reps.legal_rep_buildings.length; index++) {
+              const element = success.data.legal_reps.legal_rep_buildings[index];
+              const d = this.projects.filter(r => r.id == element.building_id);
+              const projectIndex = self.selctedProjects.find(item => item.id == d[0].id)
+              if (!projectIndex) {
+                self.selctedProjects.push({ id: d[0].id, name: d[0].name });
+              }
+            }
           }
-        }
-        this.patchForm(success.data);
-        self.data_fetch = true; 
-      }, error => {
-        this.spinner.hide();
-      });
+          this.patchForm(success.data);
+          self.data_fetch = true;
+        }, error => {
+          this.spinner.hide();
+        });
   }
 
 
@@ -264,7 +269,7 @@ export class AddLegalEntityComponent implements OnInit {
         control.push(this.fb.group(x));
       });
     }
-    this.addDataForm.patchValue({legal_rep: data.legal_reps});
+    this.addDataForm.patchValue({ legal_rep: data.legal_reps });
     if (data.legal_reps) {
       this.model.legal_rep.sales_commission = data.legal_reps.sales_commission;
     }
@@ -287,7 +292,7 @@ export class AddLegalEntityComponent implements OnInit {
   onCountryChange(e) {
     this.model.country_code = e.iso2;
     this.model.dial_code = '+' + e.dialCode;
-    this.initialCountry = {initialCountry: e.iso2};
+    this.initialCountry = { initialCountry: e.iso2 };
   }
 
   add(formData: NgForm) {
@@ -306,15 +311,15 @@ export class AddLegalEntityComponent implements OnInit {
       formData['address'] = this.model.address;
     }
     if (formData['legal_rep'].name || formData['legal_rep'].first_surname || formData['legal_rep'].phone
-       || formData['legal_rep'].email) {
-        // if any of key present, then all must be entered
+      || formData['legal_rep'].email) {
+      // if any of key present, then all must be entered
       if (!formData['legal_rep'].name) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeName'), 'error');
         return;
       }
       if (!formData['legal_rep'].first_surname) {
         swal(this.translate.instant('swal.error'),
-        this.translate.instant('message.error.pleaseEnterLegalRepresentativeFirstName'), 'error');
+          this.translate.instant('message.error.pleaseEnterLegalRepresentativeFirstName'), 'error');
         return;
       }
       if (!formData['legal_rep'].phone) {
@@ -332,7 +337,7 @@ export class AddLegalEntityComponent implements OnInit {
     }
     if (!formData['legal_rep'].name || !formData['legal_rep'].first_surname || !formData['legal_rep'].phone
       || !formData['legal_rep'].email) {
-        delete formData['legal_rep'];
+      delete formData['legal_rep'];
     }
 
     if (formData['legal_entity_banks'] && formData['legal_entity_banks'].length > 0) {
@@ -372,8 +377,8 @@ export class AddLegalEntityComponent implements OnInit {
             return;
           } else {
             const text = this.model.id === '' ?
-                    this.translate.instant('message.success.addedSuccessfully') :
-                    this.translate.instant('message.success.updatedSuccessfully');
+              this.translate.instant('message.success.addedSuccessfully') :
+              this.translate.instant('message.success.updatedSuccessfully');
             swal(this.translate.instant('swal.success'), text, 'success');
             this.router.navigate(['/dashboard/legal-entities/view-all']);
             // if (this.model.id === '') {
@@ -453,4 +458,41 @@ export class AddLegalEntityComponent implements OnInit {
   setValue(send_mail: number) {
     this.model.send_mail = send_mail;
   }
+
+  addSystemDashboardFormArray = ($event: any): void => {
+    $event.stopPropagation();
+    this.systemDashboardFormArray.push(this.newFormGroup());
+  }
+
+  get systemDashboardFormArray(): FormArray {
+    return this.system_dashboard_formGroup.get('system_dashboard_formArray') as FormArray;
+  }
+
+  removeSystemDashboardFormArray($event: Event, i: number, item) {
+    console.log(item);
+    $event.stopPropagation();
+    this.systemDashboardFormArray.removeAt(i);
+    // if (item && item.value.id) {
+    //   this.admin.postDataApi('deleteLegalEntityBank', { id: item.value.id }).subscribe(success => {
+    //     this.spinner.hide();
+    //   }, error => {
+    //     this.spinner.hide();
+    //   });
+    // }
+  }
+
+  newFormGroup = (): FormGroup => {
+    return this.fb.group({
+      name: ['', [Validators.required]],
+      first_surname: ['', [Validators.required]],
+      second_surname: [''],
+      email_id: ['', [Validators.required]],
+      contact_number: ['', [Validators.required]]
+    });
+  }
+
+  addSystemDashboard = (): void => {
+
+  }
+  
 }

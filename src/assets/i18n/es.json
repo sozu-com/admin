@@ -1176,6 +1176,7 @@
       "wantToDeleteFolder": "¿Quieres eliminar esta carpeta?",
       "wantToRemovePaymentConcept": "¿Quieres eliminar este concepto?",
       "cannotRemoveAsPaymentApplied": "No puede eliminar esta oferta, ya que se aplicó el pago",
+
       "pleaseEnterAllCountryStateAndCity": "Ingrese el estado del país y la ciudad"
     }
   },
