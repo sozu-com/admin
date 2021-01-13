@@ -371,7 +371,7 @@ export class PropertiesComponent implements OnInit {
     this.onCountryChange('0');
     this.parameter.is_selected = false;
     this.parameter.page = this.constant.p;
-    this.parameter.dash_flag = 2;
+    this.parameter.dash_flag = this.constant.dash_flag;
     this.parameter.total = 0;
     this.parameter.count_flag = 1;
     this.parameter.min_price = null;

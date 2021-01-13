@@ -250,7 +250,7 @@ export class CollectionsComponent implements OnInit {
     if (this.parameter.deal_to_date && this.parameter.deal_from_date) {
       input.deal_to_date = this.parameter.deal_to_date;
       input.deal_from_date = this.parameter.deal_from_date;
-      console.log('this.parameter.deal_from_date', this.parameter.deal_from_date);
+     // console.log('this.parameter.deal_from_date', this.parameter.deal_from_date);
     }
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
@@ -271,7 +271,7 @@ export class CollectionsComponent implements OnInit {
     input.is_approved = this.parameter.flag;
     this.admin.postDataApi('getCollection', input).subscribe(
       success => {
-        console.log('getcollection ', success);
+      //  console.log('getcollection ', success);
         this.items = success.data;
         this.total = success.total_count;
 
@@ -512,7 +512,7 @@ export class CollectionsComponent implements OnInit {
     this.onCountryChange('0');
     this.parameter.is_selected = false;
     this.parameter.page = this.constant.p;
-    this.parameter.dash_flag = 2;
+    this.parameter.dash_flag = this.constant.dash_flag;
     this.parameter.total = 0;
     this.parameter.count_flag = 1;
     this.resetDates();
@@ -938,7 +938,7 @@ export class CollectionsComponent implements OnInit {
       if (m.collection_paymentss && m.collection_paymentss.length > 0) {
         for (let i = 0; i < m.collection_paymentss.length; i++) {
           const paymnts = m.collection_paymentss[i];
-          console.log(paymnts);
+         // console.log(paymnts);
           if (paymnts.payment_method_id == this.apiConstants.payment_method_id) {
             this.cashSum = parseFloat(this.cashSum) + parseFloat(paymnts.amount);
           }
@@ -1989,7 +1989,7 @@ export class CollectionsComponent implements OnInit {
       this.spinner.hide();
     },
       (error) => {
-        console.log(error);
+      //  console.log(error);
         this.spinner.hide();
       });
   }

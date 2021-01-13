@@ -39,7 +39,7 @@ export class ProjectsComponent implements OnInit {
   min_carpet_area: any;
   max_carpet_area: any;
   exportfinalData: Array<any>;
-  
+
   constructor(
     public constant: Constant,
     public apiConstant: ApiConstants,
@@ -47,7 +47,7 @@ export class ProjectsComponent implements OnInit {
     public admin: AdminService,
     public projectService: ProjectService,
     private spinner: NgxSpinnerService,
-    private translate: TranslateService,private http: HttpClient,
+    private translate: TranslateService, private http: HttpClient,
     private router: Router, private elementRef: ElementRef
   ) { }
 
@@ -311,7 +311,7 @@ export class ProjectsComponent implements OnInit {
     this.onCountryChange('0');
     this.parameter.is_selected = false;
     this.parameter.page = this.constant.p;
-    this.parameter.dash_flag = 2;
+    this.parameter.dash_flag = this.constant.dash_flag;
     this.parameter.total = 0;
     // this.selectedUser = '';
     this.parameter.keyword = '';
@@ -442,7 +442,7 @@ export class ProjectsComponent implements OnInit {
       const exportfinalData = [];
       for (let index = 0; index < this.exportfinalData.length; index++) {
         const p = this.exportfinalData[index];
-        
+
         exportfinalData.push({
           'Name': p.name || '',
           'Developer Name': p.developer && p.developer.name ? p.developer.name : '',
