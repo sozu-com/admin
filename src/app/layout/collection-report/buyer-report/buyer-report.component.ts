@@ -9,6 +9,7 @@ import { CollectionReport } from '../../../models/collection-report.model';
 import { Towers } from 'src/app/models/addProject.model';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
+import { ExcelDownload } from 'src/app/common/excelDownload';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 
@@ -440,45 +441,30 @@ export class BuyerReportComponent implements OnInit {
       const exportfinalData = [];
       for (let index = 0; index < this.exportfinalData.length; index++) {
         const item = self.exportfinalData[index];
-        let buyer = '';
-        if (item.buyer_type != 2) {
-          buyer = item.buyer.name ? (item.buyer.name + ' ' + item.buyer.first_surname + ' ' + item.buyer.second_surname) : '';
-        } else {
-          if(!!item.buyer_legal_entity && !!item.buyer_legal_entity.comm_name){
-          buyer = item.buyer_legal_entity && item.buyer_legal_entity.comm_name ? item.buyer_legal_entity.comm_name : '';
-          }
-        }
-
-        let seller = '';
-        if (item.seller_type != 2) {
-          seller = item.seller.name ? (item.seller.name + ' ' + item.seller.first_surname + ' ' + item.seller.second_surname) : '';
-        } else {
-          if(!!item.seller_legal_entity && !!item.seller_legal_entity.comm_name){
-            seller = item.seller_legal_entity && item.seller_legal_entity.comm_name ? item.seller_legal_entity.comm_name : '';
-            }
-        }
 
         exportfinalData.push({
-          'Buyer Name': buyer,
-          'Seller Name': seller,
-          'Destiny Bank': item.payment_received_by == 1 ? item.property.building.agency.name : 'Seller',
-          Project: item.property.building.name || '',
-          Tower: item.property.building_towers.tower_name || '',
-          Model: item.property.building_configuration.name || '',
-          'Property Name': item.property.name || '',
-          Currency: item.currency.code || '',
-          Date: item.payment_date,
-          'Amount Paid By User': item.amt_paid || '',
-          'Payment Method':item.payment_method.name || '',
+          'Buyer Name': (item.buyer_type != 2) ? ((item.buyer || {}).name) ? ((item.buyer || {}).name + ' ' + (item.buyer || {}).first_surname + ' ' + (item.buyer || {}).second_surname) : '' :
+            (item.buyer_legal_entity || {}).comm_name || '',
+          'Seller Name': (item.seller_type != 2) ? ((item.seller || {}).name) ? ((item.seller || {}).name + ' ' + (item.seller || {}).first_surname + ' ' + (item.seller || {}).second_surname) : '' :
+            (item.seller_legal_entity || {}).comm_name || '',
+          'Destiny Bank': item.payment_received_by == 1 ? (((item.property || {}).building || {}).agency || {}).name : 'Seller',
+          'Project': ((item.property || {}).building || {}).name || '',
+          'Tower': ((item.property || {}).building_towers || {}).tower_name || '',
+          'Model': ((item.property || {}).building_configuration || {}).name || '',
+          'Property Name': (item.property || {}).name || '',
+          'Currency': (item.currency || {}).code || '',
+          'Date': item.payment_date,
+          'Amount Paid By User': '$ ' + item.amt_paid || 0,
+          'Payment Method': (item.payment_method || {}).name || '',
           'Bank Name': item.bank_name || '',
           'Account Number': item.account_number || '',
           'Clabe Swift': item.swift || '',
           'Bank Currency': item.bank_currency || '',
-          'Total Paid': item.total_amt_paid || '',
-          Remaining: (item.deal_price - (item.penalty || 0)) || '',
+          'Total Paid': '$ ' + (item.deal_price || 0 - (item.remaning_amount || 0)) || 0,
+          'Remaining': '$ ' + item.remaning_amount || 0,
         });
       }
-      this.exportAsExcelFile(exportfinalData, 'buyerReport-');
+      new ExcelDownload().exportAsExcelFile(exportfinalData, 'buyerReport');
     }
   }
   getExportlisting() {
@@ -528,78 +514,45 @@ export class BuyerReportComponent implements OnInit {
     this.admin.postDataApi('generateCollectionbuyerReport', input).subscribe(
       success => {
         this.exportfinalData = success['data'];
-        // for (let index = 0; index < this.exportfinalData.length; index++) {
-        //   const element = this.exportfinalData[index];
-        //   let b = '';
-        //   if (element.payment_received_by == 1) {
-        //     if (element.bank_id) {
-        //       b = element.agency_bank_name;
-        //     } else {
-        //       b = element.legal_representative_banks_name;
-        //     }
-        //   } else {
-        //     if (element.seller_type != 2) {  // seller as person or developer
-        //       if (element.bank_id) {
-        //         b = element.legal_representative_banks_name;
-        //       } else if (element.legal_rep_bank_id) {
-        //         b = element.legal_representative_banks_name;
-        //       }
-        //     } else {  // seller as legal entity
-        //       if (element.bank_id) {
-        //         b = element.legal_entitiy_bank_name;
-        //       } else if (element.legal_rep_bank_id) {
-        //         b = element.legal_representative_banks_name;
-        //       }
-        //     }
-        //   }
+        for (let index = 0; index < this.exportfinalData.length; index++) {
+          const element = this.exportfinalData[index];
+          let b = '';
+          if (element.payment_received_by == 1) {
+            if (element.bank_id) {
+              b = element.agency_bank_name;
+            } else {
+              b = element.legal_representative_banks_name;
+            }
+          } else {
+            if (element.seller_type != 2) {  // seller as person or developer
+              if (element.bank_id) {
+                b = element.legal_representative_banks_name;
+              } else if (element.legal_rep_bank_id) {
+                b = element.legal_representative_banks_name;
+              }
+            } else {  // seller as legal entity
+              if (element.bank_id) {
+                b = element.legal_entitiy_bank_name;
+              } else if (element.legal_rep_bank_id) {
+                b = element.legal_representative_banks_name;
+              }
+            }
+          }
 
-        //   if (b) {
-        //     const bn = b.split(',');
-        //     element.bank_name = bn[0];
-        //     element.account_number = bn[1];
-        //     element.swift = bn[2];
-        //     element.bank_currency = bn[3];
-        //   }
-        // }
+          if (b) {
+            const bn = b.split(',');
+            element.bank_name = bn[0];
+            element.account_number = bn[1];
+            element.swift = bn[2];
+            element.bank_currency = bn[3];
+          }
+        }
         this.exportData();
-        // this.spinner.hide();
+        this.spinner.hide();
       },
       error => {
         this.spinner.hide();
       });
-  }
-  // will be used in case of excel
-  public exportAsExcelFile(json: any[], excelFileName: string): void {
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
-    const workbook: XLSX.WorkBook = {
-      Sheets: { data: worksheet },
-      SheetNames: ['data']
-    };
-    const excelBuffer: any = XLSX.write(workbook, {
-      bookType: 'xlsx',
-      type: 'array'
-    });
-    this.spinner.hide();
-    this.saveAsExcelFile(excelBuffer, excelFileName);
-  }
-
-  private saveAsExcelFile(buffer: any, fileName: string): void {
-    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
-    const today = new Date();
-    const date =
-      today.getDate() +
-      '-' +
-      today.getMonth() +
-      '-' +
-      today.getFullYear() +
-      '_' +
-      today.getHours() +
-      '_' +
-      today.getMinutes() +
-      '_' +
-      today.getSeconds();
-    fileName = fileName + date;
-    FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
   }
 
   getPaymentMethods() {

@@ -14,9 +14,10 @@ export class ExcelDownload {
     }
 
     private saveAsExcelFile(buffer: any, fileName: string): void {
-        const data: Blob = new Blob([buffer], {
-            type: EXCEL_TYPE
-        });
-        FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+        const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+        const today = new Date();
+        const date = today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear() + '_' + today.getHours() + '_' + today.getMinutes() + '_' + today.getSeconds();
+        fileName = fileName + '_export_' + date;
+        FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
     }
 }
