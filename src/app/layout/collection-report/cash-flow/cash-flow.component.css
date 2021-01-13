@@ -19,3 +19,17 @@ table, th, td {
     padding: 5px;
     text-align: left;
   }
+
+  /* tbody tr:nth-child(odd){
+    background-color: #00B96F;
+    color: black;
+  } */
+  th {
+    background-color: #00B96F;
+    color: black;
+  }
+  
+
+table tr > td:first-child {
+    background-color: #ff0000; 
+}
