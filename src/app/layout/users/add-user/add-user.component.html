@@ -242,21 +242,26 @@
         <div class="col-4">
           <div class="form-group-3">
             <label>{{'filters.location.country' | translate}}</label>
-            <select class="form-control" (change)="getStatesNew1($event.target.value)">
+            <select class="form-control" (change)="getStatesNew1($event.target.value)" *ngIf="parameter?.countriesAdd">
               <option value="" disabled>{{'filters.location.selectCountry' | translate}}</option>
               <option value="0" [selected]="location.countries!='' && location.countries==0">{{'filters.location.allOption' | translate}}</option>
               <option *ngFor="let countryAdd of parameter.countriesAdd" [selected]="countryAdd.id == model.country_id" value="{{countryAdd.id}}">{{countryAdd.name}}</option>
+              <option value="other">{{'filters.location.other' | translate}}</option>
             </select>
+          <div>
+            <input *ngIf="showInput" [(ngModel)]="model.country_name" name="country_name" autocomplete="off" type="text" class="form-control" placeholder="Enter Country Name" style="margin-top: 20px;">
+          </div>
           </div>
         </div>
         <div class="col-4">
           <div class="form-group-3">
             <label>{{'filters.location.state' | translate}}</label>
-      <select class="form-control" (change)="getCitiesNew1($event.target.value)">
+      <select class="form-control" (change)="getCitiesNew1($event.target.value)" *ngIf="!showInput && parameter?.statesAdd">
         <option value="" disabled>{{'filters.location.selectState' | translate}}</option>
         <option value="0" [selected]="location.states!='' && location.states==0">{{'filters.location.allOption' | translate}}</option>
         <option *ngFor="let stateAdd of parameter.statesAdd" [selected]="stateAdd.id == model.state_id" value="{{stateAdd.id}}">{{stateAdd.name}}</option>
       </select>
+      <input *ngIf="showInput" [(ngModel)]="model.state_name" name="state_name" autocomplete="off" type="text" class="form-control" placeholder="Enter State Name">
           </div>
         </div>
       </div>
@@ -269,11 +274,12 @@
         <div class="col-4">
           <div class="form-group-3">
             <label>{{'filters.location.city' | translate}}</label>
-            <select class="form-control" (change)="getLocalitiesNew($event.target.value)">
+            <select class="form-control" (change)="getLocalitiesNew($event.target.value)" *ngIf="!showInput && parameter?.citiesAdd">
             <option value="" disabled>{{'filters.location.selectCity' | translate}}</option>
             <option value="0" [selected]="location.cities!='' && location.cities==0">{{'filters.location.allOption' | translate}}</option>
             <option *ngFor="let cityAdd of parameter.citiesAdd" [selected]="cityAdd.id == model.city_id" value="{{cityAdd.id}}">{{cityAdd.name}}</option>
           </select>
+          <input *ngIf="showInput" [(ngModel)]="model.city_name" name="city_name" autocomplete="off" type="text" class="form-control" placeholder="Enter City Name">
           </div>
         </div>
         <div class="col-4">

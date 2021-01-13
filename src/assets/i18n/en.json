@@ -89,7 +89,8 @@
       "search": "Search",
       "allOption": "All",
       "applyBtn": "Apply",
-      "resetBtn": "Reset"
+      "resetBtn": "Reset",
+      "other": "Other"
     },
     "flag": {
       "approved": "Approved",
@@ -1170,7 +1171,8 @@
       "wantToDeleteDocs": "You want to delete this document?",
       "wantToDeleteFolder": "You want to delete this folder?",
       "wantToRemovePaymentConcept": "You want to remove this concept?",
-      "cannotRemoveAsPaymentApplied": "You cannot remove this deal, as payment has been applied"
+      "cannotRemoveAsPaymentApplied": "You cannot remove this deal, as payment has been applied",
+      "pleaseEnterAllCountryStateAndCity": "Please enter both country state And city"
     }
   },
   "inhouseUsers": {

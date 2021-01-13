@@ -35,9 +35,9 @@ export class Users {
     legal_entities_sort?: number;
     images?: Array<any>;
     videos?: Array<string>;
-    country_id?: string;
-    state_id?: string;
-    city_id?: string;
+    country_id?: number;
+    state_id?: number;
+    city_id?: number;
     locality_id?: string;
     fed_tax_pay?: string;
     developer_url?: string;
@@ -55,4 +55,7 @@ export class Users {
     zipcode?: number;
     neighborhood?: string;
     admin: UserModel;
+    country_name?: string;
+    state_name?: string;
+    city_name?: string;
 }
