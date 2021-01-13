@@ -12,9 +12,10 @@
                 *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_read==1 && !this.parameter.assignee_id">
                 <div class="d-flex">
                     <div class="autocomplete">
-                        <input placeholder="{{'addForm.placeholder.searchCSRBuyer' | translate}}" style="max-width:200px" list="amenities"
-                            [(ngModel)]="parameter.keyword" (input)="getCsrListing()" class="form-control" type="text"
-                            name="keyword" (focusout)="closeCsrListing()">
+                        <input placeholder="{{'addForm.placeholder.searchCSRBuyer' | translate}}"
+                            style="max-width:200px" list="amenities" [(ngModel)]="parameter.keyword"
+                            (input)="getCsrListing()" class="form-control" type="text" name="keyword"
+                            (focusout)="closeCsrListing()">
                         <div id="myInputautocomplete-list" class="autocomplete-items">
                             <div *ngFor="let item of users" (click)="selectCsrUser(item)">{{item.email}}</div>
                         </div>
@@ -57,16 +58,17 @@
                 <div class="col-lg-2 col-md-2 col-sm-5 col-5">
                     <div class="form-group marginB0">
                         <label>{{'filters.time.custom.from' | translate}}:</label>
-                        <p-calendar showIcon="true" [locale]="locale" [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true"
-                            [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+                        <p-calendar showIcon="true" [locale]="locale" [(ngModel)]="parameter.min" [maxDate]="today"
+                            showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040">
+                        </p-calendar>
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-5 col-5">
                     <div class="form-group marginB0">
                         <label>{{'filters.time.custom.to' | translate}}:</label>
-                        <p-calendar showIcon="true" [locale]="locale" [(ngModel)]="parameter.max" [minDate]="parameter.min"
-                            [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true"
-                            yearRange="2000:2040"></p-calendar>
+                        <p-calendar showIcon="true" [locale]="locale" [(ngModel)]="parameter.max"
+                            [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true"
+                            [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
                     </div>
                 </div>
                 <div class="col-lg-1 col-md-2 col-sm-2 col-6">
@@ -74,7 +76,8 @@
                         <label class="addMT3">&nbsp;</label>
                         <button class="btn btn-calender" href="javascript://"
                             (click)="getListing(); getCSRDashBoardData();"
-                            [disabled]="!parameter.min || !parameter.max">{{'filters.time.custom.applyBtn' | translate}}</button>
+                            [disabled]="!parameter.min || !parameter.max">{{'filters.time.custom.applyBtn' |
+                            translate}}</button>
                     </div>
                 </div>
             </div>
@@ -131,7 +134,8 @@
             <div class="col-md-2">
                 <div class="form-group btn-cont">
                     <label style="display: block; margin-top: 3px;">&nbsp;</label>
-                    <button type="button" (click)="resetFilters()" class="btn btn-primary-new width100P">{{'filters.location.resetBtn' | translate}}</button>
+                    <button type="button" (click)="resetFilters()"
+                        class="btn btn-primary-new width100P">{{'filters.location.resetBtn' | translate}}</button>
                 </div>
             </div>
         </div>
@@ -149,7 +153,8 @@
                         <td class="text-left">{{item.email}}</td>
                         <td>
                             <a (click)="removeCsrUser()" href="javascript://" class="icon-block edit-icon">
-                                <img src="assets/img/remove-icon.png" alt="remove" title="{{'table.title.remove' | translate}}" /></a>
+                                <img src="assets/img/remove-icon.png" alt="remove"
+                                    title="{{'table.title.remove' | translate}}" /></a>
                         </td>
                     </tr>
                 </tbody>
@@ -220,7 +225,8 @@
             </div>
             <div class="col-lg-4 col-md-12 col-sm-12 col-12">
                 <div class="chat-msg all-leads" style="padding:0px">
-                    <div class="padding20" *ngIf="dash?.lead_total == 0">{{'message.error.noRecordFound' | translate}}</div>
+                    <div class="padding20" *ngIf="dash?.lead_total == 0">{{'message.error.noRecordFound' | translate}}
+                    </div>
                     <ngx-charts-pie-chart [results]="chartView"></ngx-charts-pie-chart>
                 </div>
             </div>
@@ -244,7 +250,8 @@
             <div class="col-lg-6 col-md-6 col-5"
                 *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_read==1 && !this.parameter.assignee_id">
                 <div class="add-new text-right">
-                    <a class="btn" (click)="bulkAssign()" href="javascript://">{{'table.th.bulkReassign' | translate}}</a>
+                    <a class="btn" (click)="bulkAssign()" href="javascript://">{{'table.th.bulkReassign' |
+                        translate}}</a>
                 </div>
             </div>
         </div>
@@ -282,12 +289,24 @@
                             </th>
                             <th style="width:15%;">
                                 <div class="table-search">
-                                        <label>{{'table.th.firstSurname' | translate}}</label>
+                                    <label>{{'table.th.firstSurname' | translate}}</label>
+                                    <div class="searh-3">
+                                        <input autocomplete="off" type="text" [(ngModel)]="parameter.first_surname"
+                                            (keyup.enter)="changeFilter('first_surname',$event.target.value)" name="">
+                                        <button *ngIf="parameter.first_surname" (click)="changeFilter('first_surname', parameter.first_surname)"><i
+                                                class="fa fa-search"></i></button>
+                                    </div>
                                 </div>
                             </th>
                             <th style="width:15%;">
                                 <div class="table-search">
-                                        <label>{{'table.th.secondSurname' | translate}}</label>
+                                    <label>{{'table.th.secondSurname' | translate}}</label>
+                                    <div class="searh-3">
+                                        <input autocomplete="off" type="text" [(ngModel)]="parameter.second_surname"
+                                            (keyup.enter)="changeFilter('second_surname',$event.target.value)" name="">
+                                        <button *ngIf="parameter.second_surname" (click)="changeFilter('second_surname', parameter.second_surname)"><i
+                                                class="fa fa-search"></i></button>
+                                    </div>
                                 </div>
                             </th>
                             <th style="width:19%; text-align:left;">
@@ -343,23 +362,26 @@
                                 <!-- <i class="fa" [ngClass]="item.selected?'fa-check-square-o':'fa-square-o'" (click)="item.selected = !item.selected" aria-hidden="true"></i> -->
                             </td>
                             <td>
-                                <img [src]="item?.user?.image ? item?.user?.image : item?.image| img:'small'" class="rounded-circle"
-                                    onerror='src="assets/img/default_img.png"' alt="img">
+                                <img [src]="item?.user?.image ? item?.user?.image : item?.image| img:'small'"
+                                    class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
                             </td>
                             <td class="text-left">
-                                <span *ngIf="item.name" class="name">{{item?.user?.name ? item?.user?.name : item?.name | titlecase}}</span>
+                                <span *ngIf="item.name" class="name">{{item?.user?.name ? item?.user?.name : item?.name
+                                    | titlecase}}</span>
                                 <span class="name" *ngIf="!item.name">{{'table.tr.td.NA' | translate}}</span>
                             </td>
                             <td class="text-left">
                                 <span class="name">{{item.first_surname | titlecase}}</span>
-                               </td>
-                               <td class="text-left">
+                            </td>
+                            <td class="text-left">
                                 <span class="name">{{item.second_surname | titlecase}}</span>
-                               </td>
+                            </td>
                             <td class="text-left" *ngIf="item?.phone">
-                                {{item?.dial_code ? item?.dial_code : constant.dial_code}}-{{item?.user?.phone ? item?.user?.phone : item.phone}}</td>
+                                {{item?.dial_code ? item?.dial_code : constant.dial_code}}-{{item?.user?.phone ?
+                                item?.user?.phone : item.phone}}</td>
                             <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
-                            <td class="text-left" *ngIf="item.email">{{item?.user?.email ? item?.user?.email : item.email}}</td>
+                            <td class="text-left" *ngIf="item.email">{{item?.user?.email ? item?.user?.email :
+                                item.email}}</td>
                             <td class="text-left" *ngIf="!item.email">{{'table.tr.td.NA' | translate}}</td>
                             <td>
                                 <span *ngFor="let conf of item.configuration; let ii=index">
@@ -368,8 +390,10 @@
                                 </span>
                                 <span *ngIf="item.configuration?.length==0">{{'table.tr.td.NA' | translate}}</span>
                             </td>
-                            <td class="text-left" title="{{'table.title.CSRBuyer' | translate}}">{{item?.admin?.name ? item?.admin?.name : ('table.tr.td.NA' | translate)}}</td>
-                            <td class="text-left" *ngIf="item.sale_rent">{{item.sale_rent==1 ? ('leadDetails.buy' | translate) : ('table.tr.td.rent' | translate)}}</td>
+                            <td class="text-left" title="{{'table.title.CSRBuyer' | translate}}">{{item?.admin?.name ?
+                                item?.admin?.name : ('table.tr.td.NA' | translate)}}</td>
+                            <td class="text-left" *ngIf="item.sale_rent">{{item.sale_rent==1 ? ('leadDetails.buy' |
+                                translate) : ('table.tr.td.rent' | translate)}}</td>
                         </tr>
                     </table>
                     <div class="padding20 center" *ngIf="parameter.noResultFound">
@@ -384,7 +408,8 @@
         <div class="row">
             <div class="col-6">
                 <div class="title-group">
-                    <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}} {{parameter.total}}</p>
+                    <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' |
+                        translate}} {{parameter.total}}</p>
                 </div>
             </div>
             <div class="col-6 text-right">
@@ -406,12 +431,14 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-8 col-6">
-                        <input title="{{'table.title.clickEnterForSearch' | translate}}" style="max-width:200px" list="amenities" [(ngModel)]="assign.keyword"
-                            (keyup.enter)="getAssignListing()" class="form-control" type="text" name="keyword"
+                        <input title="{{'table.title.clickEnterForSearch' | translate}}" style="max-width:200px"
+                            list="amenities" [(ngModel)]="assign.keyword" (keyup.enter)="getAssignListing()"
+                            class="form-control" type="text" name="keyword"
                             placeholder="{{'addForm.placeholder.search' | translate}}">
                     </div>
                     <div class="col-md-4 col-5 btn-cont">
-                        <a class="btn btn-primary pull-right" href="javascript://" (click)="assignNow()">{{'leads.assign' | translate}}</a>
+                        <a class="btn btn-primary pull-right" href="javascript://"
+                            (click)="assignNow()">{{'leads.assign' | translate}}</a>
                     </div>
                 </div>
                 <div class="spacer40"></div>
@@ -428,7 +455,8 @@
                                     <div class="n-avail-info">
                                         <p class="p12">{{item.name | titlecase}}</p>
                                         <p class="p10">{{'leads.phone' | translate}} :
-                                            {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone.trim()}}
+                                            {{item.dial_code ? item.dial_code :
+                                            constant.dial_code}}-{{item.phone.trim()}}
                                         </p>
                                     </div>
                                 </div>

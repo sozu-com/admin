@@ -268,11 +268,19 @@
               <th style="width:10%;">
                   <div class="table-search">
                           <label>{{'table.th.firstSurname' | translate}}</label>
+                          <div class="searh-3">
+                            <input autocomplete="off" type="text" name="first_surname" [(ngModel)]="parameter.first_surname" (keyup.enter)="getListing()">
+                            <button *ngIf="parameter.first_surname" (click)="getListing()"><i class="fa fa-search"></i></button>
+                          </div>
                   </div>
               </th>
               <th style="width:10%;">
                   <div class="table-search">
                           <label>{{'table.th.secondSurname' | translate}}</label>
+                          <div class="searh-3">
+                            <input autocomplete="off" type="text" name="second_surname" [(ngModel)]="parameter.second_surname" (keyup.enter)="getListing()">
+                            <button *ngIf="parameter.second_surname" (click)="getListing()"><i class="fa fa-search"></i></button>
+                          </div>
                   </div>
               </th>
               <th style="width:10%;">

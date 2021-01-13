@@ -43,7 +43,7 @@ export class CsrBuyerComponent implements OnInit {
   showSearchText: boolean;
   allSelected: boolean = false;
 
-  public scrollbarOptions = { axis: 'y', theme: 'dark'};
+  public scrollbarOptions = { axis: 'y', theme: 'dark' };
   constructor(
     public admin: AdminService,
     private constant: Constant,
@@ -145,7 +145,7 @@ export class CsrBuyerComponent implements OnInit {
     this.getCSRDashBoardData();
   }
 
-  changeFilter(key, value) {
+  changeFilter = (key: string, value: any): void => {
     this.parameter[key] = value;
     this.getListing();
   }
@@ -335,7 +335,7 @@ export class CsrBuyerComponent implements OnInit {
 
   assignNow() {
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
-    const users_ids = this.items.filter(x=> x.selected).map(y=> y.admin.id);
+    const users_ids = this.items.filter(x => x.selected).map(y => y.admin.id);
     const input = {
       csr_buyer_id: this.assignItem.id,
       leads: leads_ids,

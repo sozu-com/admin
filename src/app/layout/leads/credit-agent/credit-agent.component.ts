@@ -17,7 +17,7 @@ declare let swal: any;
   providers: [Constant]
 })
 export class CreditAgentComponent implements OnInit {
-  public scrollbarOptions = { axis: 'y', theme: 'dark'};
+  public scrollbarOptions = { axis: 'y', theme: 'dark' };
   @ViewChild('openAssignModel') openAssignModel: ElementRef;
   @ViewChild('closeAssignModel') closeAssignModel: ElementRef;
 
@@ -141,10 +141,10 @@ export class CreditAgentComponent implements OnInit {
     this.getCSRDashBoardData();
   }
 
-  changeFilter(key, value) {
-    this.parameter[key] = value;
-    this.getListing();
-  }
+  // changeFilter = (key: string, value: any): void => {
+  //   this.parameter[key] = value;
+  //   this.getListing();
+  // }
 
   changeCountFlag(flag: number) {
     this.parameter.count_flag = flag;
@@ -244,7 +244,7 @@ export class CreditAgentComponent implements OnInit {
       this.chartView = [
         {
           'name': this.translate.instant('leads.leadsOpen'),
-          'value':parseInt(this.dash.lead_open, 10)
+          'value': parseInt(this.dash.lead_open, 10)
         },
         {
           'name': this.translate.instant('leads.leadsClosed'),
@@ -376,7 +376,7 @@ export class CreditAgentComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.admin.postDataApi('leads/changeLeadStatus', {status: status, id: id})
+        this.admin.postDataApi('leads/changeLeadStatus', { status: status, id: id })
           .subscribe(
             success => {
               this.items[index]['lead_status_agent'] = status;

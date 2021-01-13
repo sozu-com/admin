@@ -192,4 +192,6 @@ export interface IProperty {
   agency_name?: string;
   min_carpet_area?: any;
   max_carpet_area?: any;
+  first_surname?: string;
+  second_surname?: string;
 }

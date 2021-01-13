@@ -142,10 +142,10 @@ export class CsrSellerComponent implements OnInit {
     this.getCSRDashBoardData();
   }
 
-  changeFilter(key, value) {
-    this.parameter[key] = value;
-    this.getListing();
-  }
+  // changeFilter = (key: string, value: any): void => {
+  //   this.parameter[key] = value;
+  //   this.getListing();
+  // }
 
   changeCountFlag(flag: number) {
     this.parameter.count_flag = flag;
@@ -355,7 +355,7 @@ export class CsrSellerComponent implements OnInit {
 
   assignNow() {
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
-    const users_ids = this.items.filter(x=> x.selected).map(y=> y.admin.id);
+    const users_ids = this.items.filter(x => x.selected).map(y => y.admin.id);
     const input = {
       csr_seller_id: this.assignItem.id,
       leads: leads_ids,
