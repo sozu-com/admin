@@ -73,7 +73,7 @@ export class CsrBuyerDetailComponent implements OnInit {
     this.leadData = new Leads();
     this.leadData.prefs = new Prefs();
 
-    this.parameter.sent_as = this.constant.userType.csr_buyer;
+    this.parameter.sent_as = this.constant.userType.inhouse_broker;
     this.route.params.subscribe( params => {
       this.parameter.lead_id = params.id;
       this.spinner.show();

@@ -371,10 +371,10 @@
                                 <span class="name" *ngIf="!item.name">{{'table.tr.td.NA' | translate}}</span>
                             </td>
                             <td class="text-left">
-                                <span class="name">{{item.first_surname | titlecase}}</span>
+                                <span class="name">{{item?.first_surname? (item?.first_surname | titlecase):('table.tr.td.NA' | translate)}}</span>
                             </td>
                             <td class="text-left">
-                                <span class="name">{{item.second_surname | titlecase}}</span>
+                                <span class="name">{{item?.second_surname? (item?.second_surname | titlecase):('table.tr.td.NA' | translate)}}</span>
                             </td>
                             <td class="text-left" *ngIf="item?.phone">
                                 {{item?.dial_code ? item?.dial_code : constant.dial_code}}-{{item?.user?.phone ?
