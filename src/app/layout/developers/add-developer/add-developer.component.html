@@ -459,8 +459,9 @@
     </div>
   </div>
 
-  <!-- <div class="container-fluid" style="margin-top: 30px;padding: 0px;">
+  <div class="container-fluid" style="margin-top: 30px;padding: 0px;">
     <div class="white-bg padding40">
+      <!-- <div class="row"> -->
       <form [formGroup]="this.system_dashboard_formGroup">
         <div class="col-xl-12 col-lg-12 col-md-12 col-12">
 
@@ -472,7 +473,7 @@
             </div>
             <div class="col-6">
               <div class="btn-cont">
-                <span><a class="add" (click)="addSystemDashboardFormArray($event)"
+                <span><a class="add" (click)="this.addSystemDashboardFormArray($event)"
                     href="javascript://">{{'addForm.addNew' | translate}}</a></span>
               </div>
             </div>
@@ -481,7 +482,7 @@
           <div class="col-12">
             <div formArrayName="system_dashboard_formArray">
               <ng-container
-                *ngFor="let temp_system_dashboard_formArray of systemDashboardFormArray['controls']; let i=index">
+                *ngFor="let temp_system_dashboard_formArray of this.systemDashboardFormArray['controls']; let i=index">
                 <div [formGroupName]="i">
                   <div class="row">
                     <div class="col-lg-4 col-md-6 col-sm-6 col-12">
@@ -555,5 +556,6 @@
 
         </div>
       </form>
+      <!-- </div> -->
     </div>
-  </div> -->
+  </div>

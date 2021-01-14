@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormArray, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Users } from 'src/app/models/users.model';
 import { MapsAPILoader } from '@agm/core';
 import { FileUpload } from 'src/app/common/fileUpload';
@@ -11,7 +11,6 @@ import { CommonService } from 'src/app/services/common.service';
 import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LegalRepresentative, Banks } from 'src/app/models/legalEntity.model';
-import { FormBuilder } from '@angular/forms';
 declare const google;
 declare let swal: any;
 
@@ -55,7 +54,7 @@ export class AddDeveloperComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.system_dashboard_formGroup = this.fb.group({
-      developer_access: this.fb.array([])
+      system_dashboard_formArray: this.fb.array([])
     });
   }
 
@@ -131,7 +130,7 @@ export class AddDeveloperComponent implements OnInit {
 
   getDeveloperAllProjects(id: string) {
     this.spinner.show();
-    console.log('getDeveloperAllProjects');
+    //console.log('getDeveloperAllProjects');
     this.admin.postDataApi('getDeveloperAllProjects', { 'developer_id': id })
       .subscribe(
         success => {
@@ -152,7 +151,7 @@ export class AddDeveloperComponent implements OnInit {
           this.spinner.hide();
           this.model = new Users();
           this.model = success.data;
-          console.log('getUserById ', success.data);
+          //console.log('getUserById ', success.data);
           // this.model.legal_representative = new LegalRepresentative();
           this.model.legal_rep_banks = success.data.legal_rep_banks;
           this.model.legal_representative = success.data.legal_representative || new LegalRepresentative();
@@ -163,12 +162,12 @@ export class AddDeveloperComponent implements OnInit {
             for (let index = 0; index < success.data.legal_representative.legal_rep_buildings.length; index++) {
               const element = success.data.legal_representative.legal_rep_buildings[index];
               const d = this.projects.filter(r => r.id == element.building_id);
-              if(d.length != 0){
-              const projectIndex = self.selctedProjects.find(item=> item.id == d[0].id)
-            if(!projectIndex){
-              this.selctedProjects.push({ id: d[0].id, name: d[0].name });
-            }
-          }
+              if (d.length != 0) {
+                const projectIndex = self.selctedProjects.find(item => item.id == d[0].id)
+                if (!projectIndex) {
+                  this.selctedProjects.push({ id: d[0].id, name: d[0].name });
+                }
+              }
             }
           }
           self.data_fetch = true;
