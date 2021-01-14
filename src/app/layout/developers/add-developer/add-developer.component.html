@@ -187,7 +187,8 @@
                   <!-- <span class="color-red">*</span> -->
                 </label>
                 <input (keydown.space)="$event.preventDefault();" autocomplete="off" type="text" class="form-control"
-                  [(ngModel)]="model.developer_url" name="developer_url"> </div>
+                  [(ngModel)]="model.developer_url" name="developer_url">
+              </div>
             </div>
             <div class="col-12">
               <div class="form-group-2">
@@ -397,7 +398,8 @@
                     <label>{{'addCollection.remove' | translate}}</label>
                     <div class="clearfix"></div>
                     <button type="button"
-                      (click)="removeLegalEntityBank($event, leBankAccount, i)">{{'addCollection.remove' | translate}}</button>
+                      (click)="removeLegalEntityBank($event, leBankAccount, i)">{{'addCollection.remove' |
+                      translate}}</button>
                   </div>
                 </div>
               </div>
@@ -409,14 +411,9 @@
         <div class="form-group-2 row" *ngIf="data_fetch">
           <label class="col-4">{{'addForm.pleaseSelectProjects' | translate}}</label>
           <div class="clearfix"></div>
-          <ng-multiselect-dropdown *ngIf="projects?.length>0" 
-            class="col-3 section-section2 multi-select"
-            [placeholder]="''" 
-            [data]="projects" 
-            [(ngModel)]="selctedProjects"
-            [settings]="multiDropdownSettings" 
-            (onSelect)="setProject($event, 'selctedProjects')"
-            (onDeSelect)="unsetProject($event, 'selctedProjects')" 
+          <ng-multiselect-dropdown *ngIf="projects?.length>0" class="col-3 section-section2 multi-select"
+            [placeholder]="''" [data]="projects" [(ngModel)]="selctedProjects" [settings]="multiDropdownSettings"
+            (onSelect)="setProject($event, 'selctedProjects')" (onDeSelect)="unsetProject($event, 'selctedProjects')"
             (onSelectAll)="onSelectAll($event)">
           </ng-multiselect-dropdown>
           <div class="clearfix"></div>
@@ -454,10 +451,114 @@
 
         <!-- Modal footer -->
         <div class="modal-footer btn-cont">
-          <button type="button" (click)="saveImages()"
-            class="btn btn-primary">{{'addForm.moreImages.submitBtn' | translate}}</button>
+          <button type="button" (click)="saveImages()" class="btn btn-primary">{{'addForm.moreImages.submitBtn' |
+            translate}}</button>
         </div>
 
       </div>
     </div>
+<<<<<<< HEAD
+=======
+  </div>
+
+  <div class="container-fluid" style="margin-top: 30px;padding: 0px;">
+    <div class="white-bg padding40">
+      <!-- <div class="row"> -->
+      <form [formGroup]="this.system_dashboard_formGroup">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+
+          <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-3">
+              <div class="form-group-2">
+                <p>{{'addForm.createAccessToSystemDashboard' | translate}}</p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="btn-cont">
+                <span><a class="add" (click)="this.addSystemDashboardFormArray($event)"
+                    href="javascript://">{{'addForm.addNew' | translate}}</a></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div formArrayName="system_dashboard_formArray">
+              <ng-container
+                *ngFor="let temp_system_dashboard_formArray of this.systemDashboardFormArray['controls']; let i=index">
+                <div [formGroupName]="i">
+                  <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                      <div class="form-group-3">
+                        <label>{{'addForm.names' | translate}} <span class="color-red">*</span></label>
+                        <div class="clearfix"></div>
+                        <input required autocomplete="off" minlength="1" maxlength="30" class="form-control" type="text"
+                          name="name" formControlName="name">
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                      <div class="form-group-3">
+                        <label>{{'addForm.firstSurname' | translate}} <span class="color-red">*</span></label>
+                        <div class="clearfix"></div>
+                        <input required autocomplete="off" minlength="1" maxlength="30" class="form-control" type="text"
+                          name="first_surname" formControlName="first_surname">
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                      <div class="form-group-3">
+                        <label>{{'addForm.secondSurname' | translate}}</label>
+                        <div class="clearfix"></div>
+                        <input required autocomplete="off" minlength="1" maxlength="30" class="form-control" type="text"
+                          name="second_surname" formControlName="second_surname">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                      <div class="form-group-3">
+                        <label>{{'addForm.emailId' | translate}} <span class="color-red">*</span></label>
+                        <input (keydown.space)="$event.preventDefault();" autocomplete="off" required
+                          [pattern]="constant.emailPattern" type="email" class="form-control" formControlName="email_id"
+                          name="email_id">
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                      <div class="form-group-3">
+                        <label>{{'addForm.contactNumber' | translate}} <span class="color-red">*</span></label>
+                        <input minlength="8" maxlength="15" autocomplete="off" type="text"
+                          [pattern]="constant.phonePattern" class="form-control" id="phone" required
+                          formControlName="contact_number" name="contact_number" ng2TelInput
+                          [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                      <div class="btn-cont" style="margin-top: 33px;">
+                        <button type="button" class="btn btn-primary marginR10"
+                          (click)="this.openConfirmationAlertBox(i)">{{'addForm.sendEmail' |
+                          translate}}</button>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                      <div class="form-group-3" style="margin-top: 15px;margin-left: 150px;">
+                        <label>{{'addCollection.remove' | translate}}</label>
+                        <div class="clearfix"></div>
+                        <button type="button"
+                          (click)="this.removeSystemDashboardFormArray($event, i)">{{'addCollection.remove' |
+                          translate}}</button>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+              </ng-container>
+            </div>
+
+          </div>
+
+        </div>
+      </form>
+      <!-- </div> -->
+    </div>
+>>>>>>> c12ad8ceae04061a5f45a91dcb4627d5670f29d7
   </div>

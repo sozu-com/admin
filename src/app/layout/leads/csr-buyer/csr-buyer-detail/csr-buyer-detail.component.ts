@@ -77,7 +77,7 @@ export class CsrBuyerDetailComponent implements OnInit {
     this.route.params.subscribe( params => {
       this.parameter.lead_id = params.id;
       this.spinner.show();
-        this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
+        this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.constant.userType.inhouse_broker}).subscribe(r => {
           this.spinner.hide();
           this.leadData = r.data.lead;
           this.leadData.broker = r.data.lead.broker;

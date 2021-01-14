@@ -276,7 +276,11 @@ export class AddDeveloperComponent implements OnInit {
       }
     }
     modelSave.have_dev_panel_access = modelSave.have_dev_panel_access ? 1 : 0;
+<<<<<<< HEAD
     console.log('model value in dev component ', this.model, modelSave);
+=======
+    // console.log('model value in dev component ', this.model, modelSave);
+>>>>>>> c12ad8ceae04061a5f45a91dcb4627d5670f29d7
     if (modelSave['legal_representative'] && this.selctedProjects && this.selctedProjects.length > 0) {
       const d = this.selctedProjects.map(o => o.id);
       modelSave['legal_representative']['building_ids'] = d;
@@ -437,4 +441,62 @@ export class AddDeveloperComponent implements OnInit {
       });
     }
   }
+<<<<<<< HEAD
+=======
+
+  addSystemDashboardFormArray = ($event: any): void => {
+    $event.stopPropagation();
+    this.systemDashboardFormArray.push(this.newFormGroup());
+  }
+
+  get systemDashboardFormArray(): FormArray {
+    return this.system_dashboard_formGroup.get('system_dashboard_formArray') as FormArray;
+  }
+
+  removeSystemDashboardFormArray($event: Event, i: number, item) {
+    //console.log(item);
+    $event.stopPropagation();
+    this.systemDashboardFormArray.removeAt(i);
+    // if (item && item.value.id) {
+    //   this.admin.postDataApi('deleteLegalEntityBank', { id: item.value.id }).subscribe(success => {
+    //     this.spinner.hide();
+    //   }, error => {
+    //     this.spinner.hide();
+    //   });
+    // }
+  }
+
+  newFormGroup = (): FormGroup => {
+    return this.fb.group({
+      name: ['', [Validators.required]],
+      first_surname: ['', [Validators.required]],
+      second_surname: [''],
+      email_id: ['', [Validators.required]],
+      contact_number: ['', [Validators.required]]
+    });
+  }
+
+  openConfirmationAlertBox = (formArrayIndex: number): void => {
+    swal({
+      type: 'success',
+      html: this.translate.instant('message.error.doYouWantTo') + '<br>' + this.translate.instant('message.error.sendEmail'),
+      confirmButtonColor: this.constant.confirmButtonColor,
+      confirmButtonText: 'OK',
+      showCancelButton: true,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      cancelButtonText: 'NO',
+    }).then((result) => {
+      if (result.value) { 
+        this.sendEmail(formArrayIndex);
+      }
+    });
+  }
+
+  sendEmail = (formArrayIndex: number): void => {
+    //swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
+    // swal(this.translate.instant('swal.success'), this.translate.instant('Deepak'), 'success');
+    // swal(this.translate.instant('swal.error'), 'Deepak', 'error');
+    // this.parameter.text = this.translate.instant('message.error.wantToDeleteProject');
+  }
+>>>>>>> c12ad8ceae04061a5f45a91dcb4627d5670f29d7
 }

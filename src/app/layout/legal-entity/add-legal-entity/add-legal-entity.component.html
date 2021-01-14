@@ -356,10 +356,18 @@
     </div>
   </div>
 
+<<<<<<< HEAD
   <div class="white-bg padding40">
     <!-- <div class="row"> -->
     <form [formGroup]="this.system_dashboard_formGroup" (ngSubmit)="this.addSystemDashboard()">
       <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+=======
+  <div class="container-fluid" style="margin-top: 30px;padding: 0px;">
+    <div class="white-bg padding40">
+      <!-- <div class="row"> -->
+      <form [formGroup]="this.system_dashboard_formGroup">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+>>>>>>> c12ad8ceae04061a5f45a91dcb4627d5670f29d7
 
         <div class="row">
           <div class="col-lg-3 col-md-6 col-sm-6 col-3">
@@ -424,11 +432,20 @@
                         formControlName="contact_number" name="contact_number" ng2TelInput
                         [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
                     </div>
+<<<<<<< HEAD
                   </div>
                   <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                     <div class="btn-cont" style="margin-top: 33px;">
                       <button type="submit" class="btn btn-primary marginR10">{{'addForm.sendEmail' |
                         translate}}</button>
+=======
+                    <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                      <div class="btn-cont" style="margin-top: 33px;">
+                        <button type="button" class="btn btn-primary marginR10"
+                          (click)="this.openConfirmationAlertBox(i)">{{'addForm.sendEmail' |
+                          translate}}</button>
+                      </div>
+>>>>>>> c12ad8ceae04061a5f45a91dcb4627d5670f29d7
                     </div>
                   </div>
                   <div class="col-lg-2 col-md-6 col-sm-6 col-12">
