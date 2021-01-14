@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Users } from 'src/app/models/users.model';
 import { MapsAPILoader } from '@agm/core';
 import { FileUpload } from 'src/app/common/fileUpload';
@@ -39,6 +39,8 @@ export class AddDeveloperComponent implements OnInit {
   multiDropdownSettings: any;
   data_fetch: boolean = false;
 
+  public system_dashboard_formGroup: FormGroup;
+
   constructor(
     public constant: Constant,
     private cs: CommonService,
@@ -48,8 +50,13 @@ export class AddDeveloperComponent implements OnInit {
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private fb: FormBuilder
+  ) {
+    this.system_dashboard_formGroup = this.fb.group({
+      system_dashboard_formArray: this.fb.array([])
+    });
+  }
 
   ngOnInit() {
     this.selctedProjects = [];
@@ -123,7 +130,7 @@ export class AddDeveloperComponent implements OnInit {
 
   getDeveloperAllProjects(id: string) {
     this.spinner.show();
-    console.log('getDeveloperAllProjects');
+    //console.log('getDeveloperAllProjects');
     this.admin.postDataApi('getDeveloperAllProjects', { 'developer_id': id })
       .subscribe(
         success => {
@@ -144,7 +151,7 @@ export class AddDeveloperComponent implements OnInit {
           this.spinner.hide();
           this.model = new Users();
           this.model = success.data;
-          console.log('getUserById ', success.data);
+          //console.log('getUserById ', success.data);
           // this.model.legal_representative = new LegalRepresentative();
           this.model.legal_rep_banks = success.data.legal_rep_banks;
           this.model.legal_representative = success.data.legal_representative || new LegalRepresentative();
@@ -155,12 +162,12 @@ export class AddDeveloperComponent implements OnInit {
             for (let index = 0; index < success.data.legal_representative.legal_rep_buildings.length; index++) {
               const element = success.data.legal_representative.legal_rep_buildings[index];
               const d = this.projects.filter(r => r.id == element.building_id);
-              if(d.length != 0){
-              const projectIndex = self.selctedProjects.find(item=> item.id == d[0].id)
-            if(!projectIndex){
-              this.selctedProjects.push({ id: d[0].id, name: d[0].name });
-            }
-          }
+              if (d.length != 0) {
+                const projectIndex = self.selctedProjects.find(item => item.id == d[0].id)
+                if (!projectIndex) {
+                  this.selctedProjects.push({ id: d[0].id, name: d[0].name });
+                }
+              }
             }
           }
           self.data_fetch = true;
@@ -276,7 +283,7 @@ export class AddDeveloperComponent implements OnInit {
       }
     }
     modelSave.have_dev_panel_access = modelSave.have_dev_panel_access ? 1 : 0;
-    console.log('model value in dev component ', this.model, modelSave);
+   // console.log('model value in dev component ', this.model, modelSave);
     if (modelSave['legal_representative'] && this.selctedProjects && this.selctedProjects.length > 0) {
       const d = this.selctedProjects.map(o => o.id);
       modelSave['legal_representative']['building_ids'] = d;
@@ -436,5 +443,41 @@ export class AddDeveloperComponent implements OnInit {
         this.spinner.hide();
       });
     }
+  }
+
+  addSystemDashboardFormArray = ($event: any): void => {
+    $event.stopPropagation();
+    this.systemDashboardFormArray.push(this.newFormGroup());
+  }
+
+  get systemDashboardFormArray(): FormArray {
+    return this.system_dashboard_formGroup.get('system_dashboard_formArray') as FormArray;
+  }
+
+  removeSystemDashboardFormArray($event: Event, i: number, item) {
+    //console.log(item);
+    $event.stopPropagation();
+    this.systemDashboardFormArray.removeAt(i);
+    // if (item && item.value.id) {
+    //   this.admin.postDataApi('deleteLegalEntityBank', { id: item.value.id }).subscribe(success => {
+    //     this.spinner.hide();
+    //   }, error => {
+    //     this.spinner.hide();
+    //   });
+    // }
+  }
+
+  newFormGroup = (): FormGroup => {
+    return this.fb.group({
+      name: ['', [Validators.required]],
+      first_surname: ['', [Validators.required]],
+      second_surname: [''],
+      email_id: ['', [Validators.required]],
+      contact_number: ['', [Validators.required]]
+    });
+  }
+
+  addSystemDashboard = (): void => {
+
   }
 }
