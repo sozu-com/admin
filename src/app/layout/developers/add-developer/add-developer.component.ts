@@ -477,11 +477,7 @@ export class AddDeveloperComponent implements OnInit {
     });
   }
 
-  addSystemDashboard = (): void => {
-    //swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
-    // swal(this.translate.instant('swal.success'), this.translate.instant('Deepak'), 'success');
-    // swal(this.translate.instant('swal.error'), 'Deepak', 'error');
-    // this.parameter.text = this.translate.instant('message.error.wantToDeleteProject');
+  openConfirmationAlertBox = (formArrayIndex: number): void => {
     swal({
       type: 'success',
       html: this.translate.instant('message.error.doYouWantTo') + '<br>' + this.translate.instant('message.error.sendEmail'),
@@ -491,7 +487,16 @@ export class AddDeveloperComponent implements OnInit {
       cancelButtonColor: this.constant.cancelButtonColor,
       cancelButtonText: 'NO',
     }).then((result) => {
-      if (result.value) { }
+      if (result.value) { 
+        this.sendEmail(formArrayIndex);
+      }
     });
+  }
+
+  sendEmail = (formArrayIndex: number): void => {
+    //swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
+    // swal(this.translate.instant('swal.success'), this.translate.instant('Deepak'), 'success');
+    // swal(this.translate.instant('swal.error'), 'Deepak', 'error');
+    // this.parameter.text = this.translate.instant('message.error.wantToDeleteProject');
   }
 }

@@ -165,7 +165,7 @@ export class AddLegalEntityComponent implements OnInit {
   }
 
   removeLegalEntityBank($event: Event, i: number, item) {
-   // console.log(item);
+    // console.log(item);
     $event.stopPropagation();
     this.legalEntityBanks.removeAt(i);
     if (item && item.value.id) {
@@ -469,7 +469,7 @@ export class AddLegalEntityComponent implements OnInit {
   }
 
   removeSystemDashboardFormArray($event: Event, i: number, item) {
-   // console.log(item);
+    // console.log(item);
     $event.stopPropagation();
     this.systemDashboardFormArray.removeAt(i);
     // if (item && item.value.id) {
@@ -491,7 +491,7 @@ export class AddLegalEntityComponent implements OnInit {
     });
   }
 
-  addSystemDashboard = (): void => {
+  openConfirmationAlertBox = (formArrayIndex: number): void => {
     swal({
       type: 'success',
       html: this.translate.instant('message.error.doYouWantTo') + '<br>' + this.translate.instant('message.error.sendEmail'),
@@ -501,8 +501,14 @@ export class AddLegalEntityComponent implements OnInit {
       cancelButtonColor: this.constant.cancelButtonColor,
       cancelButtonText: 'NO',
     }).then((result) => {
-      if (result.value) { }
+      if (result.value) {
+        this.sendEmail(formArrayIndex);
+      }
     });
   }
-  
+
+  sendEmail = (formArrayIndex: number): void => {
+
+  }
+
 }
