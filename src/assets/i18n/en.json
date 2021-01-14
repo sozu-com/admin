@@ -107,6 +107,14 @@
     }
   },
   "addForm": {
+    "buyer": "Buyer",
+    "seller" : "Seller",
+    "credit" : "Credit",
+    "rent" : "Rent",
+    "info" : "Info",
+    "emptySeller" : "Seller (empty for now)",
+    "emptyCredit" : "Credit (empty for now) ",
+    "emptyRent" : "Rent (empty for now)",
     "addSendMail": "Add & Send Mail",
     "editSendMail": "Update & Send Mail",
     "sendEmail": "Send Email",

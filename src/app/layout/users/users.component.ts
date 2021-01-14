@@ -173,7 +173,7 @@ export class UsersComponent implements OnInit {
   }
 
   editUser(userdata, index) {
-    this.router.navigate(['/dashboard/users/add-user', userdata.id]);
+    this.router.navigate(['/dashboard/users/edit-user', userdata.id]);
     // this.parameter.index = index;
     // this.model = userdata;
     // this.image = userdata.image;

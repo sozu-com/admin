@@ -15,6 +15,10 @@ import { UsersComponent } from './users.component';
 import { AclUserGuard } from 'src/app/guards/acl-user.guard';
 import { SharedModule } from 'src/app/modules/shared.module';
 import { AddUserComponent } from './add-user/add-user.component';
+import { EditUserComponent } from './edit-user/edit-user.component';
+import { CalendarModule } from 'primeng/primeng';
+import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 const routes: Routes = [
   {
@@ -22,7 +26,7 @@ const routes: Routes = [
     canActivate: [AclUserGuard], data: { roles: ['User Management', 'can_read', ''] }
   },
   {
-    path: 'add-user/:id', component: AddUserComponent,
+    path: 'edit-user/:id', component: EditUserComponent,
     canActivate: [AclUserGuard], data: { roles: ['User Management', 'can_read', ''] }
   },
   {
@@ -46,11 +50,15 @@ const routes: Routes = [
     ReactiveFormsModule,
     Ng2TelInputModule,
     SharedModule,
-    TranslateModule
+    CalendarModule,
+    TranslateModule,
+    MalihuScrollbarModule.forRoot(),
+    NgMultiSelectDropDownModule.forRoot(),
   ],
   declarations: [
     UsersComponent,
-    AddUserComponent
+    AddUserComponent,
+    EditUserComponent
   ]
 })
 
