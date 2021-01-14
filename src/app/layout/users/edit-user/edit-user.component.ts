@@ -38,7 +38,7 @@ export class EditUserComponent implements OnInit {
   showInput: boolean = false;
   cityDisable: boolean;
   stateDisable: boolean;
-  
+  leadData: any;
   constructor(
     public constant: Constant,
     private cs: CommonService,
