@@ -165,11 +165,7 @@ export class AddLegalEntityComponent implements OnInit {
   }
 
   removeLegalEntityBank($event: Event, i: number, item) {
-<<<<<<< HEAD
-    console.log(item);
-=======
     // console.log(item);
->>>>>>> c12ad8ceae04061a5f45a91dcb4627d5670f29d7
     $event.stopPropagation();
     this.legalEntityBanks.removeAt(i);
     if (item && item.value.id) {
@@ -473,11 +469,7 @@ export class AddLegalEntityComponent implements OnInit {
   }
 
   removeSystemDashboardFormArray($event: Event, i: number, item) {
-<<<<<<< HEAD
-    console.log(item);
-=======
     // console.log(item);
->>>>>>> c12ad8ceae04061a5f45a91dcb4627d5670f29d7
     $event.stopPropagation();
     this.systemDashboardFormArray.removeAt(i);
     // if (item && item.value.id) {

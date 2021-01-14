@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
+import { FormArray, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Users } from 'src/app/models/users.model';
 import { MapsAPILoader } from '@agm/core';
 import { FileUpload } from 'src/app/common/fileUpload';
@@ -11,6 +11,7 @@ import { CommonService } from 'src/app/services/common.service';
 import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LegalRepresentative, Banks } from 'src/app/models/legalEntity.model';
+import { FormBuilder } from '@angular/forms';
 declare const google;
 declare let swal: any;
 
@@ -39,6 +40,8 @@ export class AddDeveloperComponent implements OnInit {
   multiDropdownSettings: any;
   data_fetch: boolean = false;
 
+  public system_dashboard_formGroup: FormGroup;
+
   constructor(
     public constant: Constant,
     private cs: CommonService,
@@ -48,8 +51,13 @@ export class AddDeveloperComponent implements OnInit {
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private fb: FormBuilder
+  ) {
+    this.system_dashboard_formGroup = this.fb.group({
+      developer_access: this.fb.array([])
+    });
+  }
 
   ngOnInit() {
     this.selctedProjects = [];
@@ -276,11 +284,7 @@ export class AddDeveloperComponent implements OnInit {
       }
     }
     modelSave.have_dev_panel_access = modelSave.have_dev_panel_access ? 1 : 0;
-<<<<<<< HEAD
-    console.log('model value in dev component ', this.model, modelSave);
-=======
     // console.log('model value in dev component ', this.model, modelSave);
->>>>>>> c12ad8ceae04061a5f45a91dcb4627d5670f29d7
     if (modelSave['legal_representative'] && this.selctedProjects && this.selctedProjects.length > 0) {
       const d = this.selctedProjects.map(o => o.id);
       modelSave['legal_representative']['building_ids'] = d;
@@ -441,8 +445,6 @@ export class AddDeveloperComponent implements OnInit {
       });
     }
   }
-<<<<<<< HEAD
-=======
 
   addSystemDashboardFormArray = ($event: any): void => {
     $event.stopPropagation();
@@ -498,5 +500,4 @@ export class AddDeveloperComponent implements OnInit {
     // swal(this.translate.instant('swal.error'), 'Deepak', 'error');
     // this.parameter.text = this.translate.instant('message.error.wantToDeleteProject');
   }
->>>>>>> c12ad8ceae04061a5f45a91dcb4627d5670f29d7
 }
