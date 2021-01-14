@@ -283,7 +283,7 @@ export class AddDeveloperComponent implements OnInit {
       }
     }
     modelSave.have_dev_panel_access = modelSave.have_dev_panel_access ? 1 : 0;
-   // console.log('model value in dev component ', this.model, modelSave);
+    // console.log('model value in dev component ', this.model, modelSave);
     if (modelSave['legal_representative'] && this.selctedProjects && this.selctedProjects.length > 0) {
       const d = this.selctedProjects.map(o => o.id);
       modelSave['legal_representative']['building_ids'] = d;
@@ -478,6 +478,20 @@ export class AddDeveloperComponent implements OnInit {
   }
 
   addSystemDashboard = (): void => {
-
+    //swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
+    // swal(this.translate.instant('swal.success'), this.translate.instant('Deepak'), 'success');
+    // swal(this.translate.instant('swal.error'), 'Deepak', 'error');
+    // this.parameter.text = this.translate.instant('message.error.wantToDeleteProject');
+    swal({
+      type: 'success',
+      html: this.translate.instant('message.error.doYouWantTo') + '<br>' + this.translate.instant('message.error.sendEmail'),
+      confirmButtonColor: this.constant.confirmButtonColor,
+      confirmButtonText: 'OK',
+      showCancelButton: true,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      cancelButtonText: 'NO',
+    }).then((result) => {
+      if (result.value) { }
+    });
   }
 }

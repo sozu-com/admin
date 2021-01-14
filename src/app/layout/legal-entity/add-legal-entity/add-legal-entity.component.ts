@@ -492,7 +492,17 @@ export class AddLegalEntityComponent implements OnInit {
   }
 
   addSystemDashboard = (): void => {
-
+    swal({
+      type: 'success',
+      html: this.translate.instant('message.error.doYouWantTo') + '<br>' + this.translate.instant('message.error.sendEmail'),
+      confirmButtonColor: this.constant.confirmButtonColor,
+      confirmButtonText: 'OK',
+      showCancelButton: true,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      cancelButtonText: 'NO',
+    }).then((result) => {
+      if (result.value) { }
+    });
   }
   
 }
