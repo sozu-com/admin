@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute} from '@angular/router';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -22,7 +22,9 @@ export class CsrBuyerDetailComponent implements OnInit {
   @ViewChild('showPropertyModal') showPropertyModal: ElementRef;
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
-
+  @Input() user_id: number;
+  @Output() noDataAvailable : EventEmitter<boolean> = new EventEmitter<boolean>();
+  
   public parameter: IProperty = {};
   today = new Date();
   date: any;
@@ -35,6 +37,7 @@ export class CsrBuyerDetailComponent implements OnInit {
   selectedAmenities: Array<BuyerAmenities> = [];
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
   locale: any;
+
   constructor(
     private route: ActivatedRoute,
     public admin: AdminService,
@@ -75,10 +78,19 @@ export class CsrBuyerDetailComponent implements OnInit {
 
     this.parameter.sent_as = this.constant.userType.csr_buyer;
     this.route.params.subscribe( params => {
-      this.parameter.lead_id = params.id;
+      this.user_id ? this.parameter.user_id = params.id : this.parameter.lead_id = params.id;
+      let param= {
+        lead_id: this.parameter.lead_id,
+        sent_as: this.constant.userType.inhouse_broker
+      };
+      let param1= {
+        user_id: this.parameter.user_id, 
+        sent_as: this.constant.userType.inhouse_broker
+      };
       this.spinner.show();
-        this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
+        this.admin.postDataApi('leads/details', this.user_id ? param1 : param).subscribe(r => {
           this.spinner.hide();
+          if(r.data){
           this.leadData = r.data.lead;
           this.leadData.broker = r.data.lead.broker;
           if (r.data.lead.appointments.length !== 0) {
@@ -94,6 +106,10 @@ export class CsrBuyerDetailComponent implements OnInit {
           this.parameter.viewed_properties = r.data.viewed_properties;
           this.parameter.viewed_projects = r.data.viewed_projects;
           this.parameter.user_id = this.leadData.user ? this.leadData.user.id : 0;
+        }
+        else{
+          this.noDataAvailable.emit(true);
+        }
         }, error => {
           this.spinner.hide();
         });

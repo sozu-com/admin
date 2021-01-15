@@ -31,6 +31,7 @@ export class CashFlowComponent implements OnInit {
   locale: any;
   today = new Date();
   reportData: any;
+  reportsData: any;
   expectedData: Array<any>;
   actualData: Array<any>;
   paymentChoices: Array<any>;
@@ -91,43 +92,62 @@ export class CashFlowComponent implements OnInit {
 
     this.spinner.show();
     this.spinner.show();
-    this.admin.postDataApi('graphs/cash-flow', input).subscribe(r => {
+    this.admin.postDataApi('graphs/cash-flow-v2', input).subscribe(r => {
       this.spinner.hide();
-      this.finalDataExpacted = [];
-      this.finalDataActual = [];
-      this.finalDataPending = [];
-      this.finalDatadue = []
-      const reportData = r['data'];
-      console.log(reportData,"reportData")
-      for (let index = 0; index < reportData['expected'].length; index++) {
-        const element = reportData['expected'][index];
-        for (let ind = 0; ind < element.y.length; ind++) {
-          const obj = {expected: element.y[ind].y, label: element.y[ind].label};
+      this.reportsData = r['data'];
+       console.log(this.reportsData ,"cash-flow-v2 api response")
+       this.finalDataExpacted = [];
+      for (let index = 0; index < this.reportsData['expected'].length; index++) {
+        const element = this.reportsData['expected'][index];
+        // array to export
+        const obj = {
+           label: element.label, 
+           expected: element.y, 
+           actual: this.reportsData['actual'][index].y,
+           pending: this.reportsData['pending'][index].y,
+           total_over_due: this.reportsData['total_over_due'][index].y,
+           //real: this.reportData['real'][index].y
+        };
         this.finalDataExpacted.push(obj);
-        }
-      }
-      for (let index = 0; index < reportData['actual'].length; index++) {
-        const element = reportData['actual'][index];
-        for (let ind = 0; ind < element.y.length; ind++) {
-          const obj = {actual: element.y[ind].y, label: element.y[ind].label};
-        this.finalDataActual.push(obj);
-        }
-      }
-      for (let index = 0; index < reportData['pending'].length; index++) {
-        const element = reportData['pending'][index];
-        for (let ind = 0; ind < element.y.length; ind++) {
-          const obj = {pending: element.y[ind].y, label: element.y[ind].label};
-        this.finalDataPending.push(obj);
-        }
       }
 
-      for (let index = 0; index < reportData['total_over_due'].length; index++) {
-        const element = reportData['total_over_due'][index];
-        for (let ind = 0; ind < element.y.length; ind++) {
-          const obj = {total_over_due: element.y[ind].y, label: element.y[ind].label};
-        this.finalDatadue.push(obj);
-        }
-      }
+    // this.admin.postDataApi('graphs/cash-flow', input).subscribe(r => {
+    //   this.spinner.hide();
+    //   this.finalDataExpacted = [];
+    //   this.finalDataActual = [];
+    //   this.finalDataPending = [];
+    //   this.finalDatadue = []
+    //   const reportData = r['data'];
+    //   console.log(reportData,"reportData")
+    //   for (let index = 0; index < reportData['expected'].length; index++) {
+    //     const element = reportData['expected'][index];
+    //     for (let ind = 0; ind < element.y.length; ind++) {
+    //       const obj = {expected: element.y[ind].y, label: element.y[ind].label};
+    //     this.finalDataExpacted.push(obj);
+    //     }
+    //   }
+    //   for (let index = 0; index < reportData['actual'].length; index++) {
+    //     const element = reportData['actual'][index];
+    //     for (let ind = 0; ind < element.y.length; ind++) {
+    //       const obj = {actual: element.y[ind].y, label: element.y[ind].label};
+    //     this.finalDataActual.push(obj);
+    //     }
+    //   }
+    //   for (let index = 0; index < reportData['pending'].length; index++) {
+    //     const element = reportData['pending'][index];
+    //     for (let ind = 0; ind < element.y.length; ind++) {
+    //       const obj = {pending: element.y[ind].y, label: element.y[ind].label};
+    //     this.finalDataPending.push(obj);
+    //     }
+    //   }
+
+    //   for (let index = 0; index < reportData['total_over_due'].length; index++) {
+    //     const element = reportData['total_over_due'][index];
+    //     for (let ind = 0; ind < element.y.length; ind++) {
+    //       const obj = {total_over_due: element.y[ind].y, label: element.y[ind].label};
+    //     this.finalDatadue.push(obj);
+    //     }
+    //   }
 
     }, error => {
       this.spinner.hide();

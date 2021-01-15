@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                 <div class="df-profile">
-                    <a routerLink="../"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+                    <a routerLink="../" *ngIf="!user_id"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
                     <img [src]="leadData?.user?.image" onerror='src="assets/img/default_img.png"' alt="img">
                     <div class="df-info">
                         <p class="p14 text-ellipsis120">{{leadData?.user?.name ? leadData?.user?.name : leadData?.name}}
@@ -170,25 +170,25 @@
             <!-- chat end -->
 
             <!-- notes start -->
-            <app-notes *ngIf="parameter?.lead_id" [sent_as]="parameter.sent_as" [lead_id]="parameter.lead_id"></app-notes>
+            <app-notes *ngIf="parameter?.lead_id || parameter?.user_id" [sent_as]="parameter.sent_as" [lead_id]="parameter.lead_id" [user_id]="parameter.user_id"></app-notes>
             <!-- notes end -->
 
         </div>
     </div>
 
     <!-- Interested Properties start -->
-    <app-interested-property *ngIf="parameter?.lead_id" [is_deal_finalised]="false" [selected_properties]="leadData?.selected_properties"
+    <app-interested-property *ngIf="parameter?.lead_id || parameter?.user_id" [is_deal_finalised]="false" [selected_properties]="leadData?.selected_properties"
         [lead_id]="parameter.lead_id" [interested_properties]="parameter.interested_properties"
-        [sent_as]="parameter.sent_as"></app-interested-property>
+        [sent_as]="parameter.sent_as" [user_id]="parameter.user_id"></app-interested-property>
     <!-- Interested Properties end -->
 
     <!-- viewed property start -->
-    <app-viewed-property *ngIf="parameter?.lead_id" [user_id]="leadData?.user_id" [viewed_properties]="parameter.viewed_properties">
+    <app-viewed-property *ngIf="parameter?.lead_id || parameter?.user_id" [user_id]="leadData?.user_id" [viewed_properties]="parameter.viewed_properties">
     </app-viewed-property>
     <!-- viewed property end -->
 
     <!-- viewed projects start -->
-    <app-viewed-projects *ngIf="parameter?.lead_id" [user_id]="leadData?.user_id" [viewed_projects]="parameter.viewed_projects">
+    <app-viewed-projects *ngIf="parameter?.lead_id || parameter?.user_id" [user_id]="leadData?.user_id" [viewed_projects]="parameter.viewed_projects">
     </app-viewed-projects>
     <!-- viewed projects end -->
 </div>

@@ -21,6 +21,7 @@ export class NotesComponent implements OnInit {
 
   @Input('sent_as') sent_as;
   @Input('lead_id') lead_id;
+  @Input() user_id: number;
   public parameter: IProperty = {};
   public scrollbarOptions = { axis: 'y', theme: 'dark'};
 
@@ -37,7 +38,18 @@ export class NotesComponent implements OnInit {
   }
 
   addLeadNote(formdata: NgForm, sent_as) {
-    this.admin.postDataApi('leads/addLeadNote', {lead_id: this.lead_id, note: this.model.note, sent_as: sent_as}).subscribe(r => {
+    let param ={ 
+      lead_id: this.lead_id,
+      note: this.model.note, 
+      sent_as: sent_as
+    }
+
+    let param1={
+      user_id: this.user_id,
+      note: this.model.note, 
+      sent_as: sent_as
+    }
+    this.admin.postDataApi('leads/addLeadNote', this.user_id? param1 : param).subscribe(r => {
       this.closeModal();
       // this.parameter.items.push(r.data);
       this.parameter.items = r.data;
@@ -69,7 +81,18 @@ export class NotesComponent implements OnInit {
   }
 
   getLeadNotes() {
-    this.admin.postDataApi('leads/getLeadNotes', {lead_id: this.lead_id, sent_as: this.sent_as}).subscribe(r => {
+    let param ={ 
+      lead_id: this.lead_id,
+      note: this.model.note, 
+      sent_as: this.sent_as
+    }
+
+    let param1={
+      user_id: this.user_id,
+      note: this.model.note, 
+      sent_as: this.sent_as
+    }
+    this.admin.postDataApi('leads/getLeadNotes', this.user_id? param1 : param).subscribe(r => {
       this.parameter.items = r.data;
     });
   }

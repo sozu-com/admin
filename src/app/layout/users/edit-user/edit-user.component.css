@@ -1,0 +1,29 @@
+.form-group label {
+    color: black;
+    font-size: 13px;
+    font-weight: bold;
+}
+.white-bg {
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+input[type="radio"] {
+    margin: 0 1.81em 0 0;
+}
+.profile-img {
+    width: 39px;
+}
+
+.profile-user {
+    margin-left: 12%;
+    margin-top: -8%;
+}
+
+.nav-tabs {
+    margin-top: -40px;
+}
+
+.nav-link.active {
+    color: #00B774;
+}

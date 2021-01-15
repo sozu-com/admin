@@ -115,7 +115,8 @@
                     <img *ngIf="!item.image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
                 </td>
                 <td class="text-left">
-                    <a class="text-ellipsis" data-toggle="popover" data-placement="top" title="{{item.name}}">
+                    <a class="text-ellipsis" data-toggle="popover" data-placement="top" title="{{item.name}}" 
+                    (click)="editUser(item, i)" style="cursor: pointer;">
                       {{item.name | titlecase}}
                       <!-- {{item.first_surname ? (item.first_surname | titlecase) : ''}}
                       {{item.second_surname ? (item.second_surname | titlecase) : ''}} -->

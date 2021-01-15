@@ -428,10 +428,10 @@
                                     <span class="name">{{item.name | titlecase}}</span>
                                 </td>
                                 <td class="text-left" routerLink="/dashboard/leads/csr-sellers/{{item.id}}">
-                                    <span class="name">{{item.first_surname | titlecase}}</span>
+                                    <span class="name">{{item?.first_surname? (item?.first_surname | titlecase):('table.tr.td.NA' | translate)}}</span>
                                 </td>
                                 <td class="text-left" routerLink="/dashboard/leads/csr-sellers/{{item.id}}">
-                                    <span class="name">{{item.second_surname | titlecase}}</span>
+                                    <span class="name">{{item?.second_surname? (item?.second_surname | titlecase):('table.tr.td.NA' | translate)}}</span>
                                 </td>
                                 <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}" class="text-left"
                                     *ngIf="item.phone">{{item.dial_code}}-{{item.phone.trim()}}</td>
@@ -441,7 +441,7 @@
                                     {{item.email}}
                                 </td>
                                 <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}" class="text-left">
-                                    {{item.csr_seller_name?item.csr_seller_name:('table.tr.td.NA' | translate)}}</td>
+                                    {{item?.admin?.name? item?.admin?.name:('table.tr.td.NA' | translate)}}</td>
                                 <td class="text-left"
                                     (click)="getCSRSellerChat($event, 1, item.assigned_csr_seller_id, item.id)">
                                     <a class="green-color fontW500" href="javascript://">{{'table.th.chatWithSeller' |

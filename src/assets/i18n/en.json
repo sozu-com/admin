@@ -109,6 +109,14 @@
   "addForm": {
     "hasAccess": "Has Access",
     "noAccess": "No Access",
+    "buyer": "Buyer",
+    "seller" : "Seller",
+    "credit" : "Credit",
+    "rent" : "Rent",
+    "info" : "Info",
+    "emptySeller" : "Seller (empty for now)",
+    "emptyCredit" : "Credit (empty for now) ",
+    "emptyRent" : "Rent (empty for now)",
     "addSendMail": "Add & Send Mail",
     "editSendMail": "Update & Send Mail",
     "sendEmail": "Send Email",
@@ -1910,6 +1918,13 @@
     "addEntity": "Add Legal Entity"
   },
   "collectionReport": {
+    "Month": "Month",
+    "Expectedest": "Expected est",
+    "Expecteddin": "Expected din",
+    "Real": "Real",
+    "Arrearest": "Arrear est",
+    "Arreardin": "Arrear din",
+
     "modelReport": "Model Report",
     "generalReport": "General Report",
     "conceptReport": "Concept Report",

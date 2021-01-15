@@ -16,11 +16,11 @@ declare const google;
 declare let swal: any;
 
 @Component({
-  selector: 'app-add-user',
-  templateUrl: './add-user.component.html',
-  styleUrls: ['./add-user.component.css']
+  selector: 'app-edit-user',
+  templateUrl: './edit-user.component.html',
+  styleUrls: ['./edit-user.component.css']
 })
-export class AddUserComponent implements OnInit {
+export class EditUserComponent implements OnInit {
 
   @ViewChild('mapDiv') mapDiv: ElementRef;
   @ViewChild('search') searchElementRef: ElementRef;
@@ -38,10 +38,12 @@ export class AddUserComponent implements OnInit {
   showInput: boolean = false;
   cityDisable: boolean;
   stateDisable: boolean;
+  leadData: any;
   stateInput: string;
   cityInput: string;
   countryInput: string;
-  
+  dataNotAvailable: boolean;
+
   constructor(
     public constant: Constant,
     private cs: CommonService,
@@ -211,7 +213,6 @@ export class AddUserComponent implements OnInit {
         }
       }
     }
-
     modelSave.country_id = this.countryInput == 'other'? 0 : modelSave.country_id;
     modelSave.state_id = this.stateInput == 'other'? 0 : modelSave.state_id;
     modelSave.city_id = this.cityInput == 'other'? 0 : modelSave.city_id;
@@ -370,6 +371,9 @@ export class AddUserComponent implements OnInit {
         this.location.countries = '0';
         this.location.states = '0'; 
         this.location.cities = '0'; 
+        this.showInput = false;
+        this.stateInput = undefined;
+        this.cityInput = undefined;
       });
   }
 
@@ -383,7 +387,7 @@ export class AddUserComponent implements OnInit {
 this.model.marital_statuses_id = maritalStatusId;
   }
 
-  getStatesNew1(countryId) {
+   getStatesNew1(countryId) {
     this.parameter.citiesAdd = []; this.parameter.localitiesAdd = []; this.parameter.buildingsAdd = [];
     this.parameter.country_id = countryId;
 
@@ -463,15 +467,15 @@ this.model.marital_statuses_id = maritalStatusId;
       return false;
     }
     else{
-      this.stateDisable =  city_id == 'other'? false: true;;
+      this.cityDisable =  city_id == 'other'? false: true;;
       this.cityInput = city_id;
     }
   }
   
   modelChanged(){
     if(!this.model.country_name && this.countryInput != 'other'){
-       this.stateDisable = true;
-       this.cityDisable = true;
+       this.stateDisable = this.stateInput != 'other'? true: false;
+       this.cityDisable = this.cityInput != 'other'? true: false;
        this.model.state_name = null;
        this.model.city_name = null;
     }
@@ -482,5 +486,9 @@ this.model.marital_statuses_id = maritalStatusId;
       this.cityDisable = false;
     }
   }
-}
 
+  noDataAvailable(data){
+   this.dataNotAvailable = data? true : false;
+  }
+  
+}
