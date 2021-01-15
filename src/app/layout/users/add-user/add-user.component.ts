@@ -403,9 +403,9 @@ this.model.marital_statuses_id = maritalStatusId;
       if(countryId == 'other'){
         this.countryInput = countryId;
         this.showInput = true;
-        this.model.country_name = null;
-        this.model.state_name = null;
-        this.model.city_name = null;
+        this.model.country_name = undefined;
+        this.model.state_name = undefined;
+        this.model.city_name = undefined;
         this.stateInput = null;
         this.cityInput = null;
         this.stateDisable = true;

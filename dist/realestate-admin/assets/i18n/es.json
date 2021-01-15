@@ -107,6 +107,8 @@
     }
   },
   "addForm": {
+    "hasAccess": "Tiene acceso",
+    "noAccess": "Sin acceso",
     "buyer": "Comprar",
     "seller" : "Vender",
     "credit" : "Crédito",
@@ -1164,6 +1166,7 @@
       "pleaseEnterNewPropertyPrice": "Ingresa el nuevo precio de la propiedad -",
       "doYouWantToChangeTheCommission": "¿Quieres cambiar la comisión?",
       "doYouWantTo":"Quieres",
+      "areYouSureYouWantToRemoveTheUser":"¿Estás seguro de que quieres eliminar al usuario?",
       "pleaseEnterNewCommission": "Ingresa nueva comisión (en %)",
       "movingBackCanResetInformationEnteredOnCurrentTab": "Retrocediendo puede restablecer la información ingresada en la pestaña actual.",
       "wantToLogout": "¿Quieres cerrar sesión?",
