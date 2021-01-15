@@ -1,22 +1,19 @@
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-12">
-      <div class="title-group">
-        <h5>{{model.id ? ('viewUsers.editBtn' | translate) : ('viewUsers.addBtn' | translate)}}</h5>
-        <div class="spacer30"></div>
-      </div>
-    </div>
-  </div>
-
 
   <form role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="add(addForm)">
-    <div class="col-12">
+    <div class="row">
+       <div class="col-md-6">
+      <div class="title-group">
+        <h5>{{model.id ? ('viewUsers.editBtn' | translate) : ('viewUsers.addBtn' | translate)}}</h5>
+      </div></div>
+      <div class="col-md-6">
       <div class="btn-cont text-right">
         <button *ngIf="!model?.id" type="submit" [disabled]="!addForm.valid" class="btn btn-primary">{{'addForm.addBtn'
           | translate}}</button>
         <button *ngIf="model?.id" type="submit" class="btn btn-primary">{{'addForm.updateBtn' | translate}}</button>
-      </div>
+      </div></div>
     </div>
+    
     <div class="col-12">
       <div class="spacer40"></div>
     </div>
