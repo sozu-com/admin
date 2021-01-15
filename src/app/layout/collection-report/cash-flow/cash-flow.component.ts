@@ -91,6 +91,19 @@ export class CashFlowComponent implements OnInit {
 
     this.spinner.show();
     this.spinner.show();
+    // this.admin.postDataApi('graphs/cash-flows', input).subscribe(r => {
+    //   this.spinner.hide();
+    //   this.reportData = r['data'];
+
+    //   this.items = [];
+    //   for (let index = 0; index < this.reportData['expected'].length; index++) {
+    //     const element = this.reportData['expected'][index];
+    //     // array to export
+    //     const obj = {label: element.label, expected: element.y, actual: this.reportData['actual'][index].y,
+    //pending: this.reportData['pending'][index].y,total_over_due: this.reportData['total_over_due'][index].y,real: this.reportData['real'][index].y};
+    //     this.items.push(obj);
+    //   }
+
     this.admin.postDataApi('graphs/cash-flow', input).subscribe(r => {
       this.spinner.hide();
       this.finalDataExpacted = [];

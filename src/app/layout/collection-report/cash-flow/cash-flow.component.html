@@ -148,27 +148,27 @@
             <table class="table table-bordered table-striped table-align-center quick-table" >
               <tbody>
                   <tr>
-                      <th>Month:</th>
-                      <td *ngFor="let item of finalDataExpacted" class="month">{{item.label}}</td>
+                      <th>{{'collectionReport.Month' | translate}}:</th>
+                      <td *ngFor="let item of finalDataExpacted" style=" background-color: #00B96F;color: #fff;">{{item.label}}</td>
                     </tr>
                     <tr>
-                      <th>Expected est:</th>
+                      <th>{{'collectionReport.Expectedest' | translate}}:</th>
                       <td *ngFor="let item of finalDataExpacted">{{(item.expected || 0) | currency}}</td>
                     </tr>
                     <tr>
-                      <th>Expected din:</th>
+                      <th>{{'collectionReport.Expecteddin' | translate}}:</th>
                       <td *ngFor="let item of finalDataActual">{{(item.actual || 0) | currency}}</td>
                     </tr>
                     <tr>
-                      <th>Real:</th>
+                      <th>{{'collectionReport.Real' | translate}}:</th>
                       <td *ngFor="let item of finalDataPending">20 M</td>
                     </tr>
                     <tr>
-                      <th>Arrear est:</th>
+                      <th>{{'collectionReport.Arrearest' | translate}}:</th>
                       <td *ngFor="let item of finalDataPending">{{(item.pending || 0) | currency}}</td>
                     </tr>
                     <tr>
-                      <th>Arrear din:</th>
+                      <th>{{'collectionReport.Arreardin' | translate}}:</th>
                       <td *ngFor="let item of finalDatadue">{{(item.total_over_due || 0) | currency}}</td>
                     </tr>
               </tbody>
