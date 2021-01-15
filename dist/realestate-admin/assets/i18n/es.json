@@ -1917,6 +1917,12 @@
     "addEntity": "Agregar entidad legal"
   },
   "collectionReport": {
+    "Month": "Mes",
+    "Expectedest": "Est esperado",
+    "Expecteddin": "Estruendo esperado",
+    "Real": "Real",
+    "Arrearest": "Atrasado est",
+    "Arreardin": "Estruendo atrasado",
     "modelReport": "Informe modelo",
     "generalReport": "Informe general",
     "conceptReport": "Informe conceptual",

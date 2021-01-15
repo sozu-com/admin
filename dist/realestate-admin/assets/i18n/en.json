@@ -1915,6 +1915,13 @@
     "addEntity": "Add Legal Entity"
   },
   "collectionReport": {
+    "Month": "Month",
+    "Expectedest": "Expected est",
+    "Expecteddin": "Expected din",
+    "Real": "Real",
+    "Arrearest": "Arrear est",
+    "Arreardin": "Arrear din",
+
     "modelReport": "Model Report",
     "generalReport": "General Report",
     "conceptReport": "Concept Report",
