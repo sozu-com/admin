@@ -147,10 +147,11 @@
       <div class="table-responsive">
             <table class="table table-bordered table-striped table-align-center quick-table" >
               <tbody>
-                  <tr>
-                      <th>{{'collectionReport.Month' | translate}}:</th>
-                      <td *ngFor="let item of finalDataExpacted" style=" background-color: #00B96F;color: #fff;">{{item.label}}</td>
-                    </tr>
+                      <tr>
+                        <th>{{'collectionReport.Month' | translate}}:</th>
+                        <td *ngFor="let item of finalDataExpacted"
+                         style=" background-color: #00B96F;color: #fff; border:#00B96F ;">{{item.label}}</td>
+                      </tr>
                     <tr>
                       <th>{{'collectionReport.Expectedest' | translate}}:</th>
                       <td *ngFor="let item of finalDataExpacted">{{(item.expected || 0) | currency}}</td>
