@@ -39,7 +39,7 @@ export class AddDeveloperComponent implements OnInit {
   multiDropdownSettings: any;
   data_fetch: boolean = false;
 
-  public system_dashboard_formGroup: FormGroup;
+  public developer_access_formGroup: FormGroup;
 
   constructor(
     public constant: Constant,
@@ -53,8 +53,8 @@ export class AddDeveloperComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder
   ) {
-    this.system_dashboard_formGroup = this.fb.group({
-      system_dashboard_formArray: this.fb.array([])
+    this.developer_access_formGroup = this.fb.group({
+      developer_access: this.fb.array([])
     });
   }
 
@@ -171,6 +171,7 @@ export class AddDeveloperComponent implements OnInit {
             }
           }
           self.data_fetch = true;
+          this.loadDeveloperAccessData((success.data || {}).developer_access);
         }, error => {
           this.spinner.hide();
         });
@@ -207,10 +208,17 @@ export class AddDeveloperComponent implements OnInit {
     reader.readAsDataURL(event.target.files[0]);
   }
 
-  onCountryChange(e) {
-    this.model.country_code = e.iso2;
-    this.model.dial_code = '+' + e.dialCode;
-    this.initialCountry = { initialCountry: e.iso2 };
+  onCountryChange(e, index?: number) {
+    if (index >= 0) {
+      (this.getDeveloperAccessFormArray.controls[index] as FormGroup).patchValue({
+        user_country_code: e.iso2,
+        user_dial_code: '+' + e.dialCode
+      });
+    } else {
+      this.model.country_code = e.iso2;
+      this.model.dial_code = '+' + e.dialCode;
+      this.initialCountry = { initialCountry: e.iso2 };
+    }
   }
 
   add(formData: NgForm) {
@@ -288,6 +296,7 @@ export class AddDeveloperComponent implements OnInit {
       const d = this.selctedProjects.map(o => o.id);
       modelSave['legal_representative']['building_ids'] = d;
     }
+    modelSave['developer_access'] = this.getDeveloperAccessFormArray.getRawValue();
     this.spinner.show();
     this.admin.postDataApi('addDeveloper', modelSave)
       .subscribe(
@@ -445,58 +454,79 @@ export class AddDeveloperComponent implements OnInit {
     }
   }
 
-  addSystemDashboardFormArray = ($event: any): void => {
+  addDeveloperAccessFormGroup = ($event: any): void => {
     $event.stopPropagation();
-    this.systemDashboardFormArray.push(this.newFormGroup());
+    this.getDeveloperAccessFormArray.push(this.createFormGroup());
   }
 
-  get systemDashboardFormArray(): FormArray {
-    return this.system_dashboard_formGroup.get('system_dashboard_formArray') as FormArray;
+  get getDeveloperAccessFormArray(): FormArray {
+    return this.developer_access_formGroup.get('developer_access') as FormArray;
   }
 
-  removeSystemDashboardFormArray($event: Event, i: number, item) {
-    //console.log(item);
+  get getDeveloperAccessFormArrayLength(): number {
+    return this.getDeveloperAccessFormArray.length;
+  }
+
+  removeDeveloperAccessFormGroup = ($event: Event, index: number, formGroup: FormGroup): void => {
     $event.stopPropagation();
-    this.systemDashboardFormArray.removeAt(i);
-    // if (item && item.value.id) {
-    //   this.admin.postDataApi('deleteLegalEntityBank', { id: item.value.id }).subscribe(success => {
-    //     this.spinner.hide();
-    //   }, error => {
-    //     this.spinner.hide();
-    //   });
-    // }
-  }
-
-  newFormGroup = (): FormGroup => {
-    return this.fb.group({
-      name: ['', [Validators.required]],
-      first_surname: ['', [Validators.required]],
-      second_surname: [''],
-      email_id: ['', [Validators.required]],
-      contact_number: ['', [Validators.required]]
-    });
-  }
-
-  openConfirmationAlertBox = (formArrayIndex: number): void => {
     swal({
       type: 'success',
-      html: this.translate.instant('message.error.doYouWantTo') + '<br>' + this.translate.instant('message.error.sendEmail'),
+      html: this.translate.instant('message.error.areYouSureYouWantToRemoveTheUser'),
       confirmButtonColor: this.constant.confirmButtonColor,
-      confirmButtonText: 'OK',
+      confirmButtonText: 'Yes',
       showCancelButton: true,
-      cancelButtonColor: this.constant.cancelButtonColor,
-      cancelButtonText: 'NO',
+      cancelButtonColor: this.constant.cancelButtonColor
     }).then((result) => {
-      if (result.value) { 
-        this.sendEmail(formArrayIndex);
+      if (result.value) {
+        this.getDeveloperAccessFormArray.removeAt(index);
+        if (formGroup.get('id').value > 0) {
+          this.spinner.show();
+          this.admin.postDataApi('deleteDeveloperUser', { id: formGroup.get('id').value }).subscribe((success) => {
+            this.spinner.hide();
+          }, (error) => {
+            this.spinner.hide();
+          });
+        }
       }
     });
   }
 
-  sendEmail = (formArrayIndex: number): void => {
-    //swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
-    // swal(this.translate.instant('swal.success'), this.translate.instant('Deepak'), 'success');
-    // swal(this.translate.instant('swal.error'), 'Deepak', 'error');
-    // this.parameter.text = this.translate.instant('message.error.wantToDeleteProject');
+  loadDeveloperAccessData = (developerAccessArray: any[] = []): void => {
+    developerAccessArray.forEach((developerAccess) => {
+      this.getDeveloperAccessFormArray.push(this.createFormGroup(developerAccess));
+    });
   }
+
+  createFormGroup = (developerAccess?: any): FormGroup => {
+    // if (developerAccess) {
+    //   developerAccess['building_ids'] = [{ id: 550 }, { id: 303 }];
+    // }
+    return this.fb.group({
+      id: [(developerAccess || {}).id ? (developerAccess || {}).id : 0],
+      is_send_email: [((developerAccess || {}).approved == 1) ? true : false],
+      user_name: [(developerAccess || {}).name ? (developerAccess || {}).name : '', [Validators.required]],
+      user_country_code: [(developerAccess || {}).country_code ? (developerAccess || {}).country_code : this.constant.country_code, [Validators.required]],
+      user_dial_code: [(developerAccess || {}).dial_code ? (developerAccess || {}).dial_code : this.constant.dial_code, [Validators.required]],
+      user_first_surname: [(developerAccess || {}).first_surname ? (developerAccess || {}).first_surname : '', [Validators.required]],
+      user_second_surname: [(developerAccess || {}).second_surname ? (developerAccess || {}).second_surname : ''],
+      user_email: [(developerAccess || {}).email ? (developerAccess || {}).email : '', [Validators.required]],
+      user_contact_number: [(developerAccess || {}).contact_number ? (developerAccess || {}).contact_number : '', [Validators.required]],
+      building_ids: [(((developerAccess || {}).building_ids || []).length > 0) ? this.makeBuildingDetails(developerAccess.building_ids) : []],
+      is_access: [developerAccess ? (developerAccess || {}).approved || 0 : -1] // No Access = 0,  Has Access = 1 , default = -1 
+    });
+  }
+
+  makeBuildingDetails = (building_ids: any[] = []): any => {
+    const details = [];
+    building_ids.forEach((buildingData) => {
+      for (const iterator of this.projects) {
+        if (iterator.id == buildingData.id) {
+          details.push({ id: iterator.id, name: iterator.name });
+          break;
+        }
+      }
+    });
+    return details;
+  }
+
 }

@@ -36,7 +36,7 @@ export class AddLegalEntityComponent implements OnInit {
   multiDropdownSettings: any;
   data_fetch: boolean = false;
 
-  public system_dashboard_formGroup: FormGroup;
+  public developer_access_formGroup: FormGroup;
 
   constructor(
     public constant: Constant,
@@ -49,8 +49,8 @@ export class AddLegalEntityComponent implements OnInit {
     private translate: TranslateService,
     private fb: FormBuilder
   ) {
-    this.system_dashboard_formGroup = this.fb.group({
-      system_dashboard_formArray: this.fb.array([])
+    this.developer_access_formGroup = this.fb.group({
+      developer_access: this.fb.array([])
     });
   }
 
@@ -251,6 +251,7 @@ export class AddLegalEntityComponent implements OnInit {
           }
           this.patchForm(success.data);
           self.data_fetch = true;
+          this.loadDeveloperAccessData((success.data || {}).developer_access);
         }, error => {
           this.spinner.hide();
         });
@@ -289,10 +290,17 @@ export class AddLegalEntityComponent implements OnInit {
     this.show = true;
   }
 
-  onCountryChange(e) {
-    this.model.country_code = e.iso2;
-    this.model.dial_code = '+' + e.dialCode;
-    this.initialCountry = { initialCountry: e.iso2 };
+  onCountryChange(e, index?: number) {
+    if (index >= 0) {
+      (this.getDeveloperAccessFormArray.controls[index] as FormGroup).patchValue({
+        user_country_code: e.iso2,
+        user_dial_code: '+' + e.dialCode
+      });
+    } else {
+      this.model.country_code = e.iso2;
+      this.model.dial_code = '+' + e.dialCode;
+      this.initialCountry = { initialCountry: e.iso2 };
+    }
   }
 
   add(formData: NgForm) {
@@ -367,6 +375,7 @@ export class AddLegalEntityComponent implements OnInit {
       const d = this.selctedProjects.map(o => o.id);
       formData['legal_rep']['building_ids'] = d;
     }
+    formData['developer_access'] = this.getDeveloperAccessFormArray.getRawValue();
     this.spinner.show();
     this.admin.postDataApi('addLegalEntity', formData)
       .subscribe(
@@ -459,39 +468,43 @@ export class AddLegalEntityComponent implements OnInit {
     this.model.send_mail = send_mail;
   }
 
-  addSystemDashboardFormArray = ($event: any): void => {
+  addDeveloperAccessFormGroup = ($event: any): void => {
     $event.stopPropagation();
-    this.systemDashboardFormArray.push(this.newFormGroup());
+    this.getDeveloperAccessFormArray.push(this.createFormGroup());
   }
 
-  get systemDashboardFormArray(): FormArray {
-    return this.system_dashboard_formGroup.get('system_dashboard_formArray') as FormArray;
+  get getDeveloperAccessFormArray(): FormArray {
+    return this.developer_access_formGroup.get('developer_access') as FormArray;
   }
 
-  removeSystemDashboardFormArray($event: Event, i: number, item) {
-    // console.log(item);
+  get getDeveloperAccessFormArrayLength(): number {
+    return this.getDeveloperAccessFormArray.length;
+  }
+
+  removeDeveloperAccessFormGroup = ($event: Event, index: number): void => {   
     $event.stopPropagation();
-    this.systemDashboardFormArray.removeAt(i);
-    // if (item && item.value.id) {
-    //   this.admin.postDataApi('deleteLegalEntityBank', { id: item.value.id }).subscribe(success => {
-    //     this.spinner.hide();
-    //   }, error => {
-    //     this.spinner.hide();
-    //   });
-    // }
+    this.getDeveloperAccessFormArray.removeAt(index);    
   }
 
-  newFormGroup = (): FormGroup => {
-    return this.fb.group({
-      name: ['', [Validators.required]],
-      first_surname: ['', [Validators.required]],
-      second_surname: [''],
-      email_id: ['', [Validators.required]],
-      contact_number: ['', [Validators.required]]
+  loadDeveloperAccessData = (developerAccessArray: any[] = []): void => {
+    developerAccessArray.forEach((developerAccess) => {
+      this.getDeveloperAccessFormArray.push(this.createFormGroup(developerAccess));
     });
   }
 
-  openConfirmationAlertBox = (formArrayIndex: number): void => {
+  createFormGroup = (developerAccess?: any): FormGroup => {
+    return this.fb.group({
+      user_name: [(developerAccess || {}).name ? (developerAccess || {}).name : '', [Validators.required]],
+      user_country_code: [(developerAccess || {}).country_code ? (developerAccess || {}).country_code : this.constant.country_code, [Validators.required]],
+      user_dial_code: [(developerAccess || {}).dial_code ? (developerAccess || {}).dial_code : this.constant.dial_code, [Validators.required]],
+      user_first_surname: [(developerAccess || {}).first_surname ? (developerAccess || {}).first_surname : '', [Validators.required]],
+      user_second_surname: [(developerAccess || {}).second_surname ? (developerAccess || {}).second_surname : ''],
+      user_email: [(developerAccess || {}).email ? (developerAccess || {}).email : '', [Validators.required]],
+      user_contact_number: [(developerAccess || {}).contact_number ? (developerAccess || {}).contact_number : '', [Validators.required]],
+    });
+  }
+
+  openConfirmationAlertBox = (formGroup: FormGroup): void => {
     swal({
       type: 'success',
       html: this.translate.instant('message.error.doYouWantTo') + '<br>' + this.translate.instant('message.error.sendEmail'),
@@ -502,12 +515,12 @@ export class AddLegalEntityComponent implements OnInit {
       cancelButtonText: 'NO',
     }).then((result) => {
       if (result.value) {
-        this.sendEmail(formArrayIndex);
+        this.sendEmail(formGroup);
       }
     });
   }
 
-  sendEmail = (formArrayIndex: number): void => {
+  sendEmail = (formGroup: FormGroup): void => {
 
   }
 

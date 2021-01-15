@@ -107,6 +107,8 @@
     }
   },
   "addForm": {
+    "hasAccess": "Has Access",
+    "noAccess": "No Access",
     "addSendMail": "Add & Send Mail",
     "editSendMail": "Update & Send Mail",
     "sendEmail": "Send Email",
@@ -1076,7 +1078,7 @@
       "paytoRemainingPendingCheck": "Please complete your pending Monthly Installment first",
       "payToRemainingReduceTimecheck": " If you want to apply a payment to remaining to reduce (time) the payment needs to cover complete monthly instalments 1,2 ,3...",
       "areYouSure": "Are you sure",
-      "sendEmail":"send email?",
+      "sendEmail": "send email?",
       "wantToBlockNotary": "You want to block this Notary?",
       "wantToUnblockNotary": "You want to unblock this Notary?",
       "wantToDeleteNotary": "You want to delete this Notary?",
@@ -1153,7 +1155,8 @@
       "doYouWantToChangeThePrice": "Do you want to change the price?",
       "pleaseEnterNewPropertyPrice": "Please enter new property price -",
       "doYouWantToChangeTheCommission": "Do you want to change the commission?",
-      "doYouWantTo":"Do you want to",
+      "doYouWantTo": "Do you want to",
+      "areYouSureYouWantToRemoveTheUser": "Are you sure you want to remove the user?",
       "pleaseEnterNewCommission": "Please enter new commision (in %)",
       "movingBackCanResetInformationEnteredOnCurrentTab": "Moving back can reset information entered on current tab.",
       "wantToLogout": "You want to logout?",
