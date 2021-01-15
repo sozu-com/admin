@@ -10,57 +10,16 @@
 
 
   <form role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="add(addForm)">
-      <div class="white-bg padding15">
-          <div class="row">
-              <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-                  <div class="df-profile">
-                      <a routerLink="../"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
-                      <img [src]="leadData?.user?.image" onerror='src="assets/img/default_img.png"' alt="img">
-                      <div class="df-info">
-                          <p class="p14 text-ellipsis120">
-                              test
-                              <!-- {{leadData?.user?.name ? leadData?.user?.name : leadData?.name}} -->
-                          </p>
-                          <p class="p12">
-                              47734789758797
-                              <!-- {{leadData?.user?.dial_code?leadData?.user?.dial_code:leadData?.dial_code}}-{{leadData?.user?.phone ? leadData?.user?.phone:leadData?.phone}} -->
-                          </p>
-                      </div>
-                  </div>
-              </div>
-              <div class="col-lg-7 col-md-12 col-sm-6 col-12">
-                  <div class="profile-list">
-                      <ul>
-                          <li>
-                              <div class="df-info">
-                                  <p class="p14 marginB0">
-                                      csr test
-                                      <!-- {{leadData.admin.name | titlecase}} -->
-                                  </p>
-                                  <p class="p12">{{'leadDetails.CSRBuyer' | translate}}</p>
-                              </div>
-                          </li>
-                      
-                      </ul>
-                  </div>
-              </div>
-  
-              <div class="col-lg-2 col-md-12 col-sm-12 col-12">
-                  <div class="btn-cont text-right">
-                      <button *ngIf="!model?.id" type="submit" [disabled]="!addForm.valid" class="btn btn-primary">{{'addForm.addBtn'
-                        | translate}}</button>
-                      <button *ngIf="model?.id" type="submit" class="btn btn-primary">{{'addForm.updateBtn' | translate}}</button>
-                    </div>
-              </div>
-          </div>
-  
+    <div class="col-12">
+      <div class="btn-cont text-right">
+        <button *ngIf="!model?.id" type="submit" [disabled]="!addForm.valid" class="btn btn-primary">{{'addForm.addBtn'
+          | translate}}</button>
+        <button *ngIf="model?.id" type="submit" class="btn btn-primary">{{'addForm.updateBtn' | translate}}</button>
       </div>
-     
-    <!-- space -->
+    </div>
     <div class="col-12">
       <div class="spacer40"></div>
     </div>
-   <!-- space -->
 
     <div class="white-bg padding40">
       <section id="tabs" class="project-tab">
