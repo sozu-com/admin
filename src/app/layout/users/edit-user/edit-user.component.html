@@ -344,8 +344,10 @@
                                     <option value="" disabled>{{'filters.location.selectState' | translate}}</option>
                                     <option value="0" [selected]="location.states!='' && location.states==0">{{'filters.location.allOption' | translate}}</option>
                                     <option *ngFor="let stateAdd of parameter.statesAdd" [selected]="stateAdd.id == model.state_id" value="{{stateAdd.id}}">{{stateAdd.name}}</option>
+                                    <option value="other">{{'filters.location.other' | translate}}</option>
                                   </select>
-                                  <input *ngIf="showInput" [attr.disabled]="stateDisable? '' : null" [(ngModel)]="model.state_name" (ngModelChange)="modelChanged()" name="state_name" autocomplete="off" type="text" class="form-control" placeholder="Enter State Name">
+                                  <input *ngIf="showInput || stateInput == 'other'" [attr.disabled]="stateDisable? '' : null" [(ngModel)]="model.state_name" (ngModelChange)="modelChanged()" name="state_name" 
+                                          autocomplete="off" type="text" class="form-control" placeholder="Enter State Name" [ngStyle]="{'margin-top': stateInput == 'other' ? '20px' : '0px' }">
                                       </div>
                                     </div>
                                   </div>
@@ -362,8 +364,10 @@
                                         <option value="" disabled>{{'filters.location.selectCity' | translate}}</option>
                                         <option value="0" [selected]="location.cities!='' && location.cities==0">{{'filters.location.allOption' | translate}}</option>
                                         <option *ngFor="let cityAdd of parameter.citiesAdd" [selected]="cityAdd.id == model.city_id" value="{{cityAdd.id}}">{{cityAdd.name}}</option>
+                                        <option value="other">{{'filters.location.other' | translate}}</option>
                                       </select>
-                                      <input *ngIf="showInput" [attr.disabled]="cityDisable? '' : null" [(ngModel)]="model.city_name" name="city_name" autocomplete="off" type="text" class="form-control" placeholder="Enter City Name">
+                                      <input *ngIf="showInput || cityInput == 'other'" [attr.disabled]="cityDisable? '' : null" [(ngModel)]="model.city_name" name="city_name" autocomplete="off" type="text" 
+                                             class="form-control" placeholder="Enter City Name" [ngStyle]="{'margin-top': cityInput == 'other' ? '20px' : '0px' }">
                                       </div>
                                     </div>
                                     <div class="col-4">

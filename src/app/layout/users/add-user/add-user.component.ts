@@ -38,6 +38,9 @@ export class AddUserComponent implements OnInit {
   showInput: boolean = false;
   cityDisable: boolean;
   stateDisable: boolean;
+  stateInput: string;
+  cityInput: string;
+  countryInput: string;
   
   constructor(
     public constant: Constant,
@@ -151,11 +154,6 @@ export class AddUserComponent implements OnInit {
     //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterAllCountryStateAndCity'), 'error');
     //   return;
     // }
-    if(this.showInput){
-       modelSave.country_id = 0;
-       modelSave.state_id = 0;
-       modelSave.city_id = 0;
-    }
     if (modelSave.images) {
       modelSave.images = modelSave.images.map(r => r.image);
     }
@@ -214,6 +212,9 @@ export class AddUserComponent implements OnInit {
       }
     }
 
+    modelSave.country_id = this.countryInput == 'other'? 0 : modelSave.country_id;
+    modelSave.state_id = this.stateInput == 'other'? 0 : modelSave.state_id;
+    modelSave.city_id = this.cityInput == 'other'? 0 : modelSave.city_id;
     this.spinner.show();
     this.admin.postDataApi('addSeller', modelSave)
       .subscribe(
@@ -400,14 +401,18 @@ this.model.marital_statuses_id = maritalStatusId;
         });
     } else {
       if(countryId == 'other'){
+        this.countryInput = countryId;
         this.showInput = true;
         this.model.country_name = null;
         this.model.state_name = null;
         this.model.city_name = null;
+        this.stateInput = null;
+        this.cityInput = null;
         this.stateDisable = true;
         this.cityDisable = true;
       }
       else{
+        this.countryInput = countryId;
         this.showInput = false;
         this.parameter.statesAdd = [];
         this.location.countries = countryId; 
@@ -423,7 +428,7 @@ this.model.marital_statuses_id = maritalStatusId;
     this.parameter.localitiesAdd = [];
     this.parameter.state_id = state_id;
 
-    if (state_id !== '' && state_id !== '0') {
+    if (state_id !== '' && state_id !== '0' && state_id != 'other') {
       this.admin.postDataApi('UsergetCities', {state_id: state_id})
       .subscribe(
         success => {
@@ -433,10 +438,19 @@ this.model.marital_statuses_id = maritalStatusId;
           this.location.cities = this.model.city_id;
         });
     } else {
+      if(state_id == 'other'){
+        this.stateInput = state_id;
+        this.model.state_name = null;
+        this.model.city_name = null;
+        this.stateDisable = false;
+      }
+      else{
+      this.stateInput = state_id;
       this.parameter.citiesAdd = []; 
       this.location.states = state_id;
       this.model.state_id = state_id; 
-      this.location.cities = '0';     
+      this.location.cities = '0';
+      }     
     }
   }
 
@@ -445,13 +459,17 @@ this.model.marital_statuses_id = maritalStatusId;
     this.model.city_id = city_id;
     this.location.cities = city_id;
 
-    if (city_id === '' || city_id === '0') {
+    if (city_id === '' || city_id === '0' && city_id != 'other') {
       return false;
+    }
+    else{
+      this.stateDisable =  city_id == 'other'? false: true;;
+      this.cityInput = city_id;
     }
   }
   
   modelChanged(){
-    if(!this.model.country_name){
+    if(!this.model.country_name && this.countryInput != 'other'){
        this.stateDisable = true;
        this.cityDisable = true;
        this.model.state_name = null;
