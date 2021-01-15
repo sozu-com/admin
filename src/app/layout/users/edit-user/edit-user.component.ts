@@ -42,6 +42,7 @@ export class EditUserComponent implements OnInit {
   stateInput: string;
   cityInput: string;
   countryInput: string;
+  dataNotAvailable: boolean;
 
   constructor(
     public constant: Constant,
@@ -466,15 +467,15 @@ this.model.marital_statuses_id = maritalStatusId;
       return false;
     }
     else{
-      this.stateDisable =  city_id == 'other'? false: true;;
+      this.cityDisable =  city_id == 'other'? false: true;;
       this.cityInput = city_id;
     }
   }
   
   modelChanged(){
     if(!this.model.country_name && this.countryInput != 'other'){
-       this.stateDisable = true;
-       this.cityDisable = true;
+       this.stateDisable = this.stateInput != 'other'? true: false;
+       this.cityDisable = this.cityInput != 'other'? true: false;
        this.model.state_name = null;
        this.model.city_name = null;
     }
@@ -486,4 +487,8 @@ this.model.marital_statuses_id = maritalStatusId;
     }
   }
 
+  noDataAvailable(data){
+   this.dataNotAvailable = data? true : false;
+  }
+  
 }

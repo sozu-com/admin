@@ -42,7 +42,10 @@
                             </div>
                               <!-- <a [routerLink]="['/dashboard/leads/csr-buyers/1002']" class="action-icon">
                               <img src="assets/img/edit.png" alt="img"></a> -->
-                              <app-csr-buyer-detail></app-csr-buyer-detail>
+                              <app-csr-buyer-detail [user_id]="model.id" (noDataAvailable)="noDataAvailable($event)" *ngIf="model.id && !dataNotAvailable"></app-csr-buyer-detail>
+                              <div *ngIf="dataNotAvailable" style="text-align: center;">
+                                <span>No record available</span>
+                              </div>
                           </div>
                           <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                               <div class="col-12">

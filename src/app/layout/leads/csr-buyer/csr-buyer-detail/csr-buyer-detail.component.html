@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                 <div class="df-profile">
-                    <a routerLink="../"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+                    <a routerLink="../" *ngIf="!user_id"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
                     <img [src]="leadData?.user?.image" onerror='src="assets/img/default_img.png"' alt="img">
                     <div class="df-info">
                         <p class="p14 text-ellipsis120">{{leadData?.user?.name ? leadData?.user?.name : leadData?.name}}
@@ -170,7 +170,7 @@
             <!-- chat end -->
 
             <!-- notes start -->
-            <app-notes *ngIf="parameter?.lead_id" [sent_as]="parameter.sent_as" [lead_id]="parameter.lead_id"></app-notes>
+            <app-notes *ngIf="parameter?.lead_id" [sent_as]="parameter.sent_as" [lead_id]="parameter.lead_id" [user_id]="parameter.lead_id"></app-notes>
             <!-- notes end -->
 
         </div>
