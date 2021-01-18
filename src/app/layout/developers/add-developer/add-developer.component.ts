@@ -498,12 +498,9 @@ export class AddDeveloperComponent implements OnInit {
   }
 
   createFormGroup = (developerAccess?: any): FormGroup => {
-    // if (developerAccess) {
-    //   developerAccess['building_ids'] = [{ id: 550 }, { id: 303 }];
-    // }
     return this.fb.group({
       id: [(developerAccess || {}).id ? (developerAccess || {}).id : 0],
-      is_send_email: [((developerAccess || {}).approved == 1) ? true : false],
+      is_send_email: [false], // ((developerAccess || {}).approved == 1) ? true : false
       user_name: [(developerAccess || {}).name ? (developerAccess || {}).name : '', [Validators.required]],
       user_country_code: [(developerAccess || {}).country_code ? (developerAccess || {}).country_code : this.constant.country_code, [Validators.required]],
       user_dial_code: [(developerAccess || {}).dial_code ? (developerAccess || {}).dial_code : this.constant.dial_code, [Validators.required]],
