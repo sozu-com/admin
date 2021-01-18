@@ -481,9 +481,28 @@ export class AddLegalEntityComponent implements OnInit {
     return this.getDeveloperAccessFormArray.length;
   }
 
-  removeDeveloperAccessFormGroup = ($event: Event, index: number): void => {   
+  removeDeveloperAccessFormGroup = ($event: Event, index: number, formGroup: FormGroup): void => {
     $event.stopPropagation();
-    this.getDeveloperAccessFormArray.removeAt(index);    
+    swal({
+      type: 'success',
+      html: this.translate.instant('message.error.areYouSureYouWantToRemoveTheUser'),
+      confirmButtonColor: this.constant.confirmButtonColor,
+      confirmButtonText: 'Yes',
+      showCancelButton: true,
+      cancelButtonColor: this.constant.cancelButtonColor
+    }).then((result) => {
+      if (result.value) {
+        this.getDeveloperAccessFormArray.removeAt(index);
+        if (formGroup.get('id').value > 0) {
+          this.spinner.show();
+          this.admin.postDataApi('', { id: formGroup.get('id').value }).subscribe((success) => {
+            this.spinner.hide();
+          }, (error) => {
+            this.spinner.hide();
+          });
+        }
+      }
+    });
   }
 
   loadDeveloperAccessData = (developerAccessArray: any[] = []): void => {
@@ -494,6 +513,8 @@ export class AddLegalEntityComponent implements OnInit {
 
   createFormGroup = (developerAccess?: any): FormGroup => {
     return this.fb.group({
+      id: [(developerAccess || {}).id ? (developerAccess || {}).id : 0],
+      is_send_email: [false], // ((developerAccess || {}).approved == 1) ? true : false
       user_name: [(developerAccess || {}).name ? (developerAccess || {}).name : '', [Validators.required]],
       user_country_code: [(developerAccess || {}).country_code ? (developerAccess || {}).country_code : this.constant.country_code, [Validators.required]],
       user_dial_code: [(developerAccess || {}).dial_code ? (developerAccess || {}).dial_code : this.constant.dial_code, [Validators.required]],
@@ -501,27 +522,23 @@ export class AddLegalEntityComponent implements OnInit {
       user_second_surname: [(developerAccess || {}).second_surname ? (developerAccess || {}).second_surname : ''],
       user_email: [(developerAccess || {}).email ? (developerAccess || {}).email : '', [Validators.required]],
       user_contact_number: [(developerAccess || {}).contact_number ? (developerAccess || {}).contact_number : '', [Validators.required]],
+      building_ids: [(((developerAccess || {}).building_ids || []).length > 0) ? this.makeBuildingDetails(developerAccess.building_ids) : []],
+      is_access: [developerAccess ? (developerAccess || {}).approved || 0 : -1] // No Access = 0,  Has Access = 1 , default = -1 
     });
   }
 
-  openConfirmationAlertBox = (formGroup: FormGroup): void => {
-    swal({
-      type: 'success',
-      html: this.translate.instant('message.error.doYouWantTo') + '<br>' + this.translate.instant('message.error.sendEmail'),
-      confirmButtonColor: this.constant.confirmButtonColor,
-      confirmButtonText: 'OK',
-      showCancelButton: true,
-      cancelButtonColor: this.constant.cancelButtonColor,
-      cancelButtonText: 'NO',
-    }).then((result) => {
-      if (result.value) {
-        this.sendEmail(formGroup);
+  makeBuildingDetails = (building_ids: any[] = []): any => {
+    const details = [];
+    building_ids.forEach((buildingData) => {
+      for (const iterator of this.projects) {
+        if (iterator.id == buildingData.id) {
+          details.push({ id: iterator.id, name: iterator.name });
+          break;
+        }
       }
     });
+    return details;
   }
 
-  sendEmail = (formGroup: FormGroup): void => {
-
-  }
 
 }

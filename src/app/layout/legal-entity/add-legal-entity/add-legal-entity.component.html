@@ -232,15 +232,15 @@
               </div>
             </div>
 
-            <div class="col-12">
+            <!-- <div class="col-12">
               <div class="form-group-2 row">
                 <label class="col-4">{{'addForm.pleaseProvideAccessToSystem' | translate}}</label>
                 <input type="checkbox" class="col-6 form-control have_dev_panel_access"
                   formControlName="have_dev_panel_access" name="have_dev_panel_access">
               </div>
-            </div>
+            </div> -->
 
-            <div class="col-12">
+            <!-- <div class="col-12">
               <div class="form-group-2 row">
                 <label class="col-4">{{'addForm.typeOfService' | translate}}</label>
                 <div class="col-1">
@@ -262,9 +262,9 @@
                   <div class="clearfix"></div>
                 </div>
               </div>
-            </div>
+            </div> -->
 
-            <div class="col-12">
+            <!-- <div class="col-12">
               <div class="form-group-2 row" *ngIf="data_fetch">
                 <label class="col-4">{{'addForm.pleaseSelectProjects' | translate}}</label>
                 <div class="clearfix"></div>
@@ -275,7 +275,7 @@
                 </ng-multiselect-dropdown>
                 <div class="clearfix"></div>
               </div>
-            </div>
+            </div> -->
 
             <div class="col-12">
               <label>{{'addCollection.bankAccount' | translate}}
@@ -362,10 +362,11 @@
       <form [formGroup]="this.developer_access_formGroup">
         <div class="col-xl-12 col-lg-12 col-md-12 col-12">
 
-        <div class="row">
-          <div class="col-lg-3 col-md-6 col-sm-6 col-3">
-            <div class="form-group-2">
-              <p>{{'addForm.createAccessToSystemDashboard' | translate}}</p>
+          <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-3">
+              <div class="form-group-2">
+                <p>{{'addForm.createAccessToSystemDashboard' | translate}}</p>
+              </div>
             </div>
             <div class="col-6">
               <div class="btn-cont">
@@ -374,13 +375,13 @@
               </div>
             </div>
           </div>
-        </div>
 
           <div class="col-12">
             <div formArrayName="developer_access" *ngIf="this.getDeveloperAccessFormArrayLength > 0">
               <ng-container
                 *ngFor="let temp_developer_access of this.getDeveloperAccessFormArray['controls']; let i=index">
                 <div [formGroupName]="i">
+
                   <div class="row">
                     <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                       <div class="form-group-3">
@@ -407,15 +408,14 @@
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="row">
 
+                  <div class="row">
                     <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                       <div class="form-group-3">
                         <label>{{'addForm.emailId' | translate}} <span class="color-red">*</span></label>
                         <input (keydown.space)="$event.preventDefault();" autocomplete="off" required
-                          [pattern]="constant.emailPattern" type="email" class="form-control" formControlName="user_email"
-                          name="user_email">
+                          [pattern]="constant.emailPattern" type="email" class="form-control"
+                          formControlName="user_email" name="user_email">
                       </div>
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-6 col-12">
@@ -424,34 +424,65 @@
                         <input minlength="8" maxlength="15" autocomplete="off" type="text"
                           [pattern]="constant.phonePattern" class="form-control" id="phone" required
                           formControlName="user_contact_number" name="user_contact_number" ng2TelInput
-                          [ng2TelInputOptions]="{initialCountry:temp_developer_access.get('user_country_code').value}" (countryChange)="onCountryChange($event,i)" />
+                          [ng2TelInputOptions]="{initialCountry:temp_developer_access.get('user_country_code').value}"
+                          (countryChange)="onCountryChange($event,i)" />
                       </div>
                     </div>
-                    <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                      <div class="btn-cont" style="margin-top: 33px;">
-                        <button type="button" class="btn btn-primary marginR10"
-                          (click)="this.openConfirmationAlertBox(temp_developer_access)">{{'addForm.sendEmail' |
-                          translate}}</button>
+                    <div class="col-lg-1 col-md-6 col-sm-6 col-12">
+                      <div class="form-group-3">
+                        <label>{{'addForm.sendEmail' | translate}}</label>
+                        <input type="checkbox" class="form-control" formControlName="is_send_email">
                       </div>
                     </div>
-                    <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                      <div class="form-group-3" style="margin-top: 15px;margin-left: 150px;">
+
+                    <div class="col-lg-2 col-md-6 col-sm-6 col-12"
+                      *ngIf="temp_developer_access.get('is_access').value == 0">
+                      <div style="margin: 20px;border-style: solid;padding: 10px;text-align: center;">
+                        <label>{{'addForm.noAccess' | translate}}</label>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-2 col-md-6 col-sm-6 col-12"
+                      *ngIf="temp_developer_access.get('is_access').value == 1">
+                      <div style="margin: 20px;border-style: solid;padding: 10px;text-align: center;">
+                        <label>{{'addForm.hasAccess' | translate}}</label>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-1 col-md-6 col-sm-6 col-12">
+                      <div class="form-group-3" style="margin-top: 15px;">
                         <label>{{'addCollection.remove' | translate}}</label>
                         <div class="clearfix"></div>
                         <button type="button"
-                          (click)="this.removeDeveloperAccessFormGroup($event, i)">{{'addCollection.remove'
+                          (click)="this.removeDeveloperAccessFormGroup($event, i,temp_developer_access)">{{'addCollection.remove'
                           |
                           translate}}</button>
                       </div>
                     </div>
                   </div>
-                </ng-container>
-                </div>
-              </div>
-          </div>
-        </form>
-        </div>
 
-      </div>
-    <!-- </div> -->
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="form-group-2 row" *ngIf="data_fetch">
+                        <label class="col-4">{{'addForm.pleaseSelectProjects' | translate}}</label>
+                        <div class="clearfix"></div>
+                        <ng-multiselect-dropdown *ngIf="this.projects?.length > 0"
+                          class="col-3 section-section2 multi-select" [placeholder]="''" [data]="this.projects"
+                          formControlName="building_ids" [settings]="multiDropdownSettings">
+                        </ng-multiselect-dropdown>
+                        <div class="clearfix"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </ng-container>
+            </div>
+
+          </div>
+
+        </div>
+      </form>
+      <!-- </div> -->
+    </div>
   </div>
