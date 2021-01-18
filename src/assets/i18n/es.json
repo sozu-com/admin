@@ -2111,7 +2111,18 @@
     "rangePrice": "Precio de rango",
     "rangeCarpetArea": "Área de alfombra de gama",
     "apply": "Aplicar",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "PropertyType":"tipo de propiedad",
+    "ParkingDetails":"Detalles de estacionamiento",
+    "ParkingAvailable":"Estacionamiento disponible",
+    "ParkingForSale":"Estacionamiento en venta",
+    "PropertyFurnished":"Propiedad amueblada",
+    "ParkingPlace":"Lugar de estacionamiento",
+    "configuration":"Configuración",
+    "Bedrooms":"Dormitorios",
+    "Bathrooms":"Baños",
+    "HalfBathrooms":"Medios Baños",
+    "Amenities":"Comodidades"
   },
   "editDocName": {
     "title": "Editar el nombre del documento",
