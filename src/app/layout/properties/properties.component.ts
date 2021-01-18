@@ -19,7 +19,8 @@ declare var $: any;
 @Component({
   selector: 'app-properties',
   templateUrl: './properties.component.html',
-  styleUrls: ['./properties.component.css']
+  styleUrls: ['./properties.component.css'],
+  providers: [AddPropertyModel]
 })
 export class PropertiesComponent implements OnInit {
 
@@ -74,7 +75,7 @@ export class PropertiesComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
     private router: Router,
-    private translate: TranslateService
+    private translate: TranslateService,public model: AddPropertyModel
   ) { }
 
   ngOnInit() {
@@ -117,6 +118,18 @@ export class PropertiesComponent implements OnInit {
     this.getCountries();
     this.getPropertyConfigurations();
     this.getListing();
+    this.getPropertyTypes();
+  }
+  getPropertyTypes() {
+    this.admin.postDataApi('getPropertyTypes', {hide_blocked: 1})
+      .subscribe(
+        success => {
+          this.parameter.propertyTypes = success['data'];
+          if (this.parameter.propertyTypes.length !== 0 && this.parameter.property_id === '') {
+            this.model.property_type_id = this.parameter.propertyTypes[0].id;
+          }
+        }
+      );
   }
 
   setFloors() {

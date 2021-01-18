@@ -2112,7 +2112,18 @@
     "rangePrice": "Range Price",
     "rangeCarpetArea": "Range Carpet Area",
     "apply": "Apply",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "PropertyType":"Property Type",
+    "ParkingDetails":"Parking Details",
+    "ParkingAvailable":"Parking Available",
+    "ParkingForSale":"Parking For Sale",
+    "PropertyFurnished":"Property Furnished",
+    "ParkingPlace":"Parking Place",
+    "configuration":"Configuration",
+    "Bedrooms":"Bedrooms",
+    "Bathrooms":"Bathrooms",
+    "HalfBathrooms":"Half Bathrooms",
+    "Amenities":"Amenities"
   },
   "editDocName": {
     "title": "Edit Document Name",

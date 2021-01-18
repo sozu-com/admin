@@ -40,7 +40,7 @@ export class UsersComponent implements OnInit {
     this.parameter.page = this.constant.p;
     this.parameter.type = 1;
     this.initialCountry = {initialCountry: this.constant.country_code};
-    this.getBuyers(this.parameter.type, this.parameter.page, '', '', '');
+    this.getBuyers(this.parameter.type, this.parameter.page, '', '', '','','');
   }
 
   telInputObject(obj) {
@@ -72,12 +72,14 @@ export class UsersComponent implements OnInit {
 
   getPage(page) {
     this.parameter.page = page;
-    this.getBuyers(this.parameter.type, this.parameter.page, this.parameter.name, this.parameter.phone, this.parameter.email);
+    this.getBuyers(this.parameter.type, this.parameter.page, this.parameter.name, this.parameter.phone, this.parameter.email,
+      this.parameter.first_surname, this.parameter.second_surname);
   }
 
   sortData(value: number, param: string) {
     this.parameter.property_sort = value;
-    this.getBuyers(this.parameter.type, this.parameter.page, this.parameter.name, this.parameter.phone, this.parameter.email);
+    this.getBuyers(this.parameter.type, this.parameter.page, this.parameter.name, this.parameter.phone, this.parameter.email,
+      this.parameter.first_surname, this.parameter.second_surname);
   }
 
   setUserType(is_credit: any) {
@@ -86,15 +88,18 @@ export class UsersComponent implements OnInit {
     } else {
       this.parameter.is_credit = '';
     }
-    this.getBuyers(this.parameter.type, this.parameter.page, this.parameter.name, this.parameter.phone, this.parameter.email);
+    this.getBuyers(this.parameter.type, this.parameter.page, this.parameter.name, this.parameter.phone, this.parameter.email,
+      this.parameter.first_surname, this.parameter.second_surname);
   }
 
-  getBuyers(type: any, page: any, name: string, phone: string, email: string) {
+  getBuyers(type: any, page: any, name: string, phone: string, email: string,first_surname: string,second_surname: string) {
     this.parameter.page = page;
     this.parameter.type = type;
     this.parameter.name = name;
     this.parameter.phone = phone;
     this.parameter.email = email;
+    this.parameter.first_surname = first_surname;
+    this.parameter.second_surname = second_surname;
     this.parameter.url = this.parameter.type === 1 ? 'getBuyers' : 'getSellers';
     this.spinner.show();
     this.admin.postDataApi(this.parameter.url, this.parameter)
@@ -148,6 +153,8 @@ export class UsersComponent implements OnInit {
     input.append('dial_code', this.model.dial_code);
     input.append('phone', this.model.phone);
     input.append('email', this.model.email);
+    input.append('first_surname', this.model.first_surname);
+    input.append('second_surname', this.model.second_surname);
     if (this.model.image) { input.append('image', this.model.image); }
     if (this.model.developer_image) { input.append('developer_image', this.model.developer_image); }
     this.spinner.show();
