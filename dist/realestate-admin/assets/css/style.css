@@ -1011,7 +1011,7 @@ background: url(../img/location.png) no-repeat 15px 13px;
 }
 .form-group-3.mark-pin-map{margin-bottom:0; }
 .cust-radio {
-display: block;
+/* display: block; */
 position: relative;
 padding-left:0;
 margin-bottom: 12px;
