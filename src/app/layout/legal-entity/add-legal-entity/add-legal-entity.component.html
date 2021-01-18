@@ -461,7 +461,7 @@
                     </div>
                   </div>
 
-                  <div class="row">
+                  <div class="row" *ngIf="projects?.length > 0">
                     <div class="col-12">
                       <div class="form-group-2 row" *ngIf="data_fetch">
                         <label class="col-4">{{'addForm.pleaseSelectProjects' | translate}}</label>
