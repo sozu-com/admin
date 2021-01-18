@@ -52,35 +52,43 @@
                   <div class="table-search">
                       <label>{{'table.th.name' | translate}}</label>
                       <div class="searh-3">
-                        <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email)" name="">
-                        <button *ngIf="parameter.name" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
+                        <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email
+                        ,parameter.first_surname,parameter.second_surname)" name="">
+                        <button *ngIf="parameter.name" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
+                        parameter.first_surname,parameter.second_surname)"><i class="fa fa-search"></i></button>
                       </div>
                   </div>
                 </th>
                 <th style="width:10%">
                   <div class="table-search">
                       <label>{{'table.th.firstSurname' | translate}}</label>
-                      <!-- <div class="searh-3">
-                        <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email)" name="">
-                        <button *ngIf="parameter.name" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
-                      </div> -->
+                      <div class="searh-3">
+                        <input type="text" [(ngModel)]="parameter.first_surname" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
+                        parameter.first_surname,parameter.second_surname)" name="">
+                        <button *ngIf="parameter.first_surname" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
+                        parameter.first_surname,parameter.second_surname)"><i class="fa fa-search"></i></button>
+                      </div>
                   </div>
                 </th>
                 <th style="width:10%">
                   <div class="table-search">
                       <label>{{'table.th.secondSurname' | translate}}</label>
-                      <!-- <div class="searh-3">
-                        <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email)" name="">
-                        <button *ngIf="parameter.name" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
-                      </div> -->
+                      <div class="searh-3">
+                        <input type="text" [(ngModel)]="parameter.second_surname" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
+                        parameter.first_surname,parameter.second_surname)" name="">
+                        <button *ngIf="parameter.second_surname" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
+                        parameter.first_surname,parameter.second_surname)"><i class="fa fa-search"></i></button>
+                      </div>
                   </div>
                 </th>
                 <th style="width:20%; text-align:left;">
                   <div class="table-search">
                       <label>{{'table.th.contactNumber' | translate}}</label>
                       <div class="searh-3">
-                        <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email)" name="">
-                        <button *ngIf="parameter.phone" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
+                        <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
+                        parameter.first_surname,parameter.second_surname)" name="">
+                        <button *ngIf="parameter.phone" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
+                        parameter.first_surname,parameter.second_surname)"><i class="fa fa-search"></i></button>
                       </div>
                   </div>
                 </th>
@@ -88,8 +96,10 @@
                   <div class="table-search">
                       <label>{{'table.th.emailAddress' | translate}}</label>
                       <div class="searh-3">
-                        <input (keydown.space)="$event.preventDefault();" type="text" [(ngModel)]="parameter.email" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email)" name="">
-                        <button *ngIf="parameter.email" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
+                        <input (keydown.space)="$event.preventDefault();" type="text" [(ngModel)]="parameter.email" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
+                        parameter.first_surname,parameter.second_surname)" name="">
+                        <button *ngIf="parameter.email" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
+                        parameter.first_surname,parameter.second_surname)"><i class="fa fa-search"></i></button>
                       </div>
                   </div>
                 </th>
