@@ -243,10 +243,10 @@ export class AddLegalEntityComponent implements OnInit {
             for (let index = 0; index < success.data.legal_reps.legal_rep_buildings.length; index++) {
               const element = success.data.legal_reps.legal_rep_buildings[index];
               const d = this.projects.filter(r => r.id == element.building_id);
-              const projectIndex = self.selctedProjects.find(item => item.id == d[0].id)
-              if (!projectIndex) {
-                self.selctedProjects.push({ id: d[0].id, name: d[0].name });
-              }
+              // const projectIndex = self.selctedProjects.find(item => item.id == d[0].id)
+              // if (!projectIndex) {
+              //   self.selctedProjects.push({ id: d[0].id, name: d[0].name });
+              // }
             }
           }
           this.patchForm(success.data);
@@ -495,7 +495,7 @@ export class AddLegalEntityComponent implements OnInit {
         this.getDeveloperAccessFormArray.removeAt(index);
         if (formGroup.get('id').value > 0) {
           this.spinner.show();
-          this.admin.postDataApi('', { id: formGroup.get('id').value }).subscribe((success) => {
+          this.admin.postDataApi('deleteDeveloperUser', { id: formGroup.get('id').value }).subscribe((success) => {
             this.spinner.hide();
           }, (error) => {
             this.spinner.hide();
