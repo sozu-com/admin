@@ -127,7 +127,7 @@
       </div>
   </div>
   
-  <div class="btn-cont text-right marginT15" *ngIf="parameter.total">
+  <div class="btn-cont text-right marginT15" *ngIf="parameter.total > 0 ">
     <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
   </div>
   
