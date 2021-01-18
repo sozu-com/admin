@@ -1971,4 +1971,8 @@ export class AddProjectComponent implements OnInit {
   viewDocument(document: string) {
     window.open(document, '_blank');
   }
+
+  goBack(){ 
+    this.router.navigate(['dashboard/projects/view-projects', {for: 'back'}])
+  }
 }

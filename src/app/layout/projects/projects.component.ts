@@ -39,6 +39,8 @@ export class ProjectsComponent implements OnInit {
   min_carpet_area: any;
   max_carpet_area: any;
   exportfinalData: Array<any>;
+  local_storage_parameter: any;
+  is_back: boolean;
 
   constructor(
     public constant: Constant,
@@ -49,7 +51,8 @@ export class ProjectsComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private translate: TranslateService, private http: HttpClient,
     private router: Router, private elementRef: ElementRef
-  ) { }
+  ) { 
+  }
 
   ngOnInit() {
     console.log('baseurl', this.admin.baseUrl);
@@ -70,6 +73,9 @@ export class ProjectsComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.parameter.userType = params.type;
       this.parameter.id = params.id;
+      if(params.for){
+        this.is_back = true;
+      }
     });
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
@@ -80,8 +86,10 @@ export class ProjectsComponent implements OnInit {
     this.parameter.max_price = 0;
     this.parameter.min_carpet_area = 0;
     this.parameter.max_carpet_area = 0;
+    this.local_storage_parameter = JSON.parse(localStorage.getItem('parametersForProject'));
+    this.parameter = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.parameter;
     this.getCountries();
-    // this.getPropertyConfigurations();
+    // this.getPropertyConfigurations(); 
     this.getListing();
   }
 
@@ -125,6 +133,7 @@ export class ProjectsComponent implements OnInit {
     }
     this.admin.postDataApi('projectHome', input).subscribe(
       success => {
+        localStorage.setItem('parametersForProject', JSON.stringify(this.parameter));
         this.items = success.data;
         console.log(this.items, "projectHome")
         this.total = success.total_count;

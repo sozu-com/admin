@@ -236,8 +236,6 @@ export class AddUserComponent implements OnInit {
               this.model.legal_representative = success.data.legal_representative || new LegalRepresentative();
               this.model.legal_representative.legal_rep_banks = success.data.legal_representative.legal_rep_banks || [];
               this.getCountries();
-              this.model.country_id ? this.getStatesNew1(this.model.country_id) : undefined;
-              this.model.state_id ? this.getCitiesNew1(this.model.state_id) : undefined;
             }
           }
         }, error => {
@@ -364,12 +362,17 @@ export class AddUserComponent implements OnInit {
     let self = this;
     this.parameter.statesAdd = []; this.parameter.citiesAdd = []; this.parameter.localitiesAdd = [];
     this.parameter.buildingsAdd = [];
-    this.admin.postDataApi('getUserCountries', {})
+    this.admin.postDataApi('getCountryLocality-v2', {})
       .subscribe(success => { 
         this.parameter.countriesAdd = success.data; 
         this.location.countries = '0';
         this.location.states = '0'; 
         this.location.cities = '0'; 
+        this.showInput = false;
+        this.stateInput = undefined;
+        this.cityInput = undefined;
+        this.model.country_id ? this.getStatesNew1(this.model.country_id) : undefined;
+        this.model.state_id ? this.getCitiesNew1(this.model.state_id) : undefined;
       });
   }
 
@@ -383,22 +386,24 @@ export class AddUserComponent implements OnInit {
 this.model.marital_statuses_id = maritalStatusId;
   }
 
-  getStatesNew1(countryId) {
+   getStatesNew1(countryId) {
     this.parameter.citiesAdd = []; this.parameter.localitiesAdd = []; this.parameter.buildingsAdd = [];
     this.parameter.country_id = countryId;
 
     if (countryId !== '' && countryId !== '0' && countryId != 'other') {
-      this.admin.postDataApi('country/getUserStates', {country_id: countryId})
-      .subscribe(
-        success => {
+      this.parameter.countriesAdd.filter(country =>{
+        if(country.id == countryId){
+          this.parameter.statesAdd = country.states;
           this.showInput = false;
-          this.parameter.statesAdd = success.data;
           this.location.countries = countryId;
           this.model.country_id = countryId;
-          this.location.states = this.model.state_id;
+          this.location.states = '0';
           this.location.cities = '0';
           this.location.localities = '0';
-        });
+          this.stateInput = undefined;
+          this.cityInput = undefined;
+        }
+      });
     } else {
       if(countryId == 'other'){
         this.countryInput = countryId;
@@ -429,19 +434,20 @@ this.model.marital_statuses_id = maritalStatusId;
     this.parameter.state_id = state_id;
 
     if (state_id !== '' && state_id !== '0' && state_id != 'other') {
-      this.admin.postDataApi('UsergetCities', {state_id: state_id})
-      .subscribe(
-        success => {
-          this.parameter.citiesAdd = success.data;
+      this.parameter.statesAdd.filter(state =>{
+        if(state.id == state_id){
+          this.parameter.citiesAdd = state.cities;
           this.location.states = state_id; 
           this.model.state_id = state_id; 
           this.location.cities = this.model.city_id;
-        });
+          this.model.city_name = undefined;
+        }
+      });
     } else {
       if(state_id == 'other'){
         this.stateInput = state_id;
-        this.model.state_name = null;
-        this.model.city_name = null;
+        this.model.state_name = undefined;
+        this.model.city_name = undefined;
         this.stateDisable = false;
       }
       else{
@@ -469,11 +475,11 @@ this.model.marital_statuses_id = maritalStatusId;
   }
   
   modelChanged(){
-    if(!this.model.country_name && this.countryInput != 'other'){
+    if((!this.model.country_name || this.model.country_name == "") && this.countryInput != 'other'){
        this.stateDisable = this.stateInput != 'other'? true: false;
        this.cityDisable = this.cityInput != 'other'? true: false;
-       this.model.state_name = null;
-       this.model.city_name = null;
+       //this.model.state_name = undefined;
+       //this.model.city_name = undefined;
     }
     else if(this.model.country_name && !this.model.state_name){
       this.stateDisable = false;

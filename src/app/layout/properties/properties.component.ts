@@ -56,6 +56,7 @@ export class PropertiesComponent implements OnInit {
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
   exportfinalData: Array<any>;
   baseUrl = this.admin.baseUrl + 'exportProperties';
+  is_back: boolean;
 
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
@@ -68,6 +69,7 @@ export class PropertiesComponent implements OnInit {
   @ViewChild('closeLinkSellerModal') closeLinkSellerModal: ElementRef;
   @ViewChild('linkExtBrokerModal') linkExtBrokerModal: ElementRef;
   @ViewChild('closeExtBrokerModal') closeExtBrokerModal: ElementRef;
+  local_storage_parameter: any;
 
   constructor(
     public constant: Constant,
@@ -106,6 +108,9 @@ export class PropertiesComponent implements OnInit {
       } else if (params.type === 'agency') {
         this.parameter.agency_id = params.id;
       }
+      if(params.for){
+        this.is_back = true;
+      }
     });
     this.setFloors();
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
@@ -124,7 +129,8 @@ export class PropertiesComponent implements OnInit {
     this.parameter.bathroom = 0;
     this.parameter.half_bathroom = 0;
     this.parameter.property_type_id;
-    
+    this.local_storage_parameter = JSON.parse(localStorage.getItem('parametersForProperty'));
+    this.parameter = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.parameter;
     this.getCountries();
     this.getPropertyConfigurations();
     this.getListing();
@@ -219,6 +225,7 @@ export class PropertiesComponent implements OnInit {
     input.half_bathroom = this.parameter.half_bathroom;
     this.admin.postDataApi('propertyHome', input).subscribe(
       success => {
+        localStorage.setItem('parametersForProperty', JSON.stringify(this.parameter));
         this.items = success.data;
         this.total = success.total_count;
         this.spinner.hide();

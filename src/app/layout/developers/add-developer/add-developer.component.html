@@ -1,7 +1,8 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-12">
-      <div class="title-group">
+      <div class="title-group title-div">
+        <a href="javascript://" class="back-icon" (click)="goBack()"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
         <h5>{{model.id ? ('viewDevelopers.editDeveloper' | translate) : ('viewDevelopers.addDeveloper' | translate)}}
         </h5>
         <div class="spacer30"></div>

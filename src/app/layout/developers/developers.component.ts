@@ -20,6 +20,8 @@ export class DevelopersComponent implements OnInit {
   public parameter: IProperty = {};
   model: Users;
   items: Array<Users>;
+  local_storage_parameter: any;
+  is_back: boolean;
   constructor(public constant: Constant, public admin: AdminService, private router: Router,
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
@@ -32,7 +34,12 @@ export class DevelopersComponent implements OnInit {
     this.parameter.page = this.constant.p;
     this.route.params.subscribe(params => {
       this.model.name = params.name;
+      if(params.for){
+        this.is_back = true;
+      }
     });
+    this.local_storage_parameter = JSON.parse(localStorage.getItem('parametersForDeveloper'));
+    this.parameter = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.parameter;
     this.getDevelopersFrAdmin();
   }
 
@@ -60,6 +67,7 @@ export class DevelopersComponent implements OnInit {
       .subscribe(
         success => {
           this.spinner.hide();
+          localStorage.setItem('parametersForDeveloper', JSON.stringify(this.parameter));
           this.items = success.data;
           this.parameter.total = success.total;
           console.log(success.data,"all developers data")

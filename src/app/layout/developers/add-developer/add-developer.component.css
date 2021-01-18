@@ -23,3 +23,14 @@
     -ms-user-select: none;
     user-select: none;
   }
+
+  .title-div{
+    display: flex;
+    align-items: baseline;
+  }
+  
+  .back-icon{
+    font-size: 22px;
+    color: #00B96F;
+    margin-right: 10px;
+  }

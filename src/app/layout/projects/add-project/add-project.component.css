@@ -29,3 +29,14 @@ agm-map{height:325px;}
   font-size: 14px;
   height: 40px;
 }
+
+.title-div{
+  display: flex;
+  align-items: baseline;
+}
+
+.back-icon{
+  font-size: 24px;
+  color: #00B96F;
+  margin-right: 10px;
+}

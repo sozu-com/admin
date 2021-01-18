@@ -526,5 +526,8 @@ export class AddDeveloperComponent implements OnInit {
     return details;
   }
 
+  goBack(){ 
+    this.router.navigate(['dashboard/developers/view-all', {for: 'back'}])
+  }
 }
 

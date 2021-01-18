@@ -1619,4 +1619,8 @@ export class AddPropertyComponent implements OnInit {
   remove(index: any) {
     this.amenVideo.files.splice(index, 1);
   }
+
+  goBack(){ 
+    this.router.navigate(['/dashboard/properties/view-properties', {for: 'back'}])
+  }
 }

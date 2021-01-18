@@ -3,9 +3,9 @@
   <div class="row">
     <div class="col-md-6">
       <div class="title-group">
-        <h5 *ngIf="!editMode"><a routerLink="/dashboard/properties/view-properties" href="javascript://"><i
+        <h5 *ngIf="!editMode"><a href="javascript://" (click)="goBack()"><i
               class="fa fa-angle-double-left"></i> </a> &nbsp;&nbsp;{{'addForm.addProperty' | translate}}</h5>
-        <h5 *ngIf="editMode"> <a routerLink="/dashboard/properties/view-properties" href="javascript://"><i
+        <h5 *ngIf="editMode"> <a href="javascript://" (click)="goBack()"><i
               class="fa fa-angle-double-left"></i> </a> &nbsp;&nbsp;{{'addForm.editProperty' | translate}}: {{model?.name}}</h5>
       </div>
     </div>
