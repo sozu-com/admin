@@ -1047,6 +1047,67 @@
                   [(ngModel)]="parameter.max_carpet_area">
                </div>
             </div>
+            <!-- PropertyType -->
+            <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.PropertyType' | translate}}</h4>
+            <div class="row">
+               <div class="form-group col-md-12">
+                  <label class="cust-radio" *ngFor="let propertyType of parameter.propertyTypes">
+                     <input type="radio" (change)="setValue('property_type_id', propertyType.id)" value="{{propertyType.id}}"
+                       [checked]="model.property_type_id == propertyType.id ? 'checked' : ''" name="property_type_id">
+                     <span class="checkmark">{{propertyType.name_en}}</span>
+                   </label>
+               </div>
+            </div>
+            <!-- ParkingDetails -->
+            <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.ParkingDetails' | translate}}</h4>
+            <div class="row">
+               <div class="form-group col-md-4">
+                  {{'advanceSearch.ParkingAvailable' | translate}}
+                  <label class="switch">
+                     <input type="checkbox" checked>
+                     <span class="slider round"></span>
+                   </label>
+               </div>
+               <div class="form-group col-md-4">
+                  {{'advanceSearch.ParkingForSale' | translate}}
+                  <label class="switch">
+                     <input type="checkbox" checked>
+                     <span class="slider round"></span>
+                   </label>
+               </div>   
+               <div class="form-group col-md-4">
+                  {{'advanceSearch.PropertyFurnished' | translate}}
+                  <label class="switch">
+                     <input type="checkbox" checked>
+                     <span class="slider round"></span>
+                   </label>
+               </div>
+            </div>
+              <!-- ParkingDetails -->
+              <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.configuration' | translate}}</h4>
+              <div class="row">
+                 <div class="form-group col-md-4">
+                    {{'advanceSearch.Bedrooms' | translate}}
+                    <label class="switch">
+                       <input type="checkbox" checked>
+                       <span class="slider round"></span>
+                     </label>
+                 </div>
+                 <div class="form-group col-md-4">
+                    {{'advanceSearch.Bathrooms' | translate}}
+                    <label class="switch">
+                       <input type="checkbox" checked>
+                       <span class="slider round"></span>
+                     </label>
+                 </div>   
+                 <div class="form-group col-md-4">
+                    {{'advanceSearch.HalfBathrooms' | translate}}
+                    <label class="switch">
+                       <input type="checkbox" checked>
+                       <span class="slider round"></span>
+                     </label>
+                 </div>
+              </div>
             <!-- (click)="searchProject(min_price,max_price,min_carpet_area,max_carpet_area)"  -->
             <button type="submit" class="btn btn-success"
             (click)="searchProperties()"
