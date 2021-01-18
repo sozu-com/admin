@@ -254,8 +254,8 @@
          <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="add-new text-left">
                <a class="btn" #modalOpen data-toggle="modal" data-target="#advancedSearch"
-               routerLink="/dashboard/properties/add-bulk-property/0/0">
-               {{'advanceSearch.advancedSearch' | translate}}</a>
+                  routerLink="/dashboard/properties/add-bulk-property/0/0">
+                  {{'advanceSearch.advancedSearch' | translate}}</a>
             </div>
          </div>
          <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -1017,9 +1017,9 @@
       <div class="modal-content" style="
      border-top-style: solid;
      border-top-width: thick;
-     border-top-color: rgb(0, 185, 111);
-     padding: 10px; border-radius: 5px;
-     box-shadow: 0px -2px 0px 7px rgb(105,105,105);">
+     border-top-color: rgb(0, 185, 111); margin-top: -47%; border-radius: 5px;
+     box-shadow: 0px -2px 0px 7px rgb(105,105,105);width: 217%;
+margin-left: -38%;">
          <div class="modal-header modal-header-new" style="background-color: white;">
             <h4 class="modal-title">{{'advanceSearch.advancedSearch' | translate}}</h4>
             <button style="display: none;" type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
@@ -1030,21 +1030,23 @@
             <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.rangePrice' | translate}}</h4>
             <div class="row">
                <div class="form-group col-md-6">
-                  <input type="text" class="form-control" placeholder="Min" name="min_price" [(ngModel)]="parameter.min_price">
+                  <input type="text" class="form-control" placeholder="Min" name="min_price"
+                     [(ngModel)]="parameter.min_price">
                </div>
                <div class="form-group col-md-6">
-                  <input type="text" class="form-control" placeholder="Max" name="max_price" [(ngModel)]="parameter.max_price">
+                  <input type="text" class="form-control" placeholder="Max" name="max_price"
+                     [(ngModel)]="parameter.max_price">
                </div>
             </div>
             <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.rangeCarpetArea' | translate}}</h4>
             <div class="row">
                <div class="form-group col-md-6">
                   <input type="text" class="form-control" placeholder="Min" name="min_carpet_area"
-                  [(ngModel)]="parameter.min_carpet_area">
+                     [(ngModel)]="parameter.min_carpet_area">
                </div>
                <div class="form-group col-md-6">
                   <input type="text" class="form-control" placeholder="Max" name="max_carpet_area"
-                  [(ngModel)]="parameter.max_carpet_area">
+                     [(ngModel)]="parameter.max_carpet_area">
                </div>
             </div>
             <!-- PropertyType -->
@@ -1052,66 +1054,100 @@
             <div class="row">
                <div class="form-group col-md-12">
                   <label class="cust-radio" *ngFor="let propertyType of parameter.propertyTypes">
-                     <input type="radio" (change)="setValue('property_type_id', propertyType.id)" value="{{propertyType.id}}"
-                       [checked]="model.property_type_id == propertyType.id ? 'checked' : ''" name="property_type_id">
+                     <input type="radio" (change)="setValue('property_type_id', propertyType.id)"
+                        value="{{propertyType.id}}"[(ngModel)]="parameter.property_type_id" 
+                        [checked]="parameter.property_type_id == propertyType.id ? 'checked' : ''" name="property_type_id">
                      <span class="checkmark">{{propertyType.name_en}}</span>
-                   </label>
+                  </label>
                </div>
             </div>
             <!-- ParkingDetails -->
             <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.ParkingDetails' | translate}}</h4>
             <div class="row">
                <div class="form-group col-md-4">
-                  {{'advanceSearch.ParkingAvailable' | translate}}
+                  <p class="parking" style="color: #00B96F;">{{'advanceSearch.ParkingAvailable' | translate}}</p>
                   <label class="switch">
-                     <input type="checkbox" checked>
+                     <input type="checkbox" [(ngModel)]="parameter.parking" name="parking">
                      <span class="slider round"></span>
-                   </label>
+                  </label>
+               </div>
+
+               <div class="form-group col-md-4">
+                  <p class="parking" style="color: #00B96F;">{{'advanceSearch.PropertyFurnished' | translate}}</p>
+                  <label class="switch">
+                     <input type="checkbox" [(ngModel)]="parameter.furnished" name="furnished">
+                     <span class="slider round"></span>
+                  </label>
+               </div> 
+              
+               <div class="form-group col-md-4">
+                  <p class="parking" style="color: #00B96F;">{{'advanceSearch.ParkingForSale' | translate}}</p>
+                  <label class="switch">
+                     <input type="checkbox"  [(ngModel)]="parameter.parking_for_sale" 
+                     name="parking_for_sale" checked>
+                     <span class="slider round"></span>
+                  </label>
+               </div>
+
+               <div class="form-group col-md-4" *ngIf="parameter.parking == 1">
+                  {{'advanceSearch.ParkingPlace' | translate}}
+                  <input class="form-control" type="number" [(ngModel)]="parameter.parking_place" min="0"
+                  name="parking_place">
+               </div>
+
+            </div>
+            <!-- configuration -->
+            <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.configuration' | translate}}</h4>
+            <div class="row">
+               <div class="form-group col-md-4">
+                  {{'advanceSearch.Bedrooms' | translate}}<br />
+                  <input class="form-control" type="number" [(ngModel)]="parameter.bedroom" min="0"
+                  name="bedroom">
+                  <!-- <button (click)="increment()">+</button>
+                  <button (click)="decrement()">-</button>
+                  <br />
+                  <div>{{ count }}</div> -->
                </div>
                <div class="form-group col-md-4">
-                  {{'advanceSearch.ParkingForSale' | translate}}
-                  <label class="switch">
-                     <input type="checkbox" checked>
-                     <span class="slider round"></span>
-                   </label>
-               </div>   
+                  {{'advanceSearch.Bathrooms' | translate}}<br />
+                  <input class="form-control" type="number" [(ngModel)]="parameter.bathroom" min="0"
+                  name="bathroom">
+                  <!-- <button (click)="increment1()">+</button>
+                  <button (click)="decrement1()">-</button>
+                  <br />
+                  <div>{{ count1 }}</div> -->
+               </div>
                <div class="form-group col-md-4">
-                  {{'advanceSearch.PropertyFurnished' | translate}}
-                  <label class="switch">
-                     <input type="checkbox" checked>
-                     <span class="slider round"></span>
-                   </label>
+                  {{'advanceSearch.HalfBathrooms' | translate}}<br />
+                  <input class="form-control" type="number" [(ngModel)]="parameter.half_bathroom" min="0"
+                  name="half_bathroom">
+                  <!-- <button (click)="increment2()">+</button>
+                  <button (click)="decrement2()">-</button>
+                  <br />
+                  <div>{{ count2 }}</div> -->
                </div>
             </div>
-              <!-- ParkingDetails -->
-              <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.configuration' | translate}}</h4>
-              <div class="row">
-                 <div class="form-group col-md-4">
-                    {{'advanceSearch.Bedrooms' | translate}}
-                    <label class="switch">
-                       <input type="checkbox" checked>
-                       <span class="slider round"></span>
-                     </label>
-                 </div>
-                 <div class="form-group col-md-4">
-                    {{'advanceSearch.Bathrooms' | translate}}
-                    <label class="switch">
-                       <input type="checkbox" checked>
-                       <span class="slider round"></span>
-                     </label>
-                 </div>   
-                 <div class="form-group col-md-4">
-                    {{'advanceSearch.HalfBathrooms' | translate}}
-                    <label class="switch">
-                       <input type="checkbox" checked>
-                       <span class="slider round"></span>
-                     </label>
-                 </div>
-              </div>
-            <!-- (click)="searchProject(min_price,max_price,min_carpet_area,max_carpet_area)"  -->
-            <button type="submit" class="btn btn-success"
-            (click)="searchProperties()"
-               style="border-left-color: rgb(0, 185, 111);
+           <!-- Amenities -->
+           <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.Amenities' | translate}}</h4>
+           <div class="row">
+            <div class="form-group col-md-12">
+               <label class="cust-radio" *ngFor="let amenity of parameter.amenities">
+                  <input type="checkbox" name="amenity_id">
+                  <span class="checkmark">{{(showMore) ? amenity.name_en : amenity.name_en | slice:0:2}}</span>
+               </label>
+               <span *ngIf="!showMore">...</span> 
+               <a href="javascript:;" *ngIf="!showMore" (click)="showMore=true">View all</a>
+            </div>
+              <!-- <div class="form-group col-md-12">
+               <select style="max-width:50%" title="Choose Amenity" class="form-control" name="amen" [(ngModel)]="amen"
+               (click)="addAmenity(amen)">
+               <option value="">Select Amenity</option>
+               <option *ngFor="let amenity of parameter.amenities; let i=index" [ngValue]="amenity">{{amenity.name_en}}
+               </option>
+             </select>
+              </div> -->
+           </div>
+            <button type="submit" class="btn btn-success" (click)="searchProperties()" style="border-left-color: rgb(0, 185, 111);
                border-right-color: rgb(0, 185, 111);">
                {{'advanceSearch.apply' | translate}}
             </button>&nbsp;&nbsp;

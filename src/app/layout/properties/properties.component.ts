@@ -14,7 +14,7 @@ import * as XLSX from 'xlsx';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 declare let swal: any;
-declare var $: any; 
+declare var $: any;
 
 @Component({
   selector: 'app-properties',
@@ -26,7 +26,7 @@ export class PropertiesComponent implements OnInit {
 
   public parameter: IProperty = {};
   public location: IProperty = {};
-  
+  showMore = false;
   items: any = [];
   total: any = 0;
   configurations: any = [];
@@ -44,6 +44,7 @@ export class PropertiesComponent implements OnInit {
   property: any;
   reason: string;
   item: any;
+  count = 0;
   locale: any;
   floors: Array<any>;
   seller_type: number;
@@ -75,7 +76,7 @@ export class PropertiesComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
     private router: Router,
-    private translate: TranslateService,public model: AddPropertyModel
+    private translate: TranslateService, public model: AddPropertyModel
   ) { }
 
   ngOnInit() {
@@ -115,13 +116,38 @@ export class PropertiesComponent implements OnInit {
     this.parameter.max_price = 0;
     this.parameter.min_carpet_area = 0;
     this.parameter.max_carpet_area = 0;
+    this.parameter.parking = 0;
+    this.parameter.furnished = 0;
+    this.parameter.parking_place = 0;
+    this.parameter.bedroom = 0;
+    this.parameter.parking_for_sale = 0;
+    this.parameter.bathroom = 0;
+    this.parameter.half_bathroom = 0;
+    this.parameter.property_type_id;
+    
     this.getCountries();
     this.getPropertyConfigurations();
     this.getListing();
     this.getPropertyTypes();
+    this.getPropertyAmenities();
   }
+  setValue(key: any, value: any) {
+    this.model[key] = value;
+  }
+  increment() {
+    this.count++;
+  }
+
+  decrement() {
+    this.count--;
+    if (this.count < 0) {
+      this.count = 0;
+    }
+  }
+  
+
   getPropertyTypes() {
-    this.admin.postDataApi('getPropertyTypes', {hide_blocked: 1})
+    this.admin.postDataApi('getPropertyTypes', { hide_blocked: 1 })
       .subscribe(
         success => {
           this.parameter.propertyTypes = success['data'];
@@ -135,7 +161,7 @@ export class PropertiesComponent implements OnInit {
   setFloors() {
     var foo = new Array(30);
     this.floors = [];
-    for(var i = 0; i < foo.length; i++){
+    for (var i = 0; i < foo.length; i++) {
       const obj = {
         id: i,
         name: i == 0 ? this.translate.instant('addForm.groundFloor') : this.translate.instant('addForm.floor') + i
@@ -146,7 +172,7 @@ export class PropertiesComponent implements OnInit {
 
   close() {
     $('.modal').modal('hide');
-}
+  }
 
 
   getListing() {
@@ -172,6 +198,11 @@ export class PropertiesComponent implements OnInit {
     } else {
       delete input.agency_id;
     }
+    if (this.parameter.property_type_id) {
+      input.property_type_id = this.parameter.property_type_id;
+    } else {
+      delete input.property_type_id;
+    }
     delete input.seller_id;
     delete input.buyer_id;
 
@@ -179,7 +210,13 @@ export class PropertiesComponent implements OnInit {
     input.max_price = this.parameter.max_price;
     input.min_carpet_area = this.parameter.min_carpet_area;
     input.max_carpet_area = this.parameter.max_carpet_area;
-
+    input.parking = this.parameter.parking;
+    input.furnished = this.parameter.furnished;
+    input.parking_place = this.parameter.parking_place;
+    input.parking_for_sale = this.parameter.parking_for_sale;
+    input.bedroom = this.parameter.bedroom;
+    input.bathroom = this.parameter.bathroom;
+    input.half_bathroom = this.parameter.half_bathroom;
     this.admin.postDataApi('propertyHome', input).subscribe(
       success => {
         this.items = success.data;
@@ -196,7 +233,7 @@ export class PropertiesComponent implements OnInit {
     this.getListing();
   }
 
-  
+
   getCountries() {
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
       this.location.countries = r['data'];
@@ -211,13 +248,13 @@ export class PropertiesComponent implements OnInit {
 
   onCountryChange(id) {
     this.parameter.country_id = id;
-    this.location.states = []; 
+    this.location.states = [];
     this.parameter.state_id = '0';
-    this.location.cities = []; 
+    this.location.cities = [];
     this.parameter.city_id = '0';
-    this.location.localities = []; 
+    this.location.localities = [];
     this.parameter.locality_id = '0';
-    this.parameter.buildings = []; 
+    this.parameter.buildings = [];
     this.parameter.building_id = '0';
     if (!id || id.toString() === '0') {
       return false;
@@ -276,7 +313,20 @@ export class PropertiesComponent implements OnInit {
           this.spinner.hide();
         });
   }
-
+  getPropertyAmenities() {
+    this.admin.postDataApi('getPropertyAmenities', {hide_blocked: 1})
+      .subscribe(
+        success => {
+          this.parameter.amenities = success['data'].map(item => {
+            item.selected = false;
+            item.images = [];
+            item.images_360 = [];
+            item.videos = [];
+            return item;
+          });
+        }
+      );
+  }
   setBuilding(building_id) {
     this.parameter.building_id = building_id;
   }
@@ -318,7 +368,7 @@ export class PropertiesComponent implements OnInit {
         this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
         break;
       case 1:
-      this.parameter.text = this.translate.instant('message.error.wantToBlockProperty');
+        this.parameter.text = this.translate.instant('message.error.wantToBlockProperty');
         this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
     }
@@ -391,6 +441,14 @@ export class PropertiesComponent implements OnInit {
     this.parameter.max_price = null;
     this.parameter.min_carpet_area = null;
     this.parameter.max_carpet_area = null;
+    this.parameter.parking = null;
+    this.parameter.furnished = null;
+    this.parameter.bedroom = null;
+    this.parameter.parking_place = null;
+    this.parameter.bathroom = null;
+    this.parameter.half_bathroom = null;
+    this.parameter.property_type_id = null;
+    this.parameter.parking_for_sale = null;
     this.resetDates();
     this.getListing();
   }
@@ -404,7 +462,7 @@ export class PropertiesComponent implements OnInit {
     item.is_featured = is_featured;
     this.admin.postDataApi('markPropertyFeatured', { property_id: item.id, flag: is_featured }).subscribe(r => {
       const msg = is_featured === 1 ? this.translate.instant('message.success.featuredSuccessfully') :
-      this.translate.instant('message.success.unfeaturedSuccessfully');
+        this.translate.instant('message.success.unfeaturedSuccessfully');
       swal(this.translate.instant('swal.success'), msg, 'success');
     },
       error => {
@@ -467,7 +525,7 @@ export class PropertiesComponent implements OnInit {
     this.parameter.status = status;
     this.parameter.title = this.translate.instant('message.error.areYouSure');
     this.parameter.text = status === 1 ? this.translate.instant('message.error.wantToAccessThisRequest') :
-                          this.translate.instant('message.error.wantToRejectThisRequest');
+      this.translate.instant('message.error.wantToRejectThisRequest');
     swal({
       html: this.parameter.title + '<br>' + this.parameter.text,
       type: 'warning',
@@ -500,14 +558,14 @@ export class PropertiesComponent implements OnInit {
     this.parameter.title = this.translate.instant('message.error.areYouSure');
     if (type === 'request') {
       this.parameter.text = status === 1 ? this.translate.instant('message.error.wantToAccessThisRequest') :
-                          this.translate.instant('message.error.wantToRejectThisRequest');
+        this.translate.instant('message.error.wantToRejectThisRequest');
     } else {
-      if(this.user_type == 'seller') {
+      if (this.user_type == 'seller') {
         this.parameter.text = status === 1 ? this.translate.instant('message.error.wantToLinkSeller') :
-                            this.translate.instant('message.error.wantToUnLinkSeller');
+          this.translate.instant('message.error.wantToUnLinkSeller');
       } else {
         this.parameter.text = status === 1 ? this.translate.instant('message.error.wantToLinkBuyer') :
-        this.translate.instant('message.error.wantToUnLinkBuyer');
+          this.translate.instant('message.error.wantToUnLinkBuyer');
       }
     }
 
@@ -543,7 +601,7 @@ export class PropertiesComponent implements OnInit {
           this.parameter.seller_id = this.parameter.user_id;
           this.items[this.parameter.index].selected_seller_id = this.parameter.user_id;
           const sel_user = {
-            user: {name: ''}
+            user: { name: '' }
           };
           this.items[this.parameter.index].selected_seller = sel_user;
           this.items[this.parameter.index].selected_seller.user.name = this.parameter.fullName;
@@ -551,7 +609,7 @@ export class PropertiesComponent implements OnInit {
           this.parameter.buyer_id = this.parameter.user_id;
           this.items[this.parameter.index].selected_buyer_id = this.parameter.user_id;
           const sel_user = {
-            user: {name: ''}
+            user: { name: '' }
           };
           this.items[this.parameter.index].selected_buyer = sel_user;
           this.items[this.parameter.index].selected_buyer.user.name = this.parameter.fullName;
@@ -569,8 +627,8 @@ export class PropertiesComponent implements OnInit {
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.doneSuccessfully'), 'success');
       // accept => then close listing modal
       // if (this.parameter.status === 1) {
-        this.closeLinkSellerModal.nativeElement.click();
-        this.closeLinkUserModal.nativeElement.click();
+      this.closeLinkSellerModal.nativeElement.click();
+      this.closeLinkUserModal.nativeElement.click();
       // }
       // else reason modal
       this.rejectModalClose.nativeElement.click();
@@ -635,7 +693,7 @@ export class PropertiesComponent implements OnInit {
 
   deletePopup(property: any, index: number) {
 
-    if (property.collection && property.collection.is_cancelled!=1) {
+    if (property.collection && property.collection.is_cancelled != 1) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.success.cannotDeleteProperty'), 'error');
       return;
     }
@@ -684,7 +742,7 @@ export class PropertiesComponent implements OnInit {
   attachExternalBrokerPopUp(broker: any, flag: number) {
 
     this.parameter.text = flag === 1 ? this.translate.instant('message.error.wantToLinkAgent') :
-    this.translate.instant('message.error.wantToUnLinkAgent');
+      this.translate.instant('message.error.wantToUnLinkAgent');
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
@@ -707,7 +765,7 @@ export class PropertiesComponent implements OnInit {
       this.closeExtBrokerModal.nativeElement.click();
       this.property.external_broker = flag === 1 ? broker : null;
       const text = flag === 1 ? this.translate.instant('message.success.linkedSuccessfully') :
-                    this.translate.instant('message.success.unlinkedSuccessfully');
+        this.translate.instant('message.success.unlinkedSuccessfully');
       swal(this.translate.instant('swal.success'), text, 'success');
     },
       error => {
@@ -717,7 +775,7 @@ export class PropertiesComponent implements OnInit {
 
   editPricePopup(item: any, index: number) {
 
-    if (item.collection && item.collection.is_cancelled!=1 && this.admin.permissions && this.admin.permissions.can_collection_agent!=1) {
+    if (item.collection && item.collection.is_cancelled != 1 && this.admin.permissions && this.admin.permissions.can_collection_agent != 1) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.success.cannotDeleteProperty'), 'error');
       return;
     }
@@ -785,7 +843,7 @@ export class PropertiesComponent implements OnInit {
           if (r.value) {
             const broker_commision = isBrokerCommissionEdited ? r.value : (item.broker_commision || 0);
             const total_commission = isBrokerCommissionEdited ? (item.total_commission || 0) : r.value;
-            const input = {id: item.id, broker_commision: broker_commision, total_commission: total_commission};
+            const input = { id: item.id, broker_commision: broker_commision, total_commission: total_commission };
             this.admin.postDataApi('updateBrokerCommision', input).subscribe(success => {
               this.items[index].broker_commision = broker_commision;
               this.items[index].total_commission = total_commission;
@@ -831,7 +889,7 @@ export class PropertiesComponent implements OnInit {
     }
     delete input.seller_id;
     delete input.buyer_id;
-   
+
     this.admin.postDataApi('propertyHome', input).subscribe(
       success => {
         this.exportfinalData = success['data'];
@@ -848,17 +906,17 @@ export class PropertiesComponent implements OnInit {
       const exportfinalData = [];
       for (let index = 0; index < this.exportfinalData.length; index++) {
         const p = this.exportfinalData[index];
-        
+
         exportfinalData.push({
           'Name of Building': p.building && p.building.name ? p.building.name : '',
           'Name of Tower': p.building_towers && p.building_towers.tower_name ? p.building_towers.tower_name : '',
-          'Floor': p.floor_num > 0? 'Floor ' + p.floor_num : 'Ground Floor',
+          'Floor': p.floor_num > 0 ? 'Floor ' + p.floor_num : 'Ground Floor',
           'Apartment': p.name || '',
           'Model': p.building_configuration && p.building_configuration.name ? p.building_configuration.name : '',
           'Configuration Bed': p.configuration ? p.configuration.bedroom + ' Bed' : "0 Bed",
-          'Configuration Bath': p.configuration ? p.configuration.bathroom + ' Bath': '0 Bath',
-          'Configuration Half Bath': p.configuration ? p.configuration.half_bathroom + ' Half Bath': '0 Half Bath',
-          'Price': p.min_price  || 0,
+          'Configuration Bath': p.configuration ? p.configuration.bathroom + ' Bath' : '0 Bath',
+          'Configuration Half Bath': p.configuration ? p.configuration.half_bathroom + ' Half Bath' : '0 Half Bath',
+          'Price': p.min_price || 0,
           'Carpet Area': p.max_area || 0,
           'Agent Commission (in %)': p.broker_commision || 0,
           'Total Commission (in %)': p.total_commission || 0,
@@ -867,7 +925,7 @@ export class PropertiesComponent implements OnInit {
           'Seller': p.selected_seller && p.selected_seller.user.name ? p.selected_seller.user.name : '',
           // // 'Link/Unlink Agent' : p.building_configuration && p.building_configuration.config ? p.building_configuration.config : '',
           'Is Property Sold': p.is_property_sold ? 'yes' : 'no',
-          'Linked Collection' :p.collection ? 'yes' : 'no',
+          'Linked Collection': p.collection ? 'yes' : 'no',
         });
       }
       this.exportAsExcelFile(exportfinalData, 'properties-');

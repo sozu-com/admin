@@ -1,3 +1,11 @@
+.cust-radio {
+  position: relative;
+  padding-left: 0;
+  margin-bottom: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
 input[type="text"] {
     background-color : #d1d1d1; 
 }
@@ -9,7 +17,8 @@ input[type="text"] {
     position: relative;
     display: inline-block;
     width: 60px;
-    height: 34px;
+height: 34px;
+margin-left: 29px;
   }
   
   .switch input { 
@@ -64,3 +73,4 @@ input[type="text"] {
   .slider.round:before {
     border-radius: 50%;
   }
+  

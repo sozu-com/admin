@@ -194,4 +194,12 @@ export interface IProperty {
   max_carpet_area?: any;
   first_surname?: string;
   second_surname?: string;
+  parking ?:any;
+  furnished?: any;
+  property_type_id?: any;
+  bedroom?: any;
+  bathroom?: any;
+  half_bathroom?: any;
+  parking_place?: any;
+  parking_for_sale?: any;
 }
