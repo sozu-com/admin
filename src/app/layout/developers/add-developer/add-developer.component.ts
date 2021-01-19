@@ -506,7 +506,7 @@ export class AddDeveloperComponent implements OnInit {
       user_dial_code: [(developerAccess || {}).dial_code ? (developerAccess || {}).dial_code : this.constant.dial_code, [Validators.required]],
       user_first_surname: [(developerAccess || {}).first_surname ? (developerAccess || {}).first_surname : '', [Validators.required]],
       user_second_surname: [(developerAccess || {}).second_surname ? (developerAccess || {}).second_surname : ''],
-      user_email: [(developerAccess || {}).email ? (developerAccess || {}).email : '', [Validators.required]],
+      user_email: [(developerAccess || {}).email ? { value: (developerAccess || {}).email, disabled: true } : { value: '', disabled: false }, [Validators.required]],
       user_contact_number: [(developerAccess || {}).contact_number ? (developerAccess || {}).contact_number : '', [Validators.required]],
       building_ids: [(((developerAccess || {}).building_ids || []).length > 0) ? this.makeBuildingDetails(developerAccess.building_ids) : []],
       is_access: [developerAccess ? (developerAccess || {}).approved || 0 : -1] // No Access = 0,  Has Access = 1 , default = -1 
@@ -526,8 +526,8 @@ export class AddDeveloperComponent implements OnInit {
     return details;
   }
 
-  goBack(){ 
-    this.router.navigate(['dashboard/developers/view-all', {for: 'back'}])
+  goBack() {
+    this.router.navigate(['dashboard/developers/view-all', { for: 'back' }])
   }
 }
 
