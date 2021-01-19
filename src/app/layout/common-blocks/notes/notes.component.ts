@@ -84,6 +84,7 @@ export class NotesComponent implements OnInit {
   getLeadNotes() {
     let param ={ 
       lead_id: this.lead_id,
+      user_id: this.user_id,
       note: this.model.note, 
       sent_as: this.sent_as
     }
@@ -93,7 +94,7 @@ export class NotesComponent implements OnInit {
       note: this.model.note, 
       sent_as: this.sent_as
     }
-    this.admin.postDataApi('leads/getLeadNotes', this.user_id? param1 : param).subscribe(r => {
+    this.admin.postDataApi('leads/getLeadNotes', param).subscribe(r => {
       this.parameter.items = r.data;
     });
   }

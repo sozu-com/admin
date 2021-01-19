@@ -3,7 +3,7 @@
   <div class="col-6">
     <p class="p16">{{'commonBlock.interestedProperties' | translate}}</p>
   </div>
-  <div class="col-6">
+  <div class="col-6" *ngIf="lead_id">
     <div class="btn-cont text-right">
       <!-- add -->
       <a style="display: none;" #showPropertyModal href="javascript://" data-toggle="modal"
