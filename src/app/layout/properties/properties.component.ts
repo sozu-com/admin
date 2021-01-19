@@ -165,6 +165,8 @@ export class PropertiesComponent implements OnInit {
   setValue(key: any, value: any) {
     this.model[key] = value;
   }
+  onSelectAll(obj: any) {
+  }
   // increment() {
   //   this.count++;
   // }
