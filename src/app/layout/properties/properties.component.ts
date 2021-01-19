@@ -59,7 +59,7 @@ export class PropertiesComponent implements OnInit {
   is_back: boolean;
   amenities = Array<any>();
   selctedAmenities: Array<any>;
-  multiDropdownSettings: any;
+  multiDropdownSettings = {};
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('rejectModalOpen') rejectModalOpen: ElementRef;
@@ -87,7 +87,7 @@ export class PropertiesComponent implements OnInit {
     this.multiDropdownSettings = {
       singleSelection: false,
       idField: 'id',
-      textField: 'name',
+      textField: 'name_en',
       selectAllText: this.translate.instant('commonBlock.selectAll'),
       unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
       searchPlaceholderText: this.translate.instant('commonBlock.search'),
@@ -98,6 +98,7 @@ export class PropertiesComponent implements OnInit {
 
 
   ngOnInit() {
+    this.iniDropDownSetting();
     this.selctedAmenities = [];
     this.seller_type = 1;
     this.locale = {
@@ -154,18 +155,12 @@ export class PropertiesComponent implements OnInit {
     this.getPropertyTypes();
     this.getPropertyAmenities();
   }
-  setAmenitie(item: any) {
-    this.selctedAmenities.push(item);
-    console.log(this.selctedAmenities,"selctedAmenities")
+  onItemDeSelect(arrayNAme: any, obj: any) {
+    this[arrayNAme].push(obj);
   }
-  unsetAmenitie(item: any) {
-    let i = 0;
-    this.selctedAmenities.map(r => {
-      if (r.id == item.id) {
-        this.selctedAmenities.splice(i, 1);
-      }
-      i = i + 1;
-    });
+
+  onItemSelect(param: any, obj: any) {
+    this[param].push(obj);
   }
   setValue(key: any, value: any) {
     this.model[key] = value;
@@ -242,10 +237,11 @@ export class PropertiesComponent implements OnInit {
     delete input.seller_id;
     delete input.buyer_id;
     if (this.selctedAmenities) {
-      const d = this.selctedAmenities;
+      const d = this.selctedAmenities.map(o => o.id);
       console.log(d,"filter")
-      //input.building_id = d;
+      input.amenities_id = d;
     }
+    
     input.min_price = this.parameter.min_price;
     input.max_price = this.parameter.max_price;
     input.min_carpet_area = this.parameter.min_carpet_area;
@@ -359,8 +355,9 @@ export class PropertiesComponent implements OnInit {
     this.admin.postDataApi('getPropertyAmenities', {hide_blocked: 1})
       .subscribe(
         success => {
-           this.amenities = success['data'].map(o => o.name);
-          // this.parameter.amenities = success['data'].map(item => {
+          this.spinner.hide();
+           this.amenities = success['data'];
+          // this.exportfinalData = success['data'].map(item => {
           //   item.name
           //   item.selected = false;
           //   item.images = [];
@@ -493,6 +490,7 @@ export class PropertiesComponent implements OnInit {
     this.parameter.bathroom = null;
     this.parameter.half_bathroom = null;
     this.parameter.property_type_id = null;
+    this.selctedAmenities = [];
     this.parameter.parking_for_sale = null;
     this.resetDates();
     this.getListing();
