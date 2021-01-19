@@ -1131,21 +1131,21 @@ margin-left: -38%;">
            <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.Amenities' | translate}}</h4>
            <div class="row">
             <div class="form-group col-md-12">
-               <label class="cust-radio" *ngFor="let amenity of parameter.amenities">
-                  <input type="checkbox" name="amenity_id">
+               <div class="clearfix"></div>
+               <ng-multiselect-dropdown  class="col-3 section-section2 multi-select"
+                  [placeholder]="''" [data]="amenities" [(ngModel)]="selctedAmenities" [settings]="multiDropdownSettings"
+                  (onSelect)="setAmenitie($event, 'selctedAmenities')" (onDeSelect)="unsetAmenitie($event, 'selctedAmenities')"
+                  (onSelectAll)="onSelectAll($event)">
+                </ng-multiselect-dropdown>
+               <div class="clearfix"></div>
+               <!-- <label class="cust-radio" *ngFor="let amenity of parameter.amenities">
+                  <input type="checkbox" name="amenity" [(ngModel)]="mymodel">
                   <span class="checkmark">{{(showMore) ? amenity.name_en : amenity.name_en | slice:0:2}}</span>
                </label>
                <span *ngIf="!showMore">...</span> 
-               <a href="javascript:;" *ngIf="!showMore" (click)="showMore=true">View all</a>
+               <a href="javascript:;" *ngIf="!showMore" (click)="showMore=true">{{'addForm.addMore' | translate}}</a>
+               {{mymodel | json}} -->
             </div>
-              <!-- <div class="form-group col-md-12">
-               <select style="max-width:50%" title="Choose Amenity" class="form-control" name="amen" [(ngModel)]="amen"
-               (click)="addAmenity(amen)">
-               <option value="">Select Amenity</option>
-               <option *ngFor="let amenity of parameter.amenities; let i=index" [ngValue]="amenity">{{amenity.name_en}}
-               </option>
-             </select>
-              </div> -->
            </div>
             <button type="submit" class="btn btn-success" (click)="searchProperties()" style="border-left-color: rgb(0, 185, 111);
                border-right-color: rgb(0, 185, 111);">

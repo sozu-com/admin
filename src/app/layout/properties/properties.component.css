@@ -9,6 +9,16 @@
 input[type="text"] {
     background-color : #d1d1d1; 
 }
+.form-group .form-control {
+  height: 40px;
+  border: 1px solid rgba(0,0,0,0.11);
+  border-radius: 4px;
+  color: #3E3E3E;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: none;
+  background-color: #d1d1d1;
+}
 .modal-dialog {
     max-width: 500px;
     margin: 24.75rem auto;

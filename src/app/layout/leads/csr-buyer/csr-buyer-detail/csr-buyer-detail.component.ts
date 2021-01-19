@@ -81,14 +81,17 @@ export class CsrBuyerDetailComponent implements OnInit {
       this.user_id ? this.parameter.user_id = params.id : this.parameter.lead_id = params.id;
       let param= {
         lead_id: this.parameter.lead_id,
+        user_id: this.parameter.user_id, 
         sent_as: this.constant.userType.inhouse_broker
       };
       let param1= {
         user_id: this.parameter.user_id, 
         sent_as: this.constant.userType.inhouse_broker
       };
+     
       this.spinner.show();
-        this.admin.postDataApi('leads/details', this.user_id ? param1 : param).subscribe(r => {
+        this.admin.postDataApi('leads/details',param).subscribe(r => {
+          // this.user_id ? param1 : param
           this.spinner.hide();
           if(r.data){
           this.leadData = r.data.lead;
