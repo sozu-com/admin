@@ -296,7 +296,13 @@ export class AddDeveloperComponent implements OnInit {
       const d = this.selctedProjects.map(o => o.id);
       modelSave['legal_representative']['building_ids'] = d;
     }
-    modelSave['developer_access'] = this.getDeveloperAccessFormArray.getRawValue();
+    if (this.getDeveloperAccessFormArrayLength > 0) {
+      if (this.checkDeveloperAccessFormArrayInvalid()) {
+        return;
+      } else {
+        modelSave['developer_access'] = this.getDeveloperAccessFormArray.getRawValue();
+      }
+    }
     this.spinner.show();
     this.admin.postDataApi('addDeveloper', modelSave)
       .subscribe(
@@ -528,6 +534,33 @@ export class AddDeveloperComponent implements OnInit {
 
   goBack() {
     this.router.navigate(['dashboard/developers/view-all', { for: 'back' }])
+  }
+
+  /*
+  * if form-array is invalid then return true otherwise false 
+  */
+  checkDeveloperAccessFormArrayInvalid = (): boolean => {
+    let invalid = false;
+    for (const formGroup of this.getDeveloperAccessFormArray.controls) {
+      if (formGroup.get('user_name').invalid) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterName'), 'error');
+        invalid = true;
+        break;
+      } else if (formGroup.get('user_first_surname').invalid) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterFirstSurname'), 'error');
+        invalid = true;
+        break;
+      } else if (formGroup.get('user_email').invalid) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterEmailId'), 'error');
+        invalid = true;
+        break;
+      } else if (formGroup.get('user_contact_number').invalid) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterContactNumber'), 'error');
+        invalid = true;
+        break;
+      }
+    }
+    return invalid; // if form-array is invalid then return true otherwise false
   }
 }
 
