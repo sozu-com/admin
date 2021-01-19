@@ -57,7 +57,9 @@ export class PropertiesComponent implements OnInit {
   exportfinalData: Array<any>;
   baseUrl = this.admin.baseUrl + 'exportProperties';
   is_back: boolean;
-
+  amenities = Array<any>();
+  selctedAmenities: Array<any>;
+  multiDropdownSettings: any;
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('rejectModalOpen') rejectModalOpen: ElementRef;
@@ -81,7 +83,22 @@ export class PropertiesComponent implements OnInit {
     private translate: TranslateService, public model: AddPropertyModel
   ) { }
 
+  iniDropDownSetting() {
+    this.multiDropdownSettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'name',
+      selectAllText: this.translate.instant('commonBlock.selectAll'),
+      unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
+      searchPlaceholderText: this.translate.instant('commonBlock.search'),
+      allowSearchFilter: true,
+      itemsShowLimit: 2
+    };
+  }
+
+
   ngOnInit() {
+    this.selctedAmenities = [];
     this.seller_type = 1;
     this.locale = {
       firstDayOfWeek: 0,
@@ -137,19 +154,32 @@ export class PropertiesComponent implements OnInit {
     this.getPropertyTypes();
     this.getPropertyAmenities();
   }
+  setAmenitie(item: any) {
+    this.selctedAmenities.push(item);
+    console.log(this.selctedAmenities,"selctedAmenities")
+  }
+  unsetAmenitie(item: any) {
+    let i = 0;
+    this.selctedAmenities.map(r => {
+      if (r.id == item.id) {
+        this.selctedAmenities.splice(i, 1);
+      }
+      i = i + 1;
+    });
+  }
   setValue(key: any, value: any) {
     this.model[key] = value;
   }
-  increment() {
-    this.count++;
-  }
+  // increment() {
+  //   this.count++;
+  // }
 
-  decrement() {
-    this.count--;
-    if (this.count < 0) {
-      this.count = 0;
-    }
-  }
+  // decrement() {
+  //   this.count--;
+  //   if (this.count < 0) {
+  //     this.count = 0;
+  //   }
+  // }
   
 
   getPropertyTypes() {
@@ -211,7 +241,11 @@ export class PropertiesComponent implements OnInit {
     }
     delete input.seller_id;
     delete input.buyer_id;
-
+    if (this.selctedAmenities) {
+      const d = this.selctedAmenities;
+      console.log(d,"filter")
+      //input.building_id = d;
+    }
     input.min_price = this.parameter.min_price;
     input.max_price = this.parameter.max_price;
     input.min_carpet_area = this.parameter.min_carpet_area;
@@ -320,17 +354,21 @@ export class PropertiesComponent implements OnInit {
           this.spinner.hide();
         });
   }
+  
   getPropertyAmenities() {
     this.admin.postDataApi('getPropertyAmenities', {hide_blocked: 1})
       .subscribe(
         success => {
-          this.parameter.amenities = success['data'].map(item => {
-            item.selected = false;
-            item.images = [];
-            item.images_360 = [];
-            item.videos = [];
-            return item;
-          });
+           this.amenities = success['data'].map(o => o.name);
+          // this.parameter.amenities = success['data'].map(item => {
+          //   item.name
+          //   item.selected = false;
+          //   item.images = [];
+          //   item.images_360 = [];
+          //   item.videos = [];
+          //   return item;
+          // });
+          console.log(this.amenities,"Amenities")
         }
       );
   }

@@ -21,7 +21,7 @@ import { FilterByNamePipe } from 'src/app/pipes/filter-by-name.pipe';
 import { SharedModule } from 'src/app/modules/shared.module';
 import { CalendarModule } from 'primeng/primeng';
 import { BulkAddComponent } from './bulk-add/bulk-add.component';
-
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 const routes: Routes = [
   { path: 'details/:property_id', component: PropertyDetailsComponent },
   // { path: 'details/:property_id', component: PropertyDetailsComponent,
@@ -76,6 +76,7 @@ const routes: Routes = [
     CalendarModule,
     SharedModule,
     LazyLoadImageModule,
+    NgMultiSelectDropDownModule.forRoot(),
     MalihuScrollbarModule.forRoot(),
     TranslateModule
   ],
