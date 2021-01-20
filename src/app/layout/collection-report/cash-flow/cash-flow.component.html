@@ -158,19 +158,19 @@
                     </tr>
                     <tr>
                       <th>{{'collectionReport.Expecteddin' | translate}}:</th>
-                      <td *ngFor="let item of finalDataExpacted">{{(item.actual || 0) | currency}}</td>
+                      <td *ngFor="let item of finalDataExpacted">{{(item.total_expected || 0) | currency}}</td>
                     </tr>
                     <tr>
-                      <th>{{'collectionReport.Real' | translate}}:</th>
-                      <td *ngFor="let item of finalDataExpacted">{{(item.actual || 0) | currency}}</td>
-                    </tr>
+                        <th>{{'collectionReport.Real' | translate}}:</th>
+                        <td *ngFor="let item of finalDataExpacted">{{(item.actual || 0) | currency}}</td>
+                      </tr>
                     <tr>
                       <th>{{'collectionReport.Arrearest' | translate}}:</th>
                       <td *ngFor="let item of finalDataExpacted">{{(item.pending || 0) | currency}}</td>
                     </tr>
                     <tr>
                       <th>{{'collectionReport.Arreardin' | translate}}:</th>
-                      <td *ngFor="let item of finalDataExpacted">{{(item.total_over_due || 0) | currency}}</td>
+                      <td *ngFor="let item of finalDataExpacted">{{(item.total_pending || 0) | currency}}</td>
                     </tr>
               </tbody>
             </table>

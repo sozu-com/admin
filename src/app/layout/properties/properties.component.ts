@@ -14,6 +14,7 @@ import * as XLSX from 'xlsx';
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 declare let swal: any;
@@ -97,7 +98,11 @@ export class PropertiesComponent implements OnInit {
   @ViewChild('closeLinkSellerModal') closeLinkSellerModal: ElementRef;
   @ViewChild('linkExtBrokerModal') linkExtBrokerModal: ElementRef;
   @ViewChild('closeExtBrokerModal') closeExtBrokerModal: ElementRef;
+  @ViewChild('openInstallmentModal') openInstallmentModal: ElementRef;
+  @ViewChild('closeInstallmentModal') closeInstallmentModal: ElementRef;
   local_storage_parameter: any;
+
+  public installmentFormGroup: FormGroup;
 
   constructor(
     public constant: Constant,
@@ -106,9 +111,21 @@ export class PropertiesComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
     private router: Router,
-    private translate: TranslateService, public model: AddPropertyModel,
-    //private scriptService: ScriptService
-  ) { }
+    private translate: TranslateService,
+    public model: AddPropertyModel,
+    private formBuilder: FormBuilder
+  ) {
+    this.installmentFormGroup = this.formBuilder.group({
+      downPayment: [''],
+      monthlyInstallment: [''],
+      numberOfMI: [''],
+      paymentupondelivery: [''],
+      isAddVariables: [false],
+      tempAddVariablesText: [''],
+      tempAddVariablesPercentage: [''],
+      addVariablesFormArray: this.formBuilder.array([])
+    });
+  }
 
   iniDropDownSetting() {
     this.multiDropdownSettings = {
@@ -153,7 +170,7 @@ export class PropertiesComponent implements OnInit {
       } else if (params.type === 'agency') {
         this.parameter.agency_id = params.id;
       }
-      if(params.for){
+      if (params.for) {
         this.is_back = true;
       }
     });
@@ -186,7 +203,15 @@ export class PropertiesComponent implements OnInit {
   onItemDeSelect(arrayNAme: any, obj: any) {
     this[arrayNAme].push(obj);
   }
-
+  unsetProject(item: any) {
+    let i = 0;
+    this.selctedAmenities.map(r => {
+      if (r.id == item.id) {
+        this.selctedAmenities.splice(i, 1);
+      }
+      i = i + 1;
+    });
+  }
   onItemSelect(param: any, obj: any) {
     this[param].push(obj);
   }
@@ -205,7 +230,7 @@ export class PropertiesComponent implements OnInit {
   //     this.count = 0;
   //   }
   // }
-  
+
 
   getPropertyTypes() {
     this.admin.postDataApi('getPropertyTypes', { hide_blocked: 1 })
@@ -268,10 +293,10 @@ export class PropertiesComponent implements OnInit {
     delete input.buyer_id;
     if (this.selctedAmenities) {
       const d = this.selctedAmenities.map(o => o.id);
-      console.log(d,"filter")
+      console.log(d, "filter")
       input.amenities_id = d;
     }
-    
+
     input.min_price = this.parameter.min_price;
     input.max_price = this.parameter.max_price;
     input.min_carpet_area = this.parameter.min_carpet_area;
@@ -380,13 +405,13 @@ export class PropertiesComponent implements OnInit {
           this.spinner.hide();
         });
   }
-  
+
   getPropertyAmenities() {
-    this.admin.postDataApi('getPropertyAmenities', {hide_blocked: 1})
+    this.admin.postDataApi('getPropertyAmenities', { hide_blocked: 1 })
       .subscribe(
         success => {
           this.spinner.hide();
-           this.amenities = success['data'];
+          this.amenities = success['data'];
           // this.exportfinalData = success['data'].map(item => {
           //   item.name
           //   item.selected = false;
@@ -395,7 +420,7 @@ export class PropertiesComponent implements OnInit {
           //   item.videos = [];
           //   return item;
           // });
-          console.log(this.amenities,"Amenities")
+          console.log(this.amenities, "Amenities")
         }
       );
   }
@@ -484,6 +509,14 @@ export class PropertiesComponent implements OnInit {
 
   closeReasonModal() {
     this.rejectModalClose.nativeElement.click();
+  }
+
+  openModalInstallment = (): void => {
+    this.openInstallmentModal.nativeElement.click();
+  }
+
+  closeModalInstallment = (): void => {
+    this.closeInstallmentModal.nativeElement.click();
   }
 
   changeStatus(item, status) {
@@ -1107,5 +1140,36 @@ export class PropertiesComponent implements OnInit {
     // }else{
     //   pdfMake.createPdf(docDefinition).open();      
     // }
+  }
+  get getAddVariablesFormArray(): FormArray {
+    return this.installmentFormGroup.get('addVariablesFormArray') as FormArray;
+  }
+
+  get getAddVariablesFormArrayLength(): number {
+    return this.getAddVariablesFormArray.length;
+  }
+
+  addNewAddVariables = (): void => {
+    this.getAddVariablesFormArray.push(this.createFormGroup());
+    this.markIsAddVariables(false);
+  }
+
+  createFormGroup = (): FormGroup => {
+    return this.formBuilder.group({
+      addVariablesText: [{ value: this.installmentFormGroup.get('tempAddVariablesText').value, disabled: true }],
+      addVariablesPercentage: [{ value: this.installmentFormGroup.get('tempAddVariablesPercentage').value, disabled: true }]
+    });
+  }
+
+  markIsAddVariables = (isAddVariables: boolean): void => {
+    this.installmentFormGroup.patchValue({
+      isAddVariables: isAddVariables,
+      tempAddVariablesText: '',
+      tempAddVariablesPercentage: ''
+    });
+  }
+
+  removeAddVariablesFormGroup = (index: number): void => {
+    this.getAddVariablesFormArray.removeAt(index);
   }
 }
