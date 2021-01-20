@@ -11,10 +11,34 @@ import { PropertyService } from 'src/app/services/property.service';
 import { TranslateService } from '@ngx-translate/core';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 declare let swal: any;
 declare var $: any;
+
+class Product{
+  name: string;
+  price: number;
+  qty: number;
+}
+
+class Invoice{
+  customerName: string;
+  address: string;
+  contactNo: number;
+  email: string;
+  
+  products: Product[] = [];
+  additionalDetails: string;
+
+  constructor(){
+    // Initially one empty product row we will show 
+    this.products.push(new Product());
+  }
+}
 
 @Component({
   selector: 'app-properties',
@@ -61,6 +85,7 @@ export class PropertiesComponent implements OnInit {
   propertyTypes = Array<any>();
   selctedAmenities: Array<any>;
   multiDropdownSettings = {};
+  invoice = new Invoice(); 
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('rejectModalOpen') rejectModalOpen: ElementRef;
@@ -81,7 +106,8 @@ export class PropertiesComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
     private router: Router,
-    private translate: TranslateService, public model: AddPropertyModel
+    private translate: TranslateService, public model: AddPropertyModel,
+    //private scriptService: ScriptService
   ) { }
 
   iniDropDownSetting() {
@@ -155,6 +181,7 @@ export class PropertiesComponent implements OnInit {
     this.getListing();
     this.getPropertyTypes();
     this.getPropertyAmenities();
+    //this.scriptService.load('pdfMake', 'vfsFonts');
   }
   onItemDeSelect(arrayNAme: any, obj: any) {
     this[arrayNAme].push(obj);
@@ -1009,5 +1036,76 @@ export class PropertiesComponent implements OnInit {
       today.getSeconds();
     fileName = fileName + date;
     FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
+  }
+
+  generatePDF() {  
+    let docDefinition = {
+      content: [
+        {
+          text: 'Genrated PDF',
+          fontSize: 16,
+          alignment: 'center',
+          color: '#047886'
+        },
+        {
+          text: 'Margot',
+          style: 'sectionHeader'
+        },
+        {
+          style: 'table',
+          table: {
+            headerRows: 1,
+            widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
+            body: [
+              [
+                {text: 'Appartment Name', bold: true}, 
+                {text :'Project Name', bold: true}, 
+                {text: 'Tower Name ', bold: true}, 
+                {text:'Floor', bold: true}, 
+                {text:'Carpet Area', bold: true}, 
+                {text:'Price', bold: true} 
+              ],
+              ['cdds', 'fss', 'fsfs', '1','434','5553']
+              // ...this.invoice.products.map(p => ([p.name, p.price, p.qty, (p.price*p.qty).toFixed(2)])),
+            ]
+          }
+        },
+        {
+          style: 'table2',
+          table: {
+            headerRows: 1,
+            widths: ['auto', 'auto'],
+            body: [
+              [{text :'Property Price:', bold: true}, '123'],
+              [{text :'DP %:', bold: true}, '122'],
+              [{text :'MI %:', bold: true}, '122'],
+              [{text :'PUD %:', bold: true}, '122'],
+              [{text :'Total :', bold: true}, '122'],
+            ]
+          }
+        } 
+          ],  
+      styles: {
+        sectionHeader: {
+          bold: true,
+          decoration: 'underline',
+          fontSize: 14,
+          margin: [0, 15,0, 15]          
+        },
+        table: {
+          margin: [0, 5, 0, 15]
+        },
+        table2: {
+          margin: [150, 5, 0, 15]
+        },
+      }
+    };
+
+      pdfMake.createPdf(docDefinition).download();
+    // }else if(action === 'print'){
+    //   pdfMake.createPdf(docDefinition).print();      
+    // }else{
+    //   pdfMake.createPdf(docDefinition).open();      
+    // }
   }
 }

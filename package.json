@@ -52,6 +52,7 @@
     "ngx-toastr": "^9.1.2",
     "nouislider": "^11.1.0",
     "numeral": "^2.0.6",
+    "pdfmake": "^0.1.70",
     "photo-sphere-viewer": "^3.5.1",
     "primeicons": "^1.0.0",
     "primeng": "^4.1.3",
