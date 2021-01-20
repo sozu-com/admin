@@ -799,6 +799,7 @@
       "unblock": "Desbloquear",
       "approve": "Aprobar",
       "unapprove": "No aprobar",
+      "generatePDF": "Generar PDF",
       "delete": "Borrar",
       "remove": "Quitar",
       "approved": "Aprobado",
@@ -2132,5 +2133,12 @@
     "name": "Nombre del documento",
     "submit": "Enviar",
     "close": "Cerrar"
+  },
+  "generatePDF": {
+    "downPaymentPercentage": "Pago inicial %",
+    "monthlyInstallmentPercentage": "Pagos mensuales %",
+    "numberOfMI": "Número de MI",
+    "paymentupondeliveryPercentage": "Pago contra entrega%",
+    "addVariables": "Agregar variables"
   }
 }
