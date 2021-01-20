@@ -159,7 +159,15 @@ export class PropertiesComponent implements OnInit {
   onItemDeSelect(arrayNAme: any, obj: any) {
     this[arrayNAme].push(obj);
   }
-
+  unsetProject(item: any) {
+    let i = 0;
+    this.selctedAmenities.map(r => {
+      if (r.id == item.id) {
+        this.selctedAmenities.splice(i, 1);
+      }
+      i = i + 1;
+    });
+  }
   onItemSelect(param: any, obj: any) {
     this[param].push(obj);
   }

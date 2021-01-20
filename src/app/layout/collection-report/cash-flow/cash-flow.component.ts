@@ -91,7 +91,6 @@ export class CashFlowComponent implements OnInit {
   
 
     this.spinner.show();
-    this.spinner.show();
     this.admin.postDataApi('graphs/cash-flow-v2', input).subscribe(r => {
       this.spinner.hide();
       this.reportsData = r['data'];
@@ -103,15 +102,17 @@ export class CashFlowComponent implements OnInit {
         const obj = {
            label: element.label, 
            expected: element.y, 
-           actual: this.reportsData['actual'][index].y,
+           total_expected: this.reportsData['total_expected'][index].y,
            pending: this.reportsData['pending'][index].y,
-           total_over_due: this.reportsData['total_over_due'][index].y,
-           //real: this.reportData['real'][index].y
+           total_pending: this.reportsData['total_pending'][index].y,
+           actual: this.reportData['actual'][index].y
         };
+        console.log(obj ,"obj")
         this.finalDataExpacted.push(obj);
+        console.log(this.finalDataExpacted ," this.finalDataExpacted")
       }
 
-    // this.admin.postDataApi('graphs/cash-flow', input).subscribe(r => {
+    // this.admin.postDataApi('graphs/cash-flow-v2', input).subscribe(r => {
     //   this.spinner.hide();
     //   this.finalDataExpacted = [];
     //   this.finalDataActual = [];

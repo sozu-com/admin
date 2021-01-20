@@ -1132,7 +1132,7 @@ margin-left: -38%;">
                   <div class="clearfix"></div>
                   <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
                      [data]="amenities" [(ngModel)]="selctedAmenities" [settings]="multiDropdownSettings"
-                     (onDeSelect)="onItemDeSelect('amenities', $event)"
+                      (onDeSelect)="unsetProject($event, 'selctedAmenities')"
                      (onSelect)="onItemSelect('selctedAmenities', $event)" (onSelectAll)="onSelectAll($event)">
                   </ng-multiselect-dropdown>
                   <div class="clearfix"></div>
