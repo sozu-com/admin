@@ -87,6 +87,7 @@ export class PropertiesComponent implements OnInit {
   selctedAmenities: Array<any>;
   multiDropdownSettings = {};
   invoice = new Invoice(); 
+  property_array: any;
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('rejectModalOpen') rejectModalOpen: ElementRef;
@@ -511,7 +512,8 @@ export class PropertiesComponent implements OnInit {
     this.rejectModalClose.nativeElement.click();
   }
 
-  openModalInstallment = (): void => {
+  openModalInstallment = (property): void => {
+    this.property_array = property;
     this.openInstallmentModal.nativeElement.click();
   }
 
@@ -1071,7 +1073,27 @@ export class PropertiesComponent implements OnInit {
     FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
   }
 
+//   toDataURL(url, callback) {
+//     var xhr = new XMLHttpRequest();
+//     xhr.onload = function () {
+//         var reader = new FileReader();
+//         reader.onloadend = function () {
+//             callback(reader.result);
+//         }
+//         reader.readAsDataURL(xhr.response);
+//     };
+//     xhr.open('GET', url);
+//     xhr.responseType = 'blob';
+//     xhr.send();
+// }
+
   generatePDF() {  
+    let testImage;
+//     this.toDataURL(this.property_array.building.images[0].image, function (dataUrl) {
+//       testImage = dataUrl;
+// console.log(dataUrl)
+//     })
+
     let docDefinition = {
       content: [
         {
@@ -1081,7 +1103,12 @@ export class PropertiesComponent implements OnInit {
           color: '#047886'
         },
         {
-          text: 'Margot',
+          image: testImage,
+          fit: [100, 100],
+          pageBreak: 'after'
+        },
+        {
+          text: this.property_array.building.name,
           style: 'sectionHeader'
         },
         {
@@ -1098,7 +1125,7 @@ export class PropertiesComponent implements OnInit {
                 {text:'Carpet Area', bold: true}, 
                 {text:'Price', bold: true} 
               ],
-              ['cdds', 'fss', 'fsfs', '1','434','5553']
+              [this.property_array.name, this.property_array.building.name, this.property_array.building_towers.tower_name,this.property_array.floor_num == 0? 'Ground Floor' : JSON.stringify(this.property_array.floor_num),JSON.stringify(this.property_array.max_area),JSON.stringify(this.property_array.min_price)]
               // ...this.invoice.products.map(p => ([p.name, p.price, p.qty, (p.price*p.qty).toFixed(2)])),
             ]
           }
@@ -1109,11 +1136,11 @@ export class PropertiesComponent implements OnInit {
             headerRows: 1,
             widths: ['auto', 'auto'],
             body: [
-              [{text :'Property Price:', bold: true}, '123'],
-              [{text :'DP %:', bold: true}, '122'],
-              [{text :'MI %:', bold: true}, '122'],
-              [{text :'PUD %:', bold: true}, '122'],
-              [{text :'Total :', bold: true}, '122'],
+              [{text :'Property Price:', bold: true}, JSON.stringify(this.property_array.min_price)],
+              [{text :'DP %:', bold: true}, JSON.stringify(this.installmentFormGroup.value.downPayment)],
+              [{text :'MI %:', bold: true}, JSON.stringify(this.installmentFormGroup.value.monthlyInstallment)],
+              [{text :'PUD %:', bold: true}, JSON.stringify(this.installmentFormGroup.value.paymentupondelivery)],
+              [{text :'Total :', bold: true}, JSON.stringify(this.property_array.floor_num)],
             ]
           }
         } 
