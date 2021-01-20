@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   baseIP: 'https://apitest.sozu.com/',
-  // baseUrl: 'https://api.sozu.com/api/admin/',
-  baseUrl: 'https://apitest.sozu.com/api/admin/',
+   baseUrl: 'https://api.sozu.com/api/admin/',
+ // baseUrl: 'https://apitest.sozu.com/api/admin/',
   socketUrl: 'https://sockettest.sozu.com',
   termConditionUrl: 'https://apitest.sozu.com/termCondition/es',
   privacyPolicyUrl: 'https://apitest.sozu.com/privacyPolicy/es',
