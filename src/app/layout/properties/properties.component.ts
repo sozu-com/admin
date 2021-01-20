@@ -201,9 +201,11 @@ export class PropertiesComponent implements OnInit {
     this.getPropertyAmenities();
     //this.scriptService.load('pdfMake', 'vfsFonts');
   }
-  onItemDeSelect(arrayNAme: any, obj: any) {
-    this[arrayNAme].push(obj);
-  }
+
+  // onItemDeSelect(arrayNAme: any, obj: any) {
+  //   this[arrayNAme].push(obj);
+  // }
+
   unsetProject(item: any) {
     let i = 0;
     this.selctedAmenities.map(r => {
@@ -213,12 +215,15 @@ export class PropertiesComponent implements OnInit {
       i = i + 1;
     });
   }
+
   onItemSelect(param: any, obj: any) {
     this[param].push(obj);
   }
+
   setValue(key: any, value: any) {
     this.model[key] = value;
   }
+  
   onSelectAll(obj: any) {
   }
   // increment() {
