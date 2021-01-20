@@ -593,6 +593,11 @@
                         </td>
                         <td *ngIf="parameter.flag!=5">
                            <div class="table-actions">
+                              <!--this button to open installment modal -->
+                              <button (click)="this.openModalInstallment();" class="action-icon"
+                                 title="{{'table.title.generatePDF' | translate}}"><img
+                                    src="assets/img/ic_disapprove.png" alt="img"></button>
+
                               <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
                                  *ngIf="parameter?.flag!=3" routerLink="/dashboard/properties/edit-property/{{p.id}}"
                                  title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
@@ -1154,6 +1159,184 @@ margin-left: -38%;">
                style="background-color: rgb(238, 123, 124);">{{'advanceSearch.cancel' | translate}}</button>
 
          </form>
+      </div>
+   </div>
+</div>
+
+<a style="display:none;" #openInstallmentModal data-toggle="modal" data-target="#installmentModal"></a>
+<div class="modal animated" id="installmentModal">
+   <div class="modal-dialog fadeIndown">
+      <div class="modal-content">
+         <div class="modal-header modal-header-new">
+            <h4 class="modal-title">{{'table.title.generatePDF' | translate}}</h4>
+            <button style="display: none;" type="button" class="close" data-dismiss="modal"
+               #closeInstallmentModal>&times;</button>
+            <button type="button" class="close" (click)="this.closeModalInstallment()">&times;</button>
+         </div>
+         <form class="form-horizontal form-model0P form-model-newP" role="form" [formGroup]="this.installmentFormGroup">
+            <div class="modal-body modal-body-new">
+               <div class="row">
+                  <div class="col-6">
+                     <div class="form-group-2">
+                        <div class="form-group">
+                           <p style="font-weight: 900;font-size: inherit;">{{'generatePDF.downPaymentPercentage' |
+                              translate}}</p>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-6">
+                     <div class="form-group-2">
+                        <div class="form-group">
+                           <input type="text" class="form-control" style="background-color: white;"
+                              formControlName="downPayment">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-6">
+                     <div class="form-group-2">
+                        <div class="form-group">
+                           <p style="font-weight: 900;font-size: inherit;">{{'generatePDF.monthlyInstallmentPercentage'
+                              | translate}}</p>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-6">
+                     <div class="form-group-2">
+                        <div class="form-group">
+                           <input type="text" class="form-control" style="background-color: white;"
+                              formControlName="monthlyInstallment">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-6">
+                     <div class="form-group-2">
+                        <div class="form-group">
+                           <p style="font-weight: 900;font-size:inherit;">{{'generatePDF.numberOfMI' | translate}}</p>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-6">
+                     <div class="form-group-2">
+                        <div class="form-group">
+                           <input type="text" class="form-control" style="background-color: white;"
+                              formControlName="numberOfMI">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-6">
+                     <div class="form-group-2">
+                        <div class="form-group">
+                           <p style="font-weight: 900;font-size: inherit;">{{'generatePDF.paymentupondeliveryPercentage'
+                              | translate}}</p>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-6">
+                     <div class="form-group-2">
+                        <div class="form-group">
+                           <input type="text" class="form-control" style="background-color: white;"
+                              formControlName="paymentupondelivery">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="row" *ngIf="!this.installmentFormGroup.get('isAddVariables').value">
+                  <div class="col-12">
+                     <div class="btn-cont">
+                        <button type="button" class="btn btn-primary"
+                           (click)="this.markIsAddVariables(true)">{{'generatePDF.addVariables' |
+                           translate}}</button>
+                     </div>
+                  </div>
+               </div>
+
+               <div class="row" *ngIf="this.installmentFormGroup.get('isAddVariables').value">
+                  <div class="col-lg-4">
+                     <div class="form-group-2">
+                        <div class="form-group">
+                           <input type="text" class="form-control" style="background-color: white;"
+                              formControlName="tempAddVariablesText">
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-lg-4">
+                     <div class="form-group-2">
+                        <div class="form-group">
+                           <input type="text" class="form-control" style="background-color: white;"
+                              formControlName="tempAddVariablesPercentage">
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-lg-2">
+                     <div>
+                        <button type="button" class="btn btn-primary"
+                           (click)="this.addNewAddVariables()">{{'addForm.save' |
+                           translate}}</button>
+                     </div>
+                  </div>
+                  <div class="col-lg-2">
+                     <div>
+                        <button type="button" class="btn btn-primary"
+                           (click)="this.markIsAddVariables(false)">{{'addForm.remove' |
+                           translate}}</button>
+                     </div>
+                  </div>
+               </div>
+
+               <div formArrayName="addVariablesFormArray" *ngIf="this.getAddVariablesFormArrayLength > 0">
+                  <ng-container
+                     *ngFor="let temp_add_variables of this.getAddVariablesFormArray['controls']; let i=index">
+                     <div [formGroupName]="i">
+
+                        <div class="row">
+                           <div class="col-4">
+                              <div class="form-group-2">
+                                 <div class="form-group">
+                                    <input type="text" class="form-control" style="background-color: white;"
+                                       formControlName="addVariablesText">
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-4">
+                              <div class="form-group-2">
+                                 <div class="form-group">
+                                    <input type="text" class="form-control" style="background-color: white;"
+                                       formControlName="addVariablesPercentage">
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-2">
+                              <div>
+                                 <p>%</p>
+                              </div>
+                           </div>
+                           <div class="col-2">
+                              <div>
+                                 <button (click)="this.removeAddVariablesFormGroup(i);" class="action-icon"
+                                    title="{{'addForm.remove' | translate}}"><img src="assets/img/ic_disapprove.png"
+                                       alt="img"></button>
+                              </div>
+                           </div>
+                        </div>
+
+                     </div>
+                  </ng-container>
+               </div>
+
+            </div>
+         </form>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal"
+               (click)="this.generatePDF()">{{'table.title.generatePDF' | translate}}</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">{{'advanceSearch.cancel' |
+               translate}}</button>
+         </div>
       </div>
    </div>
 </div>
