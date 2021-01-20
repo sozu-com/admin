@@ -58,6 +58,7 @@ export class PropertiesComponent implements OnInit {
   baseUrl = this.admin.baseUrl + 'exportProperties';
   is_back: boolean;
   amenities = Array<any>();
+  propertyTypes = Array<any>();
   selctedAmenities: Array<any>;
   multiDropdownSettings = {};
   @ViewChild('modalOpen') modalOpen: ElementRef;
@@ -146,7 +147,7 @@ export class PropertiesComponent implements OnInit {
     this.parameter.parking_for_sale = 0;
     this.parameter.bathroom = 0;
     this.parameter.half_bathroom = 0;
-    this.parameter.property_type_id;
+    this.parameter.property_type_id = 0;
     this.local_storage_parameter = JSON.parse(localStorage.getItem('parametersForProperty'));
     this.parameter = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.parameter;
     this.getCountries();
@@ -183,10 +184,10 @@ export class PropertiesComponent implements OnInit {
     this.admin.postDataApi('getPropertyTypes', { hide_blocked: 1 })
       .subscribe(
         success => {
-          this.parameter.propertyTypes = success['data'];
-          if (this.parameter.propertyTypes.length !== 0 && this.parameter.property_id === '') {
-            this.model.property_type_id = this.parameter.propertyTypes[0].id;
-          }
+          this.propertyTypes = success['data'];
+          // if (this.parameter.propertyTypes.length !== 0 && this.parameter.property_id === '') {
+          //   this.model.property_type_id = this.parameter.propertyTypes[0].id;
+          // }
         }
       );
   }
