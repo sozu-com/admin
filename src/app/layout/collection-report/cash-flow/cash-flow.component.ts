@@ -65,7 +65,7 @@ export class CashFlowComponent implements OnInit {
     this.initCalendarLocale();
     this.getAllPaymentChoices();
     this.getReportData();
-    this.getListing();
+   
   }
 
   getListing() {
@@ -81,15 +81,14 @@ export class CashFlowComponent implements OnInit {
       const d = this.selectedCurrencies.map(o => o.id);
       input.currency_id = d;
     }
-   
+
     if (this.start_purchase_date) {
       input.start_purchase_date = moment(this.start_purchase_date).format('YYYY-MM-DD');
     }
     if (this.end_purchase_date) {
       input.end_purchase_date = moment(this.end_purchase_date).format('YYYY-MM-DD');
     }
-  
-
+    
     this.spinner.show();
     this.admin.postDataApi('graphs/cash-flow-v2', input).subscribe(r => {
       this.spinner.hide();
@@ -233,6 +232,7 @@ export class CashFlowComponent implements OnInit {
         }
       );
   }
+
   searchBuilding() {
     this.spinner.show();
     this.admin.postDataApi('getProjectsForCollections', {})
@@ -251,6 +251,7 @@ export class CashFlowComponent implements OnInit {
     this.reportType = 1;
     this.getReportData1();
     this.getReportData2();
+    this.getListing();
   }
 
   getReportData1 () {
