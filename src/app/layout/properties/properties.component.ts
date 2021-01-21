@@ -20,22 +20,22 @@ const EXCEL_EXTENSION = '.xlsx';
 declare let swal: any;
 declare var $: any;
 
-class Product{
+class Product {
   name: string;
   price: number;
   qty: number;
 }
 
-class Invoice{
+class Invoice {
   customerName: string;
   address: string;
   contactNo: number;
   email: string;
-  
+
   products: Product[] = [];
   additionalDetails: string;
 
-  constructor(){
+  constructor() {
     // Initially one empty product row we will show 
     this.products.push(new Product());
   }
@@ -86,7 +86,7 @@ export class PropertiesComponent implements OnInit {
   propertyTypes = Array<any>();
   selctedAmenities: Array<any>;
   multiDropdownSettings = {};
-  invoice = new Invoice(); 
+  invoice = new Invoice();
   property_array: any;
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
@@ -118,13 +118,17 @@ export class PropertiesComponent implements OnInit {
   ) {
     this.installmentFormGroup = this.formBuilder.group({
       downPayment: [''],
+      discount: [''],
+      priceIncrease: [''],
       monthlyInstallment: [''],
       numberOfMI: [''],
       paymentupondelivery: [''],
       isAddVariables: [false],
+      leadName: [''],
       tempAddVariablesText: [''],
       tempAddVariablesPercentage: [''],
-      addVariablesFormArray: this.formBuilder.array([])
+      addVariablesFormArray: this.formBuilder.array([]),
+      addNoteFormArray: this.formBuilder.array([]),
     });
   }
 
@@ -223,7 +227,7 @@ export class PropertiesComponent implements OnInit {
   setValue(key: any, value: any) {
     this.model[key] = value;
   }
-  
+
   onSelectAll(obj: any) {
   }
   // increment() {
@@ -1078,26 +1082,26 @@ export class PropertiesComponent implements OnInit {
     FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
   }
 
-//   toDataURL(url, callback) {
-//     var xhr = new XMLHttpRequest();
-//     xhr.onload = function () {
-//         var reader = new FileReader();
-//         reader.onloadend = function () {
-//             callback(reader.result);
-//         }
-//         reader.readAsDataURL(xhr.response);
-//     };
-//     xhr.open('GET', url);
-//     xhr.responseType = 'blob';
-//     xhr.send();
-// }
+  //   toDataURL(url, callback) {
+  //     var xhr = new XMLHttpRequest();
+  //     xhr.onload = function () {
+  //         var reader = new FileReader();
+  //         reader.onloadend = function () {
+  //             callback(reader.result);
+  //         }
+  //         reader.readAsDataURL(xhr.response);
+  //     };
+  //     xhr.open('GET', url);
+  //     xhr.responseType = 'blob';
+  //     xhr.send();
+  // }
 
-  generatePDF() {  
+  generatePDF() {
     let testImage;
-//     this.toDataURL(this.property_array.building.images[0].image, function (dataUrl) {
-//       testImage = dataUrl;
-// console.log(dataUrl)
-//     })
+    //     this.toDataURL(this.property_array.building.images[0].image, function (dataUrl) {
+    //       testImage = dataUrl;
+    // console.log(dataUrl)
+    //     })
 
     let docDefinition = {
       content: [
@@ -1123,14 +1127,14 @@ export class PropertiesComponent implements OnInit {
             widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
             body: [
               [
-                {text: 'Appartment Name', bold: true}, 
-                {text :'Project Name', bold: true}, 
-                {text: 'Tower Name ', bold: true}, 
-                {text:'Floor', bold: true}, 
-                {text:'Carpet Area', bold: true}, 
-                {text:'Price', bold: true} 
+                { text: 'Appartment Name', bold: true },
+                { text: 'Project Name', bold: true },
+                { text: 'Tower Name ', bold: true },
+                { text: 'Floor', bold: true },
+                { text: 'Carpet Area', bold: true },
+                { text: 'Price', bold: true }
               ],
-              [this.property_array.name, this.property_array.building.name, this.property_array.building_towers.tower_name,this.property_array.floor_num == 0? 'Ground Floor' : JSON.stringify(this.property_array.floor_num),JSON.stringify(this.property_array.max_area),JSON.stringify(this.property_array.min_price)]
+              [this.property_array.name, this.property_array.building.name, this.property_array.building_towers.tower_name, this.property_array.floor_num == 0 ? 'Ground Floor' : JSON.stringify(this.property_array.floor_num), JSON.stringify(this.property_array.max_area), JSON.stringify(this.property_array.min_price)]
               // ...this.invoice.products.map(p => ([p.name, p.price, p.qty, (p.price*p.qty).toFixed(2)])),
             ]
           }
@@ -1141,21 +1145,21 @@ export class PropertiesComponent implements OnInit {
             headerRows: 1,
             widths: ['auto', 'auto'],
             body: [
-              [{text :'Property Price:', bold: true}, JSON.stringify(this.property_array.min_price)],
-              [{text :'DP %:', bold: true}, JSON.stringify(this.installmentFormGroup.value.downPayment)],
-              [{text :'MI %:', bold: true}, JSON.stringify(this.installmentFormGroup.value.monthlyInstallment)],
-              [{text :'PUD %:', bold: true}, JSON.stringify(this.installmentFormGroup.value.paymentupondelivery)],
-              [{text :'Total :', bold: true}, JSON.stringify(this.property_array.floor_num)],
+              [{ text: 'Property Price:', bold: true }, JSON.stringify(this.property_array.min_price)],
+              [{ text: 'DP %:', bold: true }, JSON.stringify(this.installmentFormGroup.value.downPayment)],
+              [{ text: 'MI %:', bold: true }, JSON.stringify(this.installmentFormGroup.value.monthlyInstallment)],
+              [{ text: 'PUD %:', bold: true }, JSON.stringify(this.installmentFormGroup.value.paymentupondelivery)],
+              [{ text: 'Total :', bold: true }, JSON.stringify(this.property_array.floor_num)],
             ]
           }
-        } 
-          ],  
+        }
+      ],
       styles: {
         sectionHeader: {
           bold: true,
           decoration: 'underline',
           fontSize: 14,
-          margin: [0, 15,0, 15]          
+          margin: [0, 15, 0, 15]
         },
         table: {
           margin: [0, 5, 0, 15]
@@ -1166,7 +1170,7 @@ export class PropertiesComponent implements OnInit {
       }
     };
 
-      pdfMake.createPdf(docDefinition).download();
+    pdfMake.createPdf(docDefinition).download();
     // }else if(action === 'print'){
     //   pdfMake.createPdf(docDefinition).print();      
     // }else{
@@ -1207,5 +1211,28 @@ export class PropertiesComponent implements OnInit {
 
   removeAddVariablesFormGroup = (index: number): void => {
     this.getAddVariablesFormArray.removeAt(index);
+  }
+
+  get getAddNoteFormArray(): FormArray {
+    return this.installmentFormGroup.get('addNoteFormArray') as FormArray;
+  }
+
+  get getAddNoteFormArrayLength(): number {
+    return this.getAddNoteFormArray.length;
+  }
+
+  createNoteFormGroup = (): FormGroup => {
+    return this.formBuilder.group({
+      addNote: [''],
+    });
+  }
+
+  addNotes = ($event: any): void => {
+    $event.stopPropagation();
+    this.getAddNoteFormArray.push(this.createNoteFormGroup());
+  }
+
+  removeAddNoteFormGroup = (index: number): void => {
+    this.getAddNoteFormArray.removeAt(index);
   }
 }

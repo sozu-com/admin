@@ -594,9 +594,9 @@
                         <td *ngIf="parameter.flag!=5">
                            <div class="table-actions">
                               <!--this button to open installment modal -->
-                              <!-- <button (click)="this.openModalInstallment(p);" class="action-icon"
+                              <button (click)="this.openModalInstallment(p);" class="action-icon"
                                  title="{{'table.title.generatePDF' | translate}}"><img
-                                    src="assets/img/ic_disapprove.png" alt="img"></button> -->
+                                    src="assets/img/ic_disapprove.png" alt="img"></button>
                               <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
                                  *ngIf="parameter?.flag!=3" routerLink="/dashboard/properties/edit-property/{{p.id}}"
                                  title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
@@ -1167,13 +1167,18 @@ margin-left: -38%;">
    <div class="modal-dialog fadeIndown">
       <div class="modal-content">
          <div class="modal-header modal-header-new">
-            <h4 class="modal-title">{{'table.title.generatePDF' | translate}}</h4>
+            <h4 class="modal-title">{{'generatePDF.offerInformaton' | translate}}</h4>
             <button style="display: none;" type="button" class="close" data-dismiss="modal"
                #closeInstallmentModal>&times;</button>
             <button type="button" class="close" (click)="this.closeModalInstallment()">&times;</button>
          </div>
          <form class="form-horizontal form-model0P form-model-newP" role="form" [formGroup]="this.installmentFormGroup">
             <div class="modal-body modal-body-new">
+               <div class="row">
+                  <div class="col-12">
+                     <h6>{{'generatePDF.offerDetails' | translate}}</h6>
+                  </div>
+               </div>
                <div class="row">
                   <div class="col-6">
                      <div class="form-group-2">
@@ -1188,6 +1193,42 @@ margin-left: -38%;">
                         <div class="form-group">
                            <input type="text" class="form-control" style="background-color: white;"
                               formControlName="downPayment">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-6">
+                     <div class="form-group-2">
+                        <div class="form-group">
+                           <p style="font-weight: 900;font-size: inherit;">{{'generatePDF.discountPercentage' |
+                              translate}}</p>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-4">
+                     <div class="form-group-2">
+                        <div class="form-group">
+                           <input type="text" class="form-control" style="background-color: white;"
+                              formControlName="discount">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-6">
+                     <div class="form-group-2">
+                        <div class="form-group">
+                           <p style="font-weight: 900;font-size: inherit;">{{'generatePDF.priceIncreasePercentage' |
+                              translate}}</p>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-4">
+                     <div class="form-group-2">
+                        <div class="form-group">
+                           <input type="text" class="form-control" style="background-color: white;"
+                              formControlName="priceIncrease">
                         </div>
                      </div>
                   </div>
@@ -1249,9 +1290,8 @@ margin-left: -38%;">
                   style="margin-bottom: 10px;">
                   <div class="col-12">
                      <div class="btn-cont">
-                        <button type="button" class="btn btn-primary"
-                           (click)="this.markIsAddVariables(true,$event)">{{'generatePDF.addVariables' |
-                           translate}}</button>
+                        <span><a class="add" (click)="this.markIsAddVariables(true,$event)"
+                              href="javascript://">{{'generatePDF.addNewVariablePlus' | translate}}</a></span>
                      </div>
                   </div>
                </div>
@@ -1268,8 +1308,8 @@ margin-left: -38%;">
                   <div class="col-3">
                      <div class="form-group-2">
                         <div class="form-group">
-                           <input type="number" class="form-control" style="background-color: white;" autocomplete="off" appUptoTwoDigitDecimalNumber
-                              formControlName="tempAddVariablesPercentage" maxlength="5" >
+                           <input type="number" class="form-control" style="background-color: white;" autocomplete="off"
+                              appUptoTwoDigitDecimalNumber formControlName="tempAddVariablesPercentage" maxlength="5">
                         </div>
                      </div>
                   </div>
@@ -1278,7 +1318,7 @@ margin-left: -38%;">
                         <p>%</p>
                      </div>
                   </div>
-                  <div class="col-2">                   
+                  <div class="col-2">
                      <div class="btn-cont">
                         <span><a class="add" (click)="this.addNewAddVariables($event)"
                               href="javascript://">{{'addForm.save' | translate}}</a></span>
@@ -1286,7 +1326,7 @@ margin-left: -38%;">
                   </div>
                   <div class="col-2">
                      <div class="btn-cont">
-                        <span ><a class="add" (click)="this.markIsAddVariables(false,$event)" style="color: red;"
+                        <span><a class="add" (click)="this.markIsAddVariables(false,$event)" style="color: red;"
                               href="javascript://">{{'addForm.remove' | translate}}</a></span>
                      </div>
                   </div>
@@ -1332,14 +1372,66 @@ margin-left: -38%;">
                   </ng-container>
                </div>
 
+               <div class="row">
+                  <div class="col-6">
+                     <div class="form-group-2">
+                        <div class="form-group">
+                           <p style="font-weight: 900;font-size: inherit;">{{'generatePDF.leadName'
+                              | translate}}</p>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-4">
+                     <div class="form-group-2">
+                        <div class="form-group">
+                           <input type="text" class="form-control" style="background-color: white;"
+                              formControlName="leadName">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <div class="row" style="margin-bottom: 10px;">
+                  <div class="col-12">
+                     <div class="btn-cont">
+                        <span><a class="add" (click)="this.addNotes($event)"
+                              href="javascript://">{{'generatePDF.addNotePlus' | translate}}</a></span>
+                     </div>
+                  </div>
+               </div>
+
+               <div formArrayName="addNoteFormArray" *ngIf="this.getAddNoteFormArrayLength > 0">
+                  <ng-container *ngFor="let temp_add_note of this.getAddNoteFormArray['controls']; let j=index">
+                     <div [formGroupName]="j">
+                        <div class="row">
+                           <div class="col-8">
+                              <div class="form-group-2">
+                                 <div class="form-group">
+                                    <textarea rows="3" type="text" class="form-control note" formControlName="addNote"
+                                       style="background-color: white;"></textarea>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-2">
+                              <div>
+                                 <button (click)="this.removeAddNoteFormGroup(j);" class="action-icon"
+                                    title="{{'addForm.remove' | translate}}"><img src="assets/img/ic_disapprove.png"
+                                       alt="img"></button>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </ng-container>
+               </div>
+
             </div>
          </form>
          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal"
-              (click)="this.generatePDF()">{{'table.title.generatePDF' | translate}}</button>
-            <button type="button" class="btn btn-danger" data-dismiss="modal">{{'advanceSearch.cancel' |
-              translate}}</button>
-        </div>
-     </div>
+            <button type="button" class="btn btn-success" data-dismiss="modal"
+               (click)="this.generatePDF()">{{'generatePDF.generateOffer' | translate}}</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">{{'generatePDF.goBack' |
+               translate}}</button>
+         </div>
+      </div>
    </div>
 </div>
