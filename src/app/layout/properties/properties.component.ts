@@ -1053,7 +1053,8 @@ export class PropertiesComponent implements OnInit {
     return this.getAddVariablesFormArray.length;
   }
 
-  addNewAddVariables = (): void => {
+  addNewAddVariables = ($event: any): void => {
+    $event.stopPropagation();
     this.getAddVariablesFormArray.push(this.createFormGroup());
     this.markIsAddVariables(false);
   }
@@ -1065,7 +1066,10 @@ export class PropertiesComponent implements OnInit {
     });
   }
 
-  markIsAddVariables = (isAddVariables: boolean): void => {
+  markIsAddVariables = (isAddVariables: boolean, $event?: any): void => {
+    if ($event) {
+      $event.stopPropagation();
+    }
     this.installmentFormGroup.patchValue({
       isAddVariables: isAddVariables,
       tempAddVariablesText: '',
