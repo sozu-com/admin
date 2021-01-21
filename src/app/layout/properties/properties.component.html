@@ -1136,7 +1136,7 @@ margin-left: -38%;">
                   <div class="clearfix"></div>
                   <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
                      [data]="amenities" [(ngModel)]="selctedAmenities" [settings]="multiDropdownSettings"
-                     (onDeSelect)="unsetProject($event)"
+                     (onDeSelect)="unsetProject($event, 'selctedAmenities')"
                      (onSelect)="onItemSelect('selctedAmenities', $event)" (onSelectAll)="onSelectAll($event)">
                   </ng-multiselect-dropdown>
                   <div class="clearfix"></div>
@@ -1183,7 +1183,7 @@ margin-left: -38%;">
                         </div>
                      </div>
                   </div>
-                  <div class="col-6">
+                  <div class="col-4">
                      <div class="form-group-2">
                         <div class="form-group">
                            <input type="text" class="form-control" style="background-color: white;"
@@ -1201,7 +1201,7 @@ margin-left: -38%;">
                         </div>
                      </div>
                   </div>
-                  <div class="col-6">
+                  <div class="col-4">
                      <div class="form-group-2">
                         <div class="form-group">
                            <input type="text" class="form-control" style="background-color: white;"
@@ -1218,7 +1218,7 @@ margin-left: -38%;">
                         </div>
                      </div>
                   </div>
-                  <div class="col-6">
+                  <div class="col-4">
                      <div class="form-group-2">
                         <div class="form-group">
                            <input type="text" class="form-control" style="background-color: white;"
@@ -1236,7 +1236,7 @@ margin-left: -38%;">
                         </div>
                      </div>
                   </div>
-                  <div class="col-6">
+                  <div class="col-4">
                      <div class="form-group-2">
                         <div class="form-group">
                            <input type="text" class="form-control" style="background-color: white;"
@@ -1245,18 +1245,19 @@ margin-left: -38%;">
                      </div>
                   </div>
                </div>
-               <div class="row" *ngIf="!this.installmentFormGroup.get('isAddVariables').value">
+               <div class="row" *ngIf="!this.installmentFormGroup.get('isAddVariables').value"
+                  style="margin-bottom: 10px;">
                   <div class="col-12">
                      <div class="btn-cont">
                         <button type="button" class="btn btn-primary"
-                           (click)="this.markIsAddVariables(true)">{{'generatePDF.addVariables' |
+                           (click)="this.markIsAddVariables(true,$event)">{{'generatePDF.addVariables' |
                            translate}}</button>
                      </div>
                   </div>
                </div>
 
                <div class="row" *ngIf="this.installmentFormGroup.get('isAddVariables').value">
-                  <div class="col-lg-4">
+                  <div class="col-4">
                      <div class="form-group-2">
                         <div class="form-group">
                            <input type="text" class="form-control" style="background-color: white;"
@@ -1264,26 +1265,29 @@ margin-left: -38%;">
                         </div>
                      </div>
                   </div>
-                  <div class="col-lg-4">
+                  <div class="col-3">
                      <div class="form-group-2">
                         <div class="form-group">
-                           <input type="text" class="form-control" style="background-color: white;"
-                              formControlName="tempAddVariablesPercentage">
+                           <input type="number" class="form-control" style="background-color: white;" autocomplete="off" appUptoTwoDigitDecimalNumber
+                              formControlName="tempAddVariablesPercentage" maxlength="5" >
                         </div>
                      </div>
                   </div>
-                  <div class="col-lg-2">
+                  <div class="col-1">
                      <div>
-                        <button type="button" class="btn btn-primary"
-                           (click)="this.addNewAddVariables()">{{'addForm.save' |
-                           translate}}</button>
+                        <p>%</p>
                      </div>
                   </div>
-                  <div class="col-lg-2">
-                     <div>
-                        <button type="button" class="btn btn-primary"
-                           (click)="this.markIsAddVariables(false)">{{'addForm.remove' |
-                           translate}}</button>
+                  <div class="col-2">                   
+                     <div class="btn-cont">
+                        <span><a class="add" (click)="this.addNewAddVariables($event)"
+                              href="javascript://">{{'addForm.save' | translate}}</a></span>
+                     </div>
+                  </div>
+                  <div class="col-2">
+                     <div class="btn-cont">
+                        <span ><a class="add" (click)="this.markIsAddVariables(false,$event)" style="color: red;"
+                              href="javascript://">{{'addForm.remove' | translate}}</a></span>
                      </div>
                   </div>
                </div>
