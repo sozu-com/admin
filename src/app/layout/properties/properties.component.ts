@@ -1190,7 +1190,7 @@ let final_price = list_price - discount;
               [
                 {text: 'Monthly installment amount=', border: [false, false, false, false]}, 
                 {text: this.installmentFormGroup.value.monthlyInstallment + '%', border: [false, false, false, false]},
-                {text: '$' + monthly_installment_amount, border: [false, false, false, false]},
+                {text: '$ ' + monthly_installment_amount, border: [false, false, false, false]},
                 {text: this.installmentFormGroup.value.numberOfMI + ' Monthly Installments $  ' + monthly_installments, border: [false, false, false, false]},
               ],
               [
@@ -1202,7 +1202,7 @@ let final_price = list_price - discount;
               [
                 {text :'Total=', border: [false, false, false, false]}, 
                 {text: '', border: [false, false, false, false]},
-                {text: '$' + final_price, border: [false, false, false, false]},
+                {text: '$ ' + final_price, border: [false, false, false, false]},
                 {text: '', border: [false, false, false, false]},
               ],
             ]
