@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import * as moment from 'moment';
 import { UserModel } from 'src/app/models/inhouse-users.model';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -16,6 +16,7 @@ import pdfFonts from "pdfmake/build/vfs_fonts";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { createPipeInstance } from '@angular/core/src/view/provider';
+import { Subscription } from 'rxjs';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 declare let swal: any;
@@ -48,7 +49,7 @@ class Invoice {
   styleUrls: ['./properties.component.css'],
   providers: [AddPropertyModel]
 })
-export class PropertiesComponent implements OnInit {
+export class PropertiesComponent implements OnInit, OnDestroy {
 
   public parameter: IProperty = {};
   public location: IProperty = {};
@@ -105,6 +106,7 @@ export class PropertiesComponent implements OnInit {
   local_storage_parameter: any;
 
   public installmentFormGroup: FormGroup;
+  private installmentFormGroupSubscription: Subscription;
 
   constructor(
     public constant: Constant,
@@ -204,6 +206,7 @@ export class PropertiesComponent implements OnInit {
     this.getListing();
     this.getPropertyTypes();
     this.getPropertyAmenities();
+    this.subscribeInstallmentFormGroup();
     //this.scriptService.load('pdfMake', 'vfsFonts');
   }
 
@@ -1318,5 +1321,24 @@ export class PropertiesComponent implements OnInit {
     });
     this.getAddNoteFormArray.controls = [];
     this.getAddVariablesFormArray.controls = [];
+  }
+
+  subscribeInstallmentFormGroup = (): void => {
+    this.installmentFormGroup.valueChanges.subscribe((currentValue) => {
+      if (this.installmentFormGroup.get('discount').value != '') {
+        this.installmentFormGroup.get('priceIncrease').disable({ onlySelf: true });
+      } else if (this.installmentFormGroup.get('priceIncrease').value != '') {
+        this.installmentFormGroup.get('discount').disable({ onlySelf: true });
+      } else {
+        this.installmentFormGroup.get('discount').enable({ onlySelf: true });
+        this.installmentFormGroup.get('priceIncrease').enable({ onlySelf: true });
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.installmentFormGroupSubscription) {
+      this.installmentFormGroupSubscription.unsubscribe();
+    }
   }
 }
