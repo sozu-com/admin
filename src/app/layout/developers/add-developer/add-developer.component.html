@@ -34,7 +34,7 @@
                   <input accept="image/*" name="image" class="image" (change)="changeListner($event, 'developer_image')"
                     type="file">
                 </label>
-                <label *ngIf="!developer_image">{{'addForm.coverImage' | translate}}</label>
+                <label *ngIf="!developer_image" class="input-lable">{{'addForm.coverImage' | translate}}</label>
                 <input *ngIf="!developer_image" accept="image/*" name="image" class="image"
                   (change)="changeListner($event, 'developer_image')" type="file">
               </div>
