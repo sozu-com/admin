@@ -15,6 +15,7 @@ import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { createPipeInstance } from '@angular/core/src/view/provider';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 declare let swal: any;
@@ -528,6 +529,7 @@ export class PropertiesComponent implements OnInit {
 
   closeModalInstallment = (): void => {
     this.closeInstallmentModal.nativeElement.click();
+    this.installmentFormGroupPatchValue();
   }
 
   changeStatus(item, status) {
@@ -1107,7 +1109,7 @@ export class PropertiesComponent implements OnInit {
       pageSize: {
         width: 891,
         height: 630
-    },
+      },
       content: [
         // {
         //   image: testImage,
@@ -1127,31 +1129,31 @@ export class PropertiesComponent implements OnInit {
           table: {
             headerRows: 1,
             widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
-            
+
             body: [
               [
-                {text: 'Name', bold: true, border: [false, false, false, false], fillColor: 'silver', height:80}, 
-                {text: 'Appartment name', bold: true, border: [false, false, false, false], fillColor: 'silver', height:80},
-                {text: 'Floor', bold: true, border: [false, false, false, false], fillColor: 'silver', height:80}, 
-                {text: 'Model', bold: true, border: [false, false, false, false], fillColor: 'silver', height:80},  
-                {text: 'Carpet area m2', bold: true, border: [false, false, false, false], fillColor: 'silver', height:80}, 
-                {text: 'Price per m2', bold: true,border: [false, false, false, false], fillColor: 'silver', height:80},
-                {text: 'List Price', bold: true,border: [false, false, false, false], fillColor: 'silver', height:80}, 
-                {text: 'Discount(%)/Increase in price', bold: true,border: [false, false, false, false], fillColor: 'silver', height:80},
-                {text: 'Discount amount/Increase amount', bold: true,border: [false, false, false, false], fillColor: 'silver', height:80}, 
-                {text: 'Final Price', bold: true,border: [false, false, false, false], fillColor: 'silver', height:80}               
+                { text: 'Name', bold: true, border: [false, false, false, false], fillColor: 'silver', height: 80 },
+                { text: 'Appartment name', bold: true, border: [false, false, false, false], fillColor: 'silver', height: 80 },
+                { text: 'Floor', bold: true, border: [false, false, false, false], fillColor: 'silver', height: 80 },
+                { text: 'Model', bold: true, border: [false, false, false, false], fillColor: 'silver', height: 80 },
+                { text: 'Carpet area m2', bold: true, border: [false, false, false, false], fillColor: 'silver', height: 80 },
+                { text: 'Price per m2', bold: true, border: [false, false, false, false], fillColor: 'silver', height: 80 },
+                { text: 'List Price', bold: true, border: [false, false, false, false], fillColor: 'silver', height: 80 },
+                { text: 'Discount(%)/Increase in price', bold: true, border: [false, false, false, false], fillColor: 'silver', height: 80 },
+                { text: 'Discount amount/Increase amount', bold: true, border: [false, false, false, false], fillColor: 'silver', height: 80 },
+                { text: 'Final Price', bold: true, border: [false, false, false, false], fillColor: 'silver', height: 80 }
               ],
               [
-                {text: '', border: [false, false, false, false]},
-                {text: this.property_array.name, border: [false, false, false, false]}, 
-                {text: this.property_array.floor_num == 0? 'Ground Floor' : this.property_array.floor_num,border: [false, false, false, false]},
-                {text: this.property_array.building_configuration.name, border: [false, false, false, false]},
-                {text: this.property_array.max_area, border: [false, false, false, false]}, 
-                {text: this.property_array.min_price, border: [false, false, false, false]},
-                {text: '', border: [false, false, false, false]},
-                {text: '', border: [false, false, false, false]},
-                {text: '', border: [false, false, false, false]},
-                {text: '', border: [false, false, false, false]},
+                { text: '', border: [false, false, false, false] },
+                { text: this.property_array.name, border: [false, false, false, false] },
+                { text: this.property_array.floor_num == 0 ? 'Ground Floor' : this.property_array.floor_num, border: [false, false, false, false] },
+                { text: this.property_array.building_configuration.name, border: [false, false, false, false] },
+                { text: this.property_array.max_area, border: [false, false, false, false] },
+                { text: this.property_array.min_price, border: [false, false, false, false] },
+                { text: '', border: [false, false, false, false] },
+                { text: '', border: [false, false, false, false] },
+                { text: '', border: [false, false, false, false] },
+                { text: '', border: [false, false, false, false] },
               ]
               // ...this.invoice.products.map(p => ([p.name, p.price, p.qty, (p.price*p.qty).toFixed(2)])),
             ]
@@ -1164,34 +1166,34 @@ export class PropertiesComponent implements OnInit {
             widths: ['auto', 'auto', 'auto', 'auto'],
             body: [
               [
-                {text: 'Appartment name', border: [false, false, false, false]}, 
-                {text: this.property_array.name, border: [false, false, false, false]},
-                {text: '', border: [false, false, false, false]},
-                {text: '', border: [false, false, false, false]}
+                { text: 'Appartment name', border: [false, false, false, false] },
+                { text: this.property_array.name, border: [false, false, false, false] },
+                { text: '', border: [false, false, false, false] },
+                { text: '', border: [false, false, false, false] }
               ],
               [
-                {text: 'Downpayment=', border: [false, false, false, false]}, 
-                {text: this.property_array.min_price, border: [false, false, false, false]},
-                {text: '$ 545454', border: [false, false, false, false]},
-                {text: '', border: [false, false, false, false]}
+                { text: 'Downpayment=', border: [false, false, false, false] },
+                { text: this.property_array.min_price, border: [false, false, false, false] },
+                { text: '$ 545454', border: [false, false, false, false] },
+                { text: '', border: [false, false, false, false] }
               ],
               [
-                {text: 'Monthly installment amount=', border: [false, false, false, false]}, 
-                {text: this.installmentFormGroup.value.downPayment, border: [false, false, false, false]},
-                {text: '$ 545454', border: [false, false, false, false]},
-                {text: '36 Monthly Installments $  545454', border: [false, false, false, false]},
+                { text: 'Monthly installment amount=', border: [false, false, false, false] },
+                { text: this.installmentFormGroup.value.downPayment, border: [false, false, false, false] },
+                { text: '$ 545454', border: [false, false, false, false] },
+                { text: '36 Monthly Installments $  545454', border: [false, false, false, false] },
               ],
               [
-                {text: 'Payment upon delivery=', border: [false, false, false, false]}, 
-                {text: this.installmentFormGroup.value.monthlyInstallment, border: [false, false, false, false]},
-                {text: '$ 545454', border: [false, false, false, false]},
-                {text: '', border: [false, false, false, false]}
+                { text: 'Payment upon delivery=', border: [false, false, false, false] },
+                { text: this.installmentFormGroup.value.monthlyInstallment, border: [false, false, false, false] },
+                { text: '$ 545454', border: [false, false, false, false] },
+                { text: '', border: [false, false, false, false] }
               ],
               [
-                {text :'Total=', border: [false, false, false, false]}, 
-                {text: this.property_array.floor_num, border: [false, false, false, false]},
-                {text: '$ 545454', border: [false, false, false, false]},
-                {text: '', border: [false, false, false, false]},
+                { text: 'Total=', border: [false, false, false, false] },
+                { text: this.property_array.floor_num, border: [false, false, false, false] },
+                { text: '$ 545454', border: [false, false, false, false] },
+                { text: '', border: [false, false, false, false] },
               ],
             ]
           }
@@ -1207,7 +1209,7 @@ export class PropertiesComponent implements OnInit {
         table: {
           margin: [0, 5, 0, 15],
           border: [false, false, false, false]
-          
+
         },
         table2: {
           margin: [200, 5, 0, 15],
@@ -1280,5 +1282,41 @@ export class PropertiesComponent implements OnInit {
 
   removeAddNoteFormGroup = (index: number): void => {
     this.getAddNoteFormArray.removeAt(index);
+  }
+
+  checkIsGeneratePDF = (): void => {
+    let totalPercentage = 0.00;
+    this.getAddVariablesFormArray.controls.forEach((formGroup: FormGroup) => {
+      totalPercentage += formGroup.get('addVariablesPercentage').value;
+    });
+    totalPercentage += Number(this.installmentFormGroup.get('downPayment').value);
+    totalPercentage += Number(this.installmentFormGroup.get('discount').value);
+    totalPercentage += Number(this.installmentFormGroup.get('priceIncrease').value);
+    totalPercentage += Number(this.installmentFormGroup.get('monthlyInstallment').value);
+    totalPercentage += Number(this.installmentFormGroup.get('numberOfMI').value);
+    totalPercentage += Number(this.installmentFormGroup.get('paymentupondelivery').value);
+    if (totalPercentage == 100.00) {
+      this.generatePDF();
+      this.closeModalInstallment();
+    } else {
+      swal(this.translate.instant('swal.error'), this.translate.instant('generatePDF.percentageText'), 'error');
+    }
+  }
+
+  installmentFormGroupPatchValue = (): void => {
+    this.installmentFormGroup.patchValue({
+      downPayment: '',
+      discount: '',
+      priceIncrease: '',
+      monthlyInstallment: '',
+      numberOfMI: '',
+      paymentupondelivery: '',
+      isAddVariables: false,
+      leadName: '',
+      tempAddVariablesText: '',
+      tempAddVariablesPercentage: ''
+    });
+    this.getAddNoteFormArray.controls = [];
+    this.getAddVariablesFormArray.controls = [];
   }
 }

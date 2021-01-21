@@ -2135,18 +2135,19 @@
     "close": "Cerrar"
   },
   "generatePDF": {
-    "offerInformaton":"Información de oferta",
-    "offerDetails":"Detalles de la oferta",
-    "discountPercentage":"% De descuento",
+    "offerInformaton": "Información de oferta",
+    "offerDetails": "Detalles de la oferta",
+    "discountPercentage": "% De descuento",
     "priceIncreasePercentage": "Aumento de precio %",
     "downPaymentPercentage": "Pago inicial %",
     "monthlyInstallmentPercentage": "Pagos mensuales %",
     "numberOfMI": "Número de pagos mensuales #",
     "paymentupondeliveryPercentage": "Pago contra entrega%",
-    "leadName":"Nombre de cliente potencial",
+    "leadName": "Nombre de cliente potencial",
     "addNewVariablePlus": "Agregar nueva variable +",
-    "generateOffer":"Generar oferta",
-    "goBack":"Regresa",
-    "addNotePlus": "Agregar nota +"
+    "generateOffer": "Generar oferta",
+    "goBack": "Regresa",
+    "addNotePlus": "Agregar nota +",
+    "percentageText": "La suma del porcentaje de todos los conceptos de pago no es igual al 100%"
   }
 }

@@ -1427,9 +1427,9 @@ margin-left: -38%;">
             </div>
          </form>
          <div class="modal-footer">
-            <button type="button" class="btn btn-success" data-dismiss="modal"
-               (click)="this.generatePDF()">{{'generatePDF.generateOffer' | translate}}</button>
-            <button type="button" class="btn btn-danger" data-dismiss="modal">{{'generatePDF.goBack' |
+            <button type="button" class="btn btn-success" 
+               (click)="this.checkIsGeneratePDF()">{{'generatePDF.generateOffer' | translate}}</button>
+            <button type="button" class="btn btn-danger" (click)="this.closeModalInstallment()">{{'generatePDF.goBack' |
                translate}}</button>
          </div>
       </div>

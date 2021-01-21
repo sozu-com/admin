@@ -2148,6 +2148,7 @@
     "addNewVariablePlus": "Add New Variable +",
     "generateOffer": "Generate Offer",
     "goBack": "Go Back",
-    "addNotePlus": "Add Note +"
+    "addNotePlus": "Add Note +",
+    "percentageText": "Sum of percentage of all payment concepts is not equal to 100%"
   }
 }
