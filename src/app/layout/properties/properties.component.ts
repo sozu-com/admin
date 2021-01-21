@@ -1101,18 +1101,26 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   //     xhr.send();
   // }
 
-  generatePDF() {
-    let testImage;
-    //     this.toDataURL(this.property_array.building.images[0].image, function (dataUrl) {
-    //       testImage = dataUrl;
-    // console.log(dataUrl)
-    //     })
+  generatePDF() {  
+    //let testImage;
+//     this.toDataURL(this.property_array.building.images[0].image, function (dataUrl) {
+//       testImage = dataUrl;
+// console.log(dataUrl)
+//     })
+
+let list_price = this.property_array.max_area * this.property_array.min_price;
+let discount = (this.installmentFormGroup.value.discount * list_price) / 100;
+let downpayment = (this.installmentFormGroup.value.downPayment * list_price) / 100;
+let monthly_installment_amount = (this.installmentFormGroup.value.monthlyInstallment * list_price) / 100;
+let payment_upon_delivery = (this.installmentFormGroup.value.paymentupondelivery * list_price) / 100;
+let monthly_installments = monthly_installment_amount / this.installmentFormGroup.value.numberOfMI;
+let final_price = list_price - discount;
 
     let docDefinition = {
       pageSize: {
         width: 891,
         height: 630
-      },
+    },
       content: [
         // {
         //   image: testImage,
@@ -1132,33 +1140,32 @@ export class PropertiesComponent implements OnInit, OnDestroy {
           table: {
             headerRows: 1,
             widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
-
+            
             body: [
               [
-                { text: 'Name', bold: true, border: [false, false, false, false], fillColor: 'silver', height: 80 },
-                { text: 'Appartment name', bold: true, border: [false, false, false, false], fillColor: 'silver', height: 80 },
-                { text: 'Floor', bold: true, border: [false, false, false, false], fillColor: 'silver', height: 80 },
-                { text: 'Model', bold: true, border: [false, false, false, false], fillColor: 'silver', height: 80 },
-                { text: 'Carpet area m2', bold: true, border: [false, false, false, false], fillColor: 'silver', height: 80 },
-                { text: 'Price per m2', bold: true, border: [false, false, false, false], fillColor: 'silver', height: 80 },
-                { text: 'List Price', bold: true, border: [false, false, false, false], fillColor: 'silver', height: 80 },
-                { text: 'Discount(%)/Increase in price', bold: true, border: [false, false, false, false], fillColor: 'silver', height: 80 },
-                { text: 'Discount amount/Increase amount', bold: true, border: [false, false, false, false], fillColor: 'silver', height: 80 },
-                { text: 'Final Price', bold: true, border: [false, false, false, false], fillColor: 'silver', height: 80 }
+                {text: 'Name', bold: true, border: [false, false, false, false], fillColor: 'silver', height:80}, 
+                {text: 'Appartment name', bold: true, border: [false, false, false, false], fillColor: 'silver', height:80},
+                {text: 'Floor', bold: true, border: [false, false, false, false], fillColor: 'silver', height:80}, 
+                {text: 'Model', bold: true, border: [false, false, false, false], fillColor: 'silver', height:80},  
+                {text: 'Carpet area m2', bold: true, border: [false, false, false, false], fillColor: 'silver', height:80}, 
+                {text: 'Price per m2', bold: true,border: [false, false, false, false], fillColor: 'silver', height:80},
+                {text: 'List Price', bold: true,border: [false, false, false, false], fillColor: 'silver', height:80}, 
+                {text: 'Discount(%)/Increase in price', bold: true,border: [false, false, false, false], fillColor: 'silver', height:80},
+                {text: 'Discount amount/Increase amount', bold: true,border: [false, false, false, false], fillColor: 'silver', height:80}, 
+                {text: 'Final Price', bold: true,border: [false, false, false, false], fillColor: 'silver', height:80}               
               ],
               [
-                { text: '', border: [false, false, false, false] },
-                { text: this.property_array.name, border: [false, false, false, false] },
-                { text: this.property_array.floor_num == 0 ? 'Ground Floor' : this.property_array.floor_num, border: [false, false, false, false] },
-                { text: this.property_array.building_configuration.name, border: [false, false, false, false] },
-                { text: this.property_array.max_area, border: [false, false, false, false] },
-                { text: this.property_array.min_price, border: [false, false, false, false] },
-                { text: '', border: [false, false, false, false] },
-                { text: '', border: [false, false, false, false] },
-                { text: '', border: [false, false, false, false] },
-                { text: '', border: [false, false, false, false] },
+                {text: this.installmentFormGroup.value.leadName, border: [false, false, false, false]},
+                {text: this.property_array.name, border: [false, false, false, false]}, 
+                {text: this.property_array.floor_num == 0? 'Ground Floor' : this.property_array.floor_num,border: [false, false, false, false]},
+                {text: this.property_array.building_configuration.name, border: [false, false, false, false]},
+                {text: this.property_array.max_area, border: [false, false, false, false]}, 
+                {text: '$' + this.property_array.min_price, border: [false, false, false, false]},
+                {text: '$' + list_price, border: [false, false, false, false]},
+                {text:  this.installmentFormGroup.value.discount + '%', border: [false, false, false, false]},
+                {text: '$' + discount, border: [false, false, false, false]},
+                {text: '$' + final_price, border: [false, false, false, false]},
               ]
-              // ...this.invoice.products.map(p => ([p.name, p.price, p.qty, (p.price*p.qty).toFixed(2)])),
             ]
           }
         },
@@ -1169,50 +1176,50 @@ export class PropertiesComponent implements OnInit, OnDestroy {
             widths: ['auto', 'auto', 'auto', 'auto'],
             body: [
               [
-                { text: 'Appartment name', border: [false, false, false, false] },
-                { text: this.property_array.name, border: [false, false, false, false] },
-                { text: '', border: [false, false, false, false] },
-                { text: '', border: [false, false, false, false] }
+                {text: 'Appartment name', border: [false, false, false, false]}, 
+                {text: this.property_array.name, border: [false, false, false, false]},
+                {text: '', border: [false, false, false, false]},
+                {text: '', border: [false, false, false, false]}
               ],
               [
-                { text: 'Downpayment=', border: [false, false, false, false] },
-                { text: this.property_array.min_price, border: [false, false, false, false] },
-                { text: '$ 545454', border: [false, false, false, false] },
-                { text: '', border: [false, false, false, false] }
+                {text: 'Downpayment=', border: [false, false, false, false]}, 
+                {text: this.installmentFormGroup.value.downPayment + '%', border: [false, false, false, false]},
+                {text: '$ ' + downpayment, border: [false, false, false, false]},
+                {text: '', border: [false, false, false, false]}
               ],
               [
-                { text: 'Monthly installment amount=', border: [false, false, false, false] },
-                { text: this.installmentFormGroup.value.downPayment, border: [false, false, false, false] },
-                { text: '$ 545454', border: [false, false, false, false] },
-                { text: '36 Monthly Installments $  545454', border: [false, false, false, false] },
+                {text: 'Monthly installment amount=', border: [false, false, false, false]}, 
+                {text: this.installmentFormGroup.value.monthlyInstallment + '%', border: [false, false, false, false]},
+                {text: '$' + monthly_installment_amount, border: [false, false, false, false]},
+                {text: this.installmentFormGroup.value.numberOfMI + ' Monthly Installments $  ' + monthly_installments, border: [false, false, false, false]},
               ],
               [
-                { text: 'Payment upon delivery=', border: [false, false, false, false] },
-                { text: this.installmentFormGroup.value.monthlyInstallment, border: [false, false, false, false] },
-                { text: '$ 545454', border: [false, false, false, false] },
-                { text: '', border: [false, false, false, false] }
+                {text: 'Payment upon delivery=', border: [false, false, false, false]}, 
+                {text: this.installmentFormGroup.value.paymentupondelivery + '%', border: [false, false, false, false]},
+                {text: '$ ' + payment_upon_delivery, border: [false, false, false, false]},
+                {text: '', border: [false, false, false, false]}
               ],
               [
-                { text: 'Total=', border: [false, false, false, false] },
-                { text: this.property_array.floor_num, border: [false, false, false, false] },
-                { text: '$ 545454', border: [false, false, false, false] },
-                { text: '', border: [false, false, false, false] },
+                {text :'Total=', border: [false, false, false, false]}, 
+                {text: '', border: [false, false, false, false]},
+                {text: '$' + final_price, border: [false, false, false, false]},
+                {text: '', border: [false, false, false, false]},
               ],
             ]
           }
-        }
-      ],
+        } 
+          ],  
       styles: {
         sectionHeader: {
           bold: true,
           decoration: 'underline',
           fontSize: 14,
-          margin: [0, 15, 0, 15]
+          margin: [0, 15,0, 15]          
         },
         table: {
           margin: [0, 5, 0, 15],
           border: [false, false, false, false]
-
+          
         },
         table2: {
           margin: [200, 5, 0, 15],
@@ -1221,7 +1228,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       }
     };
 
-    pdfMake.createPdf(docDefinition).download();
+      pdfMake.createPdf(docDefinition).download();
     // }else if(action === 'print'){
     //   pdfMake.createPdf(docDefinition).print();      
     // }else{
@@ -1296,7 +1303,6 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     totalPercentage += Number(this.installmentFormGroup.get('discount').value);
     totalPercentage += Number(this.installmentFormGroup.get('priceIncrease').value);
     totalPercentage += Number(this.installmentFormGroup.get('monthlyInstallment').value);
-    totalPercentage += Number(this.installmentFormGroup.get('numberOfMI').value);
     totalPercentage += Number(this.installmentFormGroup.get('paymentupondelivery').value);
     if (totalPercentage == 100.00) {
       this.generatePDF();
