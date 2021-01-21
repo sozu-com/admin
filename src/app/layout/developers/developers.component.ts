@@ -39,7 +39,7 @@ export class DevelopersComponent implements OnInit {
       }
     });
     this.local_storage_parameter = JSON.parse(localStorage.getItem('parametersForDeveloper'));
-    this.parameter = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.parameter;
+    this.model = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.model;
     this.getDevelopersFrAdmin();
   }
 
@@ -67,7 +67,7 @@ export class DevelopersComponent implements OnInit {
       .subscribe(
         success => {
           this.spinner.hide();
-          localStorage.setItem('parametersForDeveloper', JSON.stringify(this.parameter));
+          localStorage.setItem('parametersForDeveloper', JSON.stringify(this.model));
           this.items = success.data;
           this.parameter.total = success.total;
           console.log(success.data,"all developers data")
