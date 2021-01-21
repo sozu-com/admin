@@ -1100,37 +1100,55 @@ export class PropertiesComponent implements OnInit {
 //     })
 
     let docDefinition = {
+      pageSize: {
+        width: 891,
+        height: 630
+    },
       content: [
+        // {
+        //   image: testImage,
+        //   fit: [100, 100],
+        //   pageBreak: 'after'
+        // },
         {
-          text: 'Genrated PDF',
-          fontSize: 16,
+          text: this.property_array.parking_count + ' Parking Place',
           alignment: 'center',
-          color: '#047886'
         },
-        {
-          image: testImage,
-          fit: [100, 100],
-          pageBreak: 'after'
-        },
-        {
-          text: this.property_array.building.name,
-          style: 'sectionHeader'
-        },
+        // {
+        //   text: this.property_array.building.name,
+        //   style: 'sectionHeader'
+        // },
         {
           style: 'table',
           table: {
             headerRows: 1,
-            widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
+            widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
+            
             body: [
               [
-                {text: 'Appartment Name', bold: true}, 
-                {text :'Project Name', bold: true}, 
-                {text: 'Tower Name ', bold: true}, 
-                {text:'Floor', bold: true}, 
-                {text:'Carpet Area', bold: true}, 
-                {text:'Price', bold: true} 
+                {text: 'Name', bold: true, border: [false, false, false, false], fillColor: 'silver', height:80}, 
+                {text: 'Appartment name', bold: true, border: [false, false, false, false], fillColor: 'silver', height:80},
+                {text: 'Floor', bold: true, border: [false, false, false, false], fillColor: 'silver', height:80}, 
+                {text: 'Model', bold: true, border: [false, false, false, false], fillColor: 'silver', height:80},  
+                {text: 'Carpet area m2', bold: true, border: [false, false, false, false], fillColor: 'silver', height:80}, 
+                {text: 'Price per m2', bold: true,border: [false, false, false, false], fillColor: 'silver', height:80},
+                {text: 'List Price', bold: true,border: [false, false, false, false], fillColor: 'silver', height:80}, 
+                {text: 'Discount(%)/Increase in price', bold: true,border: [false, false, false, false], fillColor: 'silver', height:80},
+                {text: 'Discount amount/Increase amount', bold: true,border: [false, false, false, false], fillColor: 'silver', height:80}, 
+                {text: 'Final Price', bold: true,border: [false, false, false, false], fillColor: 'silver', height:80}               
               ],
-              [this.property_array.name, this.property_array.building.name, this.property_array.building_towers.tower_name,this.property_array.floor_num == 0? 'Ground Floor' : JSON.stringify(this.property_array.floor_num),JSON.stringify(this.property_array.max_area),JSON.stringify(this.property_array.min_price)]
+              [
+                {text: '', border: [false, false, false, false]},
+                {text: this.property_array.name, border: [false, false, false, false]}, 
+                {text: this.property_array.floor_num == 0? 'Ground Floor' : this.property_array.floor_num,border: [false, false, false, false]},
+                {text: this.property_array.building_configuration.name, border: [false, false, false, false]},
+                {text: this.property_array.max_area, border: [false, false, false, false]}, 
+                {text: this.property_array.min_price, border: [false, false, false, false]},
+                {text: '', border: [false, false, false, false]},
+                {text: '', border: [false, false, false, false]},
+                {text: '', border: [false, false, false, false]},
+                {text: '', border: [false, false, false, false]},
+              ]
               // ...this.invoice.products.map(p => ([p.name, p.price, p.qty, (p.price*p.qty).toFixed(2)])),
             ]
           }
@@ -1139,13 +1157,38 @@ export class PropertiesComponent implements OnInit {
           style: 'table2',
           table: {
             headerRows: 1,
-            widths: ['auto', 'auto'],
+            widths: ['auto', 'auto', 'auto', 'auto'],
             body: [
-              [{text :'Property Price:', bold: true}, JSON.stringify(this.property_array.min_price)],
-              [{text :'DP %:', bold: true}, JSON.stringify(this.installmentFormGroup.value.downPayment)],
-              [{text :'MI %:', bold: true}, JSON.stringify(this.installmentFormGroup.value.monthlyInstallment)],
-              [{text :'PUD %:', bold: true}, JSON.stringify(this.installmentFormGroup.value.paymentupondelivery)],
-              [{text :'Total :', bold: true}, JSON.stringify(this.property_array.floor_num)],
+              [
+                {text: 'Appartment name', border: [false, false, false, false]}, 
+                {text: this.property_array.name, border: [false, false, false, false]},
+                {text: '', border: [false, false, false, false]},
+                {text: '', border: [false, false, false, false]}
+              ],
+              [
+                {text: 'Downpayment=', border: [false, false, false, false]}, 
+                {text: this.property_array.min_price, border: [false, false, false, false]},
+                {text: '$ 545454', border: [false, false, false, false]},
+                {text: '', border: [false, false, false, false]}
+              ],
+              [
+                {text: 'Monthly installment amount=', border: [false, false, false, false]}, 
+                {text: this.installmentFormGroup.value.downPayment, border: [false, false, false, false]},
+                {text: '$ 545454', border: [false, false, false, false]},
+                {text: '36 Monthly Installments $  545454', border: [false, false, false, false]},
+              ],
+              [
+                {text: 'Payment upon delivery=', border: [false, false, false, false]}, 
+                {text: this.installmentFormGroup.value.monthlyInstallment, border: [false, false, false, false]},
+                {text: '$ 545454', border: [false, false, false, false]},
+                {text: '', border: [false, false, false, false]}
+              ],
+              [
+                {text :'Total=', border: [false, false, false, false]}, 
+                {text: this.property_array.floor_num, border: [false, false, false, false]},
+                {text: '$ 545454', border: [false, false, false, false]},
+                {text: '', border: [false, false, false, false]},
+              ],
             ]
           }
         } 
@@ -1158,10 +1201,13 @@ export class PropertiesComponent implements OnInit {
           margin: [0, 15,0, 15]          
         },
         table: {
-          margin: [0, 5, 0, 15]
+          margin: [0, 5, 0, 15],
+          border: [false, false, false, false]
+          
         },
         table2: {
-          margin: [150, 5, 0, 15]
+          margin: [200, 5, 0, 15],
+          border: [false, false, false, false]
         },
       }
     };
