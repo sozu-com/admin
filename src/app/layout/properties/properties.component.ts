@@ -140,6 +140,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       leadName: [''],
       tempAddVariablesText: [''],
       tempAddVariablesPercentage: [''],
+      interest:[''],
       addVariablesFormArray: this.formBuilder.array([]),
       addNoteFormArray: this.formBuilder.array([]),
     });
@@ -1433,8 +1434,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       totalPercentage += formGroup.get('addVariablesPercentage').value;
     });
     totalPercentage += Number(this.installmentFormGroup.get('downPayment').value);
-    totalPercentage += Number(this.installmentFormGroup.get('discount').value);
-    totalPercentage += Number(this.installmentFormGroup.get('priceIncrease').value);
+    // totalPercentage += Number(this.installmentFormGroup.get('discount').value);
+    // totalPercentage += Number(this.installmentFormGroup.get('priceIncrease').value);
     totalPercentage += Number(this.installmentFormGroup.get('monthlyInstallment').value);
     totalPercentage += Number(this.installmentFormGroup.get('paymentupondelivery').value);
     if (totalPercentage == 100.00) {
@@ -1456,7 +1457,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       isAddVariables: false,
       leadName: '',
       tempAddVariablesText: '',
-      tempAddVariablesPercentage: ''
+      tempAddVariablesPercentage: '',
+      interest:''
     });
     this.getAddNoteFormArray.controls = [];
     this.getAddVariablesFormArray.controls = [];
