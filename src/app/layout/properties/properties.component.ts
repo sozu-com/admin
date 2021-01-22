@@ -1296,7 +1296,6 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     totalPercentage += Number(this.installmentFormGroup.get('discount').value);
     totalPercentage += Number(this.installmentFormGroup.get('priceIncrease').value);
     totalPercentage += Number(this.installmentFormGroup.get('monthlyInstallment').value);
-    totalPercentage += Number(this.installmentFormGroup.get('numberOfMI').value);
     totalPercentage += Number(this.installmentFormGroup.get('paymentupondelivery').value);
     if (totalPercentage == 100.00) {
       this.generatePDF();
