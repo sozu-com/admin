@@ -81,7 +81,21 @@
                 <!--<canvas width="800" height="600" id="canvas"></canvas>-->
               </div>
             </div>
-
+            
+            <hr>
+            <div class="form-group-3">
+              <label>{{'addForm.logos' | translate}}</label>
+              <div class="upload-cover-img">
+                <img [src]="file1.image" [defaultImage]="file1.image| img:'thumb'" [lazyLoad]="file1.image"
+                  onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
+                  <div *ngIf="file1.loading" class="loaderr"></div>
+                <div *ngIf="!file1.image" class="upload-caption"><br/>
+                  <p class="green-color marginT30">{{'addForm.logos' | translate}}</p>
+                </div>
+                <input type="file" name="cover_image" accept="image/*" (change)="file1.onSelectFile($event,true)">
+              </div>
+            </div>
+            
           </div>
           <div class="col-md-7 col-sm-12 col-12">
             <div class="row">
