@@ -2136,19 +2136,22 @@
     "close": "Close"
   },
   "generatePDF": {
-    "offerInformaton": "Offer Informaton",
-    "offerDetails": "Offer Details",
-    "discountPercentage": "Discount %",
-    "priceIncreasePercentage": "Price Increase %",
-    "downPaymentPercentage": "Down Payment %",
-    "monthlyInstallmentPercentage": "Monthly Installment %",
-    "numberOfMI": "Number of Montly Payments #",
-    "paymentupondeliveryPercentage": "Payment Upon Delivery %",
-    "leadName": "Lead Name",
-    "addNewVariablePlus": "Add New Variable +",
-    "generateOffer": "Generate Offer",
+    "offerInformaton": "Offer informaton",
+    "offerDetails": "Offer details",
+    "discountPercentage": "Discount",
+    "priceIncreasePercentage": "Price increase",
+    "downPaymentPercentage": "Down payment",
+    "monthlyInstallmentPercentage": "Monthly installment",
+    "numberOfMI": "Number of monthly payments",
+    "paymentupondeliveryPercentage": "Payment upon delivery",
+    "leadName": "Lead name",
+    "addNewVariablePlus": "+ Add new variable",
+    "generateOffer": "Generate offer",
     "goBack": "Go Back",
-    "addNotePlus": "Add Note +",
-    "percentageText": "Sum of percentage of all payment concepts is not equal to 100%"
+    "addNotePlus": "+ Add note",
+    "percentageText": "Sum of percentage of all payment concepts is not equal to 100%",
+    "interest":"Interest",
+    "variableName":"Variable name",
+    "variablePercentage":"Variable percentage"
   }
 }
