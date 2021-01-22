@@ -18,6 +18,10 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { createPipeInstance } from '@angular/core/src/view/provider';
 import { Subscription } from 'rxjs';
 import { Column } from 'primeng/primeng';
+import { DatePipe } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { PricePipe } from 'src/app/pipes/price.pipe';
+
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 declare let swal: any;
@@ -48,7 +52,7 @@ class Invoice {
   selector: 'app-properties',
   templateUrl: './properties.component.html',
   styleUrls: ['./properties.component.css'],
-  providers: [AddPropertyModel]
+  providers: [AddPropertyModel, DatePipe, PricePipe]
 })
 export class PropertiesComponent implements OnInit, OnDestroy {
 
@@ -108,6 +112,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   public installmentFormGroup: FormGroup;
   private installmentFormGroupSubscription: Subscription;
+  logoImageBase64: any;
+  projectLogoImageBase64: any;
 
   constructor(
     public constant: Constant,
@@ -118,7 +124,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     private router: Router,
     private translate: TranslateService,
     public model: AddPropertyModel,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private datePipe: DatePipe,
+    private http: HttpClient,
+    private price: PricePipe
   ) {
     this.installmentFormGroup = this.formBuilder.group({
       downPayment: [''],
@@ -208,6 +217,16 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.getPropertyTypes();
     this.getPropertyAmenities();
     this.subscribeInstallmentFormGroup();
+    this.http.get('../../../assets/img/sozu_black.png', { responseType: 'blob' })
+    .subscribe(res => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        let base64data = reader.result;                
+         this.logoImageBase64 = base64data;
+      }
+
+      reader.readAsDataURL(res); 
+    });
     //this.scriptService.load('pdfMake', 'vfsFonts');
   }
 
@@ -1104,202 +1123,231 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   generatePDF() {
     //let testImage;
-//     this.toDataURL(this.property_array.building.images[0].image, function (dataUrl) {
-//       testImage = dataUrl;
-// console.log(dataUrl)
-//     })
-
-let list_price = this.property_array.max_area * this.property_array.min_price;
-let discount = (this.installmentFormGroup.value.discount * list_price) / 100;
-let downpayment = (this.installmentFormGroup.value.downPayment * list_price) / 100;
-let monthly_installment_amount = (this.installmentFormGroup.value.monthlyInstallment * list_price) / 100;
-let payment_upon_delivery = (this.installmentFormGroup.value.paymentupondelivery * list_price) / 100;
-let monthly_installments = monthly_installment_amount / this.installmentFormGroup.value.numberOfMI;
-let final_price = list_price - discount;
+    //     this.toDataURL(this.property_array.building.images[0].image, function (dataUrl) {
+    //       testImage = dataUrl;
+    // console.log(dataUrl)
+    //     })
+    let current_date = new Date();
+    let date = this.datePipe.transform(current_date, 'd/M/y');
+    let list_price = this.property_array.max_area * this.property_array.min_price;
+    let discount = (this.installmentFormGroup.value.discount * list_price) / 100;
+    let downpayment = (this.installmentFormGroup.value.downPayment * list_price) / 100;
+    let monthly_installment_amount = (this.installmentFormGroup.value.monthlyInstallment * list_price) / 100;
+    let payment_upon_delivery = (this.installmentFormGroup.value.paymentupondelivery * list_price) / 100;
+    let monthly_installments = monthly_installment_amount / this.installmentFormGroup.value.numberOfMI;
+    let final_price = list_price - discount;
 
     let docDefinition = {
       pageSize: {
         width: 891,
         height: 630
-    },
+      },
       content: [
         {
-          columns:[
+          columns: [
             {
-              width: 180,
-              text: 'AV. HIGALGO 1995 INT 7 - 08 LADRON DE GUEVARA 44600,GUADALAJARA, JALISCO, MÉXICO',
+              image: this.logoImageBase64,
+              width: 100
             },
             {
-              width: 180,
-              text: 'Guadalajara, Jalisco, México.',
-              alignment: 'right'
+              text: 'AV. HIGALGO 1995 INT 7 - 08, \nLADRON DE GUEVARA 44600,\nGUADALAJARA, JALISCO, MÉXICO',
+              margin: [80, 0, 0, 0],
+              color: '#858291'
+            },
+            {
+
+              text: 'Guadalajara, Jalisco, México.\n' + date,
+              alignment: 'right',
+              color: '#858291'
             },
           ]
-      },
-      {
-        columns:[
-          [
-            {
-              text: 'Property details',
-              bold: true,
-              fontSize: 14,
-            },
+        },
         {
-          style: 'table',
-          table: {
-            headerRows: 1,
-            widths: ['auto', 'auto'],
+          columns: [
+            [
+              {
+                text: 'Property details',
+                bold: true,
+                fontSize: 20,
+                margin: [0, 0, 0, 20]
+              },
+              {
+                image: this.logoImageBase64,
+                width: 100,
+                margin: [0, 0, 0, 20]
+              },
+              {
+                style: 'table',
+                table: {
+                  headerRows: 1,
+                  widths: ['auto', 'auto'],
 
-            body: [
-              [
-                {text: 'Name', bold: true, border: [false, false, false, false], color: 'silver', height:80},
-                {text: this.property_array.building_towers.tower_name, border: [false, false, false, false], bold: true},
-              ],
-              [
-                {text: 'Floor', bold: true, border: [false, false, false, false], color: 'silver', height:80},
-                {text: this.property_array.floor_num == 0? 'Ground Floor' : this.property_array.floor_num,border: [false, false, false, false], bold: true},
-              ],
-              [
-                {text: 'Model', bold: true, border: [false, false, false, false], color: 'silver', height:80},
-                {text: this.property_array.building_configuration.name, border: [false, false, false, false], bold: true},
-              ],
-              [
-                {text: 'Parking places', bold: true, border: [false, false, false, false], color: 'silver', height:80},
-                {text: this.property_array.parking_count, border: [false, false, false, false], bold: true},
-              ],
-              [
-                {text: 'Carpet area m2', bold: true, border: [false, false, false, false], color: 'silver', height:80},
-                {text: this.property_array.max_area, border: [false, false, false, false], bold: true},
-              ],
-              [
-                {text: 'Price per m2', bold: true,border: [false, false, false, false], color: 'silver', height:80},
-                {text: '$' + this.property_array.min_price, border: [false, false, false, false], bold: true},
-              ],
-              [
-                {text: 'List Price', bold: true,border: [false, false, false, false], color: 'silver', height:80},
-                {text: '$' + list_price, border: [false, false, false, false], bold: true},
-              ],
-              [
-                {text: 'Discount/Intrest %', bold: true,border: [false, false, false, false], color: 'silver', height:80},
-                {text:  this.installmentFormGroup.value.discount + '%', border: [false, false, false, false], bold: true},
-              ],
-              [
-                {text: 'Discount/Intrest $', bold: true,border: [false, false, false, false], color: 'silver', height:80},
-                {text: '$' + discount, border: [false, false, false, false], bold: true},
-              ],
-              [
-                {text: 'Final Price', bold: true,border: [false, false, false, false], color: 'silver', height:80},
-                {text: '$' + final_price, border: [false, false, false, false], bold: true},
-              ]
+                  body: [
+                    [
+                      { text: 'Name:', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.property_array.building_towers.tower_name, border: [false, false, false, false], bold: true },
+                    ],
+                    [
+                      { text: 'Floor:', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.property_array.floor_num == 0 ? 'Ground Floor' : this.property_array.floor_num, border: [false, false, false, false], bold: true },
+                    ],
+                    [
+                      { text: 'Model:', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.property_array.building_configuration.name, border: [false, false, false, false], bold: true },
+                    ],
+                    [
+                      { text: 'Parking places:', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.property_array.parking_count, border: [false, false, false, false], bold: true },
+                    ],
+                    [
+                      { text: 'Carpet area m2:', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.property_array.max_area, border: [false, false, false, false], bold: true },
+                    ],
+                    [
+                      { text: 'Price per m2:', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: '$' + this.price.transform(this.property_array.min_price), border: [false, false, false, false], bold: true },
+                    ],
+                    [
+                      { text: 'List Price:', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: '$' + this.price.transform(list_price), border: [false, false, false, false], bold: true },
+                    ],
+                    [
+                      { text: 'Discount/Intrest %:', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.installmentFormGroup.value.discount + '%', border: [false, false, false, false], bold: true },
+                    ],
+                    [
+                      { text: 'Discount/Intrest $:', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: '$' + this.price.transform(discount), border: [false, false, false, false], bold: true },
+                    ],
+                    [
+                      { text: 'Final Price:', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: '$' + this.price.transform(final_price), border: [false, false, false, false], bold: true },
+                    ]
+                  ]
+                }
+              },
+              {
+                text: [
+                  { text: 'In case of any doubt or comments,\n feel free to contact us at', color: '#858291' },
+                  { text: '  33 3254 0890', bold: true },
+                  { text: '\nphone or Whatsapp', color: '#858291' },
+                ],
+                margin: [0, 40, 0, 30]
+              },
+              {
+                text: 'In Margot, we work for your investment.',
+                bold: true
+              },
+            ],
+            [
+              {
+                text: 'Commercial offer',
+                bold: true,
+                fontSize: 20,
+                margin: [0, 0, 0, 10]
+              },
+              {
+                style: 'table2',
+                table: {
+                  headerRows: 1,
+                  widths: ['auto', 'auto', 'auto'],
+                  body: [
+                    [
+                      { text: 'Number of monthly installments:', border: [false, false, false, false], color: '#858291' },
+                      { text: this.installmentFormGroup.value.numberOfMI, border: [false, false, false, false], bold: true },
+                      { text: '', border: [false, false, false, false] }
+                    ],
+                    [
+                      { text: 'Monthly payment:', border: [false, false, false, false], color: '#858291' },
+                      { text: '$' + this.price.transform(monthly_installments), border: [false, false, false, false], bold: true },
+                      { text: '', border: [false, false, false, false] }
+                    ],
+                    [
+                      { text: 'Layaway:', border: [false, false, false, false], color: '#858291' },
+                      { text: '', border: [false, false, false, false] },
+                      { text: '$ ' + this.price.transform(downpayment), border: [false, false, false, false], bold: true },
+                    ],
+                    [
+                      { text: 'Downpayment:', border: [false, false, false, false], color: '#858291' },
+                      { text: this.installmentFormGroup.value.downPayment + '%', border: [false, false, false, false], bold: true },
+                      { text: '$ ' + this.price.transform(downpayment), border: [false, false, false, false], bold: true },
+                    ],
+                    [
+                      { text: 'Monthly installment amount:', border: [false, false, false, false], color: '#858291' },
+                      { text: this.installmentFormGroup.value.monthlyInstallment + '%', border: [false, false, false, false], bold: true },
+                      { text: '$ ' + this.price.transform(monthly_installment_amount), border: [false, false, false, false], bold: true }
+                    ],
+                    [
+                      { text: [ 
+                        {text: 'Payment upon delivery:'},
+                        {text: '\n*Layaway is considered in Downpayment' , color: '#858291', fontSize : 8, margin: [0, 5, 0, 5]}
+                       ], 
+                       border: [false, false, false, true], color: '#858291' 
+                      },
+                      { text: this.installmentFormGroup.value.paymentupondelivery + '%', border: [false, false, false, true], bold: true },
+                      { text: '$ ' + this.price.transform(payment_upon_delivery), border: [false, false, false, true], bold: true }
+                    ],
+                    [
+                      { text: 'Final price:', border: [false, false, false, false], bold: true, fontSize : 14 },
+                      { text: '', border: [false, false, false, false] },
+                      { text: '$ ' + this.price.transform(final_price), border: [false, false, false, false], bold: true, fontSize : 14 },
+                    ],
+                  ]
+                }
+              },
+              {
+                text: 'Comments',
+                margin: [0, 20, 0, 0]
+              },
+              {
+                text: '*Offers valid until ' + date,
+                color: '#858291',
+                margin: [0, 10, 0, 20]
+              },
+              {
+                style: 'table2',
+                table: {
+                  headerRows: 1,
+                  widths: ['auto', 'auto'],
+                  body: [
+                    [
+                      { text: 'Bank details', border: [false, false, false, false], bold: true, fontSize : 16 },
+                      { text: '', border: [false, false, false, false] }
+                    ],
+                    [
+                      { text: 'Bank:', border: [false, false, false, false], color: '#858291' },
+                      { text: '', border: [false, false, false, false], bold: true }
+                    ],
+                    [
+                      { text: 'Account name:', border: [false, false, false, false], color: '#858291' },
+                      { text: '', border: [false, false, false, false], bold: true },
+                    ],
+                    [
+                      { text: 'Federal Tax Payer:', border: [false, false, false, false], color: '#858291' },
+                      { text: '', border: [false, false, false, false], bold: true },
+                    ],
+                    [
+                      { text: 'Account number:', border: [false, false, false, false], color: '#858291' },
+                      { text: '', border: [false, false, false, false], bold: true }
+                    ],
+                    [
+                      { text: 'CLABE:', border: [false, false, false, false], color: '#858291' },
+                      { text: '', border: [false, false, false, false], bold: true }
+                    ],
+                  ]
+                }
+              },
             ]
-          }
-        },
-        {
-          text: 'In case of any doubt or comments,feel free to contact us at 33 3254 0890,phone or Whatsapp',
-        },
-        {
-          text: 'In Margot, we work for your investment.',
-        },
-      ],
-      [
-        {
-          text: 'Commercial offer',
-          bold: true,
-          fontSize: 14,
-        },
-        {
-          style: 'table2',
-          table: {
-            headerRows: 1,
-            widths: ['auto', 'auto', 'auto'],
-            body: [
-              [
-                {text: 'Number of monthly installments:', border: [false, false, false, false], color: 'silver'},
-                {text: this.installmentFormGroup.value.numberOfMI, border: [false, false, false, false], bold: true},
-                {text: '', border: [false, false, false, false]}
-              ],
-              [
-                {text: 'Monthly payment:', border: [false, false, false, false], color: 'silver'},
-                {text: '$' + monthly_installments, border: [false, false, false, false], bold: true},
-                {text: '', border: [false, false, false, false]}
-              ],
-              [
-                {text: 'Layaway:', border: [false, false, false, false], color: 'silver'},
-                {text: '', border: [false, false, false, false]},
-                {text: '$ ' + downpayment, border: [false, false, false, false], bold: true},
-              ],
-              [
-                {text: 'Downpayment:', border: [false, false, false, false], color: 'silver'},
-                {text: this.installmentFormGroup.value.downPayment + '%', border: [false, false, false, false], bold: true},
-                {text: '$ ' + downpayment, border: [false, false, false, false]},
-              ],
-              [
-                {text: 'Monthly installment amount=', border: [false, false, false, false], color: 'silver'},
-                {text: this.installmentFormGroup.value.monthlyInstallment + '%', border: [false, false, false, false], bold: true},
-                {text: '$ ' + monthly_installment_amount, border: [false, false, false, false]}
-              ],
-              [
-                {text: 'Payment upon delivery:', border: [false, false, false, true]},
-                {text: this.installmentFormGroup.value.paymentupondelivery + '%', border: [false, false, false, true], bold: true},
-                {text: '$ ' + payment_upon_delivery, border: [false, false, false, true]}
-              ],
-              [
-                {text :'Final price:', border: [false, false, false, false], bold: true},
-                {text: '', border: [false, false, false, false]},
-                {text: '$ ' + final_price, border: [false, false, false, false], bold: true},
-              ],
-            ]
-          }
-        },
-        {
-          text: 'Comments'
-        },
-        {
-          text: '*Offers valid until'
-        },
-        {
-          style: 'table2',
-          table: {
-            headerRows: 1,
-            widths: ['auto', 'auto'],
-            body: [
-              [
-                {text: 'Bank details', border: [false, false, false, false]},
-                {text: '', border: [false, false, false, false]}
-              ],
-              [
-                {text: 'Bank:', border: [false, false, false, false], color: 'silver'},
-                {text: '', border: [false, false, false, false], bold: true}
-              ],
-              [
-                {text: 'Account name:', border: [false, false, false, false], color: 'silver'},
-                {text: '', border: [false, false, false, false], bold: true},
-              ],
-              [
-                {text: 'Federal Tax Payer:', border: [false, false, false, false], color: 'silver'},
-                {text: '', border: [false, false, false, false], bold: true},
-              ],
-              [
-                {text: 'Account number:', border: [false, false, false, false], color: 'silver'},
-                {text: '', border: [false, false, false, false], bold: true}
-              ],
-              [
-                {text: 'CLABE:', border: [false, false, false, false], color: 'silver'},
-                {text: '', border: [false, false, false, false], bold: true}
-              ],
-            ]
-          }
-        },
-      ]
-      ]
-    }
           ],
+          margin: [0, 40, 0, 0]
+        }
+      ],
       styles: {
         sectionHeader: {
           bold: true,
           decoration: 'underline',
           fontSize: 14,
-          margin: [0, 15,0, 15]
+          margin: [0, 15, 0, 15]
         },
         table: {
           margin: [0, 5, 0, 15],
@@ -1313,7 +1361,7 @@ let final_price = list_price - discount;
       }
     };
 
-      pdfMake.createPdf(docDefinition).download();
+    pdfMake.createPdf(docDefinition).download();
     // }else if(action === 'print'){
     //   pdfMake.createPdf(docDefinition).print();
     // }else{
