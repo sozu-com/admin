@@ -2183,6 +2183,9 @@
     "commercialOfferP" : "Layaway is considered in Downpayment",
     "contactUS":"In case of any doubt or comments,feel free to contact us at 33 3254 0890,phone or Whatsapp",
     "address" : "AV. HIGALGO 1995 INT 7 - 08,LADRON DE GUEVARA 44600,GUADALAJARA, JALISCO, MÉXICO.",
-    "addressName" : "Guadalajara, Jalisco, México."
+    "addressName" : "Guadalajara, Jalisco, México.",
+    "agency" : "Agency",
+    "seller" : "Seller",
+    "selectAccount":"Select Account"
   }
 }

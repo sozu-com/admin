@@ -51,7 +51,31 @@ class Invoice {
   providers: [AddPropertyModel]
 })
 export class PropertiesComponent implements OnInit, OnDestroy {
-
+  levels: Array<Object> = [{
+    id: 1, 
+    name: "BBVA",
+    AccountName : "HEVI HOLDING S.A. DE C.V.",
+    RFC : "HEHO1O278282",
+    accountNumber : "012050218",
+    CLABE: "210829362183621938"},
+    {
+      id: 2, 
+      name: "BANORTE",
+      AccountName : "HEVI HOLDING S.A. DE C.V.",
+      RFC : "HEHO1O278282",
+      accountNumber : "012050218",
+      CLABE: "210829362183621938"
+},
+{
+        id: 3, 
+        name: "BANORTE",
+        AccountName : "HEVI HOLDING S.A. DE C.V.",
+        RFC : "HEHO1O278282",
+        accountNumber : "012050218",
+        CLABE: "210829362183621938"
+}];
+selectedvalue = "1";
+  
   public parameter: IProperty = {};
   public location: IProperty = {};
   showMore = false;
@@ -91,6 +115,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   multiDropdownSettings = {};
   invoice = new Invoice();
   property_array: any;
+  paymentBanks: Array<any>;
+ 
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('rejectModalOpen') rejectModalOpen: ElementRef;
@@ -134,6 +160,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       interest:[''],
       addVariablesFormArray: this.formBuilder.array([]),
       addNoteFormArray: this.formBuilder.array([]),
+      addbankFormArray: this.formBuilder.array([]),
     });
   }
 
@@ -1374,6 +1401,24 @@ let final_price = list_price - discount;
       addNote: [''],
     });
   }
+//banks
+  createBankFormGroup = (): FormGroup => {
+    return this.formBuilder.group({
+      bankName: [''],
+    });
+  }
+
+  addbanks = ($event: any): void => {
+    $event.stopPropagation();
+    this.getAddBanksFormArray.push(this.createBankFormGroup());
+  }
+
+  get getAddBanksFormArray(): FormArray {
+    return this.installmentFormGroup.get('addbankFormArray') as FormArray;
+  }
+
+  
+//banks
 
   addNotes = ($event: any): void => {
     $event.stopPropagation();

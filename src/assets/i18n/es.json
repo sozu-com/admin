@@ -2181,6 +2181,9 @@
     "commercialOfferP" : "El apartado es considerado dentro del pago del enganche",
     "contactUS":"En caso de que tenga alguna duda o comentario,quedamos a sus órdenes en el número 33 3254 0890,vía telefónica o Whatsapp.",
     "address" : "AV. HIGALGO 1995 INT 7 - 08,LADRON DE GUEVARA 44600,GUADALAJARA, JALISCO, MÉXICO.",
-    "addressName" : "Guadalajara, Jalisco, México."
+    "addressName" : "Guadalajara, Jalisco, México.",
+    "agency" : "Agencia",
+    "seller" : "vendedora",
+    "selectAccount":"Seleccionar cuenta"
   }
 }

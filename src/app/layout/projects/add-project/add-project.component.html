@@ -92,7 +92,8 @@
                 <div *ngIf="!file1.image" class="upload-caption"><br/>
                   <p class="green-color marginT30">{{'addForm.logos' | translate}}</p>
                 </div>
-                <input type="file" name="cover_image" accept="image/*" (change)="file1.onSelectFile($event,true)">
+                <input type="file" name="cover_image" accept="image/*" >
+                <!-- (change)="file1.onSelectFile($event,true)" -->
               </div>
             </div>
             

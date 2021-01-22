@@ -1163,7 +1163,7 @@ margin-left: -38%;">
 </div>
 
 <a style="display:none;" #openInstallmentModal data-toggle="modal" data-target="#installmentModal"></a>
-<div class="modal animated" id="installmentModal">
+<div class="modal animated" id="installmentModal" style="margin-top: -14%;">
    <div class="modal-dialog fadeIndown">
       <div class="modal-content">
          <div class="modal-header modal-header-new">
@@ -1179,94 +1179,95 @@ margin-left: -38%;">
                </div>
                <div class="row" style="margin: auto;">
                   <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group-2">
-                      <label>{{'generatePDF.downPaymentPercentage' | translate}} <span class="color-red">*</span></label>                     
-                    </div>
+                     <div class="form-group-2">
+                        <label>{{'generatePDF.downPaymentPercentage' | translate}} <span
+                              class="color-red">*</span></label>
+                     </div>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group-2">
-                      <label>{{'generatePDF.discountPercentage' | translate}} <span class="color-red">*</span></label>
-                    </div>
+                     <div class="form-group-2">
+                        <label>{{'generatePDF.discountPercentage' | translate}} <span class="color-red">*</span></label>
+                     </div>
                   </div>
-                </div>
-                <div class="row" style="margin-top: -15px;margin-left: auto;">
+               </div>
+               <div class="row" style="margin-top: -15px;margin-left: auto;">
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div class="form-group-3">
-                      <input required autocomplete="off"  class="form-control" type="text"
-                      formControlName="downPayment" placeholder="%">
-                    </div>
+                     <div class="form-group-3">
+                        <input required autocomplete="off" class="form-control" type="text"
+                           formControlName="downPayment" placeholder="%">
+                     </div>
                   </div>
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12" style="margin-left: 65px;">
-                    <div class="form-group-3">
-                      <input required autocomplete="off"  class="form-control" type="text"
-                      formControlName="discount"  placeholder="%">
-                    </div>
+                     <div class="form-group-3">
+                        <input required autocomplete="off" class="form-control" type="text" formControlName="discount"
+                           placeholder="%">
+                     </div>
                   </div>
-                </div>
-                <div class="row" style="margin: auto;">
+               </div>
+               <div class="row" style="margin: auto;">
                   <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group-2">
-                      <label>{{'generatePDF.monthlyInstallmentPercentage' | translate}} 
-                         <!-- <span class="color-red">*</span> -->
-                     </label>                     
-                    </div>
+                     <div class="form-group-2">
+                        <label>{{'generatePDF.monthlyInstallmentPercentage' | translate}}
+                           <!-- <span class="color-red">*</span> -->
+                        </label>
+                     </div>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group-2">
-                      <label>{{'generatePDF.interest' | translate}} 
-                         <!-- <span class="color-red">*</span> -->
-                     </label>
-                    </div>
+                     <div class="form-group-2">
+                        <label>{{'generatePDF.interest' | translate}}
+                           <!-- <span class="color-red">*</span> -->
+                        </label>
+                     </div>
                   </div>
-                </div>
-                <div class="row" style="margin-top: -15px;margin-left: auto;">
+               </div>
+               <div class="row" style="margin-top: -15px;margin-left: auto;">
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div class="form-group-3">
-                      <input required autocomplete="off"  class="form-control" type="text"
-                      formControlName="monthlyInstallment" placeholder="%">
-                    </div>
+                     <div class="form-group-3">
+                        <input required autocomplete="off" class="form-control" type="text"
+                           formControlName="monthlyInstallment" placeholder="%">
+                     </div>
                   </div>
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12" style="margin-left: 65px;">
-                    <div class="form-group-3">
-                      <input required autocomplete="off"  class="form-control" type="text"
-                      formControlName="interest"  placeholder="%">
-                    </div>
+                     <div class="form-group-3">
+                        <input required autocomplete="off" class="form-control" type="text" formControlName="interest"
+                           placeholder="%">
+                     </div>
                   </div>
-                </div>
-                <div class="row" style="margin: auto;">
+               </div>
+               <div class="row" style="margin: auto;">
                   <div class="col-lg-12 col-md-6 col-sm-6 col-12">
-                    <div class="form-group-2">
-                      <label>{{'generatePDF.numberOfMI' | translate}} 
-                         <!-- <span class="color-red">*</span> -->
-                     </label>                     
-                    </div>
+                     <div class="form-group-2">
+                        <label>{{'generatePDF.numberOfMI' | translate}}
+                           <!-- <span class="color-red">*</span> -->
+                        </label>
+                     </div>
                   </div>
-                </div>
-                <div class="row" style="margin-top: -15px;margin-left: auto;">
+               </div>
+               <div class="row" style="margin-top: -15px;margin-left: auto;">
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div class="form-group-3">
-                      <input required autocomplete="off"  class="form-control" type="text"
-                      formControlName="numberOfMI" placeholder="#">
-                    </div>
+                     <div class="form-group-3">
+                        <input required autocomplete="off" class="form-control" type="text" formControlName="numberOfMI"
+                           placeholder="#">
+                     </div>
                   </div>
-                </div>
-                <div class="row" style="margin: auto;">
+               </div>
+               <div class="row" style="margin: auto;">
                   <div class="col-lg-12 col-md-6 col-sm-6 col-12">
-                    <div class="form-group-2">
-                      <label>{{'generatePDF.paymentupondeliveryPercentage' | translate}} 
-                         <!-- <span class="color-red">*</span> -->
-                     </label>                     
-                    </div>
+                     <div class="form-group-2">
+                        <label>{{'generatePDF.paymentupondeliveryPercentage' | translate}}
+                           <!-- <span class="color-red">*</span> -->
+                        </label>
+                     </div>
                   </div>
-                </div>
-                <div class="row" style="margin-top: -15px;margin-left: auto;">
+               </div>
+               <div class="row" style="margin-top: -15px;margin-left: auto;">
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div class="form-group-3">
-                      <input required autocomplete="off"  class="form-control" type="text"
-                      formControlName="paymentupondelivery" placeholder="%">
-                    </div>
+                     <div class="form-group-3">
+                        <input required autocomplete="off" class="form-control" type="text"
+                           formControlName="paymentupondelivery" placeholder="%">
+                     </div>
                   </div>
-                </div>         
+               </div>
                <div class="row" *ngIf="!this.installmentFormGroup.get('isAddVariables').value"
                   style="margin: auto;font-size: xx-small;">
                   <div class="col-12">
@@ -1278,32 +1279,33 @@ margin-left: -38%;">
                </div>
                <div class="row" style="margin: auto;" *ngIf="this.installmentFormGroup.get('isAddVariables').value">
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div class="form-group-2">
-                      <label>{{'generatePDF.variableName' | translate}} 
-                         <!-- <span class="color-red">*</span> -->
-                        </label>                     
-                    </div>
+                     <div class="form-group-2">
+                        <label>{{'generatePDF.variableName' | translate}}
+                           <!-- <span class="color-red">*</span> -->
+                        </label>
+                     </div>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group-2">
-                      <label>{{'generatePDF.variablePercentage' | translate}} 
-                         <!-- <span class="color-red">*</span> -->
-                     </label>
-                    </div>
+                     <div class="form-group-2">
+                        <label>{{'generatePDF.variablePercentage' | translate}}
+                           <!-- <span class="color-red">*</span> -->
+                        </label>
+                     </div>
                   </div>
-                </div>
-                <div class="row" style="margin-top: -15px;margin-left: auto;" *ngIf="this.installmentFormGroup.get('isAddVariables').value">
+               </div>
+               <div class="row" style="margin-top: -15px;margin-left: auto;"
+                  *ngIf="this.installmentFormGroup.get('isAddVariables').value">
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div class="form-group-3">
-                      <input required autocomplete="off"  class="form-control" type="text"
-                      formControlName="tempAddVariablesText" placeholder="">
-                    </div>
+                     <div class="form-group-3">
+                        <input required autocomplete="off" class="form-control" type="text"
+                           formControlName="tempAddVariablesText" placeholder="">
+                     </div>
                   </div>
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div class="form-group-3">
-                      <input required autocomplete="off"  class="form-control" type="text"
-                      formControlName="tempAddVariablesPercentage"  placeholder="%">
-                    </div>
+                     <div class="form-group-3">
+                        <input required autocomplete="off" class="form-control" type="text"
+                           formControlName="tempAddVariablesPercentage" placeholder="%">
+                     </div>
                   </div>
                   <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                      <div class="btn-cont" style="padding: 5px;">
@@ -1317,67 +1319,93 @@ margin-left: -38%;">
                               href="javascript://">{{'addForm.remove' | translate}}</a></span>
                      </div>
                   </div>
-                </div>
+               </div>
                <div formArrayName="addVariablesFormArray" *ngIf="this.getAddVariablesFormArrayLength > 0">
                   <ng-container
                      *ngFor="let temp_add_variables of this.getAddVariablesFormArray['controls']; let i=index">
                      <div [formGroupName]="i">
                         <div class="row" style="margin: auto;">
                            <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                             <div class="form-group-2">
-                               <label>{{'generatePDF.variableName' | translate}} 
-                                  <!-- <span class="color-red">*</span> -->
-                                 </label>                     
-                             </div>
+                              <div class="form-group-2">
+                                 <label>{{'generatePDF.variableName' | translate}}
+                                    <!-- <span class="color-red">*</span> -->
+                                 </label>
+                              </div>
                            </div>
                            <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                             <div class="form-group-2">
-                               <label>{{'generatePDF.variablePercentage' | translate}} 
-                                  <!-- <span class="color-red">*</span> -->
-                              </label>
-                             </div>
+                              <div class="form-group-2">
+                                 <label>{{'generatePDF.variablePercentage' | translate}}
+                                    <!-- <span class="color-red">*</span> -->
+                                 </label>
+                              </div>
                            </div>
-                         </div>
-                         <div class="row" style="margin-top: -15px;margin-left: auto;">
+                        </div>
+                        <div class="row" style="margin-top: -15px;margin-left: auto;">
                            <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                             <div class="form-group-3">
-                               <input required autocomplete="off"  class="form-control" type="text"
-                               formControlName="addVariablesText" placeholder="">
-                             </div>
+                              <div class="form-group-3">
+                                 <input required autocomplete="off" class="form-control" type="text"
+                                    formControlName="addVariablesText" placeholder="">
+                              </div>
                            </div>
                            <div class="col-lg-4 col-md-6 col-sm-6 col-12" style="margin-left: 65px;">
-                             <div class="form-group-3">
-                               <input required autocomplete="off"  class="form-control" type="text"
-                               formControlName="addVariablesPercentage"  placeholder="%">
-                             </div>
+                              <div class="form-group-3">
+                                 <input required autocomplete="off" class="form-control" type="text"
+                                    formControlName="addVariablesPercentage" placeholder="%">
+                              </div>
                            </div>
-                         </div>
+                        </div>
                      </div>
                   </ng-container>
                </div>
                <div class="row" style="margin: auto;">
                   <div class="col-lg-12 col-md-6 col-sm-6 col-12">
-                    <div class="form-group-2">
-                      <label>{{'generatePDF.leadName' | translate}} 
-                         <!-- <span class="color-red">*</span> -->
-                        </label>                     
-                    </div>
+                     <div class="form-group-2">
+                        <label>{{'generatePDF.leadName' | translate}}
+                           <!-- <span class="color-red">*</span> -->
+                        </label>
+                     </div>
                   </div>
-                </div>
-                <div class="row" style="margin-top: -15px;margin-left: auto;">
+               </div>
+               <div class="row" style="margin-top: -15px;margin-left: auto;">
                   <div class="col-lg-12 col-md-6 col-sm-6 col-12">
-                    <div class="form-group-3">
-                      <input required autocomplete="off"  class="form-control" type="text"
-                      formControlName="leadName">
-                    </div>
+                     <div class="form-group-3">
+                        <input required autocomplete="off" class="form-control" type="text" formControlName="leadName">
+                     </div>
                   </div>
-                </div>
-                <div class="row" *ngIf="this.getAddNoteFormArrayLength == 0"
-                  style="margin: auto;font-size: xx-small;">
+               </div>
+               <div class="row">
+                  <!-- <h6><strong>{{'generatePDF.bankDetails' | translate}}</strong></h6> -->
+                  <div class="form-group col-md-6">
+                     {{'generatePDF.agency' | translate}}&nbsp;&nbsp;&nbsp;<label class="switch1">
+                        <input type="checkbox" class="form-control" formControlName="downPayment">
+                        <span class="slider round"></span></label>&nbsp;&nbsp;&nbsp;{{'generatePDF.seller' | translate}}
+                  </div>
+                  <div class="col-6">
+                     <div class="form-group-2">
+                     <select [(ngModel)]="selectedvalue">
+                        <option *ngFor="let level of levels" [value]="level.id">{{level.name}}</option>
+                      </select></div>
+                     
+                     <!-- <div class="form-group-2">
+                        <div class="form-group">
+                           <select class="form-control"  
+                           [(ngModel)]="selectedLevelCustomCompare">
+                              <option value=""  disabled>{{'generatePDF.selectAccount' | translate}}</option>
+                              <option *ngFor="let bank of banks" [ngValue]="bank">{{bank.name}}</option>
+                              <option *ngFor="let bt of paymentBanks" [ngValue]="bt"> {{bt?.name}} |
+                                 {{bt?.account_number}} | {{bt?.currency?.code}}</option>
+                           </select>
+                           {{selectedLevelCustomCompare | json}}
+                        </div>
+                     </div> -->
+                  </div>
+               </div>
+
+               <div class="row" *ngIf="this.getAddNoteFormArrayLength == 0" style="margin: auto;font-size: xx-small;">
                   <div class="col-12">
                      <div class="btn-cont">
                         <span><a class="add" (click)="this.addNotes($event)"
-                           href="javascript://">{{'generatePDF.addNotePlus' | translate}}</a></span>
+                              href="javascript://">{{'generatePDF.addNotePlus' | translate}}</a></span>
                      </div>
                   </div>
                </div>
@@ -1404,12 +1432,12 @@ margin-left: -38%;">
                         </div> -->
                         <div class="row" style="margin-left: auto;">
                            <div class="col-lg-12 col-md-6 col-sm-6 col-12">
-                             <div class="form-group-2">
-                              <textarea rows="3" type="text" class="form-control note" formControlName="addNote"
-                             ></textarea>
-                             </div>
+                              <div class="form-group-2">
+                                 <textarea rows="3" type="text" class="form-control note"
+                                    formControlName="addNote"></textarea>
+                              </div>
                            </div>
-                         </div>
+                        </div>
                      </div>
                   </ng-container>
                </div>
