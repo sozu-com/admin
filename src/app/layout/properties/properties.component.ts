@@ -1143,7 +1143,7 @@ let final_price = list_price - discount;
             
             body: [
               [
-                {text: 'Name', bold: true, border: [false, false, false, false], fillColor: 'silver', height:80}, 
+                {text: this.translate.instant('generatePDF.propertyName'), bold: true, border: [false, false, false, false], fillColor: 'silver', height:80}, 
                 {text: 'Appartment name', bold: true, border: [false, false, false, false], fillColor: 'silver', height:80},
                 {text: 'Floor', bold: true, border: [false, false, false, false], fillColor: 'silver', height:80}, 
                 {text: 'Model', bold: true, border: [false, false, false, false], fillColor: 'silver', height:80},  
