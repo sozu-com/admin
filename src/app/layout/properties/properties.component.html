@@ -596,7 +596,7 @@
                               <!--this button to open installment modal -->
                               <button (click)="this.openModalInstallment(p);" class="action-icon"
                                  title="{{'table.title.generatePDF' | translate}}"><img
-                                    src="assets/img/commercial_pdf.png.png" alt="img"></button>
+                                    src="assets/img/commercial_pdf.png" alt="img"></button>
                               <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
                                  *ngIf="parameter?.flag!=3" routerLink="/dashboard/properties/edit-property/{{p.id}}"
                                  title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
@@ -1186,7 +1186,7 @@ margin-left: -38%;">
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                      <div class="form-group-2">
-                        <label>{{'generatePDF.discountPercentage' | translate}} <span class="color-red">*</span></label>
+                        <label>{{'generatePDF.discountPercentage' | translate}}</label>
                      </div>
                   </div>
                </div>
@@ -1199,7 +1199,7 @@ margin-left: -38%;">
                   </div>
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12" style="margin-left: 65px;">
                      <div class="form-group-3">
-                        <input required autocomplete="off" class="form-control" type="text" formControlName="discount"
+                        <input autocomplete="off" class="form-control" type="text" formControlName="discount"
                            placeholder="%">
                      </div>
                   </div>
@@ -1229,7 +1229,7 @@ margin-left: -38%;">
                   </div>
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12" style="margin-left: 65px;">
                      <div class="form-group-3">
-                        <input required autocomplete="off" class="form-control" type="text" formControlName="interest"
+                        <input autocomplete="off" class="form-control" type="text" formControlName="interest"
                            placeholder="%">
                      </div>
                   </div>

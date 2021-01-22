@@ -1501,13 +1501,14 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   checkIsGeneratePDF = (): void => {
     let totalPercentage = 0.00;
     this.getAddVariablesFormArray.controls.forEach((formGroup: FormGroup) => {
-      totalPercentage += formGroup.get('addVariablesPercentage').value;
+      totalPercentage += parseFloat(formGroup.get('addVariablesPercentage').value);
     });
-    totalPercentage += Number(this.installmentFormGroup.get('downPayment').value);
+    totalPercentage += parseFloat(this.installmentFormGroup.get('downPayment').value);
     // totalPercentage += Number(this.installmentFormGroup.get('discount').value);
     // totalPercentage += Number(this.installmentFormGroup.get('priceIncrease').value);
-    totalPercentage += Number(this.installmentFormGroup.get('monthlyInstallment').value);
-    totalPercentage += Number(this.installmentFormGroup.get('paymentupondelivery').value);
+    totalPercentage += parseFloat(this.installmentFormGroup.get('monthlyInstallment').value);
+    totalPercentage += parseFloat(this.installmentFormGroup.get('paymentupondelivery').value);
+    console.log(totalPercentage)
     if (totalPercentage == 100.00) {
       this.generatePDF();
       this.closeModalInstallment();
