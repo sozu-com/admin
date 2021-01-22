@@ -32,8 +32,8 @@ class Product {
   price: number;
   qty: number;
 }
-
 class bank {
+  id : number;
   name: string;
   AccountName : string;
   RFC : string;
@@ -63,7 +63,7 @@ class Invoice {
   providers: [AddPropertyModel, DatePipe, PricePipe]
 })
 export class PropertiesComponent implements OnInit, OnDestroy {
-  levels: Array<Object> = [{
+  levels: Array<bank> = [{
     id: 1, 
     name: "BBVA",
     AccountName : "HEVI HOLDING S.A. DE C.V.",
@@ -283,7 +283,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   // onItemDeSelect(arrayNAme: any, obj: any) {
   //   this[arrayNAme].push(obj);
   // }
-
+  onItemSelects(value){
+    this.selectedvalue = value
+  }
   unsetProject(item: any) {
     let i = 0;
     this.selctedAmenities.map(r => {
@@ -1186,6 +1188,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     let payment_upon_delivery = (this.installmentFormGroup.value.paymentupondelivery * list_price) / 100;
     let monthly_installments = monthly_installment_amount / this.installmentFormGroup.value.numberOfMI;
     let final_price = list_price - discount;
+    let selected_bank = this.levels.find(x=> x.id == this.selectedvalue.id);
 
     let docDefinition = {
       pageSize: {
@@ -1200,7 +1203,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
               width: 100
             },
             {
-              text: 'AV. HIGALGO 1995 INT 7 - 08, \nLADRON DE GUEVARA 44600,\nGUADALAJARA, JALISCO, MÉXICO',
+              text: this.translate.instant('generatePDF.address'),
               margin: [80, 0, 0, 0],
               color: '#858291'
             },
@@ -1216,7 +1219,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
           columns: [
             [
               {
-                text: 'Property details',
+                text: this.translate.instant('generatePDF.propertyDetails'),
                 bold: true,
                 fontSize: 20,
                 margin: [0, 0, 0, 20]
@@ -1234,43 +1237,43 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
                   body: [
                     [
-                      { text: 'Name:', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.translate.instant('generatePDF.tower'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
                       { text: this.property_array.building_towers.tower_name, border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: 'Floor:', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text:  this.translate.instant('generatePDF.floor'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
                       { text: this.property_array.floor_num == 0 ? 'Ground Floor' : this.property_array.floor_num, border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: 'Model:', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text:  this.translate.instant('generatePDF.model'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
                       { text: this.property_array.building_configuration.name, border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: 'Parking places:', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.translate.instant('generatePDF.parkingPlaces'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
                       { text: this.property_array.parking_count, border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: 'Carpet area m2:', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.translate.instant('generatePDF.carpetArea'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
                       { text: this.property_array.max_area, border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: 'Price per m2:', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.translate.instant('generatePDF.PricePerM2'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
                       { text: '$' + this.price.transform(this.property_array.min_price), border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: 'List Price:', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.translate.instant('generatePDF.listPrice'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
                       { text: '$' + this.price.transform(list_price), border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: 'Discount/Intrest %:', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.translate.instant('generatePDF.Discount/Interest'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
                       { text: this.installmentFormGroup.value.discount + '%', border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: 'Discount/Intrest $:', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.translate.instant('generatePDF.Discount/Interest$'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
                       { text: '$' + this.price.transform(discount), border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: 'Final Price:', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.translate.instant('generatePDF.finalPrice'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
                       { text: '$' + this.price.transform(final_price), border: [false, false, false, false], bold: true },
                     ]
                   ]
@@ -1285,13 +1288,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                 margin: [0, 40, 0, 30]
               },
               {
-                text: 'In Margot, we work for your investment.',
+                text: this.translate.instant('generatePDF.titleMargot'),
                 bold: true
               },
             ],
             [
               {
-                text: 'Commercial offer',
+                text: this.translate.instant('generatePDF.commercialOffer'),
                 bold: true,
                 fontSize: 20,
                 margin: [0, 0, 0, 10]
@@ -1303,33 +1306,33 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                   widths: ['auto', 'auto', 'auto'],
                   body: [
                     [
-                      { text: 'Number of monthly installments:', border: [false, false, false, false], color: '#858291' },
+                      { text: this.translate.instant('generatePDF.monthlyPayments'), border: [false, false, false, false], color: '#858291' },
                       { text: this.installmentFormGroup.value.numberOfMI, border: [false, false, false, false], bold: true },
                       { text: '', border: [false, false, false, false] }
                     ],
                     [
-                      { text: 'Monthly payment:', border: [false, false, false, false], color: '#858291' },
+                      { text: this.translate.instant('generatePDF.monthlyPayment'), border: [false, false, false, false], color: '#858291' },
                       { text: '$' + this.price.transform(monthly_installments), border: [false, false, false, false], bold: true },
                       { text: '', border: [false, false, false, false] }
                     ],
                     [
-                      { text: 'Layaway:', border: [false, false, false, false], color: '#858291' },
+                      { text: this.translate.instant('generatePDF.layaway'), border: [false, false, false, false], color: '#858291' },
                       { text: '', border: [false, false, false, false] },
                       { text: '$ ' + this.price.transform(downpayment), border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: 'Downpayment:', border: [false, false, false, false], color: '#858291' },
+                      { text: this.translate.instant('generatePDF.downpayment'), border: [false, false, false, false], color: '#858291' },
                       { text: this.installmentFormGroup.value.downPayment + '%', border: [false, false, false, false], bold: true },
                       { text: '$ ' + this.price.transform(downpayment), border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: 'Monthly installment amount:', border: [false, false, false, false], color: '#858291' },
+                      { text: this.translate.instant('generatePDF.monthlyPaymentsAmount'), border: [false, false, false, false], color: '#858291' },
                       { text: this.installmentFormGroup.value.monthlyInstallment + '%', border: [false, false, false, false], bold: true },
                       { text: '$ ' + this.price.transform(monthly_installment_amount), border: [false, false, false, false], bold: true }
                     ],
                     [
                       { text: [ 
-                        {text: 'Payment upon delivery:'},
+                        {text: this.translate.instant('generatePDF.PaymentUponDelivery')},
                         {text: '\n*Layaway is considered in Downpayment' , color: '#858291', fontSize : 8, margin: [0, 5, 0, 5]}
                        ], 
                        border: [false, false, false, true], color: '#858291' 
@@ -1338,7 +1341,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                       { text: '$ ' + this.price.transform(payment_upon_delivery), border: [false, false, false, true], bold: true }
                     ],
                     [
-                      { text: 'Final price:', border: [false, false, false, false], bold: true, fontSize : 14 },
+                      { text: this.translate.instant('generatePDF.finalPrice'), border: [false, false, false, false], bold: true, fontSize : 14 },
                       { text: '', border: [false, false, false, false] },
                       { text: '$ ' + this.price.transform(final_price), border: [false, false, false, false], bold: true, fontSize : 14 },
                     ],
@@ -1346,11 +1349,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                 }
               },
               {
-                text: 'Comments',
+                text: this.translate.instant('generatePDF.comments'),
                 margin: [0, 20, 0, 0]
               },
               {
-                text: '*Offers valid until ' + date,
+                text: this.translate.instant('generatePDF.offersValidUntil') + date,
                 color: '#858291',
                 margin: [0, 10, 0, 20]
               },
@@ -1361,28 +1364,28 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                   widths: ['auto', 'auto'],
                   body: [
                     [
-                      { text: 'Bank details', border: [false, false, false, false], bold: true, fontSize : 16 },
+                      { text: this.translate.instant('generatePDF.bankDetails'), border: [false, false, false, false], bold: true, fontSize : 16 },
                       { text: '', border: [false, false, false, false] }
                     ],
                     [
-                      { text: 'Bank:', border: [false, false, false, false], color: '#858291' },
-                      { text: this.selectedvalue.name, border: [false, false, false, false], bold: true }
+                      { text: this.translate.instant('generatePDF.bank'), border: [false, false, false, false], color: '#858291' },
+                      { text: selected_bank.name, border: [false, false, false, false], bold: true }
                     ],
                     [
-                      { text: 'Account name:', border: [false, false, false, false], color: '#858291' },
-                      { text: this.selectedvalue.AccountName, border: [false, false, false, false], bold: true },
+                      { text: this.translate.instant('generatePDF.accountName'), border: [false, false, false, false], color: '#858291' },
+                      { text: selected_bank.AccountName, border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: 'Federal Tax Payer:', border: [false, false, false, false], color: '#858291' },
-                      { text: this.selectedvalue.RFC, border: [false, false, false, false], bold: true },
+                      { text: this.translate.instant('generatePDF.federalTaxPayer'), border: [false, false, false, false], color: '#858291' },
+                      { text: selected_bank.RFC, border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: 'Account number:', border: [false, false, false, false], color: '#858291' },
-                      { text: this.selectedvalue.accountNumber, border: [false, false, false, false], bold: true }
+                      { text: this.translate.instant('generatePDF.accountNumber'), border: [false, false, false, false], color: '#858291' },
+                      { text: selected_bank.accountNumber, border: [false, false, false, false], bold: true }
                     ],
                     [
-                      { text: 'CLABE:', border: [false, false, false, false], color: '#858291' },
-                      { text: this.selectedvalue.CLABE, border: [false, false, false, false], bold: true }
+                      { text: this.translate.instant('generatePDF.cLABE'), border: [false, false, false, false], color: '#858291' },
+                      { text: selected_bank.CLABE, border: [false, false, false, false], bold: true }
                     ],
                   ]
                 }

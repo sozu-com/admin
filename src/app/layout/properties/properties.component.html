@@ -1372,9 +1372,10 @@ margin-left: -38%;">
                         <input required autocomplete="off" class="form-control" type="text" formControlName="leadName">
                      </div>
                   </div>
-               </div>
+               </div><br/>
+               <h6><strong>{{'generatePDF.bankDetails' | translate}}</strong></h6>
                <div class="row">
-                  <!-- <h6><strong>{{'generatePDF.bankDetails' | translate}}</strong></h6> -->
+                 
                   <div class="form-group col-md-6">
                      {{'generatePDF.agency' | translate}}&nbsp;&nbsp;&nbsp;<label class="switch1">
                         <input type="checkbox" class="form-control" formControlName="downPayment">
@@ -1383,7 +1384,7 @@ margin-left: -38%;">
                   <div class="col-6">
                      <div class="form-group-2"> <ng-multiselect-dropdown class="col-3 section-section2" [placeholder]="''"
                         [data]="levels" [(ngModel)]="selectedvalue" [settings]="multiDropdownSettingss"
-                        (onDeSelect)="unsetProject($event)" (onSelect)="onItemSelect('selectedvalue', $event)"
+                        (onDeSelect)="unsetProject($event)" (onSelect)="onItemSelects($event)"
                         (onSelectAll)="onSelectAll($event)">
                      </ng-multiselect-dropdown></div>
                      
