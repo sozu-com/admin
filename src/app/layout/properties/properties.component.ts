@@ -78,7 +78,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         accountNumber : "012050218",
         CLABE: "210829362183621938"
 }];
-selectedvalue = "1";
+selectedvalue: any;
   
   public parameter: IProperty = {};
   public location: IProperty = {};
@@ -1344,23 +1344,23 @@ selectedvalue = "1";
                     ],
                     [
                       { text: 'Bank:', border: [false, false, false, false], color: '#858291' },
-                      { text: '', border: [false, false, false, false], bold: true }
+                      { text: this.selectedvalue.name, border: [false, false, false, false], bold: true }
                     ],
                     [
                       { text: 'Account name:', border: [false, false, false, false], color: '#858291' },
-                      { text: '', border: [false, false, false, false], bold: true },
+                      { text: this.selectedvalue.AccountName, border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: 'Federal Tax Payer:', border: [false, false, false, false], color: '#858291' },
-                      { text: '', border: [false, false, false, false], bold: true },
+                      { text: this.selectedvalue.RFC, border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: 'Account number:', border: [false, false, false, false], color: '#858291' },
-                      { text: '', border: [false, false, false, false], bold: true }
+                      { text: this.selectedvalue.accountNumber, border: [false, false, false, false], bold: true }
                     ],
                     [
                       { text: 'CLABE:', border: [false, false, false, false], color: '#858291' },
-                      { text: '', border: [false, false, false, false], bold: true }
+                      { text: this.selectedvalue.CLAB, border: [false, false, false, false], bold: true }
                     ],
                   ]
                 }
