@@ -17,6 +17,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { createPipeInstance } from '@angular/core/src/view/provider';
 import { Subscription } from 'rxjs';
+import { Column } from 'primeng/primeng';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 declare let swal: any;
@@ -38,7 +39,7 @@ class Invoice {
   additionalDetails: string;
 
   constructor() {
-    // Initially one empty product row we will show 
+    // Initially one empty product row we will show
     this.products.push(new Product());
   }
 }
@@ -1102,7 +1103,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   //     xhr.send();
   // }
 
-  generatePDF() {  
+  generatePDF() {
     //let testImage;
 //     this.toDataURL(this.property_array.building.images[0].image, function (dataUrl) {
 //       testImage = dataUrl;
@@ -1123,107 +1124,195 @@ let final_price = list_price - discount;
         height: 630
     },
       content: [
-        // {
-        //   image: testImage,
-        //   fit: [100, 100],
-        //   pageBreak: 'after'
-        // },
         {
-          text: this.property_array.parking_count + ' Parking Place',
-          alignment: 'center',
-        },
-        // {
-        //   text: this.property_array.building.name,
-        //   style: 'sectionHeader'
-        // },
+          columns:[
+            {
+              width: 180,
+              text: this.translate.instant('generatePDF.address'),
+            },
+            {
+              width: 180,
+              text: this.translate.instant('generatePDF.addressName'),
+              alignment: 'right'
+            },
+          ]
+      },
+      {
+        columns:[
+          [
+            {
+              text: this.translate.instant('generatePDF.propertyDetails'),
+              bold: true,
+              fontSize: 14,
+            },
         {
           style: 'table',
           table: {
             headerRows: 1,
-            widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
-            
+            widths: ['auto', 'auto'],
+
             body: [
               [
-                {text: 'Name', bold: true, border: [false, false, false, false], fillColor: 'silver', height:80}, 
-                {text: 'Appartment name', bold: true, border: [false, false, false, false], fillColor: 'silver', height:80},
-                {text: 'Floor', bold: true, border: [false, false, false, false], fillColor: 'silver', height:80}, 
-                {text: 'Model', bold: true, border: [false, false, false, false], fillColor: 'silver', height:80},  
-                {text: 'Carpet area m2', bold: true, border: [false, false, false, false], fillColor: 'silver', height:80}, 
-                {text: 'Price per m2', bold: true,border: [false, false, false, false], fillColor: 'silver', height:80},
-                {text: 'List Price', bold: true,border: [false, false, false, false], fillColor: 'silver', height:80}, 
-                {text: 'Discount(%)/Increase in price', bold: true,border: [false, false, false, false], fillColor: 'silver', height:80},
-                {text: 'Discount amount/Increase amount', bold: true,border: [false, false, false, false], fillColor: 'silver', height:80}, 
-                {text: 'Final Price', bold: true,border: [false, false, false, false], fillColor: 'silver', height:80}               
+                {text: this.translate.instant('generatePDF.tower'), bold: true, border: [false, false, false, false], color: 'silver', height:80},
+                {text: this.property_array.building_towers.tower_name, border: [false, false, false, false], bold: true},
               ],
               [
-                {text: this.installmentFormGroup.value.leadName, border: [false, false, false, false]},
-                {text: this.property_array.name, border: [false, false, false, false]}, 
-                {text: this.property_array.floor_num == 0? 'Ground Floor' : this.property_array.floor_num,border: [false, false, false, false]},
-                {text: this.property_array.building_configuration.name, border: [false, false, false, false]},
-                {text: this.property_array.max_area, border: [false, false, false, false]}, 
-                {text: '$' + this.property_array.min_price, border: [false, false, false, false]},
-                {text: '$' + list_price, border: [false, false, false, false]},
-                {text:  this.installmentFormGroup.value.discount + '%', border: [false, false, false, false]},
-                {text: '$' + discount, border: [false, false, false, false]},
-                {text: '$' + final_price, border: [false, false, false, false]},
+                {text: this.translate.instant('generatePDF.floor'), bold: true, border: [false, false, false, false], color: 'silver', height:80},
+                {text: this.property_array.floor_num == 0? 'Ground Floor' : this.property_array.floor_num,border: [false, false, false, false], bold: true},
+              ],
+              [
+                {text: this.translate.instant('generatePDF.model'), bold: true, border: [false, false, false, false], color: 'silver', height:80},
+                {text: this.property_array.building_configuration.name, border: [false, false, false, false], bold: true},
+              ],
+              [
+                {text: this.translate.instant('generatePDF.propertyName'), bold: true, border: [false, false, false, false], color: 'silver', height:80},
+                {text: this.property_array.parking_count, border: [false, false, false, false], bold: true},
+              ],
+              [
+                {text: this.translate.instant('generatePDF.parkingPlaces'), bold: true, border: [false, false, false, false], color: 'silver', height:80},
+                {text: this.property_array.parking_count, border: [false, false, false, false], bold: true},
+              ],
+              [
+                {text: this.translate.instant('generatePDF.carpetArea'), bold: true, border: [false, false, false, false], color: 'silver', height:80},
+                {text: this.property_array.max_area, border: [false, false, false, false], bold: true},
+              ],
+              [
+                {text: this.translate.instant('generatePDF.PricePerM2'), bold: true,border: [false, false, false, false], color: 'silver', height:80},
+                {text: '$' + this.property_array.min_price, border: [false, false, false, false], bold: true},
+              ],
+              [
+                {text: this.translate.instant('generatePDF.listPrice'), bold: true,border: [false, false, false, false], color: 'silver', height:80},
+                {text: '$' + list_price, border: [false, false, false, false], bold: true},
+              ],
+              [
+                {text: this.translate.instant('generatePDF.Discount/Interest'), bold: true,border: [false, false, false, false], color: 'silver', height:80},
+                {text:  this.installmentFormGroup.value.discount + '%', border: [false, false, false, false], bold: true},
+              ],
+              [
+                {text: this.translate.instant('generatePDF.Discount/Interest$'), bold: true,border: [false, false, false, false], color: 'silver', height:80},
+                {text: '$' + discount, border: [false, false, false, false], bold: true},
+              ],
+              [
+                {text: this.translate.instant('generatePDF.finalPrice'), bold: true,border: [false, false, false, false], color: 'silver', height:80},
+                {text: '$' + final_price, border: [false, false, false, false], bold: true},
               ]
             ]
           }
         },
         {
+          text: this.translate.instant('generatePDF.contactUS'),
+        },
+        {
+          text: this.translate.instant('generatePDF.titleMargot'),
+        },
+      ],
+      [
+        {
+          text: this.translate.instant('generatePDF.commercialOffer'),
+          bold: true,
+          fontSize: 14,
+        },
+        {
           style: 'table2',
           table: {
             headerRows: 1,
-            widths: ['auto', 'auto', 'auto', 'auto'],
+            widths: ['auto', 'auto', 'auto'],
             body: [
               [
-                {text: 'Appartment name', border: [false, false, false, false]}, 
-                {text: this.property_array.name, border: [false, false, false, false]},
-                {text: '', border: [false, false, false, false]},
+                {text: this.translate.instant('generatePDF.monthlyPayments'), border: [false, false, false, false], color: 'silver'},
+                {text: this.installmentFormGroup.value.numberOfMI, border: [false, false, false, false], bold: true},
                 {text: '', border: [false, false, false, false]}
               ],
               [
-                {text: 'Downpayment=', border: [false, false, false, false]}, 
-                {text: this.installmentFormGroup.value.downPayment + '%', border: [false, false, false, false]},
+                {text: this.translate.instant('generatePDF.monthlyPayment'), border: [false, false, false, false], color: 'silver'},
+                {text: '$' + monthly_installments, border: [false, false, false, false], bold: true},
+                {text: '', border: [false, false, false, false]}
+              ],
+              [
+                {text: this.translate.instant('generatePDF.layaway'), border: [false, false, false, false], color: 'silver'},
+                {text: '', border: [false, false, false, false]},
+                {text: '$ ' + downpayment, border: [false, false, false, false], bold: true},
+              ],
+              [
+                {text: this.translate.instant('generatePDF.downpayment'), border: [false, false, false, false], color: 'silver'},
+                {text: this.installmentFormGroup.value.downPayment + '%', border: [false, false, false, false], bold: true},
                 {text: '$ ' + downpayment, border: [false, false, false, false]},
-                {text: '', border: [false, false, false, false]}
               ],
               [
-                {text: 'Monthly installment amount=', border: [false, false, false, false]}, 
-                {text: this.installmentFormGroup.value.monthlyInstallment + '%', border: [false, false, false, false]},
-                {text: '$ ' + monthly_installment_amount, border: [false, false, false, false]},
-                {text: this.installmentFormGroup.value.numberOfMI + ' Monthly Installments $  ' + monthly_installments, border: [false, false, false, false]},
+                {text: this.translate.instant('generatePDF.monthlyPaymentsAmount'), border: [false, false, false, false], color: 'silver'},
+                {text: this.installmentFormGroup.value.monthlyInstallment + '%', border: [false, false, false, false], bold: true},
+                {text: '$ ' + monthly_installment_amount, border: [false, false, false, false]}
               ],
               [
-                {text: 'Payment upon delivery=', border: [false, false, false, false]}, 
-                {text: this.installmentFormGroup.value.paymentupondelivery + '%', border: [false, false, false, false]},
-                {text: '$ ' + payment_upon_delivery, border: [false, false, false, false]},
-                {text: '', border: [false, false, false, false]}
+                {text: this.translate.instant('generatePDF.PaymentUponDelivery'), border: [false, false, false, true]},
+                {text: this.installmentFormGroup.value.paymentupondelivery + '%', border: [false, false, false, true], bold: true},
+                {text: '$ ' + payment_upon_delivery, border: [false, false, false, true]}
               ],
               [
-                {text :'Total=', border: [false, false, false, false]}, 
+                {text : this.translate.instant('generatePDF.finalPrice'), border: [false, false, false, false], bold: true},
                 {text: '', border: [false, false, false, false]},
-                {text: '$ ' + final_price, border: [false, false, false, false]},
-                {text: '', border: [false, false, false, false]},
+                {text: '$ ' + final_price, border: [false, false, false, false], bold: true},
               ],
             ]
           }
-        } 
-          ],  
+        },
+        {
+          text: this.translate.instant('generatePDF.comments')
+        },
+        {
+          text: this.translate.instant('generatePDF.offersValidUntil')
+        },
+        {
+          style: 'table2',
+          table: {
+            headerRows: 1,
+            widths: ['auto', 'auto'],
+            body: [
+              [
+                {text: this.translate.instant('generatePDF.bankDetails'), border: [false, false, false, false]},
+                {text: '', border: [false, false, false, false]}
+              ],
+              [
+                {text: this.translate.instant('generatePDF.bank'), border: [false, false, false, false], color: 'silver'},
+                {text: '', border: [false, false, false, false], bold: true}
+              ],
+              [
+                {text: this.translate.instant('generatePDF.accountName'), border: [false, false, false, false], color: 'silver'},
+                {text: '', border: [false, false, false, false], bold: true},
+              ],
+              [
+                {text: this.translate.instant('generatePDF.federalTaxPayer'), border: [false, false, false, false], color: 'silver'},
+                {text: '', border: [false, false, false, false], bold: true},
+              ],
+              [
+                {text: this.translate.instant('generatePDF.accountNumber'), border: [false, false, false, false], color: 'silver'},
+                {text: '', border: [false, false, false, false], bold: true}
+              ],
+              [
+                {text: this.translate.instant('generatePDF.cLABE'), border: [false, false, false, false], color: 'silver'},
+                {text: '', border: [false, false, false, false], bold: true}
+              ],
+            ]
+          }
+        },
+      ]
+      ]
+    }
+          ],
       styles: {
         sectionHeader: {
           bold: true,
           decoration: 'underline',
           fontSize: 14,
-          margin: [0, 15,0, 15]          
+          margin: [0, 15,0, 15]
         },
         table: {
           margin: [0, 5, 0, 15],
           border: [false, false, false, false]
-          
+
         },
         table2: {
-          margin: [200, 5, 0, 15],
+          margin: [0, 5, 0, 15],
           border: [false, false, false, false]
         },
       }
@@ -1231,9 +1320,9 @@ let final_price = list_price - discount;
 
       pdfMake.createPdf(docDefinition).download();
     // }else if(action === 'print'){
-    //   pdfMake.createPdf(docDefinition).print();      
+    //   pdfMake.createPdf(docDefinition).print();
     // }else{
-    //   pdfMake.createPdf(docDefinition).open();      
+    //   pdfMake.createPdf(docDefinition).open();
     // }
   }
   get getAddVariablesFormArray(): FormArray {
