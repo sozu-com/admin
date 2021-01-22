@@ -97,6 +97,7 @@ export class AddProjectModel {
   maintenance?: string;
   num_of_properties?: number;
   maintenance_cost_type?: number;
+  project_logo?: any;
   // maintenance_cost_value?: number;
 }
 

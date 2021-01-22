@@ -1,11 +1,19 @@
 <div class="container-fluid">
   <div class="white-bg">
-    <div class="page-title title-div">
-      <a href="javascript://" class="back-icon" (click)="goBack()"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
-      <h3 *ngIf="!id">{{'addForm.addProject' | translate}}</h3>
-      <h3 *ngIf="id">{{'addForm.editProject' | translate}}</h3>
+    <div class="row">
+      <div class="col-11 page-title title-div">
+        <a href="javascript://" class="back-icon" (click)="goBack()"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+        <h3 *ngIf="!id">{{'addForm.addProject' | translate}}</h3>
+        <h3 *ngIf="id">{{'addForm.editProject' | translate}}</h3>
+      </div>
+  
+      <div class="col-lg-1 col-md-1 col-6 page-title title-div">
+        <div class="btn-cont text-right">
+          <a routerLink="/dashboard/projects/view-projects" 
+            class="btn-sm btn-primary-new" href="javascript://">{{'quickVisualization.back' | translate}}</a>
+          </div>
+      </div>
     </div>
-
     <div class="padding40 paddingT0">
 
       <form #f="ngForm" name="add-project-form" ngNativeValidate>
@@ -85,15 +93,15 @@
             <hr>
             <div class="form-group-3">
               <label>{{'addForm.logos' | translate}}</label>
-              <div class="upload-cover-img">
-                <img [src]="file1.image" [defaultImage]="file1.image| img:'thumb'" [lazyLoad]="file1.image"
+              <div class="upload-cover-img" style="width: 232px; height: 144px;">
+                <img [src]="projectLogo.image" [defaultImage]="projectLogo.image| img:'thumb'" [lazyLoad]="projectLogo.image"
                   onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
-                  <div *ngIf="file1.loading" class="loaderr"></div>
-                <div *ngIf="!file1.image" class="upload-caption"><br/>
+                  <div *ngIf="projectLogo.loading" class="loaderr"></div>
+                <div *ngIf="!projectLogo.image" class="upload-caption"><br/>
                   <p class="green-color marginT30">{{'addForm.logos' | translate}}</p>
                 </div>
-                <input type="file" name="cover_image" accept="image/*" >
-                <!-- (change)="file1.onSelectFile($event,true)" -->
+                <input type="file" name="cover_image" accept="image/*" 
+                (change)="projectLogo.onSelectFile($event,true)">
               </div>
             </div>
             
