@@ -33,6 +33,14 @@ class Product {
   qty: number;
 }
 
+class bank {
+  name: string;
+  AccountName : string;
+  RFC : string;
+  accountNumber : string;
+  CLABE: string
+}
+
 class Invoice {
   customerName: string;
   address: string;
@@ -78,7 +86,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         accountNumber : "012050218",
         CLABE: "210829362183621938"
 }];
-selectedvalue: any;
+   selectedvalue : bank;
   
   public parameter: IProperty = {};
   public location: IProperty = {};
@@ -117,6 +125,7 @@ selectedvalue: any;
   propertyTypes = Array<any>();
   selctedAmenities: Array<any>;
   multiDropdownSettings = {};
+  multiDropdownSettingss = {};
   invoice = new Invoice();
   property_array: any;
   paymentBanks: Array<any>;
@@ -186,9 +195,22 @@ selectedvalue: any;
     };
   }
 
+  iniDropDownSettings() {
+    this.multiDropdownSettingss = {
+      singleSelection: true,
+      idField: 'id',
+      textField: 'name',
+      selectAllText: this.translate.instant('commonBlock.selectAll'),
+      unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
+      searchPlaceholderText: this.translate.instant('commonBlock.search'),
+      allowSearchFilter: true,
+      itemsShowLimit: 2
+    };
+  }
 
   ngOnInit() {
     this.iniDropDownSetting();
+    this.iniDropDownSettings();
     this.selctedAmenities = [];
     this.seller_type = 1;
     this.locale = {
@@ -1360,7 +1382,7 @@ selectedvalue: any;
                     ],
                     [
                       { text: 'CLABE:', border: [false, false, false, false], color: '#858291' },
-                      { text: this.selectedvalue.CLAB, border: [false, false, false, false], bold: true }
+                      { text: this.selectedvalue.CLABE, border: [false, false, false, false], bold: true }
                     ],
                   ]
                 }

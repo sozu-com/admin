@@ -1381,23 +1381,12 @@ margin-left: -38%;">
                         <span class="slider round"></span></label>&nbsp;&nbsp;&nbsp;{{'generatePDF.seller' | translate}}
                   </div>
                   <div class="col-6">
-                     <div class="form-group-2">
-                     <select [(ngModel)]="selectedvalue">
-                        <option *ngFor="let level of levels" [value]="level.id">{{level.name}}</option>
-                      </select></div>
+                     <div class="form-group-2"> <ng-multiselect-dropdown class="col-3 section-section2" [placeholder]="''"
+                        [data]="levels" [(ngModel)]="selectedvalue" [settings]="multiDropdownSettingss"
+                        (onDeSelect)="unsetProject($event)" (onSelect)="onItemSelect('selectedvalue', $event)"
+                        (onSelectAll)="onSelectAll($event)">
+                     </ng-multiselect-dropdown></div>
                      
-                     <!-- <div class="form-group-2">
-                        <div class="form-group">
-                           <select class="form-control"  
-                           [(ngModel)]="selectedLevelCustomCompare">
-                              <option value=""  disabled>{{'generatePDF.selectAccount' | translate}}</option>
-                              <option *ngFor="let bank of banks" [ngValue]="bank">{{bank.name}}</option>
-                              <option *ngFor="let bt of paymentBanks" [ngValue]="bt"> {{bt?.name}} |
-                                 {{bt?.account_number}} | {{bt?.currency?.code}}</option>
-                           </select>
-                           {{selectedLevelCustomCompare | json}}
-                        </div>
-                     </div> -->
                   </div>
                </div>
 
