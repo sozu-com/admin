@@ -2136,10 +2136,19 @@
     "close": "Close"
   },
   "generatePDF": {
+    "offerInformaton": "Offer Informaton",
+    "offerDetails": "Offer Details",
+    "discountPercentage": "Discount %",
+    "priceIncreasePercentage": "Price Increase %",
     "downPaymentPercentage": "Down Payment %",
     "monthlyInstallmentPercentage": "Monthly Installment %",
-    "numberOfMI": "Number Of MI",
+    "numberOfMI": "Number of Montly Payments #",
     "paymentupondeliveryPercentage": "Payment Upon Delivery %",
-    "addVariables": "Add Variables"
+    "leadName": "Lead Name",
+    "addNewVariablePlus": "Add New Variable +",
+    "generateOffer": "Generate Offer",
+    "goBack": "Go Back",
+    "addNotePlus": "Add Note +",
+    "percentageText": "Sum of percentage of all payment concepts is not equal to 100%"
   }
 }
