@@ -19,6 +19,7 @@ import { EditUserComponent } from './edit-user/edit-user.component';
 import { CalendarModule } from 'primeng/primeng';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { DocumentsUploadComponent } from './documents-upload/documents-upload.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
   },
   {
     path: 'add-user', component: AddUserComponent,
+    canActivate: [AclUserGuard], data: { roles: ['User Management', 'can_read', ''] }
+  },
+  {
+    path: 'documents-upload/:id', component: DocumentsUploadComponent,
     canActivate: [AclUserGuard], data: { roles: ['User Management', 'can_read', ''] }
   }
 ];
@@ -58,7 +63,8 @@ const routes: Routes = [
   declarations: [
     UsersComponent,
     AddUserComponent,
-    EditUserComponent
+    EditUserComponent,
+    DocumentsUploadComponent
   ]
 })
 

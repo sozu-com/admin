@@ -21,6 +21,7 @@
       <div class="spacer40"></div>
     </div>
 
+
     <div class="white-bg padding40">
       <section id="tabs" class="project-tab">
         <div class="container">
@@ -76,7 +77,21 @@
                     <div class="spacer40"></div>
                   </div>
                   <div class="white-bg padding40">
-                    <h3>{{'addForm.generalData' | translate}}</h3>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="title-group">
+                          <h5>{{'addForm.generalData' | translate}}</h5>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="btn-cont text-right">
+                          <!-- <button *ngIf="model?.id" title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['User Management']?.can_update==0"
+                           (click)="uploadDoc()" class="action-icon">{{'addForm.documentation' | translate}}</button> -->
+                          <button *ngIf="model?.id"  (click)="uploadDoc(model)" class="btn btn-primary">{{'addForm.documentation' | translate}}</button>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <h3>{{'addForm.generalData' | translate}}</h3> -->
                     <div class="col-12">
                       <div class="spacer40"></div>
                     </div>

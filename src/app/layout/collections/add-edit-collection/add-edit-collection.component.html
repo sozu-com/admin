@@ -2019,18 +2019,12 @@
                 <p>{{folder.name}}</p>
               </div>
               <div class="folder-action-btn">
-                <!-- <button class="cursor-pointer" type="button"  (click)="modelOpenFun(folder, i)"> -->
-                <!-- {{'addCollection.view' | translate}} -->
                 <i (click)="modelOpenFun(folder, i)" class="fa fa-folder" aria-hidden="true"></i>
-              <!-- </button>
-              <button class="cursor-pointer" type="button"  (click)="openAddFolder('edit', folder, i)">
-                {{'addCollection.edit' | translate}} -->
-                <i *ngIf="folder.id != payment_folder_id" (click)="openAddFolder('edit', folder, i)" class="fa fa-pencil" aria-hidden="true"></i>
-              <!-- </button>
-              <button class="cursor-pointer" type="button"  (click)="deleteFolderPopup(folder, i)">
-                {{'addCollection.delete' | translate}} -->
-                <i *ngIf="folder.id != payment_folder_id" (click)="deleteFolderPopup(folder, i)" class="fa fa-trash" aria-hidden="true"></i>
-              <!-- </button> -->
+                <i *ngIf="folder.id != payment_folder_id" (click)="openAddFolder('edit', folder, i)" class="fa fa-pencil" 
+                aria-hidden="true"></i>
+                <i *ngIf="folder.id != payment_folder_id" (click)="deleteFolderPopup(folder, i)" class="fa fa-trash" 
+                aria-hidden="true"></i>
+          
               </div>
             </div>
           </ng-container>
