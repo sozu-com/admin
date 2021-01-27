@@ -1208,14 +1208,12 @@ margin-left: -38%;">
                   <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                      <div class="form-group-2">
                         <label>{{'generatePDF.monthlyInstallmentPercentage' | translate}}
-                           <!-- <span class="color-red">*</span> -->
                         </label>
                      </div>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                      <div class="form-group-2">
                         <label>{{'generatePDF.interest' | translate}}
-                           <!-- <span class="color-red">*</span> -->
                         </label>
                      </div>
                   </div>
@@ -1238,7 +1236,6 @@ margin-left: -38%;">
                   <div class="col-lg-12 col-md-6 col-sm-6 col-12">
                      <div class="form-group-2">
                         <label>{{'generatePDF.numberOfMI' | translate}}
-                           <!-- <span class="color-red">*</span> -->
                         </label>
                      </div>
                   </div>
@@ -1255,7 +1252,6 @@ margin-left: -38%;">
                   <div class="col-lg-12 col-md-6 col-sm-6 col-12">
                      <div class="form-group-2">
                         <label>{{'generatePDF.paymentupondeliveryPercentage' | translate}}
-                           <!-- <span class="color-red">*</span> -->
                         </label>
                      </div>
                   </div>
@@ -1281,14 +1277,12 @@ margin-left: -38%;">
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                      <div class="form-group-2">
                         <label>{{'generatePDF.variableName' | translate}}
-                           <!-- <span class="color-red">*</span> -->
                         </label>
                      </div>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                      <div class="form-group-2">
                         <label>{{'generatePDF.variablePercentage' | translate}}
-                           <!-- <span class="color-red">*</span> -->
                         </label>
                      </div>
                   </div>
@@ -1328,14 +1322,12 @@ margin-left: -38%;">
                            <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                               <div class="form-group-2">
                                  <label>{{'generatePDF.variableName' | translate}}
-                                    <!-- <span class="color-red">*</span> -->
                                  </label>
                               </div>
                            </div>
                            <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                               <div class="form-group-2">
                                  <label>{{'generatePDF.variablePercentage' | translate}}
-                                    <!-- <span class="color-red">*</span> -->
                                  </label>
                               </div>
                            </div>
@@ -1353,6 +1345,13 @@ margin-left: -38%;">
                                     formControlName="addVariablesPercentage" placeholder="%">
                               </div>
                            </div>
+                           <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                              <div style="padding: 5px;">
+                                 <button (click)="this.removeAddVariablesFormGroup(i);" class="action-icon"
+                                    title="{{'addForm.remove' | translate}}"><img src="assets/img/ic_disapprove.png"
+                                       alt="img"></button>
+                              </div>
+                           </div>
                         </div>
                      </div>
                   </ng-container>
@@ -1361,7 +1360,6 @@ margin-left: -38%;">
                   <div class="col-lg-12 col-md-6 col-sm-6 col-12">
                      <div class="form-group-2">
                         <label>{{'generatePDF.leadName' | translate}}
-                           <!-- <span class="color-red">*</span> -->
                         </label>
                      </div>
                   </div>
@@ -1372,25 +1370,61 @@ margin-left: -38%;">
                         <input required autocomplete="off" class="form-control" type="text" formControlName="leadName">
                      </div>
                   </div>
-               </div><br/>
-               <h6><strong>{{'generatePDF.bankDetails' | translate}}</strong></h6>
-               <div class="row">
-                 
+               </div>
+               <div>
+                  <h6 style="font-weight: bold;">{{'generatePDF.bankDetails' | translate}}</h6>
+               </div>
+               <!-- <div class="row">                 
                   <div class="form-group col-md-6">
                      {{'generatePDF.agency' | translate}}&nbsp;&nbsp;&nbsp;<label class="switch1">
-                        <input type="checkbox" class="form-control" formControlName="downPayment">
-                        <span class="slider round"></span></label>&nbsp;&nbsp;&nbsp;{{'generatePDF.seller' | translate}}
+                        <input type="checkbox" class="form-control" formControlName="agencyOrSeller" (change)="this.onAgencyOrSellerChange()">
+                        <span class="slider round" style="background-color: #00B96F;"></span></label>&nbsp;&nbsp;&nbsp;{{'generatePDF.seller' | translate}}
                   </div>
                   <div class="col-6">
-                     <div class="form-group-2"> <ng-multiselect-dropdown class="col-3 section-section2" [placeholder]="''"
+                     <div class="form-group-2"> 
+                        <ng-multiselect-dropdown class="col-3 section-section2" [placeholder]="'Select account'"
                         [data]="levels" [(ngModel)]="selectedvalue" [settings]="multiDropdownSettingss"
                         (onDeSelect)="unsetProject($event)" (onSelect)="onItemSelects($event)"
                         (onSelectAll)="onSelectAll($event)">
-                     </ng-multiselect-dropdown></div>
-                     
+                     </ng-multiselect-dropdown>
+                  </div>                     
+                  </div>
+               </div> -->
+               <div class="row" style="margin: auto;">
+                  <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                     <div style="margin: 5px;">
+                        <span style="font-weight: 600;">{{'generatePDF.agency' | translate}}</span>
+                     </div>
+                  </div>
+                  <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                     <div class="form-group-3">
+                        <label class="switch1">
+                           <input type="checkbox" class="form-control" formControlName="agencyOrSeller"
+                              (change)="this.onAgencyOrSellerChange()">
+                           <span class="slider round" style="background-color: #00B96F;"></span>
+                        </label>
+                     </div>
+                  </div>
+                  <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                     <div style="margin: 5px;">
+                        <span style="font-weight: 600;">{{'generatePDF.seller' | translate}}</span>
+                     </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                     <div class="form-group-3">
+                        <div class="form-group">
+                           <select name="payment_bank" class="form-control" formControlName="paymentBankDetails">
+                              <option value="">{{'generatePDF.selectAccount' | translate}}</option>
+                              <option *ngFor="let tempPaymentBankDetailsArray of paymentBankDetailsArray"
+                                 [ngValue]="tempPaymentBankDetailsArray">
+                                 {{tempPaymentBankDetailsArray?.name}} |
+                                 {{tempPaymentBankDetailsArray?.account_number}} |
+                                 {{tempPaymentBankDetailsArray?.currency?.code}}</option>
+                           </select>
+                        </div>
+                     </div>
                   </div>
                </div>
-
                <div class="row" *ngIf="this.getAddNoteFormArrayLength == 0" style="margin: auto;font-size: xx-small;">
                   <div class="col-12">
                      <div class="btn-cont">
@@ -1399,27 +1433,9 @@ margin-left: -38%;">
                      </div>
                   </div>
                </div>
-
                <div formArrayName="addNoteFormArray" *ngIf="this.getAddNoteFormArrayLength > 0">
                   <ng-container *ngFor="let temp_add_note of this.getAddNoteFormArray['controls']; let j=index">
                      <div [formGroupName]="j">
-                        <!-- <div class="row">
-                           <div class="col-8">
-                              <div class="form-group-2">
-                                 <div class="form-group">
-                                    <textarea rows="3" type="text" class="form-control note" formControlName="addNote"
-                                       style="background-color: white;"></textarea>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="col-2">
-                              <div>
-                                 <button (click)="this.removeAddNoteFormGroup(j);" class="action-icon"
-                                    title="{{'addForm.remove' | translate}}"><img src="assets/img/ic_disapprove.png"
-                                       alt="img"></button>
-                              </div>
-                           </div>
-                        </div> -->
                         <div class="row" style="margin-left: auto;">
                            <div class="col-lg-12 col-md-6 col-sm-6 col-12">
                               <div class="form-group-2">
@@ -1431,9 +1447,6 @@ margin-left: -38%;">
                      </div>
                   </ng-container>
                </div>
-
-
-
             </div>
          </form>
          <div class="row">

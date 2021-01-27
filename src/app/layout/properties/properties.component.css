@@ -98,5 +98,13 @@ margin-left: 29px;
     color: #00B96F;
   }
 
+  :host ::ng-deep .multiselect-dropdown[_ngcontent-c8] {
+    position: relative;
+    width: 100%;
+    font-size: inherit;
+    font-family: inherit;
+    background-color: #d1d1d1;
+}
+
 
   

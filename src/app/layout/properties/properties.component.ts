@@ -21,6 +21,7 @@ import { Column } from 'primeng/primeng';
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { PricePipe } from 'src/app/pipes/price.pipe';
+import { Collection } from 'src/app/models/collection.model';
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
@@ -33,11 +34,11 @@ class Product {
   qty: number;
 }
 class bank {
-  id : number;
+  id: number;
   name: string;
-  AccountName : string;
-  RFC : string;
-  accountNumber : string;
+  AccountName: string;
+  RFC: string;
+  accountNumber: string;
   CLABE: string
 }
 
@@ -64,30 +65,31 @@ class Invoice {
 })
 export class PropertiesComponent implements OnInit, OnDestroy {
   levels: Array<bank> = [{
-    id: 1, 
+    id: 1,
     name: "BBVA",
-    AccountName : "HEVI HOLDING S.A. DE C.V.",
-    RFC : "HEHO1O278282",
-    accountNumber : "012050218",
-    CLABE: "210829362183621938"},
-    {
-      id: 2, 
-      name: "BANORTE",
-      AccountName : "HEVI HOLDING S.A. DE C.V.",
-      RFC : "HEHO1O278282",
-      accountNumber : "012050218",
-      CLABE: "210829362183621938"
-},
-{
-        id: 3, 
-        name: "BANORTE",
-        AccountName : "HEVI HOLDING S.A. DE C.V.",
-        RFC : "HEHO1O278282",
-        accountNumber : "012050218",
-        CLABE: "210829362183621938"
-}];
-   selectedvalue : bank;
-  
+    AccountName: "HEVI HOLDING S.A. DE C.V.",
+    RFC: "HEHO1O278282",
+    accountNumber: "012050218",
+    CLABE: "210829362183621938"
+  },
+  {
+    id: 2,
+    name: "BANORTE",
+    AccountName: "HEVI HOLDING S.A. DE C.V.",
+    RFC: "HEHO1O278282",
+    accountNumber: "012050218",
+    CLABE: "210829362183621938"
+  },
+  {
+    id: 3,
+    name: "BANORTE",
+    AccountName: "HEVI HOLDING S.A. DE C.V.",
+    RFC: "HEHO1O278282",
+    accountNumber: "012050218",
+    CLABE: "210829362183621938"
+  }];
+  selectedvalue: bank;
+
   public parameter: IProperty = {};
   public location: IProperty = {};
   showMore = false;
@@ -125,11 +127,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   propertyTypes = Array<any>();
   selctedAmenities: Array<any>;
   multiDropdownSettings = {};
-  multiDropdownSettingss = {};
+  //multiDropdownSettingss = {};
   invoice = new Invoice();
   property_array: any;
   paymentBanks: Array<any>;
- 
+
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('rejectModalOpen') rejectModalOpen: ElementRef;
@@ -146,9 +148,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   local_storage_parameter: any;
 
   public installmentFormGroup: FormGroup;
+  public paymentBankDetailsArray: any[] = [];
   private installmentFormGroupSubscription: Subscription;
   logoImageBase64: any;
   projectLogoImageBase64: any;
+  public collectionModel: any;//Collection = new Collection();
 
   constructor(
     public constant: Constant,
@@ -162,20 +166,22 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
     private http: HttpClient,
-    private price: PricePipe
+    private price: PricePipe,
+    //public collectionModel: Collection
   ) {
     this.installmentFormGroup = this.formBuilder.group({
       downPayment: [''],
       discount: [''],
-      priceIncrease: [''],
       monthlyInstallment: [''],
       numberOfMI: [''],
       paymentupondelivery: [''],
       isAddVariables: [false],
+      agencyOrSeller: [false],
       leadName: [''],
       tempAddVariablesText: [''],
       tempAddVariablesPercentage: [''],
-      interest:[''],
+      interest: [''],
+      paymentBankDetails: [''],
       addVariablesFormArray: this.formBuilder.array([]),
       addNoteFormArray: this.formBuilder.array([]),
       addbankFormArray: this.formBuilder.array([]),
@@ -195,22 +201,22 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     };
   }
 
-  iniDropDownSettings() {
-    this.multiDropdownSettingss = {
-      singleSelection: true,
-      idField: 'id',
-      textField: 'name',
-      selectAllText: this.translate.instant('commonBlock.selectAll'),
-      unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
-      searchPlaceholderText: this.translate.instant('commonBlock.search'),
-      allowSearchFilter: true,
-      itemsShowLimit: 2
-    };
-  }
+  // iniDropDownSettings() {
+  //   this.multiDropdownSettingss = {
+  //     singleSelection: true,
+  //     idField: 'id',
+  //     textField: 'name',
+  //     selectAllText: this.translate.instant('commonBlock.selectAll'),
+  //     unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
+  //     searchPlaceholderText: this.translate.instant('commonBlock.search'),
+  //     allowSearchFilter: true,
+  //     itemsShowLimit: 2
+  //   };
+  // }
 
   ngOnInit() {
     this.iniDropDownSetting();
-    this.iniDropDownSettings();
+    // this.iniDropDownSettings();
     this.selctedAmenities = [];
     this.seller_type = 1;
     this.locale = {
@@ -268,22 +274,22 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.getPropertyAmenities();
     this.subscribeInstallmentFormGroup();
     this.http.get('../../../assets/img/sozu_black.png', { responseType: 'blob' })
-    .subscribe(res => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        let base64data = reader.result;                
-         this.logoImageBase64 = base64data;
-      }
+      .subscribe(res => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          let base64data = reader.result;
+          this.logoImageBase64 = base64data;
+        }
 
-      reader.readAsDataURL(res); 
-    });
+        reader.readAsDataURL(res);
+      });
     //this.scriptService.load('pdfMake', 'vfsFonts');
   }
 
   // onItemDeSelect(arrayNAme: any, obj: any) {
   //   this[arrayNAme].push(obj);
   // }
-  onItemSelects(value){
+  onItemSelects(value) {
     this.selectedvalue = value
   }
   unsetProject(item: any) {
@@ -597,9 +603,19 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.rejectModalClose.nativeElement.click();
   }
 
-  openModalInstallment = (property): void => {
-    this.property_array = property;
-    this.openInstallmentModal.nativeElement.click();
+  openModalInstallment = (propertyDetails: any): void => {
+    this.property_array = propertyDetails;
+    this.spinner.show();
+    this.admin.postDataApi('getPropertyById', { id: (propertyDetails || {}).id }).subscribe((success) => {
+      this.spinner.hide();
+      this.collectionModel = (success || {}).data;
+      this.paymentBankDetailsArray = this.levels;
+      this.openInstallmentModal.nativeElement.click();
+     // this.makePaymentBankDetailsArray();
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
   }
 
   closeModalInstallment = (): void => {
@@ -1188,7 +1204,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     let payment_upon_delivery = (this.installmentFormGroup.value.paymentupondelivery * list_price) / 100;
     let monthly_installments = monthly_installment_amount / this.installmentFormGroup.value.numberOfMI;
     let final_price = list_price - discount;
-    let selected_bank = this.levels.find(x=> x.id == this.selectedvalue.id);
+    let selected_bank = this.levels.find(x => x.id == this.selectedvalue.id);
 
     let docDefinition = {
       pageSize: {
@@ -1241,11 +1257,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                       { text: this.property_array.building_towers.tower_name, border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text:  this.translate.instant('generatePDF.floor'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.translate.instant('generatePDF.floor'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
                       { text: this.property_array.floor_num == 0 ? 'Ground Floor' : this.property_array.floor_num, border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text:  this.translate.instant('generatePDF.model'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.translate.instant('generatePDF.model'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
                       { text: this.property_array.building_configuration.name, border: [false, false, false, false], bold: true },
                     ],
                     [
@@ -1331,19 +1347,20 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                       { text: '$ ' + this.price.transform(monthly_installment_amount), border: [false, false, false, false], bold: true }
                     ],
                     [
-                      { text: [ 
-                        {text: this.translate.instant('generatePDF.PaymentUponDelivery')},
-                        {text: '\n*Layaway is considered in Downpayment' , color: '#858291', fontSize : 8, margin: [0, 5, 0, 5]}
-                       ], 
-                       border: [false, false, false, true], color: '#858291' 
+                      {
+                        text: [
+                          { text: this.translate.instant('generatePDF.PaymentUponDelivery') },
+                          { text: '\n*Layaway is considered in Downpayment', color: '#858291', fontSize: 8, margin: [0, 5, 0, 5] }
+                        ],
+                        border: [false, false, false, true], color: '#858291'
                       },
                       { text: this.installmentFormGroup.value.paymentupondelivery + '%', border: [false, false, false, true], bold: true },
                       { text: '$ ' + this.price.transform(payment_upon_delivery), border: [false, false, false, true], bold: true }
                     ],
                     [
-                      { text: this.translate.instant('generatePDF.finalPrice'), border: [false, false, false, false], bold: true, fontSize : 14 },
+                      { text: this.translate.instant('generatePDF.finalPrice'), border: [false, false, false, false], bold: true, fontSize: 14 },
                       { text: '', border: [false, false, false, false] },
-                      { text: '$ ' + this.price.transform(final_price), border: [false, false, false, false], bold: true, fontSize : 14 },
+                      { text: '$ ' + this.price.transform(final_price), border: [false, false, false, false], bold: true, fontSize: 14 },
                     ],
                   ]
                 }
@@ -1364,7 +1381,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                   widths: ['auto', 'auto'],
                   body: [
                     [
-                      { text: this.translate.instant('generatePDF.bankDetails'), border: [false, false, false, false], bold: true, fontSize : 16 },
+                      { text: this.translate.instant('generatePDF.bankDetails'), border: [false, false, false, false], bold: true, fontSize: 16 },
                       { text: '', border: [false, false, false, false] }
                     ],
                     [
@@ -1470,7 +1487,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       addNote: [''],
     });
   }
-//banks
+  //banks
   createBankFormGroup = (): FormGroup => {
     return this.formBuilder.group({
       bankName: [''],
@@ -1486,8 +1503,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     return this.installmentFormGroup.get('addbankFormArray') as FormArray;
   }
 
-  
-//banks
+
+  //banks
 
   addNotes = ($event: any): void => {
     $event.stopPropagation();
@@ -1505,7 +1522,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     });
     totalPercentage += parseFloat(this.installmentFormGroup.get('downPayment').value);
     // totalPercentage += Number(this.installmentFormGroup.get('discount').value);
-    // totalPercentage += Number(this.installmentFormGroup.get('priceIncrease').value);
+    // totalPercentage += Number(this.installmentFormGroup.get('interest').value);
     totalPercentage += parseFloat(this.installmentFormGroup.get('monthlyInstallment').value);
     totalPercentage += parseFloat(this.installmentFormGroup.get('paymentupondelivery').value);
     console.log(totalPercentage)
@@ -1521,31 +1538,121 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.installmentFormGroup.patchValue({
       downPayment: '',
       discount: '',
-      priceIncrease: '',
       monthlyInstallment: '',
       numberOfMI: '',
       paymentupondelivery: '',
       isAddVariables: false,
+      agencyOrSeller: false,
       leadName: '',
       tempAddVariablesText: '',
       tempAddVariablesPercentage: '',
-      interest:''
+      interest: '',
+      paymentBankDetails: ''
     });
     this.getAddNoteFormArray.controls = [];
     this.getAddVariablesFormArray.controls = [];
   }
 
   subscribeInstallmentFormGroup = (): void => {
-    this.installmentFormGroup.valueChanges.subscribe((currentValue) => {
+    this.installmentFormGroupSubscription = this.installmentFormGroup.valueChanges.subscribe((currentValue) => {
       if (this.installmentFormGroup.get('discount').value != '') {
-        this.installmentFormGroup.get('priceIncrease').disable({ onlySelf: true });
-      } else if (this.installmentFormGroup.get('priceIncrease').value != '') {
+        this.installmentFormGroup.get('interest').disable({ onlySelf: true });
+      } else if (this.installmentFormGroup.get('interest').value != '') {
         this.installmentFormGroup.get('discount').disable({ onlySelf: true });
       } else {
         this.installmentFormGroup.get('discount').enable({ onlySelf: true });
-        this.installmentFormGroup.get('priceIncrease').enable({ onlySelf: true });
+        this.installmentFormGroup.get('interest').enable({ onlySelf: true });
       }
     });
+  }
+
+  onAgencyOrSellerChange = (): void => {
+    // this.installmentFormGroup.get('agencyOrSeller').value if true == seller or false == agency
+    if (this.installmentFormGroup.get('agencyOrSeller').value) {
+
+    } else {
+
+    }
+  }
+
+  makePaymentBankDetailsArray = (): void => {
+    this.paymentBankDetailsArray = [];
+    if (this.collectionModel.payment_received_by) {
+      // payment directly received by agency
+      if (this.collectionModel.property.building && this.collectionModel.property.building.agency_id) {
+        // agency banks
+        for (let index = 0; index < this.collectionModel.property.building.agency.agency_banks.length; index++) {
+          const element = this.collectionModel.property.building.agency.agency_banks[index];
+          element.name = 'Agency Bank | ' + element.bank_name;
+          element.is_agency = 1;
+          element.bank_id = element.id;
+          element.legal_rep_bank_id = null;
+          this.paymentBankDetailsArray.push(element);
+        }
+
+        // agency legal representative banks
+        if (this.collectionModel.property.building.agency.legal_representative) {
+          for (let index = 0; index < this.collectionModel.property.building.agency.legal_representative.legal_rep_banks.length; index++) {
+            const element = this.collectionModel.property.building.agency.legal_representative.legal_rep_banks[index];
+            element.name = 'Agency Legal Rep Bank | ' + element.bank_name;
+            element.is_agency = 1;
+            element.bank_id = null;
+            element.legal_rep_bank_id = element.id;
+            this.paymentBankDetailsArray.push(element);
+          }
+        }
+      }
+    } else {
+      // payment directly received by seller
+      if (this.collectionModel.seller_type != 2) {
+        // seller (as a person or developer) banks
+        for (let index = 0; index < this.collectionModel.seller.legal_rep_banks.length; index++) {
+          const element = this.collectionModel.seller.legal_rep_banks[index];
+          element.name = 'Seller Bank | ' + element.bank_name;
+          element.is_agency = 2;
+          element.bank_id = element.id;
+          element.legal_rep_bank_id = null;
+          this.paymentBankDetailsArray.push(element);
+        }
+
+        // agency legal representative banks
+        if (this.collectionModel.seller.legal_representative) {
+          for (let index = 0; index < this.collectionModel.seller.legal_representative.legal_rep_banks.length; index++) {
+            const element = this.collectionModel.seller.legal_representative.legal_rep_banks[index];
+            element.name = 'Seller Legal Rep Bank | ' + element.bank_name;
+            element.is_agency = 2;
+            element.bank_id = null;
+            element.legal_rep_bank_id = element.id;
+            this.paymentBankDetailsArray.push(element);
+          }
+        }
+      } else {
+        // seller (as a legal entity) banks
+        if (this.collectionModel.seller_legal_entity && this.collectionModel.seller_legal_entity.legal_entity_banks) {
+          for (let index = 0; index < this.collectionModel.seller_legal_entity.legal_entity_banks.length; index++) {
+            const element = this.collectionModel.seller_legal_entity.legal_entity_banks[index];
+            element.name = 'Seller Bank | ' + element.bank_name;
+            element.is_agency = 2;
+            element.bank_id = element.id;
+            element.legal_rep_bank_id = null;
+            this.paymentBankDetailsArray.push(element);
+          }
+
+          // agency legal representative banks
+          if (this.collectionModel.seller_legal_entity.legal_reps && this.collectionModel.seller_legal_entity.legal_reps.legal_rep_banks) {
+            for (let index = 0; index < this.collectionModel.seller_legal_entity.legal_reps.legal_rep_banks.length; index++) {
+              const element = this.collectionModel.seller_legal_entity.legal_reps.legal_rep_banks[index];
+              element.name = 'Seller Legal Rep Bank | ' + element.bank_name;
+              element.is_agency = 2;
+              element.bank_id = null;
+              element.legal_rep_bank_id = element.id;
+              this.paymentBankDetailsArray.push(element);
+            }
+          }
+        }
+      }
+    }
+    this.openInstallmentModal.nativeElement.click();
   }
 
   ngOnDestroy(): void {
