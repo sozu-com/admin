@@ -1,0 +1,39 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="title-group">
+        <h5>{{ 'addForm.documentation' | translate }}</h5>
+        <div class="spacer30"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>{{ 'addForm.uploadDoc' | translate }}</h3>
+    <hr />
+
+    <div style="max-width: 400px; margin: 2%;" *ngIf="model.id && !dataNotAvailable">
+      <div
+        class="input-icons"
+        *ngFor="let bankAccount of model.user_linked_documents; let i = index"
+      >
+        <input
+          class="input-field"
+          type="text"
+          [(ngModel)]="bankAccount.user_document.name_en"
+          name="name_en{{ i }}"
+          disabled
+        />
+        <i class="fa fa-plus-circle icon" aria-hidden="true"></i>
+        <!-- <button 
+        (click)="viewDocument(bankAccount?.document)" class="action-icon">
+        <img src="assets/img/eye-icon.png" alt="img"></button> -->
+        <i class="fa fa-eye icons" aria-hidden="true"(click)="viewDocument(bankAccount?.document)"></i>
+        <i class="fa fa-trash iconss" aria-hidden="true" (click)="deletePopup(i, bankAccount.id)" 
+        title="{{'table.title.delete' | translate}}"></i>
+      </div>
+    </div>
+    <div *ngIf="dataNotAvailable" style="text-align: center;">
+      <span>No record available</span>
+    </div>
+  </div>
+</div>

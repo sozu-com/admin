@@ -22,7 +22,22 @@ export class Banks {
     account_number: string;
     currency_id: number;
 }
-
+export class Docs {
+    id: string;
+    document_link: string;
+    user_document_id: string;
+    user_document?: userDoc;
+    // account_number: string;
+    // currency_id: number;
+}
+export class userDoc {
+    id: string;
+    name_en: string;
+    name_es: string;
+   // deleted_at?: userDoc;
+    // account_number: string;
+    // currency_id: number;
+}
 export class LegalRepresentative {
     id?: string;
     name: string;

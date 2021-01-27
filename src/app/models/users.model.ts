@@ -1,5 +1,5 @@
 import { UserModel } from "./inhouse-users.model";
-import { LegalEntity, Banks, LegalRepresentative } from "./legalEntity.model";
+import { LegalEntity, Banks, LegalRepresentative, Docs } from "./legalEntity.model";
 
 export class Users {
     id: string;
@@ -42,6 +42,7 @@ export class Users {
     fed_tax_pay?: string;
     developer_url?: string;
     legal_rep_banks?: Array<Banks>;
+    user_linked_documents?: Array<Docs>;
     legal_representative?: LegalRepresentative;
     gender?: string;
     dob?: string;

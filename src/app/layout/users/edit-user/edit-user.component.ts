@@ -63,6 +63,7 @@ export class EditUserComponent implements OnInit {
     this.getMarritalStatusList();
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
+    console.log(this.model,"model")
     this.getCurrencies();
       this.parameter.sub = this.route.params.subscribe(params => {
         if (params['id']) {
@@ -141,7 +142,10 @@ export class EditUserComponent implements OnInit {
     // this.model.dial_code = '+' + e.dialCode;
     // this.initialCountry = {initialCountry: e.iso2};
   }
-
+uploadDoc(userdata) {
+  console.log(userdata,"user id")
+    this.router.navigate(['/dashboard/users/documents-upload', userdata.id]);
+  }
   add(formData: NgForm) {
     const modelSave: Users = JSON.parse(JSON.stringify(this.model));
     if (modelSave.legal_representative.phone) {
@@ -333,6 +337,7 @@ export class EditUserComponent implements OnInit {
     }
   }
 
+  
   addDeveloperBank(e) {
     const bank = new Banks();
     this.model.legal_rep_banks.push(bank);
