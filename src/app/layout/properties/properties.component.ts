@@ -1258,11 +1258,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.PricePerM2'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
-                      { text: '$' + this.price.transform(this.property_array.min_price), border: [false, false, false, false], bold: true },
+                      { text: this.price.transform(this.property_array.min_price), border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.listPrice'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
-                      { text: '$' + this.price.transform(list_price), border: [false, false, false, false], bold: true },
+                      { text: this.price.transform(list_price), border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.Discount/Interest'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
@@ -1270,11 +1270,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.Discount/Interest$'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
-                      { text: '$' + this.price.transform(discount), border: [false, false, false, false], bold: true },
+                      { text: this.price.transform(discount), border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.finalPrice'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
-                      { text: '$' + this.price.transform(final_price), border: [false, false, false, false], bold: true },
+                      { text: this.price.transform(final_price), border: [false, false, false, false], bold: true },
                     ]
                   ]
                 }
@@ -1312,23 +1312,23 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.monthlyPayment'), border: [false, false, false, false], color: '#858291' },
-                      { text: '$' + this.price.transform(monthly_installments), border: [false, false, false, false], bold: true },
+                      { text: this.price.transform(monthly_installments), border: [false, false, false, false], bold: true },
                       { text: '', border: [false, false, false, false] }
                     ],
                     [
                       { text: this.translate.instant('generatePDF.layaway'), border: [false, false, false, false], color: '#858291' },
                       { text: '', border: [false, false, false, false] },
-                      { text: '$ ' + this.price.transform(downpayment), border: [false, false, false, false], bold: true },
+                      { text: this.price.transform(downpayment), border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.downpayment'), border: [false, false, false, false], color: '#858291' },
                       { text: this.installmentFormGroup.value.downPayment + '%', border: [false, false, false, false], bold: true },
-                      { text: '$ ' + this.price.transform(downpayment), border: [false, false, false, false], bold: true },
+                      { text: this.price.transform(downpayment), border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.monthlyPaymentsAmount'), border: [false, false, false, false], color: '#858291' },
                       { text: this.installmentFormGroup.value.monthlyInstallment + '%', border: [false, false, false, false], bold: true },
-                      { text: '$ ' + this.price.transform(monthly_installment_amount), border: [false, false, false, false], bold: true }
+                      { text: this.price.transform(monthly_installment_amount), border: [false, false, false, false], bold: true }
                     ],
                     [
                       { text: [ 
@@ -1338,12 +1338,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                        border: [false, false, false, true], color: '#858291' 
                       },
                       { text: this.installmentFormGroup.value.paymentupondelivery + '%', border: [false, false, false, true], bold: true },
-                      { text: '$ ' + this.price.transform(payment_upon_delivery), border: [false, false, false, true], bold: true }
+                      { text: this.price.transform(payment_upon_delivery), border: [false, false, false, true], bold: true }
                     ],
                     [
                       { text: this.translate.instant('generatePDF.finalPrice'), border: [false, false, false, false], bold: true, fontSize : 14 },
                       { text: '', border: [false, false, false, false] },
-                      { text: '$ ' + this.price.transform(final_price), border: [false, false, false, false], bold: true, fontSize : 14 },
+                      { text: this.price.transform(final_price), border: [false, false, false, false], bold: true, fontSize : 14 },
                     ],
                   ]
                 }
@@ -1353,7 +1353,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                 margin: [0, 20, 0, 0]
               },
               {
-                text: this.translate.instant('generatePDF.offersValidUntil') + date,
+                text: this.translate.instant('generatePDF.offersValidUntil') + ' ' + date,
                 color: '#858291',
                 margin: [0, 10, 0, 20]
               },
