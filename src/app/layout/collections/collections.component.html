@@ -1770,7 +1770,12 @@
   <div class="modal-dialog fadeIndown">
     <div class="modal-content notary-avail">
       <div class="modal-header popup-header">
-        <h4>{{'table.title.collectionFolders' | translate}}</h4>
+        <h4>{{'table.title.collectionFolders' | translate}}
+          <span class="pull-right">
+            <a href="javascript://" data-toggle="modal" data-target="#add-folder" #folderModalOpen></a>
+          
+          </span>
+        </h4>
         <button style="display: none;" type="button" class="close" data-dismiss="modal"
           #foldersModalClose>&times;</button>
         <button type="button" class="close" (click)="closeFoldersModal()">&times;</button>
@@ -1788,20 +1793,27 @@
               <th [style.width]="'130px'">
                 <b>{{'quickVisualization.docsCount' | translate}}</b>
               </th>
+              <th [style.width]="'130px'">
+                <b>{{'quickVisualization.action' | translate}}</b>
+              </th>
               <!-- <th [style.width]="'120px'">
                                   <b>{{'quickVisualization.lastCommit' | translate}}</b>
                               </th> -->
             </tr>
           </thead>
-          <tbody *ngFor="let p of collectionFolders; let i=index">
+          <tbody *ngFor="let folder of collectionFolders; let i=index">
             <tr>
               <td>
                 <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{i}}">
-                  <img src="assets/img/ic_folder_1.svg">{{p?.name}}
+                  <img src="assets/img/ic_folder_1.svg">{{folder?.name}}
                 </a>
               </td>
-              <td>{{p?.folder_docs?.length || 0}}</td>
-              <!-- <td>{{p?.updated_at | date:'dd/MMM/yyyy'}}</td> -->
+              <td>{{folder?.folder_docs?.length || 0}}</td>
+              <td>
+                <!-- <a href="javascript://" (click)="openAddFolder('edit', folder, i)" class="fa fa-pencil" 
+                aria-hidden="true"></a> -->
+                <a *ngIf="folder.id != payment_folder_id" (click)="openAddFolder('edit', folder, i)" class="fa fa-pencil" 
+                aria-hidden="true"></a>
             </tr>
 
             <tr id="collapse{{i}}" class="panel-collapse collapse">
@@ -1910,5 +1922,39 @@
 
     </div>
 
+  </div>
+</div>
+
+<div class="modal animated" id="add-folder">
+  <div class="modal-dialog fadeIndown">
+    <div class="modal-content">
+      <div class="modal-header modal-header-new">
+          <h4 class="modal-title">{{'addCollection.folderName' | translate}}</h4>
+          <button type="button" class="close" (click)="closeFolderModal()">&times;</button>
+      </div>
+
+      <form autocomplete="off" class="form-horizontal form-model0P form-model-newP" role="form" 
+      ngNativeValidate #addForm="ngForm" (ngSubmit)="addFolder(); addForm.reset();">
+        <div class="modal-body modal-body-new">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group-2">
+                  <div class="form-group">
+                    <input autocomplete="off" maxlength="20" required class="form-control note" name="folderName" [(ngModel)]="folderName">
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+                <div class="btn-cont text-right">
+                    <button *ngIf="!selectedFolder.id else UpdateNote" type="submit" class="btn btn-primary">{{'commonBlock.addBtn' | translate}}</button>
+                    <ng-template #UpdateNote>
+                        <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">{{'commonBlock.updateBtn' | translate}}</button>
+                    </ng-template>
+                </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

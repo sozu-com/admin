@@ -17,7 +17,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ExcelDownload } from 'src/app/common/excelDownload';
 import {Document} from 'src/app/models/document.model';
 declare let swal: any;
-
+declare var $: any;
 @Component({
   selector: 'app-collections',
   templateUrl: './collections.component.html',
@@ -25,10 +25,12 @@ declare let swal: any;
   providers: [Notes, Document]
 })
 export class CollectionsComponent implements OnInit {
-
+  mode: string;
   public parameter: IProperty = {};
   public location: IProperty = {};
   items: any = [];
+  selectedFolder: any = {};
+  folderName: string;
   total: any = 0;
   configurations: any = [];
   countries: any;
@@ -139,6 +141,8 @@ export class CollectionsComponent implements OnInit {
   @ViewChild('foldersModalOpen') foldersModalOpen: ElementRef;
   @ViewChild('foldersModalClose') foldersModalClose: ElementRef;
   @ViewChild('localityOpen') localityOpen: ElementRef;
+  @ViewChild('folderModalOpen') folderModalOpen: ElementRef;
+  @ViewChild('folderModalClose') folderModalClose: ElementRef;
   @ViewChild('localityClose') localityClose: ElementRef;
 
   collectionStatusFilter = [
@@ -2052,6 +2056,49 @@ export class CollectionsComponent implements OnInit {
     this.modelForDoc.id = item.id
     this.folderId = this.collectionFolders[folderIndex].id;
     this.localityOpen.nativeElement.click();
+  }
+  editFolderName(folder) {
+    this.collectionFolders[this.folderIndex]['name'] = this.folderName;
+    this.admin.postDataApi('updateCollectionFolder', {id: this.selectedFolder.id, name: this.folderName})
+      .subscribe(
+        success => {
+          // this.collectionFolders[this.folderIndex]['name'] = this.folderName;
+        }, error => {
+          this.spinner.hide();
+        }
+      );
+  }
+  // folder
+  addFolder() {
+    const input = {
+      step: 6,
+    };
+    const folder_docs = {
+      display_name: '',
+      name: ''
+    };
+     if (this.mode === 'edit') {
+      if (this.selectedFolder && this.selectedFolder.id) {
+        this.editFolderName(this.selectedFolder);
+      } else {
+        this.collectionFolders[this.folderIndex].name = this.folderName;
+      }
+    }
+    this.closeFolderModal();
+  }
+
+  closeFolderModal() {
+    $('.modal').modal('hide');
+  }
+
+  openAddFolder(mode: string, folder, index: number) {
+    this.mode = mode;
+    if (folder) {
+      this.folderIndex = index;
+      this.selectedFolder = folder;
+      this.folderName = folder.name;
+    }
+    this.folderModalOpen.nativeElement.click();
   }
 
   checkIfLocalitySpanishNameEntered(document) {

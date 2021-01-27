@@ -2,514 +2,578 @@
 
   <form role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="add(addForm)">
     <div class="row">
-       <div class="col-md-6">
-      <div class="title-group">
-        <h5>{{model.id ? ('viewUsers.editBtn' | translate) : ('viewUsers.addBtn' | translate)}}</h5>
-      </div></div>
       <div class="col-md-6">
-      <div class="btn-cont text-right">
-        <button *ngIf="!model?.id" type="submit" [disabled]="!addForm.valid" class="btn btn-primary">{{'addForm.addBtn'
-          | translate}}</button>
-        <button *ngIf="model?.id" type="submit" class="btn btn-primary">{{'addForm.updateBtn' | translate}}</button>
-      </div></div>
+        <div class="title-group">
+          <h5>{{model.id ? ('viewUsers.editBtn' | translate) : ('viewUsers.addBtn' | translate)}}</h5>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="btn-cont text-right">
+          <button *ngIf="!model?.id" type="submit" [disabled]="!addForm.valid"
+            class="btn btn-primary">{{'addForm.addBtn'
+            | translate}}</button>
+          <button *ngIf="model?.id" type="submit" class="btn btn-primary">{{'addForm.updateBtn' | translate}}</button>
+        </div>
+      </div>
     </div>
-    
+
     <div class="col-12">
       <div class="spacer40"></div>
     </div>
+
 
     <div class="white-bg padding40">
       <section id="tabs" class="project-tab">
-          <div class="container">
-              <div class="row">
-                  <div class="col-md-12">
-                      <nav>
-                          <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                              <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">{{'addForm.buyer' | translate}}</a>
-                              <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">{{'addForm.seller' | translate}}</a>
-                              <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">{{'addForm.rent' | translate}}</a>
-                              <a class="nav-item nav-link" id="nav-credit-tab" data-toggle="tab" href="#nav-credit" role="tab" aria-controls="nav-credit" aria-selected="false">{{'addForm.credit' | translate}}</a>
-                              <a class="nav-item nav-link" id="nav-info-tab" data-toggle="tab" href="#nav-info" role="tab" aria-controls="nav-info" aria-selected="false">{{'addForm.info' | translate}}</a>
-                          </div>
-                      </nav>
-                      <div class="tab-content" id="nav-tabContent">
-                          <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                            <div class="col-12">
-                              <div class="spacer40"></div>
-                            </div>
-                              <!-- <a [routerLink]="['/dashboard/leads/csr-buyers/1002']" class="action-icon">
-                              <img src="assets/img/edit.png" alt="img"></a> -->
-                              <app-csr-buyer-detail [user_id]="model.id" (noDataAvailable)="noDataAvailable($event)" *ngIf="model.id && !dataNotAvailable"></app-csr-buyer-detail>
-                              <div *ngIf="dataNotAvailable" style="text-align: center;">
-                                <span>No record available</span>
-                              </div>
-                          </div>
-                          <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                              <div class="col-12">
-                                  <div class="spacer40"></div>
-                                </div>
-                              <h6 style="text-align: center;">{{'addForm.emptySeller' | translate}}</h6>
-                          </div>
-                          <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-                              <div class="col-12">
-                                  <div class="spacer40"></div>
-                                </div>
-                              <h6 style="text-align: center;">{{'addForm.emptyRent' | translate}}</h6>
-                          </div>
-                          <div class="tab-pane fade" id="nav-credit" role="tabpanel" aria-labelledby="nav-credit-tab">
-                              <div class="col-12">
-                                  <div class="spacer40"></div>
-                                </div>
-                              <h6 style="text-align: center;">{{'addForm.emptyCredit' | translate}}</h6>
-                          </div>
-                          <div class="tab-pane fade" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab">
-                              <div class="col-12">
-                                  <div class="spacer40"></div>
-                                </div>
-                              <div class="white-bg padding40">
-                                  <h3>{{'addForm.generalData' | translate}}</h3>
-                                  <div class="col-12">
-                                    <div class="spacer40"></div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col-4">
-                                      <div class="form-group-3">
-                                        <label>{{'addForm.names' | translate}} <span class="color-red">*</span></label>
-                                        <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces" required
-                                          type="text" class="form-control" [(ngModel)]="model.name" name="name1">
-                                      </div>
-                                    </div>
-                                    <div class="col-4">
-                                      <div class="form-group-3">
-                                        <label>{{'addForm.firstSurname' | translate}}
-                                          <span class="color-red">*</span>
-                                        </label>
-                                        <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces" type="text"
-                                          class="form-control" required [(ngModel)]="model.first_surname" name="first_surname1">
-                                      </div>
-                                    </div>
-                                    <div class="col-4">
-                                      <div class="form-group-3">
-                                        <label>{{'addForm.secondSurname' | translate}}
-                                          <!-- <span class="color-red">*</span> -->
-                                        </label>
-                                        <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces" type="text"
-                                          class="form-control" [(ngModel)]="model.second_surname" name="second_surname1">
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="col-12">
-                                    <div class="spacer40"></div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col-4">
-                                      <div class="form-group-3">
-                                        <label>{{'addForm.gender' | translate}}</label><br />
-                                        <input type="radio" name="gender" value="male" [checked]="isChecked('male')" (change)="selectGender($event.target.value)">{{'addForm.male' | translate}} &nbsp;&nbsp;
-                                        <input type="radio" name="gender" value="female" [checked]="isChecked('female')" (change)="selectGender($event.target.value)">{{'addForm.female' | translate}}
-                                      </div>
-                                    </div>
-                                    <div class="col-4">
-                                      <div class="form-group-3">
-                                        <label>{{'addForm.email' | translate}} <span class="color-red">*</span></label>
-                                        <input (keydown.space)="$event.preventDefault();" autocomplete="off" required
-                                          [pattern]="constant.emailPattern" type="email" class="form-control" [(ngModel)]="model.email"
-                                          name="email">
-                                      </div>
-                                    </div>
-                                    <div class="col-4">
-                                      <div class="form-group-3">
-                                        <label>{{'addForm.contact_number' | translate}} <span class="color-red">*</span></label>
-                                        <input minlength="10" maxlength="10" autocomplete="off" type="text" [pattern]="constant.phonePattern"
-                                          class="form-control" id="phone" required [(ngModel)]="model.phone" name="phone" ng2TelInput
-                                          [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="col-12">
-                                    <div class="spacer40"></div>
-                                  </div>
-                            
-                                  <div class="row">
-                                    <div class="col-4">
-                                      <div class="form-group-3">
-                                        <label>{{'addForm.dateOfBirth' | translate}}</label>
-                                        <input class="form-control" type="date" name="dob" [(ngModel)]="model.dob">
-                                      </div>
-                                    </div>
-                                    <div class="col-4">
-                                      <div class="form-group-3">
-                                        <label>{{'addForm.CURP' | translate}}</label>
-                                        <input (keydown.space)="$event.preventDefault();" autocomplete="off"
-                                           type="text" minlength="18" maxlength="18" class="form-control" [(ngModel)]="model.curp" name="curp">
-                                      </div>
-                                    </div>
-                                    <div class="col-4">
-                                      <div class="form-group-3">
-                                        <label>{{'addForm.fedralTaxPayerRegistry' | translate}}</label>
-                                        <input autocomplete="off" minlength="13" maxlength="13" [pattern]="constant.onlyWhiteSpaces" type="text"
-                                          class="form-control" [(ngModel)]="model.fed_tax_pay" name="fed_tax_pay">
-                                      </div>
-                                    </div>
-                                  </div>
-                            
-                                  <div class="col-12">
-                                    <div class="spacer40"></div>
-                                  </div>
-                            
-                                  <div class="row">
-                                    <div class="col-4">
-                                      <div class="form-group-3">
-                                        <label>{{'addForm.nacionality' | translate}}</label>
-                                        <input (keydown.space)="$event.preventDefault();" autocomplete="off"
-                                          type="text" class="form-control" [(ngModel)]="model.nationality" name="nationality">
-                                      </div>
-                                    </div>
-                                    <div class="col-4">
-                                      <div class="form-group-3">
-                                        <label class="p16-two">{{'addForm.marital_status' | translate}}</label>
-                                        <select title="Select Marital Status" name="marital_status" class="form-control" (change)="getMaritalStatus($event.target.value)">
-                                          <option value="0" disabled>{{'addForm.maritalStatus.selectMaritalStatus' | translate}}</option>
-                                          <option *ngFor="let maritalStatus of marrital_status_list" [selected]="maritalStatus.id == model.marital_statuses_id" value="{{maritalStatus.id}}">{{language_code == 'en'? maritalStatus.name_en : maritalStatus.name_es}}</option>
-                                        </select>
-                            
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="col-12">
-                                    <div class="spacer40"></div>
-                                  </div>
-                            
-                                  <div class="row">
-                                    <div class="col-12">
-                                      <label>{{'addCollection.bankName' | translate}}
-                                        <span class="pull-right"><a class="add" (click)="addDeveloperBank($event)"
-                                            href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
-                                      </label>
-                                      <div class="row" *ngFor="let bankAccount of model.legal_rep_banks; let i=index">
-                                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                                          <div class="form-group-3">
-                                            <label>{{'addCollection.bankName' | translate}}</label>
-                                            <div class="clearfix"></div>
-                                            <input autocomplete="off" minlength="1" maxlength="30" class="form-control" type="text"
-                                              [(ngModel)]="bankAccount.bank_name" name="bank_name{{i}}">
-                                          </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                                          <div class="form-group-3">
-                                            <label>{{'addCollection.accountNumber' | translate}}</label>
-                                            <div class="clearfix"></div>
-                                            <input autocomplete="off" class="form-control" type="text" minlength="10" maxlength="20"
-                                              [pattern]="constant.accountPattern" [(ngModel)]="bankAccount.account_number"
-                                              name="account_number{{i}}">
-                                          </div>
-                                        </div>
-                                        <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                                          <div class="form-group-3">
-                                            <label>{{'addCollection.clabeSwift' | translate}}</label>
-                                            <div class="clearfix"></div>
-                                            <input autocomplete="off" class="form-control" type="text" [(ngModel)]="bankAccount.swift"
-                                              name="swift{{i}}">
-                                          </div>
-                                        </div>
-                                        <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                                          <div class="form-group-3">
-                                            <label>{{'addCollection.currency' | translate}}</label>
-                                            <div class="clearfix"></div>
-                                            <select name="currency_id{{i}}" [(ngModel)]="bankAccount.currency_id" class="form-control">
-                                              <option value="">{{'addCollection.currency' | translate}}</option>
-                                              <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
-                                            </select>
-                                          </div>
-                                        </div>
-                                        <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                                          <div class="form-group-3">
-                                            <label>Remove</label>
-                                            <div class="clearfix"></div>
-                                            <button type="button" (click)="removeDeveloperBank($event, bankAccount, i)">Remove</button>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                            
-                                <div class="col-12">
-                                  <div class="spacer40"></div>
-                                </div>
-                            
-                                <div class="white-bg padding40">
-                                  <h3>{{'addForm.address' | translate}}</h3>
-                                  <div class="col-12">
-                                    <div class="spacer40"></div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col-3">
-                                      <div class="form-group-3">
-                                        <label>{{'addForm.streetAddress' | translate}}</label>
-                                        <input type="text" class="form-control"  name="street_address" [(ngModel)]="model.street_address"/>
-                                      </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                      <div class="form-group-3">
-                                        <label>{{'addForm.externalNumber' | translate}}</label>
-                                        <input type="text" class="form-control" name="external_number" [pattern]="constant.numberPattern" [(ngModel)]="model.external_number"/>
-                                      </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                      <div class="form-group-3">
-                                        <label>{{'addForm.internalNumber' | translate}}</label>
-                                        <input type="text" class="form-control" name="internal_number" [pattern]="constant.numberPattern" [(ngModel)]="model.internal_number"/>
-                                      </div>
-                                    </div>
-                                    <div class="col-3">
-                                      <div class="form-group-3">
-                                        <label>{{'addForm.neighborhood' | translate}}</label>
-                                        <input type="text" class="form-control" name="neighborhood" [(ngModel)]="model.neighborhood"/>
-                                      </div>
-                                    </div>
-                                  </div>
-                            
-                                  <div class="col-12">
-                                    <div class="spacer40"></div>
-                                  </div>
-                            
-                                  <div class="row">
-                                    <div class="col-4">
-                                      <div class="form-group-3">
-                                        <label>{{'addForm.municipality' | translate}}</label>
-                                        <input (keydown.space)="$event.preventDefault();" autocomplete="off"  type="text" class="form-control" [(ngModel)]="model.municipality"
-                                          name="municipality">
-                                      </div>
-                                    </div>
-                                    <div class="col-4">
-                                      <div class="form-group-3">
-                                        <label>{{'filters.location.country' | translate}}</label>
-                                        <select class="form-control" (change)="getStatesNew1($event.target.value)" *ngIf="parameter?.countriesAdd">
-                                          <option value="" disabled>{{'filters.location.selectCountry' | translate}}</option>
-                                          <option value="0" [selected]="location.countries!='' && location.countries==0">{{'filters.location.allOption' | translate}}</option>
-                                          <option *ngFor="let countryAdd of parameter.countriesAdd" [selected]="countryAdd.id == model.country_id" value="{{countryAdd.id}}">{{countryAdd.name}}</option>
-                                          <option value="other">{{'filters.location.other' | translate}}</option>
-                                        </select>
-                                      <div>
-                                        <input *ngIf="showInput" [(ngModel)]="model.country_name" (ngModelChange)="modelChanged()" name="country_name" autocomplete="off" type="text" class="form-control" placeholder="Enter Country Name" style="margin-top: 20px;">
-                                      </div>
-                                      </div>
-                                    </div>
-                                    <div class="col-4">
-                                      <div class="form-group-3">
-                                        <label>{{'filters.location.state' | translate}}</label>
-                                  <select class="form-control" (change)="getCitiesNew1($event.target.value)" *ngIf="!showInput && parameter?.statesAdd">
-                                    <option value="" disabled>{{'filters.location.selectState' | translate}}</option>
-                                    <option value="0" [selected]="location.states!='' && location.states==0">{{'filters.location.allOption' | translate}}</option>
-                                    <option *ngFor="let stateAdd of parameter.statesAdd" [selected]="stateAdd.id == model.state_id" value="{{stateAdd.id}}">{{stateAdd.name}}</option>
-                                    <option value="other">{{'filters.location.other' | translate}}</option>
-                                  </select>
-                                  <input *ngIf="showInput || stateInput == 'other'" [attr.disabled]="stateDisable? '' : null" [(ngModel)]="model.state_name" (ngModelChange)="modelChanged()" name="state_name" 
-                                          autocomplete="off" type="text" class="form-control" placeholder="Enter State Name" [ngStyle]="{'margin-top': stateInput == 'other' ? '20px' : '0px' }">
-                                      </div>
-                                    </div>
-                                  </div>
-                            
-                                  <div class="col-12">
-                                    <div class="spacer40"></div>
-                                  </div>
-                            
-                                  <div class="row">
-                                    <div class="col-4">
-                                      <div class="form-group-3">
-                                        <label>{{'filters.location.city' | translate}}</label>
-                                        <select class="form-control" (change)="getLocalitiesNew($event.target.value)" *ngIf="!showInput && parameter?.citiesAdd">
-                                        <option value="" disabled>{{'filters.location.selectCity' | translate}}</option>
-                                        <option value="0" [selected]="location.cities!='' && location.cities==0">{{'filters.location.allOption' | translate}}</option>
-                                        <option *ngFor="let cityAdd of parameter.citiesAdd" [selected]="cityAdd.id == model.city_id" value="{{cityAdd.id}}">{{cityAdd.name}}</option>
-                                        <option value="other">{{'filters.location.other' | translate}}</option>
-                                      </select>
-                                      <input *ngIf="showInput || cityInput == 'other'" [attr.disabled]="cityDisable? '' : null" [(ngModel)]="model.city_name" name="city_name" autocomplete="off" type="text" 
-                                             class="form-control" placeholder="Enter City Name" [ngStyle]="{'margin-top': cityInput == 'other' ? '20px' : '0px' }">
-                                      </div>
-                                    </div>
-                                    <div class="col-4">
-                                      <div class="form-group-3">
-                                        <label>{{'addForm.ZIP' | translate}}</label>
-                                        <input minlength="8" maxlength="15" autocomplete="off" type="text" 
-                                          class="form-control" id="zipcode" minlength="1" [(ngModel)]="model.zipcode" name="zipcode"
-                                           />
-                                      </div>
-                                    </div>
-                                  </div>
-                            
-                                  <div class="col-12">
-                                    <div class="spacer40"></div>
-                                  </div>
-                            
-                                  <div class="row">
-                                    <div class="col-12">
-                                      <div class="form-group-3-2">
-                                        <label>{{'addForm.address' | translate}}
-                                        </label>
-                                        <input placeholder="{{'addForm.placeholder.searchForAddress' | translate}}" autocorrect="off"
-                                          autocapitalize="off" spellcheck="off" type="text" class="form-control" #search
-                                          (input)="loadPlaces('developer_address', 'lat', 'lng', 'searchElementRef')" name="developer_address"
-                                          [(ngModel)]="model.developer_address" autocomplete="off">
-                                      </div>
-                                    </div>
-                                    <div class="col-12">
-                                      <div class="form-group-3-2">
-                                        <label>{{'addForm.googleSearchAddress' | translate}}
-                                          <!-- <span class="color-red">*</span> -->
-                                        </label>
-                                        <agm-map class="height200" [latitude]="model.lat" [longitude]="model.lng" [scrollwheel]="false"
-                                          (mapClick)="placeMarker($event, 'developer_address', 'lat', 'lng')" [zoom]="constant.zoom">
-                                          <agm-marker [latitude]="model.lat" [longitude]="model.lng"></agm-marker>
-                                        </agm-map>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                            
-                                <div class="col-12">
-                                  <div class="spacer40"></div>
-                                </div>
-                            
-                                <div class="white-bg padding40">
-                                  <h3>{{'addForm.legalRepresentativeInfo' | translate}}</h3>
-                                  <div class="col-12">
-                                    <div class="spacer40"></div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col-4">
-                                      <div class="form-group-3">
-                                        <label>{{'addForm.names' | translate}}
-                                          <!-- <span class="color-red">*</span> -->
-                                        </label>
-                                        <input autocomplete="off" minlength="1" maxlength="50" [pattern]="constant.onlyWhiteSpaces" type="text"
-                                          class="form-control" [(ngModel)]="model.legal_representative.name" name="name">
-                                      </div>
-                                    </div>
-                                    <div class="col-4">
-                                      <div class="form-group-3">
-                                        <label>{{'addForm.firstSurname' | translate}}
-                                          <!-- <span class="color-red">*</span> -->
-                                        </label>
-                                        <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces" type="text"
-                                          class="form-control" [(ngModel)]="model.legal_representative.first_surname" name="first_surname">
-                                      </div>
-                                    </div>
-                                    <div class="col-4">
-                                      <div class="form-group-3">
-                                        <label>{{'addForm.secondSurname' | translate}}
-                                          <!-- <span class="color-red">*</span> -->
-                                        </label>
-                                        <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces" type="text"
-                                          class="form-control" [(ngModel)]="model.legal_representative.second_surname" name="second_surname">
-                                      </div>
-                                    </div>
-                                  </div>
-                            
-                                  <div class="col-12">
-                                    <div class="spacer40"></div>
-                                  </div>
-                            
-                                  <div class="row">
-                                    <div class="col-4">
-                                      <div class="form-group-3">
-                                        <label>{{'addForm.contactNumber' | translate}}</label>
-                                        <input minlength="8" maxlength="15" autocomplete="off" type="text" [pattern]="constant.phonePattern"
-                                          class="form-control" id="phone" [(ngModel)]="model.legal_representative.phone"
-                                          name="legal_representative_phone" ng2TelInput [ng2TelInputOptions]="initialCountry"
-                                          (countryChange)="onCountryChange($event)" />
-                                      </div>
-                                    </div>
-                                    <div class="col-4">
-                                      <div class="form-group-3">
-                                        <label>{{'addForm.emailId' | translate}}</label>
-                                        <input (keydown.space)="$event.preventDefault();" autocomplete="off" [pattern]="constant.emailPattern"
-                                          type="email" class="form-control" [(ngModel)]="model.legal_representative.email" name="rep_email">
-                                      </div>
-                                    </div>
-                                    <div class="col-4">
-                                      <div class="form-group-3">
-                                        <label>{{'addForm.fedralTaxPayerRegistry' | translate}}</label>
-                                        <input autocomplete="off" minlength="13" maxlength="13" [pattern]="constant.onlyWhiteSpaces" type="text"
-                                          class="form-control" [(ngModel)]="model.legal_representative.fed_tax_pay" name="le_fed_tax_pay">
-                                      </div>
-                                    </div>
-                                  </div>
-                            
-                                  <div class="col-12">
-                                    <div class="spacer40"></div>
-                                  </div>
-                            
-                                  <div class="row">
-                                    <div class="col-12">
-                                      <label>{{'addCollection.bankAccount' | translate}}
-                                        <!-- <span class="color-red">*</span> -->
-                                        <span class="pull-right"><a class="add" (click)="addLegalEntityBank($event)"
-                                            href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
-                                      </label>
-                                      <div class="row" *ngFor="let leBankAccount of model.legal_representative.legal_rep_banks; let i=index">
-                                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                                          <div class="form-group-3">
-                                            <label>{{'addCollection.bankName' | translate}}</label>
-                                            <div class="clearfix"></div>
-                                            <input autocomplete="off" minlength="1" maxlength="30" class="form-control" type="text"
-                                              [(ngModel)]="leBankAccount.bank_name" name="le_bank_name{{i}}">
-                                          </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                                          <div class="form-group-3">
-                                            <label>{{'addCollection.accountNumber' | translate}}</label>
-                                            <div class="clearfix"></div>
-                                            <input autocomplete="off" class="form-control" type="text" minlength="9" maxlength="20"
-                                              [pattern]="constant.accountPattern" [(ngModel)]="leBankAccount.account_number"
-                                              name="le_account_number{{i}}">
-                                          </div>
-                                        </div>
-                                        <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                                          <div class="form-group-3">
-                                            <label>{{'addCollection.clabeSwift' | translate}}</label>
-                                            <div class="clearfix"></div>
-                                            <input autocomplete="off" class="form-control" type="text" [(ngModel)]="leBankAccount.swift"
-                                              name="le_swift{{i}}">
-                                          </div>
-                                        </div>
-                                        <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                                          <div class="form-group-3">
-                                            <label>{{'addCollection.currency' | translate}}</label>
-                                            <div class="clearfix"></div>
-                                            <select name="le_currency_id{{i}}" [(ngModel)]="leBankAccount.currency_id" class="form-control">
-                                              <option value="">{{'addCollection.currency' | translate}}</option>
-                                              <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
-                                            </select>
-                                          </div>
-                                        </div>
-                                        <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                                          <div class="form-group-3">
-                                            <label>{{'addCollection.remove' | translate}}</label>
-                                            <div class="clearfix"></div>
-                                            <button type="button" (click)="removeLegalEntityBank($event, leBankAccount, i)">{{'addCollection.remove'
-                                              |
-                                              translate}}</button>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                          </div>
-                      </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <nav>
+                <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                  <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+                    aria-controls="nav-home" aria-selected="true">{{'addForm.buyer' | translate}}</a>
+                  <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+                    aria-controls="nav-profile" aria-selected="false">{{'addForm.seller' | translate}}</a>
+                  <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab"
+                    aria-controls="nav-contact" aria-selected="false">{{'addForm.rent' | translate}}</a>
+                  <a class="nav-item nav-link" id="nav-credit-tab" data-toggle="tab" href="#nav-credit" role="tab"
+                    aria-controls="nav-credit" aria-selected="false">{{'addForm.credit' | translate}}</a>
+                  <a class="nav-item nav-link" id="nav-info-tab" data-toggle="tab" href="#nav-info" role="tab"
+                    aria-controls="nav-info" aria-selected="false">{{'addForm.info' | translate}}</a>
+                </div>
+              </nav>
+              <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                  <div class="col-12">
+                    <div class="spacer40"></div>
                   </div>
+                  <!-- <a [routerLink]="['/dashboard/leads/csr-buyers/1002']" class="action-icon">
+                              <img src="assets/img/edit.png" alt="img"></a> -->
+                  <app-csr-buyer-detail [user_id]="model.id" (noDataAvailable)="noDataAvailable($event)"
+                    *ngIf="model.id && !dataNotAvailable"></app-csr-buyer-detail>
+                  <div *ngIf="dataNotAvailable" style="text-align: center;">
+                    <span>No record available</span>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+                  <h6 style="text-align: center;">{{'addForm.emptySeller' | translate}}</h6>
+                </div>
+                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+                  <h6 style="text-align: center;">{{'addForm.emptyRent' | translate}}</h6>
+                </div>
+                <div class="tab-pane fade" id="nav-credit" role="tabpanel" aria-labelledby="nav-credit-tab">
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+                  <h6 style="text-align: center;">{{'addForm.emptyCredit' | translate}}</h6>
+                </div>
+                <div class="tab-pane fade" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab">
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+                  <div class="white-bg padding40">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="title-group">
+                          <h5>{{'addForm.generalData' | translate}}</h5>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="btn-cont text-right">
+                          <!-- <button *ngIf="model?.id" title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['User Management']?.can_update==0"
+                           (click)="uploadDoc()" class="action-icon">{{'addForm.documentation' | translate}}</button> -->
+                          <button *ngIf="model?.id"  (click)="uploadDoc(model)" class="btn btn-primary">{{'addForm.documentation' | translate}}</button>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <h3>{{'addForm.generalData' | translate}}</h3> -->
+                    <div class="col-12">
+                      <div class="spacer40"></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-4">
+                        <div class="form-group-3">
+                          <label>{{'addForm.names' | translate}} <span class="color-red">*</span></label>
+                          <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces"
+                            required type="text" class="form-control" [(ngModel)]="model.name" name="name1">
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group-3">
+                          <label>{{'addForm.firstSurname' | translate}}
+                            <span class="color-red">*</span>
+                          </label>
+                          <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces"
+                            type="text" class="form-control" required [(ngModel)]="model.first_surname"
+                            name="first_surname1">
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group-3">
+                          <label>{{'addForm.secondSurname' | translate}}
+                            <!-- <span class="color-red">*</span> -->
+                          </label>
+                          <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces"
+                            type="text" class="form-control" [(ngModel)]="model.second_surname" name="second_surname1">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="spacer40"></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-4">
+                        <div class="form-group-3">
+                          <label>{{'addForm.gender' | translate}}</label><br />
+                          <input type="radio" name="gender" value="male" [checked]="isChecked('male')"
+                            (change)="selectGender($event.target.value)">{{'addForm.male' | translate}} &nbsp;&nbsp;
+                          <input type="radio" name="gender" value="female" [checked]="isChecked('female')"
+                            (change)="selectGender($event.target.value)">{{'addForm.female' | translate}}
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group-3">
+                          <label>{{'addForm.email' | translate}} <span class="color-red">*</span></label>
+                          <input (keydown.space)="$event.preventDefault();" autocomplete="off" required
+                            [pattern]="constant.emailPattern" type="email" class="form-control"
+                            [(ngModel)]="model.email" name="email">
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group-3">
+                          <label>{{'addForm.contact_number' | translate}} <span class="color-red">*</span></label>
+                          <input minlength="10" maxlength="10" autocomplete="off" type="text"
+                            [pattern]="constant.phonePattern" class="form-control" id="phone" required
+                            [(ngModel)]="model.phone" name="phone" ng2TelInput [ng2TelInputOptions]="initialCountry"
+                            (countryChange)="onCountryChange($event)" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="spacer40"></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-4">
+                        <div class="form-group-3">
+                          <label>{{'addForm.dateOfBirth' | translate}}</label>
+                          <input class="form-control" type="date" name="dob" [(ngModel)]="model.dob">
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group-3">
+                          <label>{{'addForm.CURP' | translate}}</label>
+                          <input (keydown.space)="$event.preventDefault();" autocomplete="off" type="text"
+                            minlength="18" maxlength="18" class="form-control" [(ngModel)]="model.curp" name="curp">
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group-3">
+                          <label>{{'addForm.fedralTaxPayerRegistry' | translate}}</label>
+                          <input autocomplete="off" minlength="13" maxlength="13" [pattern]="constant.onlyWhiteSpaces"
+                            type="text" class="form-control" [(ngModel)]="model.fed_tax_pay" name="fed_tax_pay">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <div class="spacer40"></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-4">
+                        <div class="form-group-3">
+                          <label>{{'addForm.nacionality' | translate}}</label>
+                          <input (keydown.space)="$event.preventDefault();" autocomplete="off" type="text"
+                            class="form-control" [(ngModel)]="model.nationality" name="nationality">
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group-3">
+                          <label class="p16-two">{{'addForm.marital_status' | translate}}</label>
+                          <select title="Select Marital Status" name="marital_status" class="form-control"
+                            (change)="getMaritalStatus($event.target.value)">
+                            <option value="0" disabled>{{'addForm.maritalStatus.selectMaritalStatus' | translate}}
+                            </option>
+                            <option *ngFor="let maritalStatus of marrital_status_list"
+                              [selected]="maritalStatus.id == model.marital_statuses_id" value="{{maritalStatus.id}}">
+                              {{language_code == 'en'? maritalStatus.name_en : maritalStatus.name_es}}</option>
+                          </select>
+
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="spacer40"></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-12">
+                        <label>{{'addCollection.bankName' | translate}}
+                          <span class="pull-right"><a class="add" (click)="addDeveloperBank($event)"
+                              href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
+                        </label>
+                        <div class="row" *ngFor="let bankAccount of model.legal_rep_banks; let i=index">
+                          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                            <div class="form-group-3">
+                              <label>{{'addCollection.bankName' | translate}}</label>
+                              <div class="clearfix"></div>
+                              <input autocomplete="off" minlength="1" maxlength="30" class="form-control" type="text"
+                                [(ngModel)]="bankAccount.bank_name" name="bank_name{{i}}">
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                            <div class="form-group-3">
+                              <label>{{'addCollection.accountNumber' | translate}}</label>
+                              <div class="clearfix"></div>
+                              <input autocomplete="off" class="form-control" type="text" minlength="10" maxlength="20"
+                                [pattern]="constant.accountPattern" [(ngModel)]="bankAccount.account_number"
+                                name="account_number{{i}}">
+                            </div>
+                          </div>
+                          <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                            <div class="form-group-3">
+                              <label>{{'addCollection.clabeSwift' | translate}}</label>
+                              <div class="clearfix"></div>
+                              <input autocomplete="off" class="form-control" type="text" [(ngModel)]="bankAccount.swift"
+                                name="swift{{i}}">
+                            </div>
+                          </div>
+                          <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                            <div class="form-group-3">
+                              <label>{{'addCollection.currency' | translate}}</label>
+                              <div class="clearfix"></div>
+                              <select name="currency_id{{i}}" [(ngModel)]="bankAccount.currency_id"
+                                class="form-control">
+                                <option value="">{{'addCollection.currency' | translate}}</option>
+                                <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                            <div class="form-group-3">
+                              <label>Remove</label>
+                              <div class="clearfix"></div>
+                              <button type="button"
+                                (click)="removeDeveloperBank($event, bankAccount, i)">Remove</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+
+                  <div class="white-bg padding40">
+                    <h3>{{'addForm.address' | translate}}</h3>
+                    <div class="col-12">
+                      <div class="spacer40"></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-3">
+                        <div class="form-group-3">
+                          <label>{{'addForm.streetAddress' | translate}}</label>
+                          <input type="text" class="form-control" name="street_address"
+                            [(ngModel)]="model.street_address" />
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="form-group-3">
+                          <label>{{'addForm.externalNumber' | translate}}</label>
+                          <input type="text" class="form-control" name="external_number"
+                            [pattern]="constant.numberPattern" [(ngModel)]="model.external_number" />
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="form-group-3">
+                          <label>{{'addForm.internalNumber' | translate}}</label>
+                          <input type="text" class="form-control" name="internal_number"
+                            [pattern]="constant.numberPattern" [(ngModel)]="model.internal_number" />
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="form-group-3">
+                          <label>{{'addForm.neighborhood' | translate}}</label>
+                          <input type="text" class="form-control" name="neighborhood"
+                            [(ngModel)]="model.neighborhood" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <div class="spacer40"></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-4">
+                        <div class="form-group-3">
+                          <label>{{'addForm.municipality' | translate}}</label>
+                          <input (keydown.space)="$event.preventDefault();" autocomplete="off" type="text"
+                            class="form-control" [(ngModel)]="model.municipality" name="municipality">
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group-3">
+                          <label>{{'filters.location.country' | translate}}</label>
+                          <select class="form-control" (change)="getStatesNew1($event.target.value)"
+                            *ngIf="parameter?.countriesAdd">
+                            <option value="" disabled>{{'filters.location.selectCountry' | translate}}</option>
+                            <option value="0" [selected]="location.countries!='' && location.countries==0">
+                              {{'filters.location.allOption' | translate}}</option>
+                            <option *ngFor="let countryAdd of parameter.countriesAdd"
+                              [selected]="countryAdd.id == model.country_id" value="{{countryAdd.id}}">
+                              {{countryAdd.name}}</option>
+                            <option value="other">{{'filters.location.other' | translate}}</option>
+                          </select>
+                          <div>
+                            <input *ngIf="showInput" [(ngModel)]="model.country_name" (ngModelChange)="modelChanged()"
+                              name="country_name" autocomplete="off" type="text" class="form-control"
+                              placeholder="Enter Country Name" style="margin-top: 20px;">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group-3">
+                          <label>{{'filters.location.state' | translate}}</label>
+                          <select class="form-control" (change)="getCitiesNew1($event.target.value)"
+                            *ngIf="!showInput && parameter?.statesAdd">
+                            <option value="" disabled>{{'filters.location.selectState' | translate}}</option>
+                            <option value="0" [selected]="location.states!='' && location.states==0">
+                              {{'filters.location.allOption' | translate}}</option>
+                            <option *ngFor="let stateAdd of parameter.statesAdd"
+                              [selected]="stateAdd.id == model.state_id" value="{{stateAdd.id}}">{{stateAdd.name}}
+                            </option>
+                            <option value="other">{{'filters.location.other' | translate}}</option>
+                          </select>
+                          <input *ngIf="showInput || stateInput == 'other'" [attr.disabled]="stateDisable? '' : null"
+                            [(ngModel)]="model.state_name" (ngModelChange)="modelChanged()" name="state_name"
+                            autocomplete="off" type="text" class="form-control" placeholder="Enter State Name"
+                            [ngStyle]="{'margin-top': stateInput == 'other' ? '20px' : '0px' }">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <div class="spacer40"></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-4">
+                        <div class="form-group-3">
+                          <label>{{'filters.location.city' | translate}}</label>
+                          <select class="form-control" (change)="getLocalitiesNew($event.target.value)"
+                            *ngIf="!showInput && parameter?.citiesAdd">
+                            <option value="" disabled>{{'filters.location.selectCity' | translate}}</option>
+                            <option value="0" [selected]="location.cities!='' && location.cities==0">
+                              {{'filters.location.allOption' | translate}}</option>
+                            <option *ngFor="let cityAdd of parameter.citiesAdd" [selected]="cityAdd.id == model.city_id"
+                              value="{{cityAdd.id}}">{{cityAdd.name}}</option>
+                            <option value="other">{{'filters.location.other' | translate}}</option>
+                          </select>
+                          <input *ngIf="showInput || cityInput == 'other'" [attr.disabled]="cityDisable? '' : null"
+                            [(ngModel)]="model.city_name" name="city_name" autocomplete="off" type="text"
+                            class="form-control" placeholder="Enter City Name"
+                            [ngStyle]="{'margin-top': cityInput == 'other' ? '20px' : '0px' }">
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group-3">
+                          <label>{{'addForm.ZIP' | translate}}</label>
+                          <input minlength="8" maxlength="15" autocomplete="off" type="text" class="form-control"
+                            id="zipcode" minlength="1" [(ngModel)]="model.zipcode" name="zipcode" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <div class="spacer40"></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="form-group-3-2">
+                          <label>{{'addForm.address' | translate}}
+                          </label>
+                          <input placeholder="{{'addForm.placeholder.searchForAddress' | translate}}" autocorrect="off"
+                            autocapitalize="off" spellcheck="off" type="text" class="form-control" #search
+                            (input)="loadPlaces('developer_address', 'lat', 'lng', 'searchElementRef')"
+                            name="developer_address" [(ngModel)]="model.developer_address" autocomplete="off">
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group-3-2">
+                          <label>{{'addForm.googleSearchAddress' | translate}}
+                            <!-- <span class="color-red">*</span> -->
+                          </label>
+                          <agm-map class="height200" [latitude]="model.lat" [longitude]="model.lng"
+                            [scrollwheel]="false" (mapClick)="placeMarker($event, 'developer_address', 'lat', 'lng')"
+                            [zoom]="constant.zoom">
+                            <agm-marker [latitude]="model.lat" [longitude]="model.lng"></agm-marker>
+                          </agm-map>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+
+                  <div class="white-bg padding40">
+                    <h3>{{'addForm.legalRepresentativeInfo' | translate}}</h3>
+                    <div class="col-12">
+                      <div class="spacer40"></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-4">
+                        <div class="form-group-3">
+                          <label>{{'addForm.names' | translate}}
+                            <!-- <span class="color-red">*</span> -->
+                          </label>
+                          <input autocomplete="off" minlength="1" maxlength="50" [pattern]="constant.onlyWhiteSpaces"
+                            type="text" class="form-control" [(ngModel)]="model.legal_representative.name" name="name">
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group-3">
+                          <label>{{'addForm.firstSurname' | translate}}
+                            <!-- <span class="color-red">*</span> -->
+                          </label>
+                          <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces"
+                            type="text" class="form-control" [(ngModel)]="model.legal_representative.first_surname"
+                            name="first_surname">
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group-3">
+                          <label>{{'addForm.secondSurname' | translate}}
+                            <!-- <span class="color-red">*</span> -->
+                          </label>
+                          <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces"
+                            type="text" class="form-control" [(ngModel)]="model.legal_representative.second_surname"
+                            name="second_surname">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <div class="spacer40"></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-4">
+                        <div class="form-group-3">
+                          <label>{{'addForm.contactNumber' | translate}}</label>
+                          <input minlength="8" maxlength="15" autocomplete="off" type="text"
+                            [pattern]="constant.phonePattern" class="form-control" id="phone"
+                            [(ngModel)]="model.legal_representative.phone" name="legal_representative_phone" ng2TelInput
+                            [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group-3">
+                          <label>{{'addForm.emailId' | translate}}</label>
+                          <input (keydown.space)="$event.preventDefault();" autocomplete="off"
+                            [pattern]="constant.emailPattern" type="email" class="form-control"
+                            [(ngModel)]="model.legal_representative.email" name="rep_email">
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group-3">
+                          <label>{{'addForm.fedralTaxPayerRegistry' | translate}}</label>
+                          <input autocomplete="off" minlength="13" maxlength="13" [pattern]="constant.onlyWhiteSpaces"
+                            type="text" class="form-control" [(ngModel)]="model.legal_representative.fed_tax_pay"
+                            name="le_fed_tax_pay">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <div class="spacer40"></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-12">
+                        <label>{{'addCollection.bankAccount' | translate}}
+                          <!-- <span class="color-red">*</span> -->
+                          <span class="pull-right"><a class="add" (click)="addLegalEntityBank($event)"
+                              href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
+                        </label>
+                        <div class="row"
+                          *ngFor="let leBankAccount of model.legal_representative.legal_rep_banks; let i=index">
+                          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                            <div class="form-group-3">
+                              <label>{{'addCollection.bankName' | translate}}</label>
+                              <div class="clearfix"></div>
+                              <input autocomplete="off" minlength="1" maxlength="30" class="form-control" type="text"
+                                [(ngModel)]="leBankAccount.bank_name" name="le_bank_name{{i}}">
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                            <div class="form-group-3">
+                              <label>{{'addCollection.accountNumber' | translate}}</label>
+                              <div class="clearfix"></div>
+                              <input autocomplete="off" class="form-control" type="text" minlength="9" maxlength="20"
+                                [pattern]="constant.accountPattern" [(ngModel)]="leBankAccount.account_number"
+                                name="le_account_number{{i}}">
+                            </div>
+                          </div>
+                          <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                            <div class="form-group-3">
+                              <label>{{'addCollection.clabeSwift' | translate}}</label>
+                              <div class="clearfix"></div>
+                              <input autocomplete="off" class="form-control" type="text"
+                                [(ngModel)]="leBankAccount.swift" name="le_swift{{i}}">
+                            </div>
+                          </div>
+                          <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                            <div class="form-group-3">
+                              <label>{{'addCollection.currency' | translate}}</label>
+                              <div class="clearfix"></div>
+                              <select name="le_currency_id{{i}}" [(ngModel)]="leBankAccount.currency_id"
+                                class="form-control">
+                                <option value="">{{'addCollection.currency' | translate}}</option>
+                                <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                            <div class="form-group-3">
+                              <label>{{'addCollection.remove' | translate}}</label>
+                              <div class="clearfix"></div>
+                              <button type="button"
+                                (click)="removeLegalEntityBank($event, leBankAccount, i)">{{'addCollection.remove'
+                                |
+                                translate}}</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
+            </div>
           </div>
+        </div>
       </section>
     </div>
 
-     <!-- space -->
+    <!-- space -->
     <div class="col-12">
       <div class="spacer40"></div>
     </div>
-     <!-- space -->
+    <!-- space -->
     <!-- Street Address,External Number,Internal Number,Neighborhood,Municipality,City,ZIP code,State,Address -->
-   
+
   </form>
