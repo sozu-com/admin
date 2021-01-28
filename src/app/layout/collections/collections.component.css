@@ -4,7 +4,9 @@ textarea{
 .addCollComm{
     cursor: pointer;
 }
-
+.fa.fa-trash.icon.ng-star-inserted {
+  margin-left: 25px;
+}
 
 /* freeze first col and row */
 .main-table{

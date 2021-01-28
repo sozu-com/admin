@@ -1810,10 +1810,12 @@
               </td>
               <td>{{folder?.folder_docs?.length || 0}}</td>
               <td>
-                <!-- <a href="javascript://" (click)="openAddFolder('edit', folder, i)" class="fa fa-pencil" 
-                aria-hidden="true"></a> -->
-                <a *ngIf="folder.id != payment_folder_id" (click)="openAddFolder('edit', folder, i)" class="fa fa-pencil" 
-                aria-hidden="true"></a>
+                  <a href="javascript://" *ngIf="folder.id != payment_folder_id" (click)="openAddFolder('edit', folder, i)" class="fa fa-pencil" 
+                  aria-hidden="true"></a>
+                  <a  href="javascript://" (click)="deleteFolderPopup(folder, i)" 
+                  *ngIf="folder.id != payment_folder_id"
+                  class="fa fa-trash icon" 
+                  aria-hidden="true"></a>
             </tr>
 
             <tr id="collapse{{i}}" class="panel-collapse collapse">

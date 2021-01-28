@@ -125,7 +125,12 @@ export class CommonService {
     input.append('attachment', file);
     return this.admin.postDataApi('saveAttachment', input);
   }
-
+  saveAttachment1(file,id) {
+    const input = new FormData();
+    input.append('attachment', file);
+    input.append('id', id);
+    return this.admin.postDataApi('addLinkedDocument',input);
+  }
   setPropertyDetails(data) {
     this.propertyDetails.next(data);
   }

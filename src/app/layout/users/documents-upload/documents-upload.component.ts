@@ -11,7 +11,7 @@ import { CommonService } from 'src/app/services/common.service';
 import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LegalRepresentative, Banks } from 'src/app/models/legalEntity.model';
-import { IMarritalStatus } from 'src/app/common/marrital-status-interface';
+import { ToastrService } from 'ngx-toastr';
 declare const google;
 declare let swal: any;
 
@@ -24,7 +24,13 @@ declare let swal: any;
 export class DocumentsUploadComponent implements OnInit {
   @ViewChild('mapDiv') mapDiv: ElementRef;
   @ViewChild('search') searchElementRef: ElementRef;
+  @ViewChild('docsModalClose') docsModalClose: ElementRef;
+  @ViewChild('docsFile') docsFile: ElementRef;
   public parameter: IProperty = {};
+  @ViewChild('docsModalOpen') docsModalOpen: ElementRef;
+  @ViewChild('folderModalOpen') folderModalOpen: ElementRef;
+  @ViewChild('folderModalClose') folderModalClose: ElementRef;
+
   initialCountry: any;
   show = false;
   image: any;
@@ -35,17 +41,23 @@ export class DocumentsUploadComponent implements OnInit {
   language_code: string;
   showInput: boolean = false;
   dataNotAvailable: boolean;
+  collectionFolders: Array<any>;
+  folderIndex: number;
+  folderName: string;
+  docs = new Array<any>();
+  folderId: number;
+  docsName: string;
+  docFile: any;
+  mode: string;
+  selectedFolder: any = {};
 
   constructor(
     public constant: Constant,
     private cs: CommonService,
-    private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone,
     private admin: AdminService,
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
-    private translate: TranslateService,
-    private router: Router
+    private translate: TranslateService,  private toastr: ToastrService,
   ) { }
 
   ngOnInit() {
@@ -100,26 +112,6 @@ export class DocumentsUploadComponent implements OnInit {
     this.show = true;
   }
 
-  changeListner(event: any, param: any) {
-    if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
-      return false;
-    }
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      this[param] = e.target.result;
-      this.spinner.show();
-      this.cs.saveImage(event.target.files[0]).subscribe(
-        success => {
-          this.spinner.hide();
-          this.model[param] = success['data'].image;
-        }
-      );
-    };
-    reader.readAsDataURL(event.target.files[0]);
-  }
-
- 
   noDataAvailable(data){
    this.dataNotAvailable = data? true : false;
   }
@@ -154,8 +146,47 @@ export class DocumentsUploadComponent implements OnInit {
       .subscribe(
         success => {
           swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
+          this.getUserById(this.model.id);
           this.parameter.items.splice(index, 1);
         });
   }
   
+  closeModal() {
+    this.docsModalClose.nativeElement.click();
+  }
+
+  onSelectFile(files,folderId) {
+    this.parameter.loading = true;
+    this.cs.saveAttachment1(files[0],folderId).subscribe(
+      success => {
+        this.parameter.loading = false;
+        this.docFile = success['data'].name;
+        this.folderId = success['data'].id;
+      }, error => {
+        this.parameter.loading = false;
+      }
+    );
+  }
+
+
+  addDocs() {
+    if (!this.docFile) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterDocuFile'), this.translate.instant('swal.error'));
+      return;
+    }
+    
+    console.log(this.docFile,"file")
+    this.docs.push({display_name: this.docFile});
+    this.docFile = ''; 
+    this.docsFile.nativeElement.value = '';
+    this.getUserById(this.model.id);
+  }
+
+  openAddFolder(folder, index: number) {
+     this.folderName = folder.user_document.name_en;
+    this.folderId = folder.id;
+    this.folderModalOpen.nativeElement.click();
+  }
+
 }
