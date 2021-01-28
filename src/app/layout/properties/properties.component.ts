@@ -605,6 +605,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   openModalInstallment = (propertyDetails: any): void => {
     this.property_array = propertyDetails;
+
+    //let image = this.getBase64ImageFromUrl('https://apitest.sozu.com/storage/uploads/1611741201gGb05agixNc89lIlW7d3Fk6ZUIE95H.jpg');
+    // this.getBase64ImageFromUrl('https://apitest.sozu.com/storage/uploads/1611741201gGb05agixNc89lIlW7d3Fk6ZUIE95H.jpg')
+    // .then(result => this.logoImageBase64 = result)
+    // .catch(err => console.error(err));
     this.spinner.show();
     this.admin.postDataApi('getPropertyById', { id: (propertyDetails || {}).id }).subscribe((success) => {
       this.spinner.hide();
@@ -1175,26 +1180,37 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
   }
 
-  //   toDataURL(url, callback) {
-  //     var xhr = new XMLHttpRequest();
-  //     xhr.onload = function () {
-  //         var reader = new FileReader();
-  //         reader.onloadend = function () {
-  //             callback(reader.result);
-  //         }
-  //         reader.readAsDataURL(xhr.response);
+  // async getBase64ImageFromUrl(imageUrl) {
+  //   let res = await fetch(imageUrl, {mode: 'no-cors'});
+  //   let blob = await res.blob();
+  
+  //   return new Promise((resolve, reject) => {
+  //     let reader  = new FileReader();
+  //     reader.addEventListener("load", function () {
+  //         resolve(reader.result);
+  //     }, false);
+  
+  //     reader.onerror = () => {
+  //       return reject(this);
   //     };
-  //     xhr.open('GET', url);
-  //     xhr.responseType = 'blob';
-  //     xhr.send();
+  //     reader.readAsDataURL(blob);
+  //   })
   // }
 
+  getBase64ImageFromUrl(imageUrl){ 
+    let filename = 'image.png'
+    const arr = imageUrl.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, {type: mime});
+  }
+
   generatePDF() {
-    //let testImage;
-    //     this.toDataURL(this.property_array.building.images[0].image, function (dataUrl) {
-    //       testImage = dataUrl;
-    // console.log(dataUrl)
-    //     })
     let current_date = new Date();
     let date = this.datePipe.transform(current_date, 'd/M/y');
     let list_price = this.property_array.max_area * this.property_array.min_price;
@@ -1204,7 +1220,6 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     let payment_upon_delivery = (this.installmentFormGroup.value.paymentupondelivery * list_price) / 100;
     let monthly_installments = monthly_installment_amount / this.installmentFormGroup.value.numberOfMI;
     let final_price = list_price - discount;
-    let selected_bank = this.levels.find(x => x.id == this.selectedvalue.id);
 
     let docDefinition = {
       pageSize: {
@@ -1241,8 +1256,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                 margin: [0, 0, 0, 20]
               },
               {
-                image: this.logoImageBase64,
+                image: 'logo',
                 width: 100,
+                height: 50,
                 margin: [0, 0, 0, 20]
               },
               {
@@ -1360,7 +1376,6 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     [
                       { text: this.translate.instant('generatePDF.finalPrice'), border: [false, false, false, false], bold: true, fontSize: 14 },
                       { text: '', border: [false, false, false, false] },
-                      { text: '$ ' + this.price.transform(final_price), border: [false, false, false, false], bold: true, fontSize: 14 },
                       { text: this.price.transform(final_price), border: [false, false, false, false], bold: true, fontSize : 14 },
                     ],
                   ]
@@ -1368,7 +1383,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
               },
               {
                 text: this.translate.instant('generatePDF.comments'),
-                margin: [0, 20, 0, 0]
+                margin: [0, 20, 0, 3],
+                bold: true
+              },
+              {
+                text:this.installmentFormGroup.value.addNoteFormArray[0].addNote
               },
               {
                 text: this.translate.instant('generatePDF.offersValidUntil') + ' ' + date,
@@ -1387,23 +1406,23 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.bank'), border: [false, false, false, false], color: '#858291' },
-                      { text: selected_bank.name, border: [false, false, false, false], bold: true }
+                      { text: this.installmentFormGroup.value.paymentBankDetails.name, border: [false, false, false, false], bold: true }
                     ],
                     [
                       { text: this.translate.instant('generatePDF.accountName'), border: [false, false, false, false], color: '#858291' },
-                      { text: selected_bank.AccountName, border: [false, false, false, false], bold: true },
+                      { text: this.installmentFormGroup.value.paymentBankDetails.AccountName, border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.federalTaxPayer'), border: [false, false, false, false], color: '#858291' },
-                      { text: selected_bank.RFC, border: [false, false, false, false], bold: true },
+                      { text: this.installmentFormGroup.value.paymentBankDetails.RFC, border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.accountNumber'), border: [false, false, false, false], color: '#858291' },
-                      { text: selected_bank.accountNumber, border: [false, false, false, false], bold: true }
+                      { text: this.installmentFormGroup.value.paymentBankDetails.accountNumber, border: [false, false, false, false], bold: true }
                     ],
                     [
                       { text: this.translate.instant('generatePDF.cLABE'), border: [false, false, false, false], color: '#858291' },
-                      { text: selected_bank.CLABE, border: [false, false, false, false], bold: true }
+                      { text: this.installmentFormGroup.value.paymentBankDetails.CLABE, border: [false, false, false, false], bold: true }
                     ],
                   ]
                 }
@@ -1429,6 +1448,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
           margin: [0, 5, 0, 15],
           border: [false, false, false, false]
         },
+      },
+      images:{
+        logo: 'https://picsum.photos/seed/picsum/200/300',
+        logo1: 'https://apitest.sozu.com/storage/uploads/1611741201gGb05agixNc89lIlW7d3Fk6ZUIE95H.jpg'
       }
     };
 
