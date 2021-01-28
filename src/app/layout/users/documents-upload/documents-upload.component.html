@@ -23,17 +23,66 @@
           name="name_en{{ i }}"
           disabled
         />
-        <i class="fa fa-plus-circle icon" aria-hidden="true"></i>
+
+        <i class="fa fa-plus-circle icon" aria-hidden="true" style="cursor: pointer;" (click)="openAddFolder(bankAccount,i)"></i>
         <!-- <button 
         (click)="viewDocument(bankAccount?.document)" class="action-icon">
         <img src="assets/img/eye-icon.png" alt="img"></button> -->
-        <i class="fa fa-eye icons" aria-hidden="true"(click)="viewDocument(bankAccount?.document)"></i>
+        <!-- <i class="fa fa-eye icons"  (click)="viewDocument(bankAccount?.document)"></i>
         <i class="fa fa-trash iconss" aria-hidden="true" (click)="deletePopup(i, bankAccount.id)" 
-        title="{{'table.title.delete' | translate}}"></i>
+        title="{{'table.title.delete' | translate}}"></i> -->
       </div>
     </div>
     <div *ngIf="dataNotAvailable" style="text-align: center;">
       <span>No record available</span>
     </div>
   </div>
+
+  <a href="javascript://" data-toggle="modal" data-target="#add-folder" #folderModalOpen></a>
+    
+  <div class="modal animated" id="add-folder">
+        <div class="modal-dialog fadeIndown" style="margin-top: 13%;">
+              <div class="modal-content notary-avail">
+                    <div class="modal-header popup-header">
+                          <h4>{{ 'addForm.uploadDoc' | translate }}</h4>
+                          <button style="display: none;" type="button" class="close" data-dismiss="modal" #docsModalClose>&times;</button>
+                          <button type="button" class="close" (click)="closeModal()">&times;</button>
+                    </div>
+  
+                    <div class="modal-body">
+                          <div class="white-bg">
+                                <div class="row">
+                                      <div class="col-8">
+                                            <p class="p16 marginB0">{{folderName}}</p>
+                                      </div>
+                                      <div class="col-4 text-right">
+                                            <a class="add" href="javascript://" (click)="addDocs()">
+                                              <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
+                                              {{'commonBlock.add' | translate}}
+                                            </a>
+  
+                                            <ng-template #noAddPermissiom>
+                                                  <a class="add" href="javascript://">{{'commonBlock.add' | translate}}</a>
+                                            </ng-template>
+                                      </div>
+                                </div>
+                          </div>
+                          <div class="form-group-2">
+                                <div class="form-group">
+                                  <input type="file" name="docFile" id="folderId" #docsFile
+                                  accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/x-png,image/jpg,image/jpeg"
+                                  (change)="onSelectFile($event.target.files,folderId)">
+                                </div>
+                          </div>
+                          
+                          <div *ngIf="docs?.length==0" class="write-note white-bg" [ngStyle]="{'height':sent_as === 1 ? '230px' : '245px' }">
+                                <p class="show-not-found">
+                                      {{'message.error.noDocumentFound' | translate}}
+                                </p>
+                          </div>
+                    </div>
+              </div>
+        </div>
+  </div>
+
 </div>
