@@ -31,7 +31,7 @@ export class AddUserComponent implements OnInit {
   file4: FileUpload;
   developer_image: any;
   model: Users;
-  currencies= Array<any>();
+  currencies = Array<any>();
   location: IProperty = {};
   marrital_status_list = Array<IMarritalStatus>();
   language_code: string;
@@ -41,7 +41,7 @@ export class AddUserComponent implements OnInit {
   stateInput: string;
   cityInput: string;
   countryInput: string;
-  
+
   constructor(
     public constant: Constant,
     private cs: CommonService,
@@ -62,18 +62,18 @@ export class AddUserComponent implements OnInit {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
     this.getCurrencies();
-      this.parameter.sub = this.route.params.subscribe(params => {
-        if (params['id']) {
-          this.model.id = params['id'];
-          this.getUserById(this.model.id);
-        } else {
-          this.model.id = '';
-        }
-      });
+    this.parameter.sub = this.route.params.subscribe(params => {
+      if (params['id']) {
+        this.model.id = params['id'];
+        this.getUserById(this.model.id);
+      } else {
+        this.model.id = '';
+      }
+    });
   }
 
   initModel() {
-    this.initialCountry = {initialCountry: this.constant.country_code};
+    this.initialCountry = { initialCountry: this.constant.country_code };
     this.model = new Users();
     this.model.legal_rep_banks = new Array();
     this.model.legal_representative = new LegalRepresentative();
@@ -92,23 +92,23 @@ export class AddUserComponent implements OnInit {
 
   getUserById(id: string) {
     this.spinner.show();
-    this.admin.postDataApi('getUserById', {'user_id': id})
-    .subscribe(
-      success => {
-        this.spinner.hide();
-        this.model = new Users();
-        this.model = success.data;
-        // this.model.legal_representative = new LegalRepresentative();
-        this.model.legal_rep_banks = success.data.legal_rep_banks;
-        this.model.legal_representative = success.data.legal_representative || new LegalRepresentative();
-        this.model.legal_representative.legal_rep_banks = success.data.legal_representative.legal_rep_banks; // Array(new Banks());
-        this.image = this.model.image;
+    this.admin.postDataApi('getUserById', { 'user_id': id })
+      .subscribe(
+        success => {
+          this.spinner.hide();
+          this.model = new Users();
+          this.model = success.data;
+          // this.model.legal_representative = new LegalRepresentative();
+          this.model.legal_rep_banks = success.data.legal_rep_banks;
+          this.model.legal_representative = success.data.legal_representative || new LegalRepresentative();
+          this.model.legal_representative.legal_rep_banks = success.data.legal_representative.legal_rep_banks; // Array(new Banks());
+          this.image = this.model.image;
 
-        this.model.country_id ? this.getStatesNew1(this.model.country_id) : undefined;
-        this.model.state_id ? this.getCitiesNew1(this.model.state_id) : undefined;
-      }, error => {
-        this.spinner.hide();
-      });
+          this.model.country_id ? this.getStatesNew1(this.model.country_id) : undefined;
+          this.model.state_id ? this.getCitiesNew1(this.model.state_id) : undefined;
+        }, error => {
+          this.spinner.hide();
+        });
   }
 
   set() {
@@ -158,15 +158,15 @@ export class AddUserComponent implements OnInit {
       modelSave.images = modelSave.images.map(r => r.image);
     }
     if (modelSave.legal_representative.name || modelSave.legal_representative.first_surname || modelSave.legal_representative.phone
-       || modelSave.legal_representative.email) {
-        // if any of key present, then all must be entered
+      || modelSave.legal_representative.email) {
+      // if any of key present, then all must be entered
       if (!modelSave.legal_representative.name) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeName'), 'error');
         return;
       }
       if (!modelSave.legal_representative.first_surname) {
         swal(this.translate.instant('swal.error'),
-        this.translate.instant('message.error.pleaseEnterLegalRepresentativeFirstName'), 'error');
+          this.translate.instant('message.error.pleaseEnterLegalRepresentativeFirstName'), 'error');
         return;
       }
       if (!modelSave.legal_representative.phone) {
@@ -182,9 +182,9 @@ export class AddUserComponent implements OnInit {
       //   return;
       // }
     }
-    if (!modelSave.legal_representative.name || !modelSave.legal_representative.first_surname || !modelSave.legal_representative.phone 
-       || !modelSave.legal_representative.email) {
-        delete modelSave.legal_representative;
+    if (!modelSave.legal_representative.name || !modelSave.legal_representative.first_surname || !modelSave.legal_representative.phone
+      || !modelSave.legal_representative.email) {
+      delete modelSave.legal_representative;
     }
 
     if (modelSave['legal_rep_banks'] && modelSave['legal_rep_banks'].length > 0) {
@@ -200,7 +200,7 @@ export class AddUserComponent implements OnInit {
     }
 
     if (modelSave['legal_representative'] &&
-    modelSave['legal_representative']['legal_rep_banks'] && modelSave['legal_representative']['legal_rep_banks'].length > 0) {
+      modelSave['legal_representative']['legal_rep_banks'] && modelSave['legal_representative']['legal_rep_banks'].length > 0) {
       let i = 0;
       for (let index = 0; index < modelSave['legal_representative']['legal_rep_banks'].length; index++) {
         const element = modelSave['legal_representative']['legal_rep_banks'][index];
@@ -212,9 +212,9 @@ export class AddUserComponent implements OnInit {
       }
     }
 
-    modelSave.country_id = this.countryInput == 'other'? 0 : modelSave.country_id;
-    modelSave.state_id = this.stateInput == 'other'? 0 : modelSave.state_id;
-    modelSave.city_id = this.cityInput == 'other'? 0 : modelSave.city_id;
+    modelSave.country_id = this.countryInput == 'other' ? 0 : modelSave.country_id;
+    modelSave.state_id = this.stateInput == 'other' ? 0 : modelSave.state_id;
+    modelSave.city_id = this.cityInput == 'other' ? 0 : modelSave.city_id;
     this.spinner.show();
     this.admin.postDataApi('addSeller', modelSave)
       .subscribe(
@@ -225,8 +225,8 @@ export class AddUserComponent implements OnInit {
             return;
           } else {
             const text = this.model.id === '' ?
-                    this.translate.instant('message.success.addedSuccessfully') :
-                    this.translate.instant('message.success.updatedSuccessfully');
+              this.translate.instant('message.success.addedSuccessfully') :
+              this.translate.instant('message.success.updatedSuccessfully');
             swal(this.translate.instant('swal.success'), text, 'success');
             if (this.model.id === '') {
               this.router.navigate(['/dashboard/users']);
@@ -324,7 +324,7 @@ export class AddUserComponent implements OnInit {
     $event.stopPropagation();
     this.model.legal_representative.legal_rep_banks.splice(i, 1);
     if (item.id) {
-      this.admin.postDataApi('deleteLegalRepBank', {id: item.id}).subscribe(success => {
+      this.admin.postDataApi('deleteLegalRepBank', { id: item.id }).subscribe(success => {
         this.spinner.hide();
       }, error => {
         this.spinner.hide();
@@ -341,7 +341,7 @@ export class AddUserComponent implements OnInit {
     $event.stopPropagation();
     this.model.legal_rep_banks.splice(i, 1);
     if (item.id) {
-      this.admin.postDataApi('deleteLegalRepBank', {id: item.id}).subscribe(success => {
+      this.admin.postDataApi('deleteLegalRepBank', { id: item.id }).subscribe(success => {
         this.spinner.hide();
       }, error => {
         this.spinner.hide();
@@ -349,13 +349,13 @@ export class AddUserComponent implements OnInit {
     }
   }
 
-  selectGender(gender){
+  selectGender(gender) {
     this.model.gender = gender;
   }
 
-  isChecked(gender){
-   return gender == this.model.gender? true : false;
-    
+  isChecked(gender) {
+    return gender == this.model.gender ? true : false;
+
   }
 
   getCountries() {
@@ -363,11 +363,11 @@ export class AddUserComponent implements OnInit {
     this.parameter.statesAdd = []; this.parameter.citiesAdd = []; this.parameter.localitiesAdd = [];
     this.parameter.buildingsAdd = [];
     this.admin.postDataApi('getCountryLocality-v2', {})
-      .subscribe(success => { 
-        this.parameter.countriesAdd = success.data; 
+      .subscribe(success => {
+        this.parameter.countriesAdd = success.data;
         this.location.countries = '0';
-        this.location.states = '0'; 
-        this.location.cities = '0'; 
+        this.location.states = '0';
+        this.location.cities = '0';
         this.showInput = false;
         this.stateInput = undefined;
         this.cityInput = undefined;
@@ -382,17 +382,17 @@ export class AddUserComponent implements OnInit {
     });
   }
 
-  getMaritalStatus(maritalStatusId){
-this.model.marital_statuses_id = maritalStatusId;
+  getMaritalStatus(maritalStatusId) {
+    this.model.marital_statuses_id = maritalStatusId;
   }
 
-   getStatesNew1(countryId) {
+  getStatesNew1(countryId) {
     this.parameter.citiesAdd = []; this.parameter.localitiesAdd = []; this.parameter.buildingsAdd = [];
     this.parameter.country_id = countryId;
 
     if (countryId !== '' && countryId !== '0' && countryId != 'other') {
-      this.parameter.countriesAdd.filter(country =>{
-        if(country.id == countryId){
+      this.parameter.countriesAdd.filter(country => {
+        if (country.id == countryId) {
           this.parameter.statesAdd = country.states;
           this.showInput = false;
           this.location.countries = countryId;
@@ -405,7 +405,7 @@ this.model.marital_statuses_id = maritalStatusId;
         }
       });
     } else {
-      if(countryId == 'other'){
+      if (countryId == 'other') {
         this.countryInput = countryId;
         this.showInput = true;
         this.model.country_name = undefined;
@@ -416,14 +416,14 @@ this.model.marital_statuses_id = maritalStatusId;
         this.stateDisable = true;
         this.cityDisable = true;
       }
-      else{
+      else {
         this.countryInput = countryId;
         this.showInput = false;
         this.parameter.statesAdd = [];
-        this.location.countries = countryId; 
+        this.location.countries = countryId;
         this.model.country_id = countryId;
         this.location.states = '0';
-        this.location.cities = '0'; 
+        this.location.cities = '0';
       }
     }
   }
@@ -434,29 +434,29 @@ this.model.marital_statuses_id = maritalStatusId;
     this.parameter.state_id = state_id;
 
     if (state_id !== '' && state_id !== '0' && state_id != 'other') {
-      this.parameter.statesAdd.filter(state =>{
-        if(state.id == state_id){
+      this.parameter.statesAdd.filter(state => {
+        if (state.id == state_id) {
           this.parameter.citiesAdd = state.cities;
-          this.location.states = state_id; 
-          this.model.state_id = state_id; 
+          this.location.states = state_id;
+          this.model.state_id = state_id;
           this.location.cities = this.model.city_id;
           this.model.city_name = undefined;
         }
       });
     } else {
-      if(state_id == 'other'){
+      if (state_id == 'other') {
         this.stateInput = state_id;
         this.model.state_name = undefined;
         this.model.city_name = undefined;
         this.stateDisable = false;
       }
-      else{
-      this.stateInput = state_id;
-      this.parameter.citiesAdd = []; 
-      this.location.states = state_id;
-      this.model.state_id = state_id; 
-      this.location.cities = '0';
-      }     
+      else {
+        this.stateInput = state_id;
+        this.parameter.citiesAdd = [];
+        this.location.states = state_id;
+        this.model.state_id = state_id;
+        this.location.cities = '0';
+      }
     }
   }
 
@@ -468,24 +468,45 @@ this.model.marital_statuses_id = maritalStatusId;
     if (city_id === '' || city_id === '0' && city_id != 'other') {
       return false;
     }
-    else{
-      this.cityDisable =  city_id == 'other'? false: true;;
+    else {
+      this.cityDisable = city_id == 'other' ? false : true;;
       this.cityInput = city_id;
     }
   }
-  
-  modelChanged(){
-    if((!this.model.country_name || this.model.country_name == "") && this.countryInput != 'other'){
-       this.stateDisable = this.stateInput != 'other'? true: false;
-       this.cityDisable = this.cityInput != 'other'? true: false;
-       //this.model.state_name = undefined;
-       //this.model.city_name = undefined;
+
+  modelChanged() {
+    if ((!this.model.country_name || this.model.country_name == "") && this.countryInput != 'other') {
+      this.stateDisable = this.stateInput != 'other' ? true : false;
+      this.cityDisable = this.cityInput != 'other' ? true : false;
+      //this.model.state_name = undefined;
+      //this.model.city_name = undefined;
     }
-    else if(this.model.country_name && !this.model.state_name){
+    else if (this.model.country_name && !this.model.state_name) {
       this.stateDisable = false;
     }
-    else if(this.model.country_name && this.model.state_name){
+    else if (this.model.country_name && this.model.state_name) {
       this.cityDisable = false;
+    }
+  }
+
+  getCounrtyByZipcode = (): void => {
+    if ((this.model.zipcode.toString()).length >= 5) {
+      this.spinner.show();
+      this.admin.postDataApi('getCounrtyByZipcode', { zip_code: this.model.zipcode }).subscribe((success) => {
+        this.spinner.hide();
+        if (!success.data.error) {
+          this.model.municipality = (success.data.response || {}).municipio || ''; // Municipality
+          this.model.state = (success.data.response || {}).estado || ''; // State
+          this.model.city = (success.data.response || {}).ciudad || ''; // city
+          this.model.country = (success.data.response || {}).pais || ''; // Country
+          this.model.neighbourhoods = (success.data.response || {}).asentamiento || []; // settlement or neighbourhoods
+          // this.model.neighborhood = ((success.data.response || {}).asentamiento || [])[0] || '';
+        } else {
+        }
+      }, (error) => {
+        this.spinner.hide();
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
+      });
     }
   }
 }

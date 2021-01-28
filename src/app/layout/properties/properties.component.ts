@@ -611,12 +611,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     // .then(result => this.logoImageBase64 = result)
     // .catch(err => console.error(err));
     this.spinner.show();
-    this.admin.postDataApi('getPropertyById', { id: (propertyDetails || {}).id }).subscribe((success) => {
+    this.admin.postDataApi('getPropertyById', { id: 5683 /*(propertyDetails || {}).id*/ }).subscribe((success) => {
       this.spinner.hide();
       this.collectionModel = (success || {}).data;
-      this.paymentBankDetailsArray = this.levels;
-      this.openInstallmentModal.nativeElement.click();
-     // this.makePaymentBankDetailsArray();
+      this.makePaymentBankDetailsArray(true);
     }, (error) => {
       this.spinner.hide();
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
@@ -1591,22 +1589,19 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   onAgencyOrSellerChange = (): void => {
-    // this.installmentFormGroup.get('agencyOrSeller').value if true == seller or false == agency
-    if (this.installmentFormGroup.get('agencyOrSeller').value) {
-
-    } else {
-
-    }
+    this.installmentFormGroup.get('paymentBankDetails').setValue('');
+    this.makePaymentBankDetailsArray(false);
   }
 
-  makePaymentBankDetailsArray = (): void => {
+  makePaymentBankDetailsArray = (isFirstTimeClick: boolean): void => {
     this.paymentBankDetailsArray = [];
-    if (this.collectionModel.payment_received_by) {
+     // this.installmentFormGroup.get('agencyOrSeller').value if true == seller or false == agency
+    if (!this.installmentFormGroup.get('agencyOrSeller').value) {
       // payment directly received by agency
-      if (this.collectionModel.property.building && this.collectionModel.property.building.agency_id) {
+      if (this.collectionModel.building && this.collectionModel.building.agency_id) {
         // agency banks
-        for (let index = 0; index < this.collectionModel.property.building.agency.agency_banks.length; index++) {
-          const element = this.collectionModel.property.building.agency.agency_banks[index];
+        for (let index = 0; index < this.collectionModel.building.agency.agency_banks.length; index++) {
+          const element = this.collectionModel.building.agency.agency_banks[index];
           element.name = 'Agency Bank | ' + element.bank_name;
           element.is_agency = 1;
           element.bank_id = element.id;
@@ -1615,9 +1610,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         }
 
         // agency legal representative banks
-        if (this.collectionModel.property.building.agency.legal_representative) {
-          for (let index = 0; index < this.collectionModel.property.building.agency.legal_representative.legal_rep_banks.length; index++) {
-            const element = this.collectionModel.property.building.agency.legal_representative.legal_rep_banks[index];
+        if (this.collectionModel.building.agency.legal_representative) {
+          for (let index = 0; index < this.collectionModel.building.agency.legal_representative.legal_rep_banks.length; index++) {
+            const element = this.collectionModel.building.agency.legal_representative.legal_rep_banks[index];
             element.name = 'Agency Legal Rep Bank | ' + element.bank_name;
             element.is_agency = 1;
             element.bank_id = null;
@@ -1626,57 +1621,59 @@ export class PropertiesComponent implements OnInit, OnDestroy {
           }
         }
       }
-    } else {
-      // payment directly received by seller
-      if (this.collectionModel.seller_type != 2) {
-        // seller (as a person or developer) banks
-        for (let index = 0; index < this.collectionModel.seller.legal_rep_banks.length; index++) {
-          const element = this.collectionModel.seller.legal_rep_banks[index];
-          element.name = 'Seller Bank | ' + element.bank_name;
-          element.is_agency = 2;
-          element.bank_id = element.id;
-          element.legal_rep_bank_id = null;
-          this.paymentBankDetailsArray.push(element);
-        }
+    } else if (this.installmentFormGroup.get('agencyOrSeller').value) {
+      // // payment directly received by seller
+      // if (this.collectionModel.seller_type != 2) {
+      //   // seller (as a person or developer) banks
+      //   for (let index = 0; index < this.collectionModel.seller.legal_rep_banks.length; index++) {
+      //     const element = this.collectionModel.seller.legal_rep_banks[index];
+      //     element.name = 'Seller Bank | ' + element.bank_name;
+      //     element.is_agency = 2;
+      //     element.bank_id = element.id;
+      //     element.legal_rep_bank_id = null;
+      //     this.paymentBankDetailsArray.push(element);
+      //   }
 
-        // agency legal representative banks
-        if (this.collectionModel.seller.legal_representative) {
-          for (let index = 0; index < this.collectionModel.seller.legal_representative.legal_rep_banks.length; index++) {
-            const element = this.collectionModel.seller.legal_representative.legal_rep_banks[index];
-            element.name = 'Seller Legal Rep Bank | ' + element.bank_name;
-            element.is_agency = 2;
-            element.bank_id = null;
-            element.legal_rep_bank_id = element.id;
-            this.paymentBankDetailsArray.push(element);
-          }
-        }
-      } else {
-        // seller (as a legal entity) banks
-        if (this.collectionModel.seller_legal_entity && this.collectionModel.seller_legal_entity.legal_entity_banks) {
-          for (let index = 0; index < this.collectionModel.seller_legal_entity.legal_entity_banks.length; index++) {
-            const element = this.collectionModel.seller_legal_entity.legal_entity_banks[index];
-            element.name = 'Seller Bank | ' + element.bank_name;
-            element.is_agency = 2;
-            element.bank_id = element.id;
-            element.legal_rep_bank_id = null;
-            this.paymentBankDetailsArray.push(element);
-          }
+      //   // agency legal representative banks
+      //   if (this.collectionModel.seller.legal_representative) {
+      //     for (let index = 0; index < this.collectionModel.seller.legal_representative.legal_rep_banks.length; index++) {
+      //       const element = this.collectionModel.seller.legal_representative.legal_rep_banks[index];
+      //       element.name = 'Seller Legal Rep Bank | ' + element.bank_name;
+      //       element.is_agency = 2;
+      //       element.bank_id = null;
+      //       element.legal_rep_bank_id = element.id;
+      //       this.paymentBankDetailsArray.push(element);
+      //     }
+      //   }
+      // } else {
+      //   // seller (as a legal entity) banks
+      //   if (this.collectionModel.seller_legal_entity && this.collectionModel.seller_legal_entity.legal_entity_banks) {
+      //     for (let index = 0; index < this.collectionModel.seller_legal_entity.legal_entity_banks.length; index++) {
+      //       const element = this.collectionModel.seller_legal_entity.legal_entity_banks[index];
+      //       element.name = 'Seller Bank | ' + element.bank_name;
+      //       element.is_agency = 2;
+      //       element.bank_id = element.id;
+      //       element.legal_rep_bank_id = null;
+      //       this.paymentBankDetailsArray.push(element);
+      //     }
 
-          // agency legal representative banks
-          if (this.collectionModel.seller_legal_entity.legal_reps && this.collectionModel.seller_legal_entity.legal_reps.legal_rep_banks) {
-            for (let index = 0; index < this.collectionModel.seller_legal_entity.legal_reps.legal_rep_banks.length; index++) {
-              const element = this.collectionModel.seller_legal_entity.legal_reps.legal_rep_banks[index];
-              element.name = 'Seller Legal Rep Bank | ' + element.bank_name;
-              element.is_agency = 2;
-              element.bank_id = null;
-              element.legal_rep_bank_id = element.id;
-              this.paymentBankDetailsArray.push(element);
-            }
-          }
-        }
-      }
+      //     // agency legal representative banks
+      //     if (this.collectionModel.seller_legal_entity.legal_reps && this.collectionModel.seller_legal_entity.legal_reps.legal_rep_banks) {
+      //       for (let index = 0; index < this.collectionModel.seller_legal_entity.legal_reps.legal_rep_banks.length; index++) {
+      //         const element = this.collectionModel.seller_legal_entity.legal_reps.legal_rep_banks[index];
+      //         element.name = 'Seller Legal Rep Bank | ' + element.bank_name;
+      //         element.is_agency = 2;
+      //         element.bank_id = null;
+      //         element.legal_rep_bank_id = element.id;
+      //         this.paymentBankDetailsArray.push(element);
+      //       }
+      //     }
+      //   }
+      // }
     }
-    this.openInstallmentModal.nativeElement.click();
+    if (isFirstTimeClick) {
+      this.openInstallmentModal.nativeElement.click();
+    }
   }
 
   ngOnDestroy(): void {

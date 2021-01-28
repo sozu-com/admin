@@ -33,6 +33,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { CalendarModule } from 'primeng/primeng';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { RouterModule } from '@angular/router';
+import { OnlyNumberDirective } from '../directives/only-number.directive';
 
 @NgModule({
   imports: [
@@ -73,7 +74,8 @@ import { RouterModule } from '@angular/router';
     LocalizedNumericInputDirective,
     AddressComponent,
     PreventDoubleClickDirective,
-    UptoThreeDecimalDirective
+    UptoThreeDecimalDirective,
+    OnlyNumberDirective
   ],
   exports: [
     CsrBuyerDetailComponent,
@@ -100,7 +102,8 @@ import { RouterModule } from '@angular/router';
     LocalizedNumericInputDirective,
     AddressComponent,
     PreventDoubleClickDirective,
-    UptoThreeDecimalDirective
+    UptoThreeDecimalDirective,
+    OnlyNumberDirective
   ]
 })
 export class SharedModule { }

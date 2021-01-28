@@ -60,4 +60,7 @@ export class Users {
     state_name?: string;
     city_name?: string;
     neighbourhoods?: any[];
+    country?: string;
+    state?: string;
+    city?: string;
 }
