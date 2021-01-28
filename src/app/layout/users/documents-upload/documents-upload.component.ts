@@ -43,10 +43,10 @@ export class DocumentsUploadComponent implements OnInit {
   collectionFolders: Array<any>;
   folderIndex: number;
   folderName: string;
-  docs: any;
+  docs = new Array<any>();
   folderId: number;
+  docsName: string;
   docFile: any;
-  docsName: any;
   mode: string;
   selectedFolder: any = {};
   constructor(
@@ -167,34 +167,13 @@ export class DocumentsUploadComponent implements OnInit {
       .subscribe(
         success => {
           swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
+          this.getUserById(this.model.id);
           this.parameter.items.splice(index, 1);
         });
   }
   
 
-  saveCollectionFolders() {
-    this.spinner.show();
-    this.admin.postDataApi('addCollection', {id: this.model.id, step: 6, 'collection_folders': this.collectionFolders})
-      .subscribe(
-        success => {
-          this.spinner.hide();
-          // swal({
-          //   html: this.translate.instant('message.success.submittedSccessfully'), type: 'success'
-          // });
-          this.router.navigate(['/dashboard/collections/view-collections']);
-        }, error => {
-          this.spinner.hide();
-        }
-      );
-  }
-
-  modelOpenFun(folder, index: number) {
-    this.folderIndex = index;
-    this.folderName = folder.name;
-    this.docs = folder.folder_docs;
-    this.folderId = folder.id;
-    this.docsModalOpen.nativeElement.click();
-  }
+ 
 
   closeModal() {
     this.docsModalClose.nativeElement.click();
@@ -220,9 +199,12 @@ export class DocumentsUploadComponent implements OnInit {
       this.toastr.error(this.translate.instant('message.error.pleaseEnterDocuFile'), this.translate.instant('swal.error'));
       return;
     }
+    
+    console.log(this.docFile,"file")
     this.docs.push({display_name: this.docFile});
     this.docFile = ''; 
     this.docsFile.nativeElement.value = '';
+    this.getUserById(this.model.id);
   }
 
   openAddFolder(folder, index: number) {

@@ -2100,7 +2100,31 @@ export class CollectionsComponent implements OnInit {
     }
     this.folderModalOpen.nativeElement.click();
   }
-
+  deleteFolderPopup(item: any, index: number) {
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+        this.translate.instant('message.error.wantToDeleteFolder'),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteFolder(item, index);
+      }
+    });
+  }
+  deleteFolder(item, index: number) {
+    this.collectionFolders.splice(index, 1);
+    if (item.id) {
+      this.admin.postDataApi('deleteCollectionFolder', {id: item.id}).subscribe(success => {
+        this.spinner.hide();
+      }, error => {
+        this.spinner.hide();
+      });
+    }
+  }
   checkIfLocalitySpanishNameEntered(document) {
     const self = this;
     if (document.name === '') {
