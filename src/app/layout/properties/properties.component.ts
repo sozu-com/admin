@@ -1449,7 +1449,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       },
       images:{
         logo: 'https://picsum.photos/seed/picsum/200/300',
-        logo1: 'https://apitest.sozu.com/storage/uploads/1611741201gGb05agixNc89lIlW7d3Fk6ZUIE95H.jpg'
+        //logo1: 'https://apitest.sozu.com/storage/uploads/1611741201gGb05agixNc89lIlW7d3Fk6ZUIE95H.jpg'
       }
     };
 
