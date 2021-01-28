@@ -11,7 +11,7 @@
             <h5>{{ 'addForm.uploadDoc' | translate }}</h5>
             <hr />
             <div style="max-width: 400px; margin: 2%;"
-            *ngIf="!model.user_linked_documents.length == 0">
+            *ngIf="model.user_linked_documents && model.user_linked_documents.length!=0">
                   <div class="input-icons" *ngFor="let bankAccount of model.user_linked_documents; let i = index">
                         <div class="row">
                               <div class="col-md-8">
