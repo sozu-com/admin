@@ -30,6 +30,7 @@ export class DocumentsUploadComponent implements OnInit {
   @ViewChild('docsModalOpen') docsModalOpen: ElementRef;
   @ViewChild('folderModalOpen') folderModalOpen: ElementRef;
   @ViewChild('folderModalClose') folderModalClose: ElementRef;
+
   initialCountry: any;
   show = false;
   image: any;
@@ -49,16 +50,14 @@ export class DocumentsUploadComponent implements OnInit {
   docFile: any;
   mode: string;
   selectedFolder: any = {};
+
   constructor(
     public constant: Constant,
     private cs: CommonService,
-    private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone,
     private admin: AdminService,
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
-    private translate: TranslateService,
-    private router: Router,  private toastr: ToastrService,
+    private translate: TranslateService,  private toastr: ToastrService,
   ) { }
 
   ngOnInit() {
@@ -113,26 +112,6 @@ export class DocumentsUploadComponent implements OnInit {
     this.show = true;
   }
 
-  changeListner(event: any, param: any) {
-    if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
-      return false;
-    }
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      this[param] = e.target.result;
-      this.spinner.show();
-      this.cs.saveImage(event.target.files[0]).subscribe(
-        success => {
-          this.spinner.hide();
-          this.model[param] = success['data'].image;
-        }
-      );
-    };
-    reader.readAsDataURL(event.target.files[0]);
-  }
-
- 
   noDataAvailable(data){
    this.dataNotAvailable = data? true : false;
   }
@@ -172,9 +151,6 @@ export class DocumentsUploadComponent implements OnInit {
         });
   }
   
-
- 
-
   closeModal() {
     this.docsModalClose.nativeElement.click();
   }
