@@ -63,7 +63,7 @@ export class EditUserComponent implements OnInit {
     this.getMarritalStatusList();
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
-    console.log(this.model,"model")
+    console.log(this.model, "model")
     this.getCurrencies();
     this.parameter.sub = this.route.params.subscribe(params => {
       if (params['id']) {
@@ -106,9 +106,10 @@ export class EditUserComponent implements OnInit {
           this.model.legal_representative = success.data.legal_representative || new LegalRepresentative();
           this.model.legal_representative.legal_rep_banks = success.data.legal_representative.legal_rep_banks; // Array(new Banks());
           this.image = this.model.image;
-
           this.model.country_id ? this.getStatesNew1(this.model.country_id) : undefined;
           this.model.state_id ? this.getCitiesNew1(this.model.state_id) : undefined;
+          this.model['neighbourhoods'] = [];
+          this.model.neighbourhoods.push(this.model.neighborhood);
         }, error => {
           this.spinner.hide();
         });
@@ -142,8 +143,8 @@ export class EditUserComponent implements OnInit {
     // this.model.dial_code = '+' + e.dialCode;
     // this.initialCountry = {initialCountry: e.iso2};
   }
-uploadDoc(userdata) {
-  console.log(userdata,"user id")
+  uploadDoc(userdata) {
+    console.log(userdata, "user id")
     this.router.navigate(['/dashboard/users/documents-upload', userdata.id]);
   }
   add(formData: NgForm) {
@@ -337,7 +338,7 @@ uploadDoc(userdata) {
     }
   }
 
-  
+
   addDeveloperBank(e) {
     const bank = new Banks();
     this.model.legal_rep_banks.push(bank);
@@ -506,12 +507,12 @@ uploadDoc(userdata) {
         this.spinner.hide();
         if (!success.data.error) {
           this.model.municipality = (success.data.response || {}).municipio || ''; // Municipality
-          this.model.state_name = (success.data.response || {}).estado || ''; // State
-          this.model.city_name = (success.data.response || {}).ciudad || ''; // city
-          this.model.country_name = (success.data.response || {}).pais || ''; // Country
+          this.model.state = (success.data.response || {}).estado || ''; // State
+          this.model.city = (success.data.response || {}).ciudad || ''; // city
+          this.model.country = (success.data.response || {}).pais || ''; // Country
           this.model.neighbourhoods = (success.data.response || {}).asentamiento || []; // settlement or neighbourhoods
+          // this.model.neighborhood = ((success.data.response || {}).asentamiento || [])[0] || '';
         } else {
-
         }
       }, (error) => {
         this.spinner.hide();

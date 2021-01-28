@@ -1180,27 +1180,30 @@ margin-left: -38%;">
                <div class="row" style="margin: auto;">
                   <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                      <div class="form-group-2">
-                        <label>{{'generatePDF.downPaymentPercentage' | translate}} <span
-                              class="color-red">*</span></label>
+                        <label>{{'generatePDF.downPaymentPercentage' | translate}}
+                           <span class="color-red">*</span>
+                        </label>
                      </div>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                      <div class="form-group-2">
-                        <label>{{'generatePDF.discountPercentage' | translate}}</label>
+                        <label>{{'generatePDF.discountPercentage' | translate}}
+                           <span class="color-red">*</span>
+                        </label>
                      </div>
                   </div>
                </div>
                <div class="row" style="margin-top: -15px;margin-left: auto;">
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                      <div class="form-group-3">
-                        <input required autocomplete="off" class="form-control" type="text"
+                        <input required autocomplete="off" class="form-control" type="number" appOnlyNumber maxlength="2" step="0.01"
                            formControlName="downPayment" placeholder="%">
                      </div>
                   </div>
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12" style="margin-left: 65px;">
                      <div class="form-group-3">
-                        <input autocomplete="off" class="form-control" type="text" formControlName="discount"
-                           placeholder="%">
+                        <input autocomplete="off" class="form-control" type="number" formControlName="discount"
+                           appOnlyNumber maxlength="2" placeholder="%">
                      </div>
                   </div>
                </div>
@@ -1221,14 +1224,14 @@ margin-left: -38%;">
                <div class="row" style="margin-top: -15px;margin-left: auto;">
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                      <div class="form-group-3">
-                        <input required autocomplete="off" class="form-control" type="text"
+                        <input required autocomplete="off" class="form-control" type="number" appOnlyNumber maxlength="2"
                            formControlName="monthlyInstallment" placeholder="%">
                      </div>
                   </div>
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12" style="margin-left: 65px;">
                      <div class="form-group-3">
-                        <input autocomplete="off" class="form-control" type="text" formControlName="interest"
-                           placeholder="%">
+                        <input autocomplete="off" class="form-control" type="number" formControlName="interest"
+                           appOnlyNumber maxlength="2" placeholder="%">
                      </div>
                   </div>
                </div>
@@ -1243,8 +1246,8 @@ margin-left: -38%;">
                <div class="row" style="margin-top: -15px;margin-left: auto;">
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                      <div class="form-group-3">
-                        <input required autocomplete="off" class="form-control" type="text" formControlName="numberOfMI"
-                           placeholder="#">
+                        <input required autocomplete="off" class="form-control" type="number" formControlName="numberOfMI"
+                           appOnlyNumber maxlength="2" placeholder="#">
                      </div>
                   </div>
                </div>
@@ -1259,7 +1262,7 @@ margin-left: -38%;">
                <div class="row" style="margin-top: -15px;margin-left: auto;">
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                      <div class="form-group-3">
-                        <input required autocomplete="off" class="form-control" type="text"
+                        <input required autocomplete="off" class="form-control" type="number" appOnlyNumber maxlength="2"
                            formControlName="paymentupondelivery" placeholder="%">
                      </div>
                   </div>
