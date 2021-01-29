@@ -168,6 +168,7 @@ export interface IProperty {
   property_sort?: number;
   action_filter?: number;
   seller_name?: string;
+  agent_name?: string;
   availability_filter?: number;
   sold_filter?: number;
   bulk_approve_property?: number;
