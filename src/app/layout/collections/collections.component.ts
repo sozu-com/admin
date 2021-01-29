@@ -18,12 +18,14 @@ import { ExcelDownload } from 'src/app/common/excelDownload';
 import {Document} from 'src/app/models/document.model';
 declare let swal: any;
 declare var $: any;
+
 @Component({
   selector: 'app-collections',
   templateUrl: './collections.component.html',
   styleUrls: ['./collections.component.css'],
   providers: [Notes, Document]
 })
+
 export class CollectionsComponent implements OnInit {
   mode: string;
   public parameter: IProperty = {};
@@ -677,7 +679,7 @@ export class CollectionsComponent implements OnInit {
     this.updatePaymentModalClose.nativeElement.click();
   }
 
-
+//update collection payment.
   updateCollectionPayment(formdata: NgForm) {
     // checking if date selected and receipt selected
     if (!this.payment_date) {
@@ -685,7 +687,7 @@ export class CollectionsComponent implements OnInit {
       this.toastr.error(this.translate.instant('message.error.pleaseSelectPaymentDate'), this.translate.instant('swal.error'));
       return false;
     }
-    if (!this.docFile) {
+    if (!this.docFile && this.payment_method_id != "1") {
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseChooseReceipt'), this.translate.instant('swal.error'));
       return false;
@@ -1137,6 +1139,8 @@ export class CollectionsComponent implements OnInit {
     this.invoice_date = moment.utc(e).toDate();
   }
 
+  // apply payment, comision payment or supermoney payment function
+  
   applyCollectionPayment() {
     // checking if date selected and receipt selected
     let callApi = true;
@@ -1875,6 +1879,7 @@ export class CollectionsComponent implements OnInit {
   showInvoicekeys() {
     this.invoiceKeys = this.invoiceKeys ? false : true;
   }
+
   numberUptoNDecimal(num: any, n: number) {
     return num ? num.toFixed(n) : 0;
   }
@@ -2051,12 +2056,14 @@ export class CollectionsComponent implements OnInit {
       new ExcelDownload().exportAsExcelFile(tempExportData, 'collections');
     }
   }
+
   editDocsPopup(item: any, folderIndex: number, docIndex: number){
     this.modelForDoc.name_en = item.name;
     this.modelForDoc.id = item.id
     this.folderId = this.collectionFolders[folderIndex].id;
     this.localityOpen.nativeElement.click();
   }
+
   editFolderName(folder) {
     this.collectionFolders[this.folderIndex]['name'] = this.folderName;
     this.admin.postDataApi('updateCollectionFolder', {id: this.selectedFolder.id, name: this.folderName})
@@ -2100,6 +2107,7 @@ export class CollectionsComponent implements OnInit {
     }
     this.folderModalOpen.nativeElement.click();
   }
+
   deleteFolderPopup(item: any, index: number) {
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' +
@@ -2115,6 +2123,7 @@ export class CollectionsComponent implements OnInit {
       }
     });
   }
+
   deleteFolder(item, index: number) {
     this.collectionFolders.splice(index, 1);
     if (item.id) {
@@ -2125,6 +2134,7 @@ export class CollectionsComponent implements OnInit {
       });
     }
   }
+
   checkIfLocalitySpanishNameEntered(document) {
     const self = this;
     if (document.name === '') {
@@ -2173,4 +2183,5 @@ export class CollectionsComponent implements OnInit {
         self.spinner.hide();
       });
   }
+
 }
