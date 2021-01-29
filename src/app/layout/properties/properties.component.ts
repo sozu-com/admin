@@ -1213,7 +1213,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
             },
             {
 
-              text: 'Guadalajara, Jalisco, México.\n' + date,
+              text: this.translate.instant('generatePDF.addressName') + '\n' + date,
               alignment: 'right',
               color: '#858291'
             },
@@ -1229,7 +1229,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                 margin: [0, 0, 0, 20]
               },
               {
-                image: 'logo1',
+                image: 'logo',
                 width: 100,
                 height: 50,
                 margin: [0, 0, 0, 20]
@@ -1286,14 +1286,14 @@ export class PropertiesComponent implements OnInit, OnDestroy {
               },
               {
                 text: [
-                  { text: 'In case of any doubt or comments,\n feel free to contact us at', color: '#858291' },
-                  { text: '  33 3254 0890', bold: true },
-                  { text: '\nphone or Whatsapp', color: '#858291' },
+                  { text: this.translate.instant('generatePDF.contactUS') + '\n' + this.translate.instant('generatePDF.contactUS2'), color: '#858291' },
+                  { text:  this.translate.instant('generatePDF.contactUS3'), bold: true },
+                  { text: '\n' + this.translate.instant('generatePDF.contactUS4'), color: '#858291' },
                 ],
                 margin: [0, 40, 0, 30]
               },
               {
-                text: 'In ' + this.property_array.building.name +', we work for your investment.',
+                text: this.translate.instant('generatePDF.titleMargot') + this.property_array.building.name + ',' + this.translate.instant('generatePDF.title2Margot'),
                 bold: true
               },
             ],
@@ -1339,7 +1339,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                       {
                         text: [
                           { text: this.translate.instant('generatePDF.PaymentUponDelivery') },
-                          { text: '\n*Layaway is considered in Downpayment', color: '#858291', fontSize: 8, margin: [0, 5, 0, 5] }
+                          { text: '\n' + this.translate.instant('generatePDF.commercialOfferP'), color: '#858291', fontSize: 8, margin: [0, 5, 0, 5] }
                         ],
                         border: [false, false, false, true], color: '#858291'
                       },
@@ -1424,7 +1424,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       },
       images:{
         logo: 'https://picsum.photos/seed/picsum/200/300',
-        logo1: 'https://apitest.sozu.com/storage/uploads/1611741201gGb05agixNc89lIlW7d3Fk6ZUIE95H.jpg'
+        //logo1: 'https://apitest.sozu.com/storage/uploads/1611741201gGb05agixNc89lIlW7d3Fk6ZUIE95H.jpg'
       }
     };
 
