@@ -128,6 +128,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   logoImageBase64: any;
   projectLogoImageBase64: any;
   private bankDetails: any;
+  private FedTaxPayer: string;
 
   constructor(
     public constant: Constant,
@@ -1542,6 +1543,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.paymentBankDetailsArray = [];
      // this.installmentFormGroup.get('agencyOrSeller').value if true == seller or false == agency
     if (!this.installmentFormGroup.get('agencyOrSeller').value) {
+      this.FedTaxPayer = (((this.bankDetails || {}).building || {}).agency || {}).fed_tax_pay || '';
       // payment directly received by agency
       if (this.bankDetails.building && this.bankDetails.building.agency_id) {
         // agency banks
@@ -1567,6 +1569,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         }
       }
     } else if (this.installmentFormGroup.get('agencyOrSeller').value) {
+      this.FedTaxPayer = (((this.bankDetails || {}).collection || {}).seller_legal_entity || {}).fed_tax_pay || '';
       // payment directly received by seller
       if (this.bankDetails.collection.seller_type != 2) {
         // seller (as a person or developer) banks

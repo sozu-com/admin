@@ -59,7 +59,7 @@ export class EditUserComponent implements OnInit {
   ngOnInit() {
     this.language_code = localStorage.getItem('language_code');
     this.initModel();
-    this.getCountries();
+    // this.getCountries();
     this.getMarritalStatusList();
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
@@ -241,7 +241,7 @@ export class EditUserComponent implements OnInit {
               this.model.legal_rep_banks = success.data.legal_rep_banks || [];
               this.model.legal_representative = success.data.legal_representative || new LegalRepresentative();
               this.model.legal_representative.legal_rep_banks = success.data.legal_representative.legal_rep_banks || [];
-              this.getCountries();
+             // this.getCountries();
             }
           }
         }, error => {
