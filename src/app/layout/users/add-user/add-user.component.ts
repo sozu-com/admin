@@ -504,6 +504,13 @@ export class AddUserComponent implements OnInit {
         this.spinner.hide();
         swal(this.translate.instant('swal.error'), error.error.message, 'error');
       });
+    } else {
+      this.model.municipality = '';
+      this.model.state = '';
+      this.model.city = '';
+      this.model.country = '';
+      this.model.neighbourhoods = [];
+      this.model.neighborhood = '';
     }
   }
 }

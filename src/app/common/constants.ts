@@ -30,18 +30,18 @@ export class Constant {
         }
     ];
     public months = [
-        {id: 1, name: 'JAN'},
-        {id: 2, name: 'FEB'},
-        {id: 3, name: 'MAR'},
-        {id: 4, name: 'APR'},
-        {id: 5, name: 'MAY'},
-        {id: 6, name: 'JUN'},
-        {id: 7, name: 'JUL'},
-        {id: 8, name: 'AUG'},
-        {id: 9, name: 'SEP'},
-        {id: 10, name: 'OCT'},
-        {id: 11, name: 'NOV'},
-        {id: 12, name: 'DEC'}
+        { id: 1, name: 'JAN' },
+        { id: 2, name: 'FEB' },
+        { id: 3, name: 'MAR' },
+        { id: 4, name: 'APR' },
+        { id: 5, name: 'MAY' },
+        { id: 6, name: 'JUN' },
+        { id: 7, name: 'JUL' },
+        { id: 8, name: 'AUG' },
+        { id: 9, name: 'SEP' },
+        { id: 10, name: 'OCT' },
+        { id: 11, name: 'NOV' },
+        { id: 12, name: 'DEC' }
     ];
     public confirmButtonColor = '#00b96f';
     public cancelButtonColor = '#ee7b7c';
@@ -51,6 +51,7 @@ export class Constant {
     public decimalPattern = '^\d+\.?\d{0,2}$';  // not allow more than 2 digits after decimal
     public onlyWhiteSpaces = '.*\\S.*[a-zA-z0-9 ]'; // '^[a-zA-Z1-9].*'; // [\w,./_=?-]+
     public acceptAlphabetNumberAccentscharactersWithWhiteSpace = '.*\\S.*[a-zA-z0-9\u00C0-\u00FF]'; // ^[a-zA-Z0-9\u00C0-\u00FF]*$
+    public acceptAlphaNumericOrAccentscharacters = '^[a-zA-Z0-9\u00C0-\u00FF]*$';
     public emailPattern = '^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$';
     public emailPatternNew = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3,4})+$';
     // public emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';

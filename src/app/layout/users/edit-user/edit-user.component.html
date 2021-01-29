@@ -298,7 +298,7 @@
                         <div class="form-group-3">
                           <label>{{'addForm.internalNumber' | translate}}</label>
                           <input type="text" class="form-control" name="internal_number"
-                            [pattern]="constant.numberPattern" [(ngModel)]="model.internal_number" />
+                            [pattern]="constant.acceptAlphaNumericOrAccentscharacters" [(ngModel)]="model.internal_number" />
                         </div>
                       </div>
                       <div class="col-3">
