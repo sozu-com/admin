@@ -1314,7 +1314,25 @@
                   </div>
                 </div>
               </div> -->
-            <div class="col-6">
+            <div class="col-6" *ngIf="payment_method_id == 1">
+              <div class="form-group-2">
+                <label>{{'viewCollections.choosePaymentReceipt' | translate}}</label>
+                <div class="form-group">
+                  <p *ngIf="docFile">
+                    <span>
+                      <a target="_blank" href="{{docFile}}">{{'quickVisualization.clickToViewReceipt' | translate}}</a>
+                    </span>
+                    <span>
+                      <a class="remove" (click)="docFile=''"><img src="assets/img/remove-icon.png" alt="img"></a>
+                    </span>
+                  </p>
+                  <input *ngIf="!docFile" type="file" name="docFile" #docsFile1
+                    accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/x-png,image/jpg,image/jpeg"
+                    (change)="onSelectFile($event.target.files, 'docFile')">
+                </div>
+              </div>
+            </div>
+            <div class="col-6" *ngIf="payment_method_id != 1">
               <div class="form-group-2">
                 <label>{{'viewCollections.choosePaymentReceipt' | translate}} <span class="color-red">*</span></label>
                 <div class="form-group">
@@ -1332,6 +1350,7 @@
                 </div>
               </div>
             </div>
+
             <div class="col-6">
               <div class="form-group-2">
                 <label>{{'viewCollections.paymentDate' | translate}}</label><span class="color-red">*</span>
