@@ -1362,7 +1362,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.federalTaxPayer'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.installmentFormGroup.value.paymentBankDetails.RFC, border: [false, false, false, false], bold: true },
+                      { text: this.installmentFormGroup.value.paymentBankDetails.bank_name? this.fedTaxPayer : '', border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.accountNumber'), border: [false, false, false, false], color: '#858291' },
