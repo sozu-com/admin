@@ -1213,11 +1213,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     let date = this.datePipe.transform(current_date, 'd/M/y');
     let list_price = this.property_array.max_area * this.property_array.min_price;
     let discount = (this.installmentFormGroup.value.discount * list_price) / 100;
-    let downpayment = (this.installmentFormGroup.value.downPayment * list_price) / 100;
-    let monthly_installment_amount = (this.installmentFormGroup.value.monthlyInstallment * list_price) / 100;
-    let payment_upon_delivery = (this.installmentFormGroup.value.paymentupondelivery * list_price) / 100;
+    let interest = (this.installmentFormGroup.value.interest * list_price) / 100; 
+    let final_price = discount ? list_price - discount : interest ? list_price + interest : undefined;
+    let downpayment = (this.installmentFormGroup.value.downPayment * final_price) / 100;
+    let monthly_installment_amount = (this.installmentFormGroup.value.monthlyInstallment * final_price) / 100;
+    let payment_upon_delivery = (this.installmentFormGroup.value.paymentupondelivery * final_price) / 100;
     let monthly_installments = monthly_installment_amount / this.installmentFormGroup.value.numberOfMI;
-    let final_price = list_price - discount;
 
     let docDefinition = {
       pageSize: {
@@ -1254,7 +1255,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                 margin: [0, 0, 0, 20]
               },
               {
-                image: 'logo',
+                image: 'logo1',
                 width: 100,
                 height: 50,
                 margin: [0, 0, 0, 20]
@@ -1288,23 +1289,23 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.PricePerM2'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
-                      { text: this.price.transform(this.property_array.min_price), border: [false, false, false, false], bold: true },
+                      { text: this.price.transform(Number(this.property_array.min_price).toFixed(2)), border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.listPrice'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
-                      { text: this.price.transform(list_price), border: [false, false, false, false], bold: true },
+                      { text: this.price.transform(Number(list_price).toFixed(2)), border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: this.translate.instant('generatePDF.Discount/Interest'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
-                      { text: this.installmentFormGroup.value.discount + '%', border: [false, false, false, false], bold: true },
+                      { text: discount? 'Discount %': interest ? 'Interest %' : '', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: discount? this.installmentFormGroup.value.discount + '%' : interest ? this.installmentFormGroup.value.interest + '%' : 0, border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: this.translate.instant('generatePDF.Discount/Interest$'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
-                      { text: this.price.transform(discount), border: [false, false, false, false], bold: true },
+                      { text: discount? 'Discount $': interest ? 'Interest $' : '', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.price.transform(Number(discount? discount : interest ? interest : 0).toFixed(2)), border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.finalPrice'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
-                      { text: this.price.transform(final_price), border: [false, false, false, false], bold: true },
+                      { text: this.price.transform(Number(final_price).toFixed(2)), border: [false, false, false, false], bold: true },
                     ]
                   ]
                 }
@@ -1318,7 +1319,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                 margin: [0, 40, 0, 30]
               },
               {
-                text: this.translate.instant('generatePDF.titleMargot'),
+                text: 'In ' + this.property_array.building.name +', we work for your investment.',
                 bold: true
               },
             ],
@@ -1342,23 +1343,23 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.monthlyPayment'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.price.transform(monthly_installments), border: [false, false, false, false], bold: true },
+                      { text: this.price.transform(Number(monthly_installments).toFixed(2)), border: [false, false, false, false], bold: true },
                       { text: '', border: [false, false, false, false] }
                     ],
                     [
                       { text: this.translate.instant('generatePDF.layaway'), border: [false, false, false, false], color: '#858291' },
                       { text: '', border: [false, false, false, false] },
-                      { text: this.price.transform(downpayment), border: [false, false, false, false], bold: true },
+                      { text: this.price.transform(20000) + '*', border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.downpayment'), border: [false, false, false, false], color: '#858291' },
                       { text: this.installmentFormGroup.value.downPayment + '%', border: [false, false, false, false], bold: true },
-                      { text: this.price.transform(downpayment), border: [false, false, false, false], bold: true },
+                      { text: this.price.transform(Number(downpayment).toFixed(2)), border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.monthlyPaymentsAmount'), border: [false, false, false, false], color: '#858291' },
                       { text: this.installmentFormGroup.value.monthlyInstallment + '%', border: [false, false, false, false], bold: true },
-                      { text: this.price.transform(monthly_installment_amount), border: [false, false, false, false], bold: true }
+                      { text: this.price.transform(Number(monthly_installment_amount).toFixed(2)), border: [false, false, false, false], bold: true }
                     ],
                     [
                       {
@@ -1369,12 +1370,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                         border: [false, false, false, true], color: '#858291'
                       },
                       { text: this.installmentFormGroup.value.paymentupondelivery + '%', border: [false, false, false, true], bold: true },
-                      { text: this.price.transform(payment_upon_delivery), border: [false, false, false, true], bold: true }
+                      { text: this.price.transform(Number(payment_upon_delivery).toFixed(2)), border: [false, false, false, true], bold: true }
                     ],
                     [
                       { text: this.translate.instant('generatePDF.finalPrice'), border: [false, false, false, false], bold: true, fontSize: 14 },
                       { text: '', border: [false, false, false, false] },
-                      { text: this.price.transform(final_price), border: [false, false, false, false], bold: true, fontSize : 14 },
+                      { text: this.price.transform(Number(final_price).toFixed(2)), border: [false, false, false, false], bold: true, fontSize : 14 },
                     ],
                   ]
                 }
@@ -1385,7 +1386,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                 bold: true
               },
               {
-                text:this.installmentFormGroup.value.addNoteFormArray[0].addNote
+                text:this.installmentFormGroup.value.addNoteFormArray.length > 0 ? this.installmentFormGroup.value.addNoteFormArray[0].addNote : ''
               },
               {
                 text: this.translate.instant('generatePDF.offersValidUntil') + ' ' + date,
@@ -1449,7 +1450,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       },
       images:{
         logo: 'https://picsum.photos/seed/picsum/200/300',
-        //logo1: 'https://apitest.sozu.com/storage/uploads/1611741201gGb05agixNc89lIlW7d3Fk6ZUIE95H.jpg'
+        logo1: 'https://apitest.sozu.com/storage/uploads/1611741201gGb05agixNc89lIlW7d3Fk6ZUIE95H.jpg'
       }
     };
 
