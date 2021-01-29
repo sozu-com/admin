@@ -53,7 +53,7 @@ export class CollectionsComponent implements OnInit {
   collection_commission_id: number;
   payment_choice_id: any;
   surplus_payment_choice_id: any;
-  payment_method_id: number;
+  payment_method_id: any;
   bank_id: number;
   description: string;
   typeOfPayment: string;
@@ -1145,7 +1145,7 @@ export class CollectionsComponent implements OnInit {
       this.toastr.error(this.translate.instant('message.error.pleaseSelectPaymentDate'), this.translate.instant('swal.error'));
       return false;
     }
-    if (!this.docFile) {
+    if (!this.docFile && this.payment_method_id != "1") {
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseChooseReceipt'), this.translate.instant('swal.error'));
       return false;
