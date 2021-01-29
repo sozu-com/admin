@@ -505,15 +505,12 @@ export class EditUserComponent implements OnInit {
       this.spinner.show();
       this.admin.postDataApi('getCounrtyByZipcode', { zip_code: this.model.zipcode }).subscribe((success) => {
         this.spinner.hide();
-        if (!success.data.error) {
-          this.model.municipality = (success.data.response || {}).municipio || ''; // Municipality
-          this.model.state = (success.data.response || {}).estado || ''; // State
-          this.model.city = (success.data.response || {}).ciudad || ''; // city
-          this.model.country = (success.data.response || {}).pais || ''; // Country
-          this.model.neighbourhoods = (success.data.response || {}).asentamiento || []; // settlement or neighbourhoods
-          // this.model.neighborhood = ((success.data.response || {}).asentamiento || [])[0] || '';
-        } else {
-        }
+        this.model.municipality = ((success.data || {}).response || {}).municipio || ''; // Municipality
+        this.model.state = ((success.data || {}).response || {}).estado || ''; // State
+        this.model.city = ((success.data || {}).response || {}).ciudad || ''; // city
+        this.model.country = ((success.data || {}).response || {}).pais || ''; // Country
+        this.model.neighbourhoods = ((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
+        this.model.neighborhood = (this.model.neighbourhoods || [])[0] || '';
       }, (error) => {
         this.spinner.hide();
         swal(this.translate.instant('swal.error'), error.error.message, 'error');
