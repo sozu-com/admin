@@ -1358,7 +1358,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.accountName'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.installmentFormGroup.value.agencyOrSeller? 'Seller' : 'Agency', border: [false, false, false, false], bold: true },
+                      { text: this.installmentFormGroup.value.agencyOrSeller && this.installmentFormGroup.value.paymentBankDetails.bank_name? 'Seller' : !this.installmentFormGroup.value.agencyOrSeller && 
+                         this.installmentFormGroup.value.paymentBankDetails.bank_name? 'Agency' : '', border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.federalTaxPayer'), border: [false, false, false, false], color: '#858291' },
