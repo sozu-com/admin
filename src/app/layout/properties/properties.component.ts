@@ -579,11 +579,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   openModalInstallment = (propertyDetails: any): void => {
     this.property_array = propertyDetails;
-
-    //let image = this.getBase64ImageFromUrl('https://apitest.sozu.com/storage/uploads/1611741201gGb05agixNc89lIlW7d3Fk6ZUIE95H.jpg');
-    // this.getBase64ImageFromUrl('https://apitest.sozu.com/storage/uploads/1611741201gGb05agixNc89lIlW7d3Fk6ZUIE95H.jpg')
-    // .then(result => this.logoImageBase64 = result)
-    // .catch(err => console.error(err));
+    this.getBase64ImageFromUrl(this.property_array.id);
     this.spinner.show();
     this.admin.postDataApi('getPropertyById', { id: 5683 /*(propertyDetails || {}).id*/ }).subscribe((success) => {
       this.spinner.hide();
@@ -1152,43 +1148,21 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
   }
 
-  // async getBase64ImageFromUrl(imageUrl) {
-  //   let res = await fetch(imageUrl, {mode: 'no-cors'});
-  //   let blob = await res.blob();
-  
-  //   return new Promise((resolve, reject) => {
-  //     let reader  = new FileReader();
-  //     reader.addEventListener("load", function () {
-  //         resolve(reader.result);
-  //     }, false);
-  
-  //     reader.onerror = () => {
-  //       return reject(this);
-  //     };
-  //     reader.readAsDataURL(blob);
-  //   })
-  // }
-
-  getBase64ImageFromUrl(imageUrl){ 
-    let filename = 'image.png'
-    const arr = imageUrl.split(',');
-    const mime = arr[0].match(/:(.*?);/)[1];
-    const bstr = atob(arr[1]);
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
-    while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new File([u8arr], filename, {type: mime});
+  getBase64ImageFromUrl(id){ 
+    this.admin.postDataApi('getPdfImage', { id: id }).subscribe((success) => {
+      let base64 = (success || {}).data;
+      this.projectLogoImageBase64 = 'data:image/jpeg;base64,' + base64; 
+    }, (error) => {
+    });
   }
 
   generatePDF() {
     let current_date = new Date();
     let date = this.datePipe.transform(current_date, 'd/M/y');
-    let list_price = this.property_array.max_area * this.property_array.min_price;
-    let discount = (this.installmentFormGroup.value.discount * list_price) / 100;
-    let interest = (this.installmentFormGroup.value.interest * list_price) / 100; 
-    let final_price = discount ? list_price - discount : interest ? list_price + interest : undefined;
+    let pricePerM2 = this.property_array.min_price / this.property_array.max_area;
+    let discount = (this.installmentFormGroup.value.discount * this.property_array.min_price) / 100;
+    let interest = (this.installmentFormGroup.value.interest * this.property_array.min_price) / 100; 
+    let final_price = discount ? this.property_array.min_price - discount : interest ? this.property_array.min_price + interest : undefined;
     let downpayment = (this.installmentFormGroup.value.downPayment * final_price) / 100;
     let monthly_installment_amount = (this.installmentFormGroup.value.monthlyInstallment * final_price) / 100;
     let payment_upon_delivery = (this.installmentFormGroup.value.paymentupondelivery * final_price) / 100;
@@ -1229,7 +1203,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                 margin: [0, 0, 0, 20]
               },
               {
-                image: 'logo1',
+                image: this.projectLogoImageBase64,
                 width: 100,
                 height: 50,
                 margin: [0, 0, 0, 20]
@@ -1263,11 +1237,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.PricePerM2'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
-                      { text: this.price.transform(Number(this.property_array.min_price).toFixed(2)), border: [false, false, false, false], bold: true },
+                      { text: this.price.transform(Number(pricePerM2).toFixed(2)), border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.listPrice'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
-                      { text: this.price.transform(Number(list_price).toFixed(2)), border: [false, false, false, false], bold: true },
+                      { text: this.price.transform(Number(this.property_array.min_price).toFixed(2)), border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: discount? 'Discount %': interest ? 'Interest %' : '', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
@@ -1287,13 +1261,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
               {
                 text: [
                   { text: this.translate.instant('generatePDF.contactUS') + '\n' + this.translate.instant('generatePDF.contactUS2'), color: '#858291' },
-                  { text:  this.translate.instant('generatePDF.contactUS3'), bold: true },
+                  { text: ' ' + this.translate.instant('generatePDF.contactUS3'), bold: true },
                   { text: '\n' + this.translate.instant('generatePDF.contactUS4'), color: '#858291' },
                 ],
                 margin: [0, 40, 0, 30]
               },
               {
-                text: this.translate.instant('generatePDF.titleMargot') + this.property_array.building.name + ',' + this.translate.instant('generatePDF.title2Margot'),
+                text: this.translate.instant('generatePDF.titleMargot') + ' ' + this.property_array.building.name + ', ' + this.translate.instant('generatePDF.title2Margot'),
                 bold: true
               },
             ],
@@ -1383,7 +1357,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.accountName'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.installmentFormGroup.value.paymentBankDetails.AccountName, border: [false, false, false, false], bold: true },
+                      { text: this.installmentFormGroup.value.paymentBankDetails.bank_name, border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.federalTaxPayer'), border: [false, false, false, false], color: '#858291' },
@@ -1391,7 +1365,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.accountNumber'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.installmentFormGroup.value.paymentBankDetails.accountNumber, border: [false, false, false, false], bold: true }
+                      { text: this.installmentFormGroup.value.paymentBankDetails.account_number, border: [false, false, false, false], bold: true }
                     ],
                     [
                       { text: this.translate.instant('generatePDF.cLABE'), border: [false, false, false, false], color: '#858291' },
@@ -1422,10 +1396,6 @@ export class PropertiesComponent implements OnInit, OnDestroy {
           border: [false, false, false, false]
         },
       },
-      images:{
-        logo: 'https://picsum.photos/seed/picsum/200/300',
-        logo1: 'https://apitest.sozu.com/storage/uploads/1611741201gGb05agixNc89lIlW7d3Fk6ZUIE95H.jpg'
-      }
     };
 
     pdfMake.createPdf(docDefinition).download();
