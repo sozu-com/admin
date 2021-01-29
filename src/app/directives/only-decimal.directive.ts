@@ -1,15 +1,13 @@
 import { HostListener } from '@angular/core';
 import { ElementRef } from '@angular/core';
 import { Directive } from '@angular/core';
-import { Constant } from '../common/constants';
 
 @Directive({
-  selector: '[appOnlyNumber]'
+  selector: '[appOnlyDecimal]'
 })
-export class OnlyNumberDirective {
+export class OnlyDecimalDirective {
 
-  // Allow only numbers
-  private regex: RegExp = new RegExp('^[0-9]*$');
+  private regex: RegExp = new RegExp(/^[0-9]+(\.[0-9]{0,2})?$/);
   // Allow key codes for special events. Reflect : Backspace, tab, end, home
   private specialKeys: Array<string> = ['Backspace', 'Tab', 'End', 'Home', 'Delete', 'Del', 'ArrowRight', 'ArrowLeft'];
 
@@ -27,6 +25,10 @@ export class OnlyNumberDirective {
     const next: string = current.concat(event.key);
     if (next && !String(next).match(this.regex)) {
       event.preventDefault();
+    } else {
+      if (parseFloat(next) > 100) {
+        event.preventDefault();
+      }
     }
   }
 

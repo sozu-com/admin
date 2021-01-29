@@ -34,6 +34,7 @@ import { CalendarModule } from 'primeng/primeng';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { RouterModule } from '@angular/router';
 import { OnlyNumberDirective } from '../directives/only-number.directive';
+import { OnlyDecimalDirective } from '../directives/only-decimal.directive';
 
 @NgModule({
   imports: [
@@ -75,7 +76,8 @@ import { OnlyNumberDirective } from '../directives/only-number.directive';
     AddressComponent,
     PreventDoubleClickDirective,
     UptoThreeDecimalDirective,
-    OnlyNumberDirective
+    OnlyNumberDirective,
+    OnlyDecimalDirective
   ],
   exports: [
     CsrBuyerDetailComponent,
@@ -103,7 +105,8 @@ import { OnlyNumberDirective } from '../directives/only-number.directive';
     AddressComponent,
     PreventDoubleClickDirective,
     UptoThreeDecimalDirective,
-    OnlyNumberDirective
+    OnlyNumberDirective,
+    OnlyDecimalDirective
   ]
 })
 export class SharedModule { }
