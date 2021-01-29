@@ -228,7 +228,7 @@
         </div>
         <div class="col-3">
           <div class="form-group-3">
-            <!-- <label>{{'addForm.neighborhood' | translate}}</label>
+            <!-- <label>{{'addForm.neighbourhood' | translate}}</label>
             <input type="text" class="form-control" name="neighborhood" [(ngModel)]="model.neighborhood"/> -->
             <label>{{'addForm.ZIP' | translate}}</label>
             <input minlength="8" maxlength="15" autocomplete="off" type="text" class="form-control" id="zipcode"
@@ -304,7 +304,7 @@
         </div>
         <div class="col-4">
           <div class="form-group-3">
-            <label>{{'addForm.neighborhood' | translate}}</label>
+            <label>{{'addForm.neighbourhood' | translate}}</label>
             <select class="form-control" [(ngModel)]="model.neighborhood" name="neighborhood">
               <option *ngFor="let tempNeighbourhood of model.neighbourhoods" value="{{tempNeighbourhood}}">
                 {{tempNeighbourhood}}</option>

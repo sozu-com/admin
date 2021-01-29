@@ -154,7 +154,7 @@
     "streetAddress": "Calle",
     "externalNumber": "Número externo",
     "internalNumber": "Número interno",
-    "neighborhood": "Colonia",
+    "neighbourhood": "Barrio",
     "municipality": "Municipio",
     "city": "ciudad",
     "ZIP": "código postal",
