@@ -91,9 +91,9 @@ export class AddLegalEntityComponent implements OnInit {
     };
   }
 
-  uploadDoc(userdata) {
-    console.log(userdata, "user id")
-    this.router.navigate(['/dashboard/legal-entity/document-upload', userdata.id]);
+  uploadDoc(legalentity) {
+    console.log(legalentity, "legal-entity id")
+    this.router.navigate(['/dashboard/legal-entities/document-upload', legalentity.id]);
   }
 
   initForm() {

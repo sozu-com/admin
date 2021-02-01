@@ -34,7 +34,7 @@ const routes: Routes = [
   },
   {
     path: 'document-upload/:id', component: DocumentUploadComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Manage Legal Entity', 'can_read', ''] }
+    canActivate: [AclUserGuard], data: { roles: ['User Management', 'can_read', ''] }
   }
 ];
 

@@ -49,11 +49,20 @@ textarea{
 .btn.btn-primary {
   background-color: #00B96F;
     color: #fff;
-    width: 100%;
+    width: 120%;
     border-color:#00B96F;
 }
-
-  
+.modal-dialog.fadeIndown.email {
+  position: fixed;
+  bottom: 35%;
+  right: 27%;
+  margin: 0px;
+}
+.button3 {
+  color: white;
+  background-color: #ea5d5d ;
+  border-color:#ea5d5d ;
+}
   .red-color{
     color: red;
   }

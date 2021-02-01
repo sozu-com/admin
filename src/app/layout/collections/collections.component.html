@@ -150,10 +150,10 @@
       </div>
       <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="add-new pull-right text-left">
-           <a class="btn" (click)="this.getExportlisting()" href="javascript://">
-              {{'table.exportDataBtn' | translate}}</a>
+          <a class="btn" (click)="this.getExportlisting()" href="javascript://">
+            {{'table.exportDataBtn' | translate}}</a>
         </div>
-     </div>
+      </div>
       <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="add-new pull-right">
           <a *ngIf="admin?.admin_acl['Manage Collections']?.can_create==1" class="btn" href="javascript://"
@@ -290,7 +290,8 @@
                   </th>
                   <th style="vertical-align:top; width: 110px;">
                     <div class="d-flex table-search">
-                      <label>{{'table.th.lastDateOfPayment' | translate}}</label></div>
+                      <label>{{'table.th.lastDateOfPayment' | translate}}</label>
+                    </div>
                   </th>
                   <th style="vertical-align:top; width: 110px;">
                     <div class="d-flex table-search">
@@ -440,35 +441,47 @@
                   <td><span>{{p?.id ? p?.id : ('table.tr.td.NA' | translate)}}</span></td>
                   <td>
                     <span *ngIf="p?.buyer_type == 1">
-                      {{p?.buyer?.name ? (p?.buyer?.name + ' ' + p?.buyer?.first_surname + ' ' + p?.buyer?.second_surname) : ('table.tr.td.NA' | translate)}}
+                      {{p?.buyer?.name ? (p?.buyer?.name + ' ' + p?.buyer?.first_surname + ' ' +
+                      p?.buyer?.second_surname) : ('table.tr.td.NA' | translate)}}
                     </span>
                     <span *ngIf="p?.buyer_type == 2">
-                      {{p?.buyer_legal_entity?.comm_name ? (p?.buyer_legal_entity?.comm_name) : ('table.tr.td.NA' | translate)}}
+                      {{p?.buyer_legal_entity?.comm_name ? (p?.buyer_legal_entity?.comm_name) : ('table.tr.td.NA' |
+                      translate)}}
                     </span>
                     <span *ngIf="p?.buyer_type == 3">
-                      {{p?.buyer?.name ? (p?.buyer?.name + ' ' + p?.buyer?.first_surname + ' ' + p?.buyer?.second_surname) : ('table.tr.td.NA' | translate)}}
+                      {{p?.buyer?.name ? (p?.buyer?.name + ' ' + p?.buyer?.first_surname + ' ' +
+                      p?.buyer?.second_surname) : ('table.tr.td.NA' | translate)}}
                     </span>
                   </td>
                   <td>
                     <span *ngIf="p?.buyer_type == 1">
-                      {{p?.buyer?.legal_representative?.name ? (p?.buyer?.legal_representative?.name + ' ' + p?.buyer?.legal_representative?.first_surname + ' ' + p?.buyer?.legal_representative?.second_surname) : ('table.tr.td.NA' | translate)}}
+                      {{p?.buyer?.legal_representative?.name ? (p?.buyer?.legal_representative?.name + ' ' +
+                      p?.buyer?.legal_representative?.first_surname + ' ' +
+                      p?.buyer?.legal_representative?.second_surname) : ('table.tr.td.NA' | translate)}}
                     </span>
                     <span *ngIf="p?.buyer_type == 2">
-                      {{p?.buyer_legal_entity?.legal_reps?.name ? (p?.buyer_legal_entity?.legal_reps?.name + ' ' +p?.buyer_legal_entity?.legal_reps?.first_surname + ' ' + p?.buyer_legal_entity?.legal_reps?.second_surname) : ('table.tr.td.NA' | translate)}}
+                      {{p?.buyer_legal_entity?.legal_reps?.name ? (p?.buyer_legal_entity?.legal_reps?.name + ' '
+                      +p?.buyer_legal_entity?.legal_reps?.first_surname + ' ' +
+                      p?.buyer_legal_entity?.legal_reps?.second_surname) : ('table.tr.td.NA' | translate)}}
                     </span>
                     <span *ngIf="p?.buyer_type == 3">
-                      {{p?.buyer?.legal_representative?.name ? (p?.buyer?.legal_representative?.name + ' ' + p?.buyer?.legal_representative?.first_surname + ' ' + p?.buyer?.legal_representative?.second_surname) : ('table.tr.td.NA' | translate)}}
+                      {{p?.buyer?.legal_representative?.name ? (p?.buyer?.legal_representative?.name + ' ' +
+                      p?.buyer?.legal_representative?.first_surname + ' ' +
+                      p?.buyer?.legal_representative?.second_surname) : ('table.tr.td.NA' | translate)}}
                     </span>
                   </td>
                   <td>
                     <span *ngIf="p?.seller_type == 1">
-                      {{p?.seller?.name ? (p?.seller?.name + ' ' + p?.seller?.first_surname + ' ' + p?.seller?.second_surname) : ('table.tr.td.NA' | translate)}}
+                      {{p?.seller?.name ? (p?.seller?.name + ' ' + p?.seller?.first_surname + ' ' +
+                      p?.seller?.second_surname) : ('table.tr.td.NA' | translate)}}
                     </span>
                     <span *ngIf="p?.seller_type == 2">
-                      {{p?.seller_legal_entity?.comm_name ? (p?.seller_legal_entity?.comm_name) : ('table.tr.td.NA' | translate)}}
+                      {{p?.seller_legal_entity?.comm_name ? (p?.seller_legal_entity?.comm_name) : ('table.tr.td.NA' |
+                      translate)}}
                     </span>
                     <span *ngIf="p?.seller_type == 3">
-                      {{p?.seller?.name ? (p?.seller?.name + ' ' + p?.seller?.first_surname + ' ' + p?.seller?.second_surname) : ('table.tr.td.NA' | translate)}}
+                      {{p?.seller?.name ? (p?.seller?.name + ' ' + p?.seller?.first_surname + ' ' +
+                      p?.seller?.second_surname) : ('table.tr.td.NA' | translate)}}
                     </span>
                   </td>
                   <td>
@@ -476,32 +489,41 @@
 
                     </span>
                     <span *ngIf="p?.seller_type == 2">
-                      {{p?.seller_legal_entity?.legal_reps?.name ? (p?.seller_legal_entity?.legal_reps?.name + ' ' +p?.seller_legal_entity?.legal_reps?.first_surname + ' ' + p?.seller_legal_entity?.legal_reps?.second_surname) : ('table.tr.td.NA' | translate)}}
+                      {{p?.seller_legal_entity?.legal_reps?.name ? (p?.seller_legal_entity?.legal_reps?.name + ' '
+                      +p?.seller_legal_entity?.legal_reps?.first_surname + ' ' +
+                      p?.seller_legal_entity?.legal_reps?.second_surname) : ('table.tr.td.NA' | translate)}}
                     </span>
                     <span *ngIf="p?.seller_type == 3">
-                      {{p?.seller?.legal_representative?.name ? (p?.seller?.legal_representative?.name + ' ' + p?.seller?.legal_representative?.first_surname + ' ' + p?.seller?.legal_representative?.second_surname) : ('table.tr.td.NA' | translate)}}
+                      {{p?.seller?.legal_representative?.name ? (p?.seller?.legal_representative?.name + ' ' +
+                      p?.seller?.legal_representative?.first_surname + ' ' +
+                      p?.seller?.legal_representative?.second_surname) : ('table.tr.td.NA' | translate)}}
                     </span>
                   </td>
                   <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}">
-                    <strong>{{p?.property?.building?.name ? p?.property?.building?.name: ('table.tr.td.NA' | translate)}}</strong>
+                    <strong>{{p?.property?.building?.name ? p?.property?.building?.name: ('table.tr.td.NA' |
+                      translate)}}</strong>
                   </td>
                   <td>
-                    <span>{{p?.property?.building_towers ? p?.property?.building_towers?.tower_name : ('table.tr.td.NA' | translate)}}</span>
+                    <span>{{p?.property?.building_towers ? p?.property?.building_towers?.tower_name : ('table.tr.td.NA'
+                      | translate)}}</span>
                   </td>
                   <td><span>{{p?.property?.name ? p?.property?.name : ('table.tr.td.NA' | translate)}}</span></td>
                   <td>
                     <span>{{p?.property?.building_configuration?.name}}</span>
                   </td>
                   <td>
-                    <span>{{p?.property?.locality?.name ? p?.property?.locality?.name : ('table.tr.td.NA' | translate)}}</span>
+                    <span>{{p?.property?.locality?.name ? p?.property?.locality?.name : ('table.tr.td.NA' |
+                      translate)}}</span>
                   </td>
                   <td>
-                    <span>{{p.deal_purchase_date ? getDateWRTTimezone(p.deal_purchase_date, 'DD/MMM/YYYY') : ('table.tr.td.NA' | translate)}}</span>
+                    <span>{{p.deal_purchase_date ? getDateWRTTimezone(p.deal_purchase_date, 'DD/MMM/YYYY') :
+                      ('table.tr.td.NA' | translate)}}</span>
                   </td>
 
                   <td><span>{{ p?.last_payment ? getLastPaymentConcept(p) : ('table.tr.td.NA' | translate)}}</span></td>
                   <td>
-                    <span>{{(p?.last_payment?.payment_date ? (p?.last_payment?.payment_date | date:'dd/MMM/yyyy') : ('table.tr.td.NA' | translate) )}}</span>
+                    <span>{{(p?.last_payment?.payment_date ? (p?.last_payment?.payment_date | date:'dd/MMM/yyyy') :
+                      ('table.tr.td.NA' | translate) )}}</span>
                   </td>
                   <td><span
                       [ngClass]="{'red-color':((p?.last_payment?.calc_payment_amount || 0) < (p?.last_payment?.amount || 0))}">
@@ -509,15 +531,18 @@
                     </span></td>
                   <td><span>{{p?.next_payment?.name || ('table.tr.td.NA' | translate)}}</span></td>
                   <td>
-                    <span>{{(p?.next_payment?.date ? (p?.next_payment?.date | date:'dd/MMM/yyyy') : ('table.tr.td.NA' | translate) )}}</span>
+                    <span>{{(p?.next_payment?.date ? (p?.next_payment?.date | date:'dd/MMM/yyyy') : ('table.tr.td.NA' |
+                      translate) )}}</span>
                   </td>
                   <td>
-                    <span>{{ ((p?.next_payment?.amount || 0)-(p?.next_payment?.calc_payment_amount || 0)) | currency}}</span>
+                    <span>{{ ((p?.next_payment?.amount || 0)-(p?.next_payment?.calc_payment_amount || 0)) |
+                      currency}}</span>
                   </td>
 
                   <td><span>{{p?.currency?.code || ('table.tr.td.NA' | translate)}}</span></td>
                   <td>
-                    <span>{{p?.comm_total_commission ? (p?.comm_total_commission | number : '1.2-3') : ('table.tr.td.NA' | translate)}}</span>
+                    <span>{{p?.comm_total_commission ? (p?.comm_total_commission | number : '1.2-3') : ('table.tr.td.NA'
+                      | translate)}}</span>
                   </td>
                   <td>
                     <input name="add_iva_to_pc{{i}}" disabled class="form-control checkbox_size" type="checkbox"
@@ -551,7 +576,8 @@
                       [checked]="p?.cc_invoice ? 'checked' : ''" readonly>
                   </td>
                   <td>
-                    <span>{{p?.comm_shared_commission ? (p?.comm_shared_commission | number : '1.2-3') : ('table.tr.td.NA' | translate)}}</span>
+                    <span>{{p?.comm_shared_commission ? (p?.comm_shared_commission | number : '1.2-3') :
+                      ('table.tr.td.NA' | translate)}}</span>
                   </td>
 
                   <td>
@@ -569,7 +595,9 @@
 
                   <td *ngIf="p?.deal_commission_agents?.length">
                     <span>
-                      {{p?.deal_commission_agents[0]?.broker?.name ? (p?.deal_commission_agents[0]?.broker?.name + ' ' +p?.deal_commission_agents[0]?.broker?.first_surname + ' ' + p?.deal_commission_agents[0]?.broker?.second_surname) : ('table.tr.td.NA' | translate)}}
+                      {{p?.deal_commission_agents[0]?.broker?.name ? (p?.deal_commission_agents[0]?.broker?.name + ' '
+                      +p?.deal_commission_agents[0]?.broker?.first_surname + ' ' +
+                      p?.deal_commission_agents[0]?.broker?.second_surname) : ('table.tr.td.NA' | translate)}}
                     </span>
                   </td>
                   <td *ngIf="!p?.deal_commission_agents?.length">
@@ -668,7 +696,8 @@
             <div class="padding20 center" *ngIf="total == 0">
               <!-- <img src="assets/img/404-error.png"> -->
               <p class="show-not-found">
-                {{parameter.flag==1 ? ('message.error.noApprovedCollectionFound' | translate) : ('message.error.noUnApprovedCollectionFound' | translate)}}
+                {{parameter.flag==1 ? ('message.error.noApprovedCollectionFound' | translate) :
+                ('message.error.noUnApprovedCollectionFound' | translate)}}
               </p>
             </div>
           </div>
@@ -730,8 +759,8 @@
             <div class="circle">
               <span></span>
             </div>
-            <a class="delete" href="javascript://"
-              (click)="deleteLeadPopup(item.id, i)">{{'commonBlock.delete' | translate}}</a>
+            <a class="delete" href="javascript://" (click)="deleteLeadPopup(item.id, i)">{{'commonBlock.delete' |
+              translate}}</a>
 
             <ng-template #noDeletePermissiom>
               <a class="delete" href="javascript://">{{'commonBlock.delete' | translate}}</a>
@@ -750,13 +779,15 @@
         </div>
 
         <div class="row">
-          <div class="col-md-4">
-            <i class="fa fa-clock-o icon" aria-hidden="true"></i>
+          <div class="col-md-6">
+            <!-- <i class="fa fa-clock-o icon" aria-hidden="true"></i> -->
+            <p-calendar [(ngModel)]="date" [showTime]="true" ngClass="ui-calendar-custom" dateFormat="MM d, yy"></p-calendar>
           </div>
-          <div class="col-md-4">
-            <i class="fa fa-users icons" aria-hidden="true"></i>
+          <div class="col-md-3">
+            <i class="fa fa-users icons" aria-hidden="true" data-toggle="modal" data-target="#addd-notes"
+              #notesadddModalOpen></i>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
             <button class="btn btn-primary">
               {{'leadDetails.note.addNote' | translate}}</button>
           </div>
@@ -768,6 +799,52 @@
 </div>
 
 
+<div class="modal animated" id="addd-notes">
+  <div class="modal-dialog fadeIndown email">
+    <div class="modal-content">
+      <div class="modal-header modal-header-new">
+        <h4 class="modal-title">{{'addCollection.Addcollaborator' | translate}}</h4>
+        <button type="button" class="close" (click)="closeFolderModal()">&times;</button>
+      </div>
+
+      <form [formGroup]="userForm" (ngSubmit)="send(userForm.value)">
+        <div class="modal-body modal-body-new">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group-2">
+                <label>
+                  <span class="pull-right"><a class="add" (click)="addPhone()"
+                      href="javascript://">{{'addCollection.addNew' | translate}}</a></span>
+                </label>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group-2">
+                <div *ngFor="let phone of getPhonesFormControls(); let i = index">
+                <label>{{'addCollection.Addcollaborator' | translate}}</label>
+                <div class="clearfix"></div>
+                <input autocomplete="off" class="form-control" placeholder="Email" type="text" [formControl]="phone"><br>
+                <div class="form-group-3">
+                  <button type="button" class="button3"
+                  (click)="removePhone(i)">Remove</button>
+                </div>
+              </div>
+            
+            </div>
+            </div>
+            <!-- <div class="col-md-6">
+              <div class="form-group-2">
+                <button type="button"
+                (click)="removePhone(i)">Remove</button>
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 
 <a href="javascript://" data-toggle="modal" data-target="#penaltyModal" #penaltyModalOpen></a>
 <div class="modal animated" id="penaltyModal">
@@ -775,7 +852,8 @@
     <div class="modal-content notary-avail">
       <div class="modal-header popup-header">
         <h4>
-          {{penaltyForm.controls.id.value ? ('viewCollections.editPenalty' | translate) : ('viewCollections.addPenalty' | translate)}}
+          {{penaltyForm.controls.id.value ? ('viewCollections.editPenalty' | translate) : ('viewCollections.addPenalty'
+          | translate)}}
         </h4>
         <button style="display: none;" type="button" class="close" data-dismiss="modal"
           #penaltyModalClose>&times;</button>
@@ -860,7 +938,8 @@
             <div class="col-12">
               <div class="btn-cont text-right">
                 <button type="submit" [disabled]="isPenaltyFormSub" class="btn btn-primary-new">
-                  {{penaltyForm.controls.id.value ? ('addForm.updateBtn' | translate) : ('addForm.addBtn' | translate)}}</button>
+                  {{penaltyForm.controls.id.value ? ('addForm.updateBtn' | translate) : ('addForm.addBtn' |
+                  translate)}}</button>
               </div>
             </div>
           </div>
@@ -1058,7 +1137,8 @@
             </div>
             <div class="col-12">
               <div class="form-group-2">
-                <label>{{('viewCollections.chooseWhichPaymentTypeYouwantToApplyForSurplusMoney' | translate) +' '+ (paymentAmount-calculatedPayAmount | currency) }}
+                <label>{{('viewCollections.chooseWhichPaymentTypeYouwantToApplyForSurplusMoney' | translate) +' '+
+                  (paymentAmount-calculatedPayAmount | currency) }}
                   <span class="color-red">*</span></label>
                 <div class="form-group">
                   <select name="surplus_payment_type" required class="form-control" [(ngModel)]="surplus_payment_type"
@@ -1723,8 +1803,8 @@
                   <div class="form-group">
                     <p *ngIf="pdf_url">
                       <span>
-                        <a target="_blank"
-                          href="{{pdf_url}}">{{'quickVisualization.clickToViewReceipt' | translate}}</a>
+                        <a target="_blank" href="{{pdf_url}}">{{'quickVisualization.clickToViewReceipt' |
+                          translate}}</a>
                       </span>
                       <span>
                         <a class="remove" (click)="pdf_url=''"><img src="assets/img/remove-icon.png" alt="img"></a>
@@ -1751,8 +1831,8 @@
                   <div class="form-group">
                     <p *ngIf="xml_url">
                       <span>
-                        <a target="_blank"
-                          href="{{xml_url}}">{{'quickVisualization.clickToViewReceipt' | translate}}</a>
+                        <a target="_blank" href="{{xml_url}}">{{'quickVisualization.clickToViewReceipt' |
+                          translate}}</a>
                       </span>
                       <span>
                         <a class="remove" (click)="xml_url=''"><img src="assets/img/remove-icon.png" alt="img"></a>
@@ -1822,7 +1902,7 @@
         <h4>{{'table.title.collectionFolders' | translate}}
           <span class="pull-right">
             <a href="javascript://" data-toggle="modal" data-target="#add-folder" #folderModalOpen></a>
-          
+
           </span>
         </h4>
         <button style="display: none;" type="button" class="close" data-dismiss="modal"
@@ -1859,12 +1939,10 @@
               </td>
               <td>{{folder?.folder_docs?.length || 0}}</td>
               <td>
-                  <a href="javascript://" *ngIf="folder.id != payment_folder_id" (click)="openAddFolder('edit', folder, i)" class="fa fa-pencil" 
-                  aria-hidden="true"></a>
-                  <a  href="javascript://" (click)="deleteFolderPopup(folder, i)" 
-                  *ngIf="folder.id != payment_folder_id"
-                  class="fa fa-trash icon" 
-                  aria-hidden="true"></a>
+                <a href="javascript://" *ngIf="folder.id != payment_folder_id"
+                  (click)="openAddFolder('edit', folder, i)" class="fa fa-pencil" aria-hidden="true"></a>
+                <a href="javascript://" (click)="deleteFolderPopup(folder, i)" *ngIf="folder.id != payment_folder_id"
+                  class="fa fa-trash icon" aria-hidden="true"></a>
             </tr>
 
             <tr id="collapse{{i}}" class="panel-collapse collapse">
@@ -1906,19 +1984,21 @@
                     <div class="circle">
                       <span></span>
                     </div>
-                    <a class="edit" href="javascript://"
-                      (click)="editDocsPopup(item, i, s)">{{'addCollection.edit' | translate}}</a>
+                    <a class="edit" href="javascript://" (click)="editDocsPopup(item, i, s)">{{'addCollection.edit' |
+                      translate}}</a>
 
-                    <a class="delete" href="javascript://"
-                      (click)="deleteDocsPopup(item, i, s)" *ngIf="payment_folder_id != p.id">{{'commonBlock.delete' | translate}}</a>
+                    <a class="delete" href="javascript://" (click)="deleteDocsPopup(item, i, s)"
+                      *ngIf="payment_folder_id != p.id">{{'commonBlock.delete' | translate}}</a>
 
                     <ng-template #noDeletePermissiom>
-                      <a class="delete" href="javascript://" *ngIf="payment_folder_id != p.id">{{'commonBlock.delete' | translate}}</a>
+                      <a class="delete" href="javascript://" *ngIf="payment_folder_id != p.id">{{'commonBlock.delete' |
+                        translate}}</a>
                     </ng-template>
                     <p class="time" title="'Click to view'">
                       <a target="_blank" href="{{item.display_name}}">
                         {{item?.name}}
-                      </a></p>
+                      </a>
+                    </p>
                   </div>
                 </div>
                 <div class="padding20 center" *ngIf="p?.folder_docs?.length == 0">
@@ -1964,10 +2044,12 @@
 
         </div>
         <div class="modal-footer btn-cont">
-          <button type="submit" [disabled]="addForm.invalid" class="btn btn-primary-new">{{'editDocName.submit' | translate}}</button>
+          <button type="submit" [disabled]="addForm.invalid" class="btn btn-primary-new">{{'editDocName.submit' |
+            translate}}</button>
           <button style="display:none;" type="button" class="btn btn-default" #localityClose
             data-dismiss="modal">{{'addForm.close' | translate}}</button>
-          <button type="button" class="btn btn-default" (click)="closeEditModal()">{{'editDocName.close' | translate}}</button>
+          <button type="button" class="btn btn-default" (click)="closeEditModal()">{{'editDocName.close' |
+            translate}}</button>
         </div>
       </form>
 
@@ -1980,28 +2062,31 @@
   <div class="modal-dialog fadeIndown">
     <div class="modal-content">
       <div class="modal-header modal-header-new">
-          <h4 class="modal-title">{{'addCollection.folderName' | translate}}</h4>
-          <button type="button" class="close" (click)="closeFolderModal()">&times;</button>
+        <h4 class="modal-title">{{'addCollection.folderName' | translate}}</h4>
+        <button type="button" class="close" (click)="closeFolderModal()">&times;</button>
       </div>
 
-      <form autocomplete="off" class="form-horizontal form-model0P form-model-newP" role="form" 
-      ngNativeValidate #addForm="ngForm" (ngSubmit)="addFolder(); addForm.reset();">
+      <form autocomplete="off" class="form-horizontal form-model0P form-model-newP" role="form" ngNativeValidate
+        #addForm="ngForm" (ngSubmit)="addFolder(); addForm.reset();">
         <div class="modal-body modal-body-new">
           <div class="row">
             <div class="col-12">
               <div class="form-group-2">
-                  <div class="form-group">
-                    <input autocomplete="off" maxlength="20" required class="form-control note" name="folderName" [(ngModel)]="folderName">
+                <div class="form-group">
+                  <input autocomplete="off" maxlength="20" required class="form-control note" name="folderName"
+                    [(ngModel)]="folderName">
                 </div>
               </div>
             </div>
             <div class="col-12">
-                <div class="btn-cont text-right">
-                    <button *ngIf="!selectedFolder.id else UpdateNote" type="submit" class="btn btn-primary">{{'commonBlock.addBtn' | translate}}</button>
-                    <ng-template #UpdateNote>
-                        <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">{{'commonBlock.updateBtn' | translate}}</button>
-                    </ng-template>
-                </div>
+              <div class="btn-cont text-right">
+                <button *ngIf="!selectedFolder.id else UpdateNote" type="submit"
+                  class="btn btn-primary">{{'commonBlock.addBtn' | translate}}</button>
+                <ng-template #UpdateNote>
+                  <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">{{'commonBlock.updateBtn' |
+                    translate}}</button>
+                </ng-template>
+              </div>
             </div>
           </div>
         </div>
