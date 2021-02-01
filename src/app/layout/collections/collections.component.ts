@@ -16,6 +16,8 @@ import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ExcelDownload } from 'src/app/common/excelDownload';
 import {Document} from 'src/app/models/document.model';
+import { FormArray } from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 declare let swal: any;
 declare var $: any;
 
@@ -109,7 +111,7 @@ export class CollectionsComponent implements OnInit {
   private exportfinalData: Array<any>;
   folderId: number;
   payment_folder_id: number;
-
+  userForm: FormGroup;
   @ViewChild('viewDesModal') viewDesModal: ElementRef;
   @ViewChild('viewDesModalClose') viewDesModalClose: ElementRef;
   @ViewChild('applyPaymentChoiceId') applyPaymentChoiceId: ElementRef;
@@ -120,6 +122,7 @@ export class CollectionsComponent implements OnInit {
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('notesModalOpen') notesModalOpen: ElementRef;
+  @ViewChild('notesadddModalOpen') notesadddModalOpen: ElementRef;
   @ViewChild('notesModalClose') notesModalClose: ElementRef;
   @ViewChild('paymentModalOpen') paymentModalOpen: ElementRef;
   @ViewChild('paymentModalClose') paymentModalClose: ElementRef;
@@ -170,7 +173,11 @@ export class CollectionsComponent implements OnInit {
     private fb: FormBuilder,
     private toastr: ToastrService,
     public modelForDoc: Document
-  ) { }
+  ) { 
+    this.userForm = this.fb.group({
+      phones: this.fb.array([this.fb.control(null)])
+    });
+  }
 
   ngOnInit() {
     this.admin.globalSettings$.subscribe(success => {
@@ -2184,4 +2191,21 @@ export class CollectionsComponent implements OnInit {
       });
   }
 
+  addPhone(): void {
+    (this.userForm.get('phones') as FormArray).push(
+      this.fb.control(null)
+    );
+  }
+
+  removePhone(index) {
+    (this.userForm.get('phones') as FormArray).removeAt(index);
+  }
+
+  getPhonesFormControls(): AbstractControl[] {
+    return (<FormArray> this.userForm.get('phones')).controls
+  }
+
+  send(values) {
+    console.log(values);
+  }
 }

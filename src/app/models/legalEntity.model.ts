@@ -12,6 +12,7 @@ export class LegalEntity {
     description?: string;
     send_mail?: number;
     legal_entity_banks: Array<Banks>;
+    entity_linked_documents?: Array<Doc>;
     legal_rep: LegalRepresentative;
 }
 
@@ -27,16 +28,22 @@ export class Docs {
     document_link: string;
     user_document_id: string;
     user_document?: userDoc;
-    // account_number: string;
-    // currency_id: number;
+}
+export class Doc {
+    id: string;
+    document_link: string;
+    legal_entity_document_id: string;
+    legalentity_document?: legalentityDoc;
+}
+export class legalentityDoc {
+    id: string;
+    name_en: string;
+    name_es: string;
 }
 export class userDoc {
     id: string;
     name_en: string;
     name_es: string;
-   // deleted_at?: userDoc;
-    // account_number: string;
-    // currency_id: number;
 }
 export class LegalRepresentative {
     id?: string;

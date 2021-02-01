@@ -582,7 +582,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.property_array = propertyDetails;
     this.getBase64ImageFromUrl(this.property_array.id);
     this.spinner.show();
-    this.admin.postDataApi('getPropertyById', { id: 5683 /*(propertyDetails || {}).id*/ }).subscribe((success) => {
+    this.admin.postDataApi('getPropertyDetails', { id: 5683 /*(propertyDetails || {}).id*/ }).subscribe((success) => {
       this.spinner.hide();
       this.bankDetails = (success || {}).data;
       this.makePaymentBankDetailsArray(true);
@@ -1161,9 +1161,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     let current_date = new Date();
     let date = this.datePipe.transform(current_date, 'd/M/y');
     let pricePerM2 = this.property_array.min_price / this.property_array.max_area;
-    let discount = (this.installmentFormGroup.value.discount * this.property_array.min_price) / 100;
-    let interest = (this.installmentFormGroup.value.interest * this.property_array.min_price) / 100; 
-    let final_price = discount ? this.property_array.min_price - discount : interest ? this.property_array.min_price + interest : undefined;
+    let discount =  this.installmentFormGroup.value.discount ? (this.installmentFormGroup.value.discount * this.property_array.min_price) / 100 : 0;
+    let interest = this.installmentFormGroup.value.interest ? (this.installmentFormGroup.value.interest * this.property_array.min_price) / 100 : 0; 
+    let final_price = discount ? this.property_array.min_price - discount : interest ? this.property_array.min_price + interest : this.property_array.min_price;
     let downpayment = (this.installmentFormGroup.value.downPayment * final_price) / 100;
     let monthly_installment_amount = (this.installmentFormGroup.value.monthlyInstallment * final_price) / 100;
     let payment_upon_delivery = (this.installmentFormGroup.value.paymentupondelivery * final_price) / 100;
@@ -1230,7 +1230,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.parkingPlaces'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
-                      { text: this.property_array.parking_count, border: [false, false, false, false], bold: true },
+                      { text: this.property_array.parking_count || 0, border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.carpetArea'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
@@ -1245,11 +1245,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                       { text: this.price.transform(Number(this.property_array.min_price).toFixed(2)), border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: discount? 'Discount %': interest ? 'Interest %' : '', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.installmentFormGroup.value.discount ? 'Discount %': this.installmentFormGroup.value.interest ? 'Interest %' : '', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
                       { text: discount? this.installmentFormGroup.value.discount + '%' : interest ? this.installmentFormGroup.value.interest + '%' : 0, border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: discount? 'Discount $': interest ? 'Interest $' : '', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.installmentFormGroup.value.discount ? 'Discount $': this.installmentFormGroup.value.interest ? 'Interest $' : '', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
                       { text: this.price.transform(Number(discount? discount : interest ? interest : 0).toFixed(2)), border: [false, false, false, false], bold: true },
                     ],
                     [
@@ -1335,12 +1335,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                 bold: true
               },
               {
-                text:this.installmentFormGroup.value.addNoteFormArray.length > 0 ? this.installmentFormGroup.value.addNoteFormArray[0].addNote : ''
-              },
-              {
-                text: this.translate.instant('generatePDF.offersValidUntil') + ' ' + date,
-                color: '#858291',
-                margin: [0, 10, 0, 20]
+                text:this.installmentFormGroup.value.addNoteFormArray.length > 0 ? this.installmentFormGroup.value.addNoteFormArray[0].addNote : '',
+                color: '#858291'
               },
               {
                 style: 'table2',
