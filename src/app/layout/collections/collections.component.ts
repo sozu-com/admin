@@ -175,7 +175,7 @@ export class CollectionsComponent implements OnInit {
     public modelForDoc: Document
   ) { 
     this.userForm = this.fb.group({
-      phones: this.fb.array([this.fb.control(null)])
+      email: this.fb.array([this.fb.control(null)])
     });
   }
 
@@ -2192,20 +2192,31 @@ export class CollectionsComponent implements OnInit {
   }
 
   addPhone(): void {
-    (this.userForm.get('phones') as FormArray).push(
+    (this.userForm.get('email') as FormArray).push(
       this.fb.control(null)
     );
   }
 
   removePhone(index) {
-    (this.userForm.get('phones') as FormArray).removeAt(index);
+    (this.userForm.get('email') as FormArray).removeAt(index);
   }
 
   getPhonesFormControls(): AbstractControl[] {
-    return (<FormArray> this.userForm.get('phones')).controls
+    return (<FormArray> this.userForm.get('email')).controls
   }
 
   send(values) {
     console.log(values);
+    const input = {
+      collection_id: this.property_collection_id,
+      email: values.email
+    };
+    this.admin.postDataApi('sendReminder',input).subscribe(r => {
+      this.spinner.hide();
+      this.toastr.clear();
+      this.toastr.success(this.translate.instant('message.success.Reminder'), this.translate.instant('swal.success'));
+      this.closeNotesModal();
+      this.closeFolderModal();
+    });
   }
 }

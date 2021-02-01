@@ -694,7 +694,7 @@
               </tbody>
             </table>
             <div class="padding20 center" *ngIf="total == 0">
-              <!-- <img src="assets/img/404-error.png"> -->
+              
               <p class="show-not-found">
                 {{parameter.flag==1 ? ('message.error.noApprovedCollectionFound' | translate) :
                 ('message.error.noUnApprovedCollectionFound' | translate)}}
@@ -739,13 +739,13 @@
             <div class="col-6">
               <p class="p16 marginB0">{{'commonBlock.writeANote' | translate}}</p>
             </div>
-            <div class="col-6 text-right">
+            <!-- <div class="col-6 text-right">
               <a class="add" href="javascript://" (click)="addNote()">{{'commonBlock.add' | translate}}</a>
 
               <ng-template #noAddPermissiom>
                 <a class="add" href="javascript://">{{'commonBlock.add' | translate}}</a>
               </ng-template>
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="form-group-2">
@@ -779,16 +779,16 @@
         </div>
 
         <div class="row">
+          <!-- <div class="col-md-6">
+            <i class="fa fa-clock-o icon" aria-hidden="true"></i>
+            <p-calendar [(ngModel)]="dateTime" [locale]="locale" [showTime]="true" ngClass="ui-calendar-custom" dateFormat="MM d, yy"></p-calendar>
+          </div> -->
           <div class="col-md-6">
-            <!-- <i class="fa fa-clock-o icon" aria-hidden="true"></i> -->
-            <p-calendar [(ngModel)]="date" [showTime]="true" ngClass="ui-calendar-custom" dateFormat="MM d, yy"></p-calendar>
-          </div>
-          <div class="col-md-3">
-            <i class="fa fa-users icons" aria-hidden="true" data-toggle="modal" data-target="#addd-notes"
+            <i class="fa fa-users icons" title="Send Reminder" aria-hidden="true" data-toggle="modal" data-target="#addd-notes"
               #notesadddModalOpen></i>
           </div>
-          <div class="col-md-3">
-            <button class="btn btn-primary">
+          <div class="col-md-6">
+            <button class="btn btn-primary" (click)="addNote()">
               {{'leadDetails.note.addNote' | translate}}</button>
           </div>
         </div>
@@ -809,21 +809,25 @@
 
       <form [formGroup]="userForm" (ngSubmit)="send(userForm.value)">
         <div class="modal-body modal-body-new">
-          <div class="row">
-            <div class="col-12">
-              <div class="form-group-2">
+            <div class="row">
+               <div class="form-group col-md-6">
+                <p-calendar [(ngModel)]="dateTime" [locale]="locale" [showTime]="true" 
+                ngClass="ui-calendar-custom" dateFormat="MM d, yy" showIcon="true"></p-calendar>
+               </div>
+               <div class="form-group col-md-6">
                 <label>
                   <span class="pull-right"><a class="add" (click)="addPhone()"
                       href="javascript://">{{'addCollection.addNew' | translate}}</a></span>
                 </label>
-              </div>
+               </div>
             </div>
-            <div class="col-md-12">
+            <div class="row">
+            <div class="col-md-10">
               <div class="form-group-2">
-                <div *ngFor="let phone of getPhonesFormControls(); let i = index">
+                <div *ngFor="let email of getPhonesFormControls(); let i = index">
                 <label>{{'addCollection.Addcollaborator' | translate}}</label>
                 <div class="clearfix"></div>
-                <input autocomplete="off" class="form-control" placeholder="Email" type="text" [formControl]="phone"><br>
+                <input autocomplete="off" class="form-control" placeholder="Email" type="text" [formControl]="email"><br>
                 <div class="form-group-3">
                   <button type="button" class="button3"
                   (click)="removePhone(i)">Remove</button>
@@ -832,15 +836,12 @@
             
             </div>
             </div>
-            <!-- <div class="col-md-6">
-              <div class="form-group-2">
-                <button type="button"
-                (click)="removePhone(i)">Remove</button>
-              </div>
-            </div> -->
           </div>
         </div>
+        <button class="btn btn-primary" type="submit">
+          Send Reminder</button>
       </form>
+      <!-- {{'leadDetails.note.addNote' | translate}} -->
     </div>
   </div>
 </div>

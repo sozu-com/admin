@@ -434,7 +434,8 @@
                     <div class="col-lg-1 col-md-6 col-sm-6 col-12">
                       <div class="form-group-3">
                         <label>{{'addForm.sendEmail' | translate}}</label>
-                        <input type="checkbox" class="form-control" formControlName="is_send_email">
+                        <input type="checkbox" [checked]="temp_developer_access.get('is_access').value == 1 ? 'checked' : ''" class="form-control" 
+                         formControlName="is_send_email">
                       </div>
                     </div>
 
