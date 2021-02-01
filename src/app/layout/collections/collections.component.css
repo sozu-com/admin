@@ -37,10 +37,21 @@ textarea{
     background-color: #00B96F;
     color: #fff;
   }
+  .fa.fa-clock-o.icon {
+    font-size: 165%;
+    color: #00B96F;
+}
+.fa.fa-users.icons {
+  font-size: 165%;
+    color: #00B96F;
+}
 
-
-
-
+.btn.btn-primary {
+  background-color: #00B96F;
+    color: #fff;
+    width: 100%;
+    border-color:#00B96F;
+}
 
   
   .red-color{

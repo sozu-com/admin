@@ -18,6 +18,7 @@ import { AclUserGuard } from 'src/app/guards/acl-user.guard';
 import { SharedModule } from 'src/app/modules/shared.module';
 import { LegalEntityComponent } from './legal-entity.component';
 import { AddLegalEntityComponent } from './add-legal-entity/add-legal-entity.component';
+import { DocumentUploadComponent } from './document-upload/document-upload.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,10 @@ const routes: Routes = [
   },
   {
     path: 'add-legal-entity/:id', component: AddLegalEntityComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Manage Legal Entity', 'can_read', ''] }
+  },
+  {
+    path: 'document-upload/:id', component: DocumentUploadComponent,
     canActivate: [AclUserGuard], data: { roles: ['Manage Legal Entity', 'can_read', ''] }
   }
 ];
@@ -54,7 +59,8 @@ const routes: Routes = [
   ],
   declarations: [
     LegalEntityComponent,
-    AddLegalEntityComponent
+    AddLegalEntityComponent,
+    DocumentUploadComponent
   ]
 })
 
