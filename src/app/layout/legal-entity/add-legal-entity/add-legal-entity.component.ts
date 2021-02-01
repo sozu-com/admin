@@ -90,6 +90,12 @@ export class AddLegalEntityComponent implements OnInit {
       itemsShowLimit: 2
     };
   }
+
+  uploadDoc(userdata) {
+    console.log(userdata, "user id")
+    this.router.navigate(['/dashboard/legal-entity/document-upload', userdata.id]);
+  }
+
   initForm() {
     this.addDataForm = this.fb.group({
       id: [''],
