@@ -10,7 +10,8 @@
   <div class="card">
         <h5>{{ 'addForm.uploadDoc' | translate }}</h5>
         <hr />
-        <div style="max-width: 55%; margin: 2%;">
+        <div style="max-width: 55%; margin: 2%;"
+        *ngIf="model?.entity_linked_documents && model?.entity_linked_documents?.length!=0">
               <div class="input-icons" *ngFor="let bankAccount of model.entity_linked_documents; let i = index">
                     <div class="row">
                           <div class="col-md-8">
