@@ -655,6 +655,14 @@
         "sale": "Sale",
         "presale": "Presale"
       },
+      "projectStatus": {
+        "label": "Project Status",
+        "all": "All",
+        "withoutInformation": "Without Information",
+        "basicInformation": "Basic Information",
+        "semicompleted": "Semicompleted",
+        "completed": "Completed"
+      },
       "empId": "Emp ID",
       "properties": "Properties",
       "propertiesForRent": "Properties Available For Rent",
@@ -889,6 +897,7 @@
       "projectUnapprovedSuccessfully": "Project unapproved successfully.",
       "unblockedSuccessfully": "Unblocked Successfully.",
       "blockedSuccessfully": "Blocked Successfully.",
+      "Reminder": "Successfully Send Reminder.",
       "addedSuccessfully": "Added Successfully.",
       "updatedSuccessfully": "Updated Successfully.",
       "uploadedSuccessfully": "Uploaded Successfully.",
@@ -1813,6 +1822,7 @@
     "SaleCommission": "Sales and Commission",
     "bankAccount": "Bank Account",
     "addNewBankAccount": "+ Add new bank account",
+    "addNew": "+ Add new",
     "bankName": "Bank Name",
     "accountNumber": "Account Number",
     "clabeSwift": "Clabe/Swift",
@@ -1860,6 +1870,7 @@
     "folders": "Folders",
     "addNewFolder": "+ Add New Folder",
     "folderName": "Folder Name",
+    "Addcollaborator" :"Add collaborator",
     "buildingYouAreSearchingNotFound": "Building you are searching, not found in our Database",
     "chooseDate": "Choose Date",
     "enterPercentage": "Enter Percentage",

@@ -112,6 +112,7 @@ export class CollectionsComponent implements OnInit {
   folderId: number;
   payment_folder_id: number;
   userForm: FormGroup;
+  dateTime: any;
   @ViewChild('viewDesModal') viewDesModal: ElementRef;
   @ViewChild('viewDesModalClose') viewDesModalClose: ElementRef;
   @ViewChild('applyPaymentChoiceId') applyPaymentChoiceId: ElementRef;

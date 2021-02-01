@@ -654,6 +654,14 @@
         "sale": "Venta",
         "presale": "Preventa"
       },
+      "projectStatus": {
+        "label": "Estado del proyecto",
+        "all": "Todo",
+        "withoutInformation": "Sin informacion",
+        "basicInformation": "Información básica",
+        "semicompleted": "Semicompletado",
+        "completed": "Terminado"
+      },
       "empId": "Emp ID",
       "properties": "Departamentos",
       "propertiesForRent": "Departamentos disponibles para renta",
@@ -891,6 +899,7 @@
       "projectUnapprovedSuccessfully": "Proyecto no aprobado",
       "unblockedSuccessfully": "Desbloqueado exitosamente.",
       "blockedSuccessfully": "Bloqueado exitosamente.",
+      "Reminder": "Enviar recordatorio con éxito.",
       "addedSuccessfully": "Agregado exitosamente",
       "updatedSuccessfully": "Actualizado exitosamente.",
       "uploadedSuccessfully": "Carga exitosa",
@@ -1814,6 +1823,7 @@
     "SaleCommission": "Ventas y Comisión",
     "bankAccount": "Cuenta bancaria",
     "addNewBankAccount": "+ Agregar nueva cuenta bancaria",
+    "addNew": "+ Agregar nueva",
     "bankName": "Nombre del banco",
     "accountNumber": "Número de cuenta",
     "clabeSwift": "CLABE / SWIFT",
@@ -1861,6 +1871,7 @@
     "folders": "Carpetas",
     "addNewFolder": "+ Agregar nueva carpeta",
     "folderName": "Nombre de la carpeta",
+    "Addcollaborator" :"Agregar colaborador",
     "buildingYouAreSearchingNotFound": "Edificio que está buscando, no se encuentra en nuestra base de datos",
     "chooseDate": "Elegir fecha",
     "enterPercentage": "Ingrese porcentaje",
