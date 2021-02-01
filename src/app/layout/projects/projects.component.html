@@ -349,6 +349,18 @@
                 <th style="vertical-align:top;width:5%">
                   <div class="d-flex table-search"><span><label>{{'table.th.document' | translate}}</label></span></div>
                 </th>
+                <th style="width:10%">
+                  <div class="table-search">
+                    <label>{{'table.th.projectStatus.label' | translate}}</label>
+                    <select [(ngModel)]="parameter.project_status_filter" (change)="getListing()">
+                      <option value="{{apiConstant.projectStatus.all}}">{{'table.th.projectStatus.all' | translate}}</option>
+                      <option value="{{apiConstant.projectStatus.without_information}}">{{'table.th.projectStatus.withoutInformation' | translate}}</option>
+                      <option value="{{apiConstant.projectStatus.basic_information}}">{{'table.th.projectStatus.basicInformation' | translate}}</option>
+                      <option value="{{apiConstant.projectStatus.semicompleted}}">{{'table.th.projectStatus.semicompleted' | translate}}</option>
+                      <option value="{{apiConstant.projectStatus.completed}}">{{'table.th.projectStatus.completed' | translate}}</option>
+                    </select>
+                  </div>
+                </th>
                 <th style="vertical-align:top;width:100px;width:20%">
                   <div class="table-search">
                     <label>{{'table.th.actions.label' | translate}}</label>
@@ -422,6 +434,12 @@
                   <button *ngIf="p?.document" [disabled]="admin?.admin_acl['Project Management']?.can_read==0"
                     (click)="viewDocument(p?.document)" class="action-icon">
                     <img src="assets/img/eye-icon.png" alt="img"></button>
+                </td>
+                <td>
+                  <span>{{(p?.is_completed == apiConstant.projectStatus.without_information) ? ('table.th.projectStatus.withoutInformation' | translate) : 
+                    (p?.is_completed == apiConstant.projectStatus.basic_information) ? ('table.th.projectStatus.basicInformation' | translate) :
+                    (p?.is_completed == apiConstant.projectStatus.semicompleted) ? ('table.th.projectStatus.semicompleted' | translate) : 
+                    (p?.is_completed == apiConstant.projectStatus.completed) ? ('table.th.projectStatus.completed' | translate) :''}}</span>
                 </td>
                 <td>
                   <div class="table-actions">

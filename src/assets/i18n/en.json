@@ -655,6 +655,14 @@
         "sale": "Sale",
         "presale": "Presale"
       },
+      "projectStatus": {
+        "label": "Project Status",
+        "all": "All",
+        "withoutInformation": "Without Information",
+        "basicInformation": "Basic Information",
+        "semicompleted": "Semicompleted",
+        "completed": "Completed"
+      },
       "empId": "Emp ID",
       "properties": "Properties",
       "propertiesForRent": "Properties Available For Rent",

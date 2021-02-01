@@ -654,6 +654,14 @@
         "sale": "Venta",
         "presale": "Preventa"
       },
+      "projectStatus": {
+        "label": "Estado del proyecto",
+        "all": "Todo",
+        "withoutInformation": "Sin informacion",
+        "basicInformation": "Información básica",
+        "semicompleted": "Semicompletado",
+        "completed": "Terminado"
+      },
       "empId": "Emp ID",
       "properties": "Departamentos",
       "propertiesForRent": "Departamentos disponibles para renta",

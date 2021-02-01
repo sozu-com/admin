@@ -6,8 +6,13 @@ export class ApiConstants {
         sale: 8
     };
     public projectStatus = {
-        approved: 1,
-        rejected: 2
+        // approved: 1,
+        // rejected: 2
+        all: '',
+        without_information: 0,
+        basic_information: 2,
+        semicompleted: 3,
+        completed: 1
     };
     public propertyStatus = {
         inDraft: 1,

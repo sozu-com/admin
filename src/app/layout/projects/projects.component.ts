@@ -55,7 +55,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('baseurl', this.admin.baseUrl);
+    //console.log('baseurl', this.admin.baseUrl);
     this.locale = {
       firstDayOfWeek: 0,
       dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
@@ -82,6 +82,7 @@ export class ProjectsComponent implements OnInit {
     this.parameter.dash_flag = this.projectService.dash_flag ? this.projectService.dash_flag : this.constant.dash_flag;
     this.parameter.property_sort = 2;
     this.parameter.possession_filter = 0; // 0-all, 9-presale, 8-sale
+    this.parameter.project_status_filter = this.apiConstant.projectStatus.all;
     this.parameter.min_price = 0;
     this.parameter.max_price = 0;
     this.parameter.min_carpet_area = 0;
@@ -135,7 +136,7 @@ export class ProjectsComponent implements OnInit {
       success => {
         localStorage.setItem('parametersForProject', JSON.stringify(this.parameter));
         this.items = success.data;
-        console.log(this.items, "projectHome")
+        //console.log(this.items, "projectHome")
         this.total = success.total_count;
         this.spinner.hide();
       },

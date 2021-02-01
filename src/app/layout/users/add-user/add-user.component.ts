@@ -235,7 +235,7 @@ export class AddUserComponent implements OnInit {
               this.model.legal_rep_banks = success.data.legal_rep_banks || [];
               this.model.legal_representative = success.data.legal_representative || new LegalRepresentative();
               this.model.legal_representative.legal_rep_banks = success.data.legal_representative.legal_rep_banks || [];
-             // this.getCountries();
+              // this.getCountries();
             }
           }
         }, error => {

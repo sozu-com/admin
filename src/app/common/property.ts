@@ -203,4 +203,5 @@ export interface IProperty {
   half_bathroom?: any;
   parking_place?: any;
   parking_for_sale?: any;
+  project_status_filter?: any;
 }
