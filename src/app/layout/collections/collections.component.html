@@ -739,13 +739,13 @@
             <div class="col-6">
               <p class="p16 marginB0">{{'commonBlock.writeANote' | translate}}</p>
             </div>
-            <div class="col-6 text-right">
+            <!-- <div class="col-6 text-right">
               <a class="add" href="javascript://" (click)="addNote()">{{'commonBlock.add' | translate}}</a>
 
               <ng-template #noAddPermissiom>
                 <a class="add" href="javascript://">{{'commonBlock.add' | translate}}</a>
               </ng-template>
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="form-group-2">
@@ -788,7 +788,7 @@
               #notesadddModalOpen></i>
           </div>
           <div class="col-md-6">
-            <button class="btn btn-primary">
+            <button class="btn btn-primary" (click)="addNote()">
               {{'leadDetails.note.addNote' | translate}}</button>
           </div>
         </div>
