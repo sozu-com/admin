@@ -233,7 +233,7 @@ export class AddProjectComponent implements OnInit {
           this.model.custom_attributes = this.model.custom_values;
           this.file5.image = this.model.developer.image;
           this.file6.image = this.model.developer.developer_image;
-          this.admin.postDataApi('getAmenities', {hide_blocked: 1}).subscribe(res => {
+          this.admin.postDataApi('getAmenities', { hide_blocked: 1 }).subscribe(res => {
             this.all_amenities = res.data.map(item => {
               item.selected = false;
               item.images = [];
@@ -328,7 +328,7 @@ export class AddProjectComponent implements OnInit {
           this.model.custom_attributes = this.model.custom_values;
           this.file5.image = this.model.developer.image;
           this.file6.image = this.model.developer.developer_image;
-          this.admin.postDataApi('getAmenities', {hide_blocked: 1}).subscribe(res => {
+          this.admin.postDataApi('getAmenities', { hide_blocked: 1 }).subscribe(res => {
             this.all_amenities = res.data.map(item => {
               item.selected = false;
               item.images = [];
@@ -392,7 +392,7 @@ export class AddProjectComponent implements OnInit {
         this.model.building_towers = [];
         this.model.building_tower_edit_index = '-1';
         this.canEditdeveloperInfo = true;
-        this.admin.postDataApi('getAmenities', {hide_blocked: 1}).subscribe(res => {
+        this.admin.postDataApi('getAmenities', { hide_blocked: 1 }).subscribe(res => {
           this.all_amenities = res.data.map(item => {
             item.selected = false;
             item.images = [];
@@ -414,14 +414,14 @@ export class AddProjectComponent implements OnInit {
     this.setCurrentPosition();
     this.getCountries('');
     this.initForm();
-    this.admin.postDataApi('getPossessionStatuses', {hide_blocked: 1}).subscribe(r => {
+    this.admin.postDataApi('getPossessionStatuses', { hide_blocked: 1 }).subscribe(r => {
       this.all_possession_statuses = r.data;
     });
-    this.admin.postDataApi('getBuildingTypes', {hide_blocked: 1}).subscribe(r => {
+    this.admin.postDataApi('getBuildingTypes', { hide_blocked: 1 }).subscribe(r => {
       this.all_building_types = r.data;
     });
 
-    this.admin.postDataApi('getConfigurations', {hide_blocked: 1}).subscribe(r => {
+    this.admin.postDataApi('getConfigurations', { hide_blocked: 1 }).subscribe(r => {
       this.all_configurations = r.data;
     });
   }
@@ -945,7 +945,7 @@ export class AddProjectComponent implements OnInit {
     }
     // this.spinner.show();
     // this.file3.upload().then(r => {
-      this.new_config.floor_map_image = this.file3.image;
+    this.new_config.floor_map_image = this.file3.image;
     // });
 
     this.file4.upload().then(r1 => {
@@ -1200,35 +1200,65 @@ export class AddProjectComponent implements OnInit {
         return false;
       }
     }
-    if (modelSave.cover_image &&
-      modelSave.name && modelSave.address && modelSave.address != null &&  
-      modelSave.building_images.length > 0 && modelSave.building_type_id &&
-      modelSave.description && modelSave.description != null && modelSave.possession_status_id &&
-      // modelSave.floors && modelSave.floors != null &&
-      // modelSave.launch_date && modelSave.launch_date != null &&
-      // modelSave.avg_price && modelSave.avg_price != null &&
-      modelSave.num_of_properties &&
-      modelSave.amenities.length > 0 &&
-      modelSave.configurations.length > 0 
-      // && modelSave.dev_email && modelSave.dev_email != null
-      // && modelSave.dev_name && modelSave.dev_name != null
-      // && modelSave.dev_phone && modelSave.dev_phone != null && modelSave.dev_logo
-      && modelSave.building_towers.length > 0
-    ) {
+    // without information 0, basic information 2, semicompleted 3, completed 1
 
-      modelSave.is_completed = 1;
-      // swal(this.translate.instant('swal.error'), 'Please add building name', 'error');
-      // return false;
+    const isAnyAmenitiesCheck = this.anyAmenitiesChecked();
+    // to without information
+    if (
+      modelSave.name && modelSave.country_id && modelSave.state_id &&
+      modelSave.city_id && modelSave.locality_id && modelSave.address && modelSave.address != null &&
+      modelSave.lat && modelSave.lng  && modelSave.possession_status_id 
+    ) {
+      modelSave.is_completed = 0;
     }
 
-    // if (this.id) {
-    //   if (modelSave.dev_name && modelSave.dev_countrycode && modelSave.dev_email && modelSave.dev_phone &&
-    //     modelSave.dev_logo) {
-    //       modelSave.is_completed = 1;
-    //     // swal(this.translate.instant('swal.error'), 'Please add developer name', 'error');
-    //     // return false;
-    //   }
-    // }
+    // to basic information
+    if (
+      modelSave.cover_image && (modelSave.images || []).length > 0 && 
+       modelSave.name && modelSave.country_id && modelSave.state_id &&
+      modelSave.city_id && modelSave.locality_id && modelSave.address && modelSave.address != null &&
+      modelSave.lat && modelSave.lng &&  modelSave.building_type_id && modelSave.num_of_properties
+      && modelSave.description && modelSave.description != null && modelSave.possession_status_id &&  isAnyAmenitiesCheck &&
+      (modelSave.amenities || []).length > 0  && (modelSave.building_towers || []).length > 0 &&
+      this.buildingTowerDetailsAvailable(modelSave.building_towers, true)
+    ) {
+      modelSave.is_completed = 2;
+    }
+
+    // to semicompleted
+    if (
+      modelSave.cover_image && (modelSave.images || []).length > 0 &&
+      modelSave.name && modelSave.country_id && modelSave.state_id &&
+      modelSave.city_id && modelSave.locality_id && modelSave.address && modelSave.address != null &&
+      modelSave.lat && modelSave.lng && modelSave.document && modelSave.building_type_id && modelSave.num_of_properties
+      && modelSave.description && modelSave.description != null && modelSave.possession_status_id && modelSave.launch_date && isAnyAmenitiesCheck &&
+      (modelSave.amenities || []).length > 0 && (modelSave.configurations || []).length > 0 && (modelSave.building_towers || []).length > 0 &&
+      this.buildingTowerDetailsAvailable(modelSave.building_towers, false) && ((modelSave || {}).developer || {}).id &&
+      ((modelSave || {}).agency || {}).id
+    ) {
+      modelSave.is_completed = 3;
+    }
+
+    // to completed
+    if (
+      modelSave.cover_image && (modelSave.images || []).length > 0 && (modelSave.images360 || []).length > 0 &&
+      (modelSave.videos || []).length > 0 && modelSave.name && modelSave.country_id && modelSave.state_id &&
+      modelSave.city_id && modelSave.locality_id && modelSave.address && modelSave.address != null &&
+      modelSave.lat && modelSave.lng && modelSave.document && modelSave.building_type_id && modelSave.num_of_properties
+      && modelSave.description && modelSave.description != null && modelSave.possession_status_id && modelSave.launch_date && isAnyAmenitiesCheck &&
+      (modelSave.amenities || []).length > 0 && (modelSave.configurations || []).length > 0 && (modelSave.building_towers || []).length > 0 &&
+      this.buildingTowerDetailsAvailable(modelSave.building_towers, false) && ((modelSave || {}).developer || {}).id &&
+      ((modelSave || {}).manager || {}).id && ((modelSave || {}).company || {}).id && ((modelSave || {}).agency || {}).id
+      // modelSave.building_images.length > 0 &&
+      //   modelSave.floors && modelSave.floors != null &&
+      //   modelSave.launch_date && modelSave.launch_date != null &&
+      //   modelSave.avg_price && modelSave.avg_price != null
+      //   && modelSave.dev_email && modelSave.dev_email != null
+      //   && modelSave.dev_name && modelSave.dev_name != null
+      //   && modelSave.dev_phone && modelSave.dev_phone != null && modelSave.dev_logo
+    ) {
+      modelSave.is_completed = 1;
+    }
 
     if (this.model.building_request_id) {
       modelSave.building_request_id = this.model.building_request_id;
@@ -1351,7 +1381,7 @@ export class AddProjectComponent implements OnInit {
       this.setCountryToLocality(data['locality']);
     }
 
-    this.admin.postDataApi('getAmenities', {hide_blocked: 1}).subscribe(res => {
+    this.admin.postDataApi('getAmenities', { hide_blocked: 1 }).subscribe(res => {
       this.all_amenities = res.data.map(item => {
         item.selected = false;
         item.images = [];
@@ -1579,7 +1609,7 @@ export class AddProjectComponent implements OnInit {
     if (this.model.building_towers[index].possession_status_id &&
       (this.model.building_towers[index].possession_status_id.toString() === this.apiConstants.possession_status_id) &&
       !this.model.building_towers[index].launch_date) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLaunchDate'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLaunchDate'), 'error');
       return false;
     }
 
@@ -1718,7 +1748,7 @@ export class AddProjectComponent implements OnInit {
   amen360ImagesSelect($event) {
     if ((this.amen360Img.files.length + $event.target.files.length) > 6) {
       swal(this.translate.instant('message.error.limitExceeded'),
-      this.translate.instant('message.error.youCanUploadMaximumof6Images'), 'error');
+        this.translate.instant('message.error.youCanUploadMaximumof6Images'), 'error');
       return false;
     }
     this.amen360Img.onSelectFile($event);
@@ -1727,7 +1757,7 @@ export class AddProjectComponent implements OnInit {
   amenVideosSelect($event, type) {
     if ((this.amenVideo.files.length + $event.target.files.length) > 6) {
       swal(this.translate.instant('message.error.limitExceeded'),
-      this.translate.instant('message.error.youCanUploadMaximumof6Videos'), 'error');
+        this.translate.instant('message.error.youCanUploadMaximumof6Videos'), 'error');
       return false;
     }
     this.showamenVideo($event, type);
@@ -1864,13 +1894,13 @@ export class AddProjectComponent implements OnInit {
     if (managedBy === 1) {
       if (this.model.company && this.model.company.id) {
         swal(this.translate.instant('message.error.companyIsLinkedtothisproject'),
-        this.translate.instant('message.error.pleaseRemoveCompanytoLinkManager'), 'error');
+          this.translate.instant('message.error.pleaseRemoveCompanytoLinkManager'), 'error');
       }
     }
     if (managedBy === 2) {
       if (this.model.manager && this.model.manager.id) {
         swal(this.translate.instant('message.error.managerIsLinkedToThisProject'),
-        this.translate.instant('message.error.pleaseRemoveManagertoLinkCompany'), 'error');
+          this.translate.instant('message.error.pleaseRemoveManagertoLinkCompany'), 'error');
       }
     }
     this.spinner.show();
@@ -1978,7 +2008,40 @@ export class AddProjectComponent implements OnInit {
     window.open(document, '_blank');
   }
 
-  goBack(){ 
-    this.router.navigate(['dashboard/projects/view-projects', {for: 'back'}])
+  goBack() {
+    this.router.navigate(['dashboard/projects/view-projects', { for: 'back' }])
+  }
+
+  anyAmenitiesChecked = (): boolean => {
+    let result = false;
+    for (const iterator of this.all_amenities) {
+      if (iterator.selected) {
+        result = iterator.selected;
+        break;
+      }
+    }
+    return result;
+  }
+
+  buildingTowerDetailsAvailable = (details: any[] = [], isBasic: boolean): boolean => {
+    let result = true;
+    for (const iterator of details) {
+      if (isBasic) {
+        if (iterator.amenitiesCount == 0 || iterator.possession_status_id == null ||
+          iterator.possession_status_id == '') {
+          result = false;
+          break;
+        }
+      } else {
+        if (iterator.amenitiesCount == 0 || iterator.launch_date == null ||
+          iterator.launch_date == '' || iterator.possession_status_id == null ||
+          iterator.possession_status_id == '') {
+          result = false;
+          break;
+        }
+      }
+
+    }
+    return result;
   }
 }
