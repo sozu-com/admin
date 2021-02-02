@@ -30,6 +30,7 @@ declare var $: any;
 
 export class CollectionsComponent implements OnInit {
   mode: string;
+ // input: CollectionReport;
   public parameter: IProperty = {};
   public location: IProperty = {};
   items: any = [];
@@ -52,6 +53,7 @@ export class CollectionsComponent implements OnInit {
   item: any;
   locale: any;
   property_collection_id: string;
+  reminder_date : string;
   docFile: string;
   payment_date: any = new Date();
   collection_commission_id: number;
@@ -181,6 +183,7 @@ export class CollectionsComponent implements OnInit {
   }
 
   ngOnInit() {
+    
     this.admin.globalSettings$.subscribe(success => {
       this.cashLimit = success['cash_limit'];
     });
@@ -1141,6 +1144,9 @@ export class CollectionsComponent implements OnInit {
 
   onSelect(e) {
     this.paymentDate = moment.utc(e).toDate();
+  }
+  onSelect1(e) {
+    this.reminder_date = moment().format('YYYY-MM-DD hh:mm');
   }
 
   onSelectInvoiceDate(e) {
@@ -2208,10 +2214,19 @@ export class CollectionsComponent implements OnInit {
 
   send(values) {
     console.log(values);
+
+    // if (this.parameter.reminder_date) {
+    //   input.deal_purchase_date = moment(this.parameter.deal_purchase_date).format('YYYY-MM-DD');
+    // } else {
+    //   delete input.deal_purchase_date;
+    // }
+
     const input = {
       collection_id: this.property_collection_id,
-      email: values.email
+      email: values.email,
+      reminder_date: this.reminder_date
     };
+   // input.reminder_date = moment().format('YYYY-MM-DD');
     this.admin.postDataApi('sendReminder',input).subscribe(r => {
       this.spinner.hide();
       this.toastr.clear();

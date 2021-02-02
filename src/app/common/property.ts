@@ -204,4 +204,5 @@ export interface IProperty {
   parking_place?: any;
   parking_for_sale?: any;
   project_status_filter?: any;
+  reminder_date?: any;
 }
