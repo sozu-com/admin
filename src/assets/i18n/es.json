@@ -1425,7 +1425,10 @@
     "bankNotAssigned": "Banco (No asignado)",
     "addChangeStatus":"Agregar / cambiar estado",
     "addStatus":"Agregar estado",
-    "selectStatus":"Seleccionar estado"
+    "selectStatus":"Seleccionar estado",
+    "linkAgent": "Agente de enlace",
+    "linkCSRAgent": "Agente de enlace CSR",
+    "linkAgents": "link Agent"
   },
   "propertyDetail": {
     "availableFor": "Disponible para",
