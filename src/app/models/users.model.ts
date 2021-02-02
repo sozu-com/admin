@@ -63,4 +63,15 @@ export class Users {
     country?: string;
     state?: string;
     city?: string;
+    // for tax addresses
+    tax_street_address?: string;
+    tax_external_number?: number;
+    tax_internal_number?: string;
+    tax_zipcode?: number;
+    tax_municipality?: string;
+    tax_country?: string;
+    tax_state?: string;
+    tax_city?: string;
+    tax_neighbourhood?: string;
+    tax_neighbourhoods?: any[];
 }

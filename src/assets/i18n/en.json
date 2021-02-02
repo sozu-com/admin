@@ -168,6 +168,7 @@
     "contactNumber": "Contact Number",
     "emailId": "Email ID",
     "address": "Address",
+    "taxAddress":"Tax Address",
     "legalAddress": "Legal Address",
     "fedralTaxPayerRegistry": "Federal Tax Payer Registry",
     "pleaseProvideAccessToSystem": "Please provide access to system (super system)",

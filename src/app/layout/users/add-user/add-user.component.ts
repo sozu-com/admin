@@ -489,28 +489,47 @@ export class AddUserComponent implements OnInit {
     }
   }
 
-  getCounrtyByZipcode = (): void => {
-    if ((this.model.zipcode.toString()).length >= 5) {
+  getCounrtyByZipcode = (isTaxAddress: boolean): void => {
+    if (isTaxAddress ? ((this.model.tax_zipcode || '0').toString()).length >= 5 : ((this.model.zipcode || '0').toString()).length >= 5) {
       this.spinner.show();
-      this.admin.postDataApi('getCounrtyByZipcode', { zip_code: this.model.zipcode }).subscribe((success) => {
-        this.spinner.hide();
-        this.model.municipality = ((success.data || {}).response || {}).municipio || ''; // Municipality
-        this.model.state = ((success.data || {}).response || {}).estado || ''; // State
-        this.model.city = ((success.data || {}).response || {}).ciudad || ''; // city
-        this.model.country = ((success.data || {}).response || {}).pais || ''; // Country
-        this.model.neighbourhoods = ((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
-        this.model.neighborhood = (this.model.neighbourhoods || [])[0] || '';
-      }, (error) => {
-        this.spinner.hide();
-        swal(this.translate.instant('swal.error'), error.error.message, 'error');
-      });
+      this.admin.postDataApi('getCounrtyByZipcode', { zip_code: isTaxAddress ? this.model.tax_zipcode : this.model.zipcode }).
+        subscribe((success) => {
+          this.spinner.hide();
+          if (isTaxAddress) {
+            this.model.tax_municipality = ((success.data || {}).response || {}).municipio || ''; // Municipality
+            this.model.tax_state = ((success.data || {}).response || {}).estado || ''; // State
+            this.model.tax_city = ((success.data || {}).response || {}).ciudad || ''; // city
+            this.model.tax_country = ((success.data || {}).response || {}).pais || ''; // Country
+            this.model.tax_neighbourhoods = ((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
+            this.model.tax_neighbourhood = (this.model.tax_neighbourhoods || [])[0] || '';
+          } else {
+            this.model.municipality = ((success.data || {}).response || {}).municipio || ''; // Municipality
+            this.model.state = ((success.data || {}).response || {}).estado || ''; // State
+            this.model.city = ((success.data || {}).response || {}).ciudad || ''; // city
+            this.model.country = ((success.data || {}).response || {}).pais || ''; // Country
+            this.model.neighbourhoods = ((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
+            this.model.neighborhood = (this.model.neighbourhoods || [])[0] || '';
+          }
+        }, (error) => {
+          this.spinner.hide();
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
+        });
     } else {
-      this.model.municipality = '';
-      this.model.state = '';
-      this.model.city = '';
-      this.model.country = '';
-      this.model.neighbourhoods = [];
-      this.model.neighborhood = '';
+      if (isTaxAddress) {
+        this.model.tax_municipality = '';
+        this.model.tax_state = '';
+        this.model.tax_city = '';
+        this.model.tax_country = '';
+        this.model.tax_neighbourhoods = [];
+        this.model.tax_neighbourhood = '';
+      } else {
+        this.model.municipality = '';
+        this.model.state = '';
+        this.model.city = '';
+        this.model.country = '';
+        this.model.neighbourhoods = [];
+        this.model.neighborhood = '';
+      }
     }
   }
 }

@@ -173,6 +173,7 @@
     "chooseUserRoles": "Elegir roles de usuario",
     "freeLancerOrComapny": "Es autónoma o empresa",
     "address": "Dirección",
+    "taxAddress":"Dirección fiscal",
     "legalAddress": "Dirección Legal",
     "fedralTaxPayerRegistry": "RFC",
     "pleaseProvideAccessToSystem": "Proporcione acceso al sistema (super sistema)",
