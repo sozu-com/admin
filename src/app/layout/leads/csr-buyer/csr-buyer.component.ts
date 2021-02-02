@@ -34,6 +34,7 @@ export class CsrBuyerComponent implements OnInit {
   users: any = [];
   selectedUser: any;
   initSelection = false;
+  openFor: string; 
 
   dash: any = {
     lead_total: 0,
@@ -363,7 +364,8 @@ export class CsrBuyerComponent implements OnInit {
     this.router.navigate(['/dashboard/leads/csr-buyers', lead_id]);
   }
 
-  openModel(){
+  openModel(openFor){
+    this.openFor = openFor;
     this.getAssignListing();
     this.openNewAssignModel.nativeElement.click();
   }
