@@ -173,6 +173,7 @@
     "chooseUserRoles": "Elegir roles de usuario",
     "freeLancerOrComapny": "Es autónoma o empresa",
     "address": "Dirección",
+    "taxAddress":"Dirección fiscal",
     "legalAddress": "Dirección Legal",
     "fedralTaxPayerRegistry": "RFC",
     "pleaseProvideAccessToSystem": "Proporcione acceso al sistema (super sistema)",
@@ -642,6 +643,8 @@
       "yes": "Sí",
       "no": "No",
       "interestedIn": "Interesado en",
+      "csrAssignation": "Asignación de RSE",
+      "AgentAsignation" : "Asignación de agente",
       "sellerTabOn": "Pestaña del vendedor activa",
       "developer": "Desarrollador",
       "managedBy": "Administrada por Compañía/ Manager",
@@ -758,6 +761,7 @@
       "statusAmount": "Monto de estado",
       "penalty": "Multa",
       "statusAccount": "Cuenta de estado",
+      "lead_date": "Fecha de entrega",
       "actions": {
         "label": "Acciones",
         "all": "Todo",
@@ -1418,7 +1422,13 @@
     "leadsLost": "Plomo (perdido)",
     "dealFinalised": "Guías (Deal finalizado)",
     "notaryNotAssigned": "Notario (No asignado)",
-    "bankNotAssigned": "Banco (No asignado)"
+    "bankNotAssigned": "Banco (No asignado)",
+    "addChangeStatus":"Agregar / cambiar estado",
+    "addStatus":"Agregar estado",
+    "selectStatus":"Seleccionar estado",
+    "linkAgent": "Agente de enlace",
+    "linkCSRAgent": "Agente de enlace CSR",
+    "linkAgents": "link Agent"
   },
   "propertyDetail": {
     "availableFor": "Disponible para",
