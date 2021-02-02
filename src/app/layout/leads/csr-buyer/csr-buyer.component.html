@@ -429,11 +429,11 @@
                             <td class="text-left green-color cursor-pointer"> <span (click)="openModel('CSR')">Assign
                                     CSR Agent</span> </td>
                             <td class="text-left green-color cursor-pointer"> <span
-                                    (click)="this.openAddChangeStatusModel()">text</span> </td>
+                                    (click)="this.openAddChangeStatusModel(true)">text</span> </td>
                             <td class="text-left green-color cursor-pointer"> <span (click)="openModel('Agent')">Assign
                                     Agent</span> </td>
                             <td class="text-left green-color cursor-pointer"> <span
-                                    (click)="this.openAddChangeStatusModel()">text</span> </td>
+                                    (click)="this.openAddChangeStatusModel(false)">text</span> </td>
                         </tr>
                     </table>
                     <div class="padding20 center" *ngIf="parameter.noResultFound">
@@ -524,7 +524,8 @@
     <div class="modal-dialog ">
         <div class="modal-content notary-avail">
             <div class="modal-header popup-header">
-                <h4 class="modal-title">{{openFor == 'CSR'? ('leads.linkCSRAgent'| translate) : ('leads.linkAgent' | translate)}}</h4>
+                <h4 class="modal-title">{{openFor == 'CSR'? ('leads.linkCSRAgent'| translate) : ('leads.linkAgent' |
+                    translate)}}</h4>
                 <!-- <button type="button" class="close" data-dismiss="modal" #closeNewAssignModel>&times;</button> -->
             </div>
             <div class="modal-body">
@@ -578,8 +579,8 @@
                         <a class="btn btn-primary pull-right"
                             style="width: 180px;background-color: #fe0002;padding: 12px 15px;" href="javascript://"
                             data-dismiss="modal" #closeNewAssignModel>{{'advanceSearch.cancel' | translate}}</a>
-                        <a class="btn btn-primary pull-right" style="width: 180px;padding: 12px 15px;" href="javascript://"
-                            (click)="assignNow()">{{'leads.linkAgents' | translate}}</a>
+                        <a class="btn btn-primary pull-right" style="width: 180px;padding: 12px 15px;"
+                            href="javascript://" (click)="assignNow()">{{'leads.linkAgents' | translate}}</a>
                     </div>
                 </div>
             </div>
@@ -601,35 +602,10 @@
                         <P style="font-weight: bold;">{{'leads.selectStatus' | translate}}</P>
                     </div>
                 </div>
-                <!-- <div class="spacer40"></div> -->
-                <div>
+                <div style="padding-left: inherit;" *ngFor="let tempStatusName of statusName">
                     <div class="col-md-12 col-6">
                         <span><input type="radio" id="status" name="status" value="status"></span>
-                        <label>status</label>
-                    </div>
-                </div>
-                <div>
-                    <div class="col-md-12 col-6">
-                        <span><input type="radio" id="status" name="status" value="status"></span>
-                        <label>status</label>
-                    </div>
-                </div>
-                <div>
-                    <div class="col-md-12 col-6">
-                        <span><input type="radio" id="status" name="status" value="status"></span>
-                        <label>status</label>
-                    </div>
-                </div>
-                <div>
-                    <div class="col-md-12 col-6">
-                        <span><input type="radio" id="status" name="status" value="status"></span>
-                        <label>status</label>
-                    </div>
-                </div>
-                <div>
-                    <div class="col-md-12 col-6">
-                        <span><input type="radio" id="status" name="status" value="status"></span>
-                        <label>status</label>
+                        <label style="font-weight: bold; padding: inherit;font-size: medium;">{{tempStatusName}}</label>
                     </div>
                 </div>
                 <div class="row">
