@@ -514,7 +514,7 @@
     <div class="modal-dialog ">
         <div class="modal-content notary-avail">
             <div class="modal-header popup-header">
-                <h4 class="modal-title">{{openFor == 'CSR'? 'leads.linkCSRAgent' : 'leads.linkAgent' | translate}}</h4>
+                <h4 class="modal-title">{{openFor == 'CSR'? ('leads.linkCSRAgent'| translate) : ('leads.linkAgent' | translate)}}</h4>
                 <!-- <button type="button" class="close" data-dismiss="modal" #closeNewAssignModel>&times;</button> -->
             </div>
             <div class="modal-body">
@@ -528,9 +528,9 @@
                     </div>
                 </div>
                 <div class="spacer40"></div>
-                <div *ngIf="showSearchText">
+                <!-- <div *ngIf="showSearchText">
                     <p class="show-not-found">{{'leads.searchCSRBuyer' | translate}}</p>
-                </div>
+                </div> -->
                 <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
                     <table class="table">
                         <tr *ngFor="let item of assign.items">

@@ -1422,8 +1422,8 @@
     "dealFinalised": "Leads (Deal finalized)",
     "notaryNotAssigned": "Notary (Not assigned)",
     "bankNotAssigned": "Bank (Not assigned)",
-    "linkAgent" : "Link agent",
-    "linkCSRAgent" : "Link CSR agent"
+    "linkAgent": "Link agent",
+    "linkCSRAgent": "Link CSR agent"
   },
   "propertyDetail": {
     "availableFor": "Available for",
