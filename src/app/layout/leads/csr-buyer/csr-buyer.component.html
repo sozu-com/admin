@@ -348,6 +348,26 @@
                                     <label>{{'table.th.propertyFor' | translate}}</label>
                                 </div>
                             </th>
+                            <th style="width:24%">
+                                <div class="table-search">
+                                    <label>{{'table.th.csrAssignation' | translate}}</label>
+                                </div>
+                            </th>
+                            <th style="width:10%">
+                                <div class="table-search">
+                                    <label>{{'table.th.status' | translate}}</label>
+                                </div>
+                            </th>
+                            <th style="width:24%">
+                                <div class="table-search">
+                                    <label>{{'table.th.AgentAsignation' | translate}}</label>
+                                </div>
+                            </th>
+                            <th style="width:10%">
+                                <div class="table-search">
+                                    <label>{{'table.th.status' | translate}}</label>
+                                </div>
+                            </th>
                         </tr>
                         <tr class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
                             *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }"

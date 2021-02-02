@@ -642,6 +642,8 @@
       "yes": "Sí",
       "no": "No",
       "interestedIn": "Interesado en",
+      "csrAssignation": "Asignación de RSE",
+      "AgentAsignation" : "Asignación de agente",
       "sellerTabOn": "Pestaña del vendedor activa",
       "developer": "Desarrollador",
       "managedBy": "Administrada por Compañía/ Manager",
