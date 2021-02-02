@@ -1422,7 +1422,10 @@
     "leadsLost": "Plomo (perdido)",
     "dealFinalised": "Guías (Deal finalizado)",
     "notaryNotAssigned": "Notario (No asignado)",
-    "bankNotAssigned": "Banco (No asignado)"
+    "bankNotAssigned": "Banco (No asignado)",
+    "linkAgent": "Agente de enlace",
+    "linkCSRAgent": "Agente de enlace CSR",
+    "linkAgents": "link Agent"
   },
   "propertyDetail": {
     "availableFor": "Disponible para",
