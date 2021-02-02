@@ -600,16 +600,16 @@
                         <P style="font-weight: bold;">{{'leads.selectStatus' | translate}}</P>
                     </div>
                 </div>
-                <div style="padding-left: inherit;" *ngFor="let tempStatusName of statusName">
+                <div style="padding-left: inherit;" *ngFor="let tempStatusName of addChangeStatusNames">
                     <div class="col-md-12 col-6">
-                        <span><input type="radio" id="status" name="status" value="status"></span>
+                        <span><input type="radio" id="status" name="status" [(ngModel)]="this.selectedAddChangeStatus" value="{{tempStatusName}}"></span>
                         <label style="font-weight: bold; padding: inherit;font-size: medium;">{{tempStatusName}}</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 col-5 btn-cont">
                         <a class="btn btn-primary pull-right" style="width: 180px;padding: 12px 15px;"
-                            href="javascript://" (click)="assignNow()">{{'leads.addStatus' | translate}}</a>
+                            href="javascript://" (click)="this.onClickAddStatus()">{{'leads.addStatus' | translate}}</a>
                     </div>
                 </div>
             </div>

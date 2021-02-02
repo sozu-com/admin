@@ -48,7 +48,8 @@ export class CsrBuyerComponent implements OnInit {
   chartView: any = [];
   showSearchText: boolean;
   allSelected: boolean = false;
-  statusName: string[] = [];
+  addChangeStatusNames: string[] = [];
+  selectedAddChangeStatus: any;
 
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
   constructor(
@@ -376,14 +377,18 @@ export class CsrBuyerComponent implements OnInit {
 
   openAddChangeStatusModel = (status: boolean): void => {
     if (status) {
-      this.statusName = ['Mailbox', 'Call later', 'Not interested', 'Schduled appointetment', 'Incorrect data', 'Real estate advisory', 'Lead lost', 'N/A'];
+      this.addChangeStatusNames = ['Mailbox', 'Call later', 'Not interested', 'Schduled appointetment', 'Incorrect data', 'Real estate advisory', 'Lead lost', 'N/A'];
     } else {
-      this.statusName = ['Schduled appointetment', 'In decision', 'Deal agreement', 'Layaway received', 'Contact and downpayment', 'Lead lost', 'Cancelled', 'N/A'];
+      this.addChangeStatusNames = ['Schduled appointetment', 'In decision', 'Deal agreement', 'Layaway received', 'Contact and downpayment', 'Lead lost', 'Cancelled', 'N/A'];
     }
     this.addChangeStatusModelOpen.nativeElement.click();
   }
 
   closeAddChangeStatusModel = (): void => {
     this.addChangeStatusModelClose.nativeElement.click();
+  }
+
+  onClickAddStatus= (): void => {
+    console.log(this.selectedAddChangeStatus);
   }
 }
