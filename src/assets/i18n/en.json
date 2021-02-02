@@ -1423,7 +1423,10 @@
     "notaryNotAssigned": "Notary (Not assigned)",
     "bankNotAssigned": "Bank (Not assigned)",
     "linkAgent" : "Link agent",
-    "linkCSRAgent" : "Link CSR agent"
+    "linkCSRAgent" : "Link CSR agent",
+    "addChangeStatus":"Add/Change Status",
+    "addStatus":"Add status",
+    "selectStatus":"Select status"
   },
   "propertyDetail": {
     "availableFor": "Available for",

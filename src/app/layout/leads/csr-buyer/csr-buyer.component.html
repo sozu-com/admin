@@ -296,7 +296,8 @@
                                     <div class="searh-3">
                                         <input autocomplete="off" type="text" [(ngModel)]="parameter.first_surname"
                                             (keyup.enter)="changeFilter('first_surname',$event.target.value)" name="">
-                                        <button *ngIf="parameter.first_surname" (click)="changeFilter('first_surname', parameter.first_surname)"><i
+                                        <button *ngIf="parameter.first_surname"
+                                            (click)="changeFilter('first_surname', parameter.first_surname)"><i
                                                 class="fa fa-search"></i></button>
                                     </div>
                                 </div>
@@ -307,7 +308,8 @@
                                     <div class="searh-3">
                                         <input autocomplete="off" type="text" [(ngModel)]="parameter.second_surname"
                                             (keyup.enter)="changeFilter('second_surname',$event.target.value)" name="">
-                                        <button *ngIf="parameter.second_surname" (click)="changeFilter('second_surname', parameter.second_surname)"><i
+                                        <button *ngIf="parameter.second_surname"
+                                            (click)="changeFilter('second_surname', parameter.second_surname)"><i
                                                 class="fa fa-search"></i></button>
                                     </div>
                                 </div>
@@ -388,18 +390,22 @@
                             </td>
                             <td class="text-left" (click)="viewLeadDetails(item.id, item)">
                                 <img [src]="item?.user?.image ? item?.user?.image : item?.image| img:'small'"
-                                class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
+                                    class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
                             </td>
                             <td class="text-left">
-                                <span *ngIf="item.name" class="name" (click)="viewLeadDetails(item.id, item)">{{item?.user?.name ? item?.user?.name : item?.name
+                                <span *ngIf="item.name" class="name"
+                                    (click)="viewLeadDetails(item.id, item)">{{item?.user?.name ? item?.user?.name :
+                                    item?.name
                                     | titlecase}}</span>
                                 <span class="name" *ngIf="!item.name">{{'table.tr.td.NA' | translate}}</span>
                             </td>
                             <td class="text-left" (click)="viewLeadDetails(item.id, item)">
-                                <span class="name">{{item?.first_surname? (item?.first_surname | titlecase):('table.tr.td.NA' | translate)}}</span>
+                                <span class="name">{{item?.first_surname? (item?.first_surname |
+                                    titlecase):('table.tr.td.NA' | translate)}}</span>
                             </td>
                             <td class="text-left" (click)="viewLeadDetails(item.id, item)">
-                                <span class="name">{{item?.second_surname? (item?.second_surname | titlecase):('table.tr.td.NA' | translate)}}</span>
+                                <span class="name">{{item?.second_surname? (item?.second_surname |
+                                    titlecase):('table.tr.td.NA' | translate)}}</span>
                             </td>
                             <td class="text-left" *ngIf="item?.phone">
                                 {{item?.dial_code ? item?.dial_code : constant.dial_code}}-{{item?.user?.phone ?
@@ -420,10 +426,14 @@
                             <td class="text-left" *ngIf="item.sale_rent >= 0">{{item.sale_rent==1 ? ('leadDetails.buy' |
                                 translate) : ('table.tr.td.rent' | translate)}}</td>
 
-                            <td class="text-left green-color cursor-pointer"> <span (click)="openModel('CSR')">Assign CSR Agent</span> </td>
-                            <td class="text-left green-color cursor-pointer"> <span>text</span> </td>
-                            <td class="text-left green-color cursor-pointer"> <span (click)="openModel('Agent')">Assign Agent</span> </td>
-                            <td class="text-left green-color cursor-pointer"> <span>text</span> </td>
+                            <td class="text-left green-color cursor-pointer"> <span (click)="openModel('CSR')">Assign
+                                    CSR Agent</span> </td>
+                            <td class="text-left green-color cursor-pointer"> <span
+                                    (click)="this.openAddChangeStatusModel()">text</span> </td>
+                            <td class="text-left green-color cursor-pointer"> <span (click)="openModel('Agent')">Assign
+                                    Agent</span> </td>
+                            <td class="text-left green-color cursor-pointer"> <span
+                                    (click)="this.openAddChangeStatusModel()">text</span> </td>
                         </tr>
                     </table>
                     <div class="padding20 center" *ngIf="parameter.noResultFound">
@@ -521,9 +531,9 @@
                 <div class="row">
                     <div class="col-md-10 col-10">
                         <label style="font-weight: bold;font-size: 15px;">Search Name</label>
-                        <input title="{{'table.title.clickEnterForSearch' | translate}}" style="max-width: 264px;height: 55px;"
-                            list="amenities" [(ngModel)]="assign.keyword" (keyup.enter)="getAssignListing()"
-                            class="form-control" type="text" name="keyword"
+                        <input title="{{'table.title.clickEnterForSearch' | translate}}"
+                            style="max-width: 264px;height: 55px;" list="amenities" [(ngModel)]="assign.keyword"
+                            (keyup.enter)="getAssignListing()" class="form-control" type="text" name="keyword"
                             placeholder="{{'addForm.placeholder.search' | translate}}">
                     </div>
                 </div>
@@ -561,12 +571,69 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6 col-5 btn-cont">
-                        <a class="btn btn-primary pull-right" style="width: 180px;padding: 12px 15px;" href="javascript://"
-                            (click)="assignNow()">{{'leads.assign' | translate}}</a>
+                        <a class="btn btn-primary pull-right" style="width: 180px;padding: 12px 15px;"
+                            href="javascript://" (click)="assignNow()">{{'leads.assign' | translate}}</a>
                     </div>
                     <div class="col-md-6 col-5 btn-cont">
-                        <a class="btn btn-primary pull-right" style="width: 180px;background-color: #fe0002;padding: 12px 15px;" href="javascript://"
-                        data-dismiss="modal" #closeNewAssignModel>{{'advanceSearch.cancel' | translate}}</a>
+                        <a class="btn btn-primary pull-right"
+                            style="width: 180px;background-color: #fe0002;padding: 12px 15px;" href="javascript://"
+                            data-dismiss="modal" #closeNewAssignModel>{{'advanceSearch.cancel' | translate}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a #addChangeStatusModelOpen class="btn-third btn btn-block" data-target="#add-change-status" data-toggle="modal"></a>
+<div class="modal" id="add-change-status">
+    <div class="modal-dialog">
+        <div class="modal-content notary-avail">
+            <div class="modal-header popup-header">
+                <h4 class="modal-title">{{'leads.addChangeStatus' | translate}}</h4>
+                <button type="button" class="close" data-dismiss="modal" #addChangeStatusModelClose>&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 col-6">
+                        <P style="font-weight: bold;">{{'leads.selectStatus' | translate}}</P>
+                    </div>
+                </div>
+                <!-- <div class="spacer40"></div> -->
+                <div>
+                    <div class="col-md-12 col-6">
+                        <span><input type="radio" id="status" name="status" value="status"></span>
+                        <label>status</label>
+                    </div>
+                </div>
+                <div>
+                    <div class="col-md-12 col-6">
+                        <span><input type="radio" id="status" name="status" value="status"></span>
+                        <label>status</label>
+                    </div>
+                </div>
+                <div>
+                    <div class="col-md-12 col-6">
+                        <span><input type="radio" id="status" name="status" value="status"></span>
+                        <label>status</label>
+                    </div>
+                </div>
+                <div>
+                    <div class="col-md-12 col-6">
+                        <span><input type="radio" id="status" name="status" value="status"></span>
+                        <label>status</label>
+                    </div>
+                </div>
+                <div>
+                    <div class="col-md-12 col-6">
+                        <span><input type="radio" id="status" name="status" value="status"></span>
+                        <label>status</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-5 btn-cont">
+                        <a class="btn btn-primary pull-right" style="width: 180px;padding: 12px 15px;"
+                            href="javascript://" (click)="assignNow()">{{'leads.addStatus' | translate}}</a>
                     </div>
                 </div>
             </div>

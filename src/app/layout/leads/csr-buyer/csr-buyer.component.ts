@@ -24,6 +24,9 @@ export class CsrBuyerComponent implements OnInit {
   @ViewChild('openNewAssignModel') openNewAssignModel: ElementRef;
   @ViewChild('closeNewAssignModel') closeNewAssignModel: ElementRef;
 
+  @ViewChild('addChangeStatusModelOpen') addChangeStatusModelOpen: ElementRef;
+  @ViewChild('addChangeStatusModelClose') addChangeStatusModelClose: ElementRef;
+
   public parameter: IProperty = {};
   public location: IProperty = {};
   public assign: IProperty = {};
@@ -34,7 +37,7 @@ export class CsrBuyerComponent implements OnInit {
   users: any = [];
   selectedUser: any;
   initSelection = false;
-  openFor: string; 
+  openFor: string;
 
   dash: any = {
     lead_total: 0,
@@ -364,9 +367,17 @@ export class CsrBuyerComponent implements OnInit {
     this.router.navigate(['/dashboard/leads/csr-buyers', lead_id]);
   }
 
-  openModel(openFor){
+  openModel(openFor) {
     this.openFor = openFor;
     this.getAssignListing();
     this.openNewAssignModel.nativeElement.click();
+  }
+
+  openAddChangeStatusModel = (): void => {
+    this.addChangeStatusModelOpen.nativeElement.click();
+  }
+
+  closeAddChangeStatusModel = (): void => {
+    this.addChangeStatusModelClose.nativeElement.click();
   }
 }
