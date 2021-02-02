@@ -815,7 +815,7 @@
                 ngClass="ui-calendar-custom" showIcon="true" class="form-control"></p-calendar> -->
                 <p-calendar class="form-control" [(ngModel)]="reminder_date" autocomplete="off"
                 [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" [showTime]="true"  showIcon="true"
-                (onSelect)="onSelect1($event)" [maxDate]="today" showButtonBar="true" [monthNavigator]="true"
+                (onSelect)="onSelect1($event)"  showButtonBar="true" [monthNavigator]="true"
                 [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
                </div>
                <div class="form-group col-md-6">
@@ -1499,7 +1499,7 @@
       </div>
 
       <form autocomplete="off" class="form-horizontal padding0" role="form" ngNativeValidate #addForm="ngForm"
-        (ngSubmit)="applyCollectionPayment()">
+        (ngSubmit)="applyCollectionPayment1()">
         <div class="modal-body">
           <div class="row">
             <div class="col-12">
