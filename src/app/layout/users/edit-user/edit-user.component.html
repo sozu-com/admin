@@ -306,7 +306,7 @@
                           <label>{{'addForm.ZIP' | translate}}</label>
                           <input minlength="8" maxlength="15" autocomplete="off" type="text" class="form-control"
                             id="zipcode" minlength="1" [(ngModel)]="model.zipcode" name="zipcode"
-                            (keyup)="this.getCounrtyByZipcode()" />
+                            (keyup)="this.getCounrtyByZipcode(false)" />
                         </div>
                       </div>
                     </div>
@@ -326,21 +326,6 @@
                       <div class="col-4">
                         <div class="form-group-3">
                           <label>{{'filters.location.country' | translate}}</label>
-                          <!-- <select class="form-control" (change)="getStatesNew1($event.target.value)"
-                            *ngIf="parameter?.countriesAdd">
-                            <option value="" disabled>{{'filters.location.selectCountry' | translate}}</option>
-                            <option value="0" [selected]="location.countries!='' && location.countries==0">
-                              {{'filters.location.allOption' | translate}}</option>
-                            <option *ngFor="let countryAdd of parameter.countriesAdd"
-                              [selected]="countryAdd.id == model.country_id" value="{{countryAdd.id}}">
-                              {{countryAdd.name}}</option>
-                            <option value="other">{{'filters.location.other' | translate}}</option>
-                          </select>
-                          <div>
-                            <input *ngIf="showInput" [(ngModel)]="model.country_name" (ngModelChange)="modelChanged()"
-                              name="country_name" autocomplete="off" type="text" class="form-control"
-                              placeholder="Enter Country Name" style="margin-top: 20px;">
-                          </div> -->
                           <input autocomplete="off" type="text" class="form-control" id="country"
                             [(ngModel)]="model.country" name="country" />
                         </div>
@@ -348,20 +333,6 @@
                       <div class="col-4">
                         <div class="form-group-3">
                           <label>{{'filters.location.state' | translate}}</label>
-                          <!-- <select class="form-control" (change)="getCitiesNew1($event.target.value)"
-                            *ngIf="!showInput && parameter?.statesAdd">
-                            <option value="" disabled>{{'filters.location.selectState' | translate}}</option>
-                            <option value="0" [selected]="location.states!='' && location.states==0">
-                              {{'filters.location.allOption' | translate}}</option>
-                            <option *ngFor="let stateAdd of parameter.statesAdd"
-                              [selected]="stateAdd.id == model.state_id" value="{{stateAdd.id}}">{{stateAdd.name}}
-                            </option>
-                            <option value="other">{{'filters.location.other' | translate}}</option>
-                          </select>
-                          <input *ngIf="showInput || stateInput == 'other'" [attr.disabled]="stateDisable? '' : null"
-                            [(ngModel)]="model.state_name" (ngModelChange)="modelChanged()" name="state_name"
-                            autocomplete="off" type="text" class="form-control" placeholder="Enter State Name"
-                            [ngStyle]="{'margin-top': stateInput == 'other' ? '20px' : '0px' }"> -->
                           <input autocomplete="off" type="text" class="form-control" id="state"
                             [(ngModel)]="model.state" name="state" />
                         </div>
@@ -376,35 +347,16 @@
                       <div class="col-4">
                         <div class="form-group-3">
                           <label>{{'filters.location.city' | translate}}</label>
-                          <!-- <select class="form-control" (change)="getLocalitiesNew($event.target.value)"
-                            *ngIf="!showInput && parameter?.citiesAdd">
-                            <option value="" disabled>{{'filters.location.selectCity' | translate}}</option>
-                            <option value="0" [selected]="location.cities!='' && location.cities==0">
-                              {{'filters.location.allOption' | translate}}</option>
-                            <option *ngFor="let cityAdd of parameter.citiesAdd" [selected]="cityAdd.id == model.city_id"
-                              value="{{cityAdd.id}}">{{cityAdd.name}}</option>
-                            <option value="other">{{'filters.location.other' | translate}}</option>
-                          </select>
-                          <input *ngIf="showInput || cityInput == 'other'" [attr.disabled]="cityDisable? '' : null"
-                            [(ngModel)]="model.city_name" name="city_name" autocomplete="off" type="text"
-                            class="form-control" placeholder="Enter City Name"
-                            [ngStyle]="{'margin-top': cityInput == 'other' ? '20px' : '0px' }"> -->
                           <input autocomplete="off" type="text" class="form-control" id="city" [(ngModel)]="model.city"
                             name="city" />
                         </div>
                       </div>
                       <div class="col-4">
                         <div class="form-group-3">
-                          <label>{{'addForm.neighbourhood' | translate}}</label>
-                          <!-- <input type="text" class="form-control" name="neighborhood"
-                              [(ngModel)]="model.neighborhood" /> -->
-                          <select class="form-control" [(ngModel)]="model.neighborhood" name="neighborhood">
-                            <!-- <option value="" disabled>{{'filters.location.selectCity' | translate}}</option>
-                              <option value="0" [selected]="location.cities!='' && location.cities==0">
-                                {{'filters.location.allOption' | translate}}</option> -->
+                          <label>{{'addForm.neighbourhood' | translate}}</label>                          
+                          <select class="form-control" [(ngModel)]="model.neighborhood" name="neighborhood">                            
                             <option *ngFor="let tempNeighbourhood of model.neighbourhoods" [value]="tempNeighbourhood">
-                              {{tempNeighbourhood}}</option>
-                            <!-- <option value="other">{{'filters.location.other' | translate}}</option> -->
+                              {{tempNeighbourhood}}</option>                            
                           </select>
                         </div>
                       </div>
@@ -435,6 +387,99 @@
                             [zoom]="constant.zoom">
                             <agm-marker [latitude]="model.lat" [longitude]="model.lng"></agm-marker>
                           </agm-map>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+
+                  <div class="white-bg padding40">
+                    <h3>{{'addForm.taxAddress' | translate}}</h3>
+                    <div class="col-12">
+                      <div class="spacer40"></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-3">
+                        <div class="form-group-3">
+                          <label>{{'addForm.streetAddress' | translate}}</label>
+                          <input type="text" class="form-control" name="tax_street_address"
+                            [(ngModel)]="model.tax_street_address" />
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="form-group-3">
+                          <label>{{'addForm.externalNumber' | translate}}</label>
+                          <input type="text" class="form-control" name="tax_external_number"
+                            [pattern]="constant.numberPattern" [(ngModel)]="model.tax_external_number" />
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="form-group-3">
+                          <label>{{'addForm.internalNumber' | translate}}</label>
+                          <input type="text" class="form-control" name="tax_internal_number"
+                            [pattern]="constant.acceptAlphaNumericOrAccentscharacters" [(ngModel)]="model.tax_internal_number" />
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="form-group-3">
+                          <label>{{'addForm.ZIP' | translate}}</label>
+                          <input minlength="8" maxlength="15" autocomplete="off" type="text" class="form-control"
+                            id="zipcode" minlength="1" [(ngModel)]="model.tax_zipcode" name="tax_zipcode"
+                            (keyup)="this.getCounrtyByZipcode(true)" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <div class="spacer40"></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-4">
+                        <div class="form-group-3">
+                          <label>{{'addForm.municipality' | translate}}</label>
+                          <input (keydown.space)="$event.preventDefault();" autocomplete="off" type="text"
+                            class="form-control" [(ngModel)]="model.tax_municipality" name="tax_municipality">
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group-3">
+                          <label>{{'filters.location.country' | translate}}</label>
+                          <input autocomplete="off" type="text" class="form-control" id="tax_country"
+                            [(ngModel)]="model.tax_country" name="tax_country" />
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group-3">
+                          <label>{{'filters.location.state' | translate}}</label>
+                          <input autocomplete="off" type="text" class="form-control" id="tax_state"
+                            [(ngModel)]="model.tax_state" name="tax_state" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <div class="spacer40"></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-4">
+                        <div class="form-group-3">
+                          <label>{{'filters.location.city' | translate}}</label>
+                          <input autocomplete="off" type="text" class="form-control" id="tax_city" [(ngModel)]="model.tax_city"
+                            name="tax_city" />
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group-3">
+                          <label>{{'addForm.neighbourhood' | translate}}</label>
+                          <select class="form-control" [(ngModel)]="model.tax_neighbourhood" name="tax_neighbourhood">
+                            <option *ngFor="let temp_tax_neighbourhood of model.tax_neighbourhoods" [value]="temp_tax_neighbourhood">
+                              {{temp_tax_neighbourhood}}</option>
+                          </select>
                         </div>
                       </div>
                     </div>
