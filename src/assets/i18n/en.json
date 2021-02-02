@@ -1426,7 +1426,7 @@
     "linkCSRAgent": "Link CSR agent",
     "addChangeStatus": "Add/Change Status",
     "addStatus": "Add status",
-    "SelectStatus": "Select status",
+    "selectStatus": "Select status",
     "linkAgents": "link Agent"
   },
   "propertyDetail": {
