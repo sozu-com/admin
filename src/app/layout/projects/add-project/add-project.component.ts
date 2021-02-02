@@ -1248,14 +1248,7 @@ export class AddProjectComponent implements OnInit {
       && modelSave.description && modelSave.description != null && modelSave.possession_status_id && modelSave.launch_date && isAnyAmenitiesCheck &&
       (modelSave.amenities || []).length > 0 && (modelSave.configurations || []).length > 0 && (modelSave.building_towers || []).length > 0 &&
       this.buildingTowerDetailsAvailable(modelSave.building_towers, false) && ((modelSave || {}).developer || {}).id &&
-      ((modelSave || {}).manager || {}).id && ((modelSave || {}).company || {}).id && ((modelSave || {}).agency || {}).id
-      // modelSave.building_images.length > 0 &&
-      //   modelSave.floors && modelSave.floors != null &&
-      //   modelSave.launch_date && modelSave.launch_date != null &&
-      //   modelSave.avg_price && modelSave.avg_price != null
-      //   && modelSave.dev_email && modelSave.dev_email != null
-      //   && modelSave.dev_name && modelSave.dev_name != null
-      //   && modelSave.dev_phone && modelSave.dev_phone != null && modelSave.dev_logo
+      (((modelSave || {}).manager || {}).id || ((modelSave || {}).company || {}).id) && ((modelSave || {}).agency || {}).id
     ) {
       modelSave.is_completed = 1;
     }
