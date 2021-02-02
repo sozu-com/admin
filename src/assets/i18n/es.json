@@ -760,6 +760,7 @@
       "statusAmount": "Monto de estado",
       "penalty": "Multa",
       "statusAccount": "Cuenta de estado",
+      "lead_date": "Fecha de entrega",
       "actions": {
         "label": "Acciones",
         "all": "Todo",

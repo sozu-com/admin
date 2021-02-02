@@ -273,6 +273,9 @@
                                     </div>
                                 </div>
                             </th>
+                            <th style="width:17%">
+                                <div class="table-search"><label>{{'table.th.lead_date' | translate}}</label></div>
+                            </th>
                             <th style="width:6%">
                                 <div class="table-search"><label>{{'table.th.image' | translate}}</label></div>
                             </th>
@@ -370,8 +373,7 @@
                             </th>
                         </tr>
                         <tr class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
-                            *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }"
-                            (click)="viewLeadDetails(item.id, item)">
+                            *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }">
                             <!-- routerLink="/dashboard/leads/csr-buyers/{{item.id}}" -->
                             <td *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_read==1 && !this.parameter.assignee_id"
                                 (click)="$event.stopPropagation()">
@@ -382,18 +384,21 @@
                                 <!-- <i class="fa" [ngClass]="item.selected?'fa-check-square-o':'fa-square-o'" (click)="item.selected = !item.selected" aria-hidden="true"></i> -->
                             </td>
                             <td>
+                                <span class="name" *ngIf="item.created_at">{{item.created_at | date}}</span>
+                            </td>
+                            <td class="text-left" (click)="viewLeadDetails(item.id, item)">
                                 <img [src]="item?.user?.image ? item?.user?.image : item?.image| img:'small'"
-                                    class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
+                                class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
                             </td>
                             <td class="text-left">
-                                <span *ngIf="item.name" class="name">{{item?.user?.name ? item?.user?.name : item?.name
+                                <span *ngIf="item.name" class="name" (click)="viewLeadDetails(item.id, item)">{{item?.user?.name ? item?.user?.name : item?.name
                                     | titlecase}}</span>
                                 <span class="name" *ngIf="!item.name">{{'table.tr.td.NA' | translate}}</span>
                             </td>
-                            <td class="text-left">
+                            <td class="text-left" (click)="viewLeadDetails(item.id, item)">
                                 <span class="name">{{item?.first_surname? (item?.first_surname | titlecase):('table.tr.td.NA' | translate)}}</span>
                             </td>
-                            <td class="text-left">
+                            <td class="text-left" (click)="viewLeadDetails(item.id, item)">
                                 <span class="name">{{item?.second_surname? (item?.second_surname | titlecase):('table.tr.td.NA' | translate)}}</span>
                             </td>
                             <td class="text-left" *ngIf="item?.phone">
@@ -412,8 +417,13 @@
                             </td>
                             <td class="text-left" title="{{'table.title.CSRBuyer' | translate}}">{{item?.admin?.name ?
                                 item?.admin?.name : ('table.tr.td.NA' | translate)}}</td>
-                            <td class="text-left" *ngIf="item.sale_rent">{{item.sale_rent==1 ? ('leadDetails.buy' |
+                            <td class="text-left" *ngIf="item.sale_rent >= 0">{{item.sale_rent==1 ? ('leadDetails.buy' |
                                 translate) : ('table.tr.td.rent' | translate)}}</td>
+
+                            <td class="text-left green-color cursor-pointer"> <span (click)="openModel('CSR')">Assign CSR Agent</span> </td>
+                            <td class="text-left green-color cursor-pointer"> <span>text</span> </td>
+                            <td class="text-left green-color cursor-pointer"> <span (click)="openModel('Agent')">Assign Agent</span> </td>
+                            <td class="text-left green-color cursor-pointer"> <span>text</span> </td>
                         </tr>
                     </table>
                     <div class="padding20 center" *ngIf="parameter.noResultFound">
@@ -492,6 +502,72 @@
                             <p class="show-not-found">{{'leads.noCSRBuyer' | translate}}</p>
                         </tr>
                     </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- New Assignment model -->
+<a data-toggle="modal" data-target="#new-assign-model" #openNewAssignModel></a>
+<div class="modal" id="new-assign-model">
+    <div class="modal-dialog ">
+        <div class="modal-content notary-avail">
+            <div class="modal-header popup-header">
+                <h4 class="modal-title">{{openFor == 'CSR'? 'leads.linkCSRAgent': 'leads.linkAgent' | translate}}</h4>
+                <!-- <button type="button" class="close" data-dismiss="modal" #closeNewAssignModel>&times;</button> -->
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-10 col-10">
+                        <label style="font-weight: bold;font-size: 15px;">Search Name</label>
+                        <input title="{{'table.title.clickEnterForSearch' | translate}}" style="max-width: 264px;height: 55px;"
+                            list="amenities" [(ngModel)]="assign.keyword" (keyup.enter)="getAssignListing()"
+                            class="form-control" type="text" name="keyword"
+                            placeholder="{{'addForm.placeholder.search' | translate}}">
+                    </div>
+                </div>
+                <div class="spacer40"></div>
+                <div *ngIf="showSearchText">
+                    <p class="show-not-found">{{'leads.searchCSRBuyer' | translate}}</p>
+                </div>
+                <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+                    <table class="table">
+                        <tr *ngFor="let item of assign.items">
+                            <td *ngIf="item.is_blocked!=1">
+                                <div class="n-avail-profile">
+                                    <img [src]="item.image| img:'small'" onerror='src="assets/img/default_img.png"'
+                                        alt="img">
+                                    <div class="n-avail-info">
+                                        <p class="p12">{{item.name | titlecase}}</p>
+                                        <p class="p10">{{'leads.phone' | translate}} :
+                                            {{item.dial_code ? item.dial_code :
+                                            constant.dial_code}}-{{item.phone.trim()}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td *ngIf="item.is_blocked!=1">
+                                <label class="cust-check-bx float-right">
+                                    <input type="radio" name="notary_id" (click)="assignItem = item">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr *ngIf="assign?.items?.length==0">
+                            <p class="show-not-found">{{'leads.noCSRBuyer' | translate}}</p>
+                        </tr>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-5 btn-cont">
+                        <a class="btn btn-primary pull-right" style="width: 180px;padding: 12px 15px;" href="javascript://"
+                            (click)="assignNow()">{{'leads.assign' | translate}}</a>
+                    </div>
+                    <div class="col-md-6 col-5 btn-cont">
+                        <a class="btn btn-primary pull-right" style="width: 180px;background-color: #fe0002;padding: 12px 15px;" href="javascript://"
+                        data-dismiss="modal" #closeNewAssignModel>{{'advanceSearch.cancel' | translate}}</a>
+                    </div>
                 </div>
             </div>
         </div>

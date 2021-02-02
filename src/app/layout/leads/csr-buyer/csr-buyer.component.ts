@@ -21,6 +21,8 @@ export class CsrBuyerComponent implements OnInit {
 
   @ViewChild('openAssignModel') openAssignModel: ElementRef;
   @ViewChild('closeAssignModel') closeAssignModel: ElementRef;
+  @ViewChild('openNewAssignModel') openNewAssignModel: ElementRef;
+  @ViewChild('closeNewAssignModel') closeNewAssignModel: ElementRef;
 
   public parameter: IProperty = {};
   public location: IProperty = {};
@@ -359,5 +361,10 @@ export class CsrBuyerComponent implements OnInit {
   viewLeadDetails(lead_id: string, data: any) {
     this.leadsService.setLeadDetailData(data);
     this.router.navigate(['/dashboard/leads/csr-buyers', lead_id]);
+  }
+
+  openModel(){
+    this.getAssignListing();
+    this.openNewAssignModel.nativeElement.click();
   }
 }
