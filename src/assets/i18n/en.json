@@ -644,6 +644,8 @@
       "yes": "Yes",
       "no": "No",
       "interestedIn": "Interested In",
+      "csrAssignation": "CSR Assignation",
+      "AgentAsignation" : "Agent Asignation",
       "sellerTabOn": "Seller tab on",
       "developer": "Developer",
       "managedBy": "Managed By Company/Manager",
