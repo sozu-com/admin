@@ -43,7 +43,7 @@ export class EditUserComponent implements OnInit {
   cityInput: string;
   countryInput: string;
   dataNotAvailable: boolean;
-
+  nationalityDetails: any[] = [];
   constructor(
     public constant: Constant,
     private cs: CommonService,
@@ -73,6 +73,7 @@ export class EditUserComponent implements OnInit {
         this.model.id = '';
       }
     });
+    this.getNationality();
   }
 
   initModel() {
@@ -112,6 +113,7 @@ export class EditUserComponent implements OnInit {
           this.model.neighbourhoods.push(this.model.neighborhood);
           this.model['tax_neighbourhoods'] = [];
           this.model.tax_neighbourhoods.push(this.model.tax_neighbourhood);
+          this.model.nationality_id = (this.model.nationality_id).toString() == ''  ? -1 : this.model.nationality_id;
         }, error => {
           this.spinner.hide();
         });
@@ -223,6 +225,7 @@ export class EditUserComponent implements OnInit {
     modelSave.country_id = this.countryInput == 'other' ? 0 : modelSave.country_id;
     modelSave.state_id = this.stateInput == 'other' ? 0 : modelSave.state_id;
     modelSave.city_id = this.cityInput == 'other' ? 0 : modelSave.city_id;
+    modelSave.nationality_id = (modelSave.nationality_id > 0 ) ? modelSave.nationality_id : 0;
     this.spinner.show();
     this.admin.postDataApi('addSeller', modelSave)
       .subscribe(
@@ -522,6 +525,7 @@ export class EditUserComponent implements OnInit {
             this.model.country = ((success.data || {}).response || {}).pais || ''; // Country
             this.model.neighbourhoods = ((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
             this.model.neighborhood = (this.model.neighbourhoods || [])[0] || '';
+            this.onClickUseUserSameAddress();
           }
         }, (error) => {
           this.spinner.hide();
@@ -542,8 +546,40 @@ export class EditUserComponent implements OnInit {
         this.model.country = '';
         this.model.neighbourhoods = [];
         this.model.neighborhood = '';
+        this.onClickUseUserSameAddress();
       }
     }
   }
 
+  onClickUseUserSameAddress = (): void => {
+    if (this.model.use_user_same_address) {
+      this.model.tax_street_address = this.model.street_address;
+      this.model.tax_external_number = this.model.external_number;
+      this.model.tax_internal_number = (this.model.internal_number || '').toString();
+      this.model.tax_zipcode = this.model.zipcode;
+      this.model.tax_municipality = this.model.municipality;
+      this.model.tax_country = this.model.country;
+      this.model.tax_state = this.model.state;
+      this.model.tax_city = this.model.city;
+      this.model.tax_neighbourhood = this.model.neighborhood;
+      this.model.tax_neighbourhoods = this.model.neighbourhoods;
+    }
+  }
+
+  getNationality = (): void => {
+    this.spinner.show();
+    this.admin.postDataApi('getNationality', {}).subscribe((success) => {
+      this.spinner.hide();
+      this.nationalityDetails = success.data || [];
+      this.nationalityDetails.push({ id: 0, name: 'Other' });
+    }, (error) => {
+      this.spinner.hide();
+    });
+  }
+
+  updateNationalityName = (value: string): void => {
+    if(parseInt(value) > 0){
+      this.model.nationality_name = '';
+    }
+  }
 }

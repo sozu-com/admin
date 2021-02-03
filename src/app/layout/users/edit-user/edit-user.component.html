@@ -100,8 +100,9 @@
                       <div class="col-4">
                         <div class="form-group-3">
                           <label>{{'addForm.names' | translate}} <span class="color-red">*</span></label>
-                          <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace"
-                            required type="text" class="form-control" [(ngModel)]="model.name" name="name1">
+                          <input autocomplete="off" minlength="1" maxlength="30"
+                            [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required
+                            type="text" class="form-control" [(ngModel)]="model.name" name="name1">
                         </div>
                       </div>
                       <div class="col-4">
@@ -109,9 +110,9 @@
                           <label>{{'addForm.firstSurname' | translate}}
                             <span class="color-red">*</span>
                           </label>
-                          <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace"
-                            type="text" class="form-control" required [(ngModel)]="model.first_surname"
-                            name="first_surname1">
+                          <input autocomplete="off" minlength="1" maxlength="30"
+                            [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" type="text"
+                            class="form-control" required [(ngModel)]="model.first_surname" name="first_surname1">
                         </div>
                       </div>
                       <div class="col-4">
@@ -119,8 +120,9 @@
                           <label>{{'addForm.secondSurname' | translate}}
                             <!-- <span class="color-red">*</span> -->
                           </label>
-                          <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace"
-                            type="text" class="form-control" [(ngModel)]="model.second_surname" name="second_surname1">
+                          <input autocomplete="off" minlength="1" maxlength="30"
+                            [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" type="text"
+                            class="form-control" [(ngModel)]="model.second_surname" name="second_surname1">
                         </div>
                       </div>
                     </div>
@@ -189,9 +191,22 @@
                     <div class="row">
                       <div class="col-4">
                         <div class="form-group-3">
-                          <label>{{'addForm.nacionality' | translate}}</label>
+                          <label class="p16-two">{{'addForm.nacionality' | translate}}</label>
+                          <select title="Select Nationality" [(ngModel)]="model.nationality_id" name="nationality_id"
+                            class="form-control" (change)="this.updateNationalityName($event.target.value)">
+                            <option value="-1" disabled>{{'addForm.selectNationality' | translate}}</option>
+                            <option *ngFor="let tempNationalityDetails of nationalityDetails"
+                              [selected]="tempNationalityDetails.id == model.nationality_id"
+                              value="{{tempNationalityDetails.id}}">
+                              {{tempNationalityDetails.name}}</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-4" *ngIf="model.nationality_id == 0">
+                        <div class="form-group-3">
+                          <label>{{'addForm.specifyNationality' | translate}}</label>
                           <input (keydown.space)="$event.preventDefault();" autocomplete="off" type="text"
-                            class="form-control" [(ngModel)]="model.nationality" name="nationality">
+                            class="form-control" [(ngModel)]="model.nationality_name" name="nationality_name">
                         </div>
                       </div>
                       <div class="col-4">
@@ -284,21 +299,23 @@
                         <div class="form-group-3">
                           <label>{{'addForm.streetAddress' | translate}}</label>
                           <input type="text" class="form-control" name="street_address"
-                            [(ngModel)]="model.street_address" />
+                            [(ngModel)]="model.street_address" (keyup)="this.onClickUseUserSameAddress()" />
                         </div>
                       </div>
                       <div class="col-sm-3">
                         <div class="form-group-3">
                           <label>{{'addForm.externalNumber' | translate}}</label>
                           <input type="text" class="form-control" name="external_number"
-                            [pattern]="constant.numberPattern" [(ngModel)]="model.external_number" />
+                            [pattern]="constant.numberPattern" [(ngModel)]="model.external_number"
+                            (keyup)="this.onClickUseUserSameAddress()" />
                         </div>
                       </div>
                       <div class="col-sm-3">
                         <div class="form-group-3">
                           <label>{{'addForm.internalNumber' | translate}}</label>
                           <input type="text" class="form-control" name="internal_number"
-                            [pattern]="constant.acceptAlphaNumericOrAccentscharacters" [(ngModel)]="model.internal_number" />
+                            [pattern]="constant.acceptAlphaNumericOrAccentscharacters"
+                            [(ngModel)]="model.internal_number" (keyup)="this.onClickUseUserSameAddress()" />
                         </div>
                       </div>
                       <div class="col-3">
@@ -320,21 +337,22 @@
                         <div class="form-group-3">
                           <label>{{'addForm.municipality' | translate}}</label>
                           <input (keydown.space)="$event.preventDefault();" autocomplete="off" type="text"
-                            class="form-control" [(ngModel)]="model.municipality" name="municipality">
+                            class="form-control" [(ngModel)]="model.municipality" name="municipality"
+                            (keyup)="this.onClickUseUserSameAddress()" />
                         </div>
                       </div>
                       <div class="col-4">
                         <div class="form-group-3">
                           <label>{{'filters.location.country' | translate}}</label>
                           <input autocomplete="off" type="text" class="form-control" id="country"
-                            [(ngModel)]="model.country" name="country" />
+                            [(ngModel)]="model.country" name="country" (keyup)="this.onClickUseUserSameAddress()" />
                         </div>
                       </div>
                       <div class="col-4">
                         <div class="form-group-3">
                           <label>{{'filters.location.state' | translate}}</label>
                           <input autocomplete="off" type="text" class="form-control" id="state"
-                            [(ngModel)]="model.state" name="state" />
+                            [(ngModel)]="model.state" name="state" (keyup)="this.onClickUseUserSameAddress()" />
                         </div>
                       </div>
                     </div>
@@ -348,15 +366,16 @@
                         <div class="form-group-3">
                           <label>{{'filters.location.city' | translate}}</label>
                           <input autocomplete="off" type="text" class="form-control" id="city" [(ngModel)]="model.city"
-                            name="city" />
+                            name="city" (keyup)="this.onClickUseUserSameAddress()" />
                         </div>
                       </div>
                       <div class="col-4">
                         <div class="form-group-3">
-                          <label>{{'addForm.neighbourhood' | translate}}</label>                          
-                          <select class="form-control" [(ngModel)]="model.neighborhood" name="neighborhood">                            
+                          <label>{{'addForm.neighbourhood' | translate}}</label>
+                          <select class="form-control" [(ngModel)]="model.neighborhood" name="neighborhood"
+                            (change)="this.onClickUseUserSameAddress()">
                             <option *ngFor="let tempNeighbourhood of model.neighbourhoods" [value]="tempNeighbourhood">
-                              {{tempNeighbourhood}}</option>                            
+                              {{tempNeighbourhood}}</option>
                           </select>
                         </div>
                       </div>
@@ -397,7 +416,22 @@
                   </div>
 
                   <div class="white-bg padding40">
-                    <h3>{{'addForm.taxAddress' | translate}}</h3>
+                    <div class="row">
+                      <div class="col-2">
+                        <h3>{{'addForm.taxAddress' | translate}}</h3>
+                      </div>
+                      <div class="col-md-4 col-sm-4 col-4">
+                        <div class="form-group-3">
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              {{'addForm.useUserSameAddress' | translate}}
+                              <input type="checkbox" name="use_user_same_address"
+                                [(ngModel)]="model.use_user_same_address" (change)="this.onClickUseUserSameAddress()">
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     <div class="col-12">
                       <div class="spacer40"></div>
                     </div>
@@ -420,7 +454,8 @@
                         <div class="form-group-3">
                           <label>{{'addForm.internalNumber' | translate}}</label>
                           <input type="text" class="form-control" name="tax_internal_number"
-                            [pattern]="constant.acceptAlphaNumericOrAccentscharacters" [(ngModel)]="model.tax_internal_number" />
+                            [pattern]="constant.acceptAlphaNumericOrAccentscharacters"
+                            [(ngModel)]="model.tax_internal_number" />
                         </div>
                       </div>
                       <div class="col-3">
@@ -469,15 +504,16 @@
                       <div class="col-4">
                         <div class="form-group-3">
                           <label>{{'filters.location.city' | translate}}</label>
-                          <input autocomplete="off" type="text" class="form-control" id="tax_city" [(ngModel)]="model.tax_city"
-                            name="tax_city" />
+                          <input autocomplete="off" type="text" class="form-control" id="tax_city"
+                            [(ngModel)]="model.tax_city" name="tax_city" />
                         </div>
                       </div>
                       <div class="col-4">
                         <div class="form-group-3">
                           <label>{{'addForm.neighbourhood' | translate}}</label>
                           <select class="form-control" [(ngModel)]="model.tax_neighbourhood" name="tax_neighbourhood">
-                            <option *ngFor="let temp_tax_neighbourhood of model.tax_neighbourhoods" [value]="temp_tax_neighbourhood">
+                            <option *ngFor="let temp_tax_neighbourhood of model.tax_neighbourhoods"
+                              [value]="temp_tax_neighbourhood">
                               {{temp_tax_neighbourhood}}</option>
                           </select>
                         </div>
@@ -500,8 +536,9 @@
                           <label>{{'addForm.names' | translate}}
                             <!-- <span class="color-red">*</span> -->
                           </label>
-                          <input autocomplete="off" minlength="1" maxlength="50" [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace"
-                            type="text" class="form-control" [(ngModel)]="model.legal_representative.name" name="name">
+                          <input autocomplete="off" minlength="1" maxlength="50"
+                            [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" type="text"
+                            class="form-control" [(ngModel)]="model.legal_representative.name" name="name">
                         </div>
                       </div>
                       <div class="col-4">
@@ -509,8 +546,9 @@
                           <label>{{'addForm.firstSurname' | translate}}
                             <!-- <span class="color-red">*</span> -->
                           </label>
-                          <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace"
-                            type="text" class="form-control" [(ngModel)]="model.legal_representative.first_surname"
+                          <input autocomplete="off" minlength="1" maxlength="30"
+                            [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" type="text"
+                            class="form-control" [(ngModel)]="model.legal_representative.first_surname"
                             name="first_surname">
                         </div>
                       </div>
@@ -519,8 +557,9 @@
                           <label>{{'addForm.secondSurname' | translate}}
                             <!-- <span class="color-red">*</span> -->
                           </label>
-                          <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace"
-                            type="text" class="form-control" [(ngModel)]="model.legal_representative.second_surname"
+                          <input autocomplete="off" minlength="1" maxlength="30"
+                            [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" type="text"
+                            class="form-control" [(ngModel)]="model.legal_representative.second_surname"
                             name="second_surname">
                         </div>
                       </div>

@@ -582,7 +582,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.property_array = propertyDetails;
     this.getBase64ImageFromUrl(this.property_array.id);
     this.spinner.show();
-    this.admin.postDataApi('getPropertyDetails', { id: (propertyDetails || {}).id }).subscribe((success) => {
+    this.admin.postDataApi('getPropertyDetails', { id: 4116 /*(propertyDetails || {}).id*/ }).subscribe((success) => {
       this.spinner.hide();
       this.bankDetails = (success || {}).data;
       this.makePaymentBankDetailsArray(true);
