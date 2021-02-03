@@ -149,6 +149,8 @@
     "dateOfBirth": "Date Of Birth",
     "CURP": "CURP",
     "nacionality": "Nationality",
+    "specifyNationality": "Specify Nationality",
+    "selectNationality": "Select Nationality",
     "marital": "Marital Status",
     "marital_status": "Marital Status",
     "streetAddress": "Street Address",
@@ -169,6 +171,7 @@
     "emailId": "Email ID",
     "address": "Address",
     "taxAddress": "Tax Address",
+    "useUserSameAddress": "Use user same address",
     "legalAddress": "Legal Address",
     "fedralTaxPayerRegistry": "Federal Tax Payer Registry",
     "pleaseProvideAccessToSystem": "Please provide access to system (super system)",
@@ -401,7 +404,8 @@
       "companyName": "Company Name",
       "logo": "Logo",
       "coverImage": "Cover Image",
-      "notFound": "No Legal Entity found"
+      "notFound": "No Legal Entity found",
+      "removeLegalEntity": "Remove Legal Entity"
     },
     "amenities": "Amenities",
     "projectSize": "Project Size",
@@ -935,7 +939,8 @@
       "notaryAssignedSuccessfully": "Notary assigned Successfully.",
       "propertyBlockedSuccessfully": "Property blocked successfully",
       "propertyUnblockedSuccessfully": "Property unblocked successfully",
-      "collectionStatusChanged": "Collection Status Changed"
+      "collectionStatusChanged": "Collection Status Changed",
+      "wantToReminderNote": "Do you want to add reminder?"
     },
     "error": {
       "pleaseSelectEitherInhouseOrOutsideAgent": "Please choose one of Inhouse and Outside Agents",
@@ -1788,6 +1793,8 @@
       "commission": "Commission",
       "uploadDocuments": "Upload Documents"
     },
+    "title":"Title",
+    "note":"Note",
     "chooseYourProperty": "Choose your property",
     "taggedBuildingName": "Tagged Building Name",
     "change": "Change",

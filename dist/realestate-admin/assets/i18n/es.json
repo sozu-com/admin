@@ -149,6 +149,8 @@
     "dateOfBirth": "Fecha de nacimiento",
     "CURP": "CURP",
     "nacionality": "Nacionalidad",
+    "specifyNationality":"Especificar Nacionalidad",
+    "selectNationality": "Seleccione Nacionalidad",
     "marital": "Estado civil",
     "marital_status": "Estado civil",
     "streetAddress": "Calle",
@@ -174,6 +176,7 @@
     "freeLancerOrComapny": "Es autónoma o empresa",
     "address": "Dirección",
     "taxAddress":"Dirección fiscal",
+    "useUserSameAddress":"Usar la misma dirección del usuario",
     "legalAddress": "Dirección Legal",
     "fedralTaxPayerRegistry": "RFC",
     "pleaseProvideAccessToSystem": "Proporcione acceso al sistema (super sistema)",
@@ -400,7 +403,8 @@
       "companyName": "nombre de empresa",
       "logo": "Logo",
       "coverImage": "Imagen de portada",
-      "notFound": "No se encontró ninguna Entidad legal"
+      "notFound": "No se encontró ninguna Entidad legal",
+      "removeLegalEntity": "Eliminar entidad legal"
     },
     "amenities": "Amenidades",
     "projectSize": "Tamaño del proyecto",
@@ -936,7 +940,8 @@
       "notaryAssignedSuccessfully": "Notario asignado exitosamente.",
       "propertyBlockedSuccessfully": "Propiedad bloqueada exitosamente",
       "propertyUnblockedSuccessfully": "Propiedad desbloqueada exitosamente",
-      "collectionStatusChanged": "Estado de colección cambiado"
+      "collectionStatusChanged": "Estado de colección cambiado",
+      "wantToReminderNote": "¿Quieres agregar un recordatorio?"
     },
     "error": {
       "pleaseSelectEitherInhouseOrOutsideAgent": "Por favor elija una de las Agentes Internas y Externas",
@@ -1788,6 +1793,8 @@
       "commission": "Comisión",
       "uploadDocuments": "subir documentos"
     },
+    "title":"Titulo nota",
+    "note":"Escribir nota",
     "chooseYourProperty": "Elige tu propiedad",
     "taggedBuildingName": "Nombre del edificio etiquetado",
     "change": "Cambio",
