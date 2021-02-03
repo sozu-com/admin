@@ -1788,6 +1788,8 @@
       "commission": "Commission",
       "uploadDocuments": "Upload Documents"
     },
+    "title":"Title",
+    "note":"Note",
     "chooseYourProperty": "Choose your property",
     "taggedBuildingName": "Tagged Building Name",
     "change": "Change",

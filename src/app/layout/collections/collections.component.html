@@ -724,7 +724,7 @@
 
 <a href="javascript://" data-toggle="modal" data-target="#collection-notes" #notesModalOpen></a>
 <div class="modal animated" id="collection-notes">
-  <div class="modal-dialog fadeIndown">
+  <div class="modal-dialog fadeIndown" style="max-width: 54%; margin-top: 11%;">
     <div class="modal-content notary-avail">
       <div class="modal-header popup-header">
         <h4>{{'table.title.collectionNotes' | translate}}</h4>
@@ -736,9 +736,9 @@
       <div class="modal-body">
         <div class="white-bg">
           <div class="row">
-            <div class="col-6">
+            <!-- <div class="col-6">
               <p class="p16 marginB0">{{'commonBlock.writeANote' | translate}}</p>
-            </div>
+            </div> -->
             <!-- <div class="col-6 text-right">
               <a class="add" href="javascript://" (click)="addNote()">{{'commonBlock.add' | translate}}</a>
 
@@ -750,6 +750,13 @@
         </div>
         <div class="form-group-2">
           <div class="form-group">
+            <label>{{'addCollection.title' | translate}}</label>
+            <input type="text" required class="form-control title" name="title" [(ngModel)]="model.title">
+          </div>
+        </div>
+        <div class="form-group-2">
+          <div class="form-group">
+            <label>{{'addCollection.note' | translate}}</label>
             <textarea rows="3" required class="form-control note" name="note" [(ngModel)]="model.note"></textarea>
           </div>
         </div>
@@ -759,16 +766,27 @@
             <div class="circle">
               <span></span>
             </div>
-            <a class="delete" href="javascript://" (click)="deleteLeadPopup(item.id, i)">{{'commonBlock.delete' |
-              translate}}</a>
-
+            <div class="row">
+              <div class="col-md-4">
+                <pre class="p13">{{item.title.slice(0, 90)}}</pre>
+                <pre class="p13" *ngIf="item.show">{{item.title}}</pre>
+              </div>
+              <div class="col-md-4">
+                <p class="time"><i class="fa fa-bell" aria-hidden="true" icon></i>&nbsp;{{item?.reminder_date | date:'MMM d, y, h:mm'}}</p>
+              </div>
+              <div class="col-md-2">
+                <a class="delete" href="javascript://" (click)="deleteLeadPopup(item.id, i)">{{'commonBlock.delete' |
+                  translate}}</a>
+              </div>
+              <!-- <div class="col-md-2">  <a class="edit" href="javascript://" (click)="deleteLeadPopup(item.id, i)">{{'commonBlock.edit' |
+                translate}}</a></div> -->
+            </div>
+           
             <ng-template #noDeletePermissiom>
               <a class="delete" href="javascript://">{{'commonBlock.delete' | translate}}</a>
             </ng-template>
-            <!-- <p class="time">{{item.updated_at | chatTime: 'YYYY-MM-DD H:m:s': 2}}</p> -->
-            <pre class="p13"
-              *ngIf="!item.show">{{item.note.slice(0, 90)}} <span class="read-more" *ngIf="item.note.length>100" (click)="item.show=true">Read more</span></pre>
-            <pre class="p13" *ngIf="item.show">{{item.note}}</pre>
+            
+            
           </div>
         </div>
         <div *ngIf="parameter.items?.length==0" class="write-note white-bg"
@@ -777,12 +795,24 @@
             {{'message.error.noNoteFound' | translate}}
           </p>
         </div>
-
-        <div class="row">
-          <!-- <div class="col-md-6">
-            <i class="fa fa-clock-o icon" aria-hidden="true"></i>
-            <p-calendar [(ngModel)]="dateTime" [locale]="locale" [showTime]="true" ngClass="ui-calendar-custom" dateFormat="MM d, yy"></p-calendar>
-          </div> -->
+        <form [formGroup]="sendEmailForm" (ngSubmit)="addNote(sendEmailForm.value)">
+          <div class="row">
+            <div class="col-md-3">
+              <p-calendar class="form-control" [(ngModel)]="model.reminder_date" autocomplete="off"
+              [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" [showTime]="true"  showIcon="true"
+              (onSelect)="onSelect1($event)"  showButtonBar="true" [monthNavigator]="true"
+              [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+            </div>
+            <div class="col-md-6">
+              <input  formControlName="toAddress" [(ngModel)]="model.email" placeholder="Emails" style="width: 100%;">
+            </div>
+            <div class="col-md-3">
+              <button class="btn btn-primary">
+                {{'leadDetails.note.addNote' | translate}}</button>
+            </div>
+          </div>
+        </form>
+        <!-- <div class="row">
           <div class="col-md-6">
             <i class="fa fa-users icons" title="Send Reminder" aria-hidden="true" data-toggle="modal" data-target="#addd-notes"
               #notesadddModalOpen></i>
@@ -791,7 +821,7 @@
             <button class="btn btn-primary" (click)="addNote()">
               {{'leadDetails.note.addNote' | translate}}</button>
           </div>
-        </div>
+        </div> -->
 
       </div>
     </div>
@@ -807,16 +837,14 @@
         <button type="button" class="close" (click)="closeFolderModal()">&times;</button>
       </div>
 
-      <form [formGroup]="userForm" (ngSubmit)="send(userForm.value)">
+      <!-- <form [formGroup]="userForm"> -->
         <div class="modal-body modal-body-new">
             <div class="row">
                <div class="form-group col-md-6">
-                <!-- <p-calendar [(ngModel)]="reminder_date" name="date" [locale]="locale" [showTime]="true" 
-                ngClass="ui-calendar-custom" showIcon="true" class="form-control"></p-calendar> -->
-                <p-calendar class="form-control" [(ngModel)]="reminder_date" autocomplete="off"
+                <!-- <p-calendar class="form-control" [(ngModel)]="model.reminder_date" autocomplete="off"
                 [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" [showTime]="true"  showIcon="true"
                 (onSelect)="onSelect1($event)"  showButtonBar="true" [monthNavigator]="true"
-                [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+                [yearNavigator]="true" yearRange="2000:2040"></p-calendar> -->
                </div>
                <div class="form-group col-md-6">
                 <label>
@@ -828,23 +856,28 @@
             <div class="row">
             <div class="col-md-10">
               <div class="form-group-2">
-                <div *ngFor="let email of getPhonesFormControls(); let i = index">
+                <div class="form-group">
+                  <label>{{'addCollection.Addcollaborator' | translate}}</label>
+                  <!-- <input type="text" required class="form-control email" name="email" [(ngModel)]="model.email"> -->
+                </div>
+                <!-- <div *ngFor="let email of getPhonesFormControls(); let i = index">
                 <label>{{'addCollection.Addcollaborator' | translate}}</label>
                 <div class="clearfix"></div>
-                <input autocomplete="off" class="form-control" placeholder="Email" type="text" [formControl]="email"><br>
+                <input autocomplete="off" class="form-control" placeholder="Email" type="text" [formControl]="email" 
+                [(ngModel)]="model.email"><br>
                 <div class="form-group-3">
                   <button type="button" class="button3"
                   (click)="removePhone(i)">Remove</button>
                 </div>
-              </div>
+              </div> -->
             
             </div>
             </div>
           </div>
         </div>
-        <button class="btn btn-primary" type="submit">
-          Send Reminder</button>
-      </form>
+        <!-- <button class="btn btn-primary" type="submit">
+          Send Reminder</button> -->
+      <!-- </form> -->
       <!-- {{'leadDetails.note.addNote' | translate}} -->
     </div>
   </div>

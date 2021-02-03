@@ -12,7 +12,7 @@ import { PropertyService } from 'src/app/services/property.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Notes } from '../../models/leads.model';
 import { CommonService } from '../../services/common.service';
-import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ExcelDownload } from 'src/app/common/excelDownload';
 import {Document} from 'src/app/models/document.model';
@@ -113,7 +113,7 @@ export class CollectionsComponent implements OnInit {
   private exportfinalData: Array<any>;
   folderId: number;
   payment_folder_id: number;
-  userForm: FormGroup;
+  sendEmailForm: FormGroup;
   dateTime: any;
   @ViewChild('viewDesModal') viewDesModal: ElementRef;
   @ViewChild('viewDesModalClose') viewDesModalClose: ElementRef;
@@ -177,15 +177,18 @@ export class CollectionsComponent implements OnInit {
     private toastr: ToastrService,
     public modelForDoc: Document
   ) { 
-    this.userForm = this.fb.group({
-      email: this.fb.array([this.fb.control(null)])
-    });
+    // this.userForm = this.fb.group({
+    //   email: this.fb.array([this.fb.control(null)])
+    // });
   }
 
   ngOnInit() {
     
     this.admin.globalSettings$.subscribe(success => {
       this.cashLimit = success['cash_limit'];
+    });
+    this.sendEmailForm = this.fb.group({
+      'toAddress': ['', [Validators.required, this.commaSepEmail]]
     });
     this.isPenaltyFormSub = false;
     this.invoiceKeys = false;
@@ -612,12 +615,17 @@ export class CollectionsComponent implements OnInit {
     this.notesModalClose.nativeElement.click();
   }
 
-  addNote() {
+  addNote(value) {
+    var nameArr = value.toAddress.split(',');
+    if (!this.model.title) {
+      return;
+    }
     if (!this.model.note) {
       return;
     }
     this.spinner.show();
-    this.admin.postDataApi('collectionNote', { property_collection_id: this.property_collection_id, note: this.model.note }).subscribe(r => {
+    this.admin.postDataApi('collectionNote', { property_collection_id: this.property_collection_id, note: this.model.note, title: this.model.title ,
+      reminder_date: this.reminder_date, collection_id: this.property_collection_id,email:nameArr}).subscribe(r => {
       this.spinner.hide();
       this.model = new Notes();
       this.parameter.items.push(r.data);
@@ -627,7 +635,12 @@ export class CollectionsComponent implements OnInit {
       this.closeNotesModal();
     });
   }
-
+  commaSepEmail = (control: AbstractControl): { [key: string]: any } | null => {
+    const emails = control.value.split(',');
+    const forbidden = emails.some(email => Validators.email(new FormControl(email)));
+    console.log(forbidden);
+    return forbidden ? { 'toAddress': { value: control.value } } : null;
+  };
   deleteLeadPopup(note_id, index) {
     this.parameter.text = this.translate.instant('message.error.wantToDeleteNote');
     swal({
@@ -2440,41 +2453,34 @@ export class CollectionsComponent implements OnInit {
       });
   }
 
-  addPhone(): void {
-    (this.userForm.get('email') as FormArray).push(
-      this.fb.control(null)
-    );
-  }
+  // addPhone(): void {
+  //   (this.userForm.get('email') as FormArray).push(
+  //     this.fb.control(null)
+  //   );
+  // }
 
-  removePhone(index) {
-    (this.userForm.get('email') as FormArray).removeAt(index);
-  }
+  // removePhone(index) {
+  //   (this.userForm.get('email') as FormArray).removeAt(index);
+  // }
 
-  getPhonesFormControls(): AbstractControl[] {
-    return (<FormArray> this.userForm.get('email')).controls
-  }
+  // getPhonesFormControls(): AbstractControl[] {
+  //   return (<FormArray> this.userForm.get('email')).controls
+  // }
 
-  send(values) {
-    console.log(values);
+  // send(values) {
+  //   console.log(values);
+  //   const input = {
+  //     collection_id: this.property_collection_id,
+  //     email: values.email,
+  //     reminder_date: this.reminder_date
+  //   };
+  //   this.admin.postDataApi('collectionNote',input).subscribe(r => {
+  //     this.spinner.hide();
+  //     this.toastr.clear();
+  //     this.toastr.success(this.translate.instant('message.success.Reminder'), this.translate.instant('swal.success'));
+  //     this.closeNotesModal();
+  //     this.closeFolderModal();
+  //   });
+  // }
 
-    // if (this.parameter.reminder_date) {
-    //   input.deal_purchase_date = moment(this.parameter.deal_purchase_date).format('YYYY-MM-DD');
-    // } else {
-    //   delete input.deal_purchase_date;
-    // }
-
-    const input = {
-      collection_id: this.property_collection_id,
-      email: values.email,
-      reminder_date: this.reminder_date
-    };
-   // input.reminder_date = moment().format('YYYY-MM-DD');
-    this.admin.postDataApi('sendReminder',input).subscribe(r => {
-      this.spinner.hide();
-      this.toastr.clear();
-      this.toastr.success(this.translate.instant('message.success.Reminder'), this.translate.instant('swal.success'));
-      this.closeNotesModal();
-      this.closeFolderModal();
-    });
-  }
 }
