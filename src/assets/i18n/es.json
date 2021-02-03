@@ -400,7 +400,8 @@
       "companyName": "nombre de empresa",
       "logo": "Logo",
       "coverImage": "Imagen de portada",
-      "notFound": "No se encontró ninguna Entidad legal"
+      "notFound": "No se encontró ninguna Entidad legal",
+      "removeLegalEntity": "Eliminar entidad legal"
     },
     "amenities": "Amenidades",
     "projectSize": "Tamaño del proyecto",

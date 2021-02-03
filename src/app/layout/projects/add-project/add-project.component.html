@@ -1137,6 +1137,8 @@
                   <div class="page-title paddingL0 paddingR0">
                     <h3>{{'addForm.legalEntity.label' | translate}}
                       <!-- <span class="color-red">*</span> -->
+                      <span class="tower pull-right" style="margin-left: 25px;" *ngIf="model?.legal_entity?.id"
+                        (click)="removeLegalEntity('', 1)">{{'addForm.legalEntity.removeLegalEntity' | translate}} </span>
                       <span class="tower pull-right"
                         (click)="selectLegalEntity('', 1)">{{model?.legal_entity?.id ? ('addForm.legalEntity.changeLegalEntity' | translate) : ('addForm.legalEntity.selectLegalEntity' | translate)}} </span>
                     </h3>
