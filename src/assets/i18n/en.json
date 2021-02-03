@@ -401,7 +401,8 @@
       "companyName": "Company Name",
       "logo": "Logo",
       "coverImage": "Cover Image",
-      "notFound": "No Legal Entity found"
+      "notFound": "No Legal Entity found",
+      "removeLegalEntity": "Remove Legal Entity"
     },
     "amenities": "Amenities",
     "projectSize": "Project Size",
