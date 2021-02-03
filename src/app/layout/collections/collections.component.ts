@@ -615,7 +615,22 @@ export class CollectionsComponent implements OnInit {
     this.notesModalClose.nativeElement.click();
   }
 
-  addNote(value) {
+  reminderPopup(value) {
+    this.parameter.text = this.translate.instant('message.success.wantToReminderNote');
+    swal({
+      html: this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.addNoteReminder(value);
+      }
+    });
+  }
+  addNoteReminder(value) {
     var nameArr = value.toAddress.split(',');
     if (!this.model.title) {
       return;
@@ -634,13 +649,47 @@ export class CollectionsComponent implements OnInit {
       this.toastr.success(this.translate.instant('message.success.addedSuccessfully'), this.translate.instant('swal.success'));
       this.closeNotesModal();
     });
+  } 
+
+  addNote(value) {
+    console.log(value,"value")
+    if (!this.model.title) {
+      return;
+    }
+    if (!this.model.note) {
+      return;
+    }
+    var nameArr = value.toAddress != '' ? value.toAddress.split(',') : undefined;
+    console.log(nameArr,"nameArr")
+    
+    if(!nameArr){
+        console.log("without mail create")
+        this.spinner.show();
+        this.admin.postDataApi('collectionNote', { property_collection_id: this.property_collection_id, note: this.model.note, title: this.model.title ,
+          reminder_date: this.reminder_date, collection_id: this.property_collection_id,email:nameArr}).subscribe(r => {
+          this.spinner.hide();
+          this.model = new Notes();
+          this.parameter.items.push(r.data);
+    
+          this.toastr.clear();
+          this.toastr.success(this.translate.instant('message.success.addedSuccessfully'), this.translate.instant('swal.success'));
+          this.closeNotesModal();
+       });
+
+      
+     } else {
+      console.log("popup")
+      this.reminderPopup(value);
+     }
   }
+
   commaSepEmail = (control: AbstractControl): { [key: string]: any } | null => {
     const emails = control.value.split(',');
     const forbidden = emails.some(email => Validators.email(new FormControl(email)));
-    console.log(forbidden);
+    console.log(forbidden,"email fun");
     return forbidden ? { 'toAddress': { value: control.value } } : null;
   };
+
   deleteLeadPopup(note_id, index) {
     this.parameter.text = this.translate.instant('message.error.wantToDeleteNote');
     swal({
@@ -656,6 +705,7 @@ export class CollectionsComponent implements OnInit {
       }
     });
   }
+ 
 
   deleteLeadNote(note_id, index) {
     this.admin.postDataApi('deleteCollectionNote', { id: note_id }).subscribe(r => {

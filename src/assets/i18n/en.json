@@ -935,7 +935,8 @@
       "notaryAssignedSuccessfully": "Notary assigned Successfully.",
       "propertyBlockedSuccessfully": "Property blocked successfully",
       "propertyUnblockedSuccessfully": "Property unblocked successfully",
-      "collectionStatusChanged": "Collection Status Changed"
+      "collectionStatusChanged": "Collection Status Changed",
+      "wantToReminderNote": "Do you want to add reminder?"
     },
     "error": {
       "pleaseSelectEitherInhouseOrOutsideAgent": "Please choose one of Inhouse and Outside Agents",
