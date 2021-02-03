@@ -1789,6 +1789,8 @@
       "commission": "Comisión",
       "uploadDocuments": "subir documentos"
     },
+    "title":"Titulo nota",
+    "note":"Escribir nota",
     "chooseYourProperty": "Elige tu propiedad",
     "taggedBuildingName": "Nombre del edificio etiquetado",
     "change": "Cambio",
