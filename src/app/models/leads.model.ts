@@ -94,7 +94,10 @@ export class Notes {
     id: number;
     lead_id: number;
     note: string;
-    name: string
+    title : string;
+    name: string;
+    reminder_date: any;
+    email : any;
 }
 
 // export class FillInformation {

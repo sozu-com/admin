@@ -1967,6 +1967,10 @@ export class AddProjectComponent implements OnInit {
     });
   }
 
+  removeLegalEntity(){
+    this.model.legal_entity = new LegalEntity();
+  }
+
   setLegalEntity(item: any) {
     this.canEditdeveloperInfo = false;
     this.model.legal_entity = item;
