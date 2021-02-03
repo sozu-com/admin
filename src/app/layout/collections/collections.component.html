@@ -772,10 +772,10 @@
                 <pre class="p13" *ngIf="item.show">{{item.title}}</pre>
               </div>
               <div class="col-md-4">
-                <p class="time"><i class="fa fa-bell" aria-hidden="true" icon></i>&nbsp;{{item?.reminder_date | date:'MMM d, y, h:mm'}}</p>
+                <p><i class="fa fa-bell" aria-hidden="true"></i>&nbsp;{{item?.reminder_date | date:'MMM d, y, h:mm'}}</p>
               </div>
               <div class="col-md-2">
-                <a class="delete" href="javascript://" (click)="deleteLeadPopup(item.id, i)">{{'commonBlock.delete' |
+                <a class="delete" href="javascript://" (click)="deleteLeadPopup(item.id, i)" style=" color: #00B96F;">{{'commonBlock.delete' |
                   translate}}</a>
               </div>
               <!-- <div class="col-md-2">  <a class="edit" href="javascript://" (click)="deleteLeadPopup(item.id, i)">{{'commonBlock.edit' |
@@ -783,7 +783,7 @@
             </div>
            
             <ng-template #noDeletePermissiom>
-              <a class="delete" href="javascript://">{{'commonBlock.delete' | translate}}</a>
+              <a class="delete" href="javascript://" >{{'commonBlock.delete' | translate}}</a>
             </ng-template>
             
             
@@ -828,7 +828,7 @@
 </div>
 
 
-<div class="modal animated" id="addd-notes">
+<!-- <div class="modal animated" id="addd-notes">
   <div class="modal-dialog fadeIndown email">
     <div class="modal-content">
       <div class="modal-header modal-header-new">
@@ -836,14 +836,14 @@
         <button type="button" class="close" (click)="closeFolderModal()">&times;</button>
       </div>
 
-      <!-- <form [formGroup]="userForm"> -->
+      <form [formGroup]="userForm">
         <div class="modal-body modal-body-new">
             <div class="row">
                <div class="form-group col-md-6">
-                <!-- <p-calendar class="form-control" [(ngModel)]="model.reminder_date" autocomplete="off"
+                <p-calendar class="form-control" [(ngModel)]="model.reminder_date" autocomplete="off"
                 [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" [showTime]="true"  showIcon="true"
                 (onSelect)="onSelect1($event)"  showButtonBar="true" [monthNavigator]="true"
-                [yearNavigator]="true" yearRange="2000:2040"></p-calendar> -->
+                [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
                </div>
                <div class="form-group col-md-6">
                 <label>
@@ -857,9 +857,9 @@
               <div class="form-group-2">
                 <div class="form-group">
                   <label>{{'addCollection.Addcollaborator' | translate}}</label>
-                  <!-- <input type="text" required class="form-control email" name="email" [(ngModel)]="model.email"> -->
+                  <input type="text" required class="form-control email" name="email" [(ngModel)]="model.email">
                 </div>
-                <!-- <div *ngFor="let email of getPhonesFormControls(); let i = index">
+                <div *ngFor="let email of getPhonesFormControls(); let i = index">
                 <label>{{'addCollection.Addcollaborator' | translate}}</label>
                 <div class="clearfix"></div>
                 <input autocomplete="off" class="form-control" placeholder="Email" type="text" [formControl]="email" 
@@ -868,19 +868,19 @@
                   <button type="button" class="button3"
                   (click)="removePhone(i)">Remove</button>
                 </div>
-              </div> -->
+              </div>
             
             </div>
             </div>
           </div>
         </div>
-        <!-- <button class="btn btn-primary" type="submit">
-          Send Reminder</button> -->
-      <!-- </form> -->
-      <!-- {{'leadDetails.note.addNote' | translate}} -->
+        <button class="btn btn-primary" type="submit">
+          Send Reminder</button>
+      </form>
+      {{'leadDetails.note.addNote' | translate}}
     </div>
   </div>
-</div>
+</div> -->
 
 
 <a href="javascript://" data-toggle="modal" data-target="#penaltyModal" #penaltyModalOpen></a>
