@@ -713,7 +713,7 @@ export class CollectionsComponent implements OnInit {
       this.selectedNote = note;
       this.noteTitle = note.title;
       this.noteDesc = note.note;
-     // this.noteDate = note.reminder_date;
+      this.reminder_date = note.reminder_date;
       this.property_collection_id = note.property_collection_id;
       let emails = note.collection_reminder.collection_collaborators
       let newArray = [];
@@ -730,10 +730,10 @@ export class CollectionsComponent implements OnInit {
   }
 
   editNote(value) {
-    
+    console.log(this.noteDate,"change")
      let str = this.oldEmails? this.oldEmails.split(',') : this.noteEmails; 
     this.admin.postDataApi('editcollectionNote', {id: this.selectedNote.id,collection_id:this.property_collection_id, 
-      title: this.noteTitle, note: this.noteDesc, email:str})
+      title: this.noteTitle, note: this.noteDesc, email:str, reminder_date:this.reminder_date})
       .subscribe(
         success => {
          console.log(success,"edit")

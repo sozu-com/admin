@@ -856,18 +856,17 @@
                 </div>
               </div>
             </div>
-            <!-- <div class="col-12">
+            <div class="col-12">
               <div class="form-group-2">
                 <div class="form-group">
-                  <input autocomplete="off" maxlength="20"  class="form-control reminder_date" name="noteDate"
-                    [(ngModel)]="noteDate">
-                  <p-calendar class="form-control" [(ngModel)]="noteDate" autocomplete="off"
-              [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" [showTime]="true"  showIcon="true"
-              (onSelect)="onSelect1($event)"  showButtonBar="true" [monthNavigator]="true"
-              [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
-                </div>
-              </div>
-            </div> -->
+              <p-calendar showAnim="slideDown" 
+              id="calendar" 
+              [showIcon]="true"
+              [showTime]="true"
+              [(ngModel)]="reminder_date" 
+              dateFormat="MM d, yy">
+             </p-calendar>
+            </div></div></div>
             <div class="col-12">
               <div class="form-group-2">
                 <div class="form-group">
