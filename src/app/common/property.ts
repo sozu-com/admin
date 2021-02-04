@@ -205,4 +205,5 @@ export interface IProperty {
   parking_for_sale?: any;
   project_status_filter?: any;
   reminder_date?: any;
+  is_commercialized?:number;
 }

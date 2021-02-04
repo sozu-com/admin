@@ -374,6 +374,16 @@
                                     src="assets/img/top-arrow.png" alt="img"></a>
                            </div>
                         </th>
+                        <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
+                           <div class="table-search">
+                              <label>{{'table.th.commercializedBySOZU' | translate}}</label>
+                              <select class="width100px" [(ngModel)]="parameter.is_commercialized" (change)="getListing()">
+                                 <option value="">{{'table.th.all' | translate}}</option>
+                                 <option value="1">{{'table.th.yes' | translate}}</option>
+                                 <option value="0">{{'table.th.no' | translate}}</option>
+                              </select>
+                           </div>
+                        </th>
                         <th style="width:4%;vertical-align:top;">
                            <div class="d-flex table-search">
                               <label>{{'table.th.editPrice' | translate}}</label>
@@ -514,6 +524,7 @@
                         <td><span>{{p.min_price | price}}</span></td>
                         <!-- <td><span>{{p?.carpet_areas && p?.carpet_areas?.length>0 ? (p?.carpet_areas[0]?.area| number : '1.2-2') : 0.00}}</span></td> -->
                         <td><span>{{p?.max_area ? p.max_area : 0.00}}</span></td>
+                        <td><span>{{p?.is_commercialized ? ( 'table.th.yes' | translate ): ( 'table.th.no' | translate ) }}</span></td>
                         <td><span>
                               <button (click)="editPricePopup(p, i)"
                                  [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
@@ -596,6 +607,9 @@
                               <!--this button to open installment modal -->
                               <button (click)="this.openModalInstallment(p);" class="action-icon"
                                  title="{{'table.title.generatePDF' | translate}}"><img
+                                    src="assets/img/commercial_pdf.png" alt="img"></button>
+                              <button (click)="this.makeCommercializedProperty(p);" class="action-icon"
+                                 title="{{'table.title.commercializedProperty' | translate}}"><img
                                     src="assets/img/commercial_pdf.png" alt="img"></button>
                               <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
                                  *ngIf="parameter?.flag!=3" routerLink="/dashboard/properties/edit-property/{{p.id}}"
@@ -1203,7 +1217,7 @@ margin-left: -38%;">
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12" style="margin-left: 65px;">
                      <div class="form-group-3">
                         <input autocomplete="off" class="form-control" type="text" formControlName="discount"
-                        appOnlyDecimal  placeholder="%">
+                           appOnlyDecimal placeholder="%">
                      </div>
                   </div>
                </div>
@@ -1231,7 +1245,7 @@ margin-left: -38%;">
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12" style="margin-left: 65px;">
                      <div class="form-group-3">
                         <input autocomplete="off" class="form-control" type="text" formControlName="interest"
-                        appOnlyDecimal  placeholder="%">
+                           appOnlyDecimal placeholder="%">
                      </div>
                   </div>
                </div>
@@ -1247,7 +1261,7 @@ margin-left: -38%;">
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                      <div class="form-group-3">
                         <input required autocomplete="off" class="form-control" type="text" formControlName="numberOfMI"
-                        maxlength="6"   appOnlyNumber  placeholder="#">
+                           maxlength="6" appOnlyNumber placeholder="#">
                      </div>
                   </div>
                </div>
@@ -1262,7 +1276,7 @@ margin-left: -38%;">
                <div class="row" style="margin-top: -15px;margin-left: auto;">
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                      <div class="form-group-3">
-                        <input required autocomplete="off" class="form-control" type="text" appOnlyDecimal 
+                        <input required autocomplete="off" class="form-control" type="text" appOnlyDecimal
                            formControlName="paymentupondelivery" placeholder="%">
                      </div>
                   </div>

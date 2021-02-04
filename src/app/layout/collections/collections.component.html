@@ -631,11 +631,11 @@
                         title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
                           src="assets/img/edit.png" alt="img"></button>
 
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
+                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0 ? !admin?.admin_acl['Manage Collections']?.can_read : !admin?.admin_acl['Manage Collections']?.can_update"
                         (click)="quickCollectionView(p)" title="{{'table.title.quickVisuaization' | translate}}"
                         class="action-icon"><img src="assets/img/eye-icon.png" alt="img"></button>
 
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
+                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0 ? !admin?.admin_acl['Manage Collections']?.can_read : !admin?.admin_acl['Manage Collections']?.can_update"
                         (click)="viewAccountStatement(p)" title="{{'table.title.accountStatement' | translate}}"
                         class="action-icon"><img src="assets/img/ic_account.png" alt="img"></button>
 
@@ -673,7 +673,7 @@
                         title="{{'table.title.viewFolders' | translate}}" class="action-icon"><img
                           src="assets/img/ic_folder_1.svg" alt="img"></button>
 
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0" (click)="getNotes(p)"
+                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0 ? !admin?.admin_acl['Manage Collections']?.can_read : !admin?.admin_acl['Manage Collections']?.can_update" (click)="getNotes(p)"
                         title="{{'table.title.collectionNotes' | translate}}" class="action-icon"><img
                           src="assets/img/chat-icon.png" alt="img"></button>
 
