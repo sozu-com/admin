@@ -807,7 +807,7 @@
               <input  formControlName="toAddress" [(ngModel)]="model.email" placeholder="{{'addCollection.Addcollaborator' | translate}}" style="width: 100%;">
             </div>
             <div class="col-md-3">
-              <button class="btn btn-primary">{{'leadDetails.note.addNote' | translate}}</button>
+              <button class="btn btn-primary" [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0">{{'leadDetails.note.addNote' | translate}}</button>
             </div>
           </div>
         </form>
