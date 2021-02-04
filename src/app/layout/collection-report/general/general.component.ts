@@ -251,7 +251,7 @@ export class GeneralComponent implements OnInit {
           let t = 0;
           for (let i = 0; i < this.finalData.length; i++) {
             const e = this.finalData[i];
-            if (!e.firstCol.includes('total')) {
+            if (!e.firstCol.toLocaleLowerCase().includes('total') && !e.firstCol.toLocaleLowerCase().includes('commission') && !e.firstCol.toLocaleLowerCase().includes(' pc_amount') && !e.firstCol.toLocaleLowerCase().includes('cancelled') && !e.firstCol.toLocaleLowerCase().includes('iva')) {
               t = t + (e[element] || 0);
             }
           }
@@ -262,7 +262,7 @@ export class GeneralComponent implements OnInit {
         let t = 0;
         for (let i = 0; i < this.finalData.length; i++) {
           const e = this.finalData[i];
-            if (!e.firstCol.includes('total')) {
+            if (!e.firstCol.toLocaleLowerCase().includes('total') && !e.firstCol.toLocaleLowerCase().includes('commission') && !e.firstCol.toLocaleLowerCase().includes(' pc_amount') && !e.firstCol.toLocaleLowerCase().includes('cancelled') && !e.firstCol.toLocaleLowerCase().includes('iva')) {
               t = t + (e['t'] || 0);
             }
 
