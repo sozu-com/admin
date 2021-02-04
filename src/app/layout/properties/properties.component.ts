@@ -1233,7 +1233,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                   { text: ' ' + this.translate.instant('generatePDF.contactUS3'), bold: true },
                   { text: '\n' + this.translate.instant('generatePDF.contactUS4'), color: '#858291' },
                 ],
-                margin: [0, 40, 0, 30]
+                margin: [0, 30, 0, 30]
               },
               {
                 text: this.translate.instant('generatePDF.titleMargot') + ' ' + this.property_array.building.name + ', ' + this.translate.instant('generatePDF.title2Margot'),
