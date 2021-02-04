@@ -9,8 +9,6 @@ import { AdminService } from 'src/app/services/admin.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PropertyService } from 'src/app/services/property.service';
 import { TranslateService } from '@ngx-translate/core';
-import * as FileSaver from 'file-saver';
-import * as XLSX from 'xlsx';
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -21,9 +19,8 @@ import { Column } from 'primeng/primeng';
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { PricePipe } from 'src/app/pipes/price.pipe';
+import { ExcelDownload } from 'src/app/common/excelDownload';
 
-const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-const EXCEL_EXTENSION = '.xlsx';
 declare let swal: any;
 declare var $: any;
 
@@ -1103,56 +1100,23 @@ export class PropertiesComponent implements OnInit, OnDestroy {
           'Price': p.min_price || 0,
           'Carpet Area': p.max_area || 0,
           'Agent Commission (in %)': p.broker_commision || 0,
+          'Commercialized by SOZU': p.is_commercialized ? 'yes' : 'no',
           'Total Commission (in %)': p.total_commission || 0,
           'Leads': p.lead_properties_count || 0,
           'Buyer': p.selected_buyer && p.selected_buyer.user.name ? p.selected_buyer.user.name : '',
           'Seller': p.selected_seller && p.selected_seller.user.name ? p.selected_seller.user.name : '',
-          // // 'Link/Unlink Agent' : p.building_configuration && p.building_configuration.config ? p.building_configuration.config : '',
           'Is Property Sold': p.is_property_sold ? 'yes' : 'no',
           'Linked Collection': p.collection ? 'yes' : 'no',
         });
       }
-      this.exportAsExcelFile(exportfinalData, 'properties-');
+      new ExcelDownload().exportAsExcelFile(exportfinalData, 'properties');
     }
   }
 
-  public exportAsExcelFile(json: any[], excelFileName: string): void {
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
-    const workbook: XLSX.WorkBook = {
-      Sheets: { data: worksheet },
-      SheetNames: ['data']
-    };
-    const excelBuffer: any = XLSX.write(workbook, {
-      bookType: 'xlsx',
-      type: 'array'
-    });
-    this.spinner.hide();
-    this.saveAsExcelFile(excelBuffer, excelFileName);
-  }
-
-  private saveAsExcelFile(buffer: any, fileName: string): void {
-    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
-    const today = new Date();
-    const date =
-      today.getDate() +
-      '-' +
-      today.getMonth() +
-      '-' +
-      today.getFullYear() +
-      '_' +
-      today.getHours() +
-      '_' +
-      today.getMinutes() +
-      '_' +
-      today.getSeconds();
-    fileName = fileName + date;
-    FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
-  }
-
-  getBase64ImageFromUrl(id){ 
+  getBase64ImageFromUrl(id) {
     this.admin.postDataApi('getPdfImage', { id: id }).subscribe((success) => {
       let base64 = (success || {}).data;
-      this.projectLogoImageBase64 = 'data:image/jpeg;base64,' + base64; 
+      this.projectLogoImageBase64 = 'data:image/jpeg;base64,' + base64;
     }, (error) => {
     });
   }
@@ -1161,8 +1125,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     let current_date = new Date();
     let date = this.datePipe.transform(current_date, 'd/M/y');
     let pricePerM2 = this.property_array.min_price / this.property_array.max_area;
-    let discount =  this.installmentFormGroup.value.discount ? (this.installmentFormGroup.value.discount * this.property_array.min_price) / 100 : 0;
-    let interest = this.installmentFormGroup.value.interest ? (this.installmentFormGroup.value.interest * this.property_array.min_price) / 100 : 0; 
+    let discount = this.installmentFormGroup.value.discount ? (this.installmentFormGroup.value.discount * this.property_array.min_price) / 100 : 0;
+    let interest = this.installmentFormGroup.value.interest ? (this.installmentFormGroup.value.interest * this.property_array.min_price) / 100 : 0;
     let final_price = discount ? this.property_array.min_price - discount : interest ? this.property_array.min_price + interest : this.property_array.min_price;
     let downpayment = (this.installmentFormGroup.value.downPayment * final_price) / 100;
     let monthly_installment_amount = (this.installmentFormGroup.value.monthlyInstallment * final_price) / 100;
@@ -1245,12 +1209,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                       { text: this.price.transform(Number(this.property_array.min_price).toFixed(2)), border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: this.installmentFormGroup.value.discount ? 'Discount %': this.installmentFormGroup.value.interest ? 'Interest %' : '', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
-                      { text: discount? this.installmentFormGroup.value.discount + '%' : interest ? this.installmentFormGroup.value.interest + '%' : 0, border: [false, false, false, false], bold: true },
+                      { text: this.installmentFormGroup.value.discount ? 'Discount %' : this.installmentFormGroup.value.interest ? 'Interest %' : '', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: discount ? this.installmentFormGroup.value.discount + '%' : interest ? this.installmentFormGroup.value.interest + '%' : 0, border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: this.installmentFormGroup.value.discount ? 'Discount $': this.installmentFormGroup.value.interest ? 'Interest $' : '', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
-                      { text: this.price.transform(Number(discount? discount : interest ? interest : 0).toFixed(2)), border: [false, false, false, false], bold: true },
+                      { text: this.installmentFormGroup.value.discount ? 'Discount $' : this.installmentFormGroup.value.interest ? 'Interest $' : '', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.price.transform(Number(discount ? discount : interest ? interest : 0).toFixed(2)), border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.finalPrice'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
@@ -1324,7 +1288,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     [
                       { text: this.translate.instant('generatePDF.finalPrice'), border: [false, false, false, false], bold: true, fontSize: 14 },
                       { text: '', border: [false, false, false, false] },
-                      { text: this.price.transform(Number(final_price).toFixed(2)), border: [false, false, false, false], bold: true, fontSize : 14 },
+                      { text: this.price.transform(Number(final_price).toFixed(2)), border: [false, false, false, false], bold: true, fontSize: 14 },
                     ],
                   ]
                 }
@@ -1335,7 +1299,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                 bold: true
               },
               {
-                text:this.installmentFormGroup.value.addNoteFormArray.length > 0 ? this.installmentFormGroup.value.addNoteFormArray[0].addNote : '',
+                text: this.installmentFormGroup.value.addNoteFormArray.length > 0 ? this.installmentFormGroup.value.addNoteFormArray[0].addNote : '',
                 color: '#858291'
               },
               {
@@ -1354,12 +1318,14 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.accountName'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.installmentFormGroup.value.agencyOrSeller && this.installmentFormGroup.value.paymentBankDetails.bank_name? 'Seller' : !this.installmentFormGroup.value.agencyOrSeller && 
-                         this.installmentFormGroup.value.paymentBankDetails.bank_name? 'Agency' : '', border: [false, false, false, false], bold: true },
+                      {
+                        text: this.installmentFormGroup.value.agencyOrSeller && this.installmentFormGroup.value.paymentBankDetails.bank_name ? 'Seller' : !this.installmentFormGroup.value.agencyOrSeller &&
+                          this.installmentFormGroup.value.paymentBankDetails.bank_name ? 'Agency' : '', border: [false, false, false, false], bold: true
+                      },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.federalTaxPayer'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.installmentFormGroup.value.paymentBankDetails.bank_name? this.fedTaxPayer : '', border: [false, false, false, false], bold: true },
+                      { text: this.installmentFormGroup.value.paymentBankDetails.bank_name ? this.fedTaxPayer : '', border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.accountNumber'), border: [false, false, false, false], color: '#858291' },
@@ -1538,7 +1504,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   makePaymentBankDetailsArray = (isFirstTimeClick: boolean): void => {
     this.paymentBankDetailsArray = [];
-     // this.installmentFormGroup.get('agencyOrSeller').value if true == seller or false == agency
+    // this.installmentFormGroup.get('agencyOrSeller').value if true == seller or false == agency
     if (!this.installmentFormGroup.get('agencyOrSeller').value) {
       this.fedTaxPayer = (((this.bankDetails || {}).building || {}).agency || {}).fed_tax_pay || '';
       // payment directly received by agency
@@ -1619,6 +1585,18 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     if (isFirstTimeClick) {
       this.openInstallmentModal.nativeElement.click();
     }
+  }
+
+  makeCommercializedProperty = (propertyDetails: any): void => {
+    this.spinner.show();
+    this.admin.postDataApi('updateCommercialized', { id: (propertyDetails || {}).id }).subscribe((success) => {
+      this.spinner.hide();
+      this.getListing();
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.commercializedStatusChanged'), 'success');
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
   }
 
   ngOnDestroy(): void {
