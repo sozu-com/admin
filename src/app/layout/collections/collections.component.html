@@ -775,11 +775,11 @@
                 <p><i class="fa fa-bell" aria-hidden="true"></i>&nbsp;{{item?.reminder_date | date:'MMM d, y, h:mm'}}</p>
               </div>
               <div class="col-md-2">
-                <a class="delete" href="javascript://" (click)="deleteLeadPopup(item.id, i)" style=" color: #00B96F;">{{'commonBlock.delete' |
-                  translate}}</a>
+                <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0" class="delete" href="javascript://" (click)="deleteLeadPopup(item.id, i)" style=" color: #00B96F;">{{'commonBlock.delete' |
+                  translate}}</button>
               </div>
-              <div class="col-md-2">  <a class="edit" href="javascript://" (click)="editLeadPopup('edit',item.id, item,i)">{{'commonBlock.edit' |
-                translate}}</a></div>
+              <div class="col-md-2">  <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0" class="edit" href="javascript://" (click)="editLeadPopup('edit',item.id, item,i)">{{'commonBlock.edit' |
+                translate}}</button></div>
             </div>
            
             <ng-template #noDeletePermissiom>

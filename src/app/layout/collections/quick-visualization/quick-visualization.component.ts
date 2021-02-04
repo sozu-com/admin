@@ -92,7 +92,7 @@ export class QuickVisualizationComponent implements OnInit {
     public constant: Constant,
     public model: Collection,
     public apiConstants: ApiConstants,
-    private admin: AdminService,
+    public admin: AdminService,
     private spinner: NgxSpinnerService,
     private currencyPipe: CurrencyPipe,
     private translate: TranslateService,
