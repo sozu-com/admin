@@ -35,6 +35,14 @@ export class CollectionsComponent implements OnInit {
   public location: IProperty = {};
   items: any = [];
   selectedFolder: any = {};
+  selectedNote: any = {};
+  noteTitle: string;
+  noteDesc: string;
+  noteDate: any;
+  noteIndex : number;
+  noteEmails: any;
+  oldEmails: any;
+  colbarations: any = [];
   folderName: string;
   total: any = 0;
   configurations: any = [];
@@ -653,16 +661,21 @@ export class CollectionsComponent implements OnInit {
 
   addNote(value) {
     console.log(value,"value")
-    if (!this.model.title) {
-      return;
-    }
-    if (!this.model.note) {
-      return;
-    }
     var nameArr = value.toAddress != '' ? value.toAddress.split(',') : undefined;
     console.log(nameArr,"nameArr")
-    
-    if(!nameArr){
+   
+      if (this.mode === 'edit') {
+        if (this.selectedNote && this.selectedNote.id) {
+          this.editNote(this.selectedNote);
+        } 
+     } else {
+      if(!nameArr){
+        if (!this.model.title) {
+          return;
+        }
+        if (!this.model.note) {
+          return;
+        }
         console.log("without mail create")
         this.spinner.show();
         this.admin.postDataApi('collectionNote', { property_collection_id: this.property_collection_id, note: this.model.note, title: this.model.title ,
@@ -676,10 +689,10 @@ export class CollectionsComponent implements OnInit {
           this.closeNotesModal();
        });
 
-      
-     } else {
-      console.log("popup")
-      this.reminderPopup(value);
+      } else {
+        console.log("popup")
+        this.reminderPopup(value);
+       }
      }
   }
 
@@ -689,6 +702,49 @@ export class CollectionsComponent implements OnInit {
     console.log(forbidden,"email fun");
     return forbidden ? { 'toAddress': { value: control.value } } : null;
   };
+
+
+  editLeadPopup(mode: string,note_id, note, index) {
+    this.mode = mode;
+    console.log(note,"note")
+    console.log(note.collection_reminder.collection_collaborators,"emails")
+    this.notesadddModalOpen.nativeElement.click();
+      this.noteIndex = index;
+      this.selectedNote = note;
+      this.noteTitle = note.title;
+      this.noteDesc = note.note;
+     // this.noteDate = note.reminder_date;
+      this.property_collection_id = note.property_collection_id;
+      let emails = note.collection_reminder.collection_collaborators
+      let newArray = [];
+      for(var i = 0; i < emails.length; i++){ 
+        let mails = emails[i].email;
+        newArray.push(mails);
+      }
+      console.log(newArray,"newArray"); 
+      this.noteEmails = newArray
+  }
+
+  modelChange(value){
+   this.oldEmails = value;
+  }
+
+  editNote(value) {
+    
+     let str = this.oldEmails? this.oldEmails.split(',') : this.noteEmails; 
+    this.admin.postDataApi('editcollectionNote', {id: this.selectedNote.id,collection_id:this.property_collection_id, 
+      title: this.noteTitle, note: this.noteDesc, email:str})
+      .subscribe(
+        success => {
+         console.log(success,"edit")
+         this.toastr.clear();
+         this.toastr.success(this.translate.instant('message.success.updatedSuccessfully'), this.translate.instant('swal.success'));
+         this.closeFolderModal();
+        }, error => {
+          this.spinner.hide();
+        }
+      );
+  }
 
   deleteLeadPopup(note_id, index) {
     this.parameter.text = this.translate.instant('message.error.wantToDeleteNote');
