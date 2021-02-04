@@ -713,7 +713,7 @@ export class CollectionsComponent implements OnInit {
       this.selectedNote = note;
       this.noteTitle = note.title;
       this.noteDesc = note.note;
-     // this.noteDate = note.reminder_date;
+      // this.noteDate = note.reminder_date;
       this.property_collection_id = note.property_collection_id;
       let emails = note.collection_reminder.collection_collaborators
       let newArray = [];
