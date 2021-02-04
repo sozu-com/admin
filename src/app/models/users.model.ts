@@ -76,5 +76,5 @@ export class Users {
     tax_neighbourhoods?: any[];
     use_user_same_address: boolean = false;
     nationality_name?: string;
-    nationality_id?: number = 1;
+    nationality_id?: number = -1;
 }

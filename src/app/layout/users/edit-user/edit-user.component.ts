@@ -113,7 +113,7 @@ export class EditUserComponent implements OnInit {
           this.model.neighbourhoods.push(this.model.neighborhood);
           this.model['tax_neighbourhoods'] = [];
           this.model.tax_neighbourhoods.push(this.model.tax_neighbourhood);
-          this.model.nationality_id = (this.model.nationality_id).toString() == ''  ? 1 : this.model.nationality_id;
+          this.model.nationality_id = (this.model.nationality_id).toString() == ''  ? -1 : this.model.nationality_id;
         }, error => {
           this.spinner.hide();
         });
@@ -225,7 +225,7 @@ export class EditUserComponent implements OnInit {
     modelSave.country_id = this.countryInput == 'other' ? 0 : modelSave.country_id;
     modelSave.state_id = this.stateInput == 'other' ? 0 : modelSave.state_id;
     modelSave.city_id = this.cityInput == 'other' ? 0 : modelSave.city_id;
-    // modelSave.nationality_id = (modelSave.nationality_id > 0 ) ? modelSave.nationality_id : 0;
+    modelSave.nationality_id = (modelSave.nationality_id > 0 ) ? modelSave.nationality_id : 0;
     this.spinner.show();
     this.admin.postDataApi('addSeller', modelSave)
       .subscribe(
