@@ -10,9 +10,9 @@
     <div class="col-lg-2 col-md-2 col-6">
       <div class="btn-cont text-right">
           <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#addInhouseUser" #inhouseUserModalOpen>{{'table.addNewBtn' | translate}}</a>
-          <a class="btn btn-primary-new" href="javascript://" (click)="showApplyPaymentPopup()">
+          <button class="btn btn-primary-new" href="javascript://" (click)="showApplyPaymentPopup()" [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0">
             {{'table.title.applyPayment' | translate}}
-          </a>
+          </button>
         </div>
     </div>
 

@@ -631,11 +631,11 @@
                         title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
                           src="assets/img/edit.png" alt="img"></button>
 
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0 ? !admin?.admin_acl['Manage Collections']?.can_read : !admin?.admin_acl['Manage Collections']?.can_update"
+                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0"
                         (click)="quickCollectionView(p)" title="{{'table.title.quickVisuaization' | translate}}"
                         class="action-icon"><img src="assets/img/eye-icon.png" alt="img"></button>
 
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0 ? !admin?.admin_acl['Manage Collections']?.can_read : !admin?.admin_acl['Manage Collections']?.can_update"
+                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0"
                         (click)="viewAccountStatement(p)" title="{{'table.title.accountStatement' | translate}}"
                         class="action-icon"><img src="assets/img/ic_account.png" alt="img"></button>
 
@@ -673,7 +673,7 @@
                         title="{{'table.title.viewFolders' | translate}}" class="action-icon"><img
                           src="assets/img/ic_folder_1.svg" alt="img"></button>
 
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0 ? !admin?.admin_acl['Manage Collections']?.can_read : !admin?.admin_acl['Manage Collections']?.can_update" (click)="getNotes(p)"
+                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0 " (click)="getNotes(p)"
                         title="{{'table.title.collectionNotes' | translate}}" class="action-icon"><img
                           src="assets/img/chat-icon.png" alt="img"></button>
 
@@ -807,7 +807,7 @@
               <input  formControlName="toAddress" [(ngModel)]="model.email" placeholder="{{'addCollection.Addcollaborator' | translate}}" style="width: 100%;">
             </div>
             <div class="col-md-3">
-              <button class="btn btn-primary">{{'leadDetails.note.addNote' | translate}}</button>
+              <button class="btn btn-primary" [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0">{{'leadDetails.note.addNote' | translate}}</button>
             </div>
           </div>
         </form>
@@ -856,18 +856,17 @@
                 </div>
               </div>
             </div>
-            <!-- <div class="col-12">
+            <div class="col-12">
               <div class="form-group-2">
                 <div class="form-group">
-                  <input autocomplete="off" maxlength="20"  class="form-control reminder_date" name="noteDate"
-                    [(ngModel)]="noteDate">
-                  <p-calendar class="form-control" [(ngModel)]="noteDate" autocomplete="off"
-              [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" [showTime]="true"  showIcon="true"
-              (onSelect)="onSelect1($event)"  showButtonBar="true" [monthNavigator]="true"
-              [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
-                </div>
-              </div>
-            </div> -->
+              <p-calendar showAnim="slideDown" 
+              id="calendar" 
+              [showIcon]="true"
+              [showTime]="true"
+              [(ngModel)]="reminder_date" 
+              dateFormat="MM d, yy">
+             </p-calendar>
+            </div></div></div>
             <div class="col-12">
               <div class="form-group-2">
                 <div class="form-group">
@@ -876,6 +875,15 @@
                 </div>
               </div>
             </div>
+           
+            <div class="col-12">
+                <p-calendar class="form-control" [(ngModel)]="noteDate" autocomplete="off"
+                [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" [showTime]="true"  showIcon="true"
+                (onSelect)="onSelect2($event)"  showButtonBar="true" [monthNavigator]="true"
+                [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+            </div>
+            
+
             <div class="col-12">
               <div class="btn-cont text-right">
                   <button type="submit"  class="btn btn-primary">{{'commonBlock.updateBtn' |
