@@ -2078,7 +2078,7 @@
 
                 <!-- list all documents -->
                 <div class="write-note white-bg">
-                  <div class="wn-block" *ngFor="let item of p?.folder_docs; let s=index">
+                  <div class="wn-block" *ngFor="let item of folder?.folder_docs; let s=index">
                     <div class="circle">
                       <span></span>
                     </div>
@@ -2086,10 +2086,10 @@
                       translate}}</a>
 
                     <a class="delete" href="javascript://" (click)="deleteDocsPopup(item, i, s)"
-                      *ngIf="payment_folder_id != p.id">{{'commonBlock.delete' | translate}}</a>
+                      *ngIf="payment_folder_id != folder.id">{{'commonBlock.delete' | translate}}</a>
 
                     <ng-template #noDeletePermissiom>
-                      <a class="delete" href="javascript://" *ngIf="payment_folder_id != p.id">{{'commonBlock.delete' |
+                      <a class="delete" href="javascript://" *ngIf="payment_folder_id != folder.id">{{'commonBlock.delete' |
                         translate}}</a>
                     </ng-template>
                     <p class="time" title="'Click to view'">
@@ -2099,7 +2099,7 @@
                     </p>
                   </div>
                 </div>
-                <div class="padding20 center" *ngIf="p?.folder_docs?.length == 0">
+                <div class="padding20 center" *ngIf="folder?.folder_docs?.length == 0">
                   <p class="show-not-found">
                     {{'message.error.noDocumentUploadedYet' | translate}}
                   </p>
