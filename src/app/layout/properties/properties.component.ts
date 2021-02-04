@@ -1193,6 +1193,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                       { text: this.property_array.building_configuration.name, border: [false, false, false, false], bold: true },
                     ],
                     [
+                      { text: this.translate.instant('generatePDF.propertyName'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.property_array.name || 0, border: [false, false, false, false], bold: true },
+                    ],
+                    [
                       { text: this.translate.instant('generatePDF.parkingPlaces'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
                       { text: this.property_array.parking_count || 0, border: [false, false, false, false], bold: true },
                     ],
@@ -1209,12 +1213,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                       { text: this.price.transform(Number(this.property_array.min_price).toFixed(2)), border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: this.installmentFormGroup.value.discount ? 'Discount %' : this.installmentFormGroup.value.interest ? 'Interest %' : '', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
-                      { text: discount ? this.installmentFormGroup.value.discount + '%' : interest ? this.installmentFormGroup.value.interest + '%' : 0, border: [false, false, false, false], bold: true },
+                      { text: this.installmentFormGroup.value.discount ? 'Discount %': 'Interest %', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: discount? this.installmentFormGroup.value.discount + '%' : interest ? this.installmentFormGroup.value.interest + '%' : 0, border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: this.installmentFormGroup.value.discount ? 'Discount $' : this.installmentFormGroup.value.interest ? 'Interest $' : '', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
-                      { text: this.price.transform(Number(discount ? discount : interest ? interest : 0).toFixed(2)), border: [false, false, false, false], bold: true },
+                      { text: this.installmentFormGroup.value.discount ? 'Discount $': 'Interest $', bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.price.transform(Number(discount? discount : interest ? interest : 0).toFixed(2)), border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.finalPrice'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
@@ -1318,10 +1322,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.accountName'), border: [false, false, false, false], color: '#858291' },
-                      {
-                        text: this.installmentFormGroup.value.agencyOrSeller && this.installmentFormGroup.value.paymentBankDetails.bank_name ? 'Seller' : !this.installmentFormGroup.value.agencyOrSeller &&
-                          this.installmentFormGroup.value.paymentBankDetails.bank_name ? 'Agency' : '', border: [false, false, false, false], bold: true
-                      },
+                      { text: this.installmentFormGroup.value.agencyOrSeller && this.installmentFormGroup.value.paymentBankDetails.bank_name? 'Seller' : !this.installmentFormGroup.value.agencyOrSeller && 
+                         this.installmentFormGroup.value.paymentBankDetails.Legal_name, border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.federalTaxPayer'), border: [false, false, false, false], color: '#858291' },
@@ -1516,6 +1518,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
           element.is_agency = 1;
           element.bank_id = element.id;
           element.legal_rep_bank_id = null;
+          element.Legal_name = (((this.bankDetails || {}).building || {}).agency || {}).name || '';
           this.paymentBankDetailsArray.push(element);
         }
 
@@ -1527,6 +1530,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
             element.is_agency = 1;
             element.bank_id = null;
             element.legal_rep_bank_id = element.id;
+            element.Legal_name = (((this.bankDetails || {}).building || {}).agency || {}).name || '';
             this.paymentBankDetailsArray.push(element);
           }
         }
@@ -1542,6 +1546,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
           element.is_agency = 2;
           element.bank_id = element.id;
           element.legal_rep_bank_id = null;
+          element.Legal_name = (((this.bankDetails || {}).collection || {}).seller_legal_entity || {}).legal_name || '';
           this.paymentBankDetailsArray.push(element);
         }
 
