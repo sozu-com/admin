@@ -1123,6 +1123,8 @@
       "paytoRemainingPendingCheck": "Primero complete su Cuota Mensual pendiente",
       "payToRemainingReduceTimecheck": "Si desea aplicar un pago al restante para reducir (tiempo), el pago debe cubrir las cuotas mensuales completas 1,2, 3 ...",
       "areYouSure": "¿Estás seguro?",
+      "youHaveChangedTheNationality":"Has cambiado de nacionalidad",
+      "soThePreviousLinkedDocumentsWillBeRemoved":"Por lo tanto, se eliminarán los documentos vinculados anteriores",
       "sendEmail": "¿enviar correo electrónico?",
       "wantToBlockNotary": "¿Quieres bloquear este notario?",
       "wantToUnblockNotary": "¿Quieres desbloquear este notario?",
@@ -2235,6 +2237,7 @@
     "agency" : "Agencia",
     "seller" : "vendedora",
     "selectAccount":"Seleccionar cuenta",
-    "agent": "Agente de ventas"
+    "agent": "Agente de ventas",
+    "accountInNameOf": "Cuenta a nombre de:"
   }
 }

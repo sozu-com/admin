@@ -1122,6 +1122,8 @@
       "paytoRemainingPendingCheck": "Please complete your pending Monthly Installment first",
       "payToRemainingReduceTimecheck": " If you want to apply a payment to remaining to reduce (time) the payment needs to cover complete monthly instalments 1,2 ,3...",
       "areYouSure": "Are you sure",
+      "youHaveChangedTheNationality":"You have changed the nationality",
+      "soThePreviousLinkedDocumentsWillBeRemoved":"So, the previous linked documents will be removed",
       "sendEmail": "send email?",
       "wantToBlockNotary": "You want to block this Notary?",
       "wantToUnblockNotary": "You want to unblock this Notary?",
@@ -2236,6 +2238,7 @@
     "agency": "Agency",
     "seller": "Seller",
     "selectAccount": "Select account",
-    "agent": "Sales agent"
+    "agent": "Sales agent",
+    "accountInNameOf": "Account in name of:"
   }
 }
