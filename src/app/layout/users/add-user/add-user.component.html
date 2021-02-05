@@ -124,7 +124,7 @@
           <div class="form-group-3">
             <label class="p16-two">{{'addForm.nacionality' | translate}}</label>
             <select title="Select Nationality" [(ngModel)]="model.nationality_id" name="nationality_id" class="form-control" (change)="this.updateNationalityName($event.target.value)">
-              <option value="-1" disabled>{{'addForm.selectNationality' | translate}}</option>
+              <!-- <option value="-1" disabled>{{'addForm.selectNationality' | translate}}</option> -->
               <option *ngFor="let tempNationalityDetails of nationalityDetails"
                 [selected]="tempNationalityDetails.id == model.nationality_id" value="{{tempNationalityDetails.id}}">
                 {{tempNationalityDetails.name}}</option>

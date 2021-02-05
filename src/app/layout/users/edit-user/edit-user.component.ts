@@ -44,6 +44,8 @@ export class EditUserComponent implements OnInit {
   countryInput: string;
   dataNotAvailable: boolean;
   nationalityDetails: any[] = [];
+  current_nationality_id: number;
+
   constructor(
     public constant: Constant,
     private cs: CommonService,
@@ -113,7 +115,8 @@ export class EditUserComponent implements OnInit {
           this.model.neighbourhoods.push(this.model.neighborhood);
           this.model['tax_neighbourhoods'] = [];
           this.model.tax_neighbourhoods.push(this.model.tax_neighbourhood);
-          this.model.nationality_id = (this.model.nationality_id).toString() == ''  ? -1 : this.model.nationality_id;
+          this.model.nationality_id = (this.model.nationality_id).toString() == '' ? 1 : this.model.nationality_id;
+          this.current_nationality_id = this.model.nationality_id;
         }, error => {
           this.spinner.hide();
         });
@@ -225,33 +228,23 @@ export class EditUserComponent implements OnInit {
     modelSave.country_id = this.countryInput == 'other' ? 0 : modelSave.country_id;
     modelSave.state_id = this.stateInput == 'other' ? 0 : modelSave.state_id;
     modelSave.city_id = this.cityInput == 'other' ? 0 : modelSave.city_id;
-    modelSave.nationality_id = (modelSave.nationality_id > 0 ) ? modelSave.nationality_id : 0;
-    this.spinner.show();
-    this.admin.postDataApi('addSeller', modelSave)
-      .subscribe(
-        success => {
-          this.spinner.hide();
-          if (success.success === '0') {
-            swal(this.translate.instant('swal.error'), success.message, 'error');
-            return;
-          } else {
-            const text = this.model.id === '' ?
-              this.translate.instant('message.success.addedSuccessfully') :
-              this.translate.instant('message.success.updatedSuccessfully');
-            swal(this.translate.instant('swal.success'), text, 'success');
-            if (this.model.id === '') {
-              this.router.navigate(['/dashboard/users']);
-            } else {
-              this.model = success.data;
-              this.model.legal_rep_banks = success.data.legal_rep_banks || [];
-              this.model.legal_representative = success.data.legal_representative || new LegalRepresentative();
-              this.model.legal_representative.legal_rep_banks = success.data.legal_representative.legal_rep_banks || [];
-              // this.getCountries();
-            }
-          }
-        }, error => {
-          this.spinner.hide();
-        });
+    if (this.current_nationality_id != modelSave.nationality_id) {
+      swal({
+        html: this.translate.instant('message.error.youHaveChangedTheNationality') + '<br>' +
+          this.translate.instant('message.error.soThePreviousLinkedDocumentsWillBeRemoved'),
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: this.constant.confirmButtonColor,
+        cancelButtonColor: this.constant.cancelButtonColor,
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          this.updateUser(modelSave);
+        }
+      });
+    } else {
+      this.updateUser(modelSave);
+    }
   }
 
 
@@ -578,8 +571,35 @@ export class EditUserComponent implements OnInit {
   }
 
   updateNationalityName = (value: string): void => {
-    if(parseInt(value) > 0){
+    if (parseInt(value) > 0) {
       this.model.nationality_name = '';
     }
+  }
+
+  updateUser = (postData: any): void => {
+    this.spinner.show();
+    this.admin.postDataApi('addSeller', postData).subscribe((success) => {
+      this.spinner.hide();
+      if (success.success === '0') {
+        swal(this.translate.instant('swal.error'), success.message, 'error');
+        return;
+      } else {
+        const text = this.model.id === '' ?
+          this.translate.instant('message.success.addedSuccessfully') :
+          this.translate.instant('message.success.updatedSuccessfully');
+        swal(this.translate.instant('swal.success'), text, 'success');
+        if (this.model.id === '') {
+          this.router.navigate(['/dashboard/users']);
+        } else {
+          this.model = success.data;
+          this.model.legal_rep_banks = success.data.legal_rep_banks || [];
+          this.model.legal_representative = success.data.legal_representative || new LegalRepresentative();
+          this.model.legal_representative.legal_rep_banks = success.data.legal_representative.legal_rep_banks || [];
+          this.current_nationality_id = this.model.nationality_id;
+        }
+      }
+    }, (error) => {
+      this.spinner.hide();
+    });
   }
 }

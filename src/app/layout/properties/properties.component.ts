@@ -1616,7 +1616,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     }
   }
 
-  makeCommercializedProperty = (propertyDetails: any): void => {
+  updateCommercialized = (propertyDetails: any): void => {
     this.spinner.show();
     this.admin.postDataApi('updateCommercialized', { id: (propertyDetails || {}).id }).subscribe((success) => {
       this.spinner.hide();
