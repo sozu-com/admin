@@ -605,10 +605,10 @@
                         <td *ngIf="parameter.flag!=5">
                            <div class="table-actions">
                               <!--this button to open installment modal -->
-                              <button (click)="this.openModalInstallment(p);" class="action-icon" [disabled]="p?.collection != null" *ngIf="parameter?.flag == 3"
+                              <button (click)="this.openModalInstallment(p);" class="action-icon" [disabled]="!!p?.collection" *ngIf="parameter?.flag == 3"
                                  title="{{'table.title.generatePDF' | translate}}"><img
                                     src="assets/img/commercial_pdf.png" alt="img"></button>
-                              <button (click)="this.updateCommercialized(p);" class="action-icon" [disabled]="p?.collection != null" *ngIf="parameter?.flag == 3"
+                              <button (click)="this.updateCommercialized(p);" class="action-icon" [disabled]="!!p?.collection" *ngIf="parameter?.flag == 3"
                                  title="{{'table.title.commercializedProperty' | translate}}"><img
                                     src="assets/img/tick-selected.png" alt="img"></button>
                               <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
