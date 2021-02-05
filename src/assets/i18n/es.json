@@ -2184,7 +2184,7 @@
     "monthlyInstallmentPercentage": "Pagos mensuales",
     "numberOfMI": "Número de pagos mensuales",
     "paymentupondeliveryPercentage": "Pago contra entrega",
-    "leadName": "Nombre de cliente potencial",
+    "leadName": "Ciente",
     "addNewVariablePlus": "+ Agregar nueva variable",
     "generateOffer": "Generar oferta",
     "goBack": "Regresa",
@@ -2202,8 +2202,10 @@
     "interest":"Interés",
     "variablePercentage":"Porcentaje variable",
     "variableName":"Nombre de la variable",
-    "Discount/Interest" : "Descuento/Interés %:",
-    "Discount/Interest$" : "Descuento/Interés $:",
+    "discount%" : "Descuento %:",
+    "interest%" : "Interés %:",
+    "discount$" : "Descuento $:",
+    "interest$" : "Interés $:",
     "finalPrice" : "Precio final:",
     "titleMargot" : "En",
     "title2Margot" : "trabajamos por tu inversión.",
@@ -2232,6 +2234,7 @@
     "addressName" : "Guadalajara, Jalisco, México.",
     "agency" : "Agencia",
     "seller" : "vendedora",
-    "selectAccount":"Seleccionar cuenta"
+    "selectAccount":"Seleccionar cuenta",
+    "agent": "Agente de ventas"
   }
 }

@@ -2201,8 +2201,10 @@
     "carpetArea": "Carpet area:",
     "PricePerM2": "Price per m2:",
     "listPrice": "List price:",
-    "Discount/Interest": "Discount/Interest %:",
-    "Discount/Interest$": "Discount/Interest $:",
+    "discount%": "Discount %:",
+    "interest%": "Interest %:",
+    "discount$": "Discount $:",
+    "interest$": "Interest $:",
     "interest": "Interest",
     "finalPrice": "Final price:",
     "titleMargot": "In",
@@ -2233,6 +2235,7 @@
     "addressName": "Guadalajara, Jalisco, México.",
     "agency": "Agency",
     "seller": "Seller",
-    "selectAccount": "Select account"
+    "selectAccount": "Select account",
+    "agent": "Sales agent"
   }
 }
