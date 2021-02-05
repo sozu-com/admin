@@ -147,9 +147,11 @@ export class ProjectReportComponent implements OnInit {
       }
 
       const externalAgent = {indexLabel: 'Outside Agent', y: 0};
+      const total = {indexLabel: 'Total', y: 0};
       const removeValFromIndex = [];
-      for (let index = 0; index < this.agentData.length; index++) {
+      for (let index = 0; index < this.agentData.length; index++) { 
         const r1 = this.agentData[index];
+        total.y =  total.y + r1.y;
         if (r1.is_external_agent) {
           externalAgent.y = externalAgent.y + r1.y;
           removeValFromIndex.push(index);
@@ -161,6 +163,7 @@ export class ProjectReportComponent implements OnInit {
       }
 
       this.agentData.push(externalAgent);
+      this.agentData.push(total);
 
       this.reportData.push(obj);
       this.plotData();
