@@ -1266,7 +1266,8 @@ export class CollectionsComponent implements OnInit {
     this.paymentDate = moment.utc(e).toDate();
   }
   onSelect1(e) {
-   this.reminder_date = moment().format('YYYY-MM-DD hh:mm');
+  //  this.reminder_date = moment().format('YYYY-MM-DD hh:mm');
+  this.reminder_date = moment.utc(e).toDate();
   }
 
   onSelect2(e) {
