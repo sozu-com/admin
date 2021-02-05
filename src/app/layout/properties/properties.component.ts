@@ -1510,9 +1510,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     if (!this.installmentFormGroup.get('agencyOrSeller').value) {
       this.fedTaxPayer = (((this.bankDetails || {}).building || {}).agency || {}).fed_tax_pay || '';
       // payment directly received by agency
-      if (this.bankDetails.building && this.bankDetails.building.agency_id) {
+      if (((this.bankDetails || {}).building || {}).agency_id) {
         // agency banks
-        for (let index = 0; index < this.bankDetails.building.agency.agency_banks.length; index++) {
+        for (let index = 0; index < (((this.bankDetails.building || {}).agency || {}).agency_banks || []).length; index++) {
           const element = this.bankDetails.building.agency.agency_banks[index];
           element.name = 'Agency Bank | ' + element.bank_name;
           element.is_agency = 1;
@@ -1523,8 +1523,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         }
 
         // agency legal representative banks
-        if (this.bankDetails.building.agency.legal_representative) {
-          for (let index = 0; index < this.bankDetails.building.agency.legal_representative.legal_rep_banks.length; index++) {
+        if (((this.bankDetails.building || {}).agency || {}).legal_representative) {
+          for (let index = 0; index < ((this.bankDetails.building.agency.legal_representative || {}).legal_rep_banks || []).length; index++) {
             const element = this.bankDetails.building.agency.legal_representative.legal_rep_banks[index];
             element.name = 'Agency Legal Rep Bank | ' + element.bank_name;
             element.is_agency = 1;
@@ -1538,9 +1538,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     } else if (this.installmentFormGroup.get('agencyOrSeller').value) {
       this.fedTaxPayer = (((this.bankDetails || {}).collection || {}).seller_legal_entity || {}).fed_tax_pay || '';
       // payment directly received by seller
-      if (this.bankDetails.collection.seller_type != 2) {
+      if (((this.bankDetails || {}).collection || {}).seller_type != 2) {
         // seller (as a person or developer) banks
-        for (let index = 0; index < this.bankDetails.collection.buyer.legal_rep_banks.length; index++) {
+        for (let index = 0; index < (((this.bankDetails.collection || {}).buyer || {}).legal_rep_banks || []).length; index++) {
           const element = this.bankDetails.collection.buyer.legal_rep_banks[index];
           element.name = 'Seller Bank | ' + element.bank_name;
           element.is_agency = 2;
@@ -1551,8 +1551,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         }
 
         // agency legal representative banks
-        if (this.bankDetails.collection.buyer.legal_representative) {
-          for (let index = 0; index < this.bankDetails.collection.buyer.legal_representative.legal_rep_banks.length; index++) {
+        if (((this.bankDetails.collection || {}).buyer || {}).legal_representative) {
+          for (let index = 0; index < ((this.bankDetails.collection.buyer.legal_representative || {}).legal_rep_banks || []).length; index++) {
             const element = this.bankDetails.collection.buyer.legal_representative.legal_rep_banks[index];
             element.name = 'Seller Legal Rep Bank | ' + element.bank_name;
             element.is_agency = 2;
@@ -1563,8 +1563,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         }
       } else {
         // seller (as a legal entity) banks
-        if (this.bankDetails.collection.seller_legal_entity && this.bankDetails.collection.seller_legal_entity.legal_entity_banks) {
-          for (let index = 0; index < this.bankDetails.collection.seller_legal_entity.legal_entity_banks.length; index++) {
+        if ((((this.bankDetails || {}).collection || {}).seller_legal_entity || {}).legal_entity_banks) {
+          for (let index = 0; index < (this.bankDetails.collection.seller_legal_entity.legal_entity_banks || []).length; index++) {
             const element = this.bankDetails.collection.seller_legal_entity.legal_entity_banks[index];
             element.name = 'Seller Bank | ' + element.bank_name;
             element.is_agency = 2;
@@ -1574,8 +1574,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
           }
 
           // agency legal representative banks
-          if (this.bankDetails.collection.seller_legal_entity.legal_reps && this.bankDetails.collection.seller_legal_entity.legal_reps.legal_rep_banks) {
-            for (let index = 0; index < this.bankDetails.collection.seller_legal_entity.legal_reps.legal_rep_banks.length; index++) {
+          if (((((this.bankDetails || {}).collection || {}).seller_legal_entity || {}).legal_reps || {}).legal_rep_banks) {
+            for (let index = 0; index < (this.bankDetails.collection.seller_legal_entity.legal_reps.legal_rep_banks || []).length; index++) {
               const element = this.bankDetails.collection.seller_legal_entity.legal_reps.legal_rep_banks[index];
               element.name = 'Seller Legal Rep Bank | ' + element.bank_name;
               element.is_agency = 2;
