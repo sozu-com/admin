@@ -1168,8 +1168,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
               this.base64?
               {
                 image: this.projectLogoImageBase64,
-                width: 130,
-                height: 50,
+                width: 120,
+                height: 20,
                 margin: [0, 0, 0, 20]
               }: {
                 text:''
@@ -1282,13 +1282,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.downpayment'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.installmentFormGroup.value.downPayment ? this.installmentFormGroup.value.downPayment + '%' : '', border: [false, false, false, false], bold: true },
-                      { text: downpayment ? this.price.transform(Number(downpayment || 0).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true },
+                      { text: this.installmentFormGroup.value.downPayment ? this.installmentFormGroup.value.downPayment + '%' : 'N/A', border: [false, false, false, false], bold: true },
+                      { text: downpayment ? this.price.transform(Number(downpayment || 0).toFixed(2)) : '', border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.monthlyPaymentsAmount'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.installmentFormGroup.value.monthlyInstallment? this.installmentFormGroup.value.monthlyInstallment + '%' : '', border: [false, false, false, false], bold: true },
-                      { text: monthly_installment_amount ? this.price.transform(Number(monthly_installment_amount).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true }
+                      { text: this.installmentFormGroup.value.monthlyInstallment? this.installmentFormGroup.value.monthlyInstallment + '%' : 'N/A', border: [false, false, false, false], bold: true },
+                      { text: monthly_installment_amount ? this.price.transform(Number(monthly_installment_amount).toFixed(2)) : '', border: [false, false, false, false], bold: true }
                     ],
                     [
                       {
@@ -1333,7 +1333,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                       { text: this.installmentFormGroup.value.paymentBankDetails.bank_name || 'N/A', border: [false, false, false, false], bold: true }
                     ],
                     [
-                      { text: this.translate.instant('generatePDF.accountName'), border: [false, false, false, false], color: '#858291' },
+                      { text: this.translate.instant('generatePDF.accountInNameOf'), border: [false, false, false, false], color: '#858291' },
                       { text: this.installmentFormGroup.value.agencyOrSeller && this.installmentFormGroup.value.paymentBankDetails.bank_name? 'Seller' : !this.installmentFormGroup.value.agencyOrSeller && 
                          this.installmentFormGroup.value.paymentBankDetails.Legal_name, border: [false, false, false, false], bold: true },
                     ],
@@ -1395,6 +1395,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     //   pdfMake.createPdf(docDefinition).open();
     // }
   }
+  
   get getAddVariablesFormArray(): FormArray {
     return this.installmentFormGroup.get('addVariablesFormArray') as FormArray;
   }
@@ -1542,7 +1543,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
           element.is_agency = 1;
           element.bank_id = element.id;
           element.legal_rep_bank_id = null;
-          element.Legal_name = (((this.bankDetails || {}).building || {}).agency || {}).name || '';
+          element.Legal_name = (((this.bankDetails || {}).building || {}).agency || {}).razon_social || '';
           this.paymentBankDetailsArray.push(element);
         }
 
