@@ -1168,7 +1168,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
               this.base64?
               {
                 image: this.projectLogoImageBase64,
-                width: 100,
+                width: 130,
                 height: 50,
                 margin: [0, 0, 0, 20]
               }: {
@@ -1330,7 +1330,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.bank'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.installmentFormGroup.value.paymentBankDetails.bank_name, border: [false, false, false, false], bold: true }
+                      { text: this.installmentFormGroup.value.paymentBankDetails.bank_name || 'N/A', border: [false, false, false, false], bold: true }
                     ],
                     [
                       { text: this.translate.instant('generatePDF.accountName'), border: [false, false, false, false], color: '#858291' },
@@ -1339,15 +1339,15 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.federalTaxPayer'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.installmentFormGroup.value.paymentBankDetails.bank_name ? this.fedTaxPayer : '', border: [false, false, false, false], bold: true },
+                      { text: this.installmentFormGroup.value.paymentBankDetails.bank_name ? this.fedTaxPayer : 'N/A', border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.accountNumber'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.installmentFormGroup.value.paymentBankDetails.account_number, border: [false, false, false, false], bold: true }
+                      { text: this.installmentFormGroup.value.paymentBankDetails.account_number || 'N/A', border: [false, false, false, false], bold: true }
                     ],
                     [
                       { text: this.translate.instant('generatePDF.cLABE'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.installmentFormGroup.value.paymentBankDetails.swift, border: [false, false, false, false], bold: true }
+                      { text: this.installmentFormGroup.value.paymentBankDetails.swift || 'N/A', border: [false, false, false, false], bold: true }
                     ],
                   ]
                 }
