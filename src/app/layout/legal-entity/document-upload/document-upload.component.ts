@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild, ElementRef} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -38,13 +38,20 @@ export class DocumentUploadComponent implements OnInit {
   docFile: any;
   mode: string;
   selectedFolder: any = {};
+  language_code: string;
 
-  constructor(private route: ActivatedRoute, public constant: Constant,
-    private cs: CommonService, private toastr: ToastrService,
-    private admin: AdminService,private spinner: NgxSpinnerService,
-    private translate: TranslateService) { }
+  constructor(
+    private route: ActivatedRoute,
+    public constant: Constant,
+    private cs: CommonService,
+    private toastr: ToastrService,
+    private admin: AdminService,
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
+  ) { }
 
   ngOnInit() {
+    this.language_code = localStorage.getItem('language_code');
     this.model = new LegalEntity();
     this.model.entity_linked_documents = new Array();
     this.parameter.sub = this.route.params.subscribe(params => {
@@ -56,8 +63,8 @@ export class DocumentUploadComponent implements OnInit {
       }
     });
   }
- 
- 
+
+
 
   getLegalEntityById(id: string) {
     let self = this;
@@ -67,89 +74,89 @@ export class DocumentUploadComponent implements OnInit {
       .subscribe(
         success => {
           this.spinner.hide();
-           this.model = success.data;
-           this.model.entity_linked_documents = success.data.entity_linked_documents;
-           console.log(this.model.entity_linked_documents,"doc")
+          this.model = success.data;
+          this.model.entity_linked_documents = success.data.entity_linked_documents;
+          console.log(this.model.entity_linked_documents, "doc")
         }, error => {
           this.spinner.hide();
         });
   }
 
-  noDataAvailable(data){
-    this.dataNotAvailable = data? true : false;
-   }
- 
-   viewDocument(document: string) {
-     window.open(document, '_blank');
-   }
-   
-   deletePopup(index: number, id: string) {
-     this.parameter.index = index;
-     this.parameter.text = this.translate.instant('message.error.wantToDeleteFile');
- 
-     swal({
-       html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
-       type: 'warning',
-       showCancelButton: true,
-       confirmButtonColor: this.constant.confirmButtonColor,
-       cancelButtonColor: this.constant.cancelButtonColor,
-       confirmButtonText: 'Yes'
-     }).then((result) => {
-       if (result.value) {
-         this.deleteBuyerSeller(index, id);
-       }
-     });
-   }
- 
-   deleteBuyerSeller(index: number, id: string) {
-     this.parameter.index = index;
-     const input = new FormData();
-     input.append('id', id);
-     this.admin.postDataApi('deletelegalEntityLinkedDocument', input)
-       .subscribe(
-         success => {
-           swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
-           this.getLegalEntityById(this.model.id);
-           this.parameter.items.splice(index, 1);
-         });
-   }
-   
-   closeModal() {
-     this.docsModalClose.nativeElement.click();
-   }
- 
-   onSelectFile(files,folderId) {
-     this.parameter.loading = true;
-     this.cs.saveAttachment2(files[0],folderId).subscribe(
-       success => {
-         this.parameter.loading = false;
-         this.docFile = success['data'].name;
-         this.folderId = success['data'].id;
-       }, error => {
-         this.parameter.loading = false;
-       }
-     );
-   }
- 
- 
-   addDocs() {
-     if (!this.docFile) {
-       this.toastr.clear();
-       this.toastr.error(this.translate.instant('message.error.pleaseEnterDocuFile'), this.translate.instant('swal.error'));
-       return;
-     }
-     
-     console.log(this.docFile,"file")
-     this.docs.push({display_name: this.docFile});
-     this.docFile = ''; 
-     this.docsFile.nativeElement.value = '';
-     this.getLegalEntityById(this.model.id);
-   }
- 
-   openAddFolder(folder, index: number) {
-      this.folderName = folder.legalentity_document.name_en;
-     this.folderId = folder.id;
-     this.folderModalOpen.nativeElement.click();
-   }
- 
+  noDataAvailable(data) {
+    this.dataNotAvailable = data ? true : false;
+  }
+
+  viewDocument(document: string) {
+    window.open(document, '_blank');
+  }
+
+  deletePopup(index: number, id: string) {
+    this.parameter.index = index;
+    this.parameter.text = this.translate.instant('message.error.wantToDeleteFile');
+
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteBuyerSeller(index, id);
+      }
+    });
+  }
+
+  deleteBuyerSeller(index: number, id: string) {
+    this.parameter.index = index;
+    const input = new FormData();
+    input.append('id', id);
+    this.admin.postDataApi('deletelegalEntityLinkedDocument', input)
+      .subscribe(
+        success => {
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
+          this.getLegalEntityById(this.model.id);
+          this.parameter.items.splice(index, 1);
+        });
+  }
+
+  closeModal() {
+    this.docsModalClose.nativeElement.click();
+  }
+
+  onSelectFile(files, folderId) {
+    this.parameter.loading = true;
+    this.cs.saveAttachment2(files[0], folderId).subscribe(
+      success => {
+        this.parameter.loading = false;
+        this.docFile = success['data'].name;
+        this.folderId = success['data'].id;
+      }, error => {
+        this.parameter.loading = false;
+      }
+    );
+  }
+
+
+  addDocs() {
+    if (!this.docFile) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterDocuFile'), this.translate.instant('swal.error'));
+      return;
+    }
+
+    console.log(this.docFile, "file")
+    this.docs.push({ display_name: this.docFile });
+    this.docFile = '';
+    this.docsFile.nativeElement.value = '';
+    this.getLegalEntityById(this.model.id);
+  }
+
+  openAddFolder(folder, index: number) {
+    this.folderName = folder.legalentity_document.name_en;
+    this.folderId = folder.id;
+    this.folderModalOpen.nativeElement.click();
+  }
+
 }

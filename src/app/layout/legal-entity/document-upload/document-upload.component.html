@@ -16,7 +16,8 @@
                     <div class="row">
                           <div class="col-md-8">
                                 <input class="input-field" type="text"
-                                      [(ngModel)]="bankAccount.legalentity_document.name_en" name="name_en{{ i }}"
+                                      [(ngModel)]="this.language_code == 'en' ? bankAccount.legalentity_document.name_en : bankAccount.legalentity_document.name_es" 
+                                      name="this.language_code == 'en' ? name_en{{ i }} : name_es{{ i }} "
                                       disabled />
 <!-- <button (click)="openAddFolder(bankAccount,i)">add</button> -->
                                 <i class="fa fa-plus-circle icon" aria-hidden="true"
