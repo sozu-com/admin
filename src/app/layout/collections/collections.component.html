@@ -867,7 +867,8 @@
               [showIcon]="true"
               [showTime]="true"
               [(ngModel)]="reminder_date" 
-              dateFormat="MM d, yy">
+              dateFormat="MM d, yy"
+              (onSelect)="onSelect2($event)">
              </p-calendar>
             </div></div></div>
             <div class="col-12">
