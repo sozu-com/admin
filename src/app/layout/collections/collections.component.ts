@@ -61,7 +61,7 @@ export class CollectionsComponent implements OnInit {
   item: any;
   locale: any;
   property_collection_id: string;
-  reminder_date : string;
+  reminder_date : any;
   docFile: string;
   payment_date: any = new Date();
   collection_commission_id: number;
@@ -708,12 +708,13 @@ export class CollectionsComponent implements OnInit {
     this.mode = mode;
     console.log(note,"note")
     console.log(note.collection_reminder.collection_collaborators,"emails")
-    this.notesadddModalOpen.nativeElement.click();
+    
       this.noteIndex = index;
       this.selectedNote = note;
       this.noteTitle = note.title;
       this.noteDesc = note.note;
-      this.reminder_date = note.reminder_date;
+      this.reminder_date = new Date(note.reminder_date);
+      this.notesadddModalOpen.nativeElement.click();
       this.property_collection_id = note.property_collection_id;
       let emails = note.collection_reminder.collection_collaborators
       let newArray = [];
@@ -1265,8 +1266,13 @@ export class CollectionsComponent implements OnInit {
     this.paymentDate = moment.utc(e).toDate();
   }
   onSelect1(e) {
-    this.reminder_date = moment().format('YYYY-MM-DD hh:mm');
+   this.reminder_date = moment().format('YYYY-MM-DD hh:mm');
   }
+
+  onSelect2(e) {
+    this.reminder_date = e;
+    this.reminder_date =  moment.utc(e).toDate();
+   }
 
   onSelectInvoiceDate(e) {
     this.invoice_date = moment.utc(e).toDate();
