@@ -2238,6 +2238,7 @@
     "agency": "Agency",
     "seller": "Seller",
     "selectAccount": "Select account",
-    "agent": "Sales agent"
+    "agent": "Sales agent",
+    "accountInNameOf": "Account in name of:"
   }
 }
