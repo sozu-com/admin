@@ -154,3 +154,20 @@ textarea{
 .my-modal-header{
   display: inline;
 }
+
+.editt {
+  background-color: #00B96F;
+  color: white;
+  width: 50px;
+  font-size: 12px;
+  border-color: #00B96F;
+  text-align: center;
+}
+.delete {
+  background-color: #00B96F;
+  color: white;
+  width: 50px;
+  font-size: 12px;
+  border-color: #00B96F;
+  text-align: center;
+}

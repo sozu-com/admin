@@ -775,11 +775,14 @@
                 <p><i class="fa fa-bell" aria-hidden="true"></i>&nbsp;{{item?.reminder_date | date:'MMM d, y, h:mm'}}</p>
               </div>
               <div class="col-md-2">
-                <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0" class="delete" href="javascript://" (click)="deleteLeadPopup(item.id, i)" style=" color: #00B96F;">{{'commonBlock.delete' |
-                  translate}}</button>
+                <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0" class="delete" href="javascript://" (click)="deleteLeadPopup(item.id, i)">
+                  <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </button>
               </div>
-              <div class="col-md-2">  <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0" class="edit" href="javascript://" (click)="editLeadPopup('edit',item.id, item,i)">{{'commonBlock.edit' |
-                translate}}</button></div>
+              <div class="col-md-2">  <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0" 
+                class="editt" href="javascript://" (click)="editLeadPopup('edit',item.id, item,i)">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+              </button></div>
             </div>
            
             <ng-template #noDeletePermissiom>
@@ -864,8 +867,7 @@
               [showIcon]="true"
               [showTime]="true"
               [(ngModel)]="reminder_date" 
-              dateFormat="MM d, yy"
-              (onSelect)="onSelect2($event)">
+              dateFormat="MM d, yy">
              </p-calendar>
             </div></div></div>
             <div class="col-12">
