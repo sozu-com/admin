@@ -2235,6 +2235,7 @@
     "agency" : "Agencia",
     "seller" : "vendedora",
     "selectAccount":"Seleccionar cuenta",
-    "agent": "Agente de ventas"
+    "agent": "Agente de ventas",
+    "accountInNameOf": "Cuenta a nombre de:"
   }
 }
