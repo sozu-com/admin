@@ -15,7 +15,7 @@ import { CommonService } from '../../services/common.service';
 import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ExcelDownload } from 'src/app/common/excelDownload';
-import {Document} from 'src/app/models/document.model';
+import { Document } from 'src/app/models/document.model';
 import { FormArray } from '@angular/forms';
 import { AbstractControl } from '@angular/forms';
 declare let swal: any;
@@ -30,7 +30,7 @@ declare var $: any;
 
 export class CollectionsComponent implements OnInit {
   mode: string;
- // input: CollectionReport;
+  // input: CollectionReport;
   public parameter: IProperty = {};
   public location: IProperty = {};
   items: any = [];
@@ -39,7 +39,7 @@ export class CollectionsComponent implements OnInit {
   noteTitle: string;
   noteDesc: string;
   noteDate: any;
-  noteIndex : number;
+  noteIndex: number;
   noteEmails: any;
   oldEmails: any;
   colbarations: any = [];
@@ -61,7 +61,7 @@ export class CollectionsComponent implements OnInit {
   item: any;
   locale: any;
   property_collection_id: string;
-  reminder_date : any;
+  reminder_date: any;
   docFile: string;
   payment_date: any = new Date();
   collection_commission_id: number;
@@ -185,14 +185,14 @@ export class CollectionsComponent implements OnInit {
     private fb: FormBuilder,
     private toastr: ToastrService,
     public modelForDoc: Document
-  ) { 
+  ) {
     // this.userForm = this.fb.group({
     //   email: this.fb.array([this.fb.control(null)])
     // });
   }
 
   ngOnInit() {
-    
+
     this.admin.globalSettings$.subscribe(success => {
       this.cashLimit = success['cash_limit'];
     });
@@ -279,7 +279,7 @@ export class CollectionsComponent implements OnInit {
     if (this.parameter.deal_to_date && this.parameter.deal_from_date) {
       input.deal_to_date = this.parameter.deal_to_date;
       input.deal_from_date = this.parameter.deal_from_date;
-     // console.log('this.parameter.deal_from_date', this.parameter.deal_from_date);
+      // console.log('this.parameter.deal_from_date', this.parameter.deal_from_date);
     }
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
@@ -300,7 +300,7 @@ export class CollectionsComponent implements OnInit {
     input.is_approved = this.parameter.flag;
     this.admin.postDataApi('getCollection', input).subscribe(
       success => {
-      //  console.log('getcollection ', success);
+        //  console.log('getcollection ', success);
         this.items = success.data;
         this.total = success.total_count;
 
@@ -648,8 +648,10 @@ export class CollectionsComponent implements OnInit {
       return;
     }
     this.spinner.show();
-    this.admin.postDataApi('collectionNote', { property_collection_id: this.property_collection_id, note: this.model.note, title: this.model.title ,
-      reminder_date: this.reminder_date, collection_id: this.property_collection_id,email:nameArr}).subscribe(r => {
+    this.admin.postDataApi('collectionNote', {
+      property_collection_id: this.property_collection_id, note: this.model.note, title: this.model.title,
+      reminder_date: this.reminder_date, collection_id: this.property_collection_id, email: nameArr
+    }).subscribe(r => {
       this.spinner.hide();
       this.model = new Notes();
       this.parameter.items.push(r.data);
@@ -658,91 +660,107 @@ export class CollectionsComponent implements OnInit {
       this.toastr.success(this.translate.instant('message.success.addedSuccessfully'), this.translate.instant('swal.success'));
       this.closeNotesModal();
     });
-  } 
+  }
 
   addNote(value) {
-    console.log(value,"value")
+    // console.log(value,"value")
     var nameArr = value.toAddress != '' ? value.toAddress.split(',') : undefined;
-    console.log(nameArr,"nameArr")
-   
-      if (this.mode === 'edit') {
-        if (this.selectedNote && this.selectedNote.id) {
-          this.editNote(this.selectedNote);
-        } 
-     } else {
-      if(!nameArr){
+    //console.log(nameArr,"nameArr")
+
+    if (this.mode === 'edit') {
+      if (this.selectedNote && this.selectedNote.id) {
+        this.editNote(this.selectedNote);
+      }
+    } else {
+      if (!nameArr) {
         if (!this.model.title) {
           return;
         }
         if (!this.model.note) {
           return;
         }
-        console.log("without mail create")
+        // console.log("without mail create")
         this.spinner.show();
-        this.admin.postDataApi('collectionNote', { property_collection_id: this.property_collection_id, note: this.model.note, title: this.model.title ,
-          reminder_date: this.reminder_date, collection_id: this.property_collection_id,email:nameArr}).subscribe(r => {
+        this.admin.postDataApi('collectionNote', {
+          property_collection_id: this.property_collection_id, note: this.model.note, title: this.model.title,
+          reminder_date: this.reminder_date, collection_id: this.property_collection_id, email: nameArr
+        }).subscribe(r => {
           this.spinner.hide();
           this.model = new Notes();
           this.parameter.items.push(r.data);
-    
+
           this.toastr.clear();
           this.toastr.success(this.translate.instant('message.success.addedSuccessfully'), this.translate.instant('swal.success'));
           this.closeNotesModal();
-       });
+        });
 
       } else {
-        console.log("popup")
+        // console.log("popup")
         this.reminderPopup(value);
-       }
-     }
+      }
+    }
   }
 
   commaSepEmail = (control: AbstractControl): { [key: string]: any } | null => {
     const emails = control.value.split(',');
     const forbidden = emails.some(email => Validators.email(new FormControl(email)));
-    console.log(forbidden,"email fun");
+    // console.log(forbidden,"email fun");
     return forbidden ? { 'toAddress': { value: control.value } } : null;
   };
 
 
-  editLeadPopup(mode: string,note_id, note, index) {
+  editLeadPopup(mode: string, note_id, note, index) {
     this.mode = mode;
-    console.log(note,"note")
-    console.log(note.collection_reminder.collection_collaborators,"emails")
-    
-      this.noteIndex = index;
-      this.selectedNote = note;
-      this.noteTitle = note.title;
-      this.noteDesc = note.note;
-      this.reminder_date = new Date(note.reminder_date);
-      this.notesadddModalOpen.nativeElement.click();
-      this.property_collection_id = note.property_collection_id;
-      let emails = note.collection_reminder.collection_collaborators
-      let newArray = [];
-      for(var i = 0; i < emails.length; i++){ 
-        let mails = emails[i].email;
-        newArray.push(mails);
-      }
-      console.log(newArray,"newArray"); 
-      this.noteEmails = newArray
+    // console.log(note,"note")
+    // console.log(note.collection_reminder.collection_collaborators,"emails")
+
+    this.noteIndex = index;
+    this.selectedNote = note;
+    this.noteTitle = note.title;
+    this.noteDesc = note.note;
+    this.reminder_date = new Date(note.reminder_date);
+    this.notesadddModalOpen.nativeElement.click();
+    this.property_collection_id = note.property_collection_id;
+    let emails = note.collection_reminder.collection_collaborators
+    let newArray = [];
+    for (var i = 0; i < emails.length; i++) {
+      let mails = emails[i].email;
+      newArray.push(mails);
+    }
+    //console.log(newArray,"newArray"); 
+    this.noteEmails = newArray
   }
 
-  modelChange(value){
-   this.oldEmails = value;
+  modelChange(value) {
+    this.oldEmails = value;
   }
 
   editNote(value) {
-    console.log(this.noteDate,"change")
-     let str = this.oldEmails? this.oldEmails.split(',') : this.noteEmails; 
-    this.admin.postDataApi('editcollectionNote', {id: this.selectedNote.id,collection_id:this.property_collection_id, 
-      title: this.noteTitle, note: this.noteDesc, email:str, reminder_date:this.reminder_date})
+    let str = this.oldEmails ? this.oldEmails.split(',') : this.noteEmails;
+    this.admin.postDataApi('editcollectionNote', {
+      id: this.selectedNote.id, collection_id: this.property_collection_id,
+      title: this.noteTitle, note: this.noteDesc, email: str, reminder_date: this.reminder_date
+    })
       .subscribe(
-        success => {
-         console.log(success,"edit")
-         this.toastr.clear();
-         this.toastr.success(this.translate.instant('message.success.updatedSuccessfully'), this.translate.instant('swal.success'));
-         this.closeFolderModal();
-        }, error => {
+        (success) => {
+          this.toastr.clear();
+          this.toastr.success(this.translate.instant('message.success.updatedSuccessfully'), this.translate.instant('swal.success'));
+          // this.parameter.items = this.parameter.items.map((data) => {
+          //   if (data.id == this.selectedNote.id) {
+          //     data.title =  this.noteTitle;
+          //     data.note = this.noteDesc;
+          //     data.reminder_date = this.reminder_date;
+          //     // data.collection_reminder.collection_collaborators
+          //   }
+          //   return data;
+          // });
+          const input = { property_collection_id: this.property_collection_id };
+          this.admin.postDataApi('getCollectionNote', input).subscribe(r => {
+            this.parameter.items = r.data;
+          });
+          this.mode = null;
+          this.closeNotesadddModalModal();
+        }, (error) => {
           this.spinner.hide();
         }
       );
@@ -763,7 +781,7 @@ export class CollectionsComponent implements OnInit {
       }
     });
   }
- 
+
 
   deleteLeadNote(note_id, index) {
     this.admin.postDataApi('deleteCollectionNote', { id: note_id }).subscribe(r => {
@@ -799,7 +817,7 @@ export class CollectionsComponent implements OnInit {
     this.payment_id = item.id;
     this.payment_type = item.payment_type;
     this.payment_method_id = item.payment_method.id;
-    this.payment_bank =  item.payment_bank? item.payment_bank.id : 0;
+    this.payment_bank = item.payment_bank ? item.payment_bank.id : 0;
     this.description = item.description;
     this.docFile = item.receipt;
     this.payment_date = item.payment_date ? this.getDateWRTTimezone(item.payment_date, 'DD/MMM/YYYY') : '';
@@ -811,7 +829,7 @@ export class CollectionsComponent implements OnInit {
     this.updatePaymentModalClose.nativeElement.click();
   }
 
-//update collection payment.
+  //update collection payment.
   updateCollectionPayment(formdata: NgForm) {
     // checking if date selected and receipt selected
     if (!this.payment_date) {
@@ -1076,7 +1094,7 @@ export class CollectionsComponent implements OnInit {
       if (m.collection_paymentss && m.collection_paymentss.length > 0) {
         for (let i = 0; i < m.collection_paymentss.length; i++) {
           const paymnts = m.collection_paymentss[i];
-         // console.log(paymnts);
+          // console.log(paymnts);
           if (paymnts.payment_method_id == this.apiConstants.payment_method_id) {
             this.cashSum = parseFloat(this.cashSum) + parseFloat(paymnts.amount);
           }
@@ -1267,21 +1285,21 @@ export class CollectionsComponent implements OnInit {
     this.paymentDate = moment.utc(e).toDate();
   }
   onSelect1(e) {
-  //  this.reminder_date = moment().format('YYYY-MM-DD hh:mm');
-  this.reminder_date = moment.utc(e).toDate();
+    //  this.reminder_date = moment().format('YYYY-MM-DD hh:mm');
+    this.reminder_date = moment.utc(e).toDate();
   }
 
   onSelect2(e) {
     this.reminder_date = e;
-    this.reminder_date =  moment.utc(e).toDate();
-   }
+    this.reminder_date = moment.utc(e).toDate();
+  }
 
   onSelectInvoiceDate(e) {
     this.invoice_date = moment.utc(e).toDate();
   }
 
   // apply payment, comision payment or supermoney payment function
-  
+
   applyCollectionPayment() {
     // checking if date selected and receipt selected
     let callApi = true;
@@ -1469,13 +1487,13 @@ export class CollectionsComponent implements OnInit {
       // return false;
     }
     //const url = this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'applyCommissionPayment';
-    if(this.typeOfPayment){
+    if (this.typeOfPayment) {
       this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'apply-popup';
-      }else{
-       this.typeOfPayment === 'applyCommissionPayment' ? 'applyCollectionPayment1' : 'applyCommissionPayment';
-      }
-      const url = this.typeOfPayment
-      
+    } else {
+      this.typeOfPayment === 'applyCommissionPayment' ? 'applyCollectionPayment1' : 'applyCommissionPayment';
+    }
+    const url = this.typeOfPayment
+
     if (callApi) {
       this.isApplyBtnClicked = true;
       this.admin.postDataApi(url, input).subscribe(r => {
@@ -1699,11 +1717,11 @@ export class CollectionsComponent implements OnInit {
       // this.toastr.error(this.translate.instant('message.error.cashLimitReached'), this.translate.instant('swal.error'));
       // return false;
     }
-   // const url = this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'applyCommissionPayment';
-   if(this.typeOfPayment){
-    this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'apply-popup';
-    }else{
-     this.typeOfPayment === 'applyCommissionPayment' ? 'applyCollectionPayment1' : 'applyCommissionPayment';
+    // const url = this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'applyCommissionPayment';
+    if (this.typeOfPayment) {
+      this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'apply-popup';
+    } else {
+      this.typeOfPayment === 'applyCommissionPayment' ? 'applyCollectionPayment1' : 'applyCommissionPayment';
     }
     const url = this.typeOfPayment
     if (callApi) {
@@ -1746,12 +1764,12 @@ export class CollectionsComponent implements OnInit {
   callToPaymentApi(input) {
 
     //const url = this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'applyCommissionPayment';
-    if(this.typeOfPayment){
+    if (this.typeOfPayment) {
       this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'apply-popup';
-      }else{
-       this.typeOfPayment === 'applyCommissionPayment' ? 'applyCollectionPayment1' : 'applyCommissionPayment';
-      }
-      const url = this.typeOfPayment
+    } else {
+      this.typeOfPayment === 'applyCommissionPayment' ? 'applyCollectionPayment1' : 'applyCommissionPayment';
+    }
+    const url = this.typeOfPayment
 
     this.isApplyBtnClicked = true;
     this.admin.postDataApi(url, input).subscribe(r => {
@@ -2381,7 +2399,7 @@ export class CollectionsComponent implements OnInit {
       this.spinner.hide();
     },
       (error) => {
-      //  console.log(error);
+        //  console.log(error);
         this.spinner.hide();
       });
   }
@@ -2440,7 +2458,7 @@ export class CollectionsComponent implements OnInit {
     }
   }
 
-  editDocsPopup(item: any, folderIndex: number, docIndex: number){
+  editDocsPopup(item: any, folderIndex: number, docIndex: number) {
     this.modelForDoc.name_en = item.name;
     this.modelForDoc.id = item.id
     this.folderId = this.collectionFolders[folderIndex].id;
@@ -2449,7 +2467,7 @@ export class CollectionsComponent implements OnInit {
 
   editFolderName(folder) {
     this.collectionFolders[this.folderIndex]['name'] = this.folderName;
-    this.admin.postDataApi('updateCollectionFolder', {id: this.selectedFolder.id, name: this.folderName})
+    this.admin.postDataApi('updateCollectionFolder', { id: this.selectedFolder.id, name: this.folderName })
       .subscribe(
         success => {
           // this.collectionFolders[this.folderIndex]['name'] = this.folderName;
@@ -2467,7 +2485,7 @@ export class CollectionsComponent implements OnInit {
       display_name: '',
       name: ''
     };
-     if (this.mode === 'edit') {
+    if (this.mode === 'edit') {
       if (this.selectedFolder && this.selectedFolder.id) {
         this.editFolderName(this.selectedFolder);
       } else {
@@ -2510,7 +2528,7 @@ export class CollectionsComponent implements OnInit {
   deleteFolder(item, index: number) {
     this.collectionFolders.splice(index, 1);
     if (item.id) {
-      this.admin.postDataApi('deleteCollectionFolder', {id: item.id}).subscribe(success => {
+      this.admin.postDataApi('deleteCollectionFolder', { id: item.id }).subscribe(success => {
         this.spinner.hide();
       }, error => {
         this.spinner.hide();
@@ -2536,30 +2554,30 @@ export class CollectionsComponent implements OnInit {
     } else {
       self.editDocument(document);
     }
-  } 
+  }
 
   closeEditModal() {
     this.localityClose.nativeElement.click();
   }
 
-  editDocument(document){
+  editDocument(document) {
     let self = this;
     this.spinner.show();
     let param = {
-      id:this.modelForDoc.id,
-      name:this.modelForDoc.name_en
+      id: this.modelForDoc.id,
+      name: this.modelForDoc.name_en
     }
     this.admin.postDataApi('updateDocFolderName', param).subscribe(
       r => {
         self.spinner.hide();
-        self.collectionFolders.filter(folder =>{
-          if(folder.id == self.folderId){
-          folder.folder_docs.filter(doc =>{
-            if(doc.id == self.modelForDoc.id){
-            doc.name = self.modelForDoc.name_en;
+        self.collectionFolders.filter(folder => {
+          if (folder.id == self.folderId) {
+            folder.folder_docs.filter(doc => {
+              if (doc.id == self.modelForDoc.id) {
+                doc.name = self.modelForDoc.name_en;
+              }
+            });
           }
-        });
-      }
         });
         self.closeEditModal();
       }, error => {
@@ -2597,7 +2615,7 @@ export class CollectionsComponent implements OnInit {
   //   });
   // }
 
-  closeNotesadddModalModal =():void => {
+  closeNotesadddModalModal = (): void => {
     this.notesadddModalClose.nativeElement.click();
   }
 
