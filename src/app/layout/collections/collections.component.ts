@@ -134,6 +134,7 @@ export class CollectionsComponent implements OnInit {
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('notesModalOpen') notesModalOpen: ElementRef;
   @ViewChild('notesadddModalOpen') notesadddModalOpen: ElementRef;
+  @ViewChild('notesadddModalClose') notesadddModalClose: ElementRef;
   @ViewChild('notesModalClose') notesModalClose: ElementRef;
   @ViewChild('paymentModalOpen') paymentModalOpen: ElementRef;
   @ViewChild('paymentModalClose') paymentModalClose: ElementRef;
@@ -2595,5 +2596,9 @@ export class CollectionsComponent implements OnInit {
   //     this.closeFolderModal();
   //   });
   // }
+
+  closeNotesadddModalModal =():void => {
+    this.notesadddModalClose.nativeElement.click();
+  }
 
 }
