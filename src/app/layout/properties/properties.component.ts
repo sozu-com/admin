@@ -257,9 +257,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
         reader.readAsDataURL(res);
       });
-      this.admin.loginData$.subscribe(success => {
-        this.fullName = success['name'] + ' ' + success['first_surname'] + ' ' + success['second_surname'];
-      });
+    this.admin.loginData$.subscribe(success => {
+      this.fullName = success['name'] + ' ' + success['first_surname'] + ' ' + success['second_surname'];
+    });
   }
 
   // onItemDeSelect(arrayNAme: any, obj: any) {
@@ -1165,15 +1165,15 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         {
           columns: [
             [
-              this.base64?
-              {
-                image: this.projectLogoImageBase64,
-                width: 120,
-                height: 20,
-                margin: [0, 0, 0, 20]
-              }: {
-                text:''
-              },
+              this.base64 ?
+                {
+                  image: this.projectLogoImageBase64,
+                  width: 120,
+                  height: 20,
+                  margin: [0, 0, 0, 20]
+                } : {
+                  text: ''
+                },
               {
                 text: this.translate.instant('generatePDF.propertyDetails'),
                 bold: true,
@@ -1220,12 +1220,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                       { text: this.price.transform(Number(this.property_array.min_price).toFixed(2)), border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: this.installmentFormGroup.value.discount ? this.translate.instant('discount%'): this.translate.instant('interest%'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
-                      { text: discount? this.installmentFormGroup.value.discount + '%' : interest ? this.installmentFormGroup.value.interest + '%' : 'N/A', border: [false, false, false, false], bold: true },
+                      { text: this.installmentFormGroup.value.discount ? this.translate.instant('discount%') : this.translate.instant('interest%'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: discount ? this.installmentFormGroup.value.discount + '%' : interest ? this.installmentFormGroup.value.interest + '%' : 'N/A', border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: this.installmentFormGroup.value.discount ? this.translate.instant('discount$'): this.translate.instant('interest$'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
-                      { text: this.price.transform(Number(discount? discount : interest ? interest : 0).toFixed(2)) || 'N/A', border: [false, false, false, false], bold: true },
+                      { text: this.installmentFormGroup.value.discount ? this.translate.instant('discount$') : this.translate.instant('interest$'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.price.transform(Number(discount ? discount : interest ? interest : 0).toFixed(2)) || 'N/A', border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.finalPrice'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
@@ -1272,7 +1272,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.monthlyPayment'), border: [false, false, false, false], color: '#858291' },
-                      { text: monthly_installments ? this.price.transform(Number(monthly_installments || 0 ).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true },
+                      { text: monthly_installments ? this.price.transform(Number(monthly_installments || 0).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true },
                       { text: '', border: [false, false, false, false] }
                     ],
                     [
@@ -1287,7 +1287,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.monthlyPaymentsAmount'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.installmentFormGroup.value.monthlyInstallment? this.installmentFormGroup.value.monthlyInstallment + '%' : 'N/A', border: [false, false, false, false], bold: true },
+                      { text: this.installmentFormGroup.value.monthlyInstallment ? this.installmentFormGroup.value.monthlyInstallment + '%' : 'N/A', border: [false, false, false, false], bold: true },
                       { text: monthly_installment_amount ? this.price.transform(Number(monthly_installment_amount).toFixed(2)) : '', border: [false, false, false, false], bold: true }
                     ],
                     [
@@ -1298,7 +1298,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                         ],
                         border: [false, false, false, true], color: '#858291'
                       },
-                      { text: this.installmentFormGroup.value.paymentupondelivery? this.installmentFormGroup.value.paymentupondelivery + '%' : '', border: [false, false, false, true], bold: true },
+                      { text: this.installmentFormGroup.value.paymentupondelivery ? this.installmentFormGroup.value.paymentupondelivery + '%' : '', border: [false, false, false, true], bold: true },
                       { text: payment_upon_delivery ? this.price.transform(Number(payment_upon_delivery).toFixed(2)) : 'N/A', border: [false, false, false, true], bold: true }
                     ],
                     [
@@ -1334,8 +1334,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.accountInNameOf'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.installmentFormGroup.value.agencyOrSeller && this.installmentFormGroup.value.paymentBankDetails.bank_name? 'Seller' : !this.installmentFormGroup.value.agencyOrSeller && 
-                         this.installmentFormGroup.value.paymentBankDetails.Legal_name, border: [false, false, false, false], bold: true },
+                      {
+                        text: this.installmentFormGroup.value.agencyOrSeller && this.installmentFormGroup.value.paymentBankDetails.bank_name ? 'Seller' : !this.installmentFormGroup.value.agencyOrSeller &&
+                          this.installmentFormGroup.value.paymentBankDetails.Legal_name, border: [false, false, false, false], bold: true
+                      },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.federalTaxPayer'), border: [false, false, false, false], color: '#858291' },
@@ -1395,7 +1397,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     //   pdfMake.createPdf(docDefinition).open();
     // }
   }
-  
+
   get getAddVariablesFormArray(): FormArray {
     return this.installmentFormGroup.get('addVariablesFormArray') as FormArray;
   }
@@ -1561,56 +1563,60 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         }
       }
     } else if (this.installmentFormGroup.get('agencyOrSeller').value) {
-      this.fedTaxPayer = (((this.bankDetails || {}).collection || {}).seller_legal_entity || {}).fed_tax_pay || '';
+      // this.fedTaxPayer = (((this.bankDetails || {}).collection || {}).seller_legal_entity || {}).fed_tax_pay || '';
+      (((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_entity || {}).legal_entity_banks || []).forEach((element, innerIndex) => {
+        element.name = 'Seller Bank | ' + element.bank_name;
+        this.paymentBankDetailsArray.push(element);
+      });
       // payment directly received by seller
-      if (((this.bankDetails || {}).collection || {}).seller_type != 2) {
-        // seller (as a person or developer) banks
-        for (let index = 0; index < (((this.bankDetails.collection || {}).buyer || {}).legal_rep_banks || []).length; index++) {
-          const element = this.bankDetails.collection.buyer.legal_rep_banks[index];
-          element.name = 'Seller Bank | ' + element.bank_name;
-          element.is_agency = 2;
-          element.bank_id = element.id;
-          element.legal_rep_bank_id = null;
-          element.Legal_name = (((this.bankDetails || {}).collection || {}).seller_legal_entity || {}).legal_name || '';
-          this.paymentBankDetailsArray.push(element);
-        }
+      // if (((this.bankDetails || {}).collection || {}).seller_type != 2) {
+      //   // seller (as a person or developer) banks
+      //   for (let index = 0; index < (((this.bankDetails.collection || {}).buyer || {}).legal_rep_banks || []).length; index++) {
+      //     const element = this.bankDetails.collection.buyer.legal_rep_banks[index];
+      //     element.name = 'Seller Bank | ' + element.bank_name;
+      //     element.is_agency = 2;
+      //     element.bank_id = element.id;
+      //     element.legal_rep_bank_id = null;
+      //     element.Legal_name = (((this.bankDetails || {}).collection || {}).seller_legal_entity || {}).legal_name || '';
+      //     this.paymentBankDetailsArray.push(element);
+      //   }
 
-        // agency legal representative banks
-        if (((this.bankDetails.collection || {}).buyer || {}).legal_representative) {
-          for (let index = 0; index < ((this.bankDetails.collection.buyer.legal_representative || {}).legal_rep_banks || []).length; index++) {
-            const element = this.bankDetails.collection.buyer.legal_representative.legal_rep_banks[index];
-            element.name = 'Seller Legal Rep Bank | ' + element.bank_name;
-            element.is_agency = 2;
-            element.bank_id = null;
-            element.legal_rep_bank_id = element.id;
-            this.paymentBankDetailsArray.push(element);
-          }
-        }
-      } else {
-        // seller (as a legal entity) banks
-        if ((((this.bankDetails || {}).collection || {}).seller_legal_entity || {}).legal_entity_banks) {
-          for (let index = 0; index < (this.bankDetails.collection.seller_legal_entity.legal_entity_banks || []).length; index++) {
-            const element = this.bankDetails.collection.seller_legal_entity.legal_entity_banks[index];
-            element.name = 'Seller Bank | ' + element.bank_name;
-            element.is_agency = 2;
-            element.bank_id = element.id;
-            element.legal_rep_bank_id = null;
-            this.paymentBankDetailsArray.push(element);
-          }
+      //   // agency legal representative banks
+      //   if (((this.bankDetails.collection || {}).buyer || {}).legal_representative) {
+      //     for (let index = 0; index < ((this.bankDetails.collection.buyer.legal_representative || {}).legal_rep_banks || []).length; index++) {
+      //       const element = this.bankDetails.collection.buyer.legal_representative.legal_rep_banks[index];
+      //       element.name = 'Seller Legal Rep Bank | ' + element.bank_name;
+      //       element.is_agency = 2;
+      //       element.bank_id = null;
+      //       element.legal_rep_bank_id = element.id;
+      //       this.paymentBankDetailsArray.push(element);
+      //     }
+      //   }
+      // } else {
+      //   // seller (as a legal entity) banks
+      //   if ((((this.bankDetails || {}).collection || {}).seller_legal_entity || {}).legal_entity_banks) {
+      //     for (let index = 0; index < (this.bankDetails.collection.seller_legal_entity.legal_entity_banks || []).length; index++) {
+      //       const element = this.bankDetails.collection.seller_legal_entity.legal_entity_banks[index];
+      //       element.name = 'Seller Bank | ' + element.bank_name;
+      //       element.is_agency = 2;
+      //       element.bank_id = element.id;
+      //       element.legal_rep_bank_id = null;
+      //       this.paymentBankDetailsArray.push(element);
+      //     }
 
-          // agency legal representative banks
-          if (((((this.bankDetails || {}).collection || {}).seller_legal_entity || {}).legal_reps || {}).legal_rep_banks) {
-            for (let index = 0; index < (this.bankDetails.collection.seller_legal_entity.legal_reps.legal_rep_banks || []).length; index++) {
-              const element = this.bankDetails.collection.seller_legal_entity.legal_reps.legal_rep_banks[index];
-              element.name = 'Seller Legal Rep Bank | ' + element.bank_name;
-              element.is_agency = 2;
-              element.bank_id = null;
-              element.legal_rep_bank_id = element.id;
-              this.paymentBankDetailsArray.push(element);
-            }
-          }
-        }
-      }
+      //     // agency legal representative banks
+      //     if (((((this.bankDetails || {}).collection || {}).seller_legal_entity || {}).legal_reps || {}).legal_rep_banks) {
+      //       for (let index = 0; index < (this.bankDetails.collection.seller_legal_entity.legal_reps.legal_rep_banks || []).length; index++) {
+      //         const element = this.bankDetails.collection.seller_legal_entity.legal_reps.legal_rep_banks[index];
+      //         element.name = 'Seller Legal Rep Bank | ' + element.bank_name;
+      //         element.is_agency = 2;
+      //         element.bank_id = null;
+      //         element.legal_rep_bank_id = element.id;
+      //         this.paymentBankDetailsArray.push(element);
+      //       }
+      //     }
+      //   }
+      // }
     }
     if (isFirstTimeClick) {
       this.openInstallmentModal.nativeElement.click();
