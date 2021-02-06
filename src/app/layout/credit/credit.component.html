@@ -1,0 +1,140 @@
+<div class="container-fluid ">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <p class="p16">{{'viewCredit.label' | translate}}</p>
+      </div>
+    </div>
+    <div class="col-md-2 offset-md-6">
+      <div class="form-group">
+        <button class="btn btn-calender" href="javascript://" style="font-size: 14px;" routerLink="/dashboard/credit/add-request/0">{{'viewCredit.addNewRequest' | translate}}</button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="offset-md-4"></div>
+    <div class="col-md-8 col-12">
+      <div class="cust-tabs-2">
+        <ul class="nav nav-tabs float-right">
+          <li class="nav-item">
+            <a (click)="changeFlag(1)" class="nav-link"
+              data-toggle="tab" href="#tw">{{'filters.time.thisWeek' | translate}}</a>
+          </li>
+          <li class="nav-item">
+            <a (click)="changeFlag(2)" class="nav-link"
+              data-toggle="tab" href="#tm">{{'filters.time.thisMonth' | translate}}</a>
+          </li>
+          <li class="nav-item">
+            <a (click)="changeFlag(3)" class="nav-link"
+              data-toggle="tab" href="#lm">{{'filters.time.lastMonth' | translate}}</a>
+          </li>
+          <li class="nav-item">
+            <a (click)="changeFlag(4)" class="nav-link"
+              data-toggle="tab" href="#lt">{{'filters.time.lifetime' | translate}}</a>
+          </li>
+          <li class="nav-item">
+            <a (click)="changeFlag(5)" class="nav-link"
+              data-toggle="tab" href="#cust">{{'filters.time.custom.label' | translate}}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="row">
+    <div class="col-12">
+      <div class="row">
+        <div class="offset-lg-7"></div>
+        <div class="col-lg-2 col-md-2 col-sm-5 col-5">
+          <div class="form-group marginB0">
+            <label>{{'filters.time.custom.from' | translate}}</label>
+            <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true" [(ngModel)]="parameter.min"
+              [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true"
+              yearRange="2000:2040"></p-calendar>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-5 col-5">
+          <div class="form-group marginB0">
+            <label>{{'filters.time.custom.to' | translate}}</label>
+            <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true" [(ngModel)]="parameter.max"
+              [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true"
+              [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+          </div>
+        </div>
+        <div class="col-lg-1 col-md-2 col-sm-2 col-6">
+          <div class="form-group btn-cont">
+            <label class="addMT3">&nbsp;</label>
+            <button class="btn btn-calender" href="javascript://" (click)="getListing()"
+              [disabled]="!parameter.min || !parameter.max">{{'filters.time.custom.applyBtn' | translate}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="row">
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group">
+        <label>{{'filters.location.country' | translate}}</label>
+        <select class="form-control" (change)="onCountryChange($event.target.value)">
+          <option value="0">{{'filters.location.allOption' | translate}}</option>
+          <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group">
+        <label>{{'filters.location.state' | translate}}</label>
+        <select class="form-control" (change)="onStateChange($event.target.value)">
+          <option value="0">{{'filters.location.allOption' | translate}}</option>
+          <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group">
+        <label>{{'filters.location.city' | translate}}</label>
+        <select class="form-control" (change)="onCityChange($event.target.value)">
+          <option value="0">{{'filters.location.allOption' | translate}}</option>
+          <option *ngFor="let item of location.cities" [value]="item.id">{{item.name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group">
+        <label>{{'filters.location.locality' | translate}}</label>
+        <select class="form-control" (change)="getLocalityBuildings($event.target.value)">
+          <option value="0">{{'filters.location.allOption' | translate}}</option>
+          <option *ngFor="let item of location.localities" [value]="item.id">{{item.name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- <div class="col-lg-2 col-md-2">
+      <div class="form-group marginB0">
+        <label>{{'filters.location.building' | translate}}</label>
+        <select class="form-control" (change)="setBuilding($event.target.value)">
+          <option value="0">{{'filters.location.allOption' | translate}}</option>
+          <option *ngFor="let building of parameter.buildings" value="{{building.id}}">{{building.name}}</option>
+        </select>
+      </div>
+    </div> -->
+
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group btn-cont">
+        <label style="display: block; margin-top: 3px;">&nbsp;</label>
+        <button type="button" (click)="getListing()"
+          class="btn btn-primary-new width100P P86">{{'filters.location.applyBtn' | translate}}</button>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group btn-cont">
+        <label style="display: block; margin-top: 3px;">&nbsp;</label>
+        <button type="button" (click)="resetFilters()"
+          class="btn btn-primary-new width100P P86">{{'filters.location.resetBtn' | translate}}</button>
+      </div>
+    </div>
+  </div>
+</div>

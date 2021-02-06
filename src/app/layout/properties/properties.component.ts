@@ -1220,11 +1220,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                       { text: this.price.transform(Number(this.property_array.min_price).toFixed(2)), border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: this.installmentFormGroup.value.discount ? this.translate.instant('discount%'): this.translate.instant('interest%'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.installmentFormGroup.value.discount ? this.translate.instant('generatePDF.discountP'): this.translate.instant('generatePDF.interestP'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
                       { text: discount? this.installmentFormGroup.value.discount + '%' : interest ? this.installmentFormGroup.value.interest + '%' : 'N/A', border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: this.installmentFormGroup.value.discount ? this.translate.instant('discount$'): this.translate.instant('interest$'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.installmentFormGroup.value.discount ? this.translate.instant('generatePDF.discountD'): this.translate.instant('generatePDF.interestD'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
                       { text: this.price.transform(Number(discount? discount : interest ? interest : 0).toFixed(2)) || 'N/A', border: [false, false, false, false], bold: true },
                     ],
                     [
@@ -1388,7 +1388,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       },
     };
 
-    pdfMake.createPdf(docDefinition).download();
+    pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.commercialOffer'));
     // }else if(action === 'print'){
     //   pdfMake.createPdf(docDefinition).print();
     // }else{
@@ -1561,17 +1561,17 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         }
       }
     } else if (this.installmentFormGroup.get('agencyOrSeller').value) {
-      this.fedTaxPayer = (((this.bankDetails || {}).collection || {}).seller_legal_entity || {}).fed_tax_pay || '';
+      this.fedTaxPayer = ((((this.bankDetails || {}).seller || {}).user || {}).legal_entity || {}).fed_tax_pay || '';
       // payment directly received by seller
-      if (((this.bankDetails || {}).collection || {}).seller_type != 2) {
+      if (((this.bankDetails || {}).seller || {}).user) {
         // seller (as a person or developer) banks
-        for (let index = 0; index < (((this.bankDetails.collection || {}).buyer || {}).legal_rep_banks || []).length; index++) {
+        for (let index = 0; index < (((((this.bankDetails || {}).seller || {}).user || {}).legal_entity || {}).legal_rep_banks || []).length; index++) {
           const element = this.bankDetails.collection.buyer.legal_rep_banks[index];
           element.name = 'Seller Bank | ' + element.bank_name;
           element.is_agency = 2;
           element.bank_id = element.id;
           element.legal_rep_bank_id = null;
-          element.Legal_name = (((this.bankDetails || {}).collection || {}).seller_legal_entity || {}).legal_name || '';
+          element.Legal_name = ((((this.bankDetails || {}).seller || {}).user || {}).legal_entity || {}).legal_name || '';
           this.paymentBankDetailsArray.push(element);
         }
 

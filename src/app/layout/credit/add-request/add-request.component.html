@@ -1,0 +1,72 @@
+<div class="white-bg padding15">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="title-group">
+        <h5><a routerLink="/dashboard/credit/view-credit" href="javascript://"><i
+              class="fa fa-angle-double-left"></i> </a> &nbsp;&nbsp;{{'addRequest.addLabel' | translate}}</h5>
+        <!-- <h5 *ngIf="editMode"> <a routerLink="/dashboard/collections/view-collections" href="javascript://"><i
+              class="fa fa-angle-double-left"></i> </a> &nbsp;&nbsp;{{'addRequest.editLabel' | translate}}: {{model?.name}}</h5> -->
+      </div>
+    </div>
+    <div class="col-md-6 btn-cont">
+      <!-- <app-add-lead *ngIf="this.parameter?.property_id && editMode"  [property_id]="parameter.property_id"></app-add-lead> -->
+    </div>
+  </div>
+</div>
+
+<div class="spacer10"></div>
+<div class="white-bg add-property padding20">
+  <div class="steps">
+  </div>
+</div>
+<div class="spacer10"></div>
+
+<!-- Tag a building start -->
+<div class="white-bg">
+  <div class="page-title">
+    <h3>{{'addRequest.sellectUser' | translate}}</h3>
+  </div>
+</div>
+
+<div class="padding40">
+  <h5 class="p16-two">{{'addRequest.SearchAUserInOurDatabase' | translate}}</h5>
+  <div class="searh d-flex">
+    <input autocomplete="off" class="border-right-0" autocomplete="off" type="text" #buildingname
+      (keyup.enter)="searchUser(buildingname.value)" name="buildingName" [(ngModel)]="userName">
+    <button type="button" class="btn" type="button" (click)="searchUser(buildingname.value)">{{'addCollection.search' | translate}}</button>
+  </div>
+  <div class="spacer50"></div>
+  <div *ngIf="buildingLoading">
+    <img src="assets/img/loading_content.gif" />
+  </div>
+  <div class="white-bg">
+      
+      <!-- buildings listing -->
+      <div class="row">
+        <div class="col-lg-6 col-md-12 col-sm-12 col-12" 
+        *ngFor="let item of searchedUser| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.buildingCount }; let i = index">
+          <app-user-block (setUser)="setUserId($event)" (UserIndex)="getUserIndex($event)" [data]="item" [index]="i"></app-user-block>
+        </div>
+      </div>
+      <!-- <div *ngIf="showError  &&  (addFormStep1.controls.building_id.invalid)">
+        <div *ngIf="addFormStep1.controls.building_id.errors?.required " class="show-error">
+            {{'addCollectionValidations.thisIsRequired' | translate}}
+        </div>
+      </div> -->
+
+      <div class="row" *ngIf="searchedBuildings?.length>0">
+        <div class="col-lg-6 col-md-12 col-sm-12 col-12"></div>
+        <div class="col-lg-6 col-md-12 col-sm-12 col-12 btn-cont text-right marginT15">
+          <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="btn-cont text-right">
+            <button type="submit"  class="btn btn-primary">{{'addCollection.next' | translate}}</button>
+          </div>
+        </div>
+      </div>
+  </div> 
+</div>

@@ -1655,7 +1655,8 @@
     "property": "Departamento",
     "project": "Proyecto",
     "defaultSettings": "Configuración por defecto",
-    "documentListing": "Listado de documentos"
+    "documentListing": "Listado de documentos",
+    "manageCredit" : "Administrar crédito"
   },
   "commonBlock": {
     "propertiesAvailable": "Departamentos disponibles",
@@ -2204,10 +2205,10 @@
     "interest":"Interés",
     "variablePercentage":"Porcentaje variable",
     "variableName":"Nombre de la variable",
-    "discount%" : "Descuento %:",
-    "interest%" : "Interés %:",
-    "discount$" : "Descuento $:",
-    "interest$" : "Interés $:",
+    "discountP" : "Descuento %:",
+    "interestP" : "Interés %:",
+    "discountD" : "Descuento $:",
+    "interestD" : "Interés $:",
     "finalPrice" : "Precio final:",
     "titleMargot" : "En",
     "title2Margot" : "trabajamos por tu inversión.",
@@ -2239,5 +2240,14 @@
     "selectAccount":"Seleccionar cuenta",
     "agent": "Agente de ventas",
     "accountInNameOf": "Cuenta a nombre de:"
+  },
+  "viewCredit":{
+    "label": "Administrar crédito",
+    "addNewRequest": "Agregar nueva solicitud"
+  },
+  "addRequest":{
+    "addLabel": "Agregar nueva solicitud",
+    "sellectUser": "Selecciona un usuario",
+    "SearchAUserInOurDatabase": "Selecciona un usuario en nuestra base de datos"
   }
 }

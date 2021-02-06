@@ -94,6 +94,10 @@ const routes: Routes = [
       {
         path: 'collection-report',
         loadChildren: './collection-report/collection-report.module#CollectionReportModule'
+      },
+      {
+        path: 'credit',
+        loadChildren: './credit/credit.module#CreditModule'
       }
     ]
   }

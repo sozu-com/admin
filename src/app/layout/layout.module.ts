@@ -34,7 +34,6 @@ import { AclUserGuard } from '../guards/acl-user.guard';
 import { MessagingService } from '../fire-base/messaging.service';
 import { SharedModule } from '../modules/shared.module';
 import { Img360viewerComponent } from './img360viewer/img360viewer.component';
-
 @NgModule({
   imports: [
     CommonModule,
