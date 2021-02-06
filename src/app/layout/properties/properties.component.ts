@@ -361,7 +361,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     delete input.buyer_id;
     if (this.selctedAmenities) {
       const d = this.selctedAmenities.map(o => o.id);
-      console.log(d, "filter")
+     // console.log(d, "filter")
       input.amenities_id = d;
     }
 
@@ -488,7 +488,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
           //   item.videos = [];
           //   return item;
           // });
-          console.log(this.amenities, "Amenities")
+         // console.log(this.amenities, "Amenities")
         }
       );
   }
@@ -1485,7 +1485,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     // totalPercentage += Number(this.installmentFormGroup.get('interest').value);
     totalPercentage += parseFloat(this.installmentFormGroup.get('monthlyInstallment').value || 0.00);
     totalPercentage += parseFloat(this.installmentFormGroup.get('paymentupondelivery').value || 0.00);
-    console.log(totalPercentage)
+    //console.log(totalPercentage)
     if (totalPercentage == 100.00) {
       this.generatePDF();
       this.closeModalInstallment();

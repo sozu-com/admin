@@ -43,7 +43,7 @@
             <div class="col-lg-2 col-md-2 col-sm-5 col-5">
                <div class="form-group marginB0">
                   <label>{{'filters.time.custom.from' | translate}}</label>
-                  <p-calendar [locale]="locale" showIcon="true" [(ngModel)]="parameter.min" [maxDate]="today"
+                  <p-calendar [locale]="locale" showIcon="true" [(ngModel)]="parameter.min" [maxDate]="today" name="min"
                      showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040">
                   </p-calendar>
                </div>
@@ -51,7 +51,7 @@
             <div class="col-lg-2 col-md-2 col-sm-5 col-5">
                <div class="form-group marginB0">
                   <label>{{'filters.time.custom.to' | translate}}</label>
-                  <p-calendar [locale]="locale" showIcon="true" [(ngModel)]="parameter.max" [minDate]="parameter.min"
+                  <p-calendar [locale]="locale" showIcon="true" [(ngModel)]="parameter.max" [minDate]="parameter.min" name="min"
                      [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true"
                      yearRange="2000:2040"></p-calendar>
                </div>
@@ -288,7 +288,7 @@
                            <div class="table-search">
                               <label>{{'table.th.nameOfBuilding' | translate}}</label>
                               <div class="searh-3">
-                                 <input class="width100px" type="text" [(ngModel)]="parameter.keyword"
+                                 <input class="width100px" type="text" [(ngModel)]="parameter.keyword" name="keyword"
                                     (keyup.enter)="getListing()">
                                  <button *ngIf="parameter.keyword" (click)="getListing()"><i
                                        class="fa fa-search"></i></button>
@@ -299,7 +299,7 @@
                            <div class="table-search">
                               <label>{{'table.th.nameOfTower' | translate}}</label>
                               <div class="searh-3">
-                                 <input class="width100px" type="text" [(ngModel)]="parameter.tower_name"
+                                 <input class="width100px" type="text" [(ngModel)]="parameter.tower_name" name="tower_name"
                                     (keyup.enter)="getListing()">
                                  <button *ngIf="parameter.tower_name" (click)="getListing()"><i
                                        class="fa fa-search"></i></button>
@@ -309,7 +309,7 @@
                         <th style="width:10%; text-align:left;">
                            <div class="table-search">
                               <label>{{'table.th.floor' | translate}}</label>
-                              <select [(ngModel)]="parameter.floor_num" (change)="getListing()">
+                              <select [(ngModel)]="parameter.floor_num" (change)="getListing()" name="floor_num">
                                  <option value="">{{'table.th.allFloors' | translate}}</option>
                                  <option *ngFor="let c of floors" value="{{c.id}}">
                                     {{c.name}}
@@ -325,7 +325,7 @@
                                        alt="img"></a>
                               </label>
                               <div class="searh-3">
-                                 <input class="width120px" type="text" [(ngModel)]="parameter.name"
+                                 <input class="width120px" type="text" [(ngModel)]="parameter.name" name="name"
                                     (keyup.enter)="getListing()">
                                  <button *ngIf="parameter.name" (click)="getListing()"><i
                                        class="fa fa-search"></i></button>
@@ -336,7 +336,7 @@
                            <div class="table-search">
                               <label>{{'table.th.model' | translate}}</label>
                               <div class="searh-3">
-                                 <input class="width120px" type="text" [(ngModel)]="parameter.configuration_name"
+                                 <input class="width120px" type="text" [(ngModel)]="parameter.configuration_name" name="configuration_name"
                                     (keyup.enter)="getListing()">
                                  <button *ngIf="parameter.configuration_name" (click)="getListing()"><i
                                        class="fa fa-search"></i></button>
@@ -346,7 +346,7 @@
                         <th style="width:10%; text-align:left;">
                            <div class="table-search">
                               <label>{{'table.th.configuration' | translate}}</label>
-                              <select [(ngModel)]="parameter.configuration_id" (change)="getListing()">
+                              <select [(ngModel)]="parameter.configuration_id" (change)="getListing()" name="configuration_id">
                                  <option value="0">{{'table.th.allConfiguration' | translate}}</option>
                                  <option *ngFor="let c of configurations" value="{{c.id}}">
                                     <!-- {{c.name}} -->
@@ -377,7 +377,7 @@
                         <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
                            <div class="table-search">
                               <label>{{'table.th.commercializedBySOZU' | translate}}</label>
-                              <select class="width100px" [(ngModel)]="parameter.is_commercialized" (change)="getListing()">
+                              <select class="width100px" [(ngModel)]="parameter.is_commercialized" (change)="getListing()" name="is_commercialized">
                                  <option value="">{{'table.th.all' | translate}}</option>
                                  <option value="1">{{'table.th.yes' | translate}}</option>
                                  <option value="0">{{'table.th.no' | translate}}</option>
@@ -426,7 +426,7 @@
                            <div class="table-search">
                               <label>{{'table.th.changeBuyer' | translate}}</label>
                               <div class="searh-3">
-                                 <input class="width100px" type="text" [(ngModel)]="parameter.buyer_name"
+                                 <input class="width100px" type="text" [(ngModel)]="parameter.buyer_name" name="buyer_name"
                                     (keyup.enter)="getListing()">
                                  <button *ngIf="parameter.seller_name" (click)="getListing()"><i
                                        class="fa fa-search"></i></button>
@@ -437,7 +437,7 @@
                            <div class="table-search">
                               <label>{{'table.th.changeSeller' | translate}}</label>
                               <div class="searh-3">
-                                 <input class="width100px" type="text" [(ngModel)]="parameter.seller_name"
+                                 <input class="width100px" type="text" [(ngModel)]="parameter.seller_name" name="seller_name"
                                     (keyup.enter)="getListing()">
                                  <button *ngIf="parameter.seller_name" (click)="getListing()"><i
                                        class="fa fa-search"></i></button>
@@ -456,7 +456,7 @@
                         <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
                            <div class="table-search">
                               <label>{{'table.th.changeAvailability' | translate}}</label>
-                              <select [(ngModel)]="parameter.availability_filter" (change)="getListing()">
+                              <select [(ngModel)]="parameter.availability_filter" (change)="getListing()" name="availability_filter">
                                  <option value="0">{{'table.th.all' | translate}}</option>
                                  <option value="1">{{'table.th.buy' | translate}}</option>
                                  <option value="2">{{'table.th.rent' | translate}}</option>
@@ -467,7 +467,7 @@
                         <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
                            <div class="table-search">
                               <label>{{'table.th.isPropertySold' | translate}}</label>
-                              <select class="width100px" [(ngModel)]="parameter.sold_filter" (change)="getListing()">
+                              <select class="width100px" [(ngModel)]="parameter.sold_filter" (change)="getListing()" name="sold_filter">
                                  <option value="0">{{'table.th.all' | translate}}</option>
                                  <option value="1">{{'table.th.yes' | translate}}</option>
                                  <option value="2">{{'table.th.no' | translate}}</option>
@@ -482,7 +482,7 @@
                         <th style="width:10%;" *ngIf="parameter.flag!=5">
                            <div class="table-search">
                               <label>{{'table.th.actions.label' | translate}}</label>
-                              <select [(ngModel)]="parameter.action_filter" (change)="getListing()">
+                              <select [(ngModel)]="parameter.action_filter" (change)="getListing()" name="action_filter">
                                  <option value="0">{{'table.th.actions.all' | translate}}</option>
                                  <option value="3">{{'table.th.actions.featured' | translate}}</option>
                                  <option value="1">{{'table.th.actions.blocked' | translate}}</option>
@@ -1148,7 +1148,7 @@ margin-left: -38%;">
             <div class="row">
                <div class="form-group col-md-12">
                   <div class="clearfix"></div>
-                  <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
+                  <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selctedAmenities"
                      [data]="amenities" [(ngModel)]="selctedAmenities" [settings]="multiDropdownSettings"
                      (onDeSelect)="unsetProject($event)" (onSelect)="onItemSelect('selctedAmenities', $event)"
                      (onSelectAll)="onSelectAll($event)">
