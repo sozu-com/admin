@@ -112,4 +112,19 @@ export class CreditComponent implements OnInit {
     this.parameter.locality_id = id;
   }
 
+  getLocalityBuildings(id){
+
+  }
+  changeFlag(data){
+
+  }
+
+  getListing(){
+
+  }
+
+  resetFilters(){
+    
+  }
+
 }
