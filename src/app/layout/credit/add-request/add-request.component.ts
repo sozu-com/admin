@@ -37,7 +37,7 @@ export class AddRequestComponent implements OnInit {
 
     this.showBuilding = false;
     this.buildingLoading = true;
-
+    this.searchedUser = [];
     this.us.postDataApi('getFilterUser', {name:keyword })
       .subscribe(
         success => {

@@ -1544,7 +1544,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
           element.is_agency = 1;
           element.bank_id = element.id;
           element.legal_rep_bank_id = null;
-          element.Legal_name = (((this.bankDetails || {}).building || {}).agency || {}).razon_social || '';
+          element.legal_name = (((this.bankDetails || {}).building || {}).agency || {}).razon_social || '';
           this.paymentBankDetailsArray.push(element);
         }
 
