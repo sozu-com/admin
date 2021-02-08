@@ -1654,7 +1654,8 @@
     "property": "Property",
     "project": "Project",
     "defaultSettings": "Default Settings",
-    "documentListing": "Document Listing"
+    "documentListing": "Document Listing",
+    "manageCredit" : "Manage Credit"
   },
   "commonBlock": {
     "propertiesAvailable": "Properties available",
@@ -2203,10 +2204,10 @@
     "carpetArea": "Carpet area:",
     "PricePerM2": "Price per m2:",
     "listPrice": "List price:",
-    "discount%": "Discount %:",
-    "interest%": "Interest %:",
-    "discount$": "Discount $:",
-    "interest$": "Interest $:",
+    "discountP": "Discount %:",
+    "interestP": "Interest %:",
+    "discountD": "Discount $:",
+    "interestD": "Interest $:",
     "interest": "Interest",
     "finalPrice": "Final price:",
     "titleMargot": "In",
@@ -2240,5 +2241,14 @@
     "selectAccount": "Select account",
     "agent": "Sales agent",
     "accountInNameOf": "Account in name of:"
+  },
+  "viewCredit":{
+    "label": "Manage Credit",
+    "addNewRequest": "ADD NEW REQUEST"
+  },
+  "addRequest":{
+    "addLabel":"Add New Request",
+    "sellectUser": "Sellect a user",
+    "SearchAUserInOurDatabase": "Search a user in our database"
   }
 }
