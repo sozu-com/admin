@@ -78,17 +78,23 @@
                   </div>
                   <div class="white-bg padding40">
                     <div class="row">
-                      <div class="col-md-6">
+                      <div class="col-md-4">
                         <div class="title-group">
                           <h5>{{'addForm.generalData' | translate}}</h5>
                         </div>
                       </div>
-                      <div class="col-md-6">
-                        <div class="btn-cont text-right">
+                      <div class="col-md-4">
+                        <div class="btn-cont">
                           <!-- <button *ngIf="model?.id" title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['User Management']?.can_update==0"
                            (click)="uploadDoc()" class="action-icon">{{'addForm.documentation' | translate}}</button> -->
                           <button *ngIf="model?.id" (click)="uploadDoc(model)"
                             class="btn btn-primary">{{'addForm.documentation' | translate}}</button>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="btn-cont text-right">
+                          <button  (click)="goBack()"
+                            class="btn btn-primary">{{'quickVisualization.back' | translate}}</button>
                         </div>
                       </div>
                     </div>

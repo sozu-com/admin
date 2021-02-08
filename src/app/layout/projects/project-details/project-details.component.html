@@ -14,19 +14,14 @@
              <p class="p18">{{project.address}}</p>
           </div>
           {{fixed}}
-          <!-- <div class="col-md-6 col-12">
+          <div class="col-md-6 col-12">
              <div class="header-details-right text-right">
-                <p class="p18">
-                  <span>{{ts.lang.Base_Price}}:</span>
-                  ${{base_price_min|number}}
-                   <b *ngIf="base_price_max">-</b>
-                   <b *ngIf="base_price_max">${{base_price_max|number}}</b>
-                </p>
-                <p class="p16">{{ts.lang.Price_on_Request}}</p>
-                <div class="btn-cont float-right">
-                </div>
+                  <div class="btn-cont text-right">
+                    <button  (click)="goBack()"
+                      class="btn btn-primary">{{'quickVisualization.back' | translate}}</button>
+                  </div>
              </div>
-          </div> -->
+          </div>
        </div>
     </div>
     <div class="details-photos">

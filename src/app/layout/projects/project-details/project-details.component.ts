@@ -1,7 +1,7 @@
 
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { IProperty } from 'src/app/common/property';
 import { Property, Building } from 'src/app/models/global.model';
@@ -39,7 +39,7 @@ export class ProjectDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     public constant: Constant,
     private spinner: NgxSpinnerService,
-    private translate: TranslateService
+    private translate: TranslateService,private router: Router, 
   ) { }
 
   ngOnInit() {
@@ -120,5 +120,8 @@ export class ProjectDetailsComponent implements OnInit {
         });
       }
     });
+  }
+  goBack(){ 
+    this.router.navigate(['/dashboard/projects/view-projects', {for: 'back'}])
   }
 }
