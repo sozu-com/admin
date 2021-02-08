@@ -1,10 +1,16 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-12">
+    <div class="col-11">
       <div class="title-group">
         <h5>{{model.id ? ('addLegalEntity.editEntity' | translate) : ('addLegalEntity.addEntity' | translate)}}</h5>
         <div class="spacer30"></div>
       </div>
+    </div>
+    <div class="col-lg-1 col-md-1 col-6 page-title title-div">
+      <div class="btn-cont text-right">
+        <a href="javascript://"  (click)="goBack()"
+          class="btn-sm btn-primary-new" href="javascript://">{{'quickVisualization.back' | translate}}</a>
+        </div>
     </div>
   </div>
 
@@ -32,8 +38,6 @@
                   &nbsp;&nbsp;
                 <button *ngIf="model?.id" (click)="uploadDoc(model)" class="btn btn-primary">
                   {{'addForm.documentation' | translate}}</button> &nbsp;&nbsp;
-                  <button  (click)="goBack()"
-                    class="btn btn-primary">{{'quickVisualization.back' | translate}}</button>
               </div>
             </div>
             <div class="col-12">
