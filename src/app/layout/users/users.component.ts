@@ -28,7 +28,7 @@ export class UsersComponent implements OnInit {
   image: any;
   public parameter: IProperty = {};
   initialCountry: any;
-
+  local_storage_parameter: any;  is_back: boolean;
   constructor(public constant: Constant, public model: Users, public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
@@ -40,6 +40,8 @@ export class UsersComponent implements OnInit {
     this.parameter.page = this.constant.p;
     this.parameter.type = 1;
     this.initialCountry = {initialCountry: this.constant.country_code};
+    this.local_storage_parameter = JSON.parse(localStorage.getItem('parametersForUSer'));
+    this.parameter = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.parameter;
     this.getBuyers(this.parameter.type, this.parameter.page, '', '', '','','');
   }
 
@@ -105,6 +107,7 @@ export class UsersComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, this.parameter)
       .subscribe(
         success => {
+          localStorage.setItem('parametersForUSer', JSON.stringify(this.parameter));
           this.spinner.hide();
           this.parameter.items = success.data;
           this.parameter.total = success.total;

@@ -6,6 +6,10 @@
             <span *ngIf="property?.for_rent">{{'propertyDetail.rent' | translate}}</span>
             <span *ngIf="property?.for_rent && property?.for_sale">/</span>
             <span *ngIf="property?.for_sale">{{'propertyDetail.sale' | translate}}</span>
+            <div class="btn-cont">
+              <button href="javascript://" (click)="goBack()"
+                class="btn btn-primary">{{'quickVisualization.back' | translate}}</button>
+            </div>
         </div>
         <div class="fig-block">
             <!-- <img class="img-fluid top-main-img" [src]="property?.image" onerror='this.src="assets/img/loading_image_1.gif"'> -->

@@ -56,7 +56,7 @@ export class DocumentsUploadComponent implements OnInit {
     private cs: CommonService,
     private admin: AdminService,
     private route: ActivatedRoute,
-    private spinner: NgxSpinnerService,
+    private spinner: NgxSpinnerService, private router: Router,
     private translate: TranslateService,  private toastr: ToastrService,
   ) { }
 
@@ -188,5 +188,7 @@ export class DocumentsUploadComponent implements OnInit {
     this.folderId = folder.id;
     this.folderModalOpen.nativeElement.click();
   }
-
+  goBack(userdata){ 
+    this.router.navigate(['/dashboard/users/edit-user', userdata.id])
+  }
 }

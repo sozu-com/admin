@@ -154,6 +154,9 @@ export class EditUserComponent implements OnInit {
     console.log(userdata, "user id")
     this.router.navigate(['/dashboard/users/documents-upload', userdata.id]);
   }
+  goBack(){ 
+    this.router.navigate(['/dashboard/users', {for: 'back'}])
+  }
   add(formData: NgForm) {
     const modelSave: Users = JSON.parse(JSON.stringify(this.model));
     if (modelSave.legal_representative.phone) {

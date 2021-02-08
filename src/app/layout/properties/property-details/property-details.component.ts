@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute} from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
@@ -18,7 +18,7 @@ export class PropertyDetailsComponent implements OnInit {
   constructor(public admin: AdminService, private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
     public constant: Constant,
-    private propertyService: PropertyService) { }
+    private propertyService: PropertyService,private router: Router,) { }
 
   ngOnInit() {
     this.property = this.propertyService.property;
@@ -29,7 +29,9 @@ export class PropertyDetailsComponent implements OnInit {
     //   this.data = res;
     // });
   }
-
+  goBack(){ 
+    this.router.navigate(['/dashboard/properties/view-properties', {for: 'back'}])
+  }
   getPropertyDetails(property_id: string) {
     // this.spinner.show();
     this.admin.postDataApi('getPropertyById', {property_id: property_id})
