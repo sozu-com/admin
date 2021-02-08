@@ -2067,7 +2067,7 @@
                       <p class="p16 marginB0">{{'addCollection.addDocxNameAndChooseFile' | translate}}</p>
                     </div>
                     <div class="col-3 text-right">
-                      <a class="add" href="javascript://" (click)="addDocs(i, p.id)">
+                      <a class="add" href="javascript://" (click)="addDocs(i, folder.id)">
                         <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
                         {{'commonBlock.add' | translate}}
                       </a>
@@ -2097,7 +2097,7 @@
                     <div class="circle">
                       <span></span>
                     </div>
-                    <a class="edit" href="javascript://" (click)="editDocsPopup(item, i, s)">{{'addCollection.edit' |
+                    <a class="edit" href="javascript://" (click)="editDocsPopup(item, i, s)" *ngIf="payment_folder_id != folder.id">{{'addCollection.edit' |
                       translate}}</a>
 
                     <a class="delete" href="javascript://" (click)="deleteDocsPopup(item, i, s)"

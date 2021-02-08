@@ -164,10 +164,8 @@ textarea{
   text-align: center;
 }
 .delete {
-  background-color: #00B96F;
-  color: white;
+  color: rgba(0,0,0,0.5);
   width: 50px;
-  font-size: 12px;
-  border-color: #00B96F;
+  font-size: 11px;
   text-align: center;
 }
