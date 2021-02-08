@@ -826,6 +826,7 @@
       "unapprove": "Unapprove",
       "generatePDF": "Generate PDF",
       "commercializedProperty": "Commercialized Property",
+      "markCommercialized":"Mark commercialized",
       "delete": "Delete",
       "remove": "Remove",
       "approved": "Approved",
