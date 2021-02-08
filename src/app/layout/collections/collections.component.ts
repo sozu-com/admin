@@ -1308,7 +1308,7 @@ export class CollectionsComponent implements OnInit {
       this.toastr.error(this.translate.instant('message.error.pleaseSelectPaymentDate'), this.translate.instant('swal.error'));
       return false;
     }
-    if (!this.docFile) {
+    if (!this.docFile && this.payment_method_id != "1") {
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseChooseReceipt'), this.translate.instant('swal.error'));
       return false;
@@ -1486,13 +1486,13 @@ export class CollectionsComponent implements OnInit {
       // this.toastr.error(this.translate.instant('message.error.cashLimitReached'), this.translate.instant('swal.error'));
       // return false;
     }
-    //const url = this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'applyCommissionPayment';
-    if (this.typeOfPayment) {
-      this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'apply-popup';
-    } else {
-      this.typeOfPayment === 'applyCommissionPayment' ? 'applyCollectionPayment1' : 'applyCommissionPayment';
-    }
-    const url = this.typeOfPayment
+    const url = this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'applyCommissionPayment';
+    // if (this.typeOfPayment) {
+    //   this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'apply-popup';
+    // } else {
+    //   this.typeOfPayment === 'applyCommissionPayment' ? 'applyCollectionPayment1' : 'applyCommissionPayment';
+    // }
+    // const url = this.typeOfPayment
 
     if (callApi) {
       this.isApplyBtnClicked = true;
@@ -1717,13 +1717,13 @@ export class CollectionsComponent implements OnInit {
       // this.toastr.error(this.translate.instant('message.error.cashLimitReached'), this.translate.instant('swal.error'));
       // return false;
     }
-    // const url = this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'applyCommissionPayment';
-    if (this.typeOfPayment) {
-      this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'apply-popup';
-    } else {
-      this.typeOfPayment === 'applyCommissionPayment' ? 'applyCollectionPayment1' : 'applyCommissionPayment';
-    }
-    const url = this.typeOfPayment
+    const url = this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'applyCommissionPayment';
+    // if (this.typeOfPayment) {
+    //   this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'apply-popup';
+    // } else {
+    //   this.typeOfPayment === 'applyCommissionPayment' ? 'applyCollectionPayment1' : 'applyCommissionPayment';
+    // }
+    // const url = this.typeOfPayment
     if (callApi) {
       this.isApplyBtnClicked = true;
       this.admin.postDataApi(url, input).subscribe(r => {
@@ -1763,13 +1763,13 @@ export class CollectionsComponent implements OnInit {
 
   callToPaymentApi(input) {
 
-    //const url = this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'applyCommissionPayment';
-    if (this.typeOfPayment) {
-      this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'apply-popup';
-    } else {
-      this.typeOfPayment === 'applyCommissionPayment' ? 'applyCollectionPayment1' : 'applyCommissionPayment';
-    }
-    const url = this.typeOfPayment
+    const url = this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'applyCommissionPayment';
+    // if (this.typeOfPayment) {
+    //   this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'apply-popup';
+    // } else {
+    //   this.typeOfPayment === 'applyCommissionPayment' ? 'applyCollectionPayment1' : 'applyCommissionPayment';
+    // }
+    // const url = this.typeOfPayment
 
     this.isApplyBtnClicked = true;
     this.admin.postDataApi(url, input).subscribe(r => {
