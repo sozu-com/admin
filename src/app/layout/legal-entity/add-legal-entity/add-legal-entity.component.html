@@ -31,7 +31,9 @@
                   class="btn btn-primary">{{'addForm.updateBtn' | translate}}</button>
                   &nbsp;&nbsp;
                 <button *ngIf="model?.id" (click)="uploadDoc(model)" class="btn btn-primary">
-                  {{'addForm.documentation' | translate}}</button>
+                  {{'addForm.documentation' | translate}}</button> &nbsp;&nbsp;
+                  <button  (click)="goBack()"
+                    class="btn btn-primary">{{'quickVisualization.back' | translate}}</button>
               </div>
             </div>
             <div class="col-12">

@@ -455,7 +455,9 @@ export class AddLegalEntityComponent implements OnInit {
     this.model[paramLng] = $event.coords.lng;
     this.getGeoLocation(addParam, this.model[paramLat], this.model[paramLng]);
   }
-
+  goBack(){ 
+    this.router.navigate(['/dashboard/legal-entities/view-all', {for: 'back'}])
+  }
 
   getGeoLocation(addParam: string, lat: number, lng: number) {
     if (navigator.geolocation) {

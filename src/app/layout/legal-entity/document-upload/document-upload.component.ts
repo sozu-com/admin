@@ -47,7 +47,7 @@ export class DocumentUploadComponent implements OnInit {
     private toastr: ToastrService,
     private admin: AdminService,
     private spinner: NgxSpinnerService,
-    private translate: TranslateService
+    private translate: TranslateService,private router: Router,
   ) { }
 
   ngOnInit() {
@@ -158,5 +158,7 @@ export class DocumentUploadComponent implements OnInit {
     this.folderId = folder.id;
     this.folderModalOpen.nativeElement.click();
   }
-
+  goBack(userdata){ 
+    this.router.navigate(['/dashboard/legal-entities/add-legal-entity', userdata.id])
+  }
 }
