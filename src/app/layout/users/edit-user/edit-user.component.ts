@@ -155,7 +155,7 @@ export class EditUserComponent implements OnInit {
     this.router.navigate(['/dashboard/users/documents-upload', userdata.id]);
   }
   goBack(){ 
-    this.router.navigate(['/dashboard/users', {for: 'back'}])
+    this.router.navigate(['/dashboard/users'])
   }
   add(formData: NgForm) {
     const modelSave: Users = JSON.parse(JSON.stringify(this.model));

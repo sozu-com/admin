@@ -961,7 +961,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   editPricePopup(item: any, index: number) {
 
     if (item.collection && item.collection.is_cancelled != 1 && this.admin.permissions && this.admin.permissions.can_collection_agent != 1) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.success.cannotDeleteProperty'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.success.cannotEditProperty'), 'error');
       return;
     }
 
