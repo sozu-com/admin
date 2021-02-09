@@ -16,6 +16,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ToastrModule } from 'ngx-toastr';
 import { UserBlockComponent } from '../common-blocks/user-block/user-block.component';
 import { SharedModule } from 'src/app/modules/shared.module';
+import { CreditAddEditComponent } from './credit-add-edit/credit-add-edit.component';
 
 const routes: Routes = [
   {
@@ -56,7 +57,8 @@ const routes: Routes = [
   declarations: [
     AddRequestComponent,
     CreditComponent,
-    UserBlockComponent
+    UserBlockComponent,
+    CreditAddEditComponent
   ]
 })
 export class CreditModule { }

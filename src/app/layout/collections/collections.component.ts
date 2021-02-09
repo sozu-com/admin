@@ -18,6 +18,12 @@ import { ExcelDownload } from 'src/app/common/excelDownload';
 import { Document } from 'src/app/models/document.model';
 import { FormArray } from '@angular/forms';
 import { AbstractControl } from '@angular/forms';
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+import { DatePipe } from '@angular/common';
+import { PricePipe } from 'src/app/pipes/price.pipe';
+import { HttpClient } from '@angular/common/http';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 declare let swal: any;
 declare var $: any;
 
@@ -25,7 +31,7 @@ declare var $: any;
   selector: 'app-collections',
   templateUrl: './collections.component.html',
   styleUrls: ['./collections.component.css'],
-  providers: [Notes, Document]
+  providers: [Notes, Document, DatePipe, PricePipe]
 })
 
 export class CollectionsComponent implements OnInit {
@@ -123,6 +129,9 @@ export class CollectionsComponent implements OnInit {
   payment_folder_id: number;
   sendEmailForm: FormGroup;
   dateTime: any;
+  logoImageBase64: any;
+  projectLogoImageBase64: any;
+  base64: any;
   @ViewChild('viewDesModal') viewDesModal: ElementRef;
   @ViewChild('viewDesModalClose') viewDesModalClose: ElementRef;
   @ViewChild('applyPaymentChoiceId') applyPaymentChoiceId: ElementRef;
@@ -170,6 +179,8 @@ export class CollectionsComponent implements OnInit {
     { name: 'Settled', value: 5 },
     { name: 'Inconsistency', value: 6 },
     { name: 'Only Commission for sale', value: 7 }];
+  collection_data: any;
+  collection_payments: any;
 
   constructor(
     public constant: Constant,
@@ -184,7 +195,10 @@ export class CollectionsComponent implements OnInit {
     private cs: CommonService,
     private fb: FormBuilder,
     private toastr: ToastrService,
-    public modelForDoc: Document
+    public modelForDoc: Document,
+    private datePipe: DatePipe,
+    private http: HttpClient,
+    private price: PricePipe
   ) {
     // this.userForm = this.fb.group({
     //   email: this.fb.array([this.fb.control(null)])
@@ -221,6 +235,17 @@ export class CollectionsComponent implements OnInit {
       }
     });
     this.getListing();
+    this.http.get('../../../assets/img/sozu_black.png', { responseType: 'blob' })
+    .subscribe(res => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        let base64data = reader.result;
+        this.logoImageBase64 = base64data;
+      }
+
+      reader.readAsDataURL(res);
+    });
+
   }
 
   initCalendarLocale() {
@@ -2617,6 +2642,416 @@ export class CollectionsComponent implements OnInit {
 
   closeNotesadddModalModal = (): void => {
     this.notesadddModalClose.nativeElement.click();
+  }
+
+  generateAccountStatementPdf(data){
+    this.getBase64ImageFromUrl(data.property.id);
+    this.admin.postDataApi('getCollectionById', {id: data.id})
+    .subscribe(
+      success => {
+        this.spinner.hide();
+        this.collection_data = success['data'];
+        this.collection_payments = success['data2'];
+        this.generatePDF();
+      });
+  }
+
+  getBase64ImageFromUrl(id) {
+    this.admin.postDataApi('getPdfImage', { id: id }).subscribe((success) => {
+      this.base64 = (success || {}).data;
+      this.projectLogoImageBase64 = 'data:image/jpeg;base64,' + this.base64;
+    }, (error) => {
+    });
+  }
+
+  generatePDF() {
+    let current_date = new Date();
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+    let date = this.datePipe.transform(current_date, 'd/M/y');
+    let month = monthNames[current_date.getMonth()];
+    let month_date = this.datePipe.transform(current_date.setDate(10), 'MMM d, y'); 
+    let remaining_amount =  this.collection_data.total - this.collection_data.total_amount_paid;
+    let purchase_date = this.datePipe.transform(this.collection_data.deal_purchase_date, 'MMM d, y'); 
+
+    let docDefinition = {
+      pageSize: {
+        width: 891,
+        height: 800
+      },
+      content: [
+        {
+          columns: [
+            {
+              image: this.logoImageBase64,
+              width: 100
+            },
+            {
+              text: this.translate.instant('generatePDF.address'),
+              margin: [80, 0, 0, 0],
+              color: '#858291'
+            },
+            {
+
+              text: this.translate.instant('generatePDF.addressName') + '\n' + date,
+              alignment: 'right',
+              color: '#858291'
+            },
+          ]
+        },
+        {
+          columns: [
+            [
+              {
+                text: this.translate.instant('generatePDF.clientDetails'),
+                bold: true,
+                fontSize: 20,
+                margin: [0, 0, 0, 20]
+              },
+              {
+                style: 'table2',
+                table: {
+                  headerRows: 1,
+                  widths: ['auto', 'auto'],
+                  body: [
+                    [
+                      { text: this.translate.instant('generatePDF.name'), border: [false, false, false, false], bold: true, color: '#858291' },
+                      { text: this.collection_data.buyer.name ? this.collection_data.buyer.name + this.collection_data.buyer.first_surname +  ' ' + this.collection_data.buyer.second_surname : 'N/A', border: [false, false, false, false], bold: true }
+                    ],
+                    [
+                      { text: this.translate.instant('generatePDF.purchaseDate'), border: [false, false, false, false], color: '#858291' },
+                      { text: this.collection_data.deal_purchase_date || 'N/A', border: [false, false, false, false], bold: true }
+                    ],
+                    [
+                      { text: this.translate.instant('generatePDF.email'), border: [false, false, false, false], color: '#858291' },
+                      { text: this.collection_data.buyer.email || 'N/A', border: [false, false, false, false], bold: true }
+                    ],
+                    [
+                      { text: this.translate.instant('generatePDF.contactNumber'), border: [false, false, false, false], color: '#858291' },
+                      { text: this.collection_data.buyer.phone ? this.collection_data.buyer.dial_code + ' '+ this.collection_data.buyer.phone : 'N/A', border: [false, false, false, false], bold: true }
+                    ],
+                    [
+                      { text: this.translate.instant('generatePDF.addressLable'), border: [false, false, false, false], color: '#858291' },
+                      { text: 'N/A', border: [false, false, false, false], bold: true }
+                    ]
+                  ]
+                }
+              },
+            ],
+            [
+              {
+                text: this.translate.instant('generatePDF.paymentInformation'),
+                bold: true,
+                fontSize: 20,
+                margin: [0, 0, 0, 20]
+              },
+              {
+                style: 'table2',
+                table: {
+                  headerRows: 1,
+                  widths: ['auto', 'auto'],
+                  body: [
+                    [
+                      { text: this.translate.instant('generatePDF.totalPaymentCurrentMonth'), border: [false, false, false, false], bold: true, color: '#858291' },
+                      { text: 'N/A', border: [false, false, false, false], bold: true }
+                    ],
+                    [
+                      { text: this.translate.instant('generatePDF.payDayLimit'), border: [false, false, false, false], color: '#858291' },
+                      { text: month_date || 'N/A', border: [false, false, false, false], bold: true }
+                    ],
+                    [
+                      { text: this.translate.instant('generatePDF.billMonth'), border: [false, false, false, false], color: '#858291' },
+                      { text: month || 'N/A', border: [false, false, false, false], bold: true }
+                    ],
+                    [
+                      { text: this.translate.instant('generatePDF.CollectionId'), border: [false, false, false, false], color: '#858291' },
+                      { text: this.collection_data.id ||  'N/A', border: [false, false, false, false], bold: true }
+                    ]
+                  ]
+                }
+              },
+            ]
+          ],
+          margin: [0, 30, 0, 0]
+        },
+        {
+          columns: [
+            [
+              this.base64 ?
+                {
+                  image: this.projectLogoImageBase64,
+                  width: 120,
+                  height: 20,
+                  margin: [0, 0, 0, 20]
+                } : {
+                  text: ''
+                },
+              {
+                text: this.translate.instant('generatePDF.propertyDetails'),
+                bold: true,
+                fontSize: 20,
+                margin: [0, 0, 0, 20]
+              },
+              {
+                style: 'table',
+                table: {
+                  headerRows: 1,
+                  widths: ['auto', 'auto'],
+
+                  body: [
+                    [
+                      { text: this.translate.instant('generatePDF.project'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.collection_data.property.building.name, border: [false, false, false, false], bold: true },
+                    ],
+                    [
+                      { text: this.translate.instant('generatePDF.addressLable'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: '', border: [false, false, false, false], bold: true },
+                    ],
+                    [
+                      { text: this.translate.instant('generatePDF.tower'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.collection_data.property.building_towers.tower_name, border: [false, false, false, false], bold: true },
+                    ],
+                    [
+                      { text: this.translate.instant('generatePDF.floor'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.collection_data.property.name, border: [false, false, false, false], bold: true },
+                    ],
+                    [
+                      { text: this.translate.instant('generatePDF.model'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.collection_data.property.building_configuration.name, border: [false, false, false, false], bold: true },
+                    ],
+                    [
+                      { text: this.translate.instant('generatePDF.noOfProperty'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.collection_data.property.floor_num, border: [false, false, false, false], bold: true },
+                    ],
+                    [
+                      { text: this.translate.instant('generatePDF.listPrice'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.collection_data.deal_price, border: [false, false, false, false], bold: true },
+                    ]
+                  ]
+                }
+              },
+              {
+                text: this.translate.instant('generatePDF.generalBalance'),
+                bold: true,
+                fontSize: 20,
+                margin: [0, 0, 0, 20]
+              },
+              {
+                style: 'table2',
+                table: {
+                  headerRows: 1,
+                  widths: ['auto', 'auto'],
+                  body: [
+                    [
+                      { text: this.translate.instant('generatePDF.balancePayable'), border: [false, false, false, false], bold: true, color: '#858291' },
+                      { text: this.collection_data.total_amount_paid || 'N/A', border: [false, false, false, false], bold: true }
+                    ],
+                    [
+                      { text: this.translate.instant('generatePDF.totalPaid'), border: [false, false, false, false], color: '#858291' },
+                      { text:  remaining_amount >= 0 ?  remaining_amount : 'N/A', border: [false, false, false, false], bold: true }
+                    ]
+                  ]
+                }
+              },
+              {
+                text: this.translate.instant('generatePDF.notReflected') + '\n' + this.translate.instant('generatePDF.notReflected1'),
+                color: '#858291',
+                margin: [0, 0, 0, 20]
+              },
+              {
+                text: this.translate.instant('generatePDF.addressSeller') + '\n' + this.translate.instant('generatePDF.addressSeller1')  + '\n' + this.translate.instant('generatePDF.addressSeller2')
+                      + '\n' + this.translate.instant('generatePDF.addressSeller3'),
+                color: '#858291',
+                margin: [0, 0, 0, 20]
+              }
+            ],
+            [
+              {
+                text: this.translate.instant('generatePDF.dealInformation'),
+                bold: true,
+                fontSize: 20,
+                margin: [0, 30, 0, 10]
+              },
+              {
+                text: [
+                  {text: this.translate.instant('generatePDF.purchaseDate') },
+                  {text : purchase_date || 'N/A', margin: [30, 10, 0, 0]}
+                ],
+                bold: true,
+                fontSize: 20,
+                margin: [0, 0, 0, 10]
+              },
+              {
+                style: 'table2',
+                table: {
+                  headerRows: 1,
+                  widths: ['auto', 'auto', 'auto'],
+                  body: [
+                    [
+                      { text: this.translate.instant('generatePDF.noInstallPayment'), border: [false, false, false, false], color: '#858291' },
+                      { text: 'N/A', border: [false, false, false, false], bold: true },
+                      { text: '', border: [false, false, false, false] }
+                    ],
+                    [
+                      { text: this.translate.instant('generatePDF.monthlyInstallment'), border: [false, false, false, false], color: '#858291' },
+                      { text: '', border: [false, false, false, false] },
+                      { text: 'N/A', border: [false, false, false, false], bold: true }
+                    ],
+                    [
+                      { text: this.translate.instant('generatePDF.layaway'), border: [false, false, false, false], color: '#858291' },
+                      { text: '', border: [false, false, false, false] },
+                      { text: this.price.transform(20000) + '*', border: [false, false, false, false], bold: true },
+                    ],
+                    [
+                      { text: this.translate.instant('generatePDF.downpayment'), border: [false, false, false, false], color: '#858291' },
+                      { text: 'N/A', border: [false, false, false, false], bold: true },
+                      { text: '', border: [false, false, false, false], bold: true },
+                    ],
+                    [
+                      { text: this.translate.instant('generatePDF.monthlyInstallmentAmt'), border: [false, false, false, false], color: '#858291' },
+                      { text: 'N/A', border: [false, false, false, false], bold: true },
+                      { text: '', border: [false, false, false, false], bold: true }
+                    ],
+                    [
+                      { text: this.translate.instant('generatePDF.PaymentUponDelivery'), border: [false, false, false, false], color: '#858291' },
+                      { text: '', border: [false, false, false, false], bold: true },
+                      { text: 'N/A', border: [false, false, false, false], bold: true }
+                    ],
+                    [
+                      { text: this.translate.instant('generatePDF.specialPayment'), border: [false, false, false, false], color: '#858291' },
+                      { text: '', border: [false, false, false, false] },
+                      { text: '', border: [false, false, false, false], bold: true },
+                    ],
+                  ]
+                }
+              },
+              {
+                style: 'table2',
+                table: {
+                  headerRows: 1,
+                  widths: ['auto', 'auto'],
+                  body: [
+                    [
+                      { text: this.translate.instant('generatePDF.bankDetails'), border: [false, false, false, false], bold: true, fontSize: 16 },
+                      { text: '', border: [false, false, false, false] }
+                    ],
+                    [
+                      { text: this.translate.instant('generatePDF.bank'), border: [false, false, false, false], color: '#858291' },
+                      { text: 'N/A', border: [false, false, false, false], bold: true }
+                    ],
+                    [
+                      { text: this.translate.instant('generatePDF.accountInNameOf'), border: [false, false, false, false], color: '#858291' },
+                      {
+                        text: '', border: [false, false, false, false], bold: true
+                      },
+                    ],
+                    [
+                      { text: this.translate.instant('generatePDF.federalTaxPayer'), border: [false, false, false, false], color: '#858291' },
+                      { text: 'N/A', border: [false, false, false, false], bold: true },
+                    ],
+                    [
+                      { text: this.translate.instant('generatePDF.accountNumber'), border: [false, false, false, false], color: '#858291' },
+                      { text: 'N/A', border: [false, false, false, false], bold: true }
+                    ],
+                    [
+                      { text: this.translate.instant('generatePDF.cLABE'), border: [false, false, false, false], color: '#858291' },
+                      { text: 'N/A', border: [false, false, false, false], bold: true }
+                    ],
+                  ]
+                }
+              },
+              {
+                text: [
+                  { text: this.translate.instant('generatePDF.contactUS') + '\n' + this.translate.instant('generatePDF.contactUS2'), color: '#858291' },
+                  { text: ' ' + this.translate.instant('generatePDF.contactUS3'), bold: true },
+                  { text: '\n' + this.translate.instant('generatePDF.contactUS4'), color: '#858291' },
+                ],
+                margin: [0, 10, 0, 10]
+              },
+            ]
+          ],
+          margin: [0, 20, 0, 0]
+        },
+        {
+          style: 'table2',
+          table: {
+            headerRows: 1,
+            widths: ['14%', '14%', '14%', '14%', '14%', '14%', '14%'],
+            body: [
+              [
+                { text: this.translate.instant('generatePDF.concept'), border: [false, false, false, false], bold: true, color: 'white', fillColor: '#525659' },
+                { text: this.translate.instant('generatePDF.date'), border: [false, false, false, false], bold: true, color: 'white', fillColor: '#525659' },
+                { text: this.translate.instant('generatePDF.paid'), border: [false, false, false, false], bold: true, color: 'white', fillColor: '#525659' },
+                { text: this.translate.instant('generatePDF.pendingPayment'), border: [false, false, false, false], bold: true, color: 'white', fillColor: '#525659' },
+                { text: this.translate.instant('generatePDF.amountPayable'), border: [false, false, false, false], bold: true, color: 'white', fillColor: '#525659' },
+                { text: this.translate.instant('generatePDF.penalty'), border: [false, false, false, false], bold: true, color: 'white', fillColor: '#525659' },
+                { text: this.translate.instant('generatePDF.description'), border: [false, false, false, false], bold: true, color: 'white', fillColor: '#525659' }
+              ],
+              [
+                { text: 'N/A', border: [false, false, false, false], bold: true },
+                { text: 'N/A', border: [false, false, false, false], bold: true },
+                { text: 'N/A', border: [false, false, false, false], bold: true },
+                { text: 'N/A', border: [false, false, false, false], bold: true },
+                { text: 'N/A', border: [false, false, false, false], bold: true },
+                { text: 'N/A', border: [false, false, false, false], bold: true },
+                { text: 'N/A', border: [false, false, false, false], bold: true }
+              ]
+            ]
+          }
+        },
+        {
+          columns: [
+            {
+              text: this.translate.instant('generatePDF.notReflected'),
+              color: '#858291',
+              margin: [0, 0, 0, 20]
+            },
+            {
+              text: this.translate.instant('generatePDF.addressSeller'),
+              color: '#858291',
+              margin: [0, 0, 0, 20]
+            }
+          ]
+        },
+        {
+          columns: [
+            {
+              text: [
+                { text: this.translate.instant('generatePDF.contactUS') + '\n' + this.translate.instant('generatePDF.contactUS2'), color: '#858291' },
+                { text: ' ' + this.translate.instant('generatePDF.contactUS3'), bold: true },
+                { text: '\n' + this.translate.instant('generatePDF.contactUS4'), color: '#858291' },
+              ],
+              margin: [0, 10, 0, 10]
+            }
+          ]
+        }
+      ],
+      styles: {
+        sectionHeader: {
+          bold: true,
+          decoration: 'underline',
+          fontSize: 14,
+          margin: [0, 15, 0, 15]
+        },
+        table: {
+          margin: [0, 5, 0, 15],
+          border: [false, false, false, false]
+
+        },
+        table2: {
+          margin: [0, 5, 0, 15],
+          border: [false, false, false, false]
+        },
+      },
+    };
+
+    pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.commercialOffer'));
+    // }else if(action === 'print'){
+    //   pdfMake.createPdf(docDefinition).print();
+    // }else{
+    //   pdfMake.createPdf(docDefinition).open();
+    // }
   }
 
 }
