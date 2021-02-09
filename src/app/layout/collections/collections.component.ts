@@ -181,6 +181,7 @@ export class CollectionsComponent implements OnInit {
     { name: 'Only Commission for sale', value: 7 }];
   collection_data: any;
   collection_payments: any;
+  table_data = [];
 
   constructor(
     public constant: Constant,
@@ -2645,6 +2646,7 @@ export class CollectionsComponent implements OnInit {
   }
 
   generateAccountStatementPdf(data){
+    this.spinner.show();
     this.getBase64ImageFromUrl(data.property.id);
     this.admin.postDataApi('getCollectionById', {id: data.id})
     .subscribe(
@@ -2652,6 +2654,18 @@ export class CollectionsComponent implements OnInit {
         this.spinner.hide();
         this.collection_data = success['data'];
         this.collection_payments = success['data2'];
+        this.collection_data.payment_choices.forEach(element=>{
+        this.table_data.push([
+          {text: element.category_name, border: [false, false, false, false], bold: true},
+          {text: element.date, border: [false, false, false, false], bold: true},
+          {text: element.paid_amount && element.paid_amount> '0.1' ? this.price.transform(Number(element.paid_amount).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true},
+          {text: element.outstanding_amount && element.outstanding_amount > 0 ? this.price.transform(Number(element.outstanding_amount).toFixed(2)) : 'N/A', border: [false, false, false, false], 
+           bold: true},
+          {text: element.amount ? this.price.transform(Number(element.amount).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true},
+          {text: element.penalty ? this.price.transform(Number(element.penalty.amount).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true},
+          {text: element.penalty ? element.penalty.description : '', border: [false, false, false, false], bold: true}
+        ]);
+        });
         this.generatePDF();
       });
   }
@@ -2791,7 +2805,7 @@ export class CollectionsComponent implements OnInit {
                 text: this.translate.instant('generatePDF.propertyDetails'),
                 bold: true,
                 fontSize: 20,
-                margin: [0, 0, 0, 20]
+                margin: [0, 0, 0, 10]
               },
               {
                 style: 'table',
@@ -2826,7 +2840,7 @@ export class CollectionsComponent implements OnInit {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.listPrice'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
-                      { text: this.collection_data.deal_price, border: [false, false, false, false], bold: true },
+                      { text: this.price.transform(Number(this.collection_data.deal_price).toFixed(2)), border: [false, false, false, false], bold: true },
                     ]
                   ]
                 }
@@ -2835,7 +2849,7 @@ export class CollectionsComponent implements OnInit {
                 text: this.translate.instant('generatePDF.generalBalance'),
                 bold: true,
                 fontSize: 20,
-                margin: [0, 0, 0, 20]
+                margin: [0, 0, 0, 7]
               },
               {
                 style: 'table2',
@@ -2844,12 +2858,12 @@ export class CollectionsComponent implements OnInit {
                   widths: ['auto', 'auto'],
                   body: [
                     [
-                      { text: this.translate.instant('generatePDF.balancePayable'), border: [false, false, false, false], bold: true, color: '#858291' },
-                      { text: this.collection_data.total_amount_paid || 'N/A', border: [false, false, false, false], bold: true }
+                      { text: this.translate.instant('generatePDF.balancePayable'), border: [false, false, false, false], bold: true,fontSize: 16, },
+                      { text: this.collection_data.total_amount_paid ? this.price.transform(Number(this.collection_data.total_amount_paid).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true,fontSize: 16, }
                     ],
                     [
                       { text: this.translate.instant('generatePDF.totalPaid'), border: [false, false, false, false], color: '#858291' },
-                      { text:  remaining_amount >= 0 ?  remaining_amount : 'N/A', border: [false, false, false, false], bold: true }
+                      { text:  remaining_amount >= 0 ?  this.price.transform(Number(remaining_amount).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true }
                     ]
                   ]
                 }
@@ -2857,12 +2871,14 @@ export class CollectionsComponent implements OnInit {
               {
                 text: this.translate.instant('generatePDF.notReflected') + '\n' + this.translate.instant('generatePDF.notReflected1'),
                 color: '#858291',
-                margin: [0, 0, 0, 20]
+                margin: [0, 20, 0, 20]
               },
               {
-                text: this.translate.instant('generatePDF.addressSeller') + '\n' + this.translate.instant('generatePDF.addressSeller1')  + '\n' + this.translate.instant('generatePDF.addressSeller2')
-                      + '\n' + this.translate.instant('generatePDF.addressSeller3'),
-                color: '#858291',
+                text: [
+                  { text: this.translate.instant('generatePDF.addressSeller'), bold: true},
+                  { text: '\n' + this.translate.instant('generatePDF.addressSeller1')  + '\n' + this.translate.instant('generatePDF.addressSeller2')
+                      + '\n' + this.translate.instant('generatePDF.addressSeller3'), color: '#858291' },
+                ],
                 margin: [0, 0, 0, 20]
               }
             ],
@@ -2875,12 +2891,11 @@ export class CollectionsComponent implements OnInit {
               },
               {
                 text: [
-                  {text: this.translate.instant('generatePDF.purchaseDate') },
-                  {text : purchase_date || 'N/A', margin: [30, 10, 0, 0]}
+                  {text: this.translate.instant('generatePDF.purchaseDate'),margin: [20, 0, 30, 0] },
+                  {text : '        ' + purchase_date || 'N/A'}
                 ],
                 bold: true,
-                fontSize: 20,
-                margin: [0, 0, 0, 10]
+                fontSize: 16
               },
               {
                 style: 'table2',
@@ -2988,15 +3003,6 @@ export class CollectionsComponent implements OnInit {
                 { text: this.translate.instant('generatePDF.penalty'), border: [false, false, false, false], bold: true, color: 'white', fillColor: '#525659' },
                 { text: this.translate.instant('generatePDF.description'), border: [false, false, false, false], bold: true, color: 'white', fillColor: '#525659' }
               ],
-              [
-                { text: 'N/A', border: [false, false, false, false], bold: true },
-                { text: 'N/A', border: [false, false, false, false], bold: true },
-                { text: 'N/A', border: [false, false, false, false], bold: true },
-                { text: 'N/A', border: [false, false, false, false], bold: true },
-                { text: 'N/A', border: [false, false, false, false], bold: true },
-                { text: 'N/A', border: [false, false, false, false], bold: true },
-                { text: 'N/A', border: [false, false, false, false], bold: true }
-              ]
             ]
           }
         },
@@ -3005,12 +3011,15 @@ export class CollectionsComponent implements OnInit {
             {
               text: this.translate.instant('generatePDF.notReflected'),
               color: '#858291',
-              margin: [0, 0, 0, 20]
+              margin: [0, 20, 0, 20]
             },
             {
-              text: this.translate.instant('generatePDF.addressSeller'),
-              color: '#858291',
-              margin: [0, 0, 0, 20]
+              text: [
+                { text: this.translate.instant('generatePDF.contactUS') + '\n' + this.translate.instant('generatePDF.contactUS2'), color: '#858291' },
+                { text: ' ' + this.translate.instant('generatePDF.contactUS3'), bold: true },
+                { text: '\n' + this.translate.instant('generatePDF.contactUS4'), color: '#858291' },
+              ],
+              margin: [0, 20, 0, 0]
             }
           ]
         },
@@ -3018,11 +3027,11 @@ export class CollectionsComponent implements OnInit {
           columns: [
             {
               text: [
-                { text: this.translate.instant('generatePDF.contactUS') + '\n' + this.translate.instant('generatePDF.contactUS2'), color: '#858291' },
-                { text: ' ' + this.translate.instant('generatePDF.contactUS3'), bold: true },
-                { text: '\n' + this.translate.instant('generatePDF.contactUS4'), color: '#858291' },
+                { text: this.translate.instant('generatePDF.addressSeller'), bold: true},
+                { text: '\n' + this.translate.instant('generatePDF.addressSeller1')  + '\n' + this.translate.instant('generatePDF.addressSeller2')
+                    + '\n' + this.translate.instant('generatePDF.addressSeller3'), color: '#858291' },
               ],
-              margin: [0, 10, 0, 10]
+              margin: [0, 10, 0, 0]
             }
           ]
         }
@@ -3045,7 +3054,9 @@ export class CollectionsComponent implements OnInit {
         },
       },
     };
-
+    this.table_data.forEach(element=>{
+      docDefinition.content[3].table.body.push(element);
+    });
     pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.commercialOffer'));
     // }else if(action === 'print'){
     //   pdfMake.createPdf(docDefinition).print();
