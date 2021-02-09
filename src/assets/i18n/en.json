@@ -932,6 +932,7 @@
       "doneSuccessfully": "Done successfully.",
       "changedSuccessfully": "Changed successfully",
       "cannotDeleteProperty": "It is not possible to delete the property because it has an active collection account",
+      "cannotEditProperty": "It is not possible to edit the property because it has an active collection account",
       "logoutSuccessfully": "Logout Successfully.",
       "dealFinalisedSucc": "Deal has been finalized successfully.",
       "intestredRemovedSuccessfully": "Interested property removed successfully.",
