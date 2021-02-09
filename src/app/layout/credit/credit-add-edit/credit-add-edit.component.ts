@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-credit-add-edit',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreditAddEditComponent implements OnInit {
 
-  constructor() { }
+  constructor( private spinner: NgxSpinnerService,) { }
 
   ngOnInit() {
+    this.getListing();
+    this.spinner.hide();
   }
-
+  getListing() {
+  //  this.spinner.show();
+  }
 }
