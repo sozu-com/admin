@@ -26,6 +26,10 @@ const routes: Routes = [
   {
     path: 'add-request/:id', component: AddRequestComponent,
     canActivate: [AclUserGuard], data: { roles: ['Manage Collections', 'can_read', ''] }
+  },
+  {
+    path: 'credit-add-edit/:id', component: CreditAddEditComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Manage Collections', 'can_read', ''] }
   }
 ]
 
