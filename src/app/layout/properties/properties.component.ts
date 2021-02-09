@@ -1562,7 +1562,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         }
       }
     } else if (this.installmentFormGroup.get('agencyOrSeller').value) {
-       this.fedTaxPayer = (((this.bankDetails || {}).selected_seller || {}).user || {}).fed_tax_pay || '';
+      this.fedTaxPayer = (((this.bankDetails || {}).selected_seller || {}).user || {}).fed_tax_pay || '';
        if(this.bankDetails.selected_seller.user.developer_company || this.bankDetails.selected_seller.user.is_developer == 0  && !this.bankDetails.selected_seller.user.legal_entity_id){
       ((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_rep_banks || []).forEach((element, innerIndex) => {
         element.name = 'Seller Bank | ' + element.bank_name;
@@ -1573,6 +1573,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       });
     }
     else{
+      this.fedTaxPayer = ((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_entity || {}).fed_tax_pay || '';
       (((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_entity || {}).legal_entity_banks || []).forEach((element, innerIndex) => {
         element.name = 'Seller Bank | ' + element.bank_name;
         element.legal_name = this.bankDetails.selected_seller.user.developer_company? this.bankDetails.selected_seller.user.developer_company : 
