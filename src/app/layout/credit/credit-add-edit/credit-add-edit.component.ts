@@ -39,9 +39,7 @@ export class CreditAddEditComponent implements OnInit {
   getListing() {
   //  this.spinner.show();
   }
-  tabClick() {
-    console.log('click')
-  }
+ 
   setTab(tab: any) {
     console.log(tab,"tab")
     this.tab = tab;
