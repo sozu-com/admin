@@ -7,6 +7,7 @@ import { AdminService } from 'src/app/services/admin.service';
 import { FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { IProperty } from 'src/app/common/property';
+declare let swal: any;
 @Component({
   selector: 'app-credit-add-edit',
   templateUrl: './credit-add-edit.component.html',
@@ -23,6 +24,8 @@ export class CreditAddEditComponent implements OnInit {
   showBuilding: boolean;
   selectedUser: any;
   addFormStep1: FormGroup;
+  tab: number;
+
   constructor(
     public constant: Constant,
     private us: AdminService,
@@ -31,10 +34,30 @@ export class CreditAddEditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.tab = 0;
   }
   getListing() {
   //  this.spinner.show();
   }
+ 
+  setTab(tab: any) {
+    console.log(tab,"tab")
+    this.tab = tab;
+    // swal({
+    //   html: this.translate.instant('message.error.areYouSure') + '<br>' +
+    //     this.translate.instant('message.error.movingBackCanResetInformationEnteredOnCurrentTab'),
+    //   type: 'warning',
+    //   showCancelButton: true,
+    //   confirmButtonColor: this.constant.confirmButtonColor,
+    //   cancelButtonColor: this.constant.cancelButtonColor,
+    //   confirmButtonText: 'Yes'
+    // }).then((result) => {
+    //   if (result.value) {
+    //     this.tab = tab;
+    //   }
+    // });
+  }
+
   searchUser(keyword: string) {
     if (!keyword) {
       this.toastr.clear();
