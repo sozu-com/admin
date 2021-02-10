@@ -2290,9 +2290,27 @@
     "SearchAUserInOurDatabase": "Selecciona un usuario en nuestra base de datos"
   },
   "creditForm":{
+    "credit":"créditos",
+    "Applicant":"Solicitante",
+    "Coaccredited":"Coacreditado",
     "id":"ID",
     "destination":"Destino",
     "programs":"Programas",
-    "homeValue":"Valor de la vivienda"
+    "homeValue":"Valor de la vivienda",
+    "creditAmount":"Monto de credito",
+    "deadlines" : "Plazos a cotiza",
+    "paymentScheme" :"Esquema de pago",
+    "banks" :"Bancos",
+    "yes" :"Si",
+    "no" :"No",
+    "customerProfile":"Perfil de cliente",
+    "caseStatus":"Estatus de caso",
+    "square":"Plaza",
+    "state":"Estado",
+    "executive":"Ejecutivo",
+    "userInfo":"Información de usuario",
+    "yesno1":"¿Ei inmueble",
+    "yesno2":"es",
+    "yesno3":"nuevo ?"
   }
 }

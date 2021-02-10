@@ -8,14 +8,12 @@
     <div class="clearfix"></div>
     <div class="details-header marginB30">
        <div class="row">
-         <div class="col-md-2">
-            <div class="title-group">
-              <h5><a (click)="goBack()" href="javascript://">
-               <i class="fa fa-angle-double-left"></i> </a></h5>
-            </div>
-          </div>
-          <div class="col-md-6 col-12">
-             <h4>{{project.name}} <span *ngIf="project.building_type" class="new-project">{{project.building_type.name}}</span></h4>
+          <div class="col-md-8 col-12">
+             
+             <h4>
+                <a (click)="goBack()" href="javascript://">
+               <i class="fa fa-angle-double-left"></i> </a>&nbsp;
+               {{project.name}} <span *ngIf="project.building_type" class="new-project">{{project.building_type.name}}</span></h4>
              <p class="p14" *ngIf="project.developer">{{'addForm.by' | translate}} {{project.developer.name}}</p>
              <p class="p18">{{project.address}}</p>
           </div>
