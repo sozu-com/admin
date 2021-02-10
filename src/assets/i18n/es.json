@@ -107,6 +107,7 @@
     }
   },
   "addForm": {
+    "propertyKey": "Clave de propiedad",
     "birthCertificate":"Acta de nacimiento",
     "Passport":"Pasaporte",
     "Taxcertificate":"RFC",

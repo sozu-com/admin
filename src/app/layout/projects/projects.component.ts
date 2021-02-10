@@ -455,6 +455,7 @@ export class ProjectsComponent implements OnInit {
 
         exportfinalData.push({
           'Name': p.name || '',
+          'Location': p.address || '',
           'Developer Name': p.developer && p.developer.name ? p.developer.name : '',
           'Agency Name': p.agency && p.agency.name ? p.agency.name : '',
           'Legal Entity Name': p.legal_entity && p.legal_entity.comm_name ? p.legal_entity.comm_name : '',

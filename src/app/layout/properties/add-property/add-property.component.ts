@@ -378,6 +378,7 @@ export class AddPropertyComponent implements OnInit {
     this.model.videos = data.videos;
 
     this.model.description = data.description;
+    this.model.property_key = data.property_key;
     this.model.quantity = data.quantity;
     this.model.floor = data.floor;
     this.model.bedroom = data.configuration && data.configuration.bedroom ? data.configuration.bedroom : data.bedroom;
@@ -987,6 +988,7 @@ export class AddPropertyComponent implements OnInit {
       input.append('step', this.model.step.toString());
       if (this.model.step === 1) {
         input.append('name', this.model.name);
+        input.append('property_key', this.model.property_key)
         // input.append('for_sale', this.model.for_sale === true ? '1' : '0');
         // input.append('for_rent', this.model.for_sale === true ? '0' : '1');
         input.append('for_sale', this.availabilityStatus[0].checked === true ? '1' : '0');
