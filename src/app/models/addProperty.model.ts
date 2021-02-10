@@ -14,6 +14,7 @@ export class AddPropertyModel {
     id = '';
     step = 0;
     name = '';
+    property_key = '';
     for_rent = false;
     for_sale = true;
     for_hold = false;

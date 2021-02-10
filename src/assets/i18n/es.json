@@ -107,6 +107,7 @@
     }
   },
   "addForm": {
+    "propertyKey": "Clave de propiedad",
     "birthCertificate":"Acta de nacimiento",
     "Passport":"Pasaporte",
     "Taxcertificate":"RFC",
@@ -2276,7 +2277,8 @@
     "pendingPayment": "Pago pendiente",
     "amountPayable": "Monto a pagar",
     "penalty": "Penalización",
-    "description": "Descripción"
+    "description": "Descripción",
+    "accountStatments": "Estado de cuenta"
   },
   "viewCredit":{
     "label": "Administrar crédito",

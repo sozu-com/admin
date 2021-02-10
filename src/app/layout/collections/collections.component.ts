@@ -3057,7 +3057,7 @@ export class CollectionsComponent implements OnInit {
     this.table_data.forEach(element=>{
       docDefinition.content[3].table.body.push(element);
     });
-    pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.commercialOffer'));
+    pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.accountStatments'));
     // }else if(action === 'print'){
     //   pdfMake.createPdf(docDefinition).print();
     // }else{

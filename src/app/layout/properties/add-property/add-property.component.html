@@ -355,6 +355,16 @@
           <a href="javascript://" class="add-more btn" (click)="addCarpetArea()">Add More</a>
         </div> -->
       </div>
+      <div class="spacer15"></div>
+      <div class="row">
+        <div class="col-md-4 col-sm-12 col-12">
+          <div class="form-group-3 eca">
+            <label class="p16-two">{{'addForm.propertyKey' | translate}}</label>
+            <input required class="form-control" type="text"  name="property_key" placeholder="{{'addForm.propertyKey' | translate}}"
+              [(ngModel)]="model.property_key">
+          </div>
+        </div>
+      </div>
       <!-- <div class="row">
         <div class="col-md-4 col-sm-12 col-12">
           <div class="form-group-3 eca">
