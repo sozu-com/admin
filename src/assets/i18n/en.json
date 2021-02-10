@@ -2291,9 +2291,27 @@
     "SearchAUserInOurDatabase": "Search a user in our database"
   },
   "creditForm":{
+    "credit":"credits",
+    "Applicant":"Applicant",
+    "Coaccredited":"Coaccredited",
     "id":"ID",
     "destination":"Destination",
     "programs":"Programs",
-    "homeValue":"Home value"
+    "homeValue":"Home value",
+    "creditAmount":"Credit amount",
+    "deadlines" : "Deadlines to quote",
+    "paymentScheme" :"Payment scheme",
+    "banks" :"Banks",
+    "yes" :"Si",
+    "no" :"No",
+    "customerProfile":"Customer profile",
+    "caseStatus":"Case status",
+    "square":"Square",
+    "state":"State",
+    "executive":"Executive",
+    "userInfo":"User Info",
+    "yesno1":"Is the",
+    "yesno2":"property",
+    "yesno3":"new?"
   }
 }
