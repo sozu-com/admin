@@ -1203,6 +1203,7 @@ export class AddProjectComponent implements OnInit {
     // without information 0, basic information 2, semicompleted 3, completed 1
 
     const isAnyAmenitiesCheck = this.anyAmenitiesChecked();
+    const isBuildingTowerDetailsAvailable = this.buildingTowerDetailsAvailable(modelSave.building_towers)
     // to without information
     if (
       modelSave.name && modelSave.country_id && modelSave.state_id &&
@@ -1221,8 +1222,7 @@ export class AddProjectComponent implements OnInit {
       //&& modelSave.description && modelSave.description != null 
       && modelSave.possession_status_id &&
       //isAnyAmenitiesCheck && (modelSave.amenities || []).length > 0 &&
-      (modelSave.building_towers || []).length > 0 &&
-      this.buildingTowerDetailsAvailable(modelSave.building_towers)
+      (modelSave.building_towers || []).length > 0 && isBuildingTowerDetailsAvailable
     ) {
       modelSave.is_completed = 2;
     }
@@ -1240,7 +1240,7 @@ export class AddProjectComponent implements OnInit {
       //modelSave.launch_date && 
       isAnyAmenitiesCheck &&
       (modelSave.amenities || []).length > 0 && (modelSave.configurations || []).length > 0 && (modelSave.building_towers || []).length > 0 &&
-      this.buildingTowerDetailsAvailable(modelSave.building_towers) && ((modelSave || {}).developer || {}).id &&
+      isBuildingTowerDetailsAvailable && ((modelSave || {}).developer || {}).id &&
       ((modelSave || {}).agency || {}).id
     ) {
       modelSave.is_completed = 3;
@@ -1258,7 +1258,7 @@ export class AddProjectComponent implements OnInit {
       //&& modelSave.launch_date 
       && isAnyAmenitiesCheck &&
       (modelSave.amenities || []).length > 0 && (modelSave.configurations || []).length > 0 && (modelSave.building_towers || []).length > 0 &&
-      this.buildingTowerDetailsAvailable(modelSave.building_towers) && ((modelSave || {}).developer || {}).id &&
+      isBuildingTowerDetailsAvailable && ((modelSave || {}).developer || {}).id &&
       (((modelSave || {}).manager || {}).id || ((modelSave || {}).company || {}).id) && ((modelSave || {}).agency || {}).id
     ) {
       modelSave.is_completed = 1;
