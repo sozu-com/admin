@@ -2277,7 +2277,8 @@
     "pendingPayment": "Pending payment",
     "amountPayable": "Amount payable",
     "penalty": "Penalty",
-    "description": "Description"
+    "description": "Description",
+    "accountStatments": "Account-Statments"
   },
   "viewCredit":{
     "label": "Manage Credit",

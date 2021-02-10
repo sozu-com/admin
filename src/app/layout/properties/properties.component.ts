@@ -1212,10 +1212,6 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                       { text: this.property_array.max_area, border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: this.translate.instant('generatePDF.PricePerM2'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
-                      { text: this.price.transform(Number(pricePerM2).toFixed(2)), border: [false, false, false, false], bold: true },
-                    ],
-                    [
                       { text: this.translate.instant('generatePDF.listPrice'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
                       { text: this.price.transform(Number(this.property_array.min_price).toFixed(2)), border: [false, false, false, false], bold: true },
                     ],
@@ -1226,6 +1222,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     [
                       { text: this.installmentFormGroup.value.discount ? this.translate.instant('generatePDF.discountD'): this.translate.instant('generatePDF.interestD'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
                       { text: this.price.transform(Number(discount? discount : interest ? interest : 0).toFixed(2)) || 'N/A', border: [false, false, false, false], bold: true },
+                    ],
+                    [
+                      { text: this.translate.instant('generatePDF.PricePerM2'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.price.transform(Number(pricePerM2).toFixed(2)), border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.finalPrice'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
@@ -1360,11 +1360,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                   { text: '\n' + this.translate.instant('generatePDF.contactUS4'), color: '#858291' },
                 ],
                 margin: [0, 10, 0, 10]
-              },
-              {
-                text: this.translate.instant('generatePDF.titleMargot') + ' ' + this.property_array.building.name + ', ' + this.translate.instant('generatePDF.title2Margot'),
-                bold: true
-              },
+              }
             ]
           ],
           margin: [0, 40, 0, 0]
