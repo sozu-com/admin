@@ -5,7 +5,7 @@
         <nav>
           <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
             <a class="nav-item nav-link active" id="nav-user-tab" data-toggle="tab" href="#nav-user" role="tab"
-            aria-controls="nav-user" aria-selected="true">{{'creditForm.userInfo' | translate}}</a>
+              aria-controls="nav-user" aria-selected="true">{{'creditForm.userInfo' | translate}}</a>
             <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
               aria-controls="nav-home" aria-selected="true">{{'creditForm.credit' | translate}}</a>
             <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
@@ -17,53 +17,57 @@
         <div class="tab-content" id="nav-tabContent" style="padding: 4%;">
           <!-- user tab -->
           <div class="tab-pane fade show active" id="nav-user" role="tabpanel" aria-labelledby="nav-user-tab">
+            <div class="white-bg padding15"></div><br />
             <div class="white-bg">
               <div class="padding40">
                 <h5 class="p16-two">{{'addRequest.SearchAUserInOurDatabase' | translate}}</h5>
                 <div class="searh d-flex">
                   <input autocomplete="off" class="border-right-0" autocomplete="off" type="text" #buildingname
                     (keyup.enter)="searchUser(buildingname.value)" name="buildingName" [(ngModel)]="userName">
-                  <button type="button" class="btn" type="button" (click)="searchUser(buildingname.value)">{{'addCollection.search' | translate}}</button>
+                  <button type="button" class="btn" type="button"
+                    (click)="searchUser(buildingname.value)">{{'addCollection.search' | translate}}</button>
                 </div>
                 <div class="spacer50"></div>
                 <div *ngIf="buildingLoading">
                   <img src="assets/img/loading_content.gif" />
                 </div>
-                    
-                    <!-- buildings listing -->
-                    <div class="row">
-                      <div class="col-lg-6 col-md-12 col-sm-12 col-12" 
-                      *ngFor="let item of searchedUser| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.buildingCount }; let i = index">
-                        <app-user-block (setUser)="setUserId($event)" (UserIndex)="getUserIndex($event)" [data]="item" [index]="i"></app-user-block>
-                      </div>
-                    </div>
-                    <!-- <div *ngIf="showError  &&  (addFormStep1.controls.building_id.invalid)">
+
+                <!-- buildings listing -->
+                <div class="row">
+                  <div class="col-lg-6 col-md-12 col-sm-12 col-12"
+                    *ngFor="let item of searchedUser| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.buildingCount }; let i = index">
+                    <app-user-block (setUser)="setUserId($event)" (UserIndex)="getUserIndex($event)" [data]="item"
+                      [index]="i"></app-user-block>
+                  </div>
+                </div>
+                <!-- <div *ngIf="showError  &&  (addFormStep1.controls.building_id.invalid)">
                       <div *ngIf="addFormStep1.controls.building_id.errors?.required " class="show-error">
                           {{'addCollectionValidations.thisIsRequired' | translate}}
                       </div>
                     </div> -->
-              
-                    <div class="row" *ngIf="searchedUser?.length>0">
-                      <div class="col-lg-6 col-md-12 col-sm-12 col-12"></div>
-                      <div class="col-lg-6 col-md-12 col-sm-12 col-12 btn-cont text-right marginT15">
-                        <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
-                      </div>
+
+                <div class="row" *ngIf="searchedUser?.length>0">
+                  <div class="col-lg-6 col-md-12 col-sm-12 col-12"></div>
+                  <div class="col-lg-6 col-md-12 col-sm-12 col-12 btn-cont text-right marginT15">
+                    <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="btn-cont text-right">
+                      <button type="submit" class="btn btn-primary">{{'addCollection.next' | translate}}</button>
                     </div>
-              
-                    <div class="row">
-                      <div class="col-md-12">
-                        <div class="btn-cont text-right">
-                          <button type="submit"  class="btn btn-primary">{{'addCollection.next' | translate}}</button>
-                        </div>
-                      </div>
-                    </div>
-                </div> 
+                  </div>
+                </div>
               </div>
+            </div>
           </div>
-            <!-- credit tab -->
+          <!-- credit tab -->
           <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            <div class="white-bg padding15"></div><br />
             <div class="container-fluid">
-              <form role="form" ngNativeValidate #addForm="ngForm" >
+              <form role="form" ngNativeValidate #addForm="ngForm">
                 <div class="white-bg padding20">
                   <h3>{{'creditForm.id' | translate}} &nbsp;218642</h3>
                   <div class="col-12">
@@ -73,8 +77,7 @@
                     <div class="col-4">
                       <div class="form-group-3">
                         <label class="p16-two">{{'creditForm.destination' | translate}}</label>
-                        <select title="Select Nationality"
-                          class="form-control">
+                        <select title="Select Nationality" class="form-control">
                           <option></option>
                         </select>
                       </div>
@@ -82,8 +85,7 @@
                     <div class="col-4">
                       <div class="form-group-3">
                         <label class="p16-two">{{'creditForm.programs' | translate}}</label>
-                        <select title="Select Nationality"
-                          class="form-control">
+                        <select title="Select Nationality" class="form-control">
                           <option></option>
                         </select>
                       </div>
@@ -113,8 +115,7 @@
                     <div class="col-4">
                       <div class="form-group-3">
                         <label class="p16-two">{{'creditForm.deadlines' | translate}}</label>
-                        <select title="Select Nationality"
-                          class="form-control">
+                        <select title="Select Nationality" class="form-control">
                           <option></option>
                         </select>
                       </div>
@@ -124,10 +125,9 @@
                         <label>{{'creditForm.paymentScheme' | translate}}
                           <!-- <span class="color-red">*</span> -->
                         </label>
-                        <select title="Select Nationality"
-                        class="form-control">
-                        <option></option>
-                      </select>
+                        <select title="Select Nationality" class="form-control">
+                          <option></option>
+                        </select>
                       </div>
                     </div>
                   </div>
@@ -139,8 +139,7 @@
                     <div class="col-8">
                       <div class="form-group-3">
                         <label>{{'creditForm.banks' | translate}}</label>
-                        <select title="Select Nationality"
-                          class="form-control">
+                        <select title="Select Nationality" class="form-control">
                           <option></option>
                         </select>
                       </div>
@@ -172,8 +171,7 @@
                         <label>{{'creditForm.square' | translate}}
                           <!-- <span class="color-red">*</span> -->
                         </label>
-                        <select title="Select Nationality"
-                          class="form-control">
+                        <select title="Select Nationality" class="form-control">
                           <option></option>
                         </select>
                       </div>
@@ -199,34 +197,33 @@
                           [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
                           class="form-control" [(ngModel)]="model.name" name="name1">
                       </div>
-                   </div>
-                   
-                   <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                    <label class="p16-two">{{'creditForm.yesno1' | translate}}</label>
-                    <div style="margin: 5px;">
-                       <span style="font-weight: 600;">{{'creditForm.yes' | translate}}</span>
                     </div>
-                 </div>
-                 <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                  <label class="p16-two">{{'creditForm.yesno2' | translate}}</label>
-                    <div class="form-group-3">
-                       <label class="switch1">
-                          <input type="checkbox" class="form-control" formControlName="agencyOrSeller"
-                             >
+
+                    <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                      <label class="p16-two">{{'creditForm.yesno1' | translate}}</label>
+                      <div style="margin: 5px;">
+                        <span style="font-weight: 600;">{{'creditForm.yes' | translate}}</span>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                      <label class="p16-two">{{'creditForm.yesno2' | translate}}</label>
+                      <div class="form-group-3">
+                        <label class="switch1">
+                          <input type="checkbox" class="form-control" formControlName="agencyOrSeller">
                           <span class="slider round" style="background-color: #00B96F;"></span>
-                       </label>
+                        </label>
+                      </div>
                     </div>
-                 </div>
-                 <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                  <label class="p16-two">{{'creditForm.yesno3' | translate}}</label>
-                    <div style="margin: 5px;">
-                       <span style="font-weight: 600;">{{'creditForm.no' | translate}}</span>
+                    <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                      <label class="p16-two">{{'creditForm.yesno3' | translate}}</label>
+                      <div style="margin: 5px;">
+                        <span style="font-weight: 600;">{{'creditForm.no' | translate}}</span>
+                      </div>
                     </div>
-                 </div>
-                 </div>
-                 <div class="col-12">
-                  <div class="spacer40"></div>
-                </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
                 </div>
               </form>
             </div>
@@ -236,27 +233,54 @@
             <div class="white-bg padding20">
               <nav class="nav nav-tabs">
                 <div class="nav-item dropdown">
-                  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Generals</a>
+                  <a  class="nav-link dropdown-toggle" data-toggle="dropdown">Generals</a>
                   <div class="dropdown-menu">
-                    <a href="#" class="dropdown-item">Personals</a>
-                    <a href="#" class="dropdown-item">Credit report</a>
-                    <a href="#" class="dropdown-item">Economic dependents</a>
-                    <a href="#" class="dropdown-item">References</a>
-                    <a href="#" class="dropdown-item">Solidarity liabilities</a>
+                      <strong [ngClass]="{'current': tab == 0}"><span></span><a (click)="setTab(0)" class="dropdown-item">Personals</a></strong>
+                      <strong [ngClass]="{'current': tab == 1}"><span></span><a (click)="setTab(1)" class="dropdown-item">Credit report</a></strong>
+                      <strong [ngClass]="{'current': tab == 2}"><span></span><a (click)="setTab(2)" class="dropdown-item">Economic dependents</a></strong>
+                      <strong [ngClass]="{'current': tab == 3}"><span></span><a (click)="setTab(3)" class="dropdown-item">References</a></strong>
+                      <strong [ngClass]="{'current': tab == 4}"><span></span><a (click)="setTab(4)" class="dropdown-item">Solidarity liabilities</a></strong>
                   </div>
                 </div>
                 <div class="nav-item dropdown">
-                  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Incomes</a>
+                  <a  class="nav-link dropdown-toggle" data-toggle="dropdown">Incomes</a>
                   <div class="dropdown-menu">
-                    <a href="#" class="dropdown-item">Incomes</a>
-                    <a href="#" class="dropdown-item">Bank accounts</a>
-                    <a href="#" class="dropdown-item">Debts</a>
-                    <a href="#" class="dropdown-item">Beneficiaries</a>
+                    <a  class="dropdown-item">Incomes</a>
+                    <a  class="dropdown-item">Bank accounts</a>
+                    <a  class="dropdown-item">Debts</a>
+                    <a  class="dropdown-item">Beneficiaries</a>
                   </div>
                 </div>
-                <a href="#" class="nav-item nav-link">Insurance</a>
-                <a href="#" class="nav-item nav-link">Additional data</a>
+                <a  class="nav-item nav-link">Insurance</a>
+                <a  class="nav-item nav-link">Additional data</a>
               </nav>
+            </div><br/>
+
+            <!-- Tag a building start -->
+            <div class="white-bg" *ngIf="tab==0">
+              <div class="page-title">
+                <h3>Personals</h3>
+              </div>
+            </div>
+            <div class="white-bg" *ngIf="tab==1">
+              <div class="page-title">
+                <h3>Credit report</h3>
+              </div>
+            </div>
+            <div class="white-bg" *ngIf="tab==2">
+              <div class="page-title">
+                <h3>Economic dependents</h3>
+              </div>
+            </div>
+             <div class="white-bg" *ngIf="tab==3">
+              <div class="page-title">
+                <h3>References</h3>
+              </div>
+            </div>
+            <div class="white-bg" *ngIf="tab==4">
+              <div class="page-title">
+                <h3>Solidarity liabilities</h3>
+              </div>
             </div>
           </div>
           <!-- Coaccredited -->
