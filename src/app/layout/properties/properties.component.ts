@@ -1188,47 +1188,47 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
                   body: [
                     [
-                      { text: this.translate.instant('generatePDF.tower'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.translate.instant('generatePDF.tower'), bold: true, border: [false, false, false, false], color: '#858291' },
                       { text: this.property_array.building_towers.tower_name, border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: this.translate.instant('generatePDF.floor'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.translate.instant('generatePDF.floor'), bold: true, border: [false, false, false, false], color: '#858291' },
                       { text: this.property_array.floor_num == 0 ? 'Ground Floor' : this.property_array.floor_num, border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: this.translate.instant('generatePDF.model'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.translate.instant('generatePDF.model'), bold: true, border: [false, false, false, false], color: '#858291' },
                       { text: this.property_array.building_configuration.name, border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: this.translate.instant('generatePDF.propertyName'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.translate.instant('generatePDF.propertyName'), bold: true, border: [false, false, false, false], color: '#858291' },
                       { text: this.property_array.name || 0, border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: this.translate.instant('generatePDF.parkingPlaces'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.translate.instant('generatePDF.parkingPlaces'), bold: true, border: [false, false, false, false], color: '#858291' },
                       { text: this.property_array.parking_count || 0, border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: this.translate.instant('generatePDF.carpetArea'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.translate.instant('generatePDF.carpetArea'), bold: true, border: [false, false, false, false], color: '#858291' },
                       { text: this.property_array.max_area, border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: this.translate.instant('generatePDF.listPrice'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.translate.instant('generatePDF.listPrice'), bold: true, border: [false, false, false, false], color: '#858291' },
                       { text: this.price.transform(Number(this.property_array.min_price).toFixed(2)), border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: this.installmentFormGroup.value.discount ? this.translate.instant('generatePDF.discountP') : this.translate.instant('generatePDF.interestP'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.installmentFormGroup.value.discount ? this.translate.instant('generatePDF.discountP') : this.translate.instant('generatePDF.interestP'), bold: true, border: [false, false, false, false], color: '#858291' },
                       { text: discount ? this.installmentFormGroup.value.discount + '%' : interest ? this.installmentFormGroup.value.interest + '%' : 'N/A', border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: this.installmentFormGroup.value.discount ? this.translate.instant('generatePDF.discountD') : this.translate.instant('generatePDF.interestD'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.installmentFormGroup.value.discount ? this.translate.instant('generatePDF.discountD') : this.translate.instant('generatePDF.interestD'), bold: true, border: [false, false, false, false], color: '#858291' },
                       { text: this.price.transform(Number(discount ? discount : interest ? interest : 0).toFixed(2)) || 'N/A', border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: this.translate.instant('generatePDF.PricePerM2'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.translate.instant('generatePDF.PricePerM2'), bold: true, border: [false, false, false, false], color: '#858291' },
                       { text: this.price.transform(Number(pricePerM2).toFixed(2)), border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: this.translate.instant('generatePDF.finalPrice'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.translate.instant('generatePDF.finalPrice'), bold: true, border: [false, false, false, false], color: '#858291' },
                       { text: this.price.transform(Number(final_price).toFixed(2)), border: [false, false, false, false], bold: true },
                     ]
                   ]
@@ -1363,7 +1363,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
               }
             ]
           ],
-          margin: [0, 40, 0, 0]
+          margin: [0, 40, 0, 0],
         }
       ],
       styles: {

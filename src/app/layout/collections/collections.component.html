@@ -635,9 +635,9 @@
                         (click)="quickCollectionView(p)" title="{{'table.title.quickVisuaization' | translate}}"
                         class="action-icon"><img src="assets/img/eye-icon.png" alt="img"></button>
 
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0"
+                      <!-- <button [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0"
                         (click)="viewAccountStatement(p)" title="{{'table.title.accountStatement' | translate}}"
-                        class="action-icon"><img src="assets/img/ic_account.png" alt="img"></button>
+                        class="action-icon"><img src="assets/img/ic_account.png" alt="img"></button> -->
 
                         <button [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0"
                         (click)="generateAccountStatementPdf(p)" title="{{'table.title.accountStatement' | translate}}"
