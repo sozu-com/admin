@@ -192,6 +192,8 @@ export class CollectionsComponent implements OnInit {
   current_month_amount: number = 0;
   bill_month_date: string;
   bill_month: string;
+  buyerDocumentationFoldersDetails: any[] = [];
+  language_code: string;
 
   constructor(
     public constant: Constant,
@@ -217,7 +219,7 @@ export class CollectionsComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.language_code = localStorage.getItem('language_code');
     this.admin.globalSettings$.subscribe(success => {
       this.cashLimit = success['cash_limit'];
     });
@@ -247,15 +249,15 @@ export class CollectionsComponent implements OnInit {
     });
     this.getListing();
     this.http.get('../../../assets/img/sozu_black.png', { responseType: 'blob' })
-    .subscribe(res => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        let base64data = reader.result;
-        this.logoImageBase64 = base64data;
-      }
+      .subscribe(res => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          let base64data = reader.result;
+          this.logoImageBase64 = base64data;
+        }
 
-      reader.readAsDataURL(res);
-    });
+        reader.readAsDataURL(res);
+      });
 
   }
 
@@ -2252,11 +2254,19 @@ export class CollectionsComponent implements OnInit {
     return dateA > dateB ? 1 : -1;
   }
 
-  openFoldersModal(collectionFolders: Array<any>, payment_folder_id) {
+  openFoldersModal = (details: any): void => {
+    this.spinner.show();
     this.collectionFolders = [];
-    this.collectionFolders = collectionFolders;
-    this.payment_folder_id = payment_folder_id;
-    this.foldersModalOpen.nativeElement.click();
+    this.collectionFolders = details.collection_folders || [];
+    this.payment_folder_id = details.payment_folder_id;
+    this.buyerDocumentationFoldersDetails = [];
+    this.admin.postDataApi('getCollectionDocument', { id: (details.buyer || {}).id }).subscribe((success) => {
+      this.buyerDocumentationFoldersDetails = success.data || [];
+      this.foldersModalOpen.nativeElement.click();
+      this.spinner.hide();
+    }, (error) => {
+      this.spinner.hide();
+    });
   }
 
   closeFoldersModal() {
