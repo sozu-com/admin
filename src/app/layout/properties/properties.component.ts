@@ -361,7 +361,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     delete input.buyer_id;
     if (this.selctedAmenities) {
       const d = this.selctedAmenities.map(o => o.id);
-     // console.log(d, "filter")
+      // console.log(d, "filter")
       input.amenities_id = d;
     }
 
@@ -488,7 +488,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
           //   item.videos = [];
           //   return item;
           // });
-         // console.log(this.amenities, "Amenities")
+          // console.log(this.amenities, "Amenities")
         }
       );
   }
@@ -1216,12 +1216,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                       { text: this.price.transform(Number(this.property_array.min_price).toFixed(2)), border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: this.installmentFormGroup.value.discount ? this.translate.instant('generatePDF.discountP'): this.translate.instant('generatePDF.interestP'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
-                      { text: discount? this.installmentFormGroup.value.discount + '%' : interest ? this.installmentFormGroup.value.interest + '%' : 'N/A', border: [false, false, false, false], bold: true },
+                      { text: this.installmentFormGroup.value.discount ? this.translate.instant('generatePDF.discountP') : this.translate.instant('generatePDF.interestP'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: discount ? this.installmentFormGroup.value.discount + '%' : interest ? this.installmentFormGroup.value.interest + '%' : 'N/A', border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: this.installmentFormGroup.value.discount ? this.translate.instant('generatePDF.discountD'): this.translate.instant('generatePDF.interestD'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
-                      { text: this.price.transform(Number(discount? discount : interest ? interest : 0).toFixed(2)) || 'N/A', border: [false, false, false, false], bold: true },
+                      { text: this.installmentFormGroup.value.discount ? this.translate.instant('generatePDF.discountD') : this.translate.instant('generatePDF.interestD'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
+                      { text: this.price.transform(Number(discount ? discount : interest ? interest : 0).toFixed(2)) || 'N/A', border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.PricePerM2'), bold: true, border: [false, false, false, false], color: '#858291', height: 80 },
@@ -1559,25 +1559,25 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       }
     } else if (this.installmentFormGroup.get('agencyOrSeller').value) {
       this.fedTaxPayer = (((this.bankDetails || {}).selected_seller || {}).user || {}).fed_tax_pay || '';
-       if(this.bankDetails.selected_seller.user.developer_company || this.bankDetails.selected_seller.user.is_developer == 0  && !this.bankDetails.selected_seller.user.legal_entity_id){
-      ((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_rep_banks || []).forEach((element, innerIndex) => {
-        element.name = 'Seller Bank | ' + element.bank_name;
-        element.legal_name = this.bankDetails.selected_seller.user.developer_company? this.bankDetails.selected_seller.user.developer_company : 
-        this.bankDetails.selected_seller.user.is_developer == 0  && !this.bankDetails.selected_seller.user.legal_entity_id? this.bankDetails.selected_seller.user.name + ' ' + this.bankDetails.selected_seller.user.first_surname 
-        + ' ' + this.bankDetails.selected_seller.user.second_surname : this.bankDetails.selected_seller.user.legal_entity.legal_name? this.bankDetails.selected_seller.user.legal_entity.legal_name: '';
-        this.paymentBankDetailsArray.push(element);
-      });
-    }
-    else{
-      this.fedTaxPayer = ((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_entity || {}).fed_tax_pay || '';
-      (((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_entity || {}).legal_entity_banks || []).forEach((element, innerIndex) => {
-        element.name = 'Seller Bank | ' + element.bank_name;
-        element.legal_name = this.bankDetails.selected_seller.user.developer_company? this.bankDetails.selected_seller.user.developer_company : 
-        this.bankDetails.selected_seller.user.is_developer == 0  && !this.bankDetails.selected_seller.user.legal_entity_id? this.bankDetails.selected_seller.user.name + ' ' + this.bankDetails.selected_seller.user.first_surname 
-        + ' ' + this.bankDetails.selected_seller.user.second_surname : this.bankDetails.selected_seller.user.legal_entity.legal_name? this.bankDetails.selected_seller.user.legal_entity.legal_name: '';
-        this.paymentBankDetailsArray.push(element);
-    });
-  }
+      if (this.bankDetails.selected_seller.user.developer_company || this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id) {
+        ((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_rep_banks || []).forEach((element, innerIndex) => {
+          element.name = 'Seller Bank | ' + element.bank_name;
+          element.legal_name = this.bankDetails.selected_seller.user.developer_company ? this.bankDetails.selected_seller.user.developer_company :
+            this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id ? this.bankDetails.selected_seller.user.name + ' ' + this.bankDetails.selected_seller.user.first_surname
+              + ' ' + this.bankDetails.selected_seller.user.second_surname : this.bankDetails.selected_seller.user.legal_entity.legal_name ? this.bankDetails.selected_seller.user.legal_entity.legal_name : '';
+          this.paymentBankDetailsArray.push(element);
+        });
+      }
+      else {
+        this.fedTaxPayer = ((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_entity || {}).fed_tax_pay || '';
+        (((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_entity || {}).legal_entity_banks || []).forEach((element, innerIndex) => {
+          element.name = 'Seller Bank | ' + element.bank_name;
+          element.legal_name = this.bankDetails.selected_seller.user.developer_company ? this.bankDetails.selected_seller.user.developer_company :
+            this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id ? this.bankDetails.selected_seller.user.name + ' ' + this.bankDetails.selected_seller.user.first_surname
+              + ' ' + this.bankDetails.selected_seller.user.second_surname : this.bankDetails.selected_seller.user.legal_entity.legal_name ? this.bankDetails.selected_seller.user.legal_entity.legal_name : '';
+          this.paymentBankDetailsArray.push(element);
+        });
+      }
       // payment directly received by seller
       // if (((this.bankDetails || {}).collection || {}).seller_type != 2) {
       //   // seller (as a person or developer) banks
