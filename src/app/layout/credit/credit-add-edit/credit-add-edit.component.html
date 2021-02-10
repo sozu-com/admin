@@ -63,7 +63,7 @@
             <!-- credit tab -->
           <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
             <div class="container-fluid">
-              <form role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="add(addForm)">
+              <form role="form" ngNativeValidate #addForm="ngForm" >
                 <div class="white-bg padding20">
                   <h3>{{'creditForm.id' | translate}} &nbsp;218642</h3>
                   <div class="col-12">
@@ -73,24 +73,18 @@
                     <div class="col-4">
                       <div class="form-group-3">
                         <label class="p16-two">{{'creditForm.destination' | translate}}</label>
-                        <select title="Select Nationality" [(ngModel)]="model.nationality_id" name="nationality_id"
-                          class="form-control" (change)="this.updateNationalityName($event.target.value)">
-                          <option *ngFor="let tempNationalityDetails of nationalityDetails"
-                            [selected]="tempNationalityDetails.id == model.nationality_id"
-                            value="{{tempNationalityDetails.id}}">
-                            {{tempNationalityDetails.name}}</option>
+                        <select title="Select Nationality"
+                          class="form-control">
+                          <option></option>
                         </select>
                       </div>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
                         <label class="p16-two">{{'creditForm.programs' | translate}}</label>
-                        <select title="Select Nationality" [(ngModel)]="model.nationality_id" name="nationality_id"
-                          class="form-control" (change)="this.updateNationalityName($event.target.value)">
-                          <option *ngFor="let tempNationalityDetails of nationalityDetails"
-                            [selected]="tempNationalityDetails.id == model.nationality_id"
-                            value="{{tempNationalityDetails.id}}">
-                            {{tempNationalityDetails.name}}</option>
+                        <select title="Select Nationality"
+                          class="form-control">
+                          <option></option>
                         </select>
                       </div>
                     </div>
@@ -119,13 +113,9 @@
                     <div class="col-4">
                       <div class="form-group-3">
                         <label class="p16-two">{{'creditForm.deadlines' | translate}}</label>
-                        <select title="Select Nationality" [(ngModel)]="model.nationality_id" name="nationality_id"
-                          class="form-control" (change)="this.updateNationalityName($event.target.value)">
-                          <!-- <option value="-1" disabled>{{'addForm.selectNationality' | translate}}</option> -->
-                          <option *ngFor="let tempNationalityDetails of nationalityDetails"
-                            [selected]="tempNationalityDetails.id == model.nationality_id"
-                            value="{{tempNationalityDetails.id}}">
-                            {{tempNationalityDetails.name}}</option>
+                        <select title="Select Nationality"
+                          class="form-control">
+                          <option></option>
                         </select>
                       </div>
                     </div>
@@ -134,14 +124,10 @@
                         <label>{{'creditForm.paymentScheme' | translate}}
                           <!-- <span class="color-red">*</span> -->
                         </label>
-                        <select title="Select Nationality" [(ngModel)]="model.nationality_id" name="nationality_id"
-                          class="form-control" (change)="this.updateNationalityName($event.target.value)">
-                          <!-- <option value="-1" disabled>{{'addForm.selectNationality' | translate}}</option> -->
-                          <option *ngFor="let tempNationalityDetails of nationalityDetails"
-                            [selected]="tempNationalityDetails.id == model.nationality_id"
-                            value="{{tempNationalityDetails.id}}">
-                            {{tempNationalityDetails.name}}</option>
-                        </select>
+                        <select title="Select Nationality"
+                        class="form-control">
+                        <option></option>
+                      </select>
                       </div>
                     </div>
                   </div>
@@ -153,13 +139,9 @@
                     <div class="col-8">
                       <div class="form-group-3">
                         <label>{{'creditForm.banks' | translate}}</label>
-                        <select title="Select Nationality" [(ngModel)]="model.nationality_id" name="nationality_id"
-                          class="form-control" (change)="this.updateNationalityName($event.target.value)">
-                          <!-- <option value="-1" disabled>{{'addForm.selectNationality' | translate}}</option> -->
-                          <option *ngFor="let tempNationalityDetails of nationalityDetails"
-                            [selected]="tempNationalityDetails.id == model.nationality_id"
-                            value="{{tempNationalityDetails.id}}">
-                            {{tempNationalityDetails.name}}</option>
+                        <select title="Select Nationality"
+                          class="form-control">
+                          <option></option>
                         </select>
                       </div>
                     </div>
@@ -190,13 +172,9 @@
                         <label>{{'creditForm.square' | translate}}
                           <!-- <span class="color-red">*</span> -->
                         </label>
-                        <select title="Select Nationality" [(ngModel)]="model.nationality_id" name="nationality_id"
-                          class="form-control" (change)="this.updateNationalityName($event.target.value)">
-                          <!-- <option value="-1" disabled>{{'addForm.selectNationality' | translate}}</option> -->
-                          <option *ngFor="let tempNationalityDetails of nationalityDetails"
-                            [selected]="tempNationalityDetails.id == model.nationality_id"
-                            value="{{tempNationalityDetails.id}}">
-                            {{tempNationalityDetails.name}}</option>
+                        <select title="Select Nationality"
+                          class="form-control">
+                          <option></option>
                         </select>
                       </div>
                     </div>
@@ -234,7 +212,7 @@
                     <div class="form-group-3">
                        <label class="switch1">
                           <input type="checkbox" class="form-control" formControlName="agencyOrSeller"
-                             (change)="this.onAgencyOrSellerChange()">
+                             >
                           <span class="slider round" style="background-color: #00B96F;"></span>
                        </label>
                     </div>

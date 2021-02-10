@@ -110,6 +110,7 @@
     "hasAccess": "Has Access",
     "noAccess": "No Access",
     "buyer": "Buyer",
+    "propertyKey": "Property Key",
     "seller": "Seller",
     "credit": "Credit",
     "rent": "Rent",
@@ -2277,7 +2278,8 @@
     "pendingPayment": "Pending payment",
     "amountPayable": "Amount payable",
     "penalty": "Penalty",
-    "description": "Description"
+    "description": "Description",
+    "accountStatments": "Account-Statments"
   },
   "viewCredit":{
     "label": "Manage Credit",
@@ -2287,5 +2289,29 @@
     "addLabel":"Add New Request",
     "sellectUser": "Sellect a user",
     "SearchAUserInOurDatabase": "Search a user in our database"
+  },
+  "creditForm":{
+    "credit":"credits",
+    "Applicant":"Applicant",
+    "Coaccredited":"Coaccredited",
+    "id":"ID",
+    "destination":"Destination",
+    "programs":"Programs",
+    "homeValue":"Home value",
+    "creditAmount":"Credit amount",
+    "deadlines" : "Deadlines to quote",
+    "paymentScheme" :"Payment scheme",
+    "banks" :"Banks",
+    "yes" :"Si",
+    "no" :"No",
+    "customerProfile":"Customer profile",
+    "caseStatus":"Case status",
+    "square":"Square",
+    "state":"State",
+    "executive":"Executive",
+    "userInfo":"User Info",
+    "yesno1":"Is the",
+    "yesno2":"property",
+    "yesno3":"new?"
   }
 }
