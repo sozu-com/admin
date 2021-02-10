@@ -1729,7 +1729,8 @@
     "NA": "NA",
     "viewedProjects": "Proyectos vistos",
     "viewedProperties": "Departamentos vistos",
-    "search": "Buscar"
+    "search": "Buscar",
+    "buyerDocumentation":"Documentación del comprador"
   },
   "viewCollections": {
     "choose": "Escoger",

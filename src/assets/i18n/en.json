@@ -1729,7 +1729,8 @@
     "viewedProjects": "Viewed Projects",
     "viewedProperties": "Viewed Properties",
     "search": "Search",
-    "edit": "Edit"
+    "edit": "Edit",
+    "buyerDocumentation":"Buyer documentation"
   },
   "viewCollections": {
     "choose": "Choose",
