@@ -2286,5 +2286,11 @@
     "addLabel": "Agregar nueva solicitud",
     "sellectUser": "Selecciona un usuario",
     "SearchAUserInOurDatabase": "Selecciona un usuario en nuestra base de datos"
+  },
+  "creditForm":{
+    "id":"ID",
+    "destination":"Destino",
+    "programs":"Programas",
+    "homeValue":"Valor de la vivienda"
   }
 }

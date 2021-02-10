@@ -2287,5 +2287,11 @@
     "addLabel":"Add New Request",
     "sellectUser": "Sellect a user",
     "SearchAUserInOurDatabase": "Search a user in our database"
+  },
+  "creditForm":{
+    "id":"ID",
+    "destination":"Destination",
+    "programs":"Programs",
+    "homeValue":"Home value"
   }
 }
