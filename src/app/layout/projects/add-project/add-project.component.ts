@@ -1207,20 +1207,22 @@ export class AddProjectComponent implements OnInit {
     if (
       modelSave.name && modelSave.country_id && modelSave.state_id &&
       modelSave.city_id && modelSave.locality_id && modelSave.address && modelSave.address != null &&
-      modelSave.lat && modelSave.lng  && modelSave.possession_status_id 
+      modelSave.lat && modelSave.lng && modelSave.possession_status_id
     ) {
       modelSave.is_completed = 0;
     }
 
     // to basic information
     if (
-      modelSave.cover_image && (modelSave.images || []).length > 0 && 
-       modelSave.name && modelSave.country_id && modelSave.state_id &&
+      // modelSave.cover_image && (modelSave.images || []).length > 0 && 
+      modelSave.name && modelSave.country_id && modelSave.state_id &&
       modelSave.city_id && modelSave.locality_id && modelSave.address && modelSave.address != null &&
-      modelSave.lat && modelSave.lng &&  modelSave.building_type_id && modelSave.num_of_properties
-      && modelSave.description && modelSave.description != null && modelSave.possession_status_id &&  isAnyAmenitiesCheck &&
-      (modelSave.amenities || []).length > 0  && (modelSave.building_towers || []).length > 0 &&
-      this.buildingTowerDetailsAvailable(modelSave.building_towers, true)
+      modelSave.lat && modelSave.lng && modelSave.building_type_id && modelSave.num_of_properties
+      //&& modelSave.description && modelSave.description != null 
+      && modelSave.possession_status_id &&
+      //isAnyAmenitiesCheck && (modelSave.amenities || []).length > 0 &&
+      (modelSave.building_towers || []).length > 0 &&
+      this.buildingTowerDetailsAvailable(modelSave.building_towers)
     ) {
       modelSave.is_completed = 2;
     }
@@ -1230,10 +1232,15 @@ export class AddProjectComponent implements OnInit {
       modelSave.cover_image && (modelSave.images || []).length > 0 &&
       modelSave.name && modelSave.country_id && modelSave.state_id &&
       modelSave.city_id && modelSave.locality_id && modelSave.address && modelSave.address != null &&
-      modelSave.lat && modelSave.lng && modelSave.document && modelSave.building_type_id && modelSave.num_of_properties
-      && modelSave.description && modelSave.description != null && modelSave.possession_status_id && modelSave.launch_date && isAnyAmenitiesCheck &&
+      modelSave.lat && modelSave.lng && 
+      //modelSave.document && 
+      modelSave.building_type_id && modelSave.num_of_properties
+      && modelSave.description && modelSave.description != null 
+      && modelSave.possession_status_id && 
+      //modelSave.launch_date && 
+      isAnyAmenitiesCheck &&
       (modelSave.amenities || []).length > 0 && (modelSave.configurations || []).length > 0 && (modelSave.building_towers || []).length > 0 &&
-      this.buildingTowerDetailsAvailable(modelSave.building_towers, false) && ((modelSave || {}).developer || {}).id &&
+      this.buildingTowerDetailsAvailable(modelSave.building_towers) && ((modelSave || {}).developer || {}).id &&
       ((modelSave || {}).agency || {}).id
     ) {
       modelSave.is_completed = 3;
@@ -1244,10 +1251,14 @@ export class AddProjectComponent implements OnInit {
       modelSave.cover_image && (modelSave.images || []).length > 0 && (modelSave.images360 || []).length > 0 &&
       (modelSave.videos || []).length > 0 && modelSave.name && modelSave.country_id && modelSave.state_id &&
       modelSave.city_id && modelSave.locality_id && modelSave.address && modelSave.address != null &&
-      modelSave.lat && modelSave.lng && modelSave.document && modelSave.building_type_id && modelSave.num_of_properties
-      && modelSave.description && modelSave.description != null && modelSave.possession_status_id && modelSave.launch_date && isAnyAmenitiesCheck &&
+      modelSave.lat && modelSave.lng 
+      //&& modelSave.document 
+      && modelSave.building_type_id && modelSave.num_of_properties
+      && modelSave.description && modelSave.description != null && modelSave.possession_status_id 
+      //&& modelSave.launch_date 
+      && isAnyAmenitiesCheck &&
       (modelSave.amenities || []).length > 0 && (modelSave.configurations || []).length > 0 && (modelSave.building_towers || []).length > 0 &&
-      this.buildingTowerDetailsAvailable(modelSave.building_towers, false) && ((modelSave || {}).developer || {}).id &&
+      this.buildingTowerDetailsAvailable(modelSave.building_towers) && ((modelSave || {}).developer || {}).id &&
       (((modelSave || {}).manager || {}).id || ((modelSave || {}).company || {}).id) && ((modelSave || {}).agency || {}).id
     ) {
       modelSave.is_completed = 1;
@@ -1967,7 +1978,7 @@ export class AddProjectComponent implements OnInit {
     });
   }
 
-  removeLegalEntity(){
+  removeLegalEntity() {
     this.model.legal_entity = new LegalEntity();
   }
 
@@ -2020,24 +2031,19 @@ export class AddProjectComponent implements OnInit {
     return result;
   }
 
-  buildingTowerDetailsAvailable = (details: any[] = [], isBasic: boolean): boolean => {
+  buildingTowerDetailsAvailable = (details: any[] = []): boolean => {
     let result = true;
     for (const iterator of details) {
-      if (isBasic) {
-        if (iterator.amenitiesCount == 0 || iterator.possession_status_id == null ||
-          iterator.possession_status_id == '') {
-          result = false;
-          break;
-        }
-      } else {
-        if (iterator.amenitiesCount == 0 || iterator.launch_date == null ||
-          iterator.launch_date == '' || iterator.possession_status_id == null ||
-          iterator.possession_status_id == '') {
-          result = false;
-          break;
-        }
+      if (iterator.possession_status_id == null || iterator.possession_status_id == '') {
+        result = false;
+        break;
       }
-
+      // if (iterator.amenitiesCount == 0 || iterator.launch_date == null ||
+      //   iterator.launch_date == '' || iterator.possession_status_id == null ||
+      //   iterator.possession_status_id == '') {
+      //   result = false;
+      //   break;
+      // }    
     }
     return result;
   }
