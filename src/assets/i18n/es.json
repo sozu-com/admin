@@ -2314,6 +2314,14 @@
     "userInfo":"Información de usuario",
     "yesno1":"¿Ei inmueble",
     "yesno2":"es",
-    "yesno3":"nuevo ?"
+    "yesno3":"nuevo ?",
+    "generalData":"Datos Generales",
+    "NATIONALITY":"Nacionalidad",
+    "CIVILSTATUS":"Estado Civil",
+    "STREET":"Calle",
+    "OUTDOORNUMBER":"Numero Exterior",
+    "INTERIORNUMBER":"Numero Interior",
+    "COLONY":"Colonia",
+    "Saveinformation":"Guardar infomacion"
   }
 }
