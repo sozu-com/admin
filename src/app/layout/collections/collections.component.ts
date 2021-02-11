@@ -182,12 +182,13 @@ export class CollectionsComponent implements OnInit {
   collection_data: any;
   collection_payments: any;
   table_data = [];
-  layaway_payments: number = 0;
-  down_payments: number = 0;
-  payments_upon_delivery: number = 0;
-  special_payments: number = 0;
+  layaway_payments = [];
+  down_payments = [];
+  payments_upon_delivery = [];
+  special_payments = [];
   monthly_installment: number = 0;
-  monthly_installment_amont: number = 0;
+  monthly_installment_amunt = [];
+  monthly_installment_amunts: number = 0;
   monthly_installment_no: number = 0;
   current_month_amount: number = 0;
   bill_month_date: string;
@@ -2673,16 +2674,20 @@ export class CollectionsComponent implements OnInit {
     this.bill_month = null;
     this.bill_month_date = null;
     this.monthly_installment_no = 0;
-    this.layaway_payments = 0;
-    this.down_payments = 0;
-    this.payments_upon_delivery = 0;
-    this.special_payments = 0;
-    this.monthly_installment_amont = 0;
+    this.layaway_payments = [];
+    this.down_payments = [];
+    this.payments_upon_delivery = [];
+    this.special_payments = [];
+    this.monthly_installment_amunt = [];
     this.spinner.show();
     this.getBase64ImageFromUrl(data.property.id);
     this.admin.postDataApi('getCollectionById', {id: data.id})
     .subscribe(
       success => {
+        let count = 0;
+        let count1 = 0;
+        let count2 = 0;
+        let count3 = 0;
         this.spinner.hide();
         this.collection_data = success['data'];
         this.collection_payments = success['data2'];
@@ -2704,24 +2709,62 @@ export class CollectionsComponent implements OnInit {
           }
           self.monthly_installment = element.amount;
           self.monthly_installment_no = element.category_name.includes('Monthly Installment') ?  self.monthly_installment_no + 1 : self.monthly_installment_no + 0;
-          // self.layaway_payments = element.category_name == 'Layaway Payment' ? self.layaway_payments + element.amount : self.layaway_payments + 0;
-          // self.down_payments = element.category_name == 'Down Payment' ? self.down_payments + element.amount : self.down_payments + 0;
-          // self.payments_upon_delivery = element.category_name == 'Payment upon Delivery' ? self.payments_upon_delivery + element.amount : self.payments_upon_delivery + 0;
-          // self.special_payments = element.category_name == 'Special payment' ? self.special_payments + element.amount : self.special_payments + 0;
-          self.monthly_installment_amont = element.category_name.includes('Monthly Installment') ? self.monthly_installment_amont + element.amount : self.monthly_installment_amont + 0;
-          
+          self.monthly_installment_amunts = element.category_name.includes('Monthly Installment') ? self.monthly_installment_amunts + element.amount : self.monthly_installment_amunts + 0;
+  
+          if(element.category_name == 'Layaway Payment'){
+            let layaway_payments_per = element.amount * 100 / self.collection_data.deal_price;
+            self.layaway_payments.push([
+              { text: self.translate.instant('generatePDF.layaway') + ' ' + (count == 0 ? '' : count) + ':', border: [false, false, false, false], color: '#858291' },
+              { text: layaway_payments_per? Number(layaway_payments_per).toFixed(3) + '%' : 'N/A', border: [false, false, false, false], bold: true  },
+              {text: Number(element.amount).toFixed(2), border: [false, false, false, false], bold: true}
+            ]);
+            count = count + 1;
+          }
+          else if(element.category_name == 'Down Payment'){
+            let down_payments_per = element.amount * 100 / self.collection_data.deal_price;
+            self.down_payments.push([
+              { text: self.translate.instant('generatePDF.downpayment') + ' ' + (count1 == 0 ? '' : count1) + ':', border: [false, false, false, false], color: '#858291' },
+              { text: down_payments_per? Number(down_payments_per).toFixed(3) + '%' : 'N/A', border: [false, false, false, false], bold: true },
+              {text: Number(element.amount).toFixed(2), border: [false, false, false, false], bold: true}
+            ]);
+            count1 = count1 + 1;
+          }
+          else if(element.category_name == 'Payment upon Delivery'){
+            let payments_upon_delivery_per = element.amount * 100 / self.collection_data.deal_price ;
+            self.payments_upon_delivery.push([
+              { text: self.translate.instant('generatePDF.PaymentUponDelivery') + ' ' + (count2 == 0 ? '' : count2) + ':', border: [false, false, false, false], color: '#858291' },
+              { text: payments_upon_delivery_per? Number(payments_upon_delivery_per).toFixed(3) + '%' : 'N/A', border: [false, false, false, false], bold: true },
+              {text: Number(element.amount).toFixed(2), border: [false, false, false, false], bold: true}
+            ]);
+            count2 = count2 + 1;
+          }
+          else if(element.category_name == 'Special payment'){
+            self.special_payments.push([
+              { text: self.translate.instant('generatePDF.specialPayment') + ' ' + (count3 == 0 ? '' : count3) + ':', border: [false, false, false, false], color: '#858291' },
+              { text: '', border: [false, false, false, false] },
+              {text: Number(element.amount).toFixed(2), border: [false, false, false, false], bold: true}
+            ]);
+            count3 = count3 + 1;
+          }
+
           self.table_data.push([
           {text: element.category_name, border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc'},
           {text: element.date, border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc'},
-          {text: element.calc_payment_amount && element.calc_payment_amount> '0.1' ? self.price.transform(Number(element.paid_amount).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true, 
+          {text: element.calc_payment_amount && element.calc_payment_amount> '0.1' ? self.price.transform(Number(element.calc_payment_amount).toFixed(2)) : '', border: [false, false, false, false], bold: true, 
           color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc'},
-          {text: element.outstanding_amount && element.outstanding_amount > 0 ? self.price.transform(Number(element.outstanding_amount).toFixed(2)) : 'N/A', border: [false, false, false, false], 
+          {text: element.outstanding_amount && element.outstanding_amount > 0 ? self.price.transform(Number(element.outstanding_amount).toFixed(2)) : '', border: [false, false, false, false], 
            bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc'},
-          {text: element.amount ? self.price.transform(Number(element.amount).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc'},
-          {text: element.penalty ? self.price.transform(Number(element.penalty.amount).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc'},
-          {text: element.penalty ? element.penalty.description : 'N/A', border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc'}
+          {text: element.amount ? self.price.transform(Number(element.amount).toFixed(2)) : '', border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc'},
+          {text: element.penalty ? self.price.transform(Number(element.penalty.amount).toFixed(2)) : '', border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc'},
+          {text: element.penalty ? element.penalty.description : '', border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc'}
         ]);
         });
+        let monthly_installment_amunt_per = self.monthly_installment_amunts * 100 / self.collection_data.deal_price;
+            self.monthly_installment_amunt.push(
+                { text: self.translate.instant('generatePDF.monthlyInstallmentAmt'), border: [false, false, false, false], color: '#858291' },
+                { text: monthly_installment_amunt_per? Number(monthly_installment_amunt_per).toFixed(3) + '%' : 'N/A', border: [false, false, false, false], bold: true },
+                { text: self.monthly_installment_amunts >= 0 ? self.price.transform(Number(self.monthly_installment_amunts).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true }
+            );
         self.generatePDF();
       });
   }
@@ -2739,35 +2782,15 @@ export class CollectionsComponent implements OnInit {
     let date = this.datePipe.transform(current_date, 'd/M/y');
     let remaining_amount = this.collection_data.total - this.collection_data.total_amount_paid;
     let purchase_date = this.datePipe.transform(this.collection_data.deal_purchase_date, 'MMM d, y');
-    let down_payments_per = this.down_payments * 100 / this.collection_data.deal_price;
-    let monthly_installment_amont_per = this.monthly_installment_amont * 100 / this.collection_data.deal_price;
-    let payments_upon_delivery_per = this.payments_upon_delivery * 100 / this.collection_data.deal_price ;
+    let address = (this.collection_data.buyer.street_address && this.collection_data.buyer.street_address != '0' ? this.collection_data.buyer.street_address + ' ' : '') + (this.collection_data.buyer.external_number ? this.collection_data.buyer.external_number + '\n' : '')
+      + (this.collection_data.buyer.internal_number ? this.collection_data.buyer.internal_number + ', ' : '') + (this.collection_data.buyer.neighborhood ? this.collection_data.buyer.neighborhood + '\n' : '')
+      + (this.collection_data.buyer.zipcode && this.collection_data.buyer.zipcode != '0' ? this.collection_data.buyer.zipcode + ', ' : '') + (this.collection_data.buyer.city ? this.collection_data.buyer.city + ', ' : '')
+      + (this.collection_data.buyer.state ? this.collection_data.buyer.state + ', ' : '') + (this.collection_data.buyer.country ? this.collection_data.buyer.country + ', ' : '')
 
     let docDefinition = {
-      pageSize: {
-        width: 870,
-        height: 850
-      },
+      pageSize: 'LEGAL',
+      pageMargins: [40, 80, 40, 180],
       content: [
-        {
-          columns: [
-            {
-              image: this.logoImageBase64,
-              width: 100
-            },
-            {
-              text: this.translate.instant('generatePDF.address'),
-              margin: [80, 0, 0, 0],
-              color: '#858291'
-            },
-            {
-
-              text: this.translate.instant('generatePDF.addressName') + '\n' + date,
-              alignment: 'right',
-              color: '#858291'
-            },
-          ]
-        },
         {
           columns: [
             [
@@ -2784,12 +2807,12 @@ export class CollectionsComponent implements OnInit {
                   widths: ['auto', 'auto'],
                   body: [
                     [
-                      { text: this.translate.instant('generatePDF.name'), border: [false, false, false, false], bold: true, color: '#858291' },
+                      { text: this.translate.instant('generatePDF.name'), border: [false, false, false, false], color: '#858291' },
                       { text: this.collection_data.buyer.name ? this.collection_data.buyer.name + this.collection_data.buyer.first_surname + ' ' + this.collection_data.buyer.second_surname : 'N/A', border: [false, false, false, false], bold: true }
                     ],
                     [
                       { text: this.translate.instant('generatePDF.purchaseDate'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.collection_data.deal_purchase_date || 'N/A', border: [false, false, false, false], bold: true }
+                      { text: purchase_date || 'N/A', border: [false, false, false, false], bold: true }
                     ],
                     [
                       { text: this.translate.instant('generatePDF.email'), border: [false, false, false, false], color: '#858291' },
@@ -2801,8 +2824,9 @@ export class CollectionsComponent implements OnInit {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.addressLable'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.collection_data.buyer.street_address + ' ' + this.collection_data.buyer.external_number  + '\n' + this.collection_data.buyer.internal_number +
-                              ', ' + this.collection_data.buyer.neighborhood + '\n' + this.collection_data.buyer.zipcode + ', ' + this.collection_data.buyer.city + ', ' + this.collection_data.buyer.state + ', ' + this.collection_data.buyer.country, border: [false, false, false, false], bold: true }
+                      {
+                        text: address ? address : 'N/A', border: [false, false, false, false], bold: true
+                      }
                     ]
                   ]
                 }
@@ -2822,7 +2846,7 @@ export class CollectionsComponent implements OnInit {
                   widths: ['auto', 'auto'],
                   body: [
                     [
-                      { text: this.translate.instant('generatePDF.totalPaymentCurrentMonth'), border: [false, false, false, false], bold: true, color: '#858291' },
+                      { text: this.translate.instant('generatePDF.totalPaymentCurrentMonth'), border: [false, false, false, false], color: '#858291' },
                       { text: this.price.transform(Number(this.current_month_amount).toFixed(2)), border: [false, false, false, false], bold: true }
                     ],
                     [
@@ -2842,7 +2866,7 @@ export class CollectionsComponent implements OnInit {
               },
             ]
           ],
-          margin: [0, 30, 0, 0]
+          margin: [0, 35, 0, 5]
         },
         {
           columns: [
@@ -2883,7 +2907,7 @@ export class CollectionsComponent implements OnInit {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.floor'), bold: true, border: [false, false, false, false], color: '#858291' },
-                      { text: this.collection_data.property.name, border: [false, false, false, false], bold: true },
+                      { text: this.collection_data.property.floor_num == 0 ? 'Ground floor' : this.collection_data.property.floor_num + ' Floor', border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.model'), bold: true, border: [false, false, false, false], color: '#858291' },
@@ -2891,7 +2915,7 @@ export class CollectionsComponent implements OnInit {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.noOfProperty'), bold: true, border: [false, false, false, false], color: '#858291' },
-                      { text: this.collection_data.property.floor_num, border: [false, false, false, false], bold: true },
+                      { text: this.collection_data.property.name, border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.listPrice'), bold: true, border: [false, false, false, false], color: '#858291' },
@@ -2904,7 +2928,7 @@ export class CollectionsComponent implements OnInit {
                 text: this.translate.instant('generatePDF.generalBalance'),
                 bold: true,
                 fontSize: 20,
-                margin: [0, 0, 0, 7]
+                margin: [0, 20, 0, 7]
               },
               {
                 style: 'table2',
@@ -2913,8 +2937,8 @@ export class CollectionsComponent implements OnInit {
                   widths: ['auto', 'auto'],
                   body: [
                     [
-                      { text: this.translate.instant('generatePDF.balancePayable'), border: [false, false, false, false], bold: true, fontSize: 16, },
-                      { text: remaining_amount >= 0 ? this.price.transform(Number(remaining_amount).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true, fontSize: 16, }
+                      { text: this.translate.instant('generatePDF.balancePayable'), border: [false, false, false, false], bold: true, fontSize: 16, margin: [0, 0, 0, 10]},
+                      { text: remaining_amount >= 0 ? this.price.transform(Number(remaining_amount).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true, fontSize: 16,margin: [0, 0, 0, 10] }
                     ],
                     [
                       { text: this.translate.instant('generatePDF.totalPaid'), border: [false, false, false, false], color: '#858291' },
@@ -2922,21 +2946,6 @@ export class CollectionsComponent implements OnInit {
                     ]
                   ]
                 }
-              },
-              {
-                text: this.translate.instant('generatePDF.notReflected') + '\n' + this.translate.instant('generatePDF.notReflected1'),
-                color: '#858291',
-                margin: [0, 20, 0, 20]
-              },
-              {
-                text: [
-                  { text: this.translate.instant('generatePDF.addressSeller'), bold: true },
-                  {
-                    text: '\n' + this.translate.instant('generatePDF.addressSeller1') + '\n' + this.translate.instant('generatePDF.addressSeller2')
-                      + '\n' + this.translate.instant('generatePDF.addressSeller3'), color: '#858291'
-                  },
-                ],
-                margin: [0, 0, 0, 20]
               }
             ],
             [
@@ -2969,37 +2978,13 @@ export class CollectionsComponent implements OnInit {
                       { text: this.translate.instant('generatePDF.monthlyInstallment'), border: [false, false, false, false], color: '#858291' },
                       { text: '', border: [false, false, false, false] },
                       { text: this.monthly_installment >= 0 ? this.price.transform(Number(this.monthly_installment).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true }
-                    ],
-                    [
-                      { text: this.translate.instant('generatePDF.layaway'), border: [false, false, false, false], color: '#858291' },
-                      { text: '', border: [false, false, false, false] },
-                      { text: this.layaway_payments >= 0 ? this.price.transform(Number(this.layaway_payments).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true },
-                    ],
-                    [
-                      { text: this.translate.instant('generatePDF.downpayment'), border: [false, false, false, false], color: '#858291' },
-                      { text: down_payments_per? Number(down_payments_per).toFixed(2) + '%' : 'N/A', border: [false, false, false, false], bold: true },
-                      { text: this.down_payments >= 0 ? this.price.transform(Number(this.down_payments).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true },
-                    ],
-                    [
-                      { text: this.translate.instant('generatePDF.monthlyInstallmentAmt'), border: [false, false, false, false], color: '#858291' },
-                      { text: monthly_installment_amont_per? Number(monthly_installment_amont_per).toFixed(2) + '%' : 'N/A', border: [false, false, false, false], bold: true },
-                      { text: this.monthly_installment_amont >= 0 ? this.price.transform(Number(this.monthly_installment_amont).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true }
-                    ],
-                    [
-                      { text: this.translate.instant('generatePDF.PaymentUponDelivery'), border: [false, false, false, false], color: '#858291' },
-                      { text: payments_upon_delivery_per? Number(payments_upon_delivery_per).toFixed(2) + '%' : 'N/A', border: [false, false, false, false], bold: true },
-                      { text: this.payments_upon_delivery >= 0 ? this.price.transform(Number(this.payments_upon_delivery).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true }
-                    ],
-                    [
-                      { text: this.translate.instant('generatePDF.specialPayment'), border: [false, false, false, false], color: '#858291' },
-                      { text: '', border: [false, false, false, false] },
-                      { text: this.special_payments >= 0 ? this.price.transform(Number(this.special_payments).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true },
-                    ],
+                    ]
                   ]
                 }
               },
               {
-                style: 'table2',
+                style: 'banktable',
+                unbreakable: true,
                 table: {
                   headerRows: 1,
                   widths: ['auto', 'auto'],
@@ -3030,20 +3015,12 @@ export class CollectionsComponent implements OnInit {
                       { text: this.translate.instant('generatePDF.cLABE'), border: [false, false, false, false], color: '#858291' },
                       { text: 'N/A', border: [false, false, false, false], bold: true }
                     ],
-                  ]
+                  ],
                 }
-              },
-              {
-                text: [
-                  { text: this.translate.instant('generatePDF.contactUS') + '\n' + this.translate.instant('generatePDF.contactUS2'), color: '#858291' },
-                  { text: ' ' + this.translate.instant('generatePDF.contactUS3'), bold: true },
-                  { text: '\n' + this.translate.instant('generatePDF.contactUS4'), color: '#858291' },
-                ],
-                margin: [0, 10, 0, 10]
-              },
+              }
             ]
           ],
-          margin: [0, 20, 0, 0]
+          margin: [0, 30, 0, 10]
         },
         {
           style: 'table2',
@@ -3066,17 +3043,43 @@ export class CollectionsComponent implements OnInit {
         {
           columns: [
             {
-              text: this.translate.instant('generatePDF.notReflected'),
-              color: '#858291',
-              margin: [0, 20, 0, 20]
+              text: '',
             },
             {
               text: '',
             }
           ]
-        },
-        {
-          columns: [
+        }
+      ],
+      header: {
+        columns: [
+          {
+            image: this.logoImageBase64,
+            width: 100,
+            margin: [20, 20, 20, 20],
+          },
+          {
+            text: this.translate.instant('generatePDF.address'),
+            margin: [80, 20, 20, 20],
+            color: '#858291'
+          },
+          {
+
+            text: this.translate.instant('generatePDF.addressName') + '\n' + date,
+            alignment: 'right',
+            color: '#858291',
+            margin: [20, 20, 20, 20],
+          },
+        ]
+      },
+      footer: {
+        columns: [
+          [
+            {
+              text: this.translate.instant('generatePDF.notReflected'),
+              color: '#858291',
+              margin: [30, 20, 0, 30]
+            },
             {
               text: [
                 { text: this.translate.instant('generatePDF.addressSeller'), bold: true },
@@ -3085,7 +3088,13 @@ export class CollectionsComponent implements OnInit {
                     + '\n' + this.translate.instant('generatePDF.addressSeller3'), color: '#858291'
                 },
               ],
-              margin: [0, 10, 0, 0]
+              margin: [30, 10, 0, 0]
+            }
+          ],
+          [
+            {
+              text: '',
+              margin: [0, 60, 0, 0]
             },
             {
               text: [
@@ -3093,11 +3102,11 @@ export class CollectionsComponent implements OnInit {
                 { text: ' ' + this.translate.instant('generatePDF.contactUS3'), bold: true },
                 { text: '\n' + this.translate.instant('generatePDF.contactUS4'), color: '#858291' },
               ],
-              margin: [0, 20, 0, 0]
+              margin: [20, 20, 0, 0]
             }
           ]
-        }
-      ],
+        ]
+      },
       styles: {
         sectionHeader: {
           bold: true,
@@ -3114,12 +3123,69 @@ export class CollectionsComponent implements OnInit {
           margin: [0, 5, 0, 15],
           border: [false, false, false, false]
         },
+        banktable:{
+          margin: [0, 20, 0, 40],
+          border: [false, false, false, false]
+        }
       },
     };
     this.table_data.forEach(element => {
-      docDefinition.content[3].table.body.push(element);
+      docDefinition.content[2].table.body.push(element);
     });
-    pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.accountStatments'));
+    if (this.layaway_payments.length > 0) {
+      this.layaway_payments.forEach(element => {
+        docDefinition.content[1].columns[1][2].table.body.push(element);
+      });
+    } else {
+      docDefinition.content[1].columns[1][2].table.body.push([
+        { text: this.translate.instant('generatePDF.layaway'), border: [false, false, false, false], color: '#858291' },
+        { text: '', border: [false, false, false, false] },
+        { text: 'N/A', border: [false, false, false, false], bold: true },
+      ]);
+    }
+    if (this.down_payments.length > 0) {
+      this.down_payments.forEach(element => {
+        docDefinition.content[1].columns[1][2].table.body.push(element);
+      });
+    } else {
+      docDefinition.content[1].columns[1][2].table.body.push([
+        { text: this.translate.instant('generatePDF.downpayment'), border: [false, false, false, false], color: '#858291' },
+        { text: '', border: [false, false, false, false] },
+        { text: 'N/A', border: [false, false, false, false], bold: true },
+      ]);
+    }
+    if (this.monthly_installment_amunt.length > 0) {
+      docDefinition.content[1].columns[1][2].table.body.push(this.monthly_installment_amunt);
+    } else {
+      docDefinition.content[1].columns[1][2].table.body.push([
+        { text: this.translate.instant('generatePDF.monthlyInstallmentAmt'), border: [false, false, false, false], color: '#858291' },
+        { text: '', border: [false, false, false, false] },
+        { text: 'N/A', border: [false, false, false, false], bold: true },
+      ]);
+    }
+    if (this.payments_upon_delivery.length > 0) {
+      this.payments_upon_delivery.forEach(element => {
+        docDefinition.content[1].columns[1][2].table.body.push(element);
+      });
+    } else {
+      docDefinition.content[1].columns[1][2].table.body.push([
+        { text: this.translate.instant('generatePDF.PaymentUponDelivery'), border: [false, false, false, false], color: '#858291' },
+        { text: '', border: [false, false, false, false] },
+        { text: 'N/A', border: [false, false, false, false], bold: true },
+      ]);
+    }
+    if (this.special_payments.length > 0) {
+      this.special_payments.forEach(element => {
+        docDefinition.content[1].columns[1][2].table.body.push(element);
+      });
+    } else {
+      docDefinition.content[1].columns[1][2].table.body.push([
+        { text: this.translate.instant('generatePDF.specialPayment'), border: [false, false, false, false], color: '#858291' },
+        { text: '', border: [false, false, false, false] },
+        { text: 'N/A', border: [false, false, false, false], bold: true },
+      ]);
+    }
+    pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.accountStatments') + ' ' + current_date.toISOString() + '.pdf');
     // }else if(action === 'print'){
     //   pdfMake.createPdf(docDefinition).print();
     // }else{
