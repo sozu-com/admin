@@ -1279,12 +1279,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                       { text: monthly_installments ? this.price.transform(Number(monthly_installments || 0).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true }
                     ],
                     [
-                      { text: this.translate.instant('generatePDF.layaway'), border: [false, false, false, false], color: '#858291' },
+                      { text: this.translate.instant('generatePDF.layaway') + ':', border: [false, false, false, false], color: '#858291' },
                       { text: '', border: [false, false, false, false] },
                       { text: this.price.transform(20000) + '*', border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: this.translate.instant('generatePDF.downpayment'), border: [false, false, false, false], color: '#858291' },
+                      { text: this.translate.instant('generatePDF.downpayment') + ':', border: [false, false, false, false], color: '#858291' },
                       { text: this.installmentFormGroup.value.downPayment ? this.installmentFormGroup.value.downPayment + '%' : 'N/A', border: [false, false, false, false], bold: true },
                       { text: downpayment ? this.price.transform(Number(downpayment || 0).toFixed(2)) : '', border: [false, false, false, false], bold: true },
                     ],
@@ -1296,7 +1296,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     [
                       {
                         text: [
-                          { text: this.translate.instant('generatePDF.PaymentUponDelivery') },
+                          { text: this.translate.instant('generatePDF.PaymentUponDelivery') + ':' },
                           { text: '\n' + this.translate.instant('generatePDF.commercialOfferP'), color: '#858291', fontSize: 8, margin: [0, 5, 0, 5] }
                         ],
                         border: [false, false, false, true], color: '#858291'
@@ -1388,7 +1388,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       },
     };
 
-    pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.commercialOffer'));
+    pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.commercialOffer') + ' ' + current_date.toISOString() + '.pdf');
     // }else if(action === 'print'){
     //   pdfMake.createPdf(docDefinition).print();
     // }else{
