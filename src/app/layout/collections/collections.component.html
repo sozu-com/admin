@@ -870,9 +870,10 @@
               </div>
             </div>
             <div class="col-12">
-              <div class="form-group-2">
+              <div class="form-group-3">
                 <div class="form-group">
-                  <p-calendar showAnim="slideDown" id="calendar" [showIcon]="true" [showTime]="true"
+                  <div class="clearfix"></div>
+                  <p-calendar showAnim="slideDown" id="calendar" [showIcon]="true" [showTime]="true" [style]="{'width':'100%'}"
                     [(ngModel)]="reminder_date" dateFormat="MM d, yy" (onSelect)="onSelect2($event)" name="calendar">
                   </p-calendar>
                 </div>
@@ -882,7 +883,7 @@
               <div class="form-group-2">
                 <div class="form-group">
                   <input type="text" autocomplete="off" class="form-control note" name="noteEmails"
-                    [(ngModel)]="noteEmails" (ngModelChange)="modelChange($event)">
+                    [(ngModel)]="noteEmails" (ngModelChange)="modelChange($event)"  placeholder="{{'addCollection.Addcollaborator' | translate}}">
                 </div>
               </div>
             </div>

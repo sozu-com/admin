@@ -63,6 +63,7 @@ export class ArrearReportComponent implements OnInit {
     this.today = new Date();
     this.input = new CollectionReport();
     this.previousMonth = moment().subtract(1, 'months').toDate();
+    this.input.start_date = moment().subtract(12, 'months').toDate();
     this.input.end_date = moment().toDate();
     this.nextMonth = moment().add(1, 'months').toDate();
     this.getDevelopers();
@@ -223,6 +224,7 @@ export class ArrearReportComponent implements OnInit {
     this.spinner.show();
 
     const input: any = JSON.parse(JSON.stringify(this.input));
+    input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
     input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
     input.year = new Date(this.input.end_date).getFullYear(),
       input.month = new Date(this.input.end_date).getMonth() + 1;

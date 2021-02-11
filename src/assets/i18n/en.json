@@ -591,6 +591,7 @@
       "secondSurname": "Second Surname",
       "contactNumber": "Contact Number",
       "contact_number": "Contact Number",
+      "possession_status": "Possession Status",
       "emailAddress": "Email Address",
       "emailId": "Email ID",
       "leads": "Leads",
@@ -1979,6 +1980,7 @@
     "Arrearest": "Arrear est",
     "Arreardin": "Arrear din",
     "modelReport": "Model Report",
+    "Concept": "Concept",
     "generalReport": "General Report",
     "conceptReport": "Concept Report",
     "monthlyReport": "Monthly Report",
@@ -2313,6 +2315,14 @@
     "userInfo":"User Info",
     "yesno1":"Is the",
     "yesno2":"property",
-    "yesno3":"new?"
+    "yesno3":"new?",
+    "generalData":"General data",
+    "NATIONALITY":"NATIONALITY",
+    "CIVILSTATUS":"Civil Status",
+    "STREET":"Street",
+    "OUTDOORNUMBER":"Outdoor Number",
+    "INTERIORNUMBER":"Interior Number",
+    "COLONY":"Colony",
+"Saveinformation":"Save information"
   }
 }
