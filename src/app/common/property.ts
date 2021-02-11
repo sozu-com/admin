@@ -161,6 +161,7 @@ export interface IProperty {
   tower_name?: string;
   managedBy?: number;
   possession_filter?: number;
+  possession_status_id?: number;
   developer_id?: number;
   project_id?: number;
   agent_id?: string;

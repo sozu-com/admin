@@ -20,6 +20,7 @@ import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { PricePipe } from 'src/app/pipes/price.pipe';
 import { ExcelDownload } from 'src/app/common/excelDownload';
+import { ApiConstants } from 'src/app/common/api-constants';
 
 declare let swal: any;
 declare var $: any;
@@ -131,6 +132,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   constructor(
     public constant: Constant,
+    public apiConstant: ApiConstants,
     public admin: AdminService,
     private propertyService: PropertyService,
     private spinner: NgxSpinnerService,
@@ -239,6 +241,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.parameter.bathroom = 0;
     this.parameter.half_bathroom = 0;
     this.parameter.property_type_id = 0;
+    this.parameter.possession_status_id = 0; // 0-all, 9-presale, 8-sale
     this.local_storage_parameter = JSON.parse(localStorage.getItem('parametersForProperty'));
     this.parameter = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.parameter;
     this.getCountries();

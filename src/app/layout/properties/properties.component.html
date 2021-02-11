@@ -384,6 +384,19 @@
                               </select>
                            </div>
                         </th>
+                        <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
+                           <div class="table-search">
+                              <label>{{'table.th.possession_status' | translate}}</label>
+                              <select [(ngModel)]="parameter.possession_status_id" (change)="getListing()">
+                                 <option value="0">{{'table.th.possesion.all' | translate}}</option>
+                                 <option value="{{apiConstant.possessionStatus.sale}}">{{'table.th.possesion.sale' | translate}}
+                                 </option>
+                                 <option value="{{apiConstant.possessionStatus.preSale}}">
+                                   {{'table.th.possesion.presale' | translate}}</option>
+                               </select>
+                           </div>
+                        </th>
+                       
                         <th style="width:4%;vertical-align:top;">
                            <div class="d-flex table-search">
                               <label>{{'table.th.editPrice' | translate}}</label>
@@ -525,6 +538,8 @@
                         <!-- <td><span>{{p?.carpet_areas && p?.carpet_areas?.length>0 ? (p?.carpet_areas[0]?.area| number : '1.2-2') : 0.00}}</span></td> -->
                         <td><span>{{p?.max_area ? p.max_area : 0.00}}</span></td>
                         <td><span>{{p?.is_commercialized ? ( 'table.th.yes' | translate ): ( 'table.th.no' | translate ) }}</span></td>
+                        <span>{{p?.building_towers?.possession_status_id == apiConstant.possessionStatus.sale ? ('table.tr.td.sale' |
+                           translate) : ('table.tr.td.presale' | translate)}}</span>
                         <td><span>
                               <button (click)="editPricePopup(p, i)"
                                  [disabled]="admin?.admin_acl['Property Management']?.can_update==0"

@@ -7,18 +7,23 @@ import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
 import { CollectionReport } from '../../../models/collection-report.model';
 import { Towers } from '../../../models/addProject.model';
-
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+import { ApiConstants } from 'src/app/common/api-constants';
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 @Component({
   selector: 'app-monthly',
   templateUrl: './monthly.component.html',
   styleUrls: ['./monthly.component.css']
 })
 export class MonthlyComponent implements OnInit {
-
+  exportfinalData: Array<any>;
   public parameter: IProperty = {};
   singleDropdownSettings: any;
   multiDropdownSettings: any;
   legalRepDropdownSettings: any;
+  paymentDropdownSettings: any;
   items: any = [];
   total: any = 0;
   today: any;
@@ -36,6 +41,10 @@ export class MonthlyComponent implements OnInit {
   previousMonth: any;
   nextMonth: any;
   projects: Array<any>;
+
+  selctedConcept: Array<any>;
+  concepts = Array<any>();
+
   selctedProjects: Array<any>;
   developers: Array<any>;
   selectedDevelopers: Array<any>;
@@ -58,10 +67,11 @@ export class MonthlyComponent implements OnInit {
     public constant: Constant,
     public admin: AdminService,
     private spinner: NgxSpinnerService,
-    private translate: TranslateService
+    private translate: TranslateService, public apiConstant: ApiConstants,
   ) { }
 
   ngOnInit() {
+    this.selctedConcept = [];
     this.finalData = [];
     this.iniDropDownSetting();
     this.today = new Date();
@@ -79,8 +89,26 @@ export class MonthlyComponent implements OnInit {
     this.getCurrencies();
     this.initCalendarLocale();
     this.getListing();
+    this.getPropertyAmenities();
   }
-
+  getPropertyAmenities() {
+    this.admin.postDataApi('getPaymentChoices',{})
+      .subscribe(
+        success => {
+          this.spinner.hide();
+          this.concepts = success['data'];
+        }
+      );
+  }
+  unsetProject(item: any) {
+    let i = 0;
+    this.selctedConcept.map(r => {
+      if (r.id == item.id) {
+        this.selctedConcept.splice(i, 1);
+      }
+      i = i + 1;
+    });
+  }
   initCalendarLocale() {
     if (this.translate.defaultLang === 'en') {
       this.locale = {
@@ -133,6 +161,17 @@ export class MonthlyComponent implements OnInit {
       allowSearchFilter: true,
       itemsShowLimit: 1
     };
+    this.paymentDropdownSettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'name',
+      selectAllText: this.translate.instant('commonBlock.selectAll'),
+      unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
+      searchPlaceholderText: this.translate.instant('commonBlock.search'),
+      allowSearchFilter: true,
+      itemsShowLimit: 1
+    };
+    
     this.legalRepDropdownSettings = {
       singleSelection: false,
       idField: 'id',
@@ -371,6 +410,11 @@ export class MonthlyComponent implements OnInit {
       const d = this.selectedCurrencies.map(o => o.id);
       input.currency_id = d;
     }
+    if (this.selctedConcept) {
+      const d = this.selctedConcept.map(o => o.id);
+      // console.log(d, "filter")
+      input.paymentConcepts = d;
+    }
     this.admin.postDataApi('generateCollectionMonthlyReport', input).subscribe(
       success => {
         this.total = success['total_count'];
@@ -396,5 +440,124 @@ export class MonthlyComponent implements OnInit {
     this.selectedBuyerDev = [];
     this.selectedProperties = [];
     this.selectedLegalReps = [];
+    this.selctedConcept = [];
+  }
+  
+  getExportlisting() {
+    this.spinner.show();
+    const input: any = JSON.parse(JSON.stringify(this.parameter));
+    input.page = 0;
+    input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
+    input.year = new Date(this.input.start_date).getFullYear(),
+    input.month = new Date(this.input.start_date).getMonth() + 1;
+
+    this.previousMonth = moment(this.input.start_date).subtract(1, 'months').toDate();
+    this.nextMonth = moment(this.input.start_date).add(1, 'months').toDate();
+
+    if (this.selectedDevelopers) {
+      const d = this.selectedDevelopers.map(o => o.id);
+      input.developer_id = d;
+    }
+    if (this.selctedProjects) {
+      const d = this.selctedProjects.map(o => o.id);
+      input.building_id = d;
+    }
+    if (this.selectedTowers) {
+      const d = this.selectedTowers.map(o => o.id);
+      input.building_towers_id = d;
+    }
+    if (this.selectedFloors) {
+      const d = this.selectedFloors.map(o => o.id);
+      input['floor_num'] = d;
+    }
+    if (this.selectedProperties) {
+      const d = this.selectedProperties.map(o => o.id);
+      input.property_id = d;
+    }
+    if (this.selectedBuyers) {
+      const d = this.selectedBuyers.map(o => o.id);
+      input.buyer_id = d;
+    }
+    if (this.selectedLegalReps) {
+      const d = this.selectedLegalReps.map(o => o.id);
+      input.legal_rep_id = d;
+    }
+    if (this.selectedBuyerDev) {
+      const d = this.selectedBuyerDev.map(o => o.id);
+      input.buyer_dev_id = d;
+    }
+    if (this.selectedCurrencies) {
+      const d = this.selectedCurrencies.map(o => o.id);
+      input.currency_id = d;
+    }
+    if (this.selctedConcept) {
+      const d = this.selctedConcept.map(o => o.id);
+      // console.log(d, "filter")
+      input.amenities_id = d;
+    }
+    this.admin.postDataApi('generateCollectionMonthlyReport', input).subscribe(
+      success => {
+        this.exportfinalData = success['data'];
+        this.exportData();
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      });
+  }
+
+  exportData() {
+    if (this.exportfinalData) {
+      const exportfinalData = [];
+      for (let index = 0; index < this.exportfinalData.length; index++) {
+        const p = this.exportfinalData[index];
+
+        exportfinalData.push({
+          'Buyer Name': p.buyer_name || '',
+          'Seller Name': p.seller_name || '',
+          'Project': p.project_name || '',
+          'Model': p.model || '',
+          'Property Name': p.property_name || '',
+          'Currency': p.code || '',
+          'Previous Month': p.previous_month_amount + p.previous_month_penalty - p.previous_month_paid || 0,
+          'Current Month': p.curent_month_amount + p.curent_month_penalty - p.curent_month_paid || 0,
+          'Next Month': p.next_month_amount + p.next_month_penalty - p.next_month_paid || 0,
+        });
+      }
+      this.exportAsExcelFile(exportfinalData, 'MonthlyReport-');
+    }
+  }
+
+  public exportAsExcelFile(json: any[], excelFileName: string): void {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { data: worksheet },
+      SheetNames: ['data']
+    };
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array'
+    });
+    this.spinner.hide();
+    this.saveAsExcelFile(excelBuffer, excelFileName);
+  }
+
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    const today = new Date();
+    const date =
+      today.getDate() +
+      '-' +
+      today.getMonth() +
+      '-' +
+      today.getFullYear() +
+      '_' +
+      today.getHours() +
+      '_' +
+      today.getMinutes() +
+      '_' +
+      today.getSeconds();
+    fileName = fileName + date;
+    FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
   }
 }

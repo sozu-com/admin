@@ -1,11 +1,17 @@
 
 <div class="container-fluid">
     <div class="row">
-       <div class="col-md-4">
+       <div class="col-md-6">
              <div class="form-group">
                 <h5>{{'collectionReport.monthlyReport' | translate}}</h5>
              </div>
        </div>
+       <div class="col-md-6">
+            <div class="btn-cont text-right">
+                  <button  (click)="getExportlisting()"
+                    class="btn btn-primary">{{'table.exportDataBtn' | translate}}</button>
+                </div>
+      </div>
     </div>
 
     <hr>
@@ -174,6 +180,18 @@
                   <div class="clearfix"></div>
                   </div>
             </div>
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group">
+                    <label>{{'collectionReport.Concept' | translate}}</label>
+                  <div class="clearfix"></div>
+                  <ng-multiselect-dropdown class="section-section2 multi-select" [placeholder]="''" name="selctedConcept"
+                  [data]="concepts" [(ngModel)]="selctedConcept" [settings]="paymentDropdownSettings"
+                  (onDeSelect)="unsetProject($event)" (onSelect)="onItemSelect('selctedConcept', $event)"
+                  (onSelectAll)="onSelectAll($event)">
+               </ng-multiselect-dropdown>
+                  <div class="clearfix"></div>
+                  </div>
+            </div>
             <div class="col-lg-1 col-md-2">
                   <div class="form-group btn-cont">
                   <label style="display: block; margin-top: 3px;">&nbsp;</label>
@@ -187,6 +205,12 @@
                   <button type="button" (click)="resetFilters()" class="btn btn-primary-new width100P P86">{{'collectionReport.reset' | translate}}</button>
                   </div>
             </div>
+            <!-- <div class="col-lg-1 col-md-2">
+                  <div class="form-group btn-cont">
+                  <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                  <button type="button" (click)="getExportlisting()" class="btn btn-primary-new width100P P86">{{'table.exportDataBtn' | translate}}</button>
+                  </div>
+            </div> -->
           </div>
   
        <div class="cust-tabs">
