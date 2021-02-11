@@ -379,11 +379,16 @@ export class AddEditCollectionComponent implements OnInit {
       monthly_amount: [''],
 
       deal_purchase_date: ['', [Validators.required]],
-      deal_price: ['', [Validators.required]],
+      deal_price: ['', [Validators.required]], 
       sum_of_concepts: [''],
       deal_interest_rate: [0],
       deal_penality: [0]
     });
+    if(this.model.id === '0'){
+      this.addFormStep4.get('deal_price').enable({onlySelf:true});
+    }else{
+      this.addFormStep4.get('deal_price').disable({onlySelf:true});
+    }
   }
 
   initFormStep5() {

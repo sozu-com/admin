@@ -118,7 +118,7 @@ export class AddPropertyComponent implements OnInit {
   amenity_index: number;
   amenity_obj: any;
   // @ViewChild('scrollToTower') scrollToTower: ElementRef;
-  constructor(public model: AddPropertyModel, private us: AdminService, private cs: CommonService,
+  constructor(public model: AddPropertyModel, public us: AdminService, private cs: CommonService,
     private router: Router, private sanitization: DomSanitizer, private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone, private building: Building, public constant: Constant,
     private route: ActivatedRoute,
