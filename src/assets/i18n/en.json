@@ -2385,6 +2385,22 @@
     "Jobtype":"Job type",
     "StartDate":"Start date",
     "MarketStall":"Market Stall",
-    "Areadepartment":"Area or department"
+    "Areadepartment":"Area or department",
+    "Contacttype":"Contact type",
+    "Turn":"Turn",
+    "Withholdtaxes":"Withhold taxes",
+    "Laboralsector":"Laboral sector",
+    "profession":"profession",
+    "Checkincome":"Check income with",
+    "Immediateboss":"Immediate boss",
+    "HoldsBrief":"Holds Brief description of functions",
+    "lastjob":"Last Job",
+    "Company":"Company",
+    "Departuredate":"Departure date",
+    "Causeseparation":"Cause of separation",
+    "PhoneCode":"Phone Code",
+    "Boss":"Boss",
+    "Typecontract":"Type of contract",
+    "jobtype":"job type"
   }
 }
