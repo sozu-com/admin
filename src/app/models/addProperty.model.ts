@@ -70,6 +70,7 @@ export class AddPropertyModel {
     creator: User;
     broker_commision = 0;
     total_commission = 0;
+    price : string = null;
 }
 
 export class Building {
