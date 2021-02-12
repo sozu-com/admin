@@ -753,12 +753,12 @@ export class AddAclComponent implements OnInit {
   }
 
   setPredefinedUsers(item, value, i: number) {
-    console.log(item.key, this.model[item.key]);
-    console.log(item, value);
+    //console.log(item.key, this.model[item.key]);
+    //console.log(item, value);
     this.model[item.key] = value;
     this.predefinedUsers[i].value = value;
-    console.log(item, value);
-    console.log(item.key, this.model[item.key]);
+   // console.log(item, value);
+   // console.log(item.key, this.model[item.key]);
   }
   
   setIsCompany(is_company: string) {
