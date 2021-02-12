@@ -826,6 +826,7 @@
           <div class="col-md-6">
             <i class="fa fa-users icons" title="Send Reminder" aria-hidden="true" data-toggle="modal" data-target="#addd-notes"
               #notesadddModalOpen></i>
+              
           </div>
           <div class="col-md-6">
             <button class="btn btn-primary" (click)="addNote()">
@@ -874,7 +875,8 @@
                 <div class="form-group">
                   <div class="clearfix"></div>
                   <p-calendar showAnim="slideDown" id="calendar" [showIcon]="true" [showTime]="true" [style]="{'width':'100%'}"
-                    [(ngModel)]="reminder_date" dateFormat="MM d, yy" (onSelect)="onSelect2($event)" name="calendar">
+                    [(ngModel)]="reminder_date" dateFormat="MM d, yy" (onSelect)="onSelect2($event)" name="calendar"
+                    [minDate]="minimumDate">
                   </p-calendar>
                 </div>
               </div>

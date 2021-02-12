@@ -132,6 +132,7 @@ export class CollectionsComponent implements OnInit {
   logoImageBase64: any;
   projectLogoImageBase64: any;
   base64: any;
+  minimumDate = new Date();
   @ViewChild('viewDesModal') viewDesModal: ElementRef;
   @ViewChild('viewDesModalClose') viewDesModalClose: ElementRef;
   @ViewChild('applyPaymentChoiceId') applyPaymentChoiceId: ElementRef;
