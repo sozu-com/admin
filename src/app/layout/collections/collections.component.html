@@ -2131,37 +2131,47 @@
               </td>
             </tr>
           </tbody>
+          <tbody>
+            <tr>
+              <td>
+                <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapseBuyerDocumentation" aria-expanded="true">
+                  <img src="assets/img/ic_folder_1.svg">{{'commonBlock.buyerDocumentation' | translate}}
+                </a>
+              </td>
+              <td>{{this.buyerDocumentationFoldersDetailsLength || 0}}</td>
+              <td></td>
+            </tr>
+            <tr id="collapseBuyerDocumentation" class="panel-collapse collapse" *ngIf="this.buyerDocumentationFoldersDetails.length > 0">
+              <td colspan="3">
+                  <div class="write-note white-bg" *ngIf="this.buyerDocumentationFoldersDetailsLength > 0">
+                    <ng-container *ngFor="let tempBuyerDocumentationFoldersDetails of buyerDocumentationFoldersDetails">
+                      <div class="wn-block" *ngIf="tempBuyerDocumentationFoldersDetails?.document_link">
+                        <div class="circle">
+                          <span></span>
+                        </div>
+                        <p class="time" title="'Click to view'">
+                          <a target="_blank" href="{{tempBuyerDocumentationFoldersDetails?.document_link}}">
+                            {{this.language_code == 'en' ? tempBuyerDocumentationFoldersDetails?.user_document?.name_en :
+                            tempBuyerDocumentationFoldersDetails?.user_document?.name_es }}
+                          </a>
+                        </p>
+                      </div>
+                    </ng-container>
+                  </div>               
+                <div class="padding20 center" *ngIf="this.buyerDocumentationFoldersDetailsLength == 0">
+                  <p class="show-not-found">
+                    {{'message.error.noDocumentUploadedYet' | translate}}
+                  </p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
           <div class="padding20 center" *ngIf="collectionFolders?.length == 0">
             <p class="show-not-found">
               {{'message.error.nnFolderCreated' | translate}}
             </p>
           </div>
         </table>
-
-        <div>
-          <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapseBuyerDocumentation" aria-expanded="true">
-            <img src="assets/img/ic_folder_1.svg">{{'commonBlock.buyerDocumentation' | translate}}
-          </a>
-        </div>
-        <div id="collapseBuyerDocumentation" class="panel-collapse collapse" *ngIf="this.buyerDocumentationFoldersDetails.length > 0">
-          <!-- list Buyer documents -->
-          <div class="write-note white-bg">
-            <ng-container *ngFor="let tempBuyerDocumentationFoldersDetails of buyerDocumentationFoldersDetails">
-              <div class="wn-block" *ngIf="tempBuyerDocumentationFoldersDetails?.document_link">
-                <div class="circle">
-                  <span></span>
-                </div>
-                <p class="time" title="'Click to view'">
-                  <a target="_blank" href="{{tempBuyerDocumentationFoldersDetails?.document_link}}">
-                    {{this.language_code == 'en' ? tempBuyerDocumentationFoldersDetails?.user_document?.name_en :
-                    tempBuyerDocumentationFoldersDetails?.user_document?.name_es }}
-                  </a>
-                </p>
-              </div>
-            </ng-container>
-          </div>
-        </div>
-
       </div>
     </div>
   </div>

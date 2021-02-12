@@ -1660,7 +1660,7 @@
     "project": "Project",
     "defaultSettings": "Default Settings",
     "documentListing": "Document Listing",
-    "manageCredit": "Manage Credit"
+    "manageCredits" : "Manage Credits"
   },
   "commonBlock": {
     "propertiesAvailable": "Properties available",

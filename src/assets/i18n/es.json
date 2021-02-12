@@ -1660,7 +1660,7 @@
     "project": "Proyecto",
     "defaultSettings": "Configuración por defecto",
     "documentListing": "Listado de documentos",
-    "manageCredit" : "Administrar crédito"
+    "manageCredits" : "Gestionar créditos"
   },
   "commonBlock": {
     "propertiesAvailable": "Departamentos disponibles",

@@ -21,16 +21,20 @@ import { CreditAddEditComponent } from './credit-add-edit/credit-add-edit.compon
 const routes: Routes = [
   {
     path: 'view-credit', component: CreditComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Manage Collections', 'can_read', ''] }
+    canActivate: [AclUserGuard], data: { roles: ['Manage Credits', 'can_read', ''] }
   },
   {
     path: 'add-request/:id', component: AddRequestComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Manage Collections', 'can_read', ''] }
+    canActivate: [AclUserGuard], data: { roles: ['Manage Credits', 'can_read', ''] }
   },
   {
-    path: 'credit-add-edit/:id', component: CreditAddEditComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Manage Collections', 'can_read', ''] }
-  }
+    path: 'add-credit/:id', component: CreditAddEditComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Manage Credits', 'can_create', ''] }
+  },
+  {
+    path: 'edit-credit/:id', component: CreditAddEditComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Manage Credits', 'can_update', ''] }
+  },
 ]
 
 @NgModule({
