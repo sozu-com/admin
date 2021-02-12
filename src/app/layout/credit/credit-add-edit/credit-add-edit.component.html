@@ -182,7 +182,7 @@
                     <div class="spacer40"></div>
                   </div>
                   <div class="row" style="margin: auto;">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                       <div class="form-group-3">
                         <label class="p16-two">{{'creditForm.caseStatus' | translate}}</label>
                         <input autocomplete="off" minlength="1" maxlength="30"
@@ -190,7 +190,7 @@
                           class="form-control" [(ngModel)]="model.name" name="name1">
                       </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                       <div class="form-group-3">
                         <label class="p16-two">{{'creditForm.customerProfile' | translate}}</label>
                         <input autocomplete="off" minlength="1" maxlength="30"
@@ -199,26 +199,13 @@
                       </div>
                     </div>
 
-                    <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                      <label class="p16-two">{{'creditForm.yesno1' | translate}}</label>
-                      <div style="margin: 5px;">
-                        <span style="font-weight: 600;">{{'creditForm.yes' | translate}}</span>
-                      </div>
-                    </div>
-                    <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                      <label class="p16-two">{{'creditForm.yesno2' | translate}}</label>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                       <div class="form-group-3">
-                        <label class="switch1">
-                          <input type="checkbox" class="form-control" formControlName="agencyOrSeller">
-                          <span class="slider round" style="background-color: #00B96F;"></span>
-                        </label>
-                      </div>
-                    </div>
-                    <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                      <label class="p16-two">{{'creditForm.yesno3' | translate}}</label>
-                      <div style="margin: 5px;">
-                        <span style="font-weight: 600;">{{'creditForm.no' | translate}}</span>
-                      </div>
+                        <label>{{'creditForm.yesno1' | translate}}</label>
+                      <div class="switchToggle">
+                          <input type="checkbox" id="switch2">
+                          <label for="switch2">Toggle</label>
+                      </div></div>
                     </div>
                   </div>
                   <div class="col-12">
@@ -233,35 +220,35 @@
             <div class="white-bg padding20">
               <nav class="nav nav-tabs">
                 <div class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" data-toggle="dropdown">Generals</a>
+                  <a class="nav-link dropdown-toggle" data-toggle="dropdown">{{'creditForm.generals' | translate}}</a>
                   <div class="dropdown-menu">
                     <strong [ngClass]="{'current': tab == 0}"><span></span><a (click)="setTab(0)" class="dropdown-item"
-                        style="cursor: pointer;">Personals</a></strong>
+                        style="cursor: pointer;">{{'creditForm.Personals' | translate}}</a></strong>
                     <strong [ngClass]="{'current': tab == 1}"><span></span><a (click)="setTab(1)" class="dropdown-item"
-                        style="cursor: pointer;">Credit report</a></strong>
+                        style="cursor: pointer;">{{'creditForm.CREDITREPORT' | translate}}</a></strong>
                     <strong [ngClass]="{'current': tab == 2}"><span></span><a (click)="setTab(2)" class="dropdown-item"
-                        style="cursor: pointer;">Economic dependents</a></strong>
+                        style="cursor: pointer;">{{'creditForm.economicDept' | translate}}</a></strong>
                     <strong [ngClass]="{'current': tab == 3}"><span></span><a (click)="setTab(3)" class="dropdown-item"
-                        style="cursor: pointer;">References</a></strong>
+                        style="cursor: pointer;">{{'creditForm.References' | translate}}</a></strong>
                     <strong [ngClass]="{'current': tab == 4}"><span></span><a (click)="setTab(4)" class="dropdown-item"
-                        style="cursor: pointer;">Solidarity liabilities</a></strong>
+                        style="cursor: pointer;">{{'creditForm.Obligados' | translate}}</a></strong>
                   </div>
                 </div>
                 <div class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" data-toggle="dropdown">Incomes</a>
+                  <a class="nav-link dropdown-toggle" data-toggle="dropdown">{{'creditForm.Incomes' | translate}}</a>
                   <div class="dropdown-menu">
                     <strong [ngClass]="{'current': tab == 5}"><span></span><a (click)="setTab(5)" class="dropdown-item"
-                        style="cursor: pointer;">Incomes</a></strong>
+                        style="cursor: pointer;">{{'creditForm.Incomes' | translate}}</a></strong>
                     <strong [ngClass]="{'current': tab == 6}"><span></span><a (click)="setTab(6)" class="dropdown-item"
-                        style="cursor: pointer;">Bank accounts</a></strong>
+                        style="cursor: pointer;">{{'creditForm.BankAccounts' | translate}}</a></strong>
                     <strong [ngClass]="{'current': tab == 7}"><span></span><a (click)="setTab(7)" class="dropdown-item"
-                        style="cursor: pointer;">Debts</a></strong>
+                        style="cursor: pointer;">{{'creditForm.Debts' | translate}}</a></strong>
                     <strong [ngClass]="{'current': tab == 8}"><span></span><a (click)="setTab(8)" class="dropdown-item"
-                        style="cursor: pointer;">Beneficiaries</a></strong>
+                        style="cursor: pointer;">{{'creditForm.Beneficiaries' | translate}}</a></strong>
                   </div>
                 </div>
-                <a class="nav-item nav-link">Insurance</a>
-                <a class="nav-item nav-link">Additional data</a>
+                <a class="nav-item nav-link">{{'creditForm.Insurance' | translate}}</a>
+                <a class="nav-item nav-link">{{'creditForm.additionalData' | translate}}</a>
               </nav>
             </div><br />
 
@@ -337,7 +324,7 @@
                   </div>
                   <div class="col-4">
                     <div class="form-group-3">
-                      <label>{{'addForm.fedralTaxPayerRegistry' | translate}}</label>
+                      <label>{{'creditForm.RFC' | translate}}</label>
                       <input autocomplete="off" minlength="13" maxlength="13" type="text" class="form-control">
                     </div>
                   </div>
@@ -430,6 +417,7 @@
                     </div>
                   </div>
                 </div>
+
                 <div class="col-12">
                   <div class="spacer40"></div>
                 </div>
@@ -466,110 +454,62 @@
 
               <div class="white-bg padding40">
                 <div class="row">
-                  <h3>Agregar coacreditado</h3>
+                  <h3>{{'creditForm.co-credited' | translate}}</h3>
                 </div>
                 <div class="col-12">
                   <div class="spacer40"></div>
                 </div>
 
-                <!-- <div class="row">
-                  <div class="col-3">
-                    <div class="form-group-3">
-                      <label>CORREO ELECTRONICO</label>
-                      <input type="text" class="form-control" />
-                    </div>
-                  </div>
-                  <div class="col-sm-3">
-                    <div class="form-group-3">
-                      <label>PARENTESCO</label>
-                      <input type="text" class="form-control" />
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-12">
-                  <div class="spacer40"></div>
-                </div> -->
 
                 <div class="row" style="margin: auto;">
-                  <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                    <label class="p16-two">{{'creditForm.yesno1' | translate}}</label>
-                    <div style="margin: 5px;">
-                      <span style="font-weight: 600;">{{'creditForm.yes' | translate}}</span>
-                    </div>
-                  </div>
-                  <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                    <label class="p16-two">{{'creditForm.yesno2' | translate}}</label>
+                  <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                     <div class="form-group-3">
-                      <label class="switch1">
-                        <input type="checkbox" class="form-control">
-                        <span class="slider round" style="background-color: #00B96F;"></span>
-                      </label>
+                       <div class="form-group">
+                        <label>{{'creditForm.EMAIL' | translate}}</label>
+                        <input type="text" class="form-control" />
+                       </div>
                     </div>
+                 </div>
+                 <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                     <div class="form-group">
+                      <label>{{'creditForm.RELATIONSHIP' | translate}}</label>
+                      <input type="text" class="form-control" />
+                     </div>
                   </div>
-                  <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                    <label class="p16-two">{{'creditForm.yesno3' | translate}}</label>
-                    <div style="margin: 5px;">
-                      <span style="font-weight: 600;">{{'creditForm.no' | translate}}</span>
-                    </div>
+               </div>
+                  <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>{{'creditForm.onwer' | translate}}</label>
+                    <div class="switchToggle">
+                        <input type="checkbox" id="switch2">
+                        <label for="switch2">Toggle</label>
+                    </div></div>
                   </div>
-                </div>
+               </div>
 
                 <div class="col-12">
                   <div class="spacer40"></div>
                 </div>
 
-                <div class="row" style="margin: auto;">
-
-                  <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                    <p style="font-weight: 600;">{{'creditForm.yesno1' | translate}}</p>
-                    <!-- <label class="p16-two">{{'creditForm.yesno1' | translate}}</label> -->
-                    <div style="margin: 5px;">
-                      <span style="font-weight: 600;">{{'creditForm.yes' | translate}}</span>
-                    </div>
-                  </div>
-                  <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                    <p style="font-weight: 600;">{{'creditForm.yesno2' | translate}}</p>
-                    <!-- <label class="p16-two">{{'creditForm.yesno2' | translate}}</label> -->
+                <div class="row">
+                  <div class="col-md-4">
                     <div class="form-group-3">
-                      <label class="switch1">
-                        <input type="checkbox" class="form-control">
-                        <span class="slider round" style="background-color: #00B96F;"></span>
-                      </label>
-                    </div>
+                      <label>{{'creditForm.ConsolidatesRevenue' | translate}}</label>
+                    <div class="switchToggle">
+                        <input type="checkbox" id="switch">
+                        <label for="switch">Toggle</label>
+                    </div></div>
                   </div>
-                  <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                    <p style="font-weight: 600;">{{'creditForm.yesno3' | translate}}</p>
-                    <!-- <label class="p16-two">{{'creditForm.yesno3' | translate}}</label> -->
-                    <div style="margin: 5px;">
-                      <span style="font-weight: 600;">{{'creditForm.no' | translate}}</span>
-                    </div>
-                  </div>
-                  <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                    <p style="font-weight: 600;">{{'creditForm.yesno1' | translate}}</p>
-                    <!-- <label class="p16-two">{{'creditForm.yesno1' | translate}}</label> -->
-                    <div style="margin: 5px;">
-                      <span style="font-weight: 600;">{{'creditForm.yes' | translate}}</span>
-                    </div>
-                  </div>
-                  <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                    <!-- <label class="p16-two">{{'creditForm.yesno2' | translate}}</label> -->
-                    <p style="font-weight: 600;">{{'creditForm.yesno2' | translate}}</p>
+                
+                  <div class="col-md-4">
                     <div class="form-group-3">
-                      <label class="switch1">
-                        <input type="checkbox" class="form-control">
-                        <span class="slider round" style="background-color: #00B96F;"></span>
-                      </label>
-                    </div>
-                  </div>
-                  <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                    <!-- <label class="p16-two">{{'creditForm.yesno3' | translate}}</label> -->
-                    <p style="font-weight: 600;">{{'creditForm.yesno3' | translate}}</p>
-                    <div style="margin: 5px;">
-                      <span style="font-weight: 600;">{{'creditForm.no' | translate}}</span>
-                    </div>
-                  </div>
-
+                      <label>{{'creditForm.involved' | translate}}</label>
+                    <div class="switchToggle">
+                      <input type="checkbox" id="switch1">
+                      <label for="switch1">Toggle</label>
+                  </div></div>
+                </div>
                 </div>
 
                 <div class="col-12">
@@ -590,7 +530,7 @@
             <!-- Credit report -->
             <div *ngIf="tab==1">
               <div class="white-bg padding40">
-                <h3>Reporte de credito</h3>
+                <h3>{{'creditForm.CREDITREPORT' | translate}}</h3>
 
                 <div class="col-12">
                   <div class="spacer40"></div>
@@ -599,31 +539,28 @@
                 <div class="row">
 
                   <div class="col-md-4">
-                    <p style="font-weight: 600;">¿Cuenta con una tarjeta de crédito vigente?</p>
                     <div class="form-group-3">
-                      <label class="switch1">
-                        <input type="checkbox" class="form-control" formControlName="agencyOrSeller">
-                        <span class="slider round" style="background-color: #00B96F;"></span>
-                      </label>
-                    </div>
+                      <label>{{'creditForm.creditcard' | translate}}</label>
+                    <div class="switchToggle">
+                        <input type="checkbox" id="switch4">
+                        <label for="switch4">Toggle</label>
+                    </div></div>
                   </div>
                   <div class="col-md-4">
-                    <p style="font-weight: 600;">¿Cuenta con un crédito hipotecario vigente?</p>
                     <div class="form-group-3">
-                      <label class="switch1">
-                        <input type="checkbox" class="form-control" formControlName="agencyOrSeller">
-                        <span class="slider round" style="background-color: #00B96F;"></span>
-                      </label>
-                    </div>
+                      <label>{{'creditForm.existingmortgage' | translate}}</label>
+                    <div class="switchToggle">
+                        <input type="checkbox" id="switch5">
+                        <label for="switch5">Toggle</label>
+                    </div></div>
                   </div>
                   <div class="col-md-4">
-                    <p style="font-weight: 600;">¿Ha tenido un crédito automotriz en los últimos 24 meses?</p>
                     <div class="form-group-3">
-                      <label class="switch1">
-                        <input type="checkbox" class="form-control" formControlName="agencyOrSeller">
-                        <span class="slider round" style="background-color: #00B96F;"></span>
-                      </label>
-                    </div>
+                      <label>{{'creditForm.loan' | translate}}</label>
+                    <div class="switchToggle">
+                        <input type="checkbox" id="switch6">
+                        <label for="switch6">Toggle</label>
+                    </div></div>
                   </div>
 
                 </div>
@@ -631,7 +568,7 @@
                 <div class="row">
                   <div class="col-12">
                     <div class="btn-cont text-right">
-                      <button class="btn btn-primary">Guardar infomacion</button>
+                      <button class="btn btn-primary">{{'creditForm.Saveinformation' | translate}}</button>
                     </div>
                   </div>
                 </div>
@@ -640,7 +577,7 @@
             <!-- Economic dependents -->
             <div *ngIf="tab==2">
               <div class="white-bg padding40">
-                <h3>Agregar Dependiente</h3>
+                <h3>{{'creditForm.AddDependiente' | translate}}</h3>
 
                 <div class="col-12">
                   <div class="spacer40"></div>
@@ -649,7 +586,7 @@
                 <div class="row">
                   <div class="col-4">
                     <div class="form-group-3">
-                      <label>Parentesco <span class="color-red">*</span></label>
+                      <label>{{'creditForm.RELATIONSHIP' | translate}} <span class="color-red">*</span></label>
                       <input autocomplete="off" minlength="1" maxlength="30"
                         [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
                         class="form-control" [(ngModel)]="model.name" name="name1">
@@ -657,7 +594,7 @@
                   </div>
                   <div class="col-4">
                     <div class="form-group-3">
-                      <label>Edad</label>
+                      <label>{{'creditForm.age' | translate}}</label>
                       <input autocomplete="off" minlength="1" maxlength="30"
                         [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" type="text"
                         class="form-control" required [(ngModel)]="model.first_surname" name="first_surname1">
@@ -665,7 +602,7 @@
                   </div>
                   <div class="col-4">
                     <div class="form-group-3">
-                      <label>Ocupacion</label>
+                      <label>{{'creditForm.occupation' | translate}}</label>
                       <input autocomplete="off" minlength="1" maxlength="30"
                         [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" type="text"
                         class="form-control" [(ngModel)]="model.second_surname" name="second_surname1">
@@ -679,7 +616,7 @@
                 <div class="row">
                   <div class="col-12">
                     <div class="btn-cont text-right">
-                      <button class="btn btn-primary">Guardar Dependiente</button>
+                      <button class="btn btn-primary">{{'creditForm.Dependent' | translate}}</button>
                     </div>
                   </div>
                 </div>
@@ -691,7 +628,7 @@
               </div>
 
               <div class="white-bg padding40">
-                <h3>Dependiente economico</h3>
+                <h3>{{'creditForm.economicDept' | translate}}</h3>
 
                 <div class="col-12">
                   <div class="spacer40"></div>
@@ -700,10 +637,10 @@
                 <table class="table">
                   <thead class="thead-light">
                     <tr>
-                      <th style="color: black;">Dependiente 1</th>
-                      <th style="color: black;">Parentesco:</th>
-                      <th style="color: black;">Edad:</th>
-                      <th style="color: black;">Ocupacion:</th>
+                      <th style="color: black;">{{'creditForm.clerk' | translate}}</th>
+                      <th style="color: black;">{{'creditForm.RELATIONSHIP' | translate}}:</th>
+                      <th style="color: black;">{{'creditForm.age' | translate}}:</th>
+                      <th style="color: black;">{{'creditForm.occupation' | translate}}:</th>
                       <th style="color: black;">Delete</th>
                     </tr>
                   </thead>
@@ -715,7 +652,7 @@
             <!-- References -->
             <div *ngIf="tab==3">
               <div class="white-bg padding40">
-                <h3>Agregar References</h3>
+                <h3>{{'creditForm.AddReferences' | translate}}</h3>
 
                 <div class="col-12">
                   <div class="spacer40"></div>
@@ -724,7 +661,7 @@
                 <div class="row">
                   <div class="col-4">
                     <div class="form-group-3">
-                      <label>Parentesco <span class="color-red">*</span></label>
+                      <label>{{'creditForm.RELATIONSHIP' | translate}} <span class="color-red">*</span></label>
                       <input autocomplete="off" minlength="1" maxlength="30"
                         [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
                         class="form-control" [(ngModel)]="model.name" name="name1">
@@ -732,7 +669,7 @@
                   </div>
                   <div class="col-4">
                     <div class="form-group-3">
-                      <label>Nombre</label>
+                      <label>{{'addForm.names' | translate}} </label>
                       <input autocomplete="off" minlength="1" maxlength="30"
                         [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" type="text"
                         class="form-control" required [(ngModel)]="model.first_surname" name="first_surname1">
@@ -740,7 +677,7 @@
                   </div>
                   <div class="col-4">
                     <div class="form-group-3">
-                      <label>Apellido Paterno</label>
+                      <label>{{'addForm.firstSurname' | translate}}</label>
                       <input autocomplete="off" minlength="1" maxlength="30"
                         [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" type="text"
                         class="form-control" [(ngModel)]="model.second_surname" name="second_surname1">
@@ -755,7 +692,7 @@
                 <div class="row">
                   <div class="col-4">
                     <div class="form-group-3">
-                      <label>Apellido Materno <span class="color-red">*</span></label>
+                      <label>{{'addForm.secondSurname' | translate}} <span class="color-red">*</span></label>
                       <input autocomplete="off" minlength="1" maxlength="30"
                         [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
                         class="form-control" [(ngModel)]="model.name" name="name1">
@@ -763,7 +700,7 @@
                   </div>
                   <div class="col-4">
                     <div class="form-group-3">
-                      <label>Anos Conociendolo</label>
+                      <label>{{'creditForm.years' | translate}}</label>
                       <input autocomplete="off" minlength="1" maxlength="30"
                         [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" type="text"
                         class="form-control" required [(ngModel)]="model.first_surname" name="first_surname1">
@@ -771,7 +708,7 @@
                   </div>
                   <div class="col-4">
                     <div class="form-group-3">
-                      <label>Telefono Celular</label>
+                      <label>{{'creditForm.cell' | translate}}</label>
                       <input autocomplete="off" minlength="1" maxlength="30"
                         [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" type="text"
                         class="form-control" [(ngModel)]="model.second_surname" name="second_surname1">
@@ -786,7 +723,7 @@
               </div>
 
               <div class="white-bg padding40">
-                <h3>Adicionales requeridos para llenar solicitud</h3>
+                <h3>{{'creditForm.additional' | translate}}</h3>
 
                 <div class="col-12">
                   <div class="spacer40"></div>
@@ -795,7 +732,7 @@
                 <div class="row">
                   <div class="col-4">
                     <div class="form-group-3">
-                      <label>Domicilio</label>
+                      <label>{{'addForm.address' | translate}}</label>
                       <input autocomplete="off" minlength="1" maxlength="30"
                         [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
                         class="form-control" [(ngModel)]="model.name" name="name1">
@@ -803,7 +740,7 @@
                   </div>
                   <div class="col-4">
                     <div class="form-group-3">
-                      <label>Telefono casa</label>
+                      <label>{{'creditForm.home' | translate}}</label>
                       <input autocomplete="off" minlength="1" maxlength="30"
                         [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" type="text"
                         class="form-control" required [(ngModel)]="model.first_surname" name="first_surname1">
@@ -811,7 +748,7 @@
                   </div>
                   <div class="col-4">
                     <div class="form-group-3">
-                      <label>Telefono celular</label>
+                      <label>{{'creditForm.office' | translate}}</label>
                       <input autocomplete="off" minlength="1" maxlength="30"
                         [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" type="text"
                         class="form-control" [(ngModel)]="model.second_surname" name="second_surname1">
@@ -826,7 +763,7 @@
                 <div class="row">
                   <div class="col-4">
                     <div class="form-group-3">
-                      <label>Email</label>
+                      <label>{{'addForm.emailId' | translate}}</label>
                       <input autocomplete="off" minlength="1" maxlength="30"
                         [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
                         class="form-control" [(ngModel)]="model.name" name="name1">
@@ -834,7 +771,7 @@
                   </div>
                   <div class="col-4">
                     <div class="form-group-3">
-                      <label>Anos Conociendolo</label>
+                      <label>{{'creditForm.participate' | translate}}</label>
                       <input autocomplete="off" minlength="1" maxlength="30"
                         [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" type="text"
                         class="form-control" required [(ngModel)]="model.first_surname" name="first_surname1">
@@ -844,7 +781,7 @@
                     <div class="form-group-3">
                       <label>&nbsp; &nbsp;</label>
                       <div class="btn-cont text-right">
-                        <button class="btn btn-primary">Guardar infomacion</button>
+                        <button class="btn btn-primary">{{'creditForm.Saveinformation' | translate}}</button>
                       </div>
                     </div>
                   </div>
@@ -859,7 +796,7 @@
 
 
               <div class="white-bg padding40">
-                <h3>Referecias</h3>
+                <h3>{{'creditForm.References' | translate}}</h3>
 
                 <div class="col-12">
                   <div class="spacer40"></div>
@@ -868,13 +805,13 @@
                 <table class="table">
                   <thead class="thead-light">
                     <tr>
-                      <th style="color: black;">Referecia 1</th>
-                      <th style="color: black;">Parentesco:</th>
-                      <th style="color: black;">Nombre:</th>
-                      <th style="color: black;">Appllido Paterno:</th>
-                      <th style="color: black;">Appllido Materno</th>
-                      <th style="color: black;">Anos Conociendolo</th>
-                      <th style="color: black;">Telefono celular</th>
+                      <th style="color: black;">{{'creditForm.References1' | translate}}</th>
+                      <th style="color: black;">{{'creditForm.RELATIONSHIP' | translate}}:</th>
+                      <th style="color: black;">{{'addForm.names' | translate}}:</th>
+                      <th style="color: black;">{{'addForm.firstSurname' | translate}}:</th>
+                      <th style="color: black;">{{'addForm.secondSurname' | translate}}</th>
+                      <th style="color: black;">{{'creditForm.years' | translate}}</th>
+                      <th style="color: black;">{{'creditForm.cell' | translate}}</th>
                       <th style="color: black;">Delete</th>
                     </tr>
                   </thead>
@@ -887,7 +824,7 @@
             <div *ngIf="tab==4">
               <form role="form">
                 <div class="white-bg padding40">
-                  <h3>Obligado Solidarity</h3>
+                  <h3>{{'creditForm.Obligados' | translate}}</h3>
                   <div class="col-12">
                     <div class="spacer40"></div>
                   </div>
@@ -958,7 +895,7 @@
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
-                        <label>{{'addForm.fedralTaxPayerRegistry' | translate}}</label>
+                        <label>{{'creditForm.RFC' | translate}}</label>
                         <input autocomplete="off" minlength="13" maxlength="13" type="text" class="form-control"
                           name="fed_tax_pay">
                       </div>
@@ -980,13 +917,13 @@
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
-                        <label>Estado Civill</label>
+                        <label>{{'addForm.marital_status' | translate}}</label>
                         <input autocomplete="off" type="text" class="form-control" name="nationality_name">
                       </div>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
-                        <label class="p16-two">Escolaridad</label>
+                        <label class="p16-two">{{'creditForm.Scholarship' | translate}}</label>
                         <select title="Select Marital Status" name="marital_status" class="form-control">
                           <option value="0" disabled>{{'addForm.maritalStatus.selectMaritalStatus' | translate}}
                           </option>
@@ -1028,7 +965,7 @@
                     </div>
                     <div class="col-3">
                       <div class="form-group-3">
-                        <label>Colonia</label>
+                        <label>{{'creditForm.COLONY' | translate}}</label>
                         <input minlength="8" maxlength="15" autocomplete="off" type="text" class="form-control"
                           id="zipcode" minlength="1" name="zipcode" />
                       </div>
@@ -1048,13 +985,13 @@
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
-                        <label>{{'filters.location.country' | translate}}</label>
+                        <label>{{'filters.location.city' | translate}}</label>
                         <input autocomplete="off" type="text" class="form-control" id="country" />
                       </div>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
-                        <label>{{'filters.location.state' | translate}}</label>
+                        <label>{{'addForm.ZIP' | translate}}</label>
                         <input autocomplete="off" type="text" class="form-control" />
                       </div>
                     </div>
@@ -1067,7 +1004,7 @@
                   <div class="row">
                     <div class="col-4">
                       <div class="form-group-3">
-                        <label>{{'addForm.neighbourhood' | translate}}</label>
+                        <label>{{'filters.location.state' | translate}}</label>
                         <select class="form-control">
                           <option>test</option>
                         </select>
@@ -1107,26 +1044,26 @@
                 </div>
 
                 <div class="white-bg padding40">
-                  <h3>Generales</h3>
+                  <h3>{{'creditForm.general' | translate}}</h3>
                   <div class="col-12">
                     <div class="spacer40"></div>
                   </div>
                   <div class="row">
                     <div class="col-4">
                       <div class="form-group-3">
-                        <label>Cantidad de dependientes económicos</label>
+                        <label>{{'creditForm.Numberdependents' | translate}}</label>
                         <input autocomplete="off" minlength="1" maxlength="50" type="text" class="form-control">
                       </div>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
-                        <label>Número de inmuebles propios</label>
+                        <label>{{'creditForm.Numberproperty' | translate}}</label>
                         <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control">
                       </div>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
-                        <label>Valor total bienes inmuebles propios </label>
+                        <label>{{'creditForm.Totalproperty' | translate}}</label>
                         <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control"
                           name="second_surname">
                       </div>
@@ -1140,21 +1077,25 @@
                   <div class="row">
                     <div class="col-4">
                       <div class="form-group-3">
-                        <label>Valor total gravado de bienes inmuebles</label>
+                        <label>{{'creditForm.Totalrealproperty' | translate}}</label>
                         <input minlength="8" maxlength="15" autocomplete="off" type="text" class="form-control" />
                       </div>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
-                        <label>AUTO PROPIO</label>
-                        <input autocomplete="off" type="email" class="form-control">
+                        <div class="form-group-3">
+                          <label>{{'creditForm.OWNCAR' | translate}}</label>
+                        <div class="switchToggle">
+                            <input type="checkbox" id="switch8">
+                            <label for="switch8">Toggle</label>
+                        </div></div>
                       </div>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>&nbsp; &nbsp;</label>
                         <div class="btn-cont text-right">
-                          <button class="btn btn-primary">Guardar infomacion</button>
+                          <button class="btn btn-primary">{{'creditForm.Saveinformation' | translate}}</button>
                         </div>
                       </div>
                     </div>
@@ -1162,26 +1103,572 @@
                 </div>
               </form>
             </div>
+            <!-- Incomes -->
+            <div *ngIf="tab==5">
+              <form role="form">
+                <div class="white-bg padding40">
+                  <h3>{{'creditForm.AddIncomes' | translate}}</h3>
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.Monthlyincome' | translate}} <span class="color-red">*</span></label>
+                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                          class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.Netincome' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control" required
+                          name="first_surname1">
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.Business' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.Jobtype' | translate}}</label><br />
+                        <input autocomplete="off" required type="email" class="form-control" name="email">
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.StartDate' | translate}}</label>
+                        <input autocomplete="off" required type="email" class="form-control" name="email">
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-            <div class="white-bg" *ngIf="tab==5">
-              <div class="page-title">
-                <h3>Incomes</h3>
-              </div>
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+
+                <div class="white-bg padding40">
+                  <h3>{{'creditForm.additional' | translate}}</h3>
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group-3">
+                        <label>{{'addForm.address' | translate}}</label>
+                        <input type="text" class="form-control" name="street_address" />
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.COLONY' | translate}}</label>
+                        <input type="text" class="form-control" name="external_number" />
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group-3">
+                        <label>{{'filters.location.city' | translate}}</label>
+                        <input minlength="8" maxlength="15" autocomplete="off" type="text" class="form-control"
+                          id="zipcode" minlength="1" name="zipcode" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'addForm.municipality' | translate}}</label>
+                        <input autocomplete="off" type="text" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'addForm.ZIP' | translate}}</label>
+                        <input autocomplete="off" type="text" class="form-control" id="country" />
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'addForm.developer.phone' | translate}}</label>
+                        <input autocomplete="off" type="text" class="form-control" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'filters.location.state' | translate}}</label>
+                        <select class="form-control">
+                          <option>test</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'filters.location.country' | translate}}</label>
+                        <input autocomplete="off" type="text" class="form-control" id="country" />
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.MarketStall' | translate}}</label>
+                        <input autocomplete="off" type="text" class="form-control" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'filters.location.state' | translate}}</label>
+                        <select class="form-control">
+                          <option>test</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'filters.location.country' | translate}}</label>
+                        <input autocomplete="off" type="text" class="form-control" id="country" />
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.MarketStall' | translate}}</label>
+                        <input autocomplete="off" type="text" class="form-control" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.Areadepartment' | translate}}</label>
+                        <select class="form-control">
+                          <option>test</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'filters.location.country' | translate}}</label>
+                        <input autocomplete="off" type="text" class="form-control" id="country" />
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.MarketStall' | translate}}</label>
+                        <input autocomplete="off" type="text" class="form-control" />
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="col-12">
+                  <div class="spacer40"></div>
+                </div>
+
+                <div class="white-bg padding40">
+                  <h3>{{'creditForm.general' | translate}}</h3>
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.Numberdependents' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="50" type="text" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.Numberproperty' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.Totalproperty' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control"
+                          name="second_surname">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.Totalrealproperty' | translate}}</label>
+                        <input minlength="8" maxlength="15" autocomplete="off" type="text" class="form-control" />
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <div class="form-group-3">
+                          <label>{{'creditForm.OWNCAR' | translate}}</label>
+                        <div class="switchToggle">
+                            <input type="checkbox" id="switch8">
+                            <label for="switch8">Toggle</label>
+                        </div></div>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>&nbsp; &nbsp;</label>
+                        <div class="btn-cont text-right">
+                          <button class="btn btn-primary">{{'creditForm.Saveinformation' | translate}}</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
             </div>
-            <div class="white-bg" *ngIf="tab==6">
-              <div class="page-title">
-                <h3>Bank accounts</h3>
-              </div>
+            <!-- Bank accounts -->
+            <div *ngIf="tab==6">
+              <div class="white-bg padding40">
+                <form>
+                <div class="row">
+                  <div class="col-12">
+                    <label>{{'addCollection.bankName' | translate}}
+                      <span class="pull-right"><a class="add" 
+                          href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
+                    </label>
+                    <div class="row">
+                      <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                        <div class="form-group-3">
+                          <label>{{'addCollection.bankName' | translate}}</label>
+                          <div class="clearfix"></div>
+                          <input autocomplete="off" minlength="1" maxlength="30" class="form-control" type="text">
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                        <div class="form-group-3">
+                          <label>{{'addCollection.accountNumber' | translate}}</label>
+                          <div class="clearfix"></div>
+                          <input autocomplete="off" class="form-control" type="text" minlength="10" maxlength="20">
+                        </div>
+                      </div>
+                      <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                        <div class="form-group-3">
+                          <label>{{'addCollection.clabeSwift' | translate}}</label>
+                          <div class="clearfix"></div>
+                          <input autocomplete="off" class="form-control" type="text">
+                        </div>
+                      </div>
+                      <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                        <div class="form-group-3">
+                          <label>{{'addCollection.currency' | translate}}</label>
+                          <div class="clearfix"></div>
+                          <select  class="form-control">
+                            <option value="">{{'addCollection.currency' | translate}}</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                        <div class="form-group-3">
+                          <label>Remove</label>
+                          <div class="clearfix"></div>
+                          <button type="button">Remove</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </form>
             </div>
-            <div class="white-bg" *ngIf="tab==7">
-              <div class="page-title">
-                <h3>Debts</h3>
-              </div>
             </div>
-            <div class="white-bg" *ngIf="tab==8">
-              <div class="page-title">
-                <h3>Beneficiaries</h3>
-              </div>
+            <!-- Debts -->
+            <div *ngIf="tab==7">
+              <form role="form">
+                <div class="white-bg padding40">
+                  <h3>{{'creditForm.Adddebit' | translate}}</h3>
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.Creditorinstitution' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                          class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.typedebt' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control" required
+                          name="first_surname1">
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.Monthlypayment' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-8">
+                     <p style="font-weight: bold;">{{'creditForm.more' | translate}}</p>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>&nbsp; &nbsp;</label>
+                        <div class="btn-cont text-right">
+                          <button class="btn btn-primary">{{'creditForm.Dependent' | translate}}</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+
+
+                <div class="white-bg padding40">
+                  <h3>{{'creditForm.AdditionalRequired' | translate}}</h3>
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.Accountnumber' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="50" type="text" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.Startdate' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.creditlimit' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control"
+                          name="second_surname">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.Currentbalance' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="50" type="text" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.Branchnumber' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="form-group-3">
+                        <label>&nbsp; &nbsp;</label>
+                        <div class="btn-cont text-right">
+                          <button class="btn btn-primary">{{'creditForm.Saveinformation' | translate}}</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="col-12">
+                  <div class="spacer40"></div>
+                </div>
+  
+                <div class="white-bg padding40">
+                  <table class="table">
+                    <thead class="thead-light">
+                      <tr>
+                        <th style="color: black;">{{'creditForm.Debts' | translate}}1</th>
+                        <th style="color: black;">{{'creditForm.Creditorinstitution' | translate}}:</th>
+                        <th style="color: black;">{{'creditForm.typedebt' | translate}}:</th>
+                        <th style="color: black;">{{'creditForm.Monthlypayment' | translate}}:</th>
+                        <th style="color: black;">Delete</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                </div>
+              </form>
+            </div>
+            <!-- Beneficiaries -->
+            <div *ngIf="tab==8">
+              <form role="form">
+                <div class="white-bg padding40">
+                  <h3>{{'creditForm.AddBeneficiaries' | translate}}</h3>
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'addForm.names' | translate}} <span class="color-red">*</span></label>
+                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                          class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'addForm.firstSurname' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control" required
+                          name="first_surname1">
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'addForm.secondSurname' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.age' | translate}}</label><br />
+                        <input autocomplete="off" required type="email" class="form-control" name="email">
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.Percentage' | translate}}</label>
+                        <input autocomplete="off" required type="email" class="form-control" name="email">
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.RELATIONSHIP' | translate}}</label>
+                        <select title="Select Nationality" class="form-control">
+                          <option>test</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-8">
+                     <p style="font-weight: bold;">{{'creditForm.more' | translate}}</p>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>&nbsp; &nbsp;</label>
+                        <div class="btn-cont text-right">
+                          <button class="btn btn-primary">{{'creditForm.Dependent' | translate}}</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+
+
+                <div class="white-bg padding40">
+                  <h3>{{'creditForm.AdditionalRequired' | translate}}</h3>
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'addForm.address' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="50" type="text" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'addForm.developer.phone' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group-3">
+                        <label>{{'addForm.dateOfBirth' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control"
+                          name="second_surname">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="form-group-3">
+                        <label>&nbsp; &nbsp;</label>
+                        <div class="btn-cont text-right">
+                          <button class="btn btn-primary">{{'creditForm.Saveinformation' | translate}}</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+              </form>
             </div>
           </div>
           <!-- Coaccredited -->

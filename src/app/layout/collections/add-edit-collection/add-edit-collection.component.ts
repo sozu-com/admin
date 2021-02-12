@@ -15,7 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SelectItem } from 'primeng/primeng';
 import { Collection, Seller } from 'src/app/models/collection.model';
 import { ToastrService } from 'ngx-toastr';
-import {Document} from 'src/app/models/document.model';
+import { Document } from 'src/app/models/document.model';
 declare let swal: any;
 
 @Component({
@@ -42,6 +42,8 @@ export class AddEditCollectionComponent implements OnInit {
   @ViewChild('selectedPaymentChoice') selectedPaymentChoice: ElementRef;
   @ViewChild('localityOpen') localityOpen: ElementRef;
   @ViewChild('localityClose') localityClose: ElementRef;
+  @ViewChild('buyerDocumentationModalOpen') buyerDocumentationModalOpen: ElementRef;
+  @ViewChild('buyerDocumentationModalClose') buyerDocumentationModalClose: ElementRef;
   public latitude: number;
   public longitude: number;
   public searchControl: FormControl;
@@ -111,7 +113,7 @@ export class AddEditCollectionComponent implements OnInit {
   num_of_months: number;
   configurations: Array<any>;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
-  showError:  boolean;
+  showError: boolean;
   payment_folder_id: number = 0;
   folderId: number;
   oldDocName: string;
@@ -125,6 +127,9 @@ export class AddEditCollectionComponent implements OnInit {
   pcsum: any;
   acsum: any;
   isAgencyBank: boolean;
+  buyerDocumentationFoldersDetails: any[] = [];
+  language_code: string;
+  
   constructor(public model: Collection, private us: AdminService, private cs: CommonService,
     private router: Router,
     private building: Building, public constant: Constant,
@@ -138,6 +143,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.language_code = localStorage.getItem('language_code');
     this.collectionFolders = [];
     this.model = new Collection();
     this.model.building = new Building();
@@ -197,7 +203,7 @@ export class AddEditCollectionComponent implements OnInit {
         dayNamesShort: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
         dayNamesMin: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
         monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
-            'November', 'December'],
+          'November', 'December'],
         monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         today: 'Today',
         clear: 'Clear',
@@ -249,7 +255,7 @@ export class AddEditCollectionComponent implements OnInit {
       seller_address: [null],  // legal entiy/dev address
       seller_email: [''],
       seller_phone: ['', [Validators.required, Validators.pattern(this.constant.numberPattern),
-        Validators.minLength(8), Validators.maxLength(15)]],
+      Validators.minLength(8), Validators.maxLength(15)]],
       seller_company_name: ['', [Validators.minLength(1), Validators.maxLength(30)]],
       seller_fed_tax: [''],
       seller_leg_rep_name: ['', [Validators.minLength(1), Validators.maxLength(30)]],
@@ -285,7 +291,7 @@ export class AddEditCollectionComponent implements OnInit {
           [Validators.required, Validators.pattern(this.constant.numberPattern), Validators.minLength(8), Validators.maxLength(15)]);
         this.addFormStep2.controls['seller_leg_rep_email'].setValidators([Validators.required, Validators.email]);
         // this.addFormStep2.controls['seller_leg_rep_comp'].setValidators(
-          // [Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
+        // [Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
         this.addFormStep2.controls['seller_leg_rep_fed_tax'].setValidators(
           [Validators.required, Validators.minLength(12), Validators.maxLength(13)]);
 
@@ -321,7 +327,7 @@ export class AddEditCollectionComponent implements OnInit {
         this.addFormStep3.controls['buyer_leg_rep_email'].setValidators(
           [Validators.required, Validators.email]);
         // this.addFormStep3.controls['buyer_leg_rep_comp'].setValidators(
-          // [Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
+        // [Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
         this.addFormStep3.controls['buyer_leg_rep_fed_tax'].setValidators(
           [Validators.required, Validators.minLength(12), Validators.maxLength(13)]);
         this.addFormStep3.controls['buyer_email'].setValidators(null);
@@ -355,7 +361,7 @@ export class AddEditCollectionComponent implements OnInit {
       buyer_address: [null],  // legal entiy/dev address
       buyer_email: [''],
       buyer_phone: ['', [Validators.required, Validators.pattern(this.constant.numberPattern),
-        Validators.minLength(8), Validators.maxLength(15)]],
+      Validators.minLength(8), Validators.maxLength(15)]],
       buyer_company_name: ['', [Validators.minLength(1), Validators.maxLength(30)]],
       buyer_fed_tax: [''],
       buyer_leg_rep_name: ['', [Validators.minLength(1), Validators.maxLength(30)]],
@@ -383,16 +389,16 @@ export class AddEditCollectionComponent implements OnInit {
       monthly_amount: [''],
 
       deal_purchase_date: ['', [Validators.required]],
-      deal_price: ['', [Validators.required]], 
+      deal_price: ['', [Validators.required]],
       sum_of_concepts: [''],
       deal_interest_rate: [0],
       deal_penality: [0],
 
     });
-    if(this.model.id === '0'){
-      this.addFormStep4.get('deal_price').enable({onlySelf:true});
-    }else{
-      this.addFormStep4.get('deal_price').disable({onlySelf:true});
+    if (this.model.id === '0') {
+      this.addFormStep4.get('deal_price').enable({ onlySelf: true });
+    } else {
+      this.addFormStep4.get('deal_price').disable({ onlySelf: true });
     }
   }
 
@@ -421,7 +427,7 @@ export class AddEditCollectionComponent implements OnInit {
       bank_id: ['']
     });
     // if (this.model.id === '0') {
-      // this.addAgent('');
+    // this.addAgent('');
     // }
   }
 
@@ -435,10 +441,11 @@ export class AddEditCollectionComponent implements OnInit {
 
   getCollectionDetails(id: string) {
     this.spinner.show();
-    this.us.postDataApi('getCollectionById', {id: id})
+    this.us.postDataApi('getCollectionById', { id: id })
       .subscribe(
         success => {
           this.spinner.hide();
+          this.getCollectionDocument(((success.data || {}).buyer || {}).id);
           this.patchFormData(success['data']);
           this.getBanks(success['data'].property.id)
         }, error => {
@@ -570,83 +577,83 @@ export class AddEditCollectionComponent implements OnInit {
       }
     }
 
-      // seller as a developer
-      if (this.model.seller_type == '3') {
-        this.addFormStep2.controls.seller_id.patchValue(data.seller.id);
-        this.addFormStep2.controls.seller_company_name.patchValue(data.seller_company_name ? data.seller_company_name : '');
-        this.addFormStep2.controls.seller_legal_name.patchValue(data.seller.developer_company || '');
-        this.addFormStep2.controls.seller_name.patchValue(data.seller.name || '');
-        this.addFormStep2.controls.seller_first_surname.patchValue(data.seller ? data.seller.first_surname : '');
-        this.addFormStep2.controls.seller_second_surname.patchValue(data.seller ? data.seller.second_surname : '');
-        this.addFormStep2.controls.seller_fed_tax.patchValue(data.seller ? data.seller.fed_tax_pay : '');
-        this.addFormStep2.controls.seller_phone.patchValue(data.seller.phone || '');
-        this.addFormStep2.controls.seller_address.patchValue(data.seller.developer_address || '');
-        this.addFormStep2.controls.seller_leg_rep_name.patchValue(
-          data.seller.legal_representative ? data.seller.legal_representative.name : '');
-        this.addFormStep2.controls.seller_leg_rep_first_surname.patchValue(
-          data.seller.legal_representative ? data.seller.legal_representative.first_surname : '');
-        this.addFormStep2.controls.seller_leg_rep_second_surname.patchValue(
-          data.seller.legal_representative ? data.seller.legal_representative.second_surname : '');
-        this.addFormStep2.controls.seller_leg_rep_phone.patchValue(
-          data.seller.legal_representative ? data.seller.legal_representative.phone : '');
-        this.addFormStep2.controls.seller_leg_rep_email.patchValue(
-          data.seller.legal_representative ? data.seller.legal_representative.email : '');
-        this.addFormStep2.controls.seller_leg_rep_fed_tax.patchValue(
-          data.seller.legal_representative ? data.seller.legal_representative.fed_tax_pay : '');
-        const control = this.addFormStep2.get('collection_seller_rep_banks') as FormArray;
-        if (data.seller.legal_representative && data.seller.legal_representative.legal_rep_banks) {
-          data.seller.legal_representative.legal_rep_banks.forEach(x => {
-            delete x.id;  // no need to send id ( cuz these are saving separtely in table)
-            control.push(this.fb.group(x));
-          });
-        }
-        const control1 = this.addFormStep2.get('collection_seller_banks') as FormArray;
-        if (data.seller.legal_rep_banks) {
-          data.seller.legal_rep_banks.forEach(x => {
-            delete x.id;  // no need to send id ( cuz these are saving separtely in table)
-            control1.push(this.fb.group(x));
-          });
-        }
+    // seller as a developer
+    if (this.model.seller_type == '3') {
+      this.addFormStep2.controls.seller_id.patchValue(data.seller.id);
+      this.addFormStep2.controls.seller_company_name.patchValue(data.seller_company_name ? data.seller_company_name : '');
+      this.addFormStep2.controls.seller_legal_name.patchValue(data.seller.developer_company || '');
+      this.addFormStep2.controls.seller_name.patchValue(data.seller.name || '');
+      this.addFormStep2.controls.seller_first_surname.patchValue(data.seller ? data.seller.first_surname : '');
+      this.addFormStep2.controls.seller_second_surname.patchValue(data.seller ? data.seller.second_surname : '');
+      this.addFormStep2.controls.seller_fed_tax.patchValue(data.seller ? data.seller.fed_tax_pay : '');
+      this.addFormStep2.controls.seller_phone.patchValue(data.seller.phone || '');
+      this.addFormStep2.controls.seller_address.patchValue(data.seller.developer_address || '');
+      this.addFormStep2.controls.seller_leg_rep_name.patchValue(
+        data.seller.legal_representative ? data.seller.legal_representative.name : '');
+      this.addFormStep2.controls.seller_leg_rep_first_surname.patchValue(
+        data.seller.legal_representative ? data.seller.legal_representative.first_surname : '');
+      this.addFormStep2.controls.seller_leg_rep_second_surname.patchValue(
+        data.seller.legal_representative ? data.seller.legal_representative.second_surname : '');
+      this.addFormStep2.controls.seller_leg_rep_phone.patchValue(
+        data.seller.legal_representative ? data.seller.legal_representative.phone : '');
+      this.addFormStep2.controls.seller_leg_rep_email.patchValue(
+        data.seller.legal_representative ? data.seller.legal_representative.email : '');
+      this.addFormStep2.controls.seller_leg_rep_fed_tax.patchValue(
+        data.seller.legal_representative ? data.seller.legal_representative.fed_tax_pay : '');
+      const control = this.addFormStep2.get('collection_seller_rep_banks') as FormArray;
+      if (data.seller.legal_representative && data.seller.legal_representative.legal_rep_banks) {
+        data.seller.legal_representative.legal_rep_banks.forEach(x => {
+          delete x.id;  // no need to send id ( cuz these are saving separtely in table)
+          control.push(this.fb.group(x));
+        });
       }
+      const control1 = this.addFormStep2.get('collection_seller_banks') as FormArray;
+      if (data.seller.legal_rep_banks) {
+        data.seller.legal_rep_banks.forEach(x => {
+          delete x.id;  // no need to send id ( cuz these are saving separtely in table)
+          control1.push(this.fb.group(x));
+        });
+      }
+    }
 
-      // seller as a legal entity
-      if (this.model.seller_type == '2') {
-        this.addFormStep2.controls.seller_legal_entity_id.patchValue(data.seller_legal_entity.id);   
-        this.addFormStep2.controls.seller_name.patchValue(data.seller_legal_entity.comm_name);
-        this.addFormStep2.controls.seller_legal_name.patchValue(data.seller_legal_entity.legal_name);
-        this.addFormStep2.controls.seller_fed_tax.patchValue(data.seller_legal_entity.fed_tax_pay);
-        this.addFormStep2.controls.seller_phone.patchValue(data.seller_legal_entity.phone);
-        this.addFormStep2.controls.seller_address.patchValue(data.seller_legal_entity.address);
-        this.addFormStep2.controls.seller_leg_rep_name.patchValue(
-          data.seller_legal_entity.legal_reps ? data.seller_legal_entity.legal_reps.name : '');
-        this.addFormStep2.controls.seller_leg_rep_first_surname.patchValue(
-          data.seller_legal_entity.legal_reps ? data.seller_legal_entity.legal_reps.first_surname : '');
-        this.addFormStep2.controls.seller_leg_rep_second_surname.patchValue(
-          data.seller_legal_entity.legal_reps ? data.seller_legal_entity.legal_reps.second_surname : '');
-        this.addFormStep2.controls.seller_leg_rep_phone.patchValue(
-          data.seller_legal_entity.legal_reps ? data.seller_legal_entity.legal_reps.phone : '');
-        this.addFormStep2.controls.seller_leg_rep_email.patchValue(
-          data.seller_legal_entity.legal_reps ? data.seller_legal_entity.legal_reps.email : '');
-        this.addFormStep2.controls.seller_leg_rep_comp.patchValue('');
-        this.addFormStep2.controls.seller_leg_rep_fed_tax.patchValue(
-          data.seller_legal_entity.legal_reps ? data.seller_legal_entity.legal_reps.fed_tax_pay : '');
-        let control = new FormArray([]);
-        control = this.addFormStep2.get('collection_seller_banks') as FormArray;
-        if (data.seller_legal_entity.legal_entity_banks) {
-          data.seller_legal_entity.legal_entity_banks.forEach(x => {
-            delete x.id;  // no need to send id ( cuz these are saving separtely in table)
-            control.push(this.fb.group(x));
-          });
-        }
-        let control1 = new FormArray([]);
-        control1 = this.addFormStep2.get('collection_seller_rep_banks') as FormArray;
-        if (data.seller_legal_entity.legal_reps && data.seller_legal_entity.legal_reps.legal_rep_banks) {
-          data.seller_legal_entity.legal_reps.legal_rep_banks.forEach(x => {
-            delete x.id;  // no need to send id ( cuz these are saving separtely in table)
-            control1.push(this.fb.group(x));
-          });
-        }
+    // seller as a legal entity
+    if (this.model.seller_type == '2') {
+      this.addFormStep2.controls.seller_legal_entity_id.patchValue(data.seller_legal_entity.id);
+      this.addFormStep2.controls.seller_name.patchValue(data.seller_legal_entity.comm_name);
+      this.addFormStep2.controls.seller_legal_name.patchValue(data.seller_legal_entity.legal_name);
+      this.addFormStep2.controls.seller_fed_tax.patchValue(data.seller_legal_entity.fed_tax_pay);
+      this.addFormStep2.controls.seller_phone.patchValue(data.seller_legal_entity.phone);
+      this.addFormStep2.controls.seller_address.patchValue(data.seller_legal_entity.address);
+      this.addFormStep2.controls.seller_leg_rep_name.patchValue(
+        data.seller_legal_entity.legal_reps ? data.seller_legal_entity.legal_reps.name : '');
+      this.addFormStep2.controls.seller_leg_rep_first_surname.patchValue(
+        data.seller_legal_entity.legal_reps ? data.seller_legal_entity.legal_reps.first_surname : '');
+      this.addFormStep2.controls.seller_leg_rep_second_surname.patchValue(
+        data.seller_legal_entity.legal_reps ? data.seller_legal_entity.legal_reps.second_surname : '');
+      this.addFormStep2.controls.seller_leg_rep_phone.patchValue(
+        data.seller_legal_entity.legal_reps ? data.seller_legal_entity.legal_reps.phone : '');
+      this.addFormStep2.controls.seller_leg_rep_email.patchValue(
+        data.seller_legal_entity.legal_reps ? data.seller_legal_entity.legal_reps.email : '');
+      this.addFormStep2.controls.seller_leg_rep_comp.patchValue('');
+      this.addFormStep2.controls.seller_leg_rep_fed_tax.patchValue(
+        data.seller_legal_entity.legal_reps ? data.seller_legal_entity.legal_reps.fed_tax_pay : '');
+      let control = new FormArray([]);
+      control = this.addFormStep2.get('collection_seller_banks') as FormArray;
+      if (data.seller_legal_entity.legal_entity_banks) {
+        data.seller_legal_entity.legal_entity_banks.forEach(x => {
+          delete x.id;  // no need to send id ( cuz these are saving separtely in table)
+          control.push(this.fb.group(x));
+        });
       }
+      let control1 = new FormArray([]);
+      control1 = this.addFormStep2.get('collection_seller_rep_banks') as FormArray;
+      if (data.seller_legal_entity.legal_reps && data.seller_legal_entity.legal_reps.legal_rep_banks) {
+        data.seller_legal_entity.legal_reps.legal_rep_banks.forEach(x => {
+          delete x.id;  // no need to send id ( cuz these are saving separtely in table)
+          control1.push(this.fb.group(x));
+        });
+      }
+    }
 
 
     if (mode == 'edit') {
@@ -700,85 +707,85 @@ export class AddEditCollectionComponent implements OnInit {
         });
       }
     }
-      // buyer as a legal entity
-      if (this.model.buyer_type == '2') {
-        this.addFormStep3.controls.buyer_legal_entity_id.patchValue(data.buyer_legal_entity.id);   
-        this.addFormStep3.controls.buyer_name.patchValue(data.buyer_legal_entity.comm_name);
-        this.addFormStep3.controls.buyer_legal_name.patchValue(data.buyer_legal_entity.legal_name);
-        this.addFormStep3.controls.buyer_fed_tax.patchValue(data.buyer_legal_entity.fed_tax_pay);
-        this.addFormStep3.controls.buyer_phone.patchValue(data.buyer_legal_entity.phone);
-        this.addFormStep3.controls.buyer_address.patchValue(data.buyer_legal_entity.address);
-        this.addFormStep3.controls.buyer_leg_rep_name.patchValue(
-          data.buyer_legal_entity.legal_reps ? data.buyer_legal_entity.legal_reps.name : '');
-        this.addFormStep3.controls.buyer_leg_rep_first_surname.patchValue(
-          data.buyer_legal_entity.legal_reps ? data.buyer_legal_entity.legal_reps.first_surname : '');
-        this.addFormStep3.controls.buyer_leg_rep_second_surname.patchValue(
-          data.buyer_legal_entity.legal_reps ? data.buyer_legal_entity.legal_reps.second_surname : '');
-        this.addFormStep3.controls.buyer_leg_rep_phone.patchValue(
-          data.buyer_legal_entity.legal_reps ? data.buyer_legal_entity.legal_reps.phone : '');
-        this.addFormStep3.controls.buyer_leg_rep_email.patchValue(
-          data.buyer_legal_entity.legal_reps ? data.buyer_legal_entity.legal_reps.email : '');
-        this.addFormStep3.controls.buyer_leg_rep_comp.patchValue('');
-        this.addFormStep3.controls.buyer_leg_rep_fed_tax.patchValue(
-          data.buyer_legal_entity.legal_reps ? data.buyer_legal_entity.legal_reps.fed_tax_pay : '');
-        let control = new FormArray([]);
-        control = this.addFormStep3.get('collection_buyer_banks') as FormArray;
-        if (data.buyer_legal_entity.legal_entity_banks) {
-          data.buyer_legal_entity.legal_entity_banks.forEach(x => {
-            delete x.id;  // no need to send id ( cuz these are saving separtely in table)
-            control.push(this.fb.group(x));
-          });
-        }
-        let control1 = new FormArray([]);
-        control1 = this.addFormStep3.get('collection_buyer_rep_banks') as FormArray;
-        if (data.buyer_legal_entity.legal_reps && data.buyer_legal_entity.legal_reps.legal_rep_banks) {
-          data.buyer_legal_entity.legal_reps.legal_rep_banks.forEach(x => {
-            delete x.id;  // no need to send id ( cuz these are saving separtely in table)
-            control1.push(this.fb.group(x));
-          });
-        }
+    // buyer as a legal entity
+    if (this.model.buyer_type == '2') {
+      this.addFormStep3.controls.buyer_legal_entity_id.patchValue(data.buyer_legal_entity.id);
+      this.addFormStep3.controls.buyer_name.patchValue(data.buyer_legal_entity.comm_name);
+      this.addFormStep3.controls.buyer_legal_name.patchValue(data.buyer_legal_entity.legal_name);
+      this.addFormStep3.controls.buyer_fed_tax.patchValue(data.buyer_legal_entity.fed_tax_pay);
+      this.addFormStep3.controls.buyer_phone.patchValue(data.buyer_legal_entity.phone);
+      this.addFormStep3.controls.buyer_address.patchValue(data.buyer_legal_entity.address);
+      this.addFormStep3.controls.buyer_leg_rep_name.patchValue(
+        data.buyer_legal_entity.legal_reps ? data.buyer_legal_entity.legal_reps.name : '');
+      this.addFormStep3.controls.buyer_leg_rep_first_surname.patchValue(
+        data.buyer_legal_entity.legal_reps ? data.buyer_legal_entity.legal_reps.first_surname : '');
+      this.addFormStep3.controls.buyer_leg_rep_second_surname.patchValue(
+        data.buyer_legal_entity.legal_reps ? data.buyer_legal_entity.legal_reps.second_surname : '');
+      this.addFormStep3.controls.buyer_leg_rep_phone.patchValue(
+        data.buyer_legal_entity.legal_reps ? data.buyer_legal_entity.legal_reps.phone : '');
+      this.addFormStep3.controls.buyer_leg_rep_email.patchValue(
+        data.buyer_legal_entity.legal_reps ? data.buyer_legal_entity.legal_reps.email : '');
+      this.addFormStep3.controls.buyer_leg_rep_comp.patchValue('');
+      this.addFormStep3.controls.buyer_leg_rep_fed_tax.patchValue(
+        data.buyer_legal_entity.legal_reps ? data.buyer_legal_entity.legal_reps.fed_tax_pay : '');
+      let control = new FormArray([]);
+      control = this.addFormStep3.get('collection_buyer_banks') as FormArray;
+      if (data.buyer_legal_entity.legal_entity_banks) {
+        data.buyer_legal_entity.legal_entity_banks.forEach(x => {
+          delete x.id;  // no need to send id ( cuz these are saving separtely in table)
+          control.push(this.fb.group(x));
+        });
       }
-
-      // buyer as a developer
-      if (this.model.buyer_type == '3') {
-        this.addFormStep3.controls.buyer_id.patchValue(data.buyer.id);
-        this.addFormStep3.controls.buyer_company_name.patchValue(data.buyer_company_name ? data.buyer_company_name : '');
-        this.addFormStep3.controls.buyer_legal_name.patchValue(data.buyer.developer_company || '');
-        this.addFormStep3.controls.buyer_name.patchValue(data.buyer.name || '');
-        this.addFormStep3.controls.buyer_first_surname.patchValue(data.buyer ? data.buyer.first_surname : '');
-        this.addFormStep3.controls.buyer_second_surname.patchValue(data.buyer ? data.buyer.second_surname : '');
-        this.addFormStep3.controls.buyer_fed_tax.patchValue(data.buyer ? data.buyer.fed_tax_pay : '');
-        this.addFormStep3.controls.buyer_phone.patchValue(data.buyer.phone || '');
-        this.addFormStep3.controls.buyer_address.patchValue(data.buyer.developer_address || '');
-
-        this.addFormStep3.controls.buyer_leg_rep_name.patchValue(
-          data.buyer.legal_representative ? data.buyer.legal_representative.name : '');
-        this.addFormStep3.controls.buyer_leg_rep_first_surname.patchValue(
-          data.buyer.legal_representative ? data.buyer.legal_representative.first_surname : '');
-        this.addFormStep3.controls.buyer_leg_rep_second_surname.patchValue(
-          data.buyer.legal_representative ? data.buyer.legal_representative.second_surname : '');
-        this.addFormStep3.controls.buyer_leg_rep_phone.patchValue(
-          data.buyer.legal_representative ? data.buyer.legal_representative.phone : '');
-        this.addFormStep3.controls.buyer_leg_rep_email.patchValue(
-          data.buyer.legal_representative ? data.buyer.legal_representative.email : '');
-        this.addFormStep3.controls.buyer_leg_rep_fed_tax.patchValue(
-          data.buyer.legal_representative ? data.buyer.legal_representative.fed_tax_pay : '');
-
-        const control = this.addFormStep3.get('collection_buyer_rep_banks') as FormArray;
-        if (data.buyer.legal_representative && data.buyer.legal_representative.legal_rep_banks) {
-          data.buyer.legal_representative.legal_rep_banks.forEach(x => {
-            delete x.id;  // no need to send id ( cuz these are saving separtely in table)
-            control.push(this.fb.group(x));
-          });
-        }
-        const control1 = this.addFormStep3.get('collection_buyer_banks') as FormArray;
-        if (data.buyer.legal_rep_banks) {
-          data.buyer.legal_rep_banks.forEach(x => {
-            delete x.id;  // no need to send id ( cuz these are saving separtely in table)
-            control1.push(this.fb.group(x));
-          });
-        }
+      let control1 = new FormArray([]);
+      control1 = this.addFormStep3.get('collection_buyer_rep_banks') as FormArray;
+      if (data.buyer_legal_entity.legal_reps && data.buyer_legal_entity.legal_reps.legal_rep_banks) {
+        data.buyer_legal_entity.legal_reps.legal_rep_banks.forEach(x => {
+          delete x.id;  // no need to send id ( cuz these are saving separtely in table)
+          control1.push(this.fb.group(x));
+        });
       }
+    }
+
+    // buyer as a developer
+    if (this.model.buyer_type == '3') {
+      this.addFormStep3.controls.buyer_id.patchValue(data.buyer.id);
+      this.addFormStep3.controls.buyer_company_name.patchValue(data.buyer_company_name ? data.buyer_company_name : '');
+      this.addFormStep3.controls.buyer_legal_name.patchValue(data.buyer.developer_company || '');
+      this.addFormStep3.controls.buyer_name.patchValue(data.buyer.name || '');
+      this.addFormStep3.controls.buyer_first_surname.patchValue(data.buyer ? data.buyer.first_surname : '');
+      this.addFormStep3.controls.buyer_second_surname.patchValue(data.buyer ? data.buyer.second_surname : '');
+      this.addFormStep3.controls.buyer_fed_tax.patchValue(data.buyer ? data.buyer.fed_tax_pay : '');
+      this.addFormStep3.controls.buyer_phone.patchValue(data.buyer.phone || '');
+      this.addFormStep3.controls.buyer_address.patchValue(data.buyer.developer_address || '');
+
+      this.addFormStep3.controls.buyer_leg_rep_name.patchValue(
+        data.buyer.legal_representative ? data.buyer.legal_representative.name : '');
+      this.addFormStep3.controls.buyer_leg_rep_first_surname.patchValue(
+        data.buyer.legal_representative ? data.buyer.legal_representative.first_surname : '');
+      this.addFormStep3.controls.buyer_leg_rep_second_surname.patchValue(
+        data.buyer.legal_representative ? data.buyer.legal_representative.second_surname : '');
+      this.addFormStep3.controls.buyer_leg_rep_phone.patchValue(
+        data.buyer.legal_representative ? data.buyer.legal_representative.phone : '');
+      this.addFormStep3.controls.buyer_leg_rep_email.patchValue(
+        data.buyer.legal_representative ? data.buyer.legal_representative.email : '');
+      this.addFormStep3.controls.buyer_leg_rep_fed_tax.patchValue(
+        data.buyer.legal_representative ? data.buyer.legal_representative.fed_tax_pay : '');
+
+      const control = this.addFormStep3.get('collection_buyer_rep_banks') as FormArray;
+      if (data.buyer.legal_representative && data.buyer.legal_representative.legal_rep_banks) {
+        data.buyer.legal_representative.legal_rep_banks.forEach(x => {
+          delete x.id;  // no need to send id ( cuz these are saving separtely in table)
+          control.push(this.fb.group(x));
+        });
+      }
+      const control1 = this.addFormStep3.get('collection_buyer_banks') as FormArray;
+      if (data.buyer.legal_rep_banks) {
+        data.buyer.legal_rep_banks.forEach(x => {
+          delete x.id;  // no need to send id ( cuz these are saving separtely in table)
+          control1.push(this.fb.group(x));
+        });
+      }
+    }
   }
 
   patchFormStep4(data) {
@@ -824,11 +831,11 @@ export class AddEditCollectionComponent implements OnInit {
 
     // this.addFormStep5.controls.deal_commission_agents.patchValue(data.deal_commission_agents);
     const control1 = this.addFormStep5.get('deal_commission_agents') as FormArray;
-    console.log(control1);
+    //console.log(control1);
     if (data.deal_commission_agents && data.deal_commission_agents.length > 0) {
       for (let index = 0; index < data.deal_commission_agents.length; index++) {
         const x = data.deal_commission_agents[index].broker;
-        console.log(control1);
+        //console.log(control1);
         if (index === 0 && x) {
           control1.push(this.fb.group(x));
         } else {
@@ -858,42 +865,42 @@ export class AddEditCollectionComponent implements OnInit {
     this.pcsum = 0;
     if (payment_choices) {
       for (let index = 0; index < payment_choices.length; index++) {
-          const element = payment_choices[index];
-          const element1 = data.collection_commissions[index];
-          const obj = {};
-          obj['id'] = data.collection_commissions.length > 0 &&
+        const element = payment_choices[index];
+        const element1 = data.collection_commissions[index];
+        const obj = {};
+        obj['id'] = data.collection_commissions.length > 0 &&
           data.collection_commissions[index] ? data.collection_commissions[index].id : '';
-          obj['pc_id'] = element['payment_choice_id'];   // payment choice dropdown id
-          obj['name'] = element['name'];
-          obj['category_name'] = element['category_name'];
-          obj['date'] = element['date'];
-          obj['payment_amount'] = element['amount'];
-          obj['payment_choice_id'] = element['id'];
-          obj['add_collection_commission'] = data.collection_commissions.length > 0 &&
+        obj['pc_id'] = element['payment_choice_id'];   // payment choice dropdown id
+        obj['name'] = element['name'];
+        obj['category_name'] = element['category_name'];
+        obj['date'] = element['date'];
+        obj['payment_amount'] = element['amount'];
+        obj['payment_choice_id'] = element['id'];
+        obj['add_collection_commission'] = data.collection_commissions.length > 0 &&
           data.collection_commissions[index] ? data.collection_commissions[index].add_collection_commission : 0;
-          obj['percent'] = data.collection_commissions.length > 0 &&
+        obj['percent'] = data.collection_commissions.length > 0 &&
           data.collection_commissions[index] ? data.collection_commissions[index].percent : 0;
-          obj['amount'] = data.collection_commissions.length > 0 &&
+        obj['amount'] = data.collection_commissions.length > 0 &&
           data.collection_commissions[index] ? data.collection_commissions[index].amount : 0.00;
 
-          obj['add_purchase_commission'] = data.collection_commissions.length > 0 &&
+        obj['add_purchase_commission'] = data.collection_commissions.length > 0 &&
           data.collection_commissions[index] ? data.collection_commissions[index].add_purchase_commission : 0;
-          obj['purchase_comm_amount'] = data.collection_commissions.length > 0 &&
+        obj['purchase_comm_amount'] = data.collection_commissions.length > 0 &&
           data.collection_commissions[index] ? data.collection_commissions[index].purchase_comm_amount : 0;
 
-          obj['add_agent_commission'] = data.collection_commissions.length > 0 &&
+        obj['add_agent_commission'] = data.collection_commissions.length > 0 &&
           data.collection_commissions[index] ? data.collection_commissions[index].add_agent_commission : 0;
-          obj['agent_comm_amount'] = data.collection_commissions.length > 0 &&
+        obj['agent_comm_amount'] = data.collection_commissions.length > 0 &&
           data.collection_commissions[index] ? data.collection_commissions[index].agent_comm_amount : 0;
 
-          if (control1.length != payment_choices.length) {
-            control1.push(this.fb.group(obj));
-          }
-          this.model.collection_commissions.push(obj);
-console.log('obj', obj['id'])
-          this.ccsum = parseFloat(this.ccsum) + (obj['amount'] && obj['add_collection_commission'] ? parseFloat(obj['amount']) : 0.00);
-          this.pcsum = parseFloat(this.pcsum) + (obj['purchase_comm_amount'] && obj['add_purchase_commission'] ? parseFloat(obj['purchase_comm_amount']) : 0.00);
-          this.acsum = parseFloat(this.acsum) + (obj['agent_comm_amount'] && obj['add_agent_commission'] ? parseFloat(obj['agent_comm_amount']) : 0.00);
+        if (control1.length != payment_choices.length) {
+          control1.push(this.fb.group(obj));
+        }
+        this.model.collection_commissions.push(obj);
+       // console.log('obj', obj['id'])
+        this.ccsum = parseFloat(this.ccsum) + (obj['amount'] && obj['add_collection_commission'] ? parseFloat(obj['amount']) : 0.00);
+        this.pcsum = parseFloat(this.pcsum) + (obj['purchase_comm_amount'] && obj['add_purchase_commission'] ? parseFloat(obj['purchase_comm_amount']) : 0.00);
+        this.acsum = parseFloat(this.acsum) + (obj['agent_comm_amount'] && obj['add_agent_commission'] ? parseFloat(obj['agent_comm_amount']) : 0.00);
       }
     }
   }
@@ -984,7 +991,7 @@ console.log('obj', obj['id'])
     for (let index = 0; index < this.searchedBuildings.length; index++) {
       if (this.searchedBuildings[index].id == this.model.building_id) {
         const bt = this.searchedBuildings[index].building_towers;
-        for(let i = 0; i < bt.length; i++) {
+        for (let i = 0; i < bt.length; i++) {
           if (bt[i].id == building_towers_id) {
             this.model.building_towers = bt[i];
           }
@@ -1051,14 +1058,14 @@ console.log('obj', obj['id'])
       return;
     }
     const input = {
-      building_id : this.model.building_id,
-      tower_id : this.model.building_towers_id,
-      floor_num : this.model.floor_num
+      building_id: this.model.building_id,
+      tower_id: this.model.building_towers_id,
+      floor_num: this.model.floor_num
     };
     this.us.postDataApi('getProperties', input)
       .subscribe(
         success => {
-          success.data.unshift({'name': this.translate.instant('message.error.pleaseChooseApartment')});
+          success.data.unshift({ 'name': this.translate.instant('message.error.pleaseChooseApartment') });
           this.properties = success.data;
         }, error => {
           this.spinner.hide();
@@ -1086,11 +1093,11 @@ console.log('obj', obj['id'])
           this.setAvailableStatus(1);
         }
         this.addFormStep5.controls.comm_total_commission.patchValue(p.total_commision ? p.total_commision : 0);
-        this.addFormStep5.controls.comm_total_commission_amount.patchValue(p.total_commision ? (p.total_commision *p.min_price)/100 : 0);
+        this.addFormStep5.controls.comm_total_commission_amount.patchValue(p.total_commision ? (p.total_commision * p.min_price) / 100 : 0);
         this.addFormStep5.controls.is_commission_sale_enabled.patchValue(p.is_commission_sale_enabled ? 1 : 0);
         this.addFormStep5.controls.payment_received_by.patchValue(p.payment_received_by ? '1' : '0');
         this.addFormStep5.controls.comm_shared_commission.patchValue(p.broker_commision ? p.broker_commision : 0);
-        this.addFormStep5.controls.comm_shared_commission_amount.patchValue(p.broker_commision ? (p.broker_commision *p.min_price)/100 : 0);
+        this.addFormStep5.controls.comm_shared_commission_amount.patchValue(p.broker_commision ? (p.broker_commision * p.min_price) / 100 : 0);
       }
     });
     this.getBanks(this.model.property_id);
@@ -1113,7 +1120,7 @@ console.log('obj', obj['id'])
     $event.stopPropagation();
     this.collectionAgentBanks.removeAt(i);
     if (item.value.id) {
-      this.us.postDataApi('deleteAgentBank', {id: item.value.id}).subscribe(success => {
+      this.us.postDataApi('deleteAgentBank', { id: item.value.id }).subscribe(success => {
         this.spinner.hide();
       }, error => {
         this.spinner.hide();
@@ -1134,7 +1141,7 @@ console.log('obj', obj['id'])
     $event.stopPropagation();
     this.collectionSellerBanks.removeAt(i);
     if (item.value.id) {
-      this.us.postDataApi('deleteSellerBank', {id: item.value.id}).subscribe(success => {
+      this.us.postDataApi('deleteSellerBank', { id: item.value.id }).subscribe(success => {
         this.spinner.hide();
       }, error => {
         this.spinner.hide();
@@ -1155,7 +1162,7 @@ console.log('obj', obj['id'])
     $event.stopPropagation();
     this.collectionSellerRepBanks.removeAt(i);
     if (item.value.id) {
-      this.us.postDataApi('deleteSellerRefBank', {id: item.value.id}).subscribe(success => {
+      this.us.postDataApi('deleteSellerRefBank', { id: item.value.id }).subscribe(success => {
         this.spinner.hide();
       }, error => {
         this.spinner.hide();
@@ -1176,7 +1183,7 @@ console.log('obj', obj['id'])
     $event.stopPropagation();
     this.collectionBuyerRepBanks.removeAt(i);
     if (item.value.id) {
-      this.us.postDataApi('deleteBuyerRefBank', {id: item.value.id}).subscribe(success => {
+      this.us.postDataApi('deleteBuyerRefBank', { id: item.value.id }).subscribe(success => {
         this.spinner.hide();
       }, error => {
         this.spinner.hide();
@@ -1211,7 +1218,7 @@ console.log('obj', obj['id'])
     $event.stopPropagation();
     this.collectionBuyerBanks.removeAt(i);
     if (item.value.id) {
-      this.us.postDataApi('deleteBuyerBank', {id: item.value.id}).subscribe(success => {
+      this.us.postDataApi('deleteBuyerBank', { id: item.value.id }).subscribe(success => {
         this.spinner.hide();
       }, error => {
         this.spinner.hide();
@@ -1335,7 +1342,7 @@ console.log('obj', obj['id'])
   removePaymentChoice(item: any, i: number) {
     this.getPaymentChoices.removeAt(i);
     if (item.value.id) {
-      this.us.postDataApi('deletePaymentChoice', {id: item.value.id}).subscribe(success => {
+      this.us.postDataApi('deletePaymentChoice', { id: item.value.id }).subscribe(success => {
         this.spinner.hide();
       }, error => {
         this.spinner.hide();
@@ -1353,7 +1360,7 @@ console.log('obj', obj['id'])
       name: ''
     };
     if (this.mode === 'add') {
-      this.collectionFolders.push({name: this.folderName, folder_docs: []});
+      this.collectionFolders.push({ name: this.folderName, folder_docs: [] });
     } else if (this.mode === 'edit') {
       if (this.selectedFolder && this.selectedFolder.id) {
         this.editFolderName(this.selectedFolder);
@@ -1385,7 +1392,7 @@ console.log('obj', obj['id'])
 
   editFolderName(folder) {
     this.collectionFolders[this.folderIndex]['name'] = this.folderName;
-    this.us.postDataApi('updateCollectionFolder', {id: this.selectedFolder.id, name: this.folderName})
+    this.us.postDataApi('updateCollectionFolder', { id: this.selectedFolder.id, name: this.folderName })
       .subscribe(
         success => {
           // this.collectionFolders[this.folderIndex]['name'] = this.folderName;
@@ -1421,7 +1428,7 @@ console.log('obj', obj['id'])
 
   saveCollectionFolders() {
     this.spinner.show();
-    this.us.postDataApi('addCollection', {id: this.model.id, step: 6, 'collection_folders': this.collectionFolders})
+    this.us.postDataApi('addCollection', { id: this.model.id, step: 6, 'collection_folders': this.collectionFolders })
       .subscribe(
         success => {
           this.spinner.hide();
@@ -1446,7 +1453,7 @@ console.log('obj', obj['id'])
       this.toastr.error(this.translate.instant('message.error.pleaseEnterDocuFile'), this.translate.instant('swal.error'));
       return;
     }
-    this.docs.push({name: this.docsName, display_name: this.docFile});
+    this.docs.push({ name: this.docsName, display_name: this.docFile });
     this.docFile = ''; this.docsName = '';
     this.docsFile.nativeElement.value = '';
   }
@@ -1470,7 +1477,7 @@ console.log('obj', obj['id'])
   deleteDocs(item: any, i: number) {
     this.collectionFolders[this.folderIndex].folder_docs.splice(i, 1);
     if (item.id) {
-      this.us.postDataApi('deleteFolderDoc', {id: item.id}).subscribe(success => {
+      this.us.postDataApi('deleteFolderDoc', { id: item.id }).subscribe(success => {
         this.spinner.hide();
       }, error => {
         this.spinner.hide();
@@ -1497,7 +1504,7 @@ console.log('obj', obj['id'])
   deleteFolder(item, index: number) {
     this.collectionFolders.splice(index, 1);
     if (item.id) {
-      this.us.postDataApi('deleteCollectionFolder', {id: item.id}).subscribe(success => {
+      this.us.postDataApi('deleteCollectionFolder', { id: item.id }).subscribe(success => {
         this.spinner.hide();
       }, error => {
         this.spinner.hide();
@@ -1533,7 +1540,7 @@ console.log('obj', obj['id'])
   }
 
   get folderDocs(): FormArray {
-    const collFolders =  this.addFormStep6.get('collection_folders') as FormArray;
+    const collFolders = this.addFormStep6.get('collection_folders') as FormArray;
     return collFolders.get('folder_docs') as FormArray;
   }
 
@@ -1569,7 +1576,7 @@ console.log('obj', obj['id'])
   }
 
   onSelect(event) {
-    console.log(event);
+   // console.log(event);
   }
 
   getBothBroker(keyword: string) {
@@ -1614,10 +1621,10 @@ console.log('obj', obj['id'])
     const input = { name: '', user_type: 0 };
     input.name = keyword ? keyword : '';
     if (this.tab == 2 && this.model.seller_type) {
-     input.user_type = this.model.seller_type;
+      input.user_type = this.model.seller_type;
     }
     if (this.tab == 3 && this.model.buyer_type) {
-     input.user_type = this.model.buyer_type;
+      input.user_type = this.model.buyer_type;
     }
     this.us.postDataApi('getAllBuyers', input).subscribe(r => {
       this.spinner.hide();
@@ -2078,7 +2085,7 @@ console.log('obj', obj['id'])
       formdata['seller_type'] = this.model.seller_type;
       this.addFormStep2.controls.seller_type.patchValue(this.model.seller_type);
       this.addFormStep2.controls.step.patchValue(this.model.step);
-       if (this.addFormStep2.valid) {
+      if (this.addFormStep2.valid) {
         if (this.model.seller_type == '1' || this.model.seller_type == '3') {
           if (!formdata['seller_id']) {
             this.toastr.error(this.translate.instant('message.error.pleaseChooseSeller'), this.translate.instant('swal.error'));
@@ -2088,15 +2095,15 @@ console.log('obj', obj['id'])
 
         if (this.model.seller_type != '1') {
           if (!formdata['seller_leg_rep_name'] || !formdata['seller_leg_rep_phone'] ||
-          !formdata['seller_leg_rep_email'] || !formdata['seller_leg_rep_fed_tax']) {
+            !formdata['seller_leg_rep_email'] || !formdata['seller_leg_rep_fed_tax']) {
             this.toastr.error(this.translate.instant('message.error.pleaseFillLegalRepInfo'), this.translate.instant('swal.error'));
             return;
           }
         }
-       } else {
+      } else {
         this.showError = true;
         return;
-       }
+      }
     }
 
     if (this.model.step == 3) {
@@ -2104,7 +2111,7 @@ console.log('obj', obj['id'])
       this.addFormStep3.controls.buyer_type.patchValue(this.model.buyer_type);
       this.addFormStep3.controls.step.patchValue(this.model.step);
       // formdata['buyer_type'] = this.model.buyer_type;
-       if (this.addFormStep3.valid) {
+      if (this.addFormStep3.valid) {
         if (this.model.buyer_type == '1' || this.model.buyer_type == '3') {
           if (!formdata['buyer_id']) {
             this.toastr.error(this.translate.instant('message.error.pleaseChooseBuyer'), this.translate.instant('swal.error'));
@@ -2113,15 +2120,15 @@ console.log('obj', obj['id'])
         }
         if (this.model.buyer_type != '1') {
           if (!formdata['buyer_leg_rep_name'] || !formdata['buyer_leg_rep_phone'] ||
-          !formdata['buyer_leg_rep_email'] || !formdata['buyer_leg_rep_fed_tax']) {
+            !formdata['buyer_leg_rep_email'] || !formdata['buyer_leg_rep_fed_tax']) {
             this.toastr.error(this.translate.instant('message.error.pleaseFillLegalRepInfo'), this.translate.instant('swal.error'));
             return;
           }
         }
-       } else {
+      } else {
         this.showError = true;
         return;
-       }
+      }
     }
 
     if (this.model.step == 4) {
@@ -2146,8 +2153,8 @@ console.log('obj', obj['id'])
           if (!element.name || !element.amount || !element.date || !element.percent) {
             i = i + 1;
             const text = element.name ?
-                          this.translate.instant('message.error.pleaseFillAllDetailsFor') + element.name :
-                          this.translate.instant('message.error.pleaseFillAllDetailsFor');
+              this.translate.instant('message.error.pleaseFillAllDetailsFor') + element.name :
+              this.translate.instant('message.error.pleaseFillAllDetailsFor');
             this.toastr.clear();
             this.toastr.error(text, this.translate.instant('swal.error'));
             return;
@@ -2218,7 +2225,7 @@ console.log('obj', obj['id'])
         //   this.toastr.error(this.translate.instant('message.error.pcAmountIsNotEualToSozuCommission'), this.translate.instant('swal.error'));
         //   return;
         // }
-        console.log(formdata['deal_commission_agents'])
+        //console.log(formdata['deal_commission_agents'])
         const collection_commissions = formdata['collection_commissions'];
         delete formdata['collection_commissions'];
         collection_commissions.forEach(element => {
@@ -2260,8 +2267,8 @@ console.log('obj', obj['id'])
             if (tab == 1 || tab == 2) {
               this.initFormStep2();
               this.patchFormStep2(success['data'], 'add');
-            // }
-            // if (tab == 2) {
+              // }
+              // if (tab == 2) {
               this.initFormStep3();
               this.patchFormStep3(success['data']);
             }
@@ -2329,7 +2336,7 @@ console.log('obj', obj['id'])
     }
   }
 
-  editDocsPopup(item: any, folderIndex: number, docIndex: number){
+  editDocsPopup(item: any, folderIndex: number, docIndex: number) {
     this.modelForDoc.name_en = item.name;
     this.modelForDoc.id = item.id;
     this.folderId = item.collection_folder_id;
@@ -2355,47 +2362,75 @@ console.log('obj', obj['id'])
     } else {
       self.editDocument(document);
     }
-  } 
+  }
 
   closeEditModal() {
     this.localityClose.nativeElement.click();
   }
 
-  editDocument(document){
+  editDocument(document) {
     let self = this;
     this.spinner.show();
     let param = {
-      id:this.modelForDoc.id,
-      name:this.modelForDoc.name_en
+      id: this.modelForDoc.id,
+      name: this.modelForDoc.name_en
     }
-    if(!this.modelForDoc.id){
-      this.docs.filter(doc =>{
-        if(doc.name == this.oldDocName){
+    if (!this.modelForDoc.id) {
+      this.docs.filter(doc => {
+        if (doc.name == this.oldDocName) {
           doc.name = self.modelForDoc.name_en;
         }
       });
       self.spinner.hide();
       self.closeEditModal();
     }
-    else{
-    this.us.postDataApi('updateDocFolderName', param).subscribe(
-      r => {
-        self.spinner.hide();
-        self.collectionFolders.filter(folder =>{
-          if(folder.id == self.folderId){
-          folder.folder_docs.filter(doc =>{
-            if(doc.id == self.modelForDoc.id){
-            doc.name = self.modelForDoc.name_en;
-          }
+    else {
+      this.us.postDataApi('updateDocFolderName', param).subscribe(
+        r => {
+          self.spinner.hide();
+          self.collectionFolders.filter(folder => {
+            if (folder.id == self.folderId) {
+              folder.folder_docs.filter(doc => {
+                if (doc.id == self.modelForDoc.id) {
+                  doc.name = self.modelForDoc.name_en;
+                }
+              });
+            }
+          });
+          self.closeEditModal();
+        }, error => {
+          self.spinner.hide();
         });
-      }
-        });
-        self.closeEditModal();
-      }, error => {
-        self.spinner.hide();
-      });
+    }
   }
-}
+
+  getCollectionDocument = (buyerId: number = 0): void => {
+    this.spinner.show();
+    this.us.postDataApi('getCollectionDocument', { id: buyerId }).subscribe((success) => {
+      this.buyerDocumentationFoldersDetails = success.data || [];
+      this.spinner.hide();
+    }, (error) => {
+      this.spinner.hide();
+    });
+  }
+
+  openBuyerDocumentationModal = (): void => {
+    this.buyerDocumentationModalOpen.nativeElement.click();
+  }
+
+  get buyerDocumentationFoldersDetailsLength(): number {
+    let count = 0;
+    this.buyerDocumentationFoldersDetails.forEach((item) => {
+      if (item.document_link) {
+        count = count + 1;
+      }
+    });
+    return count;
+  }
+
+  closeBuyerDocumentationModal = (): void => {
+    this.buyerDocumentationModalClose.nativeElement.click();
+  }
 
 getBanks(id){
   this.us.postDataApi('getPropertyDetails', { id: id }).subscribe((success) => {

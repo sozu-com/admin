@@ -23,6 +23,7 @@ import pdfFonts from "pdfmake/build/vfs_fonts";
 import { DatePipe } from '@angular/common';
 import { PricePipe } from 'src/app/pipes/price.pipe';
 import { HttpClient } from '@angular/common/http';
+import { count } from 'rxjs-compat/operator/count';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 declare let swal: any;
 declare var $: any;
@@ -132,6 +133,7 @@ export class CollectionsComponent implements OnInit {
   logoImageBase64: any;
   projectLogoImageBase64: any;
   base64: any;
+  minimumDate = new Date();
   @ViewChild('viewDesModal') viewDesModal: ElementRef;
   @ViewChild('viewDesModalClose') viewDesModalClose: ElementRef;
   @ViewChild('applyPaymentChoiceId') applyPaymentChoiceId: ElementRef;
@@ -2669,8 +2671,8 @@ export class CollectionsComponent implements OnInit {
     this.notesadddModalClose.nativeElement.click();
   }
 
-  generateAccountStatementPdf(data){
-    let self = this; 
+  generateAccountStatementPdf(data) {
+    let self = this;
     this.table_data = [];
     this.monthly_installment = 0;
     this.current_month_amount = 0;
@@ -2750,18 +2752,22 @@ export class CollectionsComponent implements OnInit {
             count3 = count3 + 1;
           }
 
-          self.table_data.push([
-          {text: element.category_name, border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc'},
-          {text: element.date, border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc'},
-          {text: element.calc_payment_amount && element.calc_payment_amount> '0.1' ? self.price.transform(Number(element.calc_payment_amount).toFixed(2)) : '', border: [false, false, false, false], bold: true, 
-          color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc'},
-          {text: element.outstanding_amount && element.outstanding_amount > 0 ? self.price.transform(Number(element.outstanding_amount).toFixed(2)) : '', border: [false, false, false, false], 
-           bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc'},
-          {text: element.amount ? self.price.transform(Number(element.amount).toFixed(2)) : '', border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc'},
-          {text: element.penalty ? self.price.transform(Number(element.penalty.amount).toFixed(2)) : '', border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc'},
-          {text: element.penalty ? element.penalty.description : '', border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc'}
-        ]);
-        });
+            self.table_data.push([
+              { text: element.category_name, border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc' },
+              { text: element.date, border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc' },
+              {
+                text: element.calc_payment_amount && element.calc_payment_amount > '0.1' ? self.price.transform(Number(element.calc_payment_amount).toFixed(2)) : '', border: [false, false, false, false], bold: true,
+                color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc'
+              },
+              {
+                text: element.outstanding_amount && element.outstanding_amount > 0 ? self.price.transform(Number(element.outstanding_amount).toFixed(2)) : '', border: [false, false, false, false],
+                bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc'
+              },
+              { text: element.amount ? self.price.transform(Number(element.amount).toFixed(2)) : '', border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc' },
+              { text: element.penalty ? self.price.transform(Number(element.penalty.amount).toFixed(2)) : '', border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc' },
+              { text: element.penalty ? element.penalty.description : '', border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc' }
+            ]);
+          });
         let monthly_installment_amunt_per = self.collection_data.deal_price ?  self.monthly_installment_amunts * 100 / self.collection_data.deal_price : 0;
             self.monthly_installment_amunt.push(
                 { text: self.translate.instant('generatePDF.monthlyInstallmentAmt'), border: [false, false, false, false], color: '#858291' },
@@ -2996,8 +3002,8 @@ export class CollectionsComponent implements OnInit {
                   widths: ['auto', 'auto'],
                   body: [
                     [
-                      { text: this.translate.instant('generatePDF.balancePayable'), border: [false, false, false, false], bold: true, fontSize: 16, margin: [0, 0, 0, 10]},
-                      { text: remaining_amount >= 0 ? this.price.transform(Number(remaining_amount).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true, fontSize: 16,margin: [0, 0, 0, 10] }
+                      { text: this.translate.instant('generatePDF.balancePayable'), border: [false, false, false, false], bold: true, fontSize: 16, margin: [0, 0, 0, 10] },
+                      { text: remaining_amount >= 0 ? this.price.transform(Number(remaining_amount).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true, fontSize: 16, margin: [0, 0, 0, 10] }
                     ],
                     [
                       { text: this.translate.instant('generatePDF.totalPaid'), border: [false, false, false, false], color: '#858291' },
@@ -3182,7 +3188,7 @@ export class CollectionsComponent implements OnInit {
           margin: [0, 5, 0, 15],
           border: [false, false, false, false]
         },
-        banktable:{
+        banktable: {
           margin: [0, 20, 0, 40],
           border: [false, false, false, false]
         },
@@ -3254,6 +3260,16 @@ export class CollectionsComponent implements OnInit {
     // }else{
     //   pdfMake.createPdf(docDefinition).open();
     // }
+  }
+
+  get buyerDocumentationFoldersDetailsLength(): number {
+    let count = 0;
+    this.buyerDocumentationFoldersDetails.forEach((item) => {
+      if (item.document_link) {
+        count = count + 1;
+      }
+    });
+    return count;
   }
 
 }
