@@ -2383,6 +2383,22 @@
     "Jobtype":"Tipo De Empleo",
     "StartDate":"Fecha De Inicio",
     "MarketStall":"puesto",
-    "Areadepartment":"Area o departamento"
+    "Areadepartment":"Area o departamento",
+    "Contacttype":"Tipo de contarto",
+    "Turn":"Giro",
+    "Withholdtaxes":"Retiene impuestos",
+    "Laboralsector":"Sector laboral",
+    "profession":"profesion",
+    "Checkincome":"Comprueba ingresos con",
+    "Immediateboss":"Jefe inmediato",
+    "HoldsBrief":"Retiene Descripcion breve de las funciones",
+    "lastjob":"empleo anterior",
+    "Company":"Empresa",
+    "Departuredate":"Fecha de salida",
+    "Causeseparation":"Causa se separacion",
+    "PhoneCode":"Codigo Telefono",
+    "Boss":"Jefe",
+    "Typecontract":"Tipo de contrato",
+    "jobtype":"Tipo de empleo"
   }
 }
