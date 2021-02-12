@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 
@@ -16,11 +17,13 @@ export class CreditComponent implements OnInit {
   constructor(
     private translate: TranslateService,
     public admin: AdminService,
+    private spinnerService: NgxSpinnerService
   ) { }
 
   ngOnInit() {
     this.getCountries();
     this.initCalendarLocale();
+    this.getCreditsUser();
   }
 
   getCountries() {
@@ -112,19 +115,24 @@ export class CreditComponent implements OnInit {
     this.parameter.locality_id = id;
   }
 
-  getLocalityBuildings(id){
+  getLocalityBuildings(id) {
 
   }
-  changeFlag(data){
-
-  }
-
-  getListing(){
+  changeFlag(data) {
 
   }
 
-  resetFilters(){
-    
+  getCreditsUser = (): void => {
+    this.spinnerService.show();
+    this.admin.postDataApi('getCreditsUser', {}).subscribe((success) => {
+      this.spinnerService.hide();
+    }, (error) => {
+      this.spinnerService.hide();
+    });
+  }
+
+  resetFilters() {
+
   }
 
 }

@@ -7,6 +7,8 @@ import { AdminService } from 'src/app/services/admin.service';
 import { FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { IProperty } from 'src/app/common/property';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Router } from '@angular/router';
 declare let swal: any;
 @Component({
   selector: 'app-credit-add-edit',
@@ -31,17 +33,19 @@ export class CreditAddEditComponent implements OnInit {
     private us: AdminService,
     private toastr: ToastrService,
     private translate: TranslateService,
+    private spinnerService: NgxSpinnerService,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.tab = 0;
   }
   getListing() {
-  //  this.spinner.show();
+    //  this.spinner.show();
   }
- 
+
   setTab(tab: any) {
-    console.log(tab,"tab")
+    console.log(tab, "tab")
     this.tab = tab;
     // swal({
     //   html: this.translate.instant('message.error.areYouSure') + '<br>' +
@@ -68,7 +72,7 @@ export class CreditAddEditComponent implements OnInit {
     this.showBuilding = false;
     this.buildingLoading = true;
     this.searchedUser = [];
-    this.us.postDataApi('getFilterUser', {name:keyword })
+    this.us.postDataApi('getFilterUser', { name: keyword })
       .subscribe(
         success => {
           this.searchedUser = success['data'];
@@ -98,7 +102,23 @@ export class CreditAddEditComponent implements OnInit {
     // this.model.building_id = building.id;
   }
 
-  createCollection(value , data){
+  createCollection(value, data) {
 
   }
+
+  addcredits = (step: number): void => {
+    if (!this.selectedUser) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterSomeText'), this.translate.instant('swal.error'));
+    } else {
+      this.spinnerService.show();
+      this.us.postDataApi('addcredits', { step: step, user_id: this.selectedUser.id }).subscribe((success) => {
+        this.spinnerService.hide();
+        this.router.navigate(['dashboard/credit/view-credit']);
+      }, (error) => {
+        this.spinnerService.hide();
+      });
+    }
+  }
+
 }
