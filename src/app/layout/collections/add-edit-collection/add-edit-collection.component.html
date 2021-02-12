@@ -2065,18 +2065,31 @@
       <div class="form-group-3 row">
         <h5 class="col-sm-3 p16-two">{{'addCollection.whoWillReceivePaymentDirectly' | translate}}</h5>
         <div class="col-sm-9">
-          <div class="clearfix"></div>
-          <label class="cust-radio">
-            <input class="form-control" type="radio" formControlName="payment_received_by" value="1"
-              name="payment_received_by">
-            <span class="checkmark">{{'addCollection.Sozu' | translate}}</span>
-          </label>
-          <label class="cust-radio">
-            <input class="form-control" type="radio" formControlName="payment_received_by" value="0"
-              name="payment_received_by">
-            <span class="checkmark">{{'addCollection.Seller' | translate}}</span>
-          </label>
-          <div class="clearfix"></div>
+            <div class="clearfix"></div>
+            <label class="cust-radio">
+              <input class="form-control" type="radio" formControlName="payment_received_by" 
+              value="1" 
+              name="payment_received_by" (change)="onAgencyOrSellerChange($event.target.value)">
+              <span class="checkmark">{{'addCollection.Sozu' | translate}}</span>
+            </label>
+            <label class="cust-radio">
+              <input class="form-control" type="radio" formControlName="payment_received_by" 
+              value="0" 
+              name="payment_received_by" (change)="onAgencyOrSellerChange($event.target.value)">
+              <span class="checkmark">{{'addCollection.Seller' | translate}}</span>
+            </label>
+            <div class="clearfix"></div><div class="form-group-3">
+              <div class="form-group" style="width: 25%;">
+                 <select name="payment_bank" class="form-control" formControlName="bank_id">
+                    <option value="">{{'generatePDF.selectAccount' | translate}}</option>
+                    <option *ngFor="let tempPaymentBankDetailsArray of paymentBankDetailsArray"
+                       [ngValue]="tempPaymentBankDetailsArray.id">
+                       {{tempPaymentBankDetailsArray?.name}} |
+                       {{tempPaymentBankDetailsArray?.account_number}} |
+                       {{tempPaymentBankDetailsArray?.currency?.code}}</option>
+                 </select>
+              </div>
+           </div>
         </div>
       </div>
 

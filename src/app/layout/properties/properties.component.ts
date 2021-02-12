@@ -1131,10 +1131,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   generatePDF() {
     let current_date = new Date();
     let date = this.datePipe.transform(current_date, 'd/M/y');
-    let pricePerM2 = this.property_array.min_price / this.property_array.max_area;
     let discount = this.installmentFormGroup.value.discount ? (this.installmentFormGroup.value.discount * this.property_array.min_price) / 100 : 0;
     let interest = this.installmentFormGroup.value.interest ? (this.installmentFormGroup.value.interest * this.property_array.min_price) / 100 : 0;
     let final_price = discount ? this.property_array.min_price - discount : interest ? this.property_array.min_price + interest : this.property_array.min_price;
+    let pricePerM2 = final_price / this.property_array.max_area;
     let downpayment = (this.installmentFormGroup.value.downPayment * final_price) / 100;
     let monthly_installment_amount = (this.installmentFormGroup.value.monthlyInstallment * final_price) / 100;
     let payment_upon_delivery = (this.installmentFormGroup.value.paymentupondelivery * final_price) / 100;
