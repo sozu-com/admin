@@ -964,7 +964,7 @@ export class AddPropertyComponent implements OnInit {
     // setting newcarpert area to carpert_areas bcz ealier it was array => now single carpertarea
     this.model.carpet_areas = [];
     this.model.carpet_areas.push(JSON.parse(JSON.stringify(this.newcarpet_area)));
-
+    this.model.price = this.newcarpet_area.price;
     if (this.model.carpet_areas.length < 1 && this.tab == 1) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseAddCarpetArea'), 'error');
     } else if ((this.model.cover_image === null || this.model.cover_image === undefined) && (this.model.step == 2)) {
@@ -1008,6 +1008,7 @@ export class AddPropertyComponent implements OnInit {
         input.append('step', this.model.step.toString());
         input.append('building_towers_id', this.model.building_towers_id);
         input.append('floor_num', this.model.floor_num);
+        input.append('price', this.model.price);
       }
 
       if (this.model.step === 2) {
