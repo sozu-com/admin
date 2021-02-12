@@ -195,6 +195,9 @@ export class CollectionsComponent implements OnInit {
   bill_month: string;
   buyerDocumentationFoldersDetails: any[] = [];
   language_code: string;
+  public paymentBankDetailsArray: any[] = [];
+  private bankDetails: any;
+  fedTaxPayer: any;
 
   constructor(
     public constant: Constant,
@@ -2712,7 +2715,7 @@ export class CollectionsComponent implements OnInit {
           self.monthly_installment_amunts = element.category_name.includes('Monthly Installment') ? self.monthly_installment_amunts + element.amount : self.monthly_installment_amunts + 0;
   
           if(element.category_name == 'Layaway Payment'){
-            let layaway_payments_per = element.amount * 100 / self.collection_data.deal_price;
+            let layaway_payments_per =  self.collection_data.deal_price ?  element.amount * 100 / self.collection_data.deal_price : 0;
             self.layaway_payments.push([
               { text: self.translate.instant('generatePDF.layaway') + ' ' + (count == 0 ? '' : count) + ':', border: [false, false, false, false], color: '#858291' },
               { text: layaway_payments_per? Number(layaway_payments_per).toFixed(3) + '%' : 'N/A', border: [false, false, false, false], bold: true  },
@@ -2721,7 +2724,7 @@ export class CollectionsComponent implements OnInit {
             count = count + 1;
           }
           else if(element.category_name == 'Down Payment'){
-            let down_payments_per = element.amount * 100 / self.collection_data.deal_price;
+            let down_payments_per = self.collection_data.deal_price ?  element.amount * 100 / self.collection_data.deal_price : 0;
             self.down_payments.push([
               { text: self.translate.instant('generatePDF.downpayment') + ' ' + (count1 == 0 ? '' : count1) + ':', border: [false, false, false, false], color: '#858291' },
               { text: down_payments_per? Number(down_payments_per).toFixed(3) + '%' : 'N/A', border: [false, false, false, false], bold: true },
@@ -2730,7 +2733,7 @@ export class CollectionsComponent implements OnInit {
             count1 = count1 + 1;
           }
           else if(element.category_name == 'Payment upon Delivery'){
-            let payments_upon_delivery_per = element.amount * 100 / self.collection_data.deal_price ;
+            let payments_upon_delivery_per = self.collection_data.deal_price ?  element.amount * 100 / self.collection_data.deal_price : 0;
             self.payments_upon_delivery.push([
               { text: self.translate.instant('generatePDF.PaymentUponDelivery') + ' ' + (count2 == 0 ? '' : count2) + ':', border: [false, false, false, false], color: '#858291' },
               { text: payments_upon_delivery_per? Number(payments_upon_delivery_per).toFixed(3) + '%' : 'N/A', border: [false, false, false, false], bold: true },
@@ -2759,14 +2762,70 @@ export class CollectionsComponent implements OnInit {
           {text: element.penalty ? element.penalty.description : '', border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc'}
         ]);
         });
-        let monthly_installment_amunt_per = self.monthly_installment_amunts * 100 / self.collection_data.deal_price;
+        let monthly_installment_amunt_per = self.collection_data.deal_price ?  self.monthly_installment_amunts * 100 / self.collection_data.deal_price : 0;
             self.monthly_installment_amunt.push(
                 { text: self.translate.instant('generatePDF.monthlyInstallmentAmt'), border: [false, false, false, false], color: '#858291' },
                 { text: monthly_installment_amunt_per? Number(monthly_installment_amunt_per).toFixed(3) + '%' : 'N/A', border: [false, false, false, false], bold: true },
                 { text: self.monthly_installment_amunts >= 0 ? self.price.transform(Number(self.monthly_installment_amunts).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true }
             );
-        self.generatePDF();
+        self.getBanks(this.collection_data.property.id);
       });
+  }
+
+  getBanks(id){
+    this.spinner.show();
+    this.admin.postDataApi('getPropertyDetails', { id: id }).subscribe((success) => {
+      this.bankDetails = (success || {}).data;
+      this.makePaymentBankDetailsArray(true);
+      this.spinner.hide();
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
+
+  makePaymentBankDetailsArray = (isFirstTimeClick: boolean): void => {
+    this.paymentBankDetailsArray = [];
+    if (this.collection_data.payment_received_by == 1) {
+      this.fedTaxPayer = (((this.bankDetails || {}).building || {}).agency || {}).fed_tax_pay || '';
+        // agency banks
+        for (let index = 0; index < (((this.bankDetails.building || {}).agency || {}).agency_banks || []).length; index++) {
+          if(this.bankDetails.building.agency.agency_banks[index].id == this.collection_data.bank_id){
+          const element = this.bankDetails.building.agency.agency_banks[index];
+          element.name = 'Agency Bank | ' + element.bank_name;
+          element.is_agency = 1;
+          element.bank_id = element.id;
+          element.legal_rep_bank_id = null;
+          element.legal_name = (((this.bankDetails || {}).building || {}).agency || {}).razon_social || '';
+          this.paymentBankDetailsArray.push(element);
+          }
+        }
+    } else if (this.collection_data.payment_received_by == 0) {
+      this.fedTaxPayer = (((this.bankDetails || {}).selected_seller || {}).user || {}).fed_tax_pay || '';
+      if (this.bankDetails.selected_seller.user.developer_company || this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id) {
+        ((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_rep_banks || []).forEach((element, innerIndex) => {
+          if(element.id == this.collection_data.bank_id){
+          element.name = 'Seller Bank | ' + element.bank_name;
+          element.legal_name = this.bankDetails.selected_seller.user.developer_company ? this.bankDetails.selected_seller.user.developer_company :
+            this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id ? this.bankDetails.selected_seller.user.name + ' ' + this.bankDetails.selected_seller.user.first_surname
+              + ' ' + this.bankDetails.selected_seller.user.second_surname : this.bankDetails.selected_seller.user.legal_entity.legal_name ? this.bankDetails.selected_seller.user.legal_entity.legal_name : '';
+          this.paymentBankDetailsArray.push(element);
+          }
+        });
+      }
+      else {
+        (((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_entity || {}).legal_entity_banks || []).forEach((element, innerIndex) => {
+          if(element.id == this.collection_data.bank_id){
+          element.name = 'Seller Bank | ' + element.bank_name;
+          element.legal_name = this.bankDetails.selected_seller.user.developer_company ? this.bankDetails.selected_seller.user.developer_company :
+            this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id ? this.bankDetails.selected_seller.user.name + ' ' + this.bankDetails.selected_seller.user.first_surname
+              + ' ' + this.bankDetails.selected_seller.user.second_surname : this.bankDetails.selected_seller.user.legal_entity.legal_name ? this.bankDetails.selected_seller.user.legal_entity.legal_name : '';
+          this.paymentBankDetailsArray.push(element);
+          }
+        });
+      }
+    }
+    this.generatePDF();
   }
 
   getBase64ImageFromUrl(id) {
@@ -2801,7 +2860,7 @@ export class CollectionsComponent implements OnInit {
                 margin: [0, 0, 0, 20]
               },
               {
-                style: 'table2',
+                style: 'address_table',
                 table: {
                   headerRows: 1,
                   widths: ['auto', 'auto'],
@@ -2995,25 +3054,25 @@ export class CollectionsComponent implements OnInit {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.bank'), border: [false, false, false, false], color: '#858291' },
-                      { text: 'N/A', border: [false, false, false, false], bold: true }
+                      { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[0].bank_name ? this.paymentBankDetailsArray[0].bank_name : 'N/A', border: [false, false, false, false], bold: true }
                     ],
                     [
                       { text: this.translate.instant('generatePDF.accountInNameOf'), border: [false, false, false, false], color: '#858291' },
                       {
-                        text: '', border: [false, false, false, false], bold: true
+                        text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[0].legal_name ? this.paymentBankDetailsArray[0].legal_name : 'N/A', border: [false, false, false, false], bold: true
                       },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.federalTaxPayer'), border: [false, false, false, false], color: '#858291' },
-                      { text: 'N/A', border: [false, false, false, false], bold: true },
+                      { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[0].bank_name && this.fedTaxPayer ? this.fedTaxPayer : 'N/A', border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.accountNumber'), border: [false, false, false, false], color: '#858291' },
-                      { text: 'N/A', border: [false, false, false, false], bold: true }
+                      { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[0].account_number ? this.paymentBankDetailsArray[0].account_number : 'N/A', border: [false, false, false, false], bold: true }
                     ],
                     [
                       { text: this.translate.instant('generatePDF.cLABE'), border: [false, false, false, false], color: '#858291' },
-                      { text: 'N/A', border: [false, false, false, false], bold: true }
+                      { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[0].swift ? this.paymentBankDetailsArray[0].swift : 'N/A', border: [false, false, false, false], bold: true }
                     ],
                   ],
                 }
@@ -3076,7 +3135,7 @@ export class CollectionsComponent implements OnInit {
         columns: [
           [
             {
-              text: this.translate.instant('generatePDF.notReflected'),
+              text: this.translate.instant('generatePDF.notReflected') + '\n' + this.translate.instant('generatePDF.notReflected1'),
               color: '#858291',
               margin: [30, 20, 0, 30]
             },
@@ -3125,6 +3184,10 @@ export class CollectionsComponent implements OnInit {
         },
         banktable:{
           margin: [0, 20, 0, 40],
+          border: [false, false, false, false]
+        },
+        address_table:{
+          margin: address ? [0, 15, 0, 15] : [0, 5, 0, 40],
           border: [false, false, false, false]
         }
       },
