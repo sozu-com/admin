@@ -1147,6 +1147,15 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     let monthly_installment_amount = (this.installmentFormGroup.value.monthlyInstallment * final_price) / 100;
     let payment_upon_delivery = (this.installmentFormGroup.value.paymentupondelivery * final_price) / 100;
     let monthly_installments = monthly_installment_amount / this.installmentFormGroup.value.numberOfMI;
+    let add_variable = [];
+    this.getAddVariablesFormArray.controls.forEach((element:FormGroup)=>{
+      let variable_amount = element.value.addVariablesPercentage ? (element.value.addVariablesPercentage * this.property_array.min_price) / 100 : 0;
+      add_variable.push([
+        { text: element.value.addVariablesText, border: [false, false, false, false], color: '#858291' },
+        { text: element.value.addVariablesPercentage ? element.value.addVariablesPercentage + '%' : 'N/A', border: [false, false, false, false], bold: true },
+        { text: variable_amount ? this.price.transform(Number(variable_amount).toFixed(2)) : '', border: [false, false, false, false], bold: true }
+      ]);
+    })
 
     let docDefinition = {
       pageSize: {
@@ -1395,7 +1404,14 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         },
       },
     };
-
+    if(add_variable.length > 0){
+      let no = 5;
+      add_variable.forEach(element=>{
+        docDefinition.content[1].columns[1][1].table.body.splice( no, 0, element);
+        no = no + 1;
+      });
+    add_variable
+    }
     pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.commercialOffer') + ' ' + current_date.toISOString() + '.pdf');
     // }else if(action === 'print'){
     //   pdfMake.createPdf(docDefinition).print();

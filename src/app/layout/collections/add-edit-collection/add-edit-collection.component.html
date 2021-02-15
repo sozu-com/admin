@@ -2081,9 +2081,9 @@
             <div class="clearfix"></div><div class="form-group-3">
               <div class="form-group" style="width: 25%;">
                  <select name="payment_bank" class="form-control" formControlName="bank_id">
-                    <option value="">{{'generatePDF.selectAccount' | translate}}</option>
+                    <option value="" selected="!addFormStep5.value.bank_id || addFormStep5.value.bank_id == ''">{{'generatePDF.selectAccount' | translate}}</option>
                     <option *ngFor="let tempPaymentBankDetailsArray of paymentBankDetailsArray"
-                       [ngValue]="tempPaymentBankDetailsArray.id">
+                       [ngValue]="tempPaymentBankDetailsArray.id" selected="tempPaymentBankDetailsArray.id == addFormStep5.value.bank_id">
                        {{tempPaymentBankDetailsArray?.name}} |
                        {{tempPaymentBankDetailsArray?.account_number}} |
                        {{tempPaymentBankDetailsArray?.currency?.code}}</option>
@@ -2102,7 +2102,7 @@
           <label class="p16-two">
             <input class="form-control" class="is_commission_sale_enabled" type="checkbox" name="add_iva_to_cc"
               formControlName="add_iva_to_cc">
-            <span style="margin-left: 10px;    vertical-align: super;">{{'addCollection.adddIVAToColCommission' |
+            <span style="margin-left: 10px;vertical-align: super;">{{'addCollection.adddIVAToColCommission' |
               translate}}</span>
           </label>
         </div>
@@ -2111,7 +2111,7 @@
           <label class="p16-two">
             <input class="form-control" class="is_commission_sale_enabled" type="checkbox" name="add_iva_to_pc"
               formControlName="add_iva_to_pc">
-            <span style="margin-left: 10px;    vertical-align: super;">{{'addCollection.adddIVAToPurCommission' |
+            <span style="margin-left: 10px;vertical-align: super;">{{'addCollection.adddIVAToPurCommission' |
               translate}}</span>
           </label>
           <div class="clearfix"></div>
@@ -2121,7 +2121,7 @@
           <label class="p16-two">
             <input class="form-control" class="is_commission_sale_enabled" type="checkbox" name="add_iva_to_ac"
               formControlName="add_iva_to_ac">
-            <span style="margin-left: 10px;    vertical-align: super;">{{'addCollection.adddIVAToAgentCommission' |
+            <span style="margin-left: 10px;vertical-align: super;">{{'addCollection.adddIVAToAgentCommission' |
               translate}}</span>
           </label>
           <div class="clearfix"></div>

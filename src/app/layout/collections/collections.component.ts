@@ -272,6 +272,10 @@ export class CollectionsComponent implements OnInit {
     console.log(userdata, "user id")
     this.router.navigate(['/dashboard/users/edit-user', userdata.buyer_id]);
   }
+  legalinfo(userdata) {
+    console.log(userdata, "user id")
+    this.router.navigate(['/dashboard/legal-entities/add-legal-entity/', userdata.buyer_legal_entity_id]);
+  }
   initCalendarLocale() {
     if (this.translate.defaultLang === 'en') {
       this.locale = {
@@ -2702,72 +2706,72 @@ export class CollectionsComponent implements OnInit {
     this.monthly_installment_amunt = [];
     this.spinner.show();
     this.getBase64ImageFromUrl(data.property.id);
-    this.admin.postDataApi('getCollectionById', { id: data.id })
-      .subscribe(
-        success => {
-          let count = 0;
-          let count1 = 0;
-          let count2 = 0;
-          let count3 = 0;
-          this.spinner.hide();
-          this.collection_data = success['data'];
-          this.collection_payments = success['data2'];
-          let current_date = new Date();
-          const monthNames = ["January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"
-          ];
-          this.collection_data.payment_choices.forEach(function (element, index) {
-            let fill = index % 2;
-            let month = new Date(element.date);
-            if (element.category_name.includes('Monthly Installment') && current_date.getMonth() == month.getMonth() && current_date.getFullYear() == month.getFullYear()) {
-              self.current_month_amount = element.amount;
-              self.bill_month = monthNames[month.getMonth()];
-              self.bill_month_date = self.datePipe.transform(month.setDate(10), 'MMM d, y');
-            }
-            else if (element.category_name == 'Monthly Installment 1' && !element.calc_payment_amount) {
-              self.bill_month = monthNames[month.getMonth()];
-              self.bill_month_date = self.datePipe.transform(month.setDate(10), 'MMM d, y');
-            }
-            self.monthly_installment = element.amount;
-            self.monthly_installment_no = element.category_name.includes('Monthly Installment') ? self.monthly_installment_no + 1 : self.monthly_installment_no + 0;
-            self.monthly_installment_amunts = element.category_name.includes('Monthly Installment') ? self.monthly_installment_amunts + element.amount : self.monthly_installment_amunts + 0;
-
-            if (element.category_name == 'Layaway Payment') {
-              let layaway_payments_per = self.collection_data.deal_price ? element.amount * 100 / self.collection_data.deal_price : 0;
-              self.layaway_payments.push([
-                { text: self.translate.instant('generatePDF.layaway') + ' ' + (count == 0 ? '' : count) + ':', border: [false, false, false, false], color: '#858291' },
-                { text: layaway_payments_per ? Number(layaway_payments_per).toFixed(3) + '%' : 'N/A', border: [false, false, false, false], bold: true },
-                { text: Number(element.amount).toFixed(2), border: [false, false, false, false], bold: true }
-              ]);
-              count = count + 1;
-            }
-            else if (element.category_name == 'Down Payment') {
-              let down_payments_per = self.collection_data.deal_price ? element.amount * 100 / self.collection_data.deal_price : 0;
-              self.down_payments.push([
-                { text: self.translate.instant('generatePDF.downpayment') + ' ' + (count1 == 0 ? '' : count1) + ':', border: [false, false, false, false], color: '#858291' },
-                { text: down_payments_per ? Number(down_payments_per).toFixed(3) + '%' : 'N/A', border: [false, false, false, false], bold: true },
-                { text: Number(element.amount).toFixed(2), border: [false, false, false, false], bold: true }
-              ]);
-              count1 = count1 + 1;
-            }
-            else if (element.category_name == 'Payment upon Delivery') {
-              let payments_upon_delivery_per = self.collection_data.deal_price ? element.amount * 100 / self.collection_data.deal_price : 0;
-              self.payments_upon_delivery.push([
-                { text: self.translate.instant('generatePDF.PaymentUponDelivery') + ' ' + (count2 == 0 ? '' : count2) + ':', border: [false, false, false, false], color: '#858291' },
-                { text: payments_upon_delivery_per ? Number(payments_upon_delivery_per).toFixed(3) + '%' : 'N/A', border: [false, false, false, false], bold: true },
-                { text: Number(element.amount).toFixed(2), border: [false, false, false, false], bold: true }
-              ]);
-              count2 = count2 + 1;
-            }
-            else if (element.category_name == 'Special payment') {
-              self.special_payments.push([
-                { text: self.translate.instant('generatePDF.specialPayment') + ' ' + (count3 == 0 ? '' : count3) + ':', border: [false, false, false, false], color: '#858291' },
-                { text: '', border: [false, false, false, false] },
-                { text: Number(element.amount).toFixed(2), border: [false, false, false, false], bold: true }
-              ]);
-              count3 = count3 + 1;
-            }
-
+    this.admin.postDataApi('getCollectionById', {id: data.id})
+    .subscribe(
+      success => {
+        let count = 0;
+        let count1 = 0;
+        let count2 = 0;
+        let count3 = 0;
+        this.spinner.hide();
+        this.collection_data = success['data'];
+        this.collection_payments = success['data2'];
+        let current_date = new Date();
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+        this.collection_data.payment_choices.forEach(function(element, index){
+          let fill = index % 2;
+          let month = new Date(element.date);
+          if(element.category_name.includes('Monthly Installment') && current_date.getMonth() == month.getMonth() && current_date.getFullYear() == month.getFullYear()){
+          self.current_month_amount =  element.amount;
+          self.bill_month =  monthNames[month.getMonth()];
+          self.bill_month_date =self.datePipe.transform(month.setDate(10), 'MMM d, y');
+          }
+          else if(element.category_name == 'Monthly Installment 1' && !element.calc_payment_amount){
+            self.bill_month =  monthNames[month.getMonth()];
+          self.bill_month_date =self.datePipe.transform(month.setDate(10), 'MMM d, y');
+          }
+          self.monthly_installment = element.amount;
+          self.monthly_installment_no = element.category_name.includes('Monthly Installment') ?  self.monthly_installment_no + 1 : self.monthly_installment_no + 0;
+          self.monthly_installment_amunts = element.category_name.includes('Monthly Installment') ? self.monthly_installment_amunts + element.amount : self.monthly_installment_amunts + 0;
+  
+          if(element.category_name == 'Layaway Payment'){
+            let layaway_payments_per =  self.collection_data.deal_price ?  element.amount * 100 / self.collection_data.deal_price : 0;
+            self.layaway_payments.push([
+              { text: self.translate.instant('generatePDF.layaway') + ' ' + (count == 0 ? '' : count) + ':', border: [false, false, false, false], color: '#858291' },
+              { text: layaway_payments_per? Number(layaway_payments_per).toFixed(3) + '%' : 'N/A', border: [false, false, false, false], bold: true  },
+              { text:  self.price.transform(Number(element.amount).toFixed(2)), border: [false, false, false, false], bold: true}
+            ]);
+            count = count + 1;
+          }
+          else if(element.category_name == 'Down Payment'){
+            let down_payments_per = self.collection_data.deal_price ?  element.amount * 100 / self.collection_data.deal_price : 0;
+            self.down_payments.push([
+              { text: self.translate.instant('generatePDF.downpayment') + ' ' + (count1 == 0 ? '' : count1) + ':', border: [false, false, false, false], color: '#858291' },
+              { text: down_payments_per? Number(down_payments_per).toFixed(3) + '%' : 'N/A', border: [false, false, false, false], bold: true },
+              { text:  self.price.transform(Number(element.amount).toFixed(2)), border: [false, false, false, false], bold: true}
+            ]);
+            count1 = count1 + 1;
+          }
+          else if(element.category_name == 'Payment upon Delivery'){
+            let payments_upon_delivery_per = self.collection_data.deal_price ?  element.amount * 100 / self.collection_data.deal_price : 0;
+            self.payments_upon_delivery.push([
+              { text: self.translate.instant('generatePDF.PaymentUponDelivery') + ' ' + (count2 == 0 ? '' : count2) + ':', border: [false, false, false, false], color: '#858291' },
+              { text: payments_upon_delivery_per? Number(payments_upon_delivery_per).toFixed(3) + '%' : 'N/A', border: [false, false, false, false], bold: true },
+              { text:  self.price.transform(Number(element.amount).toFixed(2)), border: [false, false, false, false], bold: true}
+            ]);
+            count2 = count2 + 1;
+          }
+          else if(element.category_name == 'Special payment'){
+            self.special_payments.push([
+              { text: self.translate.instant('generatePDF.specialPayment') + ' ' + (count3 == 0 ? '' : count3) + ':', border: [false, false, false, false], color: '#858291' },
+              { text: '', border: [false, false, false, false] },
+              { text:  self.price.transform(Number(element.amount).toFixed(2)), border: [false, false, false, false], bold: true}
+            ]);
+            count3 = count3 + 1;
+          }
+          self.current_month_amount =  (self.current_month_amount || 0) + ((element.penalty || {}).amount || 0) + (element.outstanding_amount || 0);
             self.table_data.push([
               { text: element.category_name, border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc' },
               { text: element.date, border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc' },
@@ -3104,7 +3108,7 @@ export class CollectionsComponent implements OnInit {
           margin: [0, 30, 0, 10]
         },
         {
-          style: 'table2',
+          style: 'statement_table',
           table: {
             headerRows: 1,
             widths: ['14%', '14%', '14%', '14%', '14%', '14%', '14%'],
@@ -3210,6 +3214,10 @@ export class CollectionsComponent implements OnInit {
         },
         address_table: {
           margin: address ? [0, 15, 0, 15] : [0, 5, 0, 40],
+          border: [false, false, false, false]
+        },
+        statement_table:{
+          margin: [0, 35, 0, 15],
           border: [false, false, false, false]
         }
       },

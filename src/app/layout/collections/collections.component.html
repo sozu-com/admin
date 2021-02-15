@@ -444,7 +444,7 @@
                       {{p?.buyer?.name ? (p?.buyer?.name + ' ' + p?.buyer?.first_surname + ' ' +
                       p?.buyer?.second_surname) : ('table.tr.td.NA' | translate)}}
                     </span>
-                    <span *ngIf="p?.buyer_type == 2">
+                    <span *ngIf="p?.buyer_type == 2" (click)="legalinfo(p)" style="cursor: pointer;">
                       {{p?.buyer_legal_entity?.comm_name ? (p?.buyer_legal_entity?.comm_name) : ('table.tr.td.NA' |
                       translate)}}
                     </span>
@@ -874,12 +874,12 @@
               <div class="form-group-3">
                 <div class="form-group">
                   <div class="clearfix"></div>
-                  <p-calendar showAnim="slideDown" id="calendar" [showIcon]="true" [showTime]="true" [style]="{'width':'100%'}"
+                  <p-calendar showAnim="slideDown" id="calendar" [showIcon]="true" [showTime]="true" [style]="{'pointer-events': 'none', 'width':'100%'}"
                     [(ngModel)]="reminder_date" dateFormat="MM d, yy" (onSelect)="onSelect2($event)" name="calendar"
                     [minDate]="minimumDate">
                   </p-calendar>
                 </div>
-              </div>
+              </div>  
             </div>
             <div class="col-12">
               <div class="form-group-2">
