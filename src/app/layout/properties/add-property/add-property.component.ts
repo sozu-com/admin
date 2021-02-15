@@ -205,7 +205,10 @@ export class AddPropertyComponent implements OnInit {
     // set current position
     this.setCurrentPosition();
   }
-
+  uploadDoc(userdata) {
+    console.log(userdata, "user id")
+    this.router.navigate(['/dashboard/properties/documents-upload', userdata.id]);
+  }
   setAvailableStatus(aindex: number) {
     // this.availabilityStatus[aindex].checked = !this.availabilityStatus[aindex].checked;
     // handling this way because data already added in db

@@ -440,7 +440,7 @@
                   *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
                   <td><span>{{p?.id ? p?.id : ('table.tr.td.NA' | translate)}}</span></td>
                   <td>
-                    <span *ngIf="p?.buyer_type == 1">
+                    <span *ngIf="p?.buyer_type == 1" (click)="userinfo(p)" style="cursor: pointer;">
                       {{p?.buyer?.name ? (p?.buyer?.name + ' ' + p?.buyer?.first_surname + ' ' +
                       p?.buyer?.second_surname) : ('table.tr.td.NA' | translate)}}
                     </span>
@@ -448,7 +448,7 @@
                       {{p?.buyer_legal_entity?.comm_name ? (p?.buyer_legal_entity?.comm_name) : ('table.tr.td.NA' |
                       translate)}}
                     </span>
-                    <span *ngIf="p?.buyer_type == 3">
+                    <span *ngIf="p?.buyer_type == 3" (click)="userinfo(p)" style="cursor: pointer;">
                       {{p?.buyer?.name ? (p?.buyer?.name + ' ' + p?.buyer?.first_surname + ' ' +
                       p?.buyer?.second_surname) : ('table.tr.td.NA' | translate)}}
                     </span>
