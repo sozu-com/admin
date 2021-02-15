@@ -1,17 +1,17 @@
-<div class="white-bg padding40">
+<!-- <div class="white-bg padding40">
   <div class="row">
     <div class="col-md-6">
       <div class="form-group">
         <p class="p16">{{'viewCredit.label' | translate}}</p>
       </div>
-    </div>
-    <!-- <div class="col-md-2">
+    </div> -->
+<!-- <div class="col-md-2">
       <div class="btn-cont">
         <button class="btn btn-calender" href="javascript://" style="font-size: 14px;" 
         routerLink="/dashboard/credit/add-request/0">{{'viewCredit.addNewRequest' | translate}}</button>
       </div>
     </div> -->
-    <div class="col-md-6">
+<!-- <div class="col-md-6">
       <div class="btn-cont text-right">
         <button class="btn btn-calender" href="javascript://" style="font-size: 14px;" 
         routerLink="/dashboard/credit/add-credit/0">{{'viewCollections.addNew' | translate}}</button>
@@ -46,9 +46,9 @@
         </ul>
       </div>
     </div>
-  </div>
+  </div> -->
 
-  <!-- <div class="row">
+<!-- <div class="row">
     <div class="col-12">
       <div class="row">
         <div class="offset-lg-7"></div>
@@ -79,7 +79,7 @@
     </div>
   </div> -->
 
-  <div class="row">
+<!-- <div class="row">
     <div class="col-lg-2 col-md-2">
       <div class="form-group">
         <label>{{'filters.location.country' | translate}}</label>
@@ -116,9 +116,9 @@
           <option *ngFor="let item of location.localities" [value]="item.id">{{item.name}}</option>
         </select>
       </div>
-    </div>
+    </div> -->
 
-    <!-- <div class="col-lg-2 col-md-2">
+<!-- <div class="col-lg-2 col-md-2">
       <div class="form-group marginB0">
         <label>{{'filters.location.building' | translate}}</label>
         <select class="form-control" (change)="setBuilding($event.target.value)">
@@ -128,7 +128,7 @@
       </div>
     </div> -->
 
-    <div class="col-lg-2 col-md-2">
+<!-- <div class="col-lg-2 col-md-2">
       <div class="form-group btn-cont">
         <label style="display: block; margin-top: 3px;">&nbsp;</label>
         <button type="button" (click)="this.getCreditsUser()"
@@ -144,14 +144,14 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 
-<!-- <div class="container-fluid">
+<div class="container-fluid">
   <div class="row">
     <div class="col-md-4">
       <div class="form-group">
-        <p class="p16">{{'viewProjects.label' | translate}}</p>
+        <p class="p16">{{'viewCredit.label' | translate}}</p>
       </div>
     </div>
   </div>
@@ -162,23 +162,23 @@
       <div class="cust-tabs-2">
         <ul class="nav nav-tabs float-right">
           <li class="nav-item">
-            <a [ngClass]="{'active':parameter.dash_flag == 1}" (click)="changeFlag(1)" class="nav-link"
+            <a [ngClass]="{'active':parameter.dash_flag == 1}" (click)="onChangeDashFlag(1)" class="nav-link"
               data-toggle="tab" href="#tw">{{'filters.time.thisWeek' | translate}}</a>
           </li>
           <li class="nav-item">
-            <a [ngClass]="{'active':parameter.dash_flag == 2}" (click)="changeFlag(2)" class="nav-link"
+            <a [ngClass]="{'active':parameter.dash_flag == 2}" (click)="onChangeDashFlag(2)" class="nav-link"
               data-toggle="tab" href="#tm">{{'filters.time.thisMonth' | translate}}</a>
           </li>
           <li class="nav-item">
-            <a [ngClass]="{'active':parameter.dash_flag == 3}" (click)="changeFlag(3)" class="nav-link"
+            <a [ngClass]="{'active':parameter.dash_flag == 3}" (click)="onChangeDashFlag(3)" class="nav-link"
               data-toggle="tab" href="#lm">{{'filters.time.lastMonth' | translate}}</a>
           </li>
           <li class="nav-item">
-            <a [ngClass]="{'active':parameter.dash_flag == 4}" (click)="changeFlag(4)" class="nav-link"
+            <a [ngClass]="{'active':parameter.dash_flag == 4}" (click)="onChangeDashFlag(4)" class="nav-link"
               data-toggle="tab" href="#lt">{{'filters.time.lifetime' | translate}}</a>
           </li>
           <li class="nav-item">
-            <a [ngClass]="{'active':parameter.dash_flag == 5}" (click)="changeFlag(5)" class="nav-link"
+            <a [ngClass]="{'active':parameter.dash_flag == 5}" (click)="onChangeDashFlag(5)" class="nav-link"
               data-toggle="tab" href="#cust">{{'filters.time.custom.label' | translate}}</a>
           </li>
         </ul>
@@ -258,7 +258,7 @@
     <div class="col-md-2">
       <div class="form-group btn-cont">
         <label style="display: block; margin-top: 3px;">&nbsp;</label>
-        <button type="button" (click)="getListing()" class="btn btn-primary-new width100P">{{'filters.location.applyBtn'
+        <button type="button" (click)="getCreditsUser()" class="btn btn-primary-new width100P">{{'filters.location.applyBtn'
           | translate}}</button>
       </div>
     </div>
@@ -270,7 +270,7 @@
           class="btn btn-primary-new width100P">{{'filters.location.resetBtn' | translate}}</button>
       </div>
     </div>
-  </div> 
+  </div>
 
   <div class="cust-tabs">
     <div class="row flex-wrap-reverse">
@@ -278,16 +278,16 @@
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="add-new pull-right">
           <a *ngIf="admin?.admin_acl['Project Management']?.can_create==1 || admin?.permissions?.can_data_collector==1"
-            class="btn" href="javascript://" routerLink="/dashboard/projects/add-project">{{'viewProjects.addBtn' |
+            class="btn" href="javascript://" routerLink="/dashboard/credit/add-credit/0">{{'viewCollections.addNew' |
             translate}}</a>
         </div>
-        <div class="export-project pull-right mr-4">
+        <!-- <div class="export-project pull-right mr-4">
           <a class="btn" href="javascript://" (click)="getExportlisting()">{{'table.exportDataBtn' | translate}}</a>
         </div>
         <div class="export-project pull-right mr-4">
-          <a  class="btn" href="javascript://" data-toggle="modal" data-target="#advancedSearch">
+          <a class="btn" href="javascript://" data-toggle="modal" data-target="#advancedSearch">
             {{'advanceSearch.advancedSearch' | translate}}</a>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="tab-content white-bg">
@@ -295,7 +295,7 @@
         <div class="tabel-section">
           <div class="table-responsive">
             <table class="table table-striped table-align-left">
-              <tr>
+              <!-- <tr>
                 <th style="vertical-align:top;width:6%">
                   <div class="d-flex table-search">
                     <label>{{'table.th.image' | translate}}</label>
@@ -410,10 +410,10 @@
                     </select>
                   </div>
                 </th>
-              </tr>
+              </tr> -->
 
-              <tr
-                *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
+              <!-- <tr
+                *ngFor="let p of creditsUserlist | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: creditsUserlistCount }; let i=index">
                 <td>
                   <img *ngIf="p.main_image" [defaultImage]="p.main_image| img:'thumb'" [lazyLoad]="p.main_image"
                     class="rounded-circle" alt="img">
@@ -508,10 +508,10 @@
                   
                   </div>
                 </td>
-              </tr>
+              </tr> -->
 
             </table>
-            <div class="padding20 center" *ngIf="total == 0">
+            <div class="padding20 center" *ngIf="creditsUserlistCount == 0">
               <img src="assets/img/404-error.png">
             </div>
           </div>
@@ -521,12 +521,13 @@
     </div>
   </div>
 
-  <div class="btn-cont marginT15" *ngIf="total">
+  <div class="btn-cont marginT15" *ngIf="creditsUserlistCount">
     <div class="row">
       <div class="col-6">
         <div class="title-group">
-          <p>{{'table.pagination.showing' | translate}} {{creditsUserlist.length}} {{'table.pagination.outof' | translate}}
-            {{total}}</p>
+          <p>{{'table.pagination.showing' | translate}} {{creditsUserlist.length}} {{'table.pagination.outof' |
+            translate}}
+            {{creditsUserlistCount}}</p>
         </div>
       </div>
       <div class="col-6 text-right">
@@ -534,4 +535,4 @@
       </div>
     </div>
   </div>
-</div> -->
+</div>

@@ -1194,7 +1194,7 @@ margin-left: -38%;">
 <a style="display:none;" #openInstallmentModal data-toggle="modal" data-target="#installmentModal"></a>
 <div class="modal animated" id="installmentModal" style="margin-top: -14%;">
    <div class="modal-dialog fadeIndown">
-      <div class="modal-content">
+      <div class="modal-content" style="width: 150%;">
          <div class="modal-header modal-header-new">
             <h4 class="modal-title" style="font-weight: bold;">{{'generatePDF.offerInformaton' | translate}}</h4>
             <button style="display: none;" type="button" class="close" data-dismiss="modal"
@@ -1206,6 +1206,38 @@ margin-left: -38%;">
                <div style="margin-top: -25px;">
                   <h6 style="font-weight: bold;">{{'generatePDF.offerDetails' | translate}}</h6>
                </div>
+               <div class="row" style="margin: auto;" *ngIf="isPreview">
+                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                     <div class="form-group-2">
+                        <label>{{'generatePDF.listprice' | translate}}
+                        </label>
+                     </div>
+                  </div>
+                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                     <div class="form-group-3">
+                        <div class="input-group-append">
+                              <span class="input-group-text" id="basic-addon1">$</span>
+                              <input autocomplete="off" class="form-control" type="text" formControlName="listPrice"
+                            placeholder="">
+                            </div>
+                     </div>
+                  </div>
+                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                     <div class="form-group-2">
+                        <label style="margin-left: 10px;">{{'generatePDF.finalprice' | translate}}
+                        </label>
+                     </div>
+                  </div>
+                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                     <div class="form-group-3">
+                        <div class="input-group-append">
+                              <span class="input-group-text" id="basic-addon1">$</span>
+                              <input autocomplete="off" class="form-control" type="text" formControlName="finalPrice"
+                            placeholder="">
+                            </div>
+                     </div>
+                  </div>
+               </div>
                <div class="row" style="margin: auto;">
                   <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                      <div class="form-group-2">
@@ -1216,23 +1248,41 @@ margin-left: -38%;">
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                      <div class="form-group-2">
-                        <label>{{'generatePDF.discountPercentage' | translate}}
+                        <label style="margin-left: 10px;">{{'generatePDF.discountPercentage' | translate}}
                            <span class="color-red">*</span>
                         </label>
                      </div>
                   </div>
                </div>
                <div class="row" style="margin-top: -15px;margin-left: auto;">
-                  <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                      <div class="form-group-3">
                         <input required autocomplete="off" class="form-control" type="text" appOnlyDecimal
                            formControlName="downPayment" placeholder="%">
                      </div>
                   </div>
-                  <div class="col-lg-4 col-md-6 col-sm-6 col-12" style="margin-left: 65px;">
+                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                     <div class="form-group-3" *ngIf="isPreview">
+                        <div class="input-group-append">
+                              <span class="input-group-text" id="basic-addon1">$</span>
+                              <input autocomplete="off" class="form-control" type="text" formControlName="downPaymentFinalPrice"
+                            placeholder="">
+                            </div>
+                     </div>
+                  </div>
+                  <div class="col-lg-3 col-md-6 col-sm-6 col-12" >
                      <div class="form-group-3">
                         <input autocomplete="off" class="form-control" type="text" formControlName="discount"
                            appOnlyDecimal placeholder="%">
+                     </div>
+                  </div>
+                  <div class="col-lg-3 col-md-6 col-sm-6 col-12" >
+                     <div class="form-group-3" *ngIf="isPreview">
+                         <div class="input-group-append">
+                              <span class="input-group-text" id="basic-addon1">$</span>
+                              <input autocomplete="off" class="form-control" type="text" formControlName="discountFinalPrice"
+                              placeholder=""> 
+                            </div>
                      </div>
                   </div>
                </div>
@@ -1245,22 +1295,40 @@ margin-left: -38%;">
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                      <div class="form-group-2">
-                        <label>{{'generatePDF.interest' | translate}}
+                        <label style="margin-left: 10px;">{{'generatePDF.interest' | translate}}
                         </label>
                      </div>
                   </div>
                </div>
                <div class="row" style="margin-top: -15px;margin-left: auto;">
-                  <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                      <div class="form-group-3">
                         <input required autocomplete="off" class="form-control" type="text" appOnlyDecimal
                            formControlName="monthlyInstallment" placeholder="%">
                      </div>
                   </div>
-                  <div class="col-lg-4 col-md-6 col-sm-6 col-12" style="margin-left: 65px;">
+                  <div class="col-lg-3 col-md-6 col-sm-6 col-12" >
+                     <div class="form-group-3" *ngIf="isPreview">
+                         <div class="input-group-append">
+                              <span class="input-group-text" id="basic-addon1">$</span>
+                              <input autocomplete="off" class="form-control" type="text" formControlName="monthlyInstallmentFinalPrice"
+                              placeholder=""> 
+                            </div>
+                     </div>
+                  </div>
+                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                      <div class="form-group-3">
                         <input autocomplete="off" class="form-control" type="text" formControlName="interest"
                            appOnlyDecimal placeholder="%">
+                     </div>
+                  </div>
+                  <div class="col-lg-3 col-md-6 col-sm-6 col-12" >
+                     <div class="form-group-3" *ngIf="isPreview">
+                         <div class="input-group-append">
+                              <span class="input-group-text" id="basic-addon1">$</span>
+                              <input autocomplete="off" class="form-control" type="text" formControlName="interestFinalPrice"
+                              placeholder=""> 
+                            </div>
                      </div>
                   </div>
                </div>
@@ -1289,10 +1357,19 @@ margin-left: -38%;">
                   </div>
                </div>
                <div class="row" style="margin-top: -15px;margin-left: auto;">
-                  <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                      <div class="form-group-3">
                         <input required autocomplete="off" class="form-control" type="text" appOnlyDecimal
                            formControlName="paymentupondelivery" placeholder="%">
+                     </div>
+                  </div>
+                  <div class="col-lg-3 col-md-6 col-sm-6 col-12" >
+                     <div class="form-group-3" *ngIf="isPreview">
+                         <div class="input-group-append">
+                              <span class="input-group-text" id="basic-addon1">$</span>
+                              <input autocomplete="off" class="form-control" type="text" formControlName="paymentupondeliveryFinalPrice"
+                              placeholder="" > 
+                            </div>
                      </div>
                   </div>
                </div>
@@ -1351,7 +1428,7 @@ margin-left: -38%;">
                      *ngFor="let temp_add_variables of this.getAddVariablesFormArray['controls']; let i=index">
                      <div [formGroupName]="i">
                         <div class="row" style="margin: auto;">
-                           <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                               <div class="form-group-2">
                                  <label>{{'generatePDF.variableName' | translate}}
                                  </label>
@@ -1365,16 +1442,25 @@ margin-left: -38%;">
                            </div>
                         </div>
                         <div class="row" style="margin-top: -15px;margin-left: auto;">
-                           <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                               <div class="form-group-3">
                                  <input required autocomplete="off" class="form-control" type="text"
                                     formControlName="addVariablesText" placeholder="">
                               </div>
                            </div>
-                           <div class="col-lg-4 col-md-6 col-sm-6 col-12" style="margin-left: 65px;">
+                           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                               <div class="form-group-3">
                                  <input required autocomplete="off" class="form-control" type="text"
                                     formControlName="addVariablesPercentage" placeholder="%">
+                              </div>
+                           </div>
+                           <div class="col-lg-3 col-md-6 col-sm-6 col-12" >
+                              <div class="form-group-3" *ngIf="isPreview">
+                                  <div class="input-group-append">
+                                       <span class="input-group-text" id="basic-addon1">$</span>
+                                       <input autocomplete="off" class="form-control" type="text" formControlName="addVariablesPercentageFinalPrice"
+                                       placeholder=""> 
+                                     </div>
                               </div>
                            </div>
                            <div class="col-lg-2 col-md-6 col-sm-6 col-12">
@@ -1388,6 +1474,19 @@ margin-left: -38%;">
                      </div>
                   </ng-container>
                </div>
+
+               <div class="row">
+                  <div class="col-lg-8 col-md-8">
+                  </div>
+                  <div class="col-lg-4 col-md-4">
+                     <div class="form-group btn-cont">
+                        <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                        <button type="button" class="btn  width100P P86 btn-primary-new" (click)="this.onClickPreview(true)">
+                           {{'generatePDF.preview' | translate}}</button>
+                     </div>
+                  </div>
+               </div>
+
                <div class="row" style="margin: auto;">
                   <div class="col-lg-12 col-md-6 col-sm-6 col-12">
                      <div class="form-group-2">

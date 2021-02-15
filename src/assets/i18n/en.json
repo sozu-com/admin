@@ -2283,7 +2283,10 @@
     "amountPayable": "Amount payable",
     "penalty": "Penalty",
     "description": "Description",
-    "accountStatments": "Account-Statments"
+    "accountStatments": "Account-Statments",
+    "preview":"Preview",
+    "listprice":"List Price",
+    "finalprice":"Final Price"
   },
   "viewCredit": {
     "label": "Manage Credit",

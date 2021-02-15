@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Constant } from 'src/app/common/constants';
 import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 
@@ -14,26 +15,31 @@ export class CreditComponent implements OnInit {
   public location: IProperty = {};
   locale: any;
   creditsUserlist: any[] = [];
+  creditsUserlistCount: number = 0;
 
   constructor(
     private translate: TranslateService,
     public admin: AdminService,
-    private spinnerService: NgxSpinnerService
+    private spinnerService: NgxSpinnerService,
+    private constant: Constant
   ) { }
 
   ngOnInit() {
-    this.getCountries();
+    this.parameter.itemsPerPage = this.constant.itemsPerPage;
+    this.parameter.page = this.constant.p;
+    this.parameter.dash_flag = this.constant.dash_flag;
+    this.getCountryLocality();
     this.initCalendarLocale();
     this.getCreditsUser();
   }
 
-  getCountries() {
-    this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
-      this.location.countries = r['data'];
+  getCountryLocality = (): void => {
+    this.admin.postDataApi('getCountryLocality', {}).subscribe((response) => {
+      this.location.countries = response.data || [];
     });
   }
 
-  initCalendarLocale() {
+  initCalendarLocale = (): void => {
     if (this.translate.defaultLang === 'en') {
       this.locale = {
         firstDayOfWeek: 0,
@@ -68,65 +74,83 @@ export class CreditComponent implements OnInit {
     }
   }
 
-  onCountryChange(id) {
-    this.parameter.country_id = id;
-    this.location.states = []; this.parameter.state_id = '0';
-    this.location.cities = []; this.parameter.city_id = '0';
-    this.location.localities = []; this.parameter.locality_id = '0';
-    this.parameter.buildings = []; this.parameter.building_id = '0';
-    if (!id || id.toString() === '0') {
+  onCountryChange = (countryId: string): boolean => {
+    this.parameter.country_id = countryId;
+    this.location.states = [];
+    this.parameter.state_id = '0';
+    this.location.cities = [];
+    this.parameter.city_id = '0';
+    this.location.localities = [];
+    this.parameter.locality_id = '0';
+    this.parameter.buildings = [];
+    this.parameter.building_id = '0';
+    if (!countryId || countryId.toString() === '0') {
       return false;
     }
-
-    this.parameter.country_id = id;
-    const selectedCountry = this.location.countries.filter(x => x.id.toString() === id);
+    this.parameter.country_id = countryId;
+    const selectedCountry = this.location.countries.filter(x => x.id.toString() === countryId);
     this.location.states = selectedCountry[0].states;
   }
 
-  onStateChange(id) {
-    this.location.cities = []; this.parameter.city_id = '0';
-    this.location.localities = []; this.parameter.locality_id = '0';
-    this.parameter.buildings = []; this.parameter.building_id = '0';
-    if (!id || id.toString() === '0') {
+  onStateChange = (stateId: string): boolean => {
+    this.location.cities = [];
+    this.parameter.city_id = '0';
+    this.location.localities = [];
+    this.parameter.locality_id = '0';
+    this.parameter.buildings = [];
+    this.parameter.building_id = '0';
+    if (!stateId || stateId.toString() === '0') {
       return false;
     }
-
-    this.parameter.state_id = id;
-    const selectedState = this.location.states.filter(x => x.id.toString() === id);
+    this.parameter.state_id = stateId;
+    const selectedState = this.location.states.filter(x => x.id.toString() === stateId);
     this.location.cities = selectedState[0].cities;
   }
 
-  onCityChange(id) {
-    this.location.localities = []; this.parameter.locality_id = '0';
-    this.parameter.buildings = []; this.parameter.building_id = '0';
-    if (!id || id.toString() === '0') {
+  onCityChange = (cityId: string): boolean => {
+    this.location.localities = [];
+    this.parameter.locality_id = '0';
+    this.parameter.buildings = [];
+    this.parameter.building_id = '0';
+    if (!cityId || cityId.toString() === '0') {
       return false;
     }
-
-    this.parameter.city_id = id;
-    const selectedCountry = this.location.cities.filter(x => x.id.toString() === id);
+    this.parameter.city_id = cityId;
+    const selectedCountry = this.location.cities.filter(x => x.id.toString() === cityId);
     this.location.localities = selectedCountry[0].localities;
   }
 
-  onLocalityChange(id) {
+  onLocalityChange = (localityId: string): boolean => {
     this.parameter.buildings = []; this.parameter.building_id = '0';
-    if (!id || id.toString() === '0') {
+    if (!localityId || localityId.toString() === '0') {
       return false;
     }
-    this.parameter.locality_id = id;
+    this.parameter.locality_id = localityId;
   }
 
   getLocalityBuildings(id) {
 
   }
-  changeFlag(data) {
 
+  onChangeDashFlag = (dashFlagIndex: number): void => {
+    this.parameter.dash_flag = dashFlagIndex;
+    if (dashFlagIndex !== 5) {
+      this.resetDatesInput();
+      this.getCreditsUser();
+    }
+  }
+
+  resetDatesInput = (): void => {
+    this.parameter.min = '';
+    this.parameter.max = '';
   }
 
   getCreditsUser = (): void => {
     this.spinnerService.show();
     this.admin.postDataApi('getCreditsUser', {}).subscribe((response: any) => {
       this.creditsUserlist = response.data || [];
+      this.creditsUserlist = [];
+      this.creditsUserlistCount = (response.data || {}).count || 0;
       this.spinnerService.hide();
     }, (error) => {
       this.spinnerService.hide();
@@ -138,8 +162,7 @@ export class CreditComponent implements OnInit {
     this.getCreditsUser();
   }
 
-  resetFilters() {
-
+  resetFilters = (): void => {
   }
 
 }

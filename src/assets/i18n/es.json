@@ -2281,7 +2281,10 @@
     "amountPayable": "Monto a pagar",
     "penalty": "Penalización",
     "description": "Descripción",
-    "accountStatments": "Estado de cuenta"
+    "accountStatments": "Estado de cuenta",
+    "preview":"Avance",
+    "listprice":"Precio de lista",
+    "finalprice":"Precio final"
   },
   "viewCredit":{
     "label": "Administrar crédito",

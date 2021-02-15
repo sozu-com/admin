@@ -104,6 +104,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   invoice = new Invoice();
   property_array: any;
   paymentBanks: Array<any>;
+  isPreview: boolean = false;
 
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
@@ -161,6 +162,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       addVariablesFormArray: this.formBuilder.array([]),
       addNoteFormArray: this.formBuilder.array([]),
       addbankFormArray: this.formBuilder.array([]),
+      listPrice: [{ value: '', disabled: true }],
+      finalPrice: [{ value: '', disabled: true }],
+      downPaymentFinalPrice: [{ value: '', disabled: true }],
+      discountFinalPrice: [{ value: '', disabled: true }],
+      monthlyInstallmentFinalPrice: [{ value: '', disabled: true }],
+      interestFinalPrice: [{ value: '', disabled: true }],
+      paymentupondeliveryFinalPrice: [{ value: '', disabled: true }]
     });
   }
 
@@ -1413,7 +1421,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   createFormGroup = (): FormGroup => {
     return this.formBuilder.group({
       addVariablesText: [{ value: this.installmentFormGroup.get('tempAddVariablesText').value, disabled: true }],
-      addVariablesPercentage: [{ value: this.installmentFormGroup.get('tempAddVariablesPercentage').value, disabled: true }]
+      addVariablesPercentage: [{ value: this.installmentFormGroup.get('tempAddVariablesPercentage').value, disabled: true }],
+      addVariablesPercentageFinalPrice: [{
+        value: this.installmentFormGroup.get('tempAddVariablesPercentage').value ?
+          (this.installmentFormGroup.get('tempAddVariablesPercentage').value * this.property_array.min_price) / 100 : 0, disabled: true
+      }]
     });
   }
 
@@ -1505,10 +1517,18 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       tempAddVariablesText: '',
       tempAddVariablesPercentage: '',
       interest: '',
-      paymentBankDetails: ''
+      listPrice: '',
+      finalPrice: '',
+      paymentBankDetails: '',
+      downPaymentFinalPrice: '',
+      discountFinalPrice: '',
+      monthlyInstallmentFinalPrice: '',
+      interestFinalPrice: '',
+      paymentupondeliveryFinalPrice: ''
     });
     this.getAddNoteFormArray.controls = [];
     this.getAddVariablesFormArray.controls = [];
+    this.isPreview = false;
   }
 
   subscribeInstallmentFormGroup = (): void => {
@@ -1521,6 +1541,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         this.installmentFormGroup.get('discount').enable({ onlySelf: true });
         this.installmentFormGroup.get('interest').enable({ onlySelf: true });
       }
+      // if(currentValue){
+      //   this.onClickPreview(false);
+      // }      
     });
   }
 
@@ -1646,6 +1669,28 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       this.spinner.hide();
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
     });
+  }
+
+  onClickPreview = (isPreviewClick: boolean): void => {
+    const discount = this.installmentFormGroup.value.discount ? (this.installmentFormGroup.value.discount * this.property_array.min_price) / 100 : 0;
+    const interest = this.installmentFormGroup.value.interest ? (this.installmentFormGroup.value.interest * this.property_array.min_price) / 100 : 0;
+    const finalPrice = discount ? this.property_array.min_price - discount : interest ? this.property_array.min_price + interest : this.property_array.min_price;
+    const downPayment = (this.installmentFormGroup.value.downPayment * finalPrice) / 100;
+    const monthly_installment_amount = this.installmentFormGroup.value.monthlyInstallment ? (this.installmentFormGroup.value.monthlyInstallment * finalPrice) / 100 : 0;
+    const paymentUponDelivery = this.installmentFormGroup.value.paymentupondelivery ? (this.installmentFormGroup.value.paymentupondelivery * finalPrice) / 100 : 0;
+    const monthlyInstallments = this.installmentFormGroup.value.numberOfMI ? monthly_installment_amount / this.installmentFormGroup.value.numberOfMI : 0;
+    this.installmentFormGroup.patchValue({
+      listPrice: this.property_array.min_price,
+      finalPrice: finalPrice,
+      downPaymentFinalPrice: downPayment,
+      discountFinalPrice: discount,
+      monthlyInstallmentFinalPrice: monthlyInstallments,
+      interestFinalPrice: interest,
+      paymentupondeliveryFinalPrice: paymentUponDelivery
+    });
+    if (isPreviewClick) {
+      this.isPreview = !this.isPreview;
+    }
   }
 
   ngOnDestroy(): void {
