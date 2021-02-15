@@ -270,6 +270,10 @@ export class CollectionsComponent implements OnInit {
     console.log(userdata, "user id")
     this.router.navigate(['/dashboard/users/edit-user', userdata.buyer_id]);
   }
+  legalinfo(userdata) {
+    console.log(userdata, "user id")
+    this.router.navigate(['/dashboard/legal-entities/add-legal-entity/', userdata.buyer_legal_entity_id]);
+  }
   initCalendarLocale() {
     if (this.translate.defaultLang === 'en') {
       this.locale = {

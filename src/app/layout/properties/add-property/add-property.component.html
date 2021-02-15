@@ -36,7 +36,7 @@
       <li [ngClass]="{'current': (tab == 4) || (tab == 5)}"><span></span><a (click)="setTab(4)">{{'addForm.tabs.Custom' | translate}}</a></li>
       
     </ul>
-    <div class="btn-cont text-right" style="margin-top: -24px;">
+    <div class="btn-cont text-right">
       <a href="javascript://" *ngIf="model?.id" (click)="uploadDoc(model)" style="cursor: pointer;"
         class="btn-sm btn-primary-new" href="javascript://">{{'addForm.documentation' | translate}}</a>
       </div>

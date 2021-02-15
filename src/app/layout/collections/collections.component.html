@@ -444,7 +444,7 @@
                       {{p?.buyer?.name ? (p?.buyer?.name + ' ' + p?.buyer?.first_surname + ' ' +
                       p?.buyer?.second_surname) : ('table.tr.td.NA' | translate)}}
                     </span>
-                    <span *ngIf="p?.buyer_type == 2">
+                    <span *ngIf="p?.buyer_type == 2" (click)="legalinfo(p)" style="cursor: pointer;">
                       {{p?.buyer_legal_entity?.comm_name ? (p?.buyer_legal_entity?.comm_name) : ('table.tr.td.NA' |
                       translate)}}
                     </span>
