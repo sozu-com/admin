@@ -828,6 +828,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep5.controls.add_iva_to_cc.patchValue(data.add_iva_to_cc || 0);
     this.addFormStep5.controls.add_iva_to_pc.patchValue(data.add_iva_to_pc || 0);
     this.addFormStep5.controls.add_iva_to_ac.patchValue(data.add_iva_to_ac || 0);
+    this.addFormStep5.controls.bank_id.patchValue(data.bank_id || 0)
 
     // this.addFormStep5.controls.deal_commission_agents.patchValue(data.deal_commission_agents);
     const control1 = this.addFormStep5.get('deal_commission_agents') as FormArray;
@@ -1100,6 +1101,7 @@ export class AddEditCollectionComponent implements OnInit {
         this.addFormStep5.controls.comm_shared_commission_amount.patchValue(p.broker_commision ? (p.broker_commision * p.min_price) / 100 : 0);
       }
     });
+    this.isAgencyBank = this.model.payment_received_by == 1 ? true : false; 
     this.getBanks(this.model.property_id);
   }
 

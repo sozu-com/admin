@@ -2724,7 +2724,7 @@ export class CollectionsComponent implements OnInit {
             self.layaway_payments.push([
               { text: self.translate.instant('generatePDF.layaway') + ' ' + (count == 0 ? '' : count) + ':', border: [false, false, false, false], color: '#858291' },
               { text: layaway_payments_per? Number(layaway_payments_per).toFixed(3) + '%' : 'N/A', border: [false, false, false, false], bold: true  },
-              {text: Number(element.amount).toFixed(2), border: [false, false, false, false], bold: true}
+              { text:  self.price.transform(Number(element.amount).toFixed(2)), border: [false, false, false, false], bold: true}
             ]);
             count = count + 1;
           }
@@ -2733,7 +2733,7 @@ export class CollectionsComponent implements OnInit {
             self.down_payments.push([
               { text: self.translate.instant('generatePDF.downpayment') + ' ' + (count1 == 0 ? '' : count1) + ':', border: [false, false, false, false], color: '#858291' },
               { text: down_payments_per? Number(down_payments_per).toFixed(3) + '%' : 'N/A', border: [false, false, false, false], bold: true },
-              {text: Number(element.amount).toFixed(2), border: [false, false, false, false], bold: true}
+              { text:  self.price.transform(Number(element.amount).toFixed(2)), border: [false, false, false, false], bold: true}
             ]);
             count1 = count1 + 1;
           }
@@ -2742,7 +2742,7 @@ export class CollectionsComponent implements OnInit {
             self.payments_upon_delivery.push([
               { text: self.translate.instant('generatePDF.PaymentUponDelivery') + ' ' + (count2 == 0 ? '' : count2) + ':', border: [false, false, false, false], color: '#858291' },
               { text: payments_upon_delivery_per? Number(payments_upon_delivery_per).toFixed(3) + '%' : 'N/A', border: [false, false, false, false], bold: true },
-              {text: Number(element.amount).toFixed(2), border: [false, false, false, false], bold: true}
+              { text:  self.price.transform(Number(element.amount).toFixed(2)), border: [false, false, false, false], bold: true}
             ]);
             count2 = count2 + 1;
           }
@@ -2750,11 +2750,11 @@ export class CollectionsComponent implements OnInit {
             self.special_payments.push([
               { text: self.translate.instant('generatePDF.specialPayment') + ' ' + (count3 == 0 ? '' : count3) + ':', border: [false, false, false, false], color: '#858291' },
               { text: '', border: [false, false, false, false] },
-              {text: Number(element.amount).toFixed(2), border: [false, false, false, false], bold: true}
+              { text:  self.price.transform(Number(element.amount).toFixed(2)), border: [false, false, false, false], bold: true}
             ]);
             count3 = count3 + 1;
           }
-
+          self.current_month_amount =  (self.current_month_amount || 0) + ((element.penalty || {}).amount || 0) + (element.outstanding_amount || 0);
             self.table_data.push([
               { text: element.category_name, border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc' },
               { text: element.date, border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc' },
@@ -3091,7 +3091,7 @@ export class CollectionsComponent implements OnInit {
           margin: [0, 30, 0, 10]
         },
         {
-          style: 'table2',
+          style: 'statement_table',
           table: {
             headerRows: 1,
             widths: ['14%', '14%', '14%', '14%', '14%', '14%', '14%'],
@@ -3197,6 +3197,10 @@ export class CollectionsComponent implements OnInit {
         },
         address_table:{
           margin: address ? [0, 15, 0, 15] : [0, 5, 0, 40],
+          border: [false, false, false, false]
+        },
+        statement_table:{
+          margin: [0, 35, 0, 15],
           border: [false, false, false, false]
         }
       },
