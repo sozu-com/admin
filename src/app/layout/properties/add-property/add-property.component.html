@@ -263,7 +263,8 @@
         </label> -->
         <label class="cust-radio" *ngFor="let astatus of availabilityStatus; let a=index">
           <input type="radio" (change)="setAvailableStatus(a)" value="{{astatus.id}}"
-            [checked]="model?.availabilityStatusId == astatus.id ? 'checked' : ''" name="availabilityStatusId">
+            [checked]="model?.availabilityStatusId == astatus.id ? 'checked' : ''" name="availabilityStatusId"
+            [disabled]="this.parameter.propertyDetails.collection && this.parameter.propertyDetails.collection.is_cancelled != 1 && this.us.permissions && this.us.permissions.can_collection_agent != 1">
           <span class="checkmark">{{astatus.name}}</span>
         </label>
 
