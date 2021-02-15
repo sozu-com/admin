@@ -1732,7 +1732,9 @@
     "viewedProperties": "Viewed Properties",
     "search": "Search",
     "edit": "Edit",
-    "buyerDocumentation": "Buyer documentation"
+    "buyerDocumentation": "Buyer documentation",
+    "sellerDocumentation": "Seller documentation",
+    "propertyDocumentation": "Property documentation"
   },
   "viewCollections": {
     "choose": "Choose",

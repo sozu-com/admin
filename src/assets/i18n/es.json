@@ -1731,7 +1731,9 @@
     "viewedProjects": "Proyectos vistos",
     "viewedProperties": "Departamentos vistos",
     "search": "Buscar",
-    "buyerDocumentation":"Documentación del comprador"
+    "buyerDocumentation":"Documentación del comprador",
+    "sellerDocumentation": "Documentación del vendedor",
+    "propertyDocumentation": "Documentación de propiedad"
   },
   "viewCollections": {
     "choose": "Escoger",

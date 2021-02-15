@@ -2283,11 +2283,29 @@
         </ng-container>
         <div class="col-lg-2 col-md-4 col-sm-6 col-12 folder-box"
           style="background-image: url('/assets/img/ic_folder.svg')">
-          <div class="form-group-3" (click)="this.openBuyerDocumentationModal()">
+          <div class="form-group-3" (click)="this.openBuyerSellerPropertyDocumentationModal(1)">
             <p>{{'commonBlock.buyerDocumentation' | translate}}</p>
           </div>
           <div class="folder-action-btn">
-            <i (click)="this.openBuyerDocumentationModal()" class="fa fa-folder" aria-hidden="true"></i>
+            <i (click)="this.openBuyerSellerPropertyDocumentationModal(1)" class="fa fa-folder" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6 col-12 folder-box"
+          style="background-image: url('/assets/img/ic_folder.svg')">
+          <div class="form-group-3" (click)="this.openBuyerSellerPropertyDocumentationModal(2)">
+            <p>{{'commonBlock.sellerDocumentation' | translate}}</p>
+          </div>
+          <div class="folder-action-btn">
+            <i (click)="this.openBuyerSellerPropertyDocumentationModal(2)" class="fa fa-folder" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6 col-12 folder-box"
+          style="background-image: url('/assets/img/ic_folder.svg')">
+          <div class="form-group-3" (click)="this.openBuyerSellerPropertyDocumentationModal(3)">
+            <p>{{'commonBlock.propertyDocumentation' | translate}}</p>
+          </div>
+          <div class="folder-action-btn">
+            <i (click)="this.openBuyerSellerPropertyDocumentationModal(3)" class="fa fa-folder" aria-hidden="true"></i>
           </div>
         </div>
       </div>
@@ -2592,34 +2610,35 @@
   </div>
 </div>
 
-<a href="javascript://" data-toggle="modal" data-target="#Buyer-Documentation-modal" #buyerDocumentationModalOpen></a>
-<div class="modal animated" id="Buyer-Documentation-modal">
+<a href="javascript://" data-toggle="modal" data-target="#Buyer-Seller-Property-Documentation-modal" #buyerSellerPropertyDocumentationModalOpen></a>
+<div class="modal animated" id="Buyer-Seller-Property-Documentation-modal">
   <div class="modal-dialog fadeIndown">
     <div class="modal-content notary-avail">
       <div class="modal-header popup-header">
-        <h4>{{'commonBlock.buyerDocumentation' | translate}}</h4>
-        <button style="display: none;" type="button" class="close" data-dismiss="modal" #buyerDocumentationModalClose>&times;</button>
-        <button type="button" class="close" (click)="this.closeBuyerDocumentationModal()">&times;</button>
+        <h4>{{this.buyerSellerPropertyDocumentationId == 1 ? ('commonBlock.buyerDocumentation' | translate) : 
+          this.buyerSellerPropertyDocumentationId == 2 ? ('commonBlock.sellerDocumentation' | translate) : ('commonBlock.propertyDocumentation' | translate) }}</h4>
+        <button style="display: none;" type="button" class="close" data-dismiss="modal" #buyerSellerPropertyDocumentationModalClose>&times;</button>
+        <button type="button" class="close" (click)="this.closeBuyerSellerPropertyDocumentationModal()">&times;</button>
       </div>
 
       <div class="modal-body">        
-        <div *ngIf="this.buyerDocumentationFoldersDetailsLength > 0" [ngStyle]="{'max-height':sent_as === 1 ? '250px' : '' }"
+        <div *ngIf="this.buyerSellerPropertyDocumentationFoldersDetailsLength > 0" [ngStyle]="{'max-height':sent_as === 1 ? '250px' : '' }"
           class="write-note white-bg" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
-          <ng-container *ngFor="let tempBuyerDocumentationFoldersDetails of buyerDocumentationFoldersDetails">
-            <div class="wn-block" *ngIf="tempBuyerDocumentationFoldersDetails?.document_link">
+          <ng-container *ngFor="let tempBuyerSellerPropertyDocumentationFoldersDetails of buyerSellerPropertyDocumentationFoldersDetails">
+            <div class="wn-block" *ngIf="tempBuyerSellerPropertyDocumentationFoldersDetails?.document_link">
               <div class="circle">
                 <span></span>
               </div>
               <p class="time" title="'Click to view'">
-                <a target="_blank" href="{{tempBuyerDocumentationFoldersDetails?.document_link}}">
-                  {{this.language_code == 'en' ? tempBuyerDocumentationFoldersDetails?.user_document?.name_en :
-                  tempBuyerDocumentationFoldersDetails?.user_document?.name_es }}
+                <a target="_blank" href="{{tempBuyerSellerPropertyDocumentationFoldersDetails?.document_link}}">
+                  {{this.language_code == 'en' ? tempBuyerSellerPropertyDocumentationFoldersDetails?.user_document?.name_en :
+                  tempBuyerSellerPropertyDocumentationFoldersDetails?.user_document?.name_es }}
                 </a>
               </p>
             </div>
           </ng-container>
         </div>
-        <div *ngIf="this.buyerDocumentationFoldersDetailsLength == 0" class="write-note white-bg"
+        <div *ngIf="this.buyerSellerPropertyDocumentationFoldersDetailsLength == 0" class="write-note white-bg"
           [ngStyle]="{'height':sent_as === 1 ? '230px' : '245px' }">
           <p class="show-not-found">
             {{'message.error.noDocumentFound' | translate}}

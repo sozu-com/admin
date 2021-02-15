@@ -42,8 +42,8 @@ export class AddEditCollectionComponent implements OnInit {
   @ViewChild('selectedPaymentChoice') selectedPaymentChoice: ElementRef;
   @ViewChild('localityOpen') localityOpen: ElementRef;
   @ViewChild('localityClose') localityClose: ElementRef;
-  @ViewChild('buyerDocumentationModalOpen') buyerDocumentationModalOpen: ElementRef;
-  @ViewChild('buyerDocumentationModalClose') buyerDocumentationModalClose: ElementRef;
+  @ViewChild('buyerSellerPropertyDocumentationModalOpen') buyerSellerPropertyDocumentationModalOpen: ElementRef;
+  @ViewChild('buyerSellerPropertyDocumentationModalClose') buyerSellerPropertyDocumentationModalClose: ElementRef;
   public latitude: number;
   public longitude: number;
   public searchControl: FormControl;
@@ -128,8 +128,13 @@ export class AddEditCollectionComponent implements OnInit {
   acsum: any;
   isAgencyBank: boolean;
   buyerDocumentationFoldersDetails: any[] = [];
+  sellerDocumentationFoldersDetails: any[] = [];
+  propertyDocumentationFoldersDetails: any[] = [];
   language_code: string;
-  
+  buyerSellerPropertyDocumentationId: number = 0;
+  buyerSellerPropertyDocumentationFoldersDetailsLength: number = 0;
+  buyerSellerPropertyDocumentationFoldersDetails: any[] = [];
+
   constructor(public model: Collection, private us: AdminService, private cs: CommonService,
     private router: Router,
     private building: Building, public constant: Constant,
@@ -445,7 +450,7 @@ export class AddEditCollectionComponent implements OnInit {
       .subscribe(
         success => {
           this.spinner.hide();
-          this.getCollectionDocument(((success.data || {}).buyer || {}).id);
+          this.getCollectionDocument(success.data);
           this.patchFormData(success['data']);
           this.getBanks(success['data'].property.id)
         }, error => {
@@ -897,7 +902,7 @@ export class AddEditCollectionComponent implements OnInit {
           control1.push(this.fb.group(obj));
         }
         this.model.collection_commissions.push(obj);
-       // console.log('obj', obj['id'])
+        // console.log('obj', obj['id'])
         this.ccsum = parseFloat(this.ccsum) + (obj['amount'] && obj['add_collection_commission'] ? parseFloat(obj['amount']) : 0.00);
         this.pcsum = parseFloat(this.pcsum) + (obj['purchase_comm_amount'] && obj['add_purchase_commission'] ? parseFloat(obj['purchase_comm_amount']) : 0.00);
         this.acsum = parseFloat(this.acsum) + (obj['agent_comm_amount'] && obj['add_agent_commission'] ? parseFloat(obj['agent_comm_amount']) : 0.00);
@@ -1576,7 +1581,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   onSelect(event) {
-   // console.log(event);
+    // console.log(event);
   }
 
   getBothBroker(keyword: string) {
@@ -2404,18 +2409,41 @@ export class AddEditCollectionComponent implements OnInit {
     }
   }
 
-  getCollectionDocument = (buyerId: number = 0): void => {
+  getCollectionDocument = (details: any): void => {
     this.spinner.show();
-    this.us.postDataApi('getCollectionDocument', { id: buyerId }).subscribe((success) => {
-      this.buyerDocumentationFoldersDetails = success.data || [];
+    const postData = {
+      property_id: (details.property || {}).id,
+      seller_id: details.seller_type == 2 ? (details.seller_legal_entity || {}).id : (details.seller || {}).id,
+      seller_type: details.seller_type,
+      buyer_id: details.buyer_type == 2 ? (details.buyer_legal_entity || {}).id : (details.buyer || {}).id,
+      buyer_type: details.buyer_type
+    };
+    this.us.postDataApi('getCollectionDocument', postData).subscribe((success) => {
+      this.buyerDocumentationFoldersDetails = success.buyer || [];
+      this.sellerDocumentationFoldersDetails = success.seller || [];
+      this.propertyDocumentationFoldersDetails = success.property || [];
       this.spinner.hide();
     }, (error) => {
       this.spinner.hide();
     });
   }
 
-  openBuyerDocumentationModal = (): void => {
-    this.buyerDocumentationModalOpen.nativeElement.click();
+  //documentationId 1 for buyer , 2 for seller and 3 for property
+  openBuyerSellerPropertyDocumentationModal = (documentationId: number): void => {
+    this.buyerSellerPropertyDocumentationFoldersDetailsLength = 0;
+    this.buyerSellerPropertyDocumentationFoldersDetails = [];
+    this.buyerSellerPropertyDocumentationId = documentationId;
+    if (documentationId == 1) {
+      this.buyerSellerPropertyDocumentationFoldersDetailsLength = this.buyerDocumentationFoldersDetailsLength;
+      this.buyerSellerPropertyDocumentationFoldersDetails = this.buyerDocumentationFoldersDetails;
+    } else if (documentationId == 2) {
+      this.buyerSellerPropertyDocumentationFoldersDetailsLength = this.sellerDocumentationFoldersDetailsLength;
+      this.buyerSellerPropertyDocumentationFoldersDetails = this.sellerDocumentationFoldersDetails;
+    } else {
+      this.buyerSellerPropertyDocumentationFoldersDetailsLength = this.propertyDocumentationFoldersDetailsLength;
+      this.buyerSellerPropertyDocumentationFoldersDetails = this.propertyDocumentationFoldersDetails;
+    }
+    this.buyerSellerPropertyDocumentationModalOpen.nativeElement.click();
   }
 
   get buyerDocumentationFoldersDetailsLength(): number {
@@ -2428,75 +2456,95 @@ export class AddEditCollectionComponent implements OnInit {
     return count;
   }
 
-  closeBuyerDocumentationModal = (): void => {
-    this.buyerDocumentationModalClose.nativeElement.click();
+  get sellerDocumentationFoldersDetailsLength(): number {
+    let count = 0;
+    this.sellerDocumentationFoldersDetails.forEach((item) => {
+      if (item.document_link) {
+        count = count + 1;
+      }
+    });
+    return count;
   }
 
-getBanks(id){
-  this.us.postDataApi('getPropertyDetails', { id: id }).subscribe((success) => {
-    this.bankDetails = (success || {}).data;
-    this.makePaymentBankDetailsArray(true);
-  }, (error) => {
-    this.spinner.hide();
-    swal(this.translate.instant('swal.error'), error.error.message, 'error');
-  });
-}
-
-onAgencyOrSellerChange = ( value): void => {
-  this.isAgencyBank = value == '1' ? true : false; 
-  this.addFormStep5.get('bank_id').setValue('');
-  this.makePaymentBankDetailsArray(false);
-}
-
-makePaymentBankDetailsArray = (isFirstTimeClick: boolean): void => {
-  this.paymentBankDetailsArray = [];
-  if (this.isAgencyBank) {
-    // payment directly received by agency
-    if (((this.bankDetails || {}).building || {}).agency_id) {
-      // agency banks
-      for (let index = 0; index < (((this.bankDetails.building || {}).agency || {}).agency_banks || []).length; index++) {
-        const element = this.bankDetails.building.agency.agency_banks[index];
-        element.name = 'Agency Bank | ' + element.bank_name;
-        element.is_agency = 1;
-        element.bank_id = element.id;
-        element.legal_rep_bank_id = null;
-        element.legal_name = (((this.bankDetails || {}).building || {}).agency || {}).razon_social || '';
-        this.paymentBankDetailsArray.push(element);
+  get propertyDocumentationFoldersDetailsLength(): number {
+    let count = 0;
+    this.propertyDocumentationFoldersDetails.forEach((item) => {
+      if (item.document_link) {
+        count = count + 1;
       }
+    });
+    return count;
+  }
 
-      // agency legal representative banks
-      if (((this.bankDetails.building || {}).agency || {}).legal_representative) {
-        for (let index = 0; index < ((this.bankDetails.building.agency.legal_representative || {}).legal_rep_banks || []).length; index++) {
-          const element = this.bankDetails.building.agency.legal_representative.legal_rep_banks[index];
-          element.name = 'Agency Legal Rep Bank | ' + element.bank_name;
+  closeBuyerSellerPropertyDocumentationModal = (): void => {
+    this.buyerSellerPropertyDocumentationModalClose.nativeElement.click();
+  }
+
+  getBanks(id) {
+    this.us.postDataApi('getPropertyDetails', { id: id }).subscribe((success) => {
+      this.bankDetails = (success || {}).data;
+      this.makePaymentBankDetailsArray(true);
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
+
+  onAgencyOrSellerChange = (value): void => {
+    this.isAgencyBank = value == '1' ? true : false;
+    this.addFormStep5.get('bank_id').setValue('');
+    this.makePaymentBankDetailsArray(false);
+  }
+
+  makePaymentBankDetailsArray = (isFirstTimeClick: boolean): void => {
+    this.paymentBankDetailsArray = [];
+    if (this.isAgencyBank) {
+      // payment directly received by agency
+      if (((this.bankDetails || {}).building || {}).agency_id) {
+        // agency banks
+        for (let index = 0; index < (((this.bankDetails.building || {}).agency || {}).agency_banks || []).length; index++) {
+          const element = this.bankDetails.building.agency.agency_banks[index];
+          element.name = 'Agency Bank | ' + element.bank_name;
           element.is_agency = 1;
-          element.bank_id = null;
-          element.legal_rep_bank_id = element.id;
-          element.Legal_name = (((this.bankDetails || {}).building || {}).agency || {}).name || '';
+          element.bank_id = element.id;
+          element.legal_rep_bank_id = null;
+          element.legal_name = (((this.bankDetails || {}).building || {}).agency || {}).razon_social || '';
           this.paymentBankDetailsArray.push(element);
         }
+
+        // agency legal representative banks
+        if (((this.bankDetails.building || {}).agency || {}).legal_representative) {
+          for (let index = 0; index < ((this.bankDetails.building.agency.legal_representative || {}).legal_rep_banks || []).length; index++) {
+            const element = this.bankDetails.building.agency.legal_representative.legal_rep_banks[index];
+            element.name = 'Agency Legal Rep Bank | ' + element.bank_name;
+            element.is_agency = 1;
+            element.bank_id = null;
+            element.legal_rep_bank_id = element.id;
+            element.Legal_name = (((this.bankDetails || {}).building || {}).agency || {}).name || '';
+            this.paymentBankDetailsArray.push(element);
+          }
+        }
+      }
+    } else if (!this.isAgencyBank) {
+      if (this.bankDetails.selected_seller.user.developer_company || this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id) {
+        ((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_rep_banks || []).forEach((element, innerIndex) => {
+          element.name = 'Seller Bank | ' + element.bank_name;
+          element.legal_name = this.bankDetails.selected_seller.user.developer_company ? this.bankDetails.selected_seller.user.developer_company :
+            this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id ? this.bankDetails.selected_seller.user.name + ' ' + this.bankDetails.selected_seller.user.first_surname
+              + ' ' + this.bankDetails.selected_seller.user.second_surname : this.bankDetails.selected_seller.user.legal_entity.legal_name ? this.bankDetails.selected_seller.user.legal_entity.legal_name : '';
+          this.paymentBankDetailsArray.push(element);
+        });
+      }
+      else {
+        (((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_entity || {}).legal_entity_banks || []).forEach((element, innerIndex) => {
+          element.name = 'Seller Bank | ' + element.bank_name;
+          element.legal_name = this.bankDetails.selected_seller.user.developer_company ? this.bankDetails.selected_seller.user.developer_company :
+            this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id ? this.bankDetails.selected_seller.user.name + ' ' + this.bankDetails.selected_seller.user.first_surname
+              + ' ' + this.bankDetails.selected_seller.user.second_surname : this.bankDetails.selected_seller.user.legal_entity.legal_name ? this.bankDetails.selected_seller.user.legal_entity.legal_name : '';
+          this.paymentBankDetailsArray.push(element);
+        });
       }
     }
-  } else if (!this.isAgencyBank) {
-    if (this.bankDetails.selected_seller.user.developer_company || this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id) {
-      ((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_rep_banks || []).forEach((element, innerIndex) => {
-        element.name = 'Seller Bank | ' + element.bank_name;
-        element.legal_name = this.bankDetails.selected_seller.user.developer_company ? this.bankDetails.selected_seller.user.developer_company :
-          this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id ? this.bankDetails.selected_seller.user.name + ' ' + this.bankDetails.selected_seller.user.first_surname
-            + ' ' + this.bankDetails.selected_seller.user.second_surname : this.bankDetails.selected_seller.user.legal_entity.legal_name ? this.bankDetails.selected_seller.user.legal_entity.legal_name : '';
-        this.paymentBankDetailsArray.push(element);
-      });
-    }
-    else {
-      (((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_entity || {}).legal_entity_banks || []).forEach((element, innerIndex) => {
-        element.name = 'Seller Bank | ' + element.bank_name;
-        element.legal_name = this.bankDetails.selected_seller.user.developer_company ? this.bankDetails.selected_seller.user.developer_company :
-          this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id ? this.bankDetails.selected_seller.user.name + ' ' + this.bankDetails.selected_seller.user.first_surname
-            + ' ' + this.bankDetails.selected_seller.user.second_surname : this.bankDetails.selected_seller.user.legal_entity.legal_name ? this.bankDetails.selected_seller.user.legal_entity.legal_name : '';
-        this.paymentBankDetailsArray.push(element);
-      });
-    }
   }
-}
 
 }

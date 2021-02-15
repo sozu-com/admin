@@ -2165,6 +2165,72 @@
                 </div>
               </td>
             </tr>
+            <tr>
+              <td>
+                <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapseSellerDocumentation" aria-expanded="true">
+                  <img src="assets/img/ic_folder_1.svg">{{'commonBlock.sellerDocumentation' | translate}}
+                </a>
+              </td>
+              <td>{{this.sellerDocumentationFoldersDetailsLength || 0}}</td>
+              <td></td>
+            </tr>
+            <tr id="collapseSellerDocumentation" class="panel-collapse collapse" *ngIf="this.sellerDocumentationFoldersDetails.length > 0">
+              <td colspan="3">
+                  <div class="write-note white-bg" *ngIf="this.sellerDocumentationFoldersDetailsLength > 0">
+                    <ng-container *ngFor="let tempsellerDocumentationFoldersDetails of sellerDocumentationFoldersDetails">
+                      <div class="wn-block" *ngIf="tempsellerDocumentationFoldersDetails?.document_link">
+                        <div class="circle">
+                          <span></span>
+                        </div>
+                        <p class="time" title="'Click to view'">
+                          <a target="_blank" href="{{tempsellerDocumentationFoldersDetails?.document_link}}">
+                            {{this.language_code == 'en' ? tempsellerDocumentationFoldersDetails?.user_document?.name_en :
+                            tempsellerDocumentationFoldersDetails?.user_document?.name_es }}
+                          </a>
+                        </p>
+                      </div>
+                    </ng-container>
+                  </div>               
+                <div class="padding20 center" *ngIf="this.sellerDocumentationFoldersDetailsLength == 0">
+                  <p class="show-not-found">
+                    {{'message.error.noDocumentUploadedYet' | translate}}
+                  </p>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapsePropertyDocumentation" aria-expanded="true">
+                  <img src="assets/img/ic_folder_1.svg">{{'commonBlock.propertyDocumentation' | translate}}
+                </a>
+              </td>
+              <td>{{this.propertyDocumentationFoldersDetailsLength || 0}}</td>
+              <td></td>
+            </tr>
+            <tr id="collapsePropertyDocumentation" class="panel-collapse collapse" *ngIf="this.propertyDocumentationFoldersDetails.length > 0">
+              <td colspan="3">
+                  <div class="write-note white-bg" *ngIf="this.propertyDocumentationFoldersDetailsLength > 0">
+                    <ng-container *ngFor="let tempPropertyDocumentationFoldersDetails of propertyDocumentationFoldersDetails">
+                      <div class="wn-block" *ngIf="tempPropertyDocumentationFoldersDetails?.document_link">
+                        <div class="circle">
+                          <span></span>
+                        </div>
+                        <p class="time" title="'Click to view'">
+                          <a target="_blank" href="{{tempPropertyDocumentationFoldersDetails?.document_link}}">
+                            {{this.language_code == 'en' ? tempPropertyDocumentationFoldersDetails?.user_document?.name_en :
+                            tempPropertyDocumentationFoldersDetails?.user_document?.name_es }}
+                          </a>
+                        </p>
+                      </div>
+                    </ng-container>
+                  </div>               
+                <div class="padding20 center" *ngIf="this.propertyDocumentationFoldersDetailsLength == 0">
+                  <p class="show-not-found">
+                    {{'message.error.noDocumentUploadedYet' | translate}}
+                  </p>
+                </div>
+              </td>
+            </tr>
           </tbody>
           <div class="padding20 center" *ngIf="collectionFolders?.length == 0">
             <p class="show-not-found">
