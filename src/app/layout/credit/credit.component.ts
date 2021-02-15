@@ -13,6 +13,7 @@ export class CreditComponent implements OnInit {
   public parameter: IProperty = {};
   public location: IProperty = {};
   locale: any;
+  creditsUserlist: any[] = [];
 
   constructor(
     private translate: TranslateService,
@@ -124,11 +125,17 @@ export class CreditComponent implements OnInit {
 
   getCreditsUser = (): void => {
     this.spinnerService.show();
-    this.admin.postDataApi('getCreditsUser', {}).subscribe((success) => {
+    this.admin.postDataApi('getCreditsUser', {}).subscribe((response: any) => {
+      this.creditsUserlist = response.data || [];
       this.spinnerService.hide();
     }, (error) => {
       this.spinnerService.hide();
     });
+  }
+
+  onPageChange = (pageIndex: number): void => {
+    this.parameter.page = pageIndex;
+    this.getCreditsUser();
   }
 
   resetFilters() {
