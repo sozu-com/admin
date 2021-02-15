@@ -27,7 +27,7 @@ export class CreditAddEditComponent implements OnInit {
   selectedUser: any;
   addFormStep1: FormGroup;
   tab: number;
-
+  amenities = Array<any>();
   constructor(
     public constant: Constant,
     private us: AdminService,
@@ -39,11 +39,20 @@ export class CreditAddEditComponent implements OnInit {
 
   ngOnInit() {
     this.tab = 0;
+    this.getPropertyAmenities();
   }
   getListing() {
     //  this.spinner.show();
   }
-
+  getPropertyAmenities() {
+    this.us.postDataApi('getPropertyAmenities', { hide_blocked: 1 })
+      .subscribe(
+        success => {
+          //this.spinner.hide();
+          this.amenities = success['data'];
+        }
+      );
+  }
   setTab(tab: any) {
     console.log(tab, "tab")
     this.tab = tab;

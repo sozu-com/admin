@@ -381,7 +381,7 @@ export class AddPropertyComponent implements OnInit {
     this.model.videos = data.videos;
 
     this.model.description = data.description;
-    this.model.property_key = data.property_key;
+    this.model.property_key = data.property_key ;
     this.model.quantity = data.quantity;
     this.model.floor = data.floor;
     this.model.bedroom = data.configuration && data.configuration.bedroom ? data.configuration.bedroom : data.bedroom;
@@ -991,7 +991,6 @@ export class AddPropertyComponent implements OnInit {
       input.append('step', this.model.step.toString());
       if (this.model.step === 1) {
         input.append('name', this.model.name);
-        input.append('property_key', this.model.property_key)
         // input.append('for_sale', this.model.for_sale === true ? '1' : '0');
         // input.append('for_rent', this.model.for_sale === true ? '0' : '1');
         input.append('for_sale', this.availabilityStatus[0].checked === true ? '1' : '0');
@@ -1076,6 +1075,7 @@ export class AddPropertyComponent implements OnInit {
         input.append('half_bathroom', this.model.half_bathroom ? this.model.half_bathroom.toString() : '0');
         input.append('floor', this.model.floor.toString());
         input.append('broker_commision', this.model.broker_commision.toString());
+        input.append('property_key', this.model.property_key.toString());
         input.append('total_commission', this.model.total_commission.toString());
         input.append('property_price', this.model.property_price ? this.model.property_price.toString() : '0');
         input.append('parking', this.model.parking.toString());

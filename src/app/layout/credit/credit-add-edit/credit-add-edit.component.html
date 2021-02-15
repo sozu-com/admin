@@ -220,7 +220,7 @@
             <div class="white-bg padding20">
               <nav class="nav nav-tabs">
                 <div class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" data-toggle="dropdown">{{'creditForm.generals' | translate}}</a>
+                  <a class="nav-link dropdown-toggle" data-toggle="dropdown"  style="cursor: pointer;">{{'creditForm.generals' | translate}}</a>
                   <div class="dropdown-menu">
                     <strong [ngClass]="{'current': tab == 0}"><span></span><a (click)="setTab(0)" class="dropdown-item"
                         style="cursor: pointer;">{{'creditForm.Personals' | translate}}</a></strong>
@@ -235,7 +235,7 @@
                   </div>
                 </div>
                 <div class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" data-toggle="dropdown">{{'creditForm.Incomes' | translate}}</a>
+                  <a class="nav-link dropdown-toggle" data-toggle="dropdown"  style="cursor: pointer;">{{'creditForm.Incomes' | translate}}</a>
                   <div class="dropdown-menu">
                     <strong [ngClass]="{'current': tab == 5}"><span></span><a (click)="setTab(5)" class="dropdown-item"
                         style="cursor: pointer;">{{'creditForm.Incomes' | translate}}</a></strong>
@@ -247,8 +247,8 @@
                         style="cursor: pointer;">{{'creditForm.Beneficiaries' | translate}}</a></strong>
                   </div>
                 </div>
-                <a class="nav-item nav-link">{{'creditForm.Insurance' | translate}}</a>
-                <a class="nav-item nav-link">{{'creditForm.additionalData' | translate}}</a>
+                <a class="nav-item nav-link" (click)="setTab(9)" style="cursor: pointer;">{{'creditForm.Insurance' | translate}}</a>
+                <a class="nav-item nav-link" (click)="setTab(10)" style="cursor: pointer;">{{'creditForm.additionalData' | translate}}</a>
               </nav>
             </div><br />
 
@@ -1750,6 +1750,82 @@
 
               </form>
             </div>
+            <!-- Insurance -->
+            <div *ngIf="tab==9">
+              <form role="form">
+                <div class="white-bg padding40">
+                  <h3>{{'creditForm.Insureddata' | translate}}</h3>
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.Weight' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                          class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.Height' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control" required
+                          name="first_surname1">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                        <label *ngFor="let a of amenities; " (click)="a.selected = !a.selected" class="cust-check-bx2">
+                          {{a.name}}
+                        <span *ngIf="a.selected==true" class="checkmark open"></span>
+                        </label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="btn-cont text-right">
+                        <button class="btn btn-primary">{{'creditForm.Saveselection' | translate}}</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                  </form>
+            </div>
+             <!-- additionalData -->
+             <div *ngIf="tab==10">
+              <form role="form">
+                <div class="white-bg padding40">
+                  <h3>{{'creditForm.Personal' | translate}}</h3>
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.Weight' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                          class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.Weight' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                          class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.Weight' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                          class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </form>
+             </div>
           </div>
           <!-- Coaccredited -->
           <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">

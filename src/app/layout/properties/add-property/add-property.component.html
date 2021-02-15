@@ -366,7 +366,9 @@
         <div class="col-md-4 col-sm-12 col-12">
           <div class="form-group-3 eca">
             <label class="p16-two">{{'addForm.propertyKey' | translate}}</label>
-            <input required class="form-control" type="text"  name="property_key" placeholder="{{'addForm.propertyKey' | translate}}"
+            <!-- <input class="form-control" min="0" type="number" [(ngModel)]="model.broker_commision" name="broker_commision"
+              placeholder="{{'addForm.placeholder.inPercent' | translate}}"> -->
+            <input  class="form-control" type="text"  name="property_key" placeholder="{{'addForm.propertyKey' | translate}}"
               [(ngModel)]="model.property_key" autocomplete="off" minlength="1" maxlength="25">
           </div>
         </div>

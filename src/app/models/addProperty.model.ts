@@ -71,8 +71,19 @@ export class AddPropertyModel {
     broker_commision = 0;
     total_commission = 0;
     price : string = null;
+    property_linked_documents?: Array<Docs>;
 }
-
+export class Docs {
+    id: string;
+    document_link: string;
+    property_document_id: string;
+    property_document?: userDoc;
+}
+export class userDoc {
+    id: string;
+    name_en: string;
+    name_es: string;
+}
 export class Building {
     id: string;
     name: string;
@@ -101,4 +112,9 @@ export class SellerSelections {
     property_id: string;
     status: number;
     user: User;
+}
+export class property_doc {
+    id: string;
+    name_en: string;
+    name_es: string;
 }
