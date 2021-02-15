@@ -39,6 +39,8 @@ export class CreditAddEditComponent implements OnInit {
 
   ngOnInit() {
     this.tab = 0;
+    this.parameter.page = 1;
+    this.parameter.itemsPerPage = this.constant.limit4;
     this.getPropertyAmenities();
   }
   getListing() {
@@ -110,7 +112,9 @@ export class CreditAddEditComponent implements OnInit {
     // this.building.id = building.id;
     // this.model.building_id = building.id;
   }
-
+  getPage(page: number) {
+    this.parameter.page = page;
+  }
   createCollection(value, data) {
 
   }
