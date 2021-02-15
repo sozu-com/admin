@@ -266,7 +266,10 @@ export class CollectionsComponent implements OnInit {
       });
 
   }
-
+  userinfo(userdata) {
+    console.log(userdata, "user id")
+    this.router.navigate(['/dashboard/users/edit-user', userdata.buyer_id]);
+  }
   initCalendarLocale() {
     if (this.translate.defaultLang === 'en') {
       this.locale = {

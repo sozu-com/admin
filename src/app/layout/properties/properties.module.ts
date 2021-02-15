@@ -22,6 +22,7 @@ import { SharedModule } from 'src/app/modules/shared.module';
 import { CalendarModule } from 'primeng/primeng';
 import { BulkAddComponent } from './bulk-add/bulk-add.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { DocumentsUploadComponent } from './documents-upload/documents-upload.component';
 const routes: Routes = [
   { path: 'details/:property_id', component: PropertyDetailsComponent },
   // { path: 'details/:property_id', component: PropertyDetailsComponent,
@@ -57,6 +58,10 @@ const routes: Routes = [
   {
     path: 'view-properties/:id/:type', component: PropertiesComponent,
     canActivate: [AclUserGuard], data: { roles: ['Property Management', 'can_read', ''] }
+  },
+  {
+    path: 'documents-upload/:id', component: DocumentsUploadComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Property Management', 'can_read', ''] }
   }
 ];
 
@@ -86,7 +91,8 @@ const routes: Routes = [
     PropertyDetailsComponent,
     FilterByIdPipe,
     FilterByNamePipe,
-    BulkAddComponent
+    BulkAddComponent,
+    DocumentsUploadComponent
   ]
 })
 
