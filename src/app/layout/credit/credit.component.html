@@ -374,23 +374,23 @@
 
               <tr *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
                 <td> 
-                    <img *ngIf="(item.user || [])[0].image" [defaultImage]="(item.user || [])[0].image| img:'thumb'" [lazyLoad]="(item.user || [])[0].image" class="rounded-circle" alt="img">
-                    <img *ngIf="!(item.user || [])[0].image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
+                    <img *ngIf="item?.user?.image" [defaultImage]="item?.user?.image| img:'thumb'" [lazyLoad]="item?.user?.image" class="rounded-circle" alt="img">
+                    <img *ngIf="!item?.user?.image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
                 </td>
                 <td class="text-left">
-                    <a class="text-ellipsis" data-toggle="popover" data-placement="top" title="{{item.name}}" >
-                      {{(item.user || [])[0].name | titlecase}}
+                    <a class="text-ellipsis" data-toggle="popover" data-placement="top" title="{{item?.user?.name}}" >
+                      {{item?.user?.name | titlecase}}
                     </a>
                 </td>
                 <td class="text-left">
-                  {{(item.user || [])[0].first_surname ? ((item.user || [])[0].first_surname | titlecase) : 'NA'}}
+                  {{item?.user?.first_surname ? (item?.user?.first_surname | titlecase) : 'NA'}}
                 </td>
                 <td class="text-left">
-                  {{(item.user || [])[0].second_surname ? ((item.user || [])[0].second_surname | titlecase) : 'NA'}}
+                  {{item?.user?.second_surname ? (item?.user?.second_surname | titlecase) : 'NA'}}
                 </td>
-                <td class="text-left" *ngIf="(item.user || [])[0].phone">{{(item.user || [])[0].dial_code ? (item.user || [])[0].dial_code : constant.dial_code}}-{{(item.user || [])[0].phone}}</td>
-                <td class="text-left" *ngIf="!(item.user || [])[0].phone">{{'table.tr.td.NA' | translate}}</td>
-                <td class="text-left">{{(item.user || [])[0].email}}</td>
+                <td class="text-left" *ngIf="item?.user?.phone">{{item?.user?.dial_code ? item?.user?.dial_code : constant.dial_code}}-{{item?.user?.phone}}</td>
+                <td class="text-left" *ngIf="!item?.user?.phone">{{'table.tr.td.NA' | translate}}</td>
+                <td class="text-left">{{item?.user?.email}}</td>
                 <td *ngIf="parameter.type==1">
                   <span *ngFor="let interest of item.interests; let ii=index">
                     <app-property-configuration *ngIf="interest" [configuration]="interest"></app-property-configuration>
