@@ -28,6 +28,7 @@ export class CreditAddEditComponent implements OnInit {
   selectedUser: any;
   addFormStep1: FormGroup;
   tab: number;
+  subtab: number;
   amenities = Array<any>();
   destination_list = Array<IDestinationStatus>();
   program_list = Array<IDestinationStatus>();
@@ -50,6 +51,10 @@ export class CreditAddEditComponent implements OnInit {
 
   ngOnInit() {
     this.tab = 1;
+    // if(this.tab = 3){
+    //   this.subtab = 1;
+    // }
+    //this.subtab = 3;
     this.parameter.page = 1;
     this.parameter.itemsPerPage = this.constant.limit4;
     this.getPropertyAmenities();
@@ -173,7 +178,13 @@ export class CreditAddEditComponent implements OnInit {
     //   }
     // });
   }
-
+  setsubTab(subtab: any){
+    console.log(subtab, "subtab")
+    this.subtab = subtab;
+  }
+  scroll(el: HTMLElement) {
+    el.scrollIntoView();
+  }
   searchUser(keyword: string) {
     if (!keyword) {
       this.toastr.clear();
