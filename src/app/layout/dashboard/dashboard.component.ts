@@ -63,6 +63,18 @@ export class DashboardComponent {
     this.getReportData();
   }
 
+  getListing(){
+
+  }
+
+  getLocalityBuildings( data){
+
+  }
+
+  resetFilters(){
+    
+  }
+
   getCountries() {
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
       this.location.countries = r['data'];
