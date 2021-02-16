@@ -138,7 +138,7 @@ export class CreditComponent implements OnInit {
   }
 
   getBuyers(){
-    this.spinnerService.show();
+   // this.spinnerService.show();
     this.admin.postDataApi('getCreditsUser', {}).subscribe(
       success => {
        this.parameter.items = success.data;

@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { IProperty } from 'src/app/common/property';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
+import { IDestinationStatus } from 'src/app/common/marrital-status-interface';
 declare let swal: any;
 @Component({
   selector: 'app-credit-add-edit',
@@ -16,7 +17,7 @@ declare let swal: any;
   styleUrls: ['./credit-add-edit.component.css']
 })
 export class CreditAddEditComponent implements OnInit {
-
+  selectedvalue: Users;
   model: Users = new Users();
   userName: string;
   searchedUser = [];
@@ -28,6 +29,16 @@ export class CreditAddEditComponent implements OnInit {
   addFormStep1: FormGroup;
   tab: number;
   amenities = Array<any>();
+  destination_list = Array<IDestinationStatus>();
+  program_list = Array<IDestinationStatus>();
+  CreditsDeadlines = Array<IDestinationStatus>();
+  PaymentScheme= Array<IDestinationStatus>();
+  banks = Array<any>();
+  selctedBanks: Array<any>;
+  selctedPayments: Array<any>;
+  selctedDeadlines: Array<any>;
+  multiDropdownSettings = {};
+
   constructor(
     public constant: Constant,
     private us: AdminService,
@@ -42,19 +53,109 @@ export class CreditAddEditComponent implements OnInit {
     this.parameter.page = 1;
     this.parameter.itemsPerPage = this.constant.limit4;
     this.getPropertyAmenities();
+    this.getDestination();
+    this.getPrograms();
+    this.getCreditsDeadlines();
+    this.getPaymentScheme();
+    this.getCreditsBanks();
+    this.iniDropDownSetting();
+    this.selctedBanks = [];
+    this.selctedPayments = [];
+    this.selctedDeadlines = [];
+  }
+  unsetProject(item: any) {
+    let i = 0;
+    this.selctedBanks.map(r => {
+      if (r.id == item.id) {
+        this.selctedBanks.splice(i, 1);
+      }
+      i = i + 1;
+    });
+  }
+  unsetPayments(item: any) {
+    let i = 0;
+    this.selctedPayments.map(r => {
+      if (r.id == item.id) {
+        this.selctedPayments.splice(i, 1);
+      }
+      i = i + 1;
+    });
+  }
+  unsetDeadlines(item: any) {
+    let i = 0;
+    this.selctedDeadlines.map(r => {
+      if (r.id == item.id) {
+        this.selctedDeadlines.splice(i, 1);
+      }
+      i = i + 1;
+    });
+  }
+  onItemSelects(value) {
+    this.selectedvalue = value
+  }
+  iniDropDownSetting() {
+    this.multiDropdownSettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'name_en',
+      selectAllText: this.translate.instant('commonBlock.selectAll'),
+      unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
+      searchPlaceholderText: this.translate.instant('commonBlock.search'),
+      allowSearchFilter: true,
+      itemsShowLimit: 2
+    };
   }
   getListing() {
-    //  this.spinner.show();
   }
+
   getPropertyAmenities() {
     this.us.postDataApi('getPropertyAmenities', { hide_blocked: 1 })
       .subscribe(
         success => {
-          //this.spinner.hide();
           this.amenities = success['data'];
         }
       );
   }
+
+  getDestination(){
+    this.us.postDataApi('getDestination', {}).subscribe(r => {
+      this.destination_list = r['data'];
+      console.log( this.destination_list,"getDestination")
+    });
+  }
+
+  getdestination(id) {
+    this.model.destination_id = id;
+  }
+
+  getPrograms(){
+    this.us.postDataApi('getPrograms', {}).subscribe(r => {
+      this.program_list = r['data'];
+      console.log( this.program_list,"getPrograms")
+    });
+  }
+
+  getCreditsDeadlines(){
+    this.us.postDataApi('getCreditsDeadlines', {}).subscribe(r => {
+      this.CreditsDeadlines = r['data'];
+      console.log( this.CreditsDeadlines,"getCreditsDeadlines")
+    });
+  }
+
+  getPaymentScheme(){
+    this.us.postDataApi('getPaymentScheme', {}).subscribe(r => {
+      this.PaymentScheme = r['data'];
+      console.log( this.PaymentScheme,"getPaymentScheme")
+    });
+  }
+
+  getCreditsBanks(){
+    this.us.postDataApi('getCreditsBanks', {}).subscribe(r => {
+      this.banks = r['data'];
+      console.log( this.banks,"getCreditsBanks")
+    });
+  }
+
   setTab(tab: any) {
     console.log(tab, "tab")
     this.tab = tab;
@@ -109,16 +210,11 @@ export class CreditAddEditComponent implements OnInit {
 
   setUserId(building: any) {
     this.selectedUser = building;
-    // this.building.id = building.id;
-    // this.model.building_id = building.id;
   }
   getPage(page: number) {
     this.parameter.page = page;
   }
-  createCollection(value, data) {
-
-  }
-
+ 
   addcredits = (step: number): void => {
     if (!this.selectedUser) {
       this.toastr.clear();

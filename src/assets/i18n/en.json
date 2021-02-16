@@ -2438,6 +2438,11 @@
     "Mensuales":"Total Monthly Expenses" ,
     "PlaceApplication":"Place Of Application",
     "Inmueble":"Use Of Property",
-    "PropertyType":"Property Type"
+    "PropertyType":"Property Type",
+    "selectDestination": "Select Destination",
+    "selectProgram": "Select programs",
+    "selectdeadline": "Select Deadlines to quote",
+    "selectpayment": "Select Payment scheme",
+    "selectbanks": "Select Banks"
   }
 }

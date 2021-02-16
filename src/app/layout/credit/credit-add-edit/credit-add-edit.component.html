@@ -4,32 +4,32 @@
       <div class="col-md-12">
         <nav>
           <div class="white-bg add-property padding20">
-          <div class="steps" id="nav-tab" role="tablist">
-            <ul class="nav  nav-fill" id="nav-tab" role="tablist">
-              <li>
-                <span></span>
-                <a  id="nav-user-tab" data-toggle="tab" href="#nav-user" role="tab"
-              aria-controls="nav-user" aria-selected="true" active>{{'creditForm.userInfo' | translate}}</a>
-              </li>
+            <div class="steps" id="nav-tab" role="tablist">
+              <ul class="nav  nav-fill" id="nav-tab" role="tablist">
+                <li>
+                  <span></span>
+                  <a id="nav-user-tab" data-toggle="tab" href="#nav-user" role="tab" aria-controls="nav-user"
+                    aria-selected="true" active>{{'creditForm.userInfo' | translate}}</a>
+                </li>
 
-              <li>
-                <span></span>
-                <a  id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
-                aria-controls="nav-home" aria-selected="true">{{'creditForm.credit' | translate}}</a>
-              </li>
+                <li>
+                  <span></span>
+                  <a id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home"
+                    aria-selected="true">{{'creditForm.credit' | translate}}</a>
+                </li>
 
-              <li>
-                <span></span>
-                <a id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
-              aria-controls="nav-profile" aria-selected="false">{{'creditForm.Applicant' | translate}}</a>
-              </li>
-              <li>
-                <span></span>
-                <a  id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab"
-              aria-controls="nav-contact" aria-selected="false" disabled>{{'creditForm.Coaccredited' | translate}}</a>
-              </li>
-            </ul>
-          <!-- <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                <li>
+                  <span></span>
+                  <a id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile"
+                    aria-selected="false">{{'creditForm.Applicant' | translate}}</a>
+                </li>
+                <li>
+                  <span></span>
+                  <a id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact"
+                    aria-selected="false" disabled>{{'creditForm.Coaccredited' | translate}}</a>
+                </li>
+              </ul>
+              <!-- <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
             <a class="nav-item nav-link active" id="nav-user-tab" data-toggle="tab" href="#nav-user" role="tab"
               aria-controls="nav-user" aria-selected="true">{{'creditForm.userInfo' | translate}}</a>
             <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
@@ -39,7 +39,8 @@
             <a class="nav-item nav-link disabled" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab"
               aria-controls="nav-contact" aria-selected="false">{{'creditForm.Coaccredited' | translate}}</a>
           </div> -->
-        </div></div>
+            </div>
+          </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
           <!-- user tab -->
@@ -83,7 +84,8 @@
                 <div class="row">
                   <div class="col-md-12">
                     <div class="btn-cont text-right">
-                      <button type="button" class="btn btn-primary" (click)="this.addcredits(1)">{{'addCollection.next' | translate}}</button>
+                      <button type="button" class="btn btn-primary" (click)="this.addcredits(1)">{{'addCollection.next'
+                        | translate}}</button>
                     </div>
                   </div>
                 </div>
@@ -93,159 +95,182 @@
           <!-- credit tab -->
           <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
             <!-- <div class="white-bg padding15"></div><br /> -->
-              <form role="form" ngNativeValidate #addForm="ngForm">
-                <div class="white-bg padding20">
-                  <h3>{{'creditForm.id' | translate}} &nbsp;218642</h3>
-                  <div class="col-12">
-                    <div class="spacer40"></div>
-                  </div>
-                  <div class="row">
-                    <div class="col-4">
-                      <div class="form-group-3">
-                        <label class="p16-two">{{'creditForm.destination' | translate}}</label>
-                        <select title="Select Nationality" class="form-control">
-                          <option></option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-4">
-                      <div class="form-group-3">
-                        <label class="p16-two">{{'creditForm.programs' | translate}}</label>
-                        <select title="Select Nationality" class="form-control">
-                          <option></option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.homeValue' | translate}}
-                        </label>
-                        <input autocomplete="off" minlength="1" maxlength="30"
-                          [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
-                          class="form-control" [(ngModel)]="model.name" name="name1">
-                      </div>
+            <form role="form" ngNativeValidate #addForm="ngForm">
+              <div class="white-bg padding20">
+                <h3>{{'creditForm.id' | translate}} &nbsp;218642</h3>
+                <div class="col-12">
+                  <div class="spacer40"></div>
+                </div>
+                <div class="row">
+                  <div class="col-4">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.destination' | translate}}</label>
+                      <select title="Select Destination" name="destination_name" class="form-control"
+                        (change)="getDestination($event.target.value)">
+                        <option value="0" disabled>{{'creditForm.selectDestination' | translate}}</option>
+                        <option *ngFor="let dest of destination_list"
+                          [selected]="dest.id == model.destination_id" value="{{dest.id}}">
+                          {{language_code
+                          == 'en'? dest.name_en : dest.name_es}}</option>
+                      </select>
                     </div>
                   </div>
-                  <div class="col-12">
-                    <div class="spacer15"></div>
-                  </div>
-                  <div class="row">
-                    <div class="col-4">
-                      <div class="form-group-3">
-                        <label class="p16-two">{{'creditForm.creditAmount' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30"
-                          [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
-                          class="form-control" [(ngModel)]="model.name" name="name1">
-                      </div>
-                    </div>
-                    <div class="col-4">
-                      <div class="form-group-3">
-                        <label class="p16-two">{{'creditForm.deadlines' | translate}}</label>
-                        <select title="Select Nationality" class="form-control">
-                          <option></option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.paymentScheme' | translate}}
-                          <!-- <span class="color-red">*</span> -->
-                        </label>
-                        <select title="Select Nationality" class="form-control">
-                          <option></option>
-                        </select>
-                      </div>
+                  <div class="col-4">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.programs' | translate}}</label>
+                      <select title="Select Programs" name="program_name" class="form-control"
+                      (change)="getPrograms($event.target.value)">
+                      <option value="0" disabled>{{'creditForm.selectProgram' | translate}}</option>
+                      <option *ngFor="let dest of program_list"
+                        [selected]="dest.id == model.destination_id" value="{{dest.id}}">
+                        {{language_code
+                        == 'en'? dest.name_en : dest.name_es}}</option>
+                    </select>
                     </div>
                   </div>
-
-                  <div class="col-12">
-                    <div class="spacer15"></div>
-                  </div>
-                  <div class="row">
-                    <div class="col-8">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.banks' | translate}}</label>
-                        <select title="Select Nationality" class="form-control">
-                          <option></option>
-                        </select>
-                      </div>
+                  <div class="col-4">
+                    <div class="form-group-3">
+                      <label>{{'creditForm.homeValue' | translate}}
+                      </label>
+                      <input autocomplete="off" minlength="1" maxlength="30"
+                        [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
+                        class="form-control" [(ngModel)]="model.name" name="name1">
                     </div>
-                  </div>
-
-                  <div class="col-12">
-                    <div class="spacer15"></div>
-                  </div>
-                  <div class="row">
-                    <div class="col-4">
-                      <div class="form-group-3">
-                        <label class="p16-two">{{'creditForm.executive' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30"
-                          [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
-                          class="form-control" [(ngModel)]="model.name" name="name1">
-                      </div>
-                    </div>
-                    <div class="col-4">
-                      <div class="form-group-3">
-                        <label class="p16-two">{{'creditForm.state' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30"
-                          [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
-                          class="form-control" [(ngModel)]="model.name" name="name1">
-                      </div>
-                    </div>
-                    <div class="col-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.square' | translate}}
-                          <!-- <span class="color-red">*</span> -->
-                        </label>
-                        <select title="Select Nationality" class="form-control">
-                          <option></option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-12">
-                    <div class="spacer15"></div>
-                  </div>
-                  <div class="row" style="margin: auto;">
-                    <div class="col-md-4">
-                      <div class="form-group-3">
-                        <label class="p16-two">{{'creditForm.caseStatus' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30"
-                          [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
-                          class="form-control" [(ngModel)]="model.name" name="name1">
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                      <div class="form-group-3">
-                        <label class="p16-two">{{'creditForm.customerProfile' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30"
-                          [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
-                          class="form-control" [(ngModel)]="model.name" name="name1">
-                      </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.yesno1' | translate}}</label>
-                      <div class="switchToggle">
-                          <input type="checkbox" id="switch2">
-                          <label for="switch2">Toggle</label>
-                      </div></div>
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <div class="spacer40"></div>
                   </div>
                 </div>
-              </form>
+                <div class="col-12">
+                  <div class="spacer15"></div>
+                </div>
+                <div class="row">
+                  <div class="col-4">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.creditAmount' | translate}}</label>
+                      <input autocomplete="off" minlength="1" maxlength="30"
+                        [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
+                        class="form-control" [(ngModel)]="model.name" name="name1">
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.deadlines' | translate}}</label>
+                      <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selctedDeadlines"
+                      [data]="CreditsDeadlines" [(ngModel)]="selctedDeadlines" [settings]="multiDropdownSettings"
+                      (onDeSelect)="unsetDeadlines($event)" (onSelect)="onItemSelect('selctedDeadlines', $event)"
+                      (onSelectAll)="onSelectAll($event)">
+                   </ng-multiselect-dropdown>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="form-group-3">
+                      <label>{{'creditForm.paymentScheme' | translate}}</label>
+                      <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selctedPayments"
+                      [data]="PaymentScheme" [(ngModel)]="selctedPayments" [settings]="multiDropdownSettings"
+                      (onDeSelect)="unsetPayments($event)" (onSelect)="onItemSelect('selctedPayments', $event)"
+                      (onSelectAll)="onSelectAll($event)">
+                   </ng-multiselect-dropdown>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="spacer15"></div>
+                </div>
+                <div class="row">
+                  <div class="col-8">
+                    <div class="form-group-3">
+                      <label>{{'creditForm.banks' | translate}}</label>
+                      <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selctedBanks"
+                      [data]="banks" [(ngModel)]="selctedBanks" [settings]="multiDropdownSettings"
+                      (onDeSelect)="unsetProject($event)" (onSelect)="onItemSelect('selctedBanks', $event)"
+                      (onSelectAll)="onSelectAll($event)">
+                   </ng-multiselect-dropdown>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="spacer15"></div>
+                </div>
+                <div class="row">
+                  <div class="col-4">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.executive' | translate}}</label>
+                      <input autocomplete="off" minlength="1" maxlength="30"
+                        [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
+                        class="form-control" [(ngModel)]="model.name" name="name1">
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.state' | translate}}</label>
+                      <input autocomplete="off" minlength="1" maxlength="30"
+                        [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
+                        class="form-control" [(ngModel)]="model.name" name="name1">
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="form-group-3">
+                      <label>{{'creditForm.square' | translate}}
+                        <!-- <span class="color-red">*</span> -->
+                      </label>
+                      <select title="Select Nationality" class="form-control">
+                        <option></option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="spacer15"></div>
+                </div>
+                <div class="row" style="margin: auto;">
+                  <div class="col-md-4">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.caseStatus' | translate}}</label>
+                      <input autocomplete="off" minlength="1" maxlength="30"
+                        [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
+                        class="form-control" [(ngModel)]="model.name" name="name1">
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.customerProfile' | translate}}</label>
+                      <input autocomplete="off" minlength="1" maxlength="30"
+                        [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
+                        class="form-control" [(ngModel)]="model.name" name="name1">
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>{{'creditForm.yesno1' | translate}}</label>
+                      <div class="switchToggle">
+                        <input type="checkbox" id="switch2">
+                        <label for="switch2">Toggle</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="spacer15"></div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <div class="btn-cont text-right">
+                      <button class="btn btn-primary">{{'creditForm.Saveinformation' | translate}}</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
           </div>
           <!-- Applicant -->
           <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
             <div class="white-bg padding20">
               <nav class="nav nav-tabs">
                 <div class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" data-toggle="dropdown"  style="cursor: pointer;">{{'creditForm.generals' | translate}}</a>
+                  <a class="nav-link dropdown-toggle" data-toggle="dropdown"
+                    style="cursor: pointer;">{{'creditForm.generals' | translate}}</a>
                   <div class="dropdown-menu">
                     <strong [ngClass]="{'current': tab == 0}"><span></span><a (click)="setTab(0)" class="dropdown-item"
                         style="cursor: pointer;">{{'creditForm.Personals' | translate}}</a></strong>
@@ -260,7 +285,8 @@
                   </div>
                 </div>
                 <div class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" data-toggle="dropdown"  style="cursor: pointer;">{{'creditForm.Incomes' | translate}}</a>
+                  <a class="nav-link dropdown-toggle" data-toggle="dropdown"
+                    style="cursor: pointer;">{{'creditForm.Incomes' | translate}}</a>
                   <div class="dropdown-menu">
                     <strong [ngClass]="{'current': tab == 5}"><span></span><a (click)="setTab(5)" class="dropdown-item"
                         style="cursor: pointer;">{{'creditForm.Incomes' | translate}}</a></strong>
@@ -272,8 +298,10 @@
                         style="cursor: pointer;">{{'creditForm.Beneficiaries' | translate}}</a></strong>
                   </div>
                 </div>
-                <a class="nav-item nav-link" (click)="setTab(9)" style="cursor: pointer;">{{'creditForm.Insurance' | translate}}</a>
-                <a class="nav-item nav-link" (click)="setTab(10)" style="cursor: pointer;">{{'creditForm.additionalData' | translate}}</a>
+                <a class="nav-item nav-link" (click)="setTab(9)" style="cursor: pointer;">{{'creditForm.Insurance' |
+                  translate}}</a>
+                <a class="nav-item nav-link" (click)="setTab(10)" style="cursor: pointer;">{{'creditForm.additionalData'
+                  | translate}}</a>
               </nav>
             </div><br />
 
@@ -489,29 +517,30 @@
                 <div class="row" style="margin: auto;">
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                     <div class="form-group-3">
-                       <div class="form-group">
+                      <div class="form-group">
                         <label>{{'creditForm.EMAIL' | translate}}</label>
                         <input type="text" class="form-control" />
-                       </div>
+                      </div>
                     </div>
-                 </div>
-                 <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                  <div class="form-group-3">
-                     <div class="form-group">
-                      <label>{{'creditForm.RELATIONSHIP' | translate}}</label>
-                      <input type="text" class="form-control" />
-                     </div>
                   </div>
-               </div>
+                  <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <div class="form-group">
+                        <label>{{'creditForm.RELATIONSHIP' | translate}}</label>
+                        <input type="text" class="form-control" />
+                      </div>
+                    </div>
+                  </div>
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                     <div class="form-group-3">
                       <label>{{'creditForm.onwer' | translate}}</label>
-                    <div class="switchToggle">
+                      <div class="switchToggle">
                         <input type="checkbox" id="switch2">
                         <label for="switch2">Toggle</label>
-                    </div></div>
+                      </div>
+                    </div>
                   </div>
-               </div>
+                </div>
 
                 <div class="col-12">
                   <div class="spacer40"></div>
@@ -521,20 +550,22 @@
                   <div class="col-md-4">
                     <div class="form-group-3">
                       <label>{{'creditForm.ConsolidatesRevenue' | translate}}</label>
-                    <div class="switchToggle">
+                      <div class="switchToggle">
                         <input type="checkbox" id="switch">
                         <label for="switch">Toggle</label>
-                    </div></div>
+                      </div>
+                    </div>
                   </div>
-                
+
                   <div class="col-md-4">
                     <div class="form-group-3">
                       <label>{{'creditForm.involved' | translate}}</label>
-                    <div class="switchToggle">
-                      <input type="checkbox" id="switch1">
-                      <label for="switch1">Toggle</label>
-                  </div></div>
-                </div>
+                      <div class="switchToggle">
+                        <input type="checkbox" id="switch1">
+                        <label for="switch1">Toggle</label>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 <div class="col-12">
@@ -566,26 +597,29 @@
                   <div class="col-md-4">
                     <div class="form-group-3">
                       <label>{{'creditForm.creditcard' | translate}}</label>
-                    <div class="switchToggle">
+                      <div class="switchToggle">
                         <input type="checkbox" id="switch4">
                         <label for="switch4">Toggle</label>
-                    </div></div>
+                      </div>
+                    </div>
                   </div>
                   <div class="col-md-4">
                     <div class="form-group-3">
                       <label>{{'creditForm.existingmortgage' | translate}}</label>
-                    <div class="switchToggle">
+                      <div class="switchToggle">
                         <input type="checkbox" id="switch5">
                         <label for="switch5">Toggle</label>
-                    </div></div>
+                      </div>
+                    </div>
                   </div>
                   <div class="col-md-4">
                     <div class="form-group-3">
                       <label>{{'creditForm.loan' | translate}}</label>
-                    <div class="switchToggle">
+                      <div class="switchToggle">
                         <input type="checkbox" id="switch6">
                         <label for="switch6">Toggle</label>
-                    </div></div>
+                      </div>
+                    </div>
                   </div>
 
                 </div>
@@ -949,7 +983,7 @@
                     <div class="col-4">
                       <div class="form-group-3">
                         <label class="p16-two">{{'creditForm.Scholarship' | translate}}</label>
-                        <select title="Select Marital Status" name="marital_status" class="form-control">
+                        <select title="Select destination" name="marital_status" class="form-control">
                           <option value="0" disabled>{{'addForm.maritalStatus.selectMaritalStatus' | translate}}
                           </option>
                           <option>test</option>
@@ -1110,10 +1144,11 @@
                       <div class="form-group-3">
                         <div class="form-group-3">
                           <label>{{'creditForm.OWNCAR' | translate}}</label>
-                        <div class="switchToggle">
+                          <div class="switchToggle">
                             <input type="checkbox" id="switch8">
                             <label for="switch8">Toggle</label>
-                        </div></div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div class="col-4">
@@ -1177,9 +1212,9 @@
                   </div>
                 </div>
 
-                  <div class="col-12">
-                    <div class="spacer40"></div>
-                  </div>
+                <div class="col-12">
+                  <div class="spacer40"></div>
+                </div>
 
                 <div class="white-bg padding40">
                   <h3>{{'creditForm.additional' | translate}}</h3>
@@ -1302,7 +1337,7 @@
                         <div class="switchToggle">
                           <input type="checkbox" id="switch4">
                           <label for="switch4">Toggle</label>
-                      </div>
+                        </div>
                       </div>
                     </div>
                     <div class="col-4">
@@ -1415,14 +1450,16 @@
                       <div class="form-group-3">
                         <div class="form-group-3">
                           <label>{{'creditForm.PhoneCode' | translate}}</label>
-                          <input minlength="8" maxlength="15" autocomplete="off" type="text" class="form-control" /></div>
+                          <input minlength="8" maxlength="15" autocomplete="off" type="text" class="form-control" />
+                        </div>
                       </div>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
                         <div class="form-group-3">
                           <label>{{'creditForm.Boss' | translate}}</label>
-                          <input minlength="8" maxlength="15" autocomplete="off" type="text" class="form-control" /></div>
+                          <input minlength="8" maxlength="15" autocomplete="off" type="text" class="form-control" />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1442,14 +1479,16 @@
                       <div class="form-group-3">
                         <div class="form-group-3">
                           <label>{{'creditForm.Laboralsector' | translate}}</label>
-                          <input minlength="8" maxlength="15" autocomplete="off" type="text" class="form-control" /></div>
+                          <input minlength="8" maxlength="15" autocomplete="off" type="text" class="form-control" />
+                        </div>
                       </div>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
                         <div class="form-group-3">
                           <label>{{'creditForm.jobtype' | translate}}</label>
-                          <input minlength="8" maxlength="15" autocomplete="off" type="text" class="form-control" /></div>
+                          <input minlength="8" maxlength="15" autocomplete="off" type="text" class="form-control" />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1462,55 +1501,55 @@
             <div *ngIf="tab==6">
               <div class="white-bg padding40">
                 <form>
-                <div class="row">
-                  <div class="col-12">
-                    <label>{{'addCollection.bankName' | translate}}
-                      <span class="pull-right"><a class="add" 
-                          href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
-                    </label>
-                    <div class="row">
-                      <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                        <div class="form-group-3">
-                          <label>{{'addCollection.bankName' | translate}}</label>
-                          <div class="clearfix"></div>
-                          <input autocomplete="off" minlength="1" maxlength="30" class="form-control" type="text">
+                  <div class="row">
+                    <div class="col-12">
+                      <label>{{'addCollection.bankName' | translate}}
+                        <span class="pull-right"><a class="add" href="javascript://">{{'addCollection.addNewBankAccount'
+                            | translate}}</a></span>
+                      </label>
+                      <div class="row">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                          <div class="form-group-3">
+                            <label>{{'addCollection.bankName' | translate}}</label>
+                            <div class="clearfix"></div>
+                            <input autocomplete="off" minlength="1" maxlength="30" class="form-control" type="text">
+                          </div>
                         </div>
-                      </div>
-                      <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                        <div class="form-group-3">
-                          <label>{{'addCollection.accountNumber' | translate}}</label>
-                          <div class="clearfix"></div>
-                          <input autocomplete="off" class="form-control" type="text" minlength="10" maxlength="20">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                          <div class="form-group-3">
+                            <label>{{'addCollection.accountNumber' | translate}}</label>
+                            <div class="clearfix"></div>
+                            <input autocomplete="off" class="form-control" type="text" minlength="10" maxlength="20">
+                          </div>
                         </div>
-                      </div>
-                      <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                        <div class="form-group-3">
-                          <label>{{'addCollection.clabeSwift' | translate}}</label>
-                          <div class="clearfix"></div>
-                          <input autocomplete="off" class="form-control" type="text">
+                        <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                          <div class="form-group-3">
+                            <label>{{'addCollection.clabeSwift' | translate}}</label>
+                            <div class="clearfix"></div>
+                            <input autocomplete="off" class="form-control" type="text">
+                          </div>
                         </div>
-                      </div>
-                      <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                        <div class="form-group-3">
-                          <label>{{'addCollection.currency' | translate}}</label>
-                          <div class="clearfix"></div>
-                          <select  class="form-control">
-                            <option value="">{{'addCollection.currency' | translate}}</option>
-                          </select>
+                        <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                          <div class="form-group-3">
+                            <label>{{'addCollection.currency' | translate}}</label>
+                            <div class="clearfix"></div>
+                            <select class="form-control">
+                              <option value="">{{'addCollection.currency' | translate}}</option>
+                            </select>
+                          </div>
                         </div>
-                      </div>
-                      <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                        <div class="form-group-3">
-                          <label>Remove</label>
-                          <div class="clearfix"></div>
-                          <button type="button">Remove</button>
+                        <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                          <div class="form-group-3">
+                            <label>Remove</label>
+                            <div class="clearfix"></div>
+                            <button type="button">Remove</button>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-            </form>
-            </div>
+                </form>
+              </div>
             </div>
             <!-- Debts -->
             <div *ngIf="tab==7">
@@ -1548,7 +1587,7 @@
 
                   <div class="row">
                     <div class="col-8">
-                     <p style="font-weight: bold;">{{'creditForm.more' | translate}}</p>
+                      <p style="font-weight: bold;">{{'creditForm.more' | translate}}</p>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
@@ -1561,9 +1600,9 @@
                   </div>
                 </div>
 
-                  <div class="col-12">
-                    <div class="spacer40"></div>
-                  </div>
+                <div class="col-12">
+                  <div class="spacer40"></div>
+                </div>
 
 
                 <div class="white-bg padding40">
@@ -1631,7 +1670,7 @@
                 <div class="col-12">
                   <div class="spacer40"></div>
                 </div>
-  
+
                 <div class="white-bg padding40">
                   <table class="table">
                     <thead class="thead-light">
@@ -1710,7 +1749,7 @@
 
                   <div class="row">
                     <div class="col-8">
-                     <p style="font-weight: bold;">{{'creditForm.more' | translate}}</p>
+                      <p style="font-weight: bold;">{{'creditForm.more' | translate}}</p>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
@@ -1723,9 +1762,9 @@
                   </div>
                 </div>
 
-                  <div class="col-12">
-                    <div class="spacer40"></div>
-                  </div>
+                <div class="col-12">
+                  <div class="spacer40"></div>
+                </div>
 
 
                 <div class="white-bg padding40">
@@ -1801,10 +1840,10 @@
                   </div>
                   <div class="row">
                     <div class="col-md-12">
-                        <label *ngFor="let a of amenities; " (click)="a.selected = !a.selected" class="cust-check-bx2">
-                          {{a.name}}
+                      <label *ngFor="let a of amenities; " (click)="a.selected = !a.selected" class="cust-check-bx2">
+                        {{a.name}}
                         <span *ngIf="a.selected==true" class="checkmark open"></span>
-                        </label>
+                      </label>
                     </div>
                   </div>
                   <div class="row">
@@ -1815,10 +1854,10 @@
                     </div>
                   </div>
                 </div>
-                  </form>
+              </form>
             </div>
-             <!-- additionalData -->
-             <div *ngIf="tab==10">
+            <!-- additionalData -->
+            <div *ngIf="tab==10">
               <form role="form">
                 <div class="white-bg padding40">
                   <h3>{{'creditForm.Personal' | translate}}</h3>
@@ -1849,8 +1888,8 @@
                     </div>
                   </div>
                 </div>
-                </form>
-             </div>
+              </form>
+            </div>
           </div>
           <!-- Coaccredited -->
           <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">

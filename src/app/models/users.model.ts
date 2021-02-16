@@ -49,6 +49,7 @@ export class Users {
     curp?: string;
     nationality?: string;
     marital_statuses_id?: number;
+    destination_id?: number;
     street_address?: string;
     external_number?: number;
     internal_number?: number;

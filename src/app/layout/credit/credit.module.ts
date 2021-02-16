@@ -17,6 +17,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { UserBlockComponent } from '../common-blocks/user-block/user-block.component';
 import { SharedModule } from 'src/app/modules/shared.module';
 import { CreditAddEditComponent } from './credit-add-edit/credit-add-edit.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 const routes: Routes = [
   {
@@ -54,6 +55,7 @@ const routes: Routes = [
     SharedModule,
     LazyLoadImageModule,
     MalihuScrollbarModule.forRoot(),
+    NgMultiSelectDropDownModule.forRoot(),
     TranslateModule,
     DropdownModule,
     ToastrModule.forRoot({
