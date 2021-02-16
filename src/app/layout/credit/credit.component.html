@@ -404,17 +404,17 @@
                       <!-- <a href="javascript://" (click)="editUser(item, i)" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
                       <a href="javascript://" *ngIf="item.is_blocked == 1" (click)="blockUnblockPopup(i, item.id, 0, parameter.type)" title="Unblock user" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a>
                       <a href="javascript://" *ngIf="item.is_blocked == 0" (click)="blockUnblockPopup(i, item.id, 1, parameter.type)" title="Block user" class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a> -->
-                      <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['User Management']?.can_update==0" 
-                      (click)="editUser(item, i)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                      <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Manage Credits']?.can_update==0" 
+                      routerLink="/dashboard/credit/edit-credit/{{item.id}}" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                       <!-- <button title="{{'table.title.addLegalEntity' | translate}}" 
                       [disabled]="admin?.admin_acl['User Management']?.can_update==0" 
                       (click)="addLegalEntity(item, i)" class="action-icon"><img src="assets/img/stamp.png" alt="img"></button> -->
-                      <button [disabled]="admin?.admin_acl['User Management']?.can_delete==0"
+                      <button [disabled]="admin?.admin_acl['Manage Credits']?.can_delete==0"
                         (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1, parameter.type)" 
                         title="{{item.is_blocked==1 ? ('table.title.unblock' | translate) : ('table.title.block' | translate)}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
                         class="action-icon"><img src="assets/img/block.png" alt="img">
                       </button>
-                      <button [disabled]="admin?.admin_acl['User Management']?.can_purge==0"
+                      <button [disabled]="admin?.admin_acl['Manage Credits']?.can_purge==0"
                         (click)="deletePopup(i, item.id, parameter.type)" 
                         title="{{'table.title.delete' | translate}}"
                         class="action-icon"><img src="assets/img/ic_delete.png" alt="img">
