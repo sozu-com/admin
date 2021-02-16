@@ -49,7 +49,7 @@ export class CreditAddEditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.tab = 0;
+    this.tab = 1;
     this.parameter.page = 1;
     this.parameter.itemsPerPage = this.constant.limit4;
     this.getPropertyAmenities();
