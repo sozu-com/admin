@@ -22,7 +22,7 @@ export class CreditComponent implements OnInit {
     private translate: TranslateService,
     public admin: AdminService,
     private spinnerService: NgxSpinnerService,
-    private constant: Constant
+    public constant: Constant
   ) { }
 
   ngOnInit() {
@@ -137,15 +137,16 @@ export class CreditComponent implements OnInit {
     this.parameter.max = '';
   }
 
-  getBuyers(){
-   // this.spinnerService.show();
+  getBuyers() {
+    this.spinnerService.show();
     this.admin.postDataApi('getCreditsUser', {}).subscribe(
       success => {
-       this.parameter.items = success.data;
-       console.log(this.parameter.items,"user data")
+        this.parameter.items = success.data;
         this.parameter.total = success.total;
+        this.spinnerService.hide();
       }, error => {
-   });
+        this.spinnerService.hide();
+      });
   }
 
   getPage(page) {
