@@ -44,8 +44,7 @@
         </nav>
         <div class="tab-content" id="nav-tabContent">
           <!-- user tab -->
-          <div class="tab-pane fade show active" id="nav-user" role="tabpanel" aria-labelledby="nav-user-tab">
-            <!-- <div class="white-bg padding15"></div><br /> -->
+          <div class="tab-pane fade show active" id="nav-user" role="tabpanel" aria-labelledby="nav-user-tab" (click)="setTab(0)">
             <div class="white-bg">
               <div class="padding40">
                 <h5 class="p16-two">{{'addRequest.SearchAUserInOurDatabase' | translate}}</h5>
@@ -93,8 +92,7 @@
             </div>
           </div>
           <!-- credit tab -->
-          <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-            <!-- <div class="white-bg padding15"></div><br /> -->
+          <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" (click)="setTab(1)">
             <form role="form" ngNativeValidate #addForm="ngForm">
               <div class="white-bg padding20">
                 <h3>{{'creditForm.id' | translate}} &nbsp;218642</h3>
@@ -265,22 +263,22 @@
             </form>
           </div>
           <!-- Applicant -->
-          <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+          <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" (click)="setTab(2)">
             <div class="white-bg padding20">
               <nav class="nav nav-tabs">
                 <div class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" data-toggle="dropdown"
                     style="cursor: pointer;">{{'creditForm.generals' | translate}}</a>
                   <div class="dropdown-menu">
-                    <strong [ngClass]="{'current': tab == 0}"><span></span><a (click)="setTab(0)" class="dropdown-item"
-                        style="cursor: pointer;">{{'creditForm.Personals' | translate}}</a></strong>
-                    <strong [ngClass]="{'current': tab == 1}"><span></span><a (click)="setTab(1)" class="dropdown-item"
-                        style="cursor: pointer;">{{'creditForm.CREDITREPORT' | translate}}</a></strong>
-                    <strong [ngClass]="{'current': tab == 2}"><span></span><a (click)="setTab(2)" class="dropdown-item"
-                        style="cursor: pointer;">{{'creditForm.economicDept' | translate}}</a></strong>
-                    <strong [ngClass]="{'current': tab == 3}"><span></span><a (click)="setTab(3)" class="dropdown-item"
-                        style="cursor: pointer;">{{'creditForm.References' | translate}}</a></strong>
                     <strong [ngClass]="{'current': tab == 4}"><span></span><a (click)="setTab(4)" class="dropdown-item"
+                        style="cursor: pointer;">{{'creditForm.Personals' | translate}}</a></strong>
+                    <strong [ngClass]="{'current': tab == 5}"><span></span><a (click)="setTab(5)" class="dropdown-item"
+                        style="cursor: pointer;">{{'creditForm.CREDITREPORT' | translate}}</a></strong>
+                    <strong [ngClass]="{'current': tab == 6}"><span></span><a (click)="setTab(6)" class="dropdown-item"
+                        style="cursor: pointer;">{{'creditForm.economicDept' | translate}}</a></strong>
+                    <strong [ngClass]="{'current': tab == 7}"><span></span><a (click)="setTab(7)" class="dropdown-item"
+                        style="cursor: pointer;">{{'creditForm.References' | translate}}</a></strong>
+                    <strong [ngClass]="{'current': tab == 8}"><span></span><a (click)="setTab(8)" class="dropdown-item"
                         style="cursor: pointer;">{{'creditForm.Obligados' | translate}}</a></strong>
                   </div>
                 </div>
@@ -288,25 +286,25 @@
                   <a class="nav-link dropdown-toggle" data-toggle="dropdown"
                     style="cursor: pointer;">{{'creditForm.Incomes' | translate}}</a>
                   <div class="dropdown-menu">
-                    <strong [ngClass]="{'current': tab == 5}"><span></span><a (click)="setTab(5)" class="dropdown-item"
+                    <strong [ngClass]="{'current': tab == 9}"><span></span><a (click)="setTab(9)" class="dropdown-item"
                         style="cursor: pointer;">{{'creditForm.Incomes' | translate}}</a></strong>
-                    <strong [ngClass]="{'current': tab == 6}"><span></span><a (click)="setTab(6)" class="dropdown-item"
+                    <strong [ngClass]="{'current': tab == 10}"><span></span><a (click)="setTab(10)" class="dropdown-item"
                         style="cursor: pointer;">{{'creditForm.BankAccounts' | translate}}</a></strong>
-                    <strong [ngClass]="{'current': tab == 7}"><span></span><a (click)="setTab(7)" class="dropdown-item"
+                    <strong [ngClass]="{'current': tab == 11}"><span></span><a (click)="setTab(11)" class="dropdown-item"
                         style="cursor: pointer;">{{'creditForm.Debts' | translate}}</a></strong>
-                    <strong [ngClass]="{'current': tab == 8}"><span></span><a (click)="setTab(8)" class="dropdown-item"
+                    <strong [ngClass]="{'current': tab == 12}"><span></span><a (click)="setTab(12)" class="dropdown-item"
                         style="cursor: pointer;">{{'creditForm.Beneficiaries' | translate}}</a></strong>
                   </div>
                 </div>
-                <a class="nav-item nav-link" (click)="setTab(9)" style="cursor: pointer;">{{'creditForm.Insurance' |
+                <a class="nav-item nav-link" (click)="setTab(13)" style="cursor: pointer;">{{'creditForm.Insurance' |
                   translate}}</a>
-                <a class="nav-item nav-link" (click)="setTab(10)" style="cursor: pointer;">{{'creditForm.additionalData'
+                <a class="nav-item nav-link" (click)="setTab(14)" style="cursor: pointer;">{{'creditForm.additionalData'
                   | translate}}</a>
               </nav>
             </div><br />
 
             <!-- Tag a building start -->
-            <div *ngIf="tab==0">
+            <div *ngIf="tab==4">
               <!-- <form role="form"> -->
               <div class="white-bg padding40">
                 <h3>{{'creditForm.generalData' | translate}}</h3>
@@ -584,7 +582,7 @@
               <!-- </form> -->
             </div>
             <!-- Credit report -->
-            <div *ngIf="tab==1">
+            <div *ngIf="tab==5">
               <div class="white-bg padding40">
                 <h3>{{'creditForm.CREDITREPORT' | translate}}</h3>
 
@@ -634,7 +632,7 @@
               </div>
             </div>
             <!-- Economic dependents -->
-            <div *ngIf="tab==2">
+            <div *ngIf="tab==6">
               <div class="white-bg padding40">
                 <h3>{{'creditForm.AddDependiente' | translate}}</h3>
 
@@ -709,7 +707,7 @@
               </div>
             </div>
             <!-- References -->
-            <div *ngIf="tab==3">
+            <div *ngIf="tab==7">
               <div class="white-bg padding40">
                 <h3>{{'creditForm.AddReferences' | translate}}</h3>
 
@@ -880,7 +878,7 @@
               </div>
             </div>
             <!-- Solidarity liabilities -->
-            <div *ngIf="tab==4">
+            <div *ngIf="tab==8">
               <form role="form">
                 <div class="white-bg padding40">
                   <h3>{{'creditForm.Obligados' | translate}}</h3>
@@ -1164,7 +1162,7 @@
               </form>
             </div>
             <!-- Incomes -->
-            <div *ngIf="tab==5">
+            <div *ngIf="tab==9">
               <form role="form">
                 <div class="white-bg padding40">
                   <h3>{{'creditForm.AddIncomes' | translate}}</h3>
@@ -1498,7 +1496,7 @@
               </form>
             </div>
             <!-- Bank accounts -->
-            <div *ngIf="tab==6">
+            <div *ngIf="tab==10">
               <div class="white-bg padding40">
                 <form>
                   <div class="row">
@@ -1552,7 +1550,7 @@
               </div>
             </div>
             <!-- Debts -->
-            <div *ngIf="tab==7">
+            <div *ngIf="tab==11">
               <form role="form">
                 <div class="white-bg padding40">
                   <h3>{{'creditForm.Adddebit' | translate}}</h3>
@@ -1689,7 +1687,7 @@
               </form>
             </div>
             <!-- Beneficiaries -->
-            <div *ngIf="tab==8">
+            <div *ngIf="tab==12">
               <form role="form">
                 <div class="white-bg padding40">
                   <h3>{{'creditForm.AddBeneficiaries' | translate}}</h3>
@@ -1815,7 +1813,7 @@
               </form>
             </div>
             <!-- Insurance -->
-            <div *ngIf="tab==9">
+            <div *ngIf="tab==13">
               <form role="form">
                 <div class="white-bg padding40">
                   <h3>{{'creditForm.Insureddata' | translate}}</h3>
@@ -1857,7 +1855,7 @@
               </form>
             </div>
             <!-- additionalData -->
-            <div *ngIf="tab==10">
+            <div *ngIf="tab==14">
               <form role="form">
                 <div class="white-bg padding40">
                   <h3>{{'creditForm.Personal' | translate}}</h3>
@@ -2082,7 +2080,7 @@
             </div>
           </div>
           <!-- Coaccredited -->
-          <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+          <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" (click)="setTab(3)">
             <div class="white-bg padding20">hide tab</div>
           </div>
         </div>
