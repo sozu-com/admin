@@ -8,8 +8,10 @@ import { FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { IProperty } from 'src/app/common/property';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IDestinationStatus } from 'src/app/common/marrital-status-interface';
+import { Credit } from 'src/app/models/credit.model';
+import { forkJoin } from 'rxjs';
 declare let swal: any;
 @Component({
   selector: 'app-credit-add-edit',
@@ -25,39 +27,43 @@ export class CreditAddEditComponent implements OnInit {
   showText: boolean;
   buildingLoading: boolean;
   showBuilding: boolean;
-  selectedUser: any;
   addFormStep1: FormGroup;
   tab: number;
   amenities = Array<any>();
   destination_list = Array<IDestinationStatus>();
   program_list = Array<IDestinationStatus>();
   CreditsDeadlines = Array<IDestinationStatus>();
-  PaymentScheme= Array<IDestinationStatus>();
+  PaymentScheme = Array<IDestinationStatus>();
   banks = Array<any>();
   selctedBanks: Array<any>;
   selctedPayments: Array<any>;
   selctedDeadlines: Array<any>;
   multiDropdownSettings = {};
+  public creditModel: Credit = new Credit();
 
   constructor(
     public constant: Constant,
-    private us: AdminService,
+    private adminService: AdminService,
     private toastr: ToastrService,
     private translate: TranslateService,
     private spinnerService: NgxSpinnerService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit() {
     this.tab = 1;
     this.parameter.page = 1;
     this.parameter.itemsPerPage = this.constant.limit4;
-    this.getPropertyAmenities();
-    this.getDestination();
-    this.getPrograms();
-    this.getCreditsDeadlines();
-    this.getPaymentScheme();
-    this.getCreditsBanks();
+    this.parameter.sub = this.activatedRoute.params.subscribe((params) => {
+      if (params['id'] !== '0') {
+        this.parameter.property_id = params['id'];
+        this.getcredits();
+      } else {
+        this.parameter.property_id = '';
+      }
+    });
+    this.getCreditsBasicDetails();
     this.iniDropDownSetting();
     this.selctedBanks = [];
     this.selctedPayments = [];
@@ -105,55 +111,9 @@ export class CreditAddEditComponent implements OnInit {
       itemsShowLimit: 2
     };
   }
-  getListing() {
-  }
-
-  getPropertyAmenities() {
-    this.us.postDataApi('getPropertyAmenities', { hide_blocked: 1 })
-      .subscribe(
-        success => {
-          this.amenities = success['data'];
-        }
-      );
-  }
-
-  getDestination(){
-    this.us.postDataApi('getDestination', {}).subscribe(r => {
-      this.destination_list = r['data'];
-      console.log( this.destination_list,"getDestination")
-    });
-  }
 
   getdestination(id) {
     this.model.destination_id = id;
-  }
-
-  getPrograms(){
-    this.us.postDataApi('getPrograms', {}).subscribe(r => {
-      this.program_list = r['data'];
-      console.log( this.program_list,"getPrograms")
-    });
-  }
-
-  getCreditsDeadlines(){
-    this.us.postDataApi('getCreditsDeadlines', {}).subscribe(r => {
-      this.CreditsDeadlines = r['data'];
-      console.log( this.CreditsDeadlines,"getCreditsDeadlines")
-    });
-  }
-
-  getPaymentScheme(){
-    this.us.postDataApi('getPaymentScheme', {}).subscribe(r => {
-      this.PaymentScheme = r['data'];
-      console.log( this.PaymentScheme,"getPaymentScheme")
-    });
-  }
-
-  getCreditsBanks(){
-    this.us.postDataApi('getCreditsBanks', {}).subscribe(r => {
-      this.banks = r['data'];
-      console.log( this.banks,"getCreditsBanks")
-    });
   }
 
   setTab(tab: any) {
@@ -184,7 +144,7 @@ export class CreditAddEditComponent implements OnInit {
     this.showBuilding = false;
     this.buildingLoading = true;
     this.searchedUser = [];
-    this.us.postDataApi('getFilterUser', { name: keyword })
+    this.adminService.postDataApi('getFilterUser', { name: keyword })
       .subscribe(
         success => {
           this.searchedUser = success['data'];
@@ -209,19 +169,19 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   setUserId(building: any) {
-    this.selectedUser = building;
+    this.creditModel.user = building;
   }
   getPage(page: number) {
     this.parameter.page = page;
   }
- 
+
   addcredits = (step: number): void => {
-    if (!this.selectedUser) {
+    if (!this.creditModel.user) {
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseEnterSomeText'), this.translate.instant('swal.error'));
     } else {
       this.spinnerService.show();
-      this.us.postDataApi('addcredits', { step: step, user_id: this.selectedUser.id }).subscribe((success) => {
+      this.adminService.postDataApi('addcredits', { step: step, user_id: this.creditModel.user.id }).subscribe((success) => {
         this.spinnerService.hide();
         this.router.navigate(['dashboard/credit/view-credit']);
       }, (error) => {
@@ -230,4 +190,28 @@ export class CreditAddEditComponent implements OnInit {
     }
   }
 
+  getcredits = (): void => {
+    this.spinnerService.show();
+    this.adminService.postDataApi('getcredits', { id: this.parameter.property_id }).subscribe((success) => {
+      this.creditModel = success.data;
+      this.spinnerService.hide();
+    }, (error) => {
+      this.spinnerService.hide();
+    });
+  }
+
+  getCreditsBasicDetails = (): void => {
+    forkJoin([
+      this.adminService.postDataApi('getPrograms', {}), this.adminService.postDataApi('getCreditsDeadlines', {}),
+      this.adminService.postDataApi('getPaymentScheme', {}), this.adminService.postDataApi('getDestination', {}),
+      this.adminService.postDataApi('getCreditsBanks', {}), this.adminService.postDataApi('getPropertyAmenities', { hide_blocked: 1 })
+    ]).subscribe((response: any[]) => {
+      this.program_list = response[0].data;
+      this.CreditsDeadlines = response[1].data;
+      this.PaymentScheme = response[2].data;
+      this.destination_list = response[3].data;
+      this.banks = response[4].data;
+      this.amenities = response[5].data;
+    })
+  }
 }
