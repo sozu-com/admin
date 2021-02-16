@@ -20,6 +20,7 @@ export class Credit {
     property_status?: number;
     square_id?: number;
     state?: string;
+    step?: number;
     updated_at?: string;
     user?: Users;
     user_id?: number;

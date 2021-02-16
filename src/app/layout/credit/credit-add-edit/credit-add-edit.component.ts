@@ -19,7 +19,6 @@ declare let swal: any;
   styleUrls: ['./credit-add-edit.component.css']
 })
 export class CreditAddEditComponent implements OnInit {
-  selectedvalue: Users;
   model: Users = new Users();
   userName: string;
   searchedUser = [];
@@ -33,7 +32,7 @@ export class CreditAddEditComponent implements OnInit {
   amenities = Array<any>();
   destination_list = Array<IDestinationStatus>();
   program_list = Array<IDestinationStatus>();
-  CreditsDeadlines = Array<IDestinationStatus>();
+  creditsDeadlines = Array<IDestinationStatus>();
   PaymentScheme = Array<IDestinationStatus>();
   banks = Array<any>();
   selctedBanks: Array<any>;
@@ -41,6 +40,7 @@ export class CreditAddEditComponent implements OnInit {
   selctedDeadlines: Array<any>;
   multiDropdownSettings = {};
   public creditModel: Credit = new Credit();
+  public language_code: string;
 
   constructor(
     public constant: Constant,
@@ -53,6 +53,7 @@ export class CreditAddEditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.language_code = localStorage.getItem('language_code');
     this.tab = 1;
     // if(this.tab = 3){
     //   this.subtab = 1;
@@ -69,11 +70,12 @@ export class CreditAddEditComponent implements OnInit {
       }
     });
     this.getCreditsBasicDetails();
-    this.iniDropDownSetting();
+    this.initializeDropDownSetting();
     this.selctedBanks = [];
     this.selctedPayments = [];
     this.selctedDeadlines = [];
   }
+
   unsetProject(item: any) {
     let i = 0;
     this.selctedBanks.map(r => {
@@ -101,10 +103,8 @@ export class CreditAddEditComponent implements OnInit {
       i = i + 1;
     });
   }
-  onItemSelects(value) {
-    this.selectedvalue = value
-  }
-  iniDropDownSetting() {
+
+  initializeDropDownSetting = (): void => {
     this.multiDropdownSettings = {
       singleSelection: false,
       idField: 'id',
@@ -117,58 +117,52 @@ export class CreditAddEditComponent implements OnInit {
     };
   }
 
-  getdestination(id) {
-    this.model.destination_id = id;
+  setTab = (tab: number): void => {
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+        this.translate.instant('message.error.movingBackCanResetInformationEnteredOnCurrentTab'),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.tab = tab;
+        if (this.tab == 3) {
+          this.subtab = 1;
+        }
+      }
+    });
   }
 
-  setTab(tab: any) {
-    console.log(tab, "tab")
-    this.tab = tab;
-    // swal({
-    //   html: this.translate.instant('message.error.areYouSure') + '<br>' +
-    //     this.translate.instant('message.error.movingBackCanResetInformationEnteredOnCurrentTab'),
-    //   type: 'warning',
-    //   showCancelButton: true,
-    //   confirmButtonColor: this.constant.confirmButtonColor,
-    //   cancelButtonColor: this.constant.cancelButtonColor,
-    //   confirmButtonText: 'Yes'
-    // }).then((result) => {
-    //   if (result.value) {
-    //     this.tab = tab;
-    //   }
-    // });
-  }
-  setsubTab(subtab: any){
-    console.log(subtab, "subtab")
+  setsubTab = (subtab: number): void => {
     this.subtab = subtab;
   }
+
   scroll(el: HTMLElement) {
     el.scrollIntoView();
   }
-  searchUser(keyword: string) {
+
+  searchUser = (keyword: string): void => {
     if (!keyword) {
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseEnterSomeText'), this.translate.instant('swal.error'));
-      return false;
-    }
-
-    this.showBuilding = false;
-    this.buildingLoading = true;
-    this.searchedUser = [];
-    this.adminService.postDataApi('getFilterUser', { name: keyword })
-      .subscribe(
-        success => {
-          this.searchedUser = success['data'];
-          this.parameter.buildingCount = success['data'].length;
-          if (this.parameter.buildingCount === 0) {
-            this.showText = true;
-          }
-          this.buildingLoading = false;
-        },
-        error => {
-          this.buildingLoading = true;
+    } else {
+      this.showBuilding = false;
+      this.buildingLoading = true;
+      this.searchedUser = [];
+      this.adminService.postDataApi('getFilterUser', { name: keyword }).subscribe((success) => {
+        this.searchedUser = success['data'];
+        this.parameter.buildingCount = success['data'].length;
+        if (this.parameter.buildingCount === 0) {
+          this.showText = true;
         }
-      );
+        this.buildingLoading = false;
+      }, (error) => {
+        this.buildingLoading = true;
+      });
+    }
   }
 
   getUserIndex(i: number) {
@@ -186,15 +180,20 @@ export class CreditAddEditComponent implements OnInit {
     this.parameter.page = page;
   }
 
-  addcredits = (step: number): void => {
+  addcredits = (): void => {
     if (!this.creditModel.user) {
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseEnterSomeText'), this.translate.instant('swal.error'));
     } else {
+      this.creditModel.step = this.tab;
       this.spinnerService.show();
-      this.adminService.postDataApi('addcredits', { step: step, user_id: this.creditModel.user.id }).subscribe((success) => {
+      this.adminService.postDataApi('addcredits', this.creditModel).subscribe((success) => {
         this.spinnerService.hide();
-        this.router.navigate(['dashboard/credit/view-credit']);
+        if (this.tab == 2) {
+          this.router.navigate(['dashboard/credit/view-credit']);
+        } else {
+          this.tab = this.tab + 1;
+        }
       }, (error) => {
         this.spinnerService.hide();
       });
@@ -218,11 +217,11 @@ export class CreditAddEditComponent implements OnInit {
       this.adminService.postDataApi('getCreditsBanks', {}), this.adminService.postDataApi('getPropertyAmenities', { hide_blocked: 1 })
     ]).subscribe((response: any[]) => {
       this.program_list = response[0].data;
-      this.CreditsDeadlines = response[1].data;
+      this.creditsDeadlines = response[1].data;
       this.PaymentScheme = response[2].data;
       this.destination_list = response[3].data;
       this.banks = response[4].data;
       this.amenities = response[5].data;
-    })
+    });
   }
 }
