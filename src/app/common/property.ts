@@ -207,4 +207,15 @@ export interface IProperty {
   project_status_filter?: any;
   reminder_date?: any;
   is_commercialized?:number;
+  user?: Array<Docs>;
+}
+export class Docs {
+  id: string;
+  first_surname?: string;
+  second_surname?: string;
+  image?: any;
+  index?: number;
+  name?: string;
+  phone?: string;
+  type?: number;
 }

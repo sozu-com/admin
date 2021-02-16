@@ -14,8 +14,9 @@ export class CreditComponent implements OnInit {
   public parameter: IProperty = {};
   public location: IProperty = {};
   locale: any;
-  creditsUserlist: any[] = [];
   creditsUserlistCount: number = 0;
+  finalData: Array<any>;
+  reportData: any;
 
   constructor(
     private translate: TranslateService,
@@ -28,9 +29,11 @@ export class CreditComponent implements OnInit {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.dash_flag = this.constant.dash_flag;
+    this.parameter.user = new Array();
     this.getCountryLocality();
     this.initCalendarLocale();
-    this.getCreditsUser();
+    // this.getCreditsUser();
+    this.getBuyers();
   }
 
   getCountryLocality = (): void => {
@@ -128,41 +131,26 @@ export class CreditComponent implements OnInit {
     this.parameter.locality_id = localityId;
   }
 
-  getLocalityBuildings(id) {
-
-  }
-
-  onChangeDashFlag = (dashFlagIndex: number): void => {
-    this.parameter.dash_flag = dashFlagIndex;
-    if (dashFlagIndex !== 5) {
-      this.resetDatesInput();
-      this.getCreditsUser();
-    }
-  }
 
   resetDatesInput = (): void => {
     this.parameter.min = '';
     this.parameter.max = '';
   }
 
-  getCreditsUser = (): void => {
+  getBuyers(){
     this.spinnerService.show();
-    this.admin.postDataApi('getCreditsUser', {}).subscribe((response: any) => {
-      this.creditsUserlist = response.data || [];
-      this.creditsUserlist = [];
-      this.creditsUserlistCount = (response.data || {}).count || 0;
-      this.spinnerService.hide();
-    }, (error) => {
-      this.spinnerService.hide();
-    });
+    this.admin.postDataApi('getCreditsUser', {}).subscribe(
+      success => {
+       this.parameter.items = success.data;
+       console.log(this.parameter.items,"user data")
+        this.parameter.total = success.total;
+      }, error => {
+   });
   }
 
-  onPageChange = (pageIndex: number): void => {
-    this.parameter.page = pageIndex;
-    this.getCreditsUser();
-  }
-
-  resetFilters = (): void => {
+  getPage(page) {
+    this.parameter.page = page;
+    this.getBuyers();
   }
 
 }

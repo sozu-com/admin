@@ -295,225 +295,146 @@
         <div class="tabel-section">
           <div class="table-responsive">
             <table class="table table-striped table-align-left">
-              <!-- <tr>
-                <th style="vertical-align:top;width:6%">
-                  <div class="d-flex table-search">
-                    <label>{{'table.th.image' | translate}}</label>
+              <tr>
+                <th style="width:6%">&nbsp;
+                  <div class="table-search">
+                    <!-- <div class="searh-3">
+                      <select (change)="setUserType($event.target.value)">
+                        <option value="1">All</option>
+                        <option value="2">Credit User</option>
+                      </select>
+                    </div> -->
+                </div>
+                </th>
+                <th style="width:10%">
+                  <div class="table-search">
+                      <label>{{'table.th.name' | translate}}</label>
+                      <!-- <div class="searh-3">
+                        <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email
+                        ,parameter.first_surname,parameter.second_surname)" name="">
+                        <button *ngIf="parameter.name" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
+                        parameter.first_surname,parameter.second_surname)"><i class="fa fa-search"></i></button>
+                      </div> -->
                   </div>
                 </th>
-                <th style="width:15%">
+                <th style="width:10%">
                   <div class="table-search">
-                    <label>{{'table.th.nameOfBuilding' | translate}}</label>
-                    <div class="searh-3">
-                      <input class="width100px" type="text" [(ngModel)]="parameter.keyword"
-                        (keyup.enter)="getListing()">
-                      <button *ngIf="parameter.keyword" (click)="getListing()"><i class="fa fa-search"></i></button>
-                    </div>
+                      <label>{{'table.th.firstSurname' | translate}}</label>
+                      <!-- <div class="searh-3">
+                        <input type="text" [(ngModel)]="parameter.first_surname" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
+                        parameter.first_surname,parameter.second_surname)" name="">
+                        <button *ngIf="parameter.first_surname" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
+                        parameter.first_surname,parameter.second_surname)"><i class="fa fa-search"></i></button>
+                      </div> -->
+                  </div>
+                </th>
+                <th style="width:10%">
+                  <div class="table-search">
+                      <label>{{'table.th.secondSurname' | translate}}</label>
+                      <!-- <div class="searh-3">
+                        <input type="text" [(ngModel)]="parameter.second_surname" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
+                        parameter.first_surname,parameter.second_surname)" name="">
+                        <button *ngIf="parameter.second_surname" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
+                        parameter.first_surname,parameter.second_surname)"><i class="fa fa-search"></i></button>
+                      </div> -->
+                  </div>
+                </th>
+                <th style="width:20%; text-align:left;">
+                  <div class="table-search">
+                      <label>{{'table.th.contactNumber' | translate}}</label>
+                      <!-- <div class="searh-3">
+                        <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
+                        parameter.first_surname,parameter.second_surname)" name="">
+                        <button *ngIf="parameter.phone" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
+                        parameter.first_surname,parameter.second_surname)"><i class="fa fa-search"></i></button>
+                      </div> -->
+                  </div>
+                </th>
+                <th style="width:20%">
+                  <div class="table-search">
+                      <label>{{'table.th.emailAddress' | translate}}</label>
+                      <!-- <div class="searh-3">
+                        <input (keydown.space)="$event.preventDefault();" type="text" [(ngModel)]="parameter.email" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
+                        parameter.first_surname,parameter.second_surname)" name="">
+                        <button *ngIf="parameter.email" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
+                        parameter.first_surname,parameter.second_surname)"><i class="fa fa-search"></i></button>
+                      </div> -->
+                  </div>
+                </th>
+                <th style="width:20%; vertical-align: top;" *ngIf="parameter.type==1">
+                  <div class="table-search">
+                    <label>{{'table.th.interestedIn' | translate}}</label>
+                  </div>
+                </th>
+                <th style="width:10%; vertical-align: top;" *ngIf="parameter.type==2">
+                  <div class="table-search">
+                    <label>{{'table.th.properties' | translate}}</label>
+                    <a (click)="sortData(parameter.property_sort==2?1:2, 'property_sort')" href="javascript://"><img [ngClass]="{'upsidedown':parameter.property_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
                   </div>
                 </th>
                 <th style="width:14%">
-                  <div class="table-search">
-                    <label>{{'table.th.developer' | translate}}</label>
-                    <div class="searh-3">
-                      <input class="width100px" type="text" [(ngModel)]="parameter.email" (keyup.enter)="getListing()">
-                      <button *ngIf="parameter.email" (click)="getListing()"><i class="fa fa-search"></i></button>
-                    </div>
-                  </div>
+                  &nbsp;
                 </th>
-                <th style="width:15%">
-                  <div class="table-search">
-                    <label>{{'table.th.agency' | translate}}</label>
-                    <div class="searh-3">
-                      <input class="width100px" type="text" [(ngModel)]="parameter.agency_name"
-                        (keyup.enter)="getListing()">
-                      <button *ngIf="parameter.agency_name" (click)="getListing()"><i class="fa fa-search"></i></button>
-                    </div>
-                  </div>
-                </th>
-                <th style="width:15%">
-                  <div class="table-search">
-                    <label>{{'table.th.legalEntity' | translate}}</label>
-                  </div>
-                </th>
-                <th style="width:15%">
-                  <div class="table-search">
-                    <label>{{'table.th.managedBy' | translate}}</label>
-                  </div>
-                </th>
-                <th style="width:10%">
-                  <div class="table-search">
-                    <label>{{'table.th.possesion.label' | translate}}</label>
-                    <select [(ngModel)]="parameter.possession_filter" (change)="getListing()">
-                      <option value="0">{{'table.th.possesion.all' | translate}}</option>
-                      <option value="{{apiConstant.possessionStatus.sale}}">{{'table.th.possesion.sale' | translate}}
-                      </option>
-                      <option value="{{apiConstant.possessionStatus.preSale}}">
-                        {{'table.th.possesion.presale' | translate}}</option>
-                    </select>
-                  </div>
-                </th>
-                <th style="vertical-align:top;width:5%">
-                  <div class="d-flex table-search">
-                    <span><label>{{'table.th.properties' | translate}}</label></span>
-                    <a (click)="sortData(parameter.property_sort==2?1:2)" href="javascript://"><img
-                        [ngClass]="{'upsidedown':parameter.property_sort==2}" src="assets/img/top-arrow.png"
-                        alt="img"></a>
-                  </div>
-                </th>
-                <th style="vertical-align:top;width:5%">
-                  <div class="d-flex table-search">
-                    <span><label>{{'table.th.propertiesForRent' | translate}}</label></span>
-                  </div>
-                </th>
-                <th style="vertical-align:top;width:5%">
-                  <div class="d-flex table-search">
-                    <span><label>{{'table.th.propertiesForSale' | translate}}</label></span>
-                  </div>
-                </th>
-                <th style="vertical-align:top;width:5%">
-                  <div class="d-flex table-search">
-                    <span><label>{{'table.th.avgPrice' | translate}}</label></span>
-                    <a (click)="sortData(parameter.property_sort==2?1:2)" href="javascript://"><img
-                        [ngClass]="{'upsidedown':parameter.property_sort==2}" src="assets/img/top-arrow.png"
-                        alt="img"></a>
-                  </div>
-                </th>
-                <th style="vertical-align:top;width:5%">
-                  <div class="d-flex table-search">
-                    <span><label>{{'table.th.avgCarpetArea' | translate}}</label></span>
-                  </div>
-                </th>
-                <th style="vertical-align:top;width:5%">
-                  <div class="d-flex table-search"><span><label>{{'table.th.document' | translate}}</label></span></div>
-                </th>
-                <th style="width:10%">
-                  <div class="table-search">
-                    <label>{{'table.th.projectStatus.label' | translate}}</label>
-                    <select [(ngModel)]="parameter.project_status_filter" (change)="getListing()">
-                      <option value="{{apiConstant.projectStatus.all}}">{{'table.th.projectStatus.all' | translate}}</option>
-                      <option value="{{apiConstant.projectStatus.without_information}}">{{'table.th.projectStatus.withoutInformation' | translate}}</option>
-                      <option value="{{apiConstant.projectStatus.basic_information}}">{{'table.th.projectStatus.basicInformation' | translate}}</option>
-                      <option value="{{apiConstant.projectStatus.semicompleted}}">{{'table.th.projectStatus.semicompleted' | translate}}</option>
-                      <option value="{{apiConstant.projectStatus.completed}}">{{'table.th.projectStatus.completed' | translate}}</option>
-                    </select>
-                  </div>
-                </th>
-                <th style="vertical-align:top;width:100px;width:20%">
-                  <div class="table-search">
-                    <label>{{'table.th.actions.label' | translate}}</label>
-                    <select [(ngModel)]="parameter.action_filter" (change)="getListing()">
-                      <option value="0">{{'table.th.actions.all' | translate}}</option>
-                      <option value="3">{{'table.th.actions.approved' | translate}}</option>
-                      <option value="4">{{'table.th.actions.unapproved' | translate}}</option>
-                      <option value="1">{{'table.th.actions.blocked' | translate}}</option>
-                      <option value="2">{{'table.th.actions.unblocked' | translate}}</option>
-                    </select>
-                  </div>
-                </th>
-              </tr> -->
+              </tr>
 
-              <!-- <tr
-                *ngFor="let p of creditsUserlist | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: creditsUserlistCount }; let i=index">
-                <td>
-                  <img *ngIf="p.main_image" [defaultImage]="p.main_image| img:'thumb'" [lazyLoad]="p.main_image"
-                    class="rounded-circle" alt="img">
-                  <img *ngIf="!p.main_image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
+              <tr *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
+                <td> 
+                    <img *ngIf="item.image" [defaultImage]="item.image| img:'thumb'" [lazyLoad]="item.image" class="rounded-circle" alt="img">
+                    <img *ngIf="!item.image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
                 </td>
-                <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
-                  routerLink="/dashboard/projects/details/{{p.id}}">
-                  <strong>{{p?.name}}</strong>
+                <td class="text-left">
+                    <a class="text-ellipsis" data-toggle="popover" data-placement="top" title="{{item.name}}" >
+                      {{item.name | titlecase}}
+                    </a>
                 </td>
-                <td [ngClass]="{'green-color cursor-pointer': p?.developer?.name}" (click)="viewDeveloper(p)">
-                  <span>{{p?.developer?.name ? p?.developer?.name : ('table.tr.td.NA' | translate)}}</span>
+                <td class="text-left">
+                  {{item.first_surname ? (item.first_surname | titlecase) : 'NA'}}
                 </td>
-                <td [ngClass]="{'green-color cursor-pointer': p?.agency?.name}" (click)="viewAgency(p)">
-                  <span>{{p?.agency?.name ? p?.agency?.name : ('table.tr.td.NA' | translate)}}</span>
+                <td class="text-left">
+                  {{item.second_surname ? (item.second_surname | titlecase) : 'NA'}}
                 </td>
-                <td [ngClass]="{'green-color cursor-pointer': p?.legal_entity?.comm_name}">
-                  <span>{{p?.legal_entity?.comm_name ? p?.legal_entity?.comm_name : ('table.tr.td.NA' |
-                    translate)}}</span>
+                <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
+                <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
+                <td class="text-left">{{item.email}}</td>
+                <td *ngIf="parameter.type==1">
+                  <span *ngFor="let interest of item.interests; let ii=index">
+                    <app-property-configuration *ngIf="interest" [configuration]="interest"></app-property-configuration>
+                    <span *ngIf="ii<item.interests?.length-1">, </span>
+                  </span>
+                  <span *ngIf="item.interests?.length == 0">{{'table.tr.td.NA' | translate}}</span>
                 </td>
-                <td [ngClass]="{'green-color cursor-pointer': p?.manager?.id || p?.company?.id}"
-                  (click)="viewCompanyManager(p)">
-                  <span>{{p?.manager?.id ? p?.manager?.name : p?.company?.id ? p?.company?.name : ('table.tr.td.NA' |
-                    translate)}}</span>
-                  <div class="clearfix"></div>
-                  <small>
-                    {{p?.manager?.id ? ('table.tr.td.manager' | translate) : p?.company?.id ? ('table.tr.td.company' |
-                    translate) : ''}}
-                  </small>
-                </td>
-                <td>
-                  <span>{{p?.possession_status_id == apiConstant.possessionStatus.sale ? ('table.tr.td.sale' |
-                    translate) : ('table.tr.td.presale' | translate)}}</span>
-                </td>
-                <td>
-                  <a title="{{'table.title.clickToViewProperties' | translate}}"
-                    routerLink="/dashboard/properties/view-properties/{{p.name}}/0"><span
-                      class="green-color">{{p?.properties_count_all | numberWithCommas}}</span></a>
-                </td>
-                <td>
-                  <a title="{{'table.title.clickToViewProperties' | translate}}"
-                    routerLink="/dashboard/properties/view-properties/{{p.name}}/2"><span
-                      class="green-color">{{p?.rent_count_all | numberWithCommas}}</span></a>
-                </td>
-                <td>
-                  <a title="{{'table.title.clickToViewProperties' | translate}}"
-                    routerLink="/dashboard/properties/view-properties/{{p.name}}/1"><span
-                      class="green-color">{{p?.sale_count_all | numberWithCommas}}</span></a>
-                </td>
-                <td><span>${{ p.avg_price ? (p.avg_price | number : '1.2-2') : 0.00}}</span></td>
-                <td><span>{{ p.avg_carpet_area ? (p.avg_carpet_area | number : '1.2-2') : 0.00}}</span></td>
-                <td>
-                  <span *ngIf="!p?.document">{{'table.tr.td.NA' | translate}}</span>
-                  <button *ngIf="p?.document" [disabled]="admin?.admin_acl['Project Management']?.can_read==0"
-                    (click)="viewDocument(p?.document)" class="action-icon">
-                    <img src="assets/img/eye-icon.png" alt="img"></button>
-                </td>
-                <td>
-                  <span>{{(p?.is_completed == apiConstant.projectStatus.without_information) ? ('table.th.projectStatus.withoutInformation' | translate) : 
-                    (p?.is_completed == apiConstant.projectStatus.basic_information) ? ('table.th.projectStatus.basicInformation' | translate) :
-                    (p?.is_completed == apiConstant.projectStatus.semicompleted) ? ('table.th.projectStatus.semicompleted' | translate) : 
-                    (p?.is_completed == apiConstant.projectStatus.completed) ? ('table.th.projectStatus.completed' | translate) :''}}</span>
-                </td>
+                <td *ngIf="parameter.type==2">{{item.properties_count}}</td>
                 <td>
                   <div class="table-actions">
-                  
-                    <button [disabled]="admin?.admin_acl['Project Management']?.can_update==0"
-                      routerLink="/dashboard/projects/edit-project/{{p.id}}"
-                      title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
-                        src="assets/img/edit.png" alt="img"></button>
-                    <button [disabled]="admin?.admin_acl['Project Management']?.can_delete==0" *ngIf="!p.is_blocked"
-                      (click)="blockUnblock(p, 1);" class="action-icon" title="{{'table.title.block' | translate}}"><img
-                        src="assets/img/block.png" alt="img"></button>
-                    <button [disabled]="admin?.admin_acl['Project Management']?.can_delete==0"
-                      *ngIf="p.is_blocked == true" (click)="blockUnblock(p, 0);" class="action-icon unblock-bg"
-                      title="{{'table.title.unblock' | translate}}"><img src="assets/img/unblock.png"
-                        alt="img"></button>
-                  
-                    <a style="display:none;" #modalOpen data-toggle="modal" data-target="#addNote"></a>
-                    <button (click)="openCancellationModal(p, i)"
-                      [disabled]="admin?.admin_acl['Project Management']?.can_update==0"
-                      *ngIf="p.status == 1 || p.status==2" class="action-icon"
-                      title="{{'table.title.unapprove' | translate}}"><img src="assets/img/ic_disapprove.png"
-                        alt="img"></button>
-                  
-                    <button [disabled]="admin?.admin_acl['Project Management']?.can_update==0"
-                      *ngIf="p.status == 2 || p.status == 4" (click)="approveProject(p, 1);" class="action-icon"
-                      title="{{'table.title.approve' | translate}}"><img src="assets/img/tick.png" alt="img"></button>
-                   
-                    <button [disabled]="admin?.admin_acl['Project Management']?.can_purge==0"
-                      (click)="deletePopup(p, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img
-                        src="assets/img/ic_delete.png" alt="img"></button>
-                  
+                      <!-- <a href="javascript://" (click)="editUser(item, i)" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
+                      <a href="javascript://" *ngIf="item.is_blocked == 1" (click)="blockUnblockPopup(i, item.id, 0, parameter.type)" title="Unblock user" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a>
+                      <a href="javascript://" *ngIf="item.is_blocked == 0" (click)="blockUnblockPopup(i, item.id, 1, parameter.type)" title="Block user" class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a> -->
+                      <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['User Management']?.can_update==0" 
+                      (click)="editUser(item, i)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                      <!-- <button title="{{'table.title.addLegalEntity' | translate}}" 
+                      [disabled]="admin?.admin_acl['User Management']?.can_update==0" 
+                      (click)="addLegalEntity(item, i)" class="action-icon"><img src="assets/img/stamp.png" alt="img"></button> -->
+                      <button [disabled]="admin?.admin_acl['User Management']?.can_delete==0"
+                        (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1, parameter.type)" 
+                        title="{{item.is_blocked==1 ? ('table.title.unblock' | translate) : ('table.title.block' | translate)}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
+                        class="action-icon"><img src="assets/img/block.png" alt="img">
+                      </button>
+                      <button [disabled]="admin?.admin_acl['User Management']?.can_purge==0"
+                        (click)="deletePopup(i, item.id, parameter.type)" 
+                        title="{{'table.title.delete' | translate}}"
+                        class="action-icon"><img src="assets/img/ic_delete.png" alt="img">
+                      </button>
                   </div>
                 </td>
-              </tr> -->
+              </tr>
+
 
             </table>
-            <div class="padding20 center" *ngIf="creditsUserlistCount == 0">
+
+            <div class="center" *ngIf="parameter.total == 0">
               <img src="assets/img/404-error.png">
             </div>
+
           </div>
         </div>
       </div>
@@ -521,18 +442,7 @@
     </div>
   </div>
 
-  <div class="btn-cont marginT15" *ngIf="creditsUserlistCount">
-    <div class="row">
-      <div class="col-6">
-        <div class="title-group">
-          <p>{{'table.pagination.showing' | translate}} {{creditsUserlist.length}} {{'table.pagination.outof' |
-            translate}}
-            {{creditsUserlistCount}}</p>
-        </div>
-      </div>
-      <div class="col-6 text-right">
-        <pagination-controls class="my-pagination" (pageChange)="this.onPageChange($event)"></pagination-controls>
-      </div>
-    </div>
+  <div class="btn-cont text-right marginT15" *ngIf="parameter.total">
+    <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
   </div>
 </div>

@@ -40,7 +40,10 @@ margin-left: -27%;
   a:hover {
     color: #00B96F;
   }
-
+  
+  ul li a:hover, ul li a:focus {
+    color:#00B96F;
+   }
   :host ::ng-deep .multiselect-dropdown[_ngcontent-c8] {
     position: relative;
     width: 100%;
