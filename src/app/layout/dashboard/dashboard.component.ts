@@ -160,16 +160,28 @@ export class DashboardComponent {
     this.location.cities = selectedState[0].cities;
   }
 
-  onCityChange(id) {
-    this.location.localities = []; this.parameter.locality_id = '0';
-    this.parameter.buildings = []; this.parameter.building_id = '0';
-    if (!id || id.toString() === '0') {
-      return false;
-    }
+  onCityChangeAll=(data:any[]):void=>{
+    this.selctedCities = data;
+    this.onCityChange();
+  }
 
-    this.parameter.city_id = id;
-    const selectedCountry = this.location.cities.filter(x => x.id.toString() === id);
-    this.location.localities = selectedCountry[0].localities;
+  onCityChange=():void=> {
+    this.location.localities = [];
+    // this.location.localities = []; this.parameter.locality_id = '0';
+    // this.parameter.buildings = []; this.parameter.building_id = '0';
+    // if (!data.id || data.id.toString() === '0') {
+    //   return false;
+    // }
+    //this.parameter.city_id = data.id;
+    const localities = [];
+    this.selctedCities.forEach((cityObject)=>{
+      const selectedCountry = this.location.cities.filter(x => x.id == cityObject.id);
+      (selectedCountry[0].localities || []).forEach((localityObject)=>{
+        localities.push(localityObject);
+      });
+    });
+   this.location.localities = localities;
+   console.log(localities);
   }
 
   onLocalityChange(id) {

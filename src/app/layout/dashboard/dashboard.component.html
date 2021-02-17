@@ -24,8 +24,8 @@
         <label>{{'filters.location.city' | translate}}</label>
         <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selctedCities"
         [data]="location.cities" [(ngModel)]="selctedCities" [settings]="multiDropdownSettings"
-        (onDeSelect)="unsetCities($event)" (onSelect)="onItemSelect('selctedCities', $event)"
-        (onSelectAll)="onSelectAll($event)" (change)="onCityChange($event.target.value)">
+        (onDeSelect)="onCityChange()" (onSelect)="onCityChange()"
+        (onSelectAll)="onCityChangeAll($event)" (onDeSelectAll)="onCityChangeAll($event)">
       </ng-multiselect-dropdown>
         <!-- <select class="form-control" (change)="onCityChange($event.target.value)">
           <option value="0">{{'filters.location.allOption' | translate}}</option>
