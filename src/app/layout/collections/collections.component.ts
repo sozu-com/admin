@@ -2916,7 +2916,7 @@ export class CollectionsComponent implements OnInit {
                   body: [
                     [
                       { text: this.translate.instant('generatePDF.name'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.collection_data.buyer && this.collection_data.buyer.name ? this.collection_data.buyer.name + this.collection_data.buyer.first_surname + ' ' + this.collection_data.buyer.second_surname : 'N/A', border: [false, false, false, false], bold: true }
+                      { text: this.collection_data.buyer && this.collection_data.buyer.name ? this.collection_data.buyer.name + ' ' + this.collection_data.buyer.first_surname + ' ' + this.collection_data.buyer.second_surname : 'N/A', border: [false, false, false, false], bold: true }
                     ],
                     [
                       { text: this.translate.instant('generatePDF.purchaseDate'), border: [false, false, false, false], color: '#858291' },
