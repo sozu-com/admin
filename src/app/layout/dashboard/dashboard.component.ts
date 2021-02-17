@@ -15,6 +15,8 @@ export class DashboardComponent {
 
   locale: any;
   today = new Date();
+  items: any = [];
+  total: any = 0;
   chartCommision: any = [];
   chartSales: any = [];
   total_commission = 0;
@@ -64,6 +66,7 @@ export class DashboardComponent {
     this.getCountries();
     this.getReportData();
     this.iniDropDownSetting();
+    this.getListing();
     this.selctedLocalities = [];
     this.selctedCities = [];
   }
@@ -116,6 +119,17 @@ export class DashboardComponent {
       // console.log(d, "filter")
       input.selctedCities = d;
     }
+    this.admin.postDataApi('propertyHome', input).subscribe(
+      success => {
+        localStorage.setItem('deshboard', JSON.stringify(this.parameter));
+        this.items = success.data;
+        console.log(this.items,"api")
+        this.total = success.total_count;
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      });
   }
 
   getLocalityBuildings( data){

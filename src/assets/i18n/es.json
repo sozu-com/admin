@@ -2442,5 +2442,30 @@
     "selectdeadline": "Seleccionar Plazos a cotiza",
     "selectpayment": "Seleccionar Esquema de pago",
     "selectbanks": "Seleccionar Bancos"
-  }
+  },
+  "deshboard":{
+    "Projects":"Proyectos",
+    "Possesion":"Posesión",
+    "Projectsstatus":"Estado de proyectos",
+    "Sale":"Venta",
+    "Presale":"Preventa",
+    "Withoutinformation":"Sin informacion",
+    "Basic":"Básica",
+    "Semicomplete":"Semicompleta",
+    "Complete":"Completa",
+    "Localities":"Localidades",
+    "Total":"Total",
+    "Without":"Sin que",
+    "CommercializedSozu":"Comercializada por Sozu",
+    "SoldSozu":"Vendido por Sozu",
+    "ForSale":"En venta",
+    "Rent":"Alquiler",
+    "Inventory":"Inventario",
+    "Approved":"Aprobada",
+    "Unapproved":"No aprobado",
+    "PendingReview":"Revisión pendiente",
+    "InDraft":"En borrador",
+    "City":"Ciudad",
+    "Properties":"# Propiedades"
+}
 }
