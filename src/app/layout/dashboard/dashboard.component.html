@@ -158,16 +158,24 @@
             <th style="text-align: center;">{{'deshboard.Semicomplete' | translate}}</th>
             <th style="text-align: center;">{{'deshboard.Complete' | translate}}</th>
           </tr>
-         <ng-container *ngFor="let seller_rep_banks of sellerRepBanks; let sb=index">
-           <tr>
-             <td></td>
-             <td>
-              <a class="black" data-toggle="collapse" data-parent="#accordion" href="#collapseSRB{{sb}}">
-                <b>Bank {{sb+1}}</b>
-               </a>
-             </td>
-           </tr>
-         </ng-container>
+         <tr *ngIf="location.buildings">
+          <td style="text-align: center;">{{location.buildings?.building}}</td>
+          <td style="text-align: center;">{{location.buildings?.sale}}</td>
+          <td style="text-align: center;">{{location.buildings?.presale}}</td>
+          <td style="text-align: center;">{{location.buildings?.without_information}}</td>
+          <td style="text-align: center;">{{location.buildings?.basic_information}}</td>
+          <td style="text-align: center;">{{location.buildings?.semi_complete}}</td>
+          <td style="text-align: center;">{{location.buildings?.complete}}</td>
+        </tr>
+        <tr *ngIf="location.buildings">
+          <td style="text-align: center;">100%</td>
+          <td style="text-align: center;">{{getParseInt(location.buildings?.sale,location.buildings?.building)}}%</td>
+          <td style="text-align: center;">{{getParseInt(location.buildings?.presale,location.buildings?.building)}}%</td>
+          <td style="text-align: center;">{{getParseInt(location.buildings?.without_information,location.buildings?.building)}}%</td>
+          <td style="text-align: center;">{{getParseInt(location.buildings?.basic_information,location.buildings?.building)}}%</td>
+          <td style="text-align: center;">{{getParseInt(location.buildings?.semi_complete,location.buildings?.building)}}%</td>
+          <td style="text-align: center;">{{getParseInt(location.buildings?.complete,location.buildings?.building)}}%</td>
+        </tr>
         </tbody>
       </table>
     </div>
@@ -261,14 +269,14 @@
             <th style="text-align: center;">{{'deshboard.Semicomplete' | translate}}</th>
             <th style="text-align: center;">{{'deshboard.Complete' | translate}}</th>
           </tr>
-         <ng-container *ngFor="let seller_rep_banks of sellerRepBanks; let sb=index">
+         <ng-container *ngFor="let locality of location.locality; let i=index">
            <tr>
-             <td></td>
-             <td>
-              <a class="black" data-toggle="collapse" data-parent="#accordion" href="#collapseSRB{{sb}}">
-                <b>Bank {{sb+1}}</b>
-               </a>
-             </td>
+             <td style="text-align: center;">{{this.language_code == 'en' ? locality?.locality_id?.name_en : locality?.locality_id?.name_es }}</td>
+             <td style="text-align: center;">{{locality?.building }}</td>
+             <td style="text-align: center;">{{locality?.without_information }}</td>
+             <td style="text-align: center;">{{locality?.basic_information }}</td>
+             <td style="text-align: center;">{{locality?.semi_complete }}</td>
+             <td style="text-align: center;">{{locality?.complete }}</td>
            </tr>
          </ng-container>
         </tbody>

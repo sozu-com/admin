@@ -208,6 +208,7 @@ export interface IProperty {
   reminder_date?: any;
   is_commercialized?:number;
   user?: Array<Docs>;
+  locality?:any;
 }
 export class Docs {
   id: string;

@@ -5,18 +5,19 @@ import * as CanvasJS from 'src/assets/js/canvasjs.min.js';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
+import { OnInit } from '@angular/core';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
 
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
 
   locale: any;
   today = new Date();
-  items: any = [];
-  total: any = 0;
+  //items: any = [];
+  // total: any = 0;
   chartCommision: any = [];
   chartSales: any = [];
   total_commission = 0;
@@ -35,11 +36,12 @@ export class DashboardComponent {
   multiDropdownSettings = {};
   public parameter: IProperty = {};
   public location: IProperty = {};
+  language_code:string;
 
   constructor (private admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService,) {
-    const date = new Date();
+    //const date = new Date();
 
     this.locale = {
       firstDayOfWeek: 0,
@@ -57,19 +59,24 @@ export class DashboardComponent {
     };
     // this.parameter.min = new Date(date.getFullYear() + '-' + (date.getMonth() - 4) + '-' + '01');
     // this.parameter.max = date;
-    this.parameter.min = moment().subtract(6, 'months').toDate();
-    this.parameter.max = moment().toDate();
+    // this.parameter.min = moment().subtract(6, 'months').toDate();
+    // this.parameter.max = moment().toDate();
 
     this.admin.loginData$.subscribe(success => {
       this.fullName = success['name'];
     });
     this.getCountries();
-    this.getReportData();
+    //this.getReportData();
     this.iniDropDownSetting();
     this.getListing();
     this.selctedLocalities = [];
     this.selctedCities = [];
   }
+
+  ngOnInit() {
+    this.language_code = localStorage.getItem('language_code');
+  }
+
   iniDropDownSetting() {
     this.multiDropdownSettings = {
       singleSelection: false,
@@ -109,25 +116,17 @@ export class DashboardComponent {
 
   getListing(){
     this.spinner.show();
-    const input: any = JSON.parse(JSON.stringify(this.parameter));
-    input.localities = this.selctedLocalities.map(o => o.id);
-    input.cities = this.selctedCities.map(o => o.id);
-    // if (this.selctedLocalities) {
-    //   const d = this.selctedLocalities.map(o => o.id);
-    //   // console.log(d, "filter")
-    //   input.localities = d;
-    // }
-    // if (this.selctedCities) {
-    //   const d = this.selctedCities.map(o => o.id);
-    //   // console.log(d, "filter")
-    //   input.cities = d;
-    // }
-    this.admin.postDataApi('getDashboardDetails', input).subscribe(
+    const postData = {
+      country_id: this.parameter.country_id || '',
+      states: this.parameter.states || '',
+      localities : this.selctedLocalities.map(o => o.id),
+      cities : this.selctedCities.map(o => o.id)
+    };
+    this.admin.postDataApi('getDashboardDetails', postData).subscribe(
       success => {
-       // localStorage.setItem('deshboard', JSON.stringify(this.parameter));
-        this.items = success.data;
-       // console.log(this.items,"api")
-        this.total = success.total_count;
+        this.location.buildings = success.building;
+        this.location.locality = success.locality
+        this.plotData();
         this.spinner.hide();
       },
       error => {
@@ -146,8 +145,10 @@ export class DashboardComponent {
   }
 
   getCountries() {
+    this.spinner.show();
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
       this.location.countries = r['data'];
+      this.spinner.hide();
     });
   }
 
@@ -167,6 +168,8 @@ export class DashboardComponent {
   }
 
   onStateChange(id) {
+    this.selctedCities = [];
+    this.selctedLocalities = [];
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
     this.parameter.buildings = []; this.parameter.building_id = '0';
@@ -200,7 +203,6 @@ export class DashboardComponent {
       });
     });
    this.location.localities = localities;
-   console.log(localities);
   }
 
   onLocalityChange(id) {
@@ -212,7 +214,7 @@ export class DashboardComponent {
   }
 
   getReportData() {
-    this.parameter.noResultFound = false;
+    //this.parameter.noResultFound = false;
    // const input = {start_date: this.parameter.min, end_date: this.parameter.max};
     const input = {start_date: moment(this.parameter.min).format('YYYY-MM-DD'), end_date: moment(this.parameter.max).format('YYYY-MM-DD')};
     this.spinner.show();
@@ -247,7 +249,7 @@ export class DashboardComponent {
         name: 'Sales',
         series: data1
       }];
-      this.plotData();
+      //this.plotData();
     }, error => {
       this.spinner.hide();
     });
@@ -255,14 +257,14 @@ export class DashboardComponent {
 
   plotData() {
     let agentData = [
-      { id: 779, y: 3, indexLabel: "Presale  ", is_external_agent: 0 },
-      { id: 781, y: 14, indexLabel: "For Sale  ", is_external_agent: 0 }
+      { id: 779, y: (this.location.buildings || {}).presale, indexLabel: "Presale  ", is_external_agent: 0 },
+      { id: 781, y: (this.location.buildings || {}).sale, indexLabel: "For Sale  ", is_external_agent: 0 }
     ];
     let agentData1 = [
-      { id: 779, y: 3, indexLabel: "Without  ", is_external_agent: 0 },
-      { id: 781, y: 14, indexLabel: "Basic  ", is_external_agent: 0 },
-      { id: 781, y: 14, indexLabel: "Semi  ", is_external_agent: 0 },
-      { id: 781, y: 14, indexLabel: "Complete  ", is_external_agent: 0 }
+      { id: 779, y: (this.location.buildings || {}).without_information, indexLabel: "Without  ", is_external_agent: 0 },
+      { id: 781, y: (this.location.buildings || {}).basic_information, indexLabel: "Basic  ", is_external_agent: 0 },
+      { id: 781, y: (this.location.buildings || {}).semi_complete, indexLabel: "Semi  ", is_external_agent: 0 },
+      { id: 781, y: (this.location.buildings || {}).complete, indexLabel: "Complete  ", is_external_agent: 0 }
     ];
     const chart = new CanvasJS.Chart('agentContainer', {
       title: {
@@ -454,6 +456,10 @@ export class DashboardComponent {
       }]
     });
     chart3.render();
+  }
+
+  getParseInt(firstValue:number,secondValue:number){
+    return parseInt(((firstValue / secondValue)*100 || '0').toString());
   }
   
 }
