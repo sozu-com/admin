@@ -55,10 +55,6 @@ export class CreditAddEditComponent implements OnInit {
   ngOnInit() {
     this.language_code = localStorage.getItem('language_code');
     this.tab = 1;
-    // if(this.tab = 3){
-    //   this.subtab = 1;
-    // }
-    //this.subtab = 3;
     this.parameter.page = 1;
     this.parameter.itemsPerPage = this.constant.limit4;
     this.parameter.sub = this.activatedRoute.params.subscribe((params) => {
