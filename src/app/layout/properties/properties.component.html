@@ -1217,7 +1217,7 @@ margin-left: -38%;">
                      <div class="form-group-3">
                         <div class="input-group-append">
                               <span class="input-group-text" id="basic-addon1">$</span>
-                              <input autocomplete="off" class="form-control" type="text" formControlName="listPrice"
+                              <input autocomplete="off" class="form-control" type="text" formControlName="listPrice" style="color: Tomato;"
                             placeholder="">
                             </div>
                      </div>
@@ -1232,7 +1232,7 @@ margin-left: -38%;">
                      <div class="form-group-3">
                         <div class="input-group-append">
                               <span class="input-group-text" id="basic-addon1">$</span>
-                              <input autocomplete="off" class="form-control" type="text" formControlName="finalPrice"
+                              <input autocomplete="off" class="form-control" type="text" formControlName="finalPrice" style="color: green;"
                             placeholder="">
                             </div>
                      </div>
@@ -1265,7 +1265,7 @@ margin-left: -38%;">
                      <div class="form-group-3" *ngIf="isPreview">
                         <div class="input-group-append">
                               <span class="input-group-text" id="basic-addon1">$</span>
-                              <input autocomplete="off" class="form-control" type="text" formControlName="downPaymentFinalPrice"
+                              <input autocomplete="off" class="form-control" type="text" formControlName="downPaymentFinalPrice" style="color: Orange;"
                             placeholder="">
                             </div>
                      </div>
@@ -1280,7 +1280,7 @@ margin-left: -38%;">
                      <div class="form-group-3" *ngIf="isPreview">
                          <div class="input-group-append">
                               <span class="input-group-text" id="basic-addon1">$</span>
-                              <input autocomplete="off" class="form-control" type="text" formControlName="discountFinalPrice"
+                              <input autocomplete="off" class="form-control" type="text" formControlName="discountFinalPrice"  style="color: DodgerBlue;"
                               placeholder=""> 
                             </div>
                      </div>
@@ -1311,7 +1311,7 @@ margin-left: -38%;">
                      <div class="form-group-3" *ngIf="isPreview">
                          <div class="input-group-append">
                               <span class="input-group-text" id="basic-addon1">$</span>
-                              <input autocomplete="off" class="form-control" type="text" formControlName="monthlyInstallmentFinalPrice"
+                              <input autocomplete="off" class="form-control" type="text" formControlName="monthlyInstallmentFinalPrice" style="color:#A52A2A;"
                               placeholder=""> 
                             </div>
                      </div>
@@ -1326,7 +1326,7 @@ margin-left: -38%;">
                      <div class="form-group-3" *ngIf="isPreview">
                          <div class="input-group-append">
                               <span class="input-group-text" id="basic-addon1">$</span>
-                              <input autocomplete="off" class="form-control" type="text" formControlName="interestFinalPrice"
+                              <input autocomplete="off" class="form-control" type="text" formControlName="interestFinalPrice" style="color: SlateBlue;"
                               placeholder=""> 
                             </div>
                      </div>
@@ -1367,7 +1367,7 @@ margin-left: -38%;">
                      <div class="form-group-3" *ngIf="isPreview">
                          <div class="input-group-append">
                               <span class="input-group-text" id="basic-addon1">$</span>
-                              <input autocomplete="off" class="form-control" type="text" formControlName="paymentupondeliveryFinalPrice"
+                              <input autocomplete="off" class="form-control" type="text" formControlName="paymentupondeliveryFinalPrice" style="color: Violet;"
                               placeholder="" > 
                             </div>
                      </div>
@@ -1458,7 +1458,8 @@ margin-left: -38%;">
                               <div class="form-group-3" *ngIf="isPreview">
                                   <div class="input-group-append">
                                        <span class="input-group-text" id="basic-addon1">$</span>
-                                       <input autocomplete="off" class="form-control" type="text" formControlName="addVariablesPercentageFinalPrice"
+                                       <input autocomplete="off" class="form-control" type="text" formControlName="addVariablesPercentageFinalPrice" 
+                                       [ngStyle]="{ 'color' : i%2 == 0 ? '#4B0082' :'#FFA07A'}"
                                        placeholder=""> 
                                      </div>
                               </div>
