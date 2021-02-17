@@ -452,6 +452,7 @@ export class AddEditCollectionComponent implements OnInit {
           this.spinner.hide();
           this.getCollectionDocument(success.data);
           this.patchFormData(success['data']);
+          this.isAgencyBank = success['data'].payment_received_by == '1' ? true : false;
           this.getBanks(success['data'].property.id)
         }, error => {
           this.spinner.hide();

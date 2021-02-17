@@ -1597,8 +1597,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         }
       }
     } else if (this.installmentFormGroup.get('agencyOrSeller').value) {
-      this.fedTaxPayer = (((this.bankDetails || {}).selected_seller || {}).user || {}).fed_tax_pay || '';
       if (this.bankDetails.selected_seller.user.developer_company || this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id) {
+        this.fedTaxPayer = (((this.bankDetails || {}).selected_seller || {}).user || {}).fed_tax_pay || '';
         ((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_rep_banks || []).forEach((element, innerIndex) => {
           element.name = 'Seller Bank | ' + element.bank_name;
           element.legal_name = this.bankDetails.selected_seller.user.developer_company ? this.bankDetails.selected_seller.user.developer_company :
@@ -1639,16 +1639,15 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     const discount = this.installmentFormGroup.get('discount').value ? (this.installmentFormGroup.get('discount').value * this.property_array.min_price) / 100 : 0;
     const interest = this.installmentFormGroup.get('interest').value ? (this.installmentFormGroup.get('interest').value * this.property_array.min_price) / 100 : 0;
     const finalPrice = discount ? this.property_array.min_price - discount : interest ? this.property_array.min_price + interest : this.property_array.min_price;
-    const downPayment = this.installmentFormGroup.get('downPayment').value ? (this.installmentFormGroup.get('downPayment').value * finalPrice) / 100 : 0;
-    const paymentUponDelivery = this.installmentFormGroup.get('paymentupondelivery').value ? (this.installmentFormGroup.get('paymentupondelivery').value * finalPrice) / 100 : 0;
-    const monthlyInstallmentAmount = this.installmentFormGroup.get('monthlyInstallment').value ? (this.installmentFormGroup.get('monthlyInstallment').value * finalPrice) / 100 : 0;
-    const monthlyInstallments = this.installmentFormGroup.get('numberOfMI').value ? (monthlyInstallmentAmount / this.installmentFormGroup.get('numberOfMI').value) : 0;
+    const downPayment = this.installmentFormGroup.get('downPayment').value ? (this.installmentFormGroup.get('downPayment').value * this.property_array.min_price) / 100 : 0;
+    const paymentUponDelivery = this.installmentFormGroup.get('paymentupondelivery').value ? (this.installmentFormGroup.get('paymentupondelivery').value * this.property_array.min_price) / 100 : 0;
+    const monthlyInstallments = this.installmentFormGroup.get('monthlyInstallment').value ? (this.installmentFormGroup.get('monthlyInstallment').value * this.property_array.min_price) / 100 : 0;
     this.installmentFormGroup.patchValue({
       listPrice: this.property_array.min_price,
       finalPrice: finalPrice,
       downPaymentFinalPrice: downPayment,
       discountFinalPrice: discount,
-      monthlyInstallmentFinalPrice: monthlyInstallmentAmount,
+      monthlyInstallmentFinalPrice: monthlyInstallments,
       interestFinalPrice: interest,
       paymentupondeliveryFinalPrice: paymentUponDelivery
     });
