@@ -5,7 +5,6 @@ import * as CanvasJS from 'src/assets/js/canvasjs.min.js';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
-
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -28,13 +27,16 @@ export class DashboardComponent {
     domain: ['#4eb96f']
   };
   sellerRepBanks = [];
-
+  amenities = Array<any>();
+  selctedLocalities: Array<any>;
+  selctedCities: Array<any>;
+  multiDropdownSettings = {};
   public parameter: IProperty = {};
   public location: IProperty = {};
 
   constructor (private admin: AdminService,
     private spinner: NgxSpinnerService,
-    public ts: TranslateService) {
+    private translate: TranslateService,) {
     const date = new Date();
 
     this.locale = {
@@ -61,10 +63,59 @@ export class DashboardComponent {
     });
     this.getCountries();
     this.getReportData();
+    this.iniDropDownSetting();
+    this.selctedLocalities = [];
+    this.selctedCities = [];
+  }
+  iniDropDownSetting() {
+    this.multiDropdownSettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'name_en',
+      selectAllText: this.translate.instant('commonBlock.selectAll'),
+      unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
+      searchPlaceholderText: this.translate.instant('commonBlock.search'),
+      allowSearchFilter: true,
+      itemsShowLimit: 2
+    };
   }
 
-  getListing(){
+  unsetProject(item: any) {
+    let i = 0;
+    this.selctedLocalities.map(r => {
+      if (r.id == item.id) {
+        this.selctedLocalities.splice(i, 1);
+      }
+      i = i + 1;
+    });
+  }
+  unsetCities(item: any) {
+    let i = 0;
+    this.selctedCities.map(r => {
+      if (r.id == item.id) {
+        this.selctedCities.splice(i, 1);
+      }
+      i = i + 1;
+    });
+  }
+  onItemSelect(param: any, obj: any) {
+    this[param].push(obj);
+  }
 
+  
+
+  getListing(){
+    const input: any = JSON.parse(JSON.stringify(this.parameter));
+    if (this.selctedLocalities) {
+      const d = this.selctedLocalities.map(o => o.id);
+      // console.log(d, "filter")
+      input.selctedLocalities = d;
+    }
+    if (this.selctedCities) {
+      const d = this.selctedCities.map(o => o.id);
+      // console.log(d, "filter")
+      input.selctedCities = d;
+    }
   }
 
   getLocalityBuildings( data){
@@ -72,7 +123,7 @@ export class DashboardComponent {
   }
 
   resetFilters(){
-    
+    this.selctedLocalities = [];
   }
 
   getCountries() {
