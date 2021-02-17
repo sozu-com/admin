@@ -17,11 +17,9 @@
                 <li [ngClass]="{'current': tab == 3}"><span></span>
                   <a (click)="setTab(3)">{{'creditForm.Applicant' | translate}}</a>
                 </li>
-                <!-- <li>
-                 <span></span>
-                  <a id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact"
-                    aria-selected="false">{{'creditForm.Coaccredited' | translate}}</a>
-                </li> -->
+                <li [ngClass]="{'current': tab == 4}"><span></span>
+                  <a (click)="setTab(4)">{{'creditForm.Coaccredited' | translate}}</a>
+                </li>
               </ul>
 
             </div>
@@ -131,7 +129,7 @@
                       <label class="p16-two">{{'creditForm.deadlines' | translate}}</label>
                       <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
                         name="deadlines_quote" [data]="creditsDeadlines" [(ngModel)]="creditModel.deadlines_quote"
-                        [settings]="multiDropdownSettings"  (onDeSelect)="unsetDeadlines($event)">
+                        [settings]="multiDropdownSettings" (onDeSelect)="unsetDeadlines($event)">
                       </ng-multiselect-dropdown>
                     </div>
                   </div>
@@ -140,7 +138,7 @@
                       <label>{{'creditForm.paymentScheme' | translate}}</label>
                       <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
                         name="payment_scheme" [data]="PaymentScheme" [(ngModel)]="creditModel.payment_scheme"
-                        [settings]="multiDropdownSettings"  (onDeSelect)="unsetPayments($event)">
+                        [settings]="multiDropdownSettings" (onDeSelect)="unsetPayments($event)">
                       </ng-multiselect-dropdown>
                     </div>
                   </div>
@@ -155,7 +153,7 @@
                       <label>{{'creditForm.banks' | translate}}</label>
                       <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
                         name="bank_id" [data]="banks" [(ngModel)]="creditModel.bank_id"
-                        [settings]="multiDropdownSettings"  (onDeSelect)="unsetProject($event)">
+                        [settings]="multiDropdownSettings" (onDeSelect)="unsetProject($event)">
                       </ng-multiselect-dropdown>
                     </div>
                   </div>
@@ -1841,227 +1839,434 @@
             </div>
             <!-- additionalData -->
             <div *ngIf="subtab==11">
-              <form role="form">
-                <div class="white-bg padding40">
-                  <h3>{{'creditForm.Personal' | translate}}</h3>
-                  <div class="col-12">
-                    <div class="spacer40"></div>
+              <div class="white-bg padding40">
+                <div class="row">
+                  <div class="col-md-6">
+                    <h3>{{'creditForm.Personal' | translate}}
+                      <i class="fa fa-plus-circle" aria-hidden="true" (click)="addPhone()"
+                        style="cursor: pointer;"></i>
+                    </h3>
                   </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.Presents' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
-                          class="form-control">
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.Identificationnumber' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
-                          class="form-control">
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.Validity' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
-                          class="form-control">
-                      </div>
-                    </div>
+                  <div class="col-md-6 text-right">
+                    <a data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  <i class="fa fa-caret-up" aria-hidden="true"></i>
+                </a>
                   </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.SocialSecurity' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
-                          class="form-control">
-                      </div>
+                </div>
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                  <form [formGroup]="userForm" (ngSubmit)="send(userForm.value)">
+                    <div class="col-12">
+                      <div class="spacer40"></div>
                     </div>
-                    <div class="col-md-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.IsssteNumber' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
-                          class="form-control">
+                    <div *ngFor="let phone of getPhonesFormControls(); let i = index">
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group-3">
+                            <label>{{'creditForm.Presents' | translate}}</label>
+                            <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                              class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group-3">
+                            <label>{{'creditForm.Identificationnumber' | translate}}</label>
+                            <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                              class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group-3">
+                            <label>{{'creditForm.Validity' | translate}}</label>
+                            <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                              class="form-control">
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.FIEL' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
-                          class="form-control">
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group-3">
+                            <label>{{'creditForm.SocialSecurity' | translate}}</label>
+                            <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                              class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group-3">
+                            <label>{{'creditForm.IsssteNumber' | translate}}</label>
+                            <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                              class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group-3">
+                            <label>{{'creditForm.FIEL' | translate}}</label>
+                            <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                              class="form-control">
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.Hitch' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
-                          class="form-control">
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group-3">
+                            <label>{{'creditForm.Hitch' | translate}}</label>
+                            <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                              class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group-3">
+                            <label>{{'creditForm.BankInsurance' | translate}}</label>
+                            <div class="switchToggle">
+                              <input type="checkbox" id="switch10">
+                              <label for="switch10">Toggle</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group-3">
+                            <label>{{'creditForm.currentAddress' | translate}}</label>
+                            <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                              class="form-control">
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.BankInsurance' | translate}}</label>
-                        <div class="switchToggle">
-                          <input type="checkbox" id="switch10">
-                          <label for="switch10">Toggle</label>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group-3">
+                            <label>{{'creditForm.Seniority' | translate}}</label>
+                            <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                              class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group-3">
+                            <label>{{'creditForm.AgeProperty' | translate}}</label>
+                            <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                              class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group-3">
+                            <label>{{'creditForm.SeniorityPrevious' | translate}}</label>
+                            <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                              class="form-control">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group-3">
+                            <label>{{'creditForm.Degree' | translate}}</label>
+                            <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                              class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group-3">
+                            <label>{{'creditForm.Institution' | translate}}</label>
+                            <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                              class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group-3">
+                            <label>{{'creditForm.AmountAlimony' | translate}}</label>
+                            <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                              class="form-control">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group-3">
+                            <label>{{'creditForm.Anothername' | translate}}</label>
+                            <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                              class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group-3">
+                            <label>{{'creditForm.StateBirth' | translate}}</label>
+                            <select class="form-control">
+                              <option>test</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group-3">
+                            <label>{{'creditForm.MunicipalityBirth' | translate}}</label>
+                            <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                              class="form-control">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group-3">
+                            <label>{{'creditForm.CountryBirth' | translate}}</label>
+                            <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                              class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group-3">
+                            <label>{{'creditForm.HomePhone' | translate}}</label>
+                            <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                              class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group-3">
+                            <label>{{'creditForm.OfficePhone' | translate}}</label>
+                            <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                              class="form-control">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group-3">
+                            <label>{{'creditForm.CompaniaCelular' | translate}}</label>
+                            <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                              class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group-3">
+                            <label>{{'creditForm.OwnerShip' | translate}}</label>
+                            <select class="form-control">
+                              <option>test</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group-3">
+                            <label>{{'creditForm.Mensuales' | translate}}</label>
+                            <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                              class="form-control">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group-3">
+                            <label>{{'creditForm.PlaceApplication' | translate}}</label>
+                            <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                              class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group-3">
+                            <label>{{'creditForm.Inmueble' | translate}}</label>
+                            <select class="form-control">
+                              <option>test</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group-3">
+                            <label>{{'creditForm.PropertyType' | translate}}</label>
+                            <select class="form-control">
+                              <option>test</option>
+                            </select>
+                          </div>
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.currentAddress' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
-                          class="form-control">
-                      </div>
-                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="spacer40"></div>
+              </div>
+
+              <div class="white-bg padding40">
+                <div class="row">
+                  <div class="col-md-6">
+                    <h3>{{'creditForm.WarrantyProperty' | translate}}
+                      <i class="fa fa-plus-circle" aria-hidden="true" (click)="addPhone()" style="cursor: pointer;"></i>
+                    </h3>
                   </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.Seniority' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
-                          class="form-control">
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.AgeProperty' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
-                          class="form-control">
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.SeniorityPrevious' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
-                          class="form-control">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.Degree' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
-                          class="form-control">
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.Institution' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
-                          class="form-control">
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.AmountAlimony' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
-                          class="form-control">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.Anothername' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
-                          class="form-control">
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.StateBirth' | translate}}</label>
-                        <select class="form-control">
-                          <option>test</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.MunicipalityBirth' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
-                          class="form-control">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.CountryBirth' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
-                          class="form-control">
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.HomePhone' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
-                          class="form-control">
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.OfficePhone' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
-                          class="form-control">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.CompaniaCelular' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
-                          class="form-control">
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.OwnerShip' | translate}}</label>
-                        <select class="form-control">
-                          <option>test</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.Mensuales' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
-                          class="form-control">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.PlaceApplication' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
-                          class="form-control">
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.Inmueble' | translate}}</label>
-                        <select class="form-control">
-                          <option>test</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-group-3">
-                        <label>{{'creditForm.PropertyType' | translate}}</label>
-                        <select class="form-control">
-                          <option>test</option>
-                        </select>
-                      </div>
-                    </div>
+                  <div class="col-md-6 text-right">
+                    <a  data-toggle="collapse" href="#collapseExample1" role="button"
+                  aria-expanded="true" aria-controls="collapseExample1">
+                  <i class="fa fa-caret-up" aria-hidden="true"></i>
+                </a>
                   </div>
                 </div>
-              </form>
+               
+                <div class="col-12">
+                  <div class="spacer40"></div>
+                </div>
+                <div class="collapse" id="collapseExample1">
+                <form role="form">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.STREET' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                          class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.number' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                          class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.COLONY' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                          class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group-3">
+                        <label>{{'addForm.municipality' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                          class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="form-group-3">
+                        <label>{{'filters.location.city' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                          class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group-3">
+                        <label>{{'filters.location.state' | translate}}</label>
+                        <select class="form-control">
+                          <option>test</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group-3">
+                        <label>{{'filters.location.country' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                          class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.PostalCode' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                          class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.Lot' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                          class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.Block' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                          class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.Estimatedvalue' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                          class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.SurfaceM2' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                          class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.AreaUnder' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                          class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-8">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.description' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                          class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                </form></div>
+              </div>
+              <div class="col-12">
+                <div class="spacer40"></div>
+              </div>
+              <div class="white-bg padding40">
+                <div class="row">
+                  <div class="col-md-6">
+                    <h3>{{'creditForm.Business' | translate}}
+                      <i class="fa fa-plus-circle" aria-hidden="true" (click)="addPhone()" style="cursor: pointer;"></i>
+                    </h3>
+                  </div>
+                  <div class="col-md-6 text-right">
+                    <a  data-toggle="collapse" href="#collapseExample2" role="button"
+                  aria-expanded="true" aria-controls="collapseExample2">
+                  <i class="fa fa-caret-up" aria-hidden="true"></i>
+                </a>
+                  </div>
+                </div>
+               
+                <div class="col-12">
+                  <div class="spacer40"></div>
+                </div>
+                <div class="collapse" id="collapseExample2">
+                <form role="form">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group-3">
+                        <label>{{'addForm.name' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                          class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group-3">
+                        <label>{{'addForm.Taxcertificate' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                          class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.legal' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                          class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group-3">
+                        <label>{{'creditForm.legalRFC' | translate}}</label>
+                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                          class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                </form></div>
+              </div>
+
             </div>
           </div>
           <!-- Coaccredited -->

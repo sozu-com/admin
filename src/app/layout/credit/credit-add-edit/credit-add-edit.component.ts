@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Constant } from 'src/app/common/constants';
 import { Users } from 'src/app/models/users.model';
 import { AdminService } from 'src/app/services/admin.service';
-import { FormGroup } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { IProperty } from 'src/app/common/property';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -41,7 +41,7 @@ export class CreditAddEditComponent implements OnInit {
   multiDropdownSettings = {};
   public creditModel: Credit = new Credit();
   public language_code: string;
-
+  userForm: FormGroup;
   constructor(
     public constant: Constant,
     private adminService: AdminService,
@@ -49,8 +49,15 @@ export class CreditAddEditComponent implements OnInit {
     private translate: TranslateService,
     private spinnerService: NgxSpinnerService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
-  ) { }
+    private activatedRoute: ActivatedRoute,private fb: FormBuilder
+  ) { 
+    this.userForm = this.fb.group({
+      name: [],
+      phones: this.fb.array([
+        this.fb.control(null)
+      ])
+    })
+  }
 
   ngOnInit() {
     this.language_code = localStorage.getItem('language_code');
@@ -225,5 +232,22 @@ export class CreditAddEditComponent implements OnInit {
       this.banks = response[4].data;
       this.amenities = response[5].data;
     });
+  }
+  addPhone(): void {
+    (this.userForm.get('phones') as FormArray).push(
+      this.fb.control(null)
+    );
+  }
+
+  removePhone(index) {
+    (this.userForm.get('phones') as FormArray).removeAt(index);
+  }
+
+  getPhonesFormControls(): AbstractControl[] {
+    return (<FormArray> this.userForm.get('phones')).controls
+  }
+
+  send(values) {
+    console.log(values);
   }
 }

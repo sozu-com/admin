@@ -2441,7 +2441,18 @@
     "selectProgram": "Seleccionar Programas",
     "selectdeadline": "Seleccionar Plazos a cotiza",
     "selectpayment": "Seleccionar Esquema de pago",
-    "selectbanks": "Seleccionar Bancos"
+    "selectbanks": "Seleccionar Bancos",
+    "WarrantyProperty":"Inmueble En Garanta",
+    "number":"numero",
+    "PostalCode":"Codigo Postal",
+    "Lot":"Lote",
+    "Block":"ManZana",
+    "Estimatedvalue":"Valor estimado",
+    "SurfaceM2":"Superficie terreno m2",
+    "AreaUnder":"Area de construccion m2",
+    "description":"Descripcion",
+    "legal":"Representante legal",
+    "legalRFC":"Representante legal RFC"
   },
   "deshboard":{
     "Projects":"Proyectos",
