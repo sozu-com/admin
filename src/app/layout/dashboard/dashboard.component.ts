@@ -256,11 +256,11 @@ export class DashboardComponent implements OnInit {
   }
 
   plotData() {
-    let agentData = [
+    const agentData = [
       { id: 779, y: (this.location.buildings || {}).presale, indexLabel: "Presale  ", is_external_agent: 0 },
       { id: 781, y: (this.location.buildings || {}).sale, indexLabel: "For Sale  ", is_external_agent: 0 }
     ];
-    let agentData1 = [
+    const agentData1 = [
       { id: 779, y: (this.location.buildings || {}).without_information, indexLabel: "Without  ", is_external_agent: 0 },
       { id: 781, y: (this.location.buildings || {}).basic_information, indexLabel: "Basic  ", is_external_agent: 0 },
       { id: 781, y: (this.location.buildings || {}).semi_complete, indexLabel: "Semi  ", is_external_agent: 0 },
@@ -334,52 +334,28 @@ export class DashboardComponent implements OnInit {
         showInLegend: true,
         name: 'Without info.',
         
-        dataPoints: [
-          { label: "Country Club", y: 6 },
-          { label: "Amerciana", y: 3 },
-          { label: "Colomos providencia", y: 5 },
-          { label: "Parados providencia", y: 9 },
-          { label: "Providencia 4ta", y: 1 },
-        ]
+        dataPoints: this.getMaxFiveLocality('without_information')
       },
       {
         type: 'stackedColumn',
         showInLegend: true,
         name: 'Basic',
         
-        dataPoints: [
-          { label: "Country Club", y: 6 },
-          { label: "Amerciana", y: 3 },
-          { label: "Colomos providencia", y: 5 },
-          { label: "Parados providencia", y: 9 },
-          { label: "Providencia 4ta", y: 1 },
-        ]
+        dataPoints: this.getMaxFiveLocality('basic_information')
       },
       {
         type: 'stackedColumn',
         showInLegend: true,
         name: 'Semicomplete',
         
-        dataPoints: [
-          { label: "Country Club", y: 3 },
-          { label: "Amerciana", y: 7 },
-          { label: "Colomos providencia", y: 6 },
-          { label: "Parados providencia", y: 7 },
-          { label: "Providencia 4ta", y: 1 },
-        ]
+        dataPoints: this.getMaxFiveLocality('semi_complete')
       },
       {
         type: 'stackedColumn',
         showInLegend: true,
         name: 'Complete',
        
-        dataPoints: [
-          { label: "Country Club", y: 3 },
-          { label: "Amerciana", y: 7 },
-          { label: "Colomos providencia", y: 6 },
-          { label: "Parados providencia", y: 7 },
-          { label: "Providencia 4ta", y: 1 },
-        ]
+        dataPoints: this.getMaxFiveLocality('complete')
       }]
     });
     chart2.render();
@@ -460,6 +436,16 @@ export class DashboardComponent implements OnInit {
 
   getParseInt(firstValue:number,secondValue:number){
     return parseInt(((firstValue / secondValue)*100 || '0').toString());
+  }
+
+  getMaxFiveLocality(text:string){
+    const data = [];
+    for (let index = 0; index < 5; index++) {
+      const element = this.location.locality[index];
+      data.push({label:this.language_code == 'en' ? element.locality_id.name_en : element.locality_id.name_es,
+      y: element[text]});      
+    }
+    return data;
   }
   
 }
