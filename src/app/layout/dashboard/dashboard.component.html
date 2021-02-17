@@ -39,8 +39,7 @@
         <label>{{'filters.location.locality' | translate}}</label>
         <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selctedLocalities"
         [data]="location.localities" [(ngModel)]="selctedLocalities" [settings]="multiDropdownSettings"
-        (onDeSelect)="unsetProject($event)" (onSelect)="onItemSelect('selctedLocalities', $event)"
-        (onSelectAll)="onSelectAll($event)" (change)="getLocalityBuildings($event.target.value)">
+        >
      </ng-multiselect-dropdown>
         <!-- <select class="form-control" (change)="getLocalityBuildings($event.target.value)">
           <option value="0">{{'filters.location.allOption' | translate}}</option>
