@@ -30,8 +30,8 @@ export class DashboardComponent {
   };
   sellerRepBanks = [];
   amenities = Array<any>();
-  selctedLocalities: Array<any>;
-  selctedCities: Array<any>;
+  selctedLocalities: Array<any> = [];
+  selctedCities: Array<any> = [];
   multiDropdownSettings = {};
   public parameter: IProperty = {};
   public location: IProperty = {};
@@ -108,22 +108,25 @@ export class DashboardComponent {
   
 
   getListing(){
+    this.spinner.show();
     const input: any = JSON.parse(JSON.stringify(this.parameter));
-    if (this.selctedLocalities) {
-      const d = this.selctedLocalities.map(o => o.id);
-      // console.log(d, "filter")
-      input.selctedLocalities = d;
-    }
-    if (this.selctedCities) {
-      const d = this.selctedCities.map(o => o.id);
-      // console.log(d, "filter")
-      input.selctedCities = d;
-    }
-    this.admin.postDataApi('propertyHome', input).subscribe(
+    input.localities = this.selctedLocalities.map(o => o.id);
+    input.cities = this.selctedCities.map(o => o.id);
+    // if (this.selctedLocalities) {
+    //   const d = this.selctedLocalities.map(o => o.id);
+    //   // console.log(d, "filter")
+    //   input.localities = d;
+    // }
+    // if (this.selctedCities) {
+    //   const d = this.selctedCities.map(o => o.id);
+    //   // console.log(d, "filter")
+    //   input.cities = d;
+    // }
+    this.admin.postDataApi('getDashboardDetails', input).subscribe(
       success => {
-        localStorage.setItem('deshboard', JSON.stringify(this.parameter));
+       // localStorage.setItem('deshboard', JSON.stringify(this.parameter));
         this.items = success.data;
-        console.log(this.items,"api")
+       // console.log(this.items,"api")
         this.total = success.total_count;
         this.spinner.hide();
       },
@@ -137,7 +140,9 @@ export class DashboardComponent {
   }
 
   resetFilters(){
+    this.selctedCities = [];
     this.selctedLocalities = [];
+    this.getListing();
   }
 
   getCountries() {
@@ -169,21 +174,33 @@ export class DashboardComponent {
       return false;
     }
 
-    this.parameter.state_id = id;
+    this.parameter.states = id;
     const selectedState = this.location.states.filter(x => x.id.toString() === id);
     this.location.cities = selectedState[0].cities;
   }
 
-  onCityChange(id) {
-    this.location.localities = []; this.parameter.locality_id = '0';
-    this.parameter.buildings = []; this.parameter.building_id = '0';
-    if (!id || id.toString() === '0') {
-      return false;
-    }
+  onCityChangeAll=(data:any[]):void=>{
+    this.selctedCities = data;
+    this.onCityChange();
+  }
 
-    this.parameter.city_id = id;
-    const selectedCountry = this.location.cities.filter(x => x.id.toString() === id);
-    this.location.localities = selectedCountry[0].localities;
+  onCityChange=():void=> {
+    this.location.localities = [];
+    // this.location.localities = []; this.parameter.locality_id = '0';
+    // this.parameter.buildings = []; this.parameter.building_id = '0';
+    // if (!data.id || data.id.toString() === '0') {
+    //   return false;
+    // }
+    //this.parameter.city_id = data.id;
+    const localities = [];
+    this.selctedCities.forEach((cityObject)=>{
+      const selectedCountry = this.location.cities.filter(x => x.id == cityObject.id);
+      (selectedCountry[0].localities || []).forEach((localityObject)=>{
+        localities.push(localityObject);
+      });
+    });
+   this.location.localities = localities;
+   console.log(localities);
   }
 
   onLocalityChange(id) {
