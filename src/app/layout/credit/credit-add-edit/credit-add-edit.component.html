@@ -7,11 +7,11 @@
             <div class="steps">
               <ul class="d-flex">
                 <li [ngClass]="{'current': tab == 1}"> <span></span>
-                  <a  (click)="setTab(1)">{{'creditForm.userInfo' | translate}}</a>
+                  <a (click)="setTab(1)">{{'creditForm.userInfo' | translate}}</a>
                 </li>
 
                 <li [ngClass]="{'current': tab == 2}"><span></span>
-                  <a  (click)="setTab(2)">{{'creditForm.credit' | translate}}</a>
+                  <a (click)="setTab(2)">{{'creditForm.credit' | translate}}</a>
                 </li>
 
                 <li [ngClass]="{'current': tab == 3}"><span></span>
@@ -23,13 +23,13 @@
                     aria-selected="false">{{'creditForm.Coaccredited' | translate}}</a>
                 </li> -->
               </ul>
-             
+
             </div>
           </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
           <!-- user tab -->
-          <div *ngIf="tab==1">
+          <div *ngIf="tab == 1">
             <!-- <div class="white-bg padding15"></div><br /> -->
             <div class="white-bg">
               <div class="padding40">
@@ -69,7 +69,7 @@
                 <div class="row">
                   <div class="col-md-12">
                     <div class="btn-cont text-right">
-                      <button type="button" class="btn btn-primary" (click)="this.addcredits(1)">{{'addCollection.next'
+                      <button type="button" class="btn btn-primary" (click)="this.addcredits()">{{'addCollection.next'
                         | translate}}</button>
                     </div>
                   </div>
@@ -78,11 +78,11 @@
             </div>
           </div>
           <!-- credit tab -->
-          <div *ngIf="tab==2">
+          <div *ngIf="tab == 2">
             <!-- <div class="white-bg padding15"></div><br /> -->
             <form role="form" ngNativeValidate #addForm="ngForm">
               <div class="white-bg padding20">
-                <h3>{{'creditForm.id' | translate}} &nbsp;218642</h3>
+                <h3>{{'creditForm.id' | translate}} &nbsp;{{this.creditModel?.user?.id || 0}}</h3>
                 <div class="col-12">
                   <div class="spacer40"></div>
                 </div>
@@ -90,11 +90,10 @@
                   <div class="col-4">
                     <div class="form-group-3">
                       <label class="p16-two">{{'creditForm.destination' | translate}}</label>
-                      <select title="Select Destination" name="destination_name" class="form-control"
-                        (change)="getDestination($event.target.value)">
+                      <select title="Select Destination" name="destination_id" class="form-control">
                         <option value="0" disabled>{{'creditForm.selectDestination' | translate}}</option>
-                        <option *ngFor="let dest of destination_list"
-                          [selected]="dest.id == model.destination_id" value="{{dest.id}}">
+                        <option *ngFor="let dest of destination_list" [selected]="dest.id == creditModel.destination_id"
+                          value="{{dest.id}}">
                           {{language_code
                           == 'en'? dest.name_en : dest.name_es}}</option>
                       </select>
@@ -103,14 +102,13 @@
                   <div class="col-4">
                     <div class="form-group-3">
                       <label class="p16-two">{{'creditForm.programs' | translate}}</label>
-                      <select title="Select Programs" name="program_name" class="form-control"
-                      (change)="getPrograms($event.target.value)">
-                      <option value="0" disabled>{{'creditForm.selectProgram' | translate}}</option>
-                      <option *ngFor="let dest of program_list"
-                        [selected]="dest.id == model.destination_id" value="{{dest.id}}">
-                        {{language_code
-                        == 'en'? dest.name_en : dest.name_es}}</option>
-                    </select>
+                      <select title="Select Programs" name="programs_id" class="form-control">
+                        <option value="0" disabled>{{'creditForm.selectProgram' | translate}}</option>
+                        <option *ngFor="let dest of program_list" [selected]="dest.id == creditModel.programs_id"
+                          value="{{dest.id}}">
+                          {{language_code
+                          == 'en'? dest.name_en : dest.name_es}}</option>
+                      </select>
                     </div>
                   </div>
                   <div class="col-4">
@@ -119,7 +117,7 @@
                       </label>
                       <input autocomplete="off" minlength="1" maxlength="30"
                         [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
-                        class="form-control" [(ngModel)]="model.name" name="name1">
+                        class="form-control" [(ngModel)]="creditModel.home_value" name="home_value">
                     </div>
                   </div>
                 </div>
@@ -132,27 +130,25 @@
                       <label class="p16-two">{{'creditForm.creditAmount' | translate}}</label>
                       <input autocomplete="off" minlength="1" maxlength="30"
                         [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
-                        class="form-control" [(ngModel)]="model.name" name="name1">
+                        class="form-control" [(ngModel)]="creditModel.credit_amount" name="credit_amount">
                     </div>
                   </div>
                   <div class="col-4">
                     <div class="form-group-3">
                       <label class="p16-two">{{'creditForm.deadlines' | translate}}</label>
-                      <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selctedDeadlines"
-                      [data]="CreditsDeadlines" [(ngModel)]="selctedDeadlines" [settings]="multiDropdownSettings"
-                      (onDeSelect)="unsetDeadlines($event)" (onSelect)="onItemSelect('selctedDeadlines', $event)"
-                      (onSelectAll)="onSelectAll($event)">
-                   </ng-multiselect-dropdown>
+                      <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
+                        name="deadlines_quote" [data]="creditsDeadlines" [(ngModel)]="creditModel.deadlines_quote"
+                        [settings]="multiDropdownSettings"  (onDeSelect)="unsetDeadlines($event)">
+                      </ng-multiselect-dropdown>
                     </div>
                   </div>
                   <div class="col-4">
                     <div class="form-group-3">
                       <label>{{'creditForm.paymentScheme' | translate}}</label>
-                      <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selctedPayments"
-                      [data]="PaymentScheme" [(ngModel)]="selctedPayments" [settings]="multiDropdownSettings"
-                      (onDeSelect)="unsetPayments($event)" (onSelect)="onItemSelect('selctedPayments', $event)"
-                      (onSelectAll)="onSelectAll($event)">
-                   </ng-multiselect-dropdown>
+                      <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
+                        name="payment_scheme" [data]="PaymentScheme" [(ngModel)]="creditModel.payment_scheme"
+                        [settings]="multiDropdownSettings"  (onDeSelect)="unsetPayments($event)">
+                      </ng-multiselect-dropdown>
                     </div>
                   </div>
                 </div>
@@ -164,11 +160,10 @@
                   <div class="col-8">
                     <div class="form-group-3">
                       <label>{{'creditForm.banks' | translate}}</label>
-                      <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selctedBanks"
-                      [data]="banks" [(ngModel)]="selctedBanks" [settings]="multiDropdownSettings"
-                      (onDeSelect)="unsetProject($event)" (onSelect)="onItemSelect('selctedBanks', $event)"
-                      (onSelectAll)="onSelectAll($event)">
-                   </ng-multiselect-dropdown>
+                      <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
+                        name="bank_id" [data]="banks" [(ngModel)]="creditModel.bank_id"
+                        [settings]="multiDropdownSettings"  (onDeSelect)="unsetProject($event)">
+                      </ng-multiselect-dropdown>
                     </div>
                   </div>
                 </div>
@@ -182,7 +177,7 @@
                       <label class="p16-two">{{'creditForm.executive' | translate}}</label>
                       <input autocomplete="off" minlength="1" maxlength="30"
                         [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
-                        class="form-control" [(ngModel)]="model.name" name="name1">
+                        class="form-control" [(ngModel)]="creditModel.executive" name="executive">
                     </div>
                   </div>
                   <div class="col-4">
@@ -190,7 +185,7 @@
                       <label class="p16-two">{{'creditForm.state' | translate}}</label>
                       <input autocomplete="off" minlength="1" maxlength="30"
                         [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
-                        class="form-control" [(ngModel)]="model.name" name="name1">
+                        class="form-control" [(ngModel)]="creditModel.state" name="state">
                     </div>
                   </div>
                   <div class="col-4">
@@ -214,7 +209,7 @@
                       <label class="p16-two">{{'creditForm.caseStatus' | translate}}</label>
                       <input autocomplete="off" minlength="1" maxlength="30"
                         [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
-                        class="form-control" [(ngModel)]="model.name" name="name1">
+                        class="form-control" [(ngModel)]="creditModel.case_status" name="case_status">
                     </div>
                   </div>
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12">
@@ -222,7 +217,7 @@
                       <label class="p16-two">{{'creditForm.customerProfile' | translate}}</label>
                       <input autocomplete="off" minlength="1" maxlength="30"
                         [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
-                        class="form-control" [(ngModel)]="model.name" name="name1">
+                        class="form-control" [(ngModel)]="creditModel.customer_profile" name="customer_profile">
                     </div>
                   </div>
 
@@ -230,7 +225,8 @@
                     <div class="form-group-3">
                       <label>{{'creditForm.yesno1' | translate}}</label>
                       <div class="switchToggle">
-                        <input type="checkbox" id="switch2">
+                        <input type="checkbox" id="switch2" [(ngModel)]="creditModel.property_status"
+                          name="property_status">
                         <label for="switch2">Toggle</label>
                       </div>
                     </div>
@@ -242,7 +238,8 @@
                 <div class="row">
                   <div class="col-12">
                     <div class="btn-cont text-right">
-                      <button class="btn btn-primary">{{'creditForm.Saveinformation' | translate}}</button>
+                      <button class="btn btn-primary" (click)="this.addcredits()">{{'creditForm.Saveinformation' |
+                        translate}}</button>
                     </div>
                   </div>
                 </div>
@@ -257,35 +254,43 @@
                   <a class="nav-link dropdown-toggle" data-toggle="dropdown"
                     style="cursor: pointer;">{{'creditForm.generals' | translate}}</a>
                   <div class="dropdown-menu">
-                    <strong [ngClass]="{'current': subtab == 1}"><span></span><a (click)="setsubTab(1)" class="dropdown-item"
-                        style="cursor: pointer;">{{'creditForm.Personals' | translate}}</a></strong>
-                    <strong [ngClass]="{'current': subtab == 2}"><span></span><a (click)="setsubTab(2)" class="dropdown-item"
-                        style="cursor: pointer;">{{'creditForm.CREDITREPORT' | translate}}</a></strong>
-                    <strong [ngClass]="{'current': subtab == 3}"><span></span><a (click)="setsubTab(3)" class="dropdown-item"
-                        style="cursor: pointer;">{{'creditForm.economicDept' | translate}}</a></strong>
-                    <strong [ngClass]="{'current': subtab == 4}"><span></span><a (click)="setsubTab(4)" class="dropdown-item"
-                        style="cursor: pointer;">{{'creditForm.References' | translate}}</a></strong>
-                    <strong [ngClass]="{'current': subtab == 5}"><span></span><a (click)="setsubTab(5)" class="dropdown-item"
-                        style="cursor: pointer;">{{'creditForm.Obligados' | translate}}</a></strong>
+                    <strong [ngClass]="{'current': subtab == 1}"><span></span><a (click)="setsubTab(1)"
+                        class="dropdown-item" style="cursor: pointer;">{{'creditForm.Personals' |
+                        translate}}</a></strong>
+                    <strong [ngClass]="{'current': subtab == 2}"><span></span><a (click)="setsubTab(2)"
+                        class="dropdown-item" style="cursor: pointer;">{{'creditForm.CREDITREPORT' |
+                        translate}}</a></strong>
+                    <strong [ngClass]="{'current': subtab == 3}"><span></span><a (click)="setsubTab(3)"
+                        class="dropdown-item" style="cursor: pointer;">{{'creditForm.economicDept' |
+                        translate}}</a></strong>
+                    <strong [ngClass]="{'current': subtab == 4}"><span></span><a (click)="setsubTab(4)"
+                        class="dropdown-item" style="cursor: pointer;">{{'creditForm.References' |
+                        translate}}</a></strong>
+                    <strong [ngClass]="{'current': subtab == 5}"><span></span><a (click)="setsubTab(5)"
+                        class="dropdown-item" style="cursor: pointer;">{{'creditForm.Obligados' |
+                        translate}}</a></strong>
                   </div>
                 </div>
                 <div class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" data-toggle="dropdown"
                     style="cursor: pointer;">{{'creditForm.Incomes' | translate}}</a>
                   <div class="dropdown-menu">
-                    <strong [ngClass]="{'current': subtab == 6}"><span></span><a (click)="setsubTab(6)" class="dropdown-item"
-                        style="cursor: pointer;">{{'creditForm.Incomes' | translate}}</a></strong>
-                    <strong [ngClass]="{'current': subtab == 7}"><span></span><a (click)="setsubTab(7)" class="dropdown-item"
-                        style="cursor: pointer;">{{'creditForm.BankAccounts' | translate}}</a></strong>
-                    <strong [ngClass]="{'current': subtab == 8}"><span></span><a (click)="setsubTab(8)" class="dropdown-item"
-                        style="cursor: pointer;">{{'creditForm.Debts' | translate}}</a></strong>
-                    <strong [ngClass]="{'current': subtab == 9}"><span></span><a (click)="setsubTab(9)" class="dropdown-item"
-                        style="cursor: pointer;">{{'creditForm.Beneficiaries' | translate}}</a></strong>
+                    <strong [ngClass]="{'current': subtab == 6}"><span></span><a (click)="setsubTab(6)"
+                        class="dropdown-item" style="cursor: pointer;">{{'creditForm.Incomes' | translate}}</a></strong>
+                    <strong [ngClass]="{'current': subtab == 7}"><span></span><a (click)="setsubTab(7)"
+                        class="dropdown-item" style="cursor: pointer;">{{'creditForm.BankAccounts' |
+                        translate}}</a></strong>
+                    <strong [ngClass]="{'current': subtab == 8}"><span></span><a (click)="setsubTab(8)"
+                        class="dropdown-item" style="cursor: pointer;">{{'creditForm.Debts' | translate}}</a></strong>
+                    <strong [ngClass]="{'current': subtab == 9}"><span></span><a (click)="setsubTab(9)"
+                        class="dropdown-item" style="cursor: pointer;">{{'creditForm.Beneficiaries' |
+                        translate}}</a></strong>
                   </div>
                 </div>
                 <a class="nav-item nav-link" (click)="setsubTab(10)" style="cursor: pointer;">{{'creditForm.Insurance' |
                   translate}}</a>
-                <a class="nav-item nav-link" (click)="setsubTab(11)" style="cursor: pointer;">{{'creditForm.additionalData'
+                <a class="nav-item nav-link" (click)="setsubTab(11)"
+                  style="cursor: pointer;">{{'creditForm.additionalData'
                   | translate}}</a>
               </nav>
             </div><br />
@@ -2056,7 +2061,7 @@
                     <div class="col-md-4">
                       <div class="form-group-3">
                         <label>{{'creditForm.PropertyType' | translate}}</label>
-                       <select class="form-control">
+                        <select class="form-control">
                           <option>test</option>
                         </select>
                       </div>
@@ -2076,7 +2081,7 @@
 </section>
 
 
-          <!-- <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+<!-- <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
             <a class="nav-item nav-link active" id="nav-user-tab" data-toggle="tab" href="#nav-user" role="tab"
               aria-controls="nav-user" aria-selected="true">{{'creditForm.userInfo' | translate}}</a>
             <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"

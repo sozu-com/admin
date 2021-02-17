@@ -154,4 +154,9 @@ export class CreditComponent implements OnInit {
     this.getBuyers();
   }
 
+  onChangeDashFlag(index:number){
+  }
+
+  resetFilters(){}
+
 }

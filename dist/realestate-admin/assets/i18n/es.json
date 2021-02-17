@@ -2436,6 +2436,11 @@
     "Mensuales":"Total De Gastos Mensuales",
     "PlaceApplication":"Lugar De Solicitud",
     "Inmueble":"Uso De Inmueble",
-    "PropertyType":"Tipo DE DE Inmueble"
+    "PropertyType":"Tipo DE DE Inmueble",
+    "selectDestination": "Seleccionar Destino",
+    "selectProgram": "Seleccionar Programas",
+    "selectdeadline": "Seleccionar Plazos a cotiza",
+    "selectpayment": "Seleccionar Esquema de pago",
+    "selectbanks": "Seleccionar Bancos"
   }
 }

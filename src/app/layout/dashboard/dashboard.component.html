@@ -1,9 +1,65 @@
-
 <div class="container-fluid">
+
+  <div class="row">
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group">
+        <label>{{'filters.location.country' | translate}}</label>
+        <select class="form-control" (change)="onCountryChange($event.target.value)">
+          <option value="0">{{'filters.location.allOption' | translate}}</option>
+          <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group">
+        <label>{{'filters.location.state' | translate}}</label>
+        <select class="form-control" (change)="onStateChange($event.target.value)">
+          <option value="0">{{'filters.location.allOption' | translate}}</option>
+          <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group">
+        <label>{{'filters.location.city' | translate}}</label>
+        <select class="form-control" (change)="onCityChange($event.target.value)">
+          <option value="0">{{'filters.location.allOption' | translate}}</option>
+          <option *ngFor="let item of location.cities" [value]="item.id">{{item.name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group">
+        <label>{{'filters.location.locality' | translate}}</label>
+        <select class="form-control" (change)="getLocalityBuildings($event.target.value)">
+          <option value="0">{{'filters.location.allOption' | translate}}</option>
+          <option *ngFor="let item of location.localities" [value]="item.id">{{item.name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group btn-cont">
+        <label style="display: block; margin-top: 3px;">&nbsp;</label>
+        <button type="button" (click)="getListing()"
+          class="btn btn-primary-new width100P P86">{{'filters.location.applyBtn' | translate}}</button>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group btn-cont">
+        <label style="display: block; margin-top: 3px;">&nbsp;</label>
+        <button type="button" (click)="resetFilters()"
+          class="btn btn-primary-new width100P P86">{{'filters.location.resetBtn' | translate}}</button>
+      </div>
+    </div>
+  </div>
+
   <div class="row">
     <div class="col-md-4">
       <div class="title-group">
-          <h5>{{'dashboard.hello' | translate}} {{fullName}}</h5>
+        <h5>{{'dashboard.hello' | translate}} {{fullName}}</h5>
       </div>
     </div>
     <div class="col-md-8">
@@ -30,57 +86,91 @@
       </div> -->
 
 
-    <div class="row">
+      <!-- <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-5 col-5">
           <div class="form-group marginB0">
-              <label>{{'filters.time.custom.from' | translate}}</label>
-              <p-calendar showIcon="true" [locale]="locale" [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+            <label>{{'filters.time.custom.from' | translate}}</label>
+            <p-calendar showIcon="true" [locale]="locale" [(ngModel)]="parameter.min" [maxDate]="today"
+              showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
           </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-5 col-5">
           <div class="form-group marginB0">
-              <label>{{'filters.time.custom.to' | translate}}</label>
-              <p-calendar showIcon="true" [locale]="locale" [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+            <label>{{'filters.time.custom.to' | translate}}</label>
+            <p-calendar showIcon="true" [locale]="locale" [(ngModel)]="parameter.max" [minDate]="parameter.min"
+              [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true"
+              yearRange="2000:2040"></p-calendar>
           </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-2 col-5">
           <div class="form-group btn-cont">
             <label class="addMT3">&nbsp;</label>
             <button class="btn btn-calender" href="javascript://" (click)="getReportData()"
-          [disabled]="!parameter.min || !parameter.max">{{'filters.time.custom.applyBtn' | translate}}</button>
+              [disabled]="!parameter.min || !parameter.max">{{'filters.time.custom.applyBtn' | translate}}</button>
           </div>
         </div>
-    </div>
+      </div> -->
 
 
     </div>
   </div>
-<div class="row">
-      <div class="col-md-4 col-sm-12 col-12">
-        <div class="info-box dashboard-bx">
-          <p class="p14">{{'dashboard.allProperties' | translate}}</p>
-          <h3>{{all_properties_count|numberWithCommas}}</h3>
-        </div>
-      </div>
-      <div class="col-md-4 col-sm-12 col-12">
-        <div class="info-box dashboard-bx">
-          <p class="p14">{{'dashboard.propertiesForSale' | translate}}</p>
-          <h3>{{sale_properties_count|numberWithCommas}}</h3>
-        </div>
-      </div>
-      <div class="col-md-4 col-sm-12 col-12">
-        <div class="info-box dashboard-bx">
-          <p class="p14">{{'dashboard.propertiesForRent' | translate}}</p>
-          <h3>{{rent_properties_count|numberWithCommas}}</h3>
-        </div>
-      </div>
 
-</div>
-<div class="spacer30"></div>
-<div class="white-bg padding40">
-      <h3>{{'dashboard.statsAndTrendAnalytics' | translate}}</h3>
-      <hr>
-      <!-- <div class="row">
+  <div class="row">
+    <!-- <div class="col-md-4 col-sm-12 col-12">
+      <div class="info-box dashboard-bx">
+        <p class="p14">{{'dashboard.allProperties' | translate}}</p>
+        <h3>{{all_properties_count|numberWithCommas}}</h3>
+      </div>
+    </div>
+    <div class="col-md-4 col-sm-12 col-12">
+      <div class="info-box dashboard-bx">
+        <p class="p14">{{'dashboard.propertiesForSale' | translate}}</p>
+        <h3>{{sale_properties_count|numberWithCommas}}</h3>
+      </div>
+    </div>
+    <div class="col-md-4 col-sm-12 col-12">
+      <div class="info-box dashboard-bx">
+        <p class="p14">{{'dashboard.propertiesForRent' | translate}}</p>
+        <h3>{{rent_properties_count|numberWithCommas}}</h3>
+      </div>
+    </div> -->
+  <div class=" col-md-8 offset-md-2">
+    <div class="table-responsive">
+      <table class="table table-bordered white-bg">
+        <tbody>
+          <tr>
+            <th rowspan="2" style="text-align: center; padding-top: 32px;">{{'Projects'}}</th>
+            <th colspan="2" style="text-align: center;">{{'Possesion'}}</th>
+            <th colspan="4" style="text-align: center;">{{'Projects status'}}</th>
+          </tr>
+          <tr>
+            <th style="text-align: center;">{{'Sale'}}</th>
+            <th style="text-align: center;">{{'Presale'}}</th>
+            <th style="text-align: center;">{{'Without information'}}</th>
+            <th style="text-align: center;">{{'Basic'}}</th>
+            <th style="text-align: center;">{{'Semicomplete'}}</th>
+            <th style="text-align: center;">{{'Complete'}}</th>
+          </tr>
+         <ng-container *ngFor="let seller_rep_banks of sellerRepBanks; let sb=index">
+           <tr>
+             <td></td>
+             <td>
+              <a class="black" data-toggle="collapse" data-parent="#accordion" href="#collapseSRB{{sb}}">
+                <b>Bank {{sb+1}}</b>
+               </a>
+             </td>
+           </tr>
+         </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  </div>
+  <div class="spacer30"></div>
+  <!-- <div class="white-bg padding40">
+    <h3>{{'dashboard.statsAndTrendAnalytics' | translate}}</h3>
+    <hr>
+     <div class="row">
       <div class="col-12">
       <div class="cust-tabs-2 dashboard-tabs">
             <ul class="nav nav-tabs">
@@ -92,57 +182,171 @@
 
         </div>
         </div> -->
-          <div class="clearfix"></div>
+    <!-- <div class="clearfix"></div> -->
 
-        <div class="tab-content">
-          <div id="prop" class="tab-pane fade in active show">
-          <div class="row">
-            <div class="col-lg-5 col-md-6 col-sm-12 col-12">
+    <!-- <div class="tab-content">
+      <div id="prop" class="tab-pane fade in active show">
+        <div class="row">
+          <div class="col-lg-5 col-md-6 col-sm-12 col-12">
             <div class="stats-block">
-                  <p class="p14">{{'dashboard.totalCommissionOnPlatform' | translate}}</p>
-                  <h2>{{total_commission|price}}</h2>
+              <p class="p14">{{'dashboard.totalCommissionOnPlatform' | translate}}</p>
+              <h2>{{total_commission|price}}</h2>
             </div>
+          </div>
+          <div class="col-lg-5 col-md-6 col-sm-12 col-12">
+            <div class="stats-block">
+              <p class="p14">{{'dashboard.yourSales' | translate}}</p>
+              <h2>{{total_sales|price}}</h2>
             </div>
-              <div class="col-lg-5 col-md-6 col-sm-12 col-12">
-              <div class="stats-block">
-                  <p class="p14">{{'dashboard.yourSales' | translate}}</p>
-                  <h2>{{total_sales|price}}</h2>
-            </div>
-            </div>
-            </div>
-            <div class="spacer30"></div>
-            <div class="row">
-              <div class="col-md-6 col-sm-12 col-12">
-                <div style="height:300px">
-                  <ngx-charts-bar-vertical
-                  [scheme]="colorScheme"
-                  [results]="chartCommision"
-                  [gradient]="false"
-                  [xAxis]="true"
-                  [yAxis]="true"
-                  [showXAxisLabel]="true"
-                  [showYAxisLabel]="true">
-                </ngx-charts-bar-vertical>
-                </div>
-              </div>
-                <div class="col-md-6 col-sm-12 col-12">
-                <div style="height:300px">
-                    <ngx-charts-area-chart
-                      [scheme]="colorScheme"
-                      [results]="chartSales"
-                      [gradient]="false"
-                      [xAxis]="true"
-                      [yAxis]="true"
-                      [showXAxisLabel]="true"
-                      [showYAxisLabel]="true">
-                    </ngx-charts-area-chart>
-                </div>
-              </div>
-
-            </div>
-              </div>
+          </div>
         </div>
+        <div class="spacer30"></div>
+        <div class="row">
+          <div class="col-md-6 col-sm-12 col-12">
+            <div style="height:300px">
+              <ngx-charts-bar-vertical [scheme]="colorScheme" [results]="chartCommision" [gradient]="false"
+                [xAxis]="true" [yAxis]="true" [showXAxisLabel]="true" [showYAxisLabel]="true">
+              </ngx-charts-bar-vertical>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-12 col-12">
+            <div style="height:300px">
+              <ngx-charts-area-chart [scheme]="colorScheme" [results]="chartSales" [gradient]="false" [xAxis]="true"
+                [yAxis]="true" [showXAxisLabel]="true" [showYAxisLabel]="true">
+              </ngx-charts-area-chart>
+            </div>
+          </div>
 
-        <div class="clearfix"></div>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- <div class="clearfix"></div>
+  </div> -->
+  
+  <div class="row">
+    <div class="graph-area col-lg-6 col-md-6">
+      <div id="agentContainer" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
+    </div>
+    <div class="graph-area col-lg-6 col-md-6">
+      <div id="agentContainer1" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
+    </div>
   </div>
+
+  <div class="spacer30"></div>
+
+  <div class="row">
+    <div class="graph-area col-md-12">
+      <div id="chartContainer" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
+    </div>
+  </div>
+
+  <div class="spacer30"></div>
+
+  <div class="row">
+  <div class=" col-md-8 offset-md-2">
+    <div class="table-responsive">
+      <table class="table table-bordered white-bg">
+        <tbody>
+          <tr>
+            <th style="text-align: center;">{{'Localities'}}</th>
+            <th style="text-align: center;">{{'Total'}}</th>
+            <th style="text-align: center;">{{'Without'}}</th>
+            <th style="text-align: center;">{{'Basic'}}</th>
+            <th style="text-align: center;">{{'Semicomplete'}}</th>
+            <th style="text-align: center;">{{'Complete'}}</th>
+          </tr>
+         <ng-container *ngFor="let seller_rep_banks of sellerRepBanks; let sb=index">
+           <tr>
+             <td></td>
+             <td>
+              <a class="black" data-toggle="collapse" data-parent="#accordion" href="#collapseSRB{{sb}}">
+                <b>Bank {{sb+1}}</b>
+               </a>
+             </td>
+           </tr>
+         </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  </div>
+
+  <div class="spacer30"></div>
+
+  <div class="row">
+    <div class=" col-md-8 offset-md-2">
+      <div class="table-responsive">
+        <table class="table table-bordered white-bg">
+          <tbody>
+            <tr>
+              <th rowspan="2" style="text-align: center; padding-top: 32px;">{{'Total'}}</th>
+              <th colspan="2" style="text-align: center;">{{'Total'}}</th>
+              <th rowspan="2" style="text-align: center; padding-top: 32px;">{{'Commercialized by Sozu'}}</th>
+              <th rowspan="2" style="text-align: center; padding-top: 32px;">{{'Sold by Sozu'}}</th>
+              <th colspan="4" style="text-align: center;">{{'Projects status'}}</th>
+            </tr>
+            <tr>
+              <th style="text-align: center;">{{'For Sale'}}</th>
+              <th style="text-align: center;">{{'Rent'}}</th>
+              <th style="text-align: center;">{{'Inventory'}}</th>
+              <th style="text-align: center;">{{'Approved'}}</th>
+              <th style="text-align: center;">{{'Unapproved'}}</th>
+              <th style="text-align: center;">{{'Pending Review'}}</th>
+              <th style="text-align: center;">{{'In Draft'}}</th>
+            </tr>
+           <ng-container *ngFor="let seller_rep_banks of sellerRepBanks; let sb=index">
+             <tr>
+               <td></td>
+               <td>
+                <a class="black" data-toggle="collapse" data-parent="#accordion" href="#collapseSRB{{sb}}">
+                  <b>Bank {{sb+1}}</b>
+                 </a>
+               </td>
+             </tr>
+           </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+
+    <div class="spacer30"></div>
+  
+    <div class="row">
+      <div class="graph-area col-md-12">
+        <div id="chartContainer1" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
+      </div>
+    </div>
+    
+  <div class="spacer30"></div>
+  
+  <div class="row">
+    <div class=" col-md-8 offset-md-2">
+      <div class="table-responsive">
+        <table class="table table-bordered white-bg">
+          <tbody>
+            <tr>
+              <th style="text-align: center;">{{'City'}}</th>
+              <th style="text-align: center;">{{'# Properties'}}</th>
+              <th style="text-align: center;">{{'Approved'}}</th>
+              <th style="text-align: center;">{{'Unapproved'}}</th>
+              <th style="text-align: center;">{{'Pending review'}}</th>
+              <th style="text-align: center;">{{'In draft'}}</th>
+            </tr>
+           <ng-container *ngFor="let seller_rep_banks of sellerRepBanks; let sb=index">
+             <tr>
+               <td></td>
+               <td>
+                <a class="black" data-toggle="collapse" data-parent="#accordion" href="#collapseSRB{{sb}}">
+                  <b>Bank {{sb+1}}</b>
+                 </a>
+               </td>
+             </tr>
+           </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
 </div>
