@@ -1148,7 +1148,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     let payment_upon_delivery = (this.installmentFormGroup.value.paymentupondelivery * final_price) / 100;
     let monthly_installments = monthly_installment_amount / this.installmentFormGroup.value.numberOfMI;
     let add_variable = [];
-    this.getAddVariablesFormArray.controls.forEach((element:FormGroup)=>{
+    this.getAddVariablesFormArray.controls.forEach((element: FormGroup) => {
       let variable_amount = element.value.addVariablesPercentage ? (element.value.addVariablesPercentage * this.property_array.min_price) / 100 : 0;
       add_variable.push([
         { text: element.value.addVariablesText, border: [false, false, false, false], color: '#858291' },
@@ -1404,13 +1404,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         },
       },
     };
-    if(add_variable.length > 0){
+    if (add_variable.length > 0) {
       let no = 5;
-      add_variable.forEach(element=>{
-        docDefinition.content[1].columns[1][1].table.body.splice( no, 0, element);
+      add_variable.forEach(element => {
+        docDefinition.content[1].columns[1][1].table.body.splice(no, 0, element);
         no = no + 1;
       });
-    add_variable
+      add_variable
     }
     pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.commercialOffer') + ' ' + current_date.toISOString() + '.pdf');
     // }else if(action === 'print'){
@@ -1507,11 +1507,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       totalPercentage += parseFloat(formGroup.get('addVariablesPercentage').value || 0.00);
     });
     totalPercentage += parseFloat(this.installmentFormGroup.get('downPayment').value || 0.00);
-    // totalPercentage += Number(this.installmentFormGroup.get('discount').value);
-    // totalPercentage += Number(this.installmentFormGroup.get('interest').value);
     totalPercentage += parseFloat(this.installmentFormGroup.get('monthlyInstallment').value || 0.00);
     totalPercentage += parseFloat(this.installmentFormGroup.get('paymentupondelivery').value || 0.00);
-    //console.log(totalPercentage)
     if (totalPercentage == 100.00) {
       this.generatePDF();
       this.closeModalInstallment();
@@ -1620,55 +1617,6 @@ export class PropertiesComponent implements OnInit, OnDestroy {
           this.paymentBankDetailsArray.push(element);
         });
       }
-      // payment directly received by seller
-      // if (((this.bankDetails || {}).collection || {}).seller_type != 2) {
-      //   // seller (as a person or developer) banks
-      //   for (let index = 0; index < (((this.bankDetails.collection || {}).buyer || {}).legal_rep_banks || []).length; index++) {
-      //     const element = this.bankDetails.collection.buyer.legal_rep_banks[index];
-      //     element.name = 'Seller Bank | ' + element.bank_name;
-      //     element.is_agency = 2;
-      //     element.bank_id = element.id;
-      //     element.legal_rep_bank_id = null;
-      //     element.Legal_name = (((this.bankDetails || {}).collection || {}).seller_legal_entity || {}).legal_name || '';
-      //     this.paymentBankDetailsArray.push(element);
-      //   }
-
-      //   // agency legal representative banks
-      //   if (((this.bankDetails.collection || {}).buyer || {}).legal_representative) {
-      //     for (let index = 0; index < ((this.bankDetails.collection.buyer.legal_representative || {}).legal_rep_banks || []).length; index++) {
-      //       const element = this.bankDetails.collection.buyer.legal_representative.legal_rep_banks[index];
-      //       element.name = 'Seller Legal Rep Bank | ' + element.bank_name;
-      //       element.is_agency = 2;
-      //       element.bank_id = null;
-      //       element.legal_rep_bank_id = element.id;
-      //       this.paymentBankDetailsArray.push(element);
-      //     }
-      //   }
-      // } else {
-      //   // seller (as a legal entity) banks
-      //   if ((((this.bankDetails || {}).collection || {}).seller_legal_entity || {}).legal_entity_banks) {
-      //     for (let index = 0; index < (this.bankDetails.collection.seller_legal_entity.legal_entity_banks || []).length; index++) {
-      //       const element = this.bankDetails.collection.seller_legal_entity.legal_entity_banks[index];
-      //       element.name = 'Seller Bank | ' + element.bank_name;
-      //       element.is_agency = 2;
-      //       element.bank_id = element.id;
-      //       element.legal_rep_bank_id = null;
-      //       this.paymentBankDetailsArray.push(element);
-      //     }
-
-      //     // agency legal representative banks
-      //     if (((((this.bankDetails || {}).collection || {}).seller_legal_entity || {}).legal_reps || {}).legal_rep_banks) {
-      //       for (let index = 0; index < (this.bankDetails.collection.seller_legal_entity.legal_reps.legal_rep_banks || []).length; index++) {
-      //         const element = this.bankDetails.collection.seller_legal_entity.legal_reps.legal_rep_banks[index];
-      //         element.name = 'Seller Legal Rep Bank | ' + element.bank_name;
-      //         element.is_agency = 2;
-      //         element.bank_id = null;
-      //         element.legal_rep_bank_id = element.id;
-      //         this.paymentBankDetailsArray.push(element);
-      //       }
-      //     }
-      //   }
-      // }
     }
     if (isFirstTimeClick) {
       this.openInstallmentModal.nativeElement.click();
@@ -1688,13 +1636,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   onClickPreview = (isPreviewClick: boolean): void => {
-    const discount = this.installmentFormGroup.value.discount ? (this.installmentFormGroup.value.discount * this.property_array.min_price) / 100 : 0;
-    const interest = this.installmentFormGroup.value.interest ? (this.installmentFormGroup.value.interest * this.property_array.min_price) / 100 : 0;
+    const discount = this.installmentFormGroup.get('discount').value ? (this.installmentFormGroup.get('discount').value * this.property_array.min_price) / 100 : 0;
+    const interest = this.installmentFormGroup.get('interest').value ? (this.installmentFormGroup.get('interest').value * this.property_array.min_price) / 100 : 0;
     const finalPrice = discount ? this.property_array.min_price - discount : interest ? this.property_array.min_price + interest : this.property_array.min_price;
-    const downPayment = (this.installmentFormGroup.value.downPayment * finalPrice) / 100;
-    const monthly_installment_amount = this.installmentFormGroup.value.monthlyInstallment ? (this.installmentFormGroup.value.monthlyInstallment * finalPrice) / 100 : 0;
-    const paymentUponDelivery = this.installmentFormGroup.value.paymentupondelivery ? (this.installmentFormGroup.value.paymentupondelivery * finalPrice) / 100 : 0;
-    const monthlyInstallments = this.installmentFormGroup.value.numberOfMI ? monthly_installment_amount / this.installmentFormGroup.value.numberOfMI : 0;
+    const downPayment = this.installmentFormGroup.get('downPayment').value ? (this.installmentFormGroup.get('downPayment').value * this.property_array.min_price) / 100 : 0;
+    const paymentUponDelivery = this.installmentFormGroup.get('paymentupondelivery').value ? (this.installmentFormGroup.get('paymentupondelivery').value * this.property_array.min_price) / 100 : 0;
+    const monthlyInstallments = this.installmentFormGroup.get('monthlyInstallment').value ? (this.installmentFormGroup.get('monthlyInstallment').value * this.property_array.min_price) / 100 : 0;
     this.installmentFormGroup.patchValue({
       listPrice: this.property_array.min_price,
       finalPrice: finalPrice,

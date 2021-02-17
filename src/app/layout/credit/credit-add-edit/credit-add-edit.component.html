@@ -30,7 +30,6 @@
         <div class="tab-content" id="nav-tabContent">
           <!-- user tab -->
           <div *ngIf="tab == 1">
-            <!-- <div class="white-bg padding15"></div><br /> -->
             <div class="white-bg">
               <div class="padding40">
                 <h5 class="p16-two">{{'addRequest.SearchAUserInOurDatabase' | translate}}</h5>
@@ -53,12 +52,6 @@
                       [index]="i"></app-user-block>
                   </div>
                 </div>
-                <!-- <div *ngIf="showError  &&  (addFormStep1.controls.building_id.invalid)">
-                      <div *ngIf="addFormStep1.controls.building_id.errors?.required " class="show-error">
-                          {{'addCollectionValidations.thisIsRequired' | translate}}
-                      </div>
-                    </div> -->
-
                 <div class="row" *ngIf="searchedUser?.length>0">
                   <div class="col-lg-6 col-md-12 col-sm-12 col-12"></div>
                   <div class="col-lg-6 col-md-12 col-sm-12 col-12 btn-cont text-right marginT15">

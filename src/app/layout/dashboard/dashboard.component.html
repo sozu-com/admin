@@ -22,20 +22,30 @@
     <div class="col-lg-2 col-md-2">
       <div class="form-group">
         <label>{{'filters.location.city' | translate}}</label>
-        <select class="form-control" (change)="onCityChange($event.target.value)">
+        <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selctedCities"
+        [data]="location.cities" [(ngModel)]="selctedCities" [settings]="multiDropdownSettings"
+        (onDeSelect)="unsetCities($event)" (onSelect)="onItemSelect('selctedCities', $event)"
+        (onSelectAll)="onSelectAll($event)" (change)="onCityChange($event.target.value)">
+      </ng-multiselect-dropdown>
+        <!-- <select class="form-control" (change)="onCityChange($event.target.value)">
           <option value="0">{{'filters.location.allOption' | translate}}</option>
           <option *ngFor="let item of location.cities" [value]="item.id">{{item.name}}</option>
-        </select>
+        </select> -->
       </div>
     </div>
 
     <div class="col-lg-2 col-md-2">
       <div class="form-group">
         <label>{{'filters.location.locality' | translate}}</label>
-        <select class="form-control" (change)="getLocalityBuildings($event.target.value)">
+        <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selctedLocalities"
+        [data]="location.localities" [(ngModel)]="selctedLocalities" [settings]="multiDropdownSettings"
+        (onDeSelect)="unsetProject($event)" (onSelect)="onItemSelect('selctedLocalities', $event)"
+        (onSelectAll)="onSelectAll($event)" (change)="getLocalityBuildings($event.target.value)">
+     </ng-multiselect-dropdown>
+        <!-- <select class="form-control" (change)="getLocalityBuildings($event.target.value)">
           <option value="0">{{'filters.location.allOption' | translate}}</option>
           <option *ngFor="let item of location.localities" [value]="item.id">{{item.name}}</option>
-        </select>
+        </select> -->
       </div>
     </div>
 
@@ -84,8 +94,6 @@
           [disabled]="!parameter.min || !parameter.max">Apply</button>
         </div>
       </div> -->
-
-
       <!-- <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-5 col-5">
           <div class="form-group marginB0">

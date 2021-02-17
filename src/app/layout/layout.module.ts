@@ -34,6 +34,7 @@ import { AclUserGuard } from '../guards/acl-user.guard';
 import { MessagingService } from '../fire-base/messaging.service';
 import { SharedModule } from '../modules/shared.module';
 import { Img360viewerComponent } from './img360viewer/img360viewer.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 @NgModule({
   imports: [
     CommonModule,
@@ -46,6 +47,7 @@ import { Img360viewerComponent } from './img360viewer/img360viewer.component';
     NgxSpinnerModule,
     NgxMyDatePickerModule.forRoot(),
     MalihuScrollbarModule.forRoot(),
+    NgMultiSelectDropDownModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDykCJGMqHIwJluSmSiqKTJBVN2KauM_uQ',
       libraries: ['drawing', 'places']

@@ -55,10 +55,6 @@ export class CreditAddEditComponent implements OnInit {
   ngOnInit() {
     this.language_code = localStorage.getItem('language_code');
     this.tab = 1;
-    // if(this.tab = 3){
-    //   this.subtab = 1;
-    // }
-    //this.subtab = 3;
     this.parameter.page = 1;
     this.parameter.itemsPerPage = this.constant.limit4;
     this.parameter.sub = this.activatedRoute.params.subscribe((params) => {
@@ -185,9 +181,15 @@ export class CreditAddEditComponent implements OnInit {
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseEnterSomeText'), this.translate.instant('swal.error'));
     } else {
-      this.creditModel.step = this.tab;
+      let postData;
+      if (this.tab == 1) {
+        postData = { step: this.tab, user_id: this.creditModel.user.id };
+      } else if (this.tab == 2) {
+        this.creditModel.step = this.tab;
+        postData = this.creditModel;
+      }
       this.spinnerService.show();
-      this.adminService.postDataApi('addcredits', this.creditModel).subscribe((success) => {
+      this.adminService.postDataApi('addcredits', postData).subscribe((success) => {
         this.spinnerService.hide();
         if (this.tab == 2) {
           this.router.navigate(['dashboard/credit/view-credit']);
