@@ -2444,5 +2444,31 @@
     "selectdeadline": "Select Deadlines to quote",
     "selectpayment": "Select Payment scheme",
     "selectbanks": "Select Banks"
+  },
+  
+  "deshboard":{
+      "Projects":"Projects",
+      "Possesion":"Possesion",
+      "Projectsstatus":"Projects status",
+      "Sale":"Sale",
+      "Presale":"Presale",
+      "Withoutinformation":"Without information",
+      "Basic":"Basic",
+      "Semicomplete":"Semicomplete",
+      "Complete":"Complete",
+      "Localities":"Localities",
+      "Total":"Total",
+      "Without":"Without",
+      "CommercializedSozu":"Commercialized by Sozu",
+      "SoldSozu":"Sold by Sozu",
+      "ForSale":"For Sale",
+      "Rent":"Rent",
+      "Inventory":"Inventory",
+      "Approved":"Approved",
+      "Unapproved":"Unapproved",
+      "PendingReview":"Pending Review",
+      "InDraft":"In Draft",
+      "City":"City",
+      "Properties":"# Properties"
   }
 }
