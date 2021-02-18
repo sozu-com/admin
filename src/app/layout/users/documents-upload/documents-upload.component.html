@@ -1,17 +1,20 @@
 <div class="container-fluid">
       <div class="row">
-            <div class="col-md-6">
+            <div class="col-11">
                   <div class="title-group">
-                        <h2>{{ 'addForm.documentation' | translate }}</h2>
-                        <div class="spacer30"></div>
+                        <h5>{{ 'addForm.documentation' | translate }}</h5>
                   </div>
             </div>
-            <div class="col-md-6">
-                  <div class="btn-cont text-right">
-                        <button  (click)="goBack(model)"
-                          class="btn btn-primary">{{'quickVisualization.back' | translate}}</button>
-                      </div>
+            <div class="col-lg-1 col-md-1 col-6">
+                  <div class="btn-cont text-right title-group">
+                        <a href="javascript://" (click)="goBack(model)"
+                              class="btn-sm btn-primary-new" href="javascript://">{{'quickVisualization.back' |
+                              translate}}</a>
+                  </div>
             </div>
+      </div>
+      <div class="col-12">
+            <div class="spacer40"></div>
       </div>
       <div class="card">
             <h5>{{ 'addForm.uploadDoc' | translate }}</h5>
