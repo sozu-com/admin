@@ -26,6 +26,7 @@ export class DashboardComponent implements OnInit {
   // rent_properties_count = 0;
   // sale_properties_count = 0;
    fullName: string;
+   reportType: number;
   // colorScheme = {
   //   domain: ['#4eb96f']
   // };
@@ -76,6 +77,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.reportType = 1;
     this.language_code = localStorage.getItem('language_code');
     this.initializedDropDownSetting();
     this.getCountries();

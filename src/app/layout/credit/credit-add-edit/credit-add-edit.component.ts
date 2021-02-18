@@ -34,6 +34,11 @@ export class CreditAddEditComponent implements OnInit {
   program_list = Array<IDestinationStatus>();
   creditsDeadlines = Array<IDestinationStatus>();
   PaymentScheme = Array<IDestinationStatus>();
+  executive_list = Array<IDestinationStatus>();
+  state_list = Array<IDestinationStatus>();
+  square_list = Array<IDestinationStatus>();
+  caseStatus_list = Array<IDestinationStatus>();
+  customerProfile_list = Array<IDestinationStatus>();
   banks = Array<any>();
   selctedBanks: Array<any>;
   selctedPayments: Array<any>;
@@ -223,7 +228,11 @@ export class CreditAddEditComponent implements OnInit {
     forkJoin([
       this.adminService.postDataApi('getPrograms', {}), this.adminService.postDataApi('getCreditsDeadlines', {}),
       this.adminService.postDataApi('getPaymentScheme', {}), this.adminService.postDataApi('getDestination', {}),
-      this.adminService.postDataApi('getCreditsBanks', {}), this.adminService.postDataApi('getPropertyAmenities', { hide_blocked: 1 })
+      this.adminService.postDataApi('getCreditsBanks', {}), this.adminService.postDataApi('getPropertyAmenities', { hide_blocked: 1 }),
+      // this.adminService.postDataApi('getExecutive', {}), 
+     // this.adminService.postDataApi('getState', {}),
+      // this.adminService.postDataApi('getSquare', {}), this.adminService.postDataApi('getCaseStatus', {}),
+      // this.adminService.postDataApi('getCustomerProfile', {})
     ]).subscribe((response: any[]) => {
       this.program_list = response[0].data;
       this.creditsDeadlines = response[1].data;
@@ -231,8 +240,14 @@ export class CreditAddEditComponent implements OnInit {
       this.destination_list = response[3].data;
       this.banks = response[4].data;
       this.amenities = response[5].data;
+     // this.executive_list = response[6].data;
+      // this.state_list = response[7].data;
+      // this.square_list = response[8].data;
+      // this.caseStatus_list = response[9].data;
+      // this.customerProfile_list = response[10].data;
     });
-  }
+  } 
+
   addPhone(): void {
     (this.userForm.get('phones') as FormArray).push(
       this.fb.control(null)

@@ -70,6 +70,15 @@ margin-left: -27%;
     height: 40px;
     border: 1px solid #f4f4f4;
     border-radius: 2px;
+    color: black;
+    box-shadow: none;
+    background: #f4f4f4;
+}
+:host ::ng-deep .multiselect-dropdown {
+    position: relative;
+    height: 40px;
+    border: 1px solid #f4f4f4;
+    border-radius: 2px;
     box-shadow: none;
     background: #f4f4f4;
 }

@@ -108,7 +108,7 @@
                       </label>
                       <input autocomplete="off" minlength="1" maxlength="30"
                         [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
-                        class="form-control" [(ngModel)]="creditModel.home_value" name="home_value">
+                        class="form-control" [(ngModel)]="creditModel.home_value" name="home_value" placeholder="{{'creditForm.homeValue' | translate}}"> 
                     </div>
                   </div>
                 </div>
@@ -120,8 +120,8 @@
                     <div class="form-group-3">
                       <label class="p16-two">{{'creditForm.creditAmount' | translate}}</label>
                       <input autocomplete="off" minlength="1" maxlength="30"
-                        [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
-                        class="form-control" [(ngModel)]="creditModel.credit_amount" name="credit_amount">
+                        [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="number"
+                        class="form-control" [(ngModel)]="creditModel.credit_amount" name="credit_amount" placeholder="{{'creditForm.creditAmount' | translate}}">
                     </div>
                   </div>
                   <div class="col-4">
@@ -166,26 +166,36 @@
                   <div class="col-4">
                     <div class="form-group-3">
                       <label class="p16-two">{{'creditForm.executive' | translate}}</label>
-                      <input autocomplete="off" minlength="1" maxlength="30"
-                        [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
-                        class="form-control" [(ngModel)]="creditModel.executive" name="executive">
+                      <select title="{{'creditForm.selectexecutive' | translate}}" name="executive_id" class="form-control">
+                        <option value="0" disabled>{{'creditForm.selectexecutive' | translate}}</option>
+                        <option *ngFor="let dest of executive_list" [selected]="dest.id == creditModel.executive_id"
+                          value="{{dest.id}}">
+                          {{language_code
+                          == 'en'? dest.name_en : dest.name_es}}</option>
+                      </select>
                     </div>
                   </div>
                   <div class="col-4">
                     <div class="form-group-3">
                       <label class="p16-two">{{'creditForm.state' | translate}}</label>
-                      <input autocomplete="off" minlength="1" maxlength="30"
-                        [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
-                        class="form-control" [(ngModel)]="creditModel.state" name="state">
+                      <select title="{{'creditForm.selectstate' | translate}}" name="state_id" class="form-control">
+                        <option value="0" disabled>{{'creditForm.selectstate' | translate}}</option>
+                        <option *ngFor="let dest of state_list" [selected]="dest.id == creditModel.state_id"
+                          value="{{dest.id}}">
+                          {{language_code
+                          == 'en'? dest.name_en : dest.name_es}}</option>
+                      </select>
                     </div>
                   </div>
                   <div class="col-4">
                     <div class="form-group-3">
-                      <label>{{'creditForm.square' | translate}}
-                        <!-- <span class="color-red">*</span> -->
-                      </label>
-                      <select title="Select Nationality" class="form-control">
-                        <option></option>
+                      <label>{{'creditForm.square' | translate}}</label>
+                      <select title="{{'creditForm.selectsquare' | translate}}" name="square_id" class="form-control">
+                        <option value="0" disabled>{{'creditForm.selectsquare' | translate}}</option>
+                        <option *ngFor="let dest of square_list" [selected]="dest.id == creditModel.square_id"
+                          value="{{dest.id}}">
+                          {{language_code
+                          == 'en'? dest.name_en : dest.name_es}}</option>
                       </select>
                     </div>
                   </div>
@@ -194,21 +204,29 @@
                 <div class="col-12">
                   <div class="spacer15"></div>
                 </div>
-                <div class="row" style="margin: auto;">
+                <div class="row">
                   <div class="col-md-4">
                     <div class="form-group-3">
                       <label class="p16-two">{{'creditForm.caseStatus' | translate}}</label>
-                      <input autocomplete="off" minlength="1" maxlength="30"
-                        [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
-                        class="form-control" [(ngModel)]="creditModel.case_status" name="case_status">
+                      <select title="{{'creditForm.selectcaseStatus' | translate}}" name="caseStatus_id" class="form-control">
+                        <option value="0" disabled>{{'creditForm.selectcaseStatus' | translate}}</option>
+                        <option *ngFor="let dest of caseStatus_list" [selected]="dest.id == creditModel.caseStatus_id"
+                          value="{{dest.id}}">
+                          {{language_code
+                          == 'en'? dest.name_en : dest.name_es}}</option>
+                      </select>
                     </div>
                   </div>
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                     <div class="form-group-3">
                       <label class="p16-two">{{'creditForm.customerProfile' | translate}}</label>
-                      <input autocomplete="off" minlength="1" maxlength="30"
-                        [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
-                        class="form-control" [(ngModel)]="creditModel.customer_profile" name="customer_profile">
+                      <select title="{{'creditForm.selectcustomerProfile' | translate}}" name="customerProfile_id" class="form-control">
+                        <option value="0" disabled>{{'creditForm.selectcustomerProfile' | translate}}</option>
+                        <option *ngFor="let dest of customerProfile_list" [selected]="dest.id == creditModel.customerProfile_id"
+                          value="{{dest.id}}">
+                          {{language_code
+                          == 'en'? dest.name_en : dest.name_es}}</option>
+                      </select>
                     </div>
                   </div>
 

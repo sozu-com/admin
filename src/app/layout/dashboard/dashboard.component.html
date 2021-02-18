@@ -18,10 +18,6 @@
         (onDeSelect)="onStateChange()" (onSelect)="onStateChange()"
         (onSelectAll)="onStateChangeAll($event)" (onDeSelectAll)="onStateChangeAll($event)">
       </ng-multiselect-dropdown>
-        <!-- <select class="form-control" (change)="onStateChange($event.target.value)">
-          <option value="0">{{'filters.location.allOption' | translate}}</option>
-          <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
-        </select> -->
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
@@ -32,10 +28,6 @@
         (onDeSelect)="onCityChange()" (onSelect)="onCityChange()"
         (onSelectAll)="onCityChangeAll($event)" (onDeSelectAll)="onCityChangeAll($event)">
       </ng-multiselect-dropdown>
-        <!-- <select class="form-control" (change)="onCityChange($event.target.value)">
-          <option value="0">{{'filters.location.allOption' | translate}}</option>
-          <option *ngFor="let item of location.cities" [value]="item.id">{{item.name}}</option>
-        </select> -->
       </div>
     </div>
 
@@ -46,10 +38,6 @@
         [data]="location.localities" [(ngModel)]="selectedLocation.selectedLocalities" [settings]="multiDropdownSettings"
         >
      </ng-multiselect-dropdown>
-        <!-- <select class="form-control" (change)="getLocalityBuildings($event.target.value)">
-          <option value="0">{{'filters.location.allOption' | translate}}</option>
-          <option *ngFor="let item of location.localities" [value]="item.id">{{item.name}}</option>
-        </select> -->
       </div>
     </div>
 
@@ -335,16 +323,24 @@
     </div>
 
     <div class="spacer30"></div>
-  
+    <div class="white-bg marginT15 padding15">
+      <div class="row">
+      <div class="col-md-8"></div>
+      <div class="col-md-4 text-right">
+        <select class="form-control" [(ngModel)]="reportType">
+          <option value="1">{{'collectionReport.graphicalview' | translate}}</option>
+          <option value="2">{{'collectionReport.tabularView' | translate}}</option>
+        </select>
+      </div></div>
     <div class="row">
-      <div class="graph-area col-md-12">
+      <div class="graph-area col-md-12" [style.display]="reportType==1 ? 'block' : 'none'">
         <div id="chartContainer1" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
       </div>
     </div>
     
   <div class="spacer30"></div>
   
-  <div class="row">
+  <div class="row" *ngIf="reportType == 2">
     <div class=" col-md-8 offset-md-1">
       <div class="table-responsive">
         <table class="table table-bordered white-bg">
@@ -372,5 +368,5 @@
         </table>
       </div>
     </div>
-    </div>
+    </div></div>
 </div>
