@@ -59,7 +59,9 @@
     "propertiesForRent": "Properties for Rent",
     "statsAndTrendAnalytics": "Stats and Trend Analytics",
     "totalCommissionOnPlatform": "Total Commission on platform",
-    "yourSales": "Your Sales"
+    "yourSales": "Your Sales",
+    "dashboardProjects":"Dashboard projects",
+    "dashboardProperties":"Dashboard properties"
   },
   "filters": {
     "time": {
@@ -2316,8 +2318,13 @@
     "customerProfile": "Customer profile",
     "caseStatus": "Case status",
     "square": "Square",
+    "selectcustomerProfile": "Select Customer profile",
+    "selectsquare": "Select Square",
+    "selectcaseStatus": "Select Case status",
     "state": "State",
+    "selectstate": "Select State",
     "executive": "Executive",
+    "selectexecutive": "Select Executive",
     "userInfo": "User Info",
     "yesno1": "Is the property new?",
     "generalData": "General data",

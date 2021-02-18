@@ -59,7 +59,9 @@
     "propertiesForRent": "Departamentos en renta",
     "statsAndTrendAnalytics": "Estadísticas y análisis de tendencias",
     "totalCommissionOnPlatform": "Comisión total",
-    "yourSales": "Tus ventas"
+    "yourSales": "Tus ventas",
+    "dashboardProjects":"Proyectos de tablero",
+    "dashboardProperties":"Propiedades del tablero"
   },
   "filters": {
     "time": {
@@ -2315,7 +2317,12 @@
     "caseStatus":"Estatus de caso",
     "square":"Plaza",
     "state":"Estado",
+    "selectcustomerProfile": "Select Perfil de cliente",
+    "selectsquare": "Select Plaza",
+    "selectcaseStatus": "Select Estatus de caso",
+    "selectstate": "Seleccionar Estado",
     "executive":"Ejecutivo",
+    "selectexecutive": "Seleccionar Ejecutivo",
     "userInfo":"Información de usuario",
     "yesno1":"¿Ei inmueble es nuevo ?",
     "generalData":"Datos Generales",
