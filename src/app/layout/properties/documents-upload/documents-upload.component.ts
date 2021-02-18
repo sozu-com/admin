@@ -180,7 +180,7 @@ export class DocumentsUploadComponent implements OnInit {
     this.folderId = folder.id;
     this.folderModalOpen.nativeElement.click();
   }
-  goBack(userdata){ 
-    this.router.navigate(['/dashboard/properties/edit-property/', userdata.id])
-  }
+  // goBack(userdata){ 
+  //   this.router.navigate(['/dashboard/properties/edit-property/{{userdata.id}}/edit'])
+  // }
 }

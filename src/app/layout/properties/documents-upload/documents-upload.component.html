@@ -1,28 +1,31 @@
 <div class="container-fluid">
       <div class="row">
-            <div class="col-md-6">
+            <div class="col-11">
                   <div class="title-group">
-                        <h2>{{ 'addForm.documentation' | translate }}</h2>
-                        <div class="spacer30"></div>
+                        <h5>{{ 'addForm.documentation' | translate }}</h5>
                   </div>
             </div>
-            <div class="col-md-6">
-                  <div class="btn-cont text-right">
-                        <button  (click)="goBack(model)"
-                          class="btn btn-primary">{{'quickVisualization.back' | translate}}</button>
-                      </div>
+            <div class="col-lg-1 col-md-1 col-6">
+                  <div class="btn-cont text-right title-group">
+                        <a href="javascript://" routerLink="/dashboard/properties/edit-property/{{model.id}}/edit"
+                              class="btn-sm btn-primary-new" href="javascript://">{{'quickVisualization.back' |
+                              translate}}</a>
+                  </div>
             </div>
+      </div>
+      <div class="col-12">
+            <div class="spacer40"></div>
       </div>
       <div class="card">
             <h5>{{ 'addForm.uploadDoc' | translate }}</h5>
             <hr />
             <div style="max-width: 400px; margin: 2%;"
-            *ngIf="model?.property_linked_documents && model?.property_linked_documents?.length!=0">
+                  *ngIf="model?.property_linked_documents && model?.property_linked_documents?.length!=0">
                   <div class="input-icons" *ngFor="let bankAccount of model.property_linked_documents; let i = index">
                         <div class="row">
                               <div class="col-md-8">
                                     <input class="input-field" type="text"
-                                          [(ngModel)]="this.language_code == 'en' ? bankAccount.property_document.name_en : bankAccount.property_document.name_es " 
+                                          [(ngModel)]="this.language_code == 'en' ? bankAccount.property_document.name_en : bankAccount.property_document.name_es "
                                           name="this.language_code == 'en' ? name_en{{ i }} : name_es{{ i }} "
                                           disabled />
 
