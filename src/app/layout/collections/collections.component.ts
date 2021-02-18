@@ -2696,14 +2696,15 @@ export class CollectionsComponent implements OnInit {
     this.table_data = [];
     this.monthly_installment = 0;
     this.current_month_amount = 0;
-    this.bill_month = null;
-    this.bill_month_date = null;
+    this.bill_month = undefined;
+    this.bill_month_date = undefined;
     this.monthly_installment_no = 0;
     this.layaway_payments = [];
     this.down_payments = [];
     this.payments_upon_delivery = [];
     this.special_payments = [];
     this.monthly_installment_amunt = [];
+    this.monthly_installment_amunts = 0;
     this.spinner.show();
     this.getBase64ImageFromUrl(data.property.id);
     this.admin.postDataApi('getCollectionById', {id: data.id})
@@ -2726,16 +2727,18 @@ export class CollectionsComponent implements OnInit {
         this.collection_data.payment_choices.forEach(function(element, index){
           let fill = index % 2;
           let month = new Date(element.date);
-          if(element.category_name.includes('Monthly Installment') && current_date.getMonth() == month.getMonth() && current_date.getFullYear() == month.getFullYear()){
-            self.monthly_installment = element.amount;
+          if(index> 0 && self.collection_data.payment_choices[index - 1].is_paid == 1 && element.is_paid == 0 && !element.calc_payment_amount){
             self.current_month_amount =  element.amount;
             self.bill_month =  self.translate.defaultLang === 'en' ? monthNames[month.getMonth()] :  monthNamesES[month.getMonth()];
             self.bill_month_date =self.datePipe.transform(month.setDate(10), 'MMM d, y');
           }
-          else if(element.category_name == 'Monthly Installment 1' && !element.calc_payment_amount){
-            self.monthly_installment = element.amount
+          else if(index == 0 && !element.calc_payment_amount && element.is_paid == 0){
+            self.current_month_amount =  element.amount;
             self.bill_month =  self.translate.defaultLang === 'en' ? monthNames[month.getMonth()] :  monthNamesES[month.getMonth()] ;
             self.bill_month_date =self.datePipe.transform(month.setDate(10), 'MMM d, y');
+          }
+          if(element.category_name.includes('Monthly Installment')){
+          self.monthly_installment = element.amount;
           }
           self.monthly_installment_no = element.category_name.includes('Monthly Installment') ?  self.monthly_installment_no + 1 : self.monthly_installment_no + 0;
           self.monthly_installment_amunts = element.category_name.includes('Monthly Installment') ? self.monthly_installment_amunts + element.amount : self.monthly_installment_amunts + 0;
@@ -2795,7 +2798,8 @@ export class CollectionsComponent implements OnInit {
               { text: element.penalty ? element.penalty.description : '', border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc' }
             ]);
           });
-          let monthly_installment_amunt_per =  Number((self.collection_data.deal_price ? self.monthly_installment_amunts * 100 / self.collection_data.deal_price : 0)).toFixed(3) + '%';
+          let monthly_installment_amunt_per = undefined;
+          monthly_installment_amunt_per =  Number((self.collection_data.deal_price ? self.monthly_installment_amunts * 100 / self.collection_data.deal_price : 0)).toFixed(3) + '%';
           monthly_installment_amunt_per = monthly_installment_amunt_per.includes('.000') ? monthly_installment_amunt_per.replace('.000', '' ) : monthly_installment_amunt_per;
           self.monthly_installment_amunt.push(
             { text: self.translate.instant('generatePDF.monthlyInstallmentAmt'), border: [false, false, false, false], color: '#858291' },
