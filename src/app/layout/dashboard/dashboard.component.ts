@@ -119,8 +119,8 @@ export class DashboardComponent implements OnInit {
     const postData = {
       country_id: this.parameter.country_id || '',
       states: this.parameter.states || '',
-      localities : this.selctedLocalities.map(o => o.id),
-      cities : this.selctedCities.map(o => o.id)
+      localities : this.selctedLocalities.length > 0 ? this.selctedLocalities.map(o => o.id) : '',
+      cities : this.selctedCities.length > 0 ? this.selctedCities.map(o => o.id) :''
     };
     this.admin.postDataApi('getDashboardDetails', postData).subscribe(
       success => {
@@ -257,8 +257,8 @@ export class DashboardComponent implements OnInit {
 
   plotData() {
     const agentData = [
-      { id: 779, y: (this.location.buildings || {}).presale, indexLabel: "Presale  ", is_external_agent: 0 },
-      { id: 781, y: (this.location.buildings || {}).sale, indexLabel: "For Sale  ", is_external_agent: 0 }
+      { id: 779, y: 0, indexLabel: "Presale  ", is_external_agent: 0 },
+      { id: 781, y: 0, indexLabel: "For Sale  ", is_external_agent: 0 }
     ];
     const agentData1 = [
       { id: 779, y: (this.location.buildings || {}).without_information, indexLabel: "Without  ", is_external_agent: 0 },

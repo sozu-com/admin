@@ -1440,7 +1440,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       addVariablesPercentage: [{ value: this.installmentFormGroup.get('tempAddVariablesPercentage').value, disabled: true }],
       addVariablesPercentageFinalPrice: [{
         value: this.installmentFormGroup.get('tempAddVariablesPercentage').value ?
-          (this.installmentFormGroup.get('tempAddVariablesPercentage').value * this.property_array.min_price) / 100 : 0, disabled: true
+        this.getTransformedAmount((this.installmentFormGroup.get('tempAddVariablesPercentage').value * this.property_array.min_price) / 100 ): 0, disabled: true
       }]
     });
   }
@@ -1643,17 +1643,21 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     const paymentUponDelivery = this.installmentFormGroup.get('paymentupondelivery').value ? (this.installmentFormGroup.get('paymentupondelivery').value * this.property_array.min_price) / 100 : 0;
     const monthlyInstallments = this.installmentFormGroup.get('monthlyInstallment').value ? (this.installmentFormGroup.get('monthlyInstallment').value * this.property_array.min_price) / 100 : 0;
     this.installmentFormGroup.patchValue({
-      listPrice: this.property_array.min_price,
-      finalPrice: finalPrice,
-      downPaymentFinalPrice: downPayment,
-      discountFinalPrice: discount,
-      monthlyInstallmentFinalPrice: monthlyInstallments,
-      interestFinalPrice: interest,
-      paymentupondeliveryFinalPrice: paymentUponDelivery
+      listPrice: this.property_array.min_price ? this.getTransformedAmount(this.property_array.min_price) : 0.00,
+      finalPrice: finalPrice  ? this.getTransformedAmount(finalPrice)  : 0.00,
+      downPaymentFinalPrice: downPayment ? this.getTransformedAmount(downPayment)  : 0.00,
+      discountFinalPrice: discount ? this.getTransformedAmount(discount)  : 0.00,
+      monthlyInstallmentFinalPrice: monthlyInstallments ? this.getTransformedAmount(monthlyInstallments)  : 0.00,
+      interestFinalPrice: interest ? this.getTransformedAmount(interest)  : 0.00,
+      paymentupondeliveryFinalPrice: paymentUponDelivery ? this.getTransformedAmount(paymentUponDelivery)  : 0.00
     });
     if (isPreviewClick) {
       this.isPreview = !this.isPreview;
     }
+  }
+
+  getTransformedAmount(value:any){
+    return (this.price.transform(Number(value).toFixed(2)).toString()).substring(1);
   }
 
   ngOnDestroy(): void {
