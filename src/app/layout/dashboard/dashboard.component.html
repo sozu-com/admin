@@ -4,26 +4,31 @@
     <div class="col-lg-2 col-md-2">
       <div class="form-group">
         <label>{{'filters.location.country' | translate}}</label>
-        <select class="form-control" (change)="onCountryChange($event.target.value)">
-          <option value="0">{{'filters.location.allOption' | translate}}</option>
-          <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
+        <select class="form-control" (change)="onCountryChange()" [(ngModel)]="selectedLocation.selectedCountry">
+          <option value="">{{'filters.location.allOption' | translate}}</option>
+          <option *ngFor="let item of location.countries" [value]="item.id">{{this.language_code == 'en' ? item?.name_en : item?.name_es}}</option>
         </select>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="form-group">
         <label>{{'filters.location.state' | translate}}</label>
-        <select class="form-control" (change)="onStateChange($event.target.value)">
+        <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selectedStates"
+        [data]="location.states" [(ngModel)]="selectedLocation.selectedStates" [settings]="multiDropdownSettings"
+        (onDeSelect)="onStateChange()" (onSelect)="onStateChange()"
+        (onSelectAll)="onStateChangeAll($event)" (onDeSelectAll)="onStateChangeAll($event)">
+      </ng-multiselect-dropdown>
+        <!-- <select class="form-control" (change)="onStateChange($event.target.value)">
           <option value="0">{{'filters.location.allOption' | translate}}</option>
           <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
-        </select>
+        </select> -->
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="form-group">
         <label>{{'filters.location.city' | translate}}</label>
-        <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selctedCities"
-        [data]="location.cities" [(ngModel)]="selctedCities" [settings]="multiDropdownSettings"
+        <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selectedCities"
+        [data]="location.cities" [(ngModel)]="selectedLocation.selectedCities" [settings]="multiDropdownSettings"
         (onDeSelect)="onCityChange()" (onSelect)="onCityChange()"
         (onSelectAll)="onCityChangeAll($event)" (onDeSelectAll)="onCityChangeAll($event)">
       </ng-multiselect-dropdown>
@@ -37,8 +42,8 @@
     <div class="col-lg-2 col-md-2">
       <div class="form-group">
         <label>{{'filters.location.locality' | translate}}</label>
-        <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selctedLocalities"
-        [data]="location.localities" [(ngModel)]="selctedLocalities" [settings]="multiDropdownSettings"
+        <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selectedLocalities"
+        [data]="location.localities" [(ngModel)]="selectedLocation.selectedLocalities" [settings]="multiDropdownSettings"
         >
      </ng-multiselect-dropdown>
         <!-- <select class="form-control" (change)="getLocalityBuildings($event.target.value)">
@@ -51,7 +56,7 @@
     <div class="col-lg-2 col-md-2">
       <div class="form-group btn-cont">
         <label style="display: block; margin-top: 3px;">&nbsp;</label>
-        <button type="button" (click)="getListing()"
+        <button type="button" (click)="getDashboardDetails()"
           class="btn btn-primary-new width100P P86">{{'filters.location.applyBtn' | translate}}</button>
       </div>
     </div>
@@ -59,7 +64,7 @@
     <div class="col-lg-2 col-md-2">
       <div class="form-group btn-cont">
         <label style="display: block; margin-top: 3px;">&nbsp;</label>
-        <button type="button" (click)="resetFilters()"
+        <button type="button" (click)="resetSelectedLocation()"
           class="btn btn-primary-new width100P P86">{{'filters.location.resetBtn' | translate}}</button>
       </div>
     </div>
@@ -141,7 +146,7 @@
         <h3>{{rent_properties_count|numberWithCommas}}</h3>
       </div>
     </div> -->
-  <div class=" col-md-8 offset-md-2">
+  <div class="col-md-8 offset-md-1">
     <div class="table-responsive">
       <table class="table table-bordered white-bg">
         <tbody>
@@ -176,6 +181,7 @@
           <td style="text-align: center;">{{getParseInt(location.buildings?.semi_complete,location.buildings?.building)}}%</td>
           <td style="text-align: center;">{{getParseInt(location.buildings?.complete,location.buildings?.building)}}%</td>
         </tr>
+        <tr *ngIf="!location.buildings"><th colspan="7" style="text-align: center;">{{'message.error.noRecordFound' | translate}}</th></tr>
         </tbody>
       </table>
     </div>
@@ -257,7 +263,7 @@
   <div class="spacer30"></div>
 
   <div class="row">
-  <div class=" col-md-8 offset-md-2">
+  <div class=" col-md-10 offset-md-1">
     <div class="table-responsive">
       <table class="table table-bordered white-bg">
         <tbody>
@@ -279,6 +285,7 @@
              <td style="text-align: center;">{{locality?.complete }}</td>
            </tr>
          </ng-container>
+         <tr *ngIf="location?.locality?.length == 0 "><th colspan="6" style="text-align: center;">{{'message.error.noRecordFound' | translate}}</th></tr>
         </tbody>
       </table>
     </div>
@@ -288,13 +295,13 @@
   <div class="spacer30"></div>
 
   <div class="row">
-    <div class=" col-md-8 offset-md-2">
+    <div class=" col-md-10 offset-md-1">
       <div class="table-responsive">
         <table class="table table-bordered white-bg">
           <tbody>
             <tr>
               <th rowspan="2" style="text-align: center; padding-top: 32px;">{{'deshboard.Total' | translate}}</th>
-              <th colspan="2" style="text-align: center;">{{'deshboard.Total' | translate}}</th>
+              <th colspan="3" style="text-align: center;">{{'deshboard.Total' | translate}}</th>
               <th rowspan="2" style="text-align: center; padding-top: 32px;">{{'deshboard.CommercializedSozu' | translate}}</th>
               <th rowspan="2" style="text-align: center; padding-top: 32px;">{{'deshboard.SoldSozu' | translate}}</th>
               <th colspan="4" style="text-align: center;">{{'deshboard.Projectsstatus' | translate}}</th>
@@ -308,16 +315,19 @@
               <th style="text-align: center;">{{'deshboard.PendingReview' | translate}}</th>
               <th style="text-align: center;">{{'deshboard.InDraft' | translate}}</th>
             </tr>
-           <ng-container *ngFor="let seller_rep_banks of sellerRepBanks; let sb=index">
-             <tr>
-               <td></td>
-               <td>
-                <a class="black" data-toggle="collapse" data-parent="#accordion" href="#collapseSRB{{sb}}">
-                  <b>Bank {{sb+1}}</b>
-                 </a>
-               </td>
-             </tr>
-           </ng-container>
+            <tr *ngIf="location.propertyDetails">
+              <td style="text-align: center;">{{location.propertyDetails?.property || 0}}</td>
+              <td style="text-align: center;">{{location.propertyDetails?.for_sale || 0}}</td>
+              <td style="text-align: center;">{{location.propertyDetails?.for_rent || 0}}</td>
+              <td style="text-align: center;">{{location.propertyDetails?.inventory || 0}}</td>
+              <td style="text-align: center;">{{location.propertyDetails?.commercialized || 0}}</td>
+              <td style="text-align: center;">{{location.propertyDetails?.sold || 0}}</td>
+              <td style="text-align: center;">{{location.propertyDetails?.approved || 0}}</td>
+              <td style="text-align: center;">{{location.propertyDetails?.unapproved || 0}}</td>
+              <td style="text-align: center;">{{location.propertyDetails?.pending || 0}}</td>
+              <td style="text-align: center;">{{location.propertyDetails?.draft || 0}}</td>
+            </tr>
+            <tr *ngIf="!location.propertyDetails"><th colspan="10" style="text-align: center;">{{'message.error.noRecordFound' | translate}}</th></tr>
           </tbody>
         </table>
       </div>
@@ -335,7 +345,7 @@
   <div class="spacer30"></div>
   
   <div class="row">
-    <div class=" col-md-8 offset-md-2">
+    <div class=" col-md-8 offset-md-1">
       <div class="table-responsive">
         <table class="table table-bordered white-bg">
           <tbody>
@@ -347,16 +357,17 @@
               <th style="text-align: center;">{{'deshboard.PendingReview' | translate}}</th>
               <th style="text-align: center;">{{'deshboard.InDraft' | translate}}</th>
             </tr>
-           <ng-container *ngFor="let seller_rep_banks of sellerRepBanks; let sb=index">
+           <ng-container *ngFor="let city of location.cities1; let i=index">
              <tr>
-               <td></td>
-               <td>
-                <a class="black" data-toggle="collapse" data-parent="#accordion" href="#collapseSRB{{sb}}">
-                  <b>Bank {{sb+1}}</b>
-                 </a>
-               </td>
+               <td style="text-align: center;">{{this.language_code == 'en' ? city?.city?.name_en : city?.city?.name_es}}</td>
+               <td style="text-align: center;">{{city?.property}}</td>
+               <td style="text-align: center;">{{city?.approved}}</td>
+               <td style="text-align: center;">{{city?.unapproved}}</td>
+               <td style="text-align: center;">{{city?.pending}}</td>
+               <td style="text-align: center;">{{city?.draft}}</td>
              </tr>
            </ng-container>
+           <tr *ngIf="location?.cities1?.length == 0 "><th colspan="6" style="text-align: center;">{{'message.error.noRecordFound' | translate}}</th></tr>
           </tbody>
         </table>
       </div>
