@@ -79,6 +79,10 @@ export class CreditAddEditComponent implements OnInit {
     });
     this.getCreditsBasicDetails();
     this.initializeDropDownSetting();
+    this.getState();
+    this.getSquare();
+    this.getCaseStatus();
+    this.getCustomerProfile();
     this.selctedBanks = [];
     this.selctedPayments = [];
     this.selctedDeadlines = [];
@@ -223,28 +227,53 @@ export class CreditAddEditComponent implements OnInit {
       this.spinnerService.hide();
     });
   }
+  getState() {
+    this.adminService.postDataApi('getState',{})
+      .subscribe(
+        success => {
+          this.state_list = success['data'];
+        }
+      );
+  }
+  getSquare() {
+    this.adminService.postDataApi('getSquare',{})
+      .subscribe(
+        success => {
+          this.square_list = success['data'];
+        }
+      );
+  }
+  getCaseStatus() {
+    this.adminService.postDataApi('getCaseStatus',{})
+      .subscribe(
+        success => {
+          this.caseStatus_list = success['data'];
+        }
+      );
+  }
+  getCustomerProfile() {
+    this.adminService.postDataApi('getCustomerProfile',{})
+      .subscribe(
+        success => {
+          this.customerProfile_list = success['data'];
+        }
+      );
+  }
 
   getCreditsBasicDetails = (): void => {
     forkJoin([
       this.adminService.postDataApi('getPrograms', {}), this.adminService.postDataApi('getCreditsDeadlines', {}),
-      this.adminService.postDataApi('getPaymentScheme', {}), this.adminService.postDataApi('getDestination', {}),
-      this.adminService.postDataApi('getCreditsBanks', {}), this.adminService.postDataApi('getPropertyAmenities', { hide_blocked: 1 }),
-      // this.adminService.postDataApi('getExecutive', {}), 
-     // this.adminService.postDataApi('getState', {}),
-      // this.adminService.postDataApi('getSquare', {}), this.adminService.postDataApi('getCaseStatus', {}),
-      // this.adminService.postDataApi('getCustomerProfile', {})
+       this.adminService.postDataApi('getPaymentScheme', {}), this.adminService.postDataApi('getDestination', {}),
+       this.adminService.postDataApi('getCreditsBanks', {}), this.adminService.postDataApi('getPropertyAmenities', { hide_blocked: 1 }),
+       this.adminService.postDataApi('getExecutive', {})
     ]).subscribe((response: any[]) => {
-      this.program_list = response[0].data;
-      this.creditsDeadlines = response[1].data;
-      this.PaymentScheme = response[2].data;
-      this.destination_list = response[3].data;
-      this.banks = response[4].data;
-      this.amenities = response[5].data;
-     // this.executive_list = response[6].data;
-      // this.state_list = response[7].data;
-      // this.square_list = response[8].data;
-      // this.caseStatus_list = response[9].data;
-      // this.customerProfile_list = response[10].data;
+       this.program_list = response[0].data;
+       this.creditsDeadlines = response[1].data;
+       this.PaymentScheme = response[2].data;
+       this.destination_list = response[3].data;
+       this.banks = response[4].data;
+       this.amenities = response[5].data;
+       this.executive_list = response[6].data;
     });
   } 
 
