@@ -779,12 +779,12 @@
                 </p>
               </div>
               <div class="col-md-2">
-                <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0" class="delete"
+                <button  class="delete"
                   href="javascript://" (click)="deleteLeadPopup(item.id, i)">
                   <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </button>
               </div>
-              <div class="col-md-2"> <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
+              <div class="col-md-2"> <button 
                   class="editt" href="javascript://" (click)="editLeadPopup('edit',item.id, item,i)">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </button></div>
@@ -817,7 +817,7 @@
             </div>
             <div class="col-md-3">
               <button class="btn btn-primary"
-                [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0">{{'leadDetails.note.addNote' |
+                >{{'leadDetails.note.addNote' |
                 translate}}</button>
             </div>
           </div>

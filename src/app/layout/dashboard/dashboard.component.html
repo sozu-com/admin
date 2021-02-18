@@ -58,13 +58,13 @@
     </div>
   </div>
 
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-md-4">
       <div class="title-group">
         <h5>{{'dashboard.hello' | translate}} {{fullName}}</h5>
       </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-8"> -->
       <!-- <div class="pull-right btn-cont">
         From: <input class="date-input" type="date" [ngModel] ="parameter.min | date:'yyyy-MM-dd'" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.min = $event; parameter.max=''" />
         To: <input class="date-input" type="date" [ngModel] ="parameter.max | date:'yyyy-MM-dd'" min="{{parameter.min | date:'yyyy-MM-dd'}}" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.max = $event" />
@@ -112,9 +112,16 @@
       </div> -->
 
 
+    <!-- </div>
+  </div> -->
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="title-group">
+        <h5>{{'dashboard.dashboardProjects' | translate}}</h5>
+      </div>
     </div>
   </div>
-
   <div class="row">
     <!-- <div class="col-md-4 col-sm-12 col-12">
       <div class="info-box dashboard-bx">
@@ -242,7 +249,7 @@
 
   <div class="spacer30"></div>
 
-  <div class="row">
+  <!-- <div class="row">
     <div class="graph-area col-md-12">
       <div id="chartContainer" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
     </div>
@@ -278,10 +285,63 @@
       </table>
     </div>
   </div>
+  </div> -->
+
+  <div class="white-bg marginT15 padding15">
+    <div class="row">
+    <div class="col-md-8"></div>
+    <div class="col-md-4 text-right">
+      <select class="form-control" [(ngModel)]="reportType1">
+        <option value="1">{{'collectionReport.graphicalview' | translate}}</option>
+        <option value="2">{{'collectionReport.tabularView' | translate}}</option>
+      </select>
+    </div></div>
+  <div class="row">
+    <div class="graph-area col-md-12" [style.display]="reportType1==1 ? 'block' : 'none'">
+      <div id="chartContainer" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
+    </div>
   </div>
+  
+<div class="spacer30"></div>
+
+<div class="row" *ngIf="reportType1 == 2">
+  <div class=" col-md-10 offset-md-1">
+    <div class="table-responsive">
+      <table class="table table-bordered white-bg">
+        <tbody>
+          <tr>
+            <th style="text-align: center;">{{'deshboard.Localities' | translate}}</th>
+            <th style="text-align: center;">{{'deshboard.Total' | translate}}</th>
+            <th style="text-align: center;">{{'deshboard.Without' | translate}}</th>
+            <th style="text-align: center;">{{'deshboard.Basic' | translate}}</th>
+            <th style="text-align: center;">{{'deshboard.Semicomplete' | translate}}</th>
+            <th style="text-align: center;">{{'deshboard.Complete' | translate}}</th>
+          </tr>
+         <ng-container *ngFor="let locality of location.locality; let i=index">
+           <tr>
+             <td style="text-align: center;">{{this.language_code == 'en' ? locality?.locality_id?.name_en : locality?.locality_id?.name_es }}</td>
+             <td style="text-align: center;">{{locality?.building }}</td>
+             <td style="text-align: center;">{{locality?.without_information }}</td>
+             <td style="text-align: center;">{{locality?.basic_information }}</td>
+             <td style="text-align: center;">{{locality?.semi_complete }}</td>
+             <td style="text-align: center;">{{locality?.complete }}</td>
+           </tr>
+         </ng-container>
+         <tr *ngIf="location?.locality?.length == 0 "><th colspan="6" style="text-align: center;">{{'message.error.noRecordFound' | translate}}</th></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  </div></div>
 
   <div class="spacer30"></div>
-
+  <div class="row">
+    <div class="col-md-4">
+      <div class="title-group">
+        <h5>{{'dashboard.dashboardProperties' | translate}}</h5>
+      </div>
+    </div>
+  </div>
   <div class="row">
     <div class=" col-md-10 offset-md-1">
       <div class="table-responsive">
@@ -341,7 +401,7 @@
   <div class="spacer30"></div>
   
   <div class="row" *ngIf="reportType == 2">
-    <div class=" col-md-8 offset-md-1">
+    <div class=" col-md-10 offset-md-1">
       <div class="table-responsive">
         <table class="table table-bordered white-bg">
           <tbody>

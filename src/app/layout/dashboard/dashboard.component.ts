@@ -25,8 +25,9 @@ export class DashboardComponent implements OnInit {
   // all_properties_count = 0;
   // rent_properties_count = 0;
   // sale_properties_count = 0;
-   fullName: string;
-   reportType: number;
+  fullName: string;
+  reportType: number;
+  reportType1: number = 1;
   // colorScheme = {
   //   domain: ['#4eb96f']
   // };
@@ -349,7 +350,9 @@ export class DashboardComponent implements OnInit {
       title: {
         text: "Properties status"
       },
-
+      subtitles: [{
+        text: this.getselectedLocation(),
+      }],
       axisY: {
         gridColor: '#222222ab',
         tickColor: '#222222ab'
@@ -362,55 +365,43 @@ export class DashboardComponent implements OnInit {
         showInLegend: true,
         name: 'Approved',
 
-        dataPoints: [
-          { label: "Guadalajara", y: 31 },
-          { label: "Zapopan", y: 76 },
-          { label: "Tlaquepaque", y: 65 },
-          { label: "Vallarta", y: 70 },
-          { label: "Tonala", y: 11 },
-        ]
+        dataPoints: this.getMaxFiveCity('approved')
       },
       {
         type: 'stackedColumn',
         showInLegend: true,
         name: 'Unapproved',
 
-        dataPoints: [
-          { label: "Guadalajara", y: 31 },
-          { label: "Zapopan", y: 76 },
-          { label: "Tlaquepaque", y: 65 },
-          { label: "Vallarta", y: 70 },
-          { label: "Tonala", y: 11 },
-        ]
+        dataPoints: this.getMaxFiveCity('unapproved')
       },
       {
         type: 'stackedColumn',
         showInLegend: true,
         name: 'P.review',
 
-        dataPoints: [
-          { label: "Guadalajara", y: 31 },
-          { label: "Zapopan", y: 76 },
-          { label: "Tlaquepaque", y: 65 },
-          { label: "Vallarta", y: 70 },
-          { label: "Tonala", y: 11 },
-        ]
+        dataPoints: this.getMaxFiveCity('pending')
       },
       {
         type: 'stackedColumn',
         showInLegend: true,
         name: 'Expected IVA Amount',
 
-        dataPoints: [
-          { label: "Guadalajara", y: 3 },
-          { label: "Zapopan", y: 7 },
-          { label: "Tlaquepaque", y: 6 },
-          { label: "Vallarta", y: 7 },
-          { label: "Tonala", y: 1 },
-        ]
+        dataPoints: this.getMaxFiveCity('draft')
       }]
     });
     chart3.render();
+  }
+
+  getMaxFiveCity(text: string) {
+    const data = [];
+    for (let index = 0; index < 5; index++) {
+      const element = this.location.cities1[index] || {};
+      data.push({
+        label: this.language_code == 'en' ? (element.city || {}).name_en : (element.city || {}).name_es,
+        y: element[text]
+      });
+    }
+    return data;
   }
 
   getParseInt(firstValue: number, secondValue: number) {
@@ -420,9 +411,9 @@ export class DashboardComponent implements OnInit {
   getMaxFiveLocality(text: string) {
     const data = [];
     for (let index = 0; index < 5; index++) {
-      const element = this.location.locality[index];
+      const element = this.location.locality[index] || {};
       data.push({
-        label: this.language_code == 'en' ? element.locality_id.name_en : element.locality_id.name_es,
+        label: this.language_code == 'en' ? (element.locality_id || {}).name_en : (element.locality_id || {}).name_es,
         y: element[text]
       });
     }
@@ -433,11 +424,11 @@ export class DashboardComponent implements OnInit {
     const country = this.selectedLocation.selectedCountry != '' ? this.location.countries.find(x => x.id.toString() === this.selectedLocation.selectedCountry.toString()) : 'All';
     const countryName = country === 'All' ? 'All' : this.language_code == 'en' ? country.name_en : country.name_es;
     const state = this.selectedLocation.selectedStates.length > 0 ? this.selectedLocation.selectedStates[0][this.language_code == 'en' ? 'name_en' : 'name_es'] : 'All';
-    const stateName = state === 'All' ? 'All' : this.selectedLocation.selectedStates.length == 1 ? state : state +'+'+ (this.selectedLocation.selectedStates.length - 1);
+    const stateName = state === 'All' ? 'All' : this.selectedLocation.selectedStates.length == 1 ? state : state + '+' + (this.selectedLocation.selectedStates.length - 1);
     const city = this.selectedLocation.selectedCities.length > 0 ? this.selectedLocation.selectedCities[0][this.language_code == 'en' ? 'name_en' : 'name_es'] : 'All';
-    const cityName = city === 'All' ? 'All' : this.selectedLocation.selectedCities.length == 1 ? city : city +'+'+ (this.selectedLocation.selectedCities.length - 1);
+    const cityName = city === 'All' ? 'All' : this.selectedLocation.selectedCities.length == 1 ? city : city + '+' + (this.selectedLocation.selectedCities.length - 1);
     const locality = this.selectedLocation.selectedLocalities.length > 0 ? this.selectedLocation.selectedLocalities[0][this.language_code == 'en' ? 'name_en' : 'name_es'] : 'All';
-    const localityName = locality === 'All' ? 'All' : this.selectedLocation.selectedLocalities.length == 1 ? state : state +'+'+ (this.selectedLocation.selectedLocalities.length - 1);
+    const localityName = locality === 'All' ? 'All' : this.selectedLocation.selectedLocalities.length == 1 ? state : state + '+' + (this.selectedLocation.selectedLocalities.length - 1);
     return `${countryName}/${stateName}/${cityName}/${localityName}`;
   }
 

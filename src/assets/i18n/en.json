@@ -59,7 +59,9 @@
     "propertiesForRent": "Properties for Rent",
     "statsAndTrendAnalytics": "Stats and Trend Analytics",
     "totalCommissionOnPlatform": "Total Commission on platform",
-    "yourSales": "Your Sales"
+    "yourSales": "Your Sales",
+    "dashboardProjects":"Dashboard projects",
+    "dashboardProperties":"Dashboard properties"
   },
   "filters": {
     "time": {
