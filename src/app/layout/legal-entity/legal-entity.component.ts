@@ -74,6 +74,7 @@ export class LegalEntityComponent implements OnInit {
 
   editUser(item: Users) {
     this.router.navigate(['/dashboard/legal-entities/add-legal-entity', item.id]);
+   // this.router.navigate(['/dashboard/legal-entities/edit-legal-entity', item.id]);
   }
 
   blockUnblockPopup(index: any, id: string, flag: number) {
