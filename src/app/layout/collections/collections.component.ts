@@ -2727,12 +2727,12 @@ export class CollectionsComponent implements OnInit {
         this.collection_data.payment_choices.forEach(function(element, index){
           let fill = index % 2;
           let month = new Date(element.date);
-          if(index> 0 && self.collection_data.payment_choices[index - 1].is_paid == 1 && element.is_paid == 0 && !element.calc_payment_amount){
-            self.current_month_amount =  element.amount;
+          if(index> 0 && self.collection_data.payment_choices[index - 1].is_paid_calculated == 1 && element.is_paid_calculated == 0){
+            self.current_month_amount =  element.penalty ? (element.amount + element.penalty.amount) - element.calc_payment_amount : element.amount - element.calc_payment_amount;
             self.bill_month =  self.translate.defaultLang === 'en' ? monthNames[month.getMonth()] :  monthNamesES[month.getMonth()];
             self.bill_month_date =self.datePipe.transform(month.setDate(10), 'MMM d, y');
           }
-          else if(index == 0 && !element.calc_payment_amount && element.is_paid == 0){
+          else if(index == 0 && element.is_paid_calculated == 0){
             self.current_month_amount =  element.amount;
             self.bill_month =  self.translate.defaultLang === 'en' ? monthNames[month.getMonth()] :  monthNamesES[month.getMonth()] ;
             self.bill_month_date =self.datePipe.transform(month.setDate(10), 'MMM d, y');
@@ -2781,7 +2781,7 @@ export class CollectionsComponent implements OnInit {
             ]);
             count3 = count3 + 1;
           }
-          self.current_month_amount =  (self.current_month_amount || 0) + ((element.penalty || {}).amount || 0) + (element.outstanding_amount || 0);
+          self.current_month_amount =  (self.current_month_amount || 0) + (element.outstanding_amount || 0);
             self.table_data.push([
               { text: element.category_name, border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc' },
               { text: element.date, border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc' },
@@ -2835,6 +2835,7 @@ export class CollectionsComponent implements OnInit {
           element.bank_id = element.id;
           element.legal_rep_bank_id = null;
           element.legal_name = (((this.bankDetails || {}).building || {}).agency || {}).razon_social || '';
+          element.address = this.bankDetails.building.agency.address;
           this.paymentBankDetailsArray.push(element);
         }
       }
@@ -2847,6 +2848,12 @@ export class CollectionsComponent implements OnInit {
             element.legal_name = this.bankDetails.selected_seller.user.developer_company ? this.bankDetails.selected_seller.user.developer_company :
               this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id ? this.bankDetails.selected_seller.user.name + ' ' + this.bankDetails.selected_seller.user.first_surname
                 + ' ' + this.bankDetails.selected_seller.user.second_surname : this.bankDetails.selected_seller.user.legal_entity.legal_name ? this.bankDetails.selected_seller.user.legal_entity.legal_name : '';
+            
+            element.address = this.collection_data.seller_type == 1 ? (this.bankDetails.selected_seller.user.tax_street_address && this.bankDetails.selected_seller.user.tax_street_address != '0' ?this.bankDetails.selected_seller.user.tax_street_address + ' ' : '') + 
+              (this.bankDetails.selected_seller.user.tax_external_number ? this.bankDetails.selected_seller.user.tax_external_number + '\n' : '')
+              + (this.bankDetails.selected_seller.user.tax_internal_number ? this.bankDetails.selected_seller.user.tax_internal_number + ', ' : '') + (this.bankDetails.selected_seller.user.tax_neighborhood ? this.bankDetails.selected_seller.user.tax_neighborhood + '\n' : '')
+              + (this.bankDetails.selected_seller.user.tax_zipcode && this.bankDetails.selected_seller.user.tax_zipcode != '0' ? this.bankDetails.selected_seller.user.tax_zipcode + ', ' : '') + (this.bankDetails.selected_seller.user.tax_city ? this.bankDetails.selected_seller.user.tax_city + ', ' : '')
+              + (this.bankDetails.selected_seller.user.tax_state ? this.bankDetails.selected_seller.user.tax_state + ', ' : '') + (this.bankDetails.selected_seller.user.tax_country ? this.bankDetails.selected_seller.user.tax_country + ', ' : '') : this.collection_data.seller_type == 3 ? this.bankDetails.selected_seller.user.address : '';
             this.paymentBankDetailsArray.push(element);
           }
         });
@@ -2859,6 +2866,12 @@ export class CollectionsComponent implements OnInit {
             element.legal_name = this.bankDetails.selected_seller.user.developer_company ? this.bankDetails.selected_seller.user.developer_company :
               this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id ? this.bankDetails.selected_seller.user.name + ' ' + this.bankDetails.selected_seller.user.first_surname
                 + ' ' + this.bankDetails.selected_seller.user.second_surname : this.bankDetails.selected_seller.user.legal_entity.legal_name ? this.bankDetails.selected_seller.user.legal_entity.legal_name : '';
+            
+            element.address = (this.bankDetails.selected_seller.user.legal_entity.tax_street_address && this.bankDetails.selected_seller.user.legal_entity.tax_street_address != '0' ?this.bankDetails.selected_seller.user.legal_entity.tax_street_address + ' ' : '') + 
+              (this.bankDetails.selected_seller.user.legal_entity.tax_external_number ? this.bankDetails.selected_seller.user.legal_entity.tax_external_number + '\n' : '')
+              + (this.bankDetails.selected_seller.user.legal_entity.tax_internal_number ? this.bankDetails.selected_seller.user.legal_entity.tax_internal_number + ', ' : '') + (this.bankDetails.selected_seller.user.legal_entity.tax_neighborhood ? this.bankDetails.selected_seller.user.legal_entity.tax_neighborhood + '\n' : '')
+              + (this.bankDetails.selected_seller.user.legal_entity.tax_zipcode && this.bankDetails.selected_seller.user.legal_entity.tax_zipcode != '0' ? this.bankDetails.selected_seller.user.legal_entity.tax_zipcode + ', ' : '') + (this.bankDetails.selected_seller.user.legal_entity.tax_city ? this.bankDetails.selected_seller.user.legal_entity.tax_city + ', ' : '')
+              + (this.bankDetails.selected_seller.user.legal_entity.tax_state ? this.bankDetails.selected_seller.user.legal_entity.tax_state + ', ' : '') + (this.bankDetails.selected_seller.user.legal_entity.tax_country ? this.bankDetails.selected_seller.user.legal_entity.tax_country + ', ' : '')
             this.paymentBankDetailsArray.push(element);
           }
         });
@@ -3194,10 +3207,11 @@ export class CollectionsComponent implements OnInit {
             },
             {
               text: [
-                { text: this.translate.instant('generatePDF.addressSeller'), bold: true },
+                { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[0].legal_name ? this.paymentBankDetailsArray[0].legal_name : '', bold: true },
                 {
-                  text: '\n' + this.translate.instant('generatePDF.addressSeller1') + '\n' + this.translate.instant('generatePDF.addressSeller2')
-                    + '\n' + this.translate.instant('generatePDF.addressSeller3'), color: '#858291'
+                  text: '\n' + (this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[0].bank_name && this.fedTaxPayer ? this.fedTaxPayer : '') + '\n' + 
+                  (this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[0].address ? this.paymentBankDetailsArray[0].address : '')
+                  , color: '#858291'
                 },
               ],
               margin: [30, 10, 0, 0]
