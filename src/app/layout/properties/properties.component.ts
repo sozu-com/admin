@@ -1440,7 +1440,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       addVariablesPercentage: [{ value: this.installmentFormGroup.get('tempAddVariablesPercentage').value, disabled: true }],
       addVariablesPercentageFinalPrice: [{
         value: this.installmentFormGroup.get('tempAddVariablesPercentage').value ?
-        this.getTransformedAmount((this.installmentFormGroup.get('tempAddVariablesPercentage').value * this.property_array.min_price) / 100 ): 0, disabled: true
+          this.getTransformedAmount((this.installmentFormGroup.get('tempAddVariablesPercentage').value * this.property_array.min_price) / 100) : 0, disabled: true
       }]
     });
   }
@@ -1502,14 +1502,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   checkIsGeneratePDF = (): void => {
-    let totalPercentage = 0.00;
-    this.getAddVariablesFormArray.controls.forEach((formGroup: FormGroup) => {
-      totalPercentage += parseFloat(formGroup.get('addVariablesPercentage').value || 0.00);
-    });
-    totalPercentage += parseFloat(this.installmentFormGroup.get('downPayment').value || 0.00);
-    totalPercentage += parseFloat(this.installmentFormGroup.get('monthlyInstallment').value || 0.00);
-    totalPercentage += parseFloat(this.installmentFormGroup.get('paymentupondelivery').value || 0.00);
-    if (totalPercentage == 100.00) {
+    if (this.getTotalPercentage() == 100.00) {
       this.generatePDF();
       this.closeModalInstallment();
     } else {
@@ -1636,27 +1629,42 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   onClickPreview = (isPreviewClick: boolean): void => {
-    const discount = this.installmentFormGroup.get('discount').value ? (this.installmentFormGroup.get('discount').value * this.property_array.min_price) / 100 : 0;
-    const interest = this.installmentFormGroup.get('interest').value ? (this.installmentFormGroup.get('interest').value * this.property_array.min_price) / 100 : 0;
-    const finalPrice = discount ? this.property_array.min_price - discount : interest ? this.property_array.min_price + interest : this.property_array.min_price;
-    const downPayment = this.installmentFormGroup.get('downPayment').value ? (this.installmentFormGroup.get('downPayment').value * this.property_array.min_price) / 100 : 0;
-    const paymentUponDelivery = this.installmentFormGroup.get('paymentupondelivery').value ? (this.installmentFormGroup.get('paymentupondelivery').value * this.property_array.min_price) / 100 : 0;
-    const monthlyInstallments = this.installmentFormGroup.get('monthlyInstallment').value ? (this.installmentFormGroup.get('monthlyInstallment').value * this.property_array.min_price) / 100 : 0;
-    this.installmentFormGroup.patchValue({
-      listPrice: this.property_array.min_price ? this.getTransformedAmount(this.property_array.min_price) : 0.00,
-      finalPrice: finalPrice  ? this.getTransformedAmount(finalPrice)  : 0.00,
-      downPaymentFinalPrice: downPayment ? this.getTransformedAmount(downPayment)  : 0.00,
-      discountFinalPrice: discount ? this.getTransformedAmount(discount)  : 0.00,
-      monthlyInstallmentFinalPrice: monthlyInstallments ? this.getTransformedAmount(monthlyInstallments)  : 0.00,
-      interestFinalPrice: interest ? this.getTransformedAmount(interest)  : 0.00,
-      paymentupondeliveryFinalPrice: paymentUponDelivery ? this.getTransformedAmount(paymentUponDelivery)  : 0.00
-    });
-    if (isPreviewClick) {
-      this.isPreview = !this.isPreview;
+    if (this.getTotalPercentage() == 100.00) {
+      const discount = this.installmentFormGroup.get('discount').value ? (this.installmentFormGroup.get('discount').value * this.property_array.min_price) / 100 : 0;
+      const interest = this.installmentFormGroup.get('interest').value ? (this.installmentFormGroup.get('interest').value * this.property_array.min_price) / 100 : 0;
+      const finalPrice = discount ? this.property_array.min_price - discount : interest ? this.property_array.min_price + interest : this.property_array.min_price;
+      const downPayment = this.installmentFormGroup.get('downPayment').value ? (this.installmentFormGroup.get('downPayment').value * this.property_array.min_price) / 100 : 0;
+      const paymentUponDelivery = this.installmentFormGroup.get('paymentupondelivery').value ? (this.installmentFormGroup.get('paymentupondelivery').value * this.property_array.min_price) / 100 : 0;
+      const monthlyInstallments = this.installmentFormGroup.get('monthlyInstallment').value ? (this.installmentFormGroup.get('monthlyInstallment').value * this.property_array.min_price) / 100 : 0;
+      this.installmentFormGroup.patchValue({
+        listPrice: this.property_array.min_price ? this.getTransformedAmount(this.property_array.min_price) : 0.00,
+        finalPrice: finalPrice ? this.getTransformedAmount(finalPrice) : 0.00,
+        downPaymentFinalPrice: downPayment ? this.getTransformedAmount(downPayment) : 0.00,
+        discountFinalPrice: discount ? this.getTransformedAmount(discount) : 0.00,
+        monthlyInstallmentFinalPrice: monthlyInstallments ? this.getTransformedAmount(monthlyInstallments) : 0.00,
+        interestFinalPrice: interest ? this.getTransformedAmount(interest) : 0.00,
+        paymentupondeliveryFinalPrice: paymentUponDelivery ? this.getTransformedAmount(paymentUponDelivery) : 0.00
+      });
+      if (isPreviewClick) {
+        this.isPreview = !this.isPreview;
+      }
+    } else {
+      swal(this.translate.instant('swal.error'), this.translate.instant('generatePDF.percentageText'), 'error');
     }
   }
 
-  getTransformedAmount(value:any){
+  getTotalPercentage() {
+    let totalPercentage = 0.00;
+    this.getAddVariablesFormArray.controls.forEach((formGroup: FormGroup) => {
+      totalPercentage += parseFloat(formGroup.get('addVariablesPercentage').value || 0.00);
+    });
+    totalPercentage += parseFloat(this.installmentFormGroup.get('downPayment').value || 0.00);
+    totalPercentage += parseFloat(this.installmentFormGroup.get('monthlyInstallment').value || 0.00);
+    totalPercentage += parseFloat(this.installmentFormGroup.get('paymentupondelivery').value || 0.00);
+    return totalPercentage;
+  }
+
+  getTransformedAmount(value: any) {
     return (this.price.transform(Number(value).toFixed(2)).toString()).substring(1);
   }
 
