@@ -105,14 +105,40 @@ export class AddLegalEntityComponent implements OnInit {
       phone: ['', [Validators.required]],
       country_code: ['', [Validators.required]],
       dial_code: ['', [Validators.required]],
-      address: [''],
       description: [''],
+
+      address: [''],
       lat: [''],
       lng: [''],
       // mapvalue: [''],
       fed_tax_pay: [''],
       legal_entity_banks: this.fb.array([]),
       developer_id: [''],
+      // for tax addresses
+      street_address: [''],
+      external_number: [''],
+      internal_number: [''],
+      zipcode: [''],
+      municipality: [''],
+      country: [''],
+      state: [''],
+      city: [''],
+      neighbourhood: [''],
+      // for tax addresses
+      tax_street_address: [''],
+      tax_external_number: [''],
+      tax_internal_number: [''],
+      tax_zipcode: [''],
+      tax_municipality: [''],
+      tax_country: [''],
+      tax_state: [''],
+      tax_city: [''],
+      tax_neighbourhood: [''],
+      // tax_neighbourhoods?: any[];
+      use_user_same_address: [false],
+      // nationality_name?: string;
+      // nationality_id?: number = 1;
+
       legal_rep: this.fb.group({
         id: [''],
         name: [''],
@@ -127,8 +153,10 @@ export class AddLegalEntityComponent implements OnInit {
         fed_tax_pay: [''],
         legal_rep_banks: this.fb.array([]),
         building_ids: [''],
-        sales_commission: ['']
+        sales_commission: [''],
+        developer_id: ['']
       })
+
     });
 
     const countryDialCode = {
@@ -455,8 +483,8 @@ export class AddLegalEntityComponent implements OnInit {
     this.model[paramLng] = $event.coords.lng;
     this.getGeoLocation(addParam, this.model[paramLat], this.model[paramLng]);
   }
-  goBack(){ 
-    this.router.navigate(['/dashboard/legal-entities/view-all', {for: 'back'}])
+  goBack() {
+    this.router.navigate(['/dashboard/legal-entities/view-all', { for: 'back' }])
   }
 
   getGeoLocation(addParam: string, lat: number, lng: number) {
@@ -579,6 +607,78 @@ export class AddLegalEntityComponent implements OnInit {
       }
     }
     return invalid; // if form-array is invalid then return true otherwise false
+  }
+
+  getCounrtyByZipcode = (isTaxAddress: boolean): void => {
+    if (isTaxAddress ? ((this.addDataForm.get('tax_zipcode').value || '0').toString()).length >= 5 :
+      ((this.addDataForm.get('zipcode').value || '0').toString()).length >= 5) {
+      this.spinner.show();
+      this.admin.postDataApi('getCounrtyByZipcode', { zip_code: isTaxAddress ? this.addDataForm.get('tax_zipcode').value : this.addDataForm.get('zipcode').value }).
+        subscribe((success) => {
+          this.spinner.hide();
+          if (isTaxAddress) {
+            this.model.tax_neighbourhoods = ((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
+            this.addDataForm.patchValue({
+              tax_municipality: ((success.data || {}).response || {}).municipio || '', // Municipality
+              tax_state: ((success.data || {}).response || {}).estado || '', // State
+              tax_city: ((success.data || {}).response || {}).ciudad || '', // city
+              tax_country: ((success.data || {}).response || {}).pais || '', // Country
+              tax_neighbourhood: (this.model.tax_neighbourhoods || [])[0] || ''
+            });
+          } else {
+            this.model.neighbourhoods = ((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
+            this.addDataForm.patchValue({
+              municipality: ((success.data || {}).response || {}).municipio || '', // Municipality
+              state: ((success.data || {}).response || {}).estado || '', // State
+              city: ((success.data || {}).response || {}).ciudad || '', // city
+              country: ((success.data || {}).response || {}).pais || '', // Country
+              neighbourhood: (this.model.tax_neighbourhoods || [])[0] || ''
+            });
+            this.onClickUseUserSameAddress();
+          }
+        }, (error) => {
+          this.spinner.hide();
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
+        });
+    } else {
+      if (isTaxAddress) {
+        this.addDataForm.patchValue({
+          tax_municipality: '',
+          tax_state: '',
+          tax_city: '',
+          tax_country: '',
+          tax_neighbourhood: ''
+        });
+        this.model.tax_neighbourhoods = [];
+      } else {
+        this.addDataForm.patchValue({
+          municipality: '',
+          state: '',
+          city: '',
+          country: '',
+          neighbourhood: ''
+        });
+        this.model.neighbourhoods = [];
+        this.onClickUseUserSameAddress();
+      }
+    }
+  }
+
+  onClickUseUserSameAddress = (): void => {
+    if (this.addDataForm.get('use_user_same_address').value) {
+      this.addDataForm.patchValue({
+        tax_street_address: this.addDataForm.get('street_address').value,
+        tax_external_number: this.addDataForm.get('external_number').value,
+        tax_internal_number: this.addDataForm.get('internal_number').value,
+        tax_zipcode: this.addDataForm.get('zipcode').value,
+        tax_municipality: this.addDataForm.get('municipality').value,
+        tax_country: this.addDataForm.get('country').value,
+        tax_state: this.addDataForm.get('state').value,
+        tax_city: this.addDataForm.get('city').value,
+        tax_neighbourhood: this.addDataForm.get('neighbourhood').value
+      });
+      this.model.tax_neighbourhoods = this.model.neighbourhoods;
+    }
   }
 
 }
