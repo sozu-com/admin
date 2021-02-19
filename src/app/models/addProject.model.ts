@@ -1,4 +1,4 @@
-import {City} from './location.model';
+import { City } from './location.model';
 import { Manager, Company } from './company.model';
 import { Agency } from './agency.model';
 import { LegalEntity } from './legalEntity.model';
@@ -99,6 +99,9 @@ export class AddProjectModel {
   maintenance_cost_type?: number;
   project_logo?: any;
   // maintenance_cost_value?: number;
+  developer_by: boolean = false;
+  agency_by: boolean = false;
+  managed_by: boolean = false;
 }
 
 

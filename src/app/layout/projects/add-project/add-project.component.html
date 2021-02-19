@@ -927,6 +927,19 @@
                 </div>
               </div>
 
+              <div class="row">
+                <div class="col-md-1">
+                  <div class="form-group">
+                    <input type="checkbox" class="form-control"  [(ngModel)]="model.developer_by" name="developer_by">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group-3">
+                    <label style="font-size: x-large; font-weight: bold;">{{'addForm.NoInformation' | translate}}</label>
+                  </div>
+                </div>
+              </div>
+
               <!-- End of Developer Info Section -->
 
 
@@ -1076,6 +1089,19 @@
                 </div>
               </div>
 
+              <div class="row">
+                <div class="col-md-1">
+                  <div class="form-group">
+                    <input type="checkbox" class="form-control"  [(ngModel)]="model.managed_by" name="managed_by">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group-3">
+                    <label style="font-size: x-large; font-weight: bold;">{{'addForm.NoInformation' | translate}}</label>
+                  </div>
+                </div>
+              </div>
+
               <!-- End of Managed By Section -->
 
               
@@ -1124,6 +1150,19 @@
                     <input [disabled]="!canEditdeveloperInfo"
                       [(ngModel)]="model.agency.name" class="form-control" type="text"
                       name="name" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-1">
+                  <div class="form-group">
+                    <input type="checkbox" class="form-control"  [(ngModel)]="model.agency_by" name="agency_by">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group-3">
+                    <label style="font-size: x-large; font-weight: bold;">{{'addForm.NoInformation' | translate}}</label>
                   </div>
                 </div>
               </div>

@@ -1240,8 +1240,8 @@ export class AddProjectComponent implements OnInit {
       //modelSave.launch_date && 
       isAnyAmenitiesCheck &&
       (modelSave.amenities || []).length > 0 && (modelSave.configurations || []).length > 0 && (modelSave.building_towers || []).length > 0 &&
-      isBuildingTowerDetailsAvailable && ((modelSave || {}).developer || {}).id &&
-      ((modelSave || {}).agency || {}).id
+      isBuildingTowerDetailsAvailable && (((modelSave || {}).developer || {}).id || modelSave.developer_by) &&
+      (((modelSave || {}).agency || {}).id || modelSave.agency_by)
     ) {
       modelSave.is_completed = 3;
     }
@@ -1258,8 +1258,8 @@ export class AddProjectComponent implements OnInit {
       //&& modelSave.launch_date 
       && isAnyAmenitiesCheck &&
       (modelSave.amenities || []).length > 0 && (modelSave.configurations || []).length > 0 && (modelSave.building_towers || []).length > 0 &&
-      isBuildingTowerDetailsAvailable && ((modelSave || {}).developer || {}).id &&
-      (((modelSave || {}).manager || {}).id || ((modelSave || {}).company || {}).id) && ((modelSave || {}).agency || {}).id
+      isBuildingTowerDetailsAvailable && (((modelSave || {}).developer || {}).id || modelSave.developer_by) &&
+      (((modelSave || {}).manager || {}).id || ((modelSave || {}).company || {}).id || modelSave.managed_by) && (((modelSave || {}).agency || {}).id || modelSave.agency_by)
     ) {
       modelSave.is_completed = 1;
     }
