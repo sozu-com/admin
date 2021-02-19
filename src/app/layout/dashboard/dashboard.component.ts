@@ -111,10 +111,10 @@ export class DashboardComponent implements OnInit {
   getDashboardDetails = (): void => {
     this.spinnerService.show();
     const postData = {
-      country_id: this.selectedLocation.selectedCountry || '',
-      states: this.selectedLocation.selectedStates.length > 0 ? this.selectedLocation.selectedStates.map(o => o.id) : '',
-      localities: this.selectedLocation.selectedCities.length > 0 ? this.selectedLocation.selectedCities.map(o => o.id) : '',
-      cities: this.selectedLocation.selectedLocalities.length > 0 ? this.selectedLocation.selectedLocalities.map(o => o.id) : '',
+      country_id: this.selectedLocation.selectedCountry || null,
+      states: this.selectedLocation.selectedStates.length > 0 ? this.selectedLocation.selectedStates.map(o => o.id) : null,
+      cities: this.selectedLocation.selectedCities.length > 0 ? this.selectedLocation.selectedCities.map(o => o.id) : null,
+      localities: this.selectedLocation.selectedLocalities.length > 0 ? this.selectedLocation.selectedLocalities.map(o => o.id) : null,
     };
     this.adminService.postDataApi('getDashboardDetails', postData).subscribe((success) => {
       this.spinnerService.hide();
