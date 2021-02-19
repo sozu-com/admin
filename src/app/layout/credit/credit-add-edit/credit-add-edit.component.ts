@@ -48,6 +48,7 @@ export class CreditAddEditComponent implements OnInit {
   public language_code: string;
   userForm: FormGroup;
   constructor(
+    //public creditModel: Credit,
     public constant: Constant,
     private adminService: AdminService,
     private toastr: ToastrService,
@@ -192,20 +193,55 @@ export class CreditAddEditComponent implements OnInit {
     this.parameter.page = page;
   }
 
-  addcredits = (): void => {
+  addcredits() {
+   
     if (!this.creditModel.user) {
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseEnterSomeText'), this.translate.instant('swal.error'));
     } else {
-      let postData;
+      let modelSave = JSON.parse(JSON.stringify(this.creditModel));
+     // let postData;
       if (this.tab == 1) {
-        postData = { step: this.tab, user_id: this.creditModel.user.id };
+        modelSave = { step: this.tab,user_id: this.creditModel.user.id};
       } else if (this.tab == 2) {
-        this.creditModel.step = this.tab;
-        postData = this.creditModel;
+        var id = localStorage.getItem("stepOneId");
+        modelSave = { 
+          step: this.tab,
+          id: id,
+          destination_id : this.creditModel.destination_id,
+          programs_id : this.creditModel.programs_id,
+          home_value : this.creditModel.home_value,
+          credit_amount : this.creditModel.credit_amount,
+          executive : this.creditModel.executive,
+          state : this.creditModel.state,
+          square_id : this.creditModel.square_id,
+          case_status : this.creditModel.case_status,
+        //  deadlines_quote:this.creditModel.deadlines_quote,
+         // payment_scheme:this.creditModel.payment_scheme,
+         // bank_id:this.creditModel.bank_id,
+          property_status:this.creditModel.property_status,
+          customer_profile:this.creditModel.customer_profile
+          
+        };
+        if (this.creditsDeadlines) {
+          const d = this.creditsDeadlines.map(o => o.id);
+          modelSave.deadlines_quote = d;
+        }
+        if (this.banks) {
+          const d = this.banks.map(o => o.id);
+          modelSave.bank_id = d;
+        }
+        if (this.PaymentScheme) {
+          const d = this.PaymentScheme.map(o => o.id);
+          modelSave.payment_scheme = d;
+        }
+        // this.creditModel.step = this.tab;
+        // postData = this.creditModel;
       }
       this.spinnerService.show();
-      this.adminService.postDataApi('addcredits', postData).subscribe((success) => {
+      this.adminService.postDataApi('addcredits', modelSave).subscribe((success) => {
+        console.log(success,"sucess")
+        localStorage.setItem('stepOneId',success.data.id);
         this.spinnerService.hide();
         if (this.tab == 2) {
           this.router.navigate(['dashboard/credit/view-credit']);

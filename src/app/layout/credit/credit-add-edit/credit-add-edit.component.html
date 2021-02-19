@@ -60,7 +60,7 @@
                 <div class="row">
                   <div class="col-md-12">
                     <div class="btn-cont text-right">
-                      <button type="button" class="btn btn-primary" (click)="this.addcredits()">{{'addCollection.next'
+                      <button type="button" class="btn btn-primary" (click)="addcredits()">{{'addCollection.next'
                         | translate}}</button>
                     </div>
                   </div>
@@ -81,10 +81,10 @@
                   <div class="col-4">
                     <div class="form-group-3">
                       <label class="p16-two">{{'creditForm.destination' | translate}}</label>
-                      <select title="Select Destination" name="destination_id" class="form-control">
+                      <select title="Select Destination" name="destination_id" class="form-control" 
+                      [(ngModel)]="creditModel.destination_id">
                         <option value="0" disabled>{{'creditForm.selectDestination' | translate}}</option>
-                        <option *ngFor="let dest of destination_list" [selected]="dest.id == creditModel.destination_id"
-                          value="{{dest.id}}">
+                        <option *ngFor="let dest of destination_list" [value]="dest.id">
                           {{language_code
                           == 'en'? dest.name_en : dest.name_es}}</option>
                       </select>
@@ -93,10 +93,10 @@
                   <div class="col-4">
                     <div class="form-group-3">
                       <label class="p16-two">{{'creditForm.programs' | translate}}</label>
-                      <select title="Select Programs" name="programs_id" class="form-control">
+                      <select title="Select Programs" name="programs_id" class="form-control"
+                      [(ngModel)]="creditModel.programs_id">
                         <option value="0" disabled>{{'creditForm.selectProgram' | translate}}</option>
-                        <option *ngFor="let dest of program_list" [selected]="dest.id == creditModel.programs_id"
-                          value="{{dest.id}}">
+                        <option *ngFor="let dest of program_list" [value]="dest.id">
                           {{language_code
                           == 'en'? dest.name_en : dest.name_es}}</option>
                       </select>
@@ -166,10 +166,10 @@
                   <div class="col-4">
                     <div class="form-group-3">
                       <label class="p16-two">{{'creditForm.executive' | translate}}</label>
-                      <select title="{{'creditForm.selectexecutive' | translate}}" name="executive_id" class="form-control">
+                      <select title="{{'creditForm.selectexecutive' | translate}}" name="executive" class="form-control"
+                      [(ngModel)]="creditModel.executive">
                         <option value="0" disabled>{{'creditForm.selectexecutive' | translate}}</option>
-                        <option *ngFor="let dest of executive_list" [selected]="dest.id == creditModel.executive_id"
-                          value="{{dest.id}}">
+                        <option *ngFor="let dest of executive_list" [value]="dest.id">
                           {{language_code
                           == 'en'? dest.name_en : dest.name_es}}</option>
                       </select>
@@ -178,10 +178,10 @@
                   <div class="col-4">
                     <div class="form-group-3">
                       <label class="p16-two">{{'creditForm.state' | translate}}</label>
-                      <select title="{{'creditForm.selectstate' | translate}}" name="state_id" class="form-control">
+                      <select title="{{'creditForm.selectstate' | translate}}" name="state" class="form-control"
+                      [(ngModel)]="creditModel.state">
                         <option value="0" disabled>{{'creditForm.selectstate' | translate}}</option>
-                        <option *ngFor="let dest of state_list" [selected]="dest.id == creditModel.state_id"
-                          value="{{dest.id}}">
+                        <option *ngFor="let dest of state_list" [value]="dest.id">
                           {{language_code
                           == 'en'? dest.name_en : dest.name_es}}</option>
                       </select>
@@ -190,10 +190,10 @@
                   <div class="col-4">
                     <div class="form-group-3">
                       <label>{{'creditForm.square' | translate}}</label>
-                      <select title="{{'creditForm.selectsquare' | translate}}" name="square_id" class="form-control">
+                      <select title="{{'creditForm.selectsquare' | translate}}" name="square_id" class="form-control"
+                      [(ngModel)]="creditModel.square_id">
                         <option value="0" disabled>{{'creditForm.selectsquare' | translate}}</option>
-                        <option *ngFor="let dest of square_list" [selected]="dest.id == creditModel.square_id"
-                          value="{{dest.id}}">
+                        <option *ngFor="let dest of square_list" [value]="dest.id">
                           {{language_code
                           == 'en'? dest.name_en : dest.name_es}}</option>
                       </select>
@@ -208,10 +208,10 @@
                   <div class="col-md-4">
                     <div class="form-group-3">
                       <label class="p16-two">{{'creditForm.caseStatus' | translate}}</label>
-                      <select title="{{'creditForm.selectcaseStatus' | translate}}" name="caseStatus_id" class="form-control">
+                      <select title="{{'creditForm.selectcaseStatus' | translate}}" name="case_status" class="form-control"
+                      [(ngModel)]="creditModel.case_status">
                         <option value="0" disabled>{{'creditForm.selectcaseStatus' | translate}}</option>
-                        <option *ngFor="let dest of caseStatus_list" [selected]="dest.id == creditModel.caseStatus_id"
-                          value="{{dest.id}}">
+                        <option *ngFor="let dest of caseStatus_list" [value]="dest.id">
                           {{language_code
                           == 'en'? dest.name_en : dest.name_es}}</option>
                       </select>
@@ -220,12 +220,15 @@
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                     <div class="form-group-3">
                       <label class="p16-two">{{'creditForm.customerProfile' | translate}}</label>
-                      <select title="{{'creditForm.selectcustomerProfile' | translate}}" name="customerProfile_id" class="form-control">
+                      <select title="{{'creditForm.selectcustomerProfile' | translate}}" name="customer_profile" class="form-control"
+                      [(ngModel)]="creditModel.customer_profile">
                         <option value="0" disabled>{{'creditForm.selectcustomerProfile' | translate}}</option>
-                        <option *ngFor="let dest of customerProfile_list" [selected]="dest.id == creditModel.customerProfile_id"
+                        <option  value="1">customerProfile_1</option>
+                        <option  value="2">customerProfile_2</option>
+                        <!-- <option *ngFor="let dest of customerProfile_list" [selected]="dest.id == creditModel.customerProfile_id"
                           value="{{dest.id}}">
                           {{language_code
-                          == 'en'? dest.name_en : dest.name_es}}</option>
+                          == 'en'? dest.name_en : dest.name_es}}</option> -->
                       </select>
                     </div>
                   </div>
@@ -247,7 +250,7 @@
                 <div class="row">
                   <div class="col-12">
                     <div class="btn-cont text-right">
-                      <button class="btn btn-primary" (click)="this.addcredits()">{{'creditForm.Saveinformation' |
+                      <button class="btn btn-primary" (click)="addcredits()">{{'creditForm.Saveinformation' |
                         translate}}</button>
                     </div>
                   </div>

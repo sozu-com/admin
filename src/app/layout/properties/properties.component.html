@@ -648,12 +648,12 @@
                               <a style="display:none;" #modalOpen data-toggle="modal"
                                  data-target="#addPropertyReason"></a>
                               <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                                 *ngIf="p.status == 3" (click)="openCancellationModal(p, 4);" class="action-icon"
+                                 *ngIf="p.status == 3" (click)="changeStatus(p, 4);" class="action-icon"
                                  title="{{'table.title.unapprove' | translate}}"><img src="assets/img/ic_disapprove.png"
                                     alt="img"></button>
-
+                                    <!-- *ngIf="p.status == 2 -->
                               <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                                 *ngIf="p.status == 2" (click)="changeStatus(p,3);" class="action-icon"
+                                 *ngIf="p.status !=1 && p.status !=3" (click)="changeStatus(p,3);" class="action-icon"
                                  title="{{'table.title.approve' | translate}}"><img src="assets/img/tick.png"
                                     alt="img"></button>
                               <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
