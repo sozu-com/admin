@@ -4,7 +4,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Constant } from 'src/app/common/constants';
 import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
-
+declare let swal: any;
+declare var $: any;
 @Component({
   selector: 'app-credit',
   templateUrl: './credit.component.html',
@@ -17,7 +18,7 @@ export class CreditComponent implements OnInit {
   creditsUserlistCount: number = 0;
   finalData: Array<any>;
   reportData: any;
-
+  total: any = 0;
   constructor(
     private translate: TranslateService,
     public admin: AdminService,
@@ -152,6 +153,35 @@ export class CreditComponent implements OnInit {
   getPage(page) {
     this.parameter.page = page;
     this.getBuyers();
+  }
+
+  deletePopup(item: any, index: number) {
+    this.parameter.text = this.translate.instant('message.error.wantToDeleteProject');
+
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteProject(item, index);
+      }
+    });
+  }
+
+  deleteProject(item: any, index: number) {
+    this.admin.postDataApi('deleteCreditsDetails',
+      { building_id: item.id }).subscribe(r => {
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
+        this.parameter.items.splice(index, 1);
+        this.total--;
+      },
+        error => {
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
+        });
   }
 
   onChangeDashFlag(index:number){
