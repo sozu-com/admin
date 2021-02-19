@@ -92,7 +92,7 @@
             <!-- <div class="white-bg padding15"></div><br /> -->
             <form role="form" ngNativeValidate #addForm="ngForm">
               <div class="white-bg padding20">
-                <h3>{{'creditForm.id' | translate}} &nbsp;{{this.creditModel?.user?.id || 0}}</h3>
+                <h3 *ngIf="this.creditModel?.id">{{'creditForm.id' | translate}} &nbsp;{{this.creditModel?.id || 0}}</h3>
                 <div class="col-12">
                   <div class="spacer40"></div>
                 </div>
