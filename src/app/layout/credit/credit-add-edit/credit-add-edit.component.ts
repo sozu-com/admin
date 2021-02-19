@@ -47,6 +47,8 @@ export class CreditAddEditComponent implements OnInit {
   public creditModel: Credit = new Credit();
   public language_code: string;
   userForm: FormGroup;
+  showSearch = false;
+  Onedit = false;
   constructor(
     //public creditModel: Credit,
     public constant: Constant,
@@ -66,18 +68,25 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    
     this.language_code = localStorage.getItem('language_code');
+  
     this.tab = 1;
     this.parameter.page = 1;
     this.parameter.itemsPerPage = this.constant.limit4;
     this.parameter.sub = this.activatedRoute.params.subscribe((params) => {
+      if (params['edit'] === 'edit') {
+        this.Onedit = true;
+      }
       if (params['id'] !== '0') {
         this.parameter.property_id = params['id'];
         this.getcredits();
       } else {
         this.parameter.property_id = '';
+        this.showSearch = true;
       }
     });
+    
     this.getCreditsBasicDetails();
     this.initializeDropDownSetting();
     this.getState();
@@ -87,6 +96,10 @@ export class CreditAddEditComponent implements OnInit {
     this.selctedBanks = [];
     this.selctedPayments = [];
     this.selctedDeadlines = [];
+  }
+
+  showSearchBox() {
+    this.showSearch = true;
   }
 
   unsetProject(item: any) {
@@ -188,6 +201,7 @@ export class CreditAddEditComponent implements OnInit {
 
   setUserId(building: any) {
     this.creditModel.user = building;
+    console.log(building,"building")
   }
   getPage(page: number) {
     this.parameter.page = page;
@@ -200,7 +214,6 @@ export class CreditAddEditComponent implements OnInit {
       this.toastr.error(this.translate.instant('message.error.pleaseEnterSomeText'), this.translate.instant('swal.error'));
     } else {
       let modelSave = JSON.parse(JSON.stringify(this.creditModel));
-     // let postData;
       if (this.tab == 1) {
         modelSave = { step: this.tab,user_id: this.creditModel.user.id};
       } else if (this.tab == 2) {
@@ -216,9 +229,6 @@ export class CreditAddEditComponent implements OnInit {
           state : this.creditModel.state,
           square_id : this.creditModel.square_id,
           case_status : this.creditModel.case_status,
-        //  deadlines_quote:this.creditModel.deadlines_quote,
-         // payment_scheme:this.creditModel.payment_scheme,
-         // bank_id:this.creditModel.bank_id,
           property_status:this.creditModel.property_status,
           customer_profile:this.creditModel.customer_profile
           

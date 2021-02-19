@@ -29,7 +29,26 @@
           <!-- user tab -->
           <div *ngIf="tab == 1">
             <div class="white-bg">
-              <div class="padding40">
+              <div class="padding40" *ngIf="this.creditModel?.user?.id && showSearch==false">
+                <div class="row">
+                  <div class="col-sm-9 col-lg-9">
+                    <p class="p16">{{'addRequest.SearchAUserInOurDatabase' | translate}}</p>
+                  </div>
+                  <div class="col-sm-3 col-lg-3 btn-cont text-right">
+                    <button type="button" class="btn btn-primary" (click)="showSearchBox()">{{'addForm.change' | translate}}</button>
+                  </div>
+                </div>
+                <p><b>{{this.creditModel?.user?.name}}</b></p>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="btn-cont text-right">
+                      <button type="button" (click)="tab=2" class="btn btn-primary">{{'addForm.next' | translate}}</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="padding40" *ngIf="showSearch">
                 <h5 class="p16-two">{{'addRequest.SearchAUserInOurDatabase' | translate}}</h5>
                 <div class="searh d-flex">
                   <input autocomplete="off" class="border-right-0" autocomplete="off" type="text" #buildingname

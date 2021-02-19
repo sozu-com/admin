@@ -156,6 +156,7 @@ export class CreditComponent implements OnInit {
   }
 
   deletePopup(item: any, index: number) {
+    console.log(item,"item id")
     this.parameter.text = this.translate.instant('message.error.wantToDeleteProject');
 
     swal({
@@ -173,8 +174,7 @@ export class CreditComponent implements OnInit {
   }
 
   deleteProject(item: any, index: number) {
-    this.admin.postDataApi('deleteCreditsDetails',
-      { building_id: item.id }).subscribe(r => {
+    this.admin.postDataApi('deleteCreditsDetails',{ id: item.id }).subscribe(r => {
         swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
         this.parameter.items.splice(index, 1);
         this.total--;
