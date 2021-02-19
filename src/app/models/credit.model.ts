@@ -4,14 +4,14 @@ export class Credit {
     admin_id?: number;
     bank?: Bank;
     bank_id?: number;
-    caseStatus_id?: number;
+    case_status?: number;
     created_at?: string;
     credit_amount?: string;
-    customerProfile_id?: number;
+    customer_profile?: number;
     deadlines_quote?: DeadlinesQuote;
     destination?: Destination;
     destination_id?: number;
-    executive_id?: number;
+    executive?: number;
     home_value?: string;
     id?: number;
     payment_scheme?: PaymentScheme;
@@ -19,11 +19,12 @@ export class Credit {
     programs_id?: number;
     property_status?: number;
     square_id?: number;
-    state_id?: number;
+    state?: number;
     step?: number;
     updated_at?: string;
     user?: Users;
     user_id?: number;
+    credit_user_id?: number;
 }
 
 export class Bank {

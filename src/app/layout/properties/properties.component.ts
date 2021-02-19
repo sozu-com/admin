@@ -110,7 +110,6 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('rejectModalOpen') rejectModalOpen: ElementRef;
   @ViewChild('rejectModalClose') rejectModalClose: ElementRef;
-
   @ViewChild('linkUserModal') linkUserModal: ElementRef;
   @ViewChild('closeLinkUserModal') closeLinkUserModal: ElementRef;
   @ViewChild('linkSellerModal') linkSellerModal: ElementRef;
