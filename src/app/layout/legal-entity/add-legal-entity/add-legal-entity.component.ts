@@ -92,7 +92,7 @@ export class AddLegalEntityComponent implements OnInit {
   }
 
   uploadDoc(legalentity) {
-    console.log(legalentity, "legal-entity id")
+    //console.log(legalentity, "legal-entity id")
     this.router.navigate(['/dashboard/legal-entities/document-upload', legalentity.id]);
   }
 
@@ -314,6 +314,11 @@ export class AddLegalEntityComponent implements OnInit {
         repBanks.push(this.fb.group(x));
       });
     }
+    this.model['neighbourhoods'] = [];
+    this.model.neighbourhoods.push(this.addDataForm.get('neighbourhood').value);
+    this.model['tax_neighbourhoods'] = [];
+    this.model.tax_neighbourhoods.push(this.addDataForm.get('tax_neighbourhood').value);
+    (this.addDataForm.get('legal_rep') as FormGroup).get('developer_id').setValue(data.developer_id);
   }
 
   setSaleComm(sales_commission: number) {
@@ -416,6 +421,7 @@ export class AddLegalEntityComponent implements OnInit {
         formData['developer_access'] = this.getDeveloperAccessFormArray.getRawValue();
       }
     }
+    formData['developer_id'] = (this.addDataForm.get('legal_rep') as FormGroup).get('developer_id').value;
     this.spinner.show();
     this.admin.postDataApi('addLegalEntity', formData)
       .subscribe(
@@ -632,7 +638,7 @@ export class AddLegalEntityComponent implements OnInit {
               state: ((success.data || {}).response || {}).estado || '', // State
               city: ((success.data || {}).response || {}).ciudad || '', // city
               country: ((success.data || {}).response || {}).pais || '', // Country
-              neighbourhood: (this.model.tax_neighbourhoods || [])[0] || ''
+              neighbourhood: (this.model.neighbourhoods || [])[0] || ''
             });
             this.onClickUseUserSameAddress();
           }
