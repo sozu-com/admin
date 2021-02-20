@@ -32,7 +32,7 @@ export class CreditAddEditComponent implements OnInit {
   amenities = Array<any>();
   destination_list = Array<IDestinationStatus>();
   program_list = Array<IDestinationStatus>();
-  creditsDeadlines = Array<IDestinationStatus>();
+  deadlines_list = Array<IDestinationStatus>();
   PaymentScheme = Array<PaymentScheme>();
   selctedPayments: Array<any>;
   executive_list = Array<IDestinationStatus>();
@@ -227,13 +227,16 @@ export class CreditAddEditComponent implements OnInit {
           customer_profile:this.creditModel.customer_profile,
           deadlines_quote:this.creditModel.deadlines_quote
         };
-        if (this.banks) {
-          const d = this.banks.map(o => o.id);
+        // if (this.creditModel.id) {
+        //   this.creditModel.deadlines_quote.id
+        // }
+        if (this.creditModel.bank_id) {
+          const d =  this.creditModel.bank_id.map(o => o.id);
           modelSave.bank_id = d;
         }
 
-        if (this.PaymentScheme) {
-            const d = this.PaymentScheme.map(o => o.id);
+        if (this.creditModel.payment_scheme) {
+            const d = this.creditModel.payment_scheme.map(o => o.id);
             modelSave.payment_scheme = d;
         }
       }
@@ -260,6 +263,7 @@ export class CreditAddEditComponent implements OnInit {
     this.spinnerService.show();
     this.adminService.postDataApi('getcredits', { id: this.parameter.property_id }).subscribe((success) => {
       this.creditModel = success.data;
+      console.log(this.creditModel.deadlines_quote.id,"deadline")
       for (var i = 0; i < success.data.payment_scheme.length; i++) {
         let payment = success.data.payment_scheme[i].payment;
         self.selctedPayments.push({ id: payment.id, name_en: payment.name_en });
@@ -270,6 +274,7 @@ export class CreditAddEditComponent implements OnInit {
       }
       this.creditModel.bank_id = self.selctedBanks;
      this.creditModel.payment_scheme = self.selctedPayments;
+     this.creditModel.deadlines_quote = this.creditModel.deadlines_quote.id;
       this.spinnerService.hide();
     }, (error) => {
       this.spinnerService.hide();
@@ -294,7 +299,7 @@ export class CreditAddEditComponent implements OnInit {
        this.adminService.postDataApi('getSquare', {}),this.adminService.postDataApi('getCaseStatus', {}),
     ]).subscribe((response: any[]) => {
        this.program_list = response[0].data;
-       this.creditsDeadlines = response[1].data;
+       this.deadlines_list = response[1].data;
        this.PaymentScheme = response[2].data;
        this.destination_list = response[3].data;
        this.banks = response[4].data;
