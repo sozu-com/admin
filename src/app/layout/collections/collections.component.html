@@ -807,9 +807,8 @@
           <div class="row">
             <div class="col-md-3">
               <p-calendar class="form-control" [(ngModel)]="model.reminder_date" autocomplete="off"
-                [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" [showTime]="true"
-                showIcon="true" (onSelect)="onSelect1($event)" showButtonBar="true" [monthNavigator]="true"
-                [yearNavigator]="true" yearRange="2000:2040" [readonlyInput]="true"></p-calendar>
+                [style]="{'width':'100%'}" name="date" class="sz-calendar" [showTime]="true"
+                showIcon="true" (onSelect)="onSelect1($event)" [readonlyInput]="true"></p-calendar>
             </div>
             <div class="col-md-6">
               <input formControlName="toAddress" [(ngModel)]="model.email"
