@@ -168,7 +168,7 @@
                     </div>
                   </div>
                   <div class="col-4">
-                    <div class="form-group-3" *ngIf="is_data_fetch">
+                    <div class="form-group-3">
                       <label>{{'creditForm.paymentScheme' | translate}}</label>
                       <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
                         name="payment_scheme" [data]="PaymentScheme" [(ngModel)]="creditModel.payment_scheme"
@@ -189,7 +189,9 @@
                       <label>{{'creditForm.banks' | translate}}</label>
                       <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
                         name="bank_id" [data]="banks" [(ngModel)]="creditModel.bank_id"
-                        [settings]="multiDropdownSettings" (onDeSelect)="unsetProject($event)">
+                        [settings]="multiDropdownSettings" (onSelect)="setBank($event, 'selctedBanks')"
+                        (onDeSelect)="unsetProject($event, 'selctedBanks')" 
+                        (onSelectAll)="onSelectAll($event)">
                       </ng-multiselect-dropdown>
                     </div>
                   </div>

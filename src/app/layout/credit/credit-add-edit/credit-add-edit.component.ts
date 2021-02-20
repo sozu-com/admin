@@ -42,14 +42,12 @@ export class CreditAddEditComponent implements OnInit {
   customerProfile_list = Array<IDestinationStatus>();
   banks = Array<Bank>();
   selctedBanks: Array<any>;
-  selctedDeadlines: Array<any>;
   multiDropdownSettings = {};
   public creditModel: Credit = new Credit();
   public language_code: string;
   userForm: FormGroup;
   showSearch = false;
   Onedit = false;
-  is_data_fetch: boolean;
   constructor(
     //public creditModel: Credit,
     public constant: Constant,
@@ -91,7 +89,6 @@ export class CreditAddEditComponent implements OnInit {
     //this.getCustomerProfile();
     this.selctedBanks = [];
     this.selctedPayments = [];
-    this.selctedDeadlines = [];
   }
 
   showSearchBox() {
@@ -120,14 +117,8 @@ export class CreditAddEditComponent implements OnInit {
   setProject(item: any) {
     this.selctedPayments.push(item);
   }
-  unsetDeadlines(item: any) {
-    let i = 0;
-    this.selctedDeadlines.map(r => {
-      if (r.id == item.id) {
-        this.selctedDeadlines.splice(i, 1);
-      }
-      i = i + 1;
-    });
+  setBank(item: any) {
+    this.selctedBanks.push(item);
   }
 
   initializeDropDownSetting = (): void => {
@@ -144,7 +135,6 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   setTab = (tab: number): void => {
-    this.is_data_fetch = true;
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' +
         this.translate.instant('message.error.movingBackCanResetInformationEnteredOnCurrentTab'),
@@ -237,10 +227,6 @@ export class CreditAddEditComponent implements OnInit {
           customer_profile:this.creditModel.customer_profile,
           deadlines_quote:this.creditModel.deadlines_quote
         };
-        // if (this.creditsDeadlines) {
-        //   const d = this.creditsDeadlines.map(o => o.id);
-        //   modelSave.deadlines_quote = d;
-        // }
         if (this.banks) {
           const d = this.banks.map(o => o.id);
           modelSave.bank_id = d;
@@ -266,18 +252,25 @@ export class CreditAddEditComponent implements OnInit {
       });
     }
   }
+  onSelectAll(obj: any) {
+  }
   
   getcredits = (): void => {
+    let self = this
     this.spinnerService.show();
     this.adminService.postDataApi('getcredits', { id: this.parameter.property_id }).subscribe((success) => {
       this.creditModel = success.data;
       for (var i = 0; i < success.data.payment_scheme.length; i++) {
         let payment = success.data.payment_scheme[i].payment;
-        this.selctedPayments.push({ id: payment.id, name_en: payment.name_en });
+        self.selctedPayments.push({ id: payment.id, name_en: payment.name_en });
       }
-     //localStorage.setItem('EditTime',this.creditModel.bank);
+      for (var i = 0; i < success.data.bank.length; i++) {
+        let bank_details = success.data.bank[i].bank_details;
+        self.selctedBanks.push({ id: bank_details.id, name_en: bank_details.name_en });
+      }
+      this.creditModel.bank_id = self.selctedBanks;
+     this.creditModel.payment_scheme = self.selctedPayments;
       this.spinnerService.hide();
-      this.is_data_fetch = true;
     }, (error) => {
       this.spinnerService.hide();
     });

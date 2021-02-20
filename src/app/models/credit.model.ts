@@ -2,21 +2,17 @@ import { Users } from "./users.model";
 
 export class Credit {
     admin_id?: number;
-    bank?: Bank;
-    bank_id?: number;
+    bank_id?: Array<Bank>;
     case_status?: number;
     created_at?: string;
     credit_amount?: string;
     customer_profile?: number;
-    deadlines_quote?: DeadlinesQuote;
-    destination?: Destination;
+    deadlines_quote?: number;
     destination_id?: number;
     executive?: number;
     home_value?: string;
     id?: number;
     payment_scheme?: Array<PaymentScheme>;
-    payment?: string;
-    programs?: Programs;
     programs_id?: number;
     property_status?: number;
     square_id?: number;
@@ -37,38 +33,7 @@ export class Bank {
     updated_at?: string;
 }
 
-export class DeadlinesQuote {
-    created_at?: string;
-    deleted_at?: number;
-    id?: number;
-    name_en?: string;
-    name_es?: string;
-    updated_at?: string;
-}
-
 export class PaymentScheme {
-    created_at?: string;
-    deleted_at?: number;
-    id?: number;
-    name_en?: string;
-    name_es?: string;
-    updated_at?: string;
-}
-export class Payment {
-    id?: number;
-    name_en?: string;
-    name_es?: string;
-}
-export class Programs {
-    created_at?: string;
-    deleted_at?: number;
-    id?: number;
-    name_en?: string;
-    name_es?: string;
-    updated_at?: string;
-}
-
-export class Destination {
     created_at?: string;
     deleted_at?: number;
     id?: number;
