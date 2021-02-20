@@ -214,8 +214,8 @@ export class CreditAddEditComponent implements OnInit {
       this.toastr.error(this.translate.instant('message.error.pleaseEnterSomeText'), this.translate.instant('swal.error'));
     } else {
       let modelSave = JSON.parse(JSON.stringify(this.creditModel));
-      if (this.tab == 1) {
-        modelSave = { step: this.tab,user_id: this.creditModel.user.id};
+      if (this.tab == 1) {     
+        modelSave = this.creditModel.id?  { step: this.tab,user_id: this.creditModel.user.id, id: this.creditModel.id } : { step: this.tab,user_id: this.creditModel.user.id};
       } else if (this.tab == 2) {
         var id = localStorage.getItem("stepOneId");
         modelSave = { 
