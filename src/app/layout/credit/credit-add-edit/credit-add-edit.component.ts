@@ -89,10 +89,7 @@ export class CreditAddEditComponent implements OnInit {
     
     this.getCreditsBasicDetails();
     this.initializeDropDownSetting();
-    this.getState();
-    this.getSquare();
-    this.getCaseStatus();
-    this.getCustomerProfile();
+    //this.getCustomerProfile();
     this.selctedBanks = [];
     this.selctedPayments = [];
     this.selctedDeadlines = [];
@@ -196,11 +193,14 @@ export class CreditAddEditComponent implements OnInit {
       e.selected = false;
     });
     const searchindex = (this.parameter.page - 1) * 4 + i;
-    this.searchedUser[i].selected = true;
+    this.searchedUser[searchindex].selected = true;
+    //this.searchedUser[i].selected = true;
   }
 
   setUserId(building: any) {
     this.creditModel.user = building;
+    this.creditModel.user.id = building.id;
+   // this.creditModel.user = building;
     console.log(building,"building")
   }
   getPage(page: number) {
@@ -208,14 +208,16 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   addcredits() {
-   
     if (!this.creditModel.user) {
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseEnterSomeText'), this.translate.instant('swal.error'));
     } else {
       let modelSave = JSON.parse(JSON.stringify(this.creditModel));
       if (this.tab == 1) {
-        modelSave = { step: this.tab,user_id: this.creditModel.user.id};
+        modelSave = { 
+          step: this.tab,
+          user_id: this.creditModel.user.id
+        };
       } else if (this.tab == 2) {
         var id = localStorage.getItem("stepOneId");
         modelSave = { 
@@ -231,7 +233,6 @@ export class CreditAddEditComponent implements OnInit {
           case_status : this.creditModel.case_status,
           property_status:this.creditModel.property_status,
           customer_profile:this.creditModel.customer_profile
-          
         };
         if (this.creditsDeadlines) {
           const d = this.creditsDeadlines.map(o => o.id);
@@ -241,12 +242,11 @@ export class CreditAddEditComponent implements OnInit {
           const d = this.banks.map(o => o.id);
           modelSave.bank_id = d;
         }
+
         if (this.PaymentScheme) {
-          const d = this.PaymentScheme.map(o => o.id);
-          modelSave.payment_scheme = d;
+            const d = this.PaymentScheme.map(o => o.id);
+            modelSave.payment_scheme = d;
         }
-        // this.creditModel.step = this.tab;
-        // postData = this.creditModel;
       }
       this.spinnerService.show();
       this.adminService.postDataApi('addcredits', modelSave).subscribe((success) => {
@@ -263,7 +263,7 @@ export class CreditAddEditComponent implements OnInit {
       });
     }
   }
-
+  
   getcredits = (): void => {
     this.spinnerService.show();
     this.adminService.postDataApi('getcredits', { id: this.parameter.property_id }).subscribe((success) => {
@@ -273,30 +273,7 @@ export class CreditAddEditComponent implements OnInit {
       this.spinnerService.hide();
     });
   }
-  getState() {
-    this.adminService.postDataApi('getState',{})
-      .subscribe(
-        success => {
-          this.state_list = success['data'];
-        }
-      );
-  }
-  getSquare() {
-    this.adminService.postDataApi('getSquare',{})
-      .subscribe(
-        success => {
-          this.square_list = success['data'];
-        }
-      );
-  }
-  getCaseStatus() {
-    this.adminService.postDataApi('getCaseStatus',{})
-      .subscribe(
-        success => {
-          this.caseStatus_list = success['data'];
-        }
-      );
-  }
+
   getCustomerProfile() {
     this.adminService.postDataApi('getCustomerProfile',{})
       .subscribe(
@@ -311,7 +288,8 @@ export class CreditAddEditComponent implements OnInit {
       this.adminService.postDataApi('getPrograms', {}), this.adminService.postDataApi('getCreditsDeadlines', {}),
        this.adminService.postDataApi('getPaymentScheme', {}), this.adminService.postDataApi('getDestination', {}),
        this.adminService.postDataApi('getCreditsBanks', {}), this.adminService.postDataApi('getPropertyAmenities', { hide_blocked: 1 }),
-       this.adminService.postDataApi('getExecutive', {})
+       this.adminService.postDataApi('getExecutive', {}),this.adminService.postDataApi('getState', {}),
+       this.adminService.postDataApi('getSquare', {}),this.adminService.postDataApi('getCaseStatus', {}),
     ]).subscribe((response: any[]) => {
        this.program_list = response[0].data;
        this.creditsDeadlines = response[1].data;
@@ -320,6 +298,9 @@ export class CreditAddEditComponent implements OnInit {
        this.banks = response[4].data;
        this.amenities = response[5].data;
        this.executive_list = response[6].data;
+       this.state_list = response[7].data;
+       this.square_list = response[8].data;
+       this.caseStatus_list = response[9].data;
     });
   } 
 
