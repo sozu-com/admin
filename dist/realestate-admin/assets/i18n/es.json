@@ -1062,7 +1062,7 @@
       "pleaseSelectFloor": "Seleccionar piso.",
       "pleaseFillCarpetAreaFields": "Por favor llene los campos del área de piso",
       "pleaseFillCustomAttributeFields": "Llena los campos de atributos personalizados",
-      "pleaseEnterSomeText": "Ingresa algún texto.",
+      "pleaseEnterSomeText": "Por favor complete todos los detalles.",
       "parkingForSaleCannotGreaterThanTotalParking": "El estacionamiento en venta no puede ser mayor que el total de estacionamientos disponibles.",
       "pleaseAddCarpetArea": "Agregar área de piso.",
       "pleaseChooseCoverImage": "Seleccionar imagen de portada.",
@@ -1149,6 +1149,7 @@
       "wantToBlockProject": "¿Quieres bloquear este proyecto?",
       "wantToUnBlockProject": "¿Quieres desbloquear este proyecto?",
       "wantToDeleteProject": "¿Quieres eliminar este proyecto?",
+      "wantToDeleteCredit": "¿Quieres eliminar este crédito?",
       "wantTocloseLead": "¿Quieres cerrar este lead?",
       "wantToBlockCompany": "¿Quieres bloquear esta compañía?",
       "wantToUnblockCompany": "¿Quieres desbloquear esta compañía??",
@@ -1906,6 +1907,7 @@
     "folderName": "Nombre de la carpeta",
     "Addcollaborator" :"Agregar colaborador",
     "buildingYouAreSearchingNotFound": "Edificio que está buscando, no se encuentra en nuestra base de datos",
+    "userYouAreSearchingNotFound": "User que está buscando, no se encuentra en nuestra base de datos",
     "chooseDate": "Elegir fecha",
     "enterPercentage": "Ingrese porcentaje",
     "enterAmount": "Ingresar cantidad",
@@ -2485,6 +2487,14 @@
     "PendingReview":"Revisión pendiente",
     "InDraft":"En borrador",
     "City":"Ciudad",
-    "Properties":"# Propiedades"
-}
+    "Properties":"# Propiedades",
+    "propertyStatus":"Estado de la propiedad",
+    "propertyPossesion":"Posesión de propiedad",
+    "forSale":"En venta",
+    "projectPossesion":"Posesión del proyecto",
+    "localitiesWithMoreProject":"Localidades con más proyecto",
+    "propertiesStatus":"Estado de las propiedades",
+    "pReview":"P. revisión",
+    "expectedIVAAmount":"Importe de IVA esperado"
+  }
 }
