@@ -2487,6 +2487,14 @@
     "PendingReview":"Revisión pendiente",
     "InDraft":"En borrador",
     "City":"Ciudad",
-    "Properties":"# Propiedades"
-}
+    "Properties":"# Propiedades",
+    "propertyStatus":"Estado de la propiedad",
+    "propertyPossesion":"Posesión de propiedad",
+    "forSale":"En venta",
+    "projectPossesion":"Posesión del proyecto",
+    "localitiesWithMoreProject":"Localidades con más proyecto",
+    "propertiesStatus":"Estado de las propiedades",
+    "pReview":"P. revisión",
+    "expectedIVAAmount":"Importe de IVA esperado"
+  }
 }

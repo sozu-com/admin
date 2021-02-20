@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
 import { OnInit } from '@angular/core';
+import { forkJoin } from 'rxjs';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -25,8 +26,8 @@ export class DashboardComponent implements OnInit {
   // all_properties_count = 0;
   // rent_properties_count = 0;
   // sale_properties_count = 0;
-  fullName: string;
-  reportType: number;
+  //fullName: string;
+  reportType: number = 1;
   reportType1: number = 1;
   // colorScheme = {
   //   domain: ['#4eb96f']
@@ -49,7 +50,6 @@ export class DashboardComponent implements OnInit {
     private translate: TranslateService
   ) {
     //const date = new Date();
-
     // this.locale = {
     //   firstDayOfWeek: 0,
     //   dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
@@ -68,17 +68,15 @@ export class DashboardComponent implements OnInit {
     // this.parameter.max = date;
     // this.parameter.min = moment().subtract(6, 'months').toDate();
     // this.parameter.max = moment().toDate();
-
-    this.adminService.loginData$.subscribe(success => {
-      this.fullName = success['name'];
-    });
+    // this.adminService.loginData$.subscribe(success => {
+    //   this.fullName = success['name'];
+    // });
     //this.getReportData();
     // this.selctedLocalities = [];
     // this.selctedCities = [];
   }
 
   ngOnInit(): void {
-    this.reportType = 1;
     this.language_code = localStorage.getItem('language_code');
     this.initializedDropDownSetting();
     this.getCountries();
@@ -116,12 +114,25 @@ export class DashboardComponent implements OnInit {
       cities: this.selectedLocation.selectedCities.length > 0 ? this.selectedLocation.selectedCities.map(o => o.id) : null,
       localities: this.selectedLocation.selectedLocalities.length > 0 ? this.selectedLocation.selectedLocalities.map(o => o.id) : null,
     };
-    this.adminService.postDataApi('getDashboardDetails', postData).subscribe((success) => {
+    // this.adminService.postDataApi('getDashboardDetails', postData).subscribe((success) => {
+    //   this.spinnerService.hide();
+    //   this.location.buildings = success.building;
+    //   this.location.locality = success.locality || [];
+    //   this.location.cities1 = success.city || [];
+    //   this.location.propertyDetails = success.property;
+    //   this.plotData();
+    // }, (error) => {
+    //   this.spinnerService.hide();
+    // });   
+    forkJoin([
+      this.adminService.postDataApi('getDashboardDetails-v2', postData), this.adminService.postDataApi('getDashboardDetails-v3', postData),
+      this.adminService.postDataApi('getDashboardDetails-v4', postData), this.adminService.postDataApi('getDashboardDetails-v5', postData)
+    ]).subscribe((response: any[]) => {
       this.spinnerService.hide();
-      this.location.buildings = success.building;
-      this.location.locality = success.locality || [];
-      this.location.cities1 = success.city || [];
-      this.location.propertyDetails = success.property;
+      this.location.buildings = response[0].data;
+      this.location.propertyDetails = response[1].data;
+      this.location.locality = response[2].data || [];
+      this.location.cities1 = response[3].data || [];
       this.plotData();
     }, (error) => {
       this.spinnerService.hide();
@@ -138,9 +149,6 @@ export class DashboardComponent implements OnInit {
     this.location.localities = [];
     this.getDashboardDetails();
   }
-
-  // getLocalityBuildings(data) {
-  // }
 
   onCountryChange = (): void => {
     this.selectedLocation.selectedStates = [];
@@ -191,14 +199,6 @@ export class DashboardComponent implements OnInit {
     this.location.localities = localities;
   }
 
-  // onLocalityChange(id) {
-  //   this.parameter.buildings = []; this.parameter.building_id = '0';
-  //   if (!id || id.toString() === '0') {
-  //     return false;
-  //   }
-  //   this.parameter.locality_id = id;
-  // }
-
   // getReportData() {
   //   //this.parameter.noResultFound = false;
   //   // const input = {start_date: this.parameter.min, end_date: this.parameter.max};
@@ -243,24 +243,15 @@ export class DashboardComponent implements OnInit {
 
   plotData = (): void => {
     const chart = new CanvasJS.Chart('agentContainer', {
-      title: {
-        text: 'Project possesion'
-      },
-      subtitles: [{
-        text: this.getselectedLocation(),
-      }],
-      legend: {
-        maxWidth: 350,
-        itemWidth: 120
-      },
+      title: { text: this.translate.instant('deshboard.projectPossesion') },
+      subtitles: [{ text: this.getselectedLocation() }],
+      legend: { maxWidth: 350, itemWidth: 120 },
       data: [
         {
-          type: 'pie',
-          showInLegend: true,
-          legendText: '{indexLabel}',
+          type: 'pie', showInLegend: true, legendText: '{indexLabel}',
           dataPoints: [
-            { id: 779, y: (this.location.buildings || {}).sale || 0, indexLabel: "Presale  ", is_external_agent: 0 },
-            { id: 781, y: (this.location.buildings || {}).presale || 0, indexLabel: "For Sale  ", is_external_agent: 0 }
+            { id: 779, y: (this.location.buildings || {}).sale || 0, indexLabel: this.translate.instant('deshboard.Sale'), is_external_agent: 0 },
+            { id: 781, y: (this.location.buildings || {}).presale || 0, indexLabel: this.translate.instant('deshboard.Presale'), is_external_agent: 0 }
           ]
         }
       ]
@@ -268,26 +259,17 @@ export class DashboardComponent implements OnInit {
     chart.render();
 
     const chart1 = new CanvasJS.Chart('agentContainer1', {
-      title: {
-        text: 'Project status'
-      },
-      subtitles: [{
-        text: this.getselectedLocation(),
-      }],
-      legend: {
-        maxWidth: 350,
-        itemWidth: 120
-      },
+      title: { text: this.translate.instant('deshboard.Projectsstatus') },
+      subtitles: [{ text: this.getselectedLocation() }],
+      legend: { maxWidth: 350, itemWidth: 120 },
       data: [
         {
-          type: 'pie',
-          showInLegend: true,
-          legendText: '{indexLabel}',
+          type: 'pie', showInLegend: true, legendText: '{indexLabel}',
           dataPoints: [
-            { id: 779, y: (this.location.buildings || {}).without_information || 0, indexLabel: "Without  ", is_external_agent: 0 },
-            { id: 781, y: (this.location.buildings || {}).basic_information || 0, indexLabel: "Basic  ", is_external_agent: 0 },
-            { id: 781, y: (this.location.buildings || {}).semi_complete || 0, indexLabel: "Semi  ", is_external_agent: 0 },
-            { id: 781, y: (this.location.buildings || {}).complete || 0, indexLabel: "Complete  ", is_external_agent: 0 }
+            { id: 779, y: (this.location.buildings || {}).without_information || 0, indexLabel: this.translate.instant('deshboard.Withoutinformation'), is_external_agent: 0 },
+            { id: 781, y: (this.location.buildings || {}).basic_information || 0, indexLabel: this.translate.instant('deshboard.Basic'), is_external_agent: 0 },
+            { id: 781, y: (this.location.buildings || {}).semi_complete || 0, indexLabel: this.translate.instant('deshboard.Semicomplete'), is_external_agent: 0 },
+            { id: 781, y: (this.location.buildings || {}).complete || 0, indexLabel: this.translate.instant('deshboard.Complete'), is_external_agent: 0 }
           ]
         }
       ]
@@ -300,43 +282,28 @@ export class DashboardComponent implements OnInit {
       exportEnabled: true,
       theme: 'light2',
       dataPointWidth: 30,
-      title: {
-        text: "Localities with more project"
-      },
-      subtitles: [{
-        text: this.getselectedLocation(),
-      }],
-      axisY: {
-        gridColor: '#222222ab',
-        tickColor: '#222222ab'
-      },
-      toolTip: {
-        shared: true
-      },
-      data: [{
-        type: 'stackedColumn',
-        showInLegend: true,
-        name: 'Without info.',
-        dataPoints: this.getMaxFiveLocality('without_information')
-      },
-      {
-        type: 'stackedColumn',
-        showInLegend: true,
-        name: 'Basic',
-        dataPoints: this.getMaxFiveLocality('basic_information')
-      },
-      {
-        type: 'stackedColumn',
-        showInLegend: true,
-        name: 'Semicomplete',
-        dataPoints: this.getMaxFiveLocality('semi_complete')
-      },
-      {
-        type: 'stackedColumn',
-        showInLegend: true,
-        name: 'Complete',
-        dataPoints: this.getMaxFiveLocality('complete')
-      }]
+      title: { text: this.translate.instant('deshboard.localitiesWithMoreProject') },
+      subtitles: [{ text: this.getselectedLocation() }],
+      axisY: { gridColor: '#222222ab', tickColor: '#222222ab' },
+      toolTip: { shared: true },
+      data: [
+        {
+          type: 'stackedColumn', showInLegend: true,
+          name: this.translate.instant('deshboard.Withoutinformation'), dataPoints: this.getMaxFiveLocality('without_information')
+        },
+        {
+          type: 'stackedColumn', showInLegend: true,
+          name: this.translate.instant('deshboard.Basic'), dataPoints: this.getMaxFiveLocality('basic_information')
+        },
+        {
+          type: 'stackedColumn', showInLegend: true,
+          name: this.translate.instant('deshboard.Semicomplete'), dataPoints: this.getMaxFiveLocality('semi_information')
+        },
+        {
+          type: 'stackedColumn', showInLegend: true,
+          name: this.translate.instant('deshboard.Complete'), dataPoints: this.getMaxFiveLocality('complete')
+        }
+      ]
     });
     chart2.render();
 
@@ -345,51 +312,66 @@ export class DashboardComponent implements OnInit {
       exportFileName: 'commission-report',
       exportEnabled: true,
       theme: 'light2',
-
       dataPointWidth: 30,
-      title: {
-        text: "Properties status"
-      },
-      subtitles: [{
-        text: this.getselectedLocation(),
-      }],
-      axisY: {
-        gridColor: '#222222ab',
-        tickColor: '#222222ab'
-      },
-      toolTip: {
-        shared: true
-      },
-      data: [{
-        type: 'stackedColumn',
-        showInLegend: true,
-        name: 'Approved',
-
-        dataPoints: this.getMaxFiveCity('approved')
-      },
-      {
-        type: 'stackedColumn',
-        showInLegend: true,
-        name: 'Unapproved',
-
-        dataPoints: this.getMaxFiveCity('unapproved')
-      },
-      {
-        type: 'stackedColumn',
-        showInLegend: true,
-        name: 'P.review',
-
-        dataPoints: this.getMaxFiveCity('pending')
-      },
-      {
-        type: 'stackedColumn',
-        showInLegend: true,
-        name: 'Expected IVA Amount',
-
-        dataPoints: this.getMaxFiveCity('draft')
-      }]
+      title: { text: this.translate.instant('deshboard.propertiesStatus') },
+      subtitles: [{ text: this.getselectedLocation() }],
+      axisY: { gridColor: '#222222ab', tickColor: '#222222ab' },
+      toolTip: { shared: true },
+      data: [
+        {
+          type: 'stackedColumn', showInLegend: true,
+          name: this.translate.instant('deshboard.Approved'), dataPoints: this.getMaxFiveCity('approved')
+        },
+        {
+          type: 'stackedColumn', showInLegend: true,
+          name: this.translate.instant('deshboard.Unapproved'), dataPoints: this.getMaxFiveCity('unapproved')
+        },
+        {
+          type: 'stackedColumn', showInLegend: true,
+          name: this.translate.instant('deshboard.pReview'), dataPoints: this.getMaxFiveCity('pending')
+        },
+        {
+          type: 'stackedColumn', showInLegend: true,
+          name: this.translate.instant('deshboard.expectedIVAAmount'), dataPoints: this.getMaxFiveCity('draft')
+        }
+      ]
     });
     chart3.render();
+
+    const availabilityContainer = new CanvasJS.Chart('availabilityContainer', {
+      title: { text: this.translate.instant('deshboard.propertyPossesion') },
+      subtitles: [{ text: this.getselectedLocation() }],
+      legend: { maxWidth: 350, itemWidth: 120 },
+      data: [
+        {
+          type: 'pie', showInLegend: true, legendText: '{indexLabel}',
+          dataPoints: [
+            { id: 779, y: (this.location.propertyDetails || {}).forSale || 0, indexLabel: this.translate.instant('deshboard.forSale'), is_external_agent: 0 },
+            { id: 781, y: (this.location.propertyDetails || {}).forRent || 0, indexLabel: this.translate.instant('deshboard.Rent'), is_external_agent: 0 },
+            { id: 781, y: (this.location.propertyDetails || {}).inventory || 0, indexLabel: this.translate.instant('deshboard.Inventory'), is_external_agent: 0 }
+          ]
+        }
+      ]
+    });
+    availabilityContainer.render();
+
+    const propertyStatusContainer = new CanvasJS.Chart('propertyStatusContainer', {
+      title: { text: this.translate.instant('deshboard.propertyStatus') },
+      subtitles: [{ text: this.getselectedLocation() }],
+      legend: { maxWidth: 350, itemWidth: 120 },
+      data: [
+        {
+          type: 'pie', showInLegend: true, legendText: '{indexLabel}',
+          dataPoints: [
+            { id: 779, y: (this.location.propertyDetails || {}).approved || 0, indexLabel: this.translate.instant('deshboard.Approved'), is_external_agent: 0 },
+            { id: 781, y: (this.location.propertyDetails || {}).unapproved || 0, indexLabel: this.translate.instant('deshboard.Unapproved'), is_external_agent: 0 },
+            { id: 781, y: (this.location.propertyDetails || {}).pending || 0, indexLabel: this.translate.instant('deshboard.PendingReview'), is_external_agent: 0 },
+            { id: 781, y: (this.location.propertyDetails || {}).draft || 0, indexLabel: this.translate.instant('deshboard.InDraft'), is_external_agent: 0 }
+          ]
+        }
+      ]
+    });
+    propertyStatusContainer.render();
   }
 
   getMaxFiveCity(text: string) {
@@ -398,14 +380,15 @@ export class DashboardComponent implements OnInit {
       const element = this.location.cities1[index] || {};
       data.push({
         label: this.language_code == 'en' ? (element.city || {}).name_en : (element.city || {}).name_es,
-        y: element[text]
+        y: parseInt(element[text])
       });
     }
     return data;
   }
 
   getParseInt(firstValue: number, secondValue: number) {
-    return parseInt(((firstValue / secondValue) * 100 || '0').toString());
+    const data = Number.isNaN(firstValue / secondValue)  ? 0 : (firstValue / secondValue);
+    return parseFloat(((data * 100).toFixed(2) || '0').toString());
   }
 
   getMaxFiveLocality(text: string) {
@@ -413,8 +396,8 @@ export class DashboardComponent implements OnInit {
     for (let index = 0; index < 5; index++) {
       const element = this.location.locality[index] || {};
       data.push({
-        label: this.language_code == 'en' ? (element.locality_id || {}).name_en : (element.locality_id || {}).name_es,
-        y: element[text]
+        label: this.language_code == 'en' ? (element.locality || {}).name_en : (element.locality || {}).name_es,
+        y: parseInt(element[text])
       });
     }
     return data;
@@ -431,27 +414,5 @@ export class DashboardComponent implements OnInit {
     const localityName = locality === 'All' ? 'All' : this.selectedLocation.selectedLocalities.length == 1 ? state : state + '+' + (this.selectedLocation.selectedLocalities.length - 1);
     return `${countryName}/${stateName}/${cityName}/${localityName}`;
   }
-
-  // unsetProject(item: any) {
-  //   let i = 0;
-  //   this.selctedLocalities.map(r => {
-  //     if (r.id == item.id) {
-  //       this.selctedLocalities.splice(i, 1);
-  //     }
-  //     i = i + 1;
-  //   });
-  // }
-  // unsetCities(item: any) {
-  //   let i = 0;
-  //   this.selctedCities.map(r => {
-  //     if (r.id == item.id) {
-  //       this.selctedCities.splice(i, 1);
-  //     }
-  //     i = i + 1;
-  //   });
-  // }
-  // onItemSelect(param: any, obj: any) {
-  //   this[param].push(obj);
-  // }
 
 }
