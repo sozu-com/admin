@@ -10,7 +10,7 @@ import { IProperty } from 'src/app/common/property';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IDestinationStatus } from 'src/app/common/marrital-status-interface';
-import { Credit } from 'src/app/models/credit.model';
+import { Bank, Credit, PaymentScheme } from 'src/app/models/credit.model';
 import { forkJoin } from 'rxjs';
 declare let swal: any;
 @Component({
@@ -33,15 +33,15 @@ export class CreditAddEditComponent implements OnInit {
   destination_list = Array<IDestinationStatus>();
   program_list = Array<IDestinationStatus>();
   creditsDeadlines = Array<IDestinationStatus>();
-  PaymentScheme = Array<IDestinationStatus>();
+  PaymentScheme = Array<PaymentScheme>();
+  selctedPayments: Array<any>;
   executive_list = Array<IDestinationStatus>();
   state_list = Array<IDestinationStatus>();
   square_list = Array<IDestinationStatus>();
   caseStatus_list = Array<IDestinationStatus>();
   customerProfile_list = Array<IDestinationStatus>();
-  banks = Array<any>();
+  banks = Array<Bank>();
   selctedBanks: Array<any>;
-  selctedPayments: Array<any>;
   selctedDeadlines: Array<any>;
   multiDropdownSettings = {};
   public creditModel: Credit = new Credit();
@@ -49,6 +49,7 @@ export class CreditAddEditComponent implements OnInit {
   userForm: FormGroup;
   showSearch = false;
   Onedit = false;
+  is_data_fetch: boolean;
   constructor(
     //public creditModel: Credit,
     public constant: Constant,
@@ -68,9 +69,7 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    
     this.language_code = localStorage.getItem('language_code');
-  
     this.tab = 1;
     this.parameter.page = 1;
     this.parameter.itemsPerPage = this.constant.limit4;
@@ -108,6 +107,7 @@ export class CreditAddEditComponent implements OnInit {
       i = i + 1;
     });
   }
+
   unsetPayments(item: any) {
     let i = 0;
     this.selctedPayments.map(r => {
@@ -116,6 +116,9 @@ export class CreditAddEditComponent implements OnInit {
       }
       i = i + 1;
     });
+  }
+  setProject(item: any) {
+    this.selctedPayments.push(item);
   }
   unsetDeadlines(item: any) {
     let i = 0;
@@ -141,6 +144,7 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   setTab = (tab: number): void => {
+    this.is_data_fetch = true;
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' +
         this.translate.instant('message.error.movingBackCanResetInformationEnteredOnCurrentTab'),
@@ -214,11 +218,13 @@ export class CreditAddEditComponent implements OnInit {
     } else {
       let modelSave = JSON.parse(JSON.stringify(this.creditModel));
       if (this.tab == 1) {
+        this.is_data_fetch = true;
         modelSave = { 
           step: this.tab,
           user_id: this.creditModel.user.id
         };
       } else if (this.tab == 2) {
+       
         var id = localStorage.getItem("stepOneId");
         modelSave = { 
           step: this.tab,
@@ -232,12 +238,13 @@ export class CreditAddEditComponent implements OnInit {
           square_id : this.creditModel.square_id,
           case_status : this.creditModel.case_status,
           property_status:this.creditModel.property_status,
-          customer_profile:this.creditModel.customer_profile
+          customer_profile:this.creditModel.customer_profile,
+          deadlines_quote:this.creditModel.deadlines_quote
         };
-        if (this.creditsDeadlines) {
-          const d = this.creditsDeadlines.map(o => o.id);
-          modelSave.deadlines_quote = d;
-        }
+        // if (this.creditsDeadlines) {
+        //   const d = this.creditsDeadlines.map(o => o.id);
+        //   modelSave.deadlines_quote = d;
+        // }
         if (this.banks) {
           const d = this.banks.map(o => o.id);
           modelSave.bank_id = d;
@@ -268,7 +275,13 @@ export class CreditAddEditComponent implements OnInit {
     this.spinnerService.show();
     this.adminService.postDataApi('getcredits', { id: this.parameter.property_id }).subscribe((success) => {
       this.creditModel = success.data;
+      for (var i = 0; i < success.data.payment_scheme.length; i++) {
+        let payment = success.data.payment_scheme[i].payment;
+        this.selctedPayments.push({ id: payment.id, name_en: payment.name_en });
+      }
+     //localStorage.setItem('EditTime',this.creditModel.bank);
       this.spinnerService.hide();
+      this.is_data_fetch = true;
     }, (error) => {
       this.spinnerService.hide();
     });

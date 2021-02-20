@@ -154,18 +154,27 @@
                   <div class="col-4">
                     <div class="form-group-3">
                       <label class="p16-two">{{'creditForm.deadlines' | translate}}</label>
-                      <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
+                      <select title="{{'creditForm.selectcaseStatus' | translate}}" name="deadlines_quote" class="form-control"
+                      [(ngModel)]="creditModel.deadlines_quote">
+                        <option disabled selected value="undefined">Select Deadlines to quote</option>
+                        <option *ngFor="let dest of creditsDeadlines" [value]="dest.id">
+                          {{language_code
+                          == 'en'? dest.name_en : dest.name_es}}</option>
+                      </select>
+                      <!-- <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
                         name="deadlines_quote" [data]="creditsDeadlines" [(ngModel)]="creditModel.deadlines_quote"
                         [settings]="multiDropdownSettings" (onDeSelect)="unsetDeadlines($event)">
-                      </ng-multiselect-dropdown>
+                      </ng-multiselect-dropdown> -->
                     </div>
                   </div>
                   <div class="col-4">
-                    <div class="form-group-3">
+                    <div class="form-group-3" *ngIf="is_data_fetch">
                       <label>{{'creditForm.paymentScheme' | translate}}</label>
                       <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
                         name="payment_scheme" [data]="PaymentScheme" [(ngModel)]="creditModel.payment_scheme"
-                        [settings]="multiDropdownSettings" (onDeSelect)="unsetPayments($event)">
+                        [settings]="multiDropdownSettings" (onSelect)="setProject($event, 'selctedPayments')"
+                        (onDeSelect)="unsetPayments($event, 'selctedPayments')" 
+                        (onSelectAll)="onSelectAll($event)">
                       </ng-multiselect-dropdown>
                     </div>
                   </div>
@@ -2321,7 +2330,7 @@
           <!-- <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
           </div> -->
         </div>
-      </div>
+      </div> 
     </div>
   </div>
 </section>
