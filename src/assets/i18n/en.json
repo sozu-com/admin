@@ -2488,6 +2488,14 @@
       "PendingReview":"Pending Review",
       "InDraft":"In Draft",
       "City":"City",
-      "Properties":"# Properties"
+      "Properties":"# Properties",
+      "propertyStatus":"Property status",
+      "propertyPossesion":"Property possesion",
+      "forSale":"For Sale",
+      "projectPossesion":"Project possesion",
+      "localitiesWithMoreProject":"Localities with more project",
+      "propertiesStatus":"Properties status",
+      "pReview":"P.review",
+      "expectedIVAAmount":"Expected IVA Amount"
   }
 }

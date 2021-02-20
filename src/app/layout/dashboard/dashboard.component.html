@@ -318,12 +318,12 @@
             <th style="text-align: center;">{{'deshboard.Complete' | translate}}</th>
           </tr>
          <ng-container *ngFor="let locality of location.locality; let i=index">
-           <tr>
-             <td style="text-align: center;">{{this.language_code == 'en' ? locality?.locality_id?.name_en : locality?.locality_id?.name_es }}</td>
-             <td style="text-align: center;">{{locality?.building }}</td>
+           <tr *ngIf="i < 10 ">
+             <td style="text-align: center;">{{this.language_code == 'en' ? locality?.locality?.name_en : locality?.locality?.name_es }}</td>
+             <td style="text-align: center;">{{locality?.locality_count }}</td>
              <td style="text-align: center;">{{locality?.without_information }}</td>
              <td style="text-align: center;">{{locality?.basic_information }}</td>
-             <td style="text-align: center;">{{locality?.semi_complete }}</td>
+             <td style="text-align: center;">{{locality?.semi_information }}</td>
              <td style="text-align: center;">{{locality?.complete }}</td>
            </tr>
          </ng-container>
@@ -352,7 +352,7 @@
               <th colspan="3" style="text-align: center;">{{'deshboard.Total' | translate}}</th>
               <th rowspan="2" style="text-align: center; padding-top: 32px;">{{'deshboard.CommercializedSozu' | translate}}</th>
               <th rowspan="2" style="text-align: center; padding-top: 32px;">{{'deshboard.SoldSozu' | translate}}</th>
-              <th colspan="4" style="text-align: center;">{{'deshboard.Projectsstatus' | translate}}</th>
+              <th colspan="4" style="text-align: center;">{{'deshboard.propertyStatus' | translate}}</th>
             </tr>
             <tr>
               <th style="text-align: center;">{{'deshboard.ForSale' | translate}}</th>
@@ -365,8 +365,8 @@
             </tr>
             <tr *ngIf="location.propertyDetails">
               <td style="text-align: center;">{{location.propertyDetails?.property || 0}}</td>
-              <td style="text-align: center;">{{location.propertyDetails?.for_sale || 0}}</td>
-              <td style="text-align: center;">{{location.propertyDetails?.for_rent || 0}}</td>
+              <td style="text-align: center;">{{location.propertyDetails?.forSale || 0}}</td>
+              <td style="text-align: center;">{{location.propertyDetails?.forRent || 0}}</td>
               <td style="text-align: center;">{{location.propertyDetails?.inventory || 0}}</td>
               <td style="text-align: center;">{{location.propertyDetails?.commercialized || 0}}</td>
               <td style="text-align: center;">{{location.propertyDetails?.sold || 0}}</td>
@@ -381,7 +381,15 @@
       </div>
     </div>
     </div>
-
+    <div class="spacer30"></div>
+    <div class="row">
+      <div class="graph-area col-lg-6 col-md-6">
+        <div id="availabilityContainer" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
+      </div>
+      <div class="graph-area col-lg-6 col-md-6">
+        <div id="propertyStatusContainer" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
+      </div>
+    </div>
     <div class="spacer30"></div>
     <div class="white-bg marginT15 padding15">
       <div class="row">
@@ -413,10 +421,10 @@
               <th style="text-align: center;">{{'deshboard.PendingReview' | translate}}</th>
               <th style="text-align: center;">{{'deshboard.InDraft' | translate}}</th>
             </tr>
-           <ng-container *ngFor="let city of location.cities1; let i=index">
-             <tr>
+           <ng-container *ngFor="let city of location.cities1; let j=index">
+             <tr *ngIf="j < 10 ">
                <td style="text-align: center;">{{this.language_code == 'en' ? city?.city?.name_en : city?.city?.name_es}}</td>
-               <td style="text-align: center;">{{city?.property}}</td>
+               <td style="text-align: center;">{{city?.property_count}}</td>
                <td style="text-align: center;">{{city?.approved}}</td>
                <td style="text-align: center;">{{city?.unapproved}}</td>
                <td style="text-align: center;">{{city?.pending}}</td>
