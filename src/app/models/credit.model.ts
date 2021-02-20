@@ -14,7 +14,8 @@ export class Credit {
     executive?: number;
     home_value?: string;
     id?: number;
-    payment_scheme?: PaymentScheme;
+    payment_scheme?: Array<PaymentScheme>;
+    payment?: string;
     programs?: Programs;
     programs_id?: number;
     property_status?: number;
@@ -53,7 +54,11 @@ export class PaymentScheme {
     name_es?: string;
     updated_at?: string;
 }
-
+export class Payment {
+    id?: number;
+    name_en?: string;
+    name_es?: string;
+}
 export class Programs {
     created_at?: string;
     deleted_at?: number;

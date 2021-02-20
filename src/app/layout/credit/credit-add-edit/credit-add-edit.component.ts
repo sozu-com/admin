@@ -10,7 +10,7 @@ import { IProperty } from 'src/app/common/property';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IDestinationStatus } from 'src/app/common/marrital-status-interface';
-import { Credit } from 'src/app/models/credit.model';
+import { Bank, Credit, PaymentScheme } from 'src/app/models/credit.model';
 import { forkJoin } from 'rxjs';
 declare let swal: any;
 @Component({
@@ -33,15 +33,15 @@ export class CreditAddEditComponent implements OnInit {
   destination_list = Array<IDestinationStatus>();
   program_list = Array<IDestinationStatus>();
   creditsDeadlines = Array<IDestinationStatus>();
-  PaymentScheme = Array<IDestinationStatus>();
+  PaymentScheme = Array<PaymentScheme>();
+  selctedPayments: Array<any>;
   executive_list = Array<IDestinationStatus>();
   state_list = Array<IDestinationStatus>();
   square_list = Array<IDestinationStatus>();
   caseStatus_list = Array<IDestinationStatus>();
   customerProfile_list = Array<IDestinationStatus>();
-  banks = Array<any>();
+  banks = Array<Bank>();
   selctedBanks: Array<any>;
-  selctedPayments: Array<any>;
   selctedDeadlines: Array<any>;
   multiDropdownSettings = {};
   public creditModel: Credit = new Credit();
@@ -49,6 +49,7 @@ export class CreditAddEditComponent implements OnInit {
   userForm: FormGroup;
   showSearch = false;
   Onedit = false;
+  is_data_fetch: boolean;
   constructor(
     //public creditModel: Credit,
     public constant: Constant,
@@ -68,9 +69,7 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    
     this.language_code = localStorage.getItem('language_code');
-  
     this.tab = 1;
     this.parameter.page = 1;
     this.parameter.itemsPerPage = this.constant.limit4;
@@ -89,10 +88,7 @@ export class CreditAddEditComponent implements OnInit {
     
     this.getCreditsBasicDetails();
     this.initializeDropDownSetting();
-    this.getState();
-    this.getSquare();
-    this.getCaseStatus();
-    this.getCustomerProfile();
+    //this.getCustomerProfile();
     this.selctedBanks = [];
     this.selctedPayments = [];
     this.selctedDeadlines = [];
@@ -111,6 +107,7 @@ export class CreditAddEditComponent implements OnInit {
       i = i + 1;
     });
   }
+
   unsetPayments(item: any) {
     let i = 0;
     this.selctedPayments.map(r => {
@@ -119,6 +116,9 @@ export class CreditAddEditComponent implements OnInit {
       }
       i = i + 1;
     });
+  }
+  setProject(item: any) {
+    this.selctedPayments.push(item);
   }
   unsetDeadlines(item: any) {
     let i = 0;
@@ -144,6 +144,7 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   setTab = (tab: number): void => {
+    this.is_data_fetch = true;
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' +
         this.translate.instant('message.error.movingBackCanResetInformationEnteredOnCurrentTab'),
@@ -196,11 +197,14 @@ export class CreditAddEditComponent implements OnInit {
       e.selected = false;
     });
     const searchindex = (this.parameter.page - 1) * 4 + i;
-    this.searchedUser[i].selected = true;
+    this.searchedUser[searchindex].selected = true;
+    //this.searchedUser[i].selected = true;
   }
 
   setUserId(building: any) {
     this.creditModel.user = building;
+    this.creditModel.user.id = building.id;
+   // this.creditModel.user = building;
     console.log(building,"building")
   }
   getPage(page: number) {
@@ -208,15 +212,15 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   addcredits() {
-   
     if (!this.creditModel.user) {
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseEnterSomeText'), this.translate.instant('swal.error'));
     } else {
       let modelSave = JSON.parse(JSON.stringify(this.creditModel));
-      if (this.tab == 1) {
-        modelSave = { step: this.tab,user_id: this.creditModel.user.id};
+      if (this.tab == 1) {     
+        modelSave = this.creditModel.id?  { step: this.tab,user_id: this.creditModel.user.id, id: this.creditModel.id } : { step: this.tab,user_id: this.creditModel.user.id};
       } else if (this.tab == 2) {
+       
         var id = localStorage.getItem("stepOneId");
         modelSave = { 
           step: this.tab,
@@ -230,23 +234,22 @@ export class CreditAddEditComponent implements OnInit {
           square_id : this.creditModel.square_id,
           case_status : this.creditModel.case_status,
           property_status:this.creditModel.property_status,
-          customer_profile:this.creditModel.customer_profile
-          
+          customer_profile:this.creditModel.customer_profile,
+          deadlines_quote:this.creditModel.deadlines_quote
         };
-        if (this.creditsDeadlines) {
-          const d = this.creditsDeadlines.map(o => o.id);
-          modelSave.deadlines_quote = d;
-        }
+        // if (this.creditsDeadlines) {
+        //   const d = this.creditsDeadlines.map(o => o.id);
+        //   modelSave.deadlines_quote = d;
+        // }
         if (this.banks) {
           const d = this.banks.map(o => o.id);
           modelSave.bank_id = d;
         }
+
         if (this.PaymentScheme) {
-          const d = this.PaymentScheme.map(o => o.id);
-          modelSave.payment_scheme = d;
+            const d = this.PaymentScheme.map(o => o.id);
+            modelSave.payment_scheme = d;
         }
-        // this.creditModel.step = this.tab;
-        // postData = this.creditModel;
       }
       this.spinnerService.show();
       this.adminService.postDataApi('addcredits', modelSave).subscribe((success) => {
@@ -263,40 +266,23 @@ export class CreditAddEditComponent implements OnInit {
       });
     }
   }
-
+  
   getcredits = (): void => {
     this.spinnerService.show();
     this.adminService.postDataApi('getcredits', { id: this.parameter.property_id }).subscribe((success) => {
       this.creditModel = success.data;
+      for (var i = 0; i < success.data.payment_scheme.length; i++) {
+        let payment = success.data.payment_scheme[i].payment;
+        this.selctedPayments.push({ id: payment.id, name_en: payment.name_en });
+      }
+     //localStorage.setItem('EditTime',this.creditModel.bank);
       this.spinnerService.hide();
+      this.is_data_fetch = true;
     }, (error) => {
       this.spinnerService.hide();
     });
   }
-  getState() {
-    this.adminService.postDataApi('getState',{})
-      .subscribe(
-        success => {
-          this.state_list = success['data'];
-        }
-      );
-  }
-  getSquare() {
-    this.adminService.postDataApi('getSquare',{})
-      .subscribe(
-        success => {
-          this.square_list = success['data'];
-        }
-      );
-  }
-  getCaseStatus() {
-    this.adminService.postDataApi('getCaseStatus',{})
-      .subscribe(
-        success => {
-          this.caseStatus_list = success['data'];
-        }
-      );
-  }
+
   getCustomerProfile() {
     this.adminService.postDataApi('getCustomerProfile',{})
       .subscribe(
@@ -311,7 +297,8 @@ export class CreditAddEditComponent implements OnInit {
       this.adminService.postDataApi('getPrograms', {}), this.adminService.postDataApi('getCreditsDeadlines', {}),
        this.adminService.postDataApi('getPaymentScheme', {}), this.adminService.postDataApi('getDestination', {}),
        this.adminService.postDataApi('getCreditsBanks', {}), this.adminService.postDataApi('getPropertyAmenities', { hide_blocked: 1 }),
-       this.adminService.postDataApi('getExecutive', {})
+       this.adminService.postDataApi('getExecutive', {}),this.adminService.postDataApi('getState', {}),
+       this.adminService.postDataApi('getSquare', {}),this.adminService.postDataApi('getCaseStatus', {}),
     ]).subscribe((response: any[]) => {
        this.program_list = response[0].data;
        this.creditsDeadlines = response[1].data;
@@ -320,6 +307,9 @@ export class CreditAddEditComponent implements OnInit {
        this.banks = response[4].data;
        this.amenities = response[5].data;
        this.executive_list = response[6].data;
+       this.state_list = response[7].data;
+       this.square_list = response[8].data;
+       this.caseStatus_list = response[9].data;
     });
   } 
 

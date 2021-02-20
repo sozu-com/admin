@@ -157,7 +157,7 @@ export class CreditComponent implements OnInit {
 
   deletePopup(item: any, index: number) {
     console.log(item,"item id")
-    this.parameter.text = this.translate.instant('message.error.wantToDeleteProject');
+    this.parameter.text = this.translate.instant('message.error.wantToDeleteCredit');
 
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,

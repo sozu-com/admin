@@ -1,8 +1,8 @@
 <div *ngIf="data" class="project-des-bx white-bg">
   <div class="fig-block">
-    <img *ngIf="data?.main_image" onerror='this.src="assets/img/default_img.png"'
-      [defaultImage]="data?.main_image| img:'thumb'" [lazyLoad]="data?.main_image">
-    <img *ngIf="!data?.main_image" src="assets/img/default_img.png">
+    <img *ngIf="data?.image" onerror='this.src="assets/img/default_img.png"'
+      [defaultImage]="data?.image| img:'thumb'" [lazyLoad]="data?.image">
+    <img *ngIf="!data?.image" src="assets/img/default_img.png">
   </div>
   <div class="project-des-content" style="padding-top: 23px;">
     <div>
