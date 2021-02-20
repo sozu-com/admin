@@ -387,7 +387,8 @@ export class DashboardComponent implements OnInit {
   }
 
   getParseInt(firstValue: number, secondValue: number) {
-    return parseFloat((((firstValue / secondValue) * 100).toFixed(2) || '0').toString());
+    const data = Number.isNaN(firstValue / secondValue)  ? 0 : (firstValue / secondValue);
+    return parseFloat(((data * 100).toFixed(2) || '0').toString());
   }
 
   getMaxFiveLocality(text: string) {
