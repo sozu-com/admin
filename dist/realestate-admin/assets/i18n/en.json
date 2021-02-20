@@ -130,6 +130,7 @@
     "addSendMail": "Add & Send Mail",
     "editSendMail": "Update & Send Mail",
     "sendEmail": "Send Email",
+    "NoInformation":"There is no information",
     "image": "+ Add Image",
     "logo": "+ Add Logo",
     "logos": "Add Logo",
@@ -2302,7 +2303,7 @@
     "SearchAUserInOurDatabase": "Search a user in our database"
   },
   "creditForm": {
-    "credit": "credits",
+    "credit": "Credits",
     "Applicant": "Applicant",
     "Coaccredited": "Coaccredited",
     "id": "ID",
