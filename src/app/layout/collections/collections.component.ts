@@ -204,6 +204,8 @@ export class CollectionsComponent implements OnInit {
   fedTaxPayer: any;
   local_storage_parameter: any;
   is_back: boolean;
+  footer_address: any;
+  legal_name: any;
   constructor(
     public constant: Constant,
     public apiConstants: ApiConstants,
@@ -2837,6 +2839,7 @@ export class CollectionsComponent implements OnInit {
   makePaymentBankDetailsArray = (isFirstTimeClick: boolean): void => {
     this.paymentBankDetailsArray = [];
     if (this.collection_data.payment_received_by == 1) {
+      this.footer_address = this.bankDetails.building.agency.address;
       this.fedTaxPayer = (((this.bankDetails || {}).building || {}).agency || {}).fed_tax_pay || '';
       // agency banks
       for (let index = 0; index < (((this.bankDetails.building || {}).agency || {}).agency_banks || []).length; index++) {
@@ -2846,44 +2849,44 @@ export class CollectionsComponent implements OnInit {
           element.is_agency = 1;
           element.bank_id = element.id;
           element.legal_rep_bank_id = null;
-          element.legal_name = (((this.bankDetails || {}).building || {}).agency || {}).razon_social || '';
-          element.address = this.bankDetails.building.agency.address;
+          element.legal_name = (((this.bankDetails || {}).building || {}).agency || {}).razon_social || ''; 
           this.paymentBankDetailsArray.push(element);
         }
       }
     } else if (this.collection_data.payment_received_by == 0) {
-      if (this.bankDetails.selected_seller.user.developer_company || this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id) {
+      this.legal_name = this.bankDetails.selected_seller.user.developer_company ? this.bankDetails.selected_seller.user.developer_company :
+              this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id ? this.bankDetails.selected_seller.user.name + ' ' + this.bankDetails.selected_seller.user.first_surname
+                + ' ' + this.bankDetails.selected_seller.user.second_surname : '';
+       this.footer_address =this.collection_data.seller_type == 1 ? (this.bankDetails.selected_seller.user.tax_street_address && this.bankDetails.selected_seller.user.tax_street_address != '0' ?this.bankDetails.selected_seller.user.tax_street_address + ' ' : '') + 
+       (this.bankDetails.selected_seller.user.tax_external_number ? this.bankDetails.selected_seller.user.tax_external_number + '\n' : '')
+       + (this.bankDetails.selected_seller.user.tax_internal_number ? this.bankDetails.selected_seller.user.tax_internal_number + ', ' : '') + (this.bankDetails.selected_seller.user.tax_neighborhood ? this.bankDetails.selected_seller.user.tax_neighborhood + '\n' : '')
+       + (this.bankDetails.selected_seller.user.tax_zipcode && this.bankDetails.selected_seller.user.tax_zipcode != '0' ? this.bankDetails.selected_seller.user.tax_zipcode + ', ' : '') + (this.bankDetails.selected_seller.user.tax_city ? this.bankDetails.selected_seller.user.tax_city + ', ' : '')
+       + (this.bankDetails.selected_seller.user.tax_state ? this.bankDetails.selected_seller.user.tax_state + ', ' : '') + (this.bankDetails.selected_seller.user.tax_country ? this.bankDetails.selected_seller.user.tax_country + ', ' : '') : this.collection_data.seller_type == 3 ? this.bankDetails.selected_seller.user.address : '';
+     
+       if (this.bankDetails.selected_seller.user.developer_company || this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id) {
         this.fedTaxPayer = (((this.bankDetails || {}).selected_seller || {}).user || {}).fed_tax_pay || '';
         ((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_rep_banks || []).forEach((element, innerIndex) => {
           if (element.id == this.collection_data.bank_id) {
             element.name = 'Seller Bank | ' + element.bank_name;
             element.legal_name = this.bankDetails.selected_seller.user.developer_company ? this.bankDetails.selected_seller.user.developer_company :
               this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id ? this.bankDetails.selected_seller.user.name + ' ' + this.bankDetails.selected_seller.user.first_surname
-                + ' ' + this.bankDetails.selected_seller.user.second_surname : this.bankDetails.selected_seller.user.legal_entity.legal_name ? this.bankDetails.selected_seller.user.legal_entity.legal_name : '';
-            
-            element.address = this.collection_data.seller_type == 1 ? (this.bankDetails.selected_seller.user.tax_street_address && this.bankDetails.selected_seller.user.tax_street_address != '0' ?this.bankDetails.selected_seller.user.tax_street_address + ' ' : '') + 
-              (this.bankDetails.selected_seller.user.tax_external_number ? this.bankDetails.selected_seller.user.tax_external_number + '\n' : '')
-              + (this.bankDetails.selected_seller.user.tax_internal_number ? this.bankDetails.selected_seller.user.tax_internal_number + ', ' : '') + (this.bankDetails.selected_seller.user.tax_neighborhood ? this.bankDetails.selected_seller.user.tax_neighborhood + '\n' : '')
-              + (this.bankDetails.selected_seller.user.tax_zipcode && this.bankDetails.selected_seller.user.tax_zipcode != '0' ? this.bankDetails.selected_seller.user.tax_zipcode + ', ' : '') + (this.bankDetails.selected_seller.user.tax_city ? this.bankDetails.selected_seller.user.tax_city + ', ' : '')
-              + (this.bankDetails.selected_seller.user.tax_state ? this.bankDetails.selected_seller.user.tax_state + ', ' : '') + (this.bankDetails.selected_seller.user.tax_country ? this.bankDetails.selected_seller.user.tax_country + ', ' : '') : this.collection_data.seller_type == 3 ? this.bankDetails.selected_seller.user.address : '';
+                + ' ' + this.bankDetails.selected_seller.user.second_surname : '';
             this.paymentBankDetailsArray.push(element);
           }
         });
       }
       else {
+        this.legal_name = this.bankDetails.selected_seller.user.legal_entity.legal_name;
+        this.footer_address = (this.bankDetails.selected_seller.user.legal_entity.tax_street_address && this.bankDetails.selected_seller.user.legal_entity.tax_street_address != '0' ?this.bankDetails.selected_seller.user.legal_entity.tax_street_address + ' ' : '') + 
+        (this.bankDetails.selected_seller.user.legal_entity.tax_external_number ? this.bankDetails.selected_seller.user.legal_entity.tax_external_number + '\n' : '')
+        + (this.bankDetails.selected_seller.user.legal_entity.tax_internal_number ? this.bankDetails.selected_seller.user.legal_entity.tax_internal_number + ', ' : '') + (this.bankDetails.selected_seller.user.legal_entity.tax_neighborhood ? this.bankDetails.selected_seller.user.legal_entity.tax_neighborhood + '\n' : '')
+        + (this.bankDetails.selected_seller.user.legal_entity.tax_zipcode && this.bankDetails.selected_seller.user.legal_entity.tax_zipcode != '0' ? this.bankDetails.selected_seller.user.legal_entity.tax_zipcode + ', ' : '') + (this.bankDetails.selected_seller.user.legal_entity.tax_city ? this.bankDetails.selected_seller.user.legal_entity.tax_city + ', ' : '')
+        + (this.bankDetails.selected_seller.user.legal_entity.tax_state ? this.bankDetails.selected_seller.user.legal_entity.tax_state + ', ' : '') + (this.bankDetails.selected_seller.user.legal_entity.tax_country ? this.bankDetails.selected_seller.user.legal_entity.tax_country + ', ' : '');
         (((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_entity || {}).legal_entity_banks || []).forEach((element, innerIndex) => {
           this.fedTaxPayer = ((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_entity || {}).fed_tax_pay || '';
           if (element.id == this.collection_data.bank_id) {
             element.name = 'Seller Bank | ' + element.bank_name;
-            element.legal_name = this.bankDetails.selected_seller.user.developer_company ? this.bankDetails.selected_seller.user.developer_company :
-              this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id ? this.bankDetails.selected_seller.user.name + ' ' + this.bankDetails.selected_seller.user.first_surname
-                + ' ' + this.bankDetails.selected_seller.user.second_surname : this.bankDetails.selected_seller.user.legal_entity.legal_name ? this.bankDetails.selected_seller.user.legal_entity.legal_name : '';
-            
-            element.address = (this.bankDetails.selected_seller.user.legal_entity.tax_street_address && this.bankDetails.selected_seller.user.legal_entity.tax_street_address != '0' ?this.bankDetails.selected_seller.user.legal_entity.tax_street_address + ' ' : '') + 
-              (this.bankDetails.selected_seller.user.legal_entity.tax_external_number ? this.bankDetails.selected_seller.user.legal_entity.tax_external_number + '\n' : '')
-              + (this.bankDetails.selected_seller.user.legal_entity.tax_internal_number ? this.bankDetails.selected_seller.user.legal_entity.tax_internal_number + ', ' : '') + (this.bankDetails.selected_seller.user.legal_entity.tax_neighborhood ? this.bankDetails.selected_seller.user.legal_entity.tax_neighborhood + '\n' : '')
-              + (this.bankDetails.selected_seller.user.legal_entity.tax_zipcode && this.bankDetails.selected_seller.user.legal_entity.tax_zipcode != '0' ? this.bankDetails.selected_seller.user.legal_entity.tax_zipcode + ', ' : '') + (this.bankDetails.selected_seller.user.legal_entity.tax_city ? this.bankDetails.selected_seller.user.legal_entity.tax_city + ', ' : '')
-              + (this.bankDetails.selected_seller.user.legal_entity.tax_state ? this.bankDetails.selected_seller.user.legal_entity.tax_state + ', ' : '') + (this.bankDetails.selected_seller.user.legal_entity.tax_country ? this.bankDetails.selected_seller.user.legal_entity.tax_country + ', ' : '')
+            element.legal_name = this.bankDetails.selected_seller.user.legal_entity.legal_name;
             this.paymentBankDetailsArray.push(element);
           }
         });
@@ -3215,14 +3218,14 @@ export class CollectionsComponent implements OnInit {
             {
               text: this.translate.instant('generatePDF.notReflected') + '\n' + this.translate.instant('generatePDF.notReflected1'),
               color: '#858291',
-              margin: [30, 20, 0, 30]
+              margin: [30, 20, 0, 10]
             },
             {
               text: [
-                { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[0].legal_name ? this.paymentBankDetailsArray[0].legal_name : '', bold: true },
+                { text: this.legal_name ? this.legal_name : '', bold: true },
                 {
-                  text: '\n' + (this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[0].bank_name && this.fedTaxPayer ? this.fedTaxPayer : '') + '\n' + 
-                  (this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[0].address ? this.paymentBankDetailsArray[0].address : '')
+                  text: (this.legal_name && this.fedTaxPayer ? '\n' + this.fedTaxPayer: '') + 
+                  (this.footer_address ? '\n' + this.footer_address : '')
                   , color: '#858291'
                 },
               ],
