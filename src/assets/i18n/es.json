@@ -2492,7 +2492,7 @@
     "City":"Ciudad",
     "Properties":"# Propiedades",
     "propertyStatus":"Estado de la propiedad",
-    "propertyPossesion":"Posesión de propiedad",
+    "propertyAvailability":"Disponibilidad de la propiedad",
     "forSale":"En venta",
     "projectPossesion":"Posesión del proyecto",
     "localitiesWithMoreProject":"Localidades con más proyecto",

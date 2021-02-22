@@ -2495,7 +2495,7 @@
       "City":"City",
       "Properties":"# Properties",
       "propertyStatus":"Property status",
-      "propertyPossesion":"Property possesion",
+      "propertyAvailability":"Property availability",
       "forSale":"For Sale",
       "projectPossesion":"Project possesion",
       "localitiesWithMoreProject":"Localities with more project",
