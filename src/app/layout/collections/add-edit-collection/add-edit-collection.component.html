@@ -1707,6 +1707,34 @@
           </div>
         </div>
       </div> -->
+    
+          <!-- (click)="myFlag = !myFlag" -->
+          <!-- *ngIf="myFlag" -->
+      <div class="row">
+        <h5>{{'deshboard.accountEmail' | translate}}</h5>
+        <div class="switchToggle">
+          <input type="checkbox" id="switch2">
+          <label for="switch2">Toggle</label>
+        </div>
+        <div class="col-12">
+          <div class="spacer10"></div>
+        </div>
+        <div class="col-md-4">
+          <label>{{'deshboard.mail' | translate}}</label>
+          <input formControlName="toAddress" [(ngModel)]="model.email"
+            placeholder="{{'addCollection.Addcollaborator' | translate}}" style="width: 100%;">
+        </div>
+        <div class="col-md-4">
+          <label>{{'deshboard.date' | translate}}</label>
+          <p-calendar class="form-control" [(ngModel)]="model.reminder_date" autocomplete="off"
+            [style]="{'width':'100%'}" name="date" class="sz-calendar" [showTime]="true"
+            showIcon="true" (onSelect)="onSelect1($event)" [readonlyInput]="true"></p-calendar>
+        </div>
+        <div class="col-md-4"> 
+          <a href="javascript://" (click)="editLeadPopup('edit')">
+          <i class="fa fa-pencil" aria-hidden="true" style="font-size: 35px;"></i>
+        </a></div>
+      </div>
 
       <div class="row">
         <div class="col-md-12">
@@ -2647,6 +2675,54 @@
           </p>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<a href="javascript://" data-toggle="modal" data-target="#addd-notes" #notesadddModalOpen></a>
+<div class="modal animated" id="addd-notes">
+  <div class="modal-dialog fadeIndown">
+    <div class="modal-content">
+      <div class="modal-header modal-header-new">
+        <h4 class="modal-title">{{'commonBlock.edit' |
+          translate}}&nbsp;{{'table.title.collectionNotes' | translate}}</h4>
+        <button style="display: none;" type="button" class="close" data-dismiss="modal"
+          #notesadddModalClose>&times;</button>
+        <button type="button" class="close" (click)="this.buyerSellerPropertyDocumentationModalClose()">&times;</button>
+      </div>
+
+      <form autocomplete="off" class="form-horizontal form-model0P form-model-newP" role="form" ngNativeValidate
+        #addForm="ngForm" (ngSubmit)="addNote(sendEmailForm.value); addForm.reset();">
+        <div class="modal-body modal-body-new">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group-3">
+                <div class="form-group">
+                  <div class="clearfix"></div>
+                  <p-calendar showAnim="slideDown" id="calendar" [showIcon]="true" [showTime]="true" [style]="{'width':'100%'}"
+                    [(ngModel)]="reminder_date" dateFormat="MM d, yy" (onSelect)="onSelect2($event)" name="calendar"
+                    [minDate]="minimumDate" [readonlyInput]="true">
+                  </p-calendar>
+                </div>
+              </div>  
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                <div class="form-group">
+                  <input type="text" autocomplete="off" class="form-control note" name="noteEmails"
+                    [(ngModel)]="noteEmails" (ngModelChange)="modelChange($event)"  placeholder="{{'addCollection.Addcollaborator' | translate}}">
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="btn-cont text-right">
+                <button type="submit" class="btn btn-primary">{{'commonBlock.updateBtn' |
+                  translate}}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>

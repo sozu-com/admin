@@ -2335,6 +2335,7 @@
     "generals":"Generals",
     "NATIONALITY": "Nationaliy",
     "CIVILSTATUS": "Civil Status",
+    "selectCIVILSTATUS": "Select Civil Status",
     "STREET": "Street",
     "OUTDOORNUMBER": "Outdoor Number",
     "INTERIORNUMBER": "Interior Number",
@@ -2345,7 +2346,7 @@
     "EMAIL": "Email",
     "RELATIONSHIP": "Relationship",
     "onwer": "Co-Owner Will It Be?",
-    "ConsolidatesRevenue": "¿Consolidates revenue with the applicant?",
+    "ConsolidatesRevenue": "Consolidates revenue with the applicant?",
     "involved": "Are you involved in the credit?",
     "co-credited": "Add co-credited",
     "CREDITREPORT":"Credit Report",
@@ -2498,6 +2499,9 @@
       "localitiesWithMoreProject":"Localities with more project",
       "propertiesStatus":"Properties status",
       "pReview":"P.review",
-      "expectedIVAAmount":"Expected IVA Amount"
+      "expectedIVAAmount":"Expected IVA Amount",
+      "accountEmail":"Account statement email",
+      "mail":"Email of the buyer",
+      "date":"Sending mail"
   }
 }
