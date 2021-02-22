@@ -260,6 +260,17 @@
                       <label>{{'table.th.locality' | translate}}</label>
                     </div>
                   </th>
+                  <th style="vertical-align:top; width: 100px;">
+                    <div class="table-search">
+                       <label>{{'table.th.contract' | translate}}</label>
+                       <select style="width: 70px;" [(ngModel)]="parameter.sold_filter" (change)="getListing()" name="sold_filter">
+                          <option value="0">{{'table.th.all' | translate}}</option>
+                          <option value="1">{{'table.th.yes' | translate}}</option>
+                          <option value="2">{{'table.th.no' | translate}}</option>
+                       </select>
+                    </div>
+                 </th>
+                 
                   <th style="vertical-align:top; width: 140px;z-index: 2;">
                     <div class="table-search">
                       <div (click)="sort_by(1)" class="d-flex table-search">
@@ -331,16 +342,31 @@
                   <th style="vertical-align:top; width: 100px;">
                     <div class="table-search">
                       <label>{{'table.th.tobeRePC' | translate}}</label>
+                      <select style="width: 70px;" [(ngModel)]="parameter.sold_filter" (change)="getListing()" name="sold_filter">
+                        <option value="0">{{'table.th.all' | translate}}</option>
+                        <option value="1">{{'table.th.defined' | translate}}</option>
+                        <option value="2">{{'table.th.undefined' | translate}}</option>
+                     </select>
                     </div>
                   </th>
                   <th style="vertical-align:top; width: 100px;">
                     <div class="table-search">
                       <label>{{'table.th.PCReceipt' | translate}}</label>
+                      <select style="width: 70px;" [(ngModel)]="parameter.sold_filter" (change)="getListing()" name="sold_filter">
+                        <option value="0">{{'table.th.all' | translate}}</option>
+                        <option value="1">{{'table.th.yes' | translate}}</option>
+                        <option value="2">{{'table.th.no' | translate}}</option>
+                     </select>
                     </div>
                   </th>
                   <th style="vertical-align:top; width: 100px;">
                     <div class="table-search">
                       <label>{{'table.th.PCInvoice' | translate}}</label>
+                      <select style="width: 70px;" [(ngModel)]="parameter.sold_filter" (change)="getListing()" name="sold_filter">
+                        <option value="0">{{'table.th.all' | translate}}</option>
+                        <option value="1">{{'table.th.yes' | translate}}</option>
+                        <option value="2">{{'table.th.no' | translate}}</option>
+                     </select>
                     </div>
                   </th>
                   <th style="vertical-align:top; width: 100px;">
@@ -514,6 +540,11 @@
                   <td>
                     <span>{{p?.property?.locality?.name ? p?.property?.locality?.name : ('table.tr.td.NA' |
                       translate)}}</span>
+                  </td>
+                  <td>
+                    <!-- <span>{{p?.property?.locality?.name ? p?.property?.locality?.name : ('table.tr.td.NA' |
+                      translate)}}</span> -->
+                      <span>N/A</span>
                   </td>
                   <td>
                     <span>{{p.deal_purchase_date ? getDateWRTTimezone(p.deal_purchase_date, 'DD/MMM/YYYY') :
