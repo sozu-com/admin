@@ -310,7 +310,7 @@
                         <div class="form-group-3">
                           <label>{{'addForm.externalNumber' | translate}}</label>
                           <input type="text" class="form-control" name="external_number"
-                            [pattern]="constant.numberPattern" [(ngModel)]="model.external_number"
+                            [(ngModel)]="model.external_number"
                             (keyup)="this.onClickUseUserSameAddress()" />
                         </div>
                       </div>
@@ -318,7 +318,6 @@
                         <div class="form-group-3">
                           <label>{{'addForm.internalNumber' | translate}}</label>
                           <input type="text" class="form-control" name="internal_number"
-                            [pattern]="constant.acceptAlphaNumericOrAccentscharacters"
                             [(ngModel)]="model.internal_number" (keyup)="this.onClickUseUserSameAddress()" />
                         </div>
                       </div>
@@ -451,14 +450,13 @@
                         <div class="form-group-3">
                           <label>{{'addForm.externalNumber' | translate}}</label>
                           <input type="text" class="form-control" name="tax_external_number"
-                            [pattern]="constant.numberPattern" [(ngModel)]="model.tax_external_number" />
+                             [(ngModel)]="model.tax_external_number" />
                         </div>
                       </div>
                       <div class="col-sm-3">
                         <div class="form-group-3">
                           <label>{{'addForm.internalNumber' | translate}}</label>
                           <input type="text" class="form-control" name="tax_internal_number"
-                            [pattern]="constant.acceptAlphaNumericOrAccentscharacters"
                             [(ngModel)]="model.tax_internal_number" />
                         </div>
                       </div>
