@@ -2738,8 +2738,9 @@ export class CollectionsComponent implements OnInit {
         this.collection_data.payment_choices.forEach(function(element, index){
           let fill = index % 2;
           let month = new Date(element.date);
+          let current_date = new Date()
           if(index> 0 && self.collection_data.payment_choices[index - 1].is_paid_calculated == 1 && element.is_paid_calculated == 0){
-            self.current_month_amount =  element.penalty ? (element.amount + element.penalty.amount) - element.calc_payment_amount : element.amount - element.calc_payment_amount;
+            self.current_month_amount =  element.penalty ? (element.amount + element.penalty.amount) - element.calc_payment_amount : month.getMonth() == current_date.getMonth() && month.getFullYear() == current_date.getFullYear() ? element.amount - element.calc_payment_amount : element.calc_payment_amount;
             self.bill_month =  self.translate.defaultLang === 'en' ? monthNames[month.getMonth()] :  monthNamesES[month.getMonth()];
             self.bill_month_date =self.datePipe.transform(month.setDate(10), 'MMM d, y');
           }
@@ -2797,19 +2798,23 @@ export class CollectionsComponent implements OnInit {
           }
           self.current_month_amount =  (self.current_month_amount || 0) + (element.outstanding_amount || 0);
             self.table_data.push([
-              { text: self.language_code == 'en' ? element.payment_choice.name_en : element.payment_choice.name_es, border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#929292' },
+              { text: self.language_code == 'en' ? element.payment_choice.name_en : element.payment_choice.name_es, border: [false, false, false, false], bold: true, color: 'white', 
+                fillColor: fill == 0 ? '#a9a9a9' : '#929292', fontSize: 11 },
               { text: element.date, border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#929292' },
               {
                 text: element.calc_payment_amount && element.calc_payment_amount > '0.1' ? self.price.transform(Number(element.calc_payment_amount).toFixed(2)) : '', border: [false, false, false, false], bold: true,
-                color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#929292'
+                color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#929292', fontSize: 11
               },
               {
                 text: element.outstanding_amount && element.outstanding_amount > 0 ? self.price.transform(Number(element.outstanding_amount).toFixed(2)) : '', border: [false, false, false, false],
-                bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#929292'
+                bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#929292', fontSize: 11
               },
-              { text: element.amount ? self.price.transform(Number(element.amount).toFixed(2)) : '', border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#929292' },
-              { text: element.penalty ? self.price.transform(Number(element.penalty.amount).toFixed(2)) : '', border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#929292' },
-              { text: element.penalty ? element.penalty.description : '', border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#929292' }
+              { text: element.amount ? self.price.transform(Number(element.amount).toFixed(2)) : '', border: [false, false, false, false], bold: true, color: 'white', 
+                fillColor: fill == 0 ? '#a9a9a9' : '#929292', fontSize: 11},
+              { text: element.penalty ? self.price.transform(Number(element.penalty.amount).toFixed(2)) : '', border: [false, false, false, false], bold: true, color: 'white', 
+                fillColor: fill == 0 ? '#a9a9a9' : '#929292', fontSize: 11 },
+              { text: element.penalty ? element.penalty.description : '', border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#929292',
+                fontSize: 11 }
             ]);
           });
           let monthly_installment_amunt_per = undefined;
