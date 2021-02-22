@@ -2430,6 +2430,7 @@ export class AddEditCollectionComponent implements OnInit {
       this.spinner.hide();
     });
   }
+  
 
   //documentationId 1 for buyer , 2 for seller and 3 for property
   openBuyerSellerPropertyDocumentationModal = (documentationId: number): void => {
@@ -2549,5 +2550,7 @@ export class AddEditCollectionComponent implements OnInit {
       }
     }
   }
-
+  goBack(){ 
+    this.router.navigate(['/dashboard/collections/view-collections', {for: 'back'}])
+  }
 }
