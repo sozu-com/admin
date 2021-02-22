@@ -339,7 +339,7 @@ export class DashboardComponent implements OnInit {
     chart3.render();
 
     const availabilityContainer = new CanvasJS.Chart('availabilityContainer', {
-      title: { text: this.translate.instant('deshboard.propertyPossesion') },
+      title: { text: this.translate.instant('deshboard.propertyAvailability') },
       subtitles: [{ text: this.getselectedLocation() }],
       legend: { maxWidth: 350, itemWidth: 120 },
       data: [
