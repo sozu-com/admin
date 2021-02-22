@@ -135,6 +135,9 @@ export class AddEditCollectionComponent implements OnInit {
   buyerSellerPropertyDocumentationId: number = 0;
   buyerSellerPropertyDocumentationFoldersDetailsLength: number = 0;
   buyerSellerPropertyDocumentationFoldersDetails: any[] = [];
+  minimumDate: any;
+  reminder_date: any;
+  noteEmails: any;
 
   constructor(public model: Collection, private us: AdminService, private cs: CommonService,
     private router: Router,
@@ -2571,5 +2574,17 @@ export class AddEditCollectionComponent implements OnInit {
   //     newArray.push(mails);
   //   }
   //   this.noteEmails = newArray
+   }
+
+   addNote(){
+
+   }
+
+   onSelect2(data){
+
+   }
+
+   modelChange(data){
+     
    }
 }
