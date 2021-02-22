@@ -2336,6 +2336,7 @@
     "generals":"Generales",
     "NATIONALITY":"Nacionalidad",
     "CIVILSTATUS":"Estado Civil",
+    "selectCIVILSTATUS": "Seleccionar Estado Civil",
     "STREET":"Calle",
     "OUTDOORNUMBER":"Numero Exterior",
     "INTERIORNUMBER":"Numero Interior",
@@ -2498,6 +2499,9 @@
     "localitiesWithMoreProject":"Localidades con más proyecto",
     "propertiesStatus":"Estado de las propiedades",
     "pReview":"P. revisión",
-    "expectedIVAAmount":"Importe de IVA esperado"
+    "expectedIVAAmount":"Importe de IVA esperado",
+    "accountEmail":"Estado de cuenta email",
+    "mail":"Email del comprador",
+    "date":"Fecha de envio"
   }
 }

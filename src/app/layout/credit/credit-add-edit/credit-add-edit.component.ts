@@ -43,6 +43,7 @@ export class CreditAddEditComponent implements OnInit {
   state_list = Array<IDestinationStatus>()
   square_list = Array<IDestinationStatus>()
   caseStatus_list = Array<IDestinationStatus>()
+  civilStatus_list = Array<IDestinationStatus>()
   customerProfile_list = Array<IDestinationStatus>()
   banks = Array<Bank>()
   selctedBanks: Array<any>
@@ -217,6 +218,9 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   addcredits() {
+    let modelSave = JSON.parse(JSON.stringify(this.creditModel));
+    var id = localStorage.getItem('stepOneId')
+    var general_data_id = localStorage.getItem('stepThreeId')
     if (!this.creditModel.user) {
       this.toastr.clear()
       this.toastr.error(
@@ -224,20 +228,17 @@ export class CreditAddEditComponent implements OnInit {
         this.translate.instant('swal.error'),
       )
     } else {
-      let modelSave = JSON.parse(JSON.stringify(this.creditModel))
       if (this.tab == 1) {
-        modelSave = this.creditModel.id
-          ? {
-              step: this.tab,
-              user_id: this.creditModel.user.id,
-              id: this.creditModel.id,
-            }
-          : { step: this.tab, user_id: this.creditModel.user.id }
+        modelSave = this.creditModel.id ? {
+            step: this.tab,
+            user_id: this.creditModel.user.id,
+            id: this.creditModel.id,
+          }: { step: this.tab, user_id: this.creditModel.user.id }
       } else if (this.tab == 2) {
-        var id = localStorage.getItem('stepOneId')
         modelSave = {
           step: this.tab,
           id: id,
+          general_data_id: general_data_id,
           destination_id: this.creditModel.destination_id,
           programs_id: this.creditModel.programs_id,
           home_value: this.creditModel.home_value,
@@ -250,9 +251,6 @@ export class CreditAddEditComponent implements OnInit {
           customer_profile: this.creditModel.customer_profile,
           deadlines_quote: this.creditModel.deadlines_quote,
         }
-        // if (this.creditModel.id) {
-        //   this.creditModel.deadlines_quote.id
-        // }
         if (this.creditModel.bank_id) {
           const d = this.creditModel.bank_id.map((o) => o.id)
           modelSave.bank_id = d
@@ -262,14 +260,48 @@ export class CreditAddEditComponent implements OnInit {
           const d = this.creditModel.payment_scheme.map((o) => o.id)
           modelSave.payment_scheme = d
         }
+        this.subtab = 1
+      } else if (this.tab == 3) {
+          this.subtab = 1
+          modelSave = {
+          step: this.tab,
+          id:id,
+          general_data_id: general_data_id,
+          name: this.creditModel.name,
+          first_surname: this.creditModel.first_surname,
+          second_surname: this.creditModel.second_surname,
+          gender: this.creditModel.gender,
+          email: this.creditModel.email,
+          contact_number: this.creditModel.contact_number,
+          dob: this.creditModel.dob,
+          curp: this.creditModel.curp,
+          rfc: this.creditModel.rfc,
+          nationaliy: this.creditModel.nationaliy,
+          civil_status: this.creditModel.civil_status,
+          street: this.creditModel.street,
+          outdoor_number: this.creditModel.outdoor_number,
+          interior_number: this.creditModel.interior_number,
+          colony: this.creditModel.colony,
+          municipality: this.creditModel.municipality,
+          city: this.creditModel.city,
+          zip_code: this.creditModel.zip_code,
+          state: this.creditModel.state,
+          co_credited_email: this.creditModel.co_credited_email,
+          co_credited_relationship: this.creditModel.co_credited_relationship,
+          co_credited_owner: this.creditModel.co_credited_owner,
+          co_credited_involved_credit: this.creditModel.co_credited_involved_credit,
+          co_credited_involved_revenue: this.creditModel.co_credited_involved_revenue
+        }
       }
       this.spinnerService.show()
       this.adminService.postDataApi('addcredits', modelSave).subscribe(
         (success) => {
-          console.log(success, 'sucess')
+          console.log(success, 'save data')
           localStorage.setItem('stepOneId', success.data.id)
+         // localStorage.setItem('stepThreeId', success.data.general_data.id)
           this.spinnerService.hide()
-          if (this.tab == 2) {
+          if (this.tab == 3) {
+              this.subtab = 1
             this.router.navigate(['dashboard/credit/view-credit'])
           } else {
             this.tab = this.tab + 1
@@ -281,9 +313,20 @@ export class CreditAddEditComponent implements OnInit {
       )
     }
   }
-  onSelectAll(obj: any) {}
+  isChecked(gender) {
+    return gender == this.creditModel.gender ? true : false;
+  }
+  onCountryChange(e) {}
+
+  selectGender(gender) {
+    this.creditModel.gender = gender;
+  }
+  onSelectAll(obj: any) { }
 
   getcredits = (): void => {
+     if (this.tab == 3) {
+          this.subtab = 1
+      }
     let self = this
     this.spinnerService.show()
     this.adminService
@@ -291,7 +334,6 @@ export class CreditAddEditComponent implements OnInit {
       .subscribe(
         (success) => {
           this.creditModel = success.data
-          console.log(this.creditModel.deadlines_quote.id, 'deadline')
           for (var i = 0; i < success.data.payment_scheme.length; i++) {
             let payment = success.data.payment_scheme[i].payment
             self.selctedPayments.push({
@@ -309,6 +351,9 @@ export class CreditAddEditComponent implements OnInit {
           this.creditModel.bank_id = self.selctedBanks
           this.creditModel.payment_scheme = self.selctedPayments
           this.creditModel.deadlines_quote = this.creditModel.deadlines_quote.id
+          this.creditModel.general_data = success.data.general_data
+          console.log(this.creditModel.general_data, 'general_data')
+          localStorage.setItem('stepThreeId', success.data.general_data.id)
           this.spinnerService.hide()
         },
         (error) => {
@@ -339,6 +384,7 @@ export class CreditAddEditComponent implements OnInit {
       this.adminService.postDataApi('getState', {}),
       this.adminService.postDataApi('getSquare', {}),
       this.adminService.postDataApi('getCaseStatus', {}),
+      this.adminService.postDataApi('getCivilStatus', {}),
     ]).subscribe((response: any[]) => {
       this.program_list = response[0].data
       this.deadlines_list = response[1].data
@@ -350,15 +396,16 @@ export class CreditAddEditComponent implements OnInit {
       this.state_list = response[7].data
       this.square_list = response[8].data
       this.caseStatus_list = response[9].data
+      this.civilStatus_list = response[10].data
     })
   }
 
   addPhone(): void {
-    ;(this.userForm.get('phones') as FormArray).push(this.fb.control(null))
+    ; (this.userForm.get('phones') as FormArray).push(this.fb.control(null))
   }
 
   removePhone(index) {
-    ;(this.userForm.get('phones') as FormArray).removeAt(index)
+    ; (this.userForm.get('phones') as FormArray).removeAt(index)
   }
 
   getPhonesFormControls(): AbstractControl[] {

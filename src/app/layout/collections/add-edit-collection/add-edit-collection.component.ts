@@ -44,11 +44,12 @@ export class AddEditCollectionComponent implements OnInit {
   @ViewChild('localityClose') localityClose: ElementRef;
   @ViewChild('buyerSellerPropertyDocumentationModalOpen') buyerSellerPropertyDocumentationModalOpen: ElementRef;
   @ViewChild('buyerSellerPropertyDocumentationModalClose') buyerSellerPropertyDocumentationModalClose: ElementRef;
+  @ViewChild('notesadddModalOpen') notesadddModalOpen: ElementRef;
   public latitude: number;
   public longitude: number;
   public searchControl: FormControl;
   public zoom: number;
-
+  myFlag = false;
   name: string;
   property_id: string;
   url: File;
@@ -2553,4 +2554,22 @@ export class AddEditCollectionComponent implements OnInit {
   goBack(){ 
     this.router.navigate(['/dashboard/collections/view-collections', {for: 'back'}])
   }
+  editLeadPopup(mode: string, note_id, note, index) {
+    this.mode = mode;
+    this.notesadddModalOpen.nativeElement.click();
+  //   this.noteIndex = index;
+  //   this.selectedNote = note;
+  //   this.noteTitle = note.title;
+  //   this.noteDesc = note.note;
+  //   this.reminder_date = new Date(note.reminder_date);
+  //   this.notesadddModalOpen.nativeElement.click();
+  //   this.property_collection_id = note.property_collection_id;
+  //   let emails = note.collection_reminder.collection_collaborators
+  //   let newArray = [];
+  //   for (var i = 0; i < emails.length; i++) {
+  //     let mails = emails[i].email;
+  //     newArray.push(mails);
+  //   }
+  //   this.noteEmails = newArray
+   }
 }
