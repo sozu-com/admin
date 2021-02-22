@@ -1,16 +1,18 @@
 <div class="white-bg padding15">
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-11">
       <div class="title-group">
-        <h5 *ngIf="!editMode"><a routerLink="/dashboard/collections/view-collections" href="javascript://"><i
+        <h5 *ngIf="!editMode"><a href="javascript://" (click)="goBack()"><i
               class="fa fa-angle-double-left"></i> </a> &nbsp;&nbsp;{{'addCollection.addLabel' | translate}}</h5>
-        <h5 *ngIf="editMode"> <a routerLink="/dashboard/collections/view-collections" href="javascript://"><i
-              class="fa fa-angle-double-left"></i> </a> &nbsp;&nbsp;{{'addCollection.editLabel' | translate}}:
-          {{model?.name}}</h5>
+        <h5 *ngIf="editMode"> <a href="javascript://" (click)="goBack()"><i
+              class="fa fa-angle-double-left"></i> </a> &nbsp;&nbsp;{{'addCollection.editLabel' | translate}}: {{model?.name}}</h5>
       </div>
     </div>
-    <div class="col-md-6 btn-cont">
-      <!-- <app-add-lead *ngIf="this.parameter?.property_id && editMode"  [property_id]="parameter.property_id"></app-add-lead> -->
+    <div class="col-lg-1 col-md-1 col-6">
+      <div class="btn-cont text-right title-group">
+        <a href="javascript://" (click)="goBack()"
+          class="btn-sm btn-primary-new" href="javascript://">{{'quickVisualization.back' | translate}}</a>
+        </div>
     </div>
   </div>
 </div>

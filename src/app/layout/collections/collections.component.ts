@@ -202,7 +202,8 @@ export class CollectionsComponent implements OnInit {
   public paymentBankDetailsArray: any[] = [];
   private bankDetails: any;
   fedTaxPayer: any;
-
+  local_storage_parameter: any;
+  is_back: boolean;
   constructor(
     public constant: Constant,
     public apiConstants: ApiConstants,
@@ -245,6 +246,8 @@ export class CollectionsComponent implements OnInit {
     this.parameter.itemsPerPage = 25; // this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.dash_flag = this.propertyService.dash_flag ? this.propertyService.dash_flag : this.constant.dash_flag;
+    this.local_storage_parameter = JSON.parse(localStorage.getItem('parametersForProperty'));
+    this.parameter = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.parameter;
     this.getPaymentMethods();
     this.getCountries();
     this.initCalendarLocale();
@@ -253,7 +256,11 @@ export class CollectionsComponent implements OnInit {
       if (params['id']) {
         this.parameter.collection_id = params['id'];
         this.parameter.dash_flag = 4;
+        //if (params.for) {
+          this.is_back = true;
+        //}
       }
+      
     });
     this.getListing();
     this.http.get('../../../assets/img/sozu_black.png', { responseType: 'blob' })
@@ -353,6 +360,7 @@ export class CollectionsComponent implements OnInit {
     input.is_approved = this.parameter.flag;
     this.admin.postDataApi('getCollection', input).subscribe(
       success => {
+        localStorage.setItem('parametersForCollection', JSON.stringify(this.parameter));
         //  console.log('getcollection ', success);
         this.items = success.data;
         this.total = success.total_count;
@@ -2714,6 +2722,7 @@ export class CollectionsComponent implements OnInit {
         let count1 = 0;
         let count2 = 0;
         let count3 = 0;
+        let count4 = 1;
         this.spinner.hide();
         this.collection_data = success['data'];
         this.collection_payments = success['data2'];
@@ -2738,7 +2747,10 @@ export class CollectionsComponent implements OnInit {
             self.bill_month_date =self.datePipe.transform(month.setDate(10), 'MMM d, y');
           }
           if(element.category_name.includes('Monthly Installment')){
+          element.payment_choice.name_en = element.payment_choice.name_en + ' ' + count4;
+          element.payment_choice.name_es = element.payment_choice.name_es + ' ' + count4;
           self.monthly_installment = element.amount;
+          count4 = count4 + 1;
           }
           self.monthly_installment_no = element.category_name.includes('Monthly Installment') ?  self.monthly_installment_no + 1 : self.monthly_installment_no + 0;
           self.monthly_installment_amunts = element.category_name.includes('Monthly Installment') ? self.monthly_installment_amunts + element.amount : self.monthly_installment_amunts + 0;
@@ -2783,19 +2795,19 @@ export class CollectionsComponent implements OnInit {
           }
           self.current_month_amount =  (self.current_month_amount || 0) + (element.outstanding_amount || 0);
             self.table_data.push([
-              { text: element.category_name, border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc' },
-              { text: element.date, border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc' },
+              { text: self.language_code == 'en' ? element.payment_choice.name_en : element.payment_choice.name_es, border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#929292' },
+              { text: element.date, border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#929292' },
               {
                 text: element.calc_payment_amount && element.calc_payment_amount > '0.1' ? self.price.transform(Number(element.calc_payment_amount).toFixed(2)) : '', border: [false, false, false, false], bold: true,
-                color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc'
+                color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#929292'
               },
               {
                 text: element.outstanding_amount && element.outstanding_amount > 0 ? self.price.transform(Number(element.outstanding_amount).toFixed(2)) : '', border: [false, false, false, false],
-                bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc'
+                bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#929292'
               },
-              { text: element.amount ? self.price.transform(Number(element.amount).toFixed(2)) : '', border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc' },
-              { text: element.penalty ? self.price.transform(Number(element.penalty.amount).toFixed(2)) : '', border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc' },
-              { text: element.penalty ? element.penalty.description : '', border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#e0dcdc' }
+              { text: element.amount ? self.price.transform(Number(element.amount).toFixed(2)) : '', border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#929292' },
+              { text: element.penalty ? self.price.transform(Number(element.penalty.amount).toFixed(2)) : '', border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#929292' },
+              { text: element.penalty ? element.penalty.description : '', border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#929292' }
             ]);
           });
           let monthly_installment_amunt_per = undefined;
