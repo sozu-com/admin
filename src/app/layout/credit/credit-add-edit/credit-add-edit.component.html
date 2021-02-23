@@ -154,17 +154,18 @@
                   <div class="col-4">
                     <div class="form-group-3">
                       <label class="p16-two">{{'creditForm.deadlines' | translate}}</label>
-                      <select title="{{'creditForm.selectcaseStatus' | translate}}" name="deadlines_quote" class="form-control"
+                      <!-- <select title="{{'creditForm.selectcaseStatus' | translate}}" name="deadlines_quote" class="form-control"
                       [(ngModel)]="creditModel.deadlines_quote">
                         <option disabled selected value="undefined">Select Deadlines to quote</option>
                         <option *ngFor="let dead of deadlines_list" [value]="dead.id">
                           {{language_code
                           == 'en'? dead.name_en : dead.name_es}}</option>
-                      </select>
-                      <!-- <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
-                        name="deadlines_quote" [data]="creditsDeadlines" [(ngModel)]="creditModel.deadlines_quote"
-                        [settings]="multiDropdownSettings" (onDeSelect)="unsetDeadlines($event)">
-                      </ng-multiselect-dropdown> -->
+                      </select> -->
+                      <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
+                        name="deadlines_quote" [data]="deadLines" [(ngModel)]="creditModel.deadlines_quote"
+                        [settings]="multiDropdownSettings" (onSelect)="setDeadline($event, 'selctedDeadlines')"
+                        (onDeSelect)="unsetDeadlines($event, 'selctedDeadlines')">
+                      </ng-multiselect-dropdown>
                     </div>
                   </div>
                   <div class="col-4">
