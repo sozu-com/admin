@@ -415,10 +415,10 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep5 = this.fb.group({
       // step 5
       step: ['', [Validators.required]],
-      comm_total_commission: ['', [Validators.required, Validators.max(100)]],
-      comm_total_commission_amount: ['', [Validators.required]],
-      comm_shared_commission: ['', [Validators.required, Validators.max(100)]],
-      comm_shared_commission_amount: ['', [Validators.required]],
+      comm_total_commission: [{value: '', disabled: true}, [Validators.required, Validators.max(100)]],
+      comm_total_commission_amount: [{value: '', disabled: true}, [Validators.required]],
+      comm_shared_commission: [{value: '', disabled: true}, [Validators.required, Validators.max(100)]],
+      comm_shared_commission_amount: [{value: '', disabled: true}, [Validators.required]],
       sozu_iva_percent: ['', [Validators.required, Validators.max(100)]],
       sozu_iva_amt: ['', [Validators.required]],
       agent_iva_percent: ['', [Validators.required, Validators.max(100)]],
