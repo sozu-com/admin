@@ -2,12 +2,12 @@ import { Users } from "./users.model";
 import { general_data } from "./gernal.model";
 export class Credit {
     admin_id?: number;
+    deadlines_quote?: Array<PaymentScheme>;
     bank_id?: Array<Bank>;
     case_status?: string;
     created_at?: string;
     credit_amount?: string;
     customer_profile?: string;
-    deadlines_quote?: any;
     destination_id?: string;
     executive?: string;
     home_value?: string;
@@ -22,9 +22,9 @@ export class Credit {
     user?: Users;
     user_id?: number;
     credit_user_id?: number;
-    general_data?:general_data;
+   // general_data?:general_data;
     //step-3->general->personal
-    general_data_id?: number;
+    general_data_id?: any;
     name?: string;
     first_surname?: string;
     second_surname?: string;
