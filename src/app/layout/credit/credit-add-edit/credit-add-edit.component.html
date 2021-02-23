@@ -406,21 +406,21 @@
                       <div class="form-group-3">
                         <label>{{'addForm.names' | translate}} <span class="color-red">*</span></label>
                         <input autocomplete="off" minlength="1" maxlength="30" required type="text" class="form-control"
-                          [(ngModel)]="creditModel.name" name="name">
+                          [(ngModel)]="creditModel.general_data.name" name="name">
                       </div>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'addForm.firstSurname' | translate}}</label>
                         <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control"
-                          [(ngModel)]="creditModel.first_surname" name="first_surname">
+                          [(ngModel)]="creditModel.general_data.first_surname" name="first_surname">
                       </div>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'addForm.secondSurname' | translate}}</label>
                         <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control"
-                          [(ngModel)]="creditModel.second_surname" name="second_surname">
+                          [(ngModel)]="creditModel.general_data.second_surname" name="second_surname">
                       </div>
                     </div>
                   </div>
@@ -441,7 +441,7 @@
                       <div class="form-group-3">
                         <label>{{'addForm.email' | translate}}</label>
                         <input autocomplete="off" required type="email" class="form-control"
-                          [(ngModel)]="creditModel.email" name="email">
+                          [(ngModel)]="creditModel.general_data.email" name="email">
                       </div>
                     </div>
                     <div class="col-4">
@@ -449,7 +449,7 @@
                         <label>{{'addForm.contact_number' | translate}}</label>
                         <input minlength="10" maxlength="10" autocomplete="off" type="text"
                           [pattern]="constant.phonePattern" class="form-control" id="phone" required
-                          [(ngModel)]="creditModel.contact_number" name="contact_number" ng2TelInput
+                          [(ngModel)]="creditModel.general_data.contact_number" name="contact_number" ng2TelInput
                           [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
                       </div>
                     </div>
@@ -462,21 +462,21 @@
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'addForm.dateOfBirth' | translate}}</label>
-                        <input class="form-control" type="date" [(ngModel)]="creditModel.dob" name="dob">
+                        <input class="form-control" type="date" [(ngModel)]="creditModel.general_data.dob" name="dob">
                       </div>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'addForm.CURP' | translate}}</label>
                         <input (keydown.space)="$event.preventDefault();" autocomplete="off" type="text" minlength="18"
-                          maxlength="18" class="form-control" [(ngModel)]="creditModel.curp" name="curp">
+                          maxlength="18" class="form-control" [(ngModel)]="creditModel.general_data.curp" name="curp">
                       </div>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'creditForm.RFC' | translate}}</label>
                         <input autocomplete="off" minlength="13" maxlength="13" [pattern]="constant.onlyWhiteSpaces"
-                          type="text" class="form-control" [(ngModel)]="creditModel.rfc" name="rfc">
+                          type="text" class="form-control" [(ngModel)]="creditModel.general_data.rfc" name="rfc">
                       </div>
                     </div>
                   </div>
@@ -490,14 +490,14 @@
                       <div class="form-group-3">
                         <label>{{'creditForm.NATIONALITY' | translate}}</label>
                         <input autocomplete="off" minlength="13" maxlength="13" type="text" class="form-control"
-                          [(ngModel)]="creditModel.nationaliy" name="nationaliy">
+                          [(ngModel)]="creditModel.general_data.nationaliy" name="nationaliy">
                       </div>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'creditForm.CIVILSTATUS' | translate}}</label>
                         <select title="{{'creditForm.selectCIVILSTATUS' | translate}}" name="civil_status"
-                          class="form-control" [(ngModel)]="creditModel.civil_status">
+                          class="form-control" [(ngModel)]="creditModel.general_data.civil_status">
                           <option disabled selected value="undefined">{{'creditForm.selectCIVILSTATUS' | translate}}
                           </option>
                           <option *ngFor="let dest of civilStatus_list" [value]="dest.id">
@@ -526,20 +526,20 @@
                     <div class="col-3">
                       <div class="form-group-3">
                         <label>{{'creditForm.STREET' | translate}}</label>
-                        <input type="text" class="form-control" [(ngModel)]="creditModel.street" name="street" />
+                        <input type="text" class="form-control" [(ngModel)]="creditModel.general_data.street" name="street" />
                       </div>
                     </div>
                     <div class="col-sm-3">
                       <div class="form-group-3">
                         <label>{{'creditForm.OUTDOORNUMBER' | translate}}</label>
-                        <input type="text" class="form-control" [(ngModel)]="creditModel.outdoor_number"
+                        <input type="text" class="form-control" [(ngModel)]="creditModel.general_data.outdoor_number"
                           name="outdoor_number" />
                       </div>
                     </div>
                     <div class="col-sm-3">
                       <div class="form-group-3">
                         <label>{{'creditForm.INTERIORNUMBER' | translate}}</label>
-                        <input type="text" class="form-control" [(ngModel)]="creditModel.interior_number"
+                        <input type="text" class="form-control" [(ngModel)]="creditModel.general_data.interior_number"
                           name="interior_number" />
                       </div>
                     </div>
@@ -547,7 +547,7 @@
                       <div class="form-group-3">
                         <label>{{'creditForm.COLONY' | translate}}</label>
                         <input minlength="8" maxlength="15" autocomplete="off" type="text" class="form-control"
-                          minlength="1" [(ngModel)]="creditModel.colony" name="colony" />
+                          minlength="1" [(ngModel)]="creditModel.general_data.colony" name="colony" />
                       </div>
                     </div>
                   </div>
@@ -561,21 +561,21 @@
                       <div class="form-group-3">
                         <label>{{'addForm.municipality' | translate}}</label>
                         <input autocomplete="off" type="text" class="form-control" name="municipality"
-                          [(ngModel)]="creditModel.municipality">
+                          [(ngModel)]="creditModel.general_data.municipality">
                       </div>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'filters.location.city' | translate}}</label>
                         <input autocomplete="off" type="text" class="form-control" id="country" name="city"
-                          [(ngModel)]="creditModel.city" />
+                          [(ngModel)]="creditModel.general_data.city" />
                       </div>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'addForm.ZIP' | translate}}</label>
                         <input minlength="8" maxlength="15" autocomplete="off" type="text" class="form-control"
-                          id="zipcode" minlength="1" [(ngModel)]="creditModel.zip_code" name="zip_code" />
+                          id="zipcode" minlength="1" [(ngModel)]="creditModel.general_data.zip_code" name="zip_code" />
                       </div>
                     </div>
                   </div>
@@ -589,7 +589,7 @@
                       <div class="form-group-3">
                         <label>{{'filters.location.state' | translate}}</label>
                         <select title="{{'creditForm.selectstate' | translate}}" name="state" class="form-control"
-                          [(ngModel)]="creditModel.state">
+                          [(ngModel)]="creditModel.general_data.state">
                           <option disabled selected value="undefined">{{'creditForm.selectstate' | translate}}</option>
                           <option *ngFor="let dest of state_list" [value]="dest.id">
                             {{language_code
@@ -631,7 +631,7 @@
                       <div class="form-group-3">
                         <div class="form-group">
                           <label>{{'creditForm.EMAIL' | translate}}</label>
-                          <input type="text" class="form-control" [(ngModel)]="creditModel.co_credited_email"
+                          <input type="text" class="form-control" [(ngModel)]="creditModel.general_data.co_credited_email"
                             name="co_credited_email" />
                         </div>
                       </div>
@@ -640,7 +640,7 @@
                       <div class="form-group-3">
                         <div class="form-group">
                           <label>{{'creditForm.RELATIONSHIP' | translate}}</label>
-                          <input type="text" class="form-control" [(ngModel)]="creditModel.co_credited_relationship"
+                          <input type="text" class="form-control" [(ngModel)]="creditModel.general_data.co_credited_relationship"
                             name="co_credited_relationship" />
                         </div>
                       </div>
@@ -649,7 +649,7 @@
                       <div class="form-group-3">
                         <label>{{'creditForm.onwer' | translate}}</label>
                         <div class="switchToggle">
-                          <input type="checkbox" id="switch2" [(ngModel)]="creditModel.co_credited_owner"
+                          <input type="checkbox" id="switch2" [(ngModel)]="creditModel.general_data.co_credited_owner"
                             name="co_credited_owner">
                           <label for="switch2">Toggle</label>
                         </div>
@@ -666,7 +666,7 @@
                       <div class="form-group-3">
                         <label>{{'creditForm.ConsolidatesRevenue' | translate}}</label>
                         <div class="switchToggle">
-                          <input type="checkbox" id="switch" [(ngModel)]="creditModel.co_credited_involved_revenue"
+                          <input type="checkbox" id="switch" [(ngModel)]="creditModel.general_data.co_credited_involved_revenue"
                             name="co_credited_involved_revenue">
                           <label for="switch">Toggle</label>
                         </div>
@@ -677,7 +677,7 @@
                       <div class="form-group-3">
                         <label>{{'creditForm.involved' | translate}}</label>
                         <div class="switchToggle">
-                          <input type="checkbox" id="switch1" [(ngModel)]="creditModel.co_credited_involved_credit"
+                          <input type="checkbox" id="switch1" [(ngModel)]="creditModel.general_data.co_credited_involved_credit"
                             name="co_credited_involved_credit">
                           <label for="switch1">Toggle</label>
                         </div>
@@ -716,7 +716,8 @@
                     <div class="form-group-3">
                       <label>{{'creditForm.creditcard' | translate}}</label>
                       <div class="switchToggle">
-                        <input type="checkbox" id="switch4">
+                        <input type="checkbox" id="switch4" [(ngModel)]="creditModel.general_data.credit_card"
+                        name="credit_card">
                         <label for="switch4">Toggle</label>
                       </div>
                     </div>
@@ -725,7 +726,8 @@
                     <div class="form-group-3">
                       <label>{{'creditForm.existingmortgage' | translate}}</label>
                       <div class="switchToggle">
-                        <input type="checkbox" id="switch5">
+                        <input type="checkbox" id="switch5" [(ngModel)]="creditModel.general_data.existing_mortgage"
+                        name="existing_mortgage">
                         <label for="switch5">Toggle</label>
                       </div>
                     </div>
@@ -734,7 +736,8 @@
                     <div class="form-group-3">
                       <label>{{'creditForm.loan' | translate}}</label>
                       <div class="switchToggle">
-                        <input type="checkbox" id="switch6">
+                        <input type="checkbox" id="switch6" [(ngModel)]="creditModel.general_data.loan"
+                        name="loan">
                         <label for="switch6">Toggle</label>
                       </div>
                     </div>
@@ -745,7 +748,7 @@
                 <div class="row">
                   <div class="col-12">
                     <div class="btn-cont text-right">
-                      <button class="btn btn-primary">{{'creditForm.Saveinformation' | translate}}</button>
+                      <button class="btn btn-primary" (click)="addcredits()">{{'creditForm.Saveinformation' | translate}}</button>
                     </div>
                   </div>
                 </div>

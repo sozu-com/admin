@@ -14,7 +14,7 @@ import { IProperty } from 'src/app/common/property'
 import { NgxSpinnerService } from 'ngx-spinner'
 import { ActivatedRoute, Router } from '@angular/router'
 import { IDestinationStatus } from 'src/app/common/marrital-status-interface'
-import { Bank, Credit, PaymentScheme } from 'src/app/models/credit.model'
+import { Bank, Credit, GeneralData, PaymentScheme } from 'src/app/models/credit.model'
 import { forkJoin } from 'rxjs'
 declare let swal: any
 @Component({
@@ -54,8 +54,9 @@ export class CreditAddEditComponent implements OnInit {
   userForm: FormGroup
   showSearch = false
   Onedit = false
+  //public creditModel: Credit
+  //creditModel: Credit;
   constructor(
-    //public creditModel: Credit,
     public constant: Constant,
     private adminService: AdminService,
     private toastr: ToastrService,
@@ -95,6 +96,7 @@ export class CreditAddEditComponent implements OnInit {
     this.selctedBanks = []
     this.selctedPayments = []
     this.selctedDeadlines = []
+    this.creditModel.general_data = new GeneralData()
   }
 
   showSearchBox() {
@@ -236,7 +238,6 @@ export class CreditAddEditComponent implements OnInit {
   addcredits() {
     let modelSave = JSON.parse(JSON.stringify(this.creditModel));
     var id = localStorage.getItem('stepOneId')
-   // var general_data_id = localStorage.getItem('stepThreeId')
     if (!this.creditModel.user) {
       this.toastr.clear()
       this.toastr.error(
@@ -254,7 +255,6 @@ export class CreditAddEditComponent implements OnInit {
         modelSave = {
           step: this.tab,
           id: id,
-        //  general_data_id: general_data_id,
           destination_id: this.creditModel.destination_id,
           programs_id: this.creditModel.programs_id,
           home_value: this.creditModel.home_value,
@@ -282,37 +282,47 @@ export class CreditAddEditComponent implements OnInit {
           const d = this.creditModel.deadlines_quote.map((o) => o.id)
           modelSave.deadlines_quote = d
         }
+       
         this.subtab = 1
       } else if (this.tab == 3) {
-          this.subtab = 1
-          modelSave = {
-          step: this.tab,
+        this.subtab = 2
+          let modelSave1 = {
           id:id,
-          name: this.creditModel.name,
-          first_surname: this.creditModel.first_surname,
-          second_surname: this.creditModel.second_surname,
-          gender: this.creditModel.gender,
-          email: this.creditModel.email,
-          contact_number: this.creditModel.contact_number,
-          dob: this.creditModel.dob,
-          curp: this.creditModel.curp,
-          rfc: this.creditModel.rfc,
-          nationaliy: this.creditModel.nationaliy,
-          civil_status: this.creditModel.civil_status,
-          street: this.creditModel.street,
-          outdoor_number: this.creditModel.outdoor_number,
-          interior_number: this.creditModel.interior_number,
-          colony: this.creditModel.colony,
-          municipality: this.creditModel.municipality,
-          city: this.creditModel.city,
-          zip_code: this.creditModel.zip_code,
-          state: this.creditModel.state,
-          co_credited_email: this.creditModel.co_credited_email,
-          co_credited_relationship: this.creditModel.co_credited_relationship,
-          co_credited_owner: this.creditModel.co_credited_owner,
-          co_credited_involved_credit: this.creditModel.co_credited_involved_credit,
-          co_credited_involved_revenue: this.creditModel.co_credited_involved_revenue
+          general_data_id : this.creditModel.general_data.id,
+          name: this.creditModel.general_data.name,
+          first_surname: this.creditModel.general_data.first_surname,
+          second_surname: this.creditModel.general_data.second_surname,
+          gender: this.creditModel.general_data.gender,
+          email: this.creditModel.general_data.email,
+          contact_number: this.creditModel.general_data.contact_number,
+          dob: this.creditModel.general_data.dob,
+          curp: this.creditModel.general_data.curp,
+          rfc: this.creditModel.general_data.rfc,
+          nationaliy: this.creditModel.general_data.nationaliy,
+          civil_status: this.creditModel.general_data.civil_status,
+          street: this.creditModel.general_data.street,
+          outdoor_number: this.creditModel.general_data.outdoor_number,
+          interior_number: this.creditModel.general_data.interior_number,
+          colony: this.creditModel.general_data.colony,
+          municipality: this.creditModel.general_data.municipality,
+          city: this.creditModel.general_data.city,
+          zip_code: this.creditModel.general_data.zip_code,
+          state: this.creditModel.general_data.state,
+          co_credited_email: this.creditModel.general_data.co_credited_email,
+          co_credited_relationship: this.creditModel.general_data.co_credited_relationship,
+          co_credited_owner: this.creditModel.general_data.co_credited_owner,
+          co_credited_involved_credit: this.creditModel.general_data.co_credited_involved_credit,
+          co_credited_involved_revenue: this.creditModel.general_data.co_credited_involved_revenue
         }
+        modelSave = { general_data: modelSave1, step: this.tab }
+      } else if (this.tab == 3) {
+          let modelSave2 = {
+          id:id,
+          credit_card: this.creditModel.general_data.credit_card,
+          existing_mortgage: this.creditModel.general_data.existing_mortgage,
+          loan: this.creditModel.general_data.loan
+          }
+          modelSave = { general_data: modelSave2, step: this.tab }
       }
       this.spinnerService.show()
       this.adminService.postDataApi('addcredits', modelSave).subscribe(
@@ -321,7 +331,7 @@ export class CreditAddEditComponent implements OnInit {
           localStorage.setItem('stepOneId', success.data.id)
           this.spinnerService.hide()
           if (this.tab == 3) {
-              this.subtab = 1
+              this.subtab = 2
             this.router.navigate(['dashboard/credit/view-credit'])
           } else {
             this.tab = this.tab + 1
@@ -336,7 +346,7 @@ export class CreditAddEditComponent implements OnInit {
 
   getcredits = (): void => {
     if (this.tab == 3) {
-         this.subtab = 1
+         this.subtab = 2
     }
    let self = this
    this.spinnerService.show()
@@ -382,12 +392,12 @@ export class CreditAddEditComponent implements OnInit {
 
 
   isChecked(gender) {
-    return gender == this.creditModel.gender ? true : false;
+    return gender == this.creditModel.general_data.gender ? true : false;
   }
   onCountryChange(e) {}
 
   selectGender(gender) {
-    this.creditModel.gender = gender;
+    this.creditModel.general_data.gender = gender;
   }
   onSelectAll(obj: any) { }
 
