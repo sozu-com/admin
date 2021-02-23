@@ -259,6 +259,8 @@ export class CreditAddEditComponent implements OnInit {
           programs_id: this.creditModel.programs_id,
           home_value: this.creditModel.home_value,
           credit_amount: this.creditModel.credit_amount,
+          subaccount_balance: this.creditModel.subaccount_balance,
+          infonavit_credit: this.creditModel.infonavit_credit,
           executive: this.creditModel.executive,
           state: this.creditModel.state,
           square_id: this.creditModel.square_id,
