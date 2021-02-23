@@ -11,6 +11,8 @@ export class Credit {
     destination_id?: string;
     executive?: string;
     home_value?: string;
+    subaccount_balance?: string;
+    infonavit_credit?: string;
     id?: number;
     payment_scheme?: Array<PaymentScheme>;
     programs_id?: string;

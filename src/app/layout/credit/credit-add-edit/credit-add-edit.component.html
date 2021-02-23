@@ -121,7 +121,7 @@
                       </select>
                     </div>
                   </div>
-                  <div class="col-6">
+                  <div class="col-6" *ngIf="creditModel.destination_id != 2">
                     <div class="form-group-3">
                       <label class="p16-two">{{'creditForm.programs' | translate}}</label>
                       <select title="Select Programs" name="programs_id" class="form-control"
@@ -133,12 +133,33 @@
                       </select>
                     </div>
                   </div>
-
                 </div>
-                <div class="col-12">
+                <div class="row" *ngIf="creditModel.programs_id == 3">
                   <div class="spacer15"></div>
+                  <div class="col-6">
+                    <div class="form-group-3">
+                      <label>{{'creditForm.homeValue' | translate}}
+                      </label>
+                      <input autocomplete="off" minlength="1" maxlength="30"
+                        [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="number"
+                        class="form-control" [(ngModel)]="creditModel.home_value" name="home_value"
+                        placeholder="{{'creditForm.homeValue' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.deadlines' | translate}}</label>
+                      <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
+                        name="deadlines_quote" [data]="deadLines" [(ngModel)]="creditModel.deadlines_quote"
+                        [settings]="multiDropdownSettings" (onSelect)="setDeadline($event, 'selctedDeadlines')"
+                        (onDeSelect)="unsetDeadlines($event, 'selctedDeadlines')">
+                      </ng-multiselect-dropdown>
+                    </div>
+                  </div>
                 </div>
-                <div class="row">
+
+                <div class="row" *ngIf="creditModel.programs_id == 6">
+                  <div class="spacer15"></div>
                   <div class="col-4">
                     <div class="form-group-3">
                       <label>{{'creditForm.homeValue' | translate}}
@@ -176,9 +197,10 @@
                     </div>
                   </div>
                 </div>
-                <div class="spacer15"></div>
-                <div class="row">
-                  <div class="col-4">
+                
+                <div class="row" >
+                  <div class="spacer15"></div>
+                  <div class="col-4" *ngIf="creditModel.programs_id == 6 || creditModel.programs_id == 3">
                     <div class="form-group-3">
                       <label>{{'creditForm.paymentScheme' | translate}}</label>
                       <ng-multiselect-dropdown *ngIf="PaymentScheme?.length > 0"
@@ -189,11 +211,28 @@
                       </ng-multiselect-dropdown>
                     </div>
                   </div>
+                  <div class="col-4" *ngIf="creditModel.programs_id == 3">
+                    <div class="form-group-3">
+                      <label>Infonavit Credit</label>
+                      <input autocomplete="off" minlength="1" maxlength="30"
+                        [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="number"
+                        class="form-control" [(ngModel)]="creditModel.infonavit_credit" name="infonavit_credit"
+                        placeholder="{{'creditForm.infonavit_credit' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-4" *ngIf="creditModel.programs_id == 3">
+                    <div class="form-group-3">
+                      <label class="p16-two">Subaccount balance (SSV)</label>
+                      <input autocomplete="off" minlength="1" maxlength="30"
+                        [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="number"
+                        class="form-control" [(ngModel)]="creditModel.subaccount_balance" name="subaccount_balance"
+                        placeholder="{{'creditForm.subaccount_balance' | translate}}">
+                    </div>
+                  </div>
                 </div>
-                <div class="col-12">
-                  <div class="spacer15"></div>
-                </div>
+                 
                 <div class="row">
+                  <div class="spacer15"></div>
                   <div class="col-8">
                     <div class="form-group-3">
                       <label>{{'creditForm.banks' | translate}}</label>
@@ -206,10 +245,9 @@
                   </div>
                 </div>
 
-                <div class="col-12">
-                  <div class="spacer15"></div>
-                </div>
+              
                 <div class="row">
+                  <div class="spacer15"></div>
                   <div class="col-4">
                     <div class="form-group-3">
                       <label class="p16-two">{{'creditForm.executive' | translate}}</label>
@@ -249,10 +287,9 @@
                   </div>
                 </div>
 
-                <div class="col-12">
-                  <div class="spacer15"></div>
-                </div>
+               
                 <div class="row">
+                  <div class="spacer15"></div>
                   <div class="col-md-4">
                     <div class="form-group-3">
                       <label class="p16-two">{{'creditForm.caseStatus' | translate}}</label>
@@ -294,10 +331,8 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-12">
-                  <div class="spacer15"></div>
-                </div>
                 <div class="row">
+                  <div class="spacer15"></div>
                   <div class="col-12">
                     <div class="btn-cont text-right">
                       <button class="btn btn-primary" (click)="addcredits()">{{'creditForm.Saveinformation' |
