@@ -236,7 +236,7 @@ export class CreditAddEditComponent implements OnInit {
   addcredits() {
     let modelSave = JSON.parse(JSON.stringify(this.creditModel));
     var id = localStorage.getItem('stepOneId')
-    var general_data_id = localStorage.getItem('stepThreeId')
+   // var general_data_id = localStorage.getItem('stepThreeId')
     if (!this.creditModel.user) {
       this.toastr.clear()
       this.toastr.error(
@@ -254,7 +254,7 @@ export class CreditAddEditComponent implements OnInit {
         modelSave = {
           step: this.tab,
           id: id,
-          general_data_id: general_data_id,
+        //  general_data_id: general_data_id,
           destination_id: this.creditModel.destination_id,
           programs_id: this.creditModel.programs_id,
           home_value: this.creditModel.home_value,
@@ -331,7 +331,7 @@ export class CreditAddEditComponent implements OnInit {
       )
     }
   }
-  
+
   getcredits = (): void => {
     if (this.tab == 3) {
          this.subtab = 1
@@ -358,7 +358,7 @@ export class CreditAddEditComponent implements OnInit {
            })
          }
          for (var i = 0; i < success.data.deadlines_quote.length; i++) {
-          let deadlines = success.data.deadlines_quote[i].deadlines
+          let deadlines = success.data.deadlines_quote[i].deadline
           self.selctedDeadlines.push({
             id: deadlines.id,
             name_en: deadlines.name_en,
@@ -368,8 +368,8 @@ export class CreditAddEditComponent implements OnInit {
          this.creditModel.payment_scheme = self.selctedPayments
          this.creditModel.deadlines_quote = self.selctedDeadlines
         // this.creditModel.deadlines_quote = this.creditModel.deadlines_quote.id
-         localStorage.setItem('stepThreeId', success.data.general_data.id)
-         this.creditModel.general_data_id = success.data.general_data.id
+        //  localStorage.setItem('stepThreeId', success.data.general_data.id)
+        //  this.creditModel.general_data_id = success.data.general_data.id
          this.spinnerService.hide()
        },
        (error) => {
