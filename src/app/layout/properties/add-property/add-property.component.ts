@@ -16,6 +16,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HttpInterceptor } from 'src/app/services/http-interceptor';
 import { from } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 declare const google;
 declare let swal: any;
@@ -125,8 +126,9 @@ export class AddPropertyComponent implements OnInit {
     private http: HttpInterceptor,
     private spinner: NgxSpinnerService,
     private element: ElementRef,
-    private translate: TranslateService) {
-
+    private translate: TranslateService,
+    private toastr: ToastrService
+    ) {
     this.us.globalSettings$.subscribe(suc1 => {
       this.parameter.bulk_approve_property = suc1['bulk_approve_property'];
     });
@@ -470,6 +472,8 @@ export class AddPropertyComponent implements OnInit {
 
     this.model.broker_commision = data.broker_commision || 0;
     this.model.total_commission = data.total_commission || 0;
+    this.model.comm_total_commission_amount = data.comm_total_commission_amount || 0;
+    this.model.comm_shared_commission_amount  = data.comm_shared_commission_amount || 0;
   }
 
   setTab(tab: any) {
@@ -1070,24 +1074,26 @@ export class AddPropertyComponent implements OnInit {
         input.append('videos', JSON.stringify(this.model.videos));
         input.append('cover_image', this.model.cover_image);
         input.append('floor_plan', this.model.floor_plan);
-        input.append('bedroom', this.model.bedroom.toString());
-        input.append('bathroom', this.model.bathroom.toString());
+        input.append('bedroom', this.model.bedroom ? this.model.bedroom.toString() : null);
+        input.append('bathroom', this.model.bathroom ? this.model.bathroom.toString() : null);
         input.append('half_bathroom', this.model.half_bathroom ? this.model.half_bathroom.toString() : '0');
-        input.append('floor', this.model.floor.toString());
-        input.append('broker_commision', this.model.broker_commision.toString());
+        input.append('floor', this.model.floor ? this.model.floor.toString() : null);
+        input.append('broker_commision', this.model.broker_commision ? this.model.broker_commision.toString():null);
         input.append('property_key', this.model.property_key ? this.model.property_key.toString() : '0');
-        input.append('total_commission', this.model.total_commission.toString());
+        input.append('total_commission', this.model.total_commission ? this.model.total_commission.toString() : null);
         input.append('property_price', this.model.property_price ? this.model.property_price.toString() : '0');
-        input.append('parking', this.model.parking.toString());
+        input.append('parking', this.model.parking ? this.model.parking.toString() : null);
         input.append('parking_count', this.model.parking_count ? this.model.parking_count.toString() : '0');
         input.append('parking_for_sale', this.model.parking_for_sale ? this.model.parking_for_sale.toString() : '0');
-        input.append('furnished', this.model.furnished.toString());
+        input.append('furnished', this.model.furnished ? this.model.furnished.toString() : null);
         input.append('description', this.model.description);
         input.append('quantity', this.model.quantity ? this.model.quantity.toString() : '0');
         input.append('amenities', JSON.stringify(this.model.amenities ? this.model.amenities : []));
         input.append('banks', JSON.stringify(this.model.banks ? this.model.banks : []));
         input.append('property_quantity_details',
           JSON.stringify(this.model.property_quantity_details ? this.model.property_quantity_details : []));
+        input.append('comm_total_commission_amount', this.model.comm_total_commission_amount ? this.model.comm_total_commission_amount.toString() : null);
+        input.append('comm_shared_commission_amount', this.model.comm_shared_commission_amount ? this.model.comm_shared_commission_amount.toString() : null);
       }
       if (this.model.step === 3) {
         // added building_id and step cuz need to update sttaus and step
@@ -1628,5 +1634,31 @@ export class AddPropertyComponent implements OnInit {
 
   goBack(){ 
     this.router.navigate(['/dashboard/properties/view-properties', {for: 'back'}])
+  }
+
+  getSozuAmount(percent: number) {
+    const price = parseFloat(this.newcarpet_area.price);
+    if (!price || price == 0) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
+      return;
+    }
+    const amount = this.numberUptoNDecimal((percent * price) / 100, 2);
+    this.model.comm_total_commission_amount = amount;
+  }
+
+  getAgentAmount(percent: number) {
+    const price = parseFloat(this.newcarpet_area.price);
+    if (!price || price == 0) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
+      return;
+    }
+    const amount = this.numberUptoNDecimal((percent * price) / 100, 2);
+    this.model.comm_shared_commission_amount = amount;
+  }
+
+  numberUptoNDecimal(num: any, n: number) {
+    return num ? num.toFixed(n) : 0;
   }
 }
