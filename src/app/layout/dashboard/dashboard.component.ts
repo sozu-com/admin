@@ -243,8 +243,8 @@ export class DashboardComponent implements OnInit {
 
   plotData = (): void => {
     const chart = new CanvasJS.Chart('agentContainer', {
-      title: { text: this.translate.instant('deshboard.projectPossesion') },
-      subtitles: [{ text: this.getselectedLocation() }],
+      title: { text: this.translate.instant('deshboard.projectPossesion') ,fontFamily: "tahoma" , fontWeight: "500" },
+      subtitles: [{ text: this.getselectedLocation() ,fontFamily: "tahoma" }],
       legend: { maxWidth: 350, itemWidth: 120 },
       data: [
         {
@@ -259,8 +259,8 @@ export class DashboardComponent implements OnInit {
     chart.render();
 
     const chart1 = new CanvasJS.Chart('agentContainer1', {
-      title: { text: this.translate.instant('deshboard.Projectsstatus') },
-      subtitles: [{ text: this.getselectedLocation() }],
+      title: { text: this.translate.instant('deshboard.Projectsstatus') ,fontFamily: "tahoma" , fontWeight: "500"},
+      subtitles: [{ text: this.getselectedLocation(),fontFamily: "tahoma" }],
       legend: { maxWidth: 350, itemWidth: 120 },
       data: [
         {
@@ -282,8 +282,8 @@ export class DashboardComponent implements OnInit {
       exportEnabled: true,
       theme: 'light2',
       dataPointWidth: 30,
-      title: { text: this.translate.instant('deshboard.localitiesWithMoreProject') },
-      subtitles: [{ text: this.getselectedLocation() }],
+      title: { text: this.translate.instant('deshboard.localitiesWithMoreProject'),fontFamily: "tahoma" , fontWeight: "500" },
+      subtitles: [{ text: this.getselectedLocation() ,fontFamily: "tahoma"}],
       axisY: { gridColor: '#222222ab', tickColor: '#222222ab' },
       toolTip: { shared: true },
       data: [
@@ -313,8 +313,8 @@ export class DashboardComponent implements OnInit {
       exportEnabled: true,
       theme: 'light2',
       dataPointWidth: 30,
-      title: { text: this.translate.instant('deshboard.propertiesStatus') },
-      subtitles: [{ text: this.getselectedLocation() }],
+      title: { text: this.translate.instant('deshboard.propertiesStatus') ,fontFamily: "tahoma" , fontWeight: "500"},
+      subtitles: [{ text: this.getselectedLocation() ,fontFamily: "tahoma"}],
       axisY: { gridColor: '#222222ab', tickColor: '#222222ab' },
       toolTip: { shared: true },
       data: [
@@ -339,8 +339,8 @@ export class DashboardComponent implements OnInit {
     chart3.render();
 
     const availabilityContainer = new CanvasJS.Chart('availabilityContainer', {
-      title: { text: this.translate.instant('deshboard.propertyAvailability') },
-      subtitles: [{ text: this.getselectedLocation() }],
+      title: { text: this.translate.instant('deshboard.propertyAvailability'),fontFamily: "tahoma" , fontWeight: "500" },
+      subtitles: [{ text: this.getselectedLocation() ,fontFamily: "tahoma"}],
       legend: { maxWidth: 350, itemWidth: 120 },
       data: [
         {
@@ -356,8 +356,8 @@ export class DashboardComponent implements OnInit {
     availabilityContainer.render();
 
     const propertyStatusContainer = new CanvasJS.Chart('propertyStatusContainer', {
-      title: { text: this.translate.instant('deshboard.propertyStatus') },
-      subtitles: [{ text: this.getselectedLocation() }],
+      title: { text: this.translate.instant('deshboard.propertyStatus') ,fontFamily: "tahoma" , fontWeight: "500"},
+      subtitles: [{ text: this.getselectedLocation() ,fontFamily: "tahoma"}],
       legend: { maxWidth: 350, itemWidth: 120 },
       data: [
         {
