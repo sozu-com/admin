@@ -41,6 +41,10 @@ export class ProjectsComponent implements OnInit {
   exportfinalData: Array<any>;
   local_storage_parameter: any;
   is_back: boolean;
+  public multiDropdownSettings = {};
+  public language_code: string;
+  public selectedLocation: { selectedCountry: string, selectedStates: any[], selectedCities: any[], selectedLocalities: any[] } =
+    { selectedCountry: '', selectedStates: [], selectedCities: [], selectedLocalities: [] };
 
   constructor(
     public constant: Constant,
@@ -51,10 +55,11 @@ export class ProjectsComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private translate: TranslateService, private http: HttpClient,
     private router: Router, private elementRef: ElementRef
-  ) { 
+  ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.language_code = localStorage.getItem('language_code');
     //console.log('baseurl', this.admin.baseUrl);
     this.locale = {
       firstDayOfWeek: 0,
@@ -73,7 +78,7 @@ export class ProjectsComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.parameter.userType = params.type;
       this.parameter.id = params.id;
-      if(params.for){
+      if (params.for) {
         this.is_back = true;
       }
     });
@@ -89,6 +94,7 @@ export class ProjectsComponent implements OnInit {
     this.parameter.max_carpet_area = 0;
     this.local_storage_parameter = JSON.parse(localStorage.getItem('parametersForProject'));
     this.parameter = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.parameter;
+    this.initializedDropDownSetting();
     this.getCountries();
     // this.getPropertyConfigurations(); 
     this.getListing();
@@ -101,6 +107,7 @@ export class ProjectsComponent implements OnInit {
 
   getListing() {
     this.spinner.show();
+    this.makePostRequest();
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
@@ -136,7 +143,6 @@ export class ProjectsComponent implements OnInit {
       success => {
         localStorage.setItem('parametersForProject', JSON.stringify(this.parameter));
         this.items = success.data;
-        //console.log(this.items, "projectHome")
         this.total = success.total_count;
         this.spinner.hide();
       },
@@ -162,10 +168,14 @@ export class ProjectsComponent implements OnInit {
   }
 
   onCountryChange(id) {
+    this.selectedLocation.selectedCities = [];
+    this.location.cities = [];
+    this.selectedLocation.selectedLocalities = [];
+    this.location.localities = [];
     this.parameter.country_id = id;
     this.location.states = []; this.parameter.state_id = '0';
-    this.location.cities = []; this.parameter.city_id = '0';
-    this.location.localities = []; this.parameter.locality_id = '0';
+    this.parameter.city_id = '0';
+    this.parameter.locality_id = '0';
     if (!id || id === '0') {
       this.parameter.state_id = '0';
       return false;
@@ -173,12 +183,15 @@ export class ProjectsComponent implements OnInit {
     this.parameter.country_id = id;
     const selectedCountry = this.location.countries.filter(x => x.id.toString() === id);
     this.location.states = selectedCountry[0].states;
-
   }
 
   onStateChange(id) {
-    this.location.cities = []; this.parameter.city_id = '0';
-    this.location.localities = []; this.parameter.locality_id = '0';
+    this.selectedLocation.selectedCities = [];
+    this.location.cities = [];
+    this.selectedLocation.selectedLocalities = [];
+    this.location.localities = [];
+    this.parameter.city_id = '0';
+    this.parameter.locality_id = '0';
     if (!id || id === '0') {
       this.parameter.city_id = '0';
       return false;
@@ -188,24 +201,42 @@ export class ProjectsComponent implements OnInit {
     this.location.cities = selectedState[0].cities;
   }
 
-  onCityChange(id) {
-    this.location.localities = []; this.parameter.locality_id = '0';
-    if (!id || id === '0') {
-      this.parameter.locality_id = '0';
-      return false;
-    }
-    this.parameter.city_id = id;
-    const selectedCountry = this.location.cities.filter(x => x.id.toString() === id);
-    this.location.localities = selectedCountry[0].localities;
+  onCityChangeAll = (data: any[]): void => {
+    this.selectedLocation.selectedCities = data;
+    this.onCityChange();
   }
 
-  onLocalityChange(id) {
-    this.parameter.locality_id = '';
-    if (!id || id === '0') {
-      return false;
-    }
-    this.parameter.locality_id = id;
+  onCityChange = (): void => {
+    this.selectedLocation.selectedLocalities = [];
+    this.location.localities = [];
+    const localities = [];
+    this.selectedLocation.selectedCities.forEach((cityObject) => {
+      const selectedlocality = this.location.cities.filter(x => x.id == cityObject.id);
+      (selectedlocality[0].localities || []).forEach((localityObject) => {
+        localities.push(localityObject);
+      });
+    });
+    this.location.localities = localities;
   }
+
+  // onCityChange(id) {
+  //   this.location.localities = []; this.parameter.locality_id = '0';
+  //   if (!id || id === '0') {
+  //     this.parameter.locality_id = '0';
+  //     return false;
+  //   }
+  //   this.parameter.city_id = id;
+  //   const selectedCountry = this.location.cities.filter(x => x.id.toString() === id);
+  //   this.location.localities = selectedCountry[0].localities;
+  // }
+
+  // onLocalityChange(id) {
+  //   this.parameter.locality_id = '';
+  //   if (!id || id === '0') {
+  //     return false;
+  //   }
+  //   this.parameter.locality_id = id;
+  // }
 
   changeFlag(flag: number) {
     this.parameter.dash_flag = flag;
@@ -408,6 +439,7 @@ export class ProjectsComponent implements OnInit {
 
   getExportlisting() {
     this.spinner.show();
+    this.makePostRequest();
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     input.page = 0;
     if (this.parameter.min) {
@@ -513,4 +545,23 @@ export class ProjectsComponent implements OnInit {
     fileName = fileName + date;
     FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
   }
+
+  initializedDropDownSetting = (): void => {
+    this.multiDropdownSettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: this.language_code == 'en' ? 'name_en' : 'name_es',
+      selectAllText: this.translate.instant('commonBlock.selectAll'),
+      unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
+      searchPlaceholderText: this.translate.instant('commonBlock.search'),
+      allowSearchFilter: true,
+      itemsShowLimit: 1
+    };
+  }
+
+  makePostRequest = (): void => {
+    this.parameter.localities = this.selectedLocation.selectedLocalities.length > 0 ? this.selectedLocation.selectedLocalities.map(o => o.id) : null;
+    this.parameter.cities = this.selectedLocation.selectedCities.length > 0 ? this.selectedLocation.selectedCities.map(o => o.id) : null;
+  }
+
 }
