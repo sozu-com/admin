@@ -2798,7 +2798,8 @@ export class CollectionsComponent implements OnInit {
           }
           self.current_month_amount =  (self.current_month_amount || 0) + (element.outstanding_amount || 0);
             self.table_data.push([
-              { text: self.language_code == 'en' ? element.payment_choice.name_en : element.payment_choice.name_es, border: [false, false, false, false], bold: true, color: 'white', 
+              { text: element.category_name == 'Special payment' ? element.name : self.language_code == 'en' && element.category_name != 'Special payment' ? 
+              element.payment_choice.name_en : self.language_code == 'es' && element.category_name != 'Special payment' ? element.payment_choice.name_es : element.name, border: [false, false, false, false], bold: true, color: 'white', 
                 fillColor: fill == 0 ? '#a9a9a9' : '#929292', fontSize: 11 },
               { text: element.date, border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#929292' },
               {
