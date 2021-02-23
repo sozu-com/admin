@@ -19,6 +19,7 @@ import { ProjectDetailsComponent } from './project-details/project-details.compo
 import { SharedModule } from 'src/app/modules/shared.module';
 import { NumberexPipe } from 'src/app/pipes/numberex.pipe';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 
 const routes: Routes = [
@@ -65,7 +66,8 @@ const routes: Routes = [
     SharedModule,
     LazyLoadImageModule,
     MalihuScrollbarModule.forRoot(),
-    TranslateModule
+    TranslateModule,
+    NgMultiSelectDropDownModule.forRoot(),
   ],
   declarations: [
     ProjectsComponent,

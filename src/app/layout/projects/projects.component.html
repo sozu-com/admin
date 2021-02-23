@@ -86,7 +86,7 @@
         </select>
       </div>
     </div>
-    <div class="col-md-2">
+    <!-- <div class="col-md-2">
       <div class="form-group">
         <label>{{'filters.location.city' | translate}}</label>
         <select class="form-control" (change)="onCityChange($event.target.value)">
@@ -104,7 +104,29 @@
           <option *ngFor="let item of location.localities" [value]="item.id">{{item.name}}</option>
         </select>
       </div>
+    </div> -->
+
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group">
+        <label>{{'filters.location.city' | translate}}</label>
+        <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selectedCities"
+        [data]="location.cities" [(ngModel)]="selectedLocation.selectedCities" [settings]="multiDropdownSettings"
+        (onDeSelect)="onCityChange()" (onSelect)="onCityChange()"
+        (onSelectAll)="onCityChangeAll($event)" (onDeSelectAll)="onCityChangeAll($event)">
+      </ng-multiselect-dropdown>
+      </div>
     </div>
+
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group">
+        <label>{{'filters.location.locality' | translate}}</label>
+        <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selectedLocalities"
+        [data]="location.localities" [(ngModel)]="selectedLocation.selectedLocalities" [settings]="multiDropdownSettings"
+        >
+     </ng-multiselect-dropdown>
+      </div>
+    </div>
+
 
     <div class="col-md-2">
       <div class="form-group btn-cont">
