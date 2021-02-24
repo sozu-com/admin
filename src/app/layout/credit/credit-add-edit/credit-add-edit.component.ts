@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr'
 import { IProperty } from 'src/app/common/property'
 import { NgxSpinnerService } from 'ngx-spinner'
 import { ActivatedRoute, Router } from '@angular/router'
-import { IDestinationStatus } from 'src/app/common/marrital-status-interface'
+import { IDestinationStatus, IMarritalStatus } from 'src/app/common/marrital-status-interface'
 import { Bank, Credit, GeneralData, PaymentScheme } from 'src/app/models/credit.model'
 import { forkJoin } from 'rxjs'
 import { PricePipe } from 'src/app/pipes/price.pipe';
@@ -49,6 +49,13 @@ export class CreditAddEditComponent implements OnInit {
   Relationship_list = Array<IDestinationStatus>()
   CustomerProfile_list = Array<IDestinationStatus>()
   customerProfile_list = Array<IDestinationStatus>()
+  marrital_status_list = Array<IMarritalStatus>();
+  Scholarship_list = Array<IMarritalStatus>();
+  jobType_list = Array<IMarritalStatus>();
+  contactType_list = Array<IMarritalStatus>();
+  LaboralSector_list = Array<IMarritalStatus>();
+  accountType = Array<IMarritalStatus>();
+  debt = Array<IMarritalStatus>();
   banks = Array<Bank>()
   selctedBanks: Array<any>
   deadLines = Array<PaymentScheme>()
@@ -340,7 +347,14 @@ export class CreditAddEditComponent implements OnInit {
     const selectedCountry = this.location.countries.filter(x => x.id.toString() === id);
     this.location.states = selectedCountry[0].states;
   }
-
+  getMarritalStatusList() {
+    this.adminService.postDataApi('getmaritalStatus', {}).subscribe(r => {
+      this.marrital_status_list = r['data'];
+    });
+  }
+  getMaritalStatus(maritalStatusId) {
+    this.model.marital_statuses_id = maritalStatusId;
+  }
   getCreditsBasicDetails = (): void => {
     forkJoin([
       this.adminService.postDataApi('getPrograms', {}),
@@ -357,7 +371,13 @@ export class CreditAddEditComponent implements OnInit {
       this.adminService.postDataApi('getCaseStatus', {}),
       this.adminService.postDataApi('getCivilStatus', {}),
       this.adminService.postDataApi('getCustomerProfile', {}),
-      this.adminService.postDataApi('getRelationship', {})
+      this.adminService.postDataApi('getRelationship', {}),
+      this.adminService.postDataApi('getScholarship', {}),
+      this.adminService.postDataApi('getJobType', {}),
+      this.adminService.postDataApi('getContractType', {}),
+      this.adminService.postDataApi('getLaboralSector', {}),
+      this.adminService.postDataApi('getDebtsType', {})
+      
     ]).subscribe((response: any[]) => {
       this.program_list = response[0].data
       this.deadLines = response[1].data
@@ -372,6 +392,11 @@ export class CreditAddEditComponent implements OnInit {
       this.civilStatus_list = response[10].data
       this.CustomerProfile_list = response[11].data
       this.Relationship_list = response[12].data
+      this.Scholarship_list = response[13].data
+      this.jobType_list = response[14].data
+      this.contactType_list  = response[15].data
+      this.LaboralSector_list  = response[16].data
+      this.debt  = response[16].data
     })
   }
 
