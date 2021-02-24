@@ -404,7 +404,7 @@ export class CreditAddEditComponent implements OnInit {
     if (this.tab == 1 || this.tab == 2) {
       return this.tab;
     } else if (this.tab == 3) {
-      return this.subtab;
+      return ((this.subtab + this.tab) - 1);
     }
   }
 
@@ -529,7 +529,8 @@ export class CreditAddEditComponent implements OnInit {
       id: stepOneId,
       credit_card: this.creditModel.general_data.credit_card,
       existing_mortgage: this.creditModel.general_data.existing_mortgage,
-      loan: this.creditModel.general_data.loan
+      loan: this.creditModel.general_data.loan,
+      general_data_id: this.creditModel.general_data.id
     };
     modelSave = { general_data: modelSave2, step: currentStep };
     return modelSave;
