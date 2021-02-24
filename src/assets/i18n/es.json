@@ -2323,10 +2323,12 @@
     "caseStatus":"Estatus de caso",
     "square":"Plaza",
     "state":"Estado",
+    "country": "País",
     "selectcustomerProfile": "Select Perfil de cliente",
     "selectsquare": "Select Plaza",
     "selectcaseStatus": "Select Estatus de caso",
     "selectstate": "Seleccionar Estado",
+    "selectcountry": "Seleccionar País",
     "executive":"Ejecutivo",
     "selectexecutive": "Seleccionar Ejecutivo",
     "userInfo":"Información de usuario",
@@ -2466,7 +2468,9 @@
     "AreaUnder":"Area de construccion m2",
     "description":"Descripcion",
     "legal":"Representante legal",
-    "legalRFC":"Representante legal RFC"
+    "legalRFC":"Representante legal RFC",
+    "Subaccountbalance":"Saldo de la subcuenta (SSV)",
+    "InfonavitCredit":"Crédito Infonavit"
   },
   "deshboard":{
     "Projects":"Proyectos",

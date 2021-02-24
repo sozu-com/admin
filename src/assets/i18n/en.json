@@ -2328,7 +2328,9 @@
     "selectsquare": "Select Square",
     "selectcaseStatus": "Select Case status",
     "state": "State",
+    "country": "Country",
     "selectstate": "Select State",
+    "selectcountry": "Select Country",
     "executive": "Executive",
     "selectexecutive": "Select Executive",
     "userInfo": "User Info",
@@ -2468,7 +2470,9 @@
     "AreaUnder":"Area Under Construction In m2",
     "description":"Description",
     "legal":"Legal representative",
-    "legalRFC":"RFC legal representative"
+    "legalRFC":"RFC legal representative",
+    "Subaccountbalance":"Subaccount balance (SSV)",
+    "InfonavitCredit":"Infonavit Credit"
   },
   
   "deshboard":{

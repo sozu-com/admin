@@ -24,6 +24,7 @@ declare let swal: any
 })
 export class CreditAddEditComponent implements OnInit {
   model: Users = new Users()
+  public location: IProperty = {};
   userName: string
   searchedUser = []
   public parameter: IProperty = {}
@@ -43,6 +44,8 @@ export class CreditAddEditComponent implements OnInit {
   square_list = Array<IDestinationStatus>()
   caseStatus_list = Array<IDestinationStatus>()
   civilStatus_list = Array<IDestinationStatus>()
+  Relationship_list = Array<IDestinationStatus>()
+  CustomerProfile_list = Array<IDestinationStatus>()
   customerProfile_list = Array<IDestinationStatus>()
   banks = Array<Bank>()
   selctedBanks: Array<any>
@@ -54,8 +57,7 @@ export class CreditAddEditComponent implements OnInit {
   userForm: FormGroup
   showSearch = false
   Onedit = false
-  //public creditModel: Credit
-  //creditModel: Credit;
+
   constructor(
     public constant: Constant,
     private adminService: AdminService,
@@ -73,6 +75,7 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getCountries()
     this.language_code = localStorage.getItem('language_code')
     this.tab = 1
     this.parameter.page = 1
@@ -305,14 +308,14 @@ export class CreditAddEditComponent implements OnInit {
   }
 
 
-  isChecked(gender) {
-    return gender == this.creditModel.general_data.gender ? true : false;
-  }
-  onCountryChange(e) { }
+  // isChecked(gender) {
+  //   return gender == this.creditModel.general_data.gender ? true : false;
+  // }
 
-  selectGender(gender) {
-    this.creditModel.general_data.gender = gender;
-  }
+
+  // selectGender(gender) {
+  //   this.creditModel.general_data.gender = gender;
+  // }
   onSelectAll(obj: any) { }
 
 
@@ -322,6 +325,29 @@ export class CreditAddEditComponent implements OnInit {
       .subscribe((success) => {
         this.customerProfile_list = success['data']
       });
+  }
+
+  getCountries() {
+    this.adminService.postDataApi('getCountryLocality', {}).subscribe(r => {
+      this.location.countries = r['data'];
+    });
+  }
+  // getStates() {
+  //   this.adminService.postDataApi('getCountryState', { country_id: 1 }).subscribe(r => {
+  //     this.location.countries = r['data'];
+  //   });
+  // }
+
+  onCountryChange(id) {
+    this.parameter.country_id = id;
+    this.location.states = []; this.parameter.state_id = '0';
+    if (!id || id.toString() === '0') {
+      return false;
+    }
+
+    this.parameter.country_id = id;
+    const selectedCountry = this.location.countries.filter(x => x.id.toString() === id);
+    this.location.states = selectedCountry[0].states;
   }
 
   getCreditsBasicDetails = (): void => {
@@ -335,10 +361,12 @@ export class CreditAddEditComponent implements OnInit {
         hide_blocked: 1,
       }),
       this.adminService.postDataApi('getExecutive', {}),
-      this.adminService.postDataApi('getState', {}),
+      this.adminService.postDataApi('getCountryState', { country_id: 1 }),
       this.adminService.postDataApi('getSquare', {}),
       this.adminService.postDataApi('getCaseStatus', {}),
       this.adminService.postDataApi('getCivilStatus', {}),
+      this.adminService.postDataApi('getCustomerProfile', {}),
+      this.adminService.postDataApi('getRelationship', {}),
     ]).subscribe((response: any[]) => {
       this.program_list = response[0].data
       this.deadLines = response[1].data
@@ -351,7 +379,9 @@ export class CreditAddEditComponent implements OnInit {
       this.square_list = response[8].data
       this.caseStatus_list = response[9].data
       this.civilStatus_list = response[10].data
-    });
+      this.CustomerProfile_list = response[11].data
+      this.Relationship_list = response[12].data
+    })
   }
 
   addPhone(): void {
@@ -455,22 +485,23 @@ export class CreditAddEditComponent implements OnInit {
       infonavit_credit: this.creditModel.infonavit_credit,
       executive: this.creditModel.executive,
       state: this.creditModel.state,
-      square_id: this.creditModel.square_id,
+      country_id: this.creditModel.country_id,
+      square: this.creditModel.square,
       case_status: this.creditModel.case_status,
       property_status: this.creditModel.property_status,
       customer_profile: this.creditModel.customer_profile
     };
     if (this.creditModel.bank_id) {
-      const bank_id = this.creditModel.bank_id.map((o) => o.id);
-      modelSave.bank_id = bank_id;
+      const d = this.creditModel.bank_id.map((o) => o.id);
+      modelSave.bank_id = d;
     }
     if (this.creditModel.payment_scheme) {
-      const payment_scheme = this.creditModel.payment_scheme.map((o) => o.id);
-      modelSave.payment_scheme = payment_scheme;
+      const d = this.creditModel.payment_scheme.map((o) => o.id);
+      modelSave.payment_scheme = d;
     }
     if (this.creditModel.deadlines_quote) {
-      const deadlines_quote = this.creditModel.deadlines_quote.map((o) => o.id);
-      modelSave.deadlines_quote = deadlines_quote;
+      const d = this.creditModel.deadlines_quote.map((o) => o.id);
+      modelSave.deadlines_quote = d;
     }
     return modelSave;
   }
@@ -481,25 +512,6 @@ export class CreditAddEditComponent implements OnInit {
     const modelSave1 = {
       id: stepOneId,
       general_data_id: this.creditModel.general_data.id,
-      name: this.creditModel.general_data.name,
-      first_surname: this.creditModel.general_data.first_surname,
-      second_surname: this.creditModel.general_data.second_surname,
-      gender: this.creditModel.general_data.gender,
-      email: this.creditModel.general_data.email,
-      contact_number: this.creditModel.general_data.contact_number,
-      dob: this.creditModel.general_data.dob,
-      curp: this.creditModel.general_data.curp,
-      rfc: this.creditModel.general_data.rfc,
-      nationaliy: this.creditModel.general_data.nationaliy,
-      civil_status: this.creditModel.general_data.civil_status,
-      street: this.creditModel.general_data.street,
-      outdoor_number: this.creditModel.general_data.outdoor_number,
-      interior_number: this.creditModel.general_data.interior_number,
-      colony: this.creditModel.general_data.colony,
-      municipality: this.creditModel.general_data.municipality,
-      city: this.creditModel.general_data.city,
-      zip_code: this.creditModel.general_data.zip_code,
-      state: this.creditModel.general_data.state,
       co_credited_email: this.creditModel.general_data.co_credited_email,
       co_credited_relationship: this.creditModel.general_data.co_credited_relationship,
       co_credited_owner: this.creditModel.general_data.co_credited_owner,
@@ -513,7 +525,7 @@ export class CreditAddEditComponent implements OnInit {
   getRequestDataForFourthStep = (currentStep: number): any => {
     let modelSave = JSON.parse(JSON.stringify(this.creditModel));
     const stepOneId = localStorage.getItem('stepOneId');
-    let modelSave2 = {
+    const modelSave2 = {
       id: stepOneId,
       credit_card: this.creditModel.general_data.credit_card,
       existing_mortgage: this.creditModel.general_data.existing_mortgage,
