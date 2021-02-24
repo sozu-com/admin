@@ -248,8 +248,6 @@ export class CollectionsComponent implements OnInit {
     this.parameter.itemsPerPage = 25; // this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.dash_flag = this.propertyService.dash_flag ? this.propertyService.dash_flag : this.constant.dash_flag;
-    this.local_storage_parameter = JSON.parse(localStorage.getItem('parametersForProperty'));
-    this.parameter = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.parameter;
     this.getPaymentMethods();
     this.getCountries();
     this.initCalendarLocale();
@@ -258,9 +256,11 @@ export class CollectionsComponent implements OnInit {
       if (params['id']) {
         this.parameter.collection_id = params['id'];
         this.parameter.dash_flag = 4;
-        //if (params.for) {
-          this.is_back = true;
-        //}
+      }
+      if (params.for == 'back') {
+        this.is_back = true;
+        this.local_storage_parameter = JSON.parse(localStorage.getItem('parametersForCollection'));
+        this.parameter = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.parameter;
       }
       
     });
@@ -275,7 +275,6 @@ export class CollectionsComponent implements OnInit {
 
         reader.readAsDataURL(res);
       });
-
   }
   userinfo(userdata) {
     console.log(userdata, "user id")
@@ -607,6 +606,7 @@ export class CollectionsComponent implements OnInit {
     this.parameter.dash_flag = this.constant.dash_flag;
     this.parameter.total = 0;
     this.parameter.count_flag = 1;
+    this.is_back = false
     this.resetDates();
     this.getListing();
   }
