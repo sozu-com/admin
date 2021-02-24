@@ -225,8 +225,7 @@
                         <option disabled selected value="undefined">{{'creditForm.selectexecutive' | translate}}
                         </option>
                         <option *ngFor="let dest of executive_list" [value]="dest.id">
-                          {{language_code
-                          == 'en'? dest.name_en : dest.name_es}}</option>
+                          {{dest.name}}</option>
                       </select>
                     </div>
                   </div>
@@ -689,7 +688,7 @@
 
                 <div class="row">
 
-                  <div class="col-md-3">
+                  <div class="col-md-4">
                     <div class="form-group-3">
                       <label>{{'creditForm.creditcard' | translate}}</label>
                       <div class="switchToggle">
@@ -699,13 +698,8 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-3" *ngIf="myFlag">
-                    <div class="form-group-3">
-                      <input autocomplete="off" minlength="1" maxlength="30" required type="text" class="form-control"
-                         name="four_digit" [(ngModel)]="creditModel.general_data.four_digit">
-                    </div>
-                  </div>
-                  <div class="col-md-3">
+                 
+                  <div class="col-md-4">
                     <div class="form-group-3">
                       <label>{{'creditForm.existingmortgage' | translate}}</label>
                       <div class="switchToggle">
@@ -715,7 +709,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-4">
                     <div class="form-group-3">
                       <label>{{'creditForm.loan' | translate}}</label>
                       <div class="switchToggle">
@@ -732,6 +726,15 @@
                   <div class="col-12">
                     <div class="btn-cont text-right">
                       <button class="btn btn-primary" (click)="addcredits()">{{'creditForm.Saveinformation' | translate}}</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-4" *ngIf="myFlag">
+                    <div class="form-group-3">
+                      <input autocomplete="off" minlength="1" maxlength="4"  type="text" class="form-control"
+                         name="four_digit" [(ngModel)]="creditModel.general_data.four_digit">
                     </div>
                   </div>
                 </div>
