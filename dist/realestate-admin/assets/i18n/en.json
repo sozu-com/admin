@@ -2472,7 +2472,9 @@
     "legal":"Legal representative",
     "legalRFC":"RFC legal representative",
     "Subaccountbalance":"Subaccount balance (SSV)",
-    "InfonavitCredit":"Infonavit Credit"
+    "InfonavitCredit":"Infonavit Credit",
+    "cars":"Number of own cars",
+    "totalCars":"Total value of the own cars"
   },
   
   "deshboard":{

@@ -2470,7 +2470,9 @@
     "legal":"Representante legal",
     "legalRFC":"Representante legal RFC",
     "Subaccountbalance":"Saldo de la subcuenta (SSV)",
-    "InfonavitCredit":"Crédito Infonavit"
+    "InfonavitCredit":"Crédito Infonavit",
+    "cars":"Número de coches propios",
+    "totalCars":"Valor total de los coches propios"
   },
   "deshboard":{
     "Projects":"Proyectos",

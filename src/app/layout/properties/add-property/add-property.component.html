@@ -558,7 +558,7 @@
           <div class="input-group form-group-3">
             <input required autocomplete="off" class="form-control" type="number" appUptoThreeDecimal
               (input)="getSozuAmount($event.target.value)" step="0.001" min="0" max="100" name="total_commission"
-              [(ngModel)]="model.total_commission">
+              [(ngModel)]="model.total_commission" (ngModelChange)="changeCommissionAmt(true)">
             <div class="input-group-append">
               <span class="input-group-text" id="basic-addon1">%</span>
             </div>
@@ -572,7 +572,7 @@
             </div>
             <input required autocomplete="off" class="form-control" type="number" appUptoTwoDigitDecimalNumber
               step="0.01" min="0"  name="comm_total_commission_amount"
-               [(ngModel)]="model.comm_total_commission_amount">
+               [(ngModel)]="model.comm_total_commission_amount" (ngModelChange)="changeCommissionPer(true)">
           </div>
         </div>
 
@@ -581,7 +581,7 @@
           <div class="input-group form-group-3">
             <input required autocomplete="off" class="form-control" type="number" appUptoThreeDecimal
               (input)="getAgentAmount($event.target.value)" step="0.001" min="0" max="100" name="broker_commision"
-              [(ngModel)]="model.broker_commision">
+              [(ngModel)]="model.broker_commision" (ngModelChange)="changeCommissionAmt(false)">
             <div class="input-group-append">
               <span class="input-group-text" id="basic-addon1">%</span>
             </div>
@@ -595,7 +595,7 @@
             </div>
             <input required autocomplete="off" class="form-control" type="number" appUptoTwoDigitDecimalNumber
               step="0.01" min="0"  name="comm_shared_commission_amount"
-              [(ngModel)]="model.comm_shared_commission_amount">
+              [(ngModel)]="model.comm_shared_commission_amount" (ngModelChange)="changeCommissionPer(false)">
           </div>
         </div>
 
