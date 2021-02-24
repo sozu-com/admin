@@ -48,7 +48,7 @@ export class PaymentScheme {
 export class GeneralData {
     credites_details_id?: number;
     id?: number;
-    general_data_id?: any;
+    general_data_id?: number;
     co_credited_email?: string;
     co_credited_relationship?: string;
     co_credited_owner?: string;
@@ -57,5 +57,5 @@ export class GeneralData {
     credit_card?: string;
     existing_mortgage?: string;
     loan?: string;
-    four_digit?: any;
+    four_digit?: string;
 }
