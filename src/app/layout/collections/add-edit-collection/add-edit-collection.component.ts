@@ -2554,8 +2554,8 @@ export class AddEditCollectionComponent implements OnInit {
       }
     }
   }
-  goBack(){ 
-    this.router.navigate(['/dashboard/collections/view-collections', {for: 'back'}])
+  goBack(value){ 
+    value ? this.router.navigate(['/dashboard/collections/view-collections', {for: 'back'}]) : this.router.navigate(['/dashboard/collections/view-collections'])
   }
   editLeadPopup(mode: string, note_id, note, index) {
     this.mode = mode;
