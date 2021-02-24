@@ -86,7 +86,7 @@ export class CreditAddEditComponent implements OnInit {
     })
   }
 
-  ngOnInit():void{
+  ngOnInit(): void {
     this.language_code = localStorage.getItem('language_code');
     this.initialCountry = { initialCountry: this.constant.country_code };
     this.tab = 1
@@ -107,7 +107,6 @@ export class CreditAddEditComponent implements OnInit {
 
     this.getCreditsBasicDetails()
     this.initializeDropDownSetting()
-    //this.getCustomerProfile();
     this.selctedBanks = []
     this.selctedPayments = []
     this.selctedDeadlines = []
@@ -266,7 +265,7 @@ export class CreditAddEditComponent implements OnInit {
           localStorage.setItem('stepOneId', success.data.id);
           if (success.data.general_data != undefined && success.data.general_data != null) {
             localStorage.setItem('stepThreeId', success.data.general_data.id)
-        }
+          }
           this.spinnerService.hide();
           if (this.getCurrentStep() == 4) {
             this.router.navigate(['dashboard/credit/view-credit'])
@@ -324,17 +323,12 @@ export class CreditAddEditComponent implements OnInit {
       )
   }
 
+  loadCredits = (): void => {
+
+  }
+
   onSelectAll(obj: any) { }
 
-
-  getCustomerProfile() {
-    this.adminService
-      .postDataApi('getCustomerProfile', {})
-      .subscribe((success) => {
-        this.customerProfile_list = success['data']
-      });
-  }
- 
   onCountryChange(id) {
     this.parameter.country_id = id;
     this.location.states = []; this.parameter.state_id = '0';
@@ -346,14 +340,11 @@ export class CreditAddEditComponent implements OnInit {
     const selectedCountry = this.location.countries.filter(x => x.id.toString() === id);
     this.location.states = selectedCountry[0].states;
   }
-  getMarritalStatusList() {
-    this.adminService.postDataApi('getmaritalStatus', {}).subscribe(r => {
-      this.marrital_status_list = r['data'];
-    });
-  }
-  getMaritalStatus(maritalStatusId) {
-    this.model.marital_statuses_id = maritalStatusId;
-  }
+
+  // getMaritalStatus(maritalStatusId) {
+  //   this.model.marital_statuses_id = maritalStatusId;
+  // }
+
   getCreditsBasicDetails = (): void => {
     forkJoin([
       this.adminService.postDataApi('getPrograms', {}),
@@ -396,16 +387,20 @@ export class CreditAddEditComponent implements OnInit {
       this.Relationship_list = response[12].data
       this.Scholarship_list = response[13].data
       this.jobType_list = response[14].data
-      this.contactType_list  = response[15].data
-      this.LaboralSector_list  = response[16].data
-      this.debt  = response[17].data
+      this.contactType_list = response[15].data
+      this.LaboralSector_list = response[16].data
+      this.debt = response[17].data
       this.marrital_status_list = response[18].data;
       this.nationality_list = response[19].data || [];
-      this.nationality_list.push({ id: 0, name: 'Other' });
       this.income_list = response[20].data;
       this.location.countries = response[21].data;
-      this.creditModel.country_id = this.location.countries[0].id;
+      this.loadCreditsBasicDetails();
     });
+  }
+
+  loadCreditsBasicDetails = (): void => {
+    this.nationality_list.push({ id: 0, name: 'Other' });
+    this.creditModel.country_id = this.location.countries[0].id;
   }
 
   addPhone(): void {
@@ -423,7 +418,7 @@ export class CreditAddEditComponent implements OnInit {
   send(values) {
     console.log(values)
   }
-  
+
   getTransformedAmount(value: any) {
     return (this.price.transform(Number(value).toFixed(2)).toString()).substring(1);
   }
@@ -560,7 +555,7 @@ export class CreditAddEditComponent implements OnInit {
       credit_card: this.creditModel.general_data.credit_card,
       existing_mortgage: this.creditModel.general_data.existing_mortgage,
       loan: this.creditModel.general_data.loan,
-      four_digit:this.creditModel.general_data.four_digit,
+      four_digit: this.creditModel.general_data.four_digit,
       general_data_id: stepThreeId
     };
     modelSave = { general_data: modelSave2, step: currentStep };
@@ -568,33 +563,33 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   getCounrtyByZipcode = (): void => {
-    if (((this.creditModel.user.zipcode || '0').toString()).length >= 5 ) {
+    if (((this.creditModel.user.zipcode || '0').toString()).length >= 5) {
       this.spinnerService.show();
       this.adminService.postDataApi('getCounrtyByZipcode', { zip_code: this.creditModel.user.zipcode }).
         subscribe((success) => {
           this.spinnerService.hide();
-            this.creditModel.user.municipality = ((success.data || {}).response || {}).municipio || ''; // Municipality
-            this.creditModel.user.state = ((success.data || {}).response || {}).estado || ''; // State
-            this.creditModel.user.city = ((success.data || {}).response || {}).ciudad || ''; // city
-            this.creditModel.user.country = ((success.data || {}).response || {}).pais || ''; // Country
-            this.creditModel.user.neighbourhoods = ((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
-            this.creditModel.user.neighborhood = (this.creditModel.user.neighbourhoods || [])[0] || '';
+          this.creditModel.user.municipality = ((success.data || {}).response || {}).municipio || ''; // Municipality
+          this.creditModel.user.state = ((success.data || {}).response || {}).estado || ''; // State
+          this.creditModel.user.city = ((success.data || {}).response || {}).ciudad || ''; // city
+          this.creditModel.user.country = ((success.data || {}).response || {}).pais || ''; // Country
+          this.creditModel.user.neighbourhoods = ((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
+          this.creditModel.user.neighborhood = (this.creditModel.user.neighbourhoods || [])[0] || '';
         }, (error) => {
           this.spinnerService.hide();
           swal(this.translate.instant('swal.error'), error.error.message, 'error');
         });
     } else {
-        this.creditModel.user.municipality = '';
-        this.creditModel.user.state = '';
-        this.creditModel.user.city = '';
-        this.creditModel.user.country = '';
-        this.creditModel.user.neighbourhoods = [];
-        this.creditModel.user.neighborhood = '';      
+      this.creditModel.user.municipality = '';
+      this.creditModel.user.state = '';
+      this.creditModel.user.city = '';
+      this.creditModel.user.country = '';
+      this.creditModel.user.neighbourhoods = [];
+      this.creditModel.user.neighborhood = '';
     }
   }
 
   updateNationalityName = (value: string): void => {
-    if(parseInt(value) > 0){
+    if (parseInt(value) > 0) {
       this.creditModel.user.nationality_name = '';
     }
   }
