@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr'
 import { IProperty } from 'src/app/common/property'
 import { NgxSpinnerService } from 'ngx-spinner'
 import { ActivatedRoute, Router } from '@angular/router'
-import { IDestinationStatus } from 'src/app/common/marrital-status-interface'
+import { IDestinationStatus, IMarritalStatus } from 'src/app/common/marrital-status-interface'
 import { Bank, Credit, GeneralData, PaymentScheme } from 'src/app/models/credit.model'
 import { forkJoin } from 'rxjs'
 import { PricePipe } from 'src/app/pipes/price.pipe';
@@ -42,6 +42,7 @@ export class CreditAddEditComponent implements OnInit {
   PaymentScheme = Array<PaymentScheme>()
   selctedPayments: Array<any>
   executive_list = Array<IDestinationStatus>()
+  income_list = Array<IDestinationStatus>()
   state_list = Array<IDestinationStatus>()
   square_list = Array<IDestinationStatus>()
   caseStatus_list = Array<IDestinationStatus>()
@@ -49,6 +50,14 @@ export class CreditAddEditComponent implements OnInit {
   Relationship_list = Array<IDestinationStatus>()
   CustomerProfile_list = Array<IDestinationStatus>()
   customerProfile_list = Array<IDestinationStatus>()
+  marrital_status_list = Array<IMarritalStatus>();
+  Scholarship_list = Array<IMarritalStatus>();
+  jobType_list = Array<IMarritalStatus>();
+  contactType_list = Array<IMarritalStatus>();
+  LaboralSector_list = Array<IMarritalStatus>();
+  accountType = Array<IMarritalStatus>();
+  debt = Array<IMarritalStatus>();
+  nationality_list = Array<any>();
   banks = Array<Bank>()
   selctedBanks: Array<any>
   deadLines = Array<PaymentScheme>()
@@ -60,6 +69,7 @@ export class CreditAddEditComponent implements OnInit {
   showSearch = false
   Onedit = false
   myFlag = false;
+  initialCountry: any;
   constructor(
     public constant: Constant,
     private adminService: AdminService,
@@ -76,9 +86,9 @@ export class CreditAddEditComponent implements OnInit {
     })
   }
 
-  ngOnInit() {
-    this.getCountries()
-    this.language_code = localStorage.getItem('language_code')
+  ngOnInit():void{
+    this.language_code = localStorage.getItem('language_code');
+    this.initialCountry = { initialCountry: this.constant.country_code };
     this.tab = 1
     this.parameter.page = 1
     this.parameter.itemsPerPage = this.constant.limit4
@@ -304,6 +314,8 @@ export class CreditAddEditComponent implements OnInit {
           // this.creditModel.deadlines_quote = this.creditModel.deadlines_quote.id
           //  localStorage.setItem('stepThreeId', success.data.general_data.id)
           //  this.creditModel.general_data_id = success.data.general_data.id
+          this.creditModel.user['neighbourhoods'] = [];
+          this.creditModel.user.neighbourhoods.push(this.creditModel.user.neighborhood);
           this.spinnerService.hide()
         },
         (error) => {
@@ -322,12 +334,6 @@ export class CreditAddEditComponent implements OnInit {
         this.customerProfile_list = success['data']
       });
   }
-
-  getCountries() {
-    this.adminService.postDataApi('getCountryLocality', {}).subscribe(r => {
-      this.location.countries = r['data'];
-    });
-  }
  
   onCountryChange(id) {
     this.parameter.country_id = id;
@@ -340,7 +346,14 @@ export class CreditAddEditComponent implements OnInit {
     const selectedCountry = this.location.countries.filter(x => x.id.toString() === id);
     this.location.states = selectedCountry[0].states;
   }
-
+  getMarritalStatusList() {
+    this.adminService.postDataApi('getmaritalStatus', {}).subscribe(r => {
+      this.marrital_status_list = r['data'];
+    });
+  }
+  getMaritalStatus(maritalStatusId) {
+    this.model.marital_statuses_id = maritalStatusId;
+  }
   getCreditsBasicDetails = (): void => {
     forkJoin([
       this.adminService.postDataApi('getPrograms', {}),
@@ -357,7 +370,16 @@ export class CreditAddEditComponent implements OnInit {
       this.adminService.postDataApi('getCaseStatus', {}),
       this.adminService.postDataApi('getCivilStatus', {}),
       this.adminService.postDataApi('getCustomerProfile', {}),
-      this.adminService.postDataApi('getRelationship', {})
+      this.adminService.postDataApi('getRelationship', {}),
+      this.adminService.postDataApi('getScholarship', {}),
+      this.adminService.postDataApi('getJobType', {}),
+      this.adminService.postDataApi('getContractType', {}),
+      this.adminService.postDataApi('getLaboralSector', {}),
+      this.adminService.postDataApi('getDebtsType', {}),
+      this.adminService.postDataApi('getmaritalStatus', {}),
+      this.adminService.postDataApi('getNationality', {}),
+      this.adminService.postDataApi('getIncomeBank', {}),
+      this.adminService.postDataApi('getCountryLocality', {})
     ]).subscribe((response: any[]) => {
       this.program_list = response[0].data
       this.deadLines = response[1].data
@@ -372,7 +394,18 @@ export class CreditAddEditComponent implements OnInit {
       this.civilStatus_list = response[10].data
       this.CustomerProfile_list = response[11].data
       this.Relationship_list = response[12].data
-    })
+      this.Scholarship_list = response[13].data
+      this.jobType_list = response[14].data
+      this.contactType_list  = response[15].data
+      this.LaboralSector_list  = response[16].data
+      this.debt  = response[17].data
+      this.marrital_status_list = response[18].data;
+      this.nationality_list = response[19].data || [];
+      this.nationality_list.push({ id: 0, name: 'Other' });
+      this.income_list = response[20].data;
+      this.location.countries = response[21].data;
+      this.creditModel.country_id = this.location.countries[0].id;
+    });
   }
 
   addPhone(): void {
@@ -532,5 +565,37 @@ export class CreditAddEditComponent implements OnInit {
     };
     modelSave = { general_data: modelSave2, step: currentStep };
     return modelSave;
+  }
+
+  getCounrtyByZipcode = (): void => {
+    if (((this.creditModel.user.zipcode || '0').toString()).length >= 5 ) {
+      this.spinnerService.show();
+      this.adminService.postDataApi('getCounrtyByZipcode', { zip_code: this.creditModel.user.zipcode }).
+        subscribe((success) => {
+          this.spinnerService.hide();
+            this.creditModel.user.municipality = ((success.data || {}).response || {}).municipio || ''; // Municipality
+            this.creditModel.user.state = ((success.data || {}).response || {}).estado || ''; // State
+            this.creditModel.user.city = ((success.data || {}).response || {}).ciudad || ''; // city
+            this.creditModel.user.country = ((success.data || {}).response || {}).pais || ''; // Country
+            this.creditModel.user.neighbourhoods = ((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
+            this.creditModel.user.neighborhood = (this.creditModel.user.neighbourhoods || [])[0] || '';
+        }, (error) => {
+          this.spinnerService.hide();
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
+        });
+    } else {
+        this.creditModel.user.municipality = '';
+        this.creditModel.user.state = '';
+        this.creditModel.user.city = '';
+        this.creditModel.user.country = '';
+        this.creditModel.user.neighbourhoods = [];
+        this.creditModel.user.neighborhood = '';      
+    }
+  }
+
+  updateNationalityName = (value: string): void => {
+    if(parseInt(value) > 0){
+      this.creditModel.user.nationality_name = '';
+    }
   }
 }
