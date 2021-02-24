@@ -42,6 +42,7 @@ export class CreditAddEditComponent implements OnInit {
   PaymentScheme = Array<PaymentScheme>()
   selctedPayments: Array<any>
   executive_list = Array<IDestinationStatus>()
+  income_list = Array<IDestinationStatus>()
   state_list = Array<IDestinationStatus>()
   square_list = Array<IDestinationStatus>()
   caseStatus_list = Array<IDestinationStatus>()
@@ -383,7 +384,8 @@ export class CreditAddEditComponent implements OnInit {
       this.adminService.postDataApi('getLaboralSector', {}),
       this.adminService.postDataApi('getDebtsType', {}),
       this.adminService.postDataApi('getmaritalStatus', {}),
-      this.adminService.postDataApi('getNationality', {})
+      this.adminService.postDataApi('getNationality', {}),
+      this.adminService.postDataApi('getIncomeBank', {})
     ]).subscribe((response: any[]) => {
       this.program_list = response[0].data
       this.deadLines = response[1].data
@@ -406,6 +408,7 @@ export class CreditAddEditComponent implements OnInit {
       this.marrital_status_list = response[18].data;
       this.nationality_list = response[19].data || [];
       this.nationality_list.push({ id: 0, name: 'Other' });
+      this.income_list = response[19].data;
     })
   }
 

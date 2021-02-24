@@ -1695,9 +1695,13 @@
                         </div>
                         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                           <div class="form-group-3">
-                            <label>{{'addCollection.accountNumber' | translate}}</label>
+                            <label>Account Type</label>
                             <div class="clearfix"></div>
-                            <input autocomplete="off" class="form-control" type="text" minlength="10" maxlength="20">
+                            <select title="Account Type" class="form-control">
+                          <option disabled selected value="undefined">Account Type</option>
+                          <option *ngFor="let dest of income_list" [value]="dest.id">
+                            {{dest.name}}</option>
+                        </select>
                           </div>
                         </div>
                         <div class="col-lg-2 col-md-6 col-sm-6 col-12">
