@@ -86,8 +86,7 @@ export class CreditAddEditComponent implements OnInit {
     })
   }
 
-  ngOnInit() {
-    this.getCountries()
+  ngOnInit():void{
     this.language_code = localStorage.getItem('language_code');
     this.initialCountry = { initialCountry: this.constant.country_code };
     this.tab = 1
@@ -335,12 +334,6 @@ export class CreditAddEditComponent implements OnInit {
         this.customerProfile_list = success['data']
       });
   }
-
-  getCountries() {
-    this.adminService.postDataApi('getCountryLocality', {}).subscribe(r => {
-      this.location.countries = r['data'];
-    });
-  }
  
   onCountryChange(id) {
     this.parameter.country_id = id;
@@ -385,7 +378,8 @@ export class CreditAddEditComponent implements OnInit {
       this.adminService.postDataApi('getDebtsType', {}),
       this.adminService.postDataApi('getmaritalStatus', {}),
       this.adminService.postDataApi('getNationality', {}),
-      this.adminService.postDataApi('getIncomeBank', {})
+      this.adminService.postDataApi('getIncomeBank', {}),
+      this.adminService.postDataApi('getCountryLocality', {})
     ]).subscribe((response: any[]) => {
       this.program_list = response[0].data
       this.deadLines = response[1].data
@@ -408,8 +402,10 @@ export class CreditAddEditComponent implements OnInit {
       this.marrital_status_list = response[18].data;
       this.nationality_list = response[19].data || [];
       this.nationality_list.push({ id: 0, name: 'Other' });
-      this.income_list = response[19].data;
-    })
+      this.income_list = response[20].data;
+      this.location.countries = response[21].data;
+      this.creditModel.country_id = this.location.countries[0].id;
+    });
   }
 
   addPhone(): void {
