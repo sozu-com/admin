@@ -46,8 +46,8 @@ export class CreditAddEditComponent implements OnInit {
   square_list = Array<IDestinationStatus>()
   caseStatus_list = Array<IDestinationStatus>()
   civilStatus_list = Array<IDestinationStatus>()
-  Relationship_list= Array<IDestinationStatus>()
-  CustomerProfile_list= Array<IDestinationStatus>()
+  Relationship_list = Array<IDestinationStatus>()
+  CustomerProfile_list = Array<IDestinationStatus>()
   customerProfile_list = Array<IDestinationStatus>()
   banks = Array<Bank>()
   selctedBanks: Array<any>
@@ -178,16 +178,16 @@ export class CreditAddEditComponent implements OnInit {
       confirmButtonText: 'Yes',
     }).then((result) => {
       if (result.value) {
-        this.tab = tab
+        this.tab = tab;
         if (this.tab == 3) {
-          this.subtab = 1
+          this.subtab = 1;
         }
       }
-    })
+    });
   }
 
   setsubTab = (subtab: number): void => {
-    this.subtab = subtab
+    this.subtab = subtab;
   }
 
 
@@ -241,161 +241,92 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   addcredits() {
-    let modelSave = JSON.parse(JSON.stringify(this.creditModel));
-    var id = localStorage.getItem('stepOneId')
     if (!this.creditModel.user) {
-      this.toastr.clear()
+      this.toastr.clear();
       this.toastr.error(
         this.translate.instant('message.error.pleaseEnterSomeText'),
         this.translate.instant('swal.error'),
-      )
+      );
     } else {
-      if (this.tab == 1) {
-        modelSave = this.creditModel.id ? {
-            step: this.tab,
-            user_id: this.creditModel.user.id,
-            id: this.creditModel.id,
-          }: { step: this.tab, user_id: this.creditModel.user.id }
-      } else if (this.tab == 2) {
-        modelSave = {
-          step: this.tab,
-          id: id,
-          destination_id: this.creditModel.destination_id,
-          programs_id: this.creditModel.programs_id,
-          home_value: this.creditModel.home_value,
-          credit_amount: this.creditModel.credit_amount,
-          subaccount_balance: this.creditModel.subaccount_balance,
-          infonavit_credit: this.creditModel.infonavit_credit,
-          executive: this.creditModel.executive,
-          state: this.creditModel.state,
-          country_id:this.creditModel.country_id,
-          square: this.creditModel.square,
-          case_status: this.creditModel.case_status,
-          property_status: this.creditModel.property_status,
-          customer_profile: this.creditModel.customer_profile
-        }
-        if (this.creditModel.bank_id) {
-          const d = this.creditModel.bank_id.map((o) => o.id)
-          modelSave.bank_id = d
-        }
-
-        if (this.creditModel.payment_scheme) {
-          const d = this.creditModel.payment_scheme.map((o) => o.id)
-          modelSave.payment_scheme = d
-        }
-
-        if (this.creditModel.deadlines_quote) {
-          const d = this.creditModel.deadlines_quote.map((o) => o.id)
-          modelSave.deadlines_quote = d
-        }
-       
-        this.subtab = 1
-      } else if (this.tab == 3) {
-        this.subtab = 2
-          let modelSave1 = {
-          id:id,
-          general_data_id : this.creditModel.general_data.id,
-          co_credited_email: this.creditModel.general_data.co_credited_email,
-          co_credited_relationship: this.creditModel.general_data.co_credited_relationship,
-          co_credited_owner: this.creditModel.general_data.co_credited_owner,
-          co_credited_involved_credit: this.creditModel.general_data.co_credited_involved_credit,
-          co_credited_involved_revenue: this.creditModel.general_data.co_credited_involved_revenue
-        }
-        modelSave = { general_data: modelSave1, step: this.tab }
-      } else if (this.tab == 3) {
-          let modelSave2 = {
-          id:id,
-          credit_card: this.creditModel.general_data.credit_card,
-          existing_mortgage: this.creditModel.general_data.existing_mortgage,
-          loan: this.creditModel.general_data.loan,
-          four_digit:this.creditModel.general_data.four_digit
-          }
-          modelSave = { general_data: modelSave2, step: this.tab }
-      }
-      this.spinnerService.show()
+      const modelSave = this.getRequestData();
+      this.spinnerService.show();
       this.adminService.postDataApi('addcredits', modelSave).subscribe(
         (success) => {
-          console.log(success, 'save data')
-          localStorage.setItem('stepOneId', success.data.id)
-          this.spinnerService.hide()
-          if (this.tab == 3) {
-              this.subtab = 2
+          console.log(success, 'save data');
+          localStorage.setItem('stepOneId', success.data.id);
+          this.spinnerService.hide();
+          if (this.getCurrentStep() == 4) {
             this.router.navigate(['dashboard/credit/view-credit'])
           } else {
-            this.tab = this.tab + 1
+            this.setCurrentStep();
           }
+        }, (error) => {
+          this.spinnerService.hide();
+        });
+    }
+  }
+
+  getcredits = (): void => {
+    let self = this
+    this.spinnerService.show()
+    this.adminService
+      .postDataApi('getcredits', { id: this.parameter.property_id })
+      .subscribe(
+        (success) => {
+          this.creditModel = success.data
+          for (var i = 0; i < success.data.payment_scheme.length; i++) {
+            let payment = success.data.payment_scheme[i].payment
+            self.selctedPayments.push({
+              id: payment.id,
+              name_en: payment.name_en,
+            })
+          }
+          for (var i = 0; i < success.data.bank.length; i++) {
+            let bank_details = success.data.bank[i].bank_details
+            self.selctedBanks.push({
+              id: bank_details.id,
+              name_en: bank_details.name_en,
+            })
+          }
+          for (var i = 0; i < success.data.deadlines_quote.length; i++) {
+            let deadlines = success.data.deadlines_quote[i].deadline
+            self.selctedDeadlines.push({
+              id: deadlines.id,
+              name_en: deadlines.name_en,
+            })
+          }
+          this.creditModel.bank_id = self.selctedBanks
+          this.creditModel.payment_scheme = self.selctedPayments
+          this.creditModel.deadlines_quote = self.selctedDeadlines
+          // this.creditModel.deadlines_quote = this.creditModel.deadlines_quote.id
+          //  localStorage.setItem('stepThreeId', success.data.general_data.id)
+          //  this.creditModel.general_data_id = success.data.general_data.id
+          this.spinnerService.hide()
         },
         (error) => {
           this.spinnerService.hide()
         },
       )
-    }
   }
-
-  getcredits = (): void => {
-    if (this.tab == 3) {
-         this.subtab = 2
-    }
-   let self = this
-   this.spinnerService.show()
-   this.adminService
-     .postDataApi('getcredits', { id: this.parameter.property_id })
-     .subscribe(
-       (success) => {
-         this.creditModel = success.data
-         for (var i = 0; i < success.data.payment_scheme.length; i++) {
-           let payment = success.data.payment_scheme[i].payment
-           self.selctedPayments.push({
-             id: payment.id,
-             name_en: payment.name_en,
-           })
-         }
-         for (var i = 0; i < success.data.bank.length; i++) {
-           let bank_details = success.data.bank[i].bank_details
-           self.selctedBanks.push({
-             id: bank_details.id,
-             name_en: bank_details.name_en,
-           })
-         }
-         for (var i = 0; i < success.data.deadlines_quote.length; i++) {
-          let deadlines = success.data.deadlines_quote[i].deadline
-          self.selctedDeadlines.push({
-            id: deadlines.id,
-            name_en: deadlines.name_en,
-          })
-        }
-         this.creditModel.bank_id = self.selctedBanks
-         this.creditModel.payment_scheme = self.selctedPayments
-         this.creditModel.deadlines_quote = self.selctedDeadlines
-        // this.creditModel.deadlines_quote = this.creditModel.deadlines_quote.id
-        //  localStorage.setItem('stepThreeId', success.data.general_data.id)
-        //  this.creditModel.general_data_id = success.data.general_data.id
-         this.spinnerService.hide()
-       },
-       (error) => {
-         this.spinnerService.hide()
-       },
-     )
- }
 
 
   // isChecked(gender) {
   //   return gender == this.creditModel.general_data.gender ? true : false;
   // }
-  
+
 
   // selectGender(gender) {
   //   this.creditModel.general_data.gender = gender;
   // }
   onSelectAll(obj: any) { }
 
- 
+
   getCustomerProfile() {
     this.adminService
       .postDataApi('getCustomerProfile', {})
       .subscribe((success) => {
         this.customerProfile_list = success['data']
-      })
+      });
   }
 
   getCountries() {
@@ -432,7 +363,7 @@ export class CreditAddEditComponent implements OnInit {
         hide_blocked: 1,
       }),
       this.adminService.postDataApi('getExecutive', {}),
-      this.adminService.postDataApi('getCountryState', {country_id: 1}),
+      this.adminService.postDataApi('getCountryState', { country_id: 1 }),
       this.adminService.postDataApi('getSquare', {}),
       this.adminService.postDataApi('getCaseStatus', {}),
       this.adminService.postDataApi('getCivilStatus', {}),
@@ -456,11 +387,11 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   addPhone(): void {
-    ; (this.userForm.get('phones') as FormArray).push(this.fb.control(null))
+    (this.userForm.get('phones') as FormArray).push(this.fb.control(null));
   }
 
   removePhone(index) {
-    ; (this.userForm.get('phones') as FormArray).removeAt(index)
+    (this.userForm.get('phones') as FormArray).removeAt(index);
   }
 
   getPhonesFormControls(): AbstractControl[] {
@@ -475,4 +406,140 @@ export class CreditAddEditComponent implements OnInit {
     return (this.price.transform(Number(value).toFixed(2)).toString()).substring(1);
   }
 
+
+  getCurrentStep = (): number => {
+    if (this.tab == 1 || this.tab == 2) {
+      return this.tab;
+    } else if (this.tab == 3) {
+      return ((this.subtab + this.tab) - 1);
+    }
+  }
+
+  setCurrentStep = (): void => {
+    switch (this.getCurrentStep()) {
+      case 1:
+        this.tab = this.getCurrentStep() + 1;
+        break;
+      case 2:
+        this.tab = this.getCurrentStep() + 1;
+        this.subtab = 1;
+        break;
+      case 3:
+      case 4:
+      case 5:
+      case 6:
+      case 7:
+      case 8:
+      case 9:
+      case 10:
+        this.subtab = this.subtab + 1;
+        break;
+      default:
+        break;
+    }
+  }
+
+  getRequestData = (): any => {
+    let postData;
+    switch (this.getCurrentStep()) {
+      case 1:
+        postData = this.getRequestDataForFirstStep(1);
+        break;
+      case 2:
+        postData = this.getRequestDataForSecondStep(2);
+        break;
+      case 3:
+        postData = this.getRequestDataForThirdStep(3);
+        break;
+      case 4:
+        postData = this.getRequestDataForFourthStep(4);
+        break;
+      case 5:
+        break;
+      case 6:
+        break;
+      case 7:
+        break;
+      case 8:
+        break;
+      case 9:
+        break;
+      case 10:
+        break;
+      default:
+        break;
+    }
+    return postData;
+  }
+
+  getRequestDataForFirstStep = (currentStep: number): any => {
+    return this.creditModel.id ?
+      { step: currentStep, user_id: this.creditModel.user.id, id: this.creditModel.id }
+      : { step: currentStep, user_id: this.creditModel.user.id };
+  }
+
+  getRequestDataForSecondStep = (currentStep: number): any => {
+    let modelSave = JSON.parse(JSON.stringify(this.creditModel));
+    const stepOneId = localStorage.getItem('stepOneId');
+    modelSave = {
+      step: currentStep,
+      id: stepOneId,
+      destination_id: this.creditModel.destination_id,
+      programs_id: this.creditModel.programs_id,
+      home_value: this.creditModel.home_value,
+      credit_amount: this.creditModel.credit_amount,
+      subaccount_balance: this.creditModel.subaccount_balance,
+      infonavit_credit: this.creditModel.infonavit_credit,
+      executive: this.creditModel.executive,
+      state: this.creditModel.state,
+      country_id: this.creditModel.country_id,
+      square: this.creditModel.square,
+      case_status: this.creditModel.case_status,
+      property_status: this.creditModel.property_status,
+      customer_profile: this.creditModel.customer_profile
+    };
+    if (this.creditModel.bank_id) {
+      const d = this.creditModel.bank_id.map((o) => o.id);
+      modelSave.bank_id = d;
+    }
+    if (this.creditModel.payment_scheme) {
+      const d = this.creditModel.payment_scheme.map((o) => o.id);
+      modelSave.payment_scheme = d;
+    }
+    if (this.creditModel.deadlines_quote) {
+      const d = this.creditModel.deadlines_quote.map((o) => o.id);
+      modelSave.deadlines_quote = d;
+    }
+    return modelSave;
+  }
+
+  getRequestDataForThirdStep = (currentStep: number): any => {
+    let modelSave = JSON.parse(JSON.stringify(this.creditModel));
+    const stepOneId = localStorage.getItem('stepOneId');
+    const modelSave1 = {
+      id: stepOneId,
+      general_data_id: this.creditModel.general_data.id,
+      co_credited_email: this.creditModel.general_data.co_credited_email,
+      co_credited_relationship: this.creditModel.general_data.co_credited_relationship,
+      co_credited_owner: this.creditModel.general_data.co_credited_owner,
+      co_credited_involved_credit: this.creditModel.general_data.co_credited_involved_credit,
+      co_credited_involved_revenue: this.creditModel.general_data.co_credited_involved_revenue
+    };
+    modelSave = { general_data: modelSave1, step: currentStep };
+    return modelSave;
+  }
+
+  getRequestDataForFourthStep = (currentStep: number): any => {
+    let modelSave = JSON.parse(JSON.stringify(this.creditModel));
+    const stepOneId = localStorage.getItem('stepOneId');
+    const modelSave2 = {
+      id: stepOneId,
+      credit_card: this.creditModel.general_data.credit_card,
+      existing_mortgage: this.creditModel.general_data.existing_mortgage,
+      loan: this.creditModel.general_data.loan,
+      general_data_id: this.creditModel.general_data.id
+    };
+    modelSave = { general_data: modelSave2, step: currentStep };
+    return modelSave;
+  }
 }
