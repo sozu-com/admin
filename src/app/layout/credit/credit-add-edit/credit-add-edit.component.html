@@ -689,17 +689,23 @@
 
                 <div class="row">
 
-                  <div class="col-md-4">
+                  <div class="col-md-3">
                     <div class="form-group-3">
                       <label>{{'creditForm.creditcard' | translate}}</label>
                       <div class="switchToggle">
                         <input type="checkbox" id="switch4" [(ngModel)]="creditModel.general_data.credit_card"
-                        name="credit_card">
+                        name="credit_card" (click)="myFlag = !myFlag">
                         <label for="switch4">Toggle</label>
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-3" *ngIf="myFlag">
+                    <div class="form-group-3">
+                      <input autocomplete="off" minlength="1" maxlength="30" required type="text" class="form-control"
+                         name="four_digit" [(ngModel)]="creditModel.general_data.four_digit">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
                     <div class="form-group-3">
                       <label>{{'creditForm.existingmortgage' | translate}}</label>
                       <div class="switchToggle">
@@ -709,7 +715,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-3">
                     <div class="form-group-3">
                       <label>{{'creditForm.loan' | translate}}</label>
                       <div class="switchToggle">

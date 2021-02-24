@@ -57,4 +57,5 @@ export class GeneralData {
     credit_card?: string;
     existing_mortgage?: string;
     loan?: string;
+    four_digit?: any;
 }

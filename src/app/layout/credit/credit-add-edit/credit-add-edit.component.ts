@@ -16,11 +16,13 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { IDestinationStatus } from 'src/app/common/marrital-status-interface'
 import { Bank, Credit, GeneralData, PaymentScheme } from 'src/app/models/credit.model'
 import { forkJoin } from 'rxjs'
+import { PricePipe } from 'src/app/pipes/price.pipe';
 declare let swal: any
 @Component({
   selector: 'app-credit-add-edit',
   templateUrl: './credit-add-edit.component.html',
   styleUrls: ['./credit-add-edit.component.css'],
+  providers: [PricePipe]
 })
 export class CreditAddEditComponent implements OnInit {
   model: Users = new Users()
@@ -57,7 +59,7 @@ export class CreditAddEditComponent implements OnInit {
   userForm: FormGroup
   showSearch = false
   Onedit = false
-
+  myFlag = false;
   constructor(
     public constant: Constant,
     private adminService: AdminService,
@@ -66,7 +68,7 @@ export class CreditAddEditComponent implements OnInit {
     private spinnerService: NgxSpinnerService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private fb: FormBuilder,
+    private fb: FormBuilder, private price: PricePipe
   ) {
     this.userForm = this.fb.group({
       name: [],
@@ -305,7 +307,8 @@ export class CreditAddEditComponent implements OnInit {
           id:id,
           credit_card: this.creditModel.general_data.credit_card,
           existing_mortgage: this.creditModel.general_data.existing_mortgage,
-          loan: this.creditModel.general_data.loan
+          loan: this.creditModel.general_data.loan,
+          four_digit:this.creditModel.general_data.four_digit
           }
           modelSave = { general_data: modelSave2, step: this.tab }
       }
@@ -467,4 +470,9 @@ export class CreditAddEditComponent implements OnInit {
   send(values) {
     console.log(values)
   }
+  
+  getTransformedAmount(value: any) {
+    return (this.price.transform(Number(value).toFixed(2)).toString()).substring(1);
+  }
+
 }
