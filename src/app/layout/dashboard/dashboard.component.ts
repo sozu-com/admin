@@ -332,7 +332,7 @@ export class DashboardComponent implements OnInit {
         },
         {
           type: 'stackedColumn', showInLegend: true,
-          name: this.translate.instant('deshboard.expectedIVAAmount'), dataPoints: this.getMaxFiveCity('draft')
+          name: this.translate.instant('deshboard.InDraft'), dataPoints: this.getMaxFiveCity('draft')
         }
       ]
     });
