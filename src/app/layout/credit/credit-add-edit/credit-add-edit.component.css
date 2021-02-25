@@ -82,3 +82,8 @@ margin-left: -27%;
     box-shadow: none;
     background: #f4f4f4;
 }
+
+.active {
+    background-color:#00B96F;
+    color: white !important;
+  }
