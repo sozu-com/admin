@@ -73,13 +73,16 @@ export class References {
     first_surname?: string;
     second_surname?: string;
     years?: string;
-    phone_code?: string;
+    country_code?: string;
+    dial_code?: string;
     phone_number?: string;
     address?: string;
-    home_phone_code?: string;
-    home_phone?: string;
-    office_phone_code?: string;
-    office_phone?: string;
+    home_country_code?: string;
+    home_dial_code?: string;
+    home_phone_number?: string;
+    office_country_code?: string;
+    office_dial_code?: string;
+    office_phone_number?: string;
     email?: string;
     participate_credit?: string;
 }
