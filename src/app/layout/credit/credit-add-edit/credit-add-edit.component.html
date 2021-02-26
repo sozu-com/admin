@@ -442,7 +442,7 @@
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'addForm.contact_number' | translate}} <span class="color-red">*</span></label>
-                        <input minlength="10" maxlength="10" autocomplete="off" type="text"
+                        <input minlength="8" maxlength="15" autocomplete="off" type="text"
                           [pattern]="constant.phonePattern" class="form-control" id="phone" required
                           [(ngModel)]="creditModel.user.phone" name="phone" ng2TelInput
                           [ng2TelInputOptions]="initialCountry" [disabled]="true" />
@@ -956,7 +956,7 @@
                   <div class="col-4">
                     <div class="form-group-3">
                       <label>{{'creditForm.cell' | translate}}</label>
-                      <input minlength="10" maxlength="10" autocomplete="off" type="text"
+                      <input minlength="8" maxlength="15" autocomplete="off" type="text"
                         [pattern]="constant.phonePattern" class="form-control" id="phone"
                         [(ngModel)]="creditModel.references.phone_number" name="phone_number" ng2TelInput
                         [ng2TelInputOptions]="{ initialCountry: creditModel.references.country_code }" (countryChange)="onPhoneCountryChange($event,1)" />
@@ -989,7 +989,7 @@
                   <div class="col-4">
                     <div class="form-group-3">
                       <label>{{'creditForm.home' | translate}}</label>
-                      <input minlength="10" maxlength="10" autocomplete="off" type="text"
+                      <input minlength="8" maxlength="15" autocomplete="off" type="text"
                         [pattern]="constant.phonePattern" class="form-control" id="phone"
                         [(ngModel)]="creditModel.references.home_phone_number" name="home_phone_number" ng2TelInput
                         [ng2TelInputOptions]="{ initialCountry: creditModel.references.home_country_code }" (countryChange)="onPhoneCountryChange($event,2)" />
@@ -998,7 +998,7 @@
                   <div class="col-4">
                     <div class="form-group-3">
                       <label>{{'creditForm.office' | translate}}</label>
-                      <input minlength="10" maxlength="10" autocomplete="off" type="text"
+                      <input minlength="8" maxlength="15" autocomplete="off" type="text"
                       [pattern]="constant.phonePattern" class="form-control" id="phone"
                       [(ngModel)]="creditModel.references.office_phone_number" name="office_phone_number" ng2TelInput
                       [ng2TelInputOptions]="{ initialCountry: creditModel.references.office_country_code }" (countryChange)="onPhoneCountryChange($event,3)" />
