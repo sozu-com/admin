@@ -10,6 +10,7 @@ import { Towers } from '../../../models/addProject.model';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 import { ApiConstants } from 'src/app/common/api-constants';
+import { element } from 'protractor';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 @Component({
@@ -391,7 +392,13 @@ export class MonthlyComponent implements OnInit {
       input['floor_num'] = d;
     }
     if (this.selectedProperties) {
-      const d = this.selectedProperties.map(o => o.id);
+      const d = []
+      this.selectedProperties.forEach((element, index) =>{
+        let id = d.find(id => id == element.id);
+        if(!id){
+        d.push(element.id);
+        }
+      });
       input.property_id = d;
     }
     if (this.selectedBuyers) {
@@ -411,8 +418,13 @@ export class MonthlyComponent implements OnInit {
       input.currency_id = d;
     }
     if (this.selctedConcept) {
-      const d = this.selctedConcept.map(o => o.id);
-      // console.log(d, "filter")
+      const d = [];
+      this.selctedConcept.forEach((element, index) =>{
+        let id = d.find(id => id == element.id);
+        if(!id){
+        d.push(element.id);
+        }
+      });
       input.paymentConcepts = d;
     }
     this.admin.postDataApi('generateCollectionMonthlyReport', input).subscribe(
