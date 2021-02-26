@@ -279,9 +279,10 @@ export class CreditAddEditComponent implements OnInit {
       this.adminService.postDataApi('addcredits', modelSave).subscribe(
         (success) => {
           this.parameter.property_id = success.data.id;
-          localStorage.setItem('stepOneId', success.data.id);
+         // localStorage.setItem('stepOneId', success.data.id);
           if (success.data.general_data != undefined && success.data.general_data != null) {
-            localStorage.setItem('stepThreeId', success.data.general_data.id);
+            this.parameter.general_id = success.data.general_data.id
+           // localStorage.setItem('stepThreeId', success.data.general_data.id);
           }
           this.spinnerService.hide();
           this.afterAddcredit();
@@ -622,10 +623,10 @@ export class CreditAddEditComponent implements OnInit {
 
   getRequestDataForSecondStep = (currentStep: number): any => {
     let modelSave = JSON.parse(JSON.stringify(this.creditModel));
-    const stepOneId = localStorage.getItem('stepOneId');
+   // const stepOneId = localStorage.getItem('stepOneId');
     modelSave = {
       step: currentStep,
-      id: stepOneId,
+      id: this.parameter.property_id,
       destination_id: this.creditModel.destination_id,
       programs_id: this.creditModel.programs_id,
       home_value: this.creditModel.home_value,
@@ -657,9 +658,9 @@ export class CreditAddEditComponent implements OnInit {
 
   getRequestDataForThirdStep = (currentStep: number): any => {
     let modelSave = JSON.parse(JSON.stringify(this.creditModel));
-    const stepOneId = localStorage.getItem('stepOneId');
+   // const stepOneId = localStorage.getItem('stepOneId');
     const modelSave1 = {
-      id: stepOneId,
+      id: this.parameter.property_id,
       general_data_id: this.creditModel.general_data.id,
       co_credited_email: this.creditModel.general_data.co_credited_email,
       co_credited_relationship: this.creditModel.general_data.co_credited_relationship,
@@ -673,24 +674,24 @@ export class CreditAddEditComponent implements OnInit {
 
   getRequestDataForFourthStep = (currentStep: number): any => {
     let modelSave = JSON.parse(JSON.stringify(this.creditModel));
-    const stepOneId = localStorage.getItem('stepOneId');
-    const stepThreeId = localStorage.getItem('stepThreeId');
+  //  const stepOneId = localStorage.getItem('stepOneId');
+   // const stepThreeId = localStorage.getItem('stepThreeId');
     const modelSave2 = {
-      id: stepOneId,
+      id: this.parameter.property_id,
       credit_card: this.creditModel.general_data.credit_card,
       existing_mortgage: this.creditModel.general_data.existing_mortgage,
       loan: this.creditModel.general_data.loan,
       four_digit: this.creditModel.general_data.four_digit,
-      general_data_id: stepThreeId
+      general_data_id:  this.parameter.general_id
     };
     modelSave = { general_data: modelSave2, step: currentStep };
     return modelSave;
   }
 
   getRequestDataForFifthStep = (currentStep: number): any => {
-    const stepOneId = localStorage.getItem('stepOneId');
+   // const stepOneId = localStorage.getItem('stepOneId');
     const modelSave = {
-      id: stepOneId,
+      id: this.parameter.property_id,
       credits_relationship_id: this.creditModel.economic_dependent.credits_relationship_id,
       age: this.creditModel.economic_dependent.age,
       occupation: this.creditModel.economic_dependent.occupation,
@@ -700,9 +701,9 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   getRequestDataForSixthStep = (currentStep: number): any => {
-    const stepOneId = localStorage.getItem('stepOneId');
+   // const stepOneId = localStorage.getItem('stepOneId');
     const modelSave = {
-      id: stepOneId,
+      id: this.parameter.property_id,
       credits_relationship_id: this.creditModel.references.credits_relationship_id,
       name: this.creditModel.references.name,
       first_surname: this.creditModel.references.first_surname,
