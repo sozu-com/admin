@@ -71,7 +71,8 @@ export class CreditAddEditComponent implements OnInit {
   userForm: FormGroup;
   showSearch = false;
   Onedit = false;
-  myFlag = false;
+  isShown: boolean = false ;
+  isShown1: boolean = false ;
   initialCountry: any;
 
   constructor(
@@ -120,7 +121,12 @@ export class CreditAddEditComponent implements OnInit {
   showSearchBox() {
     this.showSearch = true
   }
-
+  toggleShow() {
+    this.isShown = ! this.isShown;
+  }
+  toggleShow1() {
+    this.isShown1 = ! this.isShown1;
+  }
   unsetProject(item: any) {
     let i = 0
     this.selctedBanks.map((r) => {

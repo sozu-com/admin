@@ -2480,7 +2480,8 @@
     "Subaccountbalance":"Subaccount balance (SSV)",
     "InfonavitCredit":"Infonavit Credit",
     "cars":"Number of own cars",
-    "totalCars":"Total value of the own cars"
+    "totalCars":"Total value of the own cars",
+    "four_digit":"Enter Four Digit"
   },
   
   "deshboard":{

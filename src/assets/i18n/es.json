@@ -2477,7 +2477,8 @@
     "Subaccountbalance":"Saldo de la subcuenta (SSV)",
     "InfonavitCredit":"Crédito Infonavit",
     "cars":"Número de coches propios",
-    "totalCars":"Valor total de los coches propios"
+    "totalCars":"Valor total de los coches propios",
+    "four_digit":"Ingrese cuatro dígitos"
   },
   "deshboard":{
     "Projects":"Proyectos",

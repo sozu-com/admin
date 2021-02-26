@@ -734,12 +734,11 @@
                       <label>{{'creditForm.creditcard' | translate}}</label>
                       <div class="switchToggle">
                         <input type="checkbox" id="switch4" [(ngModel)]="creditModel.general_data.credit_card"
-                          name="credit_card" (click)="myFlag = !myFlag">
+                          name="credit_card" (click)="toggleShow()">
                         <label for="switch4">Toggle</label>
                       </div>
                     </div>
                   </div>
-
                   <div class="col-md-4">
                     <div class="form-group-3">
                       <label>{{'creditForm.existingmortgage' | translate}}</label>
@@ -762,11 +761,13 @@
 
                 </div>
                 <div class="row">
-                  <div class="col-4" *ngIf="myFlag">
+                  <div class="spacer15"></div>
+                  <div class="col-4" *ngIf="isShown">
                     <div class="form-group-3">
+                      <label>{{'creditForm.four_digit' | translate}}</label>
                       <input autocomplete="off" minlength="1" maxlength="4" type="text" class="form-control"
                         name="four_digit" [(ngModel)]="creditModel.general_data.four_digit"
-                        placeholder="Enter Four Digits">
+                        placeholder="{{'creditForm.four_digit' | translate}}">
                     </div>
                   </div>
                 </div>
@@ -1388,24 +1389,27 @@
                         <div class="form-group-3">
                           <label>{{'creditForm.OWNCAR' | translate}}</label>
                           <div class="switchToggle">
-                            <input type="checkbox" id="switch8" (click)="myFlag = !myFlag">
+                            <input type="checkbox" id="switch8" (click)="toggleShow1()">
                             <label for="switch8">Toggle</label>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="row" *ngIf="myFlag">
+                  <div class="row" *ngIf="isShown1">
+                    <div class="spacer15"></div>
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'creditForm.cars' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="50" type="text" class="form-control">
+                        <input autocomplete="off" minlength="1" maxlength="50" type="number" 
+                        class="form-control" placeholder="{{'creditForm.cars' | translate}}">
                       </div>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'creditForm.totalCars' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control">
+                        <input autocomplete="off" minlength="1" maxlength="30" type="number"
+                         class="form-control" placeholder="{{'creditForm.totalCars' | translate}}">
                       </div>
                     </div>
                   </div>
