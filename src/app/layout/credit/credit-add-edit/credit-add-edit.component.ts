@@ -315,6 +315,7 @@ export class CreditAddEditComponent implements OnInit {
           // this.creditModel.deadlines_quote = this.creditModel.deadlines_quote.id
           //  localStorage.setItem('stepThreeId', success.data.general_data.id)
           //  this.creditModel.general_data_id = success.data.general_data.id
+          
           this.creditModel.user['neighbourhoods'] = [];
           this.creditModel.user.neighbourhoods.push(this.creditModel.user.neighborhood);
           this.spinnerService.hide()
