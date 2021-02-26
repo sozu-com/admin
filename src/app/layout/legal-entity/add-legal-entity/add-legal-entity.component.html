@@ -316,14 +316,14 @@
 
     <div class="white-bg padding40">
       <div class="row" formGroupName="legal_rep">
-        <div class="col-12">
+        <!-- <div class="col-12">
           <div class="form-group-2">
             <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}
             </label>
             <input autocomplete="off" minlength="12" maxlength="13" [pattern]="constant.onlyWhiteSpaces" type="text"
               class="form-control" formControlName="fed_tax_pay" name="fed_tax_pay1">
           </div>
-        </div>
+        </div> -->
         <div class="col-12">
           <div class="form-group-2">
             <label>{{'addForm.developerName' | translate}}</label>
@@ -335,6 +335,119 @@
         </div>
         <div class="col-12">
           <div class="spacer15"></div>
+        </div>
+        <!-- <div class="col-12">
+          <label>{{'addCollection.bankAccount' | translate}}
+            <span class="pull-right"><a class="add" (click)="addLegalRepBank($event)"
+                href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
+          </label>
+          <div formArrayName="legal_rep_banks">
+            <ng-container
+              *ngFor="let lrepbanks of addDataForm.get('legal_rep').get('legal_rep_banks')['controls']; let i=index">
+
+              <div class="row" [formGroupName]="i">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addCollection.bankName' | translate}}</label>
+                    <div class="clearfix"></div>
+                    <input required autocomplete="off" minlength="1" maxlength="30" class="form-control" type="text"
+                      name="bank_name" formControlName="bank_name">
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addCollection.accountNumber' | translate}}</label>
+                    <div class="clearfix"></div>
+                    <input required autocomplete="off" class="form-control" type="text" minlength="9" maxlength="20"
+                      [pattern]="constant.accountPattern" name="account_number" formControlName="account_number">
+                  </div>
+                </div>
+                <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addCollection.clabeSwift' | translate}}</label>
+                    <div class="clearfix"></div>
+                    <input required autocomplete="off" class="form-control" type="text" name="swift"
+                      formControlName="swift">
+                  </div>
+                </div>
+                <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addCollection.currency' | translate}}</label>
+                    <div class="clearfix"></div>
+                    <select required name="currency_id" class="form-control" formControlName="currency_id">
+                      <option value="">{{'addCollection.currency' | translate}}</option>
+                      <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addCollection.remove' | translate}}</label>
+                    <div class="clearfix"></div>
+                    <button type="button" (click)="removeLegalRepBank($event, i)">{{'addCollection.remove' |
+                      translate}}</button>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div> -->
+        <div class="col-12">
+          <div class="spacer15"></div>
+        </div>
+        <div class="col-12">
+          <div class="form-group-2">
+            <h5>{{'addCollection.legalRepresentativeInfo' | translate}}</h5>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group-2">
+            <label>{{'addForm.names' | translate}}
+            </label>
+            <input autocomplete="off" minlength="1" maxlength="50" [pattern]="constant.onlyWhiteSpaces" type="text"
+              class="form-control" formControlName="name" name="name1">
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group-2">
+            <label>{{'addForm.firstSurname' | translate}}
+            </label>
+            <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces" type="text"
+              class="form-control" formControlName="first_surname" name="first_surname">
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group-2">
+            <label>{{'addForm.secondSurname' | translate}}
+            </label>
+            <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces" type="text"
+              class="form-control" formControlName="second_surname" name="second_surname">
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group-2">
+            <label>{{'addForm.contactNumber' | translate}}
+            </label>
+            <input minlength="8" maxlength="15" autocomplete="off" type="text" [pattern]="constant.phonePattern"
+              class="form-control" id="phone1" formControlName="phone" name="phone1" ng2TelInput
+              [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group-2">
+            <label>{{'addForm.emailId' | translate}}
+            </label>
+            <input (keydown.space)="$event.preventDefault();" autocomplete="off" [pattern]="constant.emailPattern"
+              type="email" class="form-control" formControlName="email" name="email1">
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group-2">
+            <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}
+            </label>
+            <input autocomplete="off" minlength="12" maxlength="13" [pattern]="constant.onlyWhiteSpaces" type="text"
+              class="form-control" formControlName="fed_tax_pay" name="fed_tax_pay1">
+          </div>
         </div>
         <div class="col-12">
           <label>{{'addCollection.bankAccount' | translate}}
@@ -390,55 +503,6 @@
                 </div>
               </div>
             </ng-container>
-          </div>
-        </div>
-        <div class="col-12">
-          <div class="spacer15"></div>
-        </div>
-        <div class="col-12">
-          <div class="form-group-2">
-            <h5>{{'addCollection.legalRepresentativeInfo' | translate}}</h5>
-          </div>
-        </div>
-        <div class="col-12">
-          <div class="form-group-2">
-            <label>{{'addForm.names' | translate}}
-            </label>
-            <input autocomplete="off" minlength="1" maxlength="50" [pattern]="constant.onlyWhiteSpaces" type="text"
-              class="form-control" formControlName="name" name="name1">
-          </div>
-        </div>
-        <div class="col-12">
-          <div class="form-group-2">
-            <label>{{'addForm.firstSurname' | translate}}
-            </label>
-            <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces" type="text"
-              class="form-control" formControlName="first_surname" name="first_surname">
-          </div>
-        </div>
-        <div class="col-12">
-          <div class="form-group-2">
-            <label>{{'addForm.secondSurname' | translate}}
-            </label>
-            <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces" type="text"
-              class="form-control" formControlName="second_surname" name="second_surname">
-          </div>
-        </div>
-        <div class="col-12">
-          <div class="form-group-2">
-            <label>{{'addForm.contactNumber' | translate}}
-            </label>
-            <input minlength="8" maxlength="15" autocomplete="off" type="text" [pattern]="constant.phonePattern"
-              class="form-control" id="phone1" formControlName="phone" name="phone1" ng2TelInput
-              [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
-          </div>
-        </div>
-        <div class="col-12">
-          <div class="form-group-2">
-            <label>{{'addForm.emailId' | translate}}
-            </label>
-            <input (keydown.space)="$event.preventDefault();" autocomplete="off" [pattern]="constant.emailPattern"
-              type="email" class="form-control" formControlName="email" name="email1">
           </div>
         </div>
         <!-- <div class="col-12">

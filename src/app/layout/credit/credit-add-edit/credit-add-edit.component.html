@@ -146,7 +146,7 @@
                       <label>{{'creditForm.homeValue' | translate}}
                       </label>
                       <input autocomplete="off" 
-                       (keyup)="transformHomeValue($event.target.value)" required type="text"
+                       (keydown)="transformHomeValue($event)" required type="text"
                         class="form-control" [(ngModel)]="creditModel.home_value" name="home_value" 
                         placeholder="{{'creditForm.homeValue' | translate}}">
                     </div>
