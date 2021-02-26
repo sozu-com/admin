@@ -2740,11 +2740,12 @@ export class CollectionsComponent implements OnInit {
         this.collection_data.payment_choices.forEach(function(element, index){
           let fill = index % 2;
           let month = new Date(element.date);
-          let current_date = new Date()
+          let current_date = new Date();
+          self.bill_month =  self.translate.defaultLang === 'en' ? monthNames[current_date.getMonth()] :  monthNamesES[current_date.getMonth()];
+          self.bill_month_date =self.datePipe.transform(current_date.setDate(10), 'MMM d, y');
+
           if(index> 0 && self.collection_data.payment_choices[index - 1].is_paid_calculated == 1 && element.is_paid_calculated == 0){
             self.current_month_amount =  element.penalty ? (element.amount + element.penalty.amount) - element.calc_payment_amount : month.getMonth() == current_date.getMonth() && month.getFullYear() == current_date.getFullYear() ? element.amount - element.calc_payment_amount : element.calc_payment_amount;
-            self.bill_month =  self.translate.defaultLang === 'en' ? monthNames[month.getMonth()] :  monthNamesES[month.getMonth()];
-            self.bill_month_date =self.datePipe.transform(month.setDate(10), 'MMM d, y');
           }
           else if(index == 0 && element.is_paid_calculated == 0){
             self.current_month_amount =  element.amount;
