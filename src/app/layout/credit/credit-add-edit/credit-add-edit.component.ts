@@ -304,13 +304,16 @@ export class CreditAddEditComponent implements OnInit {
       this.creditModel.references.first_surname = '';
       this.creditModel.references.second_surname = '';
       this.creditModel.references.years = '';
-      this.creditModel.references.phone_code = '';
+      this.creditModel.references.country_code = this.constant.country_code;
+      this.creditModel.references.dial_code = this.constant.dial_code;
       this.creditModel.references.phone_number = '';
       this.creditModel.references.address = '';
-      this.creditModel.references.home_phone_code = '';
-      this.creditModel.references.home_phone = '';
-      this.creditModel.references.office_phone_code = '';
-      this.creditModel.references.office_phone = '';
+      this.creditModel.references.home_country_code = this.constant.country_code;
+      this.creditModel.references.home_dial_code = this.constant.dial_code;
+      this.creditModel.references.home_phone_number = '';
+      this.creditModel.references.office_country_code = this.constant.country_code;
+      this.creditModel.references.office_dial_code = this.constant.dial_code;
+      this.creditModel.references.office_phone_number = '';
       this.creditModel.references.email = '';
       this.creditModel.references.participate_credit = '';
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
@@ -323,7 +326,7 @@ export class CreditAddEditComponent implements OnInit {
 
   getEcoDependent = (): void => {
     this.spinnerService.show();
-    this.adminService.postDataApi('getEcoDependent', { id: this.parameter.property_id || '0'}).subscribe((success) => {
+    this.adminService.postDataApi('getEcoDependent', { id: this.parameter.property_id || '0' }).subscribe((success) => {
       this.economic_dependent_list = success.data || [];
       this.spinnerService.hide();
     }, (error) => {
@@ -356,7 +359,7 @@ export class CreditAddEditComponent implements OnInit {
 
   getReferences = (): void => {
     this.spinnerService.show();
-    this.adminService.postDataApi('getReferences', { id: this.parameter.property_id || '0'}).subscribe((success) => {
+    this.adminService.postDataApi('getReferences', { id: this.parameter.property_id || '0' }).subscribe((success) => {
       this.references_list = success.data || [];
       this.spinnerService.hide();
     }, (error) => {
@@ -442,6 +445,12 @@ export class CreditAddEditComponent implements OnInit {
     }
     if (!this.creditModel.references) {
       this.creditModel.references = new References();
+      this.creditModel.references.country_code = this.constant.country_code;
+      this.creditModel.references.dial_code = this.constant.dial_code;
+      this.creditModel.references.home_country_code = this.constant.country_code;
+      this.creditModel.references.home_dial_code = this.constant.dial_code;
+      this.creditModel.references.office_country_code = this.constant.country_code;
+      this.creditModel.references.office_dial_code = this.constant.dial_code;
     }
   }
 
@@ -489,8 +498,8 @@ export class CreditAddEditComponent implements OnInit {
       this.adminService.postDataApi('getNationality', {}),
       this.adminService.postDataApi('getIncomeBank', {}),
       this.adminService.postDataApi('getCountryLocality', {}),
-      this.adminService.postDataApi('getEcoDependent', { id: this.parameter.property_id || '0'}),
-      this.adminService.postDataApi('getReferences', { id: this.parameter.property_id || '0'})
+      this.adminService.postDataApi('getEcoDependent', { id: this.parameter.property_id || '0' }),
+      this.adminService.postDataApi('getReferences', { id: this.parameter.property_id || '0' })
     ]).subscribe((response: any[]) => {
       this.program_list = response[0].data
       this.deadLines = response[1].data
@@ -708,13 +717,16 @@ export class CreditAddEditComponent implements OnInit {
       first_surname: this.creditModel.references.first_surname,
       second_surname: this.creditModel.references.second_surname,
       years: this.creditModel.references.years,
-      phone_code: this.creditModel.references.phone_code || '91',
+      country_code: this.creditModel.references.country_code || 'IN',
+      phone_code: this.creditModel.references.dial_code || '91',
       phone_number: this.creditModel.references.phone_number || '7247370495',
       address: this.creditModel.references.address,
-      home_phone_code: this.creditModel.references.home_phone_code || '91',
-      home_phone: this.creditModel.references.home_phone || '7247370495',
-      office_phone_code: this.creditModel.references.office_phone_code || '91',
-      office_phone: this.creditModel.references.office_phone || '7247370495',
+      home_country_code: this.creditModel.references.home_country_code || 'IN',
+      home_phone_code: this.creditModel.references.home_dial_code || '91',
+      home_phone: this.creditModel.references.home_phone_number || '7247370495',
+      office_country_code: this.creditModel.references.office_country_code || 'IN',
+      office_phone_code: this.creditModel.references.office_dial_code || '91',
+      office_phone: this.creditModel.references.office_phone_number || '7247370495',
       email: this.creditModel.references.email,
       participate_credit: this.creditModel.references.participate_credit,
       step: currentStep
@@ -751,6 +763,25 @@ export class CreditAddEditComponent implements OnInit {
   updateNationalityName = (value: string): void => {
     if (parseInt(value) > 0) {
       this.creditModel.user.nationality_name = '';
+    }
+  }
+
+  onPhoneCountryChange = (event: any, index: number): void => {
+    switch (index) {
+      case 1:
+        this.creditModel.references.country_code = event.iso2;
+        this.creditModel.references.dial_code = '+' + event.dialCode;
+        break;
+      case 2:
+        this.creditModel.references.home_country_code = event.iso2;
+        this.creditModel.references.home_dial_code = '+' + event.dialCode;
+        break;
+      case 3:
+        this.creditModel.references.office_country_code = event.iso2;
+        this.creditModel.references.office_dial_code = '+' + event.dialCode;
+        break;
+      default:
+        break;
     }
   }
 

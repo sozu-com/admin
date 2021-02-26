@@ -946,9 +946,10 @@
                   <div class="col-4">
                     <div class="form-group-3">
                       <label>{{'creditForm.cell' | translate}}</label>
-                      <!-- <input autocomplete="off" minlength="1" maxlength="30"
-                        [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" type="text"
-                        class="form-control" [(ngModel)]="model.second_surname" name="second_surname1"> -->
+                      <input minlength="8" maxlength="15" autocomplete="off" type="text"
+                        [pattern]="constant.phonePattern" class="form-control" id="phone"
+                        [(ngModel)]="creditModel.references.phone_number" name="phone_number" ng2TelInput
+                        [ng2TelInputOptions]="{ initialCountry: creditModel.references.country_code }" (countryChange)="onPhoneCountryChange($event,1)" />
                     </div>
                   </div>
                 </div>
@@ -978,17 +979,19 @@
                   <div class="col-4">
                     <div class="form-group-3">
                       <label>{{'creditForm.home' | translate}}</label>
-                      <!-- <input autocomplete="off" minlength="1" maxlength="30"
-                        [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" type="text"
-                        class="form-control" required [(ngModel)]="creditModel.references.home_phone" name="home_phone"> -->
+                      <input minlength="8" maxlength="15" autocomplete="off" type="text"
+                        [pattern]="constant.phonePattern" class="form-control" id="phone"
+                        [(ngModel)]="creditModel.references.home_phone_number" name="home_phone_number" ng2TelInput
+                        [ng2TelInputOptions]="{ initialCountry: creditModel.references.home_country_code }" (countryChange)="onPhoneCountryChange($event,2)" />
                     </div>
                   </div>
                   <div class="col-4">
                     <div class="form-group-3">
                       <label>{{'creditForm.office' | translate}}</label>
-                      <!-- <input autocomplete="off" minlength="1" maxlength="30"
-                        [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" type="text"
-                        class="form-control" [(ngModel)]="model.second_surname" name="second_surname1"> -->
+                      <input minlength="8" maxlength="15" autocomplete="off" type="text"
+                      [pattern]="constant.phonePattern" class="form-control" id="phone"
+                      [(ngModel)]="creditModel.references.office_phone_number" name="office_phone_number" ng2TelInput
+                      [ng2TelInputOptions]="{ initialCountry: creditModel.references.office_country_code }" (countryChange)="onPhoneCountryChange($event,3)" />
                     </div>
                   </div>
                 </div>
@@ -1019,7 +1022,8 @@
                     <div class="form-group-3">
                       <label>&nbsp; &nbsp;</label>
                       <div class="btn-cont text-right">
-                        <button class="btn btn-primary" (click)="addcredits()">{{'creditForm.saveReferences' | translate}}</button>
+                        <button class="btn btn-primary" (click)="addcredits()">{{'creditForm.saveReferences' |
+                          translate}}</button>
                       </div>
                     </div>
                   </div>
