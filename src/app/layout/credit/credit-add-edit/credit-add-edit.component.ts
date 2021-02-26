@@ -481,6 +481,7 @@ export class CreditAddEditComponent implements OnInit {
   // }
 
   getCreditsBasicDetails = (): void => {
+    this.spinnerService.show();
     forkJoin([
       this.adminService.postDataApi('getPrograms', {}),
       this.adminService.postDataApi('getCreditsDeadlines', {}),
@@ -509,6 +510,7 @@ export class CreditAddEditComponent implements OnInit {
       this.adminService.postDataApi('getEcoDependent', { id: this.parameter.property_id || '0' }),
       this.adminService.postDataApi('getReferences', { id: this.parameter.property_id || '0' })
     ]).subscribe((response: any[]) => {
+      this.spinnerService.hide();
       this.program_list = response[0].data
       this.deadLines = response[1].data
       this.PaymentScheme = response[2].data
@@ -567,7 +569,7 @@ export class CreditAddEditComponent implements OnInit {
   transformHomeValue = (event: any): void => {
       if (this.creditModel.home_value.length > 0) {
         const withdotData = this.creditModel.home_value.split(".")[1];
-        const transformHV = this.price.transform(this.creditModel.home_value.split(".")[0]);//.substring(1);
+        const transformHV = this.price.transform(this.creditModel.home_value.split(".")[0]).substring(1);
         if (withdotData == undefined) {
           this.creditModel.home_value = transformHV;
         } else if (withdotData == '') {
