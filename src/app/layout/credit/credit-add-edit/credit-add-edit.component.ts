@@ -71,8 +71,9 @@ export class CreditAddEditComponent implements OnInit {
   userForm: FormGroup;
   showSearch = false;
   Onedit = false;
-  isShown: boolean = false;
-  isShown1: boolean = false;
+  isShown: boolean = false ;
+  isShown1: boolean = false ;
+  //dataView: boolean = false ;
   initialCountry: any;
 
   constructor(
@@ -808,22 +809,12 @@ export class CreditAddEditComponent implements OnInit {
 
   hasErrorEconomicDependent = (): boolean => {
     if (!this.creditModel.economic_dependent.credits_relationship_id ||
+      !this.parameter.property_id ||
       !this.creditModel.economic_dependent.age ||
       this.creditModel.economic_dependent.age == '' ||
       !this.creditModel.economic_dependent.occupation ||
       this.creditModel.economic_dependent.occupation == ''
     ) {
-      return true;
-    }
-    return false;
-  }
-
-  hasErrorCredits = (): boolean => {
-    if (!this.creditModel.destination_id) {
-      return true;
-    } else if (parseInt(this.creditModel.destination_id) == 2) {
-      return false;
-    } else if (!this.creditModel.programs_id) {
       return true;
     }
     return false;

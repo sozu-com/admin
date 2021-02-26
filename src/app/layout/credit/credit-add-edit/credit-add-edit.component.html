@@ -315,7 +315,9 @@
                   <div class="spacer15"></div>
                   <div class="col-12">
                     <div class="btn-cont text-right">
-                      <button class="btn btn-primary" (click)="addcredits()" [disabled]="this.hasErrorCredits()">{{'creditForm.Saveinformation' |
+                      <button class="btn btn-primary" (click)="addcredits()"
+                      [disabled]="!creditModel.destination_id || !creditModel.programs_id || !parameter.property_id">
+                      {{'creditForm.Saveinformation' |
                         translate}}</button>
                     </div>
                   </div>
@@ -440,7 +442,7 @@
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'addForm.contact_number' | translate}} <span class="color-red">*</span></label>
-                        <input minlength="10" maxlength="10" autocomplete="off" type="text"
+                        <input minlength="8" maxlength="15" autocomplete="off" type="text"
                           [pattern]="constant.phonePattern" class="form-control" id="phone" required
                           [(ngModel)]="creditModel.user.phone" name="phone" ng2TelInput
                           [ng2TelInputOptions]="initialCountry" [disabled]="true" />
@@ -637,14 +639,13 @@
                   </div>
 
 
-                  <div class="row" style="margin: auto;">
+                  <div class="row">
                     <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                       <div class="form-group-3">
-                        <div class="form-group">
                           <label>{{'creditForm.EMAIL' | translate}}</label>
-                          <input type="text" class="form-control"
-                            [(ngModel)]="creditModel.general_data.co_credited_email" name="co_credited_email" />
-                        </div>
+                          <input autocomplete="off" type="text" class="form-control"
+                            [(ngModel)]="creditModel.general_data.co_credited_email" name="co_credited_email"
+                            placeholder="Enter E-mail"/>
                       </div>
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-6 col-12">
@@ -713,7 +714,9 @@
                   <div class="row">
                     <div class="col-12">
                       <div class="btn-cont text-right">
-                        <button class="btn btn-primary" (click)="addcredits()">{{'creditForm.Saveinformation' |
+                        <button class="btn btn-primary" (click)="addcredits()" 
+                        [disabled]="!creditModel.general_data.co_credited_owner || !creditModel.general_data.co_credited_involved_revenue || !creditModel.general_data.co_credited_involved_credit || !parameter.property_id || !creditModel.general_data.co_credited_relationship">
+                          {{'creditForm.Saveinformation' |
                           translate}}</button>
                       </div>
                     </div>
@@ -778,8 +781,9 @@
                 <div class="row">
                   <div class="col-12">
                     <div class="btn-cont text-right">
-                      <button class="btn btn-primary" (click)="addcredits()">{{'creditForm.Saveinformation' |
-                        translate}}</button>
+                      <button class="btn btn-primary" (click)="addcredits()" 
+                      [disabled]="!creditModel.general_data.credit_card || !creditModel.general_data.four_digit || !parameter.property_id">
+                      {{'creditForm.Saveinformation' | translate}}</button>
                     </div>
                   </div>
                 </div>
@@ -879,7 +883,8 @@
                 <div class="row">
                   <div class="col-12">
                     <div class="btn-cont text-right">
-                      <button class="btn btn-primary" (click)="setsubTab(4)">{{'creditForm.Saveinformation' |
+                      <button class="btn btn-primary" (click)="setsubTab(4)"
+                      [disabled]="!parameter.property_id" title="Next Tab">{{'creditForm.Saveinformation' |
                         translate}}</button>
                     </div>
                   </div>
@@ -898,7 +903,7 @@
                 <div class="row">
                   <div class="col-4">
                     <div class="form-group-3">
-                      <label>{{'creditForm.RELATIONSHIP' | translate}}</label>
+                      <label>{{'creditForm.RELATIONSHIP' | translate}}<span class="color-red">*</span></label>
                       <select title="{{'creditForm.selectRELATIONSHIP' | translate}}"
                         [(ngModel)]="creditModel.references.credits_relationship_id" name="credits_relationship_id"
                         class="form-control">
@@ -911,7 +916,7 @@
                   </div>
                   <div class="col-4">
                     <div class="form-group-3">
-                      <label>{{'addForm.names' | translate}} </label>
+                      <label>{{'addForm.names' | translate}}<span class="color-red">*</span></label>
                       <input autocomplete="off" minlength="1" maxlength="30"
                         [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" type="text"
                         class="form-control" required [(ngModel)]="creditModel.references.name" name="name">
@@ -919,7 +924,7 @@
                   </div>
                   <div class="col-4">
                     <div class="form-group-3">
-                      <label>{{'addForm.firstSurname' | translate}}</label>
+                      <label>{{'addForm.firstSurname' | translate}}<span class="color-red">*</span></label>
                       <input autocomplete="off" minlength="1" maxlength="30"
                         [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" type="text"
                         class="form-control" [(ngModel)]="creditModel.references.first_surname" name="first_surname">
@@ -1027,7 +1032,9 @@
                     <div class="form-group-3">
                       <label>&nbsp; &nbsp;</label>
                       <div class="btn-cont text-right">
-                        <button class="btn btn-primary" (click)="addcredits()">{{'creditForm.saveReferences' |
+                        <button class="btn btn-primary" (click)="addcredits()" 
+                        [disabled]="!creditModel.references.credits_relationship_id || !creditModel.references.name || !creditModel.references.second_surname || !parameter.property_id || !creditModel.references.phone_number">
+                        {{'creditForm.saveReferences' |
                           translate}}</button>
                       </div>
                     </div>
@@ -1073,7 +1080,7 @@
                       </td>
                       <td>
                         <button class="action-icon" title="{{'table.title.delete' | translate}}"
-                          (click)="deleteReferences(references,i)">
+                          (click)="deleteReferences(references,i)" >
                           <img src="assets/img/ic_delete.png" alt="img">
                         </button>
                       </td>
@@ -1083,7 +1090,9 @@
                 <div class="row">
                   <div class="col-12">
                     <div class="btn-cont text-right">
-                      <button class="btn btn-primary" (click)="setsubTab(5)">{{'creditForm.Saveinformation' |
+                      <button class="btn btn-primary" (click)="setsubTab(5)"
+                      [disabled]="!parameter.property_id" title="Next Tab">
+                      {{'creditForm.Saveinformation' |
                         translate}}</button>
                     </div>
                   </div>
