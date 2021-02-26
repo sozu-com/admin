@@ -1152,6 +1152,8 @@
       "wantToBlockProject": "¿Quieres bloquear este proyecto?",
       "wantToUnBlockProject": "¿Quieres desbloquear este proyecto?",
       "wantToDeleteProject": "¿Quieres eliminar este proyecto?",
+      "wantToDeleteEconomicDependent": "¿Quiere eliminar este dependiente económico?",
+      "wantToDeleteReferences": "¿Quieres eliminar estas referencias?",
       "wantToDeleteCredit": "¿Quieres eliminar este crédito?",
       "wantTocloseLead": "¿Quieres cerrar este lead?",
       "wantToBlockCompany": "¿Quieres bloquear esta compañía?",
@@ -2359,6 +2361,7 @@
     "economicDept":"Deprendientes Economicos",
     "age":"Edad",
     "occupation":"Ocupacion",
+    "saveReferences":"Guardar referencias",
     "Dependent":"Guardar Dependiente",
     "clerk":"Dependiente 1",
     "AddReferences":"Agregar References",
@@ -2470,7 +2473,9 @@
     "legal":"Representante legal",
     "legalRFC":"Representante legal RFC",
     "Subaccountbalance":"Saldo de la subcuenta (SSV)",
-    "InfonavitCredit":"Crédito Infonavit"
+    "InfonavitCredit":"Crédito Infonavit",
+    "cars":"Número de coches propios",
+    "totalCars":"Valor total de los coches propios"
   },
   "deshboard":{
     "Projects":"Proyectos",

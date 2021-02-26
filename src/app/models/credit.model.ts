@@ -24,8 +24,9 @@ export class Credit {
     user?: Users;
     user_id?: number;
     credit_user_id?: number;
-   
-    general_data?:GeneralData;
+    general_data: GeneralData;
+    economic_dependent?: EconomicDependent;
+    references?: References;
 }
 
 export class Bank {
@@ -58,4 +59,27 @@ export class GeneralData {
     existing_mortgage?: string;
     loan?: string;
     four_digit?: string;
+}
+
+export class EconomicDependent {
+    credits_relationship_id?: string;
+    age?: string;
+    occupation?: string;
+}
+
+export class References {
+    credits_relationship_id?: string;
+    name?: string;
+    first_surname?: string;
+    second_surname?: string;
+    years?: string;
+    phone_code?: string;
+    phone_number?: string;
+    address?: string;
+    home_phone_code?: string;
+    home_phone?: string;
+    office_phone_code?: string;
+    office_phone?: string;
+    email?: string;
+    participate_credit?: string;
 }

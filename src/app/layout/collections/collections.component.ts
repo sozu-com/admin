@@ -529,6 +529,8 @@ export class CollectionsComponent implements OnInit {
       return false;
     }
     this.parameter.locality_id = id;
+    this.parameter.localities = [];
+    this.parameter.localities.push(parseInt(this.parameter.locality_id));
     this.spinner.show();
     this.admin.postDataApi('getLocalityBuildings', this.parameter)
       .subscribe(

@@ -1661,4 +1661,22 @@ export class AddPropertyComponent implements OnInit {
   numberUptoNDecimal(num: any, n: number) {
     return num ? num.toFixed(n) : 0;
   }
+
+  changeCommissionPer(value){
+   if(value){
+    this.model.total_commission = this.numberUptoNDecimal((this.model.comm_total_commission_amount * 100) / Number(this.newcarpet_area.price), 2);
+   }
+   else{
+    this.model.broker_commision = this.numberUptoNDecimal((this.model.comm_shared_commission_amount * 100) / Number(this.newcarpet_area.price), 2);
+   }
+  }
+
+  changeCommissionAmt(value){
+    if(value){
+     this.model.comm_total_commission_amount = this.numberUptoNDecimal((this.model.total_commission * Number(this.newcarpet_area.price)) / 100, 2)
+    }
+    else{
+     this.model.comm_shared_commission_amount = this.numberUptoNDecimal((this.model.broker_commision * Number(this.newcarpet_area.price)) / 100, 2)
+    }
+   }
 }

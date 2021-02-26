@@ -396,7 +396,7 @@ export class AddEditCollectionComponent implements OnInit {
       num_of_months: [''],
       monthly_date: [''],
       monthly_amount: [''],
-
+      toAddress: [''],
       deal_purchase_date: ['', [Validators.required]],
       deal_price: ['', [Validators.required]],
       sum_of_concepts: [''],
