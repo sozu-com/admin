@@ -821,4 +821,20 @@ export class CreditAddEditComponent implements OnInit {
     }
     return false;
   }
+
+
+
+ hasErrorCredits = (): boolean => {
+   if(!this.parameter.property_id){
+    return true;
+   }else if (!this.creditModel.destination_id) {
+   return true;
+   } else if (parseInt(this.creditModel.destination_id) == 2) {
+   return false;
+   } else if (!this.creditModel.programs_id) {
+  return true;
+   }
+   return false;
+   }
+
 }

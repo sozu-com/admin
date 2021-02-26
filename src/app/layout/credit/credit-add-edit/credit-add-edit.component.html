@@ -316,7 +316,7 @@
                   <div class="col-12">
                     <div class="btn-cont text-right">
                       <button class="btn btn-primary" (click)="addcredits()"
-                      [disabled]="!creditModel.destination_id || !creditModel.programs_id || !parameter.property_id">
+                      [disabled]="hasErrorCredits()">
                       {{'creditForm.Saveinformation' |
                         translate}}</button>
                     </div>
