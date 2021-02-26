@@ -308,7 +308,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   approveProject(item, status) {
-    if (item.is_completed !== 1) {
+    if (item.is_completed !== 1 && item.is_completed !== 3) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.cannotApproveBuilding'), 'error');
       return false;
     }

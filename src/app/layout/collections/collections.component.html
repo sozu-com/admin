@@ -703,7 +703,7 @@
                         class="action-icon" title="{{'table.title.approve' | translate}}"><img src="assets/img/tick.png"
                           alt="img"></button>
 
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
+                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0" 
                         (click)="openFoldersModal(p)" title="{{'table.title.viewFolders' | translate}}"
                         class="action-icon"><img src="assets/img/ic_folder_1.svg" alt="img"></button>
 
