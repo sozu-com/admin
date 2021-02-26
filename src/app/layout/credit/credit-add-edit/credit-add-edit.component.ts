@@ -73,6 +73,7 @@ export class CreditAddEditComponent implements OnInit {
   Onedit = false;
   isShown: boolean = false ;
   isShown1: boolean = false ;
+  //dataView: boolean = false ;
   initialCountry: any;
 
   constructor(
@@ -794,6 +795,7 @@ export class CreditAddEditComponent implements OnInit {
 
   hasErrorEconomicDependent = (): boolean => {
     if (!this.creditModel.economic_dependent.credits_relationship_id ||
+      !this.parameter.property_id ||
       !this.creditModel.economic_dependent.age ||
       this.creditModel.economic_dependent.age == '' ||
       !this.creditModel.economic_dependent.occupation ||
@@ -803,4 +805,5 @@ export class CreditAddEditComponent implements OnInit {
     }
     return false;
   }
+
 }
