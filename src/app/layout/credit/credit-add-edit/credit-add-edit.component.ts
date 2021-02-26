@@ -71,8 +71,8 @@ export class CreditAddEditComponent implements OnInit {
   userForm: FormGroup;
   showSearch = false;
   Onedit = false;
-  isShown: boolean = false ;
-  isShown1: boolean = false ;
+  isShown: boolean = false;
+  isShown1: boolean = false;
   initialCountry: any;
 
   constructor(
@@ -122,10 +122,10 @@ export class CreditAddEditComponent implements OnInit {
     this.showSearch = true
   }
   toggleShow() {
-    this.isShown = ! this.isShown;
+    this.isShown = !this.isShown;
   }
   toggleShow1() {
-    this.isShown1 = ! this.isShown1;
+    this.isShown1 = !this.isShown1;
   }
   unsetProject(item: any) {
     let i = 0
@@ -563,23 +563,18 @@ export class CreditAddEditComponent implements OnInit {
     return this.price.transform(value).substring(1);
   }
 
-  transformHomeValue = (value: any): void => {
-    if (this.creditModel.home_value.length > 0) {
-      //const fullData = this.creditModel.home_value;
-      // const data = this.creditModel.home_value.split(".");
-      // const withoutdotData = data[0];
-      const withdotData = this.creditModel.home_value.split(".")[1];
-      const transformHV = this.price.transform(this.creditModel.home_value.split(".")[0]).substring(1);
-      // this.creditModel.home_value = this.creditModel.home_value.split(".")[1] ? transformHV+'.'+ this.creditModel.home_value.split(".")[1].substring(0,2): transformHV
-      //this.creditModel.home_value =  transformHV+'.'+ this.creditModel.home_value.split(".")[1].substring(0,2);
-      if (withdotData == undefined) {
-        this.creditModel.home_value = transformHV;
-      } else if (withdotData == '') {
-        this.creditModel.home_value = transformHV + '.';
-      }else if (withdotData != ''){
-        this.creditModel.home_value =  transformHV+'.'+ withdotData.substring(0,2);
+  transformHomeValue = (event: any): void => {
+      if (this.creditModel.home_value.length > 0) {
+        const withdotData = this.creditModel.home_value.split(".")[1];
+        const transformHV = this.price.transform(this.creditModel.home_value.split(".")[0]).substring(1);
+        if (withdotData == undefined) {
+          this.creditModel.home_value = transformHV;
+        } else if (withdotData == '') {
+          this.creditModel.home_value = transformHV + '.';
+        } else if (withdotData != '') {
+          this.creditModel.home_value = transformHV + '.' + withdotData.substring(0, 2);
+        }
       }
-    }
   }
 
   getCurrentStep = (): number => {
