@@ -279,10 +279,10 @@ export class CreditAddEditComponent implements OnInit {
       this.adminService.postDataApi('addcredits', modelSave).subscribe(
         (success) => {
           this.parameter.property_id = success.data.id;
-         // localStorage.setItem('stepOneId', success.data.id);
+          // localStorage.setItem('stepOneId', success.data.id);
           if (success.data.general_data != undefined && success.data.general_data != null) {
             this.parameter.general_id = success.data.general_data.id
-           // localStorage.setItem('stepThreeId', success.data.general_data.id);
+            // localStorage.setItem('stepThreeId', success.data.general_data.id);
           }
           this.spinnerService.hide();
           this.afterAddcredit();
@@ -553,9 +553,28 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   getTransformedAmount(value: any) {
-    return (this.price.transform(Number(value).toFixed(2)).toString()).substring(1);
+    // parseFloat(value).toFixed(2)).toString()
+    return this.price.transform(value).substring(1);
   }
 
+  transformHomeValue = (value: any): void => {
+    if (this.creditModel.home_value.length > 0) {
+      //const fullData = this.creditModel.home_value;
+      // const data = this.creditModel.home_value.split(".");
+      // const withoutdotData = data[0];
+      const withdotData = this.creditModel.home_value.split(".")[1];
+      const transformHV = this.price.transform(this.creditModel.home_value.split(".")[0]).substring(1);
+      // this.creditModel.home_value = this.creditModel.home_value.split(".")[1] ? transformHV+'.'+ this.creditModel.home_value.split(".")[1].substring(0,2): transformHV
+      //this.creditModel.home_value =  transformHV+'.'+ this.creditModel.home_value.split(".")[1].substring(0,2);
+      if (withdotData == undefined) {
+        this.creditModel.home_value = transformHV;
+      } else if (withdotData == '') {
+        this.creditModel.home_value = transformHV + '.';
+      }else if (withdotData != ''){
+        this.creditModel.home_value =  transformHV+'.'+ withdotData.substring(0,2);
+      }
+    }
+  }
 
   getCurrentStep = (): number => {
     if (this.tab == 1 || this.tab == 2) {
@@ -632,7 +651,7 @@ export class CreditAddEditComponent implements OnInit {
 
   getRequestDataForSecondStep = (currentStep: number): any => {
     let modelSave = JSON.parse(JSON.stringify(this.creditModel));
-   // const stepOneId = localStorage.getItem('stepOneId');
+    // const stepOneId = localStorage.getItem('stepOneId');
     modelSave = {
       step: currentStep,
       id: this.parameter.property_id,
@@ -667,7 +686,7 @@ export class CreditAddEditComponent implements OnInit {
 
   getRequestDataForThirdStep = (currentStep: number): any => {
     let modelSave = JSON.parse(JSON.stringify(this.creditModel));
-   // const stepOneId = localStorage.getItem('stepOneId');
+    // const stepOneId = localStorage.getItem('stepOneId');
     const modelSave1 = {
       id: this.parameter.property_id,
       general_data_id: this.creditModel.general_data.id,
@@ -683,22 +702,22 @@ export class CreditAddEditComponent implements OnInit {
 
   getRequestDataForFourthStep = (currentStep: number): any => {
     let modelSave = JSON.parse(JSON.stringify(this.creditModel));
-  //  const stepOneId = localStorage.getItem('stepOneId');
-   // const stepThreeId = localStorage.getItem('stepThreeId');
+    //  const stepOneId = localStorage.getItem('stepOneId');
+    // const stepThreeId = localStorage.getItem('stepThreeId');
     const modelSave2 = {
       id: this.parameter.property_id,
       credit_card: this.creditModel.general_data.credit_card,
       existing_mortgage: this.creditModel.general_data.existing_mortgage,
       loan: this.creditModel.general_data.loan,
       four_digit: this.creditModel.general_data.four_digit,
-      general_data_id:  this.parameter.general_id
+      general_data_id: this.parameter.general_id
     };
     modelSave = { general_data: modelSave2, step: currentStep };
     return modelSave;
   }
 
   getRequestDataForFifthStep = (currentStep: number): any => {
-   // const stepOneId = localStorage.getItem('stepOneId');
+    // const stepOneId = localStorage.getItem('stepOneId');
     const modelSave = {
       id: this.parameter.property_id,
       credits_relationship_id: this.creditModel.economic_dependent.credits_relationship_id,
@@ -710,7 +729,7 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   getRequestDataForSixthStep = (currentStep: number): any => {
-   // const stepOneId = localStorage.getItem('stepOneId');
+    // const stepOneId = localStorage.getItem('stepOneId');
     const modelSave = {
       id: this.parameter.property_id,
       credits_relationship_id: this.creditModel.references.credits_relationship_id,
@@ -793,6 +812,17 @@ export class CreditAddEditComponent implements OnInit {
       !this.creditModel.economic_dependent.occupation ||
       this.creditModel.economic_dependent.occupation == ''
     ) {
+      return true;
+    }
+    return false;
+  }
+
+  hasErrorCredits = (): boolean => {
+    if (!this.creditModel.destination_id) {
+      return true;
+    } else if (parseInt(this.creditModel.destination_id) == 2) {
+      return false;
+    } else if (!this.creditModel.programs_id) {
       return true;
     }
     return false;

@@ -109,7 +109,9 @@
                 <div class="row">
                   <div class="col-6">
                     <div class="form-group-3">
-                      <label class="p16-two">{{'creditForm.destination' | translate}}</label>
+                      <label class="p16-two">{{'creditForm.destination' | translate}}
+                        <span class="color-red">*</span>
+                      </label>
                       <select title="Select Destination" name="destination_id" class="form-control"
                         [(ngModel)]="creditModel.destination_id">
                         <option disabled selected value="undefined">{{'creditForm.selectDestination' | translate}}
@@ -122,7 +124,9 @@
                   </div>
                   <div class="col-6" *ngIf="creditModel.destination_id != 2">
                     <div class="form-group-3">
-                      <label class="p16-two">{{'creditForm.programs' | translate}}</label>
+                      <label class="p16-two">{{'creditForm.programs' | translate}}
+                        <span class="color-red">*</span>
+                      </label>
                       <select title="Select Programs" name="programs_id" class="form-control"
                         [(ngModel)]="creditModel.programs_id">
                         <option disabled selected value="undefined">{{'creditForm.selectProgram' | translate}}</option>
@@ -141,9 +145,9 @@
                     <div class="form-group-3">
                       <label>{{'creditForm.homeValue' | translate}}
                       </label>
-                      <input autocomplete="off" minlength="1" maxlength="30"
-                        [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="number"
-                        class="form-control" [(ngModel)]="creditModel.home_value" name="home_value"
+                      <input autocomplete="off" 
+                       (keyup)="transformHomeValue($event.target.value)" required type="text"
+                        class="form-control" [(ngModel)]="creditModel.home_value" name="home_value" 
                         placeholder="{{'creditForm.homeValue' | translate}}">
                     </div>
                   </div>
@@ -311,7 +315,7 @@
                   <div class="spacer15"></div>
                   <div class="col-12">
                     <div class="btn-cont text-right">
-                      <button class="btn btn-primary" (click)="addcredits()">{{'creditForm.Saveinformation' |
+                      <button class="btn btn-primary" (click)="addcredits()" [disabled]="this.hasErrorCredits()">{{'creditForm.Saveinformation' |
                         translate}}</button>
                     </div>
                   </div>
@@ -807,8 +811,8 @@
                   <div class="col-4">
                     <div class="form-group-3">
                       <label>{{'creditForm.age' | translate}}</label>
-                      <input autocomplete="off" minlength="1" maxlength="30"
-                        [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" type="text"
+                      <input autocomplete="off" minlength="1" maxlength="4" 
+                      appOnlyNumber type="text"
                         class="form-control" required [(ngModel)]="creditModel.economic_dependent.age" name="age">
                     </div>
                   </div>
@@ -816,7 +820,7 @@
                     <div class="form-group-3">
                       <label>{{'creditForm.occupation' | translate}}</label>
                       <input autocomplete="off" minlength="1" maxlength="30"
-                        [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" type="text"
+                         type="text" appOnlyNumber
                         class="form-control" [(ngModel)]="creditModel.economic_dependent.occupation" name="occupation">
                     </div>
                   </div>
