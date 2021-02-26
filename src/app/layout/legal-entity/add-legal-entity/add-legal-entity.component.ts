@@ -154,7 +154,7 @@ export class AddLegalEntityComponent implements OnInit {
         legal_rep_banks: this.fb.array([]),
         building_ids: [''],
         sales_commission: [''],
-        developer_id: ['']
+        //developer_id: ['']
       })
 
     });
@@ -318,7 +318,7 @@ export class AddLegalEntityComponent implements OnInit {
     this.model.neighbourhoods.push(this.addDataForm.get('neighbourhood').value);
     this.model['tax_neighbourhoods'] = [];
     this.model.tax_neighbourhoods.push(this.addDataForm.get('tax_neighbourhood').value);
-    (this.addDataForm.get('legal_rep') as FormGroup).get('developer_id').setValue(data.developer_id);
+   // (this.addDataForm.get('legal_rep') as FormGroup).get('developer_id').setValue(data.developer_id);
   }
 
   setSaleComm(sales_commission: number) {
@@ -421,7 +421,7 @@ export class AddLegalEntityComponent implements OnInit {
         formData['developer_access'] = this.getDeveloperAccessFormArray.getRawValue();
       }
     }
-    formData['developer_id'] = (this.addDataForm.get('legal_rep') as FormGroup).get('developer_id').value;
+    //formData['developer_id'] = (this.addDataForm.get('legal_rep') as FormGroup).get('developer_id').value;
     this.spinner.show();
     this.admin.postDataApi('addLegalEntity', formData)
       .subscribe(

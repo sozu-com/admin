@@ -80,6 +80,82 @@
                 formControlName="description"></textarea>
             </div>
           </div>
+          <div class="col-12">
+            <div class="form-group-2">
+              <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}
+              </label>
+              <input autocomplete="off" minlength="12" maxlength="13" [pattern]="constant.onlyWhiteSpaces" type="text"
+                class="form-control" formControlName="fed_tax_pay" name="fed_tax_pay">
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group-2">
+              <label>{{'addForm.developerName' | translate}}</label>
+              <select name="developer_id" class="form-control" formControlName="developer_id">
+                <option value="">{{'addForm.selectDeveloper' | translate}}</option>
+                <option *ngFor="let d of all_developers" value="{{d.id}}">{{d.name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-12">
+            <label>{{'addCollection.bankAccount' | translate}}
+              <span class="pull-right"><a class="add" (click)="addLegalEntityBank($event)"
+                  href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
+            </label>
+            <div formArrayName="legal_entity_banks">
+              <ng-container *ngFor="let lebanks of addDataForm.get('legal_entity_banks')['controls']; let i=index">
+    
+                <div class="row" [formGroupName]="i">
+                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>{{'addCollection.bankName' | translate}}</label>
+                      <div class="clearfix"></div>
+                      <input required autocomplete="off" minlength="1" maxlength="30" class="form-control" type="text"
+                        name="bank_name" formControlName="bank_name">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>{{'addCollection.accountNumber' | translate}}</label>
+                      <div class="clearfix"></div>
+                      <input required autocomplete="off" class="form-control" type="text" minlength="9" maxlength="20"
+                        [pattern]="constant.accountPattern" name="account_number" formControlName="account_number">
+                    </div>
+                  </div>
+                  <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>{{'addCollection.clabeSwift' | translate}}</label>
+                      <div class="clearfix"></div>
+                      <input required autocomplete="off" class="form-control" type="text" name="swift"
+                        formControlName="swift">
+                    </div>
+                  </div>
+                  <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>{{'addCollection.currency' | translate}}</label>
+                      <div class="clearfix"></div>
+                      <select required name="currency_id" class="form-control" formControlName="currency_id">
+                        <option value="">{{'addCollection.currency' | translate}}</option>
+                        <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>{{'addCollection.remove' | translate}}</label>
+                      <div class="clearfix"></div>
+                      <button type="button"
+                        (click)="removeLegalEntityBank($event, i, lebanks)">{{'addCollection.remove' |
+                        translate}}</button>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+    
+          </div>
+        
+    
         </div>
       </div>
     </div>
@@ -324,18 +400,7 @@
               class="form-control" formControlName="fed_tax_pay" name="fed_tax_pay1">
           </div>
         </div> -->
-        <div class="col-12">
-          <div class="form-group-2">
-            <label>{{'addForm.developerName' | translate}}</label>
-            <select name="developer_id" class="form-control" formControlName="developer_id">
-              <option value="">{{'addForm.selectDeveloper' | translate}}</option>
-              <option *ngFor="let d of all_developers" value="{{d.id}}">{{d.name}}</option>
-            </select>
-          </div>
-        </div>
-        <div class="col-12">
-          <div class="spacer15"></div>
-        </div>
+       
         <!-- <div class="col-12">
           <label>{{'addCollection.bankAccount' | translate}}
             <span class="pull-right"><a class="add" (click)="addLegalRepBank($event)"
