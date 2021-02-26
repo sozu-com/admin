@@ -647,10 +647,10 @@
                       <div class="form-group-3">
                         <div class="form-group">
                           <label>{{'creditForm.RELATIONSHIP' | translate}}</label>
-                          <select title="{{'creditForm.selectstate' | translate}}"
+                          <select title="{{'creditForm.selectRELATIONSHIP' | translate}}"
                             [(ngModel)]="creditModel.general_data.co_credited_relationship"
                             name="co_credited_relationship" class="form-control">
-                            <option disabled selected value="undefined">{{'creditForm.RELATIONSHIP' | translate}}
+                            <option disabled selected value="undefined">{{'creditForm.selectRELATIONSHIP' | translate}}
                             </option>
                             <option *ngFor="let dest of Relationship_list" [value]="dest.id">
                               {{language_code
@@ -793,10 +793,10 @@
                   <div class="col-4">
                     <div class="form-group-3">
                       <label>{{'creditForm.RELATIONSHIP' | translate}}</label>
-                      <select title="{{'creditForm.selectstate' | translate}}"
+                      <select title="{{'creditForm.selectRELATIONSHIP' | translate}}"
                         [(ngModel)]="creditModel.economic_dependent.credits_relationship_id"
                         name="credits_relationship_id" class="form-control">
-                        <option disabled selected value="undefined">{{'creditForm.RELATIONSHIP' | translate}}</option>
+                        <option disabled selected value="undefined">{{'creditForm.selectRELATIONSHIP' | translate}}</option>
                         <option *ngFor="let dest of Relationship_list" [value]="dest.id">
                           {{language_code
                           == 'en'? dest.name_en : dest.name_es}}</option>
@@ -894,10 +894,10 @@
                   <div class="col-4">
                     <div class="form-group-3">
                       <label>{{'creditForm.RELATIONSHIP' | translate}}</label>
-                      <select title="{{'creditForm.selectstate' | translate}}"
+                      <select title="{{'creditForm.selectRELATIONSHIP' | translate}}"
                         [(ngModel)]="creditModel.references.credits_relationship_id" name="credits_relationship_id"
                         class="form-control">
-                        <option disabled selected value="undefined">{{'creditForm.RELATIONSHIP' | translate}}</option>
+                        <option disabled selected value="undefined">{{'creditForm.selectRELATIONSHIP' | translate}}</option>
                         <option *ngFor="let dest of Relationship_list" [value]="dest.id">
                           {{language_code
                           == 'en'? dest.name_en : dest.name_es}}</option>
@@ -1605,8 +1605,8 @@
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'creditForm.Laboralsector' | translate}}</label>
-                        <select title="{{'creditForm.selectstate' | translate}}" class="form-control">
-                          <option disabled selected value="undefined">{{'creditForm.Laboralsector' | translate}}
+                        <select title="{{'creditForm.selectLaboralsector' | translate}}" class="form-control">
+                          <option disabled selected value="undefined">{{'creditForm.selectLaboralsector' | translate}}
                           </option>
                           <option *ngFor="let dest of LaboralSector_list" [value]="dest.id">
                             {{language_code
@@ -2019,7 +2019,7 @@
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'creditForm.RELATIONSHIP' | translate}}</label>
-                        <select title="Select Nationality" class="form-control">
+                        <select title="{{'creditForm.selectRELATIONSHIP' | translate}}" class="form-control">
                           <option>test</option>
                         </select>
                       </div>

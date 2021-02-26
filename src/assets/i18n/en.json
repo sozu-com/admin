@@ -2352,6 +2352,7 @@
     "RFC": "RFC",
     "EMAIL": "Email",
     "RELATIONSHIP": "Relationship",
+    "selectRELATIONSHIP": "Select Relationship",
     "onwer": "Co-Owner Will It Be?",
     "ConsolidatesRevenue": "Consolidates revenue with the applicant?",
     "involved": "Are you involved in the credit?",
@@ -2415,6 +2416,7 @@
     "Turn":"Turn",
     "Withholdtaxes":"Withhold taxes",
     "Laboralsector":"Laboral sector",
+    "selectLaboralsector": "Select Laboral sector",
     "profession":"profession",
     "Checkincome":"Check income with",
     "Immediateboss":"Immediate boss",
@@ -2463,6 +2465,7 @@
     "selectdeadline": "Select Deadlines to quote",
     "selectpayment": "Select Payment scheme",
     "selectbanks": "Select Banks",
+    
     "WarrantyProperty":"Warranty On Property",
     "number":"Number",
     "PostalCode":"Postal Code",
