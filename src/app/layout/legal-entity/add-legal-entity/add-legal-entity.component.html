@@ -104,15 +104,14 @@
         <div class="col-sm-3">
           <div class="form-group-3">
             <label>{{'addForm.externalNumber' | translate}}</label>
-            <input type="text" class="form-control" name="external_number" 
-              formControlName="external_number" (keyup)="this.onClickUseUserSameAddress()" />
+            <input type="text" class="form-control" name="external_number" formControlName="external_number"
+              (keyup)="this.onClickUseUserSameAddress()" />
           </div>
         </div>
         <div class="col-sm-3">
           <div class="form-group-3">
             <label>{{'addForm.internalNumber' | translate}}</label>
-            <input type="text" class="form-control" name="internal_number"
-               formControlName="internal_number"
+            <input type="text" class="form-control" name="internal_number" formControlName="internal_number"
               (keyup)="this.onClickUseUserSameAddress()" />
           </div>
         </div>
@@ -240,15 +239,13 @@
         <div class="col-sm-3">
           <div class="form-group-3">
             <label>{{'addForm.externalNumber' | translate}}</label>
-            <input type="text" class="form-control" name="tax_external_number" 
-              formControlName="tax_external_number" />
+            <input type="text" class="form-control" name="tax_external_number" formControlName="tax_external_number" />
           </div>
         </div>
         <div class="col-sm-3">
           <div class="form-group-3">
             <label>{{'addForm.internalNumber' | translate}}</label>
-            <input type="text" class="form-control" name="tax_internal_number"
-               formControlName="tax_internal_number" />
+            <input type="text" class="form-control" name="tax_internal_number" formControlName="tax_internal_number" />
           </div>
         </div>
         <div class="col-3">
@@ -427,23 +424,23 @@
               class="form-control" formControlName="second_surname" name="second_surname">
           </div>
         </div>
-        <!-- <div class="col-12">
-              <div class="form-group-2">
-                <label>{{'addForm.contactNumber' | translate}}
-                </label>
-                <input minlength="8" maxlength="15" autocomplete="off" type="text" [pattern]="constant.phonePattern"
-                  class="form-control" id="phone1" formControlName="phone" name="phone1" ng2TelInput
-                  [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
-              </div>
-            </div>
-            <div class="col-12">
-              <div class="form-group-2">
-                <label>{{'addForm.emailId' | translate}}
-                </label>
-                <input (keydown.space)="$event.preventDefault();" autocomplete="off" [pattern]="constant.emailPattern"
-                  type="email" class="form-control" formControlName="email" name="email1">
-              </div>
-            </div> -->
+        <div class="col-12">
+          <div class="form-group-2">
+            <label>{{'addForm.contactNumber' | translate}}
+            </label>
+            <input minlength="8" maxlength="15" autocomplete="off" type="text" [pattern]="constant.phonePattern"
+              class="form-control" id="phone1" formControlName="phone" name="phone1" ng2TelInput
+              [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group-2">
+            <label>{{'addForm.emailId' | translate}}
+            </label>
+            <input (keydown.space)="$event.preventDefault();" autocomplete="off" [pattern]="constant.emailPattern"
+              type="email" class="form-control" formControlName="email" name="email1">
+          </div>
+        </div>
         <!-- <div class="col-12">
               <div class="form-group-2">
                 <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}
