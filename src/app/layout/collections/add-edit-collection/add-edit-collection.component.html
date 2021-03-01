@@ -1714,18 +1714,18 @@
           <div class="row">
           <h5>{{'deshboard.accountEmail' | translate}}</h5>
             <div class="switchToggle">
-              <input type="checkbox" id="switch2">
+              <input type="checkbox" id="switch2" (click)="toggleShow()">
               <label for="switch2">Toggle</label>
             </div>
           </div>
           <div class="spacer15"></div>
-          <div class="row">
+          <div class="row" *ngIf="isShown">
             <div class="col-lg-4 col-md-6 col-sm-6 col-12">
               <div class="form-group-3">
                 <label>{{'deshboard.mail' | translate}}</label>
                 <div class="clearfix"></div>
                 <input formControlName="toAddress" [(ngModel)]="model.email"
-            placeholder="{{'addCollection.Addcollaborator' | translate}}" 
+            placeholder="{{'deshboard.mail' | translate}}" 
             style="width: 100%;border-color: #c0c0c0;background-color: white;height: 39px;">
               </div>
             </div>
