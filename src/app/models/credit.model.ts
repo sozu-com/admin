@@ -27,6 +27,7 @@ export class Credit {
     general_data: GeneralData;
     economic_dependent?: EconomicDependent;
     references?: References;
+    solidarity_liabilities?: SolidarityLiabilities
 }
 
 export class Bank {
@@ -74,15 +75,49 @@ export class References {
     second_surname?: string;
     years?: string;
     country_code?: string;
-    dial_code?: string;
+    phone_code?: string;
     phone_number?: string;
     address?: string;
     home_country_code?: string;
     home_dial_code?: string;
-    home_phone_number?: string;
+    home_phone?: string;
     office_country_code?: string;
     office_dial_code?: string;
-    office_phone_number?: string;
+    office_phone?: string;
     email?: string;
     participate_credit?: string;
+}
+
+export class SolidarityLiabilities {
+    name?: string;
+    first_surname?: string;
+    second_surname?: string;
+    gender?: string;
+    email?: string;
+    country_code?: string;
+    phone_code?: string;
+    phone_number?: string;
+    dob?: string;
+    curp?: string;
+    federal_tax?: string;
+    nationality?: string;
+    marital_status?: string;
+    scholarship?: string;
+    street_address?: string;
+    external_number?: string;
+    internal_number?: string;
+    zip_code?: string;
+    municipality?: string;
+    country?: string;
+    state?: string;
+    city?: string;
+    neighbourhood?: string;
+    neighbourhoods?: any[];
+    number_of_dependents?: string;
+    own_property?: string;
+    total_value_property?: string;
+    total_assessed_value?: string;
+    own_car?: string;
+    //solidarity_id?: number;
+    value_of_own_car?: string;
 }
