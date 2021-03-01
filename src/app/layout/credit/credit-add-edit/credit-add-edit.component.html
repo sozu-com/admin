@@ -1115,16 +1115,17 @@
                         <label>{{'addForm.names' | translate}} <span class="color-red">*</span></label>
                         <input autocomplete="off" minlength="1" maxlength="30"
                           [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
+                          placeholder="{{'addForm.names' | translate}}"
                           class="form-control" [(ngModel)]="creditModel.solidarity_liabilities.name" name="name" />
                       </div>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'addForm.firstSurname' | translate}}
-                          <span class="color-red">*</span>
                         </label>
                         <input autocomplete="off" minlength="1" maxlength="30"
                           [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" type="text"
+                          placeholder="{{'addForm.firstSurname' | translate}}"
                           class="form-control" required [(ngModel)]="creditModel.solidarity_liabilities.first_surname"
                           name="first_surname" />
                       </div>
@@ -1135,6 +1136,7 @@
                         </label>
                         <input autocomplete="off" minlength="1" maxlength="30"
                           [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" type="text"
+                          placeholder="{{'addForm.secondSurname' | translate}}"
                           class="form-control" [(ngModel)]="creditModel.solidarity_liabilities.second_surname" name="second_surname" />
                       </div>
                     </div>
@@ -1156,15 +1158,16 @@
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
-                        <label>{{'addForm.email' | translate}} <span class="color-red">*</span></label>
+                        <label>{{'addForm.email' | translate}}</label>
                         <input (keydown.space)="$event.preventDefault();" autocomplete="off" required
                           [pattern]="constant.emailPattern" type="email" class="form-control"
+                          placeholder="{{'addForm.email' | translate}}"
                           [(ngModel)]="creditModel.solidarity_liabilities.email" name="email" />
                       </div>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
-                        <label>{{'addForm.contact_number' | translate}} <span class="color-red">*</span></label>
+                        <label>{{'addForm.contact_number' | translate}}</label>
                         <input minlength="8" maxlength="15" autocomplete="off" type="text"
                         [pattern]="constant.phonePattern" class="form-control" id="phone_number"
                         [(ngModel)]="creditModel.solidarity_liabilities.phone_number" name="phone_number" ng2TelInput
@@ -1188,6 +1191,7 @@
                       <div class="form-group-3">
                         <label>{{'addForm.CURP' | translate}}</label>
                         <input (keydown.space)="$event.preventDefault();" autocomplete="off" type="text" minlength="18"
+                        placeholder="{{'addForm.CURP' | translate}}"
                           maxlength="18" class="form-control" [(ngModel)]="creditModel.solidarity_liabilities.curp" name="curp" />
                       </div>
                     </div>
@@ -1195,6 +1199,7 @@
                       <div class="form-group-3">
                         <label>{{'addForm.fedralTaxPayerRegistry' | translate}}</label>
                         <input autocomplete="off" minlength="13" maxlength="13" [pattern]="constant.onlyWhiteSpaces"
+                        placeholder="{{'addForm.fedralTaxPayerRegistry' | translate}}"
                           type="text" class="form-control" [(ngModel)]="creditModel.solidarity_liabilities.federal_tax"
                           name="federal_tax" />
                       </div>
@@ -1231,7 +1236,7 @@
                         <label class="p16-two">{{'addForm.marital_status' | translate}}</label>
                         <select title="Select Marital Status" name="marital_status" class="form-control"
                           [(ngModel)]="creditModel.solidarity_liabilities.marital_status">
-                          <option value="0" disabled>{{'addForm.maritalStatus.selectMaritalStatus' | translate}}
+                          <option disabled selected value="undefined">{{'addForm.maritalStatus.selectMaritalStatus' | translate}}
                           </option>
                           <option *ngFor="let maritalStatus of marrital_status_list"
                             [selected]="maritalStatus.id == creditModel.solidarity_liabilities.marital_status"
@@ -1271,6 +1276,7 @@
                       <div class="form-group-3">
                         <label>{{'addForm.streetAddress' | translate}}</label>
                         <input type="text" class="form-control" name="street_address"
+                        placeholder="{{'addForm.streetAddress' | translate}}"
                           [(ngModel)]="this.creditModel.solidarity_liabilities.street_address" />
                       </div>
                     </div>
@@ -1278,6 +1284,7 @@
                       <div class="form-group-3">
                         <label>{{'addForm.externalNumber' | translate}}</label>
                         <input type="text" class="form-control" name="external_number"
+                        placeholder="{{'addForm.externalNumber' | translate}}"
                           [(ngModel)]="this.creditModel.solidarity_liabilities.external_number" />
                       </div>
                     </div>
@@ -1285,6 +1292,7 @@
                       <div class="form-group-3">
                         <label>{{'addForm.internalNumber' | translate}}</label>
                         <input type="text" class="form-control" name="internal_number"
+                        placeholder="{{'addForm.internalNumber' | translate}}"
                           [(ngModel)]="this.creditModel.solidarity_liabilities.internal_number" />
                       </div>
                     </div>
@@ -1292,6 +1300,7 @@
                       <div class="form-group-3">
                         <label>{{'addForm.ZIP' | translate}}</label>
                         <input minlength="8" maxlength="15" autocomplete="off" type="text" class="form-control"
+                        placeholder="{{'addForm.ZIP' | translate}}"
                           id="zipcode" minlength="1" [(ngModel)]="this.creditModel.solidarity_liabilities.zip_code" name="zip_code"
                           (keyup)="this.getCounrtyByZipcode()" />
                       </div>
@@ -1307,6 +1316,7 @@
                       <div class="form-group-3">
                         <label>{{'addForm.municipality' | translate}}</label>
                         <input (keydown.space)="$event.preventDefault();" autocomplete="off" type="text"
+                        placeholder="{{'addForm.municipality' | translate}}"
                           class="form-control" [(ngModel)]="creditModel.solidarity_liabilities.municipality" name="municipality" />
                       </div>
                     </div>
@@ -1314,6 +1324,7 @@
                       <div class="form-group-3">
                         <label>{{'filters.location.country' | translate}}</label>
                         <input autocomplete="off" type="text" class="form-control" id="country"
+                        placeholder="{{'filters.location.country' | translate}}"
                           [(ngModel)]="creditModel.solidarity_liabilities.country" name="country" />
                       </div>
                     </div>
@@ -1321,6 +1332,7 @@
                       <div class="form-group-3">
                         <label>{{'filters.location.state' | translate}}</label>
                         <input autocomplete="off" type="text" class="form-control" id="state"
+                        placeholder="{{'filters.location.state' | translate}}"
                           [(ngModel)]="creditModel.solidarity_liabilities.state" name="state" />
                       </div>
                     </div>
@@ -1335,6 +1347,7 @@
                       <div class="form-group-3">
                         <label>{{'filters.location.city' | translate}}</label>
                         <input autocomplete="off" type="text" class="form-control" id="city"
+                        placeholder="{{'filters.location.city' | translate}}"
                           [(ngModel)]="creditModel.solidarity_liabilities.city" name="city" />
                       </div>
                     </div>
@@ -1342,7 +1355,7 @@
                       <div class="form-group-3">
                         <label>{{'addForm.neighbourhood' | translate}}</label>
                         <select class="form-control" [(ngModel)]="creditModel.solidarity_liabilities.neighbourhood" name="neighbourhood">
-                          <option value="">{{'creditForm.selectstate' | translate}}</option>
+                          <option disabled selected value="undefined">{{'creditForm.selectNeighbourhood' | translate}}</option>
                           <option *ngFor="let tempNeighbourhood of creditModel.solidarity_liabilities.neighbourhoods"
                             value="{{tempNeighbourhood}}">
                             {{tempNeighbourhood}}</option>
@@ -1371,6 +1384,7 @@
                       <div class="form-group-3">
                         <label>{{'creditForm.Numberdependents' | translate}}</label>
                         <input autocomplete="off" minlength="1" maxlength="50" type="text" class="form-control" name="number_of_dependents"
+                        placeholder="{{'creditForm.Numberdependents' | translate}}"
                         [(ngModel)]="creditModel.solidarity_liabilities.number_of_dependents" />
                       </div>
                     </div>
@@ -1378,6 +1392,7 @@
                       <div class="form-group-3">
                         <label>{{'creditForm.Numberproperty' | translate}}</label>
                         <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control" name="own_property"
+                        placeholder="{{'creditForm.Numberproperty' | translate}}"
                         [(ngModel)]="creditModel.solidarity_liabilities.own_property">
                       </div>
                     </div>
@@ -1385,6 +1400,7 @@
                       <div class="form-group-3">
                         <label>{{'creditForm.Totalproperty' | translate}}</label>
                         <input autocomplete="off"  mask="separator.2" thousandSeparator=","  type="text" class="form-control"
+                        placeholder="{{'creditForm.Totalproperty' | translate}}"
                         [(ngModel)]="creditModel.solidarity_liabilities.total_value_property" name="total_value_property" />
                       </div>
                     </div>
@@ -1399,6 +1415,7 @@
                       <div class="form-group-3">
                         <label>{{'creditForm.Totalrealproperty' | translate}}</label>
                         <input mask="separator.2" thousandSeparator="," autocomplete="off" type="text" class="form-control" 
+                        placeholder="{{'creditForm.Totalrealproperty' | translate}}"
                         [(ngModel)]="creditModel.solidarity_liabilities.total_assessed_value" name="total_assessed_value"/>
                       </div>
                     </div>

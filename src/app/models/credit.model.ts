@@ -100,7 +100,7 @@ export class SolidarityLiabilities {
     dob?: string;
     curp?: string;
     federal_tax?: string;
-    nationality?: string;
+    nationality?: string = '1';
     marital_status?: string;
     scholarship?: string;
     street_address?: string;

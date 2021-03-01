@@ -313,7 +313,6 @@ export class CreditAddEditComponent implements OnInit {
       this.creditModel.economic_dependent.credits_relationship_id = undefined;
       this.creditModel.economic_dependent.age = '';
       this.creditModel.economic_dependent.occupation = '';
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
       this.getEcoDependent();
     } else if (this.getCurrentStep() == 6) {
       this.creditModel.references.credits_relationship_id = undefined;
@@ -333,10 +332,39 @@ export class CreditAddEditComponent implements OnInit {
       this.creditModel.references.office_phone = '';
       this.creditModel.references.email = '';
       this.creditModel.references.participate_credit = '';
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
       this.getReferences();
     } else if (this.getCurrentStep() == 7) {
-
+      this.creditModel.solidarity_liabilities.name = '';
+      this.creditModel.solidarity_liabilities.first_surname = '';
+      this.creditModel.solidarity_liabilities.second_surname = '';
+      this.creditModel.solidarity_liabilities.gender = undefined;
+      this.creditModel.solidarity_liabilities.email = '';
+      this.creditModel.solidarity_liabilities.country_code = this.constant.country_code;
+      this.creditModel.solidarity_liabilities.phone_code = this.constant.dial_code;
+      this.creditModel.solidarity_liabilities.phone_number = '';
+      this.creditModel.solidarity_liabilities.dob = undefined;
+      this.creditModel.solidarity_liabilities.curp = '';
+      this.creditModel.solidarity_liabilities.federal_tax = '';
+      this.creditModel.solidarity_liabilities.nationality = '1';
+      this.creditModel.solidarity_liabilities.marital_status = undefined;
+      this.creditModel.solidarity_liabilities.scholarship = undefined;
+      this.creditModel.solidarity_liabilities.street_address = '';
+      this.creditModel.solidarity_liabilities.external_number = '';
+      this.creditModel.solidarity_liabilities.internal_number = '';
+      this.creditModel.solidarity_liabilities.zip_code = '';
+      this.creditModel.solidarity_liabilities.municipality = '';
+      this.creditModel.solidarity_liabilities.country = '';
+      this.creditModel.solidarity_liabilities.state = '';
+      this.creditModel.solidarity_liabilities.city = '';
+      this.creditModel.solidarity_liabilities.neighbourhood = undefined;;
+      this.creditModel.solidarity_liabilities.neighbourhoods = [];
+      this.creditModel.solidarity_liabilities.number_of_dependents = '';
+      this.creditModel.solidarity_liabilities.own_property = '';
+      this.creditModel.solidarity_liabilities.total_value_property = '';
+      this.creditModel.solidarity_liabilities.total_assessed_value = '';
+      this.creditModel.solidarity_liabilities.own_car = '';
+      this.creditModel.solidarity_liabilities.value_of_own_car = '';
+      this.toggleSelectedDetails.isOwnCarChecked = false;
       this.getSolidarity();
     } else {
       // this.setCurrentStep();
@@ -349,6 +377,7 @@ export class CreditAddEditComponent implements OnInit {
     this.adminService.postDataApi('getEcoDependent', { id: this.parameter.property_id || '0' }).subscribe((success) => {
       this.economic_dependent_list = success.data || [];
       this.spinnerService.hide();
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
     }, (error) => {
       this.spinnerService.hide();
     });
@@ -382,6 +411,7 @@ export class CreditAddEditComponent implements OnInit {
     this.adminService.postDataApi('getReferences', { id: this.parameter.property_id || '0' }).subscribe((success) => {
       this.references_list = success.data || [];
       this.spinnerService.hide();
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
     }, (error) => {
       this.spinnerService.hide();
     });
@@ -415,6 +445,7 @@ export class CreditAddEditComponent implements OnInit {
     this.adminService.postDataApi('getSolidarity', { id: this.parameter.property_id || '0' }).subscribe((success) => {
       this.solidarity_list = success.data || [];
       this.spinnerService.hide();
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
     }, (error) => {
       this.spinnerService.hide();
     });
@@ -800,7 +831,7 @@ export class CreditAddEditComponent implements OnInit {
     const modelSave: any = this.creditModel.solidarity_liabilities;
     modelSave.step = currentStep;
     modelSave.id = this.parameter.property_id;
-    modelSave.credites_details_id = '';
+    //modelSave.credites_details_id = this.parameter.property_id;
     return modelSave;
   }
 
@@ -888,7 +919,10 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   hasErrorSolidarityLiabilities = (): boolean => {
-    if (!this.parameter.property_id) {
+    if (!this.parameter.property_id ||
+      !this.creditModel.solidarity_liabilities.name ||
+      this.creditModel.solidarity_liabilities.name == ''
+    ) {
       return true;
     }
     return false;
