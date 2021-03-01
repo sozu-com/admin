@@ -364,7 +364,7 @@ export class CreditAddEditComponent implements OnInit {
       this.creditModel.solidarity_liabilities.total_assessed_value = '';
       this.creditModel.solidarity_liabilities.own_car = '';
       this.creditModel.solidarity_liabilities.value_of_own_car = '';
-      this.toggleSelectedDetails.isOwnCarChecked = false;
+      //this.toggleSelectedDetails.isOwnCarChecked = false;
       this.getSolidarity();
     } else {
       // this.setCurrentStep();
