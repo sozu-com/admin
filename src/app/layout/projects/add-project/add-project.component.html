@@ -1111,8 +1111,12 @@
                   <div class="page-title paddingL0 paddingR0">
                     <h3>{{'addForm.agency.label' | translate}}
                       <!-- <span class="color-red">*</span> -->
+                      <span class="tower pull-right" style="margin-left: 20px;" *ngIf="model?.agency?.id"
+                      (click)="unlinkAgency('', 1)">{{'addForm.agency.unlinkAgency' | translate}} </span>
+
                       <span class="tower pull-right"
                         (click)="selectAgency('', 1)">{{model?.agency?.id ? ('addForm.agency.changeAgency' | translate) : ('addForm.agency.selectAgency' | translate)}} </span>
+                        
                     </h3>
                   </div>
                 </div>

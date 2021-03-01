@@ -388,6 +388,7 @@
       "label": "Agency Info",
       "changeAgency": "Change Agency",
       "selectAgency": "Select Agency",
+      "unlinkAgency": "Unlink Agency",
       "name": "Agency Name",
       "phoneNumber": "Phone Number",
       "phone": "Phone",
