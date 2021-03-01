@@ -837,6 +837,9 @@
                   <div class="page-title paddingL0 paddingR0">
                     <h3>{{'addForm.developer.label' | translate}}
                       <!-- <span class="color-red">*</span> -->
+                      <span class="tower pull-right" *ngIf="model?.developer?.id"  style="margin-left: 20px;"
+                      (click)="removeDeveloper('', 1)">{{'addForm.developer.removeDeveloper' | translate}} </span>
+
                       <span class="tower pull-right"
                         (click)="selectDeveloper('', 1)">{{model?.developer?.id ? ('addForm.developer.changeDeveloper' | translate) : ('addForm.developer.selectDeveloper' | translate)}} </span>
                     </h3>

@@ -138,7 +138,7 @@ export class AddEditCollectionComponent implements OnInit {
   minimumDate: any;
   reminder_date: any;
   noteEmails: any;
-
+  isShown: boolean = false ;
   constructor(public model: Collection, private us: AdminService, private cs: CommonService,
     private router: Router,
     private building: Building, public constant: Constant,
@@ -192,6 +192,10 @@ export class AddEditCollectionComponent implements OnInit {
     this.initFormStep4();
     this.initFormStep5();
     this.getCollectionDetails(this.model.id);
+  }
+
+  toggleShow() {
+    this.isShown = !this.isShown;
   }
 
   getAllPaymentChoices() {
