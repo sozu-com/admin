@@ -18,6 +18,7 @@ import { UserBlockComponent } from '../common-blocks/user-block/user-block.compo
 import { SharedModule } from 'src/app/modules/shared.module';
 import { CreditAddEditComponent } from './credit-add-edit/credit-add-edit.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { NgxMaskModule } from 'ngx-mask';
 
 const routes: Routes = [
   {
@@ -62,7 +63,8 @@ const routes: Routes = [
       maxOpened: 1,
       preventDuplicates: true,
       autoDismiss: true
-    })
+    }),
+    NgxMaskModule.forRoot()
   ],
   declarations: [
     AddRequestComponent,
