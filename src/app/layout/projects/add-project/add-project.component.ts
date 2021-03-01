@@ -1488,6 +1488,17 @@ export class AddProjectComponent implements OnInit {
     this.closeDeveloperListModel.nativeElement.click();
   }
 
+  removeDeveloper(name: string, type: number){
+    this.canEditdeveloperInfo = false;
+    this.model.developer = {
+      id: '', name: '', email: '',
+      country_code: this.constant.country_code,
+      dial_code: this.constant.dial_code,
+      phone: '', logo: '', image: '', developer_image: '',
+      developer_company: '', developer_desc: ''
+    };
+  }
+
 
   addNewTower() {
     // if (this.model.building_tower_edit_index) {
@@ -1958,6 +1969,12 @@ export class AddProjectComponent implements OnInit {
         this.openAgencyModel.nativeElement.click();
       }
     });
+  }
+
+  unlinkAgency(name: string, type: number){
+    this.canEditdeveloperInfo = true;
+    this.model.agency = undefined;
+    this.model.agency_id = undefined;
   }
 
   setAgency(item: any) {

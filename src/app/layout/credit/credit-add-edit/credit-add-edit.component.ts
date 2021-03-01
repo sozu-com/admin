@@ -561,24 +561,9 @@ export class CreditAddEditComponent implements OnInit {
     console.log(values)
   }
 
-  getTransformedAmount(value: any) {
-    // parseFloat(value).toFixed(2)).toString()
-    return this.price.transform(value);//.substring(1);
-  }
-
-  transformHomeValue = (event: any): void => {
-      if (this.creditModel.home_value.length > 0) {
-        const withdotData = this.creditModel.home_value.split(".")[1];
-        const transformHV = this.price.transform(this.creditModel.home_value.split(".")[0]).substring(1);
-        if (withdotData == undefined) {
-          this.creditModel.home_value = transformHV;
-        } else if (withdotData == '') {
-          this.creditModel.home_value = transformHV + '.';
-        } else if (withdotData != '') {
-          this.creditModel.home_value = transformHV + '.' + withdotData.substring(0, 2);
-        }
-      }
-  }
+  // toFixedHomeValue = (): void => {
+  //  // this.creditModel.home_value = parseFloat(this.creditModel.home_value).toFixed(2);
+  // }
 
   getCurrentStep = (): number => {
     if (this.tab == 1 || this.tab == 2) {

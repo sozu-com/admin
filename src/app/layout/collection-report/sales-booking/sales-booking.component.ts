@@ -44,6 +44,7 @@ export class SalesBookingComponent implements OnInit {
     this.reportType = 1;
     this.input = new CollectionReport();
     this.input.sort_sales_by = 1;
+    this.input.filter_sales_by = 1;
     this.input.start_date = moment().subtract(12, 'months').toDate();
     this.input.end_date = moment().toDate();
     this.iniDropDownSetting();

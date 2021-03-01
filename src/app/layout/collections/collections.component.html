@@ -533,7 +533,7 @@
                     <span>{{p?.property?.building_towers ? p?.property?.building_towers?.tower_name : ('table.tr.td.NA'
                       | translate)}}</span>
                   </td>
-                  <td><span>{{p?.property?.name ? p?.property?.name : ('table.tr.td.NA' | translate)}}</span></td>
+                  <td><span  (click)="this.navigateToProperty(p)" style="cursor: pointer;">{{p?.property?.name ? p?.property?.name : ('table.tr.td.NA' | translate)}}</span></td>
                   <td>
                     <span>{{p?.property?.building_configuration?.name}}</span>
                   </td>

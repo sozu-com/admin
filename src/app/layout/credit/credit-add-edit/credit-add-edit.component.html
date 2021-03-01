@@ -146,7 +146,7 @@
                       <label>{{'creditForm.homeValue' | translate}}
                       </label>
                       <input autocomplete="off" 
-                       (keydown)="transformHomeValue($event)" required type="text"
+                        mask="separator.2" thousandSeparator="," required type="text"
                         class="form-control" [(ngModel)]="creditModel.home_value" name="home_value" 
                         placeholder="{{'creditForm.homeValue' | translate}}">
                     </div>
@@ -154,8 +154,8 @@
                   <div class="col-4" *ngIf="creditModel.programs_id == 6">
                     <div class="form-group-3">
                       <label class="p16-two">{{'creditForm.creditAmount' | translate}}</label>
-                      <input autocomplete="off" minlength="1" maxlength="30"
-                        [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="number"
+                      <input autocomplete="off" minlength="1"
+                         mask="separator.2" thousandSeparator=","  required type="text"
                         class="form-control" [(ngModel)]="creditModel.credit_amount" name="credit_amount"
                         placeholder="{{'creditForm.creditAmount' | translate}}">
                     </div>
@@ -1380,7 +1380,7 @@
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'creditForm.Totalproperty' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control"
+                        <input autocomplete="off"  mask="separator.2" thousandSeparator=","  type="text" class="form-control"
                           name="second_surname">
                       </div>
                     </div>
@@ -1394,7 +1394,7 @@
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'creditForm.Totalrealproperty' | translate}}</label>
-                        <input minlength="8" maxlength="15" autocomplete="off" type="text" class="form-control" />
+                        <input mask="separator.2" thousandSeparator="," autocomplete="off" type="text" class="form-control" />
                       </div>
                     </div>
                     <div class="col-4">
@@ -1414,14 +1414,14 @@
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'creditForm.cars' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="50" type="number" 
+                        <input autocomplete="off"  type="text" 
                         class="form-control" placeholder="{{'creditForm.cars' | translate}}">
                       </div>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'creditForm.totalCars' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" type="number"
+                        <input autocomplete="off" mask="separator.2" thousandSeparator="," type="text"
                          class="form-control" placeholder="{{'creditForm.totalCars' | translate}}">
                       </div>
                     </div>
@@ -1450,14 +1450,14 @@
                     <div class="col-3">
                       <div class="form-group-3">
                         <label>{{'creditForm.Monthlyincome' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
+                        <input autocomplete="off"  mask="separator.2" thousandSeparator="," required type="text"
                           class="form-control">
                       </div>
                     </div>
                     <div class="col-3">
                       <div class="form-group-3">
                         <label>{{'creditForm.Netincome' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control" required
+                        <input autocomplete="off"  mask="separator.2" thousandSeparator="," type="text" class="form-control" required
                           name="first_surname1">
                       </div>
                     </div>
@@ -1877,7 +1877,7 @@
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'creditForm.Monthlypayment' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control">
+                        <input autocomplete="off"  mask="separator.2" thousandSeparator="," type="text" class="form-control">
                       </div>
                     </div>
                   </div>
@@ -1929,9 +1929,10 @@
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'creditForm.creditlimit' | translate}}</label>
-                        <p-calendar dateFormat="dd/M/yy" showIcon="true" showButtonBar="true"
+                        <!-- <p-calendar dateFormat="dd/M/yy" showIcon="true" showButtonBar="true"
                           class="coll-report-calendar" [style]="{'width':'100%'}" [monthNavigator]="true"
-                          [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+                          [yearNavigator]="true" yearRange="2000:2040"></p-calendar> -->
+                          <input autocomplete="off"  mask="separator.2" thousandSeparator="," type="text" class="form-control">
                       </div>
                     </div>
                   </div>
@@ -1943,7 +1944,7 @@
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'creditForm.Currentbalance' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="50" type="text" class="form-control">
+                        <input autocomplete="off"  mask="separator.2" thousandSeparator="," type="text" class="form-control">
                       </div>
                     </div>
                     <div class="col-4">
