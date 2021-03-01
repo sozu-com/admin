@@ -14,7 +14,7 @@ import { IProperty } from 'src/app/common/property'
 import { NgxSpinnerService } from 'ngx-spinner'
 import { ActivatedRoute, Router } from '@angular/router'
 import { IDestinationStatus, IMarritalStatus } from 'src/app/common/marrital-status-interface'
-import { Bank, Credit, EconomicDependent, GeneralData, PaymentScheme, References } from 'src/app/models/credit.model'
+import { Bank, Credit, EconomicDependent, GeneralData, PaymentScheme, References, SolidarityLiabilities } from 'src/app/models/credit.model'
 import { forkJoin } from 'rxjs'
 import { PricePipe } from 'src/app/pipes/price.pipe';
 declare let swal: any
@@ -64,6 +64,7 @@ export class CreditAddEditComponent implements OnInit {
   selctedDeadlines: Array<any>;
   economic_dependent_list: Array<any>;
   references_list: Array<any>;
+  solidarity_list: Array<any>;
   multiDropdownSettings = {};
   multiDropdownSettingsForBanks = {};
   public creditModel: Credit = new Credit();
@@ -71,8 +72,8 @@ export class CreditAddEditComponent implements OnInit {
   userForm: FormGroup;
   showSearch = false;
   Onedit = false;
-  isShown: boolean = false ;
-  isShown1: boolean = false ;
+  toggleSelectedDetails: { isCreditCardChecked: boolean, isOwnCarChecked: boolean } =
+    { isCreditCardChecked: false, isOwnCarChecked: false };
   //dataView: boolean = false ;
   initialCountry: any;
 
@@ -122,12 +123,20 @@ export class CreditAddEditComponent implements OnInit {
   showSearchBox() {
     this.showSearch = true
   }
-  toggleShow() {
-    this.isShown = !this.isShown;
+
+  toggleShow = (index: number): void => {
+    switch (index) {
+      case 1:
+        this.toggleSelectedDetails.isCreditCardChecked = !this.toggleSelectedDetails.isCreditCardChecked;
+        break;
+      case 2:
+        this.toggleSelectedDetails.isOwnCarChecked = !this.toggleSelectedDetails.isOwnCarChecked;
+        break;
+      default:
+        break;
+    }
   }
-  toggleShow1() {
-    this.isShown1 = !this.isShown1;
-  }
+
   unsetProject(item: any) {
     let i = 0
     this.selctedBanks.map((r) => {
@@ -313,22 +322,25 @@ export class CreditAddEditComponent implements OnInit {
       this.creditModel.references.second_surname = '';
       this.creditModel.references.years = '';
       this.creditModel.references.country_code = this.constant.country_code;
-      this.creditModel.references.dial_code = this.constant.dial_code;
+      this.creditModel.references.phone_code = this.constant.dial_code;
       this.creditModel.references.phone_number = '';
       this.creditModel.references.address = '';
       this.creditModel.references.home_country_code = this.constant.country_code;
       this.creditModel.references.home_dial_code = this.constant.dial_code;
-      this.creditModel.references.home_phone_number = '';
+      this.creditModel.references.home_phone = '';
       this.creditModel.references.office_country_code = this.constant.country_code;
       this.creditModel.references.office_dial_code = this.constant.dial_code;
-      this.creditModel.references.office_phone_number = '';
+      this.creditModel.references.office_phone = '';
       this.creditModel.references.email = '';
       this.creditModel.references.participate_credit = '';
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
       this.getReferences();
-      // this.router.navigate(['dashboard/credit/view-credit']);
+    } else if (this.getCurrentStep() == 7) {
+
+      this.getSolidarity();
     } else {
-      this.setCurrentStep();
+      // this.setCurrentStep();
+      // this.router.navigate(['dashboard/credit/view-credit']);
     }
   }
 
@@ -398,6 +410,39 @@ export class CreditAddEditComponent implements OnInit {
     });
   }
 
+  getSolidarity = (): void => {
+    this.spinnerService.show();
+    this.adminService.postDataApi('getSolidarity', { id: this.parameter.property_id || '0' }).subscribe((success) => {
+      this.solidarity_list = success.data || [];
+      this.spinnerService.hide();
+    }, (error) => {
+      this.spinnerService.hide();
+    });
+  }
+
+  deleteSolidarity = (solidarity: any, index: number): void => {
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.translate.instant('message.error.wantToDeleteSolidarityLiabilities'),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.spinnerService.show();
+        this.adminService.postDataApi('deleteSolidarity', { id: solidarity.id }).subscribe((success) => {
+          this.spinnerService.hide();
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
+          this.solidarity_list.splice(index, 1);
+        }, (error) => {
+          this.spinnerService.hide();
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
+        });
+      }
+    });
+  }
+
   getcredits = (): void => {
     this.spinnerService.show()
     this.adminService
@@ -454,11 +499,16 @@ export class CreditAddEditComponent implements OnInit {
     if (!this.creditModel.references) {
       this.creditModel.references = new References();
       this.creditModel.references.country_code = this.constant.country_code;
-      this.creditModel.references.dial_code = this.constant.dial_code;
+      this.creditModel.references.phone_code = this.constant.dial_code;
       this.creditModel.references.home_country_code = this.constant.country_code;
       this.creditModel.references.home_dial_code = this.constant.dial_code;
       this.creditModel.references.office_country_code = this.constant.country_code;
       this.creditModel.references.office_dial_code = this.constant.dial_code;
+    }
+    if (!this.creditModel.solidarity_liabilities) {
+      this.creditModel.solidarity_liabilities = new SolidarityLiabilities();
+      this.creditModel.solidarity_liabilities.country_code = this.constant.country_code;
+      this.creditModel.solidarity_liabilities.phone_code = this.constant.dial_code;
     }
   }
 
@@ -508,7 +558,8 @@ export class CreditAddEditComponent implements OnInit {
       this.adminService.postDataApi('getIncomeBank', {}),
       this.adminService.postDataApi('getCountryLocality', {}),
       this.adminService.postDataApi('getEcoDependent', { id: this.parameter.property_id || '0' }),
-      this.adminService.postDataApi('getReferences', { id: this.parameter.property_id || '0' })
+      this.adminService.postDataApi('getReferences', { id: this.parameter.property_id || '0' }),
+      this.adminService.postDataApi('getSolidarity', { id: this.parameter.property_id || '0' })
     ]).subscribe((response: any[]) => {
       this.spinnerService.hide();
       this.program_list = response[0].data
@@ -535,12 +586,13 @@ export class CreditAddEditComponent implements OnInit {
       this.location.countries = response[21].data;
       this.economic_dependent_list = response[22].data || [];
       this.references_list = response[23].data || [];
+      this.solidarity_list = response[24].data || [];
       this.loadCreditsBasicDetails();
     });
   }
 
   loadCreditsBasicDetails = (): void => {
-    this.nationality_list.push({ id: 0, name: 'Other' });
+    //this.nationality_list.push({ id: 0, name: 'Other' });
     this.creditModel.country_id = this.location.countries[0].id;
     this.initializeDropDownSettingForBanks();
   }
@@ -619,6 +671,7 @@ export class CreditAddEditComponent implements OnInit {
         postData = this.getRequestDataForSixthStep(6);
         break;
       case 7:
+        postData = this.getRequestDataForSeventhStep(7);
         break;
       case 8:
         break;
@@ -726,16 +779,16 @@ export class CreditAddEditComponent implements OnInit {
       first_surname: this.creditModel.references.first_surname,
       second_surname: this.creditModel.references.second_surname,
       years: this.creditModel.references.years,
-      country_code: this.creditModel.references.country_code || 'IN',
-      phone_code: this.creditModel.references.dial_code || '91',
-      phone_number: this.creditModel.references.phone_number || '7247370495',
+      country_code: this.creditModel.references.country_code || '',
+      phone_code: this.creditModel.references.phone_code || '',
+      phone_number: this.creditModel.references.phone_number || '',
       address: this.creditModel.references.address,
-      home_country_code: this.creditModel.references.home_country_code || 'IN',
-      home_phone_code: this.creditModel.references.home_dial_code || '91',
-      home_phone: this.creditModel.references.home_phone_number || '7247370495',
-      office_country_code: this.creditModel.references.office_country_code || 'IN',
-      office_phone_code: this.creditModel.references.office_dial_code || '91',
-      office_phone: this.creditModel.references.office_phone_number || '7247370495',
+      home_country_code: this.creditModel.references.home_country_code || '',
+      home_phone_code: this.creditModel.references.home_dial_code || '',
+      home_phone: this.creditModel.references.home_phone || '',
+      office_country_code: this.creditModel.references.office_country_code || '',
+      office_phone_code: this.creditModel.references.office_dial_code || '',
+      office_phone: this.creditModel.references.office_phone || '',
       email: this.creditModel.references.email,
       participate_credit: this.creditModel.references.participate_credit,
       step: currentStep
@@ -743,29 +796,37 @@ export class CreditAddEditComponent implements OnInit {
     return modelSave;
   }
 
+  getRequestDataForSeventhStep = (currentStep: number): any => {
+    const modelSave: any = this.creditModel.solidarity_liabilities;
+    modelSave.step = currentStep;
+    modelSave.id = this.parameter.property_id;
+    modelSave.credites_details_id = '';
+    return modelSave;
+  }
+
   getCounrtyByZipcode = (): void => {
-    if (((this.creditModel.user.zipcode || '0').toString()).length >= 5) {
+    if (((this.creditModel.solidarity_liabilities.zip_code || '0').toString()).length >= 5) {
       this.spinnerService.show();
-      this.adminService.postDataApi('getCounrtyByZipcode', { zip_code: this.creditModel.user.zipcode }).
+      this.adminService.postDataApi('getCounrtyByZipcode', { zip_code: this.creditModel.solidarity_liabilities.zip_code }).
         subscribe((success) => {
           this.spinnerService.hide();
-          this.creditModel.user.municipality = ((success.data || {}).response || {}).municipio || ''; // Municipality
-          this.creditModel.user.state = ((success.data || {}).response || {}).estado || ''; // State
-          this.creditModel.user.city = ((success.data || {}).response || {}).ciudad || ''; // city
-          this.creditModel.user.country = ((success.data || {}).response || {}).pais || ''; // Country
-          this.creditModel.user.neighbourhoods = ((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
-          this.creditModel.user.neighborhood = (this.creditModel.user.neighbourhoods || [])[0] || '';
+          this.creditModel.solidarity_liabilities.municipality = ((success.data || {}).response || {}).municipio || ''; // Municipality
+          this.creditModel.solidarity_liabilities.state = ((success.data || {}).response || {}).estado || ''; // State
+          this.creditModel.solidarity_liabilities.city = ((success.data || {}).response || {}).ciudad || ''; // city
+          this.creditModel.solidarity_liabilities.country = ((success.data || {}).response || {}).pais || ''; // Country
+          this.creditModel.solidarity_liabilities.neighbourhoods = ((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
+          this.creditModel.solidarity_liabilities.neighbourhood = (this.creditModel.solidarity_liabilities.neighbourhoods || [])[0] || '';
         }, (error) => {
           this.spinnerService.hide();
           swal(this.translate.instant('swal.error'), error.error.message, 'error');
         });
     } else {
-      this.creditModel.user.municipality = '';
-      this.creditModel.user.state = '';
-      this.creditModel.user.city = '';
-      this.creditModel.user.country = '';
-      this.creditModel.user.neighbourhoods = [];
-      this.creditModel.user.neighborhood = '';
+      this.creditModel.solidarity_liabilities.municipality = '';
+      this.creditModel.solidarity_liabilities.state = '';
+      this.creditModel.solidarity_liabilities.city = '';
+      this.creditModel.solidarity_liabilities.country = '';
+      this.creditModel.solidarity_liabilities.neighbourhoods = [];
+      this.creditModel.solidarity_liabilities.neighbourhood = '';
     }
   }
 
@@ -779,7 +840,7 @@ export class CreditAddEditComponent implements OnInit {
     switch (index) {
       case 1:
         this.creditModel.references.country_code = event.iso2;
-        this.creditModel.references.dial_code = '+' + event.dialCode;
+        this.creditModel.references.phone_code = '+' + event.dialCode;
         break;
       case 2:
         this.creditModel.references.home_country_code = event.iso2;
@@ -788,6 +849,10 @@ export class CreditAddEditComponent implements OnInit {
       case 3:
         this.creditModel.references.office_country_code = event.iso2;
         this.creditModel.references.office_dial_code = '+' + event.dialCode;
+        break;
+      case 4:
+        this.creditModel.solidarity_liabilities.country_code = event.iso2;
+        this.creditModel.solidarity_liabilities.phone_code = '+' + event.dialCode;
         break;
       default:
         break;
@@ -809,17 +874,24 @@ export class CreditAddEditComponent implements OnInit {
 
 
 
- hasErrorCredits = (): boolean => {
-   if(!this.parameter.property_id){
-    return true;
-   }else if (!this.creditModel.destination_id) {
-   return true;
-   } else if (parseInt(this.creditModel.destination_id) == 2) {
-   return false;
-   } else if (!this.creditModel.programs_id) {
-  return true;
-   }
-   return false;
-   }
+  hasErrorCredits = (): boolean => {
+    if (!this.parameter.property_id) {
+      return true;
+    } else if (!this.creditModel.destination_id) {
+      return true;
+    } else if (parseInt(this.creditModel.destination_id) == 2) {
+      return false;
+    } else if (!this.creditModel.programs_id) {
+      return true;
+    }
+    return false;
+  }
+
+  hasErrorSolidarityLiabilities = (): boolean => {
+    if (!this.parameter.property_id) {
+      return true;
+    }
+    return false;
+  }
 
 }
