@@ -358,6 +358,7 @@
       "label": "Developer Info",
       "changeDeveloper": "Change Developer",
       "selectDeveloper": "Select Developer",
+      "removeDeveloper": "Remove Developer",
       "name": "Developer Name",
       "phoneNumber": "Phone Number",
       "phone": "Phone",
