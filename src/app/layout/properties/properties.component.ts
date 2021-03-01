@@ -224,6 +224,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     };
     this.route.params.subscribe(params => {
       this.parameter.project_id = params.project_id;
+      this.parameter.property_id = params.property_id || '';
       this.parameter.keyword = params.name;
       if (params.availability_filter) {
         this.parameter.availability_filter = params.availability_filter;
@@ -348,7 +349,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   getListing() {
     this.spinner.show();
     this.makePostRequest();
-    const input: any = JSON.parse(JSON.stringify(this.parameter));
+    let input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
     } else {
@@ -393,6 +394,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     input.bedroom = this.parameter.bedroom;
     input.bathroom = this.parameter.bathroom;
     input.half_bathroom = this.parameter.half_bathroom;
+
+    if(this.parameter.property_id){
+      input = {};
+      input.flag = 3;
+      input.property_id = this.parameter.property_id
+    }
     this.admin.postDataApi('propertyHome', input).subscribe(
       success => {
         localStorage.setItem('parametersForProperty', JSON.stringify(this.parameter));
