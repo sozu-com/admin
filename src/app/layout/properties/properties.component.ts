@@ -686,7 +686,18 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         swal(this.translate.instant('swal.error'), error.error.message, 'error');
       });
   }
-
+  updateCommercialized = (propertyDetails: any, is_commercialized): void => {
+    propertyDetails.is_commercialized = is_commercialized;
+    this.admin.postDataApi('updateCommercialized', { id: (propertyDetails || {}).id, is_commercialized: is_commercialized }).subscribe((success) => {
+      // this.spinner.hide();
+      // this.getListing();
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.commercializedStatusChanged'), 'success');
+      this.closeModal();
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
   resetFilters() {
     this.location.countries = JSON.parse(JSON.stringify(this.location.countries));
     this.onCountryChange('0');
@@ -1680,17 +1691,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateCommercialized = (propertyDetails: any): void => {
-    this.spinner.show();
-    this.admin.postDataApi('updateCommercialized', { id: (propertyDetails || {}).id }).subscribe((success) => {
-      this.spinner.hide();
-      this.getListing();
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.commercializedStatusChanged'), 'success');
-    }, (error) => {
-      this.spinner.hide();
-      swal(this.translate.instant('swal.error'), error.error.message, 'error');
-    });
-  }
+  
 
   onClickPreview = (isPreviewClick: boolean): void => {
     if (this.getTotalPercentage() == 100.00) {
