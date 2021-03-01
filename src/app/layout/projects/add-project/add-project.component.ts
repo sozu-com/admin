@@ -1960,6 +1960,12 @@ export class AddProjectComponent implements OnInit {
     });
   }
 
+  unlinkAgency(name: string, type: number){
+    this.canEditdeveloperInfo = true;
+    this.model.agency = undefined;
+    this.model.agency_id = undefined;
+  }
+
   setAgency(item: any) {
     this.canEditdeveloperInfo = false;
     this.model.agency = item;
