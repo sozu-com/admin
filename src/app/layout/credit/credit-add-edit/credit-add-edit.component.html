@@ -1933,7 +1933,7 @@
             <div *ngIf="subtab==7">
               <div class="white-bg padding40">
                 <div class="col-12">
-                  <label>{{'addCollection.bankName' | translate}}
+                  <label>
                     <span class="pull-right"><a class="add" (click)="addDeveloperBank($event)"
                         href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
                   </label>
@@ -1992,6 +1992,16 @@
                         <div class="clearfix"></div>
                         <button type="button" (click)="removeDeveloperBank($event, bankAccount, i)">Remove</button>
                       </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <div class="btn-cont text-right">
+                      <button class="btn btn-primary" (click)="setsubTab(8)"
+                      [disabled]="!parameter.property_id" title="Next Tab">
+                      {{'creditForm.Saveinformation' |
+                        translate}}</button>
                     </div>
                   </div>
                 </div>

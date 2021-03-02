@@ -51,8 +51,8 @@
             <div class="col-lg-2 col-md-2 col-sm-5 col-5">
                <div class="form-group marginB0">
                   <label>{{'filters.time.custom.to' | translate}}</label>
-                  <p-calendar [locale]="locale" showIcon="true" [(ngModel)]="parameter.max" [minDate]="parameter.min" name="min"
-                     [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true"
+                  <p-calendar [locale]="locale" showIcon="true" [(ngModel)]="parameter.max" [minDate]="parameter.min"
+                     name="min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true"
                      yearRange="2000:2040"></p-calendar>
                </div>
             </div>
@@ -72,7 +72,8 @@
       <div class="col-lg-2 col-md-2">
          <div class="form-group">
             <label>{{'filters.location.country' | translate}}</label>
-            <select class="form-control" (change)="onCountryChange($event.target.value)" style="background-color: white;">
+            <select class="form-control" (change)="onCountryChange($event.target.value)"
+               style="background-color: white;">
                <option value="0">{{'filters.location.allOption' | translate}}</option>
                <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
             </select>
@@ -109,25 +110,26 @@
 
       <div class="col-lg-2 col-md-2">
          <div class="form-group">
-           <label>{{'filters.location.city' | translate}}</label>
-           <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selectedCities"
-           [data]="location.cities" [(ngModel)]="selectedLocation.selectedCities" [settings]="multiDropdownSettingsForLocation"
-           (onDeSelect)="onCityChange()" (onSelect)="onCityChange()"
-           (onSelectAll)="onCityChangeAll($event)" (onDeSelectAll)="onCityChangeAll($event)">
-         </ng-multiselect-dropdown>
+            <label>{{'filters.location.city' | translate}}</label>
+            <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
+               name="selectedCities" [data]="location.cities" [(ngModel)]="selectedLocation.selectedCities"
+               [settings]="multiDropdownSettingsForLocation" (onDeSelect)="onCityChange()" (onSelect)="onCityChange()"
+               (onSelectAll)="onCityChangeAll($event)" (onDeSelectAll)="onCityChangeAll($event)">
+            </ng-multiselect-dropdown>
          </div>
-       </div>
-   
-       <div class="col-lg-2 col-md-2">
+      </div>
+
+      <div class="col-lg-2 col-md-2">
          <div class="form-group">
-           <label>{{'filters.location.locality' | translate}}</label>
-           <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selectedLocalities"
-           [data]="location.localities" [(ngModel)]="selectedLocation.selectedLocalities" [settings]="multiDropdownSettingsForLocation"
-           (onDeSelect)="onLocalityChange()" (onSelect)="onLocalityChange()"
-           (onSelectAll)="onLocalityChangeAll($event)" (onDeSelectAll)="onLocalityChangeAll($event)">
-        </ng-multiselect-dropdown>
+            <label>{{'filters.location.locality' | translate}}</label>
+            <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
+               name="selectedLocalities" [data]="location.localities" [(ngModel)]="selectedLocation.selectedLocalities"
+               [settings]="multiDropdownSettingsForLocation" (onDeSelect)="onLocalityChange()"
+               (onSelect)="onLocalityChange()" (onSelectAll)="onLocalityChangeAll($event)"
+               (onDeSelectAll)="onLocalityChangeAll($event)">
+            </ng-multiselect-dropdown>
          </div>
-       </div>
+      </div>
 
       <div class="col-lg-2 col-md-2">
          <div class="form-group marginB0">
@@ -321,8 +323,8 @@
                            <div class="table-search">
                               <label>{{'table.th.nameOfTower' | translate}}</label>
                               <div class="searh-3">
-                                 <input class="width100px" type="text" [(ngModel)]="parameter.tower_name" name="tower_name"
-                                    (keyup.enter)="getListing()">
+                                 <input class="width100px" type="text" [(ngModel)]="parameter.tower_name"
+                                    name="tower_name" (keyup.enter)="getListing()">
                                  <button *ngIf="parameter.tower_name" (click)="getListing()"><i
                                        class="fa fa-search"></i></button>
                               </div>
@@ -358,8 +360,8 @@
                            <div class="table-search">
                               <label>{{'table.th.model' | translate}}</label>
                               <div class="searh-3">
-                                 <input class="width120px" type="text" [(ngModel)]="parameter.configuration_name" name="configuration_name"
-                                    (keyup.enter)="getListing()">
+                                 <input class="width120px" type="text" [(ngModel)]="parameter.configuration_name"
+                                    name="configuration_name" (keyup.enter)="getListing()">
                                  <button *ngIf="parameter.configuration_name" (click)="getListing()"><i
                                        class="fa fa-search"></i></button>
                               </div>
@@ -368,7 +370,8 @@
                         <th style="width:10%; text-align:left;">
                            <div class="table-search">
                               <label>{{'table.th.configuration' | translate}}</label>
-                              <select [(ngModel)]="parameter.configuration_id" (change)="getListing()" name="configuration_id">
+                              <select [(ngModel)]="parameter.configuration_id" (change)="getListing()"
+                                 name="configuration_id">
                                  <option value="0">{{'table.th.allConfiguration' | translate}}</option>
                                  <option *ngFor="let c of configurations" value="{{c.id}}">
                                     <!-- {{c.name}} -->
@@ -399,7 +402,8 @@
                         <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
                            <div class="table-search">
                               <label>{{'table.th.commercializedBySOZU' | translate}}</label>
-                              <select class="width100px" [(ngModel)]="parameter.is_commercialized" (change)="getListing()" name="is_commercialized">
+                              <select class="width100px" [(ngModel)]="parameter.is_commercialized"
+                                 (change)="getListing()" name="is_commercialized">
                                  <option value="">{{'table.th.all' | translate}}</option>
                                  <option value="1">{{'table.th.yes' | translate}}</option>
                                  <option value="0">{{'table.th.no' | translate}}</option>
@@ -411,14 +415,15 @@
                               <label>{{'table.th.possession_status' | translate}}</label>
                               <select [(ngModel)]="parameter.possession_status_id" (change)="getListing()">
                                  <option value="0">{{'table.th.possesion.all' | translate}}</option>
-                                 <option value="{{apiConstant.possessionStatus.sale}}">{{'table.th.possesion.sale' | translate}}
+                                 <option value="{{apiConstant.possessionStatus.sale}}">{{'table.th.possesion.sale' |
+                                    translate}}
                                  </option>
                                  <option value="{{apiConstant.possessionStatus.preSale}}">
-                                   {{'table.th.possesion.presale' | translate}}</option>
-                               </select>
+                                    {{'table.th.possesion.presale' | translate}}</option>
+                              </select>
                            </div>
                         </th>
-                       
+
                         <th style="width:4%;vertical-align:top;">
                            <div class="d-flex table-search">
                               <label>{{'table.th.editPrice' | translate}}</label>
@@ -461,8 +466,8 @@
                            <div class="table-search">
                               <label>{{'table.th.changeBuyer' | translate}}</label>
                               <div class="searh-3">
-                                 <input class="width100px" type="text" [(ngModel)]="parameter.buyer_name" name="buyer_name"
-                                    (keyup.enter)="getListing()">
+                                 <input class="width100px" type="text" [(ngModel)]="parameter.buyer_name"
+                                    name="buyer_name" (keyup.enter)="getListing()">
                                  <button *ngIf="parameter.seller_name" (click)="getListing()"><i
                                        class="fa fa-search"></i></button>
                               </div>
@@ -472,8 +477,8 @@
                            <div class="table-search">
                               <label>{{'table.th.changeSeller' | translate}}</label>
                               <div class="searh-3">
-                                 <input class="width100px" type="text" [(ngModel)]="parameter.seller_name" name="seller_name"
-                                    (keyup.enter)="getListing()">
+                                 <input class="width100px" type="text" [(ngModel)]="parameter.seller_name"
+                                    name="seller_name" (keyup.enter)="getListing()">
                                  <button *ngIf="parameter.seller_name" (click)="getListing()"><i
                                        class="fa fa-search"></i></button>
                               </div>
@@ -491,7 +496,8 @@
                         <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
                            <div class="table-search">
                               <label>{{'table.th.changeAvailability' | translate}}</label>
-                              <select [(ngModel)]="parameter.availability_filter" (change)="getListing()" name="availability_filter">
+                              <select [(ngModel)]="parameter.availability_filter" (change)="getListing()"
+                                 name="availability_filter">
                                  <option value="0">{{'table.th.all' | translate}}</option>
                                  <option value="1">{{'table.th.buy' | translate}}</option>
                                  <option value="2">{{'table.th.rent' | translate}}</option>
@@ -502,7 +508,8 @@
                         <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
                            <div class="table-search">
                               <label>{{'table.th.isPropertySold' | translate}}</label>
-                              <select class="width100px" [(ngModel)]="parameter.sold_filter" (change)="getListing()" name="sold_filter">
+                              <select class="width100px" [(ngModel)]="parameter.sold_filter" (change)="getListing()"
+                                 name="sold_filter">
                                  <option value="0">{{'table.th.all' | translate}}</option>
                                  <option value="1">{{'table.th.yes' | translate}}</option>
                                  <option value="2">{{'table.th.no' | translate}}</option>
@@ -517,7 +524,8 @@
                         <th style="width:10%;" *ngIf="parameter.flag!=5">
                            <div class="table-search">
                               <label>{{'table.th.actions.label' | translate}}</label>
-                              <select [(ngModel)]="parameter.action_filter" (change)="getListing()" name="action_filter">
+                              <select [(ngModel)]="parameter.action_filter" (change)="getListing()"
+                                 name="action_filter">
                                  <option value="0">{{'table.th.actions.all' | translate}}</option>
                                  <option value="3">{{'table.th.actions.featured' | translate}}</option>
                                  <option value="1">{{'table.th.actions.blocked' | translate}}</option>
@@ -559,9 +567,11 @@
                         <td><span>{{p.min_price | price}}</span></td>
                         <!-- <td><span>{{p?.carpet_areas && p?.carpet_areas?.length>0 ? (p?.carpet_areas[0]?.area| number : '1.2-2') : 0.00}}</span></td> -->
                         <td><span>{{p?.max_area ? p.max_area : 0.00}}</span></td>
-                        <td><span>{{p?.is_commercialized ? ( 'table.th.yes' | translate ): ( 'table.th.no' | translate ) }}</span></td>
-                        <td><span>{{p?.building_towers?.possession_status_id == apiConstant.possessionStatus.sale ? ('table.tr.td.sale' |
-                           translate) : ('table.tr.td.presale' | translate)}}</span></td>
+                        <td><span>{{p?.is_commercialized ? ( 'table.th.yes' | translate ): ( 'table.th.no' | translate )
+                              }}</span></td>
+                        <td><span>{{p?.building_towers?.possession_status_id == apiConstant.possessionStatus.sale ?
+                              ('table.tr.td.sale' |
+                              translate) : ('table.tr.td.presale' | translate)}}</span></td>
                         <td><span>
                               <button (click)="editPricePopup(p, i)"
                                  [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
@@ -642,57 +652,70 @@
                         <td *ngIf="parameter.flag!=5">
                            <div class="table-actions">
                               <!--this button to open installment modal -->
-                              <button (click)="this.openModalInstallment(p);" class="action-icon" [disabled]="!!p?.collection" *ngIf="parameter?.flag == 3"
+                              <button (click)="this.openModalInstallment(p);" class="action-icon"
+                                 [disabled]="!!p?.collection" *ngIf="parameter?.flag == 3"
                                  title="{{'table.title.generatePDF' | translate}}"><img
                                     src="assets/img/commercial_pdf.png" alt="img"></button>
 
-                              <button (click)="this.updateCommercialized(p,1);" class="action-icon" [disabled]="!!p?.collection" *ngIf="parameter?.flag == 3"
+                              <!-- <button (click)="this.updateCommercialized(p,1);" class="action-icon" [disabled]="!!p?.collection" *ngIf="parameter?.flag == 3"
                                  [title]="p?.is_commercialized ? ('table.title.commercializedProperty' | translate ): ('table.title.markCommercialized' | translate)"><img
-                                    [src]="p?.is_commercialized ? 'assets/img/tick-selected.png' : 'assets/img/tick.png' " alt="img"></button>
+                                    [src]="p?.is_commercialized ? 'assets/img/tick-selected.png' : 'assets/img/tick.png' " alt="img"></button> -->
 
-                              <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                                 *ngIf="parameter?.flag!=3" routerLink="/dashboard/properties/edit-property/{{p.id}}"
-                                 title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
-                                    src="assets/img/edit.png" alt="img"></button>
-                              <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                                 *ngIf="parameter?.flag==3"
-                                 routerLink="/dashboard/properties/edit-property/{{p.id}}/edit"
-                                 title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
-                                    src="assets/img/edit.png" alt="img"></button>
-                              <button [disabled]="admin?.admin_acl['Property Management']?.can_delete==0"
-                                 *ngIf="!p.is_blocked" (click)="blockUnblock(p, 1);" class="action-icon"
-                                 title="{{'table.title.block' | translate}}"><img src="assets/img/block.png"
-                                    alt="img"></button>
-                              <button [disabled]="admin?.admin_acl['Property Management']?.can_delete==0"
-                                 *ngIf="p.is_blocked == true" (click)="blockUnblock(p, 0);"
-                                 class="action-icon unblock-bg" title="{{'table.title.unblock' | translate}}"><img
-                                    src="assets/img/unblock.png" alt="img"></button>
+                              <button (click)="this.updateCommercialized(p,1);"
+                                 class="action-icon" [disabled]="!!p?.collection"
+                                 *ngIf="p.is_commercialized !=1 && parameter?.flag == 3"
+                                 title="{{'table.title.commercializedProperty' | translate}}">
+                                 <img src="assets/img/tick-selected.png" alt="img"></button>
 
-                              <!-- unapprove -->
-                              <a style="display:none;" #modalOpen data-toggle="modal"
-                                 data-target="#addPropertyReason"></a>
-                              <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                                 *ngIf="p.status == 3" (click)="changeStatus(p, 4);" class="action-icon"
-                                 title="{{'table.title.unapprove' | translate}}"><img src="assets/img/ic_disapprove.png"
-                                    alt="img"></button>
-                                    <!-- *ngIf="p.status == 2 -->
-                              <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                                 *ngIf="p.status !=1 && p.status !=3" (click)="changeStatus(p,3);" class="action-icon"
-                                 title="{{'table.title.approve' | translate}}"><img src="assets/img/tick.png"
-                                    alt="img"></button>
-                              <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                                 *ngIf="p.status == 3 && p.is_featured==0" (click)="markPropertyFeatured(p,1);"
-                                 class="action-icon" title="{{'table.title.markFeauture' | translate}}"><img
-                                    src="assets/img/ic_featured.png" alt="img"></button>
-                              <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                                 *ngIf="p.status == 3 && p.is_featured==1" (click)="markPropertyFeatured(p,0);"
-                                 class="action-icon" title="{{'table.title.markUnfeauture' | translate}}"><img
-                                    src="assets/img/tick-selected.png" alt="img"></button>
-                              <!-- delete -->
-                              <button [disabled]="admin?.admin_acl['Property Management']?.can_purge==0"
-                                 (click)="deletePopup(p, i)" class="action-icon"
-                                 title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png"
-                                    alt="img"></button>
+                                 <button (click)="this.updateCommercialized(p,0);" class="action-icon"
+                                    [disabled]="!!p?.collection"
+                                    *ngIf="p.is_commercialized == true && parameter?.flag == 3"
+                                    title="{{'table.title.markCommercialized' | translate}}">
+                                    <img src="assets/img/tick.png" alt="img"></button>
+
+                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                                    *ngIf="parameter?.flag!=3" routerLink="/dashboard/properties/edit-property/{{p.id}}"
+                                    title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
+                                       src="assets/img/edit.png" alt="img"></button>
+                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                                    *ngIf="parameter?.flag==3"
+                                    routerLink="/dashboard/properties/edit-property/{{p.id}}/edit"
+                                    title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
+                                       src="assets/img/edit.png" alt="img"></button>
+                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_delete==0"
+                                    *ngIf="!p.is_blocked" (click)="blockUnblock(p, 1);" class="action-icon"
+                                    title="{{'table.title.block' | translate}}"><img src="assets/img/block.png"
+                                       alt="img"></button>
+                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_delete==0"
+                                    *ngIf="p.is_blocked == true" (click)="blockUnblock(p, 0);"
+                                    class="action-icon unblock-bg" title="{{'table.title.unblock' | translate}}"><img
+                                       src="assets/img/unblock.png" alt="img"></button>
+
+                                 <!-- unapprove -->
+                                 <a style="display:none;" #modalOpen data-toggle="modal"
+                                    data-target="#addPropertyReason"></a>
+                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                                    *ngIf="p.status == 3" (click)="changeStatus(p, 4);" class="action-icon"
+                                    title="{{'table.title.unapprove' | translate}}"><img
+                                       src="assets/img/ic_disapprove.png" alt="img"></button>
+                                 <!-- *ngIf="p.status == 2 -->
+                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                                    *ngIf="p.status !=1 && p.status !=3" (click)="changeStatus(p,3);"
+                                    class="action-icon" title="{{'table.title.approve' | translate}}"><img
+                                       src="assets/img/tick.png" alt="img"></button>
+                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                                    *ngIf="p.status == 3 && p.is_featured==0" (click)="markPropertyFeatured(p,1);"
+                                    class="action-icon" title="{{'table.title.markFeauture' | translate}}"><img
+                                       src="assets/img/ic_featured.png" alt="img"></button>
+                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                                    *ngIf="p.status == 3 && p.is_featured==1" (click)="markPropertyFeatured(p,0);"
+                                    class="action-icon" title="{{'table.title.markUnfeauture' | translate}}"><img
+                                       src="assets/img/tick-selected.png" alt="img"></button>
+                                 <!-- delete -->
+                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_purge==0"
+                                    (click)="deletePopup(p, i)" class="action-icon"
+                                    title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png"
+                                       alt="img"></button>
                            </div>
 
                         </td>
@@ -1187,10 +1210,10 @@ margin-left: -38%;">
             <div class="row">
                <div class="form-group col-md-12">
                   <div class="clearfix"></div>
-                  <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selctedAmenities"
-                     [data]="amenities" [(ngModel)]="selctedAmenities" [settings]="multiDropdownSettings"
-                     (onDeSelect)="unsetProject($event)" (onSelect)="onItemSelect('selctedAmenities', $event)"
-                     (onSelectAll)="onSelectAll($event)">
+                  <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
+                     name="selctedAmenities" [data]="amenities" [(ngModel)]="selctedAmenities"
+                     [settings]="multiDropdownSettings" (onDeSelect)="unsetProject($event)"
+                     (onSelect)="onItemSelect('selctedAmenities', $event)" (onSelectAll)="onSelectAll($event)">
                   </ng-multiselect-dropdown>
                   <div class="clearfix"></div>
                   <!-- <label class="cust-radio" *ngFor="let amenity of parameter.amenities">
@@ -1240,10 +1263,10 @@ margin-left: -38%;">
                   <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                      <div class="form-group-3">
                         <div class="input-group-append">
-                              <span class="input-group-text" id="basic-addon1">$</span>
-                              <input autocomplete="off" class="form-control" type="text" formControlName="listPrice" 
-                            placeholder="">
-                            </div>
+                           <span class="input-group-text" id="basic-addon1">$</span>
+                           <input autocomplete="off" class="form-control" type="text" formControlName="listPrice"
+                              placeholder="">
+                        </div>
                      </div>
                   </div>
                   <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -1255,10 +1278,10 @@ margin-left: -38%;">
                   <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                      <div class="form-group-3">
                         <div class="input-group-append">
-                              <span class="input-group-text" id="basic-addon1">$</span>
-                              <input autocomplete="off" class="form-control" type="text" formControlName="finalPrice" 
-                            placeholder="">
-                            </div>
+                           <span class="input-group-text" id="basic-addon1">$</span>
+                           <input autocomplete="off" class="form-control" type="text" formControlName="finalPrice"
+                              placeholder="">
+                        </div>
                      </div>
                   </div>
                </div>
@@ -1288,25 +1311,25 @@ margin-left: -38%;">
                   <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                      <div class="form-group-3" *ngIf="isPreview">
                         <div class="input-group-append">
-                              <span class="input-group-text" id="basic-addon1">$</span>
-                              <input autocomplete="off" class="form-control" type="text" formControlName="downPaymentFinalPrice" 
-                            placeholder="">
-                            </div>
+                           <span class="input-group-text" id="basic-addon1">$</span>
+                           <input autocomplete="off" class="form-control" type="text"
+                              formControlName="downPaymentFinalPrice" placeholder="">
+                        </div>
                      </div>
                   </div>
-                  <div class="col-lg-3 col-md-6 col-sm-6 col-12" >
+                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                      <div class="form-group-3">
                         <input autocomplete="off" class="form-control" type="text" formControlName="discount"
                            appOnlyDecimal placeholder="%">
                      </div>
                   </div>
-                  <div class="col-lg-3 col-md-6 col-sm-6 col-12" >
+                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                      <div class="form-group-3" *ngIf="isPreview">
-                         <div class="input-group-append">
-                              <span class="input-group-text" id="basic-addon1">$</span>
-                              <input autocomplete="off" class="form-control" type="text" formControlName="discountFinalPrice"  
-                              placeholder=""> 
-                            </div>
+                        <div class="input-group-append">
+                           <span class="input-group-text" id="basic-addon1">$</span>
+                           <input autocomplete="off" class="form-control" type="text"
+                              formControlName="discountFinalPrice" placeholder="">
+                        </div>
                      </div>
                   </div>
                </div>
@@ -1331,13 +1354,13 @@ margin-left: -38%;">
                            formControlName="monthlyInstallment" placeholder="%">
                      </div>
                   </div>
-                  <div class="col-lg-3 col-md-6 col-sm-6 col-12" >
+                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                      <div class="form-group-3" *ngIf="isPreview">
-                         <div class="input-group-append">
-                              <span class="input-group-text" id="basic-addon1">$</span>
-                              <input autocomplete="off" class="form-control" type="text" formControlName="monthlyInstallmentFinalPrice" 
-                              placeholder=""> 
-                            </div>
+                        <div class="input-group-append">
+                           <span class="input-group-text" id="basic-addon1">$</span>
+                           <input autocomplete="off" class="form-control" type="text"
+                              formControlName="monthlyInstallmentFinalPrice" placeholder="">
+                        </div>
                      </div>
                   </div>
                   <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -1346,13 +1369,13 @@ margin-left: -38%;">
                            appOnlyDecimal placeholder="%">
                      </div>
                   </div>
-                  <div class="col-lg-3 col-md-6 col-sm-6 col-12" >
+                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                      <div class="form-group-3" *ngIf="isPreview">
-                         <div class="input-group-append">
-                              <span class="input-group-text" id="basic-addon1">$</span>
-                              <input autocomplete="off" class="form-control" type="text" formControlName="interestFinalPrice"
-                              placeholder=""> 
-                            </div>
+                        <div class="input-group-append">
+                           <span class="input-group-text" id="basic-addon1">$</span>
+                           <input autocomplete="off" class="form-control" type="text"
+                              formControlName="interestFinalPrice" placeholder="">
+                        </div>
                      </div>
                   </div>
                </div>
@@ -1387,13 +1410,13 @@ margin-left: -38%;">
                            formControlName="paymentupondelivery" placeholder="%">
                      </div>
                   </div>
-                  <div class="col-lg-3 col-md-6 col-sm-6 col-12" >
+                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                      <div class="form-group-3" *ngIf="isPreview">
-                         <div class="input-group-append">
-                              <span class="input-group-text" id="basic-addon1">$</span>
-                              <input autocomplete="off" class="form-control" type="text" formControlName="paymentupondeliveryFinalPrice" 
-                              placeholder="" > 
-                            </div>
+                        <div class="input-group-append">
+                           <span class="input-group-text" id="basic-addon1">$</span>
+                           <input autocomplete="off" class="form-control" type="text"
+                              formControlName="paymentupondeliveryFinalPrice" placeholder="">
+                        </div>
                      </div>
                   </div>
                </div>
@@ -1478,13 +1501,13 @@ margin-left: -38%;">
                                     formControlName="addVariablesPercentage" placeholder="%">
                               </div>
                            </div>
-                           <div class="col-lg-3 col-md-6 col-sm-6 col-12" >
+                           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                               <div class="form-group-3" *ngIf="isPreview">
-                                  <div class="input-group-append">
-                                       <span class="input-group-text" id="basic-addon1">$</span>
-                                       <input autocomplete="off" class="form-control" type="text" formControlName="addVariablesPercentageFinalPrice" 
-                                       placeholder=""> 
-                                     </div>
+                                 <div class="input-group-append">
+                                    <span class="input-group-text" id="basic-addon1">$</span>
+                                    <input autocomplete="off" class="form-control" type="text"
+                                       formControlName="addVariablesPercentageFinalPrice" placeholder="">
+                                 </div>
                               </div>
                            </div>
                            <div class="col-lg-2 col-md-6 col-sm-6 col-12">
@@ -1505,7 +1528,8 @@ margin-left: -38%;">
                   <div class="col-lg-4 col-md-4">
                      <div class="form-group btn-cont">
                         <label style="display: block; margin-top: 3px;">&nbsp;</label>
-                        <button type="button" class="btn  width100P P86 btn-primary-new" (click)="this.onClickPreview(true)">
+                        <button type="button" class="btn  width100P P86 btn-primary-new"
+                           (click)="this.onClickPreview(true)">
                            {{'generatePDF.preview' | translate}}</button>
                      </div>
                   </div>

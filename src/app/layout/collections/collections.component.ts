@@ -2740,7 +2740,6 @@ export class CollectionsComponent implements OnInit {
           this.spinner.hide();
           this.collection_data = success['data'];
           this.collection_payments = success['data2'];
-          let current_date = new Date();
           const monthNames = ["January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"
           ];
@@ -2751,15 +2750,15 @@ export class CollectionsComponent implements OnInit {
             let fill = index % 2;
             let month = new Date(element.date);
             let current_date = new Date();
-            self.bill_month = self.translate.defaultLang === 'en' ? monthNames[current_date.getMonth()] : monthNamesES[current_date.getMonth()];
+            self.bill_month = self.translate.defaultLang === 'en' ? monthNames[current_date.getUTCMonth()] : monthNamesES[current_date.getUTCMonth()];
             self.bill_month_date = self.datePipe.transform(current_date.setDate(10), 'MMM d, y');
 
             if (index > 0 && self.collection_data.payment_choices[index - 1].is_paid_calculated == 1 && element.is_paid_calculated == 0) {
-              self.current_month_amount = element.penalty ? (element.amount + element.penalty.amount) - element.calc_payment_amount : month.getMonth() == current_date.getMonth() && month.getFullYear() == current_date.getFullYear() ? element.amount - element.calc_payment_amount : element.calc_payment_amount;
+              self.current_month_amount = element.penalty ? (element.amount + element.penalty.amount) - element.calc_payment_amount : month.getUTCMonth() == current_date.getUTCMonth() && month.getUTCFullYear() == current_date.getUTCFullYear() ? element.amount - element.calc_payment_amount : element.calc_payment_amount;
             }
             else if (index == 0 && element.is_paid_calculated == 0) {
               self.current_month_amount = element.amount;
-              self.bill_month = self.translate.defaultLang === 'en' ? monthNames[month.getMonth()] : monthNamesES[month.getMonth()];
+              self.bill_month = self.translate.defaultLang === 'en' ? monthNames[month.getUTCMonth()] : monthNamesES[month.getUTCMonth()];
               self.bill_month_date = self.datePipe.transform(month.setDate(10), 'MMM d, y');
             }
             if (element.category_name.includes('Monthly Installment')) {
@@ -2942,6 +2941,7 @@ export class CollectionsComponent implements OnInit {
             purchase_date.includes('Jul') ? purchase_date.replace('Jul', 'jul') : purchase_date.includes('Aug') ? purchase_date.replace('Aug', 'ago') :
               purchase_date.includes('Sep') ? purchase_date.replace('Sep', 'sep') : purchase_date.includes('Oct') ? purchase_date.replace('Oct', 'oct') :
                 purchase_date.includes('Nov') ? purchase_date.replace('Nov', 'nov') : purchase_date.includes('Dec') ? purchase_date.replace('Dec', 'dic') : ' ';
+                
       this.bill_month_date = this.bill_month_date.includes('Jan') ? this.bill_month_date.replace('Jan', 'ene') : this.bill_month_date.includes('Feb') ? this.bill_month_date.replace('Feb', 'feb') :
         this.bill_month_date.includes('Mar') ? this.bill_month_date.replace('Mar', 'mar') : this.bill_month_date.includes('Apr') ? this.bill_month_date.replace('Apr', 'abr') :
           this.bill_month_date.includes('May') ? this.bill_month_date.replace('May', 'may') : this.bill_month_date.includes('Jun') ? this.bill_month_date.replace('Jun', 'jun') :
