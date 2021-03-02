@@ -367,7 +367,7 @@ export class CreditAddEditComponent implements OnInit {
       //this.toggleSelectedDetails.isOwnCarChecked = false;
       this.getSolidarity();
     } else if (this.getCurrentStep() == 8) {
-
+      this.setCurrentStep();
     } else {
       this.setCurrentStep();
       // this.router.navigate(['dashboard/credit/view-credit']);
@@ -857,30 +857,41 @@ export class CreditAddEditComponent implements OnInit {
     return modelSave;
   }
 
-  getCounrtyByZipcode = (): void => {
-    if (((this.creditModel.solidarity_liabilities.zip_code || '0').toString()).length >= 5) {
-      this.spinnerService.show();
-      this.adminService.postDataApi('getCounrtyByZipcode', { zip_code: this.creditModel.solidarity_liabilities.zip_code }).
-        subscribe((success) => {
-          this.spinnerService.hide();
-          this.creditModel.solidarity_liabilities.municipality = ((success.data || {}).response || {}).municipio || ''; // Municipality
-          this.creditModel.solidarity_liabilities.state = ((success.data || {}).response || {}).estado || ''; // State
-          this.creditModel.solidarity_liabilities.city = ((success.data || {}).response || {}).ciudad || ''; // city
-          this.creditModel.solidarity_liabilities.country = ((success.data || {}).response || {}).pais || ''; // Country
-          this.creditModel.solidarity_liabilities.neighbourhoods = ((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
-          this.creditModel.solidarity_liabilities.neighbourhood = (this.creditModel.solidarity_liabilities.neighbourhoods || [])[0] || '';
-        }, (error) => {
-          this.spinnerService.hide();
-          swal(this.translate.instant('swal.error'), error.error.message, 'error');
-        });
-    } else {
-      this.creditModel.solidarity_liabilities.municipality = '';
-      this.creditModel.solidarity_liabilities.state = '';
-      this.creditModel.solidarity_liabilities.city = '';
-      this.creditModel.solidarity_liabilities.country = '';
-      this.creditModel.solidarity_liabilities.neighbourhoods = [];
-      this.creditModel.solidarity_liabilities.neighbourhood = '';
+  getCounrtyByZipcode = (index: number): void => {
+    let zipcode;
+    switch (index) {
+      case 1:
+        zipcode = this.creditModel.solidarity_liabilities.zip_code;
+        break;
+      case 2:
+        zipcode = this.creditModel.incomes.zip_code;
+        break;
+      default:
+        break;
     }
+    // if (((this.creditModel.solidarity_liabilities.zip_code || '0').toString()).length >= 5) {
+    //   this.spinnerService.show();
+    //   this.adminService.postDataApi('getCounrtyByZipcode', { zip_code: this.creditModel.solidarity_liabilities.zip_code }).
+    //     subscribe((success) => {
+    //       this.spinnerService.hide();
+    //       this.creditModel.solidarity_liabilities.municipality = ((success.data || {}).response || {}).municipio || ''; // Municipality
+    //       this.creditModel.solidarity_liabilities.state = ((success.data || {}).response || {}).estado || ''; // State
+    //       this.creditModel.solidarity_liabilities.city = ((success.data || {}).response || {}).ciudad || ''; // city
+    //       this.creditModel.solidarity_liabilities.country = ((success.data || {}).response || {}).pais || ''; // Country
+    //       this.creditModel.solidarity_liabilities.neighbourhoods = ((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
+    //       this.creditModel.solidarity_liabilities.neighbourhood = (this.creditModel.solidarity_liabilities.neighbourhoods || [])[0] || '';
+    //     }, (error) => {
+    //       this.spinnerService.hide();
+    //       swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    //     });
+    // } else {
+    //   this.creditModel.solidarity_liabilities.municipality = '';
+    //   this.creditModel.solidarity_liabilities.state = '';
+    //   this.creditModel.solidarity_liabilities.city = '';
+    //   this.creditModel.solidarity_liabilities.country = '';
+    //   this.creditModel.solidarity_liabilities.neighbourhoods = [];
+    //   this.creditModel.solidarity_liabilities.neighbourhood = '';
+    // }
   }
 
   updateNationalityName = (value: string): void => {

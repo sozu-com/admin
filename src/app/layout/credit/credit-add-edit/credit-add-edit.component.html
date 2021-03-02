@@ -1301,7 +1301,7 @@
                         <input minlength="8" maxlength="15" autocomplete="off" type="text" class="form-control"
                         placeholder="{{'addForm.ZIP' | translate}}"
                           id="zipcode" minlength="1" [(ngModel)]="this.creditModel.solidarity_liabilities.zip_code" name="zip_code"
-                          (keyup)="this.getCounrtyByZipcode()" />
+                          (keyup)="this.getCounrtyByZipcode(1)" />
                       </div>
                     </div>
                   </div>
@@ -1638,7 +1638,7 @@
                       <div class="form-group-3">
                         <label>{{'addForm.ZIP' | translate}}</label>
                         <input autocomplete="off" type="text" class="form-control"  [(ngModel)]="creditModel.incomes.zip_code" name="zip_code"
-                        (keyup)="this.getCounrtyByZipcode()" placeholder="{{'addForm.ZIP' | translate}}"/>
+                        (keyup)="this.getCounrtyByZipcode(2)" placeholder="{{'addForm.ZIP' | translate}}"/>
                       </div>
                     </div>
                     <div class="col-4">
