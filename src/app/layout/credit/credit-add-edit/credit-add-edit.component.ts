@@ -14,7 +14,7 @@ import { IProperty } from 'src/app/common/property'
 import { NgxSpinnerService } from 'ngx-spinner'
 import { ActivatedRoute, Router } from '@angular/router'
 import { IDestinationStatus, IMarritalStatus } from 'src/app/common/marrital-status-interface'
-import { Bank, Credit, EconomicDependent, GeneralData, PaymentScheme, References, SolidarityLiabilities } from 'src/app/models/credit.model'
+import { Bank, Credit, EconomicDependent, GeneralData, PaymentScheme, References, SolidarityLiabilities,BankDetail } from 'src/app/models/credit.model'
 import { forkJoin } from 'rxjs'
 import { PricePipe } from 'src/app/pipes/price.pipe';
 declare let swal: any
@@ -29,6 +29,7 @@ export class CreditAddEditComponent implements OnInit {
   public location: IProperty = {};
   userName: string;
   searchedUser = [];
+  currencies = Array<any>();
   public parameter: IProperty = {};
   showText: boolean;
   buildingLoading: boolean;
@@ -94,6 +95,7 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getCurrencies();
     this.language_code = localStorage.getItem('language_code');
     this.initialCountry = { initialCountry: this.constant.country_code };
     this.tab = 1;
@@ -283,6 +285,8 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   addcredits = (): void => {
+  
+
     if (!this.creditModel.user) {
       this.toastr.clear();
       this.toastr.error(
@@ -295,7 +299,11 @@ export class CreditAddEditComponent implements OnInit {
       this.adminService.postDataApi('addcredits', modelSave).subscribe(
         (success) => {
           this.parameter.property_id = success.data.id;
-          // localStorage.setItem('stepOneId', success.data.id);
+          // if (success.data.incomes_bank_account != undefined && success.data.incomes_bank_account != null) {
+          //   this.creditModel.incomes_bank_account = success.data.incomes_bank_account || [];
+          //   console.log(this.creditModel.incomes_bank_account,"this.creditModel.incomes_bank_account")
+          // }
+          
           if (success.data.general_data != undefined && success.data.general_data != null) {
             this.parameter.general_id = success.data.general_data.id
             // localStorage.setItem('stepThreeId', success.data.general_data.id);
@@ -366,10 +374,8 @@ export class CreditAddEditComponent implements OnInit {
       this.creditModel.solidarity_liabilities.value_of_own_car = '';
       //this.toggleSelectedDetails.isOwnCarChecked = false;
       this.getSolidarity();
-    } else if (this.getCurrentStep() == 8) {
-
     } else {
-       this.setCurrentStep();
+      // this.setCurrentStep();
       // this.router.navigate(['dashboard/credit/view-credit']);
     }
   }
@@ -543,6 +549,9 @@ export class CreditAddEditComponent implements OnInit {
       this.creditModel.solidarity_liabilities.country_code = this.constant.country_code;
       this.creditModel.solidarity_liabilities.phone_code = this.constant.dial_code;
     }
+    if (!this.creditModel.incomes_bank_account) {
+      this.creditModel.incomes_bank_account = new Array();
+    }
   }
 
   onSelectAll(obj: any) { }
@@ -707,9 +716,9 @@ export class CreditAddEditComponent implements OnInit {
         postData = this.getRequestDataForSeventhStep(7);
         break;
       case 8:
-        postData = this.getRequestDataForEighthStep(8);
         break;
       case 9:
+        postData = this.getRequestDataForninethStep(9);
         break;
       case 10:
         break;
@@ -837,15 +846,26 @@ export class CreditAddEditComponent implements OnInit {
     //modelSave.credites_details_id = this.parameter.property_id;
     return modelSave;
   }
-
-  getRequestDataForEighthStep = (currentStep: number): any => {
-    const modelSave: any = this.creditModel.solidarity_liabilities;
+  getRequestDataForninethStep = (currentStep: number): any => {
+    const modelSave: any = this.creditModel.incomes_bank_account;
     modelSave.step = currentStep;
-    modelSave.id = this.parameter.property_id;
+    modelSave.credites_details_id = this.parameter.property_id;
     //modelSave.credites_details_id = this.parameter.property_id;
+
+    // if (modelSave['incomes_bank_account'] && modelSave['incomes_bank_account'].length > 0) {
+    //   let i = 0;
+    //   for (let index = 0; index < modelSave['incomes_bank_account'].length; index++) {
+    //     const element = modelSave['incomes_bank_account'][index];
+    //     if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
+    //       i = i + 1;
+    //       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
+    //       return;
+    //     }
+    //   }
+    // }
     return modelSave;
   }
-
+  
   getCounrtyByZipcode = (): void => {
     if (((this.creditModel.solidarity_liabilities.zip_code || '0').toString()).length >= 5) {
       this.spinnerService.show();
@@ -901,21 +921,6 @@ export class CreditAddEditComponent implements OnInit {
     }
   }
 
-  hasErrorCoCredited = (): boolean => {
-    if (!this.parameter.property_id ||
-      !this.creditModel.general_data.co_credited_email ||
-      this.creditModel.general_data.co_credited_email == '' ||
-      !this.creditModel.general_data.co_credited_relationship || 
-      this.creditModel.general_data.co_credited_relationship == '' ||
-      !this.creditModel.general_data.co_credited_owner ||
-      !this.creditModel.general_data.co_credited_involved_revenue || 
-      !this.creditModel.general_data.co_credited_involved_credit
-    ) {
-      return true;
-    }
-    return false;
-  }
-
   hasErrorEconomicDependent = (): boolean => {
     if (!this.creditModel.economic_dependent.credits_relationship_id ||
       !this.parameter.property_id ||
@@ -952,6 +957,31 @@ export class CreditAddEditComponent implements OnInit {
       return true;
     }
     return false;
+  }
+  getCurrencies() {
+    this.adminService.postDataApi('getCurrencies', {})
+      .subscribe(
+        success => {
+          this.currencies = success.data;
+        });
+  }
+
+
+  addDeveloperBank(e) {
+    const bank = new BankDetail();
+    this.creditModel.incomes_bank_account.push(bank);
+  }
+
+  removeDeveloperBank($event: Event, item: any, i: number) {
+    $event.stopPropagation();
+    this.creditModel.incomes_bank_account.splice(i, 1);
+    if (item.id) {
+      this.adminService.postDataApi('deleteBankAccount', { id: item.id }).subscribe(success => {
+        this.spinnerService.hide();
+      }, error => {
+        this.spinnerService.hide();
+      });
+    }
   }
 
 }
