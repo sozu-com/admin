@@ -14,7 +14,7 @@ import { IProperty } from 'src/app/common/property'
 import { NgxSpinnerService } from 'ngx-spinner'
 import { ActivatedRoute, Router } from '@angular/router'
 import { IDestinationStatus, IMarritalStatus } from 'src/app/common/marrital-status-interface'
-import { Bank, Credit, EconomicDependent, GeneralData, PaymentScheme, References, SolidarityLiabilities,BankDetail } from 'src/app/models/credit.model'
+import { Bank, Credit, EconomicDependent, GeneralData, PaymentScheme, References, SolidarityLiabilities,BankDetail, Incomes } from 'src/app/models/credit.model';
 import { forkJoin } from 'rxjs'
 import { PricePipe } from 'src/app/pipes/price.pipe';
 declare let swal: any
@@ -374,8 +374,10 @@ export class CreditAddEditComponent implements OnInit {
       this.creditModel.solidarity_liabilities.value_of_own_car = '';
       //this.toggleSelectedDetails.isOwnCarChecked = false;
       this.getSolidarity();
+    } else if (this.getCurrentStep() == 8) {
+      this.setCurrentStep();
     } else {
-      // this.setCurrentStep();
+      this.setCurrentStep();
       // this.router.navigate(['dashboard/credit/view-credit']);
     }
   }
@@ -551,6 +553,17 @@ export class CreditAddEditComponent implements OnInit {
     }
     if (!this.creditModel.incomes_bank_account) {
       this.creditModel.incomes_bank_account = new Array();
+    }
+    if (!this.creditModel.incomes) {
+      this.creditModel.incomes = new Incomes();
+      this.creditModel.incomes.country_code = this.constant.country_code;
+      this.creditModel.incomes.phone_code = this.constant.dial_code;
+      this.creditModel.incomes.last_country_code = this.constant.country_code;
+      this.creditModel.incomes.last_phone_code = this.constant.dial_code;
+    } else {
+      this.creditModel.incomes.incomes_id = this.creditModel.incomes.id;
+      this.creditModel.incomes['neighbourhoods'] = [];
+      this.creditModel.incomes.neighbourhoods.push(this.creditModel.incomes.colony);
     }
   }
 
@@ -843,7 +856,6 @@ export class CreditAddEditComponent implements OnInit {
     const modelSave: any = this.creditModel.solidarity_liabilities;
     modelSave.step = currentStep;
     modelSave.id = this.parameter.property_id;
-    //modelSave.credites_details_id = this.parameter.property_id;
     return modelSave;
   }
   getRequestDataForninethStep = (currentStep: number): any => {
@@ -866,29 +878,79 @@ export class CreditAddEditComponent implements OnInit {
     return modelSave;
   }
   
-  getCounrtyByZipcode = (): void => {
-    if (((this.creditModel.solidarity_liabilities.zip_code || '0').toString()).length >= 5) {
+  getRequestDataForEighthStep = (currentStep: number): any => {
+    const tempModelSave: any = this.creditModel.incomes;
+    tempModelSave.id = this.parameter.property_id;
+    const modelSave = {
+      step: currentStep,
+      incomes: tempModelSave,
+      id: this.parameter.property_id
+    };
+    return modelSave;
+  }
+
+  getCounrtyByZipcode = (index: number): void => {
+    let zipcode;
+    switch (index) {
+      case 1:
+        zipcode = this.creditModel.solidarity_liabilities.zip_code;
+        break;
+      case 2:
+        zipcode = this.creditModel.incomes.zip_code;
+        break;
+      default:
+        break;
+    }
+    if (((zipcode || '0').toString()).length >= 5) {
       this.spinnerService.show();
-      this.adminService.postDataApi('getCounrtyByZipcode', { zip_code: this.creditModel.solidarity_liabilities.zip_code }).
+      this.adminService.postDataApi('getCounrtyByZipcode', { zip_code: zipcode }).
         subscribe((success) => {
           this.spinnerService.hide();
-          this.creditModel.solidarity_liabilities.municipality = ((success.data || {}).response || {}).municipio || ''; // Municipality
-          this.creditModel.solidarity_liabilities.state = ((success.data || {}).response || {}).estado || ''; // State
-          this.creditModel.solidarity_liabilities.city = ((success.data || {}).response || {}).ciudad || ''; // city
-          this.creditModel.solidarity_liabilities.country = ((success.data || {}).response || {}).pais || ''; // Country
-          this.creditModel.solidarity_liabilities.neighbourhoods = ((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
-          this.creditModel.solidarity_liabilities.neighbourhood = (this.creditModel.solidarity_liabilities.neighbourhoods || [])[0] || '';
+          switch (index) {
+            case 1:
+              this.creditModel.solidarity_liabilities.municipality = ((success.data || {}).response || {}).municipio || ''; // Municipality
+              this.creditModel.solidarity_liabilities.state = ((success.data || {}).response || {}).estado || ''; // State
+              this.creditModel.solidarity_liabilities.city = ((success.data || {}).response || {}).ciudad || ''; // city
+              this.creditModel.solidarity_liabilities.country = ((success.data || {}).response || {}).pais || ''; // Country
+              this.creditModel.solidarity_liabilities.neighbourhoods = ((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
+              this.creditModel.solidarity_liabilities.neighbourhood = (this.creditModel.solidarity_liabilities.neighbourhoods || [])[0] || '';
+              break;
+            case 2:
+              this.creditModel.incomes.municipality = ((success.data || {}).response || {}).municipio || ''; // Municipality
+              this.creditModel.incomes.state = ((success.data || {}).response || {}).estado || ''; // State
+              this.creditModel.incomes.city = ((success.data || {}).response || {}).ciudad || ''; // city
+              this.creditModel.incomes.country = ((success.data || {}).response || {}).pais || ''; // Country
+              this.creditModel.incomes.neighbourhoods = ((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
+              this.creditModel.incomes.colony = (this.creditModel.incomes.neighbourhoods || [])[0] || '';
+              break;
+            default:
+              break;
+          }
         }, (error) => {
           this.spinnerService.hide();
           swal(this.translate.instant('swal.error'), error.error.message, 'error');
         });
     } else {
-      this.creditModel.solidarity_liabilities.municipality = '';
-      this.creditModel.solidarity_liabilities.state = '';
-      this.creditModel.solidarity_liabilities.city = '';
-      this.creditModel.solidarity_liabilities.country = '';
-      this.creditModel.solidarity_liabilities.neighbourhoods = [];
-      this.creditModel.solidarity_liabilities.neighbourhood = '';
+      switch (index) {
+        case 1:
+          this.creditModel.solidarity_liabilities.municipality = '';
+          this.creditModel.solidarity_liabilities.state = '';
+          this.creditModel.solidarity_liabilities.city = '';
+          this.creditModel.solidarity_liabilities.country = '';
+          this.creditModel.solidarity_liabilities.neighbourhoods = [];
+          this.creditModel.solidarity_liabilities.neighbourhood = '';
+          break;
+        case 2:
+          this.creditModel.incomes.municipality = '';
+          this.creditModel.solidarity_liabilities.state = '';
+          this.creditModel.incomes.city = '';
+          this.creditModel.incomes.country = '';
+          this.creditModel.incomes.neighbourhoods = [];
+          this.creditModel.incomes.colony = '';
+          break;
+        default:
+          break;
+      }
     }
   }
 
@@ -916,9 +978,32 @@ export class CreditAddEditComponent implements OnInit {
         this.creditModel.solidarity_liabilities.country_code = event.iso2;
         this.creditModel.solidarity_liabilities.phone_code = '+' + event.dialCode;
         break;
+      case 5:
+        this.creditModel.incomes.country_code = event.iso2;
+        this.creditModel.incomes.phone_code = '+' + event.dialCode;
+        break;
+      case 6:
+        this.creditModel.incomes.last_country_code = event.iso2;
+        this.creditModel.incomes.last_phone_code = '+' + event.dialCode;
+        break;
       default:
         break;
     }
+  }
+
+  hasErrorCoCredited = (): boolean => {
+    if (!this.parameter.property_id ||
+      !this.creditModel.general_data.co_credited_email ||
+      this.creditModel.general_data.co_credited_email == '' ||
+      !this.creditModel.general_data.co_credited_relationship ||
+      this.creditModel.general_data.co_credited_relationship == '' ||
+      !this.creditModel.general_data.co_credited_owner ||
+      !this.creditModel.general_data.co_credited_involved_revenue ||
+      !this.creditModel.general_data.co_credited_involved_credit
+    ) {
+      return true;
+    }
+    return false;
   }
 
   hasErrorEconomicDependent = (): boolean => {
@@ -981,6 +1066,18 @@ export class CreditAddEditComponent implements OnInit {
         this.spinnerService.hide();
       });
     }
+  }
+
+  hasErrorIncomes = (): boolean => {
+    if (!this.parameter.property_id ||
+      !this.creditModel.incomes.monthly_income ||
+      this.creditModel.incomes.monthly_income == '' ||
+      !this.creditModel.incomes.net_income ||
+      this.creditModel.incomes.net_income == ''
+    ) {
+      return true;
+    }
+    return false;
   }
 
 }
