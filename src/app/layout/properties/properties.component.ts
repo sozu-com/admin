@@ -1224,7 +1224,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     let monthly_installments = monthly_installment_amount / this.installmentFormGroup.value.numberOfMI;
     let add_variable = [];
     this.getAddVariablesFormArray.controls.forEach((element: FormGroup) => {
-      let variable_amount = element.value.addVariablesPercentage ? (element.value.addVariablesPercentage * this.property_array.min_price) / 100 : 0;
+      let variable_amount = element.value.addVariablesPercentage ? (element.value.addVariablesPercentage * final_price) / 100 : 0;
       add_variable.push([
         { text: element.value.addVariablesText, border: [false, false, false, false], color: '#858291' },
         { text: element.value.addVariablesPercentage ? element.value.addVariablesPercentage + '%' : 'N/A', border: [false, false, false, false], bold: true },
