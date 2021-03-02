@@ -141,7 +141,7 @@ export class Incomes {
     job_type: string = null;
     start_date?: string;
     address?: string;
-    colony?: string;
+    colony: string = null;
     city?: string;
     municipality?: string;
     zip_code?: string;

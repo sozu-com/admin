@@ -563,8 +563,10 @@ export class CreditAddEditComponent implements OnInit {
       this.creditModel.incomes.last_phone_code = this.constant.dial_code;
     } else {
       this.creditModel.incomes.incomes_id = this.creditModel.incomes.id;
-      this.creditModel.incomes['neighbourhoods'] = [];
-      this.creditModel.incomes.neighbourhoods.push(this.creditModel.incomes.colony);
+      if (this.creditModel.incomes.colony) {
+        this.creditModel.incomes['neighbourhoods'] = [];
+        this.creditModel.incomes.neighbourhoods.push(this.creditModel.incomes.colony);
+      }
     }
   }
 
