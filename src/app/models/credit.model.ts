@@ -28,6 +28,7 @@ export class Credit {
     economic_dependent?: EconomicDependent;
     references?: References;
     solidarity_liabilities?: SolidarityLiabilities
+    incomes_bank_account?: Array<BankDetail>;
     incomes?: Incomes;
 }
 
@@ -123,6 +124,14 @@ export class SolidarityLiabilities {
     value_of_own_car?: string;
 }
 
+export class BankDetail {
+    id: string;
+    bank_name: string;
+    swift: string;
+    account_number: string;
+    currency_id: number;
+    account_type?: string;
+}
 export class Incomes {
     id?: string;
     incomes_id?: string;

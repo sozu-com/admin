@@ -14,7 +14,7 @@ import { IProperty } from 'src/app/common/property'
 import { NgxSpinnerService } from 'ngx-spinner'
 import { ActivatedRoute, Router } from '@angular/router'
 import { IDestinationStatus, IMarritalStatus } from 'src/app/common/marrital-status-interface'
-import { Bank, Credit, EconomicDependent, GeneralData, Incomes, PaymentScheme, References, SolidarityLiabilities } from 'src/app/models/credit.model'
+import { Bank, Credit, EconomicDependent, GeneralData, PaymentScheme, References, SolidarityLiabilities,BankDetail, Incomes } from 'src/app/models/credit.model';
 import { forkJoin } from 'rxjs'
 import { PricePipe } from 'src/app/pipes/price.pipe';
 declare let swal: any
@@ -29,6 +29,7 @@ export class CreditAddEditComponent implements OnInit {
   public location: IProperty = {};
   userName: string;
   searchedUser = [];
+  currencies = Array<any>();
   public parameter: IProperty = {};
   showText: boolean;
   buildingLoading: boolean;
@@ -94,6 +95,7 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getCurrencies();
     this.language_code = localStorage.getItem('language_code');
     this.initialCountry = { initialCountry: this.constant.country_code };
     this.tab = 1;
@@ -283,6 +285,8 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   addcredits = (): void => {
+  
+
     if (!this.creditModel.user) {
       this.toastr.clear();
       this.toastr.error(
@@ -295,7 +299,11 @@ export class CreditAddEditComponent implements OnInit {
       this.adminService.postDataApi('addcredits', modelSave).subscribe(
         (success) => {
           this.parameter.property_id = success.data.id;
-          // localStorage.setItem('stepOneId', success.data.id);
+          // if (success.data.incomes_bank_account != undefined && success.data.incomes_bank_account != null) {
+          //   this.creditModel.incomes_bank_account = success.data.incomes_bank_account || [];
+          //   console.log(this.creditModel.incomes_bank_account,"this.creditModel.incomes_bank_account")
+          // }
+          
           if (success.data.general_data != undefined && success.data.general_data != null) {
             this.parameter.general_id = success.data.general_data.id
             // localStorage.setItem('stepThreeId', success.data.general_data.id);
@@ -543,6 +551,9 @@ export class CreditAddEditComponent implements OnInit {
       this.creditModel.solidarity_liabilities.country_code = this.constant.country_code;
       this.creditModel.solidarity_liabilities.phone_code = this.constant.dial_code;
     }
+    if (!this.creditModel.incomes_bank_account) {
+      this.creditModel.incomes_bank_account = new Array();
+    }
     if (!this.creditModel.incomes) {
       this.creditModel.incomes = new Incomes();
       this.creditModel.incomes.country_code = this.constant.country_code;
@@ -720,9 +731,9 @@ export class CreditAddEditComponent implements OnInit {
         postData = this.getRequestDataForSeventhStep(7);
         break;
       case 8:
-        postData = this.getRequestDataForEighthStep(8);
         break;
       case 9:
+        postData = this.getRequestDataForninethStep(9);
         break;
       case 10:
         break;
@@ -849,7 +860,26 @@ export class CreditAddEditComponent implements OnInit {
     modelSave.id = this.parameter.property_id;
     return modelSave;
   }
+  getRequestDataForninethStep = (currentStep: number): any => {
+    const modelSave: any = this.creditModel.incomes_bank_account;
+    modelSave.step = currentStep;
+    modelSave.credites_details_id = this.parameter.property_id;
+    //modelSave.credites_details_id = this.parameter.property_id;
 
+    // if (modelSave['incomes_bank_account'] && modelSave['incomes_bank_account'].length > 0) {
+    //   let i = 0;
+    //   for (let index = 0; index < modelSave['incomes_bank_account'].length; index++) {
+    //     const element = modelSave['incomes_bank_account'][index];
+    //     if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
+    //       i = i + 1;
+    //       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
+    //       return;
+    //     }
+    //   }
+    // }
+    return modelSave;
+  }
+  
   getRequestDataForEighthStep = (currentStep: number): any => {
     const tempModelSave: any = this.creditModel.incomes;
     tempModelSave.id = this.parameter.property_id;
@@ -991,8 +1021,6 @@ export class CreditAddEditComponent implements OnInit {
     return false;
   }
 
-
-
   hasErrorCredits = (): boolean => {
     if (!this.parameter.property_id) {
       return true;
@@ -1014,6 +1042,32 @@ export class CreditAddEditComponent implements OnInit {
       return true;
     }
     return false;
+  }
+  
+  getCurrencies() {
+    this.adminService.postDataApi('getCurrencies', {})
+      .subscribe(
+        success => {
+          this.currencies = success.data;
+        });
+  }
+
+
+  addDeveloperBank(e) {
+    const bank = new BankDetail();
+    this.creditModel.incomes_bank_account.push(bank);
+  }
+
+  removeDeveloperBank($event: Event, item: any, i: number) {
+    $event.stopPropagation();
+    this.creditModel.incomes_bank_account.splice(i, 1);
+    if (item.id) {
+      this.adminService.postDataApi('deleteBankAccount', { id: item.id }).subscribe(success => {
+        this.spinnerService.hide();
+      }, error => {
+        this.spinnerService.hide();
+      });
+    }
   }
 
   hasErrorIncomes = (): boolean => {
