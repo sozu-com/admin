@@ -298,18 +298,19 @@ export class CreditAddEditComponent implements OnInit {
       this.spinnerService.show();
       this.adminService.postDataApi('addcredits', modelSave).subscribe(
         (success) => {
+          this.spinnerService.hide();
+          this.afterAddcredit();
           this.parameter.property_id = success.data.id;
           // if (success.data.incomes_bank_account != undefined && success.data.incomes_bank_account != null) {
-          //   this.creditModel.incomes_bank_account = success.data.incomes_bank_account || [];
-          //   console.log(this.creditModel.incomes_bank_account,"this.creditModel.incomes_bank_account")
+            this.creditModel.incomes_bank_account = success.data.incomes_bank_account || [];
+            console.log(this.creditModel.incomes_bank_account,"this.creditModel.incomes_bank_account")
           // }
           
           if (success.data.general_data != undefined && success.data.general_data != null) {
             this.parameter.general_id = success.data.general_data.id
             // localStorage.setItem('stepThreeId', success.data.general_data.id);
           }
-          this.spinnerService.hide();
-          this.afterAddcredit();
+         
         }, (error) => {
           this.spinnerService.hide();
         });
