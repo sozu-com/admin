@@ -131,6 +131,7 @@ export class BankDetail {
     account_number: string;
     currency_id: number;
     account_type?: string;
+    credites_details_id?: number;
 }
 export class Incomes {
     id?: string;
