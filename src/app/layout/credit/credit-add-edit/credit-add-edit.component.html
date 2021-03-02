@@ -387,7 +387,7 @@
                   <div class="row">
                     <div class="col-4">
                       <div class="form-group-3">
-                        <label>{{'addForm.names' | translate}} <span class="color-red">*</span></label>
+                        <label>{{'addForm.names' | translate}} </label>
                         <input autocomplete="off" minlength="1" maxlength="30"
                           [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
                           class="form-control" [(ngModel)]="creditModel.user.name" name="name" [disabled]="true" />
@@ -396,7 +396,6 @@
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'addForm.firstSurname' | translate}}
-                          <span class="color-red">*</span>
                         </label>
                         <input autocomplete="off" minlength="1" maxlength="30"
                           [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" type="text"
@@ -433,7 +432,7 @@
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
-                        <label>{{'addForm.email' | translate}} <span class="color-red">*</span></label>
+                        <label>{{'addForm.email' | translate}} </label>
                         <input (keydown.space)="$event.preventDefault();" autocomplete="off" required
                           [pattern]="constant.emailPattern" type="email" class="form-control"
                           [(ngModel)]="creditModel.user.email" name="email" [disabled]="true" />
@@ -441,7 +440,7 @@
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
-                        <label>{{'addForm.contact_number' | translate}} <span class="color-red">*</span></label>
+                        <label>{{'addForm.contact_number' | translate}} </label>
                         <input minlength="8" maxlength="15" autocomplete="off" type="text"
                           [pattern]="constant.phonePattern" class="form-control" id="phone" required
                           [(ngModel)]="creditModel.user.phone" name="phone" ng2TelInput
@@ -642,16 +641,16 @@
                   <div class="row">
                     <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                       <div class="form-group-3">
-                          <label>{{'creditForm.EMAIL' | translate}}</label>
+                          <label>{{'creditForm.EMAIL' | translate}} <span class="color-red">*</span></label>
                           <input autocomplete="off" type="text" class="form-control"
                             [(ngModel)]="creditModel.general_data.co_credited_email" name="co_credited_email"
-                            placeholder="Enter E-mail"/>
+                            placeholder="{{'creditForm.EMAIL' | translate}}"/>
                       </div>
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                       <div class="form-group-3">
                         <div class="form-group">
-                          <label>{{'creditForm.RELATIONSHIP' | translate}}</label>
+                          <label>{{'creditForm.RELATIONSHIP' | translate}} <span class="color-red">*</span></label>
                           <select title="{{'creditForm.selectRELATIONSHIP' | translate}}"
                             [(ngModel)]="creditModel.general_data.co_credited_relationship"
                             name="co_credited_relationship" class="form-control">
@@ -667,7 +666,7 @@
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                       <div class="form-group-3">
-                        <label>{{'creditForm.onwer' | translate}}</label>
+                        <label>{{'creditForm.onwer' | translate}} <span class="color-red">*</span></label>
                         <div class="switchToggle">
                           <input type="checkbox" id="switch2" [(ngModel)]="creditModel.general_data.co_credited_owner"
                             name="co_credited_owner">
@@ -684,7 +683,7 @@
                   <div class="row">
                     <div class="col-md-4">
                       <div class="form-group-3">
-                        <label>{{'creditForm.ConsolidatesRevenue' | translate}}</label>
+                        <label>{{'creditForm.ConsolidatesRevenue' | translate}} <span class="color-red">*</span></label>
                         <div class="switchToggle">
                           <input type="checkbox" id="switch"
                             [(ngModel)]="creditModel.general_data.co_credited_involved_revenue"
@@ -696,7 +695,7 @@
 
                     <div class="col-md-4">
                       <div class="form-group-3">
-                        <label>{{'creditForm.involved' | translate}}</label>
+                        <label>{{'creditForm.involved' | translate}} <span class="color-red">*</span></label>
                         <div class="switchToggle">
                           <input type="checkbox" id="switch1"
                             [(ngModel)]="creditModel.general_data.co_credited_involved_credit"
@@ -715,7 +714,7 @@
                     <div class="col-12">
                       <div class="btn-cont text-right">
                         <button class="btn btn-primary" (click)="addcredits()" 
-                        [disabled]="!creditModel.general_data.co_credited_owner || !creditModel.general_data.co_credited_involved_revenue || !creditModel.general_data.co_credited_involved_credit || !parameter.property_id || !creditModel.general_data.co_credited_relationship">
+                        [disabled]="this.hasErrorCoCredited()">
                           {{'creditForm.Saveinformation' |
                           translate}}</button>
                       </div>

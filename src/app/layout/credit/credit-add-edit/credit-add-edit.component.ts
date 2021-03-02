@@ -366,8 +366,10 @@ export class CreditAddEditComponent implements OnInit {
       this.creditModel.solidarity_liabilities.value_of_own_car = '';
       //this.toggleSelectedDetails.isOwnCarChecked = false;
       this.getSolidarity();
+    } else if (this.getCurrentStep() == 8) {
+
     } else {
-      // this.setCurrentStep();
+       this.setCurrentStep();
       // this.router.navigate(['dashboard/credit/view-credit']);
     }
   }
@@ -705,6 +707,7 @@ export class CreditAddEditComponent implements OnInit {
         postData = this.getRequestDataForSeventhStep(7);
         break;
       case 8:
+        postData = this.getRequestDataForEighthStep(8);
         break;
       case 9:
         break;
@@ -835,6 +838,14 @@ export class CreditAddEditComponent implements OnInit {
     return modelSave;
   }
 
+  getRequestDataForEighthStep = (currentStep: number): any => {
+    const modelSave: any = this.creditModel.solidarity_liabilities;
+    modelSave.step = currentStep;
+    modelSave.id = this.parameter.property_id;
+    //modelSave.credites_details_id = this.parameter.property_id;
+    return modelSave;
+  }
+
   getCounrtyByZipcode = (): void => {
     if (((this.creditModel.solidarity_liabilities.zip_code || '0').toString()).length >= 5) {
       this.spinnerService.show();
@@ -888,6 +899,21 @@ export class CreditAddEditComponent implements OnInit {
       default:
         break;
     }
+  }
+
+  hasErrorCoCredited = (): boolean => {
+    if (!this.parameter.property_id ||
+      !this.creditModel.general_data.co_credited_email ||
+      this.creditModel.general_data.co_credited_email == '' ||
+      !this.creditModel.general_data.co_credited_relationship || 
+      this.creditModel.general_data.co_credited_relationship == '' ||
+      !this.creditModel.general_data.co_credited_owner ||
+      !this.creditModel.general_data.co_credited_involved_revenue || 
+      !this.creditModel.general_data.co_credited_involved_credit
+    ) {
+      return true;
+    }
+    return false;
   }
 
   hasErrorEconomicDependent = (): boolean => {
