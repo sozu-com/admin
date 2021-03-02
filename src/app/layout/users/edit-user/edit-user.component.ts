@@ -51,7 +51,7 @@ export class EditUserComponent implements OnInit {
     private cs: CommonService,
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
-    private admin: AdminService,
+    public admin: AdminService,
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
     private translate: TranslateService,

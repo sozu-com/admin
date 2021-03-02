@@ -54,7 +54,7 @@ export class DocumentsUploadComponent implements OnInit {
   constructor(
     public constant: Constant,
     private cs: CommonService,
-    private admin: AdminService,
+    public admin: AdminService,
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService, private router: Router,
     private translate: TranslateService,  private toastr: ToastrService,
