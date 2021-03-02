@@ -732,6 +732,7 @@ export class CreditAddEditComponent implements OnInit {
         postData = this.getRequestDataForSeventhStep(7);
         break;
       case 8:
+        postData = this.getRequestDataForEighthStep(8);
         break;
       case 9:
         postData = this.getRequestDataForninethStep(9);
@@ -862,22 +863,11 @@ export class CreditAddEditComponent implements OnInit {
     return modelSave;
   }
   getRequestDataForninethStep = (currentStep: number): any => {
-    const modelSave: any = this.creditModel.incomes_bank_account;
-    modelSave.step = currentStep;
-    modelSave.credites_details_id = this.parameter.property_id;
-    //modelSave.credites_details_id = this.parameter.property_id;
-
-    // if (modelSave['incomes_bank_account'] && modelSave['incomes_bank_account'].length > 0) {
-    //   let i = 0;
-    //   for (let index = 0; index < modelSave['incomes_bank_account'].length; index++) {
-    //     const element = modelSave['incomes_bank_account'][index];
-    //     if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
-    //       i = i + 1;
-    //       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
-    //       return;
-    //     }
-    //   }
-    // }
+    const modelSave ={
+      step : currentStep,
+      incomes_bank_account :this.creditModel.incomes_bank_account,
+      credites_details_id : this.parameter.property_id
+      };
     return modelSave;
   }
   
