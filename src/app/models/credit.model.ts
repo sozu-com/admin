@@ -28,6 +28,7 @@ export class Credit {
     economic_dependent?: EconomicDependent;
     references?: References;
     solidarity_liabilities?: SolidarityLiabilities
+    incomes?: Incomes;
 }
 
 export class Bank {
@@ -120,4 +121,47 @@ export class SolidarityLiabilities {
     own_car?: string;
     //solidarity_id?: number;
     value_of_own_car?: string;
+}
+
+export class Incomes {
+    id?: string;
+    incomes_id?: string;
+    monthly_income?: string;
+    net_income?: string;
+    business?: string;
+    job_type: string = null;
+    start_date?: string;
+    address?: string;
+    colony?: string;
+    city?: string;
+    municipality?: string;
+    zip_code?: string;
+    //phone?: string;
+    country_code?: string;
+    phone_code?: string;
+    phone_number?: string;
+    state?: string;
+    country?: string;
+    market_stall?: string;
+    area?: string;
+    contact_type: string = null;
+    turn: string = null;
+    hold_tax_status?: string;
+    laboral_status: string = null;
+    profession?: string;
+    check_income: string = null;
+    immediate_boss?: string;
+    description?: string;
+    last_company?: string;
+    last_start_date?: string;
+    last_departure_date?: string;
+    last_separation?: string;
+    //last_phone_code?: string;
+    last_country_code?: string;
+    last_phone_code?: string;
+    last_phone_number?: string;
+    boss?: string;
+    contract?: string;
+    last_laboral_sector?: string;
+    last_job_type?: string;
 }

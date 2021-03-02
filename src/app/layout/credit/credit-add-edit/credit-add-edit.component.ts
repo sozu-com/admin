@@ -14,7 +14,7 @@ import { IProperty } from 'src/app/common/property'
 import { NgxSpinnerService } from 'ngx-spinner'
 import { ActivatedRoute, Router } from '@angular/router'
 import { IDestinationStatus, IMarritalStatus } from 'src/app/common/marrital-status-interface'
-import { Bank, Credit, EconomicDependent, GeneralData, PaymentScheme, References, SolidarityLiabilities } from 'src/app/models/credit.model'
+import { Bank, Credit, EconomicDependent, GeneralData, Incomes, PaymentScheme, References, SolidarityLiabilities } from 'src/app/models/credit.model'
 import { forkJoin } from 'rxjs'
 import { PricePipe } from 'src/app/pipes/price.pipe';
 declare let swal: any
@@ -369,7 +369,7 @@ export class CreditAddEditComponent implements OnInit {
     } else if (this.getCurrentStep() == 8) {
 
     } else {
-       this.setCurrentStep();
+      this.setCurrentStep();
       // this.router.navigate(['dashboard/credit/view-credit']);
     }
   }
@@ -542,6 +542,15 @@ export class CreditAddEditComponent implements OnInit {
       this.creditModel.solidarity_liabilities = new SolidarityLiabilities();
       this.creditModel.solidarity_liabilities.country_code = this.constant.country_code;
       this.creditModel.solidarity_liabilities.phone_code = this.constant.dial_code;
+    }
+    if (!this.creditModel.incomes) {
+      this.creditModel.incomes = new Incomes();
+      this.creditModel.incomes.country_code = this.constant.country_code;
+      this.creditModel.incomes.phone_code = this.constant.dial_code;
+      this.creditModel.incomes.last_country_code = this.constant.country_code;
+      this.creditModel.incomes.last_phone_code = this.constant.dial_code;
+    } else {
+      this.creditModel.incomes.incomes_id = this.creditModel.incomes.id;
     }
   }
 
@@ -834,15 +843,17 @@ export class CreditAddEditComponent implements OnInit {
     const modelSave: any = this.creditModel.solidarity_liabilities;
     modelSave.step = currentStep;
     modelSave.id = this.parameter.property_id;
-    //modelSave.credites_details_id = this.parameter.property_id;
     return modelSave;
   }
 
   getRequestDataForEighthStep = (currentStep: number): any => {
-    const modelSave: any = this.creditModel.solidarity_liabilities;
-    modelSave.step = currentStep;
-    modelSave.id = this.parameter.property_id;
-    //modelSave.credites_details_id = this.parameter.property_id;
+    const tempModelSave: any = this.creditModel.incomes;
+    tempModelSave.id = this.parameter.property_id;
+    const modelSave = {
+      step: currentStep,
+      incomes: tempModelSave,
+      id: this.parameter.property_id
+    };
     return modelSave;
   }
 
@@ -896,6 +907,14 @@ export class CreditAddEditComponent implements OnInit {
         this.creditModel.solidarity_liabilities.country_code = event.iso2;
         this.creditModel.solidarity_liabilities.phone_code = '+' + event.dialCode;
         break;
+      case 5:
+        this.creditModel.incomes.country_code = event.iso2;
+        this.creditModel.incomes.phone_code = '+' + event.dialCode;
+        break;
+      case 6:
+        this.creditModel.incomes.last_country_code = event.iso2;
+        this.creditModel.incomes.last_phone_code = '+' + event.dialCode;
+        break;
       default:
         break;
     }
@@ -905,10 +924,10 @@ export class CreditAddEditComponent implements OnInit {
     if (!this.parameter.property_id ||
       !this.creditModel.general_data.co_credited_email ||
       this.creditModel.general_data.co_credited_email == '' ||
-      !this.creditModel.general_data.co_credited_relationship || 
+      !this.creditModel.general_data.co_credited_relationship ||
       this.creditModel.general_data.co_credited_relationship == '' ||
       !this.creditModel.general_data.co_credited_owner ||
-      !this.creditModel.general_data.co_credited_involved_revenue || 
+      !this.creditModel.general_data.co_credited_involved_revenue ||
       !this.creditModel.general_data.co_credited_involved_credit
     ) {
       return true;
@@ -948,6 +967,18 @@ export class CreditAddEditComponent implements OnInit {
     if (!this.parameter.property_id ||
       !this.creditModel.solidarity_liabilities.name ||
       this.creditModel.solidarity_liabilities.name == ''
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  hasErrorIncomes = (): boolean => {
+    if (!this.parameter.property_id ||
+      !this.creditModel.incomes.monthly_income ||
+      this.creditModel.incomes.monthly_income == '' ||
+      !this.creditModel.incomes.net_income ||
+      this.creditModel.incomes.net_income == ''
     ) {
       return true;
     }
