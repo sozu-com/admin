@@ -477,11 +477,15 @@ export class CollectionsComponent implements OnInit {
   }
 
   onCountryChange(id) {
-    this.parameter.country_id = id;
-    this.location.states = []; this.parameter.state_id = '0';
-    this.location.cities = []; this.parameter.city_id = '0';
-    this.location.localities = []; this.parameter.locality_id = '0';
-    this.parameter.buildings = []; this.parameter.building_id = '0';
+    this.parameter.country_id = id;    
+    this.parameter.state_id = '0'; 
+    this.parameter.city_id = '0';
+    this.parameter.locality_id = '0';
+    this.location.states = [];     
+    this.location.cities = [];
+    this.location.localities = []; 
+    this.parameter.buildings = []; 
+    this.parameter.building_id = '0';
     if (!id || id.toString() === '0') {
       return false;
     }
@@ -492,6 +496,7 @@ export class CollectionsComponent implements OnInit {
   }
 
   onStateChange(id) {
+    this.parameter.state_id = id;
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
     this.parameter.buildings = []; this.parameter.building_id = '0';
@@ -505,6 +510,7 @@ export class CollectionsComponent implements OnInit {
   }
 
   onCityChange(id) {
+    this.parameter.city_id = id;
     this.location.localities = []; this.parameter.locality_id = '0';
     this.parameter.buildings = []; this.parameter.building_id = '0';
     if (!id || id.toString() === '0') {
@@ -526,6 +532,10 @@ export class CollectionsComponent implements OnInit {
 
   getLocalityBuildings(id) {
     if (!id || id.toString() === '0') {
+      this.parameter.localities = [];
+      this.parameter.locality_id = '0';
+      this.parameter.building_id = '0';
+      this.parameter.buildings = [];
       return false;
     }
     this.parameter.locality_id = id;
