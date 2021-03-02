@@ -934,8 +934,6 @@ export class CreditAddEditComponent implements OnInit {
     return false;
   }
 
-
-
   hasErrorCredits = (): boolean => {
     if (!this.parameter.property_id) {
       return true;
@@ -958,6 +956,7 @@ export class CreditAddEditComponent implements OnInit {
     }
     return false;
   }
+  
   getCurrencies() {
     this.adminService.postDataApi('getCurrencies', {})
       .subscribe(
