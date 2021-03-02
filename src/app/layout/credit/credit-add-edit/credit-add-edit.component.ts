@@ -551,6 +551,8 @@ export class CreditAddEditComponent implements OnInit {
       this.creditModel.incomes.last_phone_code = this.constant.dial_code;
     } else {
       this.creditModel.incomes.incomes_id = this.creditModel.incomes.id;
+      this.creditModel.incomes['neighbourhoods'] = [];
+      this.creditModel.incomes.neighbourhoods.push(this.creditModel.incomes.colony);
     }
   }
 
@@ -869,29 +871,57 @@ export class CreditAddEditComponent implements OnInit {
       default:
         break;
     }
-    // if (((this.creditModel.solidarity_liabilities.zip_code || '0').toString()).length >= 5) {
-    //   this.spinnerService.show();
-    //   this.adminService.postDataApi('getCounrtyByZipcode', { zip_code: this.creditModel.solidarity_liabilities.zip_code }).
-    //     subscribe((success) => {
-    //       this.spinnerService.hide();
-    //       this.creditModel.solidarity_liabilities.municipality = ((success.data || {}).response || {}).municipio || ''; // Municipality
-    //       this.creditModel.solidarity_liabilities.state = ((success.data || {}).response || {}).estado || ''; // State
-    //       this.creditModel.solidarity_liabilities.city = ((success.data || {}).response || {}).ciudad || ''; // city
-    //       this.creditModel.solidarity_liabilities.country = ((success.data || {}).response || {}).pais || ''; // Country
-    //       this.creditModel.solidarity_liabilities.neighbourhoods = ((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
-    //       this.creditModel.solidarity_liabilities.neighbourhood = (this.creditModel.solidarity_liabilities.neighbourhoods || [])[0] || '';
-    //     }, (error) => {
-    //       this.spinnerService.hide();
-    //       swal(this.translate.instant('swal.error'), error.error.message, 'error');
-    //     });
-    // } else {
-    //   this.creditModel.solidarity_liabilities.municipality = '';
-    //   this.creditModel.solidarity_liabilities.state = '';
-    //   this.creditModel.solidarity_liabilities.city = '';
-    //   this.creditModel.solidarity_liabilities.country = '';
-    //   this.creditModel.solidarity_liabilities.neighbourhoods = [];
-    //   this.creditModel.solidarity_liabilities.neighbourhood = '';
-    // }
+    if (((zipcode || '0').toString()).length >= 5) {
+      this.spinnerService.show();
+      this.adminService.postDataApi('getCounrtyByZipcode', { zip_code: zipcode }).
+        subscribe((success) => {
+          this.spinnerService.hide();
+          switch (index) {
+            case 1:
+              this.creditModel.solidarity_liabilities.municipality = ((success.data || {}).response || {}).municipio || ''; // Municipality
+              this.creditModel.solidarity_liabilities.state = ((success.data || {}).response || {}).estado || ''; // State
+              this.creditModel.solidarity_liabilities.city = ((success.data || {}).response || {}).ciudad || ''; // city
+              this.creditModel.solidarity_liabilities.country = ((success.data || {}).response || {}).pais || ''; // Country
+              this.creditModel.solidarity_liabilities.neighbourhoods = ((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
+              this.creditModel.solidarity_liabilities.neighbourhood = (this.creditModel.solidarity_liabilities.neighbourhoods || [])[0] || '';
+              break;
+            case 2:
+              this.creditModel.incomes.municipality = ((success.data || {}).response || {}).municipio || ''; // Municipality
+              this.creditModel.incomes.state = ((success.data || {}).response || {}).estado || ''; // State
+              this.creditModel.incomes.city = ((success.data || {}).response || {}).ciudad || ''; // city
+              this.creditModel.incomes.country = ((success.data || {}).response || {}).pais || ''; // Country
+              this.creditModel.incomes.neighbourhoods = ((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
+              this.creditModel.incomes.colony = (this.creditModel.incomes.neighbourhoods || [])[0] || '';
+              break;
+            default:
+              break;
+          }
+        }, (error) => {
+          this.spinnerService.hide();
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
+        });
+    } else {
+      switch (index) {
+        case 1:
+          this.creditModel.solidarity_liabilities.municipality = '';
+          this.creditModel.solidarity_liabilities.state = '';
+          this.creditModel.solidarity_liabilities.city = '';
+          this.creditModel.solidarity_liabilities.country = '';
+          this.creditModel.solidarity_liabilities.neighbourhoods = [];
+          this.creditModel.solidarity_liabilities.neighbourhood = '';
+          break;
+        case 2:
+          this.creditModel.incomes.municipality = '';
+          this.creditModel.solidarity_liabilities.state = '';
+          this.creditModel.incomes.city = '';
+          this.creditModel.incomes.country = '';
+          this.creditModel.incomes.neighbourhoods = [];
+          this.creditModel.incomes.colony = '';
+          break;
+        default:
+          break;
+      }
+    }
   }
 
   updateNationalityName = (value: string): void => {

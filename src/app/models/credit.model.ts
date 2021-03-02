@@ -152,6 +152,7 @@ export class Incomes {
     check_income: string = null;
     immediate_boss?: string;
     description?: string;
+    neighbourhoods?: any[];
     last_company?: string;
     last_start_date?: string;
     last_departure_date?: string;
