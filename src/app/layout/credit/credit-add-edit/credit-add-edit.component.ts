@@ -14,7 +14,7 @@ import { IProperty } from 'src/app/common/property'
 import { NgxSpinnerService } from 'ngx-spinner'
 import { ActivatedRoute, Router } from '@angular/router'
 import { IDestinationStatus, IMarritalStatus } from 'src/app/common/marrital-status-interface'
-import { Bank, Credit, EconomicDependent, GeneralData, PaymentScheme, References, SolidarityLiabilities,BankDetail, Incomes } from 'src/app/models/credit.model';
+import { Bank, Credit, EconomicDependent, GeneralData, PaymentScheme, References, SolidarityLiabilities, BankDetail, Incomes } from 'src/app/models/credit.model';
 import { forkJoin } from 'rxjs'
 import { PricePipe } from 'src/app/pipes/price.pipe';
 declare let swal: any
@@ -285,8 +285,6 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   addcredits = (): void => {
-  
-
     if (!this.creditModel.user) {
       this.toastr.clear();
       this.toastr.error(
@@ -302,15 +300,15 @@ export class CreditAddEditComponent implements OnInit {
           this.afterAddcredit();
           this.parameter.property_id = success.data.id;
           // if (success.data.incomes_bank_account != undefined && success.data.incomes_bank_account != null) {
-            this.creditModel.incomes_bank_account = success.data.incomes_bank_account || [];
-            console.log(this.creditModel.incomes_bank_account,"this.creditModel.incomes_bank_account")
+          this.creditModel.incomes_bank_account = success.data.incomes_bank_account || [];
+          console.log(this.creditModel.incomes_bank_account, "this.creditModel.incomes_bank_account")
           // }
-          
+
           if (success.data.general_data != undefined && success.data.general_data != null) {
             this.parameter.general_id = success.data.general_data.id
             // localStorage.setItem('stepThreeId', success.data.general_data.id);
           }
-         
+
         }, (error) => {
           this.spinnerService.hide();
         });
@@ -553,7 +551,7 @@ export class CreditAddEditComponent implements OnInit {
       this.creditModel.solidarity_liabilities.phone_code = this.constant.dial_code;
     }
     if (!this.creditModel.incomes_bank_account) {
-      this.creditModel.incomes_bank_account = new Array();
+      this.creditModel.incomes_bank_account = new Array<BankDetail>();
     }
     if (!this.creditModel.incomes) {
       this.creditModel.incomes = new Incomes();
@@ -735,7 +733,7 @@ export class CreditAddEditComponent implements OnInit {
         postData = this.getRequestDataForEighthStep(8);
         break;
       case 9:
-        postData = this.getRequestDataForninethStep(9);
+        postData = this.getRequestDataForNinethStep(9);
         break;
       case 10:
         break;
@@ -862,15 +860,7 @@ export class CreditAddEditComponent implements OnInit {
     modelSave.id = this.parameter.property_id;
     return modelSave;
   }
-  getRequestDataForninethStep = (currentStep: number): any => {
-    const modelSave ={
-      step : currentStep,
-      incomes_bank_account :this.creditModel.incomes_bank_account,
-      credites_details_id : this.parameter.property_id
-      };
-    return modelSave;
-  }
-  
+
   getRequestDataForEighthStep = (currentStep: number): any => {
     const tempModelSave: any = this.creditModel.incomes;
     tempModelSave.id = this.parameter.property_id;
@@ -878,6 +868,15 @@ export class CreditAddEditComponent implements OnInit {
       step: currentStep,
       incomes: tempModelSave,
       id: this.parameter.property_id
+    };
+    return modelSave;
+  }
+
+  getRequestDataForNinethStep = (currentStep: number): any => {
+    const modelSave = {
+      step: currentStep,
+      incomes_bank_account: this.creditModel.incomes_bank_account,
+      credites_details_id: this.parameter.property_id
     };
     return modelSave;
   }
@@ -1034,7 +1033,7 @@ export class CreditAddEditComponent implements OnInit {
     }
     return false;
   }
-  
+
   getCurrencies() {
     this.adminService.postDataApi('getCurrencies', {})
       .subscribe(
