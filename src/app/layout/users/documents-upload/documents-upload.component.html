@@ -29,20 +29,17 @@
                                           name="this.language_code == 'en' ? name_en{{ i }} : name_es{{ i }} "
                                           disabled />
 
-                                    <a href="javascript://"  disabled="admin?.admin_acl['User Management']?.can_create==0" style="cursor: pointer;">
-                                          <i class="fa fa-plus-circle icon" aria-hidden="true" *ngIf="!bankAccount.document_link" 
-                                          (click)="openAddFolder(bankAccount,i)"></i>
-                                    </a>
+                                    <button class="fa fa-plus-circle icon" [disabled]="admin?.admin_acl['User Management']?.can_create==0" 
+                                    (click)="openAddFolder(bankAccount,i)" style="cursor: pointer;" *ngIf="!bankAccount.document_link">
+                                    </button>
+                                    <button class="fa fa-check icon" aria-hidden="true"
+                                    *ngIf="bankAccount.document_link"></button>
                                           <!-- <button class="fa fa-plus-circle icon "
                                     *ngIf="!bankAccount.document_link" aria-hidden="true"                                    
                                           style="border:0px solid rgba(206, 206, 206, 0.5);"
                                           (click)="openAddFolder(bankAccount,i)"
                                           [disabled]="admin?.admin_acl['User Management']?.can_create==0">
                                     </button> -->
-
-
-                                    <i class="fa fa-check icon" aria-hidden="true"
-                                          *ngIf="bankAccount.document_link"></i>
                               </div>
                               <div class="col-md-2">
                                     <!-- <i class="fa fa-eye icons" *ngIf="bankAccount.document_link"
