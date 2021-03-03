@@ -414,6 +414,21 @@
       "notFound": "No Legal Entity found",
       "removeLegalEntity": "Remove Legal Entity"
     },
+    "contributor": {
+      "contributor": "Contributor",
+      "label": "Contributor Info",
+      "changeContributor": "Change Contributor",
+      "selectContributor": "Select Contributor",
+      "name": "Contributor Name",
+      "phoneNumber": "Phone Number",
+      "phone": "Phone",
+      "email": "Email",
+      "companyName": "Company Name",
+      "logo": "Logo",
+      "coverImage": "Cover Image",
+      "notFound": "No Contributor found",
+      "removeContributor": "Remove Contributor"
+    },
     "amenities": "Amenities",
     "projectSize": "Project Size",
     "MinPricePerSqMtrs": "Min. Price per Sq. meters",

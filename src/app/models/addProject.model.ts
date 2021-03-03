@@ -102,6 +102,8 @@ export class AddProjectModel {
   developer_by: boolean = false;
   agency_by: boolean = false;
   managed_by: boolean = false;
+  building_contributors_param: Array<contributorsParam>;
+  building_contributors: Array<contributors>;
 }
 
 
@@ -177,4 +179,17 @@ export class LocalityToCountry {
   poly_coordinates: any;
   price_per_sqft: any;
   city: City;
+}
+
+export class contributorsParam{
+  users_id: number;
+  user_type: number;
+  building_id: number;
+}
+
+export class contributors{
+  id: number;
+  name: string;
+  phone: string;
+  email: string;
 }

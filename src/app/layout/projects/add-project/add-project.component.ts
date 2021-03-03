@@ -59,6 +59,8 @@ export class AddProjectComponent implements OnInit {
 
   @ViewChild('openLegalEnityModel') openLegalEnityModel: ElementRef;
   @ViewChild('closeLegalEnityListModel') closeLegalEnityListModel: ElementRef;
+  @ViewChild('linkUserModal') linkUserModal: ElementRef;
+  @ViewChild('closeLinkUserModal') closeLinkUserModal: ElementRef;
   myform: FormGroup;
   myform2: FormGroup;
 
@@ -151,6 +153,8 @@ export class AddProjectComponent implements OnInit {
   showPreferableBuyer = false;
   private single = false;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
+  users = [];
+  seller_type: any;
   constructor(
     public model: AddProjectModel,
     private admin: AdminService,
@@ -168,7 +172,8 @@ export class AddProjectComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.model.building_contributors_param = [];
+    this.model.building_contributors = [];
     this.name = '';
     this.file1 = new FileUpload(true, this.admin);
     this.file2 = new FileUpload(false, this.admin);
@@ -2063,5 +2068,36 @@ export class AddProjectComponent implements OnInit {
       // }    
     }
     return result;
+  }
+
+  selectContributor(keyword: string, type: number, dailogOpen: boolean) {
+    this.spinner.show();
+    this.seller_type = type;
+    const input = { name: '', user_type: 0 };
+    input.name = keyword !== '1' ? keyword : '';
+    input.user_type = type;
+    this.admin.postDataApi('getAllBuyers', input).subscribe(r => {
+      this.spinner.hide();
+      this.users = r.data;
+      if(!dailogOpen){
+      this.linkUserModal.nativeElement.click();
+      }
+    });
+  }
+
+  changeStatusPopUp(property_id: any, user_id: number, name: string, status: number, user: any){
+    this.model.building_contributors_param = [];
+    this.model.building_contributors = [];
+   this.model.building_contributors_param.push({ user_type: status , users_id: user_id, building_id: property_id});
+   this.model.building_contributors.push({
+     id: user.id,
+     name: name,
+     phone: user.phone,
+     email: user.email,
+    })
+  }
+
+  removeContributor() {
+    this.model.building_contributors_param = []
   }
 }
