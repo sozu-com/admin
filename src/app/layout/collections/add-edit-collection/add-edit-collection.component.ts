@@ -120,6 +120,7 @@ export class AddEditCollectionComponent implements OnInit {
   oldDocName: string;
   public paymentBankDetailsArray: any[] = [];
   private bankDetails: any;
+  day_list = [];
   availabilityStatus = [
     { id: '1', name: this.translate.instant('leadDetails.purchase'), checked: false },
     { id: '2', name: this.translate.instant('leadDetails.rent'), checked: false }];
@@ -139,6 +140,7 @@ export class AddEditCollectionComponent implements OnInit {
   reminder_date: any;
   noteEmails: any;
   isShown: boolean = false ;
+  edit_reminder: boolean;
   constructor(public model: Collection, private us: AdminService, private cs: CommonService,
     private router: Router,
     private building: Building, public constant: Constant,
@@ -152,6 +154,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.day_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
     this.language_code = localStorage.getItem('language_code');
     this.collectionFolders = [];
     this.model = new Collection();
@@ -401,6 +404,7 @@ export class AddEditCollectionComponent implements OnInit {
       monthly_date: [''],
       monthly_amount: [''],
       toAddress: [''],
+      reminder_date:[''],
       deal_purchase_date: ['', [Validators.required]],
       deal_price: ['', [Validators.required]],
       sum_of_concepts: [''],
@@ -410,8 +414,12 @@ export class AddEditCollectionComponent implements OnInit {
     });
     if (this.model.id === '0') {
       this.addFormStep4.get('deal_price').enable({ onlySelf: true });
+      this.addFormStep4.controls['toAddress'].enable();
+    this.addFormStep4.controls['reminder_date'].enable();
     } else {
       this.addFormStep4.get('deal_price').disable({ onlySelf: true });
+      this.addFormStep4.controls['toAddress'].disable();
+    this.addFormStep4.controls['reminder_date'].disable();
     }
   }
 
@@ -2561,23 +2569,18 @@ export class AddEditCollectionComponent implements OnInit {
   goBack(value){ 
     value ? this.router.navigate(['/dashboard/collections/view-collections', {for: 'back'}]) : this.router.navigate(['/dashboard/collections/view-collections'])
   }
-  editLeadPopup(mode: string, note_id, note, index) {
-    this.mode = mode;
-    this.notesadddModalOpen.nativeElement.click();
-  //   this.noteIndex = index;
-  //   this.selectedNote = note;
-  //   this.noteTitle = note.title;
-  //   this.noteDesc = note.note;
-  //   this.reminder_date = new Date(note.reminder_date);
-  //   this.notesadddModalOpen.nativeElement.click();
-  //   this.property_collection_id = note.property_collection_id;
-  //   let emails = note.collection_reminder.collection_collaborators
-  //   let newArray = [];
-  //   for (var i = 0; i < emails.length; i++) {
-  //     let mails = emails[i].email;
-  //     newArray.push(mails);
-  //   }
-  //   this.noteEmails = newArray
+
+  editLeadPopup(value) {
+    if(value){
+    this.addFormStep4.controls['toAddress'].enable();
+    this.addFormStep4.controls['reminder_date'].enable();
+    this.edit_reminder = true;
+    }
+    else{
+      this.addFormStep4.controls['toAddress'].disable();
+      this.addFormStep4.controls['reminder_date'].disable();
+      this.edit_reminder = false;
+    }
    }
 
    addNote(){

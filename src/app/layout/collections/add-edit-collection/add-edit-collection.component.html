@@ -1724,19 +1724,22 @@
               <div class="form-group-3">
                 <label>{{'deshboard.mail' | translate}}</label>
                 <div class="clearfix"></div>
-                <input formControlName="toAddress" [(ngModel)]="model.email"
+                <input formControlName="toAddress"
             placeholder="{{'deshboard.mail' | translate}}" 
-            style="width: 100%;border-color: #c0c0c0;background-color: white;height: 39px;">
+            style="width: 100%;border-color: #c0c0c0;background-color: white;height: 39px;" [disabled]="!edit_reminder && model.id">
               </div>
             </div>
     
-            <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+            <div class="col-lg-1 col-md-6 col-sm-6 col-12">
               <div class="form-group-3">
                 <label>{{'deshboard.date' | translate}}</label>
                 <div class="clearfix"></div>
-                <p-calendar class="form-control" [(ngModel)]="model.reminder_date" autocomplete="off"
+                <select name="day_list" id="day_list" formControlName="reminder_date" [disabled]="!edit_reminder && model.id"  style="width:100px;height:39px;">
+                  <option value="1" selected="day == 1" *ngFor="let day of day_list">{{day}}</option>
+                </select>
+                <!-- <p-calendar class="form-control" formControlName="reminder_date" autocomplete="off"
                 [style]="{'width':'100%'}" name="date" class="sz-calendar" [showTime]="true"
-                showIcon="true" (onSelect)="onSelect1($event)" [readonlyInput]="true"></p-calendar>
+                showIcon="true" (onSelect)="onSelect1($event)" [readonlyInput]="true"></p-calendar> -->
               </div>
             </div>
     
@@ -1744,8 +1747,9 @@
               <div class="form-group-3">
                 <label>&nbsp;&nbsp;</label>
                 <div class="clearfix"></div>
-                <a href="javascript://" (click)="editLeadPopup('edit')">
-                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                <a href="javascript://">
+                  <i class="fa fa-pencil" aria-hidden="true" style="font-size: 25px;" (click)="editLeadPopup(true)" *ngIf="!edit_reminder && model.id != '0'"></i>
+                  <i class="fa fa-undo" aria-hidden="true" style="font-size: 25px;" (click)="editLeadPopup(false)" *ngIf="edit_reminder && model.id != '0'"></i>
                 </a>
               </div>
             </div>
