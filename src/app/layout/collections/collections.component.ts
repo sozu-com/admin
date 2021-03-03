@@ -24,6 +24,7 @@ import { DatePipe } from '@angular/common';
 import { PricePipe } from 'src/app/pipes/price.pipe';
 import { HttpClient } from '@angular/common/http';
 import { count } from 'rxjs-compat/operator/count';
+import { OnDestroy } from '@angular/core';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 declare let swal: any;
 declare var $: any;
@@ -35,7 +36,7 @@ declare var $: any;
   providers: [Notes, Document, DatePipe, PricePipe]
 })
 
-export class CollectionsComponent implements OnInit {
+export class CollectionsComponent implements OnInit, OnDestroy {
   mode: string;
   // input: CollectionReport;
   public parameter: IProperty = {};
@@ -248,6 +249,11 @@ export class CollectionsComponent implements OnInit {
     this.parameter.itemsPerPage = 25; // this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.dash_flag = this.propertyService.dash_flag ? this.propertyService.dash_flag : this.constant.dash_flag;
+    this.parameter.country_id = '0';
+    this.parameter.state_id = '0';
+    this.parameter.city_id = '0';
+    this.parameter.locality_id = '0';
+    this.parameter.building_id = '0';
     this.getPaymentMethods();
     this.getCountries();
     this.initCalendarLocale();
@@ -264,7 +270,7 @@ export class CollectionsComponent implements OnInit {
       }
 
     });
-    this.getListing();
+    //this.getListing();
     this.http.get('../../../assets/img/sozu_black.png', { responseType: 'blob' })
       .subscribe(res => {
         const reader = new FileReader();
@@ -361,7 +367,7 @@ export class CollectionsComponent implements OnInit {
     input.is_approved = this.parameter.flag;
     this.admin.postDataApi('getCollection', input).subscribe(
       success => {
-        localStorage.setItem('parametersForCollection', JSON.stringify(this.parameter));
+        // localStorage.setItem('parametersForCollection', JSON.stringify(this.parameter));
         //  console.log('getcollection ', success);
         this.items = success.data;
         this.total = success.total_count;
@@ -465,8 +471,25 @@ export class CollectionsComponent implements OnInit {
   }
 
   getCountries() {
+    this.spinner.show();
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
+      this.spinner.hide();
       this.location.countries = r['data'];
+      if (this.is_back) {
+        const selectedCountry = this.location.countries.filter(x => x.id.toString() === this.parameter.country_id);
+        this.location.states = selectedCountry.length > 0 ? selectedCountry[0].states : [];
+        const selectedState = this.location.states.filter(x => x.id.toString() === this.parameter.state_id);
+        this.location.cities = selectedState.length > 0 ? selectedState[0].cities : [];
+        const selectedlocality = this.location.cities.filter(x => x.id.toString() === this.parameter.city_id);
+        this.location.localities = selectedlocality.length > 0 ? selectedlocality[0].localities : [];
+      } else {
+        this.parameter.country_id = '0';
+        this.parameter.state_id = '0';
+        this.parameter.city_id = '0';
+        this.parameter.locality_id = '0';
+        this.parameter.building_id = '0';
+      }
+      this.getListing();
     });
   }
 
@@ -477,14 +500,14 @@ export class CollectionsComponent implements OnInit {
   }
 
   onCountryChange(id) {
-    this.parameter.country_id = id;    
-    this.parameter.state_id = '0'; 
+    this.parameter.country_id = id;
+    this.parameter.state_id = '0';
     this.parameter.city_id = '0';
     this.parameter.locality_id = '0';
-    this.location.states = [];     
+    this.location.states = [];
     this.location.cities = [];
-    this.location.localities = []; 
-    this.parameter.buildings = []; 
+    this.location.localities = [];
+    this.parameter.buildings = [];
     this.parameter.building_id = '0';
     if (!id || id.toString() === '0') {
       return false;
@@ -2941,7 +2964,7 @@ export class CollectionsComponent implements OnInit {
             purchase_date.includes('Jul') ? purchase_date.replace('Jul', 'jul') : purchase_date.includes('Aug') ? purchase_date.replace('Aug', 'ago') :
               purchase_date.includes('Sep') ? purchase_date.replace('Sep', 'sep') : purchase_date.includes('Oct') ? purchase_date.replace('Oct', 'oct') :
                 purchase_date.includes('Nov') ? purchase_date.replace('Nov', 'nov') : purchase_date.includes('Dec') ? purchase_date.replace('Dec', 'dic') : ' ';
-                
+
       this.bill_month_date = this.bill_month_date.includes('Jan') ? this.bill_month_date.replace('Jan', 'ene') : this.bill_month_date.includes('Feb') ? this.bill_month_date.replace('Feb', 'feb') :
         this.bill_month_date.includes('Mar') ? this.bill_month_date.replace('Mar', 'mar') : this.bill_month_date.includes('Apr') ? this.bill_month_date.replace('Apr', 'abr') :
           this.bill_month_date.includes('May') ? this.bill_month_date.replace('May', 'may') : this.bill_month_date.includes('Jun') ? this.bill_month_date.replace('Jun', 'jun') :
@@ -3401,6 +3424,10 @@ export class CollectionsComponent implements OnInit {
 
   navigateToProperty = (collectionDetails: any): void => {
     this.router.navigate(['/dashboard/properties/view-properties/property', ((collectionDetails || {}).property || {}).id || '']);
+  }
+
+  ngOnDestroy(): void {
+    localStorage.setItem('parametersForCollection', JSON.stringify(this.parameter));
   }
 
 }
