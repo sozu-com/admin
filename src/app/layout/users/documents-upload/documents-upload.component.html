@@ -61,7 +61,7 @@
                                           title="{{'table.title.delete' | translate}}"
                                           style="border:0px solid rgba(206, 206, 206, 0.5);"
                                           (click)="deletePopup(i, bankAccount.id)"
-                                          [disabled]="admin?.admin_acl['User Management']?.can_delete==0">
+                                          [disabled]="admin?.admin_acl['User Management']?.can_purge==0">
                                     </button>
                               </div>
                         </div>
