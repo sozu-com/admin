@@ -155,6 +155,7 @@ export class AddProjectComponent implements OnInit {
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
   users = [];
   seller_type: any;
+  user_type: any;
   constructor(
     public model: AddProjectModel,
     private admin: AdminService,
