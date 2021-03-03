@@ -8,11 +8,22 @@
 } 
   
 .icon { 
-    min-width: 40px;
+    /* min-width: 40px; */
+    /* margin-left: -14%; */
+    background-color: gainsboro;
+    border-top-color: gainsboro;
+    border-right-color: gainsboro;
+    border-left-color: gainsboro;
+    border-bottom-color: gainsboro;
+    color: #00B96F;
+    float: right;
     margin-left: -14%;
+    position: absolute;
+    margin-top: 5%;
     color: #00B96F;
     font-size: 145%;
-    padding: 12px;
+    /* font-size: 145%; */
+    /* padding: 12px; */
 } 
 .icons { 
     padding: 14px;
