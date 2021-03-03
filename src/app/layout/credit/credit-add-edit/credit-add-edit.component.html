@@ -7,18 +7,18 @@
             <div class="steps">
               <ul class="d-flex">
                 <li [ngClass]="{'current': tab == 1}"> <span></span>
-                  <a (click)="setTab(1)">{{'creditForm.userInfo' | translate}}</a>
+                  <a (click)="setTab(1)" style="cursor: pointer;">{{'creditForm.userInfo' | translate}}</a>
                 </li>
 
                 <li [ngClass]="{'current': tab == 2}"><span></span>
-                  <a (click)="setTab(2)">{{'creditForm.credit' | translate}}</a>
+                  <a (click)="setTab(2)" style="cursor: pointer;">{{'creditForm.credit' | translate}}</a>
                 </li>
 
                 <li [ngClass]="{'current': tab == 3}"><span></span>
-                  <a (click)="setTab(3)">{{'creditForm.Applicant' | translate}}</a>
+                  <a (click)="setTab(3)" style="cursor: pointer;">{{'creditForm.Applicant' | translate}}</a>
                 </li>
                 <li [ngClass]="{'current': tab == 4}"><span></span>
-                  <a (click)="setTab(4)">{{'creditForm.Coaccredited' | translate}}</a>
+                  <a (click)="setTab(4)" style="cursor: pointer;">{{'creditForm.Coaccredited' | translate}}</a>
                 </li>
               </ul>
 
