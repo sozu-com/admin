@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { ApiConstants } from 'src/app/common/api-constants';
@@ -20,7 +20,7 @@ declare var $: any;
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.css']
 })
-export class ProjectsComponent implements OnInit {
+export class ProjectsComponent implements OnInit, OnDestroy {
 
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
@@ -39,8 +39,8 @@ export class ProjectsComponent implements OnInit {
   min_carpet_area: any;
   max_carpet_area: any;
   exportfinalData: Array<any>;
-  local_storage_parameter: any;
-  is_back: boolean;
+  //local_storage_parameter: any;
+  is_back: boolean = false;
   public multiDropdownSettings = {};
   public language_code: string;
   public selectedLocation: { selectedCountry: string, selectedStates: any[], selectedCities: any[], selectedLocalities: any[] } =
@@ -92,12 +92,23 @@ export class ProjectsComponent implements OnInit {
     this.parameter.max_price = 0;
     this.parameter.min_carpet_area = 0;
     this.parameter.max_carpet_area = 0;
-    this.local_storage_parameter = JSON.parse(localStorage.getItem('parametersForProject'));
-    this.parameter = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.parameter;
+    // this.local_storage_parameter = JSON.parse(localStorage.getItem('parametersForProject'));
+    // this.parameter = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.parameter;
+    // this.initializedDropDownSetting();
+    // this.getCountries();
+    // // this.getPropertyConfigurations(); 
+    // this.getListing();
+    this.getParametersForProject();
+  }
+
+  getParametersForProject = (): void => {
+    if (this.is_back) {
+      this.selectedLocation.selectedLocalities = JSON.parse(localStorage.getItem('selectedLocalitiesForProject'));
+      this.selectedLocation.selectedCities = JSON.parse(localStorage.getItem('selectedCitiesForProject'));
+      this.parameter = JSON.parse(localStorage.getItem('parametersForProject')) ? JSON.parse(localStorage.getItem('parametersForProject')) : this.parameter;
+    }
     this.initializedDropDownSetting();
     this.getCountries();
-    // this.getPropertyConfigurations(); 
-    this.getListing();
   }
 
   sortData(value: number) {
@@ -141,7 +152,7 @@ export class ProjectsComponent implements OnInit {
     }
     this.admin.postDataApi('projectHome', input).subscribe(
       success => {
-        localStorage.setItem('parametersForProject', JSON.stringify(this.parameter));
+        //localStorage.setItem('parametersForProject', JSON.stringify(this.parameter));
         this.items = success.data;
         this.total = success.total_count;
         this.spinner.hide();
@@ -156,8 +167,25 @@ export class ProjectsComponent implements OnInit {
   }
 
   getCountries() {
+    this.spinner.show();
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
+      this.spinner.hide();
       this.location.countries = r['data'];
+      if (this.is_back) {
+        const selectedCountry = this.location.countries.filter(x => x.id.toString() === this.parameter.country_id);
+        this.location.states = selectedCountry[0].states;
+        const selectedState = this.location.states.filter(x => x.id.toString() === this.parameter.state_id);
+        this.location.cities = selectedState[0].cities;
+        const localities = [];
+        this.selectedLocation.selectedCities.forEach((cityObject) => {
+          const selectedlocality = this.location.cities.filter(x => x.id == cityObject.id);
+          (selectedlocality[0].localities || []).forEach((localityObject) => {
+            localities.push(localityObject);
+          });
+        });
+        this.location.localities = localities;
+      }
+      this.getListing();
     });
   }
 
@@ -562,6 +590,13 @@ export class ProjectsComponent implements OnInit {
   makePostRequest = (): void => {
     this.parameter.localities = this.selectedLocation.selectedLocalities.length > 0 ? this.selectedLocation.selectedLocalities.map(o => o.id) : null;
     this.parameter.cities = this.selectedLocation.selectedCities.length > 0 ? this.selectedLocation.selectedCities.map(o => o.id) : null;
+  }
+
+  ngOnDestroy(): void {
+    this.makePostRequest();
+    localStorage.setItem('selectedLocalitiesForProject', JSON.stringify(this.selectedLocation.selectedLocalities.length > 0 ? this.selectedLocation.selectedLocalities : []));
+    localStorage.setItem('selectedCitiesForProject', JSON.stringify(this.selectedLocation.selectedCities.length > 0 ? this.selectedLocation.selectedCities : []));
+    localStorage.setItem('parametersForProject', JSON.stringify(this.parameter));
   }
 
 }

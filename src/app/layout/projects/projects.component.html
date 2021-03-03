@@ -71,7 +71,7 @@
     <div class="col-md-2">
       <div class="form-group">
         <label>{{'filters.location.country' | translate}}</label>
-        <select class="form-control" (change)="onCountryChange($event.target.value)">
+        <select class="form-control" (change)="onCountryChange($event.target.value)" [(ngModel)]="parameter.country_id">
           <option value="0">{{'filters.location.allOption' | translate}}</option>
           <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
         </select>
@@ -80,7 +80,7 @@
     <div class="col-md-2">
       <div class="form-group">
         <label>{{'filters.location.state' | translate}}</label>
-        <select class="form-control" (change)="onStateChange($event.target.value)">
+        <select class="form-control" (change)="onStateChange($event.target.value)" [(ngModel)]="parameter.state_id">
           <option value="0">{{'filters.location.allOption' | translate}}</option>
           <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
         </select>
