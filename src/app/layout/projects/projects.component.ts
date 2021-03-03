@@ -92,6 +92,8 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.parameter.max_price = 0;
     this.parameter.min_carpet_area = 0;
     this.parameter.max_carpet_area = 0;
+    this.parameter.country_id = '0';
+    this.parameter.state_id = '0';
     // this.local_storage_parameter = JSON.parse(localStorage.getItem('parametersForProject'));
     // this.parameter = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.parameter;
     // this.initializedDropDownSetting();
@@ -173,9 +175,9 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       this.location.countries = r['data'];
       if (this.is_back) {
         const selectedCountry = this.location.countries.filter(x => x.id.toString() === this.parameter.country_id);
-        this.location.states = selectedCountry[0].states;
+        this.location.states = selectedCountry.length > 0 ? selectedCountry[0].states : [];
         const selectedState = this.location.states.filter(x => x.id.toString() === this.parameter.state_id);
-        this.location.cities = selectedState[0].cities;
+        this.location.cities = selectedState.length > 0 ? selectedState[0].cities : [];
         const localities = [];
         this.selectedLocation.selectedCities.forEach((cityObject) => {
           const selectedlocality = this.location.cities.filter(x => x.id == cityObject.id);
@@ -184,6 +186,9 @@ export class ProjectsComponent implements OnInit, OnDestroy {
           });
         });
         this.location.localities = localities;
+      } else {
+        this.parameter.country_id = '0';
+        this.parameter.state_id = '0';
       }
       this.getListing();
     });
