@@ -862,6 +862,7 @@
                       <th style="color: black;">{{'creditForm.age' | translate}}:</th>
                       <th style="color: black;">{{'creditForm.occupation' | translate}}:</th>
                       <th style="color: black;">Delete</th>
+                      <th style="color: black;">Edit</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -875,6 +876,12 @@
                         <button class="action-icon" title="{{'table.title.delete' | translate}}"
                           (click)="deleteDependent(economic_dependent,i)">
                           <img src="assets/img/ic_delete.png" alt="img">
+                        </button>
+                      </td>
+                      <td>
+                        <button class="action-icon" title="{{'table.title.edit' | translate}}"
+                          (click)="editDependent(economic_dependent,i)">
+                          <img src="assets/img/edit.png" alt="img">
                         </button>
                       </td>
                     </tr>
@@ -1064,6 +1071,7 @@
                       <th style="color: black;">{{'creditForm.years' | translate}}</th>
                       <th style="color: black;">{{'creditForm.cell' | translate}}</th>
                       <th style="color: black;">Delete</th>
+                      <th style="color: black;">Edit</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1083,6 +1091,12 @@
                         <button class="action-icon" title="{{'table.title.delete' | translate}}"
                           (click)="deleteReferences(references,i)" >
                           <img src="assets/img/ic_delete.png" alt="img">
+                        </button>
+                      </td>
+                      <td>
+                        <button class="action-icon" title="{{'table.title.edit' | translate}}"
+                          (click)="editReferences(references,i)">
+                          <img src="assets/img/edit.png" alt="img">
                         </button>
                       </td>
                     </tr>
@@ -1488,6 +1502,7 @@
                       <th style="color: black;">{{'creditForm.cars' | translate}}</th>
                       <th style="color: black;">{{'creditForm.totalCars' | translate}}</th>
                       <th style="color: black;">Delete</th>
+                      <th style="color: black;">Edit</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1511,6 +1526,12 @@
                         <button class="action-icon" title="{{'table.title.delete' | translate}}"
                           (click)="deleteSolidarity(solidarity,i)" >
                           <img src="assets/img/ic_delete.png" alt="img">
+                        </button>
+                      </td>
+                      <td>
+                        <button class="action-icon" title="{{'table.title.edit' | translate}}"
+                          (click)="editSolidarity(solidarity,i)">
+                          <img src="assets/img/edit.png" alt="img">
                         </button>
                       </td>
                     </tr>
