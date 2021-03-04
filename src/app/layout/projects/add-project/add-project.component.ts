@@ -203,6 +203,7 @@ export class AddProjectComponent implements OnInit {
           this.spinner.hide();
           this.model = JSON.parse(JSON.stringify(r.data));
           self.model.building_contributors_param = self.model.building_contributors_param ? self.model.building_contributors_param : [];
+          self.model.building_contributors = []
           r.data.building_contributors.forEach(element => {
             self.model.building_contributors_param.push({
               id: element.users.id,
@@ -1392,6 +1393,18 @@ export class AddProjectComponent implements OnInit {
         data.developer.developer_company ? data.developer.developer_company : '';
       this.model.developer.developer_desc = data.developer != null && data.developer.developer_desc ? data.developer.developer_desc : '';
     }
+    let self = this;
+    self.model.building_contributors_param = self.model.building_contributors_param ? self.model.building_contributors_param : [];
+    self.model.building_contributors = []
+    data.building_contributors.forEach(element => {
+      self.model.building_contributors_param.push({
+        id: element.users.id,
+        name: element.users.name + " " +  (element.users.first_name? element.users.first_name + ' ' : '') +  (element.users.second_name ? element.users.second_name : ''),
+        phone: element.users.phone,
+        email: element.users.email
+      });
+      this.model.building_contributors.push({ user_type: element.user_type , users_id: element.users.id, building_id: data.id});
+    });
     this.file1.image = this.model.main_image;
     this.projectLogo.image = this.model.project_logo;
     this.model.configurations.map((item) => {
@@ -2118,18 +2131,17 @@ export class AddProjectComponent implements OnInit {
     this.model.building_contributors =  this.model.building_contributors ? this.model.building_contributors: [];
     this.model.building_contributors_param =  this.model.building_contributors_param ? this.model.building_contributors_param: [];
     if(this.model.building_contributors && this.model.building_contributors.length > 0){
-      this.model.building_contributors.forEach(element=>{
-      if(element.users_id != user_id){
+      let data = this.model.building_contributors.find(element=>element.users_id == user_id);
+      if(!data){
         this.model.building_contributors.push({ user_type: status , users_id: user_id, building_id: property_id});
-      }
-      });
+    }
     }
     else{
       this.model.building_contributors.push({ user_type: status , users_id: user_id, building_id: property_id});
     }
     if(this.model.building_contributors_param && this.model.building_contributors_param.length > 0){
-      this.model.building_contributors_param.forEach(element=>{
-      if(element.id != user_id){
+       let data =  this.model.building_contributors_param.find(element=>element.id == user_id)
+      if(!data){
         this.model.building_contributors_param.push({
           id: user.id,
           name: name,
@@ -2137,7 +2149,6 @@ export class AddProjectComponent implements OnInit {
           email: user.email,
          });
       }
-      });
     }
     else{
       this.model.building_contributors_param.push({
@@ -2169,8 +2180,12 @@ export class AddProjectComponent implements OnInit {
       }
     })
    let selectedUser = this.model.building_contributors.findIndex(user=> user.users_id == userId);
+   if(selectedUser > 0){
    this.model.building_contributors.splice(selectedUser, 1);
+   }
    let UserIndex = this.model.building_contributors_param.findIndex(user=> user.id == userId);
+   if(UserIndex > 0){
    this.model.building_contributors_param.splice(UserIndex, 1);
+   }
   }
 }
