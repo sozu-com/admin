@@ -2091,8 +2091,7 @@
    <div class="modal-dialog ">
       <div class="modal-content notary-avail">
          <div class="modal-header popup-header">
-            <h4 class="modal-title">{{ user_type=='seller' ? ('table.th.linkUnlinkSeller' | translate) :
-               ('table.th.linkUnlinkBuyer' | translate)}}</h4>
+            <h4 class="modal-title">{{'table.th.selectContributor' | translate}}</h4>
             <button type="button" class="close" #closeLinkUserModal data-dismiss="modal">&times;</button>
          </div>
          <div class="modal-body">
@@ -2171,13 +2170,13 @@
                         <input  type="checkbox"
                            *ngIf="seller_type==2 ? model.seller_id!=item?.legal_reps?.id : model.seller_id!=item?.id"
                            (click)="changeStatusPopUp(model.id, 
-                                                      (seller_type==2 ? item.legal_reps.id : item.id), 
+                                                      (seller_type==2 ? item.id : item.id), 
                                                       (seller_type==2 ? item.comm_name : item.name), 
                                                       seller_type, item, $event)"  [(ngModel)]="item.value" [checked]="item.value ? 'checked' : ''"/>
                         <input  type="checkbox"
                            *ngIf="seller_type==2 ? model.seller_id==item?.legal_reps?.id : model.seller_id==item.id"
                            (click)="changeStatusPopUp(model.property_id, 
-                              (seller_type==2 ? item.legal_reps.id : item.id), 
+                              (seller_type==2 ? item.id : item.id), 
                               (seller_type==2 ? item.comm_name : item.name), 
                               seller_type, item, $event)"  [(ngModel)]="item.value" [checked]="item.value ? 'checked' : ''"/>
                      </td>
