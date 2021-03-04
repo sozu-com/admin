@@ -431,6 +431,7 @@ export class AddProjectComponent implements OnInit {
         });
         this.model.dev_countrycode = 'mx';
         this.model.dev_dialcode = '+52';
+        this.assignedLegalEntity();
       }
       this.zoom = 6;
     });
@@ -1384,6 +1385,7 @@ export class AddProjectComponent implements OnInit {
 
   setProjectModel(data) {
     this.model = JSON.parse(JSON.stringify(data));
+    this.assignedLegalEntity();
     this.model.building_tower_edit_index = '-1';
     if (data.developer == null) {
       this.model.developer = {
@@ -1473,7 +1475,7 @@ export class AddProjectComponent implements OnInit {
     } else {
       this.model.building_towers = [];
     }
-    this.assignedLegalEntity();
+    //this.assignedLegalEntity();
   }
 
   selectDeveloper(name: string, type: number) {
