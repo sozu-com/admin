@@ -157,6 +157,7 @@ export class AddProjectComponent implements OnInit {
   users = [];
   seller_type: any;
   user_type: any;
+  tempSetLegalEntity: any[] = [];
   constructor(
     public model: AddProjectModel,
     private admin: AdminService,
@@ -206,18 +207,19 @@ export class AddProjectComponent implements OnInit {
           r.data.building_contributors.forEach(element => {
             self.model.building_contributors_param.push({
               id: element.users.id,
-              name: element.users.name + " " +  (element.users.first_name? element.users.first_name + ' ' : '') +  (element.users.second_name ? element.users.second_name : ''),
+              name: element.users.name + " " + (element.users.first_name ? element.users.first_name + ' ' : '') + (element.users.second_name ? element.users.second_name : ''),
               phone: element.users.phone,
               email: element.users.email
             });
-            this.model.building_contributors.push({ user_type: element.user_type , users_id: element.users.id, building_id: r.data.id});
+            this.model.building_contributors.push({ user_type: element.user_type, users_id: element.users.id, building_id: r.data.id });
           });
           this.model.manager = r.data.manager ? r.data.manager : new Manager();
           this.model.company = r.data.company ? r.data.company : new Company();
           this.model.agency = r.data.agency ? r.data.agency : new Agency();
-          this.model.legal_entity = r.data.legal_entity ? r.data.legal_entity : new LegalEntity();
-          // this.model.videos = this.model.videos && this.model.videos.length > 0 ? JSON.parse(this.model.videos) : [];
-          if (r.data['locality']) {
+          //this.model.legal_entity = r.data.legal_entity ? r.data.legal_entity : new LegalEntity();
+          this.assignedLegalEntity();
+            // this.model.videos = this.model.videos && this.model.videos.length > 0 ? JSON.parse(this.model.videos) : [];
+            if(r.data['locality']) {
             this.setCountryToLocality(r.data['locality']);
           }
           this.setMaintenanceAndPolicy(r.data);
@@ -1023,7 +1025,11 @@ export class AddProjectComponent implements OnInit {
         this.model.marital_status.push(this.testMarital[index].id);
       }
     }
-
+    const legal_entity_ids = [];
+    this.model.legal_entity.forEach((data) => {
+      legal_entity_ids.push({ legal_entity_id: data.id });
+    });
+    this.model.legal_entity_info = legal_entity_ids;
     const modelSave = JSON.parse(JSON.stringify(this.model));
 
     modelSave.marital_status = JSON.stringify(this.model.marital_status);
@@ -1252,11 +1258,11 @@ export class AddProjectComponent implements OnInit {
       modelSave.cover_image && (modelSave.images || []).length > 0 &&
       modelSave.name && modelSave.country_id && modelSave.state_id &&
       modelSave.city_id && modelSave.locality_id && modelSave.address && modelSave.address != null &&
-      modelSave.lat && modelSave.lng && 
+      modelSave.lat && modelSave.lng &&
       //modelSave.document && 
       modelSave.building_type_id && modelSave.num_of_properties
-      && modelSave.description && modelSave.description != null 
-      && modelSave.possession_status_id && 
+      && modelSave.description && modelSave.description != null
+      && modelSave.possession_status_id &&
       //modelSave.launch_date && 
       isAnyAmenitiesCheck &&
       (modelSave.amenities || []).length > 0 && (modelSave.configurations || []).length > 0 && (modelSave.building_towers || []).length > 0 &&
@@ -1271,10 +1277,10 @@ export class AddProjectComponent implements OnInit {
       modelSave.cover_image && (modelSave.images || []).length > 0 && (modelSave.images360 || []).length > 0 &&
       (modelSave.videos || []).length > 0 && modelSave.name && modelSave.country_id && modelSave.state_id &&
       modelSave.city_id && modelSave.locality_id && modelSave.address && modelSave.address != null &&
-      modelSave.lat && modelSave.lng 
+      modelSave.lat && modelSave.lng
       //&& modelSave.document 
       && modelSave.building_type_id && modelSave.num_of_properties
-      && modelSave.description && modelSave.description != null && modelSave.possession_status_id 
+      && modelSave.description && modelSave.description != null && modelSave.possession_status_id
       //&& modelSave.launch_date 
       && isAnyAmenitiesCheck &&
       (modelSave.amenities || []).length > 0 && (modelSave.configurations || []).length > 0 && (modelSave.building_towers || []).length > 0 &&
@@ -1452,6 +1458,7 @@ export class AddProjectComponent implements OnInit {
     } else {
       this.model.building_towers = [];
     }
+    this.assignedLegalEntity();
   }
 
   selectDeveloper(name: string, type: number) {
@@ -1508,7 +1515,7 @@ export class AddProjectComponent implements OnInit {
     this.closeDeveloperListModel.nativeElement.click();
   }
 
-  removeDeveloper(name: string, type: number){
+  removeDeveloper(name: string, type: number) {
     this.canEditdeveloperInfo = false;
     this.model.developer = {
       id: '', name: '', email: '',
@@ -1991,7 +1998,7 @@ export class AddProjectComponent implements OnInit {
     });
   }
 
-  unlinkAgency(name: string, type: number){
+  unlinkAgency(name: string, type: number) {
     this.canEditdeveloperInfo = true;
     this.model.agency = undefined;
     this.model.agency_id = undefined;
@@ -2004,25 +2011,82 @@ export class AddProjectComponent implements OnInit {
     this.closeAgencyListModel.nativeElement.click();
   }
 
+  // selectLegalEntity(name: string, type: number) {
+  //   this.spinner.show();
+  //   this.admin.postDataApi('getAllLegalEntities', { name: name }).subscribe(r => {
+  //     this.spinner.hide();
+  //     this.legalEntities = r.data;
+  //     if (type !== 2) {
+  //       this.openLegalEnityModel.nativeElement.click();
+  //     }
+  //   });
+  // }
+
   selectLegalEntity(name: string, type: number) {
+    this.tempSetLegalEntity = [];
     this.spinner.show();
     this.admin.postDataApi('getAllLegalEntities', { name: name }).subscribe(r => {
       this.spinner.hide();
       this.legalEntities = r.data;
+      this.legalEntities.forEach((innerData, innerIndex) => {
+        this.legalEntities[innerIndex]['alreadyChecked'] = false;
+      });
+      this.model.legal_entity.forEach((data, index) => {
+        this.legalEntities.forEach((innerData, innerIndex) => {
+          if (data.id == innerData.id) {
+            this.legalEntities[innerIndex]['alreadyChecked'] = true;
+            this.tempSetLegalEntity.push(data);
+          }
+        });
+      });
       if (type !== 2) {
         this.openLegalEnityModel.nativeElement.click();
       }
     });
   }
 
-  removeLegalEntity() {
-    this.model.legal_entity = new LegalEntity();
+  // removeLegalEntity() {
+  //   this.model.legal_entity = new LegalEntity();
+  // }
+
+  // setLegalEntity(item: any) {
+  //   this.canEditdeveloperInfo = false;
+  //   this.model.legal_entity = item;
+  //   this.model.legal_entity_id = item.id;
+  //   this.closeLegalEnityListModel.nativeElement.click();
+  // }
+
+  removeLegalEntity = (item: any): void => {
+    let tempIndex;
+    this.model.legal_entity.forEach((data, index) => {
+      if (data.id == item.id) {
+        tempIndex = index;
+      }
+    });
+    this.model.legal_entity.splice(tempIndex, 1);
   }
 
-  setLegalEntity(item: any) {
+  setLegalEntity = (isChecked: boolean, item: any): void => {
     this.canEditdeveloperInfo = false;
-    this.model.legal_entity = item;
-    this.model.legal_entity_id = item.id;
+    if (isChecked) {
+      this.tempSetLegalEntity.push(item);
+    } else {
+      let tempIndex;
+      this.tempSetLegalEntity.forEach((data, index) => {
+        if (data.id == item.id) {
+          tempIndex = index;
+        }
+      });
+      this.tempSetLegalEntity.splice(tempIndex, 1);
+    }
+  }
+
+  addLegalEnityModel = (): void => {
+    this.model.legal_entity = new Array<LegalEntity>();
+    this.tempSetLegalEntity.forEach((data) => {
+      this.model.legal_entity.push(data);
+    });
+    this.tempSetLegalEntity = [];
     this.closeLegalEnityListModel.nativeElement.click();
   }
 
@@ -2095,82 +2159,91 @@ export class AddProjectComponent implements OnInit {
     this.admin.postDataApi('getAllBuyers', input).subscribe(r => {
       self.spinner.hide();
       self.users = r.data;
-      self.model.building_contributors_param = self.model.building_contributors_param ? self.model.building_contributors_param : [];  
-      self.users.forEach(element=>{
-      self.model.building_contributors_param.forEach(element1=>{
-        element.value = element.id == element1.id? true : false;
+      self.model.building_contributors_param = self.model.building_contributors_param ? self.model.building_contributors_param : [];
+      self.users.forEach(element => {
+        self.model.building_contributors_param.forEach(element1 => {
+          element.value = element.id == element1.id ? true : false;
+        })
       })
-      })
-      if(!dailogOpen){
+      if (!dailogOpen) {
         self.linkUserModal.nativeElement.click();
       }
     });
   }
 
-  changeStatusPopUp(property_id: any, user_id: number, name: string, status: number, user: any, event:any){
+  changeStatusPopUp(property_id: any, user_id: number, name: string, status: number, user: any, event: any) {
     this.canEditContributionInfo = false;
-    if(event.target.checked){
-    this.users.filter(element=>{
-      if(element.id == element){
-        element.value = true;
-      }
-    });
-    this.model.building_contributors =  this.model.building_contributors ? this.model.building_contributors: [];
-    this.model.building_contributors_param =  this.model.building_contributors_param ? this.model.building_contributors_param: [];
-    if(this.model.building_contributors && this.model.building_contributors.length > 0){
-      this.model.building_contributors.forEach(element=>{
-      if(element.users_id != user_id){
-        this.model.building_contributors.push({ user_type: status , users_id: user_id, building_id: property_id});
-      }
+    if (event.target.checked) {
+      this.users.filter(element => {
+        if (element.id == element) {
+          element.value = true;
+        }
       });
-    }
-    else{
-      this.model.building_contributors.push({ user_type: status , users_id: user_id, building_id: property_id});
-    }
-    if(this.model.building_contributors_param && this.model.building_contributors_param.length > 0){
-      this.model.building_contributors_param.forEach(element=>{
-      if(element.id != user_id){
+      this.model.building_contributors = this.model.building_contributors ? this.model.building_contributors : [];
+      this.model.building_contributors_param = this.model.building_contributors_param ? this.model.building_contributors_param : [];
+      if (this.model.building_contributors && this.model.building_contributors.length > 0) {
+        this.model.building_contributors.forEach(element => {
+          if (element.users_id != user_id) {
+            this.model.building_contributors.push({ user_type: status, users_id: user_id, building_id: property_id });
+          }
+        });
+      }
+      else {
+        this.model.building_contributors.push({ user_type: status, users_id: user_id, building_id: property_id });
+      }
+      if (this.model.building_contributors_param && this.model.building_contributors_param.length > 0) {
+        this.model.building_contributors_param.forEach(element => {
+          if (element.id != user_id) {
+            this.model.building_contributors_param.push({
+              id: user.id,
+              name: name,
+              phone: user.phone,
+              email: user.email,
+            });
+          }
+        });
+      }
+      else {
         this.model.building_contributors_param.push({
           id: user.id,
           name: name,
           phone: user.phone,
           email: user.email,
-         });
+        });
       }
-      });
     }
-    else{
-      this.model.building_contributors_param.push({
-        id: user.id,
-        name: name,
-        phone: user.phone,
-        email: user.email,
-       });
+    else {
+      this.users.filter(element => {
+        if (element.id == user_id) {
+          element.value = false;
+        }
+      })
+      let selectedUser = this.model.building_contributors.findIndex(user => user.users_id == user_id);
+      this.model.building_contributors.splice(selectedUser, 1);
+      let UserIndex = this.model.building_contributors_param.findIndex(user => user.id == user_id);
+      this.model.building_contributors_param.splice(UserIndex, 1);
     }
-  }
-  else{
-    this.users.filter(element=>{
-      if(element.id == user_id){
-        element.value = false;
-      }
-    })
-   let selectedUser = this.model.building_contributors.findIndex(user=> user.users_id == user_id);
-   this.model.building_contributors.splice(selectedUser, 1);
-   let UserIndex = this.model.building_contributors_param.findIndex(user=> user.id == user_id);
-   this.model.building_contributors_param.splice(UserIndex, 1);
-  }
   }
 
-  removeContributor( userId, index) {
+  removeContributor(userId, index) {
     this.canEditContributionInfo = false;
-    this.users.filter(element=>{
-      if(element.id == userId){
+    this.users.filter(element => {
+      if (element.id == userId) {
         element.value = false;
       }
     })
-   let selectedUser = this.model.building_contributors.findIndex(user=> user.users_id == userId);
-   this.model.building_contributors.splice(selectedUser, 1);
-   let UserIndex = this.model.building_contributors_param.findIndex(user=> user.id == userId);
-   this.model.building_contributors_param.splice(UserIndex, 1);
+    let selectedUser = this.model.building_contributors.findIndex(user => user.users_id == userId);
+    this.model.building_contributors.splice(selectedUser, 1);
+    let UserIndex = this.model.building_contributors_param.findIndex(user => user.id == userId);
+    this.model.building_contributors_param.splice(UserIndex, 1);
+  }
+
+  assignedLegalEntity = (): void => {
+    this.model.legal_entity = new Array<LegalEntity>();
+    if ((this.model.legal_entity_info || []).length > 0) {
+      (this.model.legal_entity_info || []).forEach((element) => {
+        this.model.legal_entity.push(element.legal_entity);
+      });
+    }
   }
 }
