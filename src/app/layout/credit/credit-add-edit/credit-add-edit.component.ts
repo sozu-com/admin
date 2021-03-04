@@ -108,6 +108,11 @@ export class CreditAddEditComponent implements OnInit {
       if (params['id'] !== '0') {
         this.parameter.property_id = params['id'];
         this.getcredits();
+        this.editDependent(this.creditModel.economic_dependent.id);
+        this.editReferences(this.creditModel.references.id);
+        this.editSolidarity(this.creditModel.solidarity_liabilities.id);
+        
+        
       } else {
         this.parameter.property_id = '';
         this.showSearch = true;
@@ -426,6 +431,18 @@ export class CreditAddEditComponent implements OnInit {
     });
   }
 
+  editDependent(data){
+   this.creditModel.economic_dependent = data;
+   console.log(this.creditModel.economic_dependent,"data")
+  }
+  editReferences(data){
+    this.creditModel.references = data;
+    console.log(this.creditModel.references,"data")
+   }
+   editSolidarity(data){
+    this.creditModel.solidarity_liabilities = data;
+    console.log(this.creditModel.solidarity_liabilities,"data")
+   }
   deleteReferences = (references: any, index: number): void => {
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' + this.translate.instant('message.error.wantToDeleteReferences'),

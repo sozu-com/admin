@@ -88,7 +88,8 @@ export class AddProjectModel {
   company?: Company;
   company_id: number;
   agency?: Agency;
-  legal_entity?: LegalEntity;
+  //legal_entity?: LegalEntity;
+  legal_entity?: Array<LegalEntity>;
   legal_entity_id?: number;
   agency_id?: number;
   selected?: boolean;
@@ -104,6 +105,7 @@ export class AddProjectModel {
   managed_by: boolean = false;
   building_contributors_param: Array<contributors> = [];
   building_contributors: Array<contributorsParam> = [];
+  legal_entity_info: any;
 }
 
 
@@ -181,13 +183,13 @@ export class LocalityToCountry {
   city: City;
 }
 
-export class contributorsParam{
+export class contributorsParam {
   users_id: number;
   user_type: number;
   building_id: number;
 }
 
-export class contributors{
+export class contributors {
   id: number;
   name: string;
   phone: string;

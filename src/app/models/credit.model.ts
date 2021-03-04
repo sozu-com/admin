@@ -65,12 +65,14 @@ export class GeneralData {
 }
 
 export class EconomicDependent {
+    id?: number;
     credits_relationship_id?: string;
     age?: string;
     occupation?: string;
 }
 
 export class References {
+    id?: number;
     credits_relationship_id?: string;
     name?: string;
     first_surname?: string;
@@ -91,6 +93,7 @@ export class References {
 }
 
 export class SolidarityLiabilities {
+    id?: number;
     name?: string;
     first_surname?: string;
     second_surname?: string;
