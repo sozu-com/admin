@@ -342,7 +342,7 @@
                   <th style="vertical-align:top; width: 100px;">
                     <div class="table-search">
                       <label>{{'table.th.tobeRePC' | translate}}</label>
-                      <select style="width: 70px;" [(ngModel)]="parameter.sold_filter" (change)="getListing()" name="sold_filter">
+                      <select style="width: 70px;" [(ngModel)]="parameter.pc_amount" (change)="getListing()" name="pc_amount">
                         <option value="0">{{'table.th.all' | translate}}</option>
                         <option value="1">{{'table.th.defined' | translate}}</option>
                         <option value="2">{{'table.th.undefined' | translate}}</option>
@@ -352,7 +352,7 @@
                   <th style="vertical-align:top; width: 100px;">
                     <div class="table-search">
                       <label>{{'table.th.PCReceipt' | translate}}</label>
-                      <select style="width: 70px;" [(ngModel)]="parameter.sold_filter" (change)="getListing()" name="sold_filter">
+                      <select style="width: 70px;" [(ngModel)]="parameter.pc_receipt" (change)="getListing()" name="pc_receipt">
                         <option value="0">{{'table.th.all' | translate}}</option>
                         <option value="1">{{'table.th.yes' | translate}}</option>
                         <option value="2">{{'table.th.no' | translate}}</option>
@@ -362,7 +362,7 @@
                   <th style="vertical-align:top; width: 100px;">
                     <div class="table-search">
                       <label>{{'table.th.PCInvoice' | translate}}</label>
-                      <select style="width: 70px;" [(ngModel)]="parameter.sold_filter" (change)="getListing()" name="sold_filter">
+                      <select style="width: 70px;" [(ngModel)]="parameter.pc_invoice" (change)="getListing()" name="pc_invoice">
                         <option value="0">{{'table.th.all' | translate}}</option>
                         <option value="1">{{'table.th.yes' | translate}}</option>
                         <option value="2">{{'table.th.no' | translate}}</option>

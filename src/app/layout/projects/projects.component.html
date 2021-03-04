@@ -416,7 +416,7 @@
                   <span>{{p?.agency?.name ? p?.agency?.name : ('table.tr.td.NA' | translate)}}</span>
                 </td>
                 <!-- (click)="viewLegalEntity(p)" -->
-                <td [ngClass]="{'green-color cursor-pointer': p?.legal_entity?.comm_name}">
+                <td [ngClass]="{'green-color cursor-pointer': p?.legal_entity?.comm_name}" (click)="this.openLegalEnityListModel(legalEntities)">
                   <span>{{p?.legal_entity?.comm_name ? p?.legal_entity?.comm_name : ('table.tr.td.NA' |
                     translate)}}</span>
                 </td>
@@ -611,6 +611,58 @@
         <!-- </div> -->
 
       </form>
+    </div>
+  </div>
+</div>
+
+<a #legalEnityListModelOpen class="btn-third btn btn-block" data-target="#legal-entity-list" data-toggle="modal"></a>
+<div class="modal" id="legal-entity-list">
+  <div class="modal-dialog">
+    <div class="modal-content notary-avail">
+      <div class="modal-header popup-header">
+        <h4 class="modal-title">{{'table.th.legalEntity' | translate}}</h4>
+        <button type="button" class="close" data-dismiss="modal" #legalEnityListModelClose>&times;</button>
+      </div>
+      <div class="modal-body">
+        <!-- <div class="row">
+          <div class="col-md-8 col-6">
+            <input style="max-width:200px" [(ngModel)]="name" class="form-control" type="text" name="keyword"
+              placeholder="{{'addForm.placeholder.search' | translate}}">
+          </div>
+          <div class="col-md-4 col-5 btn-cont">
+            <a class="btn btn-primary pull-right" href="javascript://"
+              (click)="selectLegalEntity(name, 2)">{{'addForm.search' | translate}}</a>
+          </div>
+        </div> -->
+        <div class="spacer40"></div>
+        <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+          <div class="table-scroll">
+            <table class="table">
+              <tr *ngFor="let item of this.legalEntities">
+                <!-- <td *ngIf="item.is_blocked!=1"> -->
+                <td>
+                  <div class="n-avail-profile">
+                    <img [src]="item.image| img:'thumb'" onerror='src="assets/img/default_img.png"' alt="img">
+                    <div class="n-avail-info" style="cursor: pointer;" (click)="this.navigateToLegalEntity(item)">
+                      <p class="p12">{{item.comm_name}}</p>
+                      <p class="p10">{{'addForm.phone' | translate}} : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
+                    </div>
+                  </div>
+                </td>
+                <!-- <td *ngIf="item.is_blocked!=1">
+                  <label class="cust-check-bx float-right">
+                    <input type="radio" name="id" (click)="setLegalEntity(item)">
+                    <span class="checkmark"></span>
+                  </label>
+                </td> -->
+              </tr>
+              <!-- <tr *ngIf="legalEntities?.length<1">
+                <p class="show-not-found">{{'addForm.no' | translate}} </p>
+              </tr> -->
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

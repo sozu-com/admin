@@ -254,6 +254,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     this.parameter.city_id = '0';
     this.parameter.locality_id = '0';
     this.parameter.building_id = '0';
+    // this.parameter.pc_receipt = '0';
+    // this.parameter.pc_invoice = '0';
+    // this.parameter.pc_amount = '0';
     this.getPaymentMethods();
     this.getCountries();
     this.initCalendarLocale();
