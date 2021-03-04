@@ -1405,6 +1405,7 @@ export class AddProjectComponent implements OnInit {
     let self = this;
     self.model.building_contributors_param = self.model.building_contributors_param ? self.model.building_contributors_param : [];
     self.model.building_contributors = []
+    if(data.building_contributors && data.building_contributors.length > 0){
     data.building_contributors.forEach(element => {
       self.model.building_contributors_param.push({
         id: element.user_type == 1 ? element.users.id: element.legal_entity.id,
@@ -1415,6 +1416,7 @@ export class AddProjectComponent implements OnInit {
       });
       this.model.building_contributors.push({ user_type: element.user_type , users_id: element.user_type == 1 ? element.users.id: element.legal_entity.id, building_id: data.id});
     });
+  }
     this.file1.image = this.model.main_image;
     this.projectLogo.image = this.model.project_logo;
     this.model.configurations.map((item) => {
