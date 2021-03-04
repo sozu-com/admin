@@ -416,9 +416,10 @@
                   <span>{{p?.agency?.name ? p?.agency?.name : ('table.tr.td.NA' | translate)}}</span>
                 </td>
                 <!-- (click)="viewLegalEntity(p)" -->
-                <td [ngClass]="{'green-color cursor-pointer': p?.legal_entity?.comm_name}" (click)="this.openLegalEnityListModel(legalEntities)">
-                  <span>{{p?.legal_entity?.comm_name ? p?.legal_entity?.comm_name : ('table.tr.td.NA' |
-                    translate)}}</span>
+                <td [ngClass]="{'green-color cursor-pointer': p?.legal_entity_info?.length > 0 }" >
+                  <span (click)="this.openLegalEnityListModel(p.legal_entity_info)" *ngIf="p?.legal_entity_info?.length > 0">
+                    {{this.getLegalEntityInfo(p.legal_entity_info)}}</span>
+                    <span *ngIf="p?.legal_entity_info?.length == 0">{{'table.tr.td.NA' | translate}}</span>
                 </td>
                 <td [ngClass]="{'green-color cursor-pointer': p?.manager?.id || p?.company?.id}"
                   (click)="viewCompanyManager(p)">
@@ -642,10 +643,10 @@
                 <!-- <td *ngIf="item.is_blocked!=1"> -->
                 <td>
                   <div class="n-avail-profile">
-                    <img [src]="item.image| img:'thumb'" onerror='src="assets/img/default_img.png"' alt="img">
+                    <img [src]="item?.legal_entity?.image| img:'thumb'" onerror='src="assets/img/default_img.png"' alt="img">
                     <div class="n-avail-info" style="cursor: pointer;" (click)="this.navigateToLegalEntity(item)">
-                      <p class="p12">{{item.comm_name}}</p>
-                      <p class="p10">{{'addForm.phone' | translate}} : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
+                      <p class="p12">{{item?.legal_entity?.comm_name}}</p>
+                      <p class="p10">{{'addForm.phone' | translate}} : {{item?.legal_entity?.dial_code ? item?.legal_entity?.dial_code : constant.dial_code}}-{{item?.legal_entity?.phone}}</p>
                     </div>
                   </div>
                 </td>
