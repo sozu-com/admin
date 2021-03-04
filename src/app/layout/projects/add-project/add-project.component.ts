@@ -67,6 +67,7 @@ export class AddProjectComponent implements OnInit {
   public zoom: number;
 
   canEditdeveloperInfo: boolean;
+  canEditContributionInfo: boolean;
   id: any;
   url: any[];
   url2 = [];
@@ -195,11 +196,22 @@ export class AddProjectComponent implements OnInit {
       this.newTower = new Towers();
       if (this.id) {
         /* if id exists edit mode */
+        let self = this;
         this.canEditdeveloperInfo = false;
-        this.spinner.show();
+        this.spinner.show()
         this.admin.postDataApi('getProjectById', { building_id: this.id }).subscribe(r => {
           this.spinner.hide();
           this.model = JSON.parse(JSON.stringify(r.data));
+          self.model.building_contributors_param = self.model.building_contributors_param ? self.model.building_contributors_param : [];
+          r.data.building_contributors.forEach(element => {
+            self.model.building_contributors_param.push({
+              id: element.users.id,
+              name: element.users.name + " " +  (element.users.first_name? element.users.first_name + ' ' : '') +  (element.users.second_name ? element.users.second_name : ''),
+              phone: element.users.phone,
+              email: element.users.email
+            });
+            this.model.building_contributors.push({ user_type: element.user_type , users_id: element.users.id, building_id: r.data.id});
+          });
           this.model.manager = r.data.manager ? r.data.manager : new Manager();
           this.model.company = r.data.company ? r.data.company : new Company();
           this.model.agency = r.data.agency ? r.data.agency : new Agency();
@@ -295,6 +307,7 @@ export class AddProjectComponent implements OnInit {
       } else if (params.request_id) {
         /* if request_id exists, building request edit mode */
         this.canEditdeveloperInfo = false;
+        this.canEditContributionInfo = false
         this.spinner.show();
         this.admin.postDataApi('getBuildingRequest', { building_request_id: params.request_id }).subscribe(r => {
           this.spinner.hide();
@@ -398,6 +411,7 @@ export class AddProjectComponent implements OnInit {
         this.model.building_towers = [];
         this.model.building_tower_edit_index = '-1';
         this.canEditdeveloperInfo = true;
+        this.canEditContributionInfo = true;
         this.admin.postDataApi('getAmenities', { hide_blocked: 1 }).subscribe(res => {
           this.all_amenities = res.data.map(item => {
             item.selected = false;
@@ -2072,33 +2086,91 @@ export class AddProjectComponent implements OnInit {
   }
 
   selectContributor(keyword: string, type: number, dailogOpen: boolean) {
+    let self = this;
     this.spinner.show();
     this.seller_type = type;
     const input = { name: '', user_type: 0 };
     input.name = keyword !== '1' ? keyword : '';
     input.user_type = type;
     this.admin.postDataApi('getAllBuyers', input).subscribe(r => {
-      this.spinner.hide();
-      this.users = r.data;
+      self.spinner.hide();
+      self.users = r.data;
+      self.model.building_contributors_param = self.model.building_contributors_param ? self.model.building_contributors_param : [];  
+      self.users.forEach(element=>{
+      self.model.building_contributors_param.forEach(element1=>{
+        element.value = element.id == element1.id? true : false;
+      })
+      })
       if(!dailogOpen){
-      this.linkUserModal.nativeElement.click();
+        self.linkUserModal.nativeElement.click();
       }
     });
   }
 
-  changeStatusPopUp(property_id: any, user_id: number, name: string, status: number, user: any){
-    this.model.building_contributors_param = [];
-    this.model.building_contributors = [];
-   this.model.building_contributors_param.push({ user_type: status , users_id: user_id, building_id: property_id});
-   this.model.building_contributors.push({
-     id: user.id,
-     name: name,
-     phone: user.phone,
-     email: user.email,
+  changeStatusPopUp(property_id: any, user_id: number, name: string, status: number, user: any, event:any){
+    this.canEditContributionInfo = false;
+    if(event.target.checked){
+    this.users.filter(element=>{
+      if(element.id == element){
+        element.value = true;
+      }
+    });
+    this.model.building_contributors =  this.model.building_contributors ? this.model.building_contributors: [];
+    this.model.building_contributors_param =  this.model.building_contributors_param ? this.model.building_contributors_param: [];
+    if(this.model.building_contributors && this.model.building_contributors.length > 0){
+      this.model.building_contributors.forEach(element=>{
+      if(element.users_id != user_id){
+        this.model.building_contributors.push({ user_type: status , users_id: user_id, building_id: property_id});
+      }
+      });
+    }
+    else{
+      this.model.building_contributors.push({ user_type: status , users_id: user_id, building_id: property_id});
+    }
+    if(this.model.building_contributors_param && this.model.building_contributors_param.length > 0){
+      this.model.building_contributors_param.forEach(element=>{
+      if(element.id != user_id){
+        this.model.building_contributors_param.push({
+          id: user.id,
+          name: name,
+          phone: user.phone,
+          email: user.email,
+         });
+      }
+      });
+    }
+    else{
+      this.model.building_contributors_param.push({
+        id: user.id,
+        name: name,
+        phone: user.phone,
+        email: user.email,
+       });
+    }
+  }
+  else{
+    this.users.filter(element=>{
+      if(element.id == user_id){
+        element.value = false;
+      }
     })
+   let selectedUser = this.model.building_contributors.findIndex(user=> user.users_id == user_id);
+   this.model.building_contributors.splice(selectedUser, 1);
+   let UserIndex = this.model.building_contributors_param.findIndex(user=> user.id == user_id);
+   this.model.building_contributors_param.splice(UserIndex, 1);
+  }
   }
 
-  removeContributor() {
-    this.model.building_contributors_param = []
+  removeContributor( userId, index) {
+    this.canEditContributionInfo = false;
+    this.users.filter(element=>{
+      if(element.id == userId){
+        element.value = false;
+      }
+    })
+   let selectedUser = this.model.building_contributors.findIndex(user=> user.users_id == userId);
+   this.model.building_contributors.splice(selectedUser, 1);
+   let UserIndex = this.model.building_contributors_param.findIndex(user=> user.id == userId);
+   this.model.building_contributors_param.splice(UserIndex, 1);
   }
 }

@@ -1222,47 +1222,66 @@
 
               <!-- End of Legal Entity Info Section -->
 
-               <!-- contributor Info Section -->
-               <!-- <div class="row">
+                <!--contributor Info Section -->
+               <div class="row">
                 <div class="col-12">
                   <div class="page-title paddingL0 paddingR0">
                     <h3>{{'addForm.contributor.label' | translate}}
-                      <span class="tower pull-right" style="margin-left: 25px;" *ngIf="model?.legal_entity?.id"
-                        (click)="removeContributor('', 1)">{{'addForm.contributor.removeContributor' | translate}} </span>
                       <span class="tower pull-right"
                         (click)="selectContributor('', 1, false)">{{model?.building_contributors?.id ? ('addForm.contributor.changeContributor' | translate) : ('addForm.contributor.selectContributor' | translate)}} </span>
                     </h3>
                   </div>
                 </div>
-              </div> -->
+              </div>
 
 
-              <!-- <div class="row" *ngIf="model?.building_contributors.length > 0">
-                <div class="col-md-6 col-sm-6 col-12">
-                  <div class="form-group-3">
-                    <label>{{'addForm.contributor.name' | translate}}</label>
-                    <input [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.building_contributors.name"
-                      class="form-control" type="text" name="contributorName" placeholder="{{'addForm.placeholder.developerName' | translate}}">
+              <div class="row" *ngIf="model?.building_contributors_param && model?.building_contributors_param.length > 0">
+                <div class="col-12">
+                  <div class="row" *ngFor="let contributor of model?.building_contributors_param; let i = index">
+                    <div class="col-12">
+                      <div class="row">
+                        <div class="col-4 offset-8" style="height: 45px;">
+                          <div class="page-title paddingL0 paddingR0" style="border-bottom:none;">
+                            <h3>
+                          <span class="tower pull-right" style="margin-left: 25px;"
+                            (click)="removeContributor(contributor.id, i)">{{'addForm.contributor.removeContributor' | translate}}
+                          </span>
+                        </h3>
+                      </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6 col-sm-6 col-12">
+                          <div class="form-group-3">
+                            <label>{{'addForm.contributor.name' | translate}}</label>
+                            <input [disabled]="!canEditContributionInfo" [(ngModel)]="model?.building_contributors_param[i].name"
+                              class="form-control" type="text" name="{{'contributorName' + i}}"
+                              placeholder="{{'addForm.placeholder.developerName' | translate}}">
+                          </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-12">
+                          <div class="form-group-3">
+                            <label>{{'addForm.contributor.phoneNumber' | translate}}</label>
+                            <input [disabled]="!canEditContributionInfo" type="text" class="form-control"
+                              placeholder="{{'addForm.placeholder.phoneNumber' | translate}}" minlength="1"
+                              [(ngModel)]="model?.building_contributors_param[i].phone" name="{{'contributorPhone' + i}}" ng2TelInput
+                              [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
+                          </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-12">
+                          <div class="form-group-3">
+                            <label>{{'addForm.contributor.email' | translate}}</label>
+                            <input [disabled]="!canEditContributionInfo" [(ngModel)]="model?.building_contributors_param[i].email"
+                              class="form-control" type="email" name="{{'contributorEmail' + i}}"
+                              placeholder="{{'addForm.placeholder.developerEmail' | translate}}"
+                              pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="col-md-6 col-sm-6 col-12">
-                  <div class="form-group-3">
-                    <label>{{'addForm.contributor.phoneNumber' | translate}}</label>
-                    <input [disabled]="!canEditdeveloperInfo" 
-                      type="text" class="form-control" id="contributorPhone" placeholder="{{'addForm.placeholder.phoneNumber' | translate}}"
-                      minlength="1" [(ngModel)]="model.building_contributors.phone" name="contributorPhone" ng2TelInput
-                      [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
-                  </div>
-                </div>
-                <div class="col-md-6 col-sm-6 col-12">
-                  <div class="form-group-3">
-                    <label>{{'addForm.contributor.email' | translate}}</label>
-                    <input [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.building_contributors.email"
-                      class="form-control" type="email" name="contributorEmail" placeholder="{{'addForm.placeholder.developerEmail' | translate}}"
-                      pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
-                  </div>
-                </div>
-              </div> -->
+              </div>
 
               <!-- End of contributor Info Section -->
 
@@ -2038,22 +2057,18 @@
                         </div>
                      </td>
                      <td>
-                        <button
+                        <input  type="checkbox"
                            *ngIf="seller_type==2 ? model.seller_id!=item?.legal_reps?.id : model.seller_id!=item?.id"
                            (click)="changeStatusPopUp(model.id, 
                                                       (seller_type==2 ? item.legal_reps.id : item.id), 
                                                       (seller_type==2 ? item.comm_name : item.name), 
-                                                      seller_type, item)" class="action-icon"
-                           title="{{'table.title.acceptRequest' | translate}}">
-                           <img src="assets/img/green-icon.png" alt="img"></button>
-                        <button
+                                                      seller_type, item, $event)"  [(ngModel)]="item.value" [checked]="item.value ? 'checked' : ''"/>
+                        <input  type="checkbox"
                            *ngIf="seller_type==2 ? model.seller_id==item?.legal_reps?.id : model.seller_id==item.id"
                            (click)="changeStatusPopUp(model.property_id, 
                               (seller_type==2 ? item.legal_reps.id : item.id), 
                               (seller_type==2 ? item.comm_name : item.name), 
-                              seller_type, item)" class="action-icon" title="{{'table.title.rejectRequest' | translate}}">
-                           <img src="assets/img/ic_disapprove.png" alt="img">
-                        </button>
+                              seller_type, item, $event)"  [(ngModel)]="item.value" [checked]="item.value ? 'checked' : ''"/>
                      </td>
                   </tr>
                   <tr *ngIf="users?.length==0">

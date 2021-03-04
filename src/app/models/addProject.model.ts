@@ -102,8 +102,8 @@ export class AddProjectModel {
   developer_by: boolean = false;
   agency_by: boolean = false;
   managed_by: boolean = false;
-  building_contributors_param: Array<contributorsParam>;
-  building_contributors: Array<contributors>;
+  building_contributors_param: Array<contributors> = [];
+  building_contributors: Array<contributorsParam> = [];
 }
 
 
