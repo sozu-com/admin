@@ -48,7 +48,8 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   @ViewChild('legalEnityListModelOpen') legalEnityListModelOpen: ElementRef;
   @ViewChild('legalEnityListModelClose') legalEnityListModelClose: ElementRef;
   legalEntities: any[] = [];
-
+  public scrollbarOptions = { axis: 'y', theme: 'dark' };
+  
   constructor(
     public constant: Constant,
     public apiConstant: ApiConstants,
