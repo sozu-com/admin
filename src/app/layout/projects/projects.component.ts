@@ -45,6 +45,15 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   public language_code: string;
   public selectedLocation: { selectedCountry: string, selectedStates: any[], selectedCities: any[], selectedLocalities: any[] } =
     { selectedCountry: '', selectedStates: [], selectedCities: [], selectedLocalities: [] };
+  @ViewChild('legalEnityListModelOpen') legalEnityListModelOpen: ElementRef;
+  @ViewChild('legalEnityListModelClose') legalEnityListModelClose: ElementRef;
+  legalEntities: any[] = [
+    { "id": 17, "comm_name": "CORPORATIVO MC ALLEN BY RODEO", "legal_name": "CORPORATIVO MC ALLEN BY RODEO SA DE CV", "email": "direccioncorporativomcallen@hotmail.com", "dial_code": "+52", "country_code": "mx", "phone": "4921682708", "address": "Santo Tom\u00e1s, Aguascalientes, M\u00e9xico", "lat": 21.8211502, "lng": -102.1985856, "description": null, "tax_street_address": null, "tax_external_number": null, "tax_internal_number": null, "tax_zipcode": null, "tax_municipality": null, "tax_country": null, "tax_state": null, "tax_city": null, "tax_neighbourhood": null, "street_address": null, "external_number": null, "internal_number": null, "municipality": null, "city": null, "neighbourhood": null, "zipcode": null, "state": null, "country": null, "fed_tax_pay": null, "developer_id": null, "is_blocked": 0, "created_at": "2020-10-22 14:57:48", "updated_at": "2021-02-04 19:54:34" },
+    { "id": 17, "comm_name": "CORPORATIVO MC ALLEN BY RODEO", "legal_name": "CORPORATIVO MC ALLEN BY RODEO SA DE CV", "email": "direccioncorporativomcallen@hotmail.com", "dial_code": "+52", "country_code": "mx", "phone": "4921682708", "address": "Santo Tom\u00e1s, Aguascalientes, M\u00e9xico", "lat": 21.8211502, "lng": -102.1985856, "description": null, "tax_street_address": null, "tax_external_number": null, "tax_internal_number": null, "tax_zipcode": null, "tax_municipality": null, "tax_country": null, "tax_state": null, "tax_city": null, "tax_neighbourhood": null, "street_address": null, "external_number": null, "internal_number": null, "municipality": null, "city": null, "neighbourhood": null, "zipcode": null, "state": null, "country": null, "fed_tax_pay": null, "developer_id": null, "is_blocked": 0, "created_at": "2020-10-22 14:57:48", "updated_at": "2021-02-04 19:54:34" },
+    { "id": 17, "comm_name": "CORPORATIVO MC ALLEN BY RODEO", "legal_name": "CORPORATIVO MC ALLEN BY RODEO SA DE CV", "email": "direccioncorporativomcallen@hotmail.com", "dial_code": "+52", "country_code": "mx", "phone": "4921682708", "address": "Santo Tom\u00e1s, Aguascalientes, M\u00e9xico", "lat": 21.8211502, "lng": -102.1985856, "description": null, "tax_street_address": null, "tax_external_number": null, "tax_internal_number": null, "tax_zipcode": null, "tax_municipality": null, "tax_country": null, "tax_state": null, "tax_city": null, "tax_neighbourhood": null, "street_address": null, "external_number": null, "internal_number": null, "municipality": null, "city": null, "neighbourhood": null, "zipcode": null, "state": null, "country": null, "fed_tax_pay": null, "developer_id": null, "is_blocked": 0, "created_at": "2020-10-22 14:57:48", "updated_at": "2021-02-04 19:54:34" },
+    { "id": 17, "comm_name": "CORPORATIVO MC ALLEN BY RODEO", "legal_name": "CORPORATIVO MC ALLEN BY RODEO SA DE CV", "email": "direccioncorporativomcallen@hotmail.com", "dial_code": "+52", "country_code": "mx", "phone": "4921682708", "address": "Santo Tom\u00e1s, Aguascalientes, M\u00e9xico", "lat": 21.8211502, "lng": -102.1985856, "description": null, "tax_street_address": null, "tax_external_number": null, "tax_internal_number": null, "tax_zipcode": null, "tax_municipality": null, "tax_country": null, "tax_state": null, "tax_city": null, "tax_neighbourhood": null, "street_address": null, "external_number": null, "internal_number": null, "municipality": null, "city": null, "neighbourhood": null, "zipcode": null, "state": null, "country": null, "fed_tax_pay": null, "developer_id": null, "is_blocked": 0, "created_at": "2020-10-22 14:57:48", "updated_at": "2021-02-04 19:54:34" },
+    { "id": 17, "comm_name": "CORPORATIVO MC ALLEN BY RODEO", "legal_name": "CORPORATIVO MC ALLEN BY RODEO SA DE CV", "email": "direccioncorporativomcallen@hotmail.com", "dial_code": "+52", "country_code": "mx", "phone": "4921682708", "address": "Santo Tom\u00e1s, Aguascalientes, M\u00e9xico", "lat": 21.8211502, "lng": -102.1985856, "description": null, "tax_street_address": null, "tax_external_number": null, "tax_internal_number": null, "tax_zipcode": null, "tax_municipality": null, "tax_country": null, "tax_state": null, "tax_city": null, "tax_neighbourhood": null, "street_address": null, "external_number": null, "internal_number": null, "municipality": null, "city": null, "neighbourhood": null, "zipcode": null, "state": null, "country": null, "fed_tax_pay": null, "developer_id": null, "is_blocked": 0, "created_at": "2020-10-22 14:57:48", "updated_at": "2021-02-04 19:54:34" }
+  ];
 
   constructor(
     public constant: Constant,
@@ -602,6 +611,20 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     localStorage.setItem('selectedLocalitiesForProject', JSON.stringify(this.selectedLocation.selectedLocalities.length > 0 ? this.selectedLocation.selectedLocalities : []));
     localStorage.setItem('selectedCitiesForProject', JSON.stringify(this.selectedLocation.selectedCities.length > 0 ? this.selectedLocation.selectedCities : []));
     localStorage.setItem('parametersForProject', JSON.stringify(this.parameter));
+  }
+
+  openLegalEnityListModel = (legal_entity: any[]): void => {
+    this.legalEntities = legal_entity;
+    this.legalEnityListModelOpen.nativeElement.click();
+  }
+
+  closeLegalEnityListModel = (): void => {
+    this.legalEnityListModelClose.nativeElement.click();
+  }
+
+  navigateToLegalEntity = (legal_entity: any): void => {
+    this.closeLegalEnityListModel();
+    this.router.navigate(['/dashboard/legal-entities/view-all', legal_entity.id]);
   }
 
 }

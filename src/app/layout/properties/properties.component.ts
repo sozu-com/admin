@@ -201,7 +201,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   //   };
   // }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.language_code = localStorage.getItem('language_code');
     this.iniDropDownSetting();
     this.initializedDropDownSetting();
@@ -256,11 +256,14 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.parameter.half_bathroom = 0;
     this.parameter.property_type_id = 0;
     this.parameter.possession_status_id = 0; // 0-all, 9-presale, 8-sale
-    this.local_storage_parameter = JSON.parse(localStorage.getItem('parametersForProperty'));
-    this.parameter = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.parameter;
-    this.getCountries();
+    this.parameter.country_id = '0';
+    this.parameter.state_id = '0';
+    this.parameter.building_id = '0';
+    // this.local_storage_parameter = JSON.parse(localStorage.getItem('parametersForProperty'));
+    // this.parameter = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.parameter;
+    //this.getCountries();
     this.getPropertyConfigurations();
-    this.getListing();
+    //this.getListing();
     this.getPropertyTypes();
     this.getPropertyAmenities();
     this.subscribeInstallmentFormGroup();
@@ -277,6 +280,16 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.admin.loginData$.subscribe(success => {
       this.fullName = success['name'] + ' ' + success['first_surname'] + ' ' + success['second_surname'];
     });
+    this.getParametersForProperty();
+  }
+
+  getParametersForProperty = (): void => {
+    if (this.is_back) {
+      this.selectedLocation.selectedLocalities = JSON.parse(localStorage.getItem('selectedLocalitiesForProperty'));
+      this.selectedLocation.selectedCities = JSON.parse(localStorage.getItem('selectedCitiesForProperty'));
+      this.parameter = JSON.parse(localStorage.getItem('parametersForProperty')) ? JSON.parse(localStorage.getItem('parametersForProperty')) : this.parameter;
+    }
+    this.getCountries();
   }
 
   // onItemDeSelect(arrayNAme: any, obj: any) {
@@ -318,9 +331,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
 
   getPropertyTypes() {
+    this.spinner.show();
     this.admin.postDataApi('getPropertyTypes', { hide_blocked: 1 })
       .subscribe(
         success => {
+          this.spinner.hide();
           this.propertyTypes = success['data'];
           // if (this.parameter.propertyTypes.length !== 0 && this.parameter.property_id === '') {
           //   this.model.property_type_id = this.parameter.propertyTypes[0].id;
@@ -395,14 +410,14 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     input.bathroom = this.parameter.bathroom;
     input.half_bathroom = this.parameter.half_bathroom;
 
-    if(this.parameter.property_id){
+    if (this.parameter.property_id) {
       input = {};
       input.flag = 3;
       input.property_id = this.parameter.property_id
     }
     this.admin.postDataApi('propertyHome', input).subscribe(
       success => {
-        localStorage.setItem('parametersForProperty', JSON.stringify(this.parameter));
+        // localStorage.setItem('parametersForProperty', JSON.stringify(this.parameter));
         this.items = success.data;
         this.total = success.total_count;
         this.spinner.hide();
@@ -419,13 +434,36 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
 
   getCountries() {
+    this.spinner.show();
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
+      this.spinner.hide();
       this.location.countries = r['data'];
+      if (this.is_back) {
+        const selectedCountry = this.location.countries.filter(x => x.id.toString() === this.parameter.country_id);
+        this.location.states = selectedCountry.length > 0 ? selectedCountry[0].states : [];
+        const selectedState = this.location.states.filter(x => x.id.toString() === this.parameter.state_id);
+        this.location.cities = selectedState.length > 0 ? selectedState[0].cities : [];
+        const localities = [];
+        this.selectedLocation.selectedCities.forEach((cityObject) => {
+          const selectedlocality = this.location.cities.filter(x => x.id == cityObject.id);
+          (selectedlocality[0].localities || []).forEach((localityObject) => {
+            localities.push(localityObject);
+          });
+        });
+        this.location.localities = localities;
+      } else {
+        this.parameter.country_id = '0';
+        this.parameter.state_id = '0';
+        this.parameter.building_id = '0';
+      }
+      this.getListing();
     });
   }
 
   getPropertyConfigurations() {
+    this.spinner.show();
     this.admin.postDataApi('getPropertyConfigurations', {}).subscribe(r => {
+      this.spinner.hide();
       this.configurations = r['data'];
     });
   }
@@ -458,7 +496,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.location.localities = [];
     this.parameter.city_id = '0';
     this.parameter.locality_id = '0';
-    this.parameter.buildings = []; 
+    this.parameter.buildings = [];
     this.parameter.building_id = '0';
     if (!id || id.toString() === '0') {
       return false;
@@ -518,7 +556,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     // this.location.localities = localities;
     this.parameter.building_id = '0';
     this.parameter.buildings = [];
-    if(this.selectedLocation.selectedLocalities.length > 0){
+    if (this.selectedLocation.selectedLocalities.length > 0) {
       this.getLocalityBuildings();
     }
   }
@@ -531,7 +569,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   //   this.parameter.locality_id = id;
   // }
   getLocalityBuildings = (): void => {
-  //getLocalityBuildings(id) {
+    //getLocalityBuildings(id) {
     // if (!id || id.toString() === '0') {
     //   return false;
     // }
@@ -549,6 +587,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   getPropertyAmenities() {
+    this.spinner.show();
     this.admin.postDataApi('getPropertyAmenities', { hide_blocked: 1 })
       .subscribe(
         success => {
@@ -1691,7 +1730,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     }
   }
 
-  
+
 
   onClickPreview = (isPreviewClick: boolean): void => {
     if (this.getTotalPercentage() == 100.00) {
@@ -1733,12 +1772,6 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     return (this.price.transform(Number(value).toFixed(2)).toString()).substring(1);
   }
 
-  ngOnDestroy(): void {
-    if (this.installmentFormGroupSubscription) {
-      this.installmentFormGroupSubscription.unsubscribe();
-    }
-  }
-
   initializedDropDownSetting = (): void => {
     this.multiDropdownSettingsForLocation = {
       singleSelection: false,
@@ -1756,4 +1789,15 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.parameter.localities = this.selectedLocation.selectedLocalities.length > 0 ? this.selectedLocation.selectedLocalities.map(o => o.id) : null;
     this.parameter.cities = this.selectedLocation.selectedCities.length > 0 ? this.selectedLocation.selectedCities.map(o => o.id) : null;
   }
+
+  ngOnDestroy(): void {
+    if (this.installmentFormGroupSubscription) {
+      this.installmentFormGroupSubscription.unsubscribe();
+    }
+    this.makePostRequest();
+    localStorage.setItem('selectedLocalitiesForProperty', JSON.stringify(this.selectedLocation.selectedLocalities.length > 0 ? this.selectedLocation.selectedLocalities : []));
+    localStorage.setItem('selectedCitiesForProperty', JSON.stringify(this.selectedLocation.selectedCities.length > 0 ? this.selectedLocation.selectedCities : []));
+    localStorage.setItem('parametersForProperty', JSON.stringify(this.parameter));
+  }
+
 }

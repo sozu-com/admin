@@ -23,7 +23,12 @@ const routes: Routes = [
   {
     path: 'view-all', component: LegalEntityComponent,
     canActivate: [AclUserGuard], data: { roles: ['Manage Legal Entity', 'can_read', ''] }
-  },{
+  },
+  {
+    path: 'view-all/:legal_entity_id', component: LegalEntityComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Manage Legal Entity', 'can_read', ''] }
+  },
+  {
     path: 'view-all/:developer_name/:developer_id', component: LegalEntityComponent,
     canActivate: [AclUserGuard], data: { roles: ['Manage Legal Entity', 'can_read', ''] }
   },

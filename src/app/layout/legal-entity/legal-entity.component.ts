@@ -27,17 +27,24 @@ export class LegalEntityComponent implements OnInit {
   legal_rep_name: string;
   developer_name: string;
   developer_id: number;
-  constructor(public constant: Constant, public admin: AdminService, private router: Router,
+  legal_entity_id: string;
+
+  constructor(
+    public constant: Constant,
+    public admin: AdminService,
+    private router: Router,
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute
+  ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
-    this.parameter.sub = this.route.params.subscribe(params => {
+    this.parameter.sub = this.route.params.subscribe((params) => {
       this.developer_name = params['developer_name'];
       this.developer_id = params['developer_id'];
+      this.legal_entity_id = params['legal_entity_id'];
     });
     this.getLegalEntity();
   }
@@ -47,7 +54,7 @@ export class LegalEntityComponent implements OnInit {
     this.getLegalEntity();
   }
 
-  getLegalEntity() {
+  getLegalEntity = (): void => {
     const input = {
       comm_name: this.comm_name,
       legal_name: this.legal_name,
@@ -57,24 +64,22 @@ export class LegalEntityComponent implements OnInit {
       developer_name: this.developer_name,
       legal_rep_name: this.legal_rep_name,
       developer_id: this.developer_id,
-      page: this.parameter.page
+      page: this.parameter.page,
+      legal_entity_id: this.legal_entity_id
     };
     this.spinner.show();
-    this.admin.postDataApi('getLegalEntity', input)
-      .subscribe(
-        success => {
-          this.spinner.hide();
-          this.items = success.data;
-          this.parameter.total = success.total_count;
-          console.log(success.data,"getLegalEntity data")
-        }, error => {
-          this.spinner.hide();
-        });
+    this.admin.postDataApi('getLegalEntity', input).subscribe((success) => {
+      this.spinner.hide();
+      this.items = success.data;
+      this.parameter.total = success.total_count;
+    }, (error) => {
+      this.spinner.hide();
+    });
   }
 
   editUser(item: Users) {
     this.router.navigate(['/dashboard/legal-entities/add-legal-entity', item.id]);
-   // this.router.navigate(['/dashboard/legal-entities/edit-legal-entity', item.id]);
+    // this.router.navigate(['/dashboard/legal-entities/edit-legal-entity', item.id]);
   }
 
   blockUnblockPopup(index: any, id: string, flag: number) {
@@ -82,12 +87,12 @@ export class LegalEntityComponent implements OnInit {
     this.parameter.title = this.translate.instant('message.error.areYouSure');
     switch (flag) {
       case 0:
-      this.parameter.text = this.translate.instant('message.error.wantToUnblockLegalEntity');
-      this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
-      break;
-    case 1:
-      this.parameter.text = this.translate.instant('message.error.wantToBlockLegalEntity');
-      this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
+        this.parameter.text = this.translate.instant('message.error.wantToUnblockLegalEntity');
+        this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
+        break;
+      case 1:
+        this.parameter.text = this.translate.instant('message.error.wantToBlockLegalEntity');
+        this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
     }
 
@@ -109,7 +114,7 @@ export class LegalEntityComponent implements OnInit {
   blockAdmin(index: number, id: any, flag: any) {
     this.parameter.index = index;
     this.parameter.url = flag == 1 ? 'blockLegalEntity' : 'unblockLegalEntity';
-    this.admin.postDataApi(this.parameter.url, {id: id})
+    this.admin.postDataApi(this.parameter.url, { id: id })
       .subscribe(
         success => {
           swal(this.translate.instant('swal.success'), this.parameter.successText, 'success');
@@ -137,14 +142,14 @@ export class LegalEntityComponent implements OnInit {
 
   deleteData(item: any, index: number) {
     this.admin.postDataApi('deleteLegalEntity',
-    { id: item.id }).subscribe(r => {
-      this.items.splice(index, 1);
-      this.parameter.total--;
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
-    },
-    error => {
-      swal(this.translate.instant('swal.error'), error.error.message, 'error');
-    });
+      { id: item.id }).subscribe(r => {
+        this.items.splice(index, 1);
+        this.parameter.total--;
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
+      },
+        error => {
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
+        });
   }
 
   viewDeveloper(item: any) {

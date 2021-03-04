@@ -197,7 +197,7 @@ export interface IProperty {
   max_carpet_area?: any;
   first_surname?: string;
   second_surname?: string;
-  parking ?:any;
+  parking?: any;
   furnished?: any;
   property_type_id?: any;
   bedroom?: any;
@@ -207,9 +207,12 @@ export interface IProperty {
   parking_for_sale?: any;
   project_status_filter?: any;
   reminder_date?: any;
-  is_commercialized?:number;
+  is_commercialized?: number;
   user?: Array<Docs>;
-  locality?:any;
+  locality?: any;
+  pc_receipt?: any;
+  pc_invoice?: any;
+  pc_amount?: any;
 }
 export class Docs {
   id: string;
