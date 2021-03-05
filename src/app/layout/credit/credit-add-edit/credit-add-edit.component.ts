@@ -982,8 +982,7 @@ export class CreditAddEditComponent implements OnInit {
   getRequestDataForNinethStep = (currentStep: number): any => {
     const modelSave = {
       step: currentStep,
-      incomes_bank_account: this.creditModel.incomes_bank_account,
-      credites_details_id: this.parameter.property_id
+      incomes_bank_account: this.creditModel.incomes_bank_account
     };
     return modelSave;
   }
@@ -1152,6 +1151,7 @@ export class CreditAddEditComponent implements OnInit {
 
   addDeveloperBank(e) {
     const bank = new BankDetail();
+    bank.credites_details_id = JSON.parse(this.parameter.property_id);
     this.creditModel.incomes_bank_account.push(bank);
   }
 

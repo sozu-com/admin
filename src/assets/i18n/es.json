@@ -667,6 +667,7 @@
       "legalEntity": "Entidad legal",
       "companyCommercialName": "Nombre de la compañía (Nombre comercial)",
       "selectContributor": "Seleccionar colaborador",
+      "contributor": "colaborador",
       "possesion": {
         "label": "Fecha de entrega",
         "all": "Todo",

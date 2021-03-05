@@ -685,6 +685,7 @@
       "legalEntity": "Legal Entity",
       "companyCommercialName": "Company Name (Commercial Name)",
       "selectContributor": "Select Contributor",
+      "contributor": "Contributor",
       "possesion": {
         "label": "Possesion",
         "all": "All",

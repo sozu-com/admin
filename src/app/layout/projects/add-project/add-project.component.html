@@ -2,14 +2,14 @@
   <div class="white-bg">
     <div class="row">
       <div class="col-11 page-title title-div">
-        <a href="javascript://" class="back-icon" (click)="goBack()"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+        <a href="javascript://" class="back-icon" (click)="goBack(true)"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
         <h3 *ngIf="!id">{{'addForm.addProject' | translate}}</h3>
         <h3 *ngIf="id">{{'addForm.editProject' | translate}}</h3>
       </div>
   
       <div class="col-lg-1 col-md-1 col-6 page-title title-div">
         <div class="btn-cont text-right">
-          <a href="javascript://"  (click)="goBack()"
+          <a href="javascript://"  (click)="goBack(false)"
             class="btn-sm btn-primary-new" href="javascript://">{{'quickVisualization.back' | translate}}</a>
           </div>
       </div>

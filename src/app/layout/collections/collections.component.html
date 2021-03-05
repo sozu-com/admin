@@ -533,7 +533,15 @@
                     <span>{{p?.property?.building_towers ? p?.property?.building_towers?.tower_name : ('table.tr.td.NA'
                       | translate)}}</span>
                   </td>
-                  <td><span  (click)="this.navigateToProperty(p)" style="cursor: pointer;">{{p?.property?.name ? p?.property?.name : ('table.tr.td.NA' | translate)}}</span></td>
+                  <!-- <td>
+                    <span  (click)="this.navigateToProperty(p)" style="cursor: pointer;">{{p?.property?.name ? p?.property?.name : ('table.tr.td.NA' | translate)}}</span>
+                  </td> -->
+                  <td [ngClass]="{'green-color cursor-pointer': p?.property?.name }" >
+                    <span (click)="this.navigateToProperty(p)" *ngIf="p?.property?.name">
+                      {{p?.property?.name}}
+                    </span>
+                      <span *ngIf="!p?.property?.name">{{'table.tr.td.NA' | translate}}</span>
+                  </td>
                   <td>
                     <span>{{p?.property?.building_configuration?.name}}</span>
                   </td>

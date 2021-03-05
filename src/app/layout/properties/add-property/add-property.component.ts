@@ -128,7 +128,7 @@ export class AddPropertyComponent implements OnInit {
     private element: ElementRef,
     private translate: TranslateService,
     private toastr: ToastrService
-    ) {
+  ) {
     this.us.globalSettings$.subscribe(suc1 => {
       this.parameter.bulk_approve_property = suc1['bulk_approve_property'];
     });
@@ -160,7 +160,7 @@ export class AddPropertyComponent implements OnInit {
       this.parameter.property_id = params['property_id'];
       if (this.parameter.property_id === '0') {
 
-        this.us.postDataApi('getPropertyAmenities', {hide_blocked: 1}).subscribe(res => {
+        this.us.postDataApi('getPropertyAmenities', { hide_blocked: 1 }).subscribe(res => {
           this.parameter.amenities = res.data.map(item => {
             item.selected = false;
             item.images = [];
@@ -406,7 +406,7 @@ export class AddPropertyComponent implements OnInit {
     }
 
 
-    this.us.postDataApi('getPropertyAmenities', {hide_blocked: 1}).subscribe(res => {
+    this.us.postDataApi('getPropertyAmenities', { hide_blocked: 1 }).subscribe(res => {
       this.parameter.amenities = res.data.map(item => {
         item.selected = false;
         item.images = [];
@@ -473,7 +473,7 @@ export class AddPropertyComponent implements OnInit {
     this.model.broker_commision = data.broker_commision || 0;
     this.model.total_commission = data.total_commission || 0;
     this.model.comm_total_commission_amount = data.comm_total_commission_amount || 0;
-    this.model.comm_shared_commission_amount  = data.comm_shared_commission_amount || 0;
+    this.model.comm_shared_commission_amount = data.comm_shared_commission_amount || 0;
   }
 
   setTab(tab: any) {
@@ -589,7 +589,7 @@ export class AddPropertyComponent implements OnInit {
   }
 
   getConfigurations() {
-    this.us.postDataApi('getConfigurations', {hide_blocked: 1})
+    this.us.postDataApi('getConfigurations', { hide_blocked: 1 })
       .subscribe(
         success => {
           this.parameter.items = success['data'];
@@ -601,7 +601,7 @@ export class AddPropertyComponent implements OnInit {
   }
 
   getPropertyTypes() {
-    this.us.postDataApi('getPropertyTypes', {hide_blocked: 1})
+    this.us.postDataApi('getPropertyTypes', { hide_blocked: 1 })
       .subscribe(
         success => {
           this.parameter.propertyTypes = success['data'];
@@ -613,7 +613,7 @@ export class AddPropertyComponent implements OnInit {
   }
 
   getPropertyAmenities() {
-    this.us.postDataApi('getPropertyAmenities', {hide_blocked: 1})
+    this.us.postDataApi('getPropertyAmenities', { hide_blocked: 1 })
       .subscribe(
         success => {
           this.parameter.amenities = success['data'].map(item => {
@@ -904,7 +904,7 @@ export class AddPropertyComponent implements OnInit {
   file2Select($event) {
     if ((this.file2.files.length + $event.target.files.length) > 6) {
       swal(this.translate.instant('message.error.limitExceeded'),
-          this.translate.instant('message.error.youCanUploadMaximumof6Images'), 'error');
+        this.translate.instant('message.error.youCanUploadMaximumof6Images'), 'error');
       return false;
     }
     this.file2.onSelectFile($event);
@@ -913,7 +913,7 @@ export class AddPropertyComponent implements OnInit {
   file360Select($event) {
     if ((this.file360.files.length + $event.target.files.length) > 6) {
       swal(this.translate.instant('message.error.limitExceeded'),
-          this.translate.instant('message.error.youCanUploadMaximumof6Images'), 'error');
+        this.translate.instant('message.error.youCanUploadMaximumof6Images'), 'error');
       return false;
     }
     this.file360.onSelectFile($event);
@@ -1027,7 +1027,7 @@ export class AddPropertyComponent implements OnInit {
         }
 
         // amenities images
-          console.log(this.parameter.amenities);
+        console.log(this.parameter.amenities);
         if (this.parameter.amenities && this.parameter.amenities.length > 0) {
           this.parameter.amenities.forEach(element => {
             const img = [];
@@ -1078,7 +1078,7 @@ export class AddPropertyComponent implements OnInit {
         input.append('bathroom', this.model.bathroom ? this.model.bathroom.toString() : null);
         input.append('half_bathroom', this.model.half_bathroom ? this.model.half_bathroom.toString() : '0');
         input.append('floor', this.model.floor ? this.model.floor.toString() : null);
-        input.append('broker_commision', this.model.broker_commision ? this.model.broker_commision.toString():null);
+        input.append('broker_commision', this.model.broker_commision ? this.model.broker_commision.toString() : null);
         input.append('property_key', this.model.property_key ? this.model.property_key.toString() : '0');
         input.append('total_commission', this.model.total_commission ? this.model.total_commission.toString() : null);
         input.append('property_price', this.model.property_price ? this.model.property_price.toString() : '0');
@@ -1121,7 +1121,7 @@ export class AddPropertyComponent implements OnInit {
             this.spinner.hide();
             if (this.model.step.toString() === '4') {
               const successText = this.parameter.bulk_approve_property ? '' :
-              this.translate.instant('message.error.notifiedWhenAdminReview');
+                this.translate.instant('message.error.notifiedWhenAdminReview');
               swal({
                 html: this.translate.instant('message.success.submittedSccessfully') + '<br>' + successText, type: 'success'
               });
@@ -1203,7 +1203,7 @@ export class AddPropertyComponent implements OnInit {
           this.spinner.hide();
           swal({
             html: this.translate.instant('message.success.submittedSccessfully') + '<br>' +
-            this.translate.instant('message.error.notifiedWhenAdminReview'),
+              this.translate.instant('message.error.notifiedWhenAdminReview'),
             type: 'success'
           });
           if (this.router.url.indexOf('/dashboard/properties/edit-property') === -1) {
@@ -1323,7 +1323,7 @@ export class AddPropertyComponent implements OnInit {
           // particular project
           swal({
             html: 'Success' + '<br>' +
-            this.translate.instant('message.success.dataCollectorWillLinkPropertyToBuilding'),
+              this.translate.instant('message.success.dataCollectorWillLinkPropertyToBuilding'),
             type: 'success'
           });
           // this.tab = 1;
@@ -1442,7 +1442,7 @@ export class AddPropertyComponent implements OnInit {
   amenMoreImgSelect($event) {
     if ((this.amenMoreImg.files.length + $event.target.files.length) > 6) {
       swal(this.translate.instant('message.error.limitExceeded'),
-          this.translate.instant('message.error.youCanUploadMaximumof6Images'), 'error');
+        this.translate.instant('message.error.youCanUploadMaximumof6Images'), 'error');
       return false;
     }
     this.amenMoreImg.onSelectFile($event);
@@ -1451,7 +1451,7 @@ export class AddPropertyComponent implements OnInit {
   amen360ImagesSelect($event) {
     if ((this.amen360Img.files.length + $event.target.files.length) > 6) {
       swal(this.translate.instant('message.error.limitExceeded'),
-          this.translate.instant('message.error.youCanUploadMaximumof6Images'), 'error');
+        this.translate.instant('message.error.youCanUploadMaximumof6Images'), 'error');
       return false;
     }
     this.amen360Img.onSelectFile($event);
@@ -1522,7 +1522,7 @@ export class AddPropertyComponent implements OnInit {
   amenVideosSelect($event, type) {
     if ((this.amenVideo.files.length + $event.target.files.length) > 6) {
       swal(this.translate.instant('message.error.limitExceeded'),
-          this.translate.instant('message.error.youCanUploadMaximumof6Videos'), 'error');
+        this.translate.instant('message.error.youCanUploadMaximumof6Videos'), 'error');
       return false;
     }
 
@@ -1632,8 +1632,12 @@ export class AddPropertyComponent implements OnInit {
     this.amenVideo.files.splice(index, 1);
   }
 
-  goBack(){ 
-    this.router.navigate(['/dashboard/properties/view-properties', {for: 'back'}])
+  goBack = (isForBack: boolean): void => {
+    if (isForBack) {
+      this.router.navigate(['/dashboard/properties/view-properties', { for: 'back' }]);
+    } else {
+      this.router.navigate(['/dashboard/properties/view-properties']);
+    }
   }
 
   getSozuAmount(percent: number) {
@@ -1662,21 +1666,21 @@ export class AddPropertyComponent implements OnInit {
     return num ? num.toFixed(n) : 0;
   }
 
-  changeCommissionPer(value){
-   if(value){
-    this.model.total_commission = this.numberUptoNDecimal((this.model.comm_total_commission_amount * 100) / Number(this.newcarpet_area.price), 2);
-   }
-   else{
-    this.model.broker_commision = this.numberUptoNDecimal((this.model.comm_shared_commission_amount * 100) / Number(this.newcarpet_area.price), 2);
-   }
+  changeCommissionPer(value) {
+    if (value) {
+      this.model.total_commission = this.numberUptoNDecimal((this.model.comm_total_commission_amount * 100) / Number(this.newcarpet_area.price), 2);
+    }
+    else {
+      this.model.broker_commision = this.numberUptoNDecimal((this.model.comm_shared_commission_amount * 100) / Number(this.newcarpet_area.price), 2);
+    }
   }
 
-  changeCommissionAmt(value){
-    if(value){
-     this.model.comm_total_commission_amount = this.numberUptoNDecimal((this.model.total_commission * Number(this.newcarpet_area.price)) / 100, 2)
+  changeCommissionAmt(value) {
+    if (value) {
+      this.model.comm_total_commission_amount = this.numberUptoNDecimal((this.model.total_commission * Number(this.newcarpet_area.price)) / 100, 2)
     }
-    else{
-     this.model.comm_shared_commission_amount = this.numberUptoNDecimal((this.model.broker_commision * Number(this.newcarpet_area.price)) / 100, 2)
+    else {
+      this.model.comm_shared_commission_amount = this.numberUptoNDecimal((this.model.broker_commision * Number(this.newcarpet_area.price)) / 100, 2)
     }
-   }
+  }
 }
