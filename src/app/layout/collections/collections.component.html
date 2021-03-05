@@ -263,7 +263,7 @@
                   <th style="vertical-align:top; width: 100px;">
                     <div class="table-search">
                        <label>{{'table.th.contract' | translate}}</label>
-                       <select style="width: 70px;" [(ngModel)]="parameter.sold_filter" (change)="getListing()" name="sold_filter">
+                       <select style="width: 70px;" [(ngModel)]="parameter.pc_contract" (change)="getListing()" name="pc_contract">
                           <option value="0">{{'table.th.all' | translate}}</option>
                           <option value="1">{{'table.th.yes' | translate}}</option>
                           <option value="2">{{'table.th.no' | translate}}</option>
@@ -543,8 +543,8 @@
                   </td>
                   <td>
                     <!-- <span>{{p?.property?.locality?.name ? p?.property?.locality?.name : ('table.tr.td.NA' |
-                      translate)}}</span> -->
-                      <span>N/A</span>
+                      translate)}}</span> pc_contract -->
+                      <span>{{p?.contract_count > 0 ? ('table.th.yes' | translate) : ('table.th.no' | translate)}}</span>
                   </td>
                   <td>
                     <span>{{p.deal_purchase_date ? getDateWRTTimezone(p.deal_purchase_date, 'DD/MMM/YYYY') :

@@ -213,6 +213,7 @@ export interface IProperty {
   pc_receipt?: any;
   pc_invoice?: any;
   pc_amount?: any;
+  pc_contract?: any;
 }
 export class Docs {
   id: string;

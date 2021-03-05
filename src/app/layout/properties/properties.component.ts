@@ -1549,12 +1549,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   createFormGroup = (): FormGroup => {
+    const tempPercentage = this.installmentFormGroup.get('tempAddVariablesPercentage').value ? (this.installmentFormGroup.get('tempAddVariablesPercentage').value * this.getFinalPrice()) / 100 : 0;
     return this.formBuilder.group({
       addVariablesText: [{ value: this.installmentFormGroup.get('tempAddVariablesText').value, disabled: true }],
       addVariablesPercentage: [{ value: this.installmentFormGroup.get('tempAddVariablesPercentage').value, disabled: true }],
       addVariablesPercentageFinalPrice: [{
-        value: this.installmentFormGroup.get('tempAddVariablesPercentage').value ?
-          this.getTransformedAmount((this.installmentFormGroup.get('tempAddVariablesPercentage').value * this.property_array.min_price) / 100) : 0, disabled: true
+        value: this.getTransformedAmount(tempPercentage), disabled: true
       }]
     });
   }
@@ -1616,6 +1616,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   checkIsGeneratePDF = (): void => {
+    this.updateAddVariablesFinalValue();
     if (this.getTotalPercentage() == 100.00) {
       this.generatePDF();
       this.closeModalInstallment();
@@ -1736,13 +1737,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     if (this.getTotalPercentage() == 100.00) {
       const discount = this.installmentFormGroup.get('discount').value ? (this.installmentFormGroup.get('discount').value * this.property_array.min_price) / 100 : 0;
       const interest = this.installmentFormGroup.get('interest').value ? (this.installmentFormGroup.get('interest').value * this.property_array.min_price) / 100 : 0;
-      const finalPrice = discount ? this.property_array.min_price - discount : interest ? this.property_array.min_price + interest : this.property_array.min_price;
-      const downPayment = this.installmentFormGroup.get('downPayment').value ? (this.installmentFormGroup.get('downPayment').value * this.property_array.min_price) / 100 : 0;
-      const paymentUponDelivery = this.installmentFormGroup.get('paymentupondelivery').value ? (this.installmentFormGroup.get('paymentupondelivery').value * this.property_array.min_price) / 100 : 0;
-      const monthlyInstallments = this.installmentFormGroup.get('monthlyInstallment').value ? (this.installmentFormGroup.get('monthlyInstallment').value * this.property_array.min_price) / 100 : 0;
+      // const finalPrice = discount ? this.property_array.min_price - discount : interest ? this.property_array.min_price + interest : this.property_array.min_price;
+      const downPayment = this.installmentFormGroup.get('downPayment').value ? (this.installmentFormGroup.get('downPayment').value * this.getFinalPrice()) / 100 : 0;
+      const paymentUponDelivery = this.installmentFormGroup.get('paymentupondelivery').value ? (this.installmentFormGroup.get('paymentupondelivery').value * this.getFinalPrice()) / 100 : 0;
+      const monthlyInstallments = this.installmentFormGroup.get('monthlyInstallment').value ? (this.installmentFormGroup.get('monthlyInstallment').value * this.getFinalPrice()) / 100 : 0;
       this.installmentFormGroup.patchValue({
         listPrice: this.property_array.min_price ? this.getTransformedAmount(this.property_array.min_price) : 0.00,
-        finalPrice: finalPrice ? this.getTransformedAmount(finalPrice) : 0.00,
+        finalPrice: this.getFinalPrice() ? this.getTransformedAmount(this.getFinalPrice()) : 0.00,
         downPaymentFinalPrice: downPayment ? this.getTransformedAmount(downPayment) : 0.00,
         discountFinalPrice: discount ? this.getTransformedAmount(discount) : 0.00,
         monthlyInstallmentFinalPrice: monthlyInstallments ? this.getTransformedAmount(monthlyInstallments) : 0.00,
@@ -1755,6 +1756,14 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     } else {
       swal(this.translate.instant('swal.error'), this.translate.instant('generatePDF.percentageText'), 'error');
     }
+    this.updateAddVariablesFinalValue();
+  }
+
+  updateAddVariablesFinalValue = (): void => {
+    this.getAddVariablesFormArray.controls.forEach((formGroup: FormGroup) => {
+      const tempPercentage = formGroup.get('addVariablesPercentage').value ? (formGroup.get('addVariablesPercentage').value * this.getFinalPrice()) / 100 : 0;
+      formGroup.get('addVariablesPercentageFinalPrice').setValue(this.getTransformedAmount(tempPercentage));
+    });
   }
 
   getTotalPercentage() {
@@ -1770,6 +1779,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   getTransformedAmount(value: any) {
     return (this.price.transform(Number(value).toFixed(2)).toString()).substring(1);
+  }
+
+  getFinalPrice = (): any => {
+    const discount = this.installmentFormGroup.get('discount').value ? (this.installmentFormGroup.get('discount').value * this.property_array.min_price) / 100 : 0;
+    const interest = this.installmentFormGroup.get('interest').value ? (this.installmentFormGroup.get('interest').value * this.property_array.min_price) / 100 : 0;
+    const finalPrice = discount ? (this.property_array.min_price - discount) : interest ? (this.property_array.min_price + interest) : this.property_array.min_price;
+    return finalPrice;
   }
 
   initializedDropDownSetting = (): void => {
