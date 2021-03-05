@@ -666,13 +666,13 @@
                                  class="action-icon" [disabled]="!!p?.collection"
                                  *ngIf="p.is_commercialized !=1 && parameter?.flag == 3"
                                  title="{{'table.title.commercializedProperty' | translate}}">
-                                 <img src="assets/img/tick-selected.png" alt="img"></button>
+                                 <img src="assets/img/tick.png" alt="img"></button>
 
                                  <button (click)="this.updateCommercialized(p,0);" class="action-icon"
                                     [disabled]="!!p?.collection"
                                     *ngIf="p.is_commercialized == true && parameter?.flag == 3"
                                     title="{{'table.title.markCommercialized' | translate}}">
-                                    <img src="assets/img/tick.png" alt="img"></button>
+                                    <img src="assets/img/tick-selected.png" alt="img"></button>
 
                                  <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
                                     *ngIf="parameter?.flag!=3" routerLink="/dashboard/properties/edit-property/{{p.id}}"
