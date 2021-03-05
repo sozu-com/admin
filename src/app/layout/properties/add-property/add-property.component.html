@@ -3,15 +3,15 @@
   <div class="row">
     <div class="col-11">
       <div class="title-group">
-        <h5 *ngIf="!editMode"><a href="javascript://" (click)="goBack()"><i
+        <h5 *ngIf="!editMode"><a href="javascript://" (click)="goBack(true)"><i
               class="fa fa-angle-double-left"></i> </a> &nbsp;&nbsp;{{'addForm.addProperty' | translate}}</h5>
-        <h5 *ngIf="editMode"> <a href="javascript://" (click)="goBack()"><i
+        <h5 *ngIf="editMode"> <a href="javascript://" (click)="goBack(true)"><i
               class="fa fa-angle-double-left"></i> </a> &nbsp;&nbsp;{{'addForm.editProperty' | translate}}: {{model?.name}}</h5>
       </div>
     </div>
     <div class="col-lg-1 col-md-1 col-6">
       <div class="btn-cont text-right title-group">
-        <a href="javascript://" (click)="goBack()"
+        <a href="javascript://" (click)="goBack(false)"
           class="btn-sm btn-primary-new" href="javascript://">{{'quickVisualization.back' | translate}}</a>
         </div>
     </div>
