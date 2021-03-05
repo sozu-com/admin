@@ -47,7 +47,10 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     { selectedCountry: '', selectedStates: [], selectedCities: [], selectedLocalities: [] };
   @ViewChild('legalEnityListModelOpen') legalEnityListModelOpen: ElementRef;
   @ViewChild('legalEnityListModelClose') legalEnityListModelClose: ElementRef;
+  @ViewChild('contributorListModelOpen') contributorListModelOpen: ElementRef;
+  @ViewChild('contributorListModelClose') contributorListModelClose: ElementRef;
   legalEntities: any[] = [];
+  contributor: any[] = [];
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
   
   constructor(
@@ -617,6 +620,15 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.legalEnityListModelClose.nativeElement.click();
   }
 
+  openContributorListModel = (contributor: any[]): void => {
+    this.contributor = contributor;
+    this.contributorListModelOpen.nativeElement.click();
+  }
+
+  closeContributorListModel = (): void => {
+    this.contributorListModelClose.nativeElement.click();
+  }
+
   navigateToLegalEntity = (legal_entity: any): void => {
     this.closeLegalEnityListModel();
     this.router.navigate(['/dashboard/legal-entities/view-all', legal_entity.legal_entity_id]);
@@ -627,6 +639,14 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       return legal_entity_info[0].legal_entity.comm_name ;
     } else {
       return (legal_entity_info[0].legal_entity.comm_name +'+'+  (legal_entity_info.length - 1));
+    }
+  }
+
+  getBuildingContributorsInfo = (contributor: any[]): any => {
+    if (contributor.length == 1) {
+      return contributor[0].user_type == 1 ? (contributor[0].users.name + " " + (contributor[0].users.first_name ? contributor[0].users.first_name + ' ' : '') + (contributor[0].users.second_name ? contributor[0].users.second_name : '')) : contributor[0].legal_entity.comm_name ;
+    } else {
+      return contributor[0].user_type == 1 ? (contributor[0].users.name + " " + (contributor[0].users.first_name ? contributor[0].users.first_name + ' ' : '') + (contributor[0].users.second_name ? contributor[0].users.second_name : '') +'+'+  (contributor.length - 1)) : (contributor[0].legal_entity.comm_name +'+'+  (contributor.length - 1));
     }
   }
 
