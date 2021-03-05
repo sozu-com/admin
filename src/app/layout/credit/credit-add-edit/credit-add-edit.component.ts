@@ -36,6 +36,7 @@ export class CreditAddEditComponent implements OnInit {
   showBuilding: boolean;
   addFormStep1: FormGroup;
   tab: number;
+  selected_id: number;
   subtab: number;
   amenities = Array<any>();
   destination_list = Array<IDestinationStatus>();
@@ -108,11 +109,11 @@ export class CreditAddEditComponent implements OnInit {
       if (params['id'] !== '0') {
         this.parameter.property_id = params['id'];
         this.getcredits();
-        this.editDependent(this.creditModel.economic_dependent.id);
-        this.editReferences(this.creditModel.references.id);
-        this.editSolidarity(this.creditModel.solidarity_liabilities.id);
-        
-        
+        this.editDependent(this.creditModel.economic_dependent.credit_dependent_id);
+        this.editReferences(this.creditModel.references.credit_references_id);
+        this.editSolidarity(this.creditModel.solidarity_liabilities.solidarity_id);
+
+
       } else {
         this.parameter.property_id = '';
         this.showSearch = true;
@@ -322,11 +323,13 @@ export class CreditAddEditComponent implements OnInit {
 
   afterAddcredit = (): void => {
     if (this.getCurrentStep() == 5) {
+      this.creditModel.economic_dependent.credit_dependent_id = undefined;
       this.creditModel.economic_dependent.credits_relationship_id = undefined;
       this.creditModel.economic_dependent.age = '';
       this.creditModel.economic_dependent.occupation = '';
       this.getEcoDependent();
     } else if (this.getCurrentStep() == 6) {
+      this.creditModel.references.credit_references_id = undefined;
       this.creditModel.references.credits_relationship_id = undefined;
       this.creditModel.references.name = '';
       this.creditModel.references.first_surname = '';
@@ -346,6 +349,7 @@ export class CreditAddEditComponent implements OnInit {
       this.creditModel.references.participate_credit = '';
       this.getReferences();
     } else if (this.getCurrentStep() == 7) {
+      this.creditModel.solidarity_liabilities.solidarity_id = undefined;
       this.creditModel.solidarity_liabilities.name = '';
       this.creditModel.solidarity_liabilities.first_surname = '';
       this.creditModel.solidarity_liabilities.second_surname = '';
@@ -388,13 +392,40 @@ export class CreditAddEditComponent implements OnInit {
 
   getEcoDependent = (): void => {
     this.spinnerService.show();
-    this.adminService.postDataApi('getEcoDependent', { id: this.parameter.property_id || '0' }).subscribe((success) => {
-      this.economic_dependent_list = success.data || [];
-      this.spinnerService.hide();
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
-    }, (error) => {
-      this.spinnerService.hide();
-    });
+    this.adminService.postDataApi('getEcoDependent', { id: this.parameter.property_id || '0' })
+      .subscribe(
+        success => {
+
+          this.spinnerService.hide();
+          if (success.success === '0') {
+            swal(this.translate.instant('swal.error'), success.message, 'error');
+            return;
+          } else {
+            this.economic_dependent_list = success.data || [];
+            swal({
+                html: this.translate.instant('message.success.submittedSccessfully'), type: 'success'
+              });
+            // console.log(this.economic_dependent_list, "this.economic_dependent_list")
+            // this.economic_dependent_list.forEach((p) => {
+            //   console.log(p.id, "this.economic_dependent_list")
+            //   if (p.id ==  this.creditModel.economic_dependent.credit_dependent_id) {
+            //     swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
+            //   } else {
+            //     this.spinnerService.hide();
+            //     swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
+            //   }
+            // });
+          }
+        }, error => {
+          this.spinnerService.hide();
+        });
+    // .subscribe((success) => {
+    //   this.economic_dependent_list = success.data || [];
+    //   this.spinnerService.hide();
+    //   swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
+    // }, (error) => {
+    //   this.spinnerService.hide();
+    // });
   }
 
   deleteDependent = (economicDependent: any, index: number): void => {
@@ -425,24 +456,30 @@ export class CreditAddEditComponent implements OnInit {
     this.adminService.postDataApi('getReferences', { id: this.parameter.property_id || '0' }).subscribe((success) => {
       this.references_list = success.data || [];
       this.spinnerService.hide();
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
+      swal({
+        html: this.translate.instant('message.success.submittedSccessfully'), type: 'success'
+      });
+     // swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
     }, (error) => {
       this.spinnerService.hide();
     });
   }
 
-  editDependent(data){
-   this.creditModel.economic_dependent = data;
-   console.log(this.creditModel.economic_dependent,"data")
+  editDependent(data) {
+    this.creditModel.economic_dependent = data;
+    this.creditModel.economic_dependent.credit_dependent_id = data.id
+    console.log(this.creditModel.economic_dependent.credit_dependent_id, "data")
   }
-  editReferences(data){
+  editReferences(data) {
     this.creditModel.references = data;
-    console.log(this.creditModel.references,"data")
-   }
-   editSolidarity(data){
+    this.creditModel.references.credit_references_id = data.id
+    console.log(this.creditModel.references.credit_references_id, "data")
+  }
+  editSolidarity(data) {
     this.creditModel.solidarity_liabilities = data;
-    console.log(this.creditModel.solidarity_liabilities,"data")
-   }
+    this.creditModel.solidarity_liabilities.solidarity_id = data.id
+    console.log(this.creditModel.solidarity_liabilities.solidarity_id, "data")
+  }
   deleteReferences = (references: any, index: number): void => {
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' + this.translate.instant('message.error.wantToDeleteReferences'),
@@ -471,7 +508,10 @@ export class CreditAddEditComponent implements OnInit {
     this.adminService.postDataApi('getSolidarity', { id: this.parameter.property_id || '0' }).subscribe((success) => {
       this.solidarity_list = success.data || [];
       this.spinnerService.hide();
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
+      swal({
+        html: this.translate.instant('message.success.submittedSccessfully'), type: 'success'
+      });
+     // swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
     }, (error) => {
       this.spinnerService.hide();
     });
@@ -835,47 +875,97 @@ export class CreditAddEditComponent implements OnInit {
 
   getRequestDataForFifthStep = (currentStep: number): any => {
     // const stepOneId = localStorage.getItem('stepOneId');
-    const modelSave = {
-      id: this.parameter.property_id,
-      credits_relationship_id: this.creditModel.economic_dependent.credits_relationship_id,
-      age: this.creditModel.economic_dependent.age,
-      occupation: this.creditModel.economic_dependent.occupation,
-      step: currentStep
-    };
-    return modelSave;
+    if (this.creditModel.economic_dependent.credit_dependent_id) {
+      const modelSave = {
+        id: this.parameter.property_id,
+        credit_dependent_id: this.creditModel.economic_dependent.credit_dependent_id,
+        credits_relationship_id: this.creditModel.economic_dependent.credits_relationship_id,
+        age: this.creditModel.economic_dependent.age,
+        occupation: this.creditModel.economic_dependent.occupation,
+        step: currentStep
+      };
+      return modelSave;
+    } else {
+      const modelSave = {
+        id: this.parameter.property_id,
+        credits_relationship_id: this.creditModel.economic_dependent.credits_relationship_id,
+        age: this.creditModel.economic_dependent.age,
+        occupation: this.creditModel.economic_dependent.occupation,
+        step: currentStep
+      };
+      return modelSave;
+    }
+
+
   }
 
   getRequestDataForSixthStep = (currentStep: number): any => {
     // const stepOneId = localStorage.getItem('stepOneId');
-    const modelSave = {
-      id: this.parameter.property_id,
-      credits_relationship_id: this.creditModel.references.credits_relationship_id,
-      name: this.creditModel.references.name,
-      first_surname: this.creditModel.references.first_surname,
-      second_surname: this.creditModel.references.second_surname,
-      years: this.creditModel.references.years,
-      country_code: this.creditModel.references.country_code || '',
-      phone_code: this.creditModel.references.phone_code || '',
-      phone_number: this.creditModel.references.phone_number || '',
-      address: this.creditModel.references.address,
-      home_country_code: this.creditModel.references.home_country_code || '',
-      home_phone_code: this.creditModel.references.home_dial_code || '',
-      home_phone: this.creditModel.references.home_phone || '',
-      office_country_code: this.creditModel.references.office_country_code || '',
-      office_phone_code: this.creditModel.references.office_dial_code || '',
-      office_phone: this.creditModel.references.office_phone || '',
-      email: this.creditModel.references.email,
-      participate_credit: this.creditModel.references.participate_credit,
-      step: currentStep
-    };
-    return modelSave;
+    if (this.creditModel.references.credit_references_id) {
+      const modelSave = {
+        credit_references_id: this.creditModel.references.credit_references_id,
+        id: this.parameter.property_id,
+        credits_relationship_id: this.creditModel.references.credits_relationship_id,
+        name: this.creditModel.references.name,
+        first_surname: this.creditModel.references.first_surname,
+        second_surname: this.creditModel.references.second_surname,
+        years: this.creditModel.references.years,
+        country_code: this.creditModel.references.country_code || '',
+        phone_code: this.creditModel.references.phone_code || '',
+        phone_number: this.creditModel.references.phone_number || '',
+        address: this.creditModel.references.address,
+        home_country_code: this.creditModel.references.home_country_code || '',
+        home_phone_code: this.creditModel.references.home_dial_code || '',
+        home_phone: this.creditModel.references.home_phone || '',
+        office_country_code: this.creditModel.references.office_country_code || '',
+        office_phone_code: this.creditModel.references.office_dial_code || '',
+        office_phone: this.creditModel.references.office_phone || '',
+        email: this.creditModel.references.email,
+        participate_credit: this.creditModel.references.participate_credit,
+        step: currentStep
+      };
+      return modelSave;
+    } else {
+      const modelSave = {
+        id: this.parameter.property_id,
+        credits_relationship_id: this.creditModel.references.credits_relationship_id,
+        name: this.creditModel.references.name,
+        first_surname: this.creditModel.references.first_surname,
+        second_surname: this.creditModel.references.second_surname,
+        years: this.creditModel.references.years,
+        country_code: this.creditModel.references.country_code || '',
+        phone_code: this.creditModel.references.phone_code || '',
+        phone_number: this.creditModel.references.phone_number || '',
+        address: this.creditModel.references.address,
+        home_country_code: this.creditModel.references.home_country_code || '',
+        home_phone_code: this.creditModel.references.home_dial_code || '',
+        home_phone: this.creditModel.references.home_phone || '',
+        office_country_code: this.creditModel.references.office_country_code || '',
+        office_phone_code: this.creditModel.references.office_dial_code || '',
+        office_phone: this.creditModel.references.office_phone || '',
+        email: this.creditModel.references.email,
+        participate_credit: this.creditModel.references.participate_credit,
+        step: currentStep
+      };
+      return modelSave;
+    }
+
   }
 
   getRequestDataForSeventhStep = (currentStep: number): any => {
-    const modelSave: any = this.creditModel.solidarity_liabilities;
-    modelSave.step = currentStep;
-    modelSave.id = this.parameter.property_id;
-    return modelSave;
+    if (this.creditModel.solidarity_liabilities.solidarity_id) {
+      const modelSave: any = this.creditModel.solidarity_liabilities;
+      modelSave.step = currentStep;
+      modelSave.id = this.parameter.property_id;
+      modelSave.solidarity_id = this.creditModel.solidarity_liabilities.solidarity_id
+      return modelSave;
+    } else {
+      const modelSave: any = this.creditModel.solidarity_liabilities;
+      modelSave.step = currentStep;
+      modelSave.id = this.parameter.property_id;
+      return modelSave;
+    }
+
   }
 
   getRequestDataForEighthStep = (currentStep: number): any => {
