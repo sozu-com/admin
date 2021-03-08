@@ -1997,11 +1997,11 @@
                     </div>
                     <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                       <div class="form-group-3">
-                        <label>Account Type</label>
+                        <label>{{'addCollection.accountType' | translate}}</label>
                         <div class="clearfix"></div>
                         <select title="Account Type" name="account_type{{i}}" 
                         [(ngModel)]="bankAccount.account_type" class="form-control">
-                          <option disabled selected value="undefined">Account Type</option>
+                          <option disabled selected value="undefined">{{'addCollection.accountType' | translate}}</option>
                           <option *ngFor="let dest of income_list" [value]="dest.id">
                             {{language_code
                               == 'en'? dest.name_en : dest.name_es}}</option>
@@ -2037,6 +2037,66 @@
                     </div>
                   </div>
                 </div>
+              </div>
+              <div class="col-12">
+                <div class="spacer40"></div>
+              </div>
+
+
+              <div class="white-bg padding40">
+                <h3>{{'creditForm.BankAccounts' | translate}}</h3>
+                <div class="col-12">
+                  <div class="spacer40"></div>
+                </div>
+                <div class="table-responsive">
+                <table class="table">
+                  <thead class="thead-light">
+                    <tr>
+                      <th style="color: black;">{{'creditForm.bankAccounts1' | translate}}</th>
+                      <th style="color: black;">{{'addCollection.bankName' | translate}}</th>
+                      <th style="color: black;">{{'addCollection.accountNumber' | translate}}</th>
+                      <th style="color: black;">{{'addCollection.clabeSwift' | translate}}</th>
+                      <th style="color: black;">{{'addCollection.accountType' | translate}}</th>
+                      <th style="color: black;">{{'addCollection.currency' | translate}}</th>
+                      <!-- <th style="color: black;">{{'addCollection.edit' | translate}}</th>
+                      <th style="color: black;">{{'addCollection.delete' | translate}}</th> -->                     
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let bank_account of credits_bank_account; let i=index">
+                      <td>{{(i+1)}}</td>
+                      <td>{{bank_account?.bank_name || ('table.tr.td.NA' | translate)}}</td>
+                      <td>{{bank_account?.account_number || ('table.tr.td.NA' | translate)}}</td>
+                      <td>{{bank_account?.swift || ('table.tr.td.NA' | translate)}}</td>
+                      <td>{{bank_account?.account_type || ('table.tr.td.NA' | translate)}}</td>
+                      <td>{{bank_account?.currency || ('table.tr.td.NA' | translate)}}</td>
+                      <!-- <td>
+                        <button class="action-icon" title="{{'table.title.edit' | translate}}"
+                          (click)="editSolidarity(solidarity,i)">
+                          <img src="assets/img/edit.png" alt="img">
+                        </button>
+                      </td>
+                      <td>
+                        <button class="action-icon" title="{{'table.title.delete' | translate}}"
+                          (click)="deleteSolidarity(solidarity,i)" >
+                          <img src="assets/img/ic_delete.png" alt="img">
+                        </button>
+                      </td> -->                      
+                    </tr>
+                    <tr *ngIf="credits_bank_account.length == 0"><th colspan="6" style="text-align: center;">{{'message.error.noRecordFound' | translate}}</th></tr>
+                  </tbody>
+                </table>
+              </div>
+                <!-- <div class="row">
+                  <div class="col-12">
+                    <div class="btn-cont text-right">
+                      <button class="btn btn-primary" (click)="setsubTab(6)"
+                      [disabled]="!parameter.property_id" title="Next Tab">
+                      {{'creditForm.Saveinformation' |
+                        translate}}</button>
+                    </div>
+                  </div>
+                </div> -->
               </div>
             </div>
             <!-- Debts -->
