@@ -429,7 +429,7 @@
                  <!-- (click)="viewContributor(p)" -->
                  <td [ngClass]="{'green-color cursor-pointer': p?.building_contributors?.length > 0 }" >
                   <span (click)="this.openContributorListModel(p.building_contributors)" *ngIf="p?.legal_entity_info?.length > 0">
-                    {{this.getBuildingContributorsInfo(p.building_contributors)}}</span>
+                    {{p.building_contributors && p.building_contributors.length > 0  ? this.getBuildingContributorsInfo(p.building_contributors) : 'N/A'}}</span>
                     <span *ngIf="p?.building_contributors?.length == 0">{{'table.tr.td.NA' | translate}}</span>
                 </td>
                 <td [ngClass]="{'green-color cursor-pointer': p?.manager?.id || p?.company?.id}"
