@@ -184,7 +184,7 @@ export class GeneralComponent implements OnInit {
     const f = a.diff(b, 'days');
 
     input.start_date = input.start_date + '-01';
-    if (f > 365) {
+    if (f > 1095) {
       this.toastr.error(this.translate.instant('message.error.pleaseChooseOtherDates'), this.translate.instant('swal.error'));
       return false;
     }
