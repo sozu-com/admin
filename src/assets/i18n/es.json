@@ -53,6 +53,9 @@
     "home": "INICIO"
   },
   "dashboard": {
+    "total":"TOTAL",
+    "Expectedamount":"Cantidad esperada",
+    "Actualamount":"Monto real",
     "hello": "Hola",
     "allProperties": "Todas los departamentos",
     "propertiesForSale": "Departamentos en venta",

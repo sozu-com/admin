@@ -53,6 +53,9 @@
     "home": "HOME"
   },
   "dashboard": {
+    "total":"TOTAL",
+    "Expectedamount":"Expected amount",
+    "Actualamount":"Actual amount",
     "hello": "Hello",
     "allProperties": "All Properties",
     "propertiesForSale": "Properties for Sale",

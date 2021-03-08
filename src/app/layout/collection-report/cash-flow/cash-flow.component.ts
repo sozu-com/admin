@@ -32,6 +32,8 @@ export class CashFlowComponent implements OnInit {
   today = new Date();
   reportData: any;
   reportsData: any;
+  expectedTotal: any;
+  actualTotal: any;
   expectedData: Array<any>;
   actualData: Array<any>;
   paymentChoices: Array<any>;
@@ -352,8 +354,22 @@ export class CashFlowComponent implements OnInit {
         const element = this.reportData['expected'][index];
         // array to export
         const obj = {label: element.label, expected: element.y, actual: this.reportData['actual'][index].y};
+
         this.items.push(obj);
+        // expected output: 81
       }
+      let sum: number = this.items.map(a => a.expected).reduce(function(a, b)
+        {
+          return a + b;
+        });
+        this.expectedTotal = sum
+        console.log(this.expectedTotal,"this.expectedTotal");
+        let sum1: number = this.items.map(a => a.actual).reduce(function(a, b)
+        {
+          return a + b;
+        });
+        this.actualTotal = sum1
+        console.log(this.actualTotal,"this.actualTotal");
       this.plotData2();
     }, error => {
       this.spinner.hide();
@@ -464,13 +480,14 @@ export class CashFlowComponent implements OnInit {
       const finalData = [];
       for (let index = 0; index < this.items.length; index++) {
         const p = this.items[index];
-
+        
         finalData.push({
           'Month': p.label || '',
           'Expected Amount': p.expected || 0,
           'Actual Amount': p.actual || 0
         });
       }
+     
       this.exportAsExcelFile(finalData, 'cashFlow-');
     }
   }
