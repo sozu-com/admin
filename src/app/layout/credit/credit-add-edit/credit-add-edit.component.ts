@@ -67,7 +67,7 @@ export class CreditAddEditComponent implements OnInit {
   economic_dependent_list: Array<any>;
   references_list: Array<any>;
   solidarity_list: Array<any>;
-  credits_bank_account: Array<any>;
+  credits_bank_account: any[] = [];
   multiDropdownSettings = {};
   multiDropdownSettingsForBanks = {};
   public creditModel: Credit = new Credit();
@@ -97,7 +97,6 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getCurrencies();
     this.language_code = localStorage.getItem('language_code');
     this.initialCountry = { initialCountry: this.constant.country_code };
     this.tab = 1;
@@ -110,9 +109,9 @@ export class CreditAddEditComponent implements OnInit {
       if (params['id'] !== '0') {
         this.parameter.property_id = params['id'];
         this.getcredits();
-        this.editDependent(this.creditModel.economic_dependent.credit_dependent_id);
-        this.editReferences(this.creditModel.references.credit_references_id);
-        this.editSolidarity(this.creditModel.solidarity_liabilities.solidarity_id);
+        // this.editDependent(this.creditModel.economic_dependent.credit_dependent_id);
+        // this.editReferences(this.creditModel.references.credit_references_id);
+        // this.editSolidarity(this.creditModel.solidarity_liabilities.solidarity_id);
 
 
       } else {
@@ -677,7 +676,8 @@ export class CreditAddEditComponent implements OnInit {
       this.adminService.postDataApi('getCountryLocality', {}),
       this.adminService.postDataApi('getEcoDependent', { id: this.parameter.property_id || '0' }),
       this.adminService.postDataApi('getReferences', { id: this.parameter.property_id || '0' }),
-      this.adminService.postDataApi('getSolidarity', { id: this.parameter.property_id || '0' })
+      this.adminService.postDataApi('getSolidarity', { id: this.parameter.property_id || '0' }),
+      this.adminService.postDataApi('getCurrencies', {})
     ]).subscribe((response: any[]) => {
       this.spinnerService.hide();
       this.program_list = response[0].data
@@ -705,6 +705,7 @@ export class CreditAddEditComponent implements OnInit {
       this.economic_dependent_list = response[22].data || [];
       this.references_list = response[23].data || [];
       this.solidarity_list = response[24].data || [];
+      this.currencies = response[25].data || [];
       this.loadCreditsBasicDetails();
     });
   }
@@ -1145,15 +1146,6 @@ export class CreditAddEditComponent implements OnInit {
     return false;
   }
 
-  getCurrencies() {
-    this.adminService.postDataApi('getCurrencies', {})
-      .subscribe(
-        success => {
-          this.currencies = success.data;
-        });
-  }
-
-
   addDeveloperBank(e) {
     const bank = new BankDetail();
     bank.credites_details_id = JSON.parse(this.parameter.property_id);
@@ -1182,6 +1174,16 @@ export class CreditAddEditComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  getAccountTypeText = (bankId: any): any => {
+    const data = this.income_list.find((item) => item.id == bankId);
+    return (this.language_code == 'en' ? data.name_en : data.name_es);
+  }
+
+  getCurrencyText = (currencyId: any): any => {
+    const data = this.currencies.find((item) => item.id == currencyId);
+    return data.code + ' | ' + data.currency;
   }
 
 }
