@@ -2068,8 +2068,8 @@
                       <td>{{bank_account?.bank_name || ('table.tr.td.NA' | translate)}}</td>
                       <td>{{bank_account?.account_number || ('table.tr.td.NA' | translate)}}</td>
                       <td>{{bank_account?.swift || ('table.tr.td.NA' | translate)}}</td>
-                      <td>{{this.getAccountTypeText(bank_account?.account_type) || ('table.tr.td.NA' | translate)}}</td>
-                      <td>{{this.getCurrencyText(bank_account?.currency) || ('table.tr.td.NA' | translate)}}</td>
+                      <td>{{bank_account?.account_type ? this.getAccountTypeText(bank_account?.account_type) : ('table.tr.td.NA' | translate)}}</td>
+                      <td>{{bank_account?.currency ? this.getCurrencyText(bank_account?.currency) : ('table.tr.td.NA' | translate)}}</td>
                       <!-- <td>
                         <button class="action-icon" title="{{'table.title.edit' | translate}}"
                           (click)="editSolidarity(solidarity,i)">
