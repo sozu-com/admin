@@ -1108,7 +1108,7 @@
       "pleaseEnterFederalTaxPayer": "Please enter Federal Tax Payer Registry",
       "pleaseEnterAgent": "Please choose Agent",
       "pcAmountIsNotEualToSozuCommission": "Sum of PC is not in consistence with Sozu Commission",
-      "pleaseChooseOtherDates": "Date difference should not be greater tan 1yr",
+      "pleaseChooseOtherDates": "Date difference should not be greater than 3 year",
       "pleaseEnterBankDetails": "Please complete Bank Details",
       "pleaseEnterPurchaseDate": "Please enter Purchase Date",
       "pleaseEnterPrice": "Please enter price",

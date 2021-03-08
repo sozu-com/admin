@@ -622,7 +622,9 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
   openContributorListModel = (contributor: any[]): void => {
     this.contributor = contributor;
+    if(this.contributor.length > 0){
     this.contributorListModelOpen.nativeElement.click();
+    }
   }
 
   closeContributorListModel = (): void => {
@@ -645,7 +647,8 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   getBuildingContributorsInfo = (contributor: any[]): any => {
     if (contributor.length == 1) {
       return contributor[0].user_type == 1 ? (contributor[0].users.name + " " + (contributor[0].users.first_name ? contributor[0].users.first_name + ' ' : '') + (contributor[0].users.second_name ? contributor[0].users.second_name : '')) : contributor[0].legal_entity.comm_name ;
-    } else {
+    } 
+    else if(contributor.length > 1) {
       return contributor[0].user_type == 1 ? (contributor[0].users.name + " " + (contributor[0].users.first_name ? contributor[0].users.first_name + ' ' : '') + (contributor[0].users.second_name ? contributor[0].users.second_name : '') +'+'+  (contributor.length - 1)) : (contributor[0].legal_entity.comm_name +'+'+  (contributor.length - 1));
     }
   }
