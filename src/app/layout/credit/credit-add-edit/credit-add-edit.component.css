@@ -40,7 +40,9 @@ margin-left: -27%;
   a:hover {
     color: #00B96F;
   }
-  
+  .more:hover {
+    color: #00B96F;
+  }
   ul li a:hover, ul li a:focus {
     color:#00B96F;
    }

@@ -75,8 +75,8 @@ export class CreditAddEditComponent implements OnInit {
   userForm: FormGroup;
   showSearch = false;
   Onedit = false;
-  toggleSelectedDetails: { isCreditCardChecked: boolean, isOwnCarChecked: boolean } =
-    { isCreditCardChecked: false, isOwnCarChecked: false };
+  toggleSelectedDetails: { isCreditCardChecked: boolean, isOwnCarChecked: boolean,additionalDetail: boolean } =
+    { isCreditCardChecked: false, isOwnCarChecked: false, additionalDetail: false };
   //dataView: boolean = false ;
   initialCountry: any;
 
@@ -112,8 +112,6 @@ export class CreditAddEditComponent implements OnInit {
         // this.editDependent(this.creditModel.economic_dependent.credit_dependent_id);
         // this.editReferences(this.creditModel.references.credit_references_id);
         // this.editSolidarity(this.creditModel.solidarity_liabilities.solidarity_id);
-
-
       } else {
         this.parameter.property_id = '';
         this.showSearch = true;
@@ -140,6 +138,9 @@ export class CreditAddEditComponent implements OnInit {
       case 2:
         this.toggleSelectedDetails.isOwnCarChecked = !this.toggleSelectedDetails.isOwnCarChecked;
         break;
+        case 3:
+          this.toggleSelectedDetails.additionalDetail = !this.toggleSelectedDetails.additionalDetail;
+          break;
       default:
         break;
     }
