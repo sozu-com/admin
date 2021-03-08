@@ -412,6 +412,21 @@
       "notFound": "No se encontró ninguna Entidad legal",
       "removeLegalEntity": "Eliminar entidad legal"
     },
+    "contributor": {
+      "contributor": "Contribuyente",
+      "label": "Contribuyente Información",
+      "changeContributor": "Cambio Contribuyente",
+      "selectContributor": "Seleccione Contribuyente",
+      "name": "Contribuyente Nombre",
+      "phoneNumber": "Número de teléfono",
+      "phone": "Teléfono",
+      "email": "Correo",
+      "companyName": "nombre de empresa",
+      "logo": "Logo",
+      "coverImage": "Imagen de portada",
+      "notFound": "No se encontró ninguna Entidad legal",
+      "removeContributor": "Eliminar Contribuyente"
+    },
     "amenities": "Amenidades",
     "projectSize": "Tamaño del proyecto",
     "MinPricePerSqMtrs": "Precio Mín por mts2",
