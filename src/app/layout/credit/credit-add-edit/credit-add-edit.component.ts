@@ -110,9 +110,9 @@ export class CreditAddEditComponent implements OnInit {
       if (params['id'] !== '0') {
         this.parameter.property_id = params['id'];
         this.getcredits();
-        this.editDependent(this.creditModel.economic_dependent.credit_dependent_id);
-        this.editReferences(this.creditModel.references.credit_references_id);
-        this.editSolidarity(this.creditModel.solidarity_liabilities.solidarity_id);
+        // this.editDependent(this.creditModel.economic_dependent.credit_dependent_id);
+        // this.editReferences(this.creditModel.references.credit_references_id);
+        // this.editSolidarity(this.creditModel.solidarity_liabilities.solidarity_id);
       } else {
         this.parameter.property_id = '';
         this.showSearch = true;
