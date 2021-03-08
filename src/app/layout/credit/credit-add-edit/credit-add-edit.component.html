@@ -2287,14 +2287,19 @@
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'creditForm.Percentage' | translate}}</label>
-                        <input autocomplete="off" required type="email" class="form-control" name="email">
+                        <input autocomplete="off" required type="number" class="form-control" name="email">
                       </div>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
-                        <label>{{'creditForm.RELATIONSHIP' | translate}}</label>
-                        <select title="{{'creditForm.selectRELATIONSHIP' | translate}}" class="form-control">
-                          <option>test</option>
+                        <label>{{'creditForm.RELATIONSHIP' | translate}}<span class="color-red">*</span></label>
+                        <select title="{{'creditForm.selectRELATIONSHIP' | translate}}"
+                          [(ngModel)]="creditModel.references.credits_relationship_id" name="credits_relationship_id"
+                          class="form-control">
+                          <option disabled selected value="undefined">{{'creditForm.selectRELATIONSHIP' | translate}}</option>
+                          <option *ngFor="let dest of Relationship_list" [value]="dest.id">
+                            {{language_code
+                            == 'en'? dest.name_en : dest.name_es}}</option>
                         </select>
                       </div>
                     </div>
@@ -2339,13 +2344,13 @@
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'addForm.developer.phone' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control">
+                        <input autocomplete="off" minlength="1" maxlength="30" type="number" class="form-control">
                       </div>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'addForm.dateOfBirth' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control"
+                        <input autocomplete="off" minlength="1" maxlength="30" type="date" class="form-control"
                           name="second_surname">
                       </div>
                     </div>
