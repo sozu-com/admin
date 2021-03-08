@@ -104,7 +104,20 @@
                         </div>
                   </div>
             </div>
-
+            <div [style.display]="reportType==1 ? 'block' : 'none'">
+            <div class="row" style="padding: 0px 20px 60px 20px;">
+                  <div class="col-md-4" style="border-style: solid;border-color: #cccccc;">
+                    <h2 style="text-align: center;padding: 21px;">{{'dashboard.total' | translate}}</h2>
+                  </div>
+                  <div class="col-md-4" style="border-style: solid;border-color: #cccccc;">
+                    <h2 style="padding: 8px;text-align: center;">{{'dashboard.Expectedamount' | translate}}</h2>
+                    <p style="text-align: center;">{{(expectedTotal || 0) | currency}}</p>
+                  </div>
+                  <div class="col-md-4" style="border-style: solid;border-color: #cccccc;">
+                    <h2 style="padding: 8px;text-align: center;">{{'dashboard.Actualamount' | translate}}</h2>
+                    <p style="text-align: center;">{{(actualTotal || 0) | currency}}</p>
+                  </div>
+                </div></div>
             <div class="graph-area" [style.display]="reportType==1 ? 'block' : 'none'">
                   <p>Expected Cash Flow</p>
                   <div id="chartContainer" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
@@ -139,6 +152,11 @@
                                     <td>{{(item.expected || 0) | currency}}</td>
                                     <td>{{(item.actual || 0) | currency}}</td>
                               </tr>
+                              <tr>
+                                    <th style="font-weight: bold;color: black;">{{'dashboard.total' | translate}}:</th>
+                                    <td>{{(expectedTotal || 0) | currency}}</td>
+                                    <td>{{(actualTotal || 0) | currency}}</td>
+                              </tr>
                         </tbody>
                   </table>
             </div>
@@ -172,6 +190,10 @@
                       <th>{{'collectionReport.Arreardin' | translate}}:</th>
                       <td *ngFor="let item of finalDataExpacted">{{(item.total_pending || 0) | currency}}</td>
                     </tr>
+                    <!-- <tr>
+                        <th>{{'table.dashboard.total' | translate}}:</th>
+                        <td *ngFor="let item of finalDataExpacted">{{(item.total_pending || 0) | currency}}</td>
+                  </tr> -->
               </tbody>
             </table>
           </div>
