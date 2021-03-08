@@ -2139,7 +2139,7 @@
 
                   <div class="row">
                     <div class="col-8">
-                      <p style="font-weight: bold;">{{'creditForm.more' | translate}}</p>
+                      <p style="font-weight: bold;cursor: pointer;" (click)="toggleShow(3)" class="more">{{'creditForm.more' | translate}}</p>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
@@ -2157,7 +2157,7 @@
                 </div>
 
 
-                <div class="white-bg padding40">
+                <div class="white-bg padding40" *ngIf="toggleSelectedDetails.additionalDetail">
                   <h3>{{'creditForm.AdditionalRequired' | translate}}</h3>
                   <div class="col-12">
                     <div class="spacer40"></div>
@@ -2305,7 +2305,7 @@
 
                   <div class="row">
                     <div class="col-8">
-                      <p style="font-weight: bold;">{{'creditForm.more' | translate}}</p>
+                      <p style="font-weight: bold; cursor: pointer;" (click)="toggleShow(3)" class="more">{{'creditForm.more' | translate}}</p>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
@@ -2323,7 +2323,7 @@
                 </div>
 
 
-                <div class="white-bg padding40">
+                <div class="white-bg padding40" *ngIf="toggleSelectedDetails.additionalDetail">
                   <h3>{{'creditForm.AdditionalRequired' | translate}}</h3>
                   <div class="col-12">
                     <div class="spacer40"></div>
