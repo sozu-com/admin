@@ -424,7 +424,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             }
             if (ele.purchase_payment) {
               pc_receipt++;
-              if (ele.purchase_payment.invoice_id) {
+              if (ele.purchase_payment.invoice_id && ele.purchase_payment.pdf_url && ele.purchase_payment.xml_url) {
                 pc_invoice++;
               }
             }
@@ -2484,7 +2484,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           }
           if (ele.purchase_payment) {
             pc_receipt++;
-            if (ele.purchase_payment.invoice_id) {
+            if (ele.purchase_payment.invoice_id && ele.purchase_payment.pdf_url && ele.purchase_payment.xml_url) {
               pc_invoice++;
             }
           }
