@@ -45,7 +45,7 @@ export class EditUserComponent implements OnInit {
   dataNotAvailable: boolean;
   nationalityDetails: any[] = [];
   current_nationality_id: number;
-
+  isGetEditUserData : boolean = false;
   constructor(
     public constant: Constant,
     private cs: CommonService,
@@ -119,6 +119,7 @@ export class EditUserComponent implements OnInit {
           this.model.tax_neighbourhoods.push(this.model.tax_neighbourhood);
           this.model.nationality_id = (this.model.nationality_id).toString() == '' ? 1 : this.model.nationality_id;
           this.current_nationality_id = this.model.nationality_id;
+          this.isGetEditUserData = true;
         }, error => {
           this.spinner.hide();
         });
