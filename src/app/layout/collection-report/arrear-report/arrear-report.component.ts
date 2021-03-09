@@ -32,6 +32,7 @@ export class ArrearReportComponent implements OnInit {
   paymentConcepts: Array<any>;
   model: Array<any>;
   finalData: Array<any>;
+  finalDataSum:  any;
   developers: Array<any>;
   buyers: Array<any>;
   legalReps: Array<any>;
@@ -222,7 +223,7 @@ export class ArrearReportComponent implements OnInit {
   }
   getListing() {
     this.spinner.show();
-
+    let self = this;
     const input: any = JSON.parse(JSON.stringify(this.input));
     input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
     input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
@@ -258,37 +259,47 @@ export class ArrearReportComponent implements OnInit {
         this.data = success['data'];
         this.incomeProjection = success['income_projection'];
         this.paidConcepts = success['data2'];
-
+       // this.finalDataSum = [];
         this.finalData = [];
         this.model = [];
-        for (const property in this.data) {
+        for (const property in self.data) {
           if (property) {
-            this.model.push(property);
+            self.model.push(property);
           }
         }
-
-        for (let index = 0; index < this.model.length; index++) {
-          const element = this.model[index];
-          this.data[element][0]['showInfo'] = true;
-          let t = 0;
-          this.data[element].map(r => {
-            t = t + (r['amount'] || 0) + (r['penelty'] || 0);
-          });
-          this.data[element][0]['total_amount'] = t;
-          this.finalData = [...this.finalData, ...this.data[element]];
+       
+        for (let index = 0; index < self.model.length; index++) {
+          const element = self.model[index];
+         let t = 0;
+         self.data[element].forEach((r, index) => {
+          self.data[element][index]['showInfo'] = true;
+          console.log(r, "user_document")
+          t = t + (r['amount'] || 0) + (r['penelty'] || 0);
+          self.data[element][index]['total_amount'] = t;
+        });
+        
+        self.finalData = [...self.finalData, ...self.data[element]];
+          // self.data[element].map(r => {
+          //   t = t + (r['amount'] || 0) + (r['penelty'] || 0);
+          // });
+          // self.data[element][0]['total_amount'] = t;
+          // self.finalData = [...self.finalData, ...self.data[element]];
         }
-
+        console.log(self.finalData,"model")
         let grand_amount = 0; let grand_penalty = 0; let grand_total_amount = 0;
-        for (let index = 0; index < this.finalData.length; index++) {
-          const element = this.finalData[index];
+        for (let index = 0; index < self.finalData.length; index++) {
+          const element = self.finalData[index];
           grand_amount = grand_amount + (element['amount'] || 0);
+          console.log(grand_amount,"grand_amount")
           grand_penalty = grand_penalty + (element['penelty'] || 0);
           // grand_total = grand_total + (element['amount'] || 0) + (element['penalty'] || 0)
           grand_total_amount = grand_total_amount + (element['total_amount'] || 0);
+         
         }
         this.finalData.push({ id: 'Total', key: 1, amount: grand_amount, penelty: grand_penalty, total_amount: grand_total_amount });
         console.log('finalData', this.finalData, 'response', success['data']);
-
+        console.log( this.finalData,"last result");
+        this.finalDataSum = grand_total_amount
         for (let index = 0; index < this.paymentChoices.length; index++) {
           const element = this.paymentChoices[index];
           let expected_amt = []; let penalty = [];
