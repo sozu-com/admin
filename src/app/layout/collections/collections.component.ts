@@ -2779,7 +2779,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             self.bill_month = self.translate.defaultLang === 'en' ? monthNames[current_date.getUTCMonth()] : monthNamesES[current_date.getUTCMonth()];
             self.bill_month_date = self.datePipe.transform(current_date.setDate(10), 'MMM d, y');
 
-            if (element.is_paid_calculated == 0 && month.getUTCMonth() <= current_date.getUTCMonth() && month.getUTCFullYear() == current_date.getUTCFullYear()) {
+            if (element.is_paid_calculated == 0 && moment(current_date).isAfter(month)) {
               self.current_month_amount = element.penalty ? self.current_month_amount + ((element.amount + element.penalty.amount) - element.calc_payment_amount) : self.current_month_amount + (element.amount - element.calc_payment_amount);
             }
             else if (index == 0 && element.is_paid_calculated == 0) {
