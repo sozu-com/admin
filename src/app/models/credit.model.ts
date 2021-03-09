@@ -30,6 +30,7 @@ export class Credit {
     solidarity_liabilities?: SolidarityLiabilities
     incomes_bank_account?: Array<BankDetail>;
     incomes?: Incomes;
+    debit?: Debit;
 }
 
 export class Bank {
@@ -178,4 +179,15 @@ export class Incomes {
     contract?: string;
     last_laboral_sector?: string;
     last_job_type?: string;
+}
+
+export class Debit {
+    creditor_institution?: string;
+    type_of_debit?: string;
+    monthly_payment?: string;
+    account_number?: string;
+    start_date?: string;
+    credit_limit?: string;
+    current_balance?: string;
+    branch_number?: string;
 }

@@ -14,7 +14,7 @@ import { IProperty } from 'src/app/common/property'
 import { NgxSpinnerService } from 'ngx-spinner'
 import { ActivatedRoute, Router } from '@angular/router'
 import { IDestinationStatus, IMarritalStatus } from 'src/app/common/marrital-status-interface'
-import { Bank, Credit, EconomicDependent, GeneralData, PaymentScheme, References, SolidarityLiabilities, BankDetail, Incomes } from 'src/app/models/credit.model';
+import { Bank, Credit, EconomicDependent, GeneralData, PaymentScheme, References, SolidarityLiabilities, BankDetail, Incomes, Debit } from 'src/app/models/credit.model';
 import { forkJoin } from 'rxjs'
 import { PricePipe } from 'src/app/pipes/price.pipe';
 declare let swal: any
@@ -67,6 +67,7 @@ export class CreditAddEditComponent implements OnInit {
   economic_dependent_list: Array<any>;
   references_list: Array<any>;
   solidarity_list: Array<any>;
+  debit_list: Array<any>;
   credits_bank_account: any[] = [];
   multiDropdownSettings = {};
   multiDropdownSettingsForBanks = {};
@@ -75,7 +76,7 @@ export class CreditAddEditComponent implements OnInit {
   userForm: FormGroup;
   showSearch = false;
   Onedit = false;
-  toggleSelectedDetails: { isCreditCardChecked: boolean, isOwnCarChecked: boolean,additionalDetail: boolean } =
+  toggleSelectedDetails: { isCreditCardChecked: boolean, isOwnCarChecked: boolean, additionalDetail: boolean } =
     { isCreditCardChecked: false, isOwnCarChecked: false, additionalDetail: false };
   //dataView: boolean = false ;
   initialCountry: any;
@@ -109,9 +110,6 @@ export class CreditAddEditComponent implements OnInit {
       if (params['id'] !== '0') {
         this.parameter.property_id = params['id'];
         this.getcredits();
-        // this.editDependent(this.creditModel.economic_dependent.credit_dependent_id);
-        // this.editReferences(this.creditModel.references.credit_references_id);
-        // this.editSolidarity(this.creditModel.solidarity_liabilities.solidarity_id);
       } else {
         this.parameter.property_id = '';
         this.showSearch = true;
@@ -138,9 +136,9 @@ export class CreditAddEditComponent implements OnInit {
       case 2:
         this.toggleSelectedDetails.isOwnCarChecked = !this.toggleSelectedDetails.isOwnCarChecked;
         break;
-        case 3:
-          this.toggleSelectedDetails.additionalDetail = !this.toggleSelectedDetails.additionalDetail;
-          break;
+      case 3:
+        this.toggleSelectedDetails.additionalDetail = !this.toggleSelectedDetails.additionalDetail;
+        break;
       default:
         break;
     }
@@ -299,9 +297,8 @@ export class CreditAddEditComponent implements OnInit {
         this.translate.instant('swal.error'),
       );
     } else {
-      const modelSave = this.getRequestData();
       this.spinnerService.show();
-      this.adminService.postDataApi('addcredits', modelSave).subscribe(
+      this.adminService.postDataApi('addcredits', this.getRequestData()).subscribe(
         (success) => {
           this.spinnerService.hide();
           this.afterAddcredit(success.data);
@@ -324,10 +321,11 @@ export class CreditAddEditComponent implements OnInit {
 
   afterAddcredit = (creditDetails: any): void => {
     if (this.getCurrentStep() == 5) {
-      this.creditModel.economic_dependent.credit_dependent_id = undefined;
-      this.creditModel.economic_dependent.credits_relationship_id = undefined;
-      this.creditModel.economic_dependent.age = '';
-      this.creditModel.economic_dependent.occupation = '';
+      // this.creditModel.economic_dependent.credit_dependent_id = undefined;
+      // this.creditModel.economic_dependent.credits_relationship_id = undefined;
+      // this.creditModel.economic_dependent.age = '';
+      // this.creditModel.economic_dependent.occupation = '';
+      this.creditModel.economic_dependent = new EconomicDependent();
       this.getEcoDependent();
     } else if (this.getCurrentStep() == 6) {
       this.creditModel.references.credit_references_id = undefined;
@@ -373,7 +371,7 @@ export class CreditAddEditComponent implements OnInit {
       this.creditModel.solidarity_liabilities.country = '';
       this.creditModel.solidarity_liabilities.state = '';
       this.creditModel.solidarity_liabilities.city = '';
-      this.creditModel.solidarity_liabilities.neighbourhood = undefined;;
+      this.creditModel.solidarity_liabilities.neighbourhood = undefined;
       this.creditModel.solidarity_liabilities.neighbourhoods = [];
       this.creditModel.solidarity_liabilities.number_of_dependents = '';
       this.creditModel.solidarity_liabilities.own_property = '';
@@ -388,6 +386,9 @@ export class CreditAddEditComponent implements OnInit {
     } else if (this.getCurrentStep() == 9) {
       this.credits_bank_account = creditDetails.credits_bank_account || [];
       this.setCurrentStep();
+    } else if (this.getCurrentStep() == 10) {
+      this.creditModel.debit = new Debit();
+      this.getDebit();
     } else {
       this.setCurrentStep();
       // this.router.navigate(['dashboard/credit/view-credit']);
@@ -472,17 +473,17 @@ export class CreditAddEditComponent implements OnInit {
   editDependent(data) {
     this.creditModel.economic_dependent = data;
     this.creditModel.economic_dependent.credit_dependent_id = data.id
-    console.log(this.creditModel.economic_dependent.credit_dependent_id, "data")
+    //console.log(this.creditModel.economic_dependent.credit_dependent_id, "data")
   }
   editReferences(data) {
     this.creditModel.references = data;
     this.creditModel.references.credit_references_id = data.id
-    console.log(this.creditModel.references.credit_references_id, "data")
+    // console.log(this.creditModel.references.credit_references_id, "data")
   }
   editSolidarity(data) {
     this.creditModel.solidarity_liabilities = data;
     this.creditModel.solidarity_liabilities.solidarity_id = data.id
-    console.log(this.creditModel.solidarity_liabilities.solidarity_id, "data")
+    // console.log(this.creditModel.solidarity_liabilities.solidarity_id, "data")
   }
   deleteReferences = (references: any, index: number): void => {
     swal({
@@ -536,6 +537,43 @@ export class CreditAddEditComponent implements OnInit {
           this.spinnerService.hide();
           swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
           this.solidarity_list.splice(index, 1);
+        }, (error) => {
+          this.spinnerService.hide();
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
+        });
+      }
+    });
+  }
+
+  getDebit = (): void => {
+    this.spinnerService.show();
+    this.adminService.postDataApi('getDebit', { id: this.parameter.property_id || '0' }).subscribe((success) => {
+      this.debit_list = success.data || [];
+      this.spinnerService.hide();
+      swal({
+        html: this.translate.instant('message.success.submittedSccessfully'), type: 'success'
+      });
+      // swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
+    }, (error) => {
+      this.spinnerService.hide();
+    });
+  }
+
+  deleteDebit = (debitDetails: any, index: number): void => {
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.translate.instant('message.error.wantToDeleteDebit'),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.spinnerService.show();
+        this.adminService.postDataApi('deleteDebit', { id: debitDetails.id }).subscribe((success) => {
+          this.spinnerService.hide();
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
+          this.debit_list.splice(index, 1);
         }, (error) => {
           this.spinnerService.hide();
           swal(this.translate.instant('swal.error'), error.error.message, 'error');
@@ -628,6 +666,9 @@ export class CreditAddEditComponent implements OnInit {
         this.creditModel.incomes.neighbourhoods.push(this.creditModel.incomes.colony);
       }
     }
+    if (!this.creditModel.debit) {
+      this.creditModel.debit = new Debit();
+    }
   }
 
   onSelectAll(obj: any) { }
@@ -678,7 +719,8 @@ export class CreditAddEditComponent implements OnInit {
       this.adminService.postDataApi('getEcoDependent', { id: this.parameter.property_id || '0' }),
       this.adminService.postDataApi('getReferences', { id: this.parameter.property_id || '0' }),
       this.adminService.postDataApi('getSolidarity', { id: this.parameter.property_id || '0' }),
-      this.adminService.postDataApi('getCurrencies', {})
+      this.adminService.postDataApi('getCurrencies', {}),
+      this.adminService.postDataApi('getDebit', { id: this.parameter.property_id || '0' })
     ]).subscribe((response: any[]) => {
       this.spinnerService.hide();
       this.program_list = response[0].data
@@ -707,6 +749,7 @@ export class CreditAddEditComponent implements OnInit {
       this.references_list = response[23].data || [];
       this.solidarity_list = response[24].data || [];
       this.currencies = response[25].data || [];
+      this.debit_list = response[26].data || [];
       this.loadCreditsBasicDetails();
     });
   }
@@ -800,6 +843,7 @@ export class CreditAddEditComponent implements OnInit {
         postData = this.getRequestDataForNinethStep(9);
         break;
       case 10:
+        postData = this.getRequestDataForTenthStep(10);
         break;
       default:
         break;
@@ -994,6 +1038,13 @@ export class CreditAddEditComponent implements OnInit {
     return modelSave;
   }
 
+  getRequestDataForTenthStep = (currentStep: number): any => {
+    const modelSave: any = this.creditModel.debit;
+    modelSave.step = currentStep;
+    modelSave.id = parseInt(this.parameter.property_id);
+    return modelSave;
+  }
+
   getCounrtyByZipcode = (index: number): void => {
     let zipcode;
     switch (index) {
@@ -1112,12 +1163,12 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   hasErrorEconomicDependent = (): boolean => {
-    if (!this.creditModel.economic_dependent.credits_relationship_id ||
-      !this.parameter.property_id ||
-      !this.creditModel.economic_dependent.age ||
-      this.creditModel.economic_dependent.age == '' ||
-      !this.creditModel.economic_dependent.occupation ||
-      this.creditModel.economic_dependent.occupation == ''
+    if (!this.creditModel.economic_dependent.credits_relationship_id || !this.parameter.property_id
+      // !this.parameter.property_id ||
+      // !this.creditModel.economic_dependent.age ||
+      // this.creditModel.economic_dependent.age == '' ||
+      // !this.creditModel.economic_dependent.occupation ||
+      // this.creditModel.economic_dependent.occupation == ''
     ) {
       return true;
     }
@@ -1177,6 +1228,19 @@ export class CreditAddEditComponent implements OnInit {
     return false;
   }
 
+  hasErrorDebit = (): boolean => {
+    if (!this.parameter.property_id) {
+      return true;
+    } else if (this.creditModel.debit.creditor_institution ||
+      this.creditModel.debit.type_of_debit ||
+      this.creditModel.debit.monthly_payment
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   getAccountTypeText = (bankId: any): any => {
     const data = this.income_list.find((item) => item.id == bankId);
     return (this.language_code == 'en' ? data.name_en : data.name_es);
@@ -1187,4 +1251,8 @@ export class CreditAddEditComponent implements OnInit {
     return data.code + ' | ' + data.currency;
   }
 
+  getTypeOfDebitText = (debitId: any): any => {
+    const data = this.debt.find((item) => item.id == debitId);
+    return (this.language_code == 'en' ? data.name_en : data.name_es);
+  }
 }

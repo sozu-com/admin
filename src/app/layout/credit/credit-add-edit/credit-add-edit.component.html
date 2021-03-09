@@ -806,7 +806,7 @@
                 <div class="row">
                   <div class="col-4">
                     <div class="form-group-3">
-                      <label>{{'creditForm.RELATIONSHIP' | translate}}</label>
+                      <label>{{'creditForm.RELATIONSHIP' | translate}} <span class="color-red">*</span></label>
                       <select title="{{'creditForm.selectRELATIONSHIP' | translate}}"
                         [(ngModel)]="creditModel.economic_dependent.credits_relationship_id"
                         name="credits_relationship_id" class="form-control">
@@ -823,14 +823,14 @@
                       <label>{{'creditForm.age' | translate}}</label>
                       <input autocomplete="off" minlength="1" maxlength="4" 
                       appOnlyNumber type="text"
-                        class="form-control" required [(ngModel)]="creditModel.economic_dependent.age" name="age">
+                        class="form-control"  [(ngModel)]="creditModel.economic_dependent.age" name="age">
                     </div>
                   </div>
                   <div class="col-4">
                     <div class="form-group-3">
                       <label>{{'creditForm.occupation' | translate}}</label>
-                      <input autocomplete="off" minlength="1" maxlength="30"
-                         type="text" appOnlyNumber
+                      <input autocomplete="off" minlength="1" maxlength="50"
+                         type="text" 
                         class="form-control" [(ngModel)]="creditModel.economic_dependent.occupation" name="occupation">
                     </div>
                   </div>
@@ -875,8 +875,8 @@
                       <td>{{(i+1)}}</td>
                       <td>{{language_code == 'en'? economic_dependent?.credits_relationship?.name_en :
                         economic_dependent?.credits_relationship?.name_es}}</td>
-                      <td>{{economic_dependent?.age}}</td>
-                      <td>{{economic_dependent?.occupation}}</td>
+                      <td>{{economic_dependent?.age  || ('table.tr.td.NA' | translate)}}</td>
+                      <td>{{economic_dependent?.occupation  || ('table.tr.td.NA' | translate)}}</td>
                       <td>
                         <button class="action-icon" title="{{'addCollection.edit' | translate}}"
                           (click)="editDependent(economic_dependent,i)">
@@ -1966,8 +1966,8 @@
               <div class="white-bg padding40">
                 <div class="col-12">
                   <label>
-                    <span class="pull-right"><a class="add" (click)="addDeveloperBank($event)"
-                        href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
+                    <span class="pull-right"><p class="add more" (click)="addDeveloperBank($event)" style="cursor: pointer;"
+                        >{{'addCollection.addNewBankAccount' | translate}}</p></span>
                   </label>
                   <div class="row" *ngFor="let bankAccount of creditModel.incomes_bank_account; let i=index">
                     <div class="col-lg-2 col-md-6 col-sm-6 col-12">
@@ -1983,7 +1983,7 @@
                         <label>{{'addCollection.accountNumber' | translate}}</label>
                         <div class="clearfix"></div>
                         <input autocomplete="off" class="form-control" type="text" minlength="10" maxlength="20"
-                          [pattern]="constant.accountPattern" [(ngModel)]="bankAccount.account_number"
+                          [pattern]="constant.accountPattern" [(ngModel)]="bankAccount.account_number" appOnlyNumber
                           name="account_number{{i}}">
                       </div>
                     </div>
@@ -2111,14 +2111,15 @@
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'creditForm.Creditorinstitution' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
-                          class="form-control">
+                        <input autocomplete="off" minlength="1" maxlength="50" required type="text"
+                          class="form-control"  [(ngModel)]="creditModel.debit.creditor_institution" name="creditor_institution">
                       </div>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'creditForm.typedebt' | translate}}</label>
-                        <select title="{{'creditForm.typedebt' | translate}}" class="form-control">
+                        <select title="{{'creditForm.typedebt' | translate}}" class="form-control" 
+                         [(ngModel)]="creditModel.debit.type_of_debit" name="type_of_debit">
                           <option disabled selected value="undefined">{{'creditForm.typedebt' | translate}}</option>
                           <option *ngFor="let dest of debt" [value]="dest.id">
                             {{language_code
@@ -2129,7 +2130,8 @@
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'creditForm.Monthlypayment' | translate}}</label>
-                        <input autocomplete="off"  mask="separator.2" thousandSeparator="," type="text" class="form-control">
+                        <input autocomplete="off"  mask="separator.2" thousandSeparator="," type="text" class="form-control" 
+                        [(ngModel)]="creditModel.debit.monthly_payment" name="monthly_payment">
                       </div>
                     </div>
                   </div>
@@ -2141,23 +2143,23 @@
                     <div class="col-8">
                       <p style="font-weight: bold;cursor: pointer;" (click)="toggleShow(3)" class="more">{{'creditForm.more' | translate}}</p>
                     </div>
-                    <div class="col-4">
+                    <div class="col-4" *ngIf="!this.toggleSelectedDetails.additionalDetail">
                       <div class="form-group-3">
                         <label>&nbsp; &nbsp;</label>
                         <div class="btn-cont text-right">
-                          <button class="btn btn-primary">{{'creditForm.Dependent' | translate}}</button>
+                          <button class="btn btn-primary"  [disabled]="this.hasErrorDebit()" (click)="this.addcredits()">{{'creditForm.saveDebit' | translate}}</button>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div class="col-12">
+                <div class="col-12" *ngIf="this.toggleSelectedDetails.additionalDetail">
                   <div class="spacer40"></div>
                 </div>
 
 
-                <div class="white-bg padding40" *ngIf="toggleSelectedDetails.additionalDetail">
+                <div class="white-bg padding40" *ngIf="this.toggleSelectedDetails.additionalDetail">
                   <h3>{{'creditForm.AdditionalRequired' | translate}}</h3>
                   <div class="col-12">
                     <div class="spacer40"></div>
@@ -2167,24 +2169,25 @@
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'creditForm.Accountnumber' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="50" type="text" class="form-control">
+                        <input autocomplete="off" minlength="1" maxlength="50" type="text" class="form-control"
+                        [(ngModel)]="creditModel.debit.account_number" name="account_number">
                       </div>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'creditForm.Startdate' | translate}}</label>
-                        <p-calendar dateFormat="dd/M/yy" showIcon="true" [maxDate]="today" showButtonBar="true"
+                        <!-- <p-calendar dateFormat="dd/M/yy" showIcon="true" [maxDate]="today" showButtonBar="true"
                           [style]="{'width':'100%'}" class="coll-report-calendar" [monthNavigator]="true"
-                          [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+                          [yearNavigator]="true" yearRange="2000:2040"></p-calendar> -->
+                          <input autocomplete="off" required type="date" class="form-control" 
+                        [(ngModel)]="creditModel.debit.start_date" name="start_date">
                       </div>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'creditForm.creditlimit' | translate}}</label>
-                        <!-- <p-calendar dateFormat="dd/M/yy" showIcon="true" showButtonBar="true"
-                          class="coll-report-calendar" [style]="{'width':'100%'}" [monthNavigator]="true"
-                          [yearNavigator]="true" yearRange="2000:2040"></p-calendar> -->
-                          <input autocomplete="off"  mask="separator.2" thousandSeparator="," type="text" class="form-control">
+                          <input autocomplete="off"  mask="separator.2" thousandSeparator="," type="text" class="form-control"
+                          [(ngModel)]="creditModel.debit.credit_limit" name="credit_limit">
                       </div>
                     </div>
                   </div>
@@ -2196,13 +2199,15 @@
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'creditForm.Currentbalance' | translate}}</label>
-                        <input autocomplete="off"  mask="separator.2" thousandSeparator="," type="text" class="form-control">
+                        <input autocomplete="off"  mask="separator.2" thousandSeparator="," type="text" class="form-control"
+                        [(ngModel)]="creditModel.debit.current_balance" name="current_balance">
                       </div>
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
                         <label>{{'creditForm.Branchnumber' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control">
+                        <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control"
+                        [(ngModel)]="creditModel.debit.branch_number" name="branch_number">
                       </div>
                     </div>
                   </div>
@@ -2215,34 +2220,70 @@
                       <div class="form-group-3">
                         <label>&nbsp; &nbsp;</label>
                         <div class="btn-cont text-right">
-                          <button class="btn btn-primary">{{'creditForm.Saveinformation' | translate}}</button>
+                          <button class="btn btn-primary" [disabled]="this.hasErrorDebit()" (click)="this.addcredits()">{{'creditForm.saveDebit' | translate}}</button>
                         </div>
                       </div>
                     </div>
                   </div>
 
                 </div>
+              </form>
 
+              <div class="col-12">
+                <div class="spacer40"></div>
+              </div>
+
+              <div class="white-bg padding40">
+                <h3>{{'creditForm.Debts' | translate}}</h3>
                 <div class="col-12">
                   <div class="spacer40"></div>
                 </div>
-
-                <div class="white-bg padding40">
-                  <table class="table">
-                    <thead class="thead-light">
-                      <tr>
-                        <th style="color: black;">{{'creditForm.Debts' | translate}}1</th>
-                        <th style="color: black;">{{'creditForm.Creditorinstitution' | translate}}:</th>
-                        <th style="color: black;">{{'creditForm.typedebt' | translate}}:</th>
-                        <th style="color: black;">{{'creditForm.Monthlypayment' | translate}}:</th>
-                        <th style="color: black;">Delete</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                  </table>
+                <div class="table-responsive">
+                <table class="table">
+                  <thead class="thead-light">
+                    <tr>
+                      <th style="color: black;">{{'creditForm.debts1' | translate}}</th>
+                      <th style="color: black;">{{'creditForm.Creditorinstitution' | translate}}:</th>
+                      <th style="color: black;">{{'creditForm.typedebt' | translate}}:</th>
+                      <th style="color: black;">{{'creditForm.Monthlypayment' | translate}}:</th>
+                      <!-- <th style="color: black;">{{'addCollection.edit' | translate}}</th> -->
+                      <th style="color: black;">{{'addCollection.delete' | translate}}</th>                     
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let temp_debit of debit_list; let i=index">
+                      <td>{{(i+1)}}</td>
+                      <td>{{temp_debit?.creditor_institution || ('table.tr.td.NA' | translate)}}</td>
+                      <td>{{temp_debit?.type_of_debit ? this.getTypeOfDebitText(temp_debit?.type_of_debit) : ('table.tr.td.NA' | translate)}}</td>
+                      <td>{{temp_debit?.monthly_payment || ('table.tr.td.NA' | translate)}}</td>                     
+                      <!-- <td>
+                        <button class="action-icon" title="{{'addCollection.edit' | translate}}"
+                          (click)="editSolidarity(solidarity,i)">
+                          <img src="assets/img/edit.png" alt="img">
+                        </button>
+                      </td> -->
+                      <td>
+                        <button class="action-icon" title="{{'addCollection.delete' | translate}}"
+                          (click)="deleteDebit(temp_debit,i)" >
+                          <img src="assets/img/ic_delete.png" alt="img">
+                        </button>
+                      </td>                      
+                    </tr>
+                    <tr *ngIf="debit_list.length == 0"><th colspan="5" style="text-align: center;">{{'message.error.noRecordFound' | translate}}</th></tr>
+                  </tbody>
+                </table>
+              </div>
+                <div class="row">
+                  <div class="col-12">
+                    <div class="btn-cont text-right">
+                      <button class="btn btn-primary" (click)="this.setsubTab(9)"
+                      [disabled]="!parameter.property_id" title="Next Tab">
+                      {{'creditForm.Saveinformation' |
+                        translate}}</button>
+                    </div>
+                  </div>
                 </div>
-              </form>
+              </div>
             </div>
             <!-- Beneficiaries -->
             <div *ngIf="subtab==9">
@@ -2257,7 +2298,7 @@
                       <div class="form-group-3">
                         <label>{{'addForm.names' | translate}} <span class="color-red">*</span></label>
                         <input autocomplete="off" minlength="1" maxlength="30" required type="text"
-                          class="form-control">
+                          class="form-control" >
                       </div>
                     </div>
                     <div class="col-4">

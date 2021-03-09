@@ -86,6 +86,8 @@ export class EditUserComponent implements OnInit {
     this.setCurrentPosition();
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
+    this.model.legal_representative.country_code = this.constant.country_code;
+    this.model.legal_representative.dial_code = this.constant.dial_code;
   }
 
   getCurrencies() {
@@ -145,16 +147,30 @@ export class EditUserComponent implements OnInit {
     reader.readAsDataURL(event.target.files[0]);
   }
 
-  onCountryChange(e) {
+  onCountryChange(e, index: number) {
     // this.model.country_code = e.iso2;
     // this.model.dial_code = '+' + e.dialCode;
     // this.initialCountry = {initialCountry: e.iso2};
+    // this.model.legal_representative.country_code = this.constant.country_code;
+    // this.model.legal_representative.dial_code = this.constant.dial_code;
+    switch (index) {
+      case 1:
+        this.model.country_code = e.iso2;
+        this.model.dial_code = '+' + e.dialCode;
+        break;
+      case 2:
+        this.model.legal_representative.country_code = e.iso2;
+        this.model.legal_representative.dial_code = '+' + e.dialCode;
+        break;
+      default:
+        break;
+    }
   }
   uploadDoc(userdata) {
     console.log(userdata, "user id")
     this.router.navigate(['/dashboard/users/documents-upload', userdata.id]);
   }
-  goBack(){ 
+  goBack() {
     this.router.navigate(['/dashboard/users'])
   }
   add(formData: NgForm) {
