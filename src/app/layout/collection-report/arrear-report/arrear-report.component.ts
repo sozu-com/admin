@@ -270,8 +270,8 @@ export class ArrearReportComponent implements OnInit {
        
         for (let index = 0; index < self.model.length; index++) {
           const element = self.model[index];
-         let t = 0;
          self.data[element].forEach((r, index) => {
+          let t = 0;
           self.data[element][index]['showInfo'] = true;
           console.log(r, "user_document")
           t = t + (r['amount'] || 0) + (r['penelty'] || 0);
@@ -296,7 +296,7 @@ export class ArrearReportComponent implements OnInit {
           grand_total_amount = grand_total_amount + (element['total_amount'] || 0);
          
         }
-        this.finalData.push({ id: 'Total', key: 1, amount: grand_amount, penelty: grand_penalty, total_amount: grand_total_amount });
+        this.finalData.push({ id: 'Total', key: 1, amount: grand_amount - grand_penalty, penelty: grand_penalty, total_amount: grand_total_amount });
         console.log('finalData', this.finalData, 'response', success['data']);
         console.log( this.finalData,"last result");
         this.finalDataSum = grand_total_amount
