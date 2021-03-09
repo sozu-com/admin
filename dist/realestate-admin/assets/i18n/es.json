@@ -1177,6 +1177,7 @@
       "wantToDeleteEconomicDependent": "¿Quiere eliminar este dependiente económico?",
       "wantToDeleteReferences": "¿Quieres eliminar estas referencias?",
       "wantToDeleteSolidarityLiabilities": "¿Quieres eliminar este pasivo solidario?",
+      "wantToDeleteDebit": "¿Quieres eliminar este débito?",
       "wantToDeleteCredit": "¿Quieres eliminar este crédito?",
       "wantTocloseLead": "¿Quieres cerrar este lead?",
       "wantToBlockCompany": "¿Quieres bloquear esta compañía?",
@@ -2332,7 +2333,7 @@
     "SearchAUserInOurDatabase": "Selecciona un usuario en nuestra base de datos"
   },
   "creditForm":{
-    "credit":"créditos",
+    "credit":"Créditos",
     "Applicant":"Solicitante",
     "Coaccredited":"Coacreditado",
     "id":"ID",
@@ -2390,6 +2391,7 @@
     "age":"Edad",
     "occupation":"Ocupacion",
     "saveReferences":"Guardar referencias",
+    "saveDebit":"Guardar débito",
     "Dependent":"Guardar Dependiente",
     "clerk":"Dependiente 1",
     "AddReferences":"Agregar References",
@@ -2406,6 +2408,7 @@
     "References":"Referecias",
     "References1":"Referecia 1",
     "solidarity1":"Solidaridad 1",
+    "debts1":"Adeudo 1",
     "bankAccounts1":"Cuentas bancarias 1",
     "EditObligados":" Editar Solidarity Liabilities",
     "Obligados":"Obligados Solidarios",
