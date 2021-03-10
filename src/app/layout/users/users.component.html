@@ -114,6 +114,16 @@
                     <a (click)="sortData(parameter.property_sort==2?1:2, 'property_sort')" href="javascript://"><img [ngClass]="{'upsidedown':parameter.property_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
                   </div>
                 </th>
+                <th style="width:10%; vertical-align: top;">
+                  <div class="table-search">
+                    <label>{{'table.th.registeredSozu' | translate}}</label>
+                    <select style="width: 70px;" [(ngModel)]="parameter.pc_contract" (change)="getListing()" name="pc_contract">
+                      <option value="0">{{'table.th.all' | translate}}</option>
+                      <option value="1">{{'table.th.yes' | translate}}</option>
+                      <option value="2">{{'table.th.no' | translate}}</option>
+                   </select>
+                  </div>
+                </th>
                 <th style="width:14%">
                   &nbsp;
                 </th>
@@ -149,8 +159,23 @@
                   <span *ngIf="item.interests?.length == 0">{{'table.tr.td.NA' | translate}}</span>
                 </td>
                 <td *ngIf="parameter.type==2">{{item.properties_count}}</td>
+                <td>yes</td>
                 <td>
                   <div class="table-actions">
+                   
+                  <button (click)="this.sendMail(item,1);"
+                  class="action-icon"
+                  *ngIf="item.is_status !=1"
+                  title="{{'table.title.sendActivationEmail' | translate}}">
+                  <i class="fa fa-map-marker" aria-hidden="true" 
+                  style="font-size: 166%;color: black;"></i></button>
+
+                  <button (click)="this.sendMail(item,0);" class="action-icon"
+                     *ngIf="item.is_status == true"
+                     title="{{'table.title.confirmEmail' | translate}}">
+                     <i class="fa fa-map-marker" aria-hidden="true" 
+                     style="font-size: 166%;color: lightgray;"></i></button>
+
                       <!-- <a href="javascript://" (click)="editUser(item, i)" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
                       <a href="javascript://" *ngIf="item.is_blocked == 1" (click)="blockUnblockPopup(i, item.id, 0, parameter.type)" title="Unblock user" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a>
                       <a href="javascript://" *ngIf="item.is_blocked == 0" (click)="blockUnblockPopup(i, item.id, 1, parameter.type)" title="Block user" class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a> -->

@@ -71,7 +71,16 @@ export class UsersComponent implements OnInit {
     this.developer_image = '';
     this.entityModalClose.nativeElement.click();
   }
-
+  sendMail = (data: any, is_status): void => {
+    data.is_status = is_status;
+    this.admin.postDataApi('updateCommercialized', { id: (data || {}).id, is_status: is_status }).subscribe((success) => {
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.emailSend'), 'success');
+      this.closeModal();
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
   getPage(page) {
     this.parameter.page = page;
     this.getBuyers(this.parameter.type, this.parameter.page, this.parameter.name, this.parameter.phone, this.parameter.email,

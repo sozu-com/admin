@@ -894,15 +894,6 @@
   </div>
 </form>
 
-
-
-
-
-
-
-
-
-
 <form autocomplete="off" [formGroup]="addFormStep3" (ngSubmit)="createCollection(addFormStep3.value, 3)">
   <div class="white-bg" *ngIf="tab==3">
     <div class="page-title">
@@ -1106,7 +1097,212 @@
           </div>
         </div>
       </div>
+      <div class="spacer50"></div>
+      <!-- Beneficiaries -->
+      <h5 style="color: black;font-weight: bold;">{{'addCollection.beneficiaries' | translate}}</h5>
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addForm.names' | translate}}</label>
+            <div class="clearfix"></div>
+            <input  autocomplete="off" class="form-control" type="text" name="buyer_fed_tax"
+              formControlName="buyer_fed_tax">
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addForm.firstSurname' | translate}}</label>
+            <div class="clearfix"></div>
+            <input  autocomplete="off" class="form-control" type="text" name="buyer_fed_tax"
+              formControlName="buyer_fed_tax">
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addForm.secondSurname' | translate}}</label>
+            <div class="clearfix"></div>
+            <input  autocomplete="off" class="form-control" type="text" name="buyer_fed_tax"
+              formControlName="buyer_fed_tax">
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <div class="form-group">
+              <label>{{'creditForm.RELATIONSHIP' | translate}}</label>
+              <select title="{{'creditForm.selectRELATIONSHIP' | translate}}"
+                class="form-control">
+                <option disabled selected value="undefined">{{'creditForm.selectRELATIONSHIP' | translate}}
+                </option>
+                <option *ngFor="let dest of Relationship_list" [value]="dest.id">
+                  {{language_code
+                  == 'en'? dest.name_en : dest.name_es}}</option>
+              </select>
 
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addForm.dateOfBirth' | translate}}</label>
+            <input class="form-control" type="date" name="dob">
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.percentage' | translate}}</label>
+            <div class="clearfix"></div>
+            <input  autocomplete="off" class="form-control" type="text" name="buyer_fed_tax"
+              formControlName="buyer_fed_tax">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addForm.address' | translate}}</label>
+            <input  autocomplete="off" class="form-control" type="text" name="buyer_fed_tax"
+              formControlName="buyer_fed_tax">
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addForm.phone' | translate}} </label>
+            <div class="clearfix"></div>
+            <input  autocomplete="off" class="form-control" type="text" name="buyer_fed_tax"
+              formControlName="buyer_fed_tax">
+          </div>
+        </div>
+      </div>
+      <div class="spacer50"></div>
+      <div class="white-bg">
+         <!-- Tutor -->
+      <h5 style="color: black;font-weight: bold;">{{'addCollection.Tutor' | translate}}</h5>
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addForm.names' | translate}}</label>
+            <div class="clearfix"></div>
+            <input  autocomplete="off" class="form-control" type="text" name="buyer_fed_tax"
+              formControlName="buyer_fed_tax">
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addForm.firstSurname' | translate}}</label>
+            <div class="clearfix"></div>
+            <input  autocomplete="off" class="form-control" type="text" name="buyer_fed_tax"
+              formControlName="buyer_fed_tax">
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addForm.secondSurname' | translate}}</label>
+            <div class="clearfix"></div>
+            <input  autocomplete="off" class="form-control" type="text" name="buyer_fed_tax"
+              formControlName="buyer_fed_tax">
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <div class="form-group">
+              <label>{{'creditForm.RELATIONSHIP' | translate}}</label>
+              <select title="{{'creditForm.selectRELATIONSHIP' | translate}}"
+                class="form-control">
+                <option disabled selected value="undefined">{{'creditForm.selectRELATIONSHIP' | translate}}
+                </option>
+                <option *ngFor="let dest of Relationship_list" [value]="dest.id">
+                  {{language_code
+                  == 'en'? dest.name_en : dest.name_es}}</option>
+              </select>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addForm.dateOfBirth' | translate}}</label>
+            <input class="form-control" type="date" name="dob">
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.percentage' | translate}}</label>
+            <div class="clearfix"></div>
+            <input  autocomplete="off" class="form-control" type="text" name="buyer_fed_tax"
+              formControlName="buyer_fed_tax">
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addForm.address' | translate}}</label>
+            <input  autocomplete="off" class="form-control" type="text" name="buyer_fed_tax"
+              formControlName="buyer_fed_tax">
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addForm.phone' | translate}} </label>
+            <div class="clearfix"></div>
+            <input  autocomplete="off" class="form-control" type="text" name="buyer_fed_tax"
+              formControlName="buyer_fed_tax">
+          </div>
+        </div>
+      </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="btn-cont text-right">
+              <button class="btn btn-primary" (click)="addcredits()">
+                {{'creditForm.saveBeneficiaries' | translate}}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="spacer50"></div>
+      <div class="white-bg">
+        <h5 style="color: black;font-weight: bold;">{{'creditForm.ListBeneficiaries' | translate}}</h5>
+        <div class="col-12">
+          <div class="spacer40"></div>
+        </div>
+        <table class="table">
+          <thead class="thead-light">
+            <tr>
+              <th style="color: black;">{{'creditForm.id' | translate}}</th>
+              <th style="color: black;">{{'creditForm.RELATIONSHIP' | translate}}:</th>
+              <th style="color: black;">{{'creditForm.age' | translate}}:</th>
+              <th style="color: black;">{{'addCollection.percentage' | translate}}:</th>
+              <th style="color: black;">{{'addCollection.edit' | translate}}</th>
+              <th style="color: black;">{{'addCollection.delete' | translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>son</td>
+              <td>13</td>
+              <td>12%</td>
+              <td>
+                <button class="action-icon" title="{{'addCollection.edit' | translate}}"
+                  (click)="editDependent(economic_dependent,i)">
+                  <img src="assets/img/edit.png" alt="img">
+                </button>
+              </td>
+              <td>
+                <button class="action-icon" title="{{'addCollection.delete' | translate}}"
+                  (click)="deleteDependent(economic_dependent,i)">
+                  <img src="assets/img/ic_delete.png" alt="img">
+                </button>
+              </td>
+            </tr>
+            <!-- <tr *ngIf="economic_dependent_list.length == 0"><th colspan="6" style="text-align: center;">{{'message.error.noRecordFound' | translate}}</th></tr> -->
+          </tbody>
+        </table>
+       
+      </div>
 
       <div class="spacer50"></div>
       <!-- bank account -->

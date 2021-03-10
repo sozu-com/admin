@@ -16,6 +16,7 @@ import { SelectItem } from 'primeng/primeng';
 import { Collection, Seller } from 'src/app/models/collection.model';
 import { ToastrService } from 'ngx-toastr';
 import { Document } from 'src/app/models/document.model';
+import { IDestinationStatus } from 'src/app/common/marrital-status-interface';
 declare let swal: any;
 
 @Component({
@@ -48,6 +49,7 @@ export class AddEditCollectionComponent implements OnInit {
   public latitude: number;
   public longitude: number;
   public searchControl: FormControl;
+  Relationship_list = Array<IDestinationStatus>();
   public zoom: number;
   myFlag = false;
   name: string;
@@ -168,6 +170,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.parameter.itemsPerPage = this.constant.limit4;
     this.buildingData = new AddProjectModel();
     this.getAllPaymentChoices();
+    this.getRelationship();
 
     this.parameter.sub = this.route.params.subscribe(params => {
       this.model.id = params['id'];
@@ -210,7 +213,15 @@ export class AddEditCollectionComponent implements OnInit {
           this.spinner.hide();
         });
   }
-
+  getRelationship() {
+    this.us.postDataApi('getRelationship', {})
+      .subscribe(
+        success => {
+          this.Relationship_list = success.data;
+        }, error => {
+          this.spinner.hide();
+        });
+  }
   setDatePickerLocale() {
     if (this.translate.defaultLang === 'en') {
       this.locale = {
