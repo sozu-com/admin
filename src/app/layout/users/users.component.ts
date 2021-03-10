@@ -76,7 +76,7 @@ export class UsersComponent implements OnInit {
 
   sendMail = (data: any): void => {
     this.spinner.show();
-    this.admin.postDataApi('verifedEmail', { id: (data || {}).id, is_language: this.language_code == 'en' ? 1 : 2 }).subscribe((success) => {
+    this.admin.postDataApi('verifedEmail', { id: (data || {}).id, is_language: this.language_code == 'en' ? 1 : 2 ,email_date:new Date().toUTCString()}).subscribe((success) => {
       this.spinner.hide();
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.emailSend'), 'success');
       data.is_email_verified = 1;

@@ -117,7 +117,9 @@
                 <th style="width:10%; vertical-align: top;">
                   <div class="table-search">
                     <label>{{'table.th.registeredSozu' | translate}}</label>
-                    <select style="width: 70px;" [(ngModel)]="parameter.pc_contract" (change)="getListing()" name="pc_contract">
+                    <select style="width: 70px;" [(ngModel)]="parameter.is_email" name="is_email"
+                    (change)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email
+                        ,parameter.first_surname,parameter.second_surname)">
                       <option value="0">{{'table.th.all' | translate}}</option>
                       <option value="1">{{'table.th.yes' | translate}}</option>
                       <option value="2">{{'table.th.no' | translate}}</option>
