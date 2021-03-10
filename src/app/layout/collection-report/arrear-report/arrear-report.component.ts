@@ -289,7 +289,7 @@ export class ArrearReportComponent implements OnInit {
         let grand_amount = 0; let grand_penalty = 0; let grand_total_amount = 0;
         for (let index = 0; index < self.finalData.length; index++) {
           const element = self.finalData[index];
-          grand_amount = grand_amount + (element['amount'] || 0);
+          grand_amount = grand_amount + (element['amount'] || 0) - (element['calc_payment_amount'] || 0);
           console.log(grand_amount,"grand_amount")
           grand_penalty = grand_penalty + (element['penelty'] || 0);
           // grand_total = grand_total + (element['amount'] || 0) + (element['penalty'] || 0)
