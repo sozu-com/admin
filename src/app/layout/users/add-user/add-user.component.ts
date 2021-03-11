@@ -11,7 +11,8 @@ import { CommonService } from 'src/app/services/common.service';
 import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LegalRepresentative, Banks } from 'src/app/models/legalEntity.model';
-import { IMarritalStatus } from 'src/app/common/marrital-status-interface';
+import { IDestinationStatus, IMarritalStatus } from 'src/app/common/marrital-status-interface';
+import { Beneficiary, Tutor } from 'src/app/models/beneficiary.model';
 declare const google;
 declare let swal: any;
 
@@ -24,6 +25,7 @@ export class AddUserComponent implements OnInit {
 
   @ViewChild('mapDiv') mapDiv: ElementRef;
   @ViewChild('search') searchElementRef: ElementRef;
+  Relationship_list = Array<IDestinationStatus>();
   public parameter: IProperty = {};
   initialCountry: any;
   show = false;
@@ -42,7 +44,8 @@ export class AddUserComponent implements OnInit {
   cityInput: string;
   countryInput: string;
   nationalityDetails: any[] = [];
-
+  beneficiary: Beneficiary;
+  beneficiary_list: any = [];
   constructor(
     public constant: Constant,
     private cs: CommonService,
@@ -67,17 +70,31 @@ export class AddUserComponent implements OnInit {
       if (params['id']) {
         this.model.id = params['id'];
         this.getUserById(this.model.id);
+        this.getBeneficiary();
       } else {
         this.model.id = '';
+        this.assignedObject();
       }
     });
     this.getNationality();
+    this.getRelationship();
   }
-
+  getRelationship() {
+    this.admin.postDataApi('getRelationship', {})
+      .subscribe(
+        success => {
+          this.Relationship_list = success.data;
+        }, error => {
+          this.spinner.hide();
+        });
+  }
   initModel() {
     this.initialCountry = { initialCountry: this.constant.country_code };
     this.model = new Users();
+    this.beneficiary = new Beneficiary();
+    this.beneficiary.tutor = new Tutor();
     this.model.legal_rep_banks = new Array();
+    this.model.beneficiary = new Array();
     this.model.legal_representative = new LegalRepresentative();
     this.setCurrentPosition();
     this.model.country_code = this.constant.country_code;
@@ -141,9 +158,95 @@ export class AddUserComponent implements OnInit {
     // this.model.dial_code = '+' + e.dialCode;
     // this.initialCountry = {initialCountry: e.iso2};
   }
+  addBeneficiary(){
+    const modelSave = JSON.parse(JSON.stringify(this.beneficiary));
+    if (this.beneficiary.id) {
+      modelSave.id = this.beneficiary.id;
+      modelSave.beneficiary_name = this.beneficiary.beneficiary_name;
+      modelSave.user_type = 1;
+      modelSave.beneficiary_firstSurname = this.beneficiary.beneficiary_firstSurname;
+      modelSave.beneficiary_secondSurname = this.beneficiary.beneficiary_secondSurname;
+      modelSave.beneficiary_relationship = this.beneficiary.beneficiary_relationship;
+      modelSave.beneficiary_dob = this.beneficiary.beneficiary_dob;
+      modelSave.beneficiary_address = this.beneficiary.beneficiary_address;
+      modelSave.beneficiary_email = this.beneficiary.beneficiary_email;
+      modelSave.beneficiary_phone = this.beneficiary.beneficiary_phone;
+      modelSave.tutor_name = this.beneficiary.tutor.tutor_name,
+        modelSave.tutor_firstSurname = this.beneficiary.tutor.tutor_firstSurname,
+        modelSave.tutor_secondSurname = this.beneficiary.tutor.tutor_secondSurname,
+        modelSave.tutor_relationship = this.beneficiary.tutor.tutor_relationship,
+        modelSave.tutor_dob = this.beneficiary.tutor.tutor_dob,
+        modelSave.tutor_address = this.beneficiary.tutor.tutor_address,
+        modelSave.tutor_phone = this.beneficiary.tutor.tutor_phone,
+        modelSave.tutor_email = this.beneficiary.tutor.tutor_email
+    } else {
+      modelSave.beneficiary_name = this.beneficiary.beneficiary_name;
+      modelSave.user_type = 1;
+      modelSave.beneficiary_firstSurname = this.beneficiary.beneficiary_firstSurname;
+      modelSave.beneficiary_secondSurname = this.beneficiary.beneficiary_secondSurname;
+      modelSave.beneficiary_relationship = this.beneficiary.beneficiary_relationship;
+      modelSave.beneficiary_dob = this.beneficiary.beneficiary_dob;
+      modelSave.beneficiary_address = this.beneficiary.beneficiary_address;
+      modelSave.beneficiary_email = this.beneficiary.beneficiary_email;
+      modelSave.beneficiary_phone = this.beneficiary.beneficiary_phone;
+      modelSave.tutor_name = this.beneficiary.tutor.tutor_name,
+        modelSave.tutor_firstSurname = this.beneficiary.tutor.tutor_firstSurname,
+        modelSave.tutor_secondSurname = this.beneficiary.tutor.tutor_secondSurname,
+        modelSave.tutor_relationship = this.beneficiary.tutor.tutor_relationship,
+        modelSave.tutor_dob = this.beneficiary.tutor.tutor_dob,
+        modelSave.tutor_address = this.beneficiary.tutor.tutor_address,
+        modelSave.tutor_phone = this.beneficiary.tutor.tutor_phone,
+        modelSave.tutor_email = this.beneficiary.tutor.tutor_email
+    }
+    this.beneficiary_list.push(modelSave);
+  }
+  getBeneficiary = (): void => {
+    this.spinner.show();
+    this.beneficiary_list;
+    console.log(this.beneficiary_list,"list")
+  }
+  getAccountTypeText = (bankId: any): any => {
+    const data = this.Relationship_list.find((item) => item.id == bankId);
+    return (this.language_code == 'en' ? data.name_en : data.name_es);
+  }
+  editBeneficiary(data) {
+    this.beneficiary = data;
+    this.beneficiary.id = data.id
+    console.log(this.beneficiary.id, "this.beneficiary.id")
+  }
+  deletePopup(item: any, index: number) {
+    this.parameter.title = this.translate.instant('message.error.areYouSure');
+    this.parameter.text = this.translate.instant('message.error.wantToDeleteBeneficiary');
+
+    swal({
+      html: this.parameter.title + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteData(item, index);
+      }
+    });
+  }
+
+  deleteData(item: any, index: number) {
+    this.admin.postDataApi('deleteBeneficiary',
+      { id: item.id }).subscribe(r => {
+        this.beneficiary_list.splice(index, 1);
+        this.beneficiary_list.total--;
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
+      },
+        error => {
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
+        });
+  }
 
   add(formData: NgForm) {
     const modelSave: Users = JSON.parse(JSON.stringify(this.model));
+
     if (modelSave.legal_representative.phone) {
       modelSave.legal_representative.country_code = modelSave.legal_representative.country_code || this.constant.country_code;
       modelSave.legal_representative.dial_code = modelSave.legal_representative.dial_code || this.constant.dial_code;
@@ -217,6 +320,8 @@ export class AddUserComponent implements OnInit {
     modelSave.country_id = this.countryInput == 'other' ? 0 : modelSave.country_id;
     modelSave.state_id = this.stateInput == 'other' ? 0 : modelSave.state_id;
     modelSave.city_id = this.cityInput == 'other' ? 0 : modelSave.city_id;
+    //this.model.beneficiary.push(this.beneficiary_list);
+    modelSave.beneficiary = this.beneficiary_list
     // modelSave.nationality_id = (modelSave.nationality_id > 0 ) ? modelSave.nationality_id : 0;
     this.spinner.show();
     this.admin.postDataApi('addSeller', modelSave)
@@ -567,6 +672,12 @@ export class AddUserComponent implements OnInit {
   updateNationalityName = (value: string): void => {
     if(parseInt(value) > 0){
       this.model.nationality_name = '';
+    }
+  }
+
+  assignedObject = (): void => {
+    if (!this.beneficiary.tutor) {
+      this.beneficiary.tutor = new Tutor();
     }
   }
 }
