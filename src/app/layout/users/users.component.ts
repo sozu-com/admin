@@ -7,6 +7,7 @@ import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 declare let swal: any;
 
 @Component({
@@ -76,10 +77,13 @@ export class UsersComponent implements OnInit {
 
   sendMail = (data: any): void => {
     this.spinner.show();
-    this.admin.postDataApi('verifedEmail', { id: (data || {}).id, is_language: this.language_code == 'en' ? 1 : 2 ,email_date:new Date().toUTCString()}).subscribe((success) => {
+    this.admin.postDataApi('verifedEmail', {
+      id: (data || {}).id, is_language: this.language_code == 'en' ? 1 : 2,
+      email_date: moment.utc(new Date()).toDate()
+    }).subscribe((success) => {
       this.spinner.hide();
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.emailSend'), 'success');
-      data.is_email_verified = 1;
+      // data.is_email_verified = 1;
     }, (error) => {
       this.spinner.hide();
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
