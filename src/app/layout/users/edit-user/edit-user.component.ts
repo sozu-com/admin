@@ -106,6 +106,7 @@ export class EditUserComponent implements OnInit {
           this.spinner.hide();
           this.model = new Users();
           this.model = success.data;
+          this.isGetEditUserData = true;
           // this.model.legal_representative = new LegalRepresentative();
           this.model.legal_rep_banks = success.data.legal_rep_banks;
           this.model.legal_representative = success.data.legal_representative || new LegalRepresentative();
@@ -119,7 +120,6 @@ export class EditUserComponent implements OnInit {
           this.model.tax_neighbourhoods.push(this.model.tax_neighbourhood);
           this.model.nationality_id = (this.model.nationality_id).toString() == '' ? 1 : this.model.nationality_id;
           this.current_nationality_id = this.model.nationality_id;
-          this.isGetEditUserData = true;
         }, error => {
           this.spinner.hide();
         });
