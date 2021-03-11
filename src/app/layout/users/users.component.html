@@ -117,7 +117,9 @@
                 <th style="width:10%; vertical-align: top;">
                   <div class="table-search">
                     <label>{{'table.th.registeredSozu' | translate}}</label>
-                    <select style="width: 70px;" [(ngModel)]="parameter.pc_contract" (change)="getListing()" name="pc_contract">
+                    <select style="width: 70px;" [(ngModel)]="parameter.is_email" name="is_email"
+                    (change)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email
+                        ,parameter.first_surname,parameter.second_surname)">
                       <option value="0">{{'table.th.all' | translate}}</option>
                       <option value="1">{{'table.th.yes' | translate}}</option>
                       <option value="2">{{'table.th.no' | translate}}</option>
@@ -159,19 +161,21 @@
                   <span *ngIf="item.interests?.length == 0">{{'table.tr.td.NA' | translate}}</span>
                 </td>
                 <td *ngIf="parameter.type==2">{{item.properties_count}}</td>
-                <td>yes</td>
+                <td>
+                  <span>{{item.is_email_verified ? ('table.th.yes' | translate) : ('table.th.no' | translate)}}</span>
+                </td>
                 <td>
                   <div class="table-actions">
                    
-                  <button (click)="this.sendMail(item,1);"
+                  <button (click)="this.sendMail(item);"
                   class="action-icon"
-                  *ngIf="item.is_status !=1"
+                  *ngIf="!item.is_email_verified"
                   title="{{'table.title.sendActivationEmail' | translate}}">
                   <i class="fa fa-map-marker" aria-hidden="true" 
                   style="font-size: 166%;color: black;"></i></button>
 
-                  <button (click)="this.sendMail(item,0);" class="action-icon"
-                     *ngIf="item.is_status == true"
+                  <button (click)="this.sendMail(item);" class="action-icon"
+                     *ngIf="item.is_email_verified" [disabled]="true"
                      title="{{'table.title.confirmEmail' | translate}}">
                      <i class="fa fa-map-marker" aria-hidden="true" 
                      style="font-size: 166%;color: lightgray;"></i></button>

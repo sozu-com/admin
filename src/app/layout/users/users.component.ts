@@ -7,6 +7,7 @@ import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 declare let swal: any;
 
 @Component({
@@ -28,21 +29,23 @@ export class UsersComponent implements OnInit {
   image: any;
   public parameter: IProperty = {};
   initialCountry: any;
-  local_storage_parameter: any;  is_back: boolean;
+  local_storage_parameter: any; is_back: boolean;
+  private language_code: string;
   constructor(public constant: Constant, public model: Users, public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
     private router: Router) { }
 
   ngOnInit() {
+    this.language_code = localStorage.getItem('language_code');
     this.parameter.property_sort = 2;
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.type = 1;
-    this.initialCountry = {initialCountry: this.constant.country_code};
+    this.initialCountry = { initialCountry: this.constant.country_code };
     this.local_storage_parameter = JSON.parse(localStorage.getItem('parametersForUSer'));
     this.parameter = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.parameter;
-    this.getBuyers(this.parameter.type, this.parameter.page, '', '', '','','');
+    this.getBuyers(this.parameter.type, this.parameter.page, '', '', '', '', '');
   }
 
   telInputObject(obj) {
@@ -71,11 +74,16 @@ export class UsersComponent implements OnInit {
     this.developer_image = '';
     this.entityModalClose.nativeElement.click();
   }
-  sendMail = (data: any, is_status): void => {
-    data.is_status = is_status;
-    this.admin.postDataApi('updateCommercialized', { id: (data || {}).id, is_status: is_status }).subscribe((success) => {
+
+  sendMail = (data: any): void => {
+    this.spinner.show();
+    this.admin.postDataApi('verifedEmail', {
+      id: (data || {}).id, is_language: this.language_code == 'en' ? 1 : 2,
+      email_date: moment.utc(new Date()).toDate()
+    }).subscribe((success) => {
+      this.spinner.hide();
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.emailSend'), 'success');
-      this.closeModal();
+      // data.is_email_verified = 1;
     }, (error) => {
       this.spinner.hide();
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
@@ -103,7 +111,7 @@ export class UsersComponent implements OnInit {
       this.parameter.first_surname, this.parameter.second_surname);
   }
 
-  getBuyers(type: any, page: any, name: string, phone: string, email: string,first_surname: string,second_surname: string) {
+  getBuyers(type: any, page: any, name: string, phone: string, email: string, first_surname: string, second_surname: string) {
     this.parameter.page = page;
     this.parameter.type = type;
     this.parameter.name = name;
@@ -151,7 +159,7 @@ export class UsersComponent implements OnInit {
   onCountryChange(e) {
     this.model.country_code = e.iso2;
     this.model.dial_code = '+' + e.dialCode;
-    this.initialCountry = {initialCountry: e.iso2};
+    this.initialCountry = { initialCountry: e.iso2 };
   }
 
   addNewUser(formdata: NgForm) {
@@ -176,8 +184,8 @@ export class UsersComponent implements OnInit {
           this.spinner.hide();
           this.modalClose.nativeElement.click();
           const text = this.model.id ?
-              this.translate.instant('message.success.updatedSuccessfully') :
-              this.translate.instant('message.success.addedSuccessfully');
+            this.translate.instant('message.success.updatedSuccessfully') :
+            this.translate.instant('message.success.addedSuccessfully');
           swal(this.translate.instant('swal.success'), text, 'success');
           if (this.model.id) {
             this.parameter.items[this.parameter.index] = success.data;
