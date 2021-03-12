@@ -745,7 +745,7 @@
     <div class="col-12">
       <div class="btn-cont text-right">
         <button class="btn btn-primary" type="button" 
-        [disabled]="!beneficiary.beneficiary_name"
+        [disabled]="!beneficiary.beneficiary_relationship"
         (click)="addBeneficiary()">
         {{beneficiary.id ? ('creditForm.editBeneficiaries' | translate) : ('creditForm.AddBeneficiaries' | translate)}}
         </button>
