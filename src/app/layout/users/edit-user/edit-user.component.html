@@ -722,7 +722,7 @@
                             <div class="form-group-3">
                               <label>{{'addForm.dateOfBirth' | translate}}</label>
                               <input class="form-control" type="date" name="beneficiary_dob" 
-                              [(ngModel)]="beneficiary.beneficiary_dob">
+                              [(ngModel)]="beneficiary.beneficiary_dob" (ngModelChange)="ageFromDateOfBirthday($event)">
                             </div>
                           </div>
                           <div class="col-lg-6 col-md-6 col-sm-6 col-12">
@@ -755,99 +755,101 @@
                         <div class="col-12">
                           <div class="spacer40"></div>
                         </div>
-                        <div class="white-bg padding40" >
-                           <!-- Tutor -->
-                        <h5 style="color: black;font-weight: bold;">{{'addCollection.Tutor' | translate}}</h5>
-                        <div class="row">
-                          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                            <div class="form-group-3">
-                              <label>{{'addForm.names' | translate}}</label>
-                              <div class="clearfix"></div>
-                              <input  autocomplete="off" class="form-control" type="text" name="tutor_name"
-                                [(ngModel)]="beneficiary.tutor.tutor_name">
-                            </div>
-                          </div>
-                          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                            <div class="form-group-3">
-                              <label>{{'addForm.firstSurname' | translate}}</label>
-                              <div class="clearfix"></div>
-                              <input  autocomplete="off" class="form-control" type="text" name="tutor_firstSurname"
-                              [(ngModel)]="beneficiary.tutor.tutor_firstSurname">
-                            </div>
-                          </div>
-                          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                            <div class="form-group-3">
-                              <label>{{'addForm.secondSurname' | translate}}</label>
-                              <div class="clearfix"></div>
-                              <input  autocomplete="off" class="form-control" type="text" name="tutor_secondSurname"
-                               [(ngModel)]="beneficiary.tutor.tutor_secondSurname">
-                            </div>
-                          </div>
-                          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                            <div class="form-group-3">
-                              <div class="form-group">
-                                <label>{{'creditForm.RELATIONSHIP' | translate}}</label>
-                                <select title="{{'creditForm.selectRELATIONSHIP' | translate}}"
-                                  class="form-control" name="tutor_relationship" 
-                                  [(ngModel)]="beneficiary.tutor.tutor_relationship">
-                                  <option disabled selected value="undefined">{{'creditForm.selectRELATIONSHIP' | translate}}
-                                  </option>
-                                  <option *ngFor="let dest of Relationship_list" [value]="dest.id">
-                                    {{language_code
-                                    == 'en'? dest.name_en : dest.name_es}}</option>
-                                </select>
-                  
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                            <div class="form-group-3">
-                              <label>{{'addForm.dateOfBirth' | translate}}</label>
-                              <input class="form-control" type="date" name="tutor_dob"
-                              [(ngModel)]="beneficiary.tutor.tutor_dob">
-                            </div>
-                          </div>
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                            <div class="form-group-3">
-                              <label>{{'addForm.address' | translate}}</label>
-                              <input  autocomplete="off" class="form-control" type="text" name="tutor_address"
-                              [(ngModel)]="beneficiary.tutor.tutor_address">
-                            </div>
-                          </div>
-                          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                            <div class="form-group-3">
-                              <label>{{'addForm.phone' | translate}} </label>
-                              <div class="clearfix"></div>
-                              <input  autocomplete="off" class="form-control" type="text" name="tutor_phone"
-                              [(ngModel)]="beneficiary.tutor.tutor_phone">
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                            <div class="form-group-3">
-                              <label>{{'addForm.email' | translate}} </label>
-                              <div class="clearfix"></div>
-                              <input  autocomplete="off" class="form-control" type="email" name="tutor_email"
-                              [(ngModel)]="beneficiary.tutor.tutor_email">
-                            </div>
-                          </div>
-                        </div>
+                         <!-- Tutor -->
+                        <div class="white-bg padding40" *ngIf="age<=18">
+                          <h5 style="color: black;font-weight: bold;">{{'addCollection.Tutor' | translate}}</h5>
                           <div class="row">
-                            <div class="col-12">
-                              <div class="btn-cont text-right">
-                                <button class="btn btn-primary" 
-                                [disabled]="!beneficiary.beneficiary_name" type="button" (click)="addBeneficiary()">
-                                  {{'creditForm.saveBeneficiaries' | translate}}
-                                </button>
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                              <div class="form-group-3">
+                                <label>{{'addForm.names' | translate}}</label>
+                                <div class="clearfix"></div>
+                                <input  autocomplete="off" class="form-control" type="text" name="tutor_name"
+                                  [(ngModel)]="beneficiary.tutor.tutor_name">
+                              </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                              <div class="form-group-3">
+                                <label>{{'addForm.firstSurname' | translate}}</label>
+                                <div class="clearfix"></div>
+                                <input  autocomplete="off" class="form-control" type="text" name="tutor_firstSurname"
+                                [(ngModel)]="beneficiary.tutor.tutor_firstSurname">
+                              </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                              <div class="form-group-3">
+                                <label>{{'addForm.secondSurname' | translate}}</label>
+                                <div class="clearfix"></div>
+                                <input  autocomplete="off" class="form-control" type="text" name="tutor_secondSurname"
+                                 [(ngModel)]="beneficiary.tutor.tutor_secondSurname">
+                              </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                              <div class="form-group-3">
+                                <div class="form-group">
+                                  <label>{{'creditForm.RELATIONSHIP' | translate}}</label>
+                                  <select title="{{'creditForm.selectRELATIONSHIP' | translate}}"
+                                    class="form-control" name="tutor_relationship" 
+                                    [(ngModel)]="beneficiary.tutor.tutor_relationship">
+                                    <option disabled selected value="undefined">{{'creditForm.selectRELATIONSHIP' | translate}}
+                                    </option>
+                                    <option *ngFor="let dest of Relationship_list" [value]="dest.id">
+                                      {{language_code
+                                      == 'en'? dest.name_en : dest.name_es}}</option>
+                                  </select>
+                    
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
+                          <div class="row">
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                              <div class="form-group-3">
+                                <label>{{'addForm.dateOfBirth' | translate}}</label>
+                                <input class="form-control" type="date" name="tutor_dob"
+                                [(ngModel)]="beneficiary.tutor.tutor_dob">
+                              </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                              <div class="form-group-3">
+                                <label>{{'addForm.address' | translate}}</label>
+                                <input  autocomplete="off" class="form-control" type="text" name="tutor_address"
+                                [(ngModel)]="beneficiary.tutor.tutor_address">
+                              </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                              <div class="form-group-3">
+                                <label>{{'addForm.phone' | translate}} </label>
+                                <div class="clearfix"></div>
+                                <input  autocomplete="off" class="form-control" type="text" name="tutor_phone"
+                                [(ngModel)]="beneficiary.tutor.tutor_phone">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                              <div class="form-group-3">
+                                <label>{{'addForm.email' | translate}} </label>
+                                <div class="clearfix"></div>
+                                <input  autocomplete="off" class="form-control" type="email" name="tutor_email"
+                                [(ngModel)]="beneficiary.tutor.tutor_email">
+                              </div>
+                            </div>
+                          </div>
+                          </div>
                     </div>
-                 
+         
+                      <div class="spacer15"></div>
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="btn-cont text-right">
+                          <button class="btn btn-primary" 
+                          [disabled]="!beneficiary.beneficiary_name" type="button" (click)="addBeneficiary()">
+                            {{'creditForm.saveBeneficiaries' | translate}}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                      <div class="spacer15"></div>
                     <div class="white-bg padding40">
                       <h5 style="color: black;font-weight: bold;">{{'creditForm.ListBeneficiaries' | translate}}</h5>
                       <div class="col-12">
@@ -869,7 +871,7 @@
                             <td>{{beneficiary?.beneficiary_relationship ? this.getAccountTypeText(beneficiary?.beneficiary_relationship) : ('table.tr.td.NA' | translate)}}
                               </td>
 
-                            <td>{{beneficiary?.beneficiary_dob  || ('table.tr.td.NA' | translate)}}</td>
+                            <td>{{beneficiary?.beneficiary_dob | date:'M/d/yy' || ('table.tr.td.NA' | translate)}}</td>
                             <td>
                               <button class="action-icon" title="{{'addCollection.edit' | translate}}"
                                 (click)="editBeneficiary(beneficiary,i)">

@@ -626,10 +626,10 @@
            <div class="form-group-3">
              <label>{{'addForm.dateOfBirth' | translate}}</label>
              <input class="form-control" type="date" name="beneficiary_dob" 
-             [(ngModel)]="beneficiary.beneficiary_dob">
+             [(ngModel)]="beneficiary.beneficiary_dob" (ngModelChange)="ageFromDateOfBirthday($event)">
            </div>
          </div>
-         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+         <div class="col-lg-6 col-md-6 col-sm-6 col-12">
            <div class="form-group-3">
              <label>{{'addForm.address' | translate}}</label>
              <input  autocomplete="off" class="form-control" type="text" name="beneficiary_address"
@@ -644,20 +644,22 @@
              [(ngModel)]="beneficiary.beneficiary_phone">
            </div>
          </div>
-         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-           <div class="form-group-3">
-             <label>{{'addForm.email' | translate}} </label>
-             <div class="clearfix"></div>
-             <input  autocomplete="off" class="form-control" type="email" name="beneficiary_email"
-             [(ngModel)]="beneficiary.beneficiary_email">
-           </div>
-         </div>
+        
        </div>
-       
+       <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addForm.email' | translate}} </label>
+            <div class="clearfix"></div>
+            <input  autocomplete="off" class="form-control" type="email" name="beneficiary_email"
+            [(ngModel)]="beneficiary.beneficiary_email">
+          </div>
+        </div>
+       </div>
        <div class="col-12">
          <div class="spacer40"></div>
        </div>
-       <div class="white-bg padding40">
+       <div class="white-bg padding40" *ngIf="age<=18">
           <!-- Tutor -->
        <h5 style="color: black;font-weight: bold;">{{'addCollection.Tutor' | translate}}</h5>
        <div class="row">
@@ -728,16 +730,29 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-12">
-          <div class="btn-cont text-right">
-            <button class="btn btn-primary" 
-            [disabled]="!beneficiary.beneficiary_name" type="button" (click)="addBeneficiary()">
-              {{'creditForm.saveBeneficiaries' | translate}}
-            </button>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addForm.email' | translate}} </label>
+            <div class="clearfix"></div>
+            <input  autocomplete="off" class="form-control" type="email" name="tutor_email"
+            [(ngModel)]="beneficiary.tutor.tutor_email">
           </div>
         </div>
       </div>
    </div>
+   <div class="spacer15"></div>
+   <div class="row">
+    <div class="col-12">
+      <div class="btn-cont text-right">
+        <button class="btn btn-primary" type="button" 
+        [disabled]="!beneficiary.beneficiary_name"
+        (click)="addBeneficiary()">
+        {{beneficiary.id ? ('creditForm.editBeneficiaries' | translate) : ('creditForm.AddBeneficiaries' | translate)}}
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="spacer15"></div>
    <div class="white-bg padding40">
      <h5 style="color: black;font-weight: bold;">{{'creditForm.ListBeneficiaries' | translate}}</h5>
      <div class="col-12">
@@ -757,18 +772,18 @@
         <tr *ngFor="let beneficiary of beneficiary_list; let i=index">
           <td>{{(i+1)}}</td>
           <td>{{beneficiary?.beneficiary_relationship ? this.getAccountTypeText(beneficiary?.beneficiary_relationship) : ('table.tr.td.NA' | translate)}}
-            </td>
+          </td>
 
-          <td>{{beneficiary?.beneficiary_dob  || ('table.tr.td.NA' | translate)}}</td>
+          <td>{{beneficiary?.beneficiary_dob | date:'M/d/yy'  || ('table.tr.td.NA' | translate)}}</td>
           <td>
             <button class="action-icon" title="{{'addCollection.edit' | translate}}"
-              (click)="editBeneficiary(beneficiary,i)">
+              (click)="editBeneficiary(beneficiary,i)" type="button"> 
               <img src="assets/img/edit.png" alt="img">
             </button>
           </td>
           <td>
             <button class="action-icon" title="{{'addCollection.delete' | translate}}"
-              (click)="deletePopup(beneficiary,i)">
+              (click)="deleteBeneficiary(beneficiary,i)" type="button">
               <img src="assets/img/ic_delete.png" alt="img">
             </button>
           </td>
