@@ -1269,7 +1269,8 @@
       "wantToDeleteFolder": "You want to delete this folder?",
       "wantToRemovePaymentConcept": "You want to remove this concept?",
       "cannotRemoveAsPaymentApplied": "You cannot remove this deal, as payment has been applied",
-      "pleaseEnterAllCountryStateAndCity": "Please enter both country state And city"
+      "pleaseEnterAllCountryStateAndCity": "Please enter both country state And city",
+      "youWantToSentEmail":"You want to sent email?"
     }
   },
   "inhouseUsers": {
@@ -2410,6 +2411,8 @@
     "AddBeneficiaries":"Add Beneficiary",
     "editBeneficiaries":"Edit Beneficiary",
     "saveBeneficiaries":"Save Beneficiary",
+    "selectBeneficiary":"Select Beneficiary",
+    "beneficiary":"Beneficiary",
     "ListBeneficiaries":"Beneficiaries list",
     "years":"Years of relationship adn",
     "home":"Home Phone",

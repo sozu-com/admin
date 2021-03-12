@@ -1269,7 +1269,8 @@
       "wantToDeleteFolder": "¿Quieres eliminar esta carpeta?",
       "wantToRemovePaymentConcept": "¿Quieres eliminar este concepto?",
       "cannotRemoveAsPaymentApplied": "No puede eliminar esta oferta, ya que se aplicó el pago",
-      "pleaseEnterAllCountryStateAndCity": "Ingrese el estado del país y la ciudad"
+      "pleaseEnterAllCountryStateAndCity": "Ingrese el estado del país y la ciudad",
+      "youWantToSentEmail":"¿Quieres enviar un correo electrónico?"
     }
   },
   "inhouseUsers": {
@@ -2410,6 +2411,9 @@
     "editBeneficiaries":"editar beneficiario",
     "ListBeneficiaries":"Lista de beneficiarios",
     "saveBeneficiaries":"Salvar beneficiario",
+    "selectBeneficiary":"Salvar beneficiario",
+    "beneficiary":"Beneficiario",
+    "selectBeneficiaries":"Seleccionar beneficiario",
     "years":"Anos de Conocerse",
     "home":"Telefono casa",
     "office":"Telefono de Oficina",
