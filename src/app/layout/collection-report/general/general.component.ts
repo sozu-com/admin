@@ -176,14 +176,14 @@ export class GeneralComponent implements OnInit {
 
   getListing() {
     const input: any = JSON.parse(JSON.stringify(this.input));
-    input.start_date = moment(this.input.start_date).format('YYYY-MM');
+    input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
     input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
 
     const a = moment(input.end_date);
     const b = moment(input.start_date);
     const f = a.diff(b, 'days');
 
-    input.start_date = input.start_date + '-01';
+    //input.start_date = input.start_date + '-01';
     if (f > 1095) {
       this.toastr.error(this.translate.instant('message.error.pleaseChooseOtherDates'), this.translate.instant('swal.error'));
       return false;
