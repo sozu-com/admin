@@ -505,7 +505,7 @@ export class MonthlyComponent implements OnInit {
     if (this.selctedConcept) {
       const d = this.selctedConcept.map(o => o.id);
       // console.log(d, "filter")
-      input.amenities_id = d;
+      input.paymentConcepts = d;
     }
     this.admin.postDataApi('generateCollectionMonthlyReport', input).subscribe(
       success => {

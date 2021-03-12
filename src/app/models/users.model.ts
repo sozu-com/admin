@@ -42,6 +42,7 @@ export class Users {
     fed_tax_pay?: string;
     developer_url?: string;
     legal_rep_banks?: Array<Banks>;
+    beneficiary?: Array<Beneficiaries>;
     user_linked_documents?: Array<Docs>;
     legal_representative?: LegalRepresentative;
     gender?: string;
@@ -78,4 +79,31 @@ export class Users {
     use_user_same_address: boolean = false;
     nationality_name?: string;
     nationality_id?: number = 1;
+}
+export class Beneficiaries {
+    id?: number;
+    beneficiary_name: string;
+    beneficiary_firstSurname: string;
+    beneficiary_secondSurname: string;
+    beneficiary_relationship: string;
+    beneficiary_dob: string;
+    beneficiary_percentage: string;
+    beneficiary_address: string;
+    beneficiary_phone: string;
+    beneficiary_email: string;
+    user?: Users;
+    user_id?: number;
+    user_type?: any;
+    tutor?: Tutor;
+}
+export class Tutor {
+    beneficiary_id?: number;
+    tutor_name: string;
+    tutor_firstSurname: string;
+    tutor_secondSurname: string;
+    tutor_relationship: string;
+    tutor_dob: string;
+    tutor_address: string;
+    tutor_phone: string;
+    tutor_email: string;
 }
