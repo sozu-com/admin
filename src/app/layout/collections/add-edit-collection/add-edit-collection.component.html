@@ -1126,7 +1126,7 @@
         </div>
           <div class="col-lg-2 col-md-6 col-sm-6 col-12" style="margin: 30px;">
             <div class="btn-cont">
-              <button class="btn btn-primary" type="button" (click)="addBeneficiary(beneficiaryIndex == -1 ? true : false)" *ngIf="beneficiary_id != '' ">
+              <button class="btn btn-primary" type="button" (click)="addBeneficiary(beneficiaryIndex == -1 ? true : false)" [disabled]="beneficiary_id == '' ? true : false">
                 {{beneficiaryIndex == -1 ? ('addForm.add' | translate) : ('addForm.edit' | translate)}}
               </button>
             </div>
