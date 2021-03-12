@@ -2408,6 +2408,8 @@
     "editDependiente":"Edit Dependent",
     "AddBeneficiaries":"Add Beneficiary",
     "saveBeneficiaries":"Save Beneficiary",
+    "selectBeneficiary":"Select Beneficiary",
+    "beneficiary":"Beneficiary",
     "ListBeneficiaries":"Beneficiaries list",
     "years":"Years of relationship adn",
     "home":"Home Phone",

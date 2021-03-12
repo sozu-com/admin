@@ -1100,7 +1100,7 @@
       <div class="spacer50"></div>
       <!-- Beneficiaries -->
       <h5 style="color: black;font-weight: bold;">{{'addCollection.beneficiaries' | translate}}</h5>
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
             <label>{{'addForm.names' | translate}}</label>
@@ -1182,10 +1182,46 @@
               >
           </div>
         </div>
-      </div>
-      <div class="spacer50"></div>
+      </div> -->
+      <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <div class="form-group">
+              <label>{{'creditForm.beneficiary' | translate}}</label>
+              <select title="{{'creditForm.selectBeneficiary' | translate}}"
+                class="form-control" name="beneficiary_id" 
+                [(ngModel)]="beneficiary_id"
+                [ngModelOptions]="{standalone: true}">
+                <option disabled selected value="">{{'creditForm.selectBeneficiary' | translate}}
+                </option>
+                <option *ngFor="let temp_beneficiary of beneficiaries_list" 
+                [value]="temp_beneficiary.id">
+                  {{temp_beneficiary?.beneficiary_name}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.percentage' | translate}}</label>
+            <div class="clearfix"></div>
+            <input  autocomplete="off" class="form-control" type="text" name="percentage" 
+            [(ngModel)]="percentage"
+            [ngModelOptions]="{standalone: true}" appOnlyDecimal />
+          </div>
+        </div>
+          <div class="col-lg-2 col-md-6 col-sm-6 col-12" style="margin: 30px;">
+            <div class="btn-cont">
+              <button class="btn btn-primary" type="button" (click)="addBeneficiary(beneficiaryIndex == -1 ? true : false)">
+                {{beneficiaryIndex == -1 ? ('addForm.add' | translate) : ('addForm.edit' | translate)}}
+              </button>
+            </div>
+        </div>
+      </div> 
+      <!-- Tutor -->
+      <!-- <div class="spacer50"></div>
       <div class="white-bg">
-         <!-- Tutor -->
       <h5 style="color: black;font-weight: bold;">{{'addCollection.Tutor' | translate}}</h5>
       <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -1270,7 +1306,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
       <div class="spacer50"></div>
       <div class="white-bg">
         <h5 style="color: black;font-weight: bold;">{{'creditForm.ListBeneficiaries' | translate}}</h5>
@@ -1281,33 +1317,31 @@
           <thead class="thead-light">
             <tr>
               <th style="color: black;">{{'creditForm.id' | translate}}</th>
-              <th style="color: black;">{{'creditForm.RELATIONSHIP' | translate}}:</th>
-              <th style="color: black;">{{'creditForm.age' | translate}}:</th>
+              <th style="color: black;">{{'creditForm.beneficiary' | translate}}:</th>
               <th style="color: black;">{{'addCollection.percentage' | translate}}:</th>
               <th style="color: black;">{{'addCollection.edit' | translate}}</th>
               <th style="color: black;">{{'addCollection.delete' | translate}}</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>son</td>
-              <td>13</td>
-              <td>12%</td>
+            <tr *ngFor="let temp_property_beneficiary of property_beneficiary; let i=index">
+              <td>{{i+1}}</td>
+              <td>{{temp_property_beneficiary?.beneficiary_id ? this.getBeneficiaryText(temp_property_beneficiary?.beneficiary_id) : ('table.tr.td.NA' | translate)}}</td>
+              <td>{{temp_property_beneficiary?.percentage || ('table.tr.td.NA' | translate)}}</td>
               <td>
                 <button class="action-icon" title="{{'addCollection.edit' | translate}}"
-                  (click)="editDependent(economic_dependent,i)">
+                  (click)="editBeneficiary(temp_property_beneficiary,i)" type="button">
                   <img src="assets/img/edit.png" alt="img">
                 </button>
               </td>
               <td>
                 <button class="action-icon" title="{{'addCollection.delete' | translate}}"
-                  (click)="deleteDependent(economic_dependent,i)">
+                  (click)="deleteBeneficiary(temp_property_beneficiary,i)" type="button">
                   <img src="assets/img/ic_delete.png" alt="img">
                 </button>
               </td>
             </tr>
-            <!-- <tr *ngIf="economic_dependent_list.length == 0"><th colspan="6" style="text-align: center;">{{'message.error.noRecordFound' | translate}}</th></tr> -->
+            <tr *ngIf="this.property_beneficiary.length == 0"><th colspan="5" style="text-align: center;">{{'message.error.noRecordFound' | translate}}</th></tr>
           </tbody>
         </table>
        

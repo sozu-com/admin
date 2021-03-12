@@ -143,17 +143,28 @@ export class AddEditCollectionComponent implements OnInit {
   noteEmails: any;
   isShown: boolean = false ;
   edit_reminder: boolean;
-  constructor(public model: Collection, private us: AdminService, private cs: CommonService,
+
+  beneficiaries_list: any[] = [];
+  property_beneficiary : any[] = [];
+  property_collection_id: string = '';
+  percentage: string = '';
+  beneficiary_id: string = '';
+  beneficiaryIndex:number = -1;
+
+  constructor(
+    public model: Collection, 
+    private adminService: AdminService, 
+    private commonService: CommonService,
     private router: Router,
-    private building: Building, public constant: Constant,
+    private building: Building, 
+    public constant: Constant,
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
-    private fb: FormBuilder,
-    private toastr: ToastrService,
     private formBuilder: FormBuilder,
-    public modelForDoc: Document) {
-  }
+    private toastr: ToastrService,
+    public modelForDoc: Document
+    ) {}
 
   ngOnInit() {
     this.day_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
@@ -187,6 +198,7 @@ export class AddEditCollectionComponent implements OnInit {
     });
     this.tab = 1;
     this.getCurrencies();
+    this.getAllBeneficiary();
     this.searchControl = new FormControl();
   }
 
@@ -205,7 +217,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   getAllPaymentChoices() {
-    this.us.postDataApi('getPaymentChoices', {})
+    this.adminService.postDataApi('getPaymentChoices', {})
       .subscribe(
         success => {
           this.paymentChoices = success.data;
@@ -214,7 +226,7 @@ export class AddEditCollectionComponent implements OnInit {
         });
   }
   getRelationship() {
-    this.us.postDataApi('getRelationship', {})
+    this.adminService.postDataApi('getRelationship', {})
       .subscribe(
         success => {
           this.Relationship_list = success.data;
@@ -258,7 +270,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   initFormStep1() {
-    this.addFormStep1 = this.fb.group({
+    this.addFormStep1 = this.formBuilder.group({
       // step 1
       building_id: ['', [Validators.required]],
       building_towers_id: ['', [Validators.required]],
@@ -272,7 +284,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   initFormStep2() {
-    this.addFormStep2 = this.fb.group({
+    this.addFormStep2 = this.formBuilder.group({
       step: ['', [Validators.required]],
       seller_id: [''],
       seller_name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]], // commer cial name and seller name
@@ -292,8 +304,8 @@ export class AddEditCollectionComponent implements OnInit {
       seller_leg_rep_email: ['', [Validators.email]],
       seller_leg_rep_comp: [''],
       seller_leg_rep_fed_tax: ['', [Validators.minLength(12), Validators.maxLength(13)]],
-      collection_seller_banks: this.fb.array([]),
-      collection_seller_rep_banks: this.fb.array([]),
+      collection_seller_banks: this.formBuilder.array([]),
+      collection_seller_rep_banks: this.formBuilder.array([]),
       seller_type: ['', [Validators.required]],
       seller_legal_entity_id: ['']
     });
@@ -378,7 +390,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   initFormStep3() {
-    this.addFormStep3 = this.fb.group({
+    this.addFormStep3 = this.formBuilder.group({
       step: ['', [Validators.required]],
       buyer_id: [''],
       buyer_name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]], // commer cial name and seller name
@@ -398,19 +410,19 @@ export class AddEditCollectionComponent implements OnInit {
       buyer_leg_rep_email: ['', [Validators.email]],
       buyer_leg_rep_comp: [''],
       buyer_leg_rep_fed_tax: ['', [Validators.minLength(12), Validators.maxLength(13)]],
-      collection_buyer_banks: this.fb.array([]),
-      collection_buyer_rep_banks: this.fb.array([]),
+      collection_buyer_banks: this.formBuilder.array([]),
+      collection_buyer_rep_banks: this.formBuilder.array([]),
       buyer_type: ['', [Validators.required]],
       buyer_legal_entity_id: ['']
     });
   }
 
   initFormStep4() {
-    this.addFormStep4 = this.fb.group({
+    this.addFormStep4 = this.formBuilder.group({
       step: ['', [Validators.required]],
       currency_id: ['', [Validators.required]],
       paymentchoice: [''],
-      payment_choices: this.fb.array([]),
+      payment_choices: this.formBuilder.array([]),
       num_of_months: [''],
       monthly_date: [''],
       monthly_amount: [''],
@@ -435,7 +447,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   initFormStep5() {
-    this.addFormStep5 = this.fb.group({
+    this.addFormStep5 = this.formBuilder.group({
       // step 5
       step: ['', [Validators.required]],
       comm_total_commission: [{value: '', disabled: true}, [Validators.required, Validators.max(100)]],
@@ -451,9 +463,9 @@ export class AddEditCollectionComponent implements OnInit {
       add_iva_to_cc: [''],
       add_iva_to_ac: [''],
       // deal_commission_agents: ['', [Validators.required]]
-      deal_commission_agents: this.fb.array([]),
-      collection_agent_banks: this.fb.array([]),
-      collection_commissions: this.fb.array([]),
+      deal_commission_agents: this.formBuilder.array([]),
+      collection_agent_banks: this.formBuilder.array([]),
+      collection_commissions: this.formBuilder.array([]),
       is_commission_sale_enabled: [''],
       payment_received_by: [''],
       bank_id: ['']
@@ -464,16 +476,16 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   initFormStep6() {
-    this.addFormStep6 = this.fb.group({
+    this.addFormStep6 = this.formBuilder.group({
       step: ['', [Validators.required]],
       folderName: [''],
-      collection_folders: this.fb.array([])
+      collection_folders: this.formBuilder.array([])
     });
   }
 
   getCollectionDetails(id: string) {
     this.spinner.show();
-    this.us.postDataApi('getCollectionById', { id: id })
+    this.adminService.postDataApi('getCollectionById', { id: id })
       .subscribe(
         success => {
           this.spinner.hide();
@@ -488,7 +500,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   getPaymentMethods() {
-    this.us.postDataApi('getPaymentMethods', {})
+    this.adminService.postDataApi('getPaymentMethods', {})
       .subscribe(
         success => {
           this.paymentMethods = success.data;
@@ -499,7 +511,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   getDealTypes() {
-    this.us.postDataApi('getDealTypes', {})
+    this.adminService.postDataApi('getDealTypes', {})
       .subscribe(
         success => {
           this.dealTypes = success.data;
@@ -510,7 +522,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   getCurrencies() {
-    this.us.postDataApi('getCurrencies', {})
+    this.adminService.postDataApi('getCurrencies', {})
       .subscribe(
         success => {
           this.currencies = success.data;
@@ -598,14 +610,14 @@ export class AddEditCollectionComponent implements OnInit {
       if (data.seller.legal_representative && data.seller.legal_representative.legal_rep_banks) {
         data.seller.legal_representative.legal_rep_banks.forEach(x => {
           delete x.id;  // no need to send id ( cuz these are saving separtely in table)
-          control.push(this.fb.group(x));
+          control.push(this.formBuilder.group(x));
         });
       }
       const control1 = this.addFormStep2.get('collection_seller_banks') as FormArray;
       if (data.seller.legal_rep_banks) {
         data.seller.legal_rep_banks.forEach(x => {
           delete x.id;  // no need to send id ( cuz these are saving separtely in table)
-          control1.push(this.fb.group(x));
+          control1.push(this.formBuilder.group(x));
         });
       }
     }
@@ -637,14 +649,14 @@ export class AddEditCollectionComponent implements OnInit {
       if (data.seller.legal_representative && data.seller.legal_representative.legal_rep_banks) {
         data.seller.legal_representative.legal_rep_banks.forEach(x => {
           delete x.id;  // no need to send id ( cuz these are saving separtely in table)
-          control.push(this.fb.group(x));
+          control.push(this.formBuilder.group(x));
         });
       }
       const control1 = this.addFormStep2.get('collection_seller_banks') as FormArray;
       if (data.seller.legal_rep_banks) {
         data.seller.legal_rep_banks.forEach(x => {
           delete x.id;  // no need to send id ( cuz these are saving separtely in table)
-          control1.push(this.fb.group(x));
+          control1.push(this.formBuilder.group(x));
         });
       }
     }
@@ -675,7 +687,7 @@ export class AddEditCollectionComponent implements OnInit {
       if (data.seller_legal_entity.legal_entity_banks) {
         data.seller_legal_entity.legal_entity_banks.forEach(x => {
           delete x.id;  // no need to send id ( cuz these are saving separtely in table)
-          control.push(this.fb.group(x));
+          control.push(this.formBuilder.group(x));
         });
       }
       let control1 = new FormArray([]);
@@ -683,7 +695,7 @@ export class AddEditCollectionComponent implements OnInit {
       if (data.seller_legal_entity.legal_reps && data.seller_legal_entity.legal_reps.legal_rep_banks) {
         data.seller_legal_entity.legal_reps.legal_rep_banks.forEach(x => {
           delete x.id;  // no need to send id ( cuz these are saving separtely in table)
-          control1.push(this.fb.group(x));
+          control1.push(this.formBuilder.group(x));
         });
       }
     }
@@ -729,14 +741,14 @@ export class AddEditCollectionComponent implements OnInit {
       if (data.buyer.legal_representative && data.buyer.legal_representative.legal_rep_banks) {
         data.buyer.legal_representative.legal_rep_banks.forEach(x => {
           delete x.id;  // no need to send id ( cuz these are saving separtely in table)
-          control.push(this.fb.group(x));
+          control.push(this.formBuilder.group(x));
         });
       }
       const control1 = this.addFormStep3.get('collection_buyer_banks') as FormArray;
       if (data.buyer.legal_rep_banks) {
         data.buyer.legal_rep_banks.forEach(x => {
           delete x.id;  // no need to send id ( cuz these are saving separtely in table)
-          control1.push(this.fb.group(x));
+          control1.push(this.formBuilder.group(x));
         });
       }
     }
@@ -766,7 +778,7 @@ export class AddEditCollectionComponent implements OnInit {
       if (data.buyer_legal_entity.legal_entity_banks) {
         data.buyer_legal_entity.legal_entity_banks.forEach(x => {
           delete x.id;  // no need to send id ( cuz these are saving separtely in table)
-          control.push(this.fb.group(x));
+          control.push(this.formBuilder.group(x));
         });
       }
       let control1 = new FormArray([]);
@@ -774,7 +786,7 @@ export class AddEditCollectionComponent implements OnInit {
       if (data.buyer_legal_entity.legal_reps && data.buyer_legal_entity.legal_reps.legal_rep_banks) {
         data.buyer_legal_entity.legal_reps.legal_rep_banks.forEach(x => {
           delete x.id;  // no need to send id ( cuz these are saving separtely in table)
-          control1.push(this.fb.group(x));
+          control1.push(this.formBuilder.group(x));
         });
       }
     }
@@ -808,14 +820,14 @@ export class AddEditCollectionComponent implements OnInit {
       if (data.buyer.legal_representative && data.buyer.legal_representative.legal_rep_banks) {
         data.buyer.legal_representative.legal_rep_banks.forEach(x => {
           delete x.id;  // no need to send id ( cuz these are saving separtely in table)
-          control.push(this.fb.group(x));
+          control.push(this.formBuilder.group(x));
         });
       }
       const control1 = this.addFormStep3.get('collection_buyer_banks') as FormArray;
       if (data.buyer.legal_rep_banks) {
         data.buyer.legal_rep_banks.forEach(x => {
           delete x.id;  // no need to send id ( cuz these are saving separtely in table)
-          control1.push(this.fb.group(x));
+          control1.push(this.formBuilder.group(x));
         });
       }
     }
@@ -837,7 +849,7 @@ export class AddEditCollectionComponent implements OnInit {
         x.amount = this.numberUptoNDecimal(x.amount, 2);
         sum_of_concepts = sum_of_concepts + parseFloat(x.amount);
         x.date = x.date ? this.getDateWRTTimezone(x.date) : null;
-        control1.push(this.fb.group(x));
+        control1.push(this.formBuilder.group(x));
       }
     }
 
@@ -871,7 +883,7 @@ export class AddEditCollectionComponent implements OnInit {
         const x = data.deal_commission_agents[index].broker;
         //console.log(control1);
         if (index === 0 && x) {
-          control1.push(this.fb.group(x));
+          control1.push(this.formBuilder.group(x));
         } else {
           this.addAgent('');
         }
@@ -883,7 +895,7 @@ export class AddEditCollectionComponent implements OnInit {
     const control = this.addFormStep5.get('collection_agent_banks') as FormArray;
     if (data.collection_agent_banks) {
       data.collection_agent_banks.forEach(x => {
-        control.push(this.fb.group(x));
+        control.push(this.formBuilder.group(x));
       });
     }
 
@@ -928,7 +940,7 @@ export class AddEditCollectionComponent implements OnInit {
           data.collection_commissions[index] ? data.collection_commissions[index].agent_comm_amount : 0;
 
         if (control1.length != payment_choices.length) {
-          control1.push(this.fb.group(obj));
+          control1.push(this.formBuilder.group(obj));
         }
         this.model.collection_commissions.push(obj);
         // console.log('obj', obj['id'])
@@ -983,7 +995,7 @@ export class AddEditCollectionComponent implements OnInit {
     input.append('keyword', keyword);
     input.append('status', '1');  // means only approved projects
 
-    this.us.postDataApi('searchBuilding', input)
+    this.adminService.postDataApi('searchBuilding', input)
       .subscribe(
         success => {
           this.searchedBuildings = success['data'];
@@ -1059,7 +1071,7 @@ export class AddEditCollectionComponent implements OnInit {
       return false;
     }
     this.spinner.show();
-    this.us.postDataApi('buildingRequest', this.building)
+    this.adminService.postDataApi('buildingRequest', this.building)
       .subscribe(
         success => {
           this.spinner.hide();
@@ -1096,7 +1108,7 @@ export class AddEditCollectionComponent implements OnInit {
       tower_id: this.model.building_towers_id,
       floor_num: this.model.floor_num
     };
-    this.us.postDataApi('getProperties', input)
+    this.adminService.postDataApi('getProperties', input)
       .subscribe(
         success => {
           success.data.unshift({ 'name': this.translate.instant('message.error.pleaseChooseApartment') });
@@ -1155,7 +1167,7 @@ export class AddEditCollectionComponent implements OnInit {
     $event.stopPropagation();
     this.collectionAgentBanks.removeAt(i);
     if (item.value.id) {
-      this.us.postDataApi('deleteAgentBank', { id: item.value.id }).subscribe(success => {
+      this.adminService.postDataApi('deleteAgentBank', { id: item.value.id }).subscribe(success => {
         this.spinner.hide();
       }, error => {
         this.spinner.hide();
@@ -1176,7 +1188,7 @@ export class AddEditCollectionComponent implements OnInit {
     $event.stopPropagation();
     this.collectionSellerBanks.removeAt(i);
     if (item.value.id) {
-      this.us.postDataApi('deleteSellerBank', { id: item.value.id }).subscribe(success => {
+      this.adminService.postDataApi('deleteSellerBank', { id: item.value.id }).subscribe(success => {
         this.spinner.hide();
       }, error => {
         this.spinner.hide();
@@ -1197,7 +1209,7 @@ export class AddEditCollectionComponent implements OnInit {
     $event.stopPropagation();
     this.collectionSellerRepBanks.removeAt(i);
     if (item.value.id) {
-      this.us.postDataApi('deleteSellerRefBank', { id: item.value.id }).subscribe(success => {
+      this.adminService.postDataApi('deleteSellerRefBank', { id: item.value.id }).subscribe(success => {
         this.spinner.hide();
       }, error => {
         this.spinner.hide();
@@ -1218,7 +1230,7 @@ export class AddEditCollectionComponent implements OnInit {
     $event.stopPropagation();
     this.collectionBuyerRepBanks.removeAt(i);
     if (item.value.id) {
-      this.us.postDataApi('deleteBuyerRefBank', { id: item.value.id }).subscribe(success => {
+      this.adminService.postDataApi('deleteBuyerRefBank', { id: item.value.id }).subscribe(success => {
         this.spinner.hide();
       }, error => {
         this.spinner.hide();
@@ -1237,7 +1249,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   newBank(): FormGroup {
-    return this.fb.group({
+    return this.formBuilder.group({
       // bank_name: ['', [Validators.required]],
       // account_number: ['', [Validators.required]],
       // swift: ['', [Validators.required]],
@@ -1253,7 +1265,7 @@ export class AddEditCollectionComponent implements OnInit {
     $event.stopPropagation();
     this.collectionBuyerBanks.removeAt(i);
     if (item.value.id) {
-      this.us.postDataApi('deleteBuyerBank', { id: item.value.id }).subscribe(success => {
+      this.adminService.postDataApi('deleteBuyerBank', { id: item.value.id }).subscribe(success => {
         this.spinner.hide();
       }, error => {
         this.spinner.hide();
@@ -1283,7 +1295,7 @@ export class AddEditCollectionComponent implements OnInit {
           };
         }
       });
-      const fb = this.fb.group({
+      const formBuilder = this.formBuilder.group({
         payment_choice_id: [this.currentPaymentChoiceId, [Validators.required]],
         payment_choice: [payment_choice],
         name: [name, [Validators.required]],
@@ -1293,7 +1305,7 @@ export class AddEditCollectionComponent implements OnInit {
         amount: ['', [Validators.required]],
         calc_payment_amount: ['']
       });
-      const c = this.getPaymentChoices.push(fb);
+      const c = this.getPaymentChoices.push(formBuilder);
     } else {
       this.showMonthlyInput = true;
     }
@@ -1341,7 +1353,7 @@ export class AddEditCollectionComponent implements OnInit {
         };
       }
     });
-    return this.fb.group({
+    return this.formBuilder.group({
       payment_choice_id: [this.currentPaymentChoiceId, [Validators.required]],
       payment_choice: [payment_choice],
       name: [name, [Validators.required]],
@@ -1377,7 +1389,7 @@ export class AddEditCollectionComponent implements OnInit {
   removePaymentChoice(item: any, i: number) {
     this.getPaymentChoices.removeAt(i);
     if (item.value.id) {
-      this.us.postDataApi('deletePaymentChoice', { id: item.value.id }).subscribe(success => {
+      this.adminService.postDataApi('deletePaymentChoice', { id: item.value.id }).subscribe(success => {
         this.spinner.hide();
       }, error => {
         this.spinner.hide();
@@ -1427,7 +1439,7 @@ export class AddEditCollectionComponent implements OnInit {
 
   editFolderName(folder) {
     this.collectionFolders[this.folderIndex]['name'] = this.folderName;
-    this.us.postDataApi('updateCollectionFolder', { id: this.selectedFolder.id, name: this.folderName })
+    this.adminService.postDataApi('updateCollectionFolder', { id: this.selectedFolder.id, name: this.folderName })
       .subscribe(
         success => {
           // this.collectionFolders[this.folderIndex]['name'] = this.folderName;
@@ -1451,7 +1463,7 @@ export class AddEditCollectionComponent implements OnInit {
 
   onSelectFile(files) {
     this.parameter.loading = true;
-    this.cs.saveAttachment(files[0]).subscribe(
+    this.commonService.saveAttachment(files[0]).subscribe(
       success => {
         this.parameter.loading = false;
         this.docFile = success['data'].name;
@@ -1463,7 +1475,7 @@ export class AddEditCollectionComponent implements OnInit {
 
   saveCollectionFolders() {
     this.spinner.show();
-    this.us.postDataApi('addCollection', { id: this.model.id, step: 6, 'collection_folders': this.collectionFolders })
+    this.adminService.postDataApi('addCollection', { id: this.model.id, step: 6, 'collection_folders': this.collectionFolders })
       .subscribe(
         success => {
           this.spinner.hide();
@@ -1512,7 +1524,7 @@ export class AddEditCollectionComponent implements OnInit {
   deleteDocs(item: any, i: number) {
     this.collectionFolders[this.folderIndex].folder_docs.splice(i, 1);
     if (item.id) {
-      this.us.postDataApi('deleteFolderDoc', { id: item.id }).subscribe(success => {
+      this.adminService.postDataApi('deleteFolderDoc', { id: item.id }).subscribe(success => {
         this.spinner.hide();
       }, error => {
         this.spinner.hide();
@@ -1539,7 +1551,7 @@ export class AddEditCollectionComponent implements OnInit {
   deleteFolder(item, index: number) {
     this.collectionFolders.splice(index, 1);
     if (item.id) {
-      this.us.postDataApi('deleteCollectionFolder', { id: item.id }).subscribe(success => {
+      this.adminService.postDataApi('deleteCollectionFolder', { id: item.id }).subscribe(success => {
         this.spinner.hide();
       }, error => {
         this.spinner.hide();
@@ -1557,9 +1569,9 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   newFolder(): FormGroup {
-    return this.fb.group({
+    return this.formBuilder.group({
       name: [this.folderName, [Validators.required]],
-      folder_docs: this.fb.array([])
+      folder_docs: this.formBuilder.array([])
     });
   }
 
@@ -1580,7 +1592,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   newDocx(): FormGroup {
-    return this.fb.group({
+    return this.formBuilder.group({
       display_name: ['', [Validators.required]],
       name: ['', [Validators.required]]
     });
@@ -1601,7 +1613,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   newAgent(): FormGroup {
-    return this.fb.group({
+    return this.formBuilder.group({
       broker_id: ['', [Validators.required]],
       name: ['', [Validators.required]],
       first_surname: ['', [Validators.required]],
@@ -1618,7 +1630,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.spinner.show();
     const input = { keyword: '' };
     input.keyword = keyword;
-    this.us.postDataApi('getBothBroker', input).subscribe(r => {
+    this.adminService.postDataApi('getBothBroker', input).subscribe(r => {
       this.spinner.hide();
       if (keyword === '') { this.linkExtBrokerModal.nativeElement.click(); }
       this.allExtBrokers = r['data'];
@@ -1661,7 +1673,7 @@ export class AddEditCollectionComponent implements OnInit {
     if (this.tab == 3 && this.model.buyer_type) {
       input.user_type = this.model.buyer_type;
     }
-    this.us.postDataApi('getAllBuyers', input).subscribe(r => {
+    this.adminService.postDataApi('getAllBuyers', input).subscribe(r => {
       this.spinner.hide();
       if (keyword === '') {
         this.linkUserModal.nativeElement.click();
@@ -1709,7 +1721,7 @@ export class AddEditCollectionComponent implements OnInit {
         if (item.legal_entity_banks) {
           item.legal_entity_banks.forEach(x => {
             delete x.id;  // no need to send id ( cuz these are saving separtely in table)
-            control.push(this.fb.group(x));
+            control.push(this.formBuilder.group(x));
           });
         }
         let control1 = new FormArray([]);
@@ -1717,7 +1729,7 @@ export class AddEditCollectionComponent implements OnInit {
         if (item.legal_reps && item.legal_reps.legal_rep_banks) {
           item.legal_reps.legal_rep_banks.forEach(x => {
             delete x.id;  // no need to send id ( cuz these are saving separtely in table)
-            control1.push(this.fb.group(x));
+            control1.push(this.formBuilder.group(x));
           });
         }
       }
@@ -1739,14 +1751,14 @@ export class AddEditCollectionComponent implements OnInit {
         if (item.legal_representative && item.legal_representative.legal_rep_banks) {
           item.legal_representative.legal_rep_banks.forEach(x => {
             delete x.id;  // no need to send id ( cuz these are saving separtely in table)
-            control.push(this.fb.group(x));
+            control.push(this.formBuilder.group(x));
           });
         }
         const control1 = this.addFormStep2.get('collection_seller_banks') as FormArray;
         if (item.legal_rep_banks) {
           item.legal_rep_banks.forEach(x => {
             delete x.id;  // no need to send id ( cuz these are saving separtely in table)
-            control1.push(this.fb.group(x));
+            control1.push(this.formBuilder.group(x));
           });
         }
       }
@@ -1782,14 +1794,14 @@ export class AddEditCollectionComponent implements OnInit {
         control = this.addFormStep3.get('collection_buyer_banks') as FormArray;
         if (item.legal_entity_banks) {
           item.legal_entity_banks.forEach(x => {
-            control.push(this.fb.group(x));
+            control.push(this.formBuilder.group(x));
           });
         }
         let control1 = new FormArray([]);
         control1 = this.addFormStep3.get('collection_buyer_rep_banks') as FormArray;
         if (item.legal_reps && item.legal_reps.legal_rep_banks) {
           item.legal_reps.legal_rep_banks.forEach(x => {
-            control1.push(this.fb.group(x));
+            control1.push(this.formBuilder.group(x));
           });
         }
       }
@@ -1810,14 +1822,14 @@ export class AddEditCollectionComponent implements OnInit {
         if (item.legal_representative && item.legal_representative.legal_rep_banks) {
           item.legal_representative.legal_rep_banks.forEach(x => {
             delete x.id;  // no need to send id ( cuz these are saving separtely in table)
-            control.push(this.fb.group(x));
+            control.push(this.formBuilder.group(x));
           });
         }
         const control1 = this.addFormStep3.get('collection_buyer_banks') as FormArray;
         if (item.legal_rep_banks) {
           item.legal_rep_banks.forEach(x => {
             delete x.id;  // no need to send id ( cuz these are saving separtely in table)
-            control1.push(this.fb.group(x));
+            control1.push(this.formBuilder.group(x));
           });
         }
       }
@@ -2164,6 +2176,7 @@ export class AddEditCollectionComponent implements OnInit {
         this.showError = true;
         return;
       }
+      formdata['property_beneficiary'] = this.property_beneficiary;
     }
 
     if (this.model.step == 4) {
@@ -2286,7 +2299,7 @@ export class AddEditCollectionComponent implements OnInit {
 
     if (callApi) {
       this.spinner.show();
-      this.us.postDataApi('addCollection', formdata)
+      this.adminService.postDataApi('addCollection', formdata)
         .subscribe(
           success => {
             this.tab = tab + 1;
@@ -2333,7 +2346,7 @@ export class AddEditCollectionComponent implements OnInit {
 
   callCollectionView(formdata, tab) {
     this.spinner.show();
-    this.us.postDataApi('addCollection', formdata)
+    this.adminService.postDataApi('addCollection', formdata)
       .subscribe(
         success => {
           this.tab = tab + 1;
@@ -2420,7 +2433,7 @@ export class AddEditCollectionComponent implements OnInit {
       self.closeEditModal();
     }
     else {
-      this.us.postDataApi('updateDocFolderName', param).subscribe(
+      this.adminService.postDataApi('updateDocFolderName', param).subscribe(
         r => {
           self.spinner.hide();
           self.collectionFolders.filter(folder => {
@@ -2448,7 +2461,7 @@ export class AddEditCollectionComponent implements OnInit {
       buyer_id: details.buyer_type == 2 ? (details.buyer_legal_entity || {}).id : (details.buyer || {}).id,
       buyer_type: details.buyer_type
     };
-    this.us.postDataApi('getCollectionDocument', postData).subscribe((success) => {
+    this.adminService.postDataApi('getCollectionDocument', postData).subscribe((success) => {
       this.buyerDocumentationFoldersDetails = success.buyer || [];
       this.sellerDocumentationFoldersDetails = success.seller || [];
       this.propertyDocumentationFoldersDetails = success.property || [];
@@ -2512,7 +2525,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   getBanks(id) {
-    this.us.postDataApi('getPropertyDetails', { id: id }).subscribe((success) => {
+    this.adminService.postDataApi('getPropertyDetails', { id: id }).subscribe((success) => {
       this.bankDetails = (success || {}).data;
       this.makePaymentBankDetailsArray(true);
     }, (error) => {
@@ -2605,4 +2618,49 @@ export class AddEditCollectionComponent implements OnInit {
    modelChange(data){
      
    }
+
+   getAllBeneficiary = (): void => {
+    this.spinner.show();
+    this.adminService.postDataApi('getAllBeneficiary', {}).subscribe((success) => {
+      this.spinner.hide();
+      this.beneficiaries_list = success.data || [];
+      //swal(this.translate.instant('swal.success'), this.translate.instant('message.success.emailSend'), 'success');
+    }, (error) => {
+      this.spinner.hide();
+     // swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
+
+  addBeneficiary = (isAddBeneficiaryDetails: boolean): void => {
+    if(isAddBeneficiaryDetails){
+      this.property_beneficiary.push({property_collection_id: this.property_collection_id, percentage: this.percentage, beneficiary_id: this.beneficiary_id});
+      this.makeEditBeneficiary();
+    }else{
+      this.property_beneficiary.splice(this.beneficiaryIndex,1,{property_collection_id: this.property_collection_id, percentage: this.percentage, beneficiary_id: this.beneficiary_id});
+      this.beneficiaryIndex = -1;
+      this.makeEditBeneficiary();
+    }
+  }
+
+  editBeneficiary  = (beneficiaryDetails: any,index: number): void => {
+   this.property_collection_id = beneficiaryDetails.property_collection_id;
+   this.percentage = beneficiaryDetails.percentage;
+   this.beneficiary_id = beneficiaryDetails.beneficiary_id;
+   this.beneficiaryIndex = index;
+  }
+
+  deleteBeneficiary  = (beneficiaryDetails: any,index: number): void => {
+    this.property_beneficiary.splice(index,1);
+  }
+
+  getBeneficiaryText = (beneficiaryId: any): any => {
+    const data = this.beneficiaries_list.find((item) => item.id == beneficiaryId);
+    return data.beneficiary_name;
+  }
+
+  makeEditBeneficiary  = (): void => {
+    this.property_collection_id = '';
+    this.percentage = '';
+    this.beneficiary_id = '';
+  }
 }
