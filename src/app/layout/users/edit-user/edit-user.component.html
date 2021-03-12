@@ -736,8 +736,12 @@
                             <div class="form-group-3">
                               <label>{{'addForm.phone' | translate}} </label>
                               <div class="clearfix"></div>
-                              <input  autocomplete="off" class="form-control" type="text" name="beneficiary_phone"
-                              [(ngModel)]="beneficiary.beneficiary_phone">
+                              <input minlength="8" maxlength="15" autocomplete="off" type="text"
+                              [pattern]="constant.phonePattern" class="form-control" id="phone" 
+                              [(ngModel)]="beneficiary.beneficiary_phone" name="beneficiary_phone" ng2TelInput [ng2TelInputOptions]="{ initialCountry: model.country_code }"
+                              (countryChange)="onCountryChange($event,1)" />
+                              <!-- <input  autocomplete="off" class="form-control" type="text" name="beneficiary_phone"
+                              [(ngModel)]="beneficiary.beneficiary_phone"> -->
                             </div>
                           </div>
                          
@@ -820,8 +824,13 @@
                               <div class="form-group-3">
                                 <label>{{'addForm.phone' | translate}} </label>
                                 <div class="clearfix"></div>
-                                <input  autocomplete="off" class="form-control" type="text" name="tutor_phone"
-                                [(ngModel)]="beneficiary.tutor.tutor_phone">
+                                <input minlength="8" maxlength="15" autocomplete="off" type="text"
+                                [pattern]="constant.phonePattern" class="form-control" id="phone" 
+                                [(ngModel)]="beneficiary.tutor.tutor_phone" name="tutor_phone" ng2TelInput 
+                                [ng2TelInputOptions]="{ initialCountry: model.country_code }"
+                                (countryChange)="onCountryChange($event,1)" />
+                                <!-- <input  autocomplete="off" class="form-control" type="text" name="tutor_phone"
+                                [(ngModel)]="beneficiary.tutor.tutor_phone"> -->
                               </div>
                             </div>
                           </div>
@@ -869,10 +878,12 @@
                           <tr *ngFor="let beneficiary of beneficiary_list; let i=index">
                             <td>{{(i+1)}}</td>
                             <td>{{beneficiary?.beneficiary_relationship ? this.getAccountTypeText(beneficiary?.beneficiary_relationship) : ('table.tr.td.NA' | translate)}}
-                              </td>
+                            </td>
 
-                            <td>{{beneficiary?.beneficiary_dob | date:'M/d/yy' || ('table.tr.td.NA' | translate)}}</td>
-                            <td>
+                              <td>
+                                {{beneficiary?.beneficiary_dob | date:'M/d/yy'}}</td>
+                              <td>
+
                               <button class="action-icon" title="{{'addCollection.edit' | translate}}"
                                 (click)="editBeneficiary(beneficiary,i)">
                                 <img src="assets/img/edit.png" alt="img">
