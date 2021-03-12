@@ -2,7 +2,7 @@
 
 import { Users } from "./users.model";
 export class Beneficiary {
-    id?: number;
+    id: number;
     beneficiary_name: string;
     beneficiary_firstSurname: string;
     beneficiary_secondSurname: string;

@@ -50,6 +50,8 @@ export class EditUserComponent implements OnInit {
   dataNotAvailable: boolean;
   nationalityDetails: any[] = [];
   current_nationality_id: number;
+  age: any;
+  public selectedAddr;
   isGetEditUserData: boolean = false;
   constructor(
     public constant: Constant,
@@ -669,24 +671,7 @@ export class EditUserComponent implements OnInit {
         modelSave.tutor_phone = this.beneficiary.tutor.tutor_phone,
         modelSave.tutor_email = this.beneficiary.tutor.tutor_email
     } else {
-      modelSave.beneficiary_name = this.beneficiary.beneficiary_name;
-      modelSave.user_id = this.model.id;
-      modelSave.user_type = 1;
-      modelSave.beneficiary_firstSurname = this.beneficiary.beneficiary_firstSurname;
-      modelSave.beneficiary_secondSurname = this.beneficiary.beneficiary_secondSurname;
-      modelSave.beneficiary_relationship = this.beneficiary.beneficiary_relationship;
-      modelSave.beneficiary_dob = this.beneficiary.beneficiary_dob;
-      modelSave.beneficiary_address = this.beneficiary.beneficiary_address;
-      modelSave.beneficiary_email = this.beneficiary.beneficiary_email;
-      modelSave.beneficiary_phone = this.beneficiary.beneficiary_phone;
-      modelSave.tutor_name = this.beneficiary.tutor.tutor_name,
-        modelSave.tutor_firstSurname = this.beneficiary.tutor.tutor_firstSurname,
-        modelSave.tutor_secondSurname = this.beneficiary.tutor.tutor_secondSurname,
-        modelSave.tutor_relationship = this.beneficiary.tutor.tutor_relationship,
-        modelSave.tutor_dob = this.beneficiary.tutor.tutor_dob,
-        modelSave.tutor_address = this.beneficiary.tutor.tutor_address,
-        modelSave.tutor_phone = this.beneficiary.tutor.tutor_phone,
-        modelSave.tutor_email = this.beneficiary.tutor.tutor_email
+      Object.assign(this.selectedAddr, modelSave);
     }
     this.admin.postDataApi('addBeneficiary', modelSave)
       .subscribe(
@@ -700,6 +685,20 @@ export class EditUserComponent implements OnInit {
           this.spinner.hide();
         });
   }
+  ageFromDateOfBirthday(dateOfBirth: any): number {
+    const today = new Date();
+    const birthDate = new Date(dateOfBirth);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    this.age = age;
+    console.log(this.age,this.age<=18,"age")
+    return age;
+  }
+
   afterAddcredit = (creditDetails: any): void => {
     this.beneficiary.beneficiary_name = '';
     this.beneficiary.id = undefined;
@@ -733,6 +732,7 @@ export class EditUserComponent implements OnInit {
   }
 
   editBeneficiary(data) {
+    this.selectedAddr = data;
     this.beneficiary = data;
     this.beneficiary.id = data.id
     console.log(this.beneficiary.id, "this.beneficiary.id")
