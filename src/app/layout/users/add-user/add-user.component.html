@@ -644,7 +644,7 @@
              [pattern]="constant.phonePattern" class="form-control" id="phone" 
              [(ngModel)]="beneficiary.beneficiary_phone" name="beneficiary_phone" ng2TelInput 
              [ng2TelInputOptions]="{ initialCountry: model.country_code }"
-             (countryChange)="onCountryChange($event,1)" />
+             (countryChange)="onCountryChange($event)" />
              <!-- <input  minlength="10" maxlength="10" autocomplete="off" class="form-control" type="text" name="beneficiary_phone"
              [(ngModel)]="beneficiary.beneficiary_phone"> -->
            </div>
