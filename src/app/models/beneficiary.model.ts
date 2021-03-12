@@ -7,7 +7,7 @@ export class Beneficiary {
     beneficiary_firstSurname: string;
     beneficiary_secondSurname: string;
     beneficiary_relationship: string;
-    beneficiary_dob: string;
+    beneficiary_dob: any;
     beneficiary_percentage: string;
     beneficiary_address: string;
     beneficiary_phone: string;
