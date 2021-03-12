@@ -144,12 +144,14 @@ export class AddEditCollectionComponent implements OnInit {
   isShown: boolean = false;
   edit_reminder: boolean;
 
-  beneficiaries_list: any[] = [];
-  property_beneficiary: any[] = [];
-  property_collection_id: string = '';
-  percentage: string = '';
-  beneficiary_id: string = '';
-  beneficiaryIndex: number = -1;
+  public beneficiaries_list: any[] = [];
+  public property_beneficiary: any[] = [];
+  public property_collection_id: string = '';
+  public percentage: string = '';
+  public beneficiary_id: string = '';
+  public beneficiaryIndex: number = -1;
+  public multiDropdownSettings = {};
+  //public selectedbeneficiaries: any[] = [];
 
   constructor(
     public model: Collection,
@@ -198,6 +200,7 @@ export class AddEditCollectionComponent implements OnInit {
     });
     this.tab = 1;
     this.getCurrencies();
+    this.initializedDropDownSetting();
     this.getAllBeneficiary();
     this.searchControl = new FormControl();
   }
@@ -489,6 +492,7 @@ export class AddEditCollectionComponent implements OnInit {
       .subscribe(
         success => {
           this.spinner.hide();
+          this.property_beneficiary = (success.data || {}).beneficiary || [];
           this.getCollectionDocument(success.data);
           this.patchFormData(success['data']);
           this.isAgencyBank = success['data'].payment_received_by == '1' ? true : false;
@@ -2304,6 +2308,7 @@ export class AddEditCollectionComponent implements OnInit {
           success => {
             this.tab = tab + 1;
             this.spinner.hide();
+            this.property_beneficiary = (success.data || {}).beneficiary || [];
             this.showError = false;
             this.model.id = success['data'].id;
             // if (tab != 6) { 
@@ -2619,6 +2624,19 @@ export class AddEditCollectionComponent implements OnInit {
 
   }
 
+  initializedDropDownSetting = (): void => {
+    this.multiDropdownSettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'beneficiary_name',
+      selectAllText: this.translate.instant('commonBlock.selectAll'),
+      unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
+      searchPlaceholderText: this.translate.instant('commonBlock.search'),
+      allowSearchFilter: true,
+      itemsShowLimit: 1
+    };
+  }
+
   getAllBeneficiary = (): void => {
     this.spinner.show();
     this.adminService.postDataApi('getAllBeneficiary', {}).subscribe((success) => {
@@ -2633,17 +2651,20 @@ export class AddEditCollectionComponent implements OnInit {
 
   addBeneficiary = (isAddBeneficiaryDetails: boolean): void => {
     if (isAddBeneficiaryDetails) {
-      this.property_beneficiary.push({ property_collection_id: this.property_collection_id, percentage: this.percentage, beneficiary_id: this.beneficiary_id });
+      // this.selectedbeneficiaries.forEach((item) => {
+      //   this.property_beneficiary.push({ property_collection_id: this.property_collection_id, percentage: this.percentage, beneficiary_id: item.id });
+      // });
+      this.property_beneficiary.push({ property_collection_id: this.model.id, percentage: this.percentage, beneficiary_id: this.beneficiary_id });
       this.makeEditBeneficiary();
     } else {
-      this.property_beneficiary.splice(this.beneficiaryIndex, 1, { property_collection_id: this.property_collection_id, percentage: this.percentage, beneficiary_id: this.beneficiary_id });
+      this.property_beneficiary.splice(this.beneficiaryIndex, 1, { property_collection_id: this.model.id, percentage: this.percentage, beneficiary_id: this.beneficiary_id });
       this.beneficiaryIndex = -1;
       this.makeEditBeneficiary();
     }
   }
 
   editBeneficiary = (beneficiaryDetails: any, index: number): void => {
-    this.property_collection_id = beneficiaryDetails.property_collection_id;
+    // this.property_collection_id = beneficiaryDetails.property_collection_id;
     this.percentage = beneficiaryDetails.percentage;
     this.beneficiary_id = beneficiaryDetails.beneficiary_id;
     this.beneficiaryIndex = index;
@@ -2659,8 +2680,9 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   makeEditBeneficiary = (): void => {
-    this.property_collection_id = '';
+    // this.property_collection_id = '';
     this.percentage = '';
     this.beneficiary_id = '';
+    //this.selectedbeneficiaries = [];
   }
 }

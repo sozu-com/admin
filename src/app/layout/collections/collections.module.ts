@@ -23,6 +23,7 @@ import { CollectionsComponent } from './collections.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { QuickVisualizationComponent } from './quick-visualization/quick-visualization.component';
 import { AccountStatementComponent } from './account-statement/account-statement.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 const routes: Routes = [
   // {
@@ -78,7 +79,8 @@ const routes: Routes = [
       maxOpened: 1,
       preventDuplicates: true,
       autoDismiss: true
-    })
+    }),
+    NgMultiSelectDropDownModule.forRoot(),
   ],
   declarations: [
     CollectionsComponent,

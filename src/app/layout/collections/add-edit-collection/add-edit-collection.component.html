@@ -1108,6 +1108,10 @@
                   {{temp_beneficiary?.beneficiary_name}}
                 </option>
               </select>
+            <!-- <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selectedbeneficiaries"
+           [data]="beneficiaries_list" [(ngModel)]="selectedbeneficiaries" [settings]="multiDropdownSettings"
+           [ngModelOptions]="{standalone: true}">
+           </ng-multiselect-dropdown> -->
             </div>
           </div>
         </div>
@@ -1122,7 +1126,7 @@
         </div>
           <div class="col-lg-2 col-md-6 col-sm-6 col-12" style="margin: 30px;">
             <div class="btn-cont">
-              <button class="btn btn-primary" type="button" (click)="addBeneficiary(beneficiaryIndex == -1 ? true : false)">
+              <button class="btn btn-primary" type="button" (click)="addBeneficiary(beneficiaryIndex == -1 ? true : false)" *ngIf="beneficiary_id != '' ">
                 {{beneficiaryIndex == -1 ? ('addForm.add' | translate) : ('addForm.edit' | translate)}}
               </button>
             </div>
@@ -1140,7 +1144,7 @@
               <th style="color: black;">{{'creditForm.id' | translate}}</th>
               <th style="color: black;">{{'creditForm.beneficiary' | translate}}:</th>
               <th style="color: black;">{{'addCollection.percentage' | translate}}:</th>
-              <th style="color: black;">{{'addCollection.edit' | translate}}</th>
+              <!-- <th style="color: black;">{{'addCollection.edit' | translate}}</th> -->
               <th style="color: black;">{{'addCollection.delete' | translate}}</th>
             </tr>
           </thead>
@@ -1149,12 +1153,12 @@
               <td>{{i+1}}</td>
               <td>{{temp_property_beneficiary?.beneficiary_id ? this.getBeneficiaryText(temp_property_beneficiary?.beneficiary_id) : ('table.tr.td.NA' | translate)}}</td>
               <td>{{temp_property_beneficiary?.percentage || ('table.tr.td.NA' | translate)}}</td>
-              <td>
+              <!-- <td>
                 <button class="action-icon" title="{{'addCollection.edit' | translate}}"
                   (click)="editBeneficiary(temp_property_beneficiary,i)" type="button">
                   <img src="assets/img/edit.png" alt="img">
                 </button>
-              </td>
+              </td> -->
               <td>
                 <button class="action-icon" title="{{'addCollection.delete' | translate}}"
                   (click)="deleteBeneficiary(temp_property_beneficiary,i)" type="button">
@@ -1162,7 +1166,7 @@
                 </button>
               </td>
             </tr>
-            <tr *ngIf="this.property_beneficiary.length == 0"><th colspan="5" style="text-align: center;">{{'message.error.noRecordFound' | translate}}</th></tr>
+            <tr *ngIf="this.property_beneficiary.length == 0"><th colspan="4" style="text-align: center;">{{'message.error.noRecordFound' | translate}}</th></tr>
           </tbody>
         </table>
        
