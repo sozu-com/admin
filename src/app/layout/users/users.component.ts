@@ -76,17 +76,31 @@ export class UsersComponent implements OnInit {
   }
 
   sendMail = (data: any): void => {
-    this.spinner.show();
-    this.admin.postDataApi('verifedEmail', {
-      id: (data || {}).id, is_language: this.language_code == 'en' ? 1 : 2,
-      email_date: moment.utc(new Date()).toDate()
-    }).subscribe((success) => {
-      this.spinner.hide();
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.emailSend'), 'success');
-      // data.is_email_verified = 1;
-    }, (error) => {
-      this.spinner.hide();
-      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    swal({
+      html:
+        this.translate.instant('message.error.areYouSure') +
+        '<br>' +
+        this.translate.instant(
+          'message.error.youWantToSentEmail',
+        ),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes',
+    }).then((result) => {
+      if (result.value) {
+        this.spinner.show();
+        this.admin.postDataApi('verifedEmail', {
+          id: (data || {}).id, is_language: this.language_code == 'en' ? 1 : 2, email_date: moment.utc(new Date()).toDate()
+        }).subscribe((success) => {
+          this.spinner.hide();
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.emailSend'), 'success');
+        }, (error) => {
+          this.spinner.hide();
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
+        });
+      }
     });
   }
   getPage(page) {

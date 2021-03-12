@@ -2,12 +2,12 @@
 
 import { Users } from "./users.model";
 export class Beneficiary {
-    id?: number;
+    id: number;
     beneficiary_name: string;
     beneficiary_firstSurname: string;
     beneficiary_secondSurname: string;
     beneficiary_relationship: string;
-    beneficiary_dob: string;
+    beneficiary_dob: any;
     beneficiary_percentage: string;
     beneficiary_address: string;
     beneficiary_phone: string;
