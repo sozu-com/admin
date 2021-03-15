@@ -332,7 +332,7 @@
                               <table>
                                 <tbody>
                                   <tr *ngFor="let d of data2">
-                                    <th>{{d?.name_en}}</th>
+                                    <th>{{language_code == 'en' ? d?.name_en : d?.name_es}}</th>
                                     <td>{{(d?.total_amount || 0) | currency}}</td>
                                   </tr>
                                 </tbody>
