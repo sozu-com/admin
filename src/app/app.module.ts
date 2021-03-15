@@ -40,6 +40,8 @@ import { PropertyService } from './services/property.service';
 import { ProjectService } from './services/project.service';
 import { LeadsService } from './services/leads.service';
 import { ExcelService } from './services/excel.service';
+import { DownloadAccountStatementComponent } from './layout/collections/download-account-statement/download-account-statement.component';
+import { AclUserGuard } from './guards/acl-user.guard';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent },
@@ -49,6 +51,10 @@ const appRoutes: Routes = [
   {
     path: 'dashboard', canActivate: [AuthGuard],
     loadChildren: './layout/layout.module#LayoutModule'
+  },
+  {
+    path: 'download-account-statement/:id/:lang', component: DownloadAccountStatementComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Manage Collections', 'can_read', ''] }
   },
   // { path: 'dashboard', canActivate: [AclUserGuard], data: {roles: ['Dashboard', 'can_read', '']},
   //  loadChildren: './layout/layout.module#LayoutModule'},
@@ -60,7 +66,8 @@ const appRoutes: Routes = [
     AppComponent,
     ForgotPasswordComponent,
     LoginComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    DownloadAccountStatementComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes, { useHash: false , preloadingStrategy: PreloadAllModules }),

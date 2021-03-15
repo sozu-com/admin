@@ -24,7 +24,6 @@ import { AnalyticsComponent } from './analytics/analytics.component';
 import { QuickVisualizationComponent } from './quick-visualization/quick-visualization.component';
 import { AccountStatementComponent } from './account-statement/account-statement.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-import { DownloadAccountStatementComponent } from './download-account-statement/download-account-statement.component';
 
 const routes: Routes = [
   // {
@@ -53,10 +52,6 @@ const routes: Routes = [
   },
   {
     path: 'account-statement/:id', component: AccountStatementComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Manage Collections', 'can_read', ''] }
-  },
-  {
-    path: 'download-account-statement', component: DownloadAccountStatementComponent,
     canActivate: [AclUserGuard], data: { roles: ['Manage Collections', 'can_read', ''] }
   }
 ];
@@ -92,8 +87,7 @@ const routes: Routes = [
     AddEditCollectionComponent,
     AnalyticsComponent,
     QuickVisualizationComponent,
-    AccountStatementComponent,
-    DownloadAccountStatementComponent
+    AccountStatementComponent
   ]
 })
 
