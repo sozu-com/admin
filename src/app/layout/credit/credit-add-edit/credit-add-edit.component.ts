@@ -76,8 +76,10 @@ export class CreditAddEditComponent implements OnInit {
   userForm: FormGroup;
   showSearch = false;
   Onedit = false;
-  toggleSelectedDetails: { isCreditCardChecked: boolean, isOwnCarChecked: boolean, additionalDetail: boolean, additionalDetailBeneficiary: boolean } =
-    { isCreditCardChecked: false, isOwnCarChecked: false, additionalDetail: false, additionalDetailBeneficiary: false };
+  toggleSelectedDetails: { isCreditCardChecked: boolean, isOwnCarChecked: boolean, additionalDetail: boolean, additionalDetailBeneficiary: boolean
+  ,Business: boolean,WarrantyProperty: boolean ,Personal: boolean} =
+    { isCreditCardChecked: false, isOwnCarChecked: false, additionalDetail: false, additionalDetailBeneficiary: false,Business: false,
+      WarrantyProperty: false,Personal: false};
   //dataView: boolean = false ;
   initialCountry: any;
 
@@ -142,6 +144,15 @@ export class CreditAddEditComponent implements OnInit {
       case 4:
         this.toggleSelectedDetails.additionalDetailBeneficiary = !this.toggleSelectedDetails.additionalDetailBeneficiary;
         break;
+        case 5:
+          this.toggleSelectedDetails.Personal = !this.toggleSelectedDetails.Personal;
+          break;
+          case 6:
+            this.toggleSelectedDetails.WarrantyProperty = !this.toggleSelectedDetails.WarrantyProperty;
+            break;
+            case 7:
+              this.toggleSelectedDetails.Business = !this.toggleSelectedDetails.Business;
+              break;
       default:
         break;
     }
