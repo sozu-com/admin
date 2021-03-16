@@ -2141,7 +2141,8 @@
 
                   <div class="row">
                     <div class="col-8">
-                      <p style="font-weight: bold;cursor: pointer;" (click)="toggleShow(3)" class="more">{{'creditForm.more' | translate}}</p>
+                      <p style="font-weight: bold;cursor: pointer;" (click)="toggleShow(3)" class="more">{{'creditForm.more' | translate}}
+                      <span>{{this.toggleSelectedDetails.additionalDetail ? '-' : '+' }}</span></p>
                     </div>
                     <div class="col-4" *ngIf="!this.toggleSelectedDetails.additionalDetail">
                       <div class="form-group-3">
@@ -2333,7 +2334,8 @@
                     </div>
                     <div class="col-4">
                       <div class="form-group-3">
-                        <label>{{'creditForm.RELATIONSHIP' | translate}}<span class="color-red">*</span></label>
+                        <label>{{'creditForm.RELATIONSHIP' | translate}}
+                        </label>
                         <select title="{{'creditForm.selectRELATIONSHIP' | translate}}"
                           [(ngModel)]="creditModel.references.credits_relationship_id" name="credits_relationship_id"
                           class="form-control">
@@ -2351,25 +2353,26 @@
 
                   <div class="row">
                     <div class="col-8">
-                      <p style="font-weight: bold; cursor: pointer;" (click)="toggleShow(3)" class="more">{{'creditForm.more' | translate}}</p>
+                      <p style="font-weight: bold; cursor: pointer;" (click)="toggleShow(4)" class="more">{{'creditForm.more' | translate}}
+                        <span>{{this.toggleSelectedDetails.additionalDetailBeneficiary ? '-' : '+' }}</span></p>
                     </div>
-                    <div class="col-4">
+                    <div class="col-4" *ngIf="!toggleSelectedDetails.additionalDetailBeneficiary">
                       <div class="form-group-3">
                         <label>&nbsp; &nbsp;</label>
                         <div class="btn-cont text-right">
-                          <button class="btn btn-primary">{{'creditForm.Dependent' | translate}}</button>
+                          <button class="btn btn-primary">{{'creditForm.Saveinformation' | translate}}</button>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div class="col-12">
+                <div class="col-12" *ngIf="toggleSelectedDetails.additionalDetailBeneficiary">
                   <div class="spacer40"></div>
                 </div>
 
 
-                <div class="white-bg padding40" *ngIf="toggleSelectedDetails.additionalDetail">
+                <div class="white-bg padding40" *ngIf="toggleSelectedDetails.additionalDetailBeneficiary">
                   <h3>{{'creditForm.AdditionalRequired' | translate}}</h3>
                   <div class="col-12">
                     <div class="spacer40"></div>
@@ -2397,9 +2400,9 @@
                     </div>
                   </div>
 
-                  <div class="col-12">
+                  <!-- <div class="col-12">
                     <div class="spacer40"></div>
-                  </div>
+                  </div> -->
 
                   <div class="row">
                     <div class="col-12">
