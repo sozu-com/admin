@@ -296,7 +296,7 @@ export class ArrearReportComponent implements OnInit {
           grand_total_amount = grand_total_amount + (element['total_amount'] || 0);
          
         }
-        this.finalData.push({ id: 'Total', key: 1, amount: grand_amount - grand_penalty, penelty: grand_penalty, total_amount: grand_total_amount });
+        this.finalData.push({ id: 'Total', key: 1,symbol: '$' , amount: grand_amount - grand_penalty, penelty: grand_penalty, total_amount: grand_total_amount });
         console.log('finalData', this.finalData, 'response', success['data']);
         console.log( this.finalData,"last result");
         this.finalDataSum = grand_total_amount
@@ -333,10 +333,8 @@ export class ArrearReportComponent implements OnInit {
       const finalData = [];
       for (let index = 0; index < this.finalData.length; index++) {
         const item = this.finalData[index];
-
-        if (item.id != 'Total') {
           finalData.push({
-            'Account ID': item.id || '',
+            'Account ID': item.id != 'Total' ? item.id || '' : 'Total',
             'Buyer Name': item.buyer_name || '',
             'Seller Name': item.seller_name || '',
             Project: item.project_name || '',
@@ -347,9 +345,8 @@ export class ArrearReportComponent implements OnInit {
             'concept': item.NAME || '',
             'date': item.date || '',
             'paymentTotal': item.symbol + (((item.amount || 0) + (item.penelty || 0)) - (item.calc_payment_amount || 0)),
-            'totalArrear': item.symbol + (item.total_amount || 0)
+            'totalArrear': item.symbol + (item.total_amount || 0),
           });
-        }
       }
       this.exportAsExcelFile(finalData, 'arrearReport-');
     }

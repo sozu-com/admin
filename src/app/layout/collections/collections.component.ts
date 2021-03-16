@@ -183,7 +183,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     { name: 'Inconsistency', value: 6 },
     { name: 'Only Commission for sale', value: 7 }];
   collection_data: any;
-  collection_payments: any;
+  collection_payments = [];
   table_data = [];
   layaway_payments = [];
   down_payments = [];
@@ -2947,7 +2947,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     this.generatePDF();
   }
 
-  getBase64ImageFromUrl(id) {
+  getBase64ImageFromUrl(id) { 
     this.admin.postDataApi('getPdfImage', { id: id }).subscribe((success) => {
       this.base64 = (success || {}).data;
       this.projectLogoImageBase64 = 'data:image/jpeg;base64,' + this.base64;
@@ -2982,7 +2982,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
 
     let docDefinition = {
       pageSize: 'LEGAL',
-      pageMargins: [40, 80, 40, 180],
+      pageMargins: [40, 70, 40, 160],
       content: [
         {
           columns: [
@@ -3069,7 +3069,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
                   image: this.projectLogoImageBase64,
                   width: 120,
                   height: 20,
-                  margin: [0, 0, 0, 20]
+                  margin: [0, 0, 0, 10]
                 } : {
                   text: ''
                 },
@@ -3136,7 +3136,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
                     [
                       { text: this.translate.instant('generatePDF.totalPaid'), border: [false, false, false, false], color: '#858291' },
                       { text: this.collection_data.total_amount_paid ? this.price.transform(Number(this.collection_data.total_amount_paid).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true }
-                    ]
+                    ],
                   ]
                 }
               }
@@ -3213,7 +3213,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
               }
             ]
           ],
-          margin: [0, 30, 0, 10]
+          margin: [0, 20, 0, 0]
         },
         {
           style: 'statement_table',
@@ -3387,6 +3387,12 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         { text: 'N/A', border: [false, false, false, false], bold: true },
       ]);
     }
+    this.collection_payments.forEach(element => {
+      docDefinition.content[1].columns[0][4].table.body.push([
+        { text: element.name_en + ':', border: [false, false, false, false], color: '#858291' },
+        { text: element.total_amount? this.price.transform(Number(element.total_amount).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true }
+      ])
+    });
     pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.accountStatments') + ' ' + current_date.toISOString() + '.pdf');
     // }else if(action === 'print'){
     //   pdfMake.createPdf(docDefinition).print();

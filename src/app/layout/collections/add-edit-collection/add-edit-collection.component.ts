@@ -17,6 +17,7 @@ import { Collection, Seller } from 'src/app/models/collection.model';
 import { ToastrService } from 'ngx-toastr';
 import { Document } from 'src/app/models/document.model';
 import { IDestinationStatus } from 'src/app/common/marrital-status-interface';
+import { element } from 'protractor';
 declare let swal: any;
 
 @Component({
@@ -151,6 +152,7 @@ export class AddEditCollectionComponent implements OnInit {
   public beneficiary_id: string = '';
   public beneficiaryIndex: number = -1;
   public multiDropdownSettings = {};
+  collection_account_statement_id: any;
   //public selectedbeneficiaries: any[] = [];
 
   constructor(
@@ -429,8 +431,8 @@ export class AddEditCollectionComponent implements OnInit {
       num_of_months: [''],
       monthly_date: [''],
       monthly_amount: [''],
-      toAddress: [''],
-      reminder_date: [''],
+      email: [''],
+      day: [''],
       deal_purchase_date: ['', [Validators.required]],
       deal_price: ['', [Validators.required]],
       sum_of_concepts: [''],
@@ -440,12 +442,12 @@ export class AddEditCollectionComponent implements OnInit {
     });
     if (this.model.id === '0') {
       this.addFormStep4.get('deal_price').enable({ onlySelf: true });
-      this.addFormStep4.controls['toAddress'].enable();
-      this.addFormStep4.controls['reminder_date'].enable();
+      this.addFormStep4.controls['email'].enable();
+      this.addFormStep4.controls['day'].enable();
     } else {
       this.addFormStep4.get('deal_price').disable({ onlySelf: true });
-      this.addFormStep4.controls['toAddress'].disable();
-      this.addFormStep4.controls['reminder_date'].disable();
+      this.addFormStep4.controls['email'].disable();
+      this.addFormStep4.controls['day'].disable();
     }
   }
 
@@ -494,6 +496,7 @@ export class AddEditCollectionComponent implements OnInit {
           this.spinner.hide();
           this.property_beneficiary = (success.data || {}).beneficiary || [];
           this.getCollectionDocument(success.data);
+          this.collection_account_statement_id = success.data.account_statement ? success.data.account_statement.id : undefined;
           this.patchFormData(success['data']);
           this.isAgencyBank = success['data'].payment_received_by == '1' ? true : false;
           this.getBanks(success['data'].property.id)
@@ -859,6 +862,14 @@ export class AddEditCollectionComponent implements OnInit {
 
     this.addFormStep4.controls['sum_of_concepts'].patchValue(this.numberUptoNDecimal(sum_of_concepts, 2));
     this.addFormStep4.controls.step.patchValue(4);
+    if(data.account_statement && data.account_statement.usersemail && data.account_statement.usersemail.length > 0){
+      let emails = '';
+      data.account_statement.usersemail.forEach(element =>{
+        emails = emails == '' ? element.email : emails + ', '+ element.email;
+      });
+    this.addFormStep4.controls.email.patchValue(emails);
+    }
+    this.addFormStep4.controls.day.patchValue(data.account_statement.day);
   }
 
   patchFormStep5(data) {
@@ -2221,6 +2232,9 @@ export class AddEditCollectionComponent implements OnInit {
         paymentSum = paymentSum.toFixed(2);
         const diff = formdata['deal_price'] - paymentSum;
         const currency_id = this.addFormStep4.get('currency_id').value;
+        formdata['email'] = formdata['email'].split(',');
+        formdata['collection_account_statement_id'] = this.collection_account_statement_id;
+        formdata['is_language'] =  this.translate.defaultLang == 'en' ? 1 : 2;
         if ((diff >= 5 && currency_id == 78) || (diff >= 0.5 && currency_id == 124)) {
           callApi = false;
           const text = this.translate.instant('message.error.priceIsNotEqualToPaymentConceptPrice') + '<br>';
@@ -2601,13 +2615,13 @@ export class AddEditCollectionComponent implements OnInit {
 
   editLeadPopup(value) {
     if (value) {
-      this.addFormStep4.controls['toAddress'].enable();
-      this.addFormStep4.controls['reminder_date'].enable();
+      this.addFormStep4.controls['email'].enable();
+      this.addFormStep4.controls['day'].enable();
       this.edit_reminder = true;
     }
     else {
-      this.addFormStep4.controls['toAddress'].disable();
-      this.addFormStep4.controls['reminder_date'].disable();
+      this.addFormStep4.controls['email'].disable();
+      this.addFormStep4.controls['day'].disable();
       this.edit_reminder = false;
     }
   }
