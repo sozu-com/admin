@@ -53,8 +53,7 @@ const appRoutes: Routes = [
     loadChildren: './layout/layout.module#LayoutModule'
   },
   {
-    path: 'download-account-statement/:id/:lang', component: DownloadAccountStatementComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Manage Collections', 'can_read', ''] }
+    path: 'download-account-statement/:id/:lang', component: DownloadAccountStatementComponent
   },
   // { path: 'dashboard', canActivate: [AclUserGuard], data: {roles: ['Dashboard', 'can_read', '']},
   //  loadChildren: './layout/layout.module#LayoutModule'},
