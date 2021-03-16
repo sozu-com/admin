@@ -31,11 +31,8 @@ export class Credit {
     incomes_bank_account?: Array<BankDetail>;
     incomes?: Incomes;
     debit?: Debit;
-<<<<<<< HEAD
     insurance?: Insurance;
-=======
     credit_beneficiary?: CreditBeneficiary;
->>>>>>> 2acf9358e4b531e09476bae1ed59a480a7dd5dbf
 }
 
 export class Bank {
