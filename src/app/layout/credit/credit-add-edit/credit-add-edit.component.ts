@@ -1200,7 +1200,7 @@ export class CreditAddEditComponent implements OnInit {
 
   addDeveloperBank(e) {
     const bank = new BankDetail();
-    bank.credites_details_id = JSON.parse(this.parameter.property_id);
+    bank.credites_details_id = JSON.parse(this.parameter.property_id || '0');
     this.creditModel.incomes_bank_account.push(bank);
   }
 
