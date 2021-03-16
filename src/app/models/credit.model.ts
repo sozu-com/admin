@@ -31,6 +31,7 @@ export class Credit {
     incomes_bank_account?: Array<BankDetail>;
     incomes?: Incomes;
     debit?: Debit;
+    insurance?: Insurance;
 }
 
 export class Bank {
@@ -190,4 +191,9 @@ export class Debit {
     credit_limit?: string;
     current_balance?: string;
     branch_number?: string;
+}
+export class Insurance {
+    insurance_Weight?: string;
+    insurance_Height?: string;
+    insurance_list?: any[];
 }

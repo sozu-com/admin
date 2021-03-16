@@ -2428,22 +2428,24 @@
                     <div class="col-md-4">
                       <div class="form-group-3">
                         <label>{{'creditForm.Weight' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" required type="text"
-                          class="form-control">
+                        <input autocomplete="off" minlength="1" maxlength="30"  type="text"
+                        class="form-control">
+                        <!-- name="insurance_Weight" [(ngModel)]="creditModel.insurance.insurance_Weight" -->
                       </div>
                     </div>
                     <div class="col-md-4">
                       <div class="form-group-3">
                         <label>{{'creditForm.Height' | translate}}</label>
-                        <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control" required
-                          name="first_surname1">
+                        <input autocomplete="off" minlength="1" maxlength="30" type="text" class="form-control">
+                          <!-- name="insurance_Height" [(ngModel)]="creditModel.insurance.insurance_Height" -->
                       </div>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-12">
-                      <label *ngFor="let a of amenities; " (click)="a.selected = !a.selected" class="cust-check-bx2">
-                        {{a.name}}
+                      <label *ngFor="let a of amenities; " (click)="a.selected = !a.selected" class="cust-check-bxx">
+                        {{language_code
+                          == 'en'? a.name_en : a.name_es}}
                         <span *ngIf="a.selected==true" class="checkmark open"></span>
                       </label>
                     </div>
@@ -2451,7 +2453,7 @@
                   <div class="row">
                     <div class="col-12">
                       <div class="btn-cont text-right">
-                        <button class="btn btn-primary">{{'creditForm.Saveselection' | translate}}</button>
+                        <button class="btn btn-primary" (click)="this.addcredits()">{{'creditForm.Saveselection' | translate}}</button>
                       </div>
                     </div>
                   </div>
@@ -2464,7 +2466,7 @@
                 <div class="row">
                   <div class="col-md-6">
                     <h3>{{'creditForm.Personal' | translate}}
-                      <i class="fa fa-plus-circle" aria-hidden="true" (click)="addPhone()" style="cursor: pointer;"></i>
+                      <i class="fa fa-plus-circle" aria-hidden="true" style="cursor: pointer;"></i>
                     </h3>
                   </div>
                   <div class="col-md-6 text-right">
@@ -2475,11 +2477,11 @@
                   </div>
                 </div>
                 <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                  <form [formGroup]="userForm" (ngSubmit)="send(userForm.value)">
+                  <form>
                     <div class="col-12">
                       <div class="spacer40"></div>
                     </div>
-                    <div *ngFor="let phone of getPhonesFormControls(); let i = index">
+                    <div>
                       <div class="row">
                         <div class="col-md-4">
                           <div class="form-group-3">
@@ -2705,7 +2707,7 @@
                 <div class="row">
                   <div class="col-md-6">
                     <h3>{{'creditForm.WarrantyProperty' | translate}}
-                      <i class="fa fa-plus-circle" aria-hidden="true" (click)="addPhone()" style="cursor: pointer;"></i>
+                      <i class="fa fa-plus-circle" aria-hidden="true"  style="cursor: pointer;"></i>
                     </h3>
                   </div>
                   <div class="col-md-6 text-right">
@@ -2838,7 +2840,7 @@
                 <div class="row">
                   <div class="col-md-6">
                     <h3>{{'creditForm.Business' | translate}}
-                      <i class="fa fa-plus-circle" aria-hidden="true" (click)="addPhone()" style="cursor: pointer;"></i>
+                      <i class="fa fa-plus-circle" aria-hidden="true"  style="cursor: pointer;"></i>
                     </h3>
                   </div>
                   <div class="col-md-6 text-right">
