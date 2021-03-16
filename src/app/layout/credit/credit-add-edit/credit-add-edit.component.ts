@@ -704,9 +704,7 @@ export class CreditAddEditComponent implements OnInit {
       this.adminService.postDataApi('getPaymentScheme', {}),
       this.adminService.postDataApi('getDestination', {}),
       this.adminService.postDataApi('getCreditsBanks', {}),
-      this.adminService.postDataApi('getPropertyAmenities', {
-        hide_blocked: 1,
-      }),
+      this.adminService.postDataApi('getCreditesInsured',{}),
       this.adminService.postDataApi('getCreditsExecutive', {}),
       this.adminService.postDataApi('getCountryState', { country_id: 1 }),
       this.adminService.postDataApi('getSquare', {}),
