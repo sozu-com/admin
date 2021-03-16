@@ -200,7 +200,7 @@ export class CreditBeneficiary {
     second_surname?: string;
     age?: string;
     percentage?: string;
-    relationship?: string;
+    relationship?: string = null;
     address?: string;
     country_code?: string;
     phone_code?: string;

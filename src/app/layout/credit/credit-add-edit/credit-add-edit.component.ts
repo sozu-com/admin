@@ -14,7 +14,7 @@ import { IProperty } from 'src/app/common/property'
 import { NgxSpinnerService } from 'ngx-spinner'
 import { ActivatedRoute, Router } from '@angular/router'
 import { IDestinationStatus, IMarritalStatus } from 'src/app/common/marrital-status-interface'
-import { Bank, Credit, EconomicDependent, GeneralData, PaymentScheme, References, SolidarityLiabilities, BankDetail, Incomes, Debit } from 'src/app/models/credit.model';
+import { Bank, Credit, EconomicDependent, GeneralData, PaymentScheme, References, SolidarityLiabilities, BankDetail, Incomes, Debit, CreditBeneficiary } from 'src/app/models/credit.model';
 import { forkJoin } from 'rxjs'
 import { PricePipe } from 'src/app/pipes/price.pipe';
 declare let swal: any
@@ -285,7 +285,7 @@ export class CreditAddEditComponent implements OnInit {
     this.creditModel.user = building
     this.creditModel.user.id = building.id
     // this.creditModel.user = building;
-    console.log(building, 'building')
+    //console.log(building, 'building')
   }
 
   getPage(page: number) {
@@ -308,7 +308,7 @@ export class CreditAddEditComponent implements OnInit {
           this.parameter.property_id = success.data.id;
           // if (success.data.incomes_bank_account != undefined && success.data.incomes_bank_account != null) {
           this.creditModel.incomes_bank_account = success.data.incomes_bank_account || [];
-          console.log(this.creditModel.incomes_bank_account, "this.creditModel.incomes_bank_account")
+          //console.log(this.creditModel.incomes_bank_account, "this.creditModel.incomes_bank_account")
           // }
 
           if (success.data.general_data != undefined && success.data.general_data != null) {
@@ -324,10 +324,6 @@ export class CreditAddEditComponent implements OnInit {
 
   afterAddcredit = (creditDetails: any): void => {
     if (this.getCurrentStep() == 5) {
-      // this.creditModel.economic_dependent.credit_dependent_id = undefined;
-      // this.creditModel.economic_dependent.credits_relationship_id = undefined;
-      // this.creditModel.economic_dependent.age = '';
-      // this.creditModel.economic_dependent.occupation = '';
       this.creditModel.economic_dependent = new EconomicDependent();
       this.getEcoDependent();
     } else if (this.getCurrentStep() == 6) {
@@ -392,6 +388,9 @@ export class CreditAddEditComponent implements OnInit {
     } else if (this.getCurrentStep() == 10) {
       this.creditModel.debit = new Debit();
       this.getDebit();
+    } else if (this.getCurrentStep() == 11) {
+      this.creditModel.credit_beneficiary = creditDetails.credit_beneficiary;// || new CreditBeneficiary();
+      this.setCurrentStep();
     } else {
       this.setCurrentStep();
       // this.router.navigate(['dashboard/credit/view-credit']);
@@ -672,6 +671,11 @@ export class CreditAddEditComponent implements OnInit {
     if (!this.creditModel.debit) {
       this.creditModel.debit = new Debit();
     }
+    if (!this.creditModel.credit_beneficiary) {
+      this.creditModel.credit_beneficiary = new CreditBeneficiary();
+      this.creditModel.credit_beneficiary.country_code = this.constant.country_code;
+      this.creditModel.credit_beneficiary.phone_code = this.constant.dial_code;
+    }
   }
 
   onSelectAll(obj: any) { }
@@ -776,7 +780,7 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   send(values) {
-    console.log(values)
+    //console.log(values)
   }
 
   // toFixedHomeValue = (): void => {
@@ -808,6 +812,8 @@ export class CreditAddEditComponent implements OnInit {
       case 8:
       case 9:
       case 10:
+      case 11:
+      case 12:
         this.subtab = this.subtab + 1;
         break;
       default:
@@ -847,6 +853,9 @@ export class CreditAddEditComponent implements OnInit {
         break;
       case 10:
         postData = this.getRequestDataForTenthStep(10);
+        break;
+      case 11:
+        postData = this.getRequestDataForEleventhStep(11);
         break;
       default:
         break;
@@ -1048,6 +1057,16 @@ export class CreditAddEditComponent implements OnInit {
     return modelSave;
   }
 
+  getRequestDataForEleventhStep = (currentStep: number): any => {
+    const modelSave: any = this.creditModel.credit_beneficiary;
+    modelSave.step = currentStep;
+    if (modelSave.id) {
+      this.creditModel.credit_beneficiary.credites_beneficiary_id = modelSave.id;
+    }
+    modelSave.id = parseInt(this.parameter.property_id);
+    return modelSave;
+  }
+
   getCounrtyByZipcode = (index: number): void => {
     let zipcode;
     switch (index) {
@@ -1144,6 +1163,10 @@ export class CreditAddEditComponent implements OnInit {
       case 6:
         this.creditModel.incomes.last_country_code = event.iso2;
         this.creditModel.incomes.last_phone_code = '+' + event.dialCode;
+        break;
+      case 7:
+        this.creditModel.credit_beneficiary.country_code = event.iso2;
+        this.creditModel.credit_beneficiary.phone_code = '+' + event.dialCode;
         break;
       default:
         break;
