@@ -959,7 +959,7 @@
       "dataCollectorWillLinkPropertyToBuilding": "Puedes agregar los detalles del departamento y el data-collector vinculará este departamanto al edificio.",
       "propertyStatusChanged": "Estado del departamento cambiado",
       "commercializedStatusChanged": "Estado comercializado cambiado",
-      "emailSend": "¡Correo de activación enviado correctamente!",
+      "emailSent": "¡Correo de activación enviado correctamente!",
       "featuredSuccessfully": "Destacado con éxito.",
       "unfeaturedSuccessfully": "Sin características con éxito",
       "linkedSuccessfully": "Vinculado exitosamente",
@@ -1270,7 +1270,7 @@
       "wantToRemovePaymentConcept": "¿Quieres eliminar este concepto?",
       "cannotRemoveAsPaymentApplied": "No puede eliminar esta oferta, ya que se aplicó el pago",
       "pleaseEnterAllCountryStateAndCity": "Ingrese el estado del país y la ciudad",
-      "youWantToSentEmail":"¿Quieres enviar un correo electrónico?"
+      "youWantToSendEmail":"¿Quieres enviar un correo electrónico?"
     }
   },
   "inhouseUsers": {

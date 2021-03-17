@@ -81,7 +81,7 @@ export class UsersComponent implements OnInit {
         this.translate.instant('message.error.areYouSure') +
         '<br>' +
         this.translate.instant(
-          'message.error.youWantToSentEmail',
+          'message.error.youWantToSendEmail',
         ),
       type: 'warning',
       showCancelButton: true,
@@ -95,7 +95,7 @@ export class UsersComponent implements OnInit {
           id: (data || {}).id, is_language: this.language_code == 'en' ? 1 : 2, email_date: moment.utc(new Date()).toDate()
         }).subscribe((success) => {
           this.spinner.hide();
-          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.emailSend'), 'success');
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.emailSent'), 'success');
         }, (error) => {
           this.spinner.hide();
           swal(this.translate.instant('swal.error'), error.error.message, 'error');
