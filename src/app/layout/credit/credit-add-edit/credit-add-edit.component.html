@@ -2031,7 +2031,7 @@
                   <div class="col-12">
                     <div class="btn-cont text-right">
                       <button class="btn btn-primary" (click)="this.addcredits()"
-                      [disabled]="this.hasErrorBank()" title="Next Tab">
+                      [disabled]="!parameter.property_id" title="Next Tab">
                       {{'creditForm.Saveinformation' |
                         translate}}</button>
                     </div>
