@@ -959,7 +959,7 @@
       "dataCollectorWillLinkPropertyToBuilding": "You can add property details and data-collector will link this property to the building.",
       "propertyStatusChanged": "Property Status Changed",
       "commercializedStatusChanged": "Commercialized Status Changed",
-      "emailSend": "Activation Mail Successfully Send!",
+      "emailSent": "Activation Mail Successfully Sent!",
       "featuredSuccessfully": "Featured successfully.",
       "unfeaturedSuccessfully": "Unfeatured successfully",
       "linkedSuccessfully": "Linked successfully.",
@@ -1270,7 +1270,7 @@
       "wantToRemovePaymentConcept": "You want to remove this concept?",
       "cannotRemoveAsPaymentApplied": "You cannot remove this deal, as payment has been applied",
       "pleaseEnterAllCountryStateAndCity": "Please enter both country state And city",
-      "youWantToSentEmail":"You want to sent email?"
+      "youWantToSendEmail":"You want to send email?"
     }
   },
   "inhouseUsers": {

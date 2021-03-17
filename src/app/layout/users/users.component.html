@@ -174,7 +174,7 @@
                   <i class="fa fa-map-marker" aria-hidden="true" 
                   style="font-size: 166%;color: black;"></i></button>
 
-                  <button (click)="this.sendMail(item);" class="action-icon"
+                  <button  class="action-icon"
                      *ngIf="item.is_email_verified && item.is_phone_verified" [disabled]="true"
                      title="{{'table.title.confirmEmail' | translate}}">
                      <i class="fa fa-map-marker" aria-hidden="true" 
