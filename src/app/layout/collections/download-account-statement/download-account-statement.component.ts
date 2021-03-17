@@ -44,6 +44,7 @@ export class DownloadAccountStatementComponent implements OnInit {
   footer_address: any;
   legal_name: any;
   fedTaxPayer: any;
+  cashLimit: any;
 
   constructor(
     public admin: AdminService,
@@ -56,6 +57,9 @@ export class DownloadAccountStatementComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.admin.globalSettings$.subscribe(success => {
+      this.cashLimit = success['cash_limit'];
+    });
     this.route.params.subscribe(params => {
       this.collection_data = params['id'];
       this.language_code = params['lang'];
@@ -317,7 +321,9 @@ export class DownloadAccountStatementComponent implements OnInit {
       + (this.collection_data.buyer.internal_number ? this.collection_data.buyer.internal_number + ', ' : '') + (this.collection_data.buyer.neighborhood ? this.collection_data.buyer.neighborhood + '\n' : '')
       + (this.collection_data.buyer.zipcode && this.collection_data.buyer.zipcode != '0' ? this.collection_data.buyer.zipcode + ', ' : '') + (this.collection_data.buyer.city ? this.collection_data.buyer.city + ', ' : '')
       + (this.collection_data.buyer.state ? this.collection_data.buyer.state + ', ' : '') + (this.collection_data.buyer.country ? this.collection_data.buyer.country + ', ' : '') : undefined;
-
+    
+    let cash_limit_amount = this.collection_payments.find(x=> x.payment_mode_id == 1);
+    
     let docDefinition = {
       userPassword: '123',
       ownerPassword: '123456',
@@ -488,7 +494,16 @@ export class DownloadAccountStatementComponent implements OnInit {
                     ],
                   ]
                 }
-              }
+              },
+              this.cashLimit >= cash_limit_amount.total_amount?
+                {
+                  image: this.translate.instant('generatePDF.warning'),
+                  width: 120,
+                  height: 20,
+                  margin: [0, 0, 0, 10]
+                } : {
+                  text: ''
+                }
             ],
             [
               {

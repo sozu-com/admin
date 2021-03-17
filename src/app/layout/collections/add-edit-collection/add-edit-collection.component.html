@@ -1778,7 +1778,7 @@
           <div class="row">
           <h5>{{'deshboard.accountEmail' | translate}}</h5>
             <div class="switchToggle" style="margin-left: 10px;">
-              <input type="checkbox" id="switch2" (click)="toggleShow()" [checked]="collection_account_statement_id">
+              <input type="checkbox" id="switch2" (click)="toggleShow()" [checked]="addFormStep4.value.email || addFormStep4.value.day">
               <label for="switch2">Toggle</label>
             </div>
           </div>
@@ -1794,12 +1794,13 @@
               </div>
             </div>
     
-            <div class="col-lg-1 col-md-6 col-sm-6 col-12">
+            <div class="col-lg-1 col-5">
               <div class="form-group-3">
-                <label>{{'deshboard.date' | translate}}</label>
+                <label style="width: 100px;">{{'deshboard.date' | translate}}</label>
                 <div class="clearfix"></div>
-                <select name="day_list" id="day_list" formControlName="day" [disabled]="!edit_reminder && model.id"  style="width:100px;height:39px;">
-                  <option value="1" selected="days == 1" *ngFor="let days of day_list">{{days}}</option>
+                <select name="day_list" id="day_list" formControlName="day" [disabled]="!edit_reminder && model.id"  style="width:126px;height:39px;">
+                  <option value="" selected="!addFormStep4.value.day">{{'deshboard.selectday' | translate}}</option>
+                  <option value="days" selected="days == addFormStep4.value.day" *ngFor="let days of day_list">{{days}}</option>
                 </select>
                 <!-- <p-calendar class="form-control" formControlName="reminder_date" autocomplete="off"
                 [style]="{'width':'100%'}" name="date" class="sz-calendar" [showTime]="true"
@@ -1807,11 +1808,11 @@
               </div>
             </div>
     
-            <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+            <div class="col-1">
               <div class="form-group-3">
                 <label>&nbsp;&nbsp;</label>
                 <div class="clearfix"></div>
-                <a href="javascript://">
+                <a href="javascript://" style="float: right;">
                   <i class="fa fa-pencil" aria-hidden="true" style="font-size: 25px;" (click)="editLeadPopup(true)" *ngIf="!edit_reminder && model.id != '0'"></i>
                   <i class="fa fa-undo" aria-hidden="true" style="font-size: 25px;" (click)="editLeadPopup(false)" *ngIf="edit_reminder && model.id != '0'"></i>
                 </a>

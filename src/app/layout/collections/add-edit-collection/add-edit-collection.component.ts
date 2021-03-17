@@ -868,8 +868,8 @@ export class AddEditCollectionComponent implements OnInit {
         emails = emails == '' ? element.email : emails + ', '+ element.email;
       });
     this.addFormStep4.controls.email.patchValue(emails);
-    this.isShown = true;
     }
+    this.isShown = data.account_statement.usersemail && data.account_statement.usersemail.length > 0 ? true : false;
     this.addFormStep4.controls.day.patchValue(data.account_statement ? data.account_statement.day : '');
   }
 
@@ -986,7 +986,7 @@ export class AddEditCollectionComponent implements OnInit {
         this.tab = tab;
         if(tab == 4){
           this.edit_reminder = false;
-          this.isShown = false;
+          this.isShown = this.addFormStep4.value.email ? true : false;
         }
       }
     });

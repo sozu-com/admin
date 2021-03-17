@@ -2330,7 +2330,8 @@
     "accountStatments": "Estado de cuenta",
     "preview":"Avance",
     "listprice":"Precio de lista",
-    "finalprice":"Precio final"
+    "finalprice":"Precio final",
+    "warning": "*El pago en efectivo ha llegado a su límite"
   },
   "viewCredit":{
     "label": "Administrar crédito",
@@ -2567,6 +2568,7 @@
     "expectedIVAAmount":"Importe de IVA esperado",
     "accountEmail":"Estado de cuenta email",
     "mail":"Email del comprador",
-    "date":"Fecha de envio"
+    "date":"Fecha de envio",
+    "selectday": "Seleccionar día"
   }
 }
