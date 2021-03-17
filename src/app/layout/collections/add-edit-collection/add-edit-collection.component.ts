@@ -868,6 +868,7 @@ export class AddEditCollectionComponent implements OnInit {
         emails = emails == '' ? element.email : emails + ', '+ element.email;
       });
     this.addFormStep4.controls.email.patchValue(emails);
+    this.isShown = true;
     }
     this.addFormStep4.controls.day.patchValue(data.account_statement ? data.account_statement.day : '');
   }
@@ -985,6 +986,7 @@ export class AddEditCollectionComponent implements OnInit {
         this.tab = tab;
         if(tab == 4){
           this.edit_reminder = false;
+          this.isShown = false;
         }
       }
     });
@@ -2235,7 +2237,9 @@ export class AddEditCollectionComponent implements OnInit {
         paymentSum = paymentSum.toFixed(2);
         const diff = formdata['deal_price'] - paymentSum;
         const currency_id = this.addFormStep4.get('currency_id').value;
+        if(formdata['email'] && formdata['email'].length > 0){
         formdata['email'] = formdata['email'].split(',');
+        }
         formdata['collection_account_statement_id'] = this.collection_account_statement_id;
         formdata['is_language'] =  this.translate.defaultLang == 'en' ? 1 : 2;
         if ((diff >= 5 && currency_id == 78) || (diff >= 0.5 && currency_id == 124)) {

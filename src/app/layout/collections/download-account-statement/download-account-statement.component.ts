@@ -319,8 +319,19 @@ export class DownloadAccountStatementComponent implements OnInit {
       + (this.collection_data.buyer.state ? this.collection_data.buyer.state + ', ' : '') + (this.collection_data.buyer.country ? this.collection_data.buyer.country + ', ' : '') : undefined;
 
     let docDefinition = {
+      userPassword: '123',
+      ownerPassword: '123456',
       pageSize: 'LEGAL',
       pageMargins: [40, 70, 40, 155],
+      permissions: {
+        printing: 'highResolution', //'lowResolution'
+        modifying: false,
+        copying: false,
+        annotating: true,
+        fillingForms: true,
+        contentAccessibility: true,
+        documentAssembly: true
+      },
       content: [
         {
           columns: [

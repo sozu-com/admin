@@ -1777,8 +1777,8 @@
           <div class="spacer15"></div>
           <div class="row">
           <h5>{{'deshboard.accountEmail' | translate}}</h5>
-            <div class="switchToggle">
-              <input type="checkbox" id="switch2" (click)="toggleShow()">
+            <div class="switchToggle" style="margin-left: 10px;">
+              <input type="checkbox" id="switch2" (click)="toggleShow()" [checked]="collection_account_statement_id">
               <label for="switch2">Toggle</label>
             </div>
           </div>
