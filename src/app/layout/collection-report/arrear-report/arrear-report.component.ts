@@ -344,8 +344,8 @@ export class ArrearReportComponent implements OnInit {
             Currency: item.code || '',
             'concept': item.NAME || '',
             'date': item.date || '',
-            'paymentTotal': item.symbol + (((item.amount || 0) + (item.penelty || 0)) - (item.calc_payment_amount || 0)),
-            'totalArrear': item.symbol + (item.total_amount || 0),
+            'paymentTotal': item.symbol + Number((((item.amount || 0) + (item.penelty || 0)) - (item.calc_payment_amount || 0))).toFixed(2),
+            'totalArrear': item.symbol + Number((item.total_amount || 0)).toFixed(2),
           });
       }
       this.exportAsExcelFile(finalData, 'arrearReport-');
