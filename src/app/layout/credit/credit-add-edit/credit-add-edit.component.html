@@ -151,7 +151,7 @@
                       <label>{{'creditForm.homeValue' | translate}}
                       </label>
                       <input autocomplete="off" 
-                        mask="separator.2" thousandSeparator="," required type="text"
+                        mask="separator.2" thousandSeparator="," type="text"
                         class="form-control" [(ngModel)]="creditModel.home_value" name="home_value" 
                         placeholder="{{'creditForm.homeValue' | translate}}">
                     </div>
@@ -160,7 +160,7 @@
                     <div class="form-group-3">
                       <label class="p16-two">{{'creditForm.creditAmount' | translate}}</label>
                       <input autocomplete="off" minlength="1"
-                         mask="separator.2" thousandSeparator=","  required type="text"
+                         mask="separator.2" thousandSeparator=","   type="text"
                         class="form-control" [(ngModel)]="creditModel.credit_amount" name="credit_amount"
                         placeholder="{{'creditForm.creditAmount' | translate}}">
                     </div>
@@ -194,7 +194,7 @@
                     <div class="form-group-3">
                       <label>{{'creditForm.InfonavitCredit' | translate}}</label>
                       <input autocomplete="off" minlength="1" maxlength="30"
-                        [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="number"
+                        [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace"  type="number"
                         class="form-control" [(ngModel)]="creditModel.infonavit_credit" name="infonavit_credit"
                         placeholder="{{'creditForm.Subaccountbalance' | translate}}">
                     </div>
@@ -203,7 +203,7 @@
                     <div class="form-group-3">
                       <label class="p16-two">{{'creditForm.Subaccountbalance' | translate}}</label>
                       <input autocomplete="off" minlength="1" maxlength="30"
-                        [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="number"
+                        [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace"  type="number"
                         class="form-control" [(ngModel)]="creditModel.subaccount_balance" name="subaccount_balance"
                         placeholder="{{'creditForm.Subaccountbalance' | translate}}">
                     </div>
@@ -266,7 +266,7 @@
                     <div class="form-group-3">
                       <label>{{'creditForm.square' | translate}}</label>
                       <input autocomplete="off" minlength="1" maxlength="30"
-                        [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
+                        [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace"  type="text"
                         class="form-control" [(ngModel)]="creditModel.square" name="square"
                         placeholder="{{'creditForm.square' | translate}}">
                     </div>
