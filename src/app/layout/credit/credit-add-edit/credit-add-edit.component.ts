@@ -1275,7 +1275,7 @@ export class CreditAddEditComponent implements OnInit {
       return true;
     }
   }
-
+ 
   getAccountTypeText = (bankId: any): any => {
     const data = this.income_list.find((item) => item.id == bankId);
     return (this.language_code == 'en' ? data.name_en : data.name_es);

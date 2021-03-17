@@ -2031,7 +2031,7 @@
                   <div class="col-12">
                     <div class="btn-cont text-right">
                       <button class="btn btn-primary" (click)="this.addcredits()"
-                      [disabled]="!parameter.property_id" title="Next Tab">
+                      [disabled]="this.hasErrorBank()" title="Next Tab">
                       {{'creditForm.Saveinformation' |
                         translate}}</button>
                     </div>
@@ -2087,16 +2087,16 @@
                   </tbody>
                 </table>
               </div>
-                <!-- <div class="row">
-                  <div class="col-12">
-                    <div class="btn-cont text-right">
-                      <button class="btn btn-primary" (click)="setsubTab(6)"
-                      [disabled]="!parameter.property_id" title="Next Tab">
-                      {{'creditForm.Saveinformation' |
-                        translate}}</button>
-                    </div>
+              <!-- <div class="row">
+                <div class="col-12">
+                  <div class="btn-cont text-right">
+                    <button class="btn btn-primary" (click)="setsubTab(8)"
+                    [disabled]="!parameter.property_id" title="Next Tab">
+                    {{'creditForm.Saveinformation' |
+                      translate}}</button>
                   </div>
-                </div> -->
+                </div>
+              </div> -->
               </div>
             </div>
             <!-- Debts -->
