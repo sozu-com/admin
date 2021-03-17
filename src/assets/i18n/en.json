@@ -2331,7 +2331,8 @@
     "accountStatments": "Account-Statments",
     "preview":"Preview",
     "listprice":"List Price",
-    "finalprice":"Final Price"
+    "finalprice":"Final Price",
+    "warning": "*The cash limit payment has been exceeded"
   },
   "viewCredit": {
     "label": "Manage Credit",
@@ -2569,6 +2570,7 @@
       "expectedIVAAmount":"Expected IVA Amount",
       "accountEmail":"Account statement email",
       "mail":"Email of the buyer",
-      "date":"Sending mail"
+      "date":"Sending mail",
+      "selectday": "Select Day"
   }
 }

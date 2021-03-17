@@ -2980,9 +2980,10 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       + (this.collection_data.buyer.zipcode && this.collection_data.buyer.zipcode != '0' ? this.collection_data.buyer.zipcode + ', ' : '') + (this.collection_data.buyer.city ? this.collection_data.buyer.city + ', ' : '')
       + (this.collection_data.buyer.state ? this.collection_data.buyer.state + ', ' : '') + (this.collection_data.buyer.country ? this.collection_data.buyer.country + ', ' : '') : undefined;
 
+    let cash_limit_amount = this.collection_payments.find(x=> x.payment_mode_id == 1);
     let docDefinition = {
       pageSize: 'LEGAL',
-      pageMargins: [40, 70, 40, 160],
+      pageMargins: [40, 70, 40, 180],
       content: [
         {
           columns: [
@@ -3121,7 +3122,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
                 text: this.translate.instant('generatePDF.generalBalance'),
                 bold: true,
                 fontSize: 20,
-                margin: [0, 20, 0, 7]
+                margin: [0, 20, 0, 15]
               },
               {
                 style: 'table2',
@@ -3130,8 +3131,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
                   widths: ['auto', 'auto'],
                   body: [
                     [
-                      { text: this.translate.instant('generatePDF.balancePayable'), border: [false, false, false, false], bold: true, fontSize: 16, margin: [0, 0, 0, 10] },
-                      { text: remaining_amount >= 0 ? this.price.transform(Number(remaining_amount).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true, fontSize: 16, margin: [0, 0, 0, 10] }
+                      { text: this.translate.instant('generatePDF.balancePayable'), border: [false, false, false, false], bold: true, fontSize: 16, margin: [0, 0, 0, 15] },
+                      { text: remaining_amount >= 0 ? this.price.transform(Number(remaining_amount).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true, fontSize: 16, margin: [0, 0, 0, 15] }
                     ],
                     [
                       { text: this.translate.instant('generatePDF.totalPaid'), border: [false, false, false, false], color: '#858291' },
@@ -3139,7 +3140,13 @@ export class CollectionsComponent implements OnInit, OnDestroy {
                     ],
                   ]
                 }
-              }
+              },
+              this.cashLimit >= cash_limit_amount.total_amount?
+                {
+                  text: this.translate.instant('generatePDF.warning'), color: '#858291',
+                } : {
+                  text: ''
+                }
             ],
             [
               {
@@ -3387,12 +3394,12 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         { text: 'N/A', border: [false, false, false, false], bold: true },
       ]);
     }
-    this.collection_payments.forEach(element => {
-      docDefinition.content[1].columns[0][4].table.body.push([
-        { text: element.name_en + ':', border: [false, false, false, false], color: '#858291' },
-        { text: element.total_amount? this.price.transform(Number(element.total_amount).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true }
-      ])
-    });
+    // this.collection_payments.forEach(element => {
+    //   docDefinition.content[1].columns[0][4].table.body.push([
+    //     { text: element.name_en + ':', border: [false, false, false, false], color: '#858291' },
+    //     { text: element.total_amount? this.price.transform(Number(element.total_amount).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true }
+    //   ])
+    // });
     pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.accountStatments') + ' ' + current_date.toISOString() + '.pdf');
     // }else if(action === 'print'){
     //   pdfMake.createPdf(docDefinition).print();
