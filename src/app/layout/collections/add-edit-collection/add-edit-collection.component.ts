@@ -758,6 +758,9 @@ export class AddEditCollectionComponent implements OnInit {
           control1.push(this.formBuilder.group(x));
         });
       }
+      if(data.buyer && data.buyer.email && (this.model.id === '0' || (!data.account_statement && this.model.id != '0'))){  
+        this.addFormStep4.controls.email.patchValue(data.buyer.email);
+        }
     }
     // buyer as a legal entity
     if (this.model.buyer_type == '2') {
@@ -795,6 +798,9 @@ export class AddEditCollectionComponent implements OnInit {
           delete x.id;  // no need to send id ( cuz these are saving separtely in table)
           control1.push(this.formBuilder.group(x));
         });
+      }
+      if(data.buyer_legal_entity && data.buyer_legal_entity.email && (this.model.id === '0' || (!data.account_statement && this.model.id != '0'))){  
+      this.addFormStep4.controls.email.patchValue(data.buyer_legal_entity.email);
       }
     }
 
@@ -837,6 +843,9 @@ export class AddEditCollectionComponent implements OnInit {
           control1.push(this.formBuilder.group(x));
         });
       }
+      if(data.buyer && data.buyer.email && (this.model.id === '0' || (!data.account_statement && this.model.id != '0'))){  
+        this.addFormStep4.controls.email.patchValue(data.buyer.email);
+        }
     }
   }
 
@@ -986,7 +995,7 @@ export class AddEditCollectionComponent implements OnInit {
         this.tab = tab;
         if(tab == 4){
           this.edit_reminder = false;
-          this.isShown = this.addFormStep4.value.email ? true : false;
+          this.isShown = this.addFormStep4.controls['email'].value ? true : false;
         }
       }
     });
