@@ -869,7 +869,7 @@ export class AddEditCollectionComponent implements OnInit {
       });
     this.addFormStep4.controls.email.patchValue(emails);
     }
-    this.addFormStep4.controls.day.patchValue(data.account_statement.day);
+    this.addFormStep4.controls.day.patchValue(data.account_statement ? data.account_statement.day : '');
   }
 
   patchFormStep5(data) {
@@ -983,6 +983,9 @@ export class AddEditCollectionComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.tab = tab;
+        if(tab == 4){
+          this.edit_reminder = false;
+        }
       }
     });
   }

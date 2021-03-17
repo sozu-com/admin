@@ -59,6 +59,7 @@ export class DownloadAccountStatementComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.collection_data = params['id'];
       this.language_code = params['lang'];
+      this.translate.setDefaultLang(this.language_code == '1'? 'en' : 'es');
       if(this.collection_data){
       this.generateAccountStatementPdf(this.collection_data);
     }
