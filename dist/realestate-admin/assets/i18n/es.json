@@ -959,7 +959,7 @@
       "dataCollectorWillLinkPropertyToBuilding": "Puedes agregar los detalles del departamento y el data-collector vinculará este departamanto al edificio.",
       "propertyStatusChanged": "Estado del departamento cambiado",
       "commercializedStatusChanged": "Estado comercializado cambiado",
-      "emailSend": "¡Correo de activación enviado correctamente!",
+      "emailSent": "¡Correo de activación enviado correctamente!",
       "featuredSuccessfully": "Destacado con éxito.",
       "unfeaturedSuccessfully": "Sin características con éxito",
       "linkedSuccessfully": "Vinculado exitosamente",
@@ -1270,7 +1270,7 @@
       "wantToRemovePaymentConcept": "¿Quieres eliminar este concepto?",
       "cannotRemoveAsPaymentApplied": "No puede eliminar esta oferta, ya que se aplicó el pago",
       "pleaseEnterAllCountryStateAndCity": "Ingrese el estado del país y la ciudad",
-      "youWantToSentEmail":"¿Quieres enviar un correo electrónico?"
+      "youWantToSendEmail":"¿Quieres enviar un correo electrónico?"
     }
   },
   "inhouseUsers": {
@@ -2330,7 +2330,8 @@
     "accountStatments": "Estado de cuenta",
     "preview":"Avance",
     "listprice":"Precio de lista",
-    "finalprice":"Precio final"
+    "finalprice":"Precio final",
+    "warning": "*El pago en efectivo ha llegado a su límite"
   },
   "viewCredit":{
     "label": "Administrar crédito",
@@ -2567,6 +2568,7 @@
     "expectedIVAAmount":"Importe de IVA esperado",
     "accountEmail":"Estado de cuenta email",
     "mail":"Email del comprador",
-    "date":"Fecha de envio"
+    "date":"Fecha de envio",
+    "selectday": "Seleccionar día"
   }
 }
