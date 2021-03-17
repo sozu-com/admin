@@ -3141,7 +3141,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
                   ]
                 }
               },
-              this.cashLimit >= cash_limit_amount.total_amount?
+                cash_limit_amount.total_amount >= this.cashLimit?
                 {
                   text: this.translate.instant('generatePDF.warning'), color: '#858291',
                 } : {
