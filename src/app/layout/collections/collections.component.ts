@@ -2983,7 +2983,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     let cash_limit_amount = this.collection_payments.find(x=> x.payment_mode_id == 1);
     let docDefinition = {
       pageSize: 'LEGAL',
-      pageMargins: [40, 70, 40, 160],
+      pageMargins: [40, 70, 40, 180],
       content: [
         {
           columns: [
@@ -3122,7 +3122,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
                 text: this.translate.instant('generatePDF.generalBalance'),
                 bold: true,
                 fontSize: 20,
-                margin: [0, 20, 0, 7]
+                margin: [0, 20, 0, 15]
               },
               {
                 style: 'table2',
@@ -3131,8 +3131,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
                   widths: ['auto', 'auto'],
                   body: [
                     [
-                      { text: this.translate.instant('generatePDF.balancePayable'), border: [false, false, false, false], bold: true, fontSize: 16, margin: [0, 0, 0, 10] },
-                      { text: remaining_amount >= 0 ? this.price.transform(Number(remaining_amount).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true, fontSize: 16, margin: [0, 0, 0, 10] }
+                      { text: this.translate.instant('generatePDF.balancePayable'), border: [false, false, false, false], bold: true, fontSize: 16, margin: [0, 0, 0, 15] },
+                      { text: remaining_amount >= 0 ? this.price.transform(Number(remaining_amount).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true, fontSize: 16, margin: [0, 0, 0, 15] }
                     ],
                     [
                       { text: this.translate.instant('generatePDF.totalPaid'), border: [false, false, false, false], color: '#858291' },
@@ -3143,10 +3143,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
               },
               this.cashLimit >= cash_limit_amount.total_amount?
                 {
-                  image: this.translate.instant('generatePDF.warning'),
-                  width: 120,
-                  height: 20,
-                  margin: [0, 0, 0, 10]
+                  text: this.translate.instant('generatePDF.warning'), color: '#858291',
                 } : {
                   text: ''
                 }
