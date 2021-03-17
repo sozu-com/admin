@@ -760,6 +760,7 @@ export class AddEditCollectionComponent implements OnInit {
       }
       if(data.buyer && data.buyer.email && (this.model.id === '0' || (!data.account_statement && this.model.id != '0'))){  
         this.addFormStep4.controls.email.patchValue(data.buyer.email);
+        this.isShown = true;
         }
     }
     // buyer as a legal entity
@@ -801,6 +802,7 @@ export class AddEditCollectionComponent implements OnInit {
       }
       if(data.buyer_legal_entity && data.buyer_legal_entity.email && (this.model.id === '0' || (!data.account_statement && this.model.id != '0'))){  
       this.addFormStep4.controls.email.patchValue(data.buyer_legal_entity.email);
+      this.isShown = true;
       }
     }
 
@@ -845,6 +847,7 @@ export class AddEditCollectionComponent implements OnInit {
       }
       if(data.buyer && data.buyer.email && (this.model.id === '0' || (!data.account_statement && this.model.id != '0'))){  
         this.addFormStep4.controls.email.patchValue(data.buyer.email);
+        this.isShown = true;
         }
     }
   }
