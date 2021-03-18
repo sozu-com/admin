@@ -71,9 +71,11 @@ export class EditUserComponent implements OnInit {
     this.initModel();
     // this.getCountries();
     this.getMarritalStatusList();
+    this.getNationality();
+    this.getRelationship();
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
-    console.log(this.model, "model")
+    //console.log(this.model, "model")
     this.getCurrencies();
     this.parameter.sub = this.route.params.subscribe(params => {
       if (params['id']) {
@@ -85,8 +87,6 @@ export class EditUserComponent implements OnInit {
         this.assignedObject();
       }
     });
-    this.getNationality();
-    this.getRelationship();
   }
 
   getRelationship() {
@@ -191,9 +191,9 @@ export class EditUserComponent implements OnInit {
     }
   }
 
-  uploadDoc(userdata) {
-    console.log(userdata, "user id")
-    this.router.navigate(['/dashboard/users/documents-upload', userdata.id]);
+  uploadDoc = (documentType: string): void => {
+    const route = `${'/dashboard/users/documents-upload/'}${this.model.id || 0}${'/'}${documentType}`;
+    this.router.navigate([route]);
   }
   goBack() {
     this.router.navigate(['/dashboard/users'])
@@ -409,6 +409,10 @@ export class EditUserComponent implements OnInit {
 
   }
 
+  isCheckedBeneficiaryGender(gender) {
+    return gender == this.beneficiary.gender ? true : false;
+  }
+
   getCountries() {
     let self = this;
     this.parameter.statesAdd = []; this.parameter.citiesAdd = []; this.parameter.localitiesAdd = [];
@@ -622,6 +626,12 @@ export class EditUserComponent implements OnInit {
     }
   }
 
+  updateBeneficiaryNationalityName = (value: string): void => {
+    if (parseInt(value) > 0) {
+      this.beneficiary.nationality_name = '';
+    }
+  }
+
   updateUser = (postData: any): void => {
     this.spinner.show();
     this.admin.postDataApi('addSeller', postData).subscribe((success) => {
@@ -693,6 +703,7 @@ export class EditUserComponent implements OnInit {
         modelSave.tutor_email = this.beneficiary.tutor.tutor_email
       //Object.assign(this.selectedAddr, modelSave);
     }
+    this.spinner.show();
     this.admin.postDataApi('addBeneficiary', modelSave)
       .subscribe(
         success => {
@@ -715,16 +726,19 @@ export class EditUserComponent implements OnInit {
       age--;
     }
     this.age = age;
-    console.log(this.age,this.age<=18,"age")
+    //console.log(this.age, this.age <= 18, "age")
     return age;
   }
 
   afterAddcredit = (creditDetails: any): void => {
+    this.age = undefined;
+    this.beneficiary = new Beneficiary();
+    this.beneficiary.tutor = new Tutor();
     this.beneficiary.beneficiary_name = '';
     this.beneficiary.id = undefined;
     this.beneficiary.beneficiary_firstSurname = '';
     this.beneficiary.beneficiary_secondSurname = '';
-    this.beneficiary.beneficiary_relationship = '';
+    //this.beneficiary.beneficiary_relationship = '';
     this.beneficiary.beneficiary_dob = '';
     this.beneficiary.beneficiary_address = '';
     this.beneficiary.beneficiary_email = '';
@@ -732,7 +746,7 @@ export class EditUserComponent implements OnInit {
     this.beneficiary.tutor.tutor_name = '';
     this.beneficiary.tutor.tutor_firstSurname = '';
     this.beneficiary.tutor.tutor_secondSurname = '';
-    this.beneficiary.tutor.tutor_relationship = '';
+    //this.beneficiary.tutor.tutor_relationship = '';
     this.beneficiary.tutor.tutor_dob = '';
     this.beneficiary.tutor.tutor_address = '';
     this.beneficiary.tutor.tutor_phone = '';
@@ -755,7 +769,8 @@ export class EditUserComponent implements OnInit {
     this.selectedAddr = data;
     this.beneficiary = data;
     this.beneficiary.id = data.id
-    console.log(this.beneficiary.id, "this.beneficiary.id")
+    //console.log(this.beneficiary.id, "this.beneficiary.id")
+    data.beneficiary_dob ? this.ageFromDateOfBirthday(data.beneficiary_dob) : this.age = undefined;
   }
 
   assignedObject = (): void => {

@@ -12,6 +12,14 @@ export class Beneficiary {
     beneficiary_address: string;
     beneficiary_phone: string;
     beneficiary_email: string;
+
+    curp: string;
+    fedtax_pay: string;
+    nationality: number = 1;
+    marital_status: number = 0;
+    gender: string;
+    nationality_name: string;
+
     user?: Users;
     user_id?: number;
     user_type?: any;

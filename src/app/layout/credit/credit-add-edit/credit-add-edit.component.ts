@@ -76,10 +76,14 @@ export class CreditAddEditComponent implements OnInit {
   userForm: FormGroup;
   showSearch = false;
   Onedit = false;
-  toggleSelectedDetails: { isCreditCardChecked: boolean, isOwnCarChecked: boolean, additionalDetail: boolean, additionalDetailBeneficiary: boolean
-  ,Business: boolean,WarrantyProperty: boolean ,Personal: boolean} =
-    { isCreditCardChecked: false, isOwnCarChecked: false, additionalDetail: false, additionalDetailBeneficiary: false,Business: false,
-      WarrantyProperty: false,Personal: false};
+  toggleSelectedDetails: {
+    isCreditCardChecked: boolean, isOwnCarChecked: boolean, additionalDetail: boolean, additionalDetailBeneficiary: boolean
+    , Business: boolean, WarrantyProperty: boolean, Personal: boolean
+  } =
+    {
+      isCreditCardChecked: false, isOwnCarChecked: false, additionalDetail: false, additionalDetailBeneficiary: false, Business: false,
+      WarrantyProperty: false, Personal: false
+    };
   //dataView: boolean = false ;
   initialCountry: any;
 
@@ -144,15 +148,15 @@ export class CreditAddEditComponent implements OnInit {
       case 4:
         this.toggleSelectedDetails.additionalDetailBeneficiary = !this.toggleSelectedDetails.additionalDetailBeneficiary;
         break;
-        case 5:
-          this.toggleSelectedDetails.Personal = !this.toggleSelectedDetails.Personal;
-          break;
-          case 6:
-            this.toggleSelectedDetails.WarrantyProperty = !this.toggleSelectedDetails.WarrantyProperty;
-            break;
-            case 7:
-              this.toggleSelectedDetails.Business = !this.toggleSelectedDetails.Business;
-              break;
+      case 5:
+        this.toggleSelectedDetails.Personal = !this.toggleSelectedDetails.Personal;
+        break;
+      case 6:
+        this.toggleSelectedDetails.WarrantyProperty = !this.toggleSelectedDetails.WarrantyProperty;
+        break;
+      case 7:
+        this.toggleSelectedDetails.Business = !this.toggleSelectedDetails.Business;
+        break;
       default:
         break;
     }
@@ -715,7 +719,7 @@ export class CreditAddEditComponent implements OnInit {
       this.adminService.postDataApi('getPaymentScheme', {}),
       this.adminService.postDataApi('getDestination', {}),
       this.adminService.postDataApi('getCreditsBanks', {}),
-      this.adminService.postDataApi('getCreditesInsured',{}),
+      this.adminService.postDataApi('getCreditesInsured', {}),
       this.adminService.postDataApi('getCreditsExecutive', {}),
       this.adminService.postDataApi('getCountryState', { country_id: 1 }),
       this.adminService.postDataApi('getSquare', {}),
@@ -1052,11 +1056,11 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   getRequestDataForNinethStep = (currentStep: number): any => {
-    const modelSave = {
+    const modelSave: any = {
       step: currentStep,
-      incomes_bank_account: (this.creditModel.incomes_bank_account || []).length > 0 
-      ? this.creditModel.incomes_bank_account : null
+      incomes_bank_account: this.creditModel.incomes_bank_account
     };
+    (this.creditModel.incomes_bank_account || []).length > 0 ? '' : modelSave.credites_details_id = this.parameter.property_id;
     return modelSave;
   }
 
@@ -1276,7 +1280,7 @@ export class CreditAddEditComponent implements OnInit {
       return true;
     }
   }
- 
+
   getAccountTypeText = (bankId: any): any => {
     const data = this.income_list.find((item) => item.id == bankId);
     return (this.language_code == 'en' ? data.name_en : data.name_es);
