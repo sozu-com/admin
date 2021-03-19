@@ -1052,6 +1052,13 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   getRequestDataForNinethStep = (currentStep: number): any => {
+    if(!this.creditModel.incomes_bank_account){
+      this.toastr.clear();
+      this.toastr.error(
+        this.translate.instant('message.error.pleaseEnterSomeText'),
+        this.translate.instant('swal.error'),
+      );
+    }
     const modelSave = {
       step: currentStep,
       incomes_bank_account: this.creditModel.incomes_bank_account
