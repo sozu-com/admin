@@ -1,20 +1,14 @@
-import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
 import { Users } from 'src/app/models/users.model';
-import { MapsAPILoader } from '@agm/core';
 import { FileUpload } from 'src/app/common/fileUpload';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { IProperty } from 'src/app/common/property';
 import { Constant } from 'src/app/common/constants';
-import { CommonService } from 'src/app/services/common.service';
 import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
-import { LegalRepresentative, Banks } from 'src/app/models/legalEntity.model';
 import { ToastrService } from 'ngx-toastr';
-declare const google;
 declare let swal: any;
-
 
 @Component({
   selector: 'app-documents-upload',
@@ -22,6 +16,7 @@ declare let swal: any;
   styleUrls: ['./documents-upload.component.css']
 })
 export class DocumentsUploadComponent implements OnInit {
+
   @ViewChild('mapDiv') mapDiv: ElementRef;
   @ViewChild('search') searchElementRef: ElementRef;
   @ViewChild('docsModalClose') docsModalClose: ElementRef;
@@ -31,8 +26,6 @@ export class DocumentsUploadComponent implements OnInit {
   @ViewChild('folderModalOpen') folderModalOpen: ElementRef;
   @ViewChild('folderModalClose') folderModalClose: ElementRef;
 
-  initialCountry: any;
-  show = false;
   image: any;
   file4: FileUpload;
   developer_image: any;
@@ -40,7 +33,6 @@ export class DocumentsUploadComponent implements OnInit {
   location: IProperty = {};
   language_code: string;
   showInput: boolean = false;
-  dataNotAvailable: boolean;
   collectionFolders: Array<any>;
   folderIndex: number;
   folderName: string;
@@ -51,79 +43,104 @@ export class DocumentsUploadComponent implements OnInit {
   mode: string;
   selectedFolder: any = {};
 
+  public currentDocumentIndex: number = 0; // bydefault 0 , 1 for user , 2 for beneficiary , 3 for tutor
+  public linked_documents: Array<any>;
+  private routeDetaills: { userId: string, beneficiaryId: string, tutorId: string }
+    = { userId: null, beneficiaryId: null, tutorId: null };
+  private isDeletedDocument: boolean = false;
+  // private isShowSpinner: boolean = true;
+
   constructor(
     public constant: Constant,
-    private cs: CommonService,
     public admin: AdminService,
     private route: ActivatedRoute,
-    private spinner: NgxSpinnerService, private router: Router,
-    private translate: TranslateService,  private toastr: ToastrService,
+    private spinner: NgxSpinnerService,
+    private router: Router,
+    private translate: TranslateService,
+    private toastr: ToastrService,
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.language_code = localStorage.getItem('language_code');
-    this.initModel();
+    this.model = new Users();
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
-    console.log(this.model,"model")
-      this.parameter.sub = this.route.params.subscribe(params => {
-        if (params['id']) {
-          this.model.id = params['id'];
-          this.getUserById(this.model.id);
-        } else {
-          this.model.id = '';
+    this.parameter.sub = this.route.params.subscribe(params => {
+      if (params['userId']) {
+        this.model.id = params['userId'];
+        this.routeDetaills.userId = params['userId'];
+        this.currentDocumentIndex = 1;
+        if (params['beneficiaryId']) {
+          this.routeDetaills.beneficiaryId = params['beneficiaryId'];
+          this.currentDocumentIndex = 2;
+          if (params['tutorId']) {
+            this.routeDetaills.tutorId = params['tutorId'];
+            this.currentDocumentIndex = 3;
+          }
         }
-      });
+        this.getUserById(this.model.id);
+      } else {
+        this.model.id = '';
+      }
+    });
   }
 
-  initModel() {
-    this.initialCountry = {initialCountry: this.constant.country_code};
-    this.model = new Users();
-    this.model.legal_rep_banks = new Array();
-    this.model.user_linked_documents = new Array();
-    this.model.legal_representative = new LegalRepresentative();
-    this.model.country_code = this.constant.country_code;
-    this.model.dial_code = this.constant.dial_code;
-  }
-
- 
-
-  getUserById(id: string) {
+  getUserById = (id: string): void => {
+    // if (this.isShowSpinner || this.isDeletedDocument) {
+    //   this.spinner.show();
+    // } else {
+    //   this.parameter.loading = true;
+    // }
     this.spinner.show();
-    this.admin.postDataApi('getUserById', {'user_id': id})
-    .subscribe(
-      success => {
-        this.spinner.hide();
-        this.model = new Users();
-        this.model = success.data;
-        // this.model.legal_representative = new LegalRepresentative();
-        this.model.legal_rep_banks = success.data.legal_rep_banks;
-        this.model.user_linked_documents = success.data.user_linked_documents;
-        console.log(this.model.user_linked_documents,"doc")
-        this.model.legal_representative = success.data.legal_representative || new LegalRepresentative();
-        this.model.legal_representative.legal_rep_banks = success.data.legal_representative.legal_rep_banks; // Array(new Banks());
-        this.image = this.model.image;
-      }, error => {
-        this.spinner.hide();
-      });
+    this.admin.postDataApi('getUserById', { 'user_id': id }).subscribe((success) => {
+      // if (this.isShowSpinner || this.isDeletedDocument) {
+      //   this.spinner.hide();
+      //   this.isShowSpinner = false;
+      // } else {
+      //   this.parameter.loading = false;
+      // }
+      this.spinner.hide();
+      this.model = new Users();
+      this.model = success.data;
+      switch (this.currentDocumentIndex) {
+        case 1:
+          this.linked_documents = success.data.user_linked_documents || [];
+          break;
+        case 2:
+          (success.data.beneficiary || []).forEach((data) => {
+            if (data.id == parseInt(this.routeDetaills.beneficiaryId)) {
+              this.linked_documents = data.beneficiary_linked_document || [];
+            }
+          });
+          break;
+        case 3:
+          (success.data.beneficiary || []).forEach((data) => {
+            if (data.tutor.id == parseInt(this.routeDetaills.tutorId)) {
+              this.linked_documents = data.tutor.tutor_linked_document || [];
+            }
+          });
+          break;
+        default:
+          break;
+      }
+      if (this.isDeletedDocument) {
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
+        this.isDeletedDocument = false;
+      }
+    }, (error) => {
+      this.spinner.hide();
+      // this.parameter.loading = false;
+      // this.isShowSpinner = false;
+    });
   }
 
-  set() {
-    this.show = true;
+  viewDocument = (documentLink: string): void => {
+    window.open(documentLink, '_blank');
   }
 
-  noDataAvailable(data){
-   this.dataNotAvailable = data? true : false;
-  }
-
-  viewDocument(document: string) {
-    window.open(document, '_blank');
-  }
-  
-  deletePopup(index: number, id: string) {
+  deletePopup = (index: number, id: string): void => {
     this.parameter.index = index;
     this.parameter.text = this.translate.instant('message.error.wantToDeleteFile');
-
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
@@ -133,62 +150,148 @@ export class DocumentsUploadComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.deleteBuyerSeller(index, id);
+        switch (this.currentDocumentIndex) {
+          case 1:
+            this.deleteBuyerSeller(index, id);
+            break;
+          case 2:
+            this.deleteBeneficiaryDocument(index, id);
+            break;
+          case 3:
+            this.deleteTutorDocument(index, id);
+            break;
+          default:
+            break;
+        }
       }
     });
   }
 
-  deleteBuyerSeller(index: number, id: string) {
-    this.parameter.index = index;
-    const input = new FormData();
-    input.append('id', id);
-    this.admin.postDataApi('deleteLinkedDocument', input)
-      .subscribe(
-        success => {
-          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
-          this.getUserById(this.model.id);
-          this.parameter.items.splice(index, 1);
-        });
+  deleteBuyerSeller = (index: number, id: string): void => {
+    this.spinner.show();
+    this.admin.postDataApi('deleteLinkedDocument', this.getPostRequestToDeleteDocument(index, id)).
+      subscribe((success) => {
+        this.spinner.hide();
+        this.getUserByIdAfterDeteleDocument();
+      });
   }
-  
-  closeModal() {
+
+  deleteBeneficiaryDocument = (index: number, id: string): void => {
+    this.spinner.show();
+    this.admin.postDataApi('deleteBeneficiaryDocument', this.getPostRequestToDeleteDocument(index, id)).
+      subscribe((success) => {
+        this.spinner.hide();
+        this.getUserByIdAfterDeteleDocument();
+      });
+  }
+
+  deleteTutorDocument = (index: number, id: string): void => {
+    this.spinner.show();
+    this.admin.postDataApi('deleteTutorDocument', this.getPostRequestToDeleteDocument(index, id)).
+      subscribe((success) => {
+        this.spinner.hide();
+        this.getUserByIdAfterDeteleDocument();
+      });
+  }
+
+  getPostRequestToDeleteDocument = (index: number, id: string): FormData => {
+    this.parameter.index = index;
+    const post = new FormData();
+    post.append('id', id);
+    return post;
+  }
+
+  getUserByIdAfterDeteleDocument = (): void => {
+    this.isDeletedDocument = true;
+    this.getUserById(this.model.id);
+  }
+
+
+  closeModal = (): void => {
+    this.docFile = '';
+    this.docsFile.nativeElement.value = '';
     this.docsModalClose.nativeElement.click();
   }
 
-  onSelectFile(files,folderId) {
-    this.parameter.loading = true;
-    this.cs.saveAttachment1(files[0],folderId).subscribe(
-      success => {
-        this.parameter.loading = false;
-        this.docFile = success['data'].name;
-        this.folderId = success['data'].id;
-      }, error => {
-        this.parameter.loading = false;
-      }
-    );
+  onSelectFile = (files: any, folderId: number): void => {
+    this.docFile = files[0];
+    this.folderId = folderId;
   }
 
 
-  addDocs() {
+  addDocs = (): void => {
     if (!this.docFile) {
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseEnterDocuFile'), this.translate.instant('swal.error'));
-      return;
+    } else {
+      switch (this.currentDocumentIndex) {
+        case 1:
+          this.parameter.loading = true;
+          this.admin.postDataApi('addLinkedDocument', this.getPostRequestToAddDocument()).subscribe((success) => {
+            this.parameter.loading = false;
+            this.getUserByIdAfterAddDocument();
+          }, (error) => {
+            this.parameter.loading = false;
+          });
+          break;
+        case 2:
+          this.parameter.loading = true;
+          this.admin.postDataApi('addBeneficiaryDocument', this.getPostRequestToAddDocument()).subscribe((success) => {
+            this.parameter.loading = false;
+            this.getUserByIdAfterAddDocument();
+          }, (error) => {
+            this.parameter.loading = false;
+          });
+          break;
+        case 3:
+          this.parameter.loading = true;
+          this.admin.postDataApi('addTutorDocument', this.getPostRequestToAddDocument()).subscribe((success) => {
+            this.parameter.loading = false;
+            this.getUserByIdAfterAddDocument();
+          }, (error) => {
+            this.parameter.loading = false;
+          });
+          break;
+        default:
+          break;
+      }
     }
-    
-    console.log(this.docFile,"file")
-    this.docs.push({display_name: this.docFile});
-    this.docFile = ''; 
+  }
+
+  getPostRequestToAddDocument = (): FormData => {
+    const post = new FormData();
+    post.append('attachment', this.docFile);
+    post.append('id', this.folderId.toString());
+    return post;
+  }
+
+  getUserByIdAfterAddDocument = (): void => {
+    this.docs.push({ display_name: this.docFile });
+    this.docFile = '';
     this.docsFile.nativeElement.value = '';
     this.getUserById(this.model.id);
   }
 
-  openAddFolder(folder, index: number) {
-     this.folderName = folder.user_document.name_en;
+  openAddFolder = (folder: any): void => {
+    switch (this.currentDocumentIndex) {
+      case 1:
+        this.folderName = this.language_code == 'en' ? folder.user_document.name_en : folder.user_document.name_es;
+        break;
+      case 2:
+        this.folderName = this.language_code == 'en' ? folder.beneficiary_document.name_en : folder.beneficiary_document.name_es;
+        break;
+      case 3:
+        this.folderName = this.language_code == 'en' ? folder.tutor_document.name_en : folder.tutor_document.name_es;
+        break;
+      default:
+        break;
+    }
     this.folderId = folder.id;
     this.folderModalOpen.nativeElement.click();
   }
-  goBack(userdata){ 
-    this.router.navigate(['/dashboard/users/edit-user', userdata.id])
+
+  goBackToUserListing = (): void => {
+    this.router.navigate(['/dashboard/users/edit-user', this.model.id])
   }
+
 }

@@ -35,7 +35,15 @@ const routes: Routes = [
     canActivate: [AclUserGuard], data: { roles: ['User Management', 'can_read', ''] }
   },
   {
-    path: 'documents-upload/:id/:documentType', component: DocumentsUploadComponent,
+    path: 'documents-upload/:userId', component: DocumentsUploadComponent,
+    canActivate: [AclUserGuard], data: { roles: ['User Management', 'can_read', ''] }
+  },
+  {
+    path: 'documents-upload/:userId/:beneficiaryId', component: DocumentsUploadComponent,
+    canActivate: [AclUserGuard], data: { roles: ['User Management', 'can_read', ''] }
+  },
+  {
+    path: 'documents-upload/:userId/:beneficiaryId/:tutorId', component: DocumentsUploadComponent,
     canActivate: [AclUserGuard], data: { roles: ['User Management', 'can_read', ''] }
   }
 ];

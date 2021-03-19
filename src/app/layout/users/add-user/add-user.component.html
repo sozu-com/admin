@@ -581,7 +581,7 @@
        <div class="row">
          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
            <div class="form-group-3">
-             <label>{{'addForm.names' | translate}}</label>
+             <label>{{'addForm.names' | translate}} <span class="color-red">*</span></label>
              <div class="clearfix"></div>
              <input  autocomplete="off" class="form-control" type="text" name="beneficiary_name"
              [(ngModel)]="beneficiary.beneficiary_name">
@@ -725,7 +725,7 @@
        <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
-            <label>{{'addForm.names' | translate}}</label>
+            <label>{{'addForm.names' | translate}} <span class="color-red">*</span></label>
             <div class="clearfix"></div>
             <input  autocomplete="off" class="form-control" type="text" name="tutor_name"
               [(ngModel)]="beneficiary.tutor.tutor_name">
@@ -809,7 +809,7 @@
     <div class="col-12">
       <div class="btn-cont text-right">
         <button class="btn btn-primary" type="button" 
-        [disabled]="!beneficiary.beneficiary_relationship"
+        [disabled]="hasErrorBeneficiary()"
         (click)="addBeneficiary()">
         {{selectedAddr ? ('creditForm.editBeneficiaries' | translate) : ('creditForm.AddBeneficiaries' | translate)}}
         </button>
@@ -825,20 +825,23 @@
      <table class="table">
        <thead class="thead-light">
          <tr>
-           <th style="color: black;">{{'creditForm.id' | translate}}</th>
-           <th style="color: black;">{{'creditForm.RELATIONSHIP' | translate}}:</th>
-           <th style="color: black;">{{'creditForm.age' | translate}}:</th>
-           <th style="color: black;">{{'addCollection.edit' | translate}}</th>
-           <th style="color: black;">{{'addCollection.delete' | translate}}</th>
+          <th style="color: black;">{{'creditForm.id' | translate}}</th>
+          <th style="color: black;">{{'addCollection.beneficiaryNames' | translate}}:</th>
+          <th style="color: black;">{{'addCollection.tutorNames' | translate}}:</th>
+          <th style="color: black;">{{'creditForm.RELATIONSHIP' | translate}}:</th>
+          <th style="color: black;">{{'creditForm.age' | translate}}:</th>
+          <th style="color: black;">{{'addCollection.edit' | translate}}</th>
+          <th style="color: black;">{{'addCollection.delete' | translate}}</th>
          </tr>
        </thead>
        <tbody>
         <tr *ngFor="let beneficiary of beneficiary_list; let i=index">
           <td>{{(i+1)}}</td>
+          <td>{{beneficiary?.beneficiary_name || ('table.tr.td.NA' | translate)}}</td>
+          <td>{{beneficiary?.tutor?.tutor_name || ('table.tr.td.NA' | translate)}}</td>
           <td>{{beneficiary?.beneficiary_relationship ? this.getAccountTypeText(beneficiary?.beneficiary_relationship) : ('table.tr.td.NA' | translate)}}
           </td>
-
-          <td>{{beneficiary?.beneficiary_dob | date:'M/d/yy'  || ('table.tr.td.NA' | translate)}}</td>
+          <td>{{beneficiary?.beneficiary_dob ? (beneficiary?.beneficiary_dob | date:'M/d/yy')  : ('table.tr.td.NA' | translate)}}</td>
           <td>
             <button class="action-icon" title="{{'addCollection.edit' | translate}}"
               (click)="editBeneficiary(beneficiary,i)" type="button"> 
@@ -852,7 +855,7 @@
             </button>
           </td>
         </tr>
-        <tr *ngIf="beneficiary_list.length == 0"><th colspan="6" style="text-align: center;">{{'message.error.noRecordFound' | translate}}</th></tr>
+        <tr *ngIf="beneficiary_list?.length == 0"><th colspan="7" style="text-align: center;">{{'message.error.noRecordFound' | translate}}</th></tr>
       </tbody>
      </table>
     

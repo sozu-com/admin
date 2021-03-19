@@ -734,5 +734,16 @@ export class AddUserComponent implements OnInit {
       this.beneficiary.tutor = new Tutor();
     }
   }
+
+  hasErrorBeneficiary = (): boolean => {
+    if (!this.beneficiary.beneficiary_name) {
+      return true;
+    } else if (this.age <= 18) {
+      if (!this.beneficiary.tutor.tutor_name) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
 
