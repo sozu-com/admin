@@ -86,7 +86,7 @@
                       </div>
                       <div class="col-md-2">
                         <div class="btn-cont">
-                          <button *ngIf="model?.id" (click)="uploadDoc('user')"
+                          <button *ngIf="model?.id" (click)="uploadDoc(1)"
                             class="btn btn-primary">{{'addForm.documentation' | translate}}</button>
                         </div>
                       </div>
@@ -672,15 +672,15 @@
                     <div class="white-bg padding40">
                        <!-- Beneficiaries -->
                        <div class="row">
-                        <div class="col-md-10">                         
+                        <div class="col-md-12">                         
                             <h5 style="color: black;font-weight: bold;">{{beneficiary.id ? ('creditForm.editBeneficiaries' | translate) : ('creditForm.AddBeneficiaries' | translate)}}</h5>
                         </div>
-                        <div class="col-md-2">
+                        <!-- <div class="col-md-2">
                           <div class="btn-cont">
                             <button *ngIf="model?.id" (click)="uploadDoc('beneficiary')" [disabled]="beneficiary.id ? false : true"
                               class="btn btn-primary">{{'addForm.documentation' | translate}}</button>
                           </div>
-                        </div>
+                        </div> -->
                       </div>
                         <!-- <h5 style="color: black;font-weight: bold;">
                           {{beneficiary.id ? ('creditForm.editBeneficiaries' | translate) : ('creditForm.AddBeneficiaries' | translate)}}
@@ -688,7 +688,7 @@
                         <div class="row">
                           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                             <div class="form-group-3">
-                              <label>{{'addForm.names' | translate}}</label>
+                              <label>{{'addForm.names' | translate}} <span class="color-red">*</span></label>
                               <div class="clearfix"></div>
                               <input  autocomplete="off" class="form-control" type="text" name="beneficiary_name"
                               [(ngModel)]="beneficiary.beneficiary_name">
@@ -828,21 +828,21 @@
                          <!-- Tutor -->
                         <div class="white-bg padding40" *ngIf="age<=18">
                           <div class="row">
-                            <div class="col-md-10">                         
+                            <div class="col-md-12">                         
                                 <h5 style="color: black;font-weight: bold;">{{'addCollection.Tutor' | translate}}</h5>
                             </div>
-                            <div class="col-md-2">
+                            <!-- <div class="col-md-2">
                               <div class="btn-cont">
                                 <button *ngIf="model?.id" (click)="uploadDoc('tutor')" [disabled]="beneficiary.id ? false : true"
                                   class="btn btn-primary">{{'addForm.documentation' | translate}}</button>
                               </div>
-                            </div>
+                            </div> -->
                           </div>
                           <!-- <h5 style="color: black;font-weight: bold;">{{'addCollection.Tutor' | translate}}</h5> -->
                           <div class="row">
                             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                               <div class="form-group-3">
-                                <label>{{'addForm.names' | translate}}</label>
+                                <label>{{'addForm.names' | translate}} <span class="color-red">*</span></label>
                                 <div class="clearfix"></div>
                                 <input  autocomplete="off" class="form-control" type="text" name="tutor_name"
                                   [(ngModel)]="beneficiary.tutor.tutor_name">
@@ -929,7 +929,7 @@
                       <div class="col-12">
                         <div class="btn-cont text-right">
                           <button class="btn btn-primary" 
-                          [disabled]="!beneficiary.beneficiary_relationship" type="button" (click)="addBeneficiary()">
+                          [disabled]="hasErrorBeneficiary()" type="button" (click)="addBeneficiary()">
                             {{'creditForm.saveBeneficiaries' | translate}}
                           </button>
                         </div>
@@ -945,22 +945,26 @@
                         <thead class="thead-light">
                           <tr>
                             <th style="color: black;">{{'creditForm.id' | translate}}</th>
+                            <th style="color: black;">{{'addCollection.beneficiaryNames' | translate}}:</th>
+                            <th style="color: black;">{{'addCollection.tutorNames' | translate}}:</th>
                             <th style="color: black;">{{'creditForm.RELATIONSHIP' | translate}}:</th>
                             <th style="color: black;">{{'creditForm.age' | translate}}:</th>
                             <th style="color: black;">{{'addCollection.edit' | translate}}</th>
                             <th style="color: black;">{{'addCollection.delete' | translate}}</th>
+                            <th style="color: black;">{{'addCollection.beneficiaryDocumentation' | translate}}:</th>
+                            <th style="color: black;">{{'addCollection.tutorDocumentation' | translate}}:</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr *ngFor="let beneficiary of beneficiary_list; let i=index">
                             <td>{{(i+1)}}</td>
+                            <td>{{beneficiary?.beneficiary_name || ('table.tr.td.NA' | translate)}}</td>
+                            <td>{{beneficiary?.tutor?.tutor_name || ('table.tr.td.NA' | translate)}}</td>
                             <td>{{beneficiary?.beneficiary_relationship ? this.getAccountTypeText(beneficiary?.beneficiary_relationship) : ('table.tr.td.NA' | translate)}}
                             </td>
-
                               <td>
-                                {{beneficiary?.beneficiary_dob | date:'M/d/yy'}}</td>
+                                {{beneficiary?.beneficiary_dob ? (beneficiary?.beneficiary_dob | date:'M/d/yy') : ('table.tr.td.NA' | translate)}}</td>
                               <td>
-
                               <button class="action-icon" title="{{'addCollection.edit' | translate}}"
                                 (click)="editBeneficiary(beneficiary,i)">
                                 <img src="assets/img/edit.png" alt="img">
@@ -972,8 +976,20 @@
                                 <img src="assets/img/ic_delete.png" alt="img">
                               </button>
                             </td>
+                            <td>
+                              <button class="action-icon" title="{{'addCollection.beneficiaryDocumentation' | translate}}"
+                              (click)="uploadDoc(2,beneficiary)" [disabled]="beneficiary?.id ? false : true ">
+                              <i class="fa fa-file-o" aria-hidden="true"></i>
+                            </button>
+                            </td>
+                            <td>
+                              <button class="action-icon" title="{{'addCollection.tutorDocumentation' | translate}}"
+                              (click)="uploadDoc(3,beneficiary)"  [disabled]="beneficiary?.tutor?.tutor_name ? false : true ">
+                              <i class="fa fa-file-o" aria-hidden="true"></i>
+                            </button>
+                            </td>
                           </tr>
-                          <tr *ngIf="beneficiary_list.length == 0"><th colspan="6" style="text-align: center;">{{'message.error.noRecordFound' | translate}}</th></tr>
+                          <tr *ngIf="beneficiary_list?.length == 0"><th colspan="9" style="text-align: center;">{{'message.error.noRecordFound' | translate}}</th></tr>
                         </tbody>
                       </table>
                      

@@ -191,8 +191,21 @@ export class EditUserComponent implements OnInit {
     }
   }
 
-  uploadDoc = (documentType: string): void => {
-    const route = `${'/dashboard/users/documents-upload/'}${this.model.id || 0}${'/'}${documentType}`;
+  uploadDoc = (index: number, beneficiaryDetails?: any): void => {
+    let route;
+    switch (index) {
+      case 1:
+        route = `${'/dashboard/users/documents-upload/'}${this.model.id || 0}`;
+        break;
+      case 2:
+        route = `${'/dashboard/users/documents-upload/'}${this.model.id || 0}${'/'}${beneficiaryDetails.id}`;
+        break;
+      case 3:
+        route = `${'/dashboard/users/documents-upload/'}${this.model.id || 0}${'/'}${beneficiaryDetails.id}${'/'}${beneficiaryDetails.tutor.id}`;
+        break;
+      default:
+        break;
+    }
     this.router.navigate([route]);
   }
   goBack() {
@@ -814,5 +827,15 @@ export class EditUserComponent implements OnInit {
     return (this.language_code == 'en' ? data.name_en : data.name_es);
   }
 
+  hasErrorBeneficiary = (): boolean => {
+    if (!this.beneficiary.beneficiary_name) {
+      return true;
+    } else if (this.age <= 18) {
+      if (!this.beneficiary.tutor.tutor_name) {
+        return true;
+      }
+    }
+    return false;
+  }
 
 }
