@@ -781,6 +781,7 @@ export class EditUserComponent implements OnInit {
   editBeneficiary(data) {
     this.selectedAddr = data;
     this.beneficiary = data;
+    data.beneficiary_relationship ? this.beneficiary.beneficiary_relationship =  data.beneficiary_relationship : this.beneficiary.beneficiary_relationship = undefined;
     this.beneficiary.id = data.id
     //console.log(this.beneficiary.id, "this.beneficiary.id")
     data.beneficiary_dob ? this.ageFromDateOfBirthday(data.beneficiary_dob) : this.age = undefined;
