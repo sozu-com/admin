@@ -142,18 +142,18 @@
                 </div> -->
             </div>
             <div class="graph-area" [style.display]="reportType==1 ? 'block' : 'none'">
-                  <p>Expected Cash Flow</p>
+                  <p>{{'sidebar.ExpectedReport' | translate}}</p>
                   <div id="chartContainer" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
             </div>
 
             <div class="graph-area" [style.display]="reportType==1 ? 'block' : 'none'">
-                  <p>Real Cash Flow</p>
+                  <p>{{'sidebar.RealReport' | translate}}</p>
                   <div id="chartContainer1" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;">
                   </div>
             </div>
 
             <div class="graph-area" [style.display]="reportType==1 ? 'block' : 'none'">
-                  <p>Expected & Real Cash Flow</p>
+                  <p>{{'sidebar.RealExpectedReport' | translate}}</p>
                   <div id="chartContainer2" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;">
                   </div>
             </div>
