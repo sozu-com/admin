@@ -2423,29 +2423,47 @@
         </ng-container>
         <div class="col-lg-2 col-md-4 col-sm-6 col-12 folder-box"
           style="background-image: url('/assets/img/ic_folder.svg')">
-          <div class="form-group-3" (click)="this.openBuyerSellerPropertyDocumentationModal(1)">
+          <div class="form-group-3" (click)="this.openBuyerSellerPropertyDocumentationModal(1, {})">
             <p>{{'commonBlock.buyerDocumentation' | translate}}</p>
           </div>
           <div class="folder-action-btn">
-            <i (click)="this.openBuyerSellerPropertyDocumentationModal(1)" class="fa fa-folder" aria-hidden="true"></i>
+            <i (click)="this.openBuyerSellerPropertyDocumentationModal(1, {})" class="fa fa-folder" aria-hidden="true"></i>
           </div>
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6 col-12 folder-box"
           style="background-image: url('/assets/img/ic_folder.svg')">
-          <div class="form-group-3" (click)="this.openBuyerSellerPropertyDocumentationModal(2)">
+          <div class="form-group-3" (click)="this.openBuyerSellerPropertyDocumentationModal(2, {})">
             <p>{{'commonBlock.sellerDocumentation' | translate}}</p>
           </div>
           <div class="folder-action-btn">
-            <i (click)="this.openBuyerSellerPropertyDocumentationModal(2)" class="fa fa-folder" aria-hidden="true"></i>
+            <i (click)="this.openBuyerSellerPropertyDocumentationModal(2, {})" class="fa fa-folder" aria-hidden="true"></i>
           </div>
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6 col-12 folder-box"
           style="background-image: url('/assets/img/ic_folder.svg')">
-          <div class="form-group-3" (click)="this.openBuyerSellerPropertyDocumentationModal(3)">
+          <div class="form-group-3" (click)="this.openBuyerSellerPropertyDocumentationModal(3, {})">
             <p>{{'commonBlock.propertyDocumentation' | translate}}</p>
           </div>
           <div class="folder-action-btn">
-            <i (click)="this.openBuyerSellerPropertyDocumentationModal(3)" class="fa fa-folder" aria-hidden="true"></i>
+            <i (click)="this.openBuyerSellerPropertyDocumentationModal(3, {})" class="fa fa-folder" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6 col-12 folder-box"
+          style="background-image: url('/assets/img/ic_folder.svg')" *ngFor="let documentation of beneficiaryDocumentationFoldersDetails">
+          <div class="form-group-3" (click)="this.openBuyerSellerPropertyDocumentationModal(4, documentation)">
+            <p>{{'commonBlock.beneficiaryDocumentation' | translate}} - {{documentation.beneficiary_name}}</p>
+          </div>
+          <div class="folder-action-btn">
+            <i (click)="this.openBuyerSellerPropertyDocumentationModal(4, documentation)" class="fa fa-folder" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6 col-12 folder-box"
+          style="background-image: url('/assets/img/ic_folder.svg')" *ngFor="let documentation of tutorDocumentationFoldersDetails">
+          <div class="form-group-3" (click)="this.openBuyerSellerPropertyDocumentationModal(5, documentation)">
+            <p>{{'commonBlock.tutorDocumentation' | translate}} - {{documentation.tutor_name}}</p>
+          </div>
+          <div class="folder-action-btn">
+            <i (click)="this.openBuyerSellerPropertyDocumentationModal(5, documentation)" class="fa fa-folder" aria-hidden="true"></i>
           </div>
         </div>
       </div>
@@ -2755,8 +2773,13 @@
   <div class="modal-dialog fadeIndown">
     <div class="modal-content notary-avail">
       <div class="modal-header popup-header">
-        <h4>{{this.buyerSellerPropertyDocumentationId == 1 ? ('commonBlock.buyerDocumentation' | translate) : 
-          this.buyerSellerPropertyDocumentationId == 2 ? ('commonBlock.sellerDocumentation' | translate) : ('commonBlock.propertyDocumentation' | translate) }}</h4>
+        <h4>{{
+          this.buyerSellerPropertyDocumentationId == 1 ? ('commonBlock.buyerDocumentation' | translate) : 
+          this.buyerSellerPropertyDocumentationId == 2 ? ('commonBlock.sellerDocumentation' | translate) : 
+          this.buyerSellerPropertyDocumentationId == 3 ? ('commonBlock.propertyDocumentation' | translate) : 
+          this.buyerSellerPropertyDocumentationId == 4 ? ('commonBlock.beneficiaryDocumentation' | translate)  : 
+          ('commonBlock.tutorDocumentation' | translate)
+        }} {{beneficiaryName ? '- ' + beneficiaryName : ''}}</h4>
         <button style="display: none;" type="button" class="close" data-dismiss="modal" #buyerSellerPropertyDocumentationModalClose>&times;</button>
         <button type="button" class="close" (click)="this.closeBuyerSellerPropertyDocumentationModal()">&times;</button>
       </div>
@@ -2764,15 +2787,16 @@
       <div class="modal-body">        
         <div *ngIf="this.buyerSellerPropertyDocumentationFoldersDetailsLength > 0" [ngStyle]="{'max-height':sent_as === 1 ? '250px' : '' }"
           class="write-note white-bg" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
-          <ng-container *ngFor="let tempBuyerSellerPropertyDocumentationFoldersDetails of buyerSellerPropertyDocumentationFoldersDetails">
+          <ng-container *ngFor="let tempBuyerSellerPropertyDocumentationFoldersDetails of buyerSellerPropertyDocumentationFoldersDetails; let i = index">
             <div class="wn-block" *ngIf="tempBuyerSellerPropertyDocumentationFoldersDetails?.document_link">
               <div class="circle">
                 <span></span>
               </div>
               <p class="time" title="'Click to view'">
                 <a target="_blank" href="{{tempBuyerSellerPropertyDocumentationFoldersDetails?.document_link}}">
-                  {{this.language_code == 'en' ? tempBuyerSellerPropertyDocumentationFoldersDetails?.user_document?.name_en :
-                  tempBuyerSellerPropertyDocumentationFoldersDetails?.user_document?.name_es }}
+                  {{tempBuyerSellerPropertyDocumentationFoldersDetails.user_document ? 
+                    (this.language_code == 'en' ? tempBuyerSellerPropertyDocumentationFoldersDetails?.user_document?.name_en :
+                  tempBuyerSellerPropertyDocumentationFoldersDetails?.user_document?.name_es) : ('commonBlock.document' | translate) + ' ' + (i + 1) }}
                 </a>
               </p>
             </div>

@@ -135,6 +135,8 @@ export class AddEditCollectionComponent implements OnInit {
   buyerDocumentationFoldersDetails: any[] = [];
   sellerDocumentationFoldersDetails: any[] = [];
   propertyDocumentationFoldersDetails: any[] = [];
+  beneficiaryDocumentationFoldersDetails: any[] = [];
+  tutorDocumentationFoldersDetails: any[] = [];
   language_code: string;
   buyerSellerPropertyDocumentationId: number = 0;
   buyerSellerPropertyDocumentationFoldersDetailsLength: number = 0;
@@ -153,6 +155,7 @@ export class AddEditCollectionComponent implements OnInit {
   public beneficiaryIndex: number = -1;
   public multiDropdownSettings = {};
   collection_account_statement_id: any;
+  beneficiaryName: string;
   //public selectedbeneficiaries: any[] = [];
 
   constructor(
@@ -2492,6 +2495,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   getCollectionDocument = (details: any): void => {
+    let self = this;
     this.spinner.show();
     const postData = {
       property_id: (details.property || {}).id,
@@ -2504,6 +2508,26 @@ export class AddEditCollectionComponent implements OnInit {
       this.buyerDocumentationFoldersDetails = success.buyer || [];
       this.sellerDocumentationFoldersDetails = success.seller || [];
       this.propertyDocumentationFoldersDetails = success.property || [];
+      this.beneficiaryDocumentationFoldersDetails = success.beneficiary || [];
+      this.beneficiaryDocumentationFoldersDetails.forEach(function(element, index){
+        element.beneficiary_documents = [];
+        element.beneficiary_linked_document.forEach(function(x, i){ 
+          if(x.document_link){
+            element.beneficiary_documents.push(x);
+          }
+        });
+        if(element.tutor && element.tutor.tutor_name){
+        self.tutorDocumentationFoldersDetails.push(element.tutor);
+        }
+      });
+      self.tutorDocumentationFoldersDetails.forEach(function(element, index){
+        element.tutor_documents = [];
+        element.tutor_linked_document.forEach(function(x, i){ 
+          if(x.document_link){
+            element.tutor_documents.push(x);
+          }
+        });
+      });
       this.spinner.hide();
     }, (error) => {
       this.spinner.hide();
@@ -2512,21 +2536,40 @@ export class AddEditCollectionComponent implements OnInit {
 
 
   //documentationId 1 for buyer , 2 for seller and 3 for property
-  openBuyerSellerPropertyDocumentationModal = (documentationId: number): void => {
+  openBuyerSellerPropertyDocumentationModal = (documentationId: number, beneficiary): void => {
     this.buyerSellerPropertyDocumentationFoldersDetailsLength = 0;
     this.buyerSellerPropertyDocumentationFoldersDetails = [];
     this.buyerSellerPropertyDocumentationId = documentationId;
+    this.beneficiaryName = beneficiary.beneficiary_name ? beneficiary.beneficiary_name : beneficiary.tutor_name;
     if (documentationId == 1) {
       this.buyerSellerPropertyDocumentationFoldersDetailsLength = this.buyerDocumentationFoldersDetailsLength;
       this.buyerSellerPropertyDocumentationFoldersDetails = this.buyerDocumentationFoldersDetails;
     } else if (documentationId == 2) {
       this.buyerSellerPropertyDocumentationFoldersDetailsLength = this.sellerDocumentationFoldersDetailsLength;
       this.buyerSellerPropertyDocumentationFoldersDetails = this.sellerDocumentationFoldersDetails;
-    } else {
+    } else if (documentationId == 3) {
       this.buyerSellerPropertyDocumentationFoldersDetailsLength = this.propertyDocumentationFoldersDetailsLength;
       this.buyerSellerPropertyDocumentationFoldersDetails = this.propertyDocumentationFoldersDetails;
     }
+    else if (documentationId == 4) {
+      this.buyerSellerPropertyDocumentationFoldersDetailsLength = this.beneficiaryDocumentationFoldersDetailsLength(beneficiary.beneficiary_documents);
+      this.buyerSellerPropertyDocumentationFoldersDetails = beneficiary.beneficiary_documents;
+    }
+    else {
+      this.buyerSellerPropertyDocumentationFoldersDetailsLength = this.beneficiaryDocumentationFoldersDetailsLength(beneficiary.tutor_documents);
+      this.buyerSellerPropertyDocumentationFoldersDetails = beneficiary.tutor_documents;
+    }
     this.buyerSellerPropertyDocumentationModalOpen.nativeElement.click();
+  }
+
+   beneficiaryDocumentationFoldersDetailsLength(beneficiary): number {
+    let count = 0;
+    beneficiary.forEach((item) => {
+      if (item.document_link) {
+        count = count + 1;
+      }
+    });
+    return count;
   }
 
   get buyerDocumentationFoldersDetailsLength(): number {

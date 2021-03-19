@@ -199,6 +199,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   buyerDocumentationFoldersDetails: any[] = [];
   sellerDocumentationFoldersDetails: any[] = [];
   propertyDocumentationFoldersDetails: any[] = [];
+  beneficiaryDocumentationFoldersDetails: any[] = [];
+  tutorDocumentationFoldersDetails: any[] = [];
   language_code: string;
   public paymentBankDetailsArray: any[] = [];
   private bankDetails: any;
@@ -2318,6 +2320,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   }
 
   openFoldersModal = (details: any): void => {
+    let self = this;
     this.spinner.show();
     this.collectionFolders = [];
     this.collectionFolders = details.collection_folders || [];
@@ -2336,6 +2339,26 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       this.buyerDocumentationFoldersDetails = success.buyer || [];
       this.sellerDocumentationFoldersDetails = success.seller || [];
       this.propertyDocumentationFoldersDetails = success.property || [];
+      this.beneficiaryDocumentationFoldersDetails = success.beneficiary || [];
+      this.beneficiaryDocumentationFoldersDetails.forEach(function(element, index){
+        element.beneficiary_documents = [];
+        element.beneficiary_linked_document.forEach(function(x, i){ 
+          if(x.document_link){
+            element.beneficiary_documents.push(x);
+          }
+        });
+        if(element.tutor && element.tutor.tutor_name){
+        self.tutorDocumentationFoldersDetails.push(element.tutor);
+        }
+      });
+      self.tutorDocumentationFoldersDetails.forEach(function(element, index){
+        element.tutor_documents = [];
+        element.tutor_linked_document.forEach(function(x, i){ 
+          if(x.document_link){
+            element.tutor_documents.push(x);
+          }
+        });
+      });
       this.foldersModalOpen.nativeElement.click();
       this.spinner.hide();
     }, (error) => {

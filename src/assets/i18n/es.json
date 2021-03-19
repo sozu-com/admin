@@ -1775,7 +1775,9 @@
     "search": "Buscar",
     "buyerDocumentation":"Documentación del comprador",
     "sellerDocumentation": "Documentación del vendedor",
-    "propertyDocumentation": "Documentación de propiedad"
+    "propertyDocumentation": "Documentación de propiedad",
+    "beneficiaryDocumentation": "Documentación del beneficiario",
+    "tutorDocumentation": "Documentación del tutor"
   },
   "viewCollections": {
     "choose": "Escoger",
