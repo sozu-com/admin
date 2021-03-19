@@ -30,7 +30,7 @@ export class AddUserComponent implements OnInit {
   public parameter: IProperty = {};
   initialCountry: any;
   show = false;
-  beneficiaryIndex:number = -1;
+  beneficiaryIndex: number = -1;
   image: any;
   file4: FileUpload;
   developer_image: any;
@@ -49,7 +49,7 @@ export class AddUserComponent implements OnInit {
   nationalityDetails: any[] = [];
   beneficiary: Beneficiary;
   beneficiary_list: any[] = [];
-  public selectedAddr;
+  public selectedAddr: any;
 
   constructor(
     public constant: Constant,
@@ -166,20 +166,25 @@ export class AddUserComponent implements OnInit {
   }
 
   addBeneficiary = (): void => {
-    const mode: 'update' | 'add' = this.selectedAddr ? 'update' : 'add';
+    const mode = this.selectedAddr ? 'update' : 'add';
     const modelSave = JSON.parse(JSON.stringify(this.beneficiary));
-    if (mode === 'add') {
-      modelSave.id = this.beneficiary.id;
-      modelSave.user_type = 1;
-      modelSave.beneficiary_name = this.beneficiary.beneficiary_name;
-      modelSave.beneficiary_firstSurname = this.beneficiary.beneficiary_firstSurname;
-      modelSave.beneficiary_secondSurname = this.beneficiary.beneficiary_secondSurname;
-      modelSave.beneficiary_relationship = this.beneficiary.beneficiary_relationship;
-      modelSave.beneficiary_dob = this.beneficiary.beneficiary_dob;
-      modelSave.beneficiary_address = this.beneficiary.beneficiary_address;
-      modelSave.beneficiary_email = this.beneficiary.beneficiary_email;
-      modelSave.beneficiary_phone = this.beneficiary.beneficiary_phone;
-      modelSave.tutor_name = this.beneficiary.tutor.tutor_name,
+    modelSave.id = this.beneficiary.id;
+    modelSave.user_type = 1;
+    modelSave.beneficiary_name = this.beneficiary.beneficiary_name;
+    modelSave.beneficiary_firstSurname = this.beneficiary.beneficiary_firstSurname;
+    modelSave.beneficiary_secondSurname = this.beneficiary.beneficiary_secondSurname;
+    modelSave.beneficiary_relationship = this.beneficiary.beneficiary_relationship;
+    modelSave.beneficiary_dob = this.beneficiary.beneficiary_dob;
+    modelSave.beneficiary_address = this.beneficiary.beneficiary_address;
+    modelSave.beneficiary_email = this.beneficiary.beneficiary_email;
+    modelSave.beneficiary_phone = this.beneficiary.beneficiary_phone;
+    modelSave.curp = this.beneficiary.curp;
+    modelSave.fedtax_pay = this.beneficiary.fedtax_pay;
+    modelSave.nationality = this.beneficiary.nationality;
+    modelSave.marital_status = this.beneficiary.marital_status;
+    modelSave.gender = this.beneficiary.gender;
+    modelSave.nationality_name = this.beneficiary.nationality_name;
+    modelSave.tutor_name = this.beneficiary.tutor.tutor_name,
       modelSave.tutor_firstSurname = this.beneficiary.tutor.tutor_firstSurname,
       modelSave.tutor_secondSurname = this.beneficiary.tutor.tutor_secondSurname,
       modelSave.tutor_relationship = this.beneficiary.tutor.tutor_relationship,
@@ -187,35 +192,41 @@ export class AddUserComponent implements OnInit {
       modelSave.tutor_address = this.beneficiary.tutor.tutor_address,
       modelSave.tutor_phone = this.beneficiary.tutor.tutor_phone,
       modelSave.tutor_email = this.beneficiary.tutor.tutor_email
+    if (mode === 'add') {
       this.beneficiary_list.push(modelSave);
       this.makeEditBeneficiary();
     } else if (mode === 'update') {
-      Object.assign(this.selectedAddr, modelSave);
+      // Object.assign(this.selectedAddr, modelSave);
+      this.beneficiary_list.splice(this.beneficiaryIndex, 1, modelSave);
       this.makeEditBeneficiary();
     }
   }
 
-  makeEditBeneficiary  = (): void => {
-      // this.beneficiary.id = null;
-       this.beneficiary.beneficiary_name = '';
-        this.beneficiary.beneficiary_relationship= '';
-        this.beneficiary.beneficiary_firstSurname= '';
-        this.beneficiary.beneficiary_secondSurname= '';
-        this.beneficiary.beneficiary_dob= '';
-        this.beneficiary.beneficiary_address= '';
-        this.beneficiary.beneficiary_email= '';
-        this.beneficiary.beneficiary_phone= '';
-        this.beneficiary.tutor.tutor_name= '';
-        this.beneficiary.tutor.tutor_firstSurname= '';
-        this.beneficiary.tutor.tutor_secondSurname= '';
-        this.beneficiary.tutor.tutor_relationship= '';
-        this.beneficiary.tutor.tutor_dob= '';
-        this.beneficiary.tutor.tutor_address= '';
-        this.beneficiary.tutor.tutor_phone= '';
-        this.beneficiary.tutor.tutor_email= '';
+  makeEditBeneficiary = (): void => {
+    // this.beneficiary.id = null;
+    this.beneficiary = new Beneficiary();
+    this.beneficiary.tutor = new Tutor();
+    this.beneficiary.beneficiary_name = '';
+    //this.beneficiary.beneficiary_relationship = '';
+    this.beneficiary.beneficiary_firstSurname = '';
+    this.beneficiary.beneficiary_secondSurname = '';
+    this.beneficiary.beneficiary_dob = '';
+    this.beneficiary.beneficiary_address = '';
+    this.beneficiary.beneficiary_email = '';
+    this.beneficiary.beneficiary_phone = '';
+    this.beneficiary.tutor.tutor_name = '';
+    this.beneficiary.tutor.tutor_firstSurname = '';
+    this.beneficiary.tutor.tutor_secondSurname = '';
+    //this.beneficiary.tutor.tutor_relationship = '';
+    this.beneficiary.tutor.tutor_dob = '';
+    this.beneficiary.tutor.tutor_address = '';
+    this.beneficiary.tutor.tutor_phone = '';
+    this.beneficiary.tutor.tutor_email = '';
+    this.selectedAddr = undefined;
+    this.age = undefined;
   }
- 
-   ageFromDateOfBirthday(dateOfBirth: any): number {
+
+  ageFromDateOfBirthday(dateOfBirth: any): number {
     const today = new Date();
     const birthDate = new Date(dateOfBirth);
     let age = today.getFullYear() - birthDate.getFullYear();
@@ -225,19 +236,19 @@ export class AddUserComponent implements OnInit {
       age--;
     }
     this.age = age;
-    console.log(this.age,this.age<=18,"age")
+    console.log(this.age, this.age <= 18, "age")
     return age;
   }
 
   // public ageFromDateOfBirthday(dateOfBirth: any): number {
   //   return moment().diff(dateOfBirth, 'years');
   // }
- 
-  
+
+
   getBeneficiary = (): void => {
     this.spinner.show();
     this.beneficiary_list;
-    console.log(this.beneficiary_list,"list")
+    console.log(this.beneficiary_list, "list")
   }
 
   getAccountTypeText = (bankId: any): any => {
@@ -245,7 +256,7 @@ export class AddUserComponent implements OnInit {
     return (this.language_code == 'en' ? data.name_en : data.name_es);
   }
 
-  editBeneficiary  = (beneficiaryDetails: any,index: number): void => {
+  editBeneficiary = (beneficiaryDetails: any, index: number): void => {
     this.selectedAddr = beneficiaryDetails;
     this.beneficiary.beneficiary_name = beneficiaryDetails.beneficiary_name;
     this.beneficiary.beneficiary_relationship = beneficiaryDetails.beneficiary_relationship;
@@ -253,8 +264,14 @@ export class AddUserComponent implements OnInit {
     this.beneficiary.beneficiary_secondSurname = beneficiaryDetails.beneficiary_secondSurname;
     this.beneficiary.beneficiary_dob = beneficiaryDetails.beneficiary_dob;
     this.beneficiary.beneficiary_address = beneficiaryDetails.beneficiary_address;
-    this.beneficiary.beneficiary_email= beneficiaryDetails.beneficiary_email;
-    this.beneficiary.beneficiary_phone= beneficiaryDetails.beneficiary_phone;
+    this.beneficiary.beneficiary_email = beneficiaryDetails.beneficiary_email;
+    this.beneficiary.beneficiary_phone = beneficiaryDetails.beneficiary_phone;
+    this.beneficiary.curp = beneficiaryDetails.curp;
+    this.beneficiary.fedtax_pay = beneficiaryDetails.fedtax_pay;
+    this.beneficiary.nationality = beneficiaryDetails.nationality;
+    this.beneficiary.marital_status = beneficiaryDetails.marital_status;
+    this.beneficiary.gender = beneficiaryDetails.gender;
+    this.beneficiary.nationality_name = beneficiaryDetails.nationality_name;
     this.beneficiary.tutor.tutor_name = beneficiaryDetails.tutor.tutor_name;
     this.beneficiary.tutor.tutor_firstSurname = beneficiaryDetails.tutor.tutor_firstSurname;
     this.beneficiary.tutor.tutor_secondSurname = beneficiaryDetails.tutor.tutor_secondSurname;
@@ -264,10 +281,11 @@ export class AddUserComponent implements OnInit {
     this.beneficiary.tutor.tutor_phone = beneficiaryDetails.tutor.tutor_phone;
     this.beneficiary.tutor.tutor_email = beneficiaryDetails.tutor.tutor_email;
     this.beneficiaryIndex = index;
-   }
+    beneficiaryDetails.beneficiary_dob ? this.ageFromDateOfBirthday(beneficiaryDetails.beneficiary_dob) : this.age = undefined;
+  }
 
-  deleteBeneficiary  = (index: number): void => {
-    this.beneficiary_list.splice(index,1);
+  deleteBeneficiary = (index: number): void => {
+    this.beneficiary_list.splice(index, 1);
   }
 
   add(formData: NgForm) {
@@ -492,6 +510,10 @@ export class AddUserComponent implements OnInit {
 
   }
 
+  isCheckedBeneficiaryGender(gender) {
+    return gender == this.beneficiary.gender ? true : false;
+  }
+
   getCountries() {
     let self = this;
     this.parameter.statesAdd = []; this.parameter.citiesAdd = []; this.parameter.localitiesAdd = [];
@@ -696,8 +718,14 @@ export class AddUserComponent implements OnInit {
   }
 
   updateNationalityName = (value: string): void => {
-    if(parseInt(value) > 0){
+    if (parseInt(value) > 0) {
       this.model.nationality_name = '';
+    }
+  }
+
+  updateBeneficiaryNationalityName = (value: string): void => {
+    if (parseInt(value) > 0) {
+      this.beneficiary.nationality_name = '';
     }
   }
 

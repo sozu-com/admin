@@ -416,11 +416,11 @@
       "removeLegalEntity": "Eliminar entidad legal"
     },
     "contributor": {
-      "contributor": "Contribuyente",
-      "label": "Contribuyente Información",
-      "changeContributor": "Cambio Contribuyente",
-      "selectContributor": "Seleccione Contribuyente",
-      "name": "Contribuyente Nombre",
+      "contributor": "Aportante",
+      "label": "Aportante Información",
+      "changeContributor": "Cambio Aportante",
+      "selectContributor": "Seleccione Aportante",
+      "name": "Aportante Nombre",
       "phoneNumber": "Número de teléfono",
       "phone": "Teléfono",
       "email": "Correo",
@@ -428,7 +428,7 @@
       "logo": "Logo",
       "coverImage": "Imagen de portada",
       "notFound": "No se encontró ninguna Entidad legal",
-      "removeContributor": "Eliminar Contribuyente"
+      "removeContributor": "Eliminar Aportante"
     },
     "amenities": "Amenidades",
     "projectSize": "Tamaño del proyecto",

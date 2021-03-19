@@ -1778,7 +1778,7 @@
           <div class="row">
           <h5>{{'deshboard.accountEmail' | translate}}</h5>
             <div class="switchToggle" style="margin-left: 10px;">
-              <input type="checkbox" id="switch2" (click)="toggleShow()" [checked]="addFormStep4.controls['email'].value || addFormStep4.controls['day'].value">
+              <input type="checkbox" id="switch2" (click)="toggleShow($event)" [checked]="addFormStep4.controls['email'].value || addFormStep4.controls['day'].value">
               <label for="switch2">Toggle</label>
             </div>
           </div>
@@ -1799,7 +1799,7 @@
                 <label style="width: 100px;">{{'deshboard.date' | translate}}</label>
                 <div class="clearfix"></div>
                 <select name="day_list" id="day_list" formControlName="day" [disabled]="!edit_reminder && model.id"  style="width:126px;height:39px;">
-                  <option value="days" selected="days == addFormStep4.value.day" *ngFor="let days of day_list">{{days}}</option>
+                  <option value="{{days}}" selected="days == addFormStep4.value.day" *ngFor="let days of day_list">{{days}}</option>
                 </select>
                 <!-- <p-calendar class="form-control" formControlName="reminder_date" autocomplete="off"
                 [style]="{'width':'100%'}" name="date" class="sz-calendar" [showTime]="true"

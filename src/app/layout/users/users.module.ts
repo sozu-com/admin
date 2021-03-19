@@ -35,7 +35,7 @@ const routes: Routes = [
     canActivate: [AclUserGuard], data: { roles: ['User Management', 'can_read', ''] }
   },
   {
-    path: 'documents-upload/:id', component: DocumentsUploadComponent,
+    path: 'documents-upload/:id/:documentType', component: DocumentsUploadComponent,
     canActivate: [AclUserGuard], data: { roles: ['User Management', 'can_read', ''] }
   }
 ];

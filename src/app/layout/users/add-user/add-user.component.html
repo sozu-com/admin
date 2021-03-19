@@ -605,7 +605,7 @@
          </div>
          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
            <div class="form-group-3">
-             <div class="form-group">
+             <div>
                <label>{{'creditForm.RELATIONSHIP' | translate}}</label>
                <select title="{{'creditForm.selectRELATIONSHIP' | translate}}"
                  class="form-control" name="beneficiary_relationship"
@@ -652,7 +652,7 @@
         
        </div>
        <div class="row">
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+        <div class="col-lg-4 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
             <label>{{'addForm.email' | translate}} </label>
             <div class="clearfix"></div>
@@ -660,7 +660,62 @@
             [(ngModel)]="beneficiary.beneficiary_email">
           </div>
         </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addForm.CURP' | translate}}</label>
+            <input (keydown.space)="$event.preventDefault();" autocomplete="off" type="text" minlength="18"
+              maxlength="18" class="form-control" [(ngModel)]="beneficiary.curp" name="beneficiary_curp">
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addForm.fedralTaxPayerRegistry' | translate}}</label>
+            <input autocomplete="off" minlength="13" maxlength="13" [pattern]="constant.onlyWhiteSpaces" type="text"
+              class="form-control" [(ngModel)]="beneficiary.fedtax_pay" name="beneficiary_fedTaxPay">
+          </div>
+        </div>
        </div>
+       <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label class="p16-two">{{'addForm.nacionality' | translate}}</label> 
+            <select title="Select Nationality" [(ngModel)]="beneficiary.nationality" name="nationality" class="form-control"
+            (change)="this.updateBeneficiaryNationalityName($event.target.value)" >
+              <option *ngFor="let tempNationalityDetails of nationalityDetails"
+                [selected]="tempNationalityDetails.id == beneficiary.nationality" value="{{tempNationalityDetails.id}}">
+                {{tempNationalityDetails.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-12" *ngIf="beneficiary.nationality == 0">
+          <div class="form-group-3">
+            <label>{{'addForm.specifyNationality' | translate}}</label>
+            <input (keydown.space)="$event.preventDefault();" autocomplete="off" type="text" class="form-control"
+              [(ngModel)]="beneficiary.nationality_name" name="nationality_name">
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label class="p16-two">{{'addForm.marital_status' | translate}}</label>
+            <select title="{{'addForm.maritalStatus.selectMaritalStatus' | translate}}" name="beneficiary_maritalStatusesId" 
+            class="form-control"  [(ngModel)]="beneficiary.marital_status">
+              <option value="0" disabled>{{'addForm.maritalStatus.selectMaritalStatus' | translate}}</option>
+              <option *ngFor="let maritalStatus of marrital_status_list"
+                [selected]="maritalStatus.id == beneficiary.marital_status" value="{{maritalStatus.id}}">{{language_code
+                == 'en'? maritalStatus.name_en : maritalStatus.name_es}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addForm.gender' | translate}}</label><br />
+            <input type="radio" name="beneficiary_gender" value="male" [checked]="isCheckedBeneficiaryGender('male')"
+            [(ngModel)]="beneficiary.gender">{{'addForm.male' | translate}} &nbsp;&nbsp;
+            <input type="radio" name="beneficiary_gender" value="female" [checked]="isCheckedBeneficiaryGender('female')"
+            [(ngModel)]="beneficiary.gender">{{'addForm.female' | translate}}
+          </div>
+        </div>
+      </div>
        <div class="col-12">
          <div class="spacer40"></div>
        </div>
@@ -694,7 +749,7 @@
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
-            <div class="form-group">
+            <div>
               <label>{{'creditForm.RELATIONSHIP' | translate}}</label>
               <select title="{{'creditForm.selectRELATIONSHIP' | translate}}"
                 class="form-control" name="tutor_relationship" 
@@ -756,7 +811,7 @@
         <button class="btn btn-primary" type="button" 
         [disabled]="!beneficiary.beneficiary_relationship"
         (click)="addBeneficiary()">
-        {{beneficiary.id ? ('creditForm.editBeneficiaries' | translate) : ('creditForm.AddBeneficiaries' | translate)}}
+        {{selectedAddr ? ('creditForm.editBeneficiaries' | translate) : ('creditForm.AddBeneficiaries' | translate)}}
         </button>
       </div>
     </div>

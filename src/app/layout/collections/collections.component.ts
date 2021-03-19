@@ -3031,7 +3031,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
                 text: this.translate.instant('generatePDF.paymentInformation'),
                 bold: true,
                 fontSize: 20,
-                margin: [0, 0, 0, 20]
+                margin: [0, 0, 5, 20]
               },
               {
                 style: 'table2',
@@ -3078,7 +3078,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
                 text: this.translate.instant('generatePDF.propertyDetails'),
                 bold: true,
                 fontSize: 20,
-                margin: [0, 0, 0, 10]
+                margin: [0, 0, 5, 10]
               },
               {
                 style: 'table',
@@ -3153,7 +3153,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
                 text: this.translate.instant('generatePDF.dealInformation'),
                 bold: true,
                 fontSize: 20,
-                margin: [0, 30, 0, 10]
+                margin: [0, 30, 5, 10]
               },
               {
                 text: [

@@ -323,10 +323,11 @@ export class DownloadAccountStatementComponent implements OnInit {
       + (this.collection_data.buyer.state ? this.collection_data.buyer.state + ', ' : '') + (this.collection_data.buyer.country ? this.collection_data.buyer.country + ', ' : '') : undefined;
     
     let cash_limit_amount = this.collection_payments.find(x=> x.payment_mode_id == 1);
+    let password = this.collection_data.buyer_type == '2' ? this.collection_data.buyer.phone.substr(this.collection_data.buyer_legal_entity.phone.length - 4): this.collection_data.buyer.phone.substr(this.collection_data.buyer.phone.length - 4);
     
     let docDefinition = {
-      userPassword: '123',
-      ownerPassword: '123456',
+      userPassword: password,
+      ownerPassword: password,
       pageSize: 'LEGAL',
       pageMargins: [40, 70, 40, 155],
       permissions: {
