@@ -7,7 +7,7 @@
             </div>
             <div class="col-lg-1 col-md-1 col-6">
                   <div class="btn-cont text-right title-group">
-                        <a href="javascript://" (click)="goBack()" class="btn-sm btn-primary-new"
+                        <a href="javascript://" (click)="goBackToUserListing()" class="btn-sm btn-primary-new"
                               href="javascript://">{{'quickVisualization.back' |
                               translate}}</a>
                   </div>
@@ -30,7 +30,7 @@
                                                 disabled />
                                           <button class="fa fa-plus-circle icon"
                                                 [disabled]="admin?.admin_acl['User Management']?.can_create==0"
-                                                (click)="openAddFolder(bankAccount,i)" style="cursor: pointer;"
+                                                (click)="openAddFolder(bankAccount)" style="cursor: pointer;"
                                                 *ngIf="!bankAccount.document_link">
                                           </button>
                                           <button class="fa fa-check icon" aria-hidden="true"
@@ -44,7 +44,7 @@
                                                 disabled />
                                           <button class="fa fa-plus-circle icon"
                                                 [disabled]="admin?.admin_acl['User Management']?.can_create==0"
-                                                (click)="openAddFolder(bankAccount,i)" style="cursor: pointer;"
+                                                (click)="openAddFolder(bankAccount)" style="cursor: pointer;"
                                                 *ngIf="!bankAccount.document_link">
                                           </button>
                                           <button class="fa fa-check icon" aria-hidden="true"
@@ -58,7 +58,7 @@
                                                 disabled />
                                           <button class="fa fa-plus-circle icon"
                                                 [disabled]="admin?.admin_acl['User Management']?.can_create==0"
-                                                (click)="openAddFolder(bankAccount,i)" style="cursor: pointer;"
+                                                (click)="openAddFolder(bankAccount)" style="cursor: pointer;"
                                                 *ngIf="!bankAccount.document_link">
                                           </button>
                                           <button class="fa fa-check icon" aria-hidden="true"
