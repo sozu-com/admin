@@ -200,6 +200,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   sellerDocumentationFoldersDetails: any[] = [];
   propertyDocumentationFoldersDetails: any[] = [];
   beneficiaryDocumentationFoldersDetails: any[] = [];
+  allBeneficiaryDocuments = [];
   tutorDocumentationFoldersDetails: any[] = [];
   language_code: string;
   public paymentBankDetailsArray: any[] = [];
@@ -2340,11 +2341,13 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       this.sellerDocumentationFoldersDetails = success.seller || [];
       this.propertyDocumentationFoldersDetails = success.property || [];
       this.beneficiaryDocumentationFoldersDetails = success.beneficiary || [];
+      this.allBeneficiaryDocuments = [];
       this.beneficiaryDocumentationFoldersDetails.forEach(function(element, index){
         element.beneficiary_documents = [];
         element.beneficiary_linked_document.forEach(function(x, i){ 
           if(x.document_link){
             element.beneficiary_documents.push(x);
+            // this.allBeneficiaryDocuments.push(x);
           }
         });
         if(element.tutor && element.tutor.tutor_name){
