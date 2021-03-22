@@ -2329,6 +2329,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     this.buyerDocumentationFoldersDetails = [];
     this.sellerDocumentationFoldersDetails = [];
     this.propertyDocumentationFoldersDetails = [];
+    this.beneficiaryDocumentationFoldersDetails = [];
+    this.tutorDocumentationFoldersDetails = []
     const postData = {
       property_id: (details.property || {}).id,
       seller_id: details.seller_type == 2 ? (details.seller_legal_entity || {}).id : (details.seller || {}).id,
@@ -2340,25 +2342,22 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       this.buyerDocumentationFoldersDetails = success.buyer || [];
       this.sellerDocumentationFoldersDetails = success.seller || [];
       this.propertyDocumentationFoldersDetails = success.property || [];
-      this.beneficiaryDocumentationFoldersDetails = success.beneficiary || [];
-      this.allBeneficiaryDocuments = [];
-      this.beneficiaryDocumentationFoldersDetails.forEach(function(element, index){
-        element.beneficiary_documents = [];
-        element.beneficiary_linked_document.forEach(function(x, i){ 
+      let beneficiaryDocumentation = success.beneficiary || [];
+      let tutorDocumentationFolders = [];
+        beneficiaryDocumentation.forEach(function(element){
+        element.beneficiary_linked_document.forEach(function(x){ 
           if(x.document_link){
-            element.beneficiary_documents.push(x);
-            // this.allBeneficiaryDocuments.push(x);
+            self.beneficiaryDocumentationFoldersDetails.push(x);
           }
         });
         if(element.tutor && element.tutor.tutor_name){
-        self.tutorDocumentationFoldersDetails.push(element.tutor);
+          tutorDocumentationFolders.push(element.tutor);
         }
       });
-      self.tutorDocumentationFoldersDetails.forEach(function(element, index){
-        element.tutor_documents = [];
+      tutorDocumentationFolders.forEach(function(element, index){
         element.tutor_linked_document.forEach(function(x, i){ 
           if(x.document_link){
-            element.tutor_documents.push(x);
+            self.tutorDocumentationFoldersDetails.push(x);
           }
         });
       });
@@ -2379,7 +2378,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       this.toastr.error(this.translate.instant('message.error.pleaseEnterDocuName'), this.translate.instant('swal.error'));
       return;
     }
-    if (!this.docFile) {
+    if (!this.docFile) { 
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseEnterDocuFile'), this.translate.instant('swal.error'));
       return;

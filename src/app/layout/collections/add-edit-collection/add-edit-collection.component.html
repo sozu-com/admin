@@ -2423,47 +2423,47 @@
         </ng-container>
         <div class="col-lg-2 col-md-4 col-sm-6 col-12 folder-box"
           style="background-image: url('/assets/img/ic_folder.svg')">
-          <div class="form-group-3" (click)="this.openBuyerSellerPropertyDocumentationModal(1, {})">
+          <div class="form-group-3" (click)="this.openBuyerSellerPropertyDocumentationModal(1)">
             <p>{{'commonBlock.buyerDocumentation' | translate}}</p>
           </div>
           <div class="folder-action-btn">
-            <i (click)="this.openBuyerSellerPropertyDocumentationModal(1, {})" class="fa fa-folder" aria-hidden="true"></i>
+            <i (click)="this.openBuyerSellerPropertyDocumentationModal(1)" class="fa fa-folder" aria-hidden="true"></i>
           </div>
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6 col-12 folder-box"
           style="background-image: url('/assets/img/ic_folder.svg')">
-          <div class="form-group-3" (click)="this.openBuyerSellerPropertyDocumentationModal(2, {})">
+          <div class="form-group-3" (click)="this.openBuyerSellerPropertyDocumentationModal(2)">
             <p>{{'commonBlock.sellerDocumentation' | translate}}</p>
           </div>
           <div class="folder-action-btn">
-            <i (click)="this.openBuyerSellerPropertyDocumentationModal(2, {})" class="fa fa-folder" aria-hidden="true"></i>
+            <i (click)="this.openBuyerSellerPropertyDocumentationModal(2)" class="fa fa-folder" aria-hidden="true"></i>
           </div>
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6 col-12 folder-box"
           style="background-image: url('/assets/img/ic_folder.svg')">
-          <div class="form-group-3" (click)="this.openBuyerSellerPropertyDocumentationModal(3, {})">
+          <div class="form-group-3" (click)="this.openBuyerSellerPropertyDocumentationModal(3)">
             <p>{{'commonBlock.propertyDocumentation' | translate}}</p>
           </div>
           <div class="folder-action-btn">
-            <i (click)="this.openBuyerSellerPropertyDocumentationModal(3, {})" class="fa fa-folder" aria-hidden="true"></i>
+            <i (click)="this.openBuyerSellerPropertyDocumentationModal(3)" class="fa fa-folder" aria-hidden="true"></i>
           </div>
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6 col-12 folder-box"
-          style="background-image: url('/assets/img/ic_folder.svg')" *ngFor="let documentation of beneficiaryDocumentationFoldersDetails">
-          <div class="form-group-3" (click)="this.openBuyerSellerPropertyDocumentationModal(4, documentation)">
-            <p>{{'commonBlock.beneficiaryDocumentation' | translate}} - {{documentation.beneficiary_name}}</p>
+          style="background-image: url('/assets/img/ic_folder.svg')">
+          <div class="form-group-3" (click)="this.openBuyerSellerPropertyDocumentationModal(4)">
+            <p>{{'commonBlock.beneficiaryDocumentation' | translate}}</p>
           </div>
           <div class="folder-action-btn">
             <i (click)="this.openBuyerSellerPropertyDocumentationModal(4, documentation)" class="fa fa-folder" aria-hidden="true"></i>
           </div>
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6 col-12 folder-box"
-          style="background-image: url('/assets/img/ic_folder.svg')" *ngFor="let documentation of tutorDocumentationFoldersDetails">
-          <div class="form-group-3" (click)="this.openBuyerSellerPropertyDocumentationModal(5, documentation)">
-            <p>{{'commonBlock.tutorDocumentation' | translate}} - {{documentation.tutor_name}}</p>
+          style="background-image: url('/assets/img/ic_folder.svg')">
+          <div class="form-group-3" (click)="this.openBuyerSellerPropertyDocumentationModal(5)">
+            <p>{{'commonBlock.tutorDocumentation' | translate}}</p>
           </div>
           <div class="folder-action-btn">
-            <i (click)="this.openBuyerSellerPropertyDocumentationModal(5, documentation)" class="fa fa-folder" aria-hidden="true"></i>
+            <i (click)="this.openBuyerSellerPropertyDocumentationModal(5)" class="fa fa-folder" aria-hidden="true"></i>
           </div>
         </div>
       </div>
@@ -2779,7 +2779,7 @@
           this.buyerSellerPropertyDocumentationId == 3 ? ('commonBlock.propertyDocumentation' | translate) : 
           this.buyerSellerPropertyDocumentationId == 4 ? ('commonBlock.beneficiaryDocumentation' | translate)  : 
           ('commonBlock.tutorDocumentation' | translate)
-        }} {{beneficiaryName ? '- ' + beneficiaryName : ''}}</h4>
+        }}</h4>
         <button style="display: none;" type="button" class="close" data-dismiss="modal" #buyerSellerPropertyDocumentationModalClose>&times;</button>
         <button type="button" class="close" (click)="this.closeBuyerSellerPropertyDocumentationModal()">&times;</button>
       </div>

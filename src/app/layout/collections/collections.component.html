@@ -2270,8 +2270,76 @@
                 </div>
               </td>
             </tr>
+            <tr>
+              <td>
+                <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapseBeneficiaryDocumentation" aria-expanded="true">
+                  <img src="assets/img/ic_folder_1.svg">{{'commonBlock.beneficiaryDocumentation' | translate}}
+                </a>
+              </td>
+              <td>{{this.beneficiaryDocumentationFoldersDetails.length || 0}}</td>
+              <td></td>
+            </tr>
+            <tr id="collapseBeneficiaryDocumentation" class="panel-collapse collapse" *ngIf="this.beneficiaryDocumentationFoldersDetails.length > 0">
+              <td colspan="3">
+                  <div class="write-note white-bg" *ngIf="this.beneficiaryDocumentationFoldersDetails.length > 0">
+                    <ng-container *ngFor="let tempPropertyDocumentationFoldersDetails of beneficiaryDocumentationFoldersDetails; let s=index">
+                      <div class="wn-block" *ngIf="tempPropertyDocumentationFoldersDetails?.document_link">
+                        <div class="circle">
+                          <span></span>
+                        </div>
+                        <p class="time" title="'Click to view'">
+                          <a target="_blank" href="{{tempPropertyDocumentationFoldersDetails?.document_link}}">
+                            <!-- {{this.language_code == 'en' ? tempPropertyDocumentationFoldersDetails?.user_document?.name_en :
+                            tempPropertyDocumentationFoldersDetails?.user_document?.name_es }} -->
+                            {{('commonBlock.document' | translate) + ' ' + (s + 1)}}
+                          </a>
+                        </p>
+                      </div>
+                    </ng-container>
+                  </div>               
+                <div class="padding20 center" *ngIf="this.beneficiaryDocumentationFoldersDetails == 0">
+                  <p class="show-not-found">
+                    {{'message.error.noDocumentUploadedYet' | translate}}
+                  </p>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapseTutorDocumentation" aria-expanded="true">
+                  <img src="assets/img/ic_folder_1.svg">{{'commonBlock.tutorDocumentation' | translate}}
+                </a>
+              </td>
+              <td>{{this.tutorDocumentationFoldersDetails.length || 0}}</td>
+              <td></td>
+            </tr>
+            <tr id="collapseTutorDocumentation" class="panel-collapse collapse" *ngIf="this.tutorDocumentationFoldersDetails.length > 0">
+              <td colspan="3">
+                  <div class="write-note white-bg" *ngIf="this.tutorDocumentationFoldersDetails.length > 0">
+                    <ng-container *ngFor="let tempPropertyDocumentationFoldersDetails of tutorDocumentationFoldersDetails; let s=index">
+                      <div class="wn-block" *ngIf="tempPropertyDocumentationFoldersDetails?.document_link">
+                        <div class="circle">
+                          <span></span>
+                        </div>
+                        <p class="time" title="'Click to view'">
+                          <a target="_blank" href="{{tempPropertyDocumentationFoldersDetails?.document_link}}">
+                            <!-- {{this.language_code == 'en' ? tempPropertyDocumentationFoldersDetails?.user_document?.name_en :
+                            tempPropertyDocumentationFoldersDetails?.user_document?.name_es }} -->
+                            {{('commonBlock.document' | translate) + ' ' + (s + 1)}}
+                          </a>
+                        </p>
+                      </div>
+                    </ng-container>
+                  </div>               
+                <div class="padding20 center" *ngIf="this.tutorDocumentationFoldersDetails == 0">
+                  <p class="show-not-found">
+                    {{'message.error.noDocumentUploadedYet' | translate}}
+                  </p>
+                </div>
+              </td>
+            </tr>
           </tbody>
-          <tbody *ngFor="let folder of beneficiaryDocumentationFoldersDetails; let i=index">
+          <!-- <tbody *ngFor="let folder of beneficiaryDocumentationFoldersDetails; let i=index">
             <tr>
               <td>
                 <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapseBeneficiary{{i}}" aria-expanded="true">
@@ -2284,7 +2352,7 @@
             <tr id="collapseBeneficiary{{i}}" class="panel-collapse collapse">
               <td colspan="3">
                   <!-- list all documents -->
-                <div class="write-note white-bg">
+                <!-- <div class="write-note white-bg">
                   <div class="wn-block" *ngFor="let item of folder?.beneficiary_documents; let s=index">
                     <div class="circle" *ngIf="item?.document_link">
                       <span></span>
@@ -2303,8 +2371,8 @@
                 </div>
               </td>
             </tr>
-          </tbody>
-            <tbody *ngFor="let folder of tutorDocumentationFoldersDetails; let i=index">
+          </tbody> -->
+            <!-- <tbody *ngFor="let folder of tutorDocumentationFoldersDetails; let i=index">
             <tr >
               <td>
                 <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapseTutor{{i}}" aria-expanded="true">
@@ -2317,7 +2385,7 @@
             <tr id="collapseTutor{{i}}" class="panel-collapse collapse">
               <td colspan="3">
                   <!-- list all documents -->
-                <div class="write-note white-bg">
+                <!-- <div class="write-note white-bg">
                   <div class="wn-block" *ngFor="let item of folder?.tutor_documents; let s=index">
                     <div class="circle" *ngIf="item?.document_link">
                       <span></span>
@@ -2336,7 +2404,7 @@
                 </div>
               </td>
             </tr>
-          </tbody>
+          </tbody> -->
           <div class="padding20 center" *ngIf="collectionFolders?.length == 0">
             <p class="show-not-found">
               {{'message.error.nnFolderCreated' | translate}}
