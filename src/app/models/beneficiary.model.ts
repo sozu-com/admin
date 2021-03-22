@@ -35,4 +35,7 @@ export class Tutor {
     tutor_address: string;
     tutor_phone: string;
     tutor_email: string;
+
+    nationality: number = 1;
+    nationality_name: string;
 }
