@@ -645,6 +645,12 @@ export class EditUserComponent implements OnInit {
     }
   }
 
+  updateTutorNationalityName = (value: string): void => {
+    if (parseInt(value) > 0) {
+      this.beneficiary.tutor.nationality_name = '';
+    }
+  }
+
   updateUser = (postData: any): void => {
     this.spinner.show();
     this.admin.postDataApi('addSeller', postData).subscribe((success) => {

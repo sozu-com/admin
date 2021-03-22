@@ -729,6 +729,12 @@ export class AddUserComponent implements OnInit {
     }
   }
 
+  updateTutorNationalityName = (value: string): void => {
+    if (parseInt(value) > 0) {
+      this.beneficiary.tutor.nationality_name = '';
+    }
+  }
+
   assignedObject = (): void => {
     if (!this.beneficiary.tutor) {
       this.beneficiary.tutor = new Tutor();
