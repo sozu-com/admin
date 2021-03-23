@@ -191,7 +191,9 @@ export class AddUserComponent implements OnInit {
       modelSave.tutor_dob = this.beneficiary.tutor.tutor_dob,
       modelSave.tutor_address = this.beneficiary.tutor.tutor_address,
       modelSave.tutor_phone = this.beneficiary.tutor.tutor_phone,
-      modelSave.tutor_email = this.beneficiary.tutor.tutor_email
+      modelSave.tutor_email = this.beneficiary.tutor.tutor_email,
+      modelSave.tutor_nationality = this.beneficiary.tutor.tutor_nationality,
+      modelSave.tutor_nationality_name = this.beneficiary.tutor.tutor_nationality_name
     if (mode === 'add') {
       this.beneficiary_list.push(modelSave);
       this.makeEditBeneficiary();
@@ -280,6 +282,8 @@ export class AddUserComponent implements OnInit {
     this.beneficiary.tutor.tutor_address = beneficiaryDetails.tutor.tutor_address;
     this.beneficiary.tutor.tutor_phone = beneficiaryDetails.tutor.tutor_phone;
     this.beneficiary.tutor.tutor_email = beneficiaryDetails.tutor.tutor_email;
+    this.beneficiary.tutor.tutor_nationality = beneficiaryDetails.tutor.tutor_nationality;
+    this.beneficiary.tutor.tutor_nationality_name = beneficiaryDetails.tutor.tutor_nationality_name;
     this.beneficiaryIndex = index;
     beneficiaryDetails.beneficiary_dob ? this.ageFromDateOfBirthday(beneficiaryDetails.beneficiary_dob) : this.age = undefined;
   }
@@ -731,7 +735,7 @@ export class AddUserComponent implements OnInit {
 
   updateTutorNationalityName = (value: string): void => {
     if (parseInt(value) > 0) {
-      this.beneficiary.tutor.nationality_name = '';
+      this.beneficiary.tutor.tutor_nationality_name = '';
     }
   }
 

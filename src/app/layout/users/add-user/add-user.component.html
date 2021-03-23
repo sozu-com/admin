@@ -805,19 +805,19 @@
         <div class="col-lg-4 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
             <label class="p16-two">{{'addForm.nacionality' | translate}}</label> 
-            <select title="Select Nationality" [(ngModel)]="beneficiary.tutor.nationality" name="nationality" class="form-control"
+            <select title="Select Nationality" [(ngModel)]="beneficiary.tutor.tutor_nationality" name="tutor_nationality" class="form-control"
             (change)="this.updateTutorNationalityName($event.target.value)" >
               <option *ngFor="let tempNationalityDetails of nationalityDetails"
-                [selected]="tempNationalityDetails.id == beneficiary.tutor.nationality" value="{{tempNationalityDetails.id}}">
+                [selected]="tempNationalityDetails.id == beneficiary.tutor.tutor_nationality" value="{{tempNationalityDetails.id}}">
                 {{tempNationalityDetails.name}}</option>
             </select>
           </div>
         </div>
-        <div class="col-lg-4 col-md-6 col-sm-6 col-12" *ngIf="beneficiary.tutor.nationality == 0">
+        <div class="col-lg-4 col-md-6 col-sm-6 col-12" *ngIf="beneficiary.tutor.tutor_nationality == 0">
           <div class="form-group-3">
             <label>{{'addForm.specifyNationality' | translate}}</label>
             <input (keydown.space)="$event.preventDefault();" autocomplete="off" type="text" class="form-control"
-              [(ngModel)]="beneficiary.tutor.nationality_name" name="nationality_name">
+              [(ngModel)]="beneficiary.tutor.tutor_nationality_name" name="tutor_nationality_name">
           </div>
         </div>
       </div>
