@@ -2289,8 +2289,8 @@
                         </div>
                         <p class="time" title="'Click to view'">
                           <a target="_blank" href="{{tempPropertyDocumentationFoldersDetails?.document_link}}">
-                            {{tempPropertyDocumentationFoldersDetails?.beneficiary_name}}_{{this.language_code == 'en' ? tempPropertyDocumentationFoldersDetails?.beneficiary_document?.name_en :
-                            tempPropertyDocumentationFoldersDetails?.beneficiary_document?.name_es }}
+                            {{this.language_code == 'en' ? tempPropertyDocumentationFoldersDetails?.beneficiary_document?.name_en : tempPropertyDocumentationFoldersDetails?.beneficiary_document?.name_es }}
+                            {{tempPropertyDocumentationFoldersDetails?.beneficiary_last? tempPropertyDocumentationFoldersDetails?.beneficiary_last : ''}}
                           </a>
                         </p>
                       </div>
@@ -2322,8 +2322,8 @@
                         </div>
                         <p class="time" title="'Click to view'">
                           <a target="_blank" href="{{tempPropertyDocumentationFoldersDetails?.document_link}}">
-                            {{tempPropertyDocumentationFoldersDetails?.tutor_name}}_{{this.language_code == 'en' ? tempPropertyDocumentationFoldersDetails?.tutor_document?.name_en :
-                            tempPropertyDocumentationFoldersDetails?.tutor_document?.name_es }}
+                            {{this.language_code == 'en' ? tempPropertyDocumentationFoldersDetails?.tutor_document?.name_en : tempPropertyDocumentationFoldersDetails?.tutor_document?.name_es }}
+                            {{tempPropertyDocumentationFoldersDetails?.tutor_last? tempPropertyDocumentationFoldersDetails?.tutor_last : ''}}
                           </a>
                         </p>
                       </div>

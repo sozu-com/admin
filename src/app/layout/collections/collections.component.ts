@@ -2330,7 +2330,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     this.sellerDocumentationFoldersDetails = [];
     this.propertyDocumentationFoldersDetails = [];
     this.beneficiaryDocumentationFoldersDetails = [];
-    this.tutorDocumentationFoldersDetails = []
+    this.tutorDocumentationFoldersDetails = [];
     const postData = {
       property_id: (details.property || {}).id,
       seller_id: details.seller_type == 2 ? (details.seller_legal_entity || {}).id : (details.seller || {}).id,
@@ -2347,8 +2347,12 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         beneficiaryDocumentation.forEach(function(element){
         element.beneficiary_linked_document.forEach(function(x){ 
           x.beneficiary_name = null;
+          x.beneficiary_firstSurname = null;
+          x.beneficiary_secondSurname = null;
           if(x.document_link){
             x.beneficiary_name = element.beneficiary_name;
+            x.beneficiary_firstSurname = element.beneficiary_firstSurname
+            x.beneficiary_secondSurname = element.beneficiary_secondSurname;
             self.beneficiaryDocumentationFoldersDetails.push(x);
           }
         });
@@ -2359,9 +2363,34 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       tutorDocumentationFolders.forEach(function(element){
         element.tutor_linked_document.forEach(function(x){ 
           x.tutor_name = null;
+          x.tutor_firstSurname = null;
+          x.tutor_secondSurname = null;
           if(x.document_link){
             x.tutor_name = element.tutor_name;
+            x.tutor_firstSurname = element.tutor_firstSurname;
+            x.tutor_secondSurname = element.tutor_secondSurname;
+            x.beneficiary_secondSurname = element.beneficiary_secondSurname;
             self.tutorDocumentationFoldersDetails.push(x);
+          }
+        });
+      });
+      self.beneficiaryDocumentationFoldersDetails.forEach(element=>{
+        let count = 1;
+        self.beneficiaryDocumentationFoldersDetails.forEach(item=>{
+          item.last = null;
+          if(element.beneficiary_document.name_en == item.beneficiary_document.name_en){
+            item.beneficiary_last = '_beneficiary_' + count;
+            count = count + 1;
+          }
+        });
+      });
+      self.tutorDocumentationFoldersDetails.forEach(element=>{
+        let count = 1;
+        self.tutorDocumentationFoldersDetails.forEach(item=>{
+          item.tutor_last = null;
+          if(element.tutor_document.name_en == item.tutor_document.name_en){
+            item.tutor_last = '_tutor_' + count;
+            count = count + 1;
           }
         });
       });
