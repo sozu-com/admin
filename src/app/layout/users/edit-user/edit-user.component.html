@@ -981,7 +981,7 @@
                             <td>{{beneficiary?.beneficiary_relationship ? this.getAccountTypeText(beneficiary?.beneficiary_relationship) : ('table.tr.td.NA' | translate)}}
                             </td>
                               <td>
-                                {{beneficiary?.beneficiary_dob ? ageFromDateOfBirthday(beneficiary?.beneficiary_dob) : ('table.tr.td.NA' | translate)}}</td>
+                                {{beneficiary?.beneficiary_dob ? ageFromDateOfBirthday2(beneficiary?.beneficiary_dob) : ('table.tr.td.NA' | translate)}}</td>
                               <td>
                               <button class="action-icon" title="{{'addCollection.edit' | translate}}"
                                 (click)="editBeneficiary(beneficiary,i)">
