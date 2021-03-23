@@ -205,7 +205,6 @@ export class AddEditCollectionComponent implements OnInit {
     this.tab = 1;
     this.getCurrencies();
     this.initializedDropDownSetting();
-    this.getAllBeneficiary();
     this.searchControl = new FormControl();
   }
 
@@ -498,6 +497,7 @@ export class AddEditCollectionComponent implements OnInit {
           this.spinner.hide();
           this.property_beneficiary = (success.data || {}).beneficiary || [];
           this.getCollectionDocument(success.data);
+          (success.data || {}).buyer_type == 1 ? this.getAllBeneficiary(success.data) : '';
           this.collection_account_statement_id = success.data.account_statement ? success.data.account_statement.id : undefined;
           this.patchFormData(success['data']);
           this.isAgencyBank = success['data'].payment_received_by == '1' ? true : false;
@@ -2711,9 +2711,9 @@ export class AddEditCollectionComponent implements OnInit {
     };
   }
 
-  getAllBeneficiary = (): void => {
+  getAllBeneficiary = (collectionDetails: any): void => {
     this.spinner.show();
-    this.adminService.postDataApi('getAllBeneficiary', {}).subscribe((success) => {
+    this.adminService.postDataApi('getAllBeneficiary', { user_id : (collectionDetails.buyer || {}).id }).subscribe((success) => {
       this.spinner.hide();
       this.beneficiaries_list = success.data || [];
       //swal(this.translate.instant('swal.success'), this.translate.instant('message.success.emailSend'), 'success');
@@ -2730,6 +2730,7 @@ export class AddEditCollectionComponent implements OnInit {
       // });
       this.property_beneficiary.push({ property_collection_id: this.model.id, percentage: this.percentage, beneficiary_id: this.beneficiary_id });
       this.makeEditBeneficiary();
+     // this.createCollection(this.addFormStep3.value, 3);
     } else {
       this.property_beneficiary.splice(this.beneficiaryIndex, 1, { property_collection_id: this.model.id, percentage: this.percentage, beneficiary_id: this.beneficiary_id });
       this.beneficiaryIndex = -1;

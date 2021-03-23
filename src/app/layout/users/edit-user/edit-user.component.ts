@@ -647,7 +647,7 @@ export class EditUserComponent implements OnInit {
 
   updateTutorNationalityName = (value: string): void => {
     if (parseInt(value) > 0) {
-      this.beneficiary.tutor.nationality_name = '';
+      this.beneficiary.tutor.tutor_nationality_name = '';
     }
   }
 
@@ -699,7 +699,9 @@ export class EditUserComponent implements OnInit {
         modelSave.tutor_dob = this.beneficiary.tutor.tutor_dob,
         modelSave.tutor_address = this.beneficiary.tutor.tutor_address,
         modelSave.tutor_phone = this.beneficiary.tutor.tutor_phone,
-        modelSave.tutor_email = this.beneficiary.tutor.tutor_email
+        modelSave.tutor_email = this.beneficiary.tutor.tutor_email,
+        modelSave.tutor_nationality = this.beneficiary.tutor.tutor_nationality,
+        modelSave.tutor_nationality_name = this.beneficiary.tutor.tutor_nationality_name
     } else {
       modelSave.id = this.beneficiary.id;
       modelSave.user_id = this.model.id;
@@ -719,7 +721,9 @@ export class EditUserComponent implements OnInit {
         modelSave.tutor_dob = this.beneficiary.tutor.tutor_dob,
         modelSave.tutor_address = this.beneficiary.tutor.tutor_address,
         modelSave.tutor_phone = this.beneficiary.tutor.tutor_phone,
-        modelSave.tutor_email = this.beneficiary.tutor.tutor_email
+        modelSave.tutor_email = this.beneficiary.tutor.tutor_email,
+        modelSave.tutor_nationality = this.beneficiary.tutor.tutor_nationality,
+        modelSave.tutor_nationality_name = this.beneficiary.tutor.tutor_nationality_name
       //Object.assign(this.selectedAddr, modelSave);
     }
     this.spinner.show();
@@ -787,7 +791,7 @@ export class EditUserComponent implements OnInit {
   editBeneficiary(data) {
     this.selectedAddr = data;
     this.beneficiary = data;
-    data.beneficiary_relationship ? this.beneficiary.beneficiary_relationship =  data.beneficiary_relationship : this.beneficiary.beneficiary_relationship = undefined;
+    data.beneficiary_relationship ? this.beneficiary.beneficiary_relationship = data.beneficiary_relationship : this.beneficiary.beneficiary_relationship = undefined;
     this.beneficiary.id = data.id
     //console.log(this.beneficiary.id, "this.beneficiary.id")
     data.beneficiary_dob ? this.ageFromDateOfBirthday(data.beneficiary_dob) : this.age = undefined;

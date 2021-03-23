@@ -36,6 +36,6 @@ export class Tutor {
     tutor_phone: string;
     tutor_email: string;
 
-    nationality: number = 1;
-    nationality_name: string;
+    tutor_nationality: number = 1;
+    tutor_nationality_name: string;
 }

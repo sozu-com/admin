@@ -1089,6 +1089,8 @@
           </div>
         </div>
       </div>
+
+      <div  *ngIf="model.buyer_type == 1">
       <div class="spacer50"></div>
       <!-- Beneficiaries -->
       <h5 style="color: black;font-weight: bold;">{{'addCollection.beneficiaries' | translate}}</h5>
@@ -1171,6 +1173,7 @@
         </table>
        
       </div>
+    </div>
 
       <div class="spacer50"></div>
       <!-- bank account -->
