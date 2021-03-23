@@ -2289,9 +2289,8 @@
                         </div>
                         <p class="time" title="'Click to view'">
                           <a target="_blank" href="{{tempPropertyDocumentationFoldersDetails?.document_link}}">
-                            <!-- {{this.language_code == 'en' ? tempPropertyDocumentationFoldersDetails?.user_document?.name_en :
-                            tempPropertyDocumentationFoldersDetails?.user_document?.name_es }} -->
-                            {{('commonBlock.document' | translate) + ' ' + (s + 1)}}
+                            {{tempPropertyDocumentationFoldersDetails?.beneficiary_name}}_{{this.language_code == 'en' ? tempPropertyDocumentationFoldersDetails?.beneficiary_document?.name_en :
+                            tempPropertyDocumentationFoldersDetails?.beneficiary_document?.name_es }}
                           </a>
                         </p>
                       </div>
@@ -2323,9 +2322,8 @@
                         </div>
                         <p class="time" title="'Click to view'">
                           <a target="_blank" href="{{tempPropertyDocumentationFoldersDetails?.document_link}}">
-                            <!-- {{this.language_code == 'en' ? tempPropertyDocumentationFoldersDetails?.user_document?.name_en :
-                            tempPropertyDocumentationFoldersDetails?.user_document?.name_es }} -->
-                            {{('commonBlock.document' | translate) + ' ' + (s + 1)}}
+                            {{tempPropertyDocumentationFoldersDetails?.tutor_name}}_{{this.language_code == 'en' ? tempPropertyDocumentationFoldersDetails?.tutor_document?.name_en :
+                            tempPropertyDocumentationFoldersDetails?.tutor_document?.name_es }}
                           </a>
                         </p>
                       </div>

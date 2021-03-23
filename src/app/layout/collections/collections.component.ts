@@ -2346,7 +2346,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       let tutorDocumentationFolders = [];
         beneficiaryDocumentation.forEach(function(element){
         element.beneficiary_linked_document.forEach(function(x){ 
+          x.beneficiary_name = null;
           if(x.document_link){
+            x.beneficiary_name = element.beneficiary_name;
             self.beneficiaryDocumentationFoldersDetails.push(x);
           }
         });
@@ -2354,9 +2356,11 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           tutorDocumentationFolders.push(element.tutor);
         }
       });
-      tutorDocumentationFolders.forEach(function(element, index){
-        element.tutor_linked_document.forEach(function(x, i){ 
+      tutorDocumentationFolders.forEach(function(element){
+        element.tutor_linked_document.forEach(function(x){ 
+          x.tutor_name = null;
           if(x.document_link){
+            x.tutor_name = element.tutor_name;
             self.tutorDocumentationFoldersDetails.push(x);
           }
         });
