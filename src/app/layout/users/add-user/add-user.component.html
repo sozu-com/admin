@@ -625,7 +625,7 @@
          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
            <div class="form-group-3">
              <label>{{'addForm.dateOfBirth' | translate}}</label>
-             <input class="form-control" type="date" name="beneficiary_dob" 
+             <input class="form-control" type="date" name="beneficiary_dob" [max]="toDayDate"
              [(ngModel)]="beneficiary.beneficiary_dob" (ngModelChange)="ageFromDateOfBirthday($event)">
            </div>
          </div>
@@ -769,7 +769,7 @@
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
             <label>{{'addForm.dateOfBirth' | translate}}</label>
-            <input class="form-control" type="date" name="tutor_dob"
+            <input class="form-control" type="date" name="tutor_dob" [max]="toDayDate"
             [(ngModel)]="beneficiary.tutor.tutor_dob">
           </div>
         </div>
@@ -859,7 +859,8 @@
           <td>{{beneficiary?.tutor?.tutor_name || ('table.tr.td.NA' | translate)}}</td>
           <td>{{beneficiary?.beneficiary_relationship ? this.getAccountTypeText(beneficiary?.beneficiary_relationship) : ('table.tr.td.NA' | translate)}}
           </td>
-          <td>{{beneficiary?.beneficiary_dob ? (beneficiary?.beneficiary_dob | date:'M/d/yy')  : ('table.tr.td.NA' | translate)}}</td>
+          <!-- <td>{{beneficiary?.beneficiary_dob ? (beneficiary?.beneficiary_dob | date:'M/d/yy')  : ('table.tr.td.NA' | translate)}}</td> -->
+          <td>{{beneficiary?.beneficiary_dob ? ageFromDateOfBirthday(beneficiary?.beneficiary_dob)  : ('table.tr.td.NA' | translate)}}</td>
           <td>
             <button class="action-icon" title="{{'addCollection.edit' | translate}}"
               (click)="editBeneficiary(beneficiary,i)" type="button"> 

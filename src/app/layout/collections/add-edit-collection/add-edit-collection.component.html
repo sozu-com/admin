@@ -1106,7 +1106,7 @@
                 <option disabled selected value="">{{'creditForm.selectBeneficiary' | translate}}
                 </option>
                 <option *ngFor="let temp_beneficiary of beneficiaries_list" 
-                [value]="temp_beneficiary.id">
+                [value]="temp_beneficiary.id" [disabled]="checkAlreadySelected(temp_beneficiary.id)">
                   {{temp_beneficiary?.beneficiary_name}}
                 </option>
               </select>

@@ -2747,6 +2747,7 @@ export class AddEditCollectionComponent implements OnInit {
 
   deleteBeneficiary = (beneficiaryDetails: any, index: number): void => {
     this.property_beneficiary.splice(index, 1);
+    this.makeEditBeneficiary();
   }
 
   getBeneficiaryText = (beneficiaryId: any): any => {
@@ -2755,9 +2756,16 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   makeEditBeneficiary = (): void => {
-    // this.property_collection_id = '';
     this.percentage = '';
     this.beneficiary_id = '';
-    //this.selectedbeneficiaries = [];
+    const temp_property_beneficiary = this.property_beneficiary;
+    this.property_beneficiary = [];
+    this.property_beneficiary =  temp_property_beneficiary;
   }
+
+  checkAlreadySelected = (beneficiaryId: number): boolean => {
+    const data = this.property_beneficiary.find((item) => item.beneficiary_id == beneficiaryId);
+    return data ? true : false;
+  }
+
 }

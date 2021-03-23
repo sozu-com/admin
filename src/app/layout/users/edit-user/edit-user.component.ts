@@ -53,6 +53,8 @@ export class EditUserComponent implements OnInit {
   age: any;
   public selectedAddr;
   isGetEditUserData: boolean = false;
+  toDayDate: any;
+
   constructor(
     public constant: Constant,
     private cs: CommonService,
@@ -63,7 +65,19 @@ export class EditUserComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
     private router: Router
-  ) { }
+  ) {
+    const dtToday = new Date();
+    let month: any = dtToday.getMonth() + 1;
+    let day: any = dtToday.getDate();
+    const year = dtToday.getFullYear();
+    if (month < 10) {
+      month = '0' + month.toString();
+    }
+    if (day < 10) {
+      day = '0' + day.toString();
+    }
+    this.toDayDate = year + '-' + month + '-' + day;
+  }
 
   ngOnInit() {
     this.age
