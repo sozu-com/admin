@@ -1106,8 +1106,8 @@
                 <option disabled selected value="">{{'creditForm.selectBeneficiary' | translate}}
                 </option>
                 <option *ngFor="let temp_beneficiary of beneficiaries_list" 
-                [value]="temp_beneficiary.id">
-                  {{temp_beneficiary?.beneficiary_name}}
+                [value]="temp_beneficiary.id" [disabled]="checkAlreadySelected(temp_beneficiary.id)">
+                  {{temp_beneficiary?.beneficiary_name}} {{temp_beneficiary?.beneficiary_firstSurname}} {{temp_beneficiary?.beneficiary_secondSurname}}
                 </option>
               </select>
             <!-- <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selectedbeneficiaries"
@@ -2796,11 +2796,18 @@
                 <span></span>
               </div>
               <p class="time" title="'Click to view'">
-                <a target="_blank" href="{{tempBuyerSellerPropertyDocumentationFoldersDetails?.document_link}}">
-                  {{tempBuyerSellerPropertyDocumentationFoldersDetails.user_document ? 
-                    (this.language_code == 'en' ? tempBuyerSellerPropertyDocumentationFoldersDetails?.user_document?.name_en :
-                  tempBuyerSellerPropertyDocumentationFoldersDetails?.user_document?.name_es) : ('commonBlock.document' | translate) + ' ' + (i + 1) }}
+                <a target="_blank" href="{{tempBuyerSellerPropertyDocumentationFoldersDetails?.document_link}}" *ngIf="beneficiaryDocumentationFoldersDetails.length > 0">
+                  {{this.language_code == 'en' ? tempBuyerSellerPropertyDocumentationFoldersDetails?.beneficiary_document?.name_en : tempBuyerSellerPropertyDocumentationFoldersDetails?.beneficiary_document?.name_es }}
+                  {{tempBuyerSellerPropertyDocumentationFoldersDetails?.beneficiary_last? tempBuyerSellerPropertyDocumentationFoldersDetails?.beneficiary_last : ''}}
                 </a>
+                <a target="_blank" href="{{tempBuyerSellerPropertyDocumentationFoldersDetails?.document_link}}" *ngIf="tutorDocumentationFoldersDetails.length > 0">
+                {{this.language_code == 'en' ? tempBuyerSellerPropertyDocumentationFoldersDetails?.tutor_document?.name_en : tempBuyerSellerPropertyDocumentationFoldersDetails?.tutor_document?.name_es}}
+                {{tempBuyerSellerPropertyDocumentationFoldersDetails?.tutor_last? tempBuyerSellerPropertyDocumentationFoldersDetails?.tutor_last : ''}}
+              </a>
+              <a target="_blank" href="{{tempBuyerSellerPropertyDocumentationFoldersDetails?.document_link}}" *ngIf="beneficiaryDocumentationFoldersDetails.length == 0 && tutorDocumentationFoldersDetails.length == 0">
+                {{this.language_code == 'en' ? tempBuyerSellerPropertyDocumentationFoldersDetails?.user_document?.name_en :
+                tempBuyerSellerPropertyDocumentationFoldersDetails?.user_document?.name_es}}
+              </a>
               </p>
             </div>
           </ng-container>

@@ -2330,7 +2330,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     this.sellerDocumentationFoldersDetails = [];
     this.propertyDocumentationFoldersDetails = [];
     this.beneficiaryDocumentationFoldersDetails = [];
-    this.tutorDocumentationFoldersDetails = []
+    this.tutorDocumentationFoldersDetails = [];
     const postData = {
       property_id: (details.property || {}).id,
       seller_id: details.seller_type == 2 ? (details.seller_legal_entity || {}).id : (details.seller || {}).id,
@@ -2347,8 +2347,12 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         beneficiaryDocumentation.forEach(function(element){
         element.beneficiary_linked_document.forEach(function(x){ 
           x.beneficiary_name = null;
+          x.beneficiary_firstSurname = null;
+          x.beneficiary_secondSurname = null;
           if(x.document_link){
             x.beneficiary_name = element.beneficiary_name;
+            x.beneficiary_firstSurname = element.beneficiary_firstSurname
+            x.beneficiary_secondSurname = element.beneficiary_secondSurname;
             self.beneficiaryDocumentationFoldersDetails.push(x);
           }
         });
@@ -2359,9 +2363,34 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       tutorDocumentationFolders.forEach(function(element){
         element.tutor_linked_document.forEach(function(x){ 
           x.tutor_name = null;
+          x.tutor_firstSurname = null;
+          x.tutor_secondSurname = null;
           if(x.document_link){
             x.tutor_name = element.tutor_name;
+            x.tutor_firstSurname = element.tutor_firstSurname;
+            x.tutor_secondSurname = element.tutor_secondSurname;
+            x.beneficiary_secondSurname = element.beneficiary_secondSurname;
             self.tutorDocumentationFoldersDetails.push(x);
+          }
+        });
+      });
+      self.beneficiaryDocumentationFoldersDetails.forEach(element=>{
+        let count = 1;
+        self.beneficiaryDocumentationFoldersDetails.forEach(item=>{
+          item.last = null;
+          if(element.beneficiary_document.name_en == item.beneficiary_document.name_en){
+            item.beneficiary_last = '_beneficiary_' + count;
+            count = count + 1;
+          }
+        });
+      });
+      self.tutorDocumentationFoldersDetails.forEach(element=>{
+        let count = 1;
+        self.tutorDocumentationFoldersDetails.forEach(item=>{
+          item.tutor_last = null;
+          if(element.tutor_document.name_en == item.tutor_document.name_en){
+            item.tutor_last = '_tutor_' + count;
+            count = count + 1;
           }
         });
       });
@@ -2808,7 +2837,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             self.bill_month = self.translate.defaultLang === 'en' ? monthNames[current_date.getUTCMonth()] : monthNamesES[current_date.getUTCMonth()];
             self.bill_month_date = self.datePipe.transform(current_date.setDate(10), 'MMM d, y');
 
-            if (element.is_paid_calculated == 0 && moment(current_date).isAfter(month)) {
+            if (element.is_paid_calculated == 0 && moment(new Date()).isAfter(month)) {
               self.current_month_amount = element.penalty ? self.current_month_amount + ((element.amount + element.penalty.amount) - element.calc_payment_amount) : self.current_month_amount + (element.amount - element.calc_payment_amount);
             }
             else if (index == 0 && element.is_paid_calculated == 0) {
@@ -2863,7 +2892,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
               ]);
               count3 = count3 + 1;
             }
-            self.current_month_amount = (self.current_month_amount || 0) + (element.outstanding_amount || 0);
+            //self.current_month_amount = (self.current_month_amount || 0) + (element.amount - (element.calc_payment_amount || 0));
             self.table_data.push([
               {
                 text: element.category_name == 'Special payment' ? element.name : self.language_code == 'en' && element.category_name != 'Special payment' ?
@@ -2876,8 +2905,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
                 color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#929292', fontSize: 11
               },
               {
-                text: element.outstanding_amount && element.outstanding_amount > 0 ? self.price.transform(Number(element.outstanding_amount).toFixed(2)) : '', border: [false, false, false, false],
-                bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#929292', fontSize: 11
+                text: element.amount - (element.calc_payment_amount || 0) ? self.price.transform(Number(element.amount - (element.calc_payment_amount || 0)).toFixed(2)) : '-', border: [false, false, false, false],
+                bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#929292', fontSize: 11, alignment: 'center'
               },
               {
                 text: element.amount ? self.price.transform(Number(element.amount).toFixed(2)) : '', border: [false, false, false, false], bold: true, color: 'white',
@@ -3266,7 +3295,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
                 { text: this.translate.instant('generatePDF.penalty'), border: [false, false, false, false], bold: true, color: 'white', fillColor: '#525659' },
                 { text: this.translate.instant('generatePDF.description'), border: [false, false, false, false], bold: true, color: 'white', fillColor: '#525659' }
               ],
-            ]
+            ],
           }
         },
         {

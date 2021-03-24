@@ -50,6 +50,7 @@ export class AddUserComponent implements OnInit {
   beneficiary: Beneficiary;
   beneficiary_list: any[] = [];
   public selectedAddr: any;
+  toDayDate: any;
 
   constructor(
     public constant: Constant,
@@ -61,7 +62,19 @@ export class AddUserComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
     private router: Router
-  ) { }
+  ) {
+    const dtToday = new Date();
+    let month: any = dtToday.getMonth() + 1;
+    let day: any = dtToday.getDate();
+    const year = dtToday.getFullYear();
+    if (month < 10) {
+      month = '0' + month.toString();
+    }
+    if (day < 10) {
+      day = '0' + day.toString();
+    }
+    this.toDayDate = year + '-' + month + '-' + day;
+  }
 
   ngOnInit() {
     this.age;
@@ -238,7 +251,19 @@ export class AddUserComponent implements OnInit {
       age--;
     }
     this.age = age;
-    console.log(this.age, this.age <= 18, "age")
+   // console.log(this.age, this.age <= 18, "age")
+    return age;
+  }
+
+  ageFromDateOfBirthday2(dateOfBirth: any): number {
+    const today = new Date();
+    const birthDate = new Date(dateOfBirth);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
     return age;
   }
 
@@ -250,7 +275,7 @@ export class AddUserComponent implements OnInit {
   getBeneficiary = (): void => {
     this.spinner.show();
     this.beneficiary_list;
-    console.log(this.beneficiary_list, "list")
+   // console.log(this.beneficiary_list, "list")
   }
 
   getAccountTypeText = (bankId: any): any => {
@@ -755,5 +780,50 @@ export class AddUserComponent implements OnInit {
     }
     return false;
   }
+
+  getBeneficiaryText = (beneficiaryDetails: any): any => {
+    if (
+      beneficiaryDetails.beneficiary_name &&
+      beneficiaryDetails.beneficiary_firstSurname &&
+      beneficiaryDetails.beneficiary_secondSurname
+    ) {
+      return (beneficiaryDetails.beneficiary_name + ' ' + beneficiaryDetails.beneficiary_firstSurname + ' ' + beneficiaryDetails.beneficiary_secondSurname);
+    } else if (
+      beneficiaryDetails.beneficiary_name &&
+      beneficiaryDetails.beneficiary_firstSurname
+    ) {
+      return (beneficiaryDetails.beneficiary_name + ' ' + beneficiaryDetails.beneficiary_firstSurname);
+    } else if (
+      beneficiaryDetails.beneficiary_name &&
+      beneficiaryDetails.beneficiary_secondSurname
+    ) {
+      return (beneficiaryDetails.beneficiary_name + ' ' + beneficiaryDetails.beneficiary_secondSurname);
+    } else {
+      return beneficiaryDetails.beneficiary_name;
+    }
+  }
+
+  getTutorText = (tutorDetails: any): any => {
+    if (
+      tutorDetails.tutor.tutor_name &&
+      tutorDetails.tutor.tutor_firstSurname &&
+      tutorDetails.tutor.tutor_secondSurname
+    ) {
+      return (tutorDetails.tutor.tutor_name + ' ' + tutorDetails.tutor.tutor_firstSurname + ' ' + tutorDetails.tutor.tutor_secondSurname);
+    } else if (
+      tutorDetails.tutor.tutor_name &&
+      tutorDetails.tutor.tutor_firstSurname
+    ) {
+      return (tutorDetails.tutor.tutor_name + ' ' + tutorDetails.tutor.tutor_firstSurname);
+    } else if (
+      tutorDetails.tutor.tutor_name &&
+      tutorDetails.tutor.tutor_secondSurname
+    ) {
+      return (tutorDetails.tutor.tutor_name + ' ' + tutorDetails.tutor.tutor_secondSurname);
+    } else {
+      return tutorDetails.tutor.tutor_name;
+    }
+  }
+
 }
 
