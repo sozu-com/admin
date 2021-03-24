@@ -25,7 +25,7 @@
                   <!-- name is commercial name -->
                     <label>{{'table.th.commercialName' | translate}}</label>
                     <div class="searh-3">
-                      <input type="text" [(ngModel)]="model.name" (keyup.enter)="getDevelopersFrAdmin()" name="">
+                      <input type="text" [(ngModel)]="model.name" (keyup.enter)="getDevelopersFrAdmin()" name=""  autocomplete="address-level4" >
                       <button *ngIf="model.name" (click)="getDevelopersFrAdmin()"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                   <!-- comapny name is legal name -->
                     <label>{{'table.th.legalName' | translate}}</label>
                     <div class="searh-3">
-                      <input type="text" [(ngModel)]="model.developer_company" (keyup.enter)="getDevelopersFrAdmin()" name="">
+                      <input type="text" [(ngModel)]="model.developer_company" (keyup.enter)="getDevelopersFrAdmin()" name="" autocomplete="address-level4" >
                       <button *ngIf="model.developer_company" (click)="getDevelopersFrAdmin()"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                 <div class="table-search">
                     <label>{{'table.th.contactNumber' | translate}}</label>
                     <div class="searh-3">
-                      <input type="text" [(ngModel)]="model.phone" (keyup.enter)="getDevelopersFrAdmin()" name="">
+                      <input type="text" [(ngModel)]="model.phone" (keyup.enter)="getDevelopersFrAdmin()" name="" autocomplete="address-level4" >
                       <button *ngIf="model.phone" (click)="getDevelopersFrAdmin()"><i class="fa fa-search"></i></button>
                     </div>
                 </div>

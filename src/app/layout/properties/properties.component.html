@@ -314,7 +314,7 @@
                               <label>{{'table.th.nameOfBuilding' | translate}}</label>
                               <div class="searh-3">
                                  <input class="width100px" type="text" [(ngModel)]="parameter.keyword" name="keyword"
-                                    (keyup.enter)="getListing()">
+                                    (keyup.enter)="getListing()" autocomplete="address-level4" >
                                  <button *ngIf="parameter.keyword" (click)="getListing()"><i
                                        class="fa fa-search"></i></button>
                               </div>
@@ -325,7 +325,7 @@
                               <label>{{'table.th.nameOfTower' | translate}}</label>
                               <div class="searh-3">
                                  <input class="width100px" type="text" [(ngModel)]="parameter.tower_name"
-                                    name="tower_name" (keyup.enter)="getListing()">
+                                    name="tower_name" (keyup.enter)="getListing()" autocomplete="address-level4" >
                                  <button *ngIf="parameter.tower_name" (click)="getListing()"><i
                                        class="fa fa-search"></i></button>
                               </div>
@@ -351,7 +351,7 @@
                               </label>
                               <div class="searh-3">
                                  <input class="width120px" type="text" [(ngModel)]="parameter.name" name="name"
-                                    (keyup.enter)="getListing()">
+                                    (keyup.enter)="getListing()" autocomplete="address-level4" >
                                  <button *ngIf="parameter.name" (click)="getListing()"><i
                                        class="fa fa-search"></i></button>
                               </div>
@@ -362,7 +362,7 @@
                               <label>{{'table.th.model' | translate}}</label>
                               <div class="searh-3">
                                  <input class="width120px" type="text" [(ngModel)]="parameter.configuration_name"
-                                    name="configuration_name" (keyup.enter)="getListing()">
+                                    name="configuration_name" (keyup.enter)="getListing()" autocomplete="address-level4" >
                                  <button *ngIf="parameter.configuration_name" (click)="getListing()"><i
                                        class="fa fa-search"></i></button>
                               </div>
@@ -468,7 +468,7 @@
                               <label>{{'table.th.changeBuyer' | translate}}</label>
                               <div class="searh-3">
                                  <input class="width100px" type="text" [(ngModel)]="parameter.buyer_name"
-                                    name="buyer_name" (keyup.enter)="getListing()">
+                                    name="buyer_name" (keyup.enter)="getListing()" autocomplete="address-level4" >
                                  <button *ngIf="parameter.seller_name" (click)="getListing()"><i
                                        class="fa fa-search"></i></button>
                               </div>
@@ -479,7 +479,7 @@
                               <label>{{'table.th.changeSeller' | translate}}</label>
                               <div class="searh-3">
                                  <input class="width100px" type="text" [(ngModel)]="parameter.seller_name"
-                                    name="seller_name" (keyup.enter)="getListing()">
+                                    name="seller_name" (keyup.enter)="getListing()" autocomplete="address-level4" >
                                  <button *ngIf="parameter.seller_name" (click)="getListing()"><i
                                        class="fa fa-search"></i></button>
                               </div>

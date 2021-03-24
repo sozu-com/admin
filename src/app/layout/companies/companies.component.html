@@ -33,7 +33,7 @@
                 <div class="table-search">
                     <label>{{'table.th.companyCommercialName' | translate}}</label>
                     <div class="searh-3">
-                      <input type="text" [(ngModel)]="model.name" (keyup.enter)="getTowerManagerCompany()" name="">
+                      <input type="text" [(ngModel)]="model.name" (keyup.enter)="getTowerManagerCompany()" name="" autocomplete="address-level4" >
                       <button *ngIf="model.name" (click)="getTowerManagerCompany()"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
@@ -42,7 +42,7 @@
                 <div class="table-search">
                     <label><br>&nbsp;{{'table.th.contactNumber' | translate}}</label>
                     <div class="searh-3">
-                      <input type="text" [(ngModel)]="model.phone" (keyup.enter)="getTowerManagerCompany()" name="">
+                      <input type="text" [(ngModel)]="model.phone" (keyup.enter)="getTowerManagerCompany()" name="" autocomplete="address-level4" >
                       <button *ngIf="model.phone" (click)="getTowerManagerCompany()"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                 <div class="table-search">
                     <label><br>&nbsp;{{'table.th.emailAddress' | translate}}</label>
                     <div class="searh-3">
-                      <input type="text" [(ngModel)]="model.email" (keyup.enter)="getTowerManagerCompany()" name="">
+                      <input type="text" [(ngModel)]="model.email" (keyup.enter)="getTowerManagerCompany()" name="" autocomplete="address-level4" >
                       <button *ngIf="model.email" (click)="getTowerManagerCompany()"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
