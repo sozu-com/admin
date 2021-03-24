@@ -875,4 +875,48 @@ export class EditUserComponent implements OnInit {
     return false;
   }
 
+  getBeneficiaryText = (beneficiaryDetails: any): any => {
+    if (
+      beneficiaryDetails.beneficiary_name &&
+      beneficiaryDetails.beneficiary_firstSurname &&
+      beneficiaryDetails.beneficiary_secondSurname
+    ) {
+      return (beneficiaryDetails.beneficiary_name + ' ' + beneficiaryDetails.beneficiary_firstSurname + ' ' + beneficiaryDetails.beneficiary_secondSurname);
+    } else if (
+      beneficiaryDetails.beneficiary_name &&
+      beneficiaryDetails.beneficiary_firstSurname
+    ) {
+      return (beneficiaryDetails.beneficiary_name + ' ' + beneficiaryDetails.beneficiary_firstSurname);
+    } else if (
+      beneficiaryDetails.beneficiary_name &&
+      beneficiaryDetails.beneficiary_secondSurname
+    ) {
+      return (beneficiaryDetails.beneficiary_name + ' ' + beneficiaryDetails.beneficiary_secondSurname);
+    } else {
+      return beneficiaryDetails.beneficiary_name;
+    }
+  }
+
+  getTutorText = (tutorDetails: any): any => {
+    if (
+      tutorDetails.tutor.tutor_name &&
+      tutorDetails.tutor.tutor_firstSurname &&
+      tutorDetails.tutor.tutor_secondSurname
+    ) {
+      return (tutorDetails.tutor.tutor_name + ' ' + tutorDetails.tutor.tutor_firstSurname + ' ' + tutorDetails.tutor.tutor_secondSurname);
+    } else if (
+      tutorDetails.tutor.tutor_name &&
+      tutorDetails.tutor.tutor_firstSurname
+    ) {
+      return (tutorDetails.tutor.tutor_name + ' ' + tutorDetails.tutor.tutor_firstSurname);
+    } else if (
+      tutorDetails.tutor.tutor_name &&
+      tutorDetails.tutor.tutor_secondSurname
+    ) {
+      return (tutorDetails.tutor.tutor_name + ' ' + tutorDetails.tutor.tutor_secondSurname);
+    } else {
+      return tutorDetails.tutor.tutor_name;
+    }
+  }
+
 }

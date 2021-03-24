@@ -1107,7 +1107,7 @@
                 </option>
                 <option *ngFor="let temp_beneficiary of beneficiaries_list" 
                 [value]="temp_beneficiary.id" [disabled]="checkAlreadySelected(temp_beneficiary.id)">
-                  {{temp_beneficiary?.beneficiary_name}}
+                  {{temp_beneficiary?.beneficiary_name}} {{temp_beneficiary?.beneficiary_firstSurname}} {{temp_beneficiary?.beneficiary_secondSurname}}
                 </option>
               </select>
             <!-- <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selectedbeneficiaries"

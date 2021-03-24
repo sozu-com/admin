@@ -760,10 +760,10 @@ export class AddEditCollectionComponent implements OnInit {
           control1.push(this.formBuilder.group(x));
         });
       }
-      if(data.buyer && data.buyer.email && (this.model.id === '0' || (!data.account_statement && this.model.id != '0'))){  
+      if (data.buyer && data.buyer.email && (this.model.id === '0' || (!data.account_statement && this.model.id != '0'))) {
         this.addFormStep4.controls.email.patchValue(data.buyer.email);
         this.isShown = true;
-        }
+      }
     }
     // buyer as a legal entity
     if (this.model.buyer_type == '2') {
@@ -802,9 +802,9 @@ export class AddEditCollectionComponent implements OnInit {
           control1.push(this.formBuilder.group(x));
         });
       }
-      if(data.buyer_legal_entity && data.buyer_legal_entity.email && (this.model.id === '0' || (!data.account_statement && this.model.id != '0'))){  
-      this.addFormStep4.controls.email.patchValue(data.buyer_legal_entity.email);
-      this.isShown = true;
+      if (data.buyer_legal_entity && data.buyer_legal_entity.email && (this.model.id === '0' || (!data.account_statement && this.model.id != '0'))) {
+        this.addFormStep4.controls.email.patchValue(data.buyer_legal_entity.email);
+        this.isShown = true;
       }
     }
 
@@ -847,10 +847,10 @@ export class AddEditCollectionComponent implements OnInit {
           control1.push(this.formBuilder.group(x));
         });
       }
-      if(data.buyer && data.buyer.email && (this.model.id === '0' || (!data.account_statement && this.model.id != '0'))){  
+      if (data.buyer && data.buyer.email && (this.model.id === '0' || (!data.account_statement && this.model.id != '0'))) {
         this.addFormStep4.controls.email.patchValue(data.buyer.email);
         this.isShown = true;
-        }
+      }
     }
   }
 
@@ -876,12 +876,12 @@ export class AddEditCollectionComponent implements OnInit {
 
     this.addFormStep4.controls['sum_of_concepts'].patchValue(this.numberUptoNDecimal(sum_of_concepts, 2));
     this.addFormStep4.controls.step.patchValue(4);
-    if(data.account_statement && data.account_statement.usersemail && data.account_statement.usersemail.length > 0){
+    if (data.account_statement && data.account_statement.usersemail && data.account_statement.usersemail.length > 0) {
       let emails = '';
-      data.account_statement.usersemail.forEach(element =>{
-        emails = emails == '' ? element.email : emails + ', '+ element.email;
+      data.account_statement.usersemail.forEach(element => {
+        emails = emails == '' ? element.email : emails + ', ' + element.email;
       });
-    this.addFormStep4.controls.email.patchValue(emails);
+      this.addFormStep4.controls.email.patchValue(emails);
     }
     this.isShown = data.account_statement.usersemail && data.account_statement.usersemail.length > 0 ? true : false;
     this.addFormStep4.controls.day.patchValue(data.account_statement ? data.account_statement.day : '');
@@ -998,7 +998,7 @@ export class AddEditCollectionComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.tab = tab;
-        if(tab == 4){
+        if (tab == 4) {
           this.edit_reminder = false;
           this.isShown = this.addFormStep4.controls['email'].value ? true : false;
         }
@@ -2251,12 +2251,12 @@ export class AddEditCollectionComponent implements OnInit {
         paymentSum = paymentSum.toFixed(2);
         const diff = formdata['deal_price'] - paymentSum;
         const currency_id = this.addFormStep4.get('currency_id').value;
-        if(this.addFormStep4.controls.email.value && this.addFormStep4.controls.email.value.length > 0){
-        formdata['email'] = this.addFormStep4.controls.email.value.split(',');
+        if (this.addFormStep4.controls.email.value && this.addFormStep4.controls.email.value.length > 0) {
+          formdata['email'] = this.addFormStep4.controls.email.value.split(',');
         }
         formdata['day'] = this.addFormStep4.controls.day.value;
         formdata['collection_account_statement_id'] = this.collection_account_statement_id;
-        formdata['is_language'] =  this.translate.defaultLang == 'en' ? 1 : 2;
+        formdata['is_language'] = this.translate.defaultLang == 'en' ? 1 : 2;
         if ((diff >= 5 && currency_id == 78) || (diff >= 0.5 && currency_id == 124)) {
           callApi = false;
           const text = this.translate.instant('message.error.priceIsNotEqualToPaymentConceptPrice') + '<br>';
@@ -2514,28 +2514,28 @@ export class AddEditCollectionComponent implements OnInit {
       this.propertyDocumentationFoldersDetails = success.property || [];
       let beneficiaryDocumentation = success.beneficiary || [];
       let tutorDocumentationFolders = [];
-        beneficiaryDocumentation.forEach(function(element){
-        element.beneficiary_linked_document.forEach(function(x){ 
+      beneficiaryDocumentation.forEach(function (element) {
+        element.beneficiary_linked_document.forEach(function (x) {
           x.beneficiary_name = null;
           x.beneficiary_firstSurname = null;
           x.beneficiary_secondSurname = null;
-          if(x.document_link){
+          if (x.document_link) {
             x.beneficiary_name = element.beneficiary_name;
             x.beneficiary_firstSurname = element.beneficiary_firstSurname
             x.beneficiary_secondSurname = element.beneficiary_secondSurname;
             self.beneficiaryDocumentationFoldersDetails.push(x);
           }
         });
-        if(element.tutor && element.tutor.tutor_name){
+        if (element.tutor && element.tutor.tutor_name) {
           tutorDocumentationFolders.push(element.tutor);
         }
       });
-      tutorDocumentationFolders.forEach(function(element){
-        element.tutor_linked_document.forEach(function(x){ 
+      tutorDocumentationFolders.forEach(function (element) {
+        element.tutor_linked_document.forEach(function (x) {
           x.tutor_name = null;
           x.tutor_firstSurname = null;
           x.tutor_secondSurname = null;
-          if(x.document_link){
+          if (x.document_link) {
             x.tutor_name = element.tutor_name;
             x.tutor_firstSurname = element.tutor_firstSurname;
             x.tutor_secondSurname = element.tutor_secondSurname;
@@ -2544,21 +2544,21 @@ export class AddEditCollectionComponent implements OnInit {
           }
         });
       });
-      self.beneficiaryDocumentationFoldersDetails.forEach(element=>{
+      self.beneficiaryDocumentationFoldersDetails.forEach(element => {
         let count = 1;
-        self.beneficiaryDocumentationFoldersDetails.forEach(item=>{
+        self.beneficiaryDocumentationFoldersDetails.forEach(item => {
           item.last = null;
-          if(element.beneficiary_document.name_en == item.beneficiary_document.name_en){
+          if (element.beneficiary_document.name_en == item.beneficiary_document.name_en) {
             item.beneficiary_last = '_beneficiary_' + count;
             count = count + 1;
           }
         });
       });
-      self.tutorDocumentationFoldersDetails.forEach(element=>{
+      self.tutorDocumentationFoldersDetails.forEach(element => {
         let count = 1;
-        self.tutorDocumentationFoldersDetails.forEach(item=>{
+        self.tutorDocumentationFoldersDetails.forEach(item => {
           item.tutor_last = null;
-          if(element.tutor_document.name_en == item.tutor_document.name_en){
+          if (element.tutor_document.name_en == item.tutor_document.name_en) {
             item.tutor_last = '_tutor_' + count;
             count = count + 1;
           }
@@ -2597,7 +2597,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.buyerSellerPropertyDocumentationModalOpen.nativeElement.click();
   }
 
-   beneficiaryDocumentationFoldersDetailsLength(beneficiary): number {
+  beneficiaryDocumentationFoldersDetailsLength(beneficiary): number {
     let count = 0;
     beneficiary.forEach((item) => {
       if (item.document_link) {
@@ -2751,7 +2751,7 @@ export class AddEditCollectionComponent implements OnInit {
 
   getAllBeneficiary = (collectionDetails: any): void => {
     this.spinner.show();
-    this.adminService.postDataApi('getAllBeneficiary', { user_id : (collectionDetails.buyer || {}).id }).subscribe((success) => {
+    this.adminService.postDataApi('getAllBeneficiary', { user_id: (collectionDetails.buyer || {}).id }).subscribe((success) => {
       this.spinner.hide();
       this.beneficiaries_list = success.data || [];
       //swal(this.translate.instant('swal.success'), this.translate.instant('message.success.emailSend'), 'success');
@@ -2768,7 +2768,7 @@ export class AddEditCollectionComponent implements OnInit {
       // });
       this.property_beneficiary.push({ property_collection_id: this.model.id, percentage: this.percentage, beneficiary_id: this.beneficiary_id });
       this.makeEditBeneficiary();
-     // this.createCollection(this.addFormStep3.value, 3);
+      // this.createCollection(this.addFormStep3.value, 3);
     } else {
       this.property_beneficiary.splice(this.beneficiaryIndex, 1, { property_collection_id: this.model.id, percentage: this.percentage, beneficiary_id: this.beneficiary_id });
       this.beneficiaryIndex = -1;
@@ -2790,7 +2790,30 @@ export class AddEditCollectionComponent implements OnInit {
 
   getBeneficiaryText = (beneficiaryId: any): any => {
     const data = this.beneficiaries_list.find((item) => item.id == beneficiaryId);
-    return data.beneficiary_name;
+    if (
+      data &&
+      data.beneficiary_name &&
+      data.beneficiary_firstSurname &&
+      data.beneficiary_secondSurname
+    ) {
+      return (data.beneficiary_name + ' ' + data.beneficiary_firstSurname + ' ' + data.beneficiary_secondSurname);
+    } else if (
+      data &&
+      data.beneficiary_name &&
+      data.beneficiary_firstSurname
+    ) {
+      return (data.beneficiary_name + ' ' + data.beneficiary_firstSurname);
+    } else if (
+      data &&
+      data.beneficiary_name &&
+      data.beneficiary_secondSurname
+    ) {
+      return (data.beneficiary_name + ' ' + data.beneficiary_secondSurname);
+    } else if (data) {
+      return data.beneficiary_name;
+    } else {
+      return this.translate.instant('table.tr.td.NA');
+    }
   }
 
   makeEditBeneficiary = (): void => {
@@ -2798,7 +2821,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.beneficiary_id = '';
     const temp_property_beneficiary = this.property_beneficiary;
     this.property_beneficiary = [];
-    this.property_beneficiary =  temp_property_beneficiary;
+    this.property_beneficiary = temp_property_beneficiary;
   }
 
   checkAlreadySelected = (beneficiaryId: number): boolean => {

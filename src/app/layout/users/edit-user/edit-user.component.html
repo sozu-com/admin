@@ -976,8 +976,8 @@
                         <tbody>
                           <tr *ngFor="let beneficiary of beneficiary_list; let i=index">
                             <td>{{(i+1)}}</td>
-                            <td>{{beneficiary?.beneficiary_name || ('table.tr.td.NA' | translate)}}</td>
-                            <td>{{beneficiary?.tutor?.tutor_name || ('table.tr.td.NA' | translate)}}</td>
+                            <td>{{beneficiary?.beneficiary_name ? this.getBeneficiaryText(beneficiary) : ('table.tr.td.NA' | translate)}}</td>
+                            <td>{{beneficiary?.tutor?.tutor_name ? this.getTutorText(beneficiary) : ('table.tr.td.NA' | translate)}}</td>
                             <td>{{beneficiary?.beneficiary_relationship ? this.getAccountTypeText(beneficiary?.beneficiary_relationship) : ('table.tr.td.NA' | translate)}}
                             </td>
                               <td>
