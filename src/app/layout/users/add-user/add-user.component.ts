@@ -172,10 +172,23 @@ export class AddUserComponent implements OnInit {
     reader.readAsDataURL(event.target.files[0]);
   }
 
-  onCountryChange(e) {
+  onCountryChange(e, index: number) {
     // this.model.country_code = e.iso2;
     // this.model.dial_code = '+' + e.dialCode;
     // this.initialCountry = {initialCountry: e.iso2};
+
+    switch (index) {
+      case 1:
+        this.model.country_code = e.iso2;
+        this.model.dial_code = '+' + e.dialCode;
+        break;
+      case 2:
+        this.model.legal_representative.country_code = e.iso2;
+        this.model.legal_representative.dial_code = '+' + e.dialCode;
+        break;
+      default:
+        break;
+    }
   }
 
   addBeneficiary = (): void => {
