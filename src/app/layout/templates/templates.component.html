@@ -44,7 +44,7 @@
                   <div class="table-search">
                     <label>{{'table.th.title' | translate}}</label>
                     <div class="searh-3">
-                      <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getListing()">
+                      <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getListing()" autocomplete="address-level4" >
                       <button *ngIf="parameter.name" (click)="getListing()"><i class="fa fa-search"></i></button>
                     </div>
                   </div>
@@ -53,7 +53,7 @@
                   <div class="table-search">
                     <label>{{'table.th.description' | translate}}</label>
                     <div class="searh-3">
-                      <input type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()">
+                      <input type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" autocomplete="address-level4" >
                       <button *ngIf="parameter.keyword" (click)="getListing()"><i class="fa fa-search"></i></button>
                     </div>
                   </div>

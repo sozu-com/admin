@@ -257,7 +257,7 @@
                         <div class="table-search">
                                 <label>{{'table.th.nameOfBuilding' | translate}}</label>
                         <div class="searh-3">
-                            <input autocomplete="off" type="text" name="name" [(ngModel)]="parameter.name" (keyup.enter)="getListing()">
+                            <input autocomplete="off" type="text" name="name" [(ngModel)]="parameter.name" (keyup.enter)="getListing()" autocomplete="address-level4" >
                             <button *ngIf="parameter.name" (click)="getListing()"><i class="fa fa-search"></i></button>
                         </div>
                         </div>
@@ -266,7 +266,7 @@
                         <div class="table-search">
                                 <label>{{'table.th.address' | translate}}</label>
                         <div class="searh-3">
-                            <input autocomplete="off" type="text" name="name" [(ngModel)]="parameter.location" (keyup.enter)="getListing()">
+                            <input autocomplete="off" type="text" name="name" [(ngModel)]="parameter.location" (keyup.enter)="getListing()" autocomplete="address-level4" >
                             <button *ngIf="parameter.address" (click)="getListing()"><i class="fa fa-search"></i></button>
                         </div>
                         </div>
@@ -275,7 +275,7 @@
                         <div class="table-search">
                                 <label>{{'table.th.developer' | translate}}</label>
                         <div class="searh-3">
-                            <input autocomplete="off" type="text" name="name" [(ngModel)]="parameter.developer" (keyup.enter)="getListing()">
+                            <input autocomplete="off" type="text" name="name" [(ngModel)]="parameter.developer" (keyup.enter)="getListing()" autocomplete="address-level4" >
                             <button *ngIf="parameter.email" (click)="getListing()"><i class="fa fa-search"></i></button>
                         </div>
                         </div>

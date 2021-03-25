@@ -260,7 +260,7 @@
                   <div class="table-search">
                           <label>{{'table.th.name' | translate}}</label>
                      <div class="searh-3">
-                      <input autocomplete="off" type="text" name="name" [(ngModel)]="parameter.name" (keyup.enter)="getListing()">
+                      <input autocomplete="address-level4" type="text" name="name" [(ngModel)]="parameter.name" (keyup.enter)="getListing()">
                       <button *ngIf="parameter.name" (click)="getListing()"><i class="fa fa-search"></i></button>
                     </div>
                   </div>
@@ -269,7 +269,7 @@
                   <div class="table-search">
                           <label>{{'table.th.contactNumber' | translate}}</label>
                      <div class="searh-3">
-                          <input autocomplete="off" type="text" name="phone" [(ngModel)]="parameter.phone" (keyup.enter)="getListing()">
+                          <input autocomplete="address-level4" type="text" name="phone" [(ngModel)]="parameter.phone" (keyup.enter)="getListing()">
                           <button *ngIf="parameter.phone" (click)="getListing()"><i class="fa fa-search"></i></button>
                       </div>
                   </div>
@@ -278,7 +278,7 @@
                   <div class="table-search">
                           <label>{{'table.th.emailAddress' | translate}}</label>
                      <div class="searh-3">
-                          <input autocomplete="off" type="text" name="email" [(ngModel)]="parameter.email" (keyup.enter)="getListing()">
+                          <input autocomplete="address-level4" type="text" name="email" [(ngModel)]="parameter.email" (keyup.enter)="getListing()">
                           <button *ngIf="parameter.email" (click)="getListing()"><i class="fa fa-search"></i></button>
                      </div>
                   </div>

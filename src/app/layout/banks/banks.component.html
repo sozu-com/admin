@@ -25,7 +25,7 @@
                 <div class="table-search">
                     <label>{{'table.th.name' | translate}}</label>
                     <div class="searh-3">
-                      <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getBanks(parameter.p, parameter.name, parameter.phone, parameter.email)" name="">
+                      <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getBanks(parameter.p, parameter.name, parameter.phone, parameter.email)" name="" autocomplete="address-level4" >
                       <button *ngIf="parameter.name" (click)="getBanks(parameter.p, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                 <div class="table-search">
                     <label>{{'table.th.contactNumber' | translate}}</label>
                     <div class="searh-3">
-                      <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="getBanks(parameter.p, parameter.name, parameter.phone, parameter.email)" name="">
+                      <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="getBanks(parameter.p, parameter.name, parameter.phone, parameter.email)" name="" autocomplete="address-level4" >
                       <button *ngIf="parameter.phone" (click)="getBanks(parameter.p, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                 <div class="table-search">
                     <label>{{'table.th.emailAddress' | translate}}</label>
                     <div class="searh-3">
-                      <input (keydown.space)="$event.preventDefault();" type="text" [(ngModel)]="parameter.email" (keyup.enter)="getBanks(parameter.p, parameter.name, parameter.phone, parameter.email)" name="">
+                      <input (keydown.space)="$event.preventDefault();" type="text" [(ngModel)]="parameter.email" (keyup.enter)="getBanks(parameter.p, parameter.name, parameter.phone, parameter.email)" name="" autocomplete="address-level4" >
                       <button *ngIf="parameter.email" (click)="getBanks(parameter.p, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
                     </div>
                 </div>

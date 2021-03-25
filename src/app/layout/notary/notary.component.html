@@ -34,7 +34,7 @@
                 <div class="table-search">
                     <label>{{'table.th.companyName' | translate}}</label>
                     <div class="searh-3">
-                      <input type="text" [(ngModel)]="parameter.company_name" (keyup.enter)="getNoatariesListing(parameter.p, parameter.company_name, parameter.name, parameter.phone, parameter.email)" name="">
+                      <input type="text" [(ngModel)]="parameter.company_name" (keyup.enter)="getNoatariesListing(parameter.p, parameter.company_name, parameter.name, parameter.phone, parameter.email)" name="" autocomplete="address-level4" >
                       <button *ngIf="parameter.company_name" (click)="getNoatariesListing(parameter.p, parameter.company_name, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                 <div class="table-search">
                     <label>{{'table.th.name' | translate}}</label>
                     <div class="searh-3">
-                      <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getNoatariesListing(parameter.p, parameter.company_name, parameter.name, parameter.phone, parameter.email)" name="">
+                      <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getNoatariesListing(parameter.p, parameter.company_name, parameter.name, parameter.phone, parameter.email)" name="" autocomplete="address-level4" >
                       <button *ngIf="parameter.name" (click)="getNoatariesListing(parameter.p, parameter.company_name, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                 <div class="table-search">
                     <label>{{'table.th.contactNumber' | translate}}</label>
                     <div class="searh-3">
-                      <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="getNoatariesListing(parameter.p, parameter.company_name, parameter.name, parameter.phone, parameter.email)" name="">
+                      <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="getNoatariesListing(parameter.p, parameter.company_name, parameter.name, parameter.phone, parameter.email)" name="" autocomplete="address-level4" >
                       <button *ngIf="parameter.phone" (click)="getNoatariesListing(parameter.p, parameter.company_name, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
@@ -61,7 +61,7 @@
                 <div class="table-search">
                     <label>{{'table.th.emailAddress' | translate}}</label>
                     <div class="searh-3">
-                      <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="getNoatariesListing(parameter.p, parameter.company_name, parameter.name, parameter.phone, parameter.email)" name="">
+                      <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="getNoatariesListing(parameter.p, parameter.company_name, parameter.name, parameter.phone, parameter.email)" name="" autocomplete="address-level4" >
                       <button *ngIf="parameter.email" (click)="getNoatariesListing(parameter.p, parameter.company_name, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
                     </div>
                 </div>

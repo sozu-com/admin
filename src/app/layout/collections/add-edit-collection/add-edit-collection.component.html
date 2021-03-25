@@ -1144,7 +1144,9 @@
           <thead class="thead-light">
             <tr>
               <th style="color: black;">{{'creditForm.id' | translate}}</th>
-              <th style="color: black;">{{'creditForm.beneficiary' | translate}}:</th>
+              <!-- <th style="color: black;">{{'creditForm.beneficiary' | translate}}:</th> -->
+              <th style="color: black;">{{'addCollection.beneficiaryNames' | translate}}:</th>
+              <th style="color: black;">{{'addCollection.tutorNames' | translate}}:</th>
               <th style="color: black;">{{'addCollection.percentage' | translate}}:</th>
               <!-- <th style="color: black;">{{'addCollection.edit' | translate}}</th> -->
               <th style="color: black;">{{'addCollection.delete' | translate}}</th>
@@ -1154,6 +1156,7 @@
             <tr *ngFor="let temp_property_beneficiary of property_beneficiary; let i=index">
               <td>{{i+1}}</td>
               <td>{{temp_property_beneficiary?.beneficiary_id ? this.getBeneficiaryText(temp_property_beneficiary?.beneficiary_id) : ('table.tr.td.NA' | translate)}}</td>
+              <td>{{temp_property_beneficiary?.beneficiary_id ? this.getTutorText(temp_property_beneficiary?.beneficiary_id) : ('table.tr.td.NA' | translate)}}</td>
               <td>{{temp_property_beneficiary?.percentage || ('table.tr.td.NA' | translate)}}</td>
               <!-- <td>
                 <button class="action-icon" title="{{'addCollection.edit' | translate}}"
@@ -1168,7 +1171,7 @@
                 </button>
               </td>
             </tr>
-            <tr *ngIf="this.property_beneficiary.length == 0"><th colspan="4" style="text-align: center;">{{'message.error.noRecordFound' | translate}}</th></tr>
+            <tr *ngIf="this.property_beneficiary.length == 0"><th colspan="5" style="text-align: center;">{{'message.error.noRecordFound' | translate}}</th></tr>
           </tbody>
         </table>
        

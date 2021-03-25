@@ -2816,6 +2816,25 @@ export class AddEditCollectionComponent implements OnInit {
     }
   }
 
+  getTutorText = (beneficiaryId: any): any => {
+    const data = this.beneficiaries_list.find((item) => item.id == beneficiaryId);
+    if (((data || {}).tutor || {}).tutor_name &&
+      ((data || {}).tutor || {}).tutor_firstSurname &&
+      ((data || {}).tutor || {}).tutor_secondSurname) {
+      return (data.tutor.tutor_name + ' ' + data.tutor.tutor_firstSurname + ' ' + data.tutor.tutor_secondSurname);
+    } else if (((data || {}).tutor || {}).tutor_name &&
+      ((data || {}).tutor || {}).tutor_firstSurname) {
+      return (data.tutor.tutor_name + ' ' + data.tutor.tutor_firstSurname);
+    } else if (((data || {}).tutor || {}).tutor_name &&
+      ((data || {}).tutor || {}).tutor_secondSurname) {
+      return (data.tutor.tutor_name + ' ' + data.tutor.tutor_secondSurname);
+    } else if (((data || {}).tutor || {}).tutor_name) {
+      return data.tutor.tutor_name;
+    } else {
+      return this.translate.instant('table.tr.td.NA');
+    }
+  }
+
   makeEditBeneficiary = (): void => {
     this.percentage = '';
     this.beneficiary_id = '';

@@ -121,7 +121,7 @@
               <div class="table-search">
                   <label>{{'table.th.agencyCommercialName' | translate}}</label>
                   <div class="searh-3">
-                    <input class="width120px" type="text" [(ngModel)]="parameter.company_name" (keyup.enter)="searchUserByCompanyName(parameter.company_name)" name="">
+                    <input class="width120px" type="text" [(ngModel)]="parameter.company_name" (keyup.enter)="searchUserByCompanyName(parameter.company_name)" name="" autocomplete="address-level4" >
                     <button type="button" *ngIf="parameter.company_name" (click)="searchUserByCompanyName(parameter.company_name)"><i class="fa fa-search"></i></button>
                   </div>
               </div>
@@ -130,7 +130,7 @@
               <div class="table-search">
                   <label>{{'table.th.name' | translate}}</label>
                   <div class="searh-3">
-                    <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="searchUserByName(parameter.name)" name="">
+                    <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="searchUserByName(parameter.name)" name="" autocomplete="address-level4" >
                     <button type="button" *ngIf="parameter.name" (click)="searchUserByName(parameter.name)"><i class="fa fa-search"></i></button>
                   </div>
               </div>
@@ -139,7 +139,7 @@
               <div class="table-search">
                   <label>{{'table.th.contactNumber' | translate}}</label>
                   <div class="searh-3">
-                    <input class="width100px" type="text" [(ngModel)]="parameter.phone" (keyup.enter)="searchUserByPhone(parameter.phone)" name="">
+                    <input class="width100px" type="text" [(ngModel)]="parameter.phone" (keyup.enter)="searchUserByPhone(parameter.phone)" name="" autocomplete="address-level4" >
                     <button type="button" *ngIf="parameter.phone" (click)="searchUserByPhone(parameter.phone)"><i class="fa fa-search"></i></button>
                   </div>
               </div>
@@ -148,7 +148,7 @@
               <div class="table-search">
                   <label>{{'table.th.emailAddress' | translate}}</label>
                   <div class="searh-3">
-                    <input (keydown.space)="$event.preventDefault();" type="text" [(ngModel)]="parameter.email" (keyup.enter)="searchUserByEmail(parameter.email)" name="">
+                    <input (keydown.space)="$event.preventDefault();" type="text" [(ngModel)]="parameter.email" (keyup.enter)="searchUserByEmail(parameter.email)" name="" autocomplete="address-level4" >
                     <button type="button" *ngIf="parameter.email" (click)="searchUserByEmail(parameter.email)"><i class="fa fa-search"></i></button>
                   </div>
               </div>

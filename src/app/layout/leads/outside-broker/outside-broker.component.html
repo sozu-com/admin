@@ -259,7 +259,7 @@
                                 <div class="table-search">
                                         <label>{{'table.th.name' | translate}}</label>
                                     <div class="searh-3">
-                                        <input autocomplete="off" type="text" [(ngModel)]="parameter.name" (keyup.enter)="changeFilter('name',$event.target.value)" name="">
+                                        <input autocomplete="address-level4" type="text" [(ngModel)]="parameter.name" (keyup.enter)="changeFilter('name',$event.target.value)" name="">
                                         <button *ngIf="parameter.name" (click)="changeFilter('name', parameter.name)"><i class="fa fa-search"></i></button>
                                     </div>
                                 </div>
@@ -268,7 +268,7 @@
                                 <div class="table-search">
                                         <label>{{'table.th.contactNumber' | translate}}</label>
                                     <div class="searh-3">
-                                        <input autocomplete="off" type="text" [(ngModel)]="parameter.phone" (keyup.enter)="changeFilter('phone',$event.target.value)" name="">
+                                        <input autocomplete="address-level4" type="text" [(ngModel)]="parameter.phone" (keyup.enter)="changeFilter('phone',$event.target.value)" name="">
                                         <button *ngIf="parameter.phone" (click)="changeFilter('phone', parameter.phone)"><i class="fa fa-search"></i></button>
                                     </div>
                                 </div>
@@ -277,7 +277,7 @@
                                 <div class="table-search">
                                         <label>{{'table.th.emailAddress' | translate}}</label>
                                     <div class="searh-3">
-                                        <input autocomplete="off" type="text" [(ngModel)]="parameter.email" (keyup.enter)="changeFilter('email',$event.target.value)" name="">
+                                        <input autocomplete="address-level4" type="text" [(ngModel)]="parameter.email" (keyup.enter)="changeFilter('email',$event.target.value)" name="">
                                         <button *ngIf="parameter.email" (click)="changeFilter('email', parameter.email)"><i class="fa fa-search"></i></button>
                                     </div>
                                 </div>
