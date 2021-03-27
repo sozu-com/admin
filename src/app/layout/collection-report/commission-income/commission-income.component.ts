@@ -38,6 +38,8 @@ export class CommissionIncomeComponent implements OnInit {
   avgValue: number;
   reportType: number;
   items: Array<any>;
+  commissions = [];
+  already_index: any;
   constructor(public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService) {
@@ -335,5 +337,27 @@ export class CommissionIncomeComponent implements OnInit {
       today.getSeconds();
     fileName = fileName + date;
     FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
+  }
+
+  getCommission(item, index) {
+    if(index != this.already_index){
+      this.already_index = index;
+      this.commissions = [];
+    let data = this.reportData.commission.find(value=> value.label == item.label);
+    let  id = data.id.split(',');
+    let param ={
+      commission_type: this.selectedCommissions[0].id,
+      id: id
+    }
+    this.spinner.show();
+    this.admin.postDataApi('graphs/sozu-get-commission', param)
+      .subscribe(
+        success => {
+          this.commissions = success.data;
+          this.spinner.hide();
+        }, error => {
+          this.spinner.hide();
+        });
+      }
   }
 }

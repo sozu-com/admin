@@ -111,10 +111,10 @@
                                 <th>{{'collectionReport.commissionAmt' | translate}}</th>
                                 <th>{{'collectionReport.IVAAmount' | translate}}</th>
                           </thead>
-                          <tbody>
-                                <tr *ngFor="let item of items; let i=index">
+                          <tbody *ngFor="let item of items; let i=index">
+                                <tr>
                                       <td>{{item.label}}</td>
-                                      <td><a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{i}}">
+                                      <td (click)="getCommission(item, i)"><a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{i}}">
                                           <span><i class="fa fa-plus"></i> </span>{{(item.commission || 0) | currency}}
                                       </a></td>
                                       <td>{{(item.iva_amount || 0) | currency}}</td>
@@ -131,22 +131,19 @@
                                                 <th>{{'collectionReport.IVAPaid' | translate}}</th>
                                                 <th>{{'collectionReport.TOTAL' | translate}}</th>
                                              </thead>
-                                             <tbody>
-                                                <tr>
-                                             <td><span>
-                                                   <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{i}}">
-                                                       <!-- {{(item?.model || ('table.tr.td.NA' | translate)) | uppercase}} -->test
-                                                   </a>
-                                                 </span></td>
-                                             <td><span>fd</span></td>
-                                             <td><span>cv</span></td>
-                                          <td><span>cxc</span></td>
-                                          <td><span>hf</span></td>
-                                          <td><span>cxc</span></td>
-                                          <td><span>hf</span></td>
-                                          </tr>
-                                             </tbody>
+                                             <tbody *ngFor="let commission of commissions; let i=index">
+                                             <td><span>{{commission.id}}</span></td>
+                                             <td><span>{{commission.name}}</span></td>
+                                             <td><span>{{commission.buyer_name}}</span></td>
+                                             <td><span>{{commission.payment_date}}</span></td>
+                                             <td><span>{{(commission.amount || 0) | currency}}</span></td>
+                                             <td><span>{{(commission.iva_amount || 0) | currency}}</span></td>
+                                             <td><span>{{(commission.amount + commission.iva_amount || 0) | currency}}</span></td>
+                                          </tbody>
                                        </table>
+                                       <div class="padding20 center" *ngIf="commissions?.length == 0">
+                                          <img src="assets/img/404-error.png">
+                                    </div>
                                     </td>
                               </tr>
                           </tbody>
