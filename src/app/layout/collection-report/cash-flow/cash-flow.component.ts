@@ -49,6 +49,8 @@ export class CashFlowComponent implements OnInit {
   start_purchase_date: any;
   end_purchase_date: any;
   y: any;
+  already_index: any;
+  cashFlowInfos: any[];
   constructor(public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService) {
@@ -522,5 +524,26 @@ export class CashFlowComponent implements OnInit {
       today.getSeconds();
     fileName = fileName + date;
     FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
+  }
+
+  getCashFlowInfo(item, index) {
+    if(index != this.already_index){
+      this.already_index = index;
+      this.cashFlowInfos = [];
+    let data = this.reportData.actual.find(value=> value.label == item.label);
+    let  id = data.id.split(',');
+    let param ={
+      id: id
+    }
+    this.spinner.show();
+    this.admin.postDataApi('graphs/cash-flow-actualinfo', param)
+      .subscribe(
+        success => {
+          this.cashFlowInfos = success.data;
+          this.spinner.hide();
+        }, error => {
+          this.spinner.hide();
+        });
+      }
   }
 }
