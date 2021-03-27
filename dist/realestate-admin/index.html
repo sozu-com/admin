@@ -154,8 +154,15 @@
 //   }
 // }
   </script>
-
-<link rel="stylesheet" href="styles.20a5cc1a5b085e5b1967.css"></head>
+  <script>
+$('#accordion').click(function() {
+  if ( !$(this).next().hasClass('in') ) {
+    $(this).parent().children('#collapse.in').collapse('hide');
+  }
+  $(this).next().collapse('accordion');
+});
+</script>
+<link rel="stylesheet" href="styles.d5e500efd5ee21f4a06d.css"></head>
 <body>
   <app-root>
       <div class="lds-dual-ring"></div>
@@ -166,5 +173,5 @@
       <div class="loading-bar"></div>
     </div> -->
   </app-root>
-<script type="text/javascript" src="runtime.1227367cb7d9849f1dbc.js"></script><script type="text/javascript" src="polyfills.3a561889ade2aaccbdc9.js"></script><script type="text/javascript" src="scripts.981900ffad781562e39b.js"></script><script type="text/javascript" src="main.29bf1b6a837f0f618255.js"></script></body>
+<script type="text/javascript" src="runtime.09f2a903182c6552527e.js"></script><script type="text/javascript" src="polyfills.3a561889ade2aaccbdc9.js"></script><script type="text/javascript" src="scripts.981900ffad781562e39b.js"></script><script type="text/javascript" src="main.d4098f14bf2995b0a81f.js"></script></body>
 </html>
