@@ -154,7 +154,14 @@
 //   }
 // }
   </script>
-
+  <script>
+$('#accordion').click(function() {
+  if ( !$(this).next().hasClass('in') ) {
+    $(this).parent().children('#collapse.in').collapse('hide');
+  }
+  $(this).next().collapse('accordion');
+});
+</script>
 </head>
 <body>
   <app-root>

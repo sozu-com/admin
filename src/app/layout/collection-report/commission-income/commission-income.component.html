@@ -114,12 +114,16 @@
                           <tbody *ngFor="let item of items; let i=index">
                                 <tr>
                                       <td>{{item.label}}</td>
-                                      <td (click)="getCommission(item, i)"><a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{i}}">
+                                      <td (click)="getCommission(item, i)"><a class="color-changed" 
+                                          data-toggle="collapse" data-target="#collapseOne{{i}}" 
+                                          data-parent="#accordion" 
+                                          aria-expanded="true" aria-controls="collapseOne" 
+                                          href="#collapseOne{{i}}">
                                           <span><i class="fa fa-plus"></i> </span>{{(item.commission || 0) | currency}}
                                       </a></td>
                                       <td>{{(item.iva_amount || 0) | currency}}</td>
                                 </tr>
-                                <tr id="collapse{{i}}" class="panel-collapse collapse">
+                                <tr id="collapseOne{{i}}" class="collapse" data-parent="#accordion">
                                     <td colspan="10">
                                        <table [style.width]="'100%'">
                                              <thead>
