@@ -136,7 +136,7 @@
                                                 <th>{{'collectionReport.TOTAL' | translate}}</th>
                                              </thead>
                                              <tbody *ngFor="let commission of commissions; let i=index">
-                                             <td><span>{{commission.id}}</span></td>
+                                             <td><span class="green-color cursor-pointer" routerLink="/dashboard/collections/view-collections/{{commission.id}}">{{commission.id}}</span></td>
                                              <td><span>{{commission.name}}</span></td>
                                              <td><span>{{commission.buyer_name}}</span></td>
                                              <td><span>{{commission.payment_date}}</span></td>
