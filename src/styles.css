@@ -1136,3 +1136,7 @@ body .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item-group.ui-state-high
   border-left: 5px solid transparent !important;
   border-right: 5px solid transparent !important;
 }
+
+.p-collender-top .ui-widget-content{
+  top: 27px !important;;
+}

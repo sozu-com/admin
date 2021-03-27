@@ -169,9 +169,9 @@
                               <th>{{'collectionReport.expectedAmt' | translate}}</th>
                               <th>{{'collectionReport.actualAmt' | translate}}</th>
                         </thead>
-                        <tbody>
-                              <tr *ngFor="let item of items; let i=index">
-                                    <td> <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{i}}">
+                        <tbody *ngFor="let item of items; let i=index">
+                              <tr >
+                                    <td (click)="getCashFlowInfo(item, i)"> <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{i}}">
                                           <span><i class="fa fa-plus"></i> </span>{{item.label}}
                                       </a></td>
                                     <td>{{(item.expected || 0) | currency}}</td>
@@ -187,29 +187,25 @@
                                                 <th>{{'collectionReport.datee' | translate}}</th>
                                                 <th>{{'collectionReport.amountPaid' | translate}}</th>
                                              </thead>
-                                             <tbody>
-                                                <tr>
-                                             <td><span>
-                                                   <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{i}}">
-                                                       <!-- {{(item?.model || ('table.tr.td.NA' | translate)) | uppercase}} -->test
-                                                   </a>
-                                                 </span></td>
-                                             <td><span>fd</span></td>
-                                             <td><span>cv</span></td>
-                                          <td><span>cxc</span></td>
-                                          <td><span>hf</span></td>
-                                          </tr>
+                                             <tbody *ngFor="let cashFlowInfo of cashFlowInfos; let i=index">
+                                                <td><span>{{cashFlowInfo.id}}</span></td>
+                                                <td><span>{{cashFlowInfo.name}}</span></td>
+                                                <td><span>{{cashFlowInfo.buyer_name}}</span></td>
+                                                <td><span>{{cashFlowInfo.payment_date}}</span></td>
+                                                <td><span>{{(cashFlowInfo.amount || 0) | currency}}</span></td>
                                              </tbody>
                                        </table>
                                     </td>
                               </tr>
-                              <tr>
-                                    <th style="font-weight: bold;color: black;">{{'dashboard.total' | translate}}:</th>
-                                    <td>{{(expectedTotal || 0) | currency}}</td>
-                                    <td>{{(actualTotal || 0) | currency}}</td>
-                              </tr>
+                              
                               
                         </tbody>
+                  <tbody>
+                        <tr>
+                              <th style="font-weight: bold;color: black;">{{'dashboard.total' | translate}}:</th>
+                              <td>{{(expectedTotal || 0) | currency}}</td>
+                              <td>{{(actualTotal || 0) | currency}}</td>
+                        </tr> </tbody>
                   </table>
             </div>
      
