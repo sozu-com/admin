@@ -104,7 +104,22 @@ const routes: Routes = [
     DropdownModule,
     NgMultiSelectDropDownModule.forRoot()
   ],
-  declarations: [CollectionReportComponent, GeneralComponent, ModelComponent, ConceptComponent, MonthlyComponent, SalesTrendComponent, SalesReportComponent, SalesBookingComponent, CommissionIncomeComponent, AppUnapprovedComponent, ArrearReportComponent, CashFlowComponent, ProjectReportComponent, BuyerReportComponent]
+  declarations: [
+    CollectionReportComponent,
+    GeneralComponent,
+    ModelComponent,
+    ConceptComponent,
+    MonthlyComponent,
+    SalesTrendComponent,
+    SalesReportComponent,
+    SalesBookingComponent,
+    CommissionIncomeComponent,
+    AppUnapprovedComponent,
+    ArrearReportComponent,
+    CashFlowComponent,
+    ProjectReportComponent,
+    BuyerReportComponent
+  ]
 })
 
 export class CollectionReportModule { }

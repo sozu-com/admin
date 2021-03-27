@@ -2799,15 +2799,15 @@
                 <span></span>
               </div>
               <p class="time" title="'Click to view'">
-                <a target="_blank" href="{{tempBuyerSellerPropertyDocumentationFoldersDetails?.document_link}}" *ngIf="beneficiaryDocumentationFoldersDetails.length > 0">
+                <a target="_blank" href="{{tempBuyerSellerPropertyDocumentationFoldersDetails?.document_link}}" *ngIf="buyerSellerPropertyDocumentationId == 4">
                   {{this.language_code == 'en' ? tempBuyerSellerPropertyDocumentationFoldersDetails?.beneficiary_document?.name_en : tempBuyerSellerPropertyDocumentationFoldersDetails?.beneficiary_document?.name_es }}
                   {{tempBuyerSellerPropertyDocumentationFoldersDetails?.beneficiary_last? tempBuyerSellerPropertyDocumentationFoldersDetails?.beneficiary_last : ''}}
                 </a>
-                <a target="_blank" href="{{tempBuyerSellerPropertyDocumentationFoldersDetails?.document_link}}" *ngIf="tutorDocumentationFoldersDetails.length > 0">
+                <a target="_blank" href="{{tempBuyerSellerPropertyDocumentationFoldersDetails?.document_link}}" *ngIf="buyerSellerPropertyDocumentationId == 5">
                 {{this.language_code == 'en' ? tempBuyerSellerPropertyDocumentationFoldersDetails?.tutor_document?.name_en : tempBuyerSellerPropertyDocumentationFoldersDetails?.tutor_document?.name_es}}
                 {{tempBuyerSellerPropertyDocumentationFoldersDetails?.tutor_last? tempBuyerSellerPropertyDocumentationFoldersDetails?.tutor_last : ''}}
               </a>
-              <a target="_blank" href="{{tempBuyerSellerPropertyDocumentationFoldersDetails?.document_link}}" *ngIf="beneficiaryDocumentationFoldersDetails.length == 0 && tutorDocumentationFoldersDetails.length == 0">
+              <a target="_blank" href="{{tempBuyerSellerPropertyDocumentationFoldersDetails?.document_link}}" *ngIf="buyerSellerPropertyDocumentationId == 1 || buyerSellerPropertyDocumentationId == 2 || buyerSellerPropertyDocumentationId == 3">
                 {{this.language_code == 'en' ? tempBuyerSellerPropertyDocumentationFoldersDetails?.user_document?.name_en :
                 tempBuyerSellerPropertyDocumentationFoldersDetails?.user_document?.name_es}}
               </a>
