@@ -97,10 +97,14 @@
                   <div id="chartContainer1" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
             </div>
 
-              <div class="table-responsive main-table" *ngIf="reportType == 2" style="width: 90%; margin-left:auto;margin-right:auto;">
+              <div class="table-responsive main-table" *ngIf="reportType == 2" 
+              style="width: 90%; margin-left:auto;margin-right:auto;"
+              id="accordion">
                     <h5>{{'collectionReport.tabularView' | translate}}<span class=" pull-right">
-                          <button class="btn btn-primary-new export-btn" (click)="exportData()">{{'collectionReport.export' | translate}}</button>
+                          <button class="btn btn-primary-new export-btn" (click)="exportData()">
+                                {{'collectionReport.export' | translate}}</button>
                     </span></h5>
+                    
                     <table class="table table-bordered table-striped">
                           <thead>
                                 <th>{{'collectionReport.month' | translate}}</th>
@@ -108,13 +112,48 @@
                                 <th>{{'collectionReport.IVAAmount' | translate}}</th>
                           </thead>
                           <tbody>
-                                <tr *ngFor="let item of items">
+                                <tr *ngFor="let item of items; let i=index">
                                       <td>{{item.label}}</td>
-                                      <td>{{(item.commission || 0) | currency}}</td>
+                                      <td><a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{i}}">
+                                          <span><i class="fa fa-plus"></i> </span>{{(item.commission || 0) | currency}}
+                                      </a></td>
                                       <td>{{(item.iva_amount || 0) | currency}}</td>
                                 </tr>
+                                <tr id="collapse{{i}}" class="panel-collapse collapse">
+                                    <td colspan="10">
+                                       <table [style.width]="'100%'">
+                                             <thead>
+                                                <th>{{'collectionReport.collection_id' | translate}}</th>
+                                                <th>{{'collectionReport.property_name' | translate}}</th>
+                                                <th>{{'collectionReport.buyername' | translate}}</th>
+                                                <th>{{'collectionReport.datee' | translate}}</th>
+                                                <th>{{'collectionReport.CommisionPaid' | translate}}</th>
+                                                <th>{{'collectionReport.IVAPaid' | translate}}</th>
+                                                <th>{{'collectionReport.TOTAL' | translate}}</th>
+                                             </thead>
+                                             <tbody>
+                                                <tr>
+                                             <td><span>
+                                                   <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{i}}">
+                                                       <!-- {{(item?.model || ('table.tr.td.NA' | translate)) | uppercase}} -->test
+                                                   </a>
+                                                 </span></td>
+                                             <td><span>fd</span></td>
+                                             <td><span>cv</span></td>
+                                          <td><span>cxc</span></td>
+                                          <td><span>hf</span></td>
+                                          <td><span>cxc</span></td>
+                                          <td><span>hf</span></td>
+                                          </tr>
+                                             </tbody>
+                                       </table>
+                                    </td>
+                              </tr>
                           </tbody>
                     </table>
+                     <div class="padding20 center" *ngIf="items?.length == 0">
+                         <img src="assets/img/404-error.png">
+                   </div>
               </div>
       </div>
 

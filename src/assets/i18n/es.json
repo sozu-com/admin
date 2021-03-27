@@ -2029,6 +2029,14 @@
     "addEntity": "Agregar entidad legal"
   },
   "collectionReport": {
+    "collection_id": "ID de colección",
+    "property_name": "Nombre de la propiedad",
+    "buyername": "Nombre del comprador",
+    "datee": "Fecha",
+    "amountPaid": "Cantidad pagada",
+    "IVAPaid": "Importe IVA",
+    "CommisionPaid": "Importe de la comisión",
+    "TOTAL": "Comisión TOTAL",
     "Month": "Mes",
     "Expectedest": "Esperado estático",
     "Expecteddin": " Esperado dinámico",
