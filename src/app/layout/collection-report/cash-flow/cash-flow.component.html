@@ -158,7 +158,7 @@
                   </div>
             </div>
             <div class="table-responsive main-table" *ngIf="reportType == 2"
-                  style="width: 90%; margin-left:auto;margin-right:auto;">
+                  style="width: 90%; margin-left:auto;margin-right:auto;" id="accordion">
                   <h5>{{'collectionReport.tabularView' | translate}}<span class=" pull-right">
                               <button class="btn btn-primary-new export-btn"
                                     (click)="exportData()">{{'collectionReport.export' | translate}}</button>
@@ -171,13 +171,17 @@
                         </thead>
                         <tbody *ngFor="let item of items; let i=index">
                               <tr >
-                                    <td (click)="getCashFlowInfo(item, i)"> <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{i}}">
-                                          <span><i class="fa fa-plus"></i> </span>{{item.label}}
+                                    <td (click)="getCashFlowInfo(item, i)"> <a class="color-changed" 
+                                          data-toggle="collapse" data-target="#collapseOne{{i}}" 
+                                          data-parent="#accordion" 
+                                          aria-expanded="true" aria-controls="collapseOne" 
+                                          href="#collapseOne{{i}}">
+                                          <span><i class="fa fa-plus"></i> </span>&nbsp;&nbsp;{{item.label}}
                                       </a></td>
                                     <td>{{(item.expected || 0) | currency}}</td>
                                     <td>{{(item.actual || 0) | currency}}</td>
                               </tr>
-                              <tr id="collapse{{i}}" class="panel-collapse collapse">
+                              <tr id="collapseOne{{i}}" class="collapse" data-parent="#accordion">
                                     <td colspan="10">
                                        <table [style.width]="'100%'">
                                              <thead>

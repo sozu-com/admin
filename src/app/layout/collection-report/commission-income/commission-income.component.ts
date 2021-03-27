@@ -18,7 +18,6 @@ const EXCEL_EXTENSION = '.xlsx';
   styleUrls: ['./commission-income.component.css']
 })
 export class CommissionIncomeComponent implements OnInit {
-  public navbarOpen : boolean = false;
   public parameter: IProperty = {};
   singleDropdownSettings: any;
   multiDropdownSettings: any;
@@ -340,8 +339,6 @@ export class CommissionIncomeComponent implements OnInit {
   }
 
   getCommission(item, index) {
-    this.navbarOpen = !this.navbarOpen;
-    console.log(this.navbarOpen,"this.navbarOpen")
     if(index != this.already_index){
       this.already_index = index;
       this.commissions = [];
