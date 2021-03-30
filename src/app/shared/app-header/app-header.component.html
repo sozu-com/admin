@@ -105,7 +105,7 @@
                                   admin?.admin_acl['Closer Management']?.can_read==1 ||
                                   admin?.admin_acl['Credit Agent Management']?.can_read==1 ||
                                   admin?.admin_acl['Renter Management']?.can_read==1 ||
-                                  admin?.admin_acl['Collection Agent Management']?.can_read==1" 
+                                  admin?.admin_acl['Collection Agent Management']?.can_read==1 || admin?.admin_acl['Alliance Agent Management']?.can_read == 1" 
                           class="nav-item dropdown" [routerLinkActive]="'active'">
                           <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
                           <i><img src="assets/img/user.png"></i><span>{{'sidebar.manageInhouseUsers' | translate}}</span></a>
@@ -120,6 +120,7 @@
                                 <li *ngIf="admin?.admin_acl['Credit Agent Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/credit-agents">{{'sidebar.creditAgent' | translate}}</a></li>
                                 <li *ngIf="admin?.admin_acl['Renter Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/csr-renters">{{'sidebar.CSRRenter' | translate}}</a></li>
                                 <li *ngIf="admin?.admin_acl['Collection Agent Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/collection-agents">{{'sidebar.collectionAgent' | translate}}</a></li>
+                                <li *ngIf="admin?.admin_acl['Alliance Agent Management']?.can_read == 1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/alliance-agents">{{'sidebar.allianceAgent' | translate}}</a></li>
                               </ul>
                           </div>
                        </li>

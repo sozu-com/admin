@@ -25,6 +25,8 @@ export class ManagersComponent implements OnInit {
   @ViewChild('fileInput') fileInput: ElementRef;
   @ViewChild('inhouseUserModalOpen') inhouseUserModalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
+  @ViewChild('openAssignModel') openAssignModel: ElementRef;
+  @ViewChild('closeAssignModel') closeAssignModel: ElementRef;
 
   public parameter: IProperty = {};
   obj: any;
@@ -38,6 +40,10 @@ export class ManagersComponent implements OnInit {
   items: Array<Manager>;
   model: Manager;
   companies: Array<Company>;
+  public scrollbarOptions = { axis: 'y', theme: 'dark' };
+  public assign: IProperty = {};
+  public assignItem: any;
+
   constructor(public constant: Constant, private cs: CommonService,
     private route: ActivatedRoute,
     public admin: AdminService,
@@ -179,7 +185,7 @@ export class ManagersComponent implements OnInit {
     if (this.model.image) { input.append('image', this.model.image); }
     if (this.model.logo) { input.append('logo', this.model.logo); }
 
-    if (this.model.is_company=='false') {
+    if (this.model.is_company == 'false') {
       input.append('address', this.model.address);
       input.append('lat', this.model.lat);
       input.append('lng', this.model.lng);
@@ -188,30 +194,30 @@ export class ManagersComponent implements OnInit {
     }
 
     this.spinner.show();
-      this.admin.postDataApi('addTowerManager', input)
-        .subscribe(
-          success => {
-            this.spinner.hide();
-            if (success.success === '0') {
-              swal(this.translate.instant('swal.error'), success.message, 'error');
+    this.admin.postDataApi('addTowerManager', input)
+      .subscribe(
+        success => {
+          this.spinner.hide();
+          if (success.success === '0') {
+            swal(this.translate.instant('swal.error'), success.message, 'error');
+          } else {
+            this.modalClose.nativeElement.click();
+            const text = this.model.id ?
+              this.translate.instant('message.success.updatedSuccessfully') :
+              this.translate.instant('message.success.addedSuccessfully');
+            swal(this.translate.instant('swal.success'), text, 'success');
+            if (this.model.id) {
+              this.items[this.parameter.index] = success.data;
             } else {
-              this.modalClose.nativeElement.click();
-              const text = this.model.id ?
-                    this.translate.instant('message.success.updatedSuccessfully') :
-                    this.translate.instant('message.success.addedSuccessfully');
-              swal(this.translate.instant('swal.success'), text, 'success');
-              if (this.model.id) {
-                this.items[this.parameter.index] = success.data;
-              } else {
-                this.items.push(success.data);
-                this.parameter.total++;
-              }
-              formdata.reset();
-              this.emptyModel();
+              this.items.push(success.data);
+              this.parameter.total++;
             }
-          }, error => {
-            this.spinner.hide();
-          });
+            formdata.reset();
+            this.emptyModel();
+          }
+        }, error => {
+          this.spinner.hide();
+        });
   }
 
   setIsCompany(is_company: string) {
@@ -224,7 +230,7 @@ export class ManagersComponent implements OnInit {
     this.model.company = userdata.company ? userdata.company : new Company();
     this.image = userdata.image;
     this.logo = userdata.logo;
-    if (userdata.company_id!=null && userdata.company_id!=0) {
+    if (userdata.company_id != null && userdata.company_id != 0) {
       this.model.is_company = 'true';
     } else {
       this.model.is_company = 'false';
@@ -285,7 +291,8 @@ export class ManagersComponent implements OnInit {
       .subscribe(
         success => {
           this.spinner.hide();
-          this.items = success.data;
+          this.items = [];
+          this.items = success.data || [];
           this.parameter.total = success.total;
         }, error => {
           this.spinner.hide();
@@ -306,12 +313,12 @@ export class ManagersComponent implements OnInit {
     this.parameter.title = this.translate.instant('message.error.areYouSure');
     switch (flag) {
       case 0:
-      this.parameter.text = this.translate.instant('message.error.wantToUnblockManager');
-      this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
-      break;
-    case 1:
-      this.parameter.text = this.translate.instant('message.error.wantToBlockManager');
-      this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
+        this.parameter.text = this.translate.instant('message.error.wantToUnblockManager');
+        this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
+        break;
+      case 1:
+        this.parameter.text = this.translate.instant('message.error.wantToBlockManager');
+        this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
     }
 
@@ -368,14 +375,14 @@ export class ManagersComponent implements OnInit {
 
   deleteData(item: any, index: number) {
     this.admin.postDataApi('deleteTowerManager',
-    { id: item.id }).subscribe(r => {
-      this.items.splice(index, 1);
-      this.parameter.total--;
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
-    },
-    error => {
-      swal(this.translate.instant('swal.error'), error.error.message, 'error');
-    });
+      { id: item.id }).subscribe(r => {
+        this.items.splice(index, 1);
+        this.parameter.total--;
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
+      },
+        error => {
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
+        });
   }
 
   importData() {
@@ -387,21 +394,21 @@ export class ManagersComponent implements OnInit {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeLimit'), 'error');
         return false;
       }
-    this.spinner.show();
-    const input = new FormData();
-    input.append('attachment', attachment);
-    this.admin.postDataApi('importTowerManager', input)
-      .subscribe(
-        success => {
-          this.spinner.hide();
-          this.fileInput.nativeElement.value = '';
-          this.label = this.translate.instant('table.title.chooseManagersFile');
-          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.importedSuccessfully'), 'success');
-          this.getTowerManager();
-        }, error => {
-          this.fileInput.nativeElement.value = '';
-          this.spinner.hide();
-        });
+      this.spinner.show();
+      const input = new FormData();
+      input.append('attachment', attachment);
+      this.admin.postDataApi('importTowerManager', input)
+        .subscribe(
+          success => {
+            this.spinner.hide();
+            this.fileInput.nativeElement.value = '';
+            this.label = this.translate.instant('table.title.chooseManagersFile');
+            swal(this.translate.instant('swal.success'), this.translate.instant('message.success.importedSuccessfully'), 'success');
+            this.getTowerManager();
+          }, error => {
+            this.fileInput.nativeElement.value = '';
+            this.spinner.hide();
+          });
     } else {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseFile'), 'error');
       return false;
@@ -484,4 +491,56 @@ export class ManagersComponent implements OnInit {
       this.router.navigate(['/dashboard/companies/view-all', item.company.name]);
     }
   }
+
+  bulkAssign = (): void => {
+    //this.showSearchText = false;
+    const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
+    if (leads_ids.length === 0) {
+      //this.showSearchText = true;
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAtleastOneManager'), 'error');
+    } else if (!this.assign.items) {
+      this.getAssignListing(true);
+    } else {
+      this.openAssignModel.nativeElement.click();
+    }
+  }
+
+  getAssignListing = (openAssignedModel: boolean): void => {
+    const postData = { keyword: this.assign.keyword };
+    this.spinner.show();
+    this.admin.postDataApi('getAllianceAgent', postData).subscribe((success) => {
+      this.spinner.hide();
+      this.assign.items = (success || {}).data || [];
+      if (openAssignedModel) {
+        this.openAssignModel.nativeElement.click();
+      }
+    });
+  }
+
+  assignNow = (): void => {
+    const postData = [];
+    this.items.forEach((data) => {
+      if (data.selected) {
+        postData.push({ id: (this.assignItem || {}).id, manager_id: data.id });
+      }
+    });
+    this.spinner.show();
+    this.admin.postDataApi('assignTowerManager', { agent_id: postData }).subscribe((response) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.assignedSuccessfully'), 'success');
+      this.assignModelClose();
+      this.getTowerManager();
+    }, (error) => {
+      this.spinner.hide();
+      this.assignModelClose();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
+
+  assignModelClose = (): void => {
+    this.assign.items = null;
+    this.assignItem == null;
+    this.closeAssignModel.nativeElement.click();
+  }
+
 }

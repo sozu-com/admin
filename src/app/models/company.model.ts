@@ -51,4 +51,5 @@ export class Manager {
     rfc_legal_id?: string;
     is_company?: string;
     company_id?: number;
+    selected?: any;
 }

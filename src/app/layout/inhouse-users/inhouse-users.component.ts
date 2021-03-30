@@ -49,6 +49,7 @@ export class InhouseUsersComponent implements OnInit {
   testObject = [];
   file1: FileUpload;
   agencies: Array<Agency>;
+  language_code: string;
   constructor(public constant: Constant, private cs: CommonService,
     public model: UserModel, private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
@@ -62,6 +63,7 @@ export class InhouseUsersComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.language_code = localStorage.getItem('language_code');
     this.file1 = new FileUpload(false, this.admin);
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
@@ -201,13 +203,13 @@ export class InhouseUsersComponent implements OnInit {
         this.model.is_csr_renter = true;
         break;
 
-        
+
       case 'credit-agents':
         this.parameter.url = 'getCreditAgent';
         this.model.is_credit_agent = true;
         break;
 
-      
+
       case 'collection-agents':
         this.parameter.url = 'getCollectionAgent';
         this.model.is_collection_agent = true;
@@ -306,7 +308,7 @@ export class InhouseUsersComponent implements OnInit {
     input.append('is_collection_agent', this.model.is_collection_agent ? '1' : '0');
     input.append('is_csr_renter', this.model.is_csr_renter ? '1' : '0');
 
-    if ((this.parameter.userType=='outside-broker' || this.model.is_external_agent) && (this.model.is_company=='false')) {
+    if ((this.parameter.userType == 'outside-broker' || this.model.is_external_agent) && (this.model.is_company == 'false')) {
       input.append('adr', this.model.adr || '');
       input.append('lat', this.model.lat || null);
       input.append('lng', this.model.lng || null);
@@ -437,7 +439,7 @@ export class InhouseUsersComponent implements OnInit {
       this.model.name = userdata.name;
       this.model.email = userdata.email;
       this.model.phone = userdata.phone;
-      if (userdata.agency_id!=null && userdata.agency_id!=0) {
+      if (userdata.agency_id != null && userdata.agency_id != 0) {
         this.model.is_company = 'true';
       } else {
         this.model.is_company = 'false';
@@ -472,7 +474,7 @@ export class InhouseUsersComponent implements OnInit {
       this.model.is_csr_renter = userdata.permissions && userdata.permissions.can_csr_renter === 1 ? true : false;
       this.model.is_collection_agent = userdata.permissions && userdata.permissions.can_collection_agent === 1 ? true : false;
       this.model.is_credit_agent = userdata.permissions && userdata.permissions.can_credit_agent === 1 ? true : false;
-  
+
       for (let ind = 0; ind < userdata.countries.length; ind++) {
         const tempAdd = {
           countries: userdata.countries[ind].id.toString(),
@@ -697,6 +699,12 @@ export class InhouseUsersComponent implements OnInit {
         this.parameter.url = 'getCollectionAgent';
         this.title = 'Collection Agents';
         this.parameter.type = 8;
+        break;
+
+      case 'alliance-agents':
+        this.parameter.url = 'getAllianceAgent';
+        this.title = this.language_code == 'en' ? 'Alliance Agent' : 'Agente Alianza';
+        this.parameter.type = 9;
         break;
 
       default:

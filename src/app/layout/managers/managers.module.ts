@@ -14,6 +14,7 @@ import { AclUserGuard } from 'src/app/guards/acl-user.guard';
 import { SharedModule } from 'src/app/modules/shared.module';
 import { ManagersComponent } from './managers.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 
 const routes: Routes = [
   {
@@ -40,7 +41,8 @@ const routes: Routes = [
     }),
     Ng2TelInputModule,
     SharedModule,
-    TranslateModule
+    TranslateModule,
+    MalihuScrollbarModule.forRoot(),
   ],
   declarations: [
     ManagersComponent
