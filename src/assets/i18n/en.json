@@ -204,6 +204,7 @@
     "CSRBuyer": "CSR Buyer",
     "CSRRenter": "CSR Renter",
     "creditAgent": "Credit Agent",
+    "allianceAgent":"Alliance Agent",
     "collectionAgent": "Collection Agent",
     "inhouseAgent": "Inhouse Agent",
     "outSideAgent": "Outside Agent",
