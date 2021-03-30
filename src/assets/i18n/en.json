@@ -584,7 +584,9 @@
       "searchInhouseAgent": "Search Inhouse Agent",
       "searchOutsideAgent": "Search Outside Agent",
       "enter": "Enter",
-      "chooseDate": "Choose Date"
+      "chooseDate": "Choose Date",
+      "parkingLotSpacesEn": "Parking lot spaces name (English)",
+      "parkingLotSpacesEs": "Parking lot spaces name (Spanish)"
     }
   },
   "charts": {
@@ -1271,8 +1273,10 @@
       "wantToRemovePaymentConcept": "You want to remove this concept?",
       "cannotRemoveAsPaymentApplied": "You cannot remove this deal, as payment has been applied",
       "pleaseEnterAllCountryStateAndCity": "Please enter both country state And city",
-      "youWantToSendEmail":"You want to send email?"
-    }
+      "youWantToSendEmail":"You want to send email?",
+      "saveEngParkingLotSpaces": "Please add Parking lot spaces in Spanish or we will update it same as in English.",
+      "noParkingLotSpaces": "No parking lot spaces found!"
+    } 
   },
   "inhouseUsers": {
     "assignedRoles": "Assigned Roles"
@@ -1623,7 +1627,8 @@
     "editPropertyConfig": "Edit Property Configuration",
     "amenities": "Amenities",
     "browse": "Browse",
-    "projectType": "Project Type"
+    "projectType": "Project Type",
+    "parkingLotSpaces": "Parking lot spaces"
   },
   "property": {
     "label": "Property",
