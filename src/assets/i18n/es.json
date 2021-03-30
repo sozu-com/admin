@@ -1262,6 +1262,7 @@
       "wantToBlockCollection": "¿Quieres bloquear esta colección?",
       "wantToUnblockCollection": "¿Quieres desbloquear esta colección?",
       "wantToDeleteCollection": "¿Quieres eliminar esta colección?",
+      "wantToDeletePossessionStatus":"¿Quieres eliminar este estado de posesión del proyecto?",
       "wantToCancelCollection": "¿Quieres cancelar esta colección?",
       "wantToActiveCollection": "¿Quieres activar esta colección?",
       "wantToDeletePayment": "¿Quieres eliminar este pago?",

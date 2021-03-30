@@ -7,6 +7,7 @@ import { Document } from 'src/app/models/document.model';
 import { NgForm } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 declare let swal: any;
 
 @Component({
@@ -26,7 +27,7 @@ export class DocumentsComponent implements OnInit {
     private modalService: BsModalService,
     public admin: AdminService,
     public model: Document, private spinner: NgxSpinnerService,
-    private translate: TranslateService
+    private translate: TranslateService,private toastr: ToastrService,
   ) {
   }
 
@@ -160,5 +161,30 @@ export class DocumentsComponent implements OnInit {
         this.addDocumentOptions(id, name_en, name_es, status, 'add');
       }
     });
+  }
+  deletePopup(item: any, index: number) {
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+        this.translate.instant('message.error.wantToDeleteDocument'),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteCollection(item, index);
+      }
+    });
+  }
+
+  deleteCollection(item: any, index: number) {
+    this.admin.postDataApi('deleteDocument', { id: item.id }).subscribe(r => {
+      this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+      this.parameter.items.splice(index, 1);
+    },
+      error => {
+        this.toastr.error(error.error.message, this.translate.instant('swal.error'));
+      });
   }
 }
