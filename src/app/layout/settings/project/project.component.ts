@@ -8,6 +8,7 @@ import { Project, Amenities } from 'src/app/models/project.model';
 import { NgForm } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 declare let swal: any;
 
 @Component({
@@ -26,7 +27,7 @@ export class ProjectComponent implements OnInit {
   constructor(private element: ElementRef, private constant: Constant, public project: Project,
     private modalService: BsModalService, public admin: AdminService,
     public amenityModel: Amenities, private spinner: NgxSpinnerService,
-    private translate: TranslateService
+    private translate: TranslateService,private toastr: ToastrService,
   ) {
     this.parameter.index = -1;
     this.parameter.countryCount = 0;
@@ -357,5 +358,40 @@ export class ProjectComponent implements OnInit {
     };
 
     reader.readAsDataURL(event.target.files[0]);
+  }
+  deletePopupProject(data: any, index: number,value : string) {
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+        this.translate.instant('message.error.wantToDelete'),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        value == 'one'? this.deleteCollection(data, index) : value == 'two'?
+        this.deleteProjectType(data, index): undefined;
+      }
+    });
+  }
+
+  deleteCollection(item: any, index: number) {
+    this.admin.postDataApi('deletePossessionStatus', { id: item.id }).subscribe(r => {
+      this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+      this.parameter.items.splice(index, 1);
+    },
+      error => {
+        this.toastr.error(error.error.message, this.translate.instant('swal.error'));
+      });
+  }
+  deleteProjectType(item: any, index: number) {
+    this.admin.postDataApi('ProjectType', { id: item.id }).subscribe(r => {
+      this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+      this.parameter.projectTypes.splice(index, 1);
+    },
+      error => {
+        this.toastr.error(error.error.message, this.translate.instant('swal.error'));
+      });
   }
 }

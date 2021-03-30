@@ -9,7 +9,7 @@ import { NgForm } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
-
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-property',
   templateUrl: './property.component.html',
@@ -25,7 +25,7 @@ export class PropertyComponent implements OnInit {
 
   constructor(private element: ElementRef, private constant: Constant, public property: Property,
     private modalService: BsModalService, public admin: AdminService, private router: Router,
-    private spinner: NgxSpinnerService,
+    private spinner: NgxSpinnerService,private toastr: ToastrService,
     private translate: TranslateService
   ) {
     this.parameter.index = -1;
@@ -384,5 +384,40 @@ export class PropertyComponent implements OnInit {
     };
 
     reader.readAsDataURL(event.target.files[0]);
+  }
+  deletePopup(item: any, index: number,value : string) {
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+        this.translate.instant('message.error.wantToDelete'),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        value == 'one'? this.deleteCollection(item, index) : value == 'two'?
+        this.deleteProjectType(item, index): undefined;
+      }
+    });
+  }
+
+  deleteCollection(item: any, index: number) {
+    this.admin.postDataApi('deletePropertyConfiguration', { id: item.id }).subscribe(r => {
+      this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+      this.parameter.items.splice(index, 1);
+    },
+      error => {
+        this.toastr.error(error.error.message, this.translate.instant('swal.error'));
+      });
+  }
+  deleteProjectType(item: any, index: number) {
+    this.admin.postDataApi('DeleteAmenities', { id: item.id }).subscribe(r => {
+      this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+      this.parameter.amenities.splice(index, 1);
+    },
+      error => {
+        this.toastr.error(error.error.message, this.translate.instant('swal.error'));
+      });
   }
 }
