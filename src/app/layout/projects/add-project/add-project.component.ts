@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone, Input } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder, FormArray,AbstractControl } from '@angular/forms';
 import { AdminService } from 'src/app/services/admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IProperty } from 'src/app/common/property';
@@ -158,6 +158,7 @@ export class AddProjectComponent implements OnInit {
   seller_type: any;
   user_type: any;
   tempSetLegalEntity: any[] = [];
+  userForm: FormGroup;
   constructor(
     public model: AddProjectModel,
     private admin: AdminService,
@@ -170,10 +171,37 @@ export class AddProjectComponent implements OnInit {
     private cs: CommonService,
     private element: ElementRef,
     private spinner: NgxSpinnerService,
-    private translate: TranslateService
+    private translate: TranslateService, private fb: FormBuilder
   ) {
+    this.userForm = this.fb.group({
+      name: this.fb.array([
+        this.fb.control(null)
+      ]),
+      phones: this.fb.array([
+        this.fb.control(null)
+      ])
+    })
+  }
+  addPhone(): void {
+    (this.userForm.get('phones') as FormArray).push(
+      this.fb.control(null)
+    );
+  }
+  addPhone1(): void {
+    (this.userForm.get('name') as FormArray).push(
+      this.fb.control(null)
+    );
+  }
+  removePhone(index) {
+    (this.userForm.get('phones') as FormArray).removeAt(index);
   }
 
+  getPhonesFormControls(): AbstractControl[] {
+    return (<FormArray> this.userForm.get('phones')).controls
+  }
+  getPhonesFormControlss(): AbstractControl[] {
+    return (<FormArray> this.userForm.get('name')).controls
+  }
   ngOnInit() {
     this.model.building_contributors_param = [];
     this.model.building_contributors = [];

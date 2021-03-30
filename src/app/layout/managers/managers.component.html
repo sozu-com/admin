@@ -387,11 +387,50 @@
               </div>
             </div>
           </div>
+          <div class="col-12">
+            <div class="spacer40"></div>
+          </div>
+         
+          </div>
+          <div *ngIf="model.id">
+          <div class="row">
+            <div class="col-md-6">
+              <h5>{{'commonBlock.writeANote' | translate}}</h5>
+            </div>
+            <div class="col-md-6">
+              <a class="add1" href="javascript://" (click)="addNote()">{{'commonBlock.add' | translate}}</a>
+            </div>
+          </div>
+          <hr>
+          <div class="row" *ngFor="let item of parameter.notes; let i=index">
+              <div class="col-md-2">
+                <div class="circle">
+                  <span></span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <pre class="p13">{{item?.date | date:'MMM d, y, h:mm a'}}</pre>
+              </div>
+              <div class="col-md-4">
+                <pre class="p13">{{item.description}}</pre>
+              </div>
+              <div class="col-md-2">
+                <a class="add" href="javascript://" (click)="deleteNotePopup(item.id, i)">{{'commonBlock.delete' | translate}}</a>
+              </div>
+            <ng-template #noDeletePermissiom>
+              <a class="delete" href="javascript://">{{'commonBlock.delete' | translate}}</a>
+            </ng-template>
+        </div>
+        <div *ngIf="parameter.notes?.length==0" class="write-note white-bg"
+          [ngStyle]="{'height':sent_as === 1 ? '230px' : '245px' }">
+          <p class="show-not-found">
+            {{'message.error.noNoteFound' | translate}}
+          </p>
+        </div>
         </div>
       </form>
-
     </div>
-  </div>
+    </div>
 </div>
 
 <!-- Assignment model -->
@@ -447,6 +486,41 @@
           </table>
         </div>
       </div>
+    </div>
+  </div>
+  </div>
+  
+<a href="javascript://" data-toggle="modal" data-target="#addd-notes" #notesadddModalOpen></a>
+<div class="modal animated" id="addd-notes">
+  <div class="modal-dialog fadeIndown">
+    <div class="modal-content">
+      <div class="modal-header modal-header-new">
+        <h4 class="modal-title">{{'leadDetails.note.addNote' |translate}}</h4>
+        <button style="display: none;" type="button" class="close" data-dismiss="modal"
+          #notesadddModalClose>&times;</button>
+        <button type="button" class="close" (click)="this.closeNotesadddModalModal()">&times;</button>
+      </div>
+
+      <form autocomplete="off" class="form-horizontal form-model0P form-model-newP" role="form" ngNativeValidate
+        #addForm="ngForm" (ngSubmit)="addManagerNote(); addForm.reset();">
+        <div class="modal-body modal-body-new">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group-2">
+                <div class="form-group">
+                  <textarea rows="3" required class="form-control" name="note" [(ngModel)]="model.note"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="btn-cont text-right">
+                <button type="submit" class="btn btn-primary">{{'commonBlock.add' |
+                  translate}}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>

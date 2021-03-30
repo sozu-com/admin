@@ -8,6 +8,7 @@ export interface IProperty {
   title?: string;
   text?: string;
   items?: any[];
+  notes?: any[];
   sub?: any;
   isBlocked?: boolean;
   isDeleted?: boolean;
@@ -36,6 +37,7 @@ export interface IProperty {
   countries3?: any;
   countries4?: any;
   countries5?: any;
+  note?: any;
   states1?: any;
   states2?: any;
   states3?: any;
@@ -215,6 +217,8 @@ export interface IProperty {
   pc_amount?: any;
   pc_contract?: any;
   is_email?: any;
+  parkingLotSpaces?: any;
+  parkingLotSpacesTotal?: any;
 }
 export class Docs {
   id: string;

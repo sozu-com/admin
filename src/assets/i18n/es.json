@@ -584,7 +584,9 @@
       "searchInhouseAgent": "Buscar agente interno",
       "searchOutsideAgent": "Buscar agente externo",
       "enter": "Entrar",
-      "chooseDate": "Elegir fecha"
+      "chooseDate": "Elegir fecha",
+      "parkingLotSpacesEn": "Nombre del tipos de estacionamientos (Inglés)",
+      "parkingLotSpacesEs": "Nombre del tipos de estacionamientos (Español)"
     }
   },
   "charts": {
@@ -1277,7 +1279,9 @@
       "wantToRemovePaymentConcept": "¿Quieres eliminar este concepto?",
       "cannotRemoveAsPaymentApplied": "No puede eliminar esta oferta, ya que se aplicó el pago",
       "pleaseEnterAllCountryStateAndCity": "Ingrese el estado del país y la ciudad",
-      "youWantToSendEmail":"¿Quieres enviar un correo electrónico?"
+      "youWantToSendEmail":"¿Quieres enviar un correo electrónico?",
+      "saveEngParkingLotSpaces": "Agrega los tipos de estacionamiento en español o lo actualizaremos igual que en inglés.",
+      "noParkingLotSpaces": "Tipos de estacionamiento no encontrado!"
     }
   },
   "inhouseUsers": {
@@ -1629,7 +1633,8 @@
     "editPropertyConfig": "Editar la configuración del departamento",
     "amenities": "Amenidades",
     "browse": "Buscar",
-    "projectType": "Tipo de proyecto"
+    "projectType": "Tipo de proyecto",
+    "parkingLotSpaces": "Tipos de estacionamientos"
   },
   "property": {
     "label": "Property",

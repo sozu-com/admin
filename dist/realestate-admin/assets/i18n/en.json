@@ -112,6 +112,11 @@
     }
   },
   "addForm": {
+    "parking-spaces":"No. of total parking spaces",
+    "spaces-available":"No. of parking spaces available",
+    "spaces-type":"parking space type",
+    "another":"+ Add another type",
+    "saleParking":"No. of parking spaces available for sale",
     "hasAccess": "Has Access",
     "noAccess": "No Access",
     "buyer": "Buyer",
@@ -204,6 +209,7 @@
     "CSRBuyer": "CSR Buyer",
     "CSRRenter": "CSR Renter",
     "creditAgent": "Credit Agent",
+    "allianceAgent":"Alliance Agent",
     "collectionAgent": "Collection Agent",
     "inhouseAgent": "Inhouse Agent",
     "outSideAgent": "Outside Agent",
@@ -421,6 +427,7 @@
     "contributor": {
       "contributor": "Contributor",
       "label": "Contributor Info",
+      "parking": "Parking spaces",
       "changeContributor": "Change Contributor",
       "selectContributor": "Select Contributor",
       "name": "Contributor Name",
@@ -584,7 +591,9 @@
       "searchInhouseAgent": "Search Inhouse Agent",
       "searchOutsideAgent": "Search Outside Agent",
       "enter": "Enter",
-      "chooseDate": "Choose Date"
+      "chooseDate": "Choose Date",
+      "parkingLotSpacesEn": "Parking lot spaces name (English)",
+      "parkingLotSpacesEs": "Parking lot spaces name (Spanish)"
     }
   },
   "charts": {
@@ -1261,6 +1270,7 @@
       "wantToBlockCollection": "You want to block this Collection?",
       "wantToUnblockCollection": "You want to unblock this Collection?",
       "wantToDeleteCollection": "You want to delete this Collection?",
+      "wantToDeletePossessionStatus": "You want to delete this Project Possession Status?",
       "wantToCancelCollection": "You want to cancel this Collection?",
       "wantToActiveCollection": "You want to active this Collection?",
       "wantToDeletePayment": "You want to delete this Payment?",
@@ -1271,8 +1281,10 @@
       "wantToRemovePaymentConcept": "You want to remove this concept?",
       "cannotRemoveAsPaymentApplied": "You cannot remove this deal, as payment has been applied",
       "pleaseEnterAllCountryStateAndCity": "Please enter both country state And city",
-      "youWantToSendEmail":"You want to send email?"
-    }
+      "youWantToSendEmail":"You want to send email?",
+      "saveEngParkingLotSpaces": "Please add Parking lot spaces in Spanish or we will update it same as in English.",
+      "noParkingLotSpaces": "No parking lot spaces found!"
+    } 
   },
   "inhouseUsers": {
     "assignedRoles": "Assigned Roles"
@@ -1623,7 +1635,8 @@
     "editPropertyConfig": "Edit Property Configuration",
     "amenities": "Amenities",
     "browse": "Browse",
-    "projectType": "Project Type"
+    "projectType": "Project Type",
+    "parkingLotSpaces": "Parking lot spaces"
   },
   "property": {
     "label": "Property",

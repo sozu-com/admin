@@ -4,13 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { MapsAPILoader } from '@agm/core';
 import { FileUpload } from 'src/app/common/fileUpload';
-import { Manager, Company } from 'src/app/models/company.model';
+import { Manager, Company} from 'src/app/models/company.model';
 import { CommonService } from 'src/app/services/common.service';
 import { Constant } from 'src/app/common/constants';
 import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 declare let swal: any;
 declare const google;
 
@@ -28,6 +29,8 @@ export class ManagersComponent implements OnInit {
   @ViewChild('openAssignModel') openAssignModel: ElementRef;
   @ViewChild('closeAssignModel') closeAssignModel: ElementRef;
 
+  @ViewChild('notesadddModalOpen') notesadddModalOpen: ElementRef;
+  @ViewChild('notesadddModalClose') notesadddModalClose: ElementRef;
   public parameter: IProperty = {};
   obj: any;
   lead_sort = 2;
@@ -50,7 +53,7 @@ export class ManagersComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private ngZone: NgZone,
     private translate: TranslateService,
-    private mapsAPILoader: MapsAPILoader,
+    private mapsAPILoader: MapsAPILoader, private toastr: ToastrService,
     private router: Router) {
     this.admin.countryData$.subscribe(success => {
       this.parameter.allCountry = success;
@@ -82,6 +85,55 @@ export class ManagersComponent implements OnInit {
       this.getTowerManager();
       this.getAllCompanies();
       this.initialCountry = { initialCountry: this.constant.initialCountry };
+    });
+  }
+  addNote(){
+    this.notesadddModalOpen.nativeElement.click();
+  }
+
+  addManagerNote(){
+     const input = { tower_managers_id: this.model.id, description: this.model.note };
+    this.admin.postDataApi('addManagerNotes', input).subscribe(success => {
+      console.log(success.data);
+      this.closeNotesadddModalModal();
+      this.getAllNotes(this.model.id)
+    });
+  }
+  getAllNotes(model) {
+    this.admin.postDataApi('getManagerNotes', { tower_managers_id: model })
+      .subscribe(
+        success => {
+          this.parameter.notes = success.data;
+          console.log(success.data,"all notes")
+        });
+  }
+
+  closeNotesadddModalModal = (): void => {
+    this.notesadddModalClose.nativeElement.click();
+  }
+ 
+  deleteNotePopup(note_id, index) {
+    this.parameter.text = this.translate.instant('message.error.wantToDeleteNote');
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Delete!'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteLeadNote(note_id, index);
+      }
+    });
+  }
+
+  deleteLeadNote(note_id, index) {
+    this.admin.postDataApi('deleteManagerNotes', { id: note_id }).subscribe(r => {
+      this.getAllNotes(this.model.id);
+    //  this.model.manager_notes.splice(index, 1);
+      this.toastr.clear();
+      this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
     });
   }
 
@@ -209,8 +261,20 @@ export class ManagersComponent implements OnInit {
             if (this.model.id) {
               this.items[this.parameter.index] = success.data;
             } else {
-              this.items.push(success.data);
-              this.parameter.total++;
+              this.modalClose.nativeElement.click();
+              const text = this.model.id ?
+                    this.translate.instant('message.success.updatedSuccessfully') :
+                    this.translate.instant('message.success.addedSuccessfully');
+              swal(this.translate.instant('swal.success'), text, 'success');
+              if (this.model.id) {
+                this.items[this.parameter.index] = success.data;
+                console.log(this.items,"edit resp")
+              } else {
+                this.items.push(success.data);
+                this.parameter.total++;
+              }
+              formdata.reset();
+              this.emptyModel();
             }
             formdata.reset();
             this.emptyModel();
@@ -225,6 +289,7 @@ export class ManagersComponent implements OnInit {
   }
 
   editUser(userdata: Manager, index: any) {
+    this.getAllNotes(userdata.id);
     this.parameter.index = index;
     this.model = userdata;
     this.model.company = userdata.company ? userdata.company : new Company();
@@ -291,8 +356,8 @@ export class ManagersComponent implements OnInit {
       .subscribe(
         success => {
           this.spinner.hide();
-          this.items = [];
-          this.items = success.data || [];
+          this.items = success.data;
+          console.log(this.items,"all list")
           this.parameter.total = success.total;
         }, error => {
           this.spinner.hide();
