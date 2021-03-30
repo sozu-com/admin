@@ -16,6 +16,7 @@ export class ACL {
     is_csr_renter?: boolean;
     is_collection_agent?: boolean;
     is_credit_agent?: boolean;
+    is_alliance_agent?: boolean;
     is_acl?: boolean;
     is_developer?: boolean;
     // keys added for external broker
@@ -36,7 +37,7 @@ export class ACL {
     // company_videos?: Array<any>;
     rfc_legal_id?: string;
     is_company?: string;
-    
+
     image?: string;
     img_loader?: boolean;
     email?: string;
