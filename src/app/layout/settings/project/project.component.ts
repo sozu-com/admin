@@ -29,7 +29,7 @@ export class ProjectComponent implements OnInit {
     public amenityModel: Amenities, private spinner: NgxSpinnerService,
     private translate: TranslateService,
     private parkingLotSpacesModel: ParkingLotSpaces,
-    ,private toastr: ToastrService,
+    private toastr: ToastrService,
   ) {
     this.parameter.index = -1;
     this.parameter.countryCount = 0;
