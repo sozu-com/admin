@@ -112,6 +112,11 @@
     }
   },
   "addForm": {
+    "parking-spaces":"No. of total parking spaces",
+    "spaces-available":"No. of parking spaces available",
+    "spaces-type":"parking space type",
+    "another":"+ Add another type",
+    "saleParking":"No. of parking spaces available for sale",
     "hasAccess": "Has Access",
     "noAccess": "No Access",
     "buyer": "Buyer",
@@ -421,6 +426,7 @@
     "contributor": {
       "contributor": "Contributor",
       "label": "Contributor Info",
+      "parking": "Parking spaces",
       "changeContributor": "Change Contributor",
       "selectContributor": "Select Contributor",
       "name": "Contributor Name",

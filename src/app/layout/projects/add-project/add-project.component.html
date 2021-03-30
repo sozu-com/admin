@@ -1335,6 +1335,94 @@
               </div>
 
               <!-- End of contributor Info Section -->
+              
+              <div class="row">
+                <div class="col-12">
+                  <div class="page-title paddingL0 paddingR0">
+                    <h3>{{'addForm.contributor.parking' | translate}}</h3>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.parking-spaces' | translate}}</label>
+                    <input class="form-control" type="text" disabled style="background-color: gray;">
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.spaces-available' | translate}}</label>
+                    <input class="form-control" type="text" disabled style="background-color: gray;">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" *ngFor="let name of getPhonesFormControlss(); let s = index">
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.spaces-available' | translate}}{{s}}</label>
+                    <input class="form-control" type="text" [formControl]="name"
+                    placeholder="No. of Properties">
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.spaces-type' | translate}}{{s}}</label>
+                    <input class="form-control" type="text" [formControl]="name"
+                    style="border-color: green;" placeholder="Type 2">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-12">
+                <label><span class="pull-right"><a class="add" (click)="addPhone1()"
+                      href="javascript://">{{'addForm.another' | translate}}</a></span>
+                </label>
+              </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.saleParking' | translate}}</label>
+                    <input class="form-control" type="text">
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>&nbsp;</label>
+                    <div class="switchToggle">
+                      <input type="checkbox" id="switch5">
+                      <label for="switch5">Toggle</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" *ngFor="let phone of getPhonesFormControls(); let i = index">
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.spaces-available' | translate}}{{i}}</label>
+                    <input class="form-control" type="text"  [formControl]="phone"
+                    placeholder="No. of Properties">
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.spaces-type' | translate}}{{i}}</label>
+                    <input class="form-control" type="number"  [formControl]="phone" 
+                    style="border-color: green;" placeholder="Type 2">
+                  </div>
+                </div> 
+              </div>
+
+              <div class="row">
+                <div class="col-md-12 col-sm-12 col-12">
+                <label><span class="pull-right"><a class="add" (click)="addPhone()"
+                      href="javascript://">{{'addForm.another' | translate}}</a></span>
+                </label>
+              </div>
+              </div>
 
               <div class="row">
                 <div class="col-12">

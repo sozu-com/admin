@@ -41,6 +41,7 @@ export class Manager {
     image: any;
     logo: any;
     email: string;
+    note: string;
     img_loader: boolean;
     logo_loader: boolean;
     project_sort: any;
@@ -51,4 +52,11 @@ export class Manager {
     rfc_legal_id?: string;
     is_company?: string;
     company_id?: number;
+    manager_notes?: Array<Note>;
+}
+export class Note {
+    id: string;
+    description: string;
+    date: string;
+    tower_managers_id: string;
 }
