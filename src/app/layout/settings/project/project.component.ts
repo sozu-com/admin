@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { IProperty } from 'src/app/common/property';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Constant } from 'src/app/common/constants';
-import { Project, Amenities } from 'src/app/models/project.model';
+import { Project, Amenities, ParkingLotSpaces } from 'src/app/models/project.model';
 import { NgForm } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
@@ -15,7 +15,7 @@ declare let swal: any;
   selector: 'app-project',
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.css'],
-  providers: [Constant, Project, Amenities]
+  providers: [Constant, Project, Amenities, ParkingLotSpaces]
 })
 
 export class ProjectComponent implements OnInit {
@@ -27,7 +27,9 @@ export class ProjectComponent implements OnInit {
   constructor(private element: ElementRef, private constant: Constant, public project: Project,
     private modalService: BsModalService, public admin: AdminService,
     public amenityModel: Amenities, private spinner: NgxSpinnerService,
-    private translate: TranslateService,private toastr: ToastrService,
+    private translate: TranslateService,
+    private parkingLotSpacesModel: ParkingLotSpaces,
+    private toastr: ToastrService,
   ) {
     this.parameter.index = -1;
     this.parameter.countryCount = 0;
@@ -39,6 +41,7 @@ export class ProjectComponent implements OnInit {
     this.getPossessionStatuses();
     this.getBuildingTypes();
     this.getAmenities();
+    this.getParkingLotSpaces();
   }
 
   closeModal() {
@@ -74,6 +77,47 @@ export class ProjectComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
+  public openParkingLotSpaces(template: TemplateRef<any>, index, id, name_en, name_es, status) {
+    this.parameter.index = index;
+    this.parkingLotSpacesModel.id = id;
+    this.parkingLotSpacesModel.name_en = name_en;
+    this.parkingLotSpacesModel.name_es = name_es;
+    this.parkingLotSpacesModel.status = status;
+    this.modalRef = this.modalService.show(template);
+  }
+
+  
+  addParkingLotSpaces(id, name_en, name_es, status, type) {
+    if (type === 'edit') { this.modalRef.hide(); }
+    this.parameter.url = 'addParkingLotSpaces';
+    const input = new FormData();
+    input.append('name_en', name_en);
+    input.append('name_es', name_es);
+    input.append('status', status);
+
+    if (id) { input.append('id', id); }
+    this.spinner.show();
+    this.admin.postDataApi(this.parameter.url, input)
+      .subscribe(
+        success => {
+          this.spinner.hide();
+          const text = id ?
+          this.translate.instant('message.success.updatedSuccessfully') :
+          this.translate.instant('message.success.addedSuccessfully');
+          swal(this.translate.instant('swal.success'), text, 'success');
+          this.project.parkingLotSpaces.name_en = '';
+          this.project.parkingLotSpaces.name_es = '';
+          if (this.parameter.index !== -1) {
+            this.parameter.parkingLotSpaces[this.parameter.index] = success.data;
+          } else {
+            this.parameter.parkingLotSpaces.push(success.data);
+          }
+          this.parameter.index = -1;
+          // this.getPossessionStatuses();
+        }, error => {
+          this.spinner.hide();
+        });
+  }
 
   addPossessionStatus(id, name_en, name_es, status, type) {
     if (type === 'edit') { this.modalRef.hide(); }
@@ -140,7 +184,6 @@ export class ProjectComponent implements OnInit {
         });
   }
 
-
   addAmenity(id, icon, name_en, name_es, status, type) {
     if (type === 'edit') { this.modalRef.hide(); }
     const iconNew = this.icon ? this.icon : this.amenityModel.icon;
@@ -177,6 +220,21 @@ export class ProjectComponent implements OnInit {
         });
   }
 
+  getParkingLotSpaces() {
+    this.spinner.show();
+    this.parameter.url = 'getParkingspace';
+    const input = new FormData();
+    this.admin.postDataApi(this.parameter.url, {hide_blocked: 0})
+      .subscribe(
+        success => {
+          this.spinner.hide();
+          this.parameter.parkingLotSpaces = success.data;
+          this.parameter.parkingLotSpacesTotal = success.data.length;
+        }, error => {
+          this.spinner.hide();
+        }
+      );
+  }
 
   getPossessionStatuses() {
     this.spinner.show();
@@ -193,7 +251,6 @@ export class ProjectComponent implements OnInit {
         }
       );
   }
-
 
   getBuildingTypes() {
     this.spinner.show();
@@ -286,7 +343,7 @@ export class ProjectComponent implements OnInit {
     formdata.reset();
     if (name_es === '') {
       swal({
-        text: this.translate.instant('message.error.saveEngProjectPossession'),
+        text: this.translate.instant('message.error.saveEngParkingLotSpaces'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,
@@ -343,6 +400,27 @@ export class ProjectComponent implements OnInit {
       });
     } else {
       self.addAmenity(id, icon, name_en, name_es, status, type);
+    }
+  }
+
+  checkIfParkingLotSpacesSpanishNameEntered(formdata: NgForm, id, name_en, name_es, status, type) {
+    const self = this;
+    formdata.reset();
+    if (name_es === '') {
+      swal({
+        text: this.translate.instant('message.error.saveEngAmenity'),
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: this.constant.confirmButtonColor,
+        cancelButtonColor: this.constant.cancelButtonColor,
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          this.addParkingLotSpaces(id, name_en, name_en, status, type);
+        }
+      });
+    } else {
+      self.addParkingLotSpaces(id, name_en, name_es, status, type);
     }
   }
 

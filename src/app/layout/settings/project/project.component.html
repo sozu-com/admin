@@ -263,6 +263,71 @@
       <!-- <div class="btn-cont text-right padding40 paddingT0">
         <button class="btn btn-primary">Save</button>
       </div> -->
+
+      <div class="form-outer">
+        <div class="inline-form-group">
+           <div class="row">
+              <div class="col-md-4">
+                  <label><strong>{{'project.parkingLotSpaces' | translate}}</strong></label>
+              </div>
+              <div class="col-md-8" *ngIf="admin?.admin_acl['Settings']?.can_create==1">
+                 <form role="form" novalidate #addParkingLotSpacesForm="ngForm" (ngSubmit)="checkIfParkingLotSpacesSpanishNameEntered(addParkingLotSpacesForm, '', addParkingLotSpacesForm.value.name_en, addParkingLotSpacesForm.value.name_es, 1, 'add')">
+                    <div class="row">
+                      <div class="col-lg-6 col-md-6">
+                        <input type="text" class="form-control" placeholder="{{'addForm.placeholder.parkingLotSpacesEn' | translate}}" id="name_en" required [(ngModel)]="project.parkingLotSpaces.name_en" name="name_en" #name_en="ngModel">
+                      </div>
+                      <div class="col-lg-6 col-md-6">
+                          <input type="text" class="form-control" placeholder="{{'addForm.placeholder.parkingLotSpacesEs' | translate}}" [(ngModel)]="project.parkingLotSpaces.name_es" name="name_es">
+                      </div>
+                    </div>
+                  <button [disabled]="admin?.admin_acl['Settings']?.can_create==0 || addParkingLotSpacesForm.invalid" type="submit" class="add-btn btn">
+                     <img src="assets/img/add.png" alt="img">
+                   </button>
+                 </form>
+              </div>
+           </div>
+        </div>
+    </div>
+
+    <div class="tabel-section padding40 paddingT0">
+      <div class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+              <th style="width:40%; text-align:left;">{{'table.th.nameEn' | translate}}</th>
+              <th style="width:40%; text-align:left;">{{'table.th.nameEs' | translate}}</th>
+              <th style="width:20%">{{'table.th.actions.label' | translate}}</th>
+            </tr>
+            <tr *ngFor="let item of parameter.parkingLotSpaces; let i=index">
+              <td class="text-left">
+                {{item.name_en}}
+              </td>
+              <td class="text-left">
+                {{item.name_es}}
+              </td>
+              <td>
+                  <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
+                  (click)="openParkingLotSpaces(adParkingLotSpacesModal, i, item.id, item.name_en, item.name_es, item.status)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                
+                  <!-- status = 1 means unblocked -->
+                  <button [disabled]="admin?.admin_acl['Settings']?.can_delete==0"
+                    (click)="addParkingLotSpaces(i, item.id, item.name_en, item.name_es, item.status==1?0:1, item.status==1?'block':'unblock')" 
+                    title="{{item.status==1 ? ('table.title.block' | translate) : ('table.title.unblock' | translate)}}" [ngClass]="{'unblock-bg':item.status==0}"
+                    class="action-icon"><img src="assets/img/block.png" alt="img">
+                  </button>
+                <!-- <a title="Edit Configuration" (click)="openPossessionStatusModal(addPossessionStatusModal, item.id, item.name_en, item.name_es, item.status)" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
+                <a *ngIf="item.status == 1" (click)="addPossessionStatusPopup(item.id, item.name_en, item.name_es, 0, 'block')" title="Block Configuration" class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a>
+                <a *ngIf="item.status == 0" (click)="addPossessionStatusPopup(item.id, item.name_en, item.name_es, 1, 'unblock')" title="Unblock Configuration" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a> -->
+              </td>
+            </tr>
+
+            <div *ngIf="parameter.parkingLotSpacesTotal == 0">
+              <p class="show-not-found">
+                  {{'message.error.noParkingLotSpaces' | translate}}
+              </p>
+            </div>
+        </table>
+      </div>
+  </div>
   </div>
 </div>
 
@@ -367,5 +432,37 @@
         </div>
       </form>
   </div>
+</ng-template>
+
+<!-- adParkingLotSpacesModal -->
+<ng-template #adParkingLotSpacesModal>
+  <div class="modal-content">
+    <div class="modal-header my-modal-header">
+      <h4 class="modal-title">{{'project.editParkingLotSpaces' | translate}}</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form class="form-horizontal my-modal-form" role="form" novalidate #addForm3="ngForm" (ngSubmit)="checkIfParkingLotSpacesSpanishNameEntered(addForm3, parkingLotSpacesModel.id, addForm3.value.name_en, addForm3.value.name_es, parkingLotSpacesModel.status, 'edit')">
+      <div class="modal-body my-modal-body">
+        
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="{{'addForm.placeholder.parkingLotSpacesEs' | translate}}" id="name_en" required [(ngModel)]="parkingLotSpacesModel.name_en" name="name_en" #name_en="ngModel">
+          <!-- <div *ngIf="name_en.errors && (name_en.dirty || name_en.touched)" class="show-not-found">
+              <div [hidden]="!name_en.errors.required">
+                {{constant.errorMsg.PROPERTY_TYPE_REQUIRED}}
+              </div>
+          </div> -->
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="{{'addForm.placeholder.parkingLotSpacesEs' | translate}}" [(ngModel)]="parkingLotSpacesModel.name_es" name="name_es">
+        </div>
+      </div>
+      <div class="modal-footer btn-cont">
+        <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_update==0 || addForm3.invalid" class="btn btn-primary-new">{{'addForm.submit' | translate}}</button>
+        <button type="button" class="btn btn-default" aria-label="Close" (click)="closeModal()">{{'addForm.close' | translate}}</button>
+      </div>
+    </form>
+</div>
 </ng-template>
   

@@ -217,6 +217,8 @@ export interface IProperty {
   pc_amount?: any;
   pc_contract?: any;
   is_email?: any;
+  parkingLotSpaces?: any;
+  parkingLotSpacesTotal?: any;
 }
 export class Docs {
   id: string;
