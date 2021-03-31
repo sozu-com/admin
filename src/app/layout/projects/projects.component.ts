@@ -49,6 +49,8 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   @ViewChild('legalEnityListModelClose') legalEnityListModelClose: ElementRef;
   @ViewChild('contributorListModelOpen') contributorListModelOpen: ElementRef;
   @ViewChild('contributorListModelClose') contributorListModelClose: ElementRef;
+  @ViewChild('notesadddModalOpen') notesadddModalOpen: ElementRef;
+  @ViewChild('notesadddModalClose') notesadddModalClose: ElementRef;
   legalEntities: any[] = [];
   contributor: any[] = [];
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
@@ -174,7 +176,9 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   close() {
     $('.modal').modal('hide');
   }
-
+  addNote() {
+    this.notesadddModalOpen.nativeElement.click();
+  }
   getCountries() {
     this.spinner.show();
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
