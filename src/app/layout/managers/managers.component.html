@@ -39,7 +39,7 @@
             </h5>
         </div> -->
     </div>
-    <div class="col-lg-6 col-md-6 col-5" *ngIf="admin?.admin_acl['Alliance Agent Management']?.can_read == 1">
+    <div class="col-lg-6 col-md-6 col-5" *ngIf="admin?.admin_acl['Managers Management']?.can_read == 1">
       <div class="add-new text-right">
         <a class="btn" (click)="bulkAssign()" href="javascript://">
           {{'table.th.bulkReassign' | translate}}</a>
@@ -55,7 +55,7 @@
 
         <table class="table table-striped">
           <tr>
-            <th *ngIf="admin?.admin_acl['Alliance Agent Management']?.can_read == 1" style="width:6%">
+            <th *ngIf="admin?.admin_acl['Managers Management']?.can_read == 1" style="width:6%">
               <div class="table-search">
                 <!-- <label>{{'table.th.all' | translate}}</label> -->
                 <!-- <div>
@@ -142,9 +142,9 @@
           </tr>
           <tr
             *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }; let i = index">
-            <td *ngIf="admin?.admin_acl['Alliance Agent Management']?.can_read == 1" (click)="$event.stopPropagation()">
+            <td *ngIf="admin?.admin_acl['Managers Management']?.can_read == 1" (click)="$event.stopPropagation()">
               <label class="cust-check-bx">
-                <input type="checkbox" [(ngModel)]="item.selected" name="selected{{i}}" [disabled]="admin?.admin_acl['Alliance Agent Management']?.can_update == 0">
+                <input type="checkbox" [(ngModel)]="item.selected" name="selected{{i}}" [disabled]="admin?.admin_acl['Managers Management']?.can_update == 0">
                 <span class="checkmark"></span>
               </label>
               <!-- <i class="fa" [ngClass]="item.selected?'fa-check-square-o':'fa-square-o'" (click)="item.selected = !item.selected" aria-hidden="true"></i> -->
