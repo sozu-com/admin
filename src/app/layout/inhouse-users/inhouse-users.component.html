@@ -201,8 +201,9 @@
                     parameter.userType == 'inhouse-broker' || parameter.userType=='credit-agents' || parameter.userType == 'outside-broker' || parameter.userType == 'csr-closers'; else showBuildings">
                 <span class="green-color cursor-pointer">{{item.lead_count?item.lead_count:'0'}}</span>
               </td>
-              <td class="text-left" (click)="showLeads(item.id)" *ngIf="parameter.userType == 'alliance-agents'">
-                <span class="green-color cursor-pointer">{{item?.linked_manger?.length > 0 ? item?.linked_manger?.length : 0 }}</span>
+              <td class="text-left" *ngIf="parameter.userType == 'alliance-agents'">
+                <!-- <span class="green-color cursor-pointer">{{item?.linked_manger?.length > 0 ? item?.linked_manger?.length : 0 }}</span> -->
+                <span >{{item?.linked_manger?.length > 0 ? item?.linked_manger?.length : 0 }}</span>
               </td>
               <td class="text-left" *ngIf="parameter.userType == 'data-collectors'" >{{item.added_buildings_count?item.added_buildings_count:'0'}}</td>
               <td class="text-left" *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'outside-broker'">
