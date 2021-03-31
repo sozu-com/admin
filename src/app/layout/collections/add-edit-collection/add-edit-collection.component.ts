@@ -883,7 +883,7 @@ export class AddEditCollectionComponent implements OnInit {
       });
       this.addFormStep4.controls.email.patchValue(emails);
     }
-    this.isShown = data.account_statement.usersemail && data.account_statement.usersemail.length > 0 ? true : false;
+    this.isShown =  data.account_statement && data.account_statement.usersemail && data.account_statement.usersemail.length > 0 ? true : false;
     this.addFormStep4.controls.day.patchValue(data.account_statement ? data.account_statement.day : '');
   }
 
