@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { MapsAPILoader } from '@agm/core';
 import { FileUpload } from 'src/app/common/fileUpload';
-import { Manager, Company} from 'src/app/models/company.model';
+import { Manager, Company } from 'src/app/models/company.model';
 import { CommonService } from 'src/app/services/common.service';
 import { Constant } from 'src/app/common/constants';
 import { IProperty } from 'src/app/common/property';
@@ -87,12 +87,12 @@ export class ManagersComponent implements OnInit {
       this.initialCountry = { initialCountry: this.constant.initialCountry };
     });
   }
-  addNote(){
+  addNote() {
     this.notesadddModalOpen.nativeElement.click();
   }
 
-  addManagerNote(){
-     const input = { tower_managers_id: this.model.id, description: this.model.note };
+  addManagerNote() {
+    const input = { tower_managers_id: this.model.id, description: this.model.note };
     this.admin.postDataApi('addManagerNotes', input).subscribe(success => {
       console.log(success.data);
       this.closeNotesadddModalModal();
@@ -104,14 +104,14 @@ export class ManagersComponent implements OnInit {
       .subscribe(
         success => {
           this.parameter.notes = success.data;
-          console.log(success.data,"all notes")
+          console.log(success.data, "all notes")
         });
   }
 
   closeNotesadddModalModal = (): void => {
     this.notesadddModalClose.nativeElement.click();
   }
- 
+
   deleteNotePopup(note_id, index) {
     this.parameter.text = this.translate.instant('message.error.wantToDeleteNote');
     swal({
@@ -131,7 +131,7 @@ export class ManagersComponent implements OnInit {
   deleteLeadNote(note_id, index) {
     this.admin.postDataApi('deleteManagerNotes', { id: note_id }).subscribe(r => {
       this.getAllNotes(this.model.id);
-    //  this.model.manager_notes.splice(index, 1);
+      //  this.model.manager_notes.splice(index, 1);
       this.toastr.clear();
       this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
     });
@@ -263,12 +263,12 @@ export class ManagersComponent implements OnInit {
             } else {
               this.modalClose.nativeElement.click();
               const text = this.model.id ?
-                    this.translate.instant('message.success.updatedSuccessfully') :
-                    this.translate.instant('message.success.addedSuccessfully');
+                this.translate.instant('message.success.updatedSuccessfully') :
+                this.translate.instant('message.success.addedSuccessfully');
               swal(this.translate.instant('swal.success'), text, 'success');
               if (this.model.id) {
                 this.items[this.parameter.index] = success.data;
-                console.log(this.items,"edit resp")
+                console.log(this.items, "edit resp")
               } else {
                 this.items.push(success.data);
                 this.parameter.total++;
@@ -357,7 +357,7 @@ export class ManagersComponent implements OnInit {
         success => {
           this.spinner.hide();
           this.items = success.data;
-          console.log(this.items,"all list")
+          console.log(this.items, "all list")
           this.parameter.total = success.total;
         }, error => {
           this.spinner.hide();
@@ -583,23 +583,27 @@ export class ManagersComponent implements OnInit {
   }
 
   assignNow = (): void => {
-    const postData = [];
-    this.items.forEach((data) => {
-      if (data.selected) {
-        postData.push({ id: (this.assignItem || {}).id, manager_id: data.id });
-      }
-    });
-    this.spinner.show();
-    this.admin.postDataApi('assignTowerManager', { agent_id: postData }).subscribe((response) => {
-      this.spinner.hide();
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.assignedSuccessfully'), 'success');
-      this.assignModelClose();
-      this.getTowerManager();
-    }, (error) => {
-      this.spinner.hide();
-      this.assignModelClose();
-      swal(this.translate.instant('swal.error'), error.error.message, 'error');
-    });
+    if (!this.assignItem) {
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAgent'), 'error');
+    } else {
+      const postData = [];
+      this.items.forEach((data) => {
+        if (data.selected) {
+          postData.push({ id: (this.assignItem || {}).id, manager_id: data.id });
+        }
+      });
+      this.spinner.show();
+      this.admin.postDataApi('assignTowerManager', { agent_id: postData }).subscribe((response) => {
+        this.spinner.hide();
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.assignedSuccessfully'), 'success');
+        this.assignModelClose();
+        this.getTowerManager();
+      }, (error) => {
+        this.spinner.hide();
+        this.assignModelClose();
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
+      });
+    }
   }
 
   assignModelClose = (): void => {

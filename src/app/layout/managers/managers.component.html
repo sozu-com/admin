@@ -144,7 +144,7 @@
             *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }; let i = index">
             <td *ngIf="admin?.admin_acl['Alliance Agent Management']?.can_read == 1" (click)="$event.stopPropagation()">
               <label class="cust-check-bx">
-                <input type="checkbox" [(ngModel)]="item.selected" name="selected{{i}}">
+                <input type="checkbox" [(ngModel)]="item.selected" name="selected{{i}}" [disabled]="admin?.admin_acl['Alliance Agent Management']?.can_update == 0">
                 <span class="checkmark"></span>
               </label>
               <!-- <i class="fa" [ngClass]="item.selected?'fa-check-square-o':'fa-square-o'" (click)="item.selected = !item.selected" aria-hidden="true"></i> -->
