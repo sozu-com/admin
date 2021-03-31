@@ -1144,6 +1144,7 @@
       "pleaseEnterSozuCommission": "Please enter Sozu Commission",
       "pleaseEnterAgentCommission": "Please enter Agent Commission",
       "pleaseChooseAgent": "Please select Agent",
+      "pleaseChooseAllianceAgent": "Please select alliance agent.",
       "pleaseChoosePayments": "Please select Payment Choices",
       "cashLimitReached": "The payment must be less than or equal to Cash Limit",
       "pleaseFillAllDetailsFor": "Please fill all details for - ",
