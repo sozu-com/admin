@@ -1138,6 +1138,7 @@
       "pleaseEnterSozuCommission": "Por favor ingrese a la Comisión Sozu",
       "pleaseEnterAgentCommission": "Por favor, introduzca la comisión del agente",
       "pleaseChooseAgent": "Por favor seleccione Agente",
+      "pleaseChooseAllianceAgent": "Seleccione un agente de la alianza.",
       "pleaseChoosePayments": "Por favor seleccione Opciones de pago",
       "cashLimitReached": "El pago debe ser menor o igual al límite de efectivo",
       "pleaseFillAllDetailsFor": "Por favor complete todos los detalles para -",

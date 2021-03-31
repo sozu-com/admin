@@ -584,7 +584,7 @@ export class ManagersComponent implements OnInit {
 
   assignNow = (): void => {
     if (!this.assignItem) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAgent'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAllianceAgent'), 'error');
     } else {
       const postData = [];
       this.items.forEach((data) => {
@@ -608,7 +608,7 @@ export class ManagersComponent implements OnInit {
 
   assignModelClose = (): void => {
     this.assign.items = null;
-    this.assignItem == null;
+    this.assignItem = null;
     this.closeAssignModel.nativeElement.click();
   }
 
