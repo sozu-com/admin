@@ -182,6 +182,7 @@ export class AddProjectComponent implements OnInit {
       ])
     })
   }
+  
   addPhone(): void {
     (this.userForm.get('phones') as FormArray).push(
       this.fb.control(null)
@@ -203,6 +204,7 @@ export class AddProjectComponent implements OnInit {
     return (<FormArray> this.userForm.get('name')).controls
   }
   ngOnInit() {
+    this.getParkingLotSpaces();
     this.model.building_contributors_param = [];
     this.model.building_contributors = [];
     this.name = '';
@@ -2297,5 +2299,20 @@ export class AddProjectComponent implements OnInit {
         this.model.legal_entity.push(element.legal_entity);
       });
     }
+  }
+  getParkingLotSpaces() {
+    this.spinner.show();
+    this.parameter.url = 'getParkingspace';
+    const input = new FormData();
+    this.admin.postDataApi(this.parameter.url, {hide_blocked: 0})
+      .subscribe(
+        success => {
+          this.spinner.hide();
+          this.parameter.parkingLotSpaces = success.data;
+          this.parameter.parkingLotSpacesTotal = success.data.length;
+        }, error => {
+          this.spinner.hide();
+        }
+      );
   }
 }
