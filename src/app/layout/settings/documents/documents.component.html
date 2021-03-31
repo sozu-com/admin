@@ -64,7 +64,7 @@
                         class="action-icon"><img src="assets/img/block.png" alt="img">
                       </button>
                       <button [disabled]="admin?.admin_acl['Settings']?.can_update==0"
-                      title="{{'table.title.delete' | translate}}"
+                      title="{{'table.title.delete' | translate}}" style="display: none;"
                       class="action-icon"><img src="assets/img/ic_delete.png" alt="img"></button>
                       <!-- (click)="deletePopup(item, i)" -->
                   </td>

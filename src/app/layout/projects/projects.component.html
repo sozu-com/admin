@@ -339,6 +339,14 @@
                     </select>
                   </div>
                 </th>
+                <th style="width:10%">
+                  <div class="table-search">
+                    <label>{{'table.th.possesion.park' | translate}}</label>
+                    <a (click)="sortData(parameter.property_sort==2?1:2)" href="javascript://"><img
+                      [ngClass]="{'upsidedown':parameter.property_sort==2}" src="assets/img/top-arrow.png"
+                      alt="img"></a>
+                  </div>
+                </th>
                 <th style="vertical-align:top;width:5%">
                   <div class="d-flex table-search">
                     <span><label>{{'table.th.properties' | translate}}</label></span>
@@ -445,6 +453,12 @@
                 <td>
                   <span>{{p?.possession_status_id == apiConstant.possessionStatus.sale ? ('table.tr.td.sale' |
                     translate) : ('table.tr.td.presale' | translate)}}</span>
+                </td>
+                <td>
+                  <a class="add1" href="javascript://" (click)="addNote()">
+                    <span style="color: green;">165/800</span>
+                  </a>
+                 
                 </td>
                 <td>
                   <a title="{{'table.title.clickToViewProperties' | translate}}"
@@ -727,6 +741,86 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<a href="javascript://" data-toggle="modal" data-target="#addd-notes" #notesadddModalOpen></a>
+<div class="modal animated" id="addd-notes">
+  <div class="modal-dialog fadeIndown">
+    <div class="modal-content">
+      <form autocomplete="off" class="form-horizontal form-model0P form-model-newP" role="form" ngNativeValidate
+        #addForm="ngForm">
+        <div class="modal-body modal-body-new">
+          <div class="row">
+            <div class="col-12">
+              <p  style="background-color: #008000a8;
+              height: 25px;
+              width: 100%;
+              color: black;
+              text-align: center;
+              font-size: 15px;
+              border-color: black;">Parking lot</p>
+              <div class="spacer15"></div>
+            </div>
+          </div>
+          <label>Total parking spaces</label>
+          <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+              <h6>Type 1</h6>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+              ------------>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+              <p  style="
+              height: 22px;
+              width: 69px;
+              color: black;
+              text-align: center;
+              font-size: 15px;
+              border: 1px solid black;margin-top: 2px;">300/600</p>
+            </div>
+          </div>
+          <label>Total places available to assign</label>
+          <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+              <h6>Type 1</h6>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+              ------------>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+              <p  style="
+              height: 22px;
+              width: 69px;
+              color: black;
+              text-align: center;
+              font-size: 15px;
+              border: 1px solid black;margin-top: 2px;">300/600</p>
+            </div>
+          </div>
+          <label>Total available for sale</label>
+          <div class="row">
+           
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+              <h6>Type 1</h6>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+              ------------>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+              <p  style="
+              height: 22px;
+              width: 69px;
+              color: black;
+              text-align: center;
+              font-size: 15px;
+              border: 1px solid black;margin-top: 2px;">300/600</p>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>

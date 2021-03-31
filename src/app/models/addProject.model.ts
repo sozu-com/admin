@@ -116,6 +116,7 @@ export class Parking {
   id: string;
   parking_space_id: number;
   no_parking: string;
+  is_parking: boolean = false;
 }
 
 export class Configuration {

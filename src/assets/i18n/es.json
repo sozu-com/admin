@@ -701,6 +701,7 @@
       "contributor": "colaborador",
       "possesion": {
         "label": "Fecha de entrega",
+        "park":"Estacionamientos",
         "all": "Todo",
         "sale": "Venta",
         "presale": "Preventa"

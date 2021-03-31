@@ -704,6 +704,7 @@
       "contributor": "Contributor",
       "possesion": {
         "label": "Possesion",
+        "park":"Parking Lots",
         "all": "All",
         "sale": "Sale",
         "presale": "Presale"
