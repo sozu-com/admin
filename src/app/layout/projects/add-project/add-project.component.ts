@@ -16,6 +16,7 @@ import { Developer } from 'src/app/models/global.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Agency } from 'src/app/models/agency.model';
 import { LegalEntity } from 'src/app/models/legalEntity.model';
+import { ToastrService } from 'ngx-toastr';
 
 declare const google;
 declare let swal: any;
@@ -181,7 +182,8 @@ export class AddProjectComponent implements OnInit {
     private cs: CommonService,
     private element: ElementRef,
     private spinner: NgxSpinnerService,
-    private translate: TranslateService, private fb: FormBuilder
+    private translate: TranslateService, private fb: FormBuilder,
+    private toastrService: ToastrService,
   ) {
   }
   getTotal(marks) {
@@ -2341,16 +2343,26 @@ export class AddProjectComponent implements OnInit {
   }
 
   addDeveloperBank(e) {
-    console.log(e,"send")
-    const bank = new Parking();
-    this.model.parking_space_lots.push(bank);
+    //console.log(e,"send")
+    if(this.parameter.parkingLotSpacesTotal == this.model.parking_space_lots.length){
+      this.toastrService.clear()
+      this.toastrService.error(this.translate.instant('message.error.parkingSpaceTypeAllAreInUse'),this.translate.instant('swal.error'));
+    } else {
+      const bank = new Parking();
+      this.model.parking_space_lots.push(bank);
+    }
     // this.model.parking_space_lots.forEach((r.) => {
     // }
    
   }
   addDeveloperBank1(e) {
-    const bank = new Parking();
-    this.model.parking_space_rent.push(bank);
+    if(this.parameter.parkingLotSpacesTotal == this.model.parking_space_rent.length){
+      this.toastrService.clear()
+      this.toastrService.error(this.translate.instant('message.error.parkingSpaceTypeAllAreInUse'),this.translate.instant('swal.error'));
+    } else {
+      const bank = new Parking();
+      this.model.parking_space_rent.push(bank);
+    }    
   }
   
   initModel() {

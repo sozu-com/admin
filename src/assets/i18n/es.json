@@ -1107,6 +1107,7 @@
       "pleaseFillCarpetAreaFields": "Por favor llene los campos del área de piso",
       "pleaseFillCustomAttributeFields": "Llena los campos de atributos personalizados",
       "pleaseEnterSomeText": "Por favor complete todos los detalles.",
+      "parkingSpaceTypeAllAreInUse": "Todos los tipos de plazas de aparcamiento están en uso.",
       "parkingForSaleCannotGreaterThanTotalParking": "El estacionamiento en venta no puede ser mayor que el total de estacionamientos disponibles.",
       "pleaseAddCarpetArea": "Agregar área de piso.",
       "pleaseChooseCoverImage": "Seleccionar imagen de portada.",
