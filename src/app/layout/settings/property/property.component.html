@@ -88,8 +88,9 @@
                       class="action-icon"><img src="assets/img/block.png" alt="img">
                     </button>
                     <button [disabled]="admin?.admin_acl['Settings']?.can_update==0"
-                    (click)="deletePopup(item, i,'one')" title="{{'table.title.delete' | translate}}"
+                     title="{{'table.title.delete' | translate}}"
                     class="action-icon"><img src="assets/img/ic_delete.png" alt="img"></button>
+                    <!-- (click)="deletePopup(item, i,'one')" -->
                   </td>
                 </tr>
 
@@ -259,8 +260,9 @@
                         class="action-icon"><img src="assets/img/block.png" alt="img">
                       </button>
                       <button [disabled]="admin?.admin_acl['Settings']?.can_update==0"
-                      (click)="deletePopup(item, k, 'two')" title="{{'table.title.delete' | translate}}"
+                       title="{{'table.title.delete' | translate}}"
                       class="action-icon"><img src="assets/img/ic_delete.png" alt="img"></button>
+                      <!-- (click)="deletePopup(item, k, 'two')" -->
                   </td>
               </tr>
             </table>
