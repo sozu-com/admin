@@ -268,7 +268,7 @@
             <div class="col-12">
               <div class="spacer40"></div>
             </div>
-            <div class="col-12">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
               <div class="form-group-2">
                 <label>{{'addForm.names' | translate}} <span class="color-red">*</span></label>
                 <div class="form-group">
@@ -277,7 +277,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-12">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
               <div class="form-group-2">
                 <label>{{'addForm.firstSurname' | translate}} <span class="color-red">*</span></label>
                 <div class="form-group">
@@ -286,7 +286,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-12">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
               <div class="form-group-2">
                 <label>{{'addForm.secondSurname' | translate}} </label>
                 <div class="form-group">
@@ -295,7 +295,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-12">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
               <div class="form-group-2">
                 <label>{{'addForm.contactNumber' | translate}}
                   <!-- <span class="color-red">*</span> -->
@@ -308,7 +308,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-12">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
               <div class="form-group-2">
                 <label>{{'addForm.emailId' | translate}}
                   <span class="color-red">*</span>
@@ -319,7 +319,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-12">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
               <div class="form-group-2">
                 <label>{{'addForm.freeLancerOrComapny' | translate}} <span class="color-red">*</span></label>
                 <div class="form-group">
@@ -387,22 +387,22 @@
               </div>
             </div>
           </div>
-          <div class="col-12">
-            <div class="spacer40"></div>
-          </div>
-         
-          </div>
+
           <div *ngIf="model.id">
-          <div class="row">
-            <div class="col-md-6">
-              <h5>{{'commonBlock.writeANote' | translate}}</h5>
+            <div class="spacer15"></div>
+            
+            <div class="row">
+              <div class="col-md-6">
+                <h5>{{'commonBlock.writeANote' | translate}}</h5>
+              </div>
+              <div class="col-md-6">
+                <a class="add1" href="javascript://" (click)="addNote()">{{'commonBlock.add' | translate}}</a>
+              </div>
             </div>
-            <div class="col-md-6">
-              <a class="add1" href="javascript://" (click)="addNote()">{{'commonBlock.add' | translate}}</a>
-            </div>
-          </div>
-          <hr>
-          <div class="row" *ngFor="let item of parameter.notes; let i=index">
+
+            <hr>
+
+            <div class="row" *ngFor="let item of parameter.notes; let i=index">
               <div class="col-md-2">
                 <div class="circle">
                   <span></span>
@@ -415,22 +415,27 @@
                 <pre class="p13">{{item.description}}</pre>
               </div>
               <div class="col-md-2">
-                <a class="add" href="javascript://" (click)="deleteNotePopup(item.id, i)">{{'commonBlock.delete' | translate}}</a>
+                <a class="add" href="javascript://" (click)="deleteNotePopup(item.id, i)">{{'commonBlock.delete' |
+                  translate}}</a>
               </div>
-            <ng-template #noDeletePermissiom>
-              <a class="delete" href="javascript://">{{'commonBlock.delete' | translate}}</a>
-            </ng-template>
+              <ng-template #noDeletePermissiom>
+                <a class="delete" href="javascript://">{{'commonBlock.delete' | translate}}</a>
+              </ng-template>
+            </div>
+
+            <div *ngIf="parameter.notes?.length==0" class="write-note white-bg"
+              [ngStyle]="{'height':sent_as === 1 ? '230px' : '245px' }">
+              <p class="show-not-found">
+                {{'message.error.noNoteFound' | translate}}
+              </p>
+            </div>
+
+          </div>
         </div>
-        <div *ngIf="parameter.notes?.length==0" class="write-note white-bg"
-          [ngStyle]="{'height':sent_as === 1 ? '230px' : '245px' }">
-          <p class="show-not-found">
-            {{'message.error.noNoteFound' | translate}}
-          </p>
-        </div>
-        </div>
+       
       </form>
     </div>
-    </div>
+  </div>
 </div>
 
 <!-- Assignment model -->
@@ -440,7 +445,8 @@
     <div class="modal-content notary-avail">
       <div class="modal-header popup-header">
         <h4 class="modal-title">{{'leads.reAssignTo' | translate}}</h4>
-        <button type="button" class="close" data-dismiss="modal" #closeAssignModel (click)="assignModelClose()">&times;</button>
+        <button type="button" class="close" data-dismiss="modal" #closeAssignModel
+          (click)="assignModelClose()">&times;</button>
       </div>
       <div class="modal-body">
         <div class="row">
@@ -488,8 +494,8 @@
       </div>
     </div>
   </div>
-  </div>
-  
+</div>
+
 <a href="javascript://" data-toggle="modal" data-target="#addd-notes" #notesadddModalOpen></a>
 <div class="modal animated" id="addd-notes">
   <div class="modal-dialog fadeIndown">
