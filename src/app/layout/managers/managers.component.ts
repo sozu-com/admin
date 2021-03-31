@@ -96,7 +96,9 @@ export class ManagersComponent implements OnInit {
     this.admin.postDataApi('addManagerNotes', input).subscribe(success => {
       console.log(success.data);
       this.closeNotesadddModalModal();
-      this.getAllNotes(this.model.id)
+      this.getAllNotes(this.model.id);
+      this.modalClose.nativeElement.click();
+      this.inhouseUserModalOpen.nativeElement.click();
     });
   }
   getAllNotes(model) {
@@ -110,6 +112,8 @@ export class ManagersComponent implements OnInit {
 
   closeNotesadddModalModal = (): void => {
     this.notesadddModalClose.nativeElement.click();
+    this.modalClose.nativeElement.click();
+    this.inhouseUserModalOpen.nativeElement.click();
   }
 
   deleteNotePopup(note_id, index) {
