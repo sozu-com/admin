@@ -158,9 +158,9 @@ export class AddProjectComponent implements OnInit {
   users = [];
   seller_type: any;
   user_type: any;
-  parkinLot_sum: any;
-  parkingRent_sum: any;
-  both_sum: any;
+  parkinLot_sum: any = 0 ;
+  parkingRent_sum: any = 0 ;
+  both_sum: any = 0;
   tempSetLegalEntity: any[] = [];
   userForm: FormGroup;
   obtainedMarks: null
@@ -186,9 +186,9 @@ export class AddProjectComponent implements OnInit {
     private toastrService: ToastrService,
   ) {
   }
-  getTotal(marks) {
-    return marks.reduce((acc, {obtainedMarks}) => acc += +(obtainedMarks || 0), 0);
-  }
+  // getTotal(marks) {
+  //   return marks.reduce((acc, {obtainedMarks}) => acc += +(obtainedMarks || 0), 0);
+  // }
   ngOnInit() {
     this.getParkingLotSpaces();
     // this.parkinLot_sum;
@@ -224,19 +224,23 @@ export class AddProjectComponent implements OnInit {
           this.model = JSON.parse(JSON.stringify(r.data));
           this.model.parking_space_lots = r.data.parking_space_lots;
           //sum parking
-          let sum1: any = this.model.parking_space_lots.map(a => a.no_parking).reduce(function(a, b)
-          {
-            return a + b;
-          });
-          this.parkinLot_sum = sum1
-          console.log(this.parkinLot_sum,"viewtime");
-          let sum2: any = this.model.parking_space_rent.map(a => a.no_parking).reduce(function(a, b)
-          {
-            return a + b;
-          });
-          this.parkingRent_sum = sum2
-          console.log(this.parkinLot_sum,"view resnt");
-          this.both_sum = this.parkinLot_sum + this.parkingRent_sum;
+          let sum: any = 0;
+          this.model.parking_space_lots.forEach(a => sum += parseInt(a.no_parking));
+           console.log(sum);
+          this.parkinLot_sum = sum
+          let sum1: any = 0;
+          this.model.parking_space_rent.forEach(a => sum1 += parseInt(a.no_parking));
+           console.log(sum1,"rent");
+          this.parkingRent_sum = sum1
+
+          // console.log(this.parkinLot_sum,"viewtime");
+          // let sum2: any = this.model.parking_space_rent.map(a => a.no_parking).reduce(function(a, b)
+          // {
+          //   return a + b;
+          // });
+          // this.parkingRent_sum = sum2
+          // console.log(this.parkinLot_sum,"view resnt");
+          this.both_sum = parseInt(this.parkinLot_sum) + parseInt(this.parkingRent_sum);
           console.log(this.both_sum,"view 0");
           //end parking sum
           this.model.parking_space_rent = r.data.parking_space_rent;
@@ -1348,19 +1352,16 @@ export class AddProjectComponent implements OnInit {
         this.spinner.hide();
         swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
          //sum parking
-         let sum1: any = this.model.parking_space_lots.map(a => a.no_parking).reduce(function(a, b)
-         {
-           return a + b;
-         });
-         this.parkinLot_sum = sum1
-         console.log(this.parkinLot_sum,"viewtime");
-         let sum2: any = this.model.parking_space_rent.map(a => a.no_parking).reduce(function(a, b)
-         {
-           return a + b;
-         });
-         this.parkingRent_sum = sum2
-         console.log(this.parkinLot_sum,"view resnt");
-          
+         let sum: any = 0;
+         this.model.parking_space_lots.forEach(a => sum += parseInt(a.no_parking));
+          console.log(sum);
+         this.parkinLot_sum = sum
+
+         let sum1: any = 0;
+         this.model.parking_space_rent.forEach(a => sum1 += parseInt(a.no_parking));
+          console.log(sum1,"rent");
+         this.parkingRent_sum = sum1
+         
          this.both_sum = this.parkinLot_sum + this.parkingRent_sum;
          console.log(this.both_sum,"view 0");
          //end parking sum
