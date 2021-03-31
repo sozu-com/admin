@@ -1345,30 +1345,34 @@
                 <div class="col-12">
                   <div class="form-group-3">
                     <label>{{'addForm.parking-spaces' | translate}}</label>
-                    <input class="form-control" type="text" disabled style="background-color: gray;">
+                    <input class="form-control" type="text" disabled style="background-color: #8080803d;color: #000;"
+                    name="both_sum" [(ngModel)]="both_sum">
                   </div>
                 </div>
+                
                 <div class="col-12">
                   <div class="form-group-3">
                     <label>{{'addForm.spaces-available' | translate}}</label>
-                    <input class="form-control" type="text" disabled style="background-color: gray;">
+                    <input class="form-control" type="text" disabled style="background-color: #8080803d;color: #000;"
+                    name="parkinLot_sum" [(ngModel)]="parkinLot_sum">
                   </div>
                 </div>
               </div>
 
-              <div class="row" *ngFor="let name of getPhonesFormControlss(); let s = index">
+              <div class="row" *ngFor="let bankAccount of model.parking_space_lots; let s=index">
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>{{'addForm.spaces-available' | translate}}{{s}}</label>
-                    <input class="form-control" type="number" name="no_parking"
-                    placeholder="No. of Properties"  autocomplete="off">
+                    <input class="form-control" type="number" name="no_parking{{s}}"
+                    [(ngModel)]="bankAccount.no_parking"  placeholder="No. of Properties"  autocomplete="off">
+                    <!-- <span>Total : {{getTotal(bankAccount.no_parking)}}</span> -->
                   </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>{{'addForm.spaces-type' | translate}}{{s}}</label>
-                    <select title="{{'addForm.spaces-type' | translate}}{{s}}" name="parking_space_id" class="form-control"
-                    style="border-color: green;">
+                    <select title="{{'addForm.spaces-type' | translate}}{{s}}" name="parking_space_id{{s}}" class="form-control"
+                    style="border-color: green;" [(ngModel)]="bankAccount.parking_space_id">
                     <option value="0" disabled>{{'addForm.spaces-type' | translate}}</option>
                     <option *ngFor="let maritalStatus of parameter.parkingLotSpaces"
                       value="{{maritalStatus.id}}">{{language_code
@@ -1381,7 +1385,7 @@
 
               <div class="row">
               <div class="col-md-12 col-sm-12 col-12">
-                <label><span class="pull-right"><a class="add" (click)="addPhone1()"
+                <label><span class="pull-right"><a class="add" (click)="addDeveloperBank($event)" style="cursor: pointer;"
                       href="javascript://">{{'addForm.another' | translate}}</a></span>
                 </label>
               </div>
@@ -1391,51 +1395,52 @@
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>{{'addForm.saleParking' | translate}}</label>
-                    <input class="form-control" type="text" disabled style="background-color: gray;">
+                    <input class="form-control" type="text" disabled style="background-color: #8080803d;color: #000;"
+                    name="parkingRent_sum" [(ngModel)]="parkingRent_sum">
                   </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>&nbsp;</label>
                     <div class="switchToggle">
-                      <input type="checkbox" id="switch5">
-                      <label for="switch5">Toggle</label>
+                      <input type="checkbox" id="switch50" (click)="toggleShow()">
+                      <label for="switch50">Toggle</label>
                     </div>
                   </div>
                 </div>
               </div>
-
-              <div class="row" *ngFor="let phone of getPhonesFormControls(); let i = index">
+            <div *ngIf="toggleSelectedDetails.isCreditCardChecked">
+              <div class="row" *ngFor="let rest of model.parking_space_rent; let i=index">
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>{{'addForm.spaces-available' | translate}}{{i}}</label>
-                    <input class="form-control" type="number" name="no_parking" placeholder="No. of Properties"
-                    autocomplete="off">
+                    <input class="form-control" type="number" name="no_parking1{{i}}"
+                    [(ngModel)]="rest.no_parking"  placeholder="No. of Properties"  autocomplete="off">
                   </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>{{'addForm.spaces-type' | translate}}{{i}}</label>
-                    <select title="{{'addForm.spaces-type' | translate}}{{s}}" name="parking_space_id" class="form-control"
-                    style="border-color: green;">
+                    <select title="{{'addForm.spaces-type' | translate}}{{i}}" name="parking_space_id1{{s}}" class="form-control"
+                    style="border-color: green;" [(ngModel)]="rest.parking_space_id">
                     <option value="0" disabled>{{'addForm.spaces-type' | translate}}</option>
                     <option *ngFor="let maritalStatus of parameter.parkingLotSpaces"
                       value="{{maritalStatus.id}}">{{language_code
                       == 'en'? maritalStatus.name_en : maritalStatus.name_es}}</option>
                   </select>
-                   
                   </div>
-                </div> 
+                </div>
               </div> 
 
               <div class="row">
                 <div class="col-md-12 col-sm-12 col-12">
-                <label><span class="pull-right"><a class="add" (click)="addPhone()"
+                <label><span class="pull-right"><a class="add" (click)="addDeveloperBank1($event)" style="cursor: pointer;"
                       href="javascript://">{{'addForm.another' | translate}}</a></span>
                 </label>
               </div>
               </div>
 
+            </div>
               <div class="row">
                 <div class="col-12">
                   <div class="btn-cont text-right">

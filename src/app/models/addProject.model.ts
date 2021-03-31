@@ -13,6 +13,7 @@ export class CarpetAreas {
 }
 
 export class AddProjectModel {
+
   id = '';
   building_id = '';
   country_id = '';
@@ -79,6 +80,9 @@ export class AddProjectModel {
   doc_loader?: boolean;
   is_completed: any;
   building_request_id: '';
+    parking_space_lots?: Array<Parking>;
+    parking_space_rent?: Array<Parking>;
+    
   building_towers: Array<Towers>;
   building_tower_edit_index: any;
   videoLoader: boolean;
@@ -108,6 +112,11 @@ export class AddProjectModel {
   legal_entity_info: any;
 }
 
+export class Parking {
+  id: string;
+  parking_space_id: number;
+  no_parking: string;
+}
 
 export class Configuration {
   base_price: any = '';

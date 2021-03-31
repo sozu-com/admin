@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators, FormBuilder, FormArray,AbstractCont
 import { AdminService } from 'src/app/services/admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IProperty } from 'src/app/common/property';
-import { AddProjectModel, Configuration, Towers, LocalityToCountry } from 'src/app/models/addProject.model';
+import { AddProjectModel, Configuration, Towers, LocalityToCountry, Parking } from 'src/app/models/addProject.model';
 import { MapsAPILoader } from '@agm/core';
 import { Constant } from 'src/app/common/constants';
 import { FileUpload } from 'src/app/common/fileUpload';
@@ -157,8 +157,18 @@ export class AddProjectComponent implements OnInit {
   users = [];
   seller_type: any;
   user_type: any;
+  parkinLot_sum: any;
+  parkingRent_sum: any;
+  both_sum: any;
   tempSetLegalEntity: any[] = [];
   userForm: FormGroup;
+  obtainedMarks: null
+  toggleSelectedDetails: {
+    isCreditCardChecked: boolean 
+  } =
+    {
+      isCreditCardChecked: false
+    };
   constructor(
     public model: AddProjectModel,
     private admin: AdminService,
@@ -173,38 +183,14 @@ export class AddProjectComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private translate: TranslateService, private fb: FormBuilder
   ) {
-    this.userForm = this.fb.group({
-      name: this.fb.array([
-        this.fb.control(null)
-      ]),
-      phones: this.fb.array([
-        this.fb.control(null)
-      ])
-    })
   }
-  
-  addPhone(): void {
-    (this.userForm.get('phones') as FormArray).push(
-      this.fb.control(null)
-    );
-  }
-  addPhone1(): void {
-    (this.userForm.get('name') as FormArray).push(
-      this.fb.control(null)
-    );
-  }
-  removePhone(index) {
-    (this.userForm.get('phones') as FormArray).removeAt(index);
-  }
-
-  getPhonesFormControls(): AbstractControl[] {
-    return (<FormArray> this.userForm.get('phones')).controls
-  }
-  getPhonesFormControlss(): AbstractControl[] {
-    return (<FormArray> this.userForm.get('name')).controls
+  getTotal(marks) {
+    return marks.reduce((acc, {obtainedMarks}) => acc += +(obtainedMarks || 0), 0);
   }
   ngOnInit() {
     this.getParkingLotSpaces();
+    // this.parkinLot_sum;
+    // this.parkingRent_sum;
     this.model.building_contributors_param = [];
     this.model.building_contributors = [];
     this.name = '';
@@ -225,6 +211,7 @@ export class AddProjectComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.id = params.id;
       this.newTower = new Towers();
+    
       if (this.id) {
         /* if id exists edit mode */
         let self = this;
@@ -233,6 +220,24 @@ export class AddProjectComponent implements OnInit {
         this.admin.postDataApi('getProjectById', { building_id: this.id }).subscribe(r => {
           this.spinner.hide();
           this.model = JSON.parse(JSON.stringify(r.data));
+          this.model.parking_space_lots = r.data.parking_space_lots;
+          //sum parking
+          let sum1: any = this.model.parking_space_lots.map(a => a.no_parking).reduce(function(a, b)
+          {
+            return a + b;
+          });
+          this.parkinLot_sum = sum1
+          console.log(this.parkinLot_sum,"viewtime");
+          let sum2: any = this.model.parking_space_rent.map(a => a.no_parking).reduce(function(a, b)
+          {
+            return a + b;
+          });
+          this.parkingRent_sum = sum2
+          console.log(this.parkinLot_sum,"view resnt");
+          this.both_sum = this.parkinLot_sum + this.parkingRent_sum;
+          console.log(this.both_sum,"view 0");
+          //end parking sum
+          this.model.parking_space_rent = r.data.parking_space_rent;
           self.model.building_contributors_param = self.model.building_contributors_param ? self.model.building_contributors_param : [];
           self.model.building_contributors = []
           r.data.building_contributors.forEach(element => {
@@ -461,7 +466,9 @@ export class AddProjectComponent implements OnInit {
         });
         this.model.dev_countrycode = 'mx';
         this.model.dev_dialcode = '+52';
+        this.model.parking_space_rent = new Array<Parking>();
         this.assignedLegalEntity();
+        this.initModel();
       }
       this.zoom = 6;
     });
@@ -1338,6 +1345,23 @@ export class AddProjectComponent implements OnInit {
       this.admin.postDataApi('updateProject', modelSave).subscribe(success => {
         this.spinner.hide();
         swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
+         //sum parking
+         let sum1: any = this.model.parking_space_lots.map(a => a.no_parking).reduce(function(a, b)
+         {
+           return a + b;
+         });
+         this.parkinLot_sum = sum1
+         console.log(this.parkinLot_sum,"viewtime");
+         let sum2: any = this.model.parking_space_rent.map(a => a.no_parking).reduce(function(a, b)
+         {
+           return a + b;
+         });
+         this.parkingRent_sum = sum2
+         console.log(this.parkinLot_sum,"view resnt");
+          
+         this.both_sum = this.parkinLot_sum + this.parkingRent_sum;
+         console.log(this.both_sum,"view 0");
+         //end parking sum
         // set model to avoid duplication creation of project
         this.setProjectModel(success['data']);
 
@@ -2315,4 +2339,37 @@ export class AddProjectComponent implements OnInit {
         }
       );
   }
+
+  addDeveloperBank(e) {
+    console.log(e,"send")
+    const bank = new Parking();
+    this.model.parking_space_lots.push(bank);
+    // this.model.parking_space_lots.forEach((r.) => {
+    // }
+   
+  }
+  addDeveloperBank1(e) {
+    const bank = new Parking();
+    this.model.parking_space_rent.push(bank);
+  }
+  
+  initModel() {
+    this.model.parking_space_lots = new Array<Parking>();
+    }
+   
+    toggleShow(){
+      this.toggleSelectedDetails.isCreditCardChecked = !this.toggleSelectedDetails.isCreditCardChecked;
+    }
+  // removeDeveloperBank($event: Event, item: any, i: number) {
+  //   $event.stopPropagation();
+  //   this.model.parking_space_lots.splice(i, 1);
+  //   if (item.id) {
+  //     this.admin.postDataApi('deleteBankAccount', { id: item.id }).subscribe(success => {
+  //       this.spinner.hide();
+  //     }, error => {
+  //       this.spinner.hide();
+  //     });
+  //   }
+  // }
+
 }
