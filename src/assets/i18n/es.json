@@ -112,6 +112,11 @@
     }
   },
   "addForm": {
+    "parking-spaces":"No. total de estacionamientos",
+    "spaces-available":"No. total de estacionamientos disponible",
+    "spaces-type":"Tipo de estacionamientos",
+    "another":"+ Añadir otro tipo.",
+    "saleParking":"No. total de estacionamientos disponibles para venta",
     "propertyKey": "Clave de propiedad",
     "birthCertificate":"Acta de nacimiento",
     "Passport":"Pasaporte",
@@ -421,6 +426,7 @@
     "contributor": {
       "contributor": "Aportante",
       "label": "Aportante Información",
+      "parking": "Plazas de aparcamiento",
       "changeContributor": "Cambio Aportante",
       "selectContributor": "Seleccione Aportante",
       "name": "Aportante Nombre",
