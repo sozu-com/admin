@@ -95,6 +95,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.parameter.page = this.constant.p;
     this.parameter.dash_flag = this.projectService.dash_flag ? this.projectService.dash_flag : this.constant.dash_flag;
     this.parameter.property_sort = 2;
+    this.parameter.parking_sort = 2;
     this.parameter.possession_filter = 0; // 0-all, 9-presale, 8-sale
     this.parameter.project_status_filter = this.apiConstant.projectStatus.all;
     this.parameter.min_price = 0;
@@ -123,7 +124,14 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   }
 
   sortData(value: number) {
+    this.parameter.parking_sort = 0;
     this.parameter.property_sort = value;
+    this.getListing();
+  }
+
+  sortData1(value: number) {
+    this.parameter.property_sort = 0;
+    this.parameter.parking_sort = value;
     this.getListing();
   }
 
