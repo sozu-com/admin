@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone, Input } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder, FormArray,AbstractControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder, FormArray, AbstractControl } from '@angular/forms';
 import { AdminService } from 'src/app/services/admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IProperty } from 'src/app/common/property';
@@ -66,7 +66,7 @@ export class AddProjectComponent implements OnInit {
   myform2: FormGroup;
 
   public zoom: number;
-  selected:any;
+  selected: any;
   canEditdeveloperInfo: boolean;
   canEditContributionInfo: boolean;
   id: any;
@@ -165,7 +165,7 @@ export class AddProjectComponent implements OnInit {
   userForm: FormGroup;
   obtainedMarks: null
   toggleSelectedDetails: {
-    isCreditCardChecked: boolean 
+    isCreditCardChecked: boolean
   } =
     {
       isCreditCardChecked: false
@@ -213,7 +213,7 @@ export class AddProjectComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.id = params.id;
       this.newTower = new Towers();
-    
+
       if (this.id) {
         /* if id exists edit mode */
         let self = this;
@@ -222,19 +222,19 @@ export class AddProjectComponent implements OnInit {
         this.admin.postDataApi('getProjectById', { building_id: this.id }).subscribe(r => {
           this.spinner.hide();
           this.model = JSON.parse(JSON.stringify(r.data));
-         
+
           this.model.parking_space_lots = r.data.parking_space_lots;
           //sum parking
           let sum: any = 0;
           this.model.parking_space_lots.forEach(a => sum += parseInt(a.no_parking));
-           console.log(sum);
+          console.log(sum);
           this.parkinLot_sum = sum
           let sum1: any = 0;
           this.model.parking_space_rent.forEach(a => sum1 += parseInt(a.no_parking));
-           console.log(sum1,"rent");
+          console.log(sum1, "rent");
           this.parkingRent_sum = sum1
           this.both_sum = parseInt(this.parkinLot_sum) + parseInt(this.parkingRent_sum);
-          console.log(this.both_sum,"view 0");
+          console.log(this.both_sum, "view 0");
           // console.log(this.parkinLot_sum,"viewtime");
           // let sum2: any = this.model.parking_space_rent.map(a => a.no_parking).reduce(function(a, b)
           // {
@@ -242,7 +242,7 @@ export class AddProjectComponent implements OnInit {
           // });
           // this.parkingRent_sum = sum2
           // console.log(this.parkinLot_sum,"view resnt");
-         
+
           //end parking sum
           this.model.parking_space_rent = r.data.parking_space_rent;
           self.model.building_contributors_param = self.model.building_contributors_param ? self.model.building_contributors_param : [];
@@ -1353,20 +1353,20 @@ export class AddProjectComponent implements OnInit {
       this.admin.postDataApi('updateProject', modelSave).subscribe(success => {
         this.spinner.hide();
         swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
-         //sum parking
-         let sum: any = 0;
-         this.model.parking_space_lots.forEach(a => sum += parseInt(a.no_parking));
-          console.log(sum);
-         this.parkinLot_sum = sum
+        //sum parking
+        let sum: any = 0;
+        this.model.parking_space_lots.forEach(a => sum += parseInt(a.no_parking));
+        console.log(sum);
+        this.parkinLot_sum = sum
 
-         let sum1: any = 0;
-         this.model.parking_space_rent.forEach(a => sum1 += parseInt(a.no_parking));
-          console.log(sum1,"rent");
-         this.parkingRent_sum = sum1
-         
-         this.both_sum = this.parkinLot_sum + this.parkingRent_sum;
-         console.log(this.both_sum,"view 0");
-         //end parking sum
+        let sum1: any = 0;
+        this.model.parking_space_rent.forEach(a => sum1 += parseInt(a.no_parking));
+        console.log(sum1, "rent");
+        this.parkingRent_sum = sum1
+
+        this.both_sum = this.parkinLot_sum + this.parkingRent_sum;
+        console.log(this.both_sum, "view 0");
+        //end parking sum
         // set model to avoid duplication creation of project
         this.setProjectModel(success['data']);
 
@@ -2333,7 +2333,7 @@ export class AddProjectComponent implements OnInit {
     this.spinner.show();
     this.parameter.url = 'getParkingspace';
     const input = new FormData();
-    this.admin.postDataApi(this.parameter.url, {hide_blocked: 0})
+    this.admin.postDataApi(this.parameter.url, { hide_blocked: 0 })
       .subscribe(
         success => {
           this.spinner.hide();
@@ -2347,50 +2347,50 @@ export class AddProjectComponent implements OnInit {
 
   addDeveloperBank(e) {
     //console.log(e,"send")
-    if(this.parameter.parkingLotSpacesTotal == this.model.parking_space_lots.length){
+    if (this.parameter.parkingLotSpacesTotal == this.model.parking_space_lots.length) {
       this.toastrService.clear()
-      this.toastrService.error(this.translate.instant('message.error.parkingSpaceTypeAllAreInUse'),this.translate.instant('swal.error'));
+      this.toastrService.error(this.translate.instant('message.error.parkingSpaceTypeAllAreInUse'), this.translate.instant('swal.error'));
     } else {
       const bank = new Parking();
       this.model.parking_space_lots.push(bank);
     }
     // this.model.parking_space_lots.forEach((r.) => {
     // }
-   
+
   }
   addDeveloperBank1(e) {
-    if(this.parameter.parkingLotSpacesTotal == this.model.parking_space_rent.length){
+    if (this.parameter.parkingLotSpacesTotal == this.model.parking_space_rent.length) {
       this.toastrService.clear()
-      this.toastrService.error(this.translate.instant('message.error.parkingSpaceTypeAllAreInUse'),this.translate.instant('swal.error'));
+      this.toastrService.error(this.translate.instant('message.error.parkingSpaceTypeAllAreInUse'), this.translate.instant('swal.error'));
     } else {
       const bank = new Parking();
       this.model.parking_space_rent.push(bank);
-    }    
+    }
   }
-  
+
   initModel() {
     this.model.parking_space_lots = new Array<Parking>();
-    }
-   
-    toggleShow(value){
-      this.toggleSelectedDetails.isCreditCardChecked = value.target.checked ? true : false;
-      if(!this.toggleSelectedDetails.isCreditCardChecked){
-        this.model.parking_space_rent = [];
-        this.parkingRent_sum = 0
-        this.both_sum = parseInt(this.parkinLot_sum) - parseInt(this.parkingRent_sum);
-        console.log(this.both_sum,"view rent");
-      }
-    }
+  }
 
-    valueChange(event) {
-      console.log("selected value",event.target.value);
-      // if (value === 'opt-1') {
-      //   this.paymentForm.get('testInput').disable();
-      // } else {
-      //   this.paymentForm.get('testInput').enable();
-      // }
+  toggleShow(value) {
+    this.toggleSelectedDetails.isCreditCardChecked = value.target.checked ? true : false;
+    if (!this.toggleSelectedDetails.isCreditCardChecked) {
+      this.model.parking_space_rent = [];
+      this.parkingRent_sum = 0
+      this.both_sum = parseInt(this.parkinLot_sum) - parseInt(this.parkingRent_sum);
+      console.log(this.both_sum, "view rent");
     }
-   
+  }
+
+  valueChange(event) {
+    console.log("selected value", event.target.value);
+    // if (value === 'opt-1') {
+    //   this.paymentForm.get('testInput').disable();
+    // } else {
+    //   this.paymentForm.get('testInput').enable();
+    // }
+  }
+
   // removeDeveloperBank($event: Event, item: any, i: number) {
   //   $event.stopPropagation();
   //   this.model.parking_space_lots.splice(i, 1);
@@ -2402,5 +2402,15 @@ export class AddProjectComponent implements OnInit {
   //     });
   //   }
   // }
- 
+
+  checkAlreadySelected = (parkingSpaceId: number, isParkingSpaceLots: boolean): boolean => {
+    if (isParkingSpaceLots) {
+      const data = this.model.parking_space_lots.find((item) => item.parking_space_id == parkingSpaceId);
+      return data ? true : false;
+    } else {
+      const data = this.model.parking_space_rent.find((item) => item.parking_space_id == parkingSpaceId);
+      return data ? true : false;
+    }
+  }
+
 }

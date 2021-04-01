@@ -1376,7 +1376,7 @@
                     style="border-color: green;" [(ngModel)]="bankAccount.parking_space_id">
                     <option value="0" disabled>{{'addForm.spaces-type' | translate}}</option>
                     <option *ngFor="let maritalStatus of parameter.parkingLotSpaces"
-                      value="{{maritalStatus.id}}">{{language_code
+                      value="{{maritalStatus.id}}" [disabled]="checkAlreadySelected(maritalStatus.id,true)">{{language_code
                       == 'en'? maritalStatus.name_en : maritalStatus.name_es}}</option>
                   </select>
                    
@@ -1426,7 +1426,7 @@
                     style="border-color: green;" [(ngModel)]="rest.parking_space_id" (change)="valueChange($event)">
                     <option value="0" disabled>{{'addForm.spaces-type' | translate}}</option>
                     <option *ngFor="let maritalStatus of parameter.parkingLotSpaces;let index = index"
-                      value="{{maritalStatus.id}}" >{{language_code
+                      value="{{maritalStatus.id}}" [disabled]="checkAlreadySelected(maritalStatus.id,false)">{{language_code
                       == 'en'? maritalStatus.name_en : maritalStatus.name_es}}</option>
                   </select>
                   </div>
