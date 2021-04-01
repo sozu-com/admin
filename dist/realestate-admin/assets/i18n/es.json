@@ -1027,6 +1027,8 @@
       "noInterstedPropertyFound": "¡Ningún interés agregado por el usuario!",
       "noViewedPropertyFound": "Ninguna departamento o proyecto visto por usted.",
       "noNoteFound": "No hay notas para mostrar.",
+      "pleaseEnterDetail": "Por favor ingrese algún detalle de autónomo pendiente.",
+      "selectCompany":"Seleccione la empresa",
       "noRecordFound": "Ningún registro encontrado",
       "noApprovedCollectionFound": "No se encontró una colección aprobada.",
       "noUnApprovedCollectionFound": "No se encontró una colección no aprobada",
