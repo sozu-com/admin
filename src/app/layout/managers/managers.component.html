@@ -259,9 +259,9 @@
             </div>
             <div class="col-6">
               <div class="btn-cont text-right">
-                <button *ngIf="!model.id" type="submit" [disabled]="addForm.invalid"
+                <button *ngIf="!model.id" type="submit" [disabled]="!model.name || !model.first_surname || !model.email || !model.is_company"
                   class="btn btn-primary">{{'addForm.addBtn' | translate}}</button>
-                <button *ngIf="model.id" type="submit" [disabled]="addForm.invalid"
+                <button *ngIf="model.id" type="submit" 
                   class="btn btn-primary">{{'addForm.updateBtn' | translate}}</button>
               </div>
             </div>

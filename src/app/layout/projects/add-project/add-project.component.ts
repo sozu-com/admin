@@ -66,7 +66,7 @@ export class AddProjectComponent implements OnInit {
   myform2: FormGroup;
 
   public zoom: number;
-
+  selected:any;
   canEditdeveloperInfo: boolean;
   canEditContributionInfo: boolean;
   id: any;
@@ -158,9 +158,9 @@ export class AddProjectComponent implements OnInit {
   users = [];
   seller_type: any;
   user_type: any;
-  parkinLot_sum: any = 0 ;
-  parkingRent_sum: any = 0 ;
-  both_sum: any = 0;
+  parkinLot_sum: any = '';
+  parkingRent_sum: any = '';
+  both_sum: any = '';
   tempSetLegalEntity: any[] = [];
   userForm: FormGroup;
   obtainedMarks: null
@@ -222,6 +222,7 @@ export class AddProjectComponent implements OnInit {
         this.admin.postDataApi('getProjectById', { building_id: this.id }).subscribe(r => {
           this.spinner.hide();
           this.model = JSON.parse(JSON.stringify(r.data));
+         
           this.model.parking_space_lots = r.data.parking_space_lots;
           //sum parking
           let sum: any = 0;
@@ -232,7 +233,8 @@ export class AddProjectComponent implements OnInit {
           this.model.parking_space_rent.forEach(a => sum1 += parseInt(a.no_parking));
            console.log(sum1,"rent");
           this.parkingRent_sum = sum1
-
+          this.both_sum = parseInt(this.parkinLot_sum) + parseInt(this.parkingRent_sum);
+          console.log(this.both_sum,"view 0");
           // console.log(this.parkinLot_sum,"viewtime");
           // let sum2: any = this.model.parking_space_rent.map(a => a.no_parking).reduce(function(a, b)
           // {
@@ -240,8 +242,7 @@ export class AddProjectComponent implements OnInit {
           // });
           // this.parkingRent_sum = sum2
           // console.log(this.parkinLot_sum,"view resnt");
-          this.both_sum = parseInt(this.parkinLot_sum) + parseInt(this.parkingRent_sum);
-          console.log(this.both_sum,"view 0");
+         
           //end parking sum
           this.model.parking_space_rent = r.data.parking_space_rent;
           self.model.building_contributors_param = self.model.building_contributors_param ? self.model.building_contributors_param : [];
@@ -256,6 +257,7 @@ export class AddProjectComponent implements OnInit {
             });
             this.model.building_contributors.push({ user_type: element.user_type, users_id: element.user_type == 1 ? element.users.id : element.legal_entity.id, building_id: r.data.id });
           });
+          this.toggleSelectedDetails.isCreditCardChecked = this.model.parking_space_rent.length > 0 ? true : false;
           this.model.manager = r.data.manager ? r.data.manager : new Manager();
           this.model.company = r.data.company ? r.data.company : new Company();
           this.model.agency = r.data.agency ? r.data.agency : new Agency();
@@ -2370,9 +2372,25 @@ export class AddProjectComponent implements OnInit {
     this.model.parking_space_lots = new Array<Parking>();
     }
    
-    toggleShow(){
-      this.toggleSelectedDetails.isCreditCardChecked = !this.toggleSelectedDetails.isCreditCardChecked;
+    toggleShow(value){
+      this.toggleSelectedDetails.isCreditCardChecked = value.target.checked ? true : false;
+      if(!this.toggleSelectedDetails.isCreditCardChecked){
+        this.model.parking_space_rent = [];
+        this.parkingRent_sum = 0
+        this.both_sum = parseInt(this.parkinLot_sum) - parseInt(this.parkingRent_sum);
+        console.log(this.both_sum,"view rent");
+      }
     }
+
+    valueChange(event) {
+      console.log("selected value",event.target.value);
+      // if (value === 'opt-1') {
+      //   this.paymentForm.get('testInput').disable();
+      // } else {
+      //   this.paymentForm.get('testInput').enable();
+      // }
+    }
+   
   // removeDeveloperBank($event: Event, item: any, i: number) {
   //   $event.stopPropagation();
   //   this.model.parking_space_lots.splice(i, 1);
@@ -2384,5 +2402,5 @@ export class AddProjectComponent implements OnInit {
   //     });
   //   }
   // }
-
+ 
 }
