@@ -1362,16 +1362,17 @@
               <div class="row" *ngFor="let bankAccount of model.parking_space_lots; let s=index">
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
-                    <label>{{'addForm.spaces-available' | translate}}{{s}}</label>
-                    <input class="form-control" type="number" name="no_parking{{s}}"
+                    <label>{{'addForm.spaces-available' | translate}}&nbsp;{{s + 1}}</label>
+                    <input class="form-control" type="number" name="no_parking&nbsp;{{s + 1}}"
                     [(ngModel)]="bankAccount.no_parking"  placeholder="No. of Properties"  autocomplete="off">
                     <!-- <span>Total : {{getTotal(bankAccount.no_parking)}}</span> -->
                   </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
-                    <label>{{'addForm.spaces-type' | translate}}{{s}}</label>
-                    <select title="{{'addForm.spaces-type' | translate}}{{s}}" name="parking_space_id{{s}}" class="form-control"
+                    <label>{{'addForm.spaces-type' | translate}}&nbsp;{{s + 1}}</label>
+                    <select title="{{'addForm.spaces-type' | translate}}&nbsp;{{s + 1}}" name="parking_space_id&nbsp;{{s + 1}}" 
+                    class="form-control"
                     style="border-color: green;" [(ngModel)]="bankAccount.parking_space_id">
                     <option value="0" disabled>{{'addForm.spaces-type' | translate}}</option>
                     <option *ngFor="let maritalStatus of parameter.parkingLotSpaces"
@@ -1403,7 +1404,7 @@
                   <div class="form-group-3">
                     <label>&nbsp;</label>
                     <div class="switchToggle">
-                      <input type="checkbox" id="switch50" (click)="toggleShow()">
+                      <input type="checkbox" id="switch50" (click)="toggleShow($event)" [checked]="model.parking_space_rent && model.parking_space_rent.length">
                       <label for="switch50">Toggle</label>
                     </div>
                   </div>
@@ -1413,19 +1414,19 @@
               <div class="row" *ngFor="let rest of model.parking_space_rent; let i=index">
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
-                    <label>{{'addForm.spaces-available' | translate}}{{i}}</label>
-                    <input class="form-control" type="number" name="no_parking1{{i}}"
+                    <label>{{'addForm.spaces-available' | translate}}&nbsp;{{i + 1}}</label>
+                    <input class="form-control" type="number" name="no_parking1{{i + 1}}"
                     [(ngModel)]="rest.no_parking"  placeholder="No. of Properties"  autocomplete="off">
                   </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
-                    <label>{{'addForm.spaces-type' | translate}}{{i}}</label>
-                    <select title="{{'addForm.spaces-type' | translate}}{{i}}" name="parking_space_id1{{s}}" class="form-control"
-                    style="border-color: green;" [(ngModel)]="rest.parking_space_id">
+                    <label>{{'addForm.spaces-type' | translate}}&nbsp;{{i + 1}}</label>
+                    <select title="{{'addForm.spaces-type' | translate}}{{i + 1}}" name="parking_space_id1{{i + 1}}" class="form-control"
+                    style="border-color: green;" [(ngModel)]="rest.parking_space_id" (change)="valueChange($event)">
                     <option value="0" disabled>{{'addForm.spaces-type' | translate}}</option>
-                    <option *ngFor="let maritalStatus of parameter.parkingLotSpaces"
-                      value="{{maritalStatus.id}}">{{language_code
+                    <option *ngFor="let maritalStatus of parameter.parkingLotSpaces;let index = index"
+                      value="{{maritalStatus.id}}" >{{language_code
                       == 'en'? maritalStatus.name_en : maritalStatus.name_es}}</option>
                   </select>
                   </div>

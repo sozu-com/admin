@@ -113,8 +113,8 @@
   },
   "addForm": {
     "parking-spaces":"No. of total parking spaces",
-    "spaces-available":"No. of parking spaces available",
-    "spaces-type":"parking space type",
+    "spaces-available":"No. of parking spaces available type",
+    "spaces-type":"Parking space type",
     "another":"+ Add another type",
     "saleParking":"No. of parking spaces available for sale",
     "hasAccess": "Has Access",
