@@ -87,7 +87,7 @@
                       title="{{item.status==1 ? ('table.title.block' | translate) : ('table.title.unblock' | translate)}}" [ngClass]="{'unblock-bg':item.status==0}"
                       class="action-icon"><img src="assets/img/block.png" alt="img">
                     </button>
-                    <button [disabled]="admin?.admin_acl['Settings']?.can_delete==0" (click)="openDeleteConfirmationPopup(item, i,true)"
+                    <button [disabled]="admin?.admin_acl['Settings']?.can_purge==0" (click)="openDeleteConfirmationPopup(item, i,true)"
                      title="{{'table.title.delete' | translate}}"
                     class="action-icon"><img src="assets/img/ic_delete.png" alt="img"></button>
                     
@@ -259,7 +259,7 @@
                         title="{{item.status==1 ? ('table.title.block' | translate) : ('table.title.unblock' | translate)}}" [ngClass]="{'unblock-bg':item.status==0}"
                         class="action-icon"><img src="assets/img/block.png" alt="img">
                       </button>
-                      <button [disabled]="admin?.admin_acl['Settings']?.can_delete==0" (click)="openDeleteConfirmationPopup(item, k, false)"
+                      <button [disabled]="admin?.admin_acl['Settings']?.can_purge==0" (click)="openDeleteConfirmationPopup(item, k, false)"
                        title="{{'table.title.delete' | translate}}"
                       class="action-icon"><img src="assets/img/ic_delete.png" alt="img"></button>
                       

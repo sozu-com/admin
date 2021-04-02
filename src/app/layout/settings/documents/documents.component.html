@@ -63,7 +63,7 @@
                         title="{{item.status==1 ? ('table.title.block' | translate) : ('table.title.unblock' | translate)}}" [ngClass]="{'unblock-bg':item.status==0}"
                         class="action-icon"><img src="assets/img/block.png" alt="img">
                       </button>
-                      <button [disabled]="admin?.admin_acl['Settings']?.can_delete==0"
+                      <button [disabled]="admin?.admin_acl['Settings']?.can_purge==0"
                       title="{{'table.title.delete' | translate}}" (click)="deletePopup(item, i)"
                       class="action-icon"><img src="assets/img/ic_delete.png" alt="img"></button>
 
