@@ -342,8 +342,8 @@
                 <th style="width:10%">
                   <div class="table-search">
                     <label>{{'table.th.possesion.park' | translate}}</label>
-                    <a (click)="sortData1(parameter.parking_sort == 2 ? 1 : 2)" href="javascript://"><img
-                      [ngClass]="{'upsidedown':parameter.parking_sort == 2 }" src="assets/img/top-arrow.png"
+                    <a (click)="sortData(parameter.property_sort==2?1:2)" href="javascript://"><img
+                      [ngClass]="{'upsidedown':parameter.property_sort==2}" src="assets/img/top-arrow.png"
                       alt="img"></a>
                   </div>
                 </th>
@@ -436,8 +436,8 @@
                 </td>
                  <!-- (click)="viewContributor(p)" -->
                  <td [ngClass]="{'green-color cursor-pointer': p?.building_contributors?.length > 0 }" >
-                  <span (click)="this.openContributorListModel(p.building_contributors)" *ngIf="p?.building_contributors?.length > 0">
-                    {{p.building_contributors && p.building_contributors.length > 0  ? this.getBuildingContributorsInfo(p.building_contributors) : ('table.tr.td.NA' | translate)}}</span>
+                  <span (click)="this.openContributorListModel(p.building_contributors)" *ngIf="p?.legal_entity_info?.length > 0">
+                    {{p.building_contributors && p.building_contributors.length > 0  ? this.getBuildingContributorsInfo(p.building_contributors) : 'N/A'}}</span>
                     <span *ngIf="p?.building_contributors?.length == 0">{{'table.tr.td.NA' | translate}}</span>
                 </td>
                 <td [ngClass]="{'green-color cursor-pointer': p?.manager?.id || p?.company?.id}"
@@ -456,7 +456,7 @@
                 </td>
                 <td>
                   <a class="add1" href="javascript://" (click)="addNote()">
-                    <span style="color: green;">{{p?.parking_count || '0'}}/{{(p?.parking_for_rent + p?.parking_lots) || '0'}}</span>
+                    <span style="color: green;">165/800</span>
                   </a>
                  
                 </td>

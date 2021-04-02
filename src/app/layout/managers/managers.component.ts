@@ -237,27 +237,18 @@ export class ManagersComponent implements OnInit {
     if (this.model.company.id) {
       input.append('company_id', this.model.company.id.toString());
     }
-    
+
     if (this.model.image) { input.append('image', this.model.image); }
     if (this.model.logo) { input.append('logo', this.model.logo); }
 
     if (this.model.is_company == 'false') {
-       if(!this.model.address || !this.model.lat || !this.model.lng || !this.model.rfc_legal_id){
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterDetail'), 'error');
-        return false;
-       }
       input.append('address', this.model.address);
       input.append('lat', this.model.lat);
       input.append('lng', this.model.lng);
       input.append('rfc_legal_id', this.model.rfc_legal_id);
       input.append('description', this.model.description || '');
     }
-    if (this.model.is_company == 'true') {
-      if(!this.model.company.id){
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.selectCompany'), 'error');
-        return false;
-       }
-    }
+
     this.spinner.show();
     this.admin.postDataApi('addTowerManager', input)
       .subscribe(

@@ -915,7 +915,7 @@ export class AddEditCollectionComponent implements OnInit {
         if (index === 0 && x) {
           control1.push(this.formBuilder.group(x));
         } else {
-         // this.addAgent('');
+          this.addAgent('');
         }
       }
     } else {

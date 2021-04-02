@@ -219,7 +219,6 @@ export interface IProperty {
   is_email?: any;
   parkingLotSpaces?: any;
   parkingLotSpacesTotal?: any;
-  parking_sort?:number;
 }
 export class Docs {
   id: string;
