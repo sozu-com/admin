@@ -1,9 +1,9 @@
 import { TestBed, async } from '@angular/core/testing';
-import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { HttpInterceptor } from './services/http-interceptor';
 import { HttpModule, RequestOptions, XHRBackend, Http } from '@angular/http';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -14,10 +14,7 @@ describe('AppComponent', () => {
       imports: [
         HttpModule,
         RouterTestingModule.withRoutes([]),
-        LoadingModule.forRoot({
-          animationType: ANIMATION_TYPES.rectangleBounce,
-          primaryColour: '#00B96F'
-        })
+        NgxSpinnerModule
       ],
       providers: [
         {provide: Http, useFactory: (backend: XHRBackend, defaultOptions: RequestOptions) => new Http(backend, defaultOptions),

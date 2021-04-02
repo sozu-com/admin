@@ -13,53 +13,19 @@ export class AuthGuard implements CanActivate {
 
   canActivate () {
     this.interceptor.loader.next({value: true});
-    // console.log('auth guard');
     const token =  localStorage.getItem('token');
     if (token) {
-      // return new Promise(resolve => {
-      //   this.admin.login.subscribe(success => {
-      //     this.interceptor.loader.next({value: true});
-      //     console.log('outside', success);
-      //     if (success['name'] === undefined) {
-      //       this.interceptor.loader.next({value: true});
-      //       console.log('inside');
-      //       this.admin.postDataApi('get-details', {})
-      //       .subscribe(
-      //         success1 => {
-      //           this.interceptor.loader.next({value: true});
-      //           console.log('ssss1', success1);
-      //           this.admin.login.next(success1.data);
-      //           this.admin.permissions = success1.data.permissions ? success1.data.permissions : {};
-      //           const aclData: any = {};
-      //           const dd = success1.data.m.map((obj, index) => {
-      //             const key =  Object.keys(obj)[0];
-      //             this.admin.admin_acl[key] =  obj[key];
-      //           });
-      //           this.interceptor.loader.next({value: false});
-      //           console.log('111111');
-      //           resolve();
-      //           return true;
-      //         });
-      //     } else {
-      //       console.log('inside guard');
-      //       resolve();
-      //       return true;
-      //     }
-      //   });
-      // });
 
       this.admin.login.subscribe(success => {
         this.interceptor.loader.next({value: true});
-        // console.log('outside', success);
         if (success['name'] === undefined) {
           this.interceptor.loader.next({value: true});
-          // console.log('inside');
           this.admin.postDataApi('get-details', {})
           .subscribe(
             success1 => {
               this.interceptor.loader.next({value: true});
-              // console.log('ssss1', success1);
               this.admin.login.next(success1.data);
+              this.admin.globalSettings.next(success1.data.global_settings);
               this.admin.permissions = success1.data.permissions ? success1.data.permissions : {};
               const aclData: any = {};
               const dd = success1.data.m.map((obj, index) => {
@@ -67,26 +33,21 @@ export class AuthGuard implements CanActivate {
                 this.admin.admin_acl[key] =  obj[key];
               });
               this.interceptor.loader.next({value: false});
-              // console.log('111111');
             });
         }
       });
 
       // this.admin.country.subscribe(success => {
-      //   console.log('22222');
       //   if (!success[0]) {
       //     this.admin.postDataApi('getCountryLocality', {})
       //     .subscribe(
       //       success1 => {
-      //         console.log('3333');
       //         this.admin.country.next(success1.data);
       //       });
       //   }
       // });
-      // console.log('inside guard');
       return true;
     }
-    // console.log('====');
     this.router.navigate(['']);
     return false;
   }

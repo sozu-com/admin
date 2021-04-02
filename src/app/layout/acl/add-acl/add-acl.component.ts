@@ -1,154 +1,778 @@
-import { Component, OnInit } from '@angular/core';
-import { AdminService } from './../../../services/admin.service';
-import { CommonService } from './../../../services/common.service';
-import { IProperty } from './../../../common/property';
-import { ACL, Permission } from './../../../models/acl.model';
-import { ActivatedRoute } from '@angular/router';
-import { Constant } from './../../../common/constants';
+import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { IProperty } from 'src/app/common/property';
+import { Constant } from 'src/app/common/constants';
+import { CommonService } from 'src/app/services/common.service';
+import { AdminService } from 'src/app/services/admin.service';
+import { ACL, Permission } from 'src/app/models/acl.model';
+import { TranslateService } from '@ngx-translate/core';
+import { Agency } from 'src/app/models/agency.model';
+import { MapsAPILoader } from '@agm/core';
+import { User, Address, UserModel } from 'src/app/models/inhouse-users.model';
+
 declare let swal: any;
+declare const google;
 
 @Component({
   selector: 'app-add-acl',
   templateUrl: './add-acl.component.html',
-  styleUrls: ['./add-acl.component.css'],
-  providers: [ACL]
+  styleUrls: ['./add-acl.component.css']
 })
 export class AddAclComponent implements OnInit {
 
+  @ViewChild('search1') searchElementRef: ElementRef;
+  showOutside: boolean;
   public parameter: IProperty = {};
   initialCountry: any;
   show = false;
   image: any;
-  constructor(public constant: Constant, public model: ACL, private cs: CommonService,
-    private admin: AdminService, private route: ActivatedRoute
-  ) { }
+  model: ACL;
+  allAcl = [];
+  addressIndex = 0;
+  tempAdd: Object;
+  disabledBuildings = [];
+  seenDuplicate = false;
+  testObject = [];
+  agencies: Array<Agency>;
+  predefinedUsers: Array<any>;
+  constructor(public constant: Constant, private cs: CommonService,
+    private admin: AdminService, private route: ActivatedRoute,
+    private spinner: NgxSpinnerService,
+    private mapsAPILoader: MapsAPILoader,
+    private ngZone: NgZone,
+    private router: Router,
+    private translate: TranslateService
+  ) {
+    this.admin.countryData$.subscribe(success => {
+      this.parameter.allCountry = success;
+    });
+    this.admin.loginData$.subscribe(res => {
+      this.parameter.admin_id = res['id'];
+    });
+  }
 
   ngOnInit() {
+    this.model = new ACL();
+    this.model.img_loader = false;
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
+    this.model.agency = new Agency();
+    this.model.is_company = 'true';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
     this.initialCountry = {initialCountry: this.constant.country_code};
-      this.parameter.sub = this.route.params.subscribe(params => {
-        if (params['id'] !== '0') {
-          this.model.id = params['id'];
-          this.getAclUserById(this.model.id);
-        } else {
-          this.model.id = '';
-          this.getAclList();
-        }
-      });
+    this.parameter.routeName = this.router.url;
+    this.tempAdd = this.model.address;
+    this.setCurrentPosition();
+    this.getCountries();
+
+
+    // checking => after that place in add/edit
+    this.model.address = [];
+    this.model.img_loader = false;
+    // this.parameter.countries ? this.parameter.countries[0].id : 0;
+    const obj = {
+      countries: this.parameter.countries && this.parameter.countries[0] ? this.parameter.countries[0].id : 0,
+      states: '0',
+      cities: '0',
+      localities: '0',
+      buildings: '0'
+    };
+    this.model.address[0] = obj;
+
+
+    this.parameter.sub = this.route.params.subscribe(params => {
+      if (params['id'] !== '0') {
+        this.model.id = params['id'];
+        this.getAclUserById(this.model.id);
+      } else {
+        this.model.id = '';
+        this.getAclList();
+      }
+      this.getAllAgencies();
+    });
   }
 
-  getAclUserById(id) {
-    this.parameter.loading = true;
-    this.admin.postDataApi('getAclUserById', {'id': id})
-    .subscribe(
-      success => {
-        this.parameter.loading = false;
-        this.model = success.data;
-        this.image = this.model.image;
-        console.log('==', this.model);
-        this.model.admin_acl = success.data.admin_acl;
-      }, error => {
-        this.parameter.loading = false;
-      });
-  }
+  // getAclUserById(id: string) {
+  //   this.spinner.show();
+  //   this.admin.postDataApi('getAclUserById', {'id': id})
+  //   .subscribe(
+  //     success => {
+  //       this.spinner.hide();
+  //       this.model = success.data;
+  //       this.image = this.model.image;
+  //       this.model.admin_acl = success.data.admin_acl;
+  //     }, error => {
+  //       this.spinner.hide();
+  //     });
+  // }
 
   set() {
     this.show = true;
   }
 
-  // changeListner(event) {
-  //   this.parameter.image = event.target.files[0];
-  //   this.parameter.icon = this.parameter.image;
-  //   const reader = new FileReader();
-  //   reader.onload = (e: any) => {
-  //       // this.url = e.target.result;
-  //   };
-  //   reader.readAsDataURL(event.target.files[0]);
-  // }
-
-  changeListner(event) {
-    // this.model.image = event.target.files[0];
+  changeListner(event: any, paramLoader: string, param: any) {
+    if (event.target.files[0].size > this.constant.fileSizeLimit) {
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
+      return false;
+    }
+    this.model[paramLoader] = true;
     const reader = new FileReader();
     reader.onload = (e: any) => {
-      this.image = e.target.result;
-      this.parameter.loading = true;
+      this.model[param] = e.target.result;
       this.cs.saveImage(event.target.files[0]).subscribe(
         success => {
-          this.parameter.loading = false;
-          this.model.image = success['data'].image;
+          this.model[paramLoader] = false;
+          this.model[param] = success['data'].image;
         }
       );
     };
     reader.readAsDataURL(event.target.files[0]);
-    console.log(this.model);
-  }
-
-  onCountryChange(e) {
-    this.model.country_code = e.iso2;
-    this.model.dial_code = '+' + e.dialCode;
-    this.initialCountry = {initialCountry: e.iso2};
   }
 
   getAclList() {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('getAclList', {})
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.allAcl = success.data;
+          this.spinner.hide();
           success.data.forEach(element => {
             const e = new Permission();
             const acl = {name: element.name};
             e.acl_id = element.id; e.acl = acl; e.show = false;
-            e.can_create = 1; e.can_update = 1; e.can_read = 1; e.can_delete = 1; e.can_crud = 1;
+            e.can_create = 1; e.can_update = 1; e.can_read = 1; e.can_delete = 1; e.can_purge = 1; e.can_crud = 1;
             this.model.admin_acl.push(e);
           });
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 
-  expandBox(index) {
+  expandBox(index: any) {
     this.model.admin_acl[index].show = this.model.admin_acl[index].show === true ? false : true;
   }
 
-  setPermission(param, index) {
+  setPermission(param: any, index: any) {
     if (param === 'can_crud') {
       this.model.admin_acl[index]['can_create'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
       this.model.admin_acl[index]['can_read'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
       this.model.admin_acl[index]['can_update'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
       this.model.admin_acl[index]['can_delete'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
+      this.model.admin_acl[index]['can_purge'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
       this.model.admin_acl[index]['can_crud'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
     } else {
       this.model.admin_acl[index][param] = this.model.admin_acl[index][param] &&
       this.model.admin_acl[index][param] === 1 ? 0 : 1;
       this.model.admin_acl[index]['can_crud'] = this.model.admin_acl[index]['can_create'] === 1 &&
       this.model.admin_acl[index]['can_read'] === 1 && this.model.admin_acl[index]['can_update'] === 1 &&
-      this.model.admin_acl[index]['can_delete'] === 1 ? 1 : 0;
+      this.model.admin_acl[index]['can_delete'] === 1 && this.model.admin_acl[index]['can_purge'] === 1 ? 1 : 0;
     }
   }
 
+  add(formdata: NgForm) {
+    // if (this.model.adr && this.model.adr.trim() && !this.model.lat && !this.model.lng) {
+    //   swal(this.translate.instant('swal.error'), 'Please choose address from dropdown.', 'error');
+    //   return;
+    // }
+    // if (this.model.branch_office && this.model.branch_office.trim() && !this.model.branch_lat && !this.model.branch_lng) {
+    //   swal(this.translate.instant('swal.error'), 'Please choose branch address from dropdown.', 'error');
+    //   return;
+    // }
+    if (this.model.img_loader) {
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.uploadingImage'), 'error');
+      return false;
+    }
+    if (this.model.is_broker && this.model.is_external_agent) {
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectEitherInhouseOrOutsideAgent'), 'error');
+      return false;
+    }
+    this.parameter.url = this.model.id ? 'updateAclUser' : 'addAclUser';
+    this.seenDuplicate = false;
+    const input = new FormData();
+    if (this.model.id !== '') { input.append('id', this.model.id); }
 
-  add(formData: NgForm) {
-    this.parameter.loading = true;
-    this.admin.postDataApi('addAclUser', this.model)
+    input.append('user_type', this.model.user_type);
+    input.append('name', this.model.name);
+    input.append('first_surname', this.model.first_surname ? this.model.first_surname : '');
+    input.append('second_surname', this.model.second_surname ? this.model.second_surname : '');
+    input.append('country_code', this.model.country_code ? this.model.country_code : this.constant.dial_code);
+    input.append('dial_code', this.model.dial_code ? this.model.dial_code : this.constant.dial_code);
+    input.append('phone', this.model.phone);
+    input.append('email', this.model.email);
+    input.append('address', JSON.stringify(this.model.address));
+    input.append('is_broker_seller_dev', this.model.is_broker_seller_dev ? '1' : '0');
+    input.append('is_buyer_renter', this.model.is_buyer_renter ? '1' : '0');
+    input.append('is_broker', this.model.is_broker ? '1' : '0');
+    input.append('is_data_collector', this.model.is_data_collector ? '1' : '0');
+    input.append('is_csr_closer', this.model.is_csr_closer ? '1' : '0');
+    input.append('is_external_agent', this.model.is_external_agent ? '1' : '0');
+    input.append('is_credit_agent', this.model.is_credit_agent ? '1' : '0');
+    input.append('is_collection_agent', this.model.is_collection_agent ? '1' : '0');
+    input.append('is_csr_renter', this.model.is_csr_renter ? '1' : '0');
+    input.append('is_alliance_agent', this.model.is_alliance_agent ? '1' : '0');
+
+    if (this.model.is_external_agent && this.model.is_company == 'false') {
+      input.append('adr', this.model.adr || '');
+      input.append('lat', this.model.lat || null);
+      input.append('lng', this.model.lng || null);
+      input.append('rfc_legal_id', this.model.rfc_legal_id || '');
+      input.append('description', this.model.description || '');
+      input.append('agency_id', '');
+    }
+
+    if (this.model.is_external_agent && this.model.is_company == 'true') {
+      input.append('agency_id', this.model.agency.id);
+    } else {
+      input.append('company_name', '');
+      input.append('company_logo', '');
+      input.append('description', '');
+      input.append('adr', '');
+      input.append('lat', '');
+      input.append('lat', '');
+      input.append('branches', JSON.stringify([]));
+    }
+    if (this.model.image) { input.append('image', this.model.image); }
+
+    input.append('admin_acl', JSON.stringify(this.model.admin_acl));
+    // checking if locality is same or not
+    this.model.address.map((item) => {
+      let value = item['buildings'];
+      value = value.toString();
+      if (value === '0') {
+        this.testObject.push(value);
+      } else {
+        if (this.testObject.indexOf(value) === -1) {
+          this.testObject.push(value);
+        } else {
+          this.seenDuplicate = true;
+        }
+      }
+    });
+    if (this.model.address[0].countries === '' || this.model.address[0].states === '' ||
+      this.model.address[0].cities === '' || this.model.address[0].localities === '' || this.model.address[0].buildings === '') {
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseLocation'), 'error');
+    } else if (this.seenDuplicate) {
+      this.testObject = [];
+      this.seenDuplicate = false;
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseDiffLocality'), 'error');
+    } else if ((formdata.value.is_broker_seller_dev === false && formdata.value.is_buyer_renter === false &&
+      formdata.value.is_broker === false && formdata.value.is_data_collector === false &&
+      formdata.value.is_csr_closer === false && formdata.value.is_external_agent === false) ||
+      (formdata.value.is_broker_seller_dev === null && formdata.value.is_buyer_renter === null &&
+        formdata.value.is_broker === null && formdata.value.is_data_collector === null &&
+        formdata.value.is_csr_closer === null && formdata.value.is_external_agent === null)) {
+      swal(this.translate.instant('swal.error'), 'Please choose a role for inhouse user.', 'error');
+    } else {
+      this.spinner.show();
+      this.admin.postDataApi(this.parameter.url, input)
+        .subscribe(
+          success => {
+            this.spinner.hide();
+            if (success.success === '0') {
+              swal(this.translate.instant('swal.error'), success.message, 'error');
+            } else {
+              const text = this.model.id ? 'Updated successfully.' : 'Added successfully.';
+              swal(this.translate.instant('swal.success'), text, 'success');
+              this.router.navigate(['/dashboard/access-control-mgt']);
+              // if (this.model.id) {
+              //   // edit -- replace
+              //   this.parameter.items[this.parameter.index] = success.data;
+              //   formdata.reset();
+              // } else {
+              //   // add - push
+              //   if ((formdata.value.is_broker_seller_dev === true && this.parameter.userType === 'csr-sellers') ||
+              //     (formdata.value.is_buyer_renter === true && this.parameter.userType === 'csr-buyers') ||
+              //     (formdata.value.is_broker === true && this.parameter.userType === 'inhouse-broker') ||
+              //     (formdata.value.is_external_agent === true && this.parameter.userType === 'outside-broker') ||
+              //     (formdata.value.is_data_collector === true && this.parameter.userType === 'data-collectors') ||
+              //     (formdata.value.is_csr_renter === true && this.parameter.userType === 'csr-renters') ||
+              //     (formdata.value.is_credit_agent === true && this.parameter.userType === 'credit-agents') ||
+              //     (formdata.value.is_collection_agent === true && this.parameter.userType === 'collection-agents') ||
+              //     (formdata.value.is_csr_closer === true && this.parameter.userType === 'csr-closers')) {
+              //     this.parameter.items.push(success.data);
+              //     this.parameter.total++;
+              //   }
+              //   formdata.reset();
+              // }
+              // this.emptyModel();
+            }
+          }, error => {
+            this.spinner.hide();
+          });
+    }
+  }
+
+  getAclUserById(id: string) {
+    this.spinner.show();
+    this.model.img_loader = false;
+    this.admin.postDataApi('getNewUserById', { id: id }).subscribe(r => {
+      this.spinner.hide();
+      const userdata = r['data'];
+      for (let index = 0; index < userdata.admin_acls.length; index++) {
+        const element = userdata.admin_acls[index];
+        element['acl'] = {name: element.name, id: element.acl_id};
+      }
+      this.model.address = [];
+      this.model.id = userdata.id;
+      this.model.name = userdata.name;
+      this.model.first_surname = userdata.first_surname;
+      this.model.second_surname = userdata.second_surname;
+      this.model.email = userdata.email;
+      this.model.phone = userdata.phone;
+      if (userdata.agency_id != null && userdata.agency_id != 0) {
+        this.model.is_company = 'true';
+      } else {
+        this.model.is_company = 'false';
+      }
+      this.model.country_code = userdata.country_code;
+      // if (this.obj) {
+      //   this.obj.intlTelInput('setCountry', this.model.country_code ? this.model.country_code : this.constant.country_code);
+      // }
+      // this.model.company_name = userdata.company_name;
+      this.model.description = userdata.description;
+      // this.model.is_external_agent = userdata.is_external_agent;
+      this.model.agency = userdata.agency ? userdata.agency : new Agency();
+      this.model.adr = userdata.address;
+      this.model.lat = userdata.lat;
+      this.model.lng = userdata.lng;
+      this.model.rfc_legal_id = userdata.rfc_legal_id;
+
+      // branch
+      // if (userdata.branches && userdata.branches.length > 0) {
+      //   this.model.branch_office = userdata.branches[0].address;
+      //   this.model.branch_lat = userdata.branches[0].lat;
+      //   this.model.branch_lng = userdata.branches[0].lng;
+      // }
+
+      this.model.image = userdata.image != null ? userdata.image : '';
+      this.model.is_broker_seller_dev = userdata.permissions && userdata.permissions.can_csr_seller == 1 ? true : false;
+      this.model.is_buyer_renter = userdata.permissions && userdata.permissions.can_csr_buyer == 1 ? true : false;
+      this.model.is_broker = userdata.permissions && userdata.permissions.can_in_house_broker == 1 ? true : false;
+      this.model.is_data_collector = userdata.permissions && userdata.permissions.can_data_collector == 1 ? true : false;
+      this.model.is_csr_closer = userdata.permissions && userdata.permissions.can_csr_closer == 1 ? true : false;
+      this.model.is_external_agent = userdata.permissions && userdata.permissions.can_outside_broker == 1 ? true : false;
+      this.model.is_csr_renter = userdata.permissions && userdata.permissions.can_csr_renter == 1 ? true : false;
+      this.model.is_collection_agent = userdata.permissions && userdata.permissions.can_collection_agent == 1 ? true : false;
+      this.model.is_credit_agent = userdata.permissions && userdata.permissions.can_credit_agent == 1 ? true : false;
+      this.model.is_alliance_agent = userdata.permissions && userdata.permissions.can_alliance_agent == 1 ? true : false;
+
+      for (let ind = 0; ind < userdata.countries.length; ind++) {
+        const tempAdd = {
+          countries: userdata.countries[ind].id.toString(),
+          states: userdata.states !== null && userdata.states[ind] ? userdata.states[ind].id.toString() : '0',
+          cities: userdata.cities !== null && userdata.cities[ind] ? userdata.cities[ind].id.toString() : '0',
+          localities: userdata.localities !== null && userdata.localities[ind] ? userdata.localities[ind].id.toString() : '0',
+          buildings: userdata.buildings !== null && userdata.buildings[ind] ? userdata.buildings[ind].id.toString() : '0'
+        };
+        this.model.address[ind] = tempAdd;
+      }
+
+      if (this.model.address.length < 1) {
+        const obj = {
+          countries: this.parameter.countries && this.parameter.countries[0] ? this.parameter.countries[0].id : 0,
+          states: '0',
+          cities: '0',
+          localities: '0',
+          buildings: '0'
+        };
+        this.model.address[0] = obj;
+      }
+      this.model.admin_acl = userdata.admin_acls;
+      for (let index = 0; index < userdata.admin_acls.length; index++) {
+        const element = userdata.admin_acls[index];
+        element.can_create = element.can_create || 0,
+        element.can_delete = element.can_delete || 0,
+        element.can_update = element.can_update || 0,
+        element.can_read = element.can_read || 0,
+        element.can_crud = element.can_crud || 0,
+        element.can_purge = element.can_purge || 0;
+      }
+      this.setUserType(userdata.user_type);
+    }, erorr => {
+      this.spinner.hide();
+    });
+  }
+
+  emptyModel() {
+    this.model.country_code = this.constant.country_code;
+    this.model.dial_code = this.constant.dial_code;
+    this.model = new UserModel();
+    this.initialCountry = { initialCountry: this.constant.initialCountry };
+    this.disabledBuildings = [];
+  }
+
+
+  // add(formData: NgForm) {
+  //   if (this.model.img_loader) {
+  //     swal(this.translate.instant('swal.error'), this.translate.instant('message.error.uploadingImage'), 'error');
+  //     return;
+  //   }
+  //   console.log(this.model);
+  //   this.spinner.show();
+  //   this.admin.postDataApi('addAclUser', this.model)
+  //     .subscribe(
+  //       success => {
+  //         this.spinner.hide();
+  //         if (success.success === '0') {
+  //           swal(this.translate.instant('swal.error'), success.message, 'error');
+  //         } else {
+  //           const text = this.model.id === '' ?
+  //                   this.translate.instant('message.success.addedSuccessfully') :
+  //                   this.translate.instant('message.success.updatedSuccessfully');
+  //           swal(this.translate.instant('swal.success'), text, 'success');
+  //           if (this.model.id === '') {
+  //             // this.model.image = '';
+  //             // formData.reset();
+  //             // this.getAclList();
+  //             this.router.navigate(['/dashboard/access-control-mgt']);
+  //           } else {
+  //             if (this.parameter.admin_id === this.model.id) {
+  //               this.admin.login.next(success.data);
+  //               this.admin.permissions = success.data.permissions ? success.data.permissions : {};
+  //               const dd = success.data.m.map((obj, index) => {
+  //                 const key =  Object.keys(obj)[0];
+  //                 this.admin.admin_acl[key] =  obj[key];
+  //               });
+  //             }
+  //           }
+  //         }
+  //       }, error => {
+  //         this.spinner.hide();
+  //       });
+  // }
+
+  removeAddressObj(index) {
+    this.model.address.splice(index, 1);
+    this.disabledBuildings.splice(index, 1);
+  }
+
+  addEmptyObj() {
+    this.addressIndex = this.model.address.length;
+    this.addressIndex--;
+    if (this.model.address[this.addressIndex].countries !== '' && this.model.address[this.addressIndex].states !== '' &&
+      this.model.address[this.addressIndex].cities !== '' && this.model.address[this.addressIndex].localities !== '' &&
+      this.model.address[this.addressIndex].buildings !== '') {
+      const obj = {
+        countries: '',
+        states: '',
+        cities: '',
+        localities: '',
+        buildings: ''
+      };
+      this.addressIndex++;
+      this.model.address.push(obj);
+    } else {
+      swal('Missing fields', 'Complete current row before adding new.', 'error');
+    }
+  }
+
+  disabledBuildingId(i) {
+    this.disabledBuildings[i] = this.model.address[i].localities;
+  }
+
+  onCountryChange(e) {
+    this.model.country_code = e.iso2;
+    this.model.dial_code = '+' + e.dialCode;
+    this.initialCountry = { initialCountry: e.iso2 };
+  }
+
+  getCountries() {
+    this.parameter.countries = [];
+    this.parameter.country_id = '-1';
+    this.parameter.states = []; this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
+    this.parameter.state_id = '-1'; this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
+
+    this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
+      this.parameter.countries = r['data'];
+    });
+  }
+
+  getStates(country_id) {
+    this.parameter.country_id = country_id;
+    this.parameter.states = []; this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
+    this.parameter.state_id = '-1'; this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
+
+    if (!country_id || country_id === '-1') {
+      return false;
+    }
+    const selectedCountry = this.parameter.countries.filter(x => x.id.toString() === country_id);
+    this.parameter.states = selectedCountry[0].states;
+
+  }
+
+  getCities(state_id) {
+    this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
+    this.parameter.city_id = '-1'; this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
+
+    if (!state_id || state_id === '-1') {
+      return false;
+    }
+    this.parameter.state_id = state_id;
+    const selectedState = this.parameter.states.filter(x => x.id.toString() === state_id);
+    this.parameter.cities = selectedState[0].cities;
+  }
+
+  getLocalities(city_id) {
+    this.parameter.localities = []; this.parameter.buildings = [];
+    this.parameter.locality_id = '-1'; this.parameter.building_id = '-1';
+
+    if (!city_id || city_id === '-1') {
+      return false;
+    }
+    this.parameter.city_id = city_id;
+    const selectedCountry = this.parameter.cities.filter(x => x.id.toString() === city_id);
+    this.parameter.localities = selectedCountry[0].localities;
+  }
+
+
+  getLocalityBuildings(locality_id) {
+    this.parameter.url = 'getLocalityBuildings';
+    this.parameter.locality_id = locality_id;
+
+    this.parameter.buildings = [];
+    this.parameter.building_id = '-1';
+
+    const input = new FormData();
+    input.append('locality_id', locality_id);
+
+    this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
-          if (success.success === '0') {
-            swal('Error', success.message, 'error');
-          }else {
-            const text = this.model.id === '' ? 'Added successfully.' : 'Updated successfully.';
-            swal('Success', text, 'success');
-            if (this.model.id === '') {
-              formData.reset();
-            }
-          }
-        }, error => {
-          this.parameter.loading = false;
+          this.parameter.buildings = success.data;
         });
+  }
+
+  setBuilding(building_id: string) {
+    this.parameter.building_id = building_id;
+  }
+
+  getAllAgencies() {
+    this.admin.postDataApi('getAllAgencies', {})
+      .subscribe(
+        success => {
+          this.agencies = success.data;
+        });
+  }
+
+
+  addRow() {
+    const obj = {
+      countries: '',
+      states: '',
+      cities: '',
+      localities: '',
+      buildings: ''
+    };
+
+    this.model.address.push(obj);
+  }
+
+  getCountryLocality() {
+    this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
+      this.parameter.countries = r['data'];
+    });
+  }
+
+
+  onCountryChange1(id) {
+    this.parameter.cities = []; this.parameter.city_id = '0';
+    this.parameter.localities = []; this.parameter.locality_id = '0';
+    if (!id || id === 0) {
+      this.parameter.state_id = '0';
+      return false;
+    }
+
+    this.parameter.country_id = id;
+    const selectedCountry = this.parameter.countries.filter(x => x.id === id);
+    this.parameter.states = selectedCountry[0].states;
+  }
+
+  onStateChange(id) {
+    this.parameter.localities = []; this.parameter.locality_id = '0';
+    if (!id || id === 0) {
+      this.parameter.city_id = '0';
+      return false;
+    }
+
+    this.parameter.state_id = id;
+    const selectedState = this.parameter.states.filter(x => x.id === id);
+    this.parameter.cities = selectedState[0].cities;
+  }
+
+  onCityChange(id) {
+    if (!id || id === 0) {
+      this.parameter.locality_id = '0';
+      return false;
+    }
+
+    this.parameter.city_id = id;
+    const selectedCountry = this.parameter.cities.filter(x => x.id === id);
+    this.parameter.localities = selectedCountry[0].localities;
+  }
+
+  onLocalityChange(id) {
+    if (!id || id === 0) {
+      return false;
+    }
+
+    this.parameter.locality_id = id;
+    // let selectedLocation = this.location.localities.filter(x=>x.id == id);
+    // this.location.locality = selectedLocation[0];
+  }
+
+
+  loadPlaces(paramAdd: string, paramLat: string, paramLng: string, searchRef: any) {
+    // load Places Autocomplete
+    this.model[paramLat] = null;
+    this.model[paramLng] = null;
+    this.mapsAPILoader.load().then(() => {
+      const autocomplete = new google.maps.places.Autocomplete(this[searchRef].nativeElement, {
+        types: []
+      });
+      autocomplete.addListener('place_changed', () => {
+        this.ngZone.run(() => {
+          // get the place result
+          // const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+          const place = autocomplete.getPlace();
+
+          // verify result
+          if (place.geometry === undefined || place.geometry === null) {
+            return;
+          }
+
+          // set latitude, longitude and zoom
+          this.model[paramLat] = place.geometry.location.lat();
+          this.model[paramLng] = place.geometry.location.lng();
+          if (place.formatted_address) {
+            this.model[paramAdd] = place.formatted_address;
+          }
+        });
+      });
+    });
+  }
+
+
+  setCurrentPosition() {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        // setting address lat lng
+        // this.model.lat = position.coords.latitude;
+        // this.model.lng = position.coords.longitude;
+
+        // setting branch office lat lng
+        // this.model.branch_lat = position.coords.latitude;
+        // this.model.branch_lng = position.coords.longitude;
+      });
+    }
+  }
+
+  placeMarker($event: any, paramLat: string, paramLng: string, param: string) {
+    this.model[paramLat] = $event.coords.lat;
+    this.model[paramLng] = $event.coords.lng;
+    this.getGeoLocation(this.model[paramLat], this.model[paramLng], param);
+  }
+
+
+  getGeoLocation(lat: number, lng: number, param: string) {
+    if (navigator.geolocation) {
+      const geocoder = new google.maps.Geocoder();
+      const latlng = new google.maps.LatLng(lat, lng);
+      const request = { latLng: latlng };
+
+      geocoder.geocode(request, (results, status) => {
+        if (status === google.maps.GeocoderStatus.OK) {
+          const result = results[0];
+          if (result != null) {
+            this.model[param] = result.formatted_address;
+          } else {
+            this.model[param] = lat + ',' + lng;
+          }
+        }
+      });
+    }
+  }
+
+  setUserType(user_type: number) {
+    this.model.user_type = user_type;
+    if (user_type == 2) {
+      this.predefinedUsers = [
+        {
+          title: this.translate.instant('addForm.CSRBuyer'),
+          key: 'is_buyer_renter',
+          value: this.model.is_buyer_renter
+        }, {
+          title: this.translate.instant('addForm.CSRRenter'),
+          key: 'is_csr_renter',
+          value: this.model.is_csr_renter
+        }, {
+          title: this.translate.instant('addForm.inhouseAgent'),
+          key: 'is_broker',
+          value: this.model.is_broker
+        },
+        {
+          title: this.translate.instant('addForm.outSideAgent'),
+          key: 'is_external_agent',
+          value: this.model.is_external_agent
+        }, {
+          title: this.translate.instant('addForm.CSRSeller'),
+          key: 'is_broker_seller_dev',
+          value: this.model.is_broker_seller_dev
+        }, {
+          title: this.translate.instant('addForm.dataCollector'),
+          key: 'is_data_collector',
+          value: this.model.is_data_collector
+        }, {
+          title: this.translate.instant('addForm.CSRClosure'),
+          key: 'is_csr_closer',
+          value: this.model.is_csr_closer
+        }, {
+          title: this.translate.instant('addForm.collectionAgent'),
+          key: 'is_collection_agent',
+          value: this.model.is_collection_agent
+        }, {
+          title: this.translate.instant('addForm.creditAgent'),
+          key: 'is_credit_agent',
+          value: this.model.is_credit_agent
+        },{
+          title: this.translate.instant('addForm.allianceAgent'),
+          key: 'is_alliance_agent',
+          value: this.model.is_alliance_agent
+        },
+        // {
+        //   title: this.translate.instant('addForm.developerName'),
+        //   key: 'is_developer',
+        //   value: this.model.is_developer || false
+        // }
+      ];
+    } else {  
+      this.predefinedUsers = [
+        {
+          title: this.translate.instant('addForm.acl'),
+          key: 'is_acl',
+          value: this.model.is_acl
+        }
+      ];
+    }
+  }
+
+  setPredefinedUsers(item, value, i: number) {
+    //console.log(item.key, this.model[item.key]);
+    //console.log(item, value);
+    this.model[item.key] = value;
+    this.predefinedUsers[i].value = value;
+   // console.log(item, value);
+   // console.log(item.key, this.model[item.key]);
+  }
+  
+  setIsCompany(is_company: string) {
+    this.model.is_company = is_company;
+  }
+
+  setAgency(id: string) {
+    this.model.agency = new Agency();
+    this.model.agency.id = id;
   }
 }

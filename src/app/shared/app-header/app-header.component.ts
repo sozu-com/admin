@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AdminService } from './../../services/admin.service';
 import { Router } from '@angular/router';
 import { Constant } from '../../common/constants';
 import { IProperty } from '../../common/property';
-import { MessagingService } from '../../fire-base/messaging.service';
+import { MessagingService } from 'src/app/fire-base/messaging.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
+// import { MessagingService } from '../../fire-base/messaging.service';
 
 declare let swal: any;
 
@@ -15,31 +18,49 @@ declare let swal: any;
 
 export class AppHeaderComponent {
 
+  message: any;
   public parameter: IProperty = {};
-  fullName: any;
-  image: any;
+  fullName: string;
+  image: string;
   admin_acl: any;
   msg_count = 0;
   public scrollbarOptions = { axis: 'yx', theme: 'minimal-dark' };
 
-  constructor(public admin: AdminService, private router: Router, private constant: Constant,
-    private msg: MessagingService
+  constructor(public admin: AdminService,
+    private router: Router,
+    public constant: Constant,
+    private messagingService: MessagingService,
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
     ) {
+
     this.admin.loginData$.subscribe(success => {
-      // console.log('success1', success);
       this.fullName = success['name'];
       this.image = success['image'];
+
+      this.messagingService.requestPermission(success['id']);
+      this.messagingService.receiveMessage();
+      this.message = this.messagingService.currentMessage;
+      // if (this.messagingService.fcmTokens) {
+      //   this.updateDeviceToken();
+      // }
     });
 
-    this.msg.currentMessage$.subscribe(r => {
-      console.log('push', r);
-      if ( r != null && r.data.notification_type !== 100) {
-        /* count if not a push of chat messages */
-        this.msg_count++;
-      }
-    });
-console.log('msg_count', this.msg_count);
+    // this.msg.currentMessage$.subscribe(r => {
+    //   if ( r != null && r.data.notification_type !== 100) {
+    //     /* count if not a push of chat messages */
+    //     this.msg_count++;
+    //   }
+    // });
     this.getNotifications();
+  }
+
+  updateDeviceToken() {
+    this.admin.postDataApi('updateDeviceToken', {device_id: this.admin.deviceId, device_token: this.messagingService.fcmTokens})
+      .subscribe(
+        success1 => {
+          // console.log('suc', success1);
+        });
   }
 
   setData() {
@@ -57,13 +78,13 @@ console.log('msg_count', this.msg_count);
 
   onLoggedout() {
     swal({
-      title: 'Are you sure?',
-      text: 'You want to logout?',
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+      this.translate.instant('message.error.wantToLogout'),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
       cancelButtonColor: this.constant.cancelButtonColor,
-      confirmButtonText: 'Logout!'
+      confirmButtonText: this.translate.instant('message.error.logoutBtn')
     }).then((result) => {
       if (result.value) {
         this.logout();
@@ -73,11 +94,11 @@ console.log('msg_count', this.msg_count);
 
 
   logout() {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('logout', {}).subscribe(r => {
-      this.parameter.loading = false;
+      this.spinner.hide();
       if (r) {
-        swal('Success', 'Logout successfully.', 'success');
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.logoutSuccessfully'), 'success');
         localStorage.removeItem('token');
         localStorage.removeItem('isLoggedin');
         localStorage.removeItem('permissions');
@@ -88,7 +109,7 @@ console.log('msg_count', this.msg_count);
         this.router.navigate(['']);
       }
     }, error => {
-      this.parameter.loading = false;
+      this.spinner.hide();
     });
   }
 

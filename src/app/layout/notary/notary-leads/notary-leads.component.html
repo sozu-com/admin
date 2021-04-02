@@ -1,9 +1,9 @@
-<ngx-loading [show]="parameter.loading"></ngx-loading>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                <p class="p16">Manage Notary's Leads</p>
+                <p class="p16">{{'viewNotaryLeads.label' | translate}}</p>
             </div>
         </div>
     </div>
@@ -12,7 +12,7 @@
             <div class="form-group" *ngIf="admin?.admin_acl['Notary Lead Management']?.can_read==1 && !this.parameter.assignee_id">
                 <div class="d-flex">
                 <div class="autocomplete">
-                    <input placeholder="Search Notary" style="max-width:200px" list="amenities" [(ngModel)]="parameter.keyword" (input)="getCsrListing()" class="form-control" type="text" name="keyword" (focusout)="closeCsrListing()">
+                    <input placeholder="{{'viewNotaryLeads.searchNotary' | translate}}" style="max-width:200px" list="amenities" [(ngModel)]="parameter.keyword" (input)="getCsrListing()" class="form-control" type="text" name="keyword" (focusout)="closeCsrListing()">
                     <div id="myInputautocomplete-list" class="autocomplete-items">
                         <div *ngFor="let item of users" (click)="selectCsrUser(item)">{{item.email}}</div>
                     </div>
@@ -24,19 +24,19 @@
             <div class="cust-tabs-2">
                 <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==1}" (click)="changeFlag(1)" >This Week</a>
+                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==1}" (click)="changeFlag(1)" >{{'filters.time.thisWeek' | translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==2}" (click)="changeFlag(2)" >This Month</a>
+                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==2}" (click)="changeFlag(2)" >{{'filters.time.thisMonth' | translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==3}" (click)="changeFlag(3)" >Last Month</a>
+                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==3}" (click)="changeFlag(3)" >{{'filters.time.lastMonth' | translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==4}" (click)="changeFlag(4)" >Lifetime</a>
+                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==4}" (click)="changeFlag(4)" >{{'filters.time.lifetime' | translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==5}" (click)="parameter.flag=5" >Custom</a>
+                    <a class="nav-link" href="javascript://" [ngClass]="{'active':parameter.flag==5}" (click)="parameter.flag=5" >{{'filters.time.custom.label' | translate}}</a>
                 </li>
                 </ul>
             </div>
@@ -49,21 +49,21 @@
                 <div class="offset-lg-7"></div>
                 <div class="col-lg-2 col-md-2 col-sm-5 col-5">
                 <div class="form-group marginB0">
-                    <label>From:</label>
-                    <p-calendar showIcon="true" [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+                    <label>{{'filters.time.custom.from' | translate}}</label>
+                    <p-calendar showIcon="true" [locale]="locale" [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
                 </div>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-5 col-5">
                 <div class="form-group marginB0">
-                    <label>To:</label>
-                    <p-calendar showIcon="true" [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+                    <label>{{'filters.time.custom.to' | translate}}</label>
+                    <p-calendar showIcon="true" [locale]="locale" [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
                 </div>
                 </div>
                 <div class="col-lg-1 col-md-2 col-sm-2 col-6">
                 <div class="form-group btn-cont">
                     <label class="addMT3">&nbsp;</label>
                     <button class="btn btn-calender" href="javascript://" (click)="getListing(); getCSRDashBoardData();"
-                        [disabled]="!parameter.min || !parameter.max">Apply</button>
+                        [disabled]="!parameter.min || !parameter.max">{{'filters.time.custom.applyBtn' | translate}}</button>
                 </div>
                 </div>
             </div>
@@ -74,14 +74,17 @@
       <div *ngIf="selectedUser as item" class="sigle-row-table">
             <table class="table table-striped">
             <tbody><tr>
-                <td><img class="rounded-circle" [src]="item.image| img:'small'" onerror='this.src="assets/img/default_img.png"' alt="img"></td>
+                <td>
+                    <img *ngIf="item.image" [defaultImage]="item.image| img:'thumb'" [lazyLoad]="item.image" class="rounded-circle" alt="img">
+                    <img *ngIf="!item.image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
+                </td>
                 <td class="text-left">
                     <span class="name">{{item.name}}</span>
                 </td>
-                <td class="text-left">{{item.phone}}</td>
+                <td class="text-left">{{item?.dial_code ? item?.dial_code : constant.dial_code}}-{{item.phone}}</td>
                 <td class="text-left">{{item.email}}</td>
                 <td>
-                    <a (click)="removeCsrUser()" href="javascript://" class="icon-block edit-icon"><img src="assets/img/remove-icon.png" alt="remove" title="remove" /></a>
+                    <a (click)="removeCsrUser()" href="javascript://" class="icon-block edit-icon"><img src="assets/img/remove-icon.png" alt="remove" title="{{'table.title.remove' | translate}}" /></a>
                 </td>
                 </tr>
             </tbody>
@@ -94,11 +97,11 @@
             <div class="info-box all-leads marginT0">
                 <div class="one-row" [ngClass]="{'active':parameter.count_flag == '1'}" (click)="changeCountFlag(1)">
                     <div class="o-block">
-                        <h5>All Leads</h5>
-                        <small>Total</small>
+                        <h5>{{'table.dashboard.allLeads' | translate}}</h5>
+                        <small>{{'table.dashboard.total' | translate}}</small>
                     </div>
                     <div class="o-block">
-                        <a class="view-all" href="javascript://">View All</a>
+                        <a class="view-all" href="javascript://">{{'table.dashboard.viewAll' | translate}}</a>
                         <h4>{{dash.all_count}}</h4>
                     </div>
                 </div>
@@ -110,11 +113,11 @@
                         <div class="col-md-6 col-sm-6 col-12" [ngClass]="{'active':parameter.count_flag == '2'}" (click)="changeCountFlag(2)" >
                 <div class="one-row ">
                     <div class="o-block">
-                        <h5>Leads</h5>
-                        <small>Open</small>
+                        <h5>{{'table.dashboard.leads' | translate}}</h5>
+                        <small>{{'table.dashboard.open' | translate}}</small>
                     </div>
                     <div class="o-block">
-                        <a class="view-all" href="javascript://">View All</a>
+                        <a class="view-all" href="javascript://">{{'table.dashboard.viewAll' | translate}}</a>
                         <h4>{{dash.open_count}}</h4>
                     </div>
                 </div>
@@ -123,11 +126,11 @@
                     <div class="col-md-6 col-sm-6 col-12" [ngClass]="{'active':parameter.count_flag == '3'}" (click)="changeCountFlag(3)">
                 <div class="one-row">
                     <div class="o-block">
-                        <h5>Leads</h5>
-                        <small>Closed</small>
+                        <h5>{{'table.dashboard.leads' | translate}}</h5>
+                        <small>{{'table.dashboard.closed' | translate}}</small>
                     </div>
                     <div class="o-block">
-                        <a class="view-all" href="javascript://">View All</a>
+                        <a class="view-all" href="javascript://">{{'table.dashboard.viewAll' | translate}}</a>
                         <h4>{{dash.close_count}}</h4>
                     </div>
                 </div>
@@ -137,7 +140,7 @@
             </div>
             <div class="col-lg-4 col-md-12 col-sm-12 col-12">
                 <div class="chat-msg all-leads marginT0" style="padding:0px">
-                    <div class="padding20" *ngIf="dash.lead_total == 0">No records found</div>
+                    <div class="padding20" *ngIf="dash.lead_total == 0">{{'message.error.noRecordFound' | translate}}</div>
                     <ngx-charts-pie-chart [results]="chartView"></ngx-charts-pie-chart>
                 </div>
             </div>
@@ -147,10 +150,10 @@
       <div class="row">
          <div class="col-6">
             <div class="title-group">
-               <h5>Leads 
-                <span *ngIf="parameter.count_flag == 1">(Total)</span>
-                <span *ngIf="parameter.count_flag == 2">(Open)</span>
-                <span *ngIf="parameter.count_flag == 3">(Closed)</span>
+               <h5>{{'table.dashboard.leads' | translate}} 
+                <span *ngIf="parameter.count_flag == 1">({{'table.dashboard.total' | translate}})</span>
+                <span *ngIf="parameter.count_flag == 2">({{'table.dashboard.open' | translate}})</span>
+                <span *ngIf="parameter.count_flag == 3">({{'table.dashboard.closed' | translate}})</span>
                </h5>
                <p>
                    <!-- Showing {{parameter.page}} out of {{parameter.total_count}} -->
@@ -159,7 +162,7 @@
          </div>
          <div class="col-6" *ngIf="admin?.admin_acl['Notary Lead Management']?.can_read==1 && !this.parameter.assignee_id">
             <div class="add-new text-right">
-                <a class="btn" (click)="bulkAssign()" href="javascript://">Bulk Re-assign</a>
+                <a class="btn" (click)="bulkAssign()" href="javascript://">{{'table.bulkReAssign' | translate}}</a>
             </div>
         </div>
       </div>
@@ -170,44 +173,44 @@
                             <tbody><tr>
                             <th *ngIf="admin?.admin_acl['Notary Lead Management']?.can_read==1 && !this.parameter.assignee_id" style="width:6%">
                                 <div class="table-search">
-                                <a (click)="selectAll()"><label>All</label></a>
+                                <a (click)="selectAll()"><label>{{'table.th.all' | translate}}</label></a>
                                 </div>
                             </th>
                             <th style="width:6%; border-top:0">
                                 <div class="table-search">
-                                    <label>Image</label>
+                                    <label>{{'table.th.image' | translate}}</label>
                                 </div>
                             </th>
                                 <th style="width:15%; border-top:0">
                                     <div class="table-search">
-                                    <label>Name</label>
+                                    <label>{{'table.th.name' | translate}}</label>
                                     <div class="searh-3">
-                                        <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="changeFilter('name',$event.target.value)" name="">
+                                        <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="changeFilter('name',$event.target.value)" name="" autocomplete="address-level4" >
                                         <button *ngIf="parameter.name" (click)="changeFilter('name', parameter.name)"><i class="fa fa-search"></i></button>
                                     </div>
                                     </div>
                                 </th>
                                 <th style="width:20%; text-align:left; border-top:0">
                                     <div class="table-search">
-                                    <label>Contact Number</label>
+                                    <label>{{'table.th.contactNumber' | translate}}</label>
                                     <div class="searh-3">
-                                        <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="changeFilter('phone',$event.target.value)" name="">
+                                        <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="changeFilter('phone',$event.target.value)" name="" autocomplete="address-level4" >
                                         <button *ngIf="parameter.phone" (click)="changeFilter('phone', parameter.phone)"><i class="fa fa-search"></i></button>
                                     </div>
                                     </div>
                                 </th>
                                 <th style="width:20%; border-top:0">
                                     <div class="table-search">
-                                    <label>Email Address</label>
+                                    <label>{{'table.th.emailAddress' | translate}}</label>
                                     <div class="searh-3">
-                                        <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="changeFilter('email',$event.target.value)" name="">
+                                        <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="changeFilter('email',$event.target.value)" name="" autocomplete="address-level4" >
                                         <button *ngIf="parameter.email" (click)="changeFilter('email', parameter.email)"><i class="fa fa-search"></i></button>
                                     </div>
                                     </div>
                                 </th>
                                 <th style="width:20%; border-top:0">
                                     <div class="table-search">
-                                    <label>Assignee</label>
+                                        <label>{{'table.th.assignee' | translate}}</label>
                                     </div>
                                 </th>
                                 <th style="width:18%; border-top:0">
@@ -217,7 +220,7 @@
                                     &nbsp;
                                 </th> -->
                             </tr>
-                            <tr class="cursor-pointer" title="Click to view details" *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index"
+                            <tr class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}" *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index"
                             >
                                 <td *ngIf="admin?.admin_acl['Notary Lead Management']?.can_read==1 && !this.parameter.assignee_id" (click)="$event.stopPropagation()">
                                     <label class="cust-check-bx" >
@@ -238,12 +241,12 @@
                                 <td class="text-left" routerLink="/dashboard/notary/notary-leads/{{item.id}}">
                                     {{item.email}}
                                 </td>
-                                <td class="text-left" title="Notary" routerLink="/dashboard/notary/notary-leads/{{item.id}}">
+                                <td class="text-left" title="{{'table.title.notary' | translate}}" routerLink="/dashboard/notary/notary-leads/{{item.id}}">
                                     {{item?.selected_properties[0]?.selected_noatary[0]?.noatary?.name}}
                                 </td>
                                 <td (click)="openModal($event, item, i)">
                                 <a style="display:none;" #modalOpen class="green-color fontW500" data-toggle="modal" data-target="#set-availability" href="javascript://">Change Availability</a>
-                                <a class="green-color fontW500" href="javascript://">Change Availability</a>
+                                <a class="green-color fontW500" href="javascript://">{{'viewNotaryLeads.changeAvailability' | translate}}</a>
                                 </td>
                                 <!-- <td>
                                     <a href="javascript://" routerLink="/dashboard/notary/notary-leads/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/viewfull.png" alt="img"></a> 
@@ -262,7 +265,7 @@
         <div class="row">
             <div class="col-6">
                 <div class="title-group">
-                    <p>Showing {{items?.length}} out of {{parameter.total}}</p>
+                    <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}} {{parameter.total}}</p>
                 </div>
             </div>
             <div class="col-6 text-right">
@@ -278,7 +281,7 @@
     <div class="modal-dialog fadeIndown">
         <div class="modal-content">
             <div class="modal-header modal-header-new">
-                <h4 class="modal-title">View Availability</h4>
+                <h4 class="modal-title">{{'viewNotaryLeads.viewAvailability' | translate}}</h4>
                 <button type="button" style="display: none;" class="close" data-dismiss="modal" #modalClose>&times;</button>
                 <button type="button" class="close" (click)="closeModal()">&times;</button>
             </div>
@@ -287,8 +290,8 @@
             <div class="modal-body modal-body-new">
                 <div class="row">
                     <div class="col-8">
-                        <label>Choose Date & Time</label>
-                        <p-calendar title="Click to add" name="app" [(ngModel)]="date" [minDate]="today" showButtonBar="true" showTime="true" hourFormat="12" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+                        <label>{{'viewNotaryLeads.chooseDateTime' | translate}}</label>
+                        <p-calendar [locale]="locale" title="{{'table.title.clickToAdd' | translate}}" name="app" [(ngModel)]="date" [minDate]="today" showButtonBar="true" showTime="true" hourFormat="12" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
                     </div>
                     <!-- <div class="col-5">
                         <div class="form-group-2">
@@ -309,7 +312,7 @@
                     <div class="col-2">
                         <div class="form-group-2">
                             <label style="display: block; margin-top: 3px;">&nbsp;</label>
-                            <a class="green-color fontW500" href="javascript://" (click)="addDateTime()">Add</a>
+                            <a class="green-color fontW500" href="javascript://" (click)="addDateTime()">{{'viewNotaryLeads.add' | translate}}</a>
                             <!-- <button type="button" class="btn btn-primary green-bg" (click)="addDateTime()">+</button> -->
                         </div>
                     </div>
@@ -320,7 +323,7 @@
                     </div>
                     <div class="col-2">
                         <a class="green-color fontW500" (click)="removeNoataryAvailability(d.id, j)" href="javascript://">
-                            Remove
+                            {{'viewNotaryLeads.remove' | translate}}
                         </a>
                         <!-- <button type="button" class="btn btn-primary" (click)="removeNoataryAvailability(d.id, j)">
                             Remove
@@ -333,7 +336,7 @@
                     </div>
                     <div class="col-2">
                         <a class="green-color fontW500" (click)="removeNoatary(i)" href="javascript://">
-                            Remove
+                            {{'viewNotaryLeads.remove' | translate}}
                         </a>
                         <!-- <button type="button" class="btn btn-primary" (click)="removeNoatary(i)">*</button> -->
                     </div>
@@ -341,7 +344,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="btn-cont text-right">
-                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="submit" class="btn btn-primary">{{'viewNotaryLeads.save' | translate}}</button>
                         </div>
                     </div>
                 </div>
@@ -359,38 +362,40 @@
         <div class="modal-dialog ">
             <div class="modal-content notary-avail">
                 <div class="modal-header popup-header">
-                <h4 class="modal-title">Re Assign to</h4>
+                <h4 class="modal-title">{{'viewNotaryLeads.reAssisgnTo' | translate}}</h4>
                 <button type="button" class="close" data-dismiss="modal" #closeAssignModel>&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-8">
-                            <input style="max-width:200px" list="amenities" [(ngModel)]="assign.keyword" (input)="getAssignListing()" class="form-control" type="text" name="keyword" placeholder="Search">
+                            <input style="max-width:200px" list="amenities" [(ngModel)]="assign.keyword" (keyup.enter)="getAssignListing()" class="form-control" type="text" name="keyword" placeholder="{{'viewNotaryLeads.searchNotary' | translate}}">
                         </div>
                         <div class="col-md-4 btn-cont">
-                            <a class="btn btn-primary pull-right" href="javascript://" (click)="assignNow()">Assign</a>
+                            <a class="btn btn-primary pull-right" href="javascript://" (click)="assignNow()">{{'viewNotaryLeads.assign' | translate}}</a>
                         </div>
                     </div>
                     <div class="spacer40"></div>
-                    <table class="table">
-                        <tr *ngFor="let item of assign.items">
-                            <td *ngIf="item.is_blocked!=1">
-                                <div class="n-avail-profile">
-                                <img [src]="item.image" onerror='src="assets/img/default_img.png"' alt="img">
-                                <div class="n-avail-info">
-                                    <p class="p12">{{item.name}}</p>
-                                    <p class="p10">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
-                                </div>
-                                </div>
-                            </td>
-                            <td *ngIf="item.is_blocked!=1">
-                                <label class="cust-check-bx float-right">
-                                    <input type="radio" name="notary_id" (click)="assignItem = item">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </td>
-                        </tr>
-                    </table>
+                    <div class="modal-data">
+                        <table class="table">
+                            <tr *ngFor="let item of assign.items">
+                                <td *ngIf="item.is_blocked!=1">
+                                    <div class="n-avail-profile">
+                                    <img [src]="item.image" onerror='src="assets/img/default_img.png"' alt="img">
+                                    <div class="n-avail-info">
+                                        <p class="p12">{{item.name}}</p>
+                                        <p class="p10">{{'viewNotaryLeads.phone' | translate}} : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
+                                    </div>
+                                    </div>
+                                </td>
+                                <td *ngIf="item.is_blocked!=1">
+                                    <label class="cust-check-bx float-right">
+                                        <input type="radio" name="notary_id" (click)="assignItem = item">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

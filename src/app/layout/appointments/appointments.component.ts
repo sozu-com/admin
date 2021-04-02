@@ -1,7 +1,8 @@
-import { Component, OnInit , ViewChild, ElementRef} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
 import { IProperty } from '../../common/property';
 import { Constant } from '../../common/constants';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-appointments',
@@ -13,20 +14,20 @@ export class AppointmentsComponent implements OnInit {
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
 
-  parameter: IProperty= {};
-  appointmentDates: any= [];
-  appointStatuses: any= [];
-  meetings: any= [];
-  yearList: any= [];
+  parameter: IProperty = {};
+  appointmentDates: any = [];
+  appointStatuses: any = [];
+  meetings: any = [];
+  yearList: any = [];
   appointmentBack: any;
-  appointmentNew: any= {};
+  appointmentNew: any = {};
 
   constructor(
     private admin: AdminService,
+    private spinner: NgxSpinnerService,
     public constant: Constant
   ) {
     const d = new Date();
-    console.log(d);
     this.parameter.year = d.getFullYear();
     this.parameter.month = d.getMonth() + 1;
     this.getAppointments();
@@ -35,15 +36,13 @@ export class AppointmentsComponent implements OnInit {
     this.yearList.push(this.parameter.year + 1);
     // this.yearList.push(this.parameter.year + 2);
     this.yearList.unshift(this.parameter.year - 1);
-    console.log(this.parameter);
-   }
+  }
 
   ngOnInit() {
 
   }
   getAppointmentStatuses() {
     this.admin.postDataApi('getAppointmentStatuses', {}).subscribe(r => {
-      console.log('Status', r);
       this.appointStatuses = r['data'];
     });
 
@@ -51,13 +50,12 @@ export class AppointmentsComponent implements OnInit {
 
   getAppointments() {
     this.meetings = [];
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('leads/getAllAppointments', this.parameter).subscribe(r => {
-      console.log('appointments', r);
-      this.parameter.loading = false;
+      this.spinner.hide();
       this.appointmentDates = r['data'];
     }, error => {
-      this.parameter.loading = false;
+      this.spinner.hide();
     });
   }
 
@@ -73,20 +71,17 @@ export class AppointmentsComponent implements OnInit {
     this.meetings = [];
 
     this.modalClose.nativeElement.click();
-    console.log(this.appointmentNew);
     const input = {
       appointment_id: this.appointmentNew.id,
       status_id: this.appointmentNew.status_id,
       appointment_date: this.appointmentNew.appointment_date
     };
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('leads/updateAppointmentStatus', input).subscribe(r => {
-      // this.parameter.loading = false;
-      console.log('Updated', r);
+      // this.spinner.hide();
       this.getAppointments();
     }, error => {
-      this.parameter.loading = false;
-      console.log(error);
+      this.spinner.hide();
     });
   }
 

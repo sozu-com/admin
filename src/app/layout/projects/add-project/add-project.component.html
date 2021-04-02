@@ -1,174 +1,353 @@
-<ngx-loading [show]="parameter.loading"></ngx-loading>
-
 <div class="container-fluid">
   <div class="white-bg">
-    <div class="page-title">
-      <h3>Add Project</h3>
+    <div class="row">
+      <div class="col-11 page-title title-div">
+        <a href="javascript://" class="back-icon" (click)="goBack(true)"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+        <h3 *ngIf="!id">{{'addForm.addProject' | translate}}</h3>
+        <h3 *ngIf="id">{{'addForm.editProject' | translate}}</h3>
+      </div>
+  
+      <div class="col-lg-1 col-md-1 col-6 page-title title-div">
+        <div class="btn-cont text-right">
+          <a href="javascript://"  (click)="goBack(false)"
+            class="btn-sm btn-primary-new" href="javascript://">{{'quickVisualization.back' | translate}}</a>
+          </div>
+      </div>
     </div>
-
     <div class="padding40 paddingT0">
 
       <form #f="ngForm" name="add-project-form" ngNativeValidate>
         <div class="row">
           <div class="col-md-5 col-sm-12 col-12">
             <div class="form-group-3">
-              <label>Add Images
-                <!-- <span class="color-red">*</span> -->
-              </label>
+              <label>{{'addForm.addImages' | translate}}</label>
               <div class="upload-cover-img">
-                <img [src]="file1.image" onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
-                <!-- <img *ngIf="url" [src]="url" height="200"> -->
+                <img [src]="file1.image" [defaultImage]="file1.image| img:'thumb'" [lazyLoad]="file1.image"
+                  onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
+                  <div *ngIf="file1.loading" class="loaderr"></div>
                 <div *ngIf="!file1.image" class="upload-caption">
-                  <p class="green-color marginT30">+Upload Cover image for the project</p>
-                  <p>JPG or PNG. Image size should be 1920 × 1080 pixels (for HiDPI displays).</p>
+                  <p class="green-color marginT30">{{'addForm.uploadCoverImage' | translate}}</p>
+                  <p>{{'addForm.imageSizeForCover' | translate}}</p>
                 </div>
                 <input type="file" name="cover_image" accept="image/*" (change)="file1.onSelectFile($event,true)">
               </div>
             </div>
-            <div class="add-project-img-more">
-              <img *ngIf="model.images?.length>0" [src]="model.images[0]?.image" onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
-              <div class="upload-caption">
-                <p *ngIf="model?.images?.length > 1" class="number" (click)="modelOpenFun()">+{{model?.images?.length-1}}</p>
-                <p *ngIf="model?.images?.length <= 1" class="green-color"  (click)="modelOpenFun()">+ Add more images</p>
-              </div>
-            </div>
-           </div>
-          <div class="col-md-7 col-sm-12 col-12">
-            <div class="row">
-              <div class="col-sm-6 col-12">
-                <div class="form-group-3">
-                  <label>Name of the Building <span class="color-red">*</span></label>
-                  <input class="form-control" type="text" [(ngModel)]="model.name" name="name" placeholder="Enter name of building" autocomplete="off" required>
+
+            <!-- more images -->
+            <hr>
+            <div class="form-group-3">
+              <label>{{'addForm.addMoreImages4Project' | translate}}</label>
+              <div class="add-project-img-more marginT0">
+                <img *ngIf="model.images?.length>0" [src]="model.images[0]?.image"
+                  onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
+                <div class="upload-caption">
+                  <p *ngIf="model?.images?.length > 1" class="number" (click)="modelOpenFun()">
+                    +{{model?.images?.length-1}}</p>
+                  <p *ngIf="model?.images?.length <= 1" class="green-color" (click)="modelOpenFun()">{{'addForm.moreImages.addMoreBtn' | translate}}
+                  </p>
                 </div>
               </div>
-              <div class="col-sm-6 col-12">
+            </div>
+            <hr>
+            <div class="form-group-3">
+              <label>{{'addForm.add360.label1' | translate}}<span>&#176;</span> {{'addForm.add360.label2' | translate}}</label>
+              <div class="add-project-img-more marginT0">
+                <img *ngIf="model.images360?.length>0" [src]="model.images360[0]?.image"
+                  onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
+                <div class="upload-caption">
+                  <p *ngIf="model?.images360?.length > 1" class="number" (click)="modelOpen360ImgFun()">
+                    +{{model?.images360?.length-1}}</p>
+                  <p *ngIf="model?.images360?.length <= 1" class="green-color" (click)="modelOpen360ImgFun()">{{'addForm.add360.addBtn1' | translate}}<span>&#176;</span> {{'addForm.add360.addBtn2' | translate}}</p>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="form-group-3">
+              <label>{{'addForm.addVideo.label' | translate}} </label>
+              <div class="add-project-img-more marginT0">
+                <div class="add-project-img-more marginT0">
+                  <img *ngIf="model.videos?.length>0" [src]="model.videos[0]?.thumb"
+                    onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
+                  <div class="upload-caption">
+                    <p *ngIf="model?.videos?.length > 1" class="number" (click)="modelOpenVideos()">
+                      +{{model?.videos?.length-1}}</p>
+                    <p *ngIf="model?.videos?.length <= 1" class="green-color" (click)="modelOpenVideos()">{{'addForm.addVideo.addBtn' | translate}}</p>
+                  </div>
+                </div>
+                <!--<video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'" src="{{videoSrc}}" class="video55 floor-plan" autoplay type="video/mp4" controls></video>-->
+                <!---->
+                <!--&lt;!&ndash; if want to give play option &ndash;&gt;-->
+                <!--<img *ngIf="model?.videos && model?.videos[0]" class="ui bordered small image" [src]="model?.videos[0]?.thumb" onerror="this.src='assets/img/placeholder.png'">-->
+                <!--&lt;!&ndash; <img *ngIf="model.videoLoader==false" class="vid-icon" (click)="playVideo(i)" src="assets/img/play-button.png" /> &ndash;&gt;-->
+                <!---->
+
+                <!--<div *ngIf="model.videoLoader" class="loaderr"></div>-->
+                <!--<input type="file" name="" accept="video/*" (change)="showCanvas($event)">-->
+                <!--<div class="upload-caption">-->
+                <!--<p class="green-color marginT30">+ Add Video</p>-->
+                <!--</div>-->
+                <!--<canvas width="800" height="600" id="canvas"></canvas>-->
+              </div>
+            </div>
+            
+            <hr>
+            <div class="form-group-3">
+              <label>{{'addForm.logos' | translate}}</label>
+              <div class="upload-cover-img" style="width: 232px; height: 144px;">
+                <img [src]="projectLogo.image" [defaultImage]="projectLogo.image| img:'thumb'" [lazyLoad]="projectLogo.image"
+                  onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
+                  <div *ngIf="projectLogo.loading" class="loaderr"></div>
+                <div *ngIf="!projectLogo.image" class="upload-caption"><br/>
+                  <p class="green-color marginT30">{{'addForm.logos' | translate}}</p>
+                </div>
+                <input type="file" name="cover_image" accept="image/*" 
+                (change)="projectLogo.onSelectFile($event,true)">
+              </div>
+            </div>
+            
+          </div>
+          <div class="col-md-7 col-sm-12 col-12">
+            <div class="row">
+              <div class="col-sm-12 col-12">
                 <div class="form-group-3">
-                  <label>Location
-                    <!-- <span class="color-red">*</span> -->
+                  <label>{{'addForm.nameOfBuilding' | translate}} <span class="color-red">*</span></label>
+                  <input class="form-control" type="text" [pattern]="constant.onlyWhiteSpaces" [(ngModel)]="model.name"
+                    name="name2" placeholder="{{'addForm.placeholder.nameOfBuilding' | translate}}" autocomplete="off" required>
+                </div>
+              </div>
+
+
+              <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                <div class="form-group-3">
+                  <label class="p16-two">{{'addForm.location.selectCountry' | translate}} <span class="color-red">*</span></label>
+                  <select title="{{'table.title.chooseCountry' | translate}}" name="country" required class="form-control"
+                    (change)="getStates($event.target.value, '')">
+                    <option value="" disabled>{{'addForm.location.selectCountry' | translate}}</option>
+                    <option *ngFor="let country of parameter.countries" value="{{country.id}}"
+                      [selected]="country.id == model.country_id">{{country.name_en}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                <div class="form-group-3">
+                  <label class="p16-two">&nbsp;</label>
+                  <select title="{{'table.title.chooseState' | translate}}" name="state" required class="form-control"
+                    (change)="getCities($event.target.value, '')">
+                    <option value="">{{'addForm.location.selectState' | translate}}</option>
+                    <option *ngFor="let state of parameter.states" value="{{state.id}}"
+                      [selected]="state.id == model.state_id">{{state.name_en}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                <div class="form-group-3">
+                  <!-- <label class="p16-two">&nbsp;</label> -->
+                  <select title="{{'table.title.chooseCity' | translate}}" name="city" required class="form-control"
+                    (change)="getLocalities($event.target.value)">
+                    <option value="">{{'addForm.location.selectCity' | translate}}</option>
+                    <option *ngFor="let city of parameter.cities" value="{{city.id}}"
+                      [selected]="city.id == model.city_id">
+                      {{city.name_en}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                <div class="form-group-3">
+                  <!-- <label class="p16-two">&nbsp;</label> -->
+                  <select title="{{'table.title.chooseLocality' | translate}}" name="locality" required class="form-control"
+                    (change)="setValue('locality_id', $event.target.value)">
+                    <option value="">{{'addForm.location.selectLocality' | translate}}</option>
+                    <option *ngFor="let locality of parameter.localities" value="{{locality.id}}"
+                      [selected]="locality.id == model.locality_id">{{locality.name_en}}</option>
+                  </select>
+                </div>
+              </div>
+
+
+              <div class="col-sm-12 col-12">
+                <div class="form-group-3">
+                  <label>{{'addForm.location.label' | translate}}
+                    <span class="color-red">*</span>
                   </label>
-                  <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces()" name="address" [(ngModel)]="model.address" autocomplete="off">
+                  <input required placeholder="{{'addForm.placeholder.searchForLocation' | translate}}"
+                    autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search
+                    (input)="loadPlaces()" name="address" [(ngModel)]="model.address" autocomplete="off">
                 </div>
               </div>
             </div>
             <div class="form-group-3">
-              <label>Location Pin on Map
-                <!-- <span class="color-red">*</span> -->
-              </label>
+              <label>{{'addForm.locationPinOnMap' | translate}}<span class="color-red">*</span></label>
               <div style="width: 100%;">
-                <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" (mapClick)="placeMarker($event)" [zoom]="zoom">
-                  <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+                <agm-map [latitude]="model.lat" [longitude]="model.lng" [scrollwheel]="false"
+                  (mapClick)="placeMarker($event)" [zoom]="zoom">
+                  <agm-marker [latitude]="model.lat" [longitude]="model.lng"></agm-marker>
                 </agm-map>
               </div>
             </div>
             <div class="row">
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>Building Age (in yrs)
+                  <label>{{'addForm.buildingAge' | translate}}
                     <!-- <span class="color-red">*</span> -->
                   </label>
-                  <input placeholder="Building Age" min="0" class="form-control" [(ngModel)]="model.building_age" type="number" name="building_age"/>
+                  <input placeholder="{{'addForm.placeholder.buildingAge' | translate}}" min="0" class="form-control" [(ngModel)]="model.building_age"
+                    type="number" name="building_age" />
                 </div>
               </div>
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>Building Type
+                  <label>{{'addForm.buildingType.label' | translate}}
                     <!-- <span class="color-red">*</span> -->
                   </label>
                   <select [(ngModel)]="model.building_type_id" class="form-control" name="building_type_id">
-                    <option value="" disabled>Choose Building type</option>      
+                    <option value="" disabled>{{'addForm.buildingType.chooseType' | translate}}</option>
                     <option *ngFor="let s of all_building_types" [value]="s.id">
-                            {{s.name}}
-                          </option>
-                       </select>
+                      {{s.name}}
+                    </option>
+                  </select>
                 </div>
               </div>
+              <div class="col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>{{'addForm.numOfProperties' | translate}}</label>
+                  <input placeholder="{{'addForm.placeholder.numOfProperties' | translate}}" min="0" class="form-control" [(ngModel)]="model.num_of_properties"
+                    type="number" name="num_of_properties" />
+                </div>
+              </div>
+              <div class="col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>{{'addForm.pdfDocument' | translate}}</label>
+                  
+                  
+                  <div class="chat-shared-file" *ngIf="model?.document || model?.doc_loader">
+                    <span *ngIf="model?.doc_loader" class="m-loader">
+                      <div *ngIf="model?.doc_loader" class="loaderr"></div>
+                    </span>
+                    <span *ngIf="model.document">
+                      <a *ngIf="model?.document" href="javascript://">
+                        <span (click)="viewDocument(model?.document)">Document <img class="viewfull" (click)="removeDocument($event)" src="assets/img/close-tag.png"></span>
+                        </a>
+                    </span>
+                  </div>
+
+                  <input class="form-control" *ngIf="!model?.document" accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf" name="document" 
+                    (change)="changeListner($event, 'doc_loader', 'document')" type="file">
+           
+                </div>
+              </div>
+              
               <div class="col-12">
                 <div class="form-group-3">
-                  <label>Description
+                  <label>{{'addForm.description' | translate}}
                     <!-- <span class="color-red">*</span> -->
                   </label>
-                  <textarea [(ngModel)]="model.description" name="model_description" class="form-control" placeholder="Enter project description">
+                  <textarea [(ngModel)]="model.description" name="model_description" class="form-control"
+                    placeholder="{{'addForm.placeholder.projectDescription' | translate}}">
                        </textarea>
                 </div>
               </div>
+
               <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>Possession Status
+                  <label>{{'addForm.possessionStatus.label' | translate}}
                     <!-- <span class="color-red">*</span> -->
                   </label>
                   <select [(ngModel)]="model.possession_status_id" class="form-control" name="possession_status_id">
-                    <option value="">Select status</option>
+                    <option value="">{{'addForm.possessionStatus.selectStatus' | translate}}</option>
                     <option *ngFor="let s of all_possession_statuses" [value]="s.id">
                       {{s.name}}
                     </option>
                   </select>
                 </div>
               </div>
-              <div class="col-md-6 col-sm-6 col-12">
+              <!-- <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>Floors
-                    <!-- <span class="color-red">*</span> -->
                   </label>
                   <input min="0" class="form-control" [(ngModel)]="model.floors" type="number" name="building_floors" placeholder="Floors">
                 </div>
-                
-              </div>
-              <div class="col-md-6 col-sm-6 col-12">
+              </div> -->
+              <!-- <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>Average Price
-                    <!-- <span class="color-red">*</span> -->
                   </label>
                   <input min="0" class="form-control" [(ngModel)]="model.avg_price" type="number" name="building_avg_price" placeholder="Average price">
                 </div>
-              </div>
+              </div> -->
               <div class="col-md-6 col-sm-6 col-12">
-                  <div class="form-group-3">
-                    <label>Launch Date
-                      <!-- <span class="color-red">*</span> -->
-                    </label>
-                    <input class="form-control" [ngModel]="model.launch_date  | date:'yyyy-MM-dd'" (ngModelChange)="model.launch_date  = $event" type="date" name="building_launch_date" placeholder="Launch date">
-                  </div>
+                <div class="form-group-3">
+                  <label>{{'addForm.launchDate' | translate}}
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
+                  <input class="form-control" [ngModel]="model.launch_date  | date:'yyyy-MM-dd'"
+                    (ngModelChange)="model.launch_date  = $event" type="date" name="building_launch_date"
+                    placeholder="{{'addForm.placeholder.launchDate' | translate}}">
                 </div>
+              </div>
 
               <div class="col-sm-12 col-12">
                 <div class="form-group-3">
-                  <label>Enter Custom Parameter and Value</label>
+                  <label>{{'addForm.enterCustomParameterandValue' | translate}}</label>
                   <div class="row">
-                      <div class="col-sm-5">
-                        <input [(ngModel)]="new_custom.name" class="form-control" name="custom_name" type="text" placeholder="Parameter name"/>
-                      </div>
-                      <div class="col-sm-5">
-                        <input [(ngModel)]="new_custom.value" class="form-control" name="custom_value" type="text" placeholder="Parameter value" />
-                      </div>
-                      <div class="col-sm-2">
-                        <a (click)="addNewCustom()" class="btn-third btn btn-green" href="javascript://">Add</a>
-                      </div>
+                    <div class="col-sm-5">
+                      <input [pattern]="constant.onlyWhiteSpaces" [(ngModel)]="new_custom.name" class="form-control"
+                        autocomplete="off" name="custom_name" type="text" placeholder="{{'addForm.placeholder.parameterName' | translate}}" />
                     </div>
-                    <div class="row" *ngFor="let c of model.custom_attributes ;let i=index;">
-                        <div class="col-sm-5">
-                            <div class="paramtext">{{c.name}}</div>                        </div>
-                        <div class="col-sm-5">
-                            <div class="paramtext">{{c.value}}</div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="paramtext"><a (click)="model.custom_attributes.splice(i,1)"><img src="assets/img/remove-icon.png" /></a></div>
-                        </div>
-                      </div>
-
+                    <div class="col-sm-5">
+                      <input [pattern]="constant.onlyWhiteSpaces" [(ngModel)]="new_custom.value" class="form-control"
+                        autocomplete="off" name="custom_value" type="text" placeholder="{{'addForm.placeholder.parameterValue' | translate}}" />
+                    </div>
+                    <div class="col-sm-2">
+                      <a (click)="addNewCustom()" class="btn-third btn btn-green" href="javascript://">{{'addForm.add' | translate}}</a>
+                    </div>
+                  </div>
+                  <div class="row" *ngFor="let c of model.custom_attributes ;let i=index;">
+                    <div class="col-sm-5">
+                      <div class="paramtext">{{c.name}}</div>
+                    </div>
+                    <div class="col-sm-5">
+                      <div class="paramtext">{{c.value}}</div>
+                    </div>
+                    <div class="col-sm-2">
+                      <div class="paramtext"><a (click)="model.custom_attributes.splice(i,1)"><img
+                            src="assets/img/remove-icon.png" /></a></div>
+                    </div>
+                  </div>
                 </div>
               </div>
+
               <div class="spacer30"></div>
 
               <div class="col-12">
                 <div class="form-group-3 marginB0">
-                  <label>Amenities available
-                    <!-- <span class="color-red">*</span> -->
-                  </label>
+                  <label>{{'addForm.amenitiesAvailable' | translate}}</label>
                   <ul class="loc-tags-group">
-                    <li *ngFor="let a of all_amenities">
-                      <span *ngIf="a.selected==true">{{a.name}} 
-                        <b (click)="a.selected = false" title="remove"><img src="assets/img/close-tag.png" /></b>
+                    <li *ngFor="let a of all_amenities; let i=index" [ngClass]="a.selected==true ? 'width100' : ''">
+                      <span *ngIf="a.selected==true" class="width78 amen-img">{{a.name}}
+                        <b class="pull-right" (click)="a.selected = false" title="{{'table.title.remove' | translate}}"><img
+                            src="assets/img/close-tag.png" /></b>
                       </span>
+                      <a *ngIf="a.selected==true" (click)="modelAmenityOpenFun(a, i)" class="btn-third btn btn-green"
+                        href="javascript://">{{'addForm.addView' | translate}}</a>
+                      <div *ngIf="a.selected==true" class="spacer30"></div>
+
+                      <!-- <div *ngIf="a.selected==true">
+                        <div class="uploaded-img-block">
+                          <div class="uploaded-img2">
+                            <img src="assets/img/placeholder.png" class="u-img" alt="img">
+                            <div class="upload-caption">
+                              <p class="green-color" (click)="modelAmenityOpenFun(a, i)">+ Add more images</p>
+                            </div>
+                          </div>
+                          <div class="uploaded-img2" *ngFor="let item of a.images.slice(0,3); let j=index">
+                            <img *ngIf="item && j<4" onerror="this.src='assets/img/placeholder.png'" class="u-img" [src]="item.image" alt="img">
+                            <div class="upload-caption">
+                              <p *ngIf="a.images?.length > 3 && j==2" class="number" (click)="modelAmenityOpenFun(a, i)">+{{a?.images?.length-3}}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div> -->
+
                     </li>
                   </ul>
                 </div>
@@ -176,26 +355,29 @@
               <div class="col-12">
                 <div class="form-group-3 marginT15">
                   <div class="btn-cont">
-                    <a class="btn-third btn btn-block" data-toggle="modal" data-target="#amenities" href="javascript://">Add More</a>
+                    <a class="btn-third btn btn-block" data-toggle="modal" data-target="#amenities"
+                      href="javascript://">{{'addForm.addMore' | translate}}</a>
                   </div>
                 </div>
               </div>
+
               <div class="col-12">
                 <div class="form-group-3" style="width: 100%;">
-                  <label class="float-left marginB0">Configuration
+                  <label class="float-left marginB0">{{'addForm.configuration' | translate}}
                     <!-- <span class="color-red">*</span> -->
                   </label>
                   <div class="clearfix"></div>
                   <hr>
                   <div *ngFor="let c of model.configurations; let index=index" class="configur">
                     <div class="float-right marginB0">
-                           <a (click)="editConfiguration(c, index)" title="Edit"><img src="assets/img/edit.png" /></a>
-                           <a (click)="deleteConfiguration(index);" title="Delete"><img src="assets/img/delete-green.png" /></a>
+                      <a (click)="editConfiguration(c, index)" title="{{'table.title.editDetails' | translate}}"><img src="assets/img/edit.png" /></a>
+                      <a (click)="deleteConfiguration(index);" title="{{'table.title.delete' | translate}}"><img
+                          src="assets/img/delete-green.png" /></a>
                     </div>
                     <div class="row">
                       <div class="col-md-6 col-12">
-                        <p class="p18">{{c?.config?.name}}</p>
-                        <label>Images
+                        <!-- <p class="p18">{{c?.config?.name}}</p> -->
+                        <label>{{'addForm.images' | translate}}
                           <!-- <span class="color-red">*</span> -->
                         </label>
                         <!-- <div class="image-group">
@@ -204,21 +386,27 @@
                           </div>
                         </div> -->
                         <div class="image-group">
-                            <div class="fig-block">
-                                <img class="img-fluid" [src]="c.floor_map_image" onerror='this.src="http://via.placeholder.com/48x48"' alt="img">
-                            </div>
-                            <div *ngFor="let im of c.images"  class="fig-block">
-                               <img [src]="im.image" onerror="this.src='http://via.placeholder.com/48x48'" alt="img">
-                            </div>
-                         </div>
+                          <div class="fig-block">
+                            <img class="img-fluid" [defaultImage]="c?.floor_map_image| img:'thumb'"
+                              [lazyLoad]="c?.floor_map_image" onerror='this.src="http://via.placeholder.com/48x48"'
+                              alt="img">
+                          </div>
+                          <div *ngFor="let im of c.images" class="fig-block">
+                            <img *ngIf="im.image" class="img-fluid" [defaultImage]="im.image| img:'thumb'"
+                              [lazyLoad]="im.image" onerror='this.src="http://via.placeholder.com/48x48"' alt="img">
+                            <img *ngIf="!im.image" class="img-fluid" src="http://via.placeholder.com/48x48" alt="img">
+                          </div>
+                        </div>
                       </div>
-     
+
                       <div class="col-md-6 col-12">
-                        <p class="p14 text-right">Average Price
-                          <!-- <span class="color-red">*</span> -->
-                        </p>
-                        <h3 class="text-right">{{c?.base_price}} per sq/ft.</h3>
+                        <p class="p14 text-right">{{'addForm.name' | translate}}</p>
+                        <h3 class="text-right">{{c?.name}}</h3>
                       </div>
+                      <!-- <div class="col-md-6 col-12">
+                        <p class="p14 text-right">Average Price</p>
+                        <h3 class="text-right">{{c?.base_price}} per sq/mt.</h3>
+                      </div> -->
                       <div class="col-12">
                         <hr>
                       </div>
@@ -228,7 +416,7 @@
                   <div>
                     <div class="form-group-3 marginT15">
                       <div class="btn-cont">
-                        <a (click)="openConfigPopupFun()" class="btn-third btn btn-block" href="javascript://">Add New</a>
+                        <a (click)="openConfigPopupFun()" class="btn-third btn btn-block" href="javascript://">{{'addForm.addNew' | translate}}</a>
                       </div>
                     </div>
                   </div>
@@ -236,101 +424,1117 @@
               </div>
             </div>
 
-            <div class="row">
-              <div class="col-12">
-                <div class="page-title paddingL0">
-                  <h3>Developer Info
-                    <!-- <span class="color-red">*</span> -->
-                  </h3>
+
+              <!-- Regulations & Policies Section -->
+              <div class="row">
+                <div class="col-12">
+                  <div class="page-title paddingL0 paddingR0">
+                    <h3>{{'addForm.regulationsPolicies' | translate}}
+                      <span class="tower pull-right"
+                        (click)="showPolicy=!showPolicy">{{showPolicy?'Hide':'Show'}}</span>
+                    </h3>
+                  </div>
+                </div>
+                <div class="col-12" *ngIf="showPolicy">
+                  <div class="form-group-3">
+                      <textarea [(ngModel)]="model.policies" name="policies" class="form-control"
+                      placeholder="{{'addForm.placeholder.regulationsPolicies' | translate}}"></textarea>
+                    <div class="clearfix"></div>
+                  </div>
                 </div>
               </div>
+              <!-- End Of Regulations & Policies Section -->
 
-              <div class="col-md-6 col-sm-6 col-6">
-                <div class="form-group-3">
-                  <label class="green-color" (click)="selectDeveloper()">Select Developer</label>
+
+              <!-- Maintenance Section -->
+              <div class="row">
+                <div class="col-12">
+                  <div class="page-title paddingL0 paddingR0">
+                    <h3>{{'addForm.maintenance.label' | translate}}
+                      <span class="tower pull-right"
+                        (click)="showMaintenance=!showMaintenance">{{showMaintenance?'Hide':'Show'}}</span>
+                    </h3>
+                  </div>
+                </div>
+                <div class="col-12" *ngIf="showMaintenance">
+                  <div class="form-group-3">
+                    <label class="p16-two">{{'addForm.maintenance.type' | translate}} <span class="color-red">*</span></label>
+                    <div class="clearfix"></div>
+                    <label class="cust-radio">
+                      <input type="radio" (change)="setValue('maintenance_cost_type', 1)" value="1"
+                        [checked]="model.maintenance_cost_type == 1 ? 'checked' : ''" name="pets">
+                      <span class="checkmark">{{'addForm.maintenance.unitCost' | translate}}</span>
+                    </label>
+                    <label class="cust-radio">
+                      <input type="radio" (change)="setValue('maintenance_cost_type', 2)" value="2"
+                        [checked]="model.maintenance_cost_type == 2 ? 'checked' : ''" name="pets">
+                      <span class="checkmark">{{'addForm.maintenance.costPerSqMeter' | translate}}</span>
+                    </label>
+                    <div class="clearfix"></div>
+                  </div>
+                </div>
+                <div class="col-12" *ngIf="showMaintenance">
+                    <div class="form-group-3">
+                      <label>{{'addForm.maintenance.cost' | translate}}</label>
+                      <input placeholder="{{'addForm.placeholder.maintenanceCost' | translate}}" min="0" class="form-control" [(ngModel)]="model.maintenance_cost"
+                    type="number" name="maintenance_cost" />
+                      <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group-3">
+                      <label>{{'addForm.maintenance.features' | translate}}</label>
+                      <textarea [(ngModel)]="model.maintenance" name="maintenance" class="form-control"
+                        placeholder="{{'addForm.placeholder.features' | translate}}"></textarea>
+                      <div class="clearfix"></div>
+                    </div>
                 </div>
               </div>
+              <!-- End Of Maintenance Section -->
 
-              <div class="col-md-6 col-sm-6 col-6">
-                <div class="form-group-3">
-                  <label class="green-color" (click)="addDeveloper()">Add New Developer</label>
+
+              <!-- Preferable Buyers Section -->
+              <div class="row">
+                <div class="col-12">
+                  <div class="page-title paddingL0 paddingR0">
+                    <h3>{{'addForm.preferableBuyers.label' | translate}}
+                      <span class="tower pull-right"
+                        (click)="showPreferableBuyer=!showPreferableBuyer">{{showPreferableBuyer ? ('addForm.hide' | translate) : ('addForm.show' | translate)}}</span>
+                    </h3>
+                  </div>
+                </div>
+                <div class="padding20T10" *ngIf="showPreferableBuyer">
+                  <div class="form-group-3">
+                    <label class="p16-two">{{'addForm.preferableBuyers.maritalStatus' | translate}} <span class="color-red">*</span></label>
+                    <div class="clearfix"></div>
+                    <label class="cust-radio" *ngFor="let m of testMarital; let mi=index">
+                      <input value="{{m.checked}}" name="marital_status[{{mi}}]" type="checkbox"
+                        (click)="addMaritalStatus(m.checked, mi)" [checked]="m.checked == true ? 'checked': ''">
+                      <span class="checkmark">{{m.name}}</span>
+                    </label>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="spacer15"></div>
+                  <div class="form-group-3">
+                    <label class="p16-two">{{'addForm.preferableBuyers.petsAllowed' | translate}} <span class="color-red">*</span></label>
+                    <div class="clearfix"></div>
+                    <label class="cust-radio">
+                      <input type="radio" (change)="setValue('pets', 1)" value="1"
+                        [checked]="model.pets == 1 ? 'checked' : ''" name="pets">
+                      <span class="checkmark">{{'addForm.preferableBuyers.allowed' | translate}}</span>
+                    </label>
+                    <label class="cust-radio">
+                      <input type="radio" (change)="setValue('pets', 0)" value="0"
+                        [checked]="model.pets == 0 ? 'checked' : ''" name="pets">
+                      <span class="checkmark">{{'addForm.preferableBuyers.notAllowed' | translate}}</span>
+                    </label>
+                    <div class="clearfix"></div>
+                  </div>
+
+
+                  <div class="spacer15"></div>
+                  <div class="form-group-3">
+                    <label class="p16-two">{{'addForm.preferableBuyers.kidsFriendly' | translate}} <span class="color-red">*</span></label>
+                    <div class="clearfix"></div>
+                    <label class="cust-radio">
+                      <input type="radio" (change)="setValue('kids_friendly', 1)" value="1"
+                        [checked]="model.kids_friendly == 1 ? 'checked' : ''" name="kids_friendly">
+                      <span class="checkmark">{{'addForm.yes' | translate}}</span>
+                    </label>
+                    <label class="cust-radio">
+                      <input type="radio" (change)="setValue('kids_friendly', 0)" value="0"
+                        [checked]="model.kids_friendly == 0 ? 'checked' : ''" name="kids_friendly">
+                      <span class="checkmark">{{'addForm.no' | translate}}</span>
+                    </label>
+                    <div class="clearfix"></div>
+                  </div>
+
+
+                  <div class="spacer15"></div>
+                  <div class="form-group-3">
+                    <label class="p16-two">{{'addForm.preferableBuyers.studentsFriendly' | translate}} <span class="color-red">*</span></label>
+                    <div class="clearfix"></div>
+                    <label class="cust-radio">
+                      <input type="radio" (change)="setValue('students_friendly', 1)" value="1"
+                        [checked]="model.students_friendly == 1 ? 'checked' : ''" name="students_friendly">
+                      <span class="checkmark">{{'addForm.yes' | translate}}</span>
+                    </label>
+                    <label class="cust-radio">
+                      <input type="radio" (change)="setValue('students_friendly', 0)" value="0"
+                        [checked]="model.students_friendly == 0 ? 'checked' : ''" name="students_friendly">
+                        <span class="checkmark">{{'addForm.yes' | translate}}</span>
+                    </label>
+                    <div class="clearfix"></div>
+                  </div>
+
+
+                  <div class="spacer15"></div>
+                  <div class="form-group-3">
+                    <label class="p16-two">{{'addForm.preferableBuyers.LGBTFriendly' | translate}} <span class="color-red">*</span></label>
+                    <div class="clearfix"></div>
+                    <label class="cust-radio">
+                      <input type="radio" (change)="setValue('lgtb_friendly', 1)" value="1"
+                        [checked]="model.lgtb_friendly == 1 ? 'checked' : ''" name="lgtb_friendly">
+                        <span class="checkmark">{{'addForm.yes' | translate}}</span>
+                    </label>
+                    <label class="cust-radio">
+                      <input type="radio" (change)="setValue('lgtb_friendly', 0)" value="0"
+                        [checked]="model.lgtb_friendly == 0 ? 'checked' : ''" name="lgtb_friendly">
+                        <span class="checkmark">{{'addForm.yes' | translate}}</span>
+                    </label>
+                    <div class="clearfix"></div>
+                  </div>
+
+
+                  <div class="spacer15"></div>
+                  <div class="form-group-3">
+                    <label class="p16-two">{{'addForm.preferableBuyers.MaturePeopleFriendly' | translate}} <span class="color-red">*</span></label>
+                    <div class="clearfix"></div>
+                    <label class="cust-radio">
+                      <input type="radio" (change)="setValue('mature_people_friendly', 1)" value="1"
+                        [checked]="model.mature_people_friendly == 1 ? 'checked' : ''" name="mature_people_friendly">
+                        <span class="checkmark">{{'addForm.yes' | translate}}</span>
+                    </label>
+                    <label class="cust-radio">
+                      <input type="radio" (change)="setValue('mature_people_friendly', 0)" value="0"
+                        [checked]="model.mature_people_friendly == 0 ? 'checked' : ''" name="mature_people_friendly">
+                        <span class="checkmark">{{'addForm.yes' | translate}}</span>
+                    </label>
+                    <div class="clearfix"></div>
+                  </div>
+
                 </div>
               </div>
+              <!-- End Of Preferable Buyers Section -->
 
-              <div class="col-md-6 col-sm-6 col-12">
-                <div class="form-group-3">
-                  <label>Name</label>
-                  <input autocomplete="off" [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.developer.name" class="form-control" type="text" name="developer_name" placeholder="Developer Name">
+
+              <!-- Tower Section -->
+              <div class="row">
+                <div class="col-12">
+                  <div class="page-title paddingL0 paddingR0">
+                    <h3>{{'addForm.tower.label' | translate}}
+                      <!-- <span class="color-red">*</span> -->
+                      <span class="tower pull-right" (click)="showAddBtn=false" *ngIf="showAddBtn">{{'addForm.tower.addNew' | translate}}</span>
+                      <span class="tower pull-right" (click)="addNewTower()" *ngIf="!showAddBtn">{{'addForm.tower.saveDetails' | translate}}</span>
+                    </h3>
+                  </div>
                 </div>
-              </div>
-              <div class="col-md-6 col-sm-6 col-12">
-                <div class="form-group-3">
-                  <label>Email</label>
-                  <input autocomplete="off" [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.developer.email" class="form-control" type="email" name="developer_email" placeholder="Developer Email" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
-                </div>
-              </div>
-              <div class="col-md-6 col-sm-6 col-12">
-                <div class="form-group-3">
-                  <label>Phone Number</label>
-                  <input autocomplete="off" [disabled]="!canEditdeveloperInfo" minlength="6" maxlength="16" autocomplete="off" type="text" class="form-control" id="phone" placeholder="Phone Number" minlength="1" [(ngModel)]="model.developer.phone" name="phone" ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)"/>
 
-                </div>
-              </div>
+                <div class="row paddingLR20" *ngIf="!showAddBtn">
+                  <div class="col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>{{'addForm.tower.name' | translate}}</label>
+                      <input autocomplete="off" [(ngModel)]="newTower.tower_name"
+                        autocomplete="off" class="form-control" type="text" name="tower_name"
+                        placeholder="{{'addForm.placeholder.towerName' | translate}}">
+                      <!-- <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" [(ngModel)]="newTower.tower_name"
+                        autocomplete="off" class="form-control" type="text" name="tower_name"
+                        placeholder="{{'addForm.placeholder.towerName' | translate}}"> -->
+                    </div>
+                  </div>
 
-              <div class="col-12">
-                <div class="form-group-3">
-                  <label>Logo</label>
+                  <div class="col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>{{'addForm.tower.numberofFloors' | translate}}</label>
+                      <input min="0" autocomplete="off" [(ngModel)]="newTower.num_of_floors" class="form-control"
+                        type="number" name="num_of_floors" placeholder="{{'addForm.placeholder.zeroForGround' | translate}}" />
+                    </div>
+                  </div>
 
-                  <div class="add-project-img-more">
-                    <input [disabled]="!canEditdeveloperInfo" type="file" accept="image/*" name="sasdsda" (change)="file5.onSelectFile($event, true);">
-                    <img class="img-fluid" *ngIf="file5.image" [src]="file5.image">
-                    <div *ngIf="!file5.image"  class="upload-caption">
-                      <p class="green-color">+ Add more images</p>
+                  <div class="col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>{{'addForm.tower.numOfProperties' | translate}}</label>
+                      <input min="0" autocomplete="off" [(ngModel)]="newTower.num_of_properties" class="form-control"
+                        type="number" name="num_of_properties" placeholder="{{'addForm.placeholder.numOfProperties' | translate}}" />
+                    </div>
+                  </div>
+                  
+                  <div class="col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>{{'addForm.possessionStatus.label' | translate}}</label>
+                      <select [(ngModel)]="newTower.possession_status_id" class="form-control"
+                        name="t_possession_status_id">
+                        <option value="">{{'addForm.possessionStatus.selectStatus' | translate}}</option>
+                        <option *ngFor="let s of all_possession_statuses" [value]="s.id">
+                          {{s.name}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>{{'addForm.launchDate' | translate}}</label>
+                      <input class="form-control" [ngModel]="newTower.launch_date  | date:'yyyy-MM-dd'"
+                        (ngModelChange)="newTower.launch_date  = $event" type="date" name="launch_date"
+                        placeholder="{{'addForm.placeholder.launchDate' | translate}}">
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="form-group-3 marginB0">
+                      <label>{{'addForm.amenitiesAvailable' | translate}}</label>
+
+                      <ul class="loc-tags-group">
+                        <li *ngFor="let at of allTowerAmenities; let j=index"
+                          [ngClass]="at.selected==true ? 'width100' : ''">
+                          <span *ngIf="at.selected==true" class="width78 amen-img"
+                          style="margin-right: 25px;
+                          width: 83% !important;">{{at.name}}
+                            <b class="pull-right" (click)="at.selected = false" title="{{'table.title.remove' | translate}}"><img
+                                src="assets/img/close-tag.png" /></b>
+                          </span>
+                          <a *ngIf="at.selected==true" (click)="modelTowerAmenityOpenFun(at, j)"
+                            class="btn-third btn btn-green" href="javascript://">{{'addForm.addView' | translate}}</a>
+                          <div *ngIf="at.selected==true" class="spacer30"></div>
+                        </li>
+                      </ul>
+
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="form-group-3 marginT15">
+                      <div class="btn-cont">
+                        <a class="btn-third btn btn-block" data-toggle="modal" data-target="#towerAmenities"
+                          href="javascript://">{{'addForm.addMore' | translate}}</a>
+                      </div>
                     </div>
                   </div>
 
                 </div>
               </div>
+              <!-- End of Tower Section -->
 
-              <div class="col-12">
+              <!-- listing of added towers -->
+              <div *ngIf="model?.building_towers?.length>0">
+                <div class="row" *ngFor="let btower of model?.building_towers; let i=index">
+                  <div class="col-12">
+                    <div class="page-title paddingL0 paddingR0">
+                      <h3>{{'addForm.tower.tower' | translate}} {{i+1}}
+                        <span class="tower pull-right" (click)="deleteTower(i)">{{'addForm.delete' | translate}}</span>
+                        <!-- title="Click to edit Tower{{i+1}}" -->
+                        <span class="tower marginR15 pull-right" 
+                          *ngIf="model?.building_tower_edit_index!=i" (click)="editTower(btower, i)">{{'addForm.edit' | translate}}</span>
+                          <!-- title="Click to save Tower{{i+1}}" -->
+                        <span class="tower pull-right marginR15" 
+                          *ngIf="model?.building_tower_edit_index==i" (click)="saveTower(btower, i)">{{'addForm.save' | translate}}</span>
+                      </h3>
+                    </div>
+                  </div>
 
-                <div class="btn-cont text-right">
-                  <hr>
-                  <button [disabled]="!f.valid" (click)="addProject()" class="btn-primary btn">Submit</button>
-                  <!-- <button  (click)="addProject()" class="btn-primary btn">Submit</button> -->
+                  <div class="col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>{{'addForm.tower.name' | translate}}</label>
+                      <input autocomplete="off" [disabled]="model?.building_tower_edit_index!=i" autocomplete="off"
+                        [(ngModel)]="btower.tower_name" class="form-control" type="text" name="tower_name{{i}}"
+                        placeholder="{{'addForm.placeholder.towerName' | translate}}">
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>{{'addForm.tower.numberofFloors' | translate}}</label>
+                      <input autocomplete="off" [disabled]="model?.building_tower_edit_index!=i"
+                        [(ngModel)]="btower.num_of_floors" class="form-control" type="number" name="num_of_floors{{i}}"
+                        placeholder="{{'addForm.placeholder.numberofFloors' | translate}}" />
+                    </div>
+                  </div>
+           
+                  <div class="col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>{{'addForm.tower.numOfProperties' | translate}}</label>
+                      <input autocomplete="off" [disabled]="model?.building_tower_edit_index!=i"
+                        [(ngModel)]="btower.num_of_properties" class="form-control" type="number" name="num_of_properties{{i}}"
+                        placeholder="{{'addForm.placeholder.numOfProperties' | translate}}" />
+                    </div>
+                  </div>
+            
+                  <div class="col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>{{'addForm.possessionStatus.label' | translate}}</label>
+                      <select [disabled]="model?.building_tower_edit_index!=i" [(ngModel)]="btower.possession_status_id"
+                        class="form-control" name="possession_status_id{{i}}">
+                        <option value="">{{'addForm.possessionStatus.selectStatus' | translate}}</option>
+                        <option *ngFor="let s of all_possession_statuses" [value]="s.id">
+                          {{s.name}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>{{'addForm.launchDate' | translate}}</label>
+                      <input class="form-control" [disabled]="model?.building_tower_edit_index!=i"
+                        [ngModel]="btower.launch_date  | date:'yyyy-MM-dd'"
+                        (ngModelChange)="btower.launch_date  = $event" type="date" name="launch_date{{i}}"
+                        placeholder="{{'addForm.placeholder.launchDate' | translate}}">
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="form-group-3 marginB0">
+                      <label>{{'addForm.amenitiesAvailable' | translate}}</label>
+                      <ul class="loc-tags-group" *ngIf="model?.building_tower_edit_index!=i">
+                        <span *ngIf="btower.amenitiesCount==0">{{'addForm.tower.noAmenityAdded' | translate}}</span>
+                        <li *ngFor="let a of btower?.amenities">
+                          <span *ngIf="a.selected==true">{{a.name}}
+                            <!-- <b (click)="a.selected = false" title="Remove"><img src="assets/img/close-tag.png" /></b> -->
+                          </span>
+                        </li>
+                      </ul>
+
+                      <ul class="loc-tags-group" *ngIf="model?.building_tower_edit_index==i">
+                        <li *ngFor="let at of btower?.amenities; let j=index"
+                          [ngClass]="at.selected==true ? 'width100' : ''">
+                          <span *ngIf="at.selected==true" class="width78 amen-img">{{at.name}}
+                            <b class="pull-right" (click)="at.selected = false" title="{{'table.title.remove' | translate}}"><img
+                                src="assets/img/close-tag.png" /></b>
+                          </span>
+                          <a *ngIf="at.selected==true" (click)="modelTowerAmenityOpenFun(at, j)"
+                            class="btn-third btn btn-green" href="javascript://">{{'addForm.addView' | translate}}</a>
+                          <div *ngIf="at.selected==true" class="spacer30"></div>
+
+                          <!-- <div *ngIf="at.selected==true">
+                          <div class="uploaded-img-block">
+                            <div class="uploaded-img2">
+                              <img src="assets/img/placeholder.png" class="u-img" alt="img">
+                              <div class="upload-caption">
+                                <p class="green-color" (click)="modelTowerAmenityOpenFun(at, j)">+ Add more images</p>
+                              </div>
+                            </div>
+                            <div class="uploaded-img2" *ngFor="let item of at.images.slice(0,3); let j=index">
+                              <img *ngIf="j<4" onerror="this.src='assets/img/placeholder.png'" class="u-img" [src]="item.image" alt="img">
+                              <div class="upload-caption">
+                                <p *ngIf="at.images?.length > 3 && j==2" class="number" (click)="modelTowerAmenityOpenFun(at, i)">+{{at?.images?.length-3}}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div> -->
+                        </li>
+                      </ul>
+
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="form-group-3 marginT15">
+                      <div class="btn-cont">
+                        <a style="display:none;" #towerEditAmenitiesModal class="btn-third btn btn-block"
+                          data-toggle="modal" data-target="#towerEditAmenities" href="javascript://"></a>
+                        <a *ngIf="model?.building_tower_edit_index==i" (click)="editTowerAmenity(btower?.amenities, i)"
+                          class="btn-third btn btn-block" href="javascript://">{{'addForm.addMore' | translate}}</a>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+              </div>
+              <!-- end of listing of added towers -->
 
+              <!-- Developer Info Section -->
+              <div class="row">
+                <div class="col-12">
+                  <div class="page-title paddingL0 paddingR0">
+                    <h3>{{'addForm.developer.label' | translate}}
+                      <!-- <span class="color-red">*</span> -->
+                      <span class="tower pull-right" *ngIf="model?.developer?.id"  style="margin-left: 20px;"
+                      (click)="removeDeveloper('', 1)">{{'addForm.developer.removeDeveloper' | translate}} </span>
+
+                      <span class="tower pull-right"
+                        (click)="selectDeveloper('', 1)">{{model?.developer?.id ? ('addForm.developer.changeDeveloper' | translate) : ('addForm.developer.selectDeveloper' | translate)}} </span>
+                    </h3>
+                  </div>
+                </div>
               </div>
 
 
+              <div class="row" *ngIf="model?.developer?.id">
+
+                <!-- <div class="col-md-12 col-sm-12 col-12">
+                <div class="form-group-3 pull-right">
+                  <label class="green-color cursor-pointer" (click)="selectDeveloper('', 1)">Select Developer</label>
+                </div>
+              </div> -->
+
+                <!-- <div class="col-md-6 col-sm-6 col-6">
+                <div class="form-group-3">
+                  <label class="green-color cursor-pointer" (click)="addDeveloper()">Add New Developer</label>
+                </div>
+              </div> -->
+
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.developer.name' | translate}}</label>
+                    <input autocomplete="off" [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.developer.name"
+                      class="form-control" type="text" name="developer_name" placeholder="{{'addForm.placeholder.developerName' | translate}}">
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.developer.phoneNumber' | translate}}</label>
+                    <input autocomplete="off" [disabled]="!canEditdeveloperInfo" minlength="6" maxlength="16"
+                      autocomplete="off" type="text" class="form-control" id="phone" placeholder="{{'addForm.placeholder.phoneNumber' | translate}}"
+                      minlength="1" [(ngModel)]="model.developer.phone" name="phone" ng2TelInput
+                      [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.developer.email' | translate}}</label>
+                    <input autocomplete="off" [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.developer.email"
+                      class="form-control" type="email" name="developer_email" placeholder="{{'addForm.placeholder.developerEmail' | translate}}"
+                      pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.developer.companyName' | translate}}</label>
+                    <input autocomplete="off" [disabled]="!canEditdeveloperInfo"
+                      [(ngModel)]="model.developer.developer_company" class="form-control" type="text"
+                      name="developer_company" placeholder="{{'addForm.placeholder.companyName' | translate}}" />
+                  </div>
+                </div>
+                <!-- <div class="col-md-12 col-sm-12 col-12">
+                  <div class="form-group-3">
+                    <label>Description</label>
+                    <input autocomplete="off" [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.developer.developer_desc" class="form-control" type="text" name="developer_desc" placeholder="Description"/>
+                  </div>
+                </div> -->
+
+                <div class="col-6">
+                  <div class="form-group-3">
+                    <label>{{'addForm.developer.logo' | translate}}</label>
+                    <div class="add-project-img-more">
+                      <input [disabled]="!canEditdeveloperInfo" type="file" accept="image/*" name="sasdsda"
+                        (change)="file5.onSelectFile($event, true);">
+                      <img class="img-fluid" *ngIf="file5.image" [src]="file5.image">
+                      <div *ngIf="!file5.image" class="upload-caption">
+                        <p class="green-color">{{'addForm.logo' | translate}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-6">
+                  <div class="form-group-3">
+                    <label>{{'addForm.developer.coverImage' | translate}}</label>
+                    <div class="add-project-img-more">
+                      <input [disabled]="!canEditdeveloperInfo" type="file" accept="image/*" name="developer_image"
+                        (change)="file6.onSelectFile($event, true);">
+                      <img class="img-fluid" *ngIf="file6.image" [src]="file6.image">
+                      <div *ngIf="!file6.image" class="upload-caption">
+                        <p class="green-color">{{'addForm.coverImage' | translate}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-1">
+                  <div class="form-group">
+                    <input type="checkbox" class="form-control"  [(ngModel)]="model.developer_by" name="developer_by">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group-3">
+                    <label style="font-size: x-large; font-weight: bold;">{{'addForm.NoInformation' | translate}}</label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- End of Developer Info Section -->
+
+
+              <!-- Managed By Section -->
+              <div class="row">
+                <div class="col-12">
+                  <div class="page-title paddingL0 paddingR0">
+                    <h3>{{'addForm.managedBy.label' | translate}} {{model?.manager?.id ? ('addForm.managedBy.manager' | translate) : ''}} {{model?.company?.id ? ('addForm.managedBy.company' | translate) : ''}}
+                      <span class="tower pull-right" *ngIf="model?.manager?.id || model?.company?.id"
+                        (click)="removeManagerCompany('', 1)">{{'addForm.remove' | translate}}</span>
+                    </h3>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="!model?.manager?.id && !model?.company?.id" class="row">
+                <div class="col-12">
+                  <ul class="loc-tags-group">
+                    <li class="width100">
+                      <span class="width100 amen-img">{{'addForm.managedBy.manager' | translate}}
+                        <a class="pull-right cursor-pointer" title="{{'table.title.selectManager' | translate}}" (click)="selectManagedBy('', 1, 1)">
+                          <!-- <img src="assets/img/add.png" /> -->
+                          {{'addForm.add' | translate}}
+                        </a>
+                      </span>
+                    </li>
+                    <li class="width100">
+                      <span class="width100 amen-img">{{'addForm.managedBy.company' | translate}}
+                        <a class="pull-right cursor-pointer" title="{{'table.title.selectCompany' | translate}}" (click)="selectManagedBy('', 1, 2)">
+                          <!-- <img src="assets/img/add.png" /> -->
+                          {{'addForm.add' | translate}}
+                        </a>
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="col-12" *ngIf="!model?.manager?.id || !model?.company?.id">
+                  <label class="width100 cust-check-bx2 marginB15">
+                    {{'addForm.managedBy.eitherManagerOrCompany' | translate}}
+                  </label>
+                </div>
+              </div>
+
+
+              <div class="row" *ngIf="model?.manager?.id">
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.managedBy.managerName' | translate}}</label>
+                    <input autocomplete="off" [disabled]="true" [(ngModel)]="model.manager.name" class="form-control"
+                      type="text" name="manager_name">
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.managedBy.firstSurname' | translate}}</label>
+                    <input autocomplete="off" [disabled]="true" [(ngModel)]="model.manager.first_surname" class="form-control"
+                      type="text" name="first_surname">
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.managedBy.secondSurname' | translate}}</label>
+                    <input autocomplete="off" [disabled]="true" [(ngModel)]="model.manager.second_surname" class="form-control"
+                      type="text" name="second_surname">
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                      <label>{{'addForm.managedBy.phoneNumber' | translate}}</label>
+                    <input autocomplete="off" [disabled]="true" type="text" class="form-control" id="phone"
+                      placeholder="{{'addForm.placeholder.phoneNumber' | translate}}" minlength="1" [(ngModel)]="model.manager.phone" name="phone"
+                      ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
+                  </div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-12">
+                  <div class="form-group-3">
+                      <label>{{'addForm.managedBy.email' | translate}}</label>
+                    <input autocomplete="off" [disabled]="true" [(ngModel)]="model.manager.email" class="form-control"
+                      type="email" name="developer_email" placeholder="{{'addForm.placeholder.managerEmail' | translate}}"
+                      pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group-3">
+                      <label>{{'addForm.managedBy.logo' | translate}}</label>
+                    <div class="add-project-img-more">
+                      <img class="img-fluid" onerror="this.src='assets/img/placeholder.png'"
+                        [src]="model?.manager?.image">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-6">
+                  <div class="form-group-3">
+                      <label>{{'addForm.managedBy.coverImage' | translate}}</label>
+                    <div class="add-project-img-more">
+                      <img class="img-fluid" onerror="this.src='assets/img/placeholder.png'"
+                        [src]="model?.manager?.logo">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="model?.company?.id">
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                      <label>{{'addForm.managedBy.companyName' | translate}}</label>
+                    <input autocomplete="off" [disabled]="true" [(ngModel)]="model.company.name" class="form-control"
+                      type="text" name="developer_name1">
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                      <label>{{'addForm.managedBy.phoneNumber' | translate}}</label>
+                    <input autocomplete="off" [disabled]="true" type="text" class="form-control" id="phone"
+                      placeholder="{{'addForm.placeholder.phoneNumber' | translate}}" minlength="1" [(ngModel)]="model.company.phone" name="phone"
+                      ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
+                  </div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-12">
+                  <div class="form-group-3">
+                      <label>{{'addForm.managedBy.email' | translate}}</label>
+                    <input autocomplete="off" [disabled]="true" [(ngModel)]="model.company.email" class="form-control"
+                      type="email" name="developer_email" placeholder="{{'addForm.placeholder.companyEmail' | translate}}"
+                      pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group-3">
+                      <label>{{'addForm.managedBy.logo' | translate}}</label>
+                    <div class="add-project-img-more">
+                      <img class="img-fluid" onerror="this.src='assets/img/placeholder.png'"
+                        [src]="model?.company?.image">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-6">
+                  <div class="form-group-3">
+                      <label>{{'addForm.managedBy.coverImage' | translate}}</label>
+                    <div class="add-project-img-more">
+                      <img class="img-fluid" onerror="this.src='assets/img/placeholder.png'"
+                        [src]="model?.company?.logo">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-1">
+                  <div class="form-group">
+                    <input type="checkbox" class="form-control"  [(ngModel)]="model.managed_by" name="managed_by">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group-3">
+                    <label style="font-size: x-large; font-weight: bold;">{{'addForm.NoInformation' | translate}}</label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- End of Managed By Section -->
+
+              
+              <!-- Agency Info Section -->
+              <div class="row">
+                <div class="col-12">
+                  <div class="page-title paddingL0 paddingR0">
+                    <h3>{{'addForm.agency.label' | translate}}
+                      <!-- <span class="color-red">*</span> -->
+                      <span class="tower pull-right" style="margin-left: 20px;" *ngIf="model?.agency?.id"
+                      (click)="unlinkAgency('', 1)">{{'addForm.agency.unlinkAgency' | translate}} </span>
+
+                      <span class="tower pull-right"
+                        (click)="selectAgency('', 1)">{{model?.agency?.id ? ('addForm.agency.changeAgency' | translate) : ('addForm.agency.selectAgency' | translate)}} </span>
+                        
+                    </h3>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="row" *ngIf="model?.agency?.id">
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.companyCommercialName' | translate}}</label>
+                    <input [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.agency.name"
+                      class="form-control" type="text" name="name1" placeholder="{{'addForm.placeholder.developerName' | translate}}">
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.agency.phoneNumber' | translate}}</label>
+                    <input [disabled]="!canEditdeveloperInfo" 
+                      type="text" class="form-control" id="phone" placeholder="{{'addForm.placeholder.phoneNumber' | translate}}"
+                      minlength="1" [(ngModel)]="model.agency.phone" name="phone1" ng2TelInput
+                      [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.agency.email' | translate}}</label>
+                    <input [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.agency.email"
+                      class="form-control" type="email" name="email1" placeholder="{{'addForm.placeholder.developerEmail' | translate}}"
+                      pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.name' | translate}}</label>
+                    <input [disabled]="!canEditdeveloperInfo"
+                      [(ngModel)]="model.agency.name" class="form-control" type="text"
+                      name="name" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-1">
+                  <div class="form-group">
+                    <input type="checkbox" class="form-control"  [(ngModel)]="model.agency_by" name="agency_by">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group-3">
+                    <label style="font-size: x-large; font-weight: bold;">{{'addForm.NoInformation' | translate}}</label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- End of Agency Info Section -->
+
+              
+              <!-- Legal Entity Info Section -->
+              <!-- <div class="row">
+                <div class="col-12">
+                  <div class="page-title paddingL0 paddingR0">
+                    <h3>{{'addForm.legalEntity.label' | translate}}
+                      <span class="tower pull-right" style="margin-left: 25px;" *ngIf="model?.legal_entity?.id"
+                        (click)="removeLegalEntity('', 1)">{{'addForm.legalEntity.removeLegalEntity' | translate}} </span>
+                      <span class="tower pull-right"
+                        (click)="selectLegalEntity('', 1)">{{model?.legal_entity?.id ? ('addForm.legalEntity.changeLegalEntity' | translate) : ('addForm.legalEntity.selectLegalEntity' | translate)}} </span>
+                    </h3>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="row" *ngIf="model?.legal_entity?.id">
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.companyCommercialName' | translate}}</label>
+                    <input [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.legal_entity.comm_name"
+                      class="form-control" type="text" name="comm_name" placeholder="{{'addForm.placeholder.developerName' | translate}}">
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.legalEntity.phoneNumber' | translate}}</label>
+                    <input [disabled]="!canEditdeveloperInfo" 
+                      type="text" class="form-control" id="phone2" placeholder="{{'addForm.placeholder.phoneNumber' | translate}}"
+                      minlength="1" [(ngModel)]="model.legal_entity.phone" name="phone2" ng2TelInput
+                      [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.legalEntity.email' | translate}}</label>
+                    <input [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.legal_entity.email"
+                      class="form-control" type="email" name="email2" placeholder="{{'addForm.placeholder.developerEmail' | translate}}"
+                      pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
+                  </div>
+                </div>
+              </div> -->
+
+              <div class="row">
+                <div class="col-12">
+                  <div class="page-title paddingL0 paddingR0">
+                    <h3>{{'addForm.legalEntity.label' | translate}}
+                      <span class="tower pull-right"
+                        (click)="selectLegalEntity('', 1)">{{'addForm.legalEntity.selectLegalEntity' | translate}} </span>
+                    </h3>
+                  </div>
+                </div>
+              </div>
+
+            <div *ngIf="model.legal_entity?.length > 0">
+              <div *ngFor="let legal_entity of model.legal_entity; let i=index">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="page-title paddingL0 paddingR0">
+                      <h3>{{'addForm.legalEntity.label' | translate}} {{i+1}}
+                        <span class="tower pull-right" style="margin-left: 25px;"
+                          (click)="removeLegalEntity(legal_entity)">{{'addForm.legalEntity.removeLegalEntity' | translate}} </span>
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+              <div class="row">
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.companyCommercialName' | translate}}</label>
+                    <input [disabled]="!canEditdeveloperInfo" [(ngModel)]="legal_entity.comm_name"
+                      class="form-control" type="text" name="legal_entity_comm_name{{i}}" placeholder="{{'addForm.placeholder.developerName' | translate}}">
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.legalEntity.phoneNumber' | translate}}</label>
+                    <input [disabled]="!canEditdeveloperInfo" 
+                      type="text" class="form-control"  placeholder="{{'addForm.placeholder.phoneNumber' | translate}}"
+                      minlength="1" [(ngModel)]="legal_entity.phone" name="legal_entity_phone{{i}}" ng2TelInput
+                      [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.legalEntity.email' | translate}}</label>
+                    <input [disabled]="!canEditdeveloperInfo" [(ngModel)]="legal_entity.email"
+                      class="form-control" type="email" name="legal_entity_email{{i}}" placeholder="{{'addForm.placeholder.developerEmail' | translate}}"
+                      pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div>
+
+              <!-- End of Legal Entity Info Section -->
+
+                <!--contributor Info Section -->
+               <div class="row">
+                <div class="col-12">
+                  <div class="page-title paddingL0 paddingR0">
+                    <h3>{{'addForm.contributor.label' | translate}}
+                      <span class="tower pull-right"
+                        (click)="selectContributor('', 1, false)">{{'addForm.contributor.selectContributor' | translate}} </span>
+                    </h3>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="row" *ngIf="model?.building_contributors_param && model?.building_contributors_param.length > 0">
+                <div class="col-12">
+                  <div class="row" *ngFor="let contributor of model?.building_contributors_param; let i = index">
+                    <div class="col-12">
+                      <div class="row">
+                        <div class="col-4 offset-8" style="height: 45px;">
+                          <div class="page-title paddingL0 paddingR0" style="border-bottom:none;">
+                            <h3>
+                          <span class="tower pull-right" style="margin-left: 25px;"
+                            (click)="removeContributor(contributor.id, i)">{{'addForm.contributor.removeContributor' | translate}}
+                          </span>
+                        </h3>
+                      </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6 col-sm-6 col-12">
+                          <div class="form-group-3">
+                            <label>{{'addForm.contributor.name' | translate}}</label>
+                            <input [disabled]="!canEditContributionInfo" [(ngModel)]="model?.building_contributors_param[i].name"
+                              class="form-control" type="text" name="{{'contributorName' + i}}"
+                              placeholder="{{'addForm.placeholder.developerName' | translate}}">
+                          </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-12">
+                          <div class="form-group-3">
+                            <label>{{'addForm.contributor.phoneNumber' | translate}}</label>
+                            <input [disabled]="!canEditContributionInfo" type="text" class="form-control"
+                              placeholder="{{'addForm.placeholder.phoneNumber' | translate}}" minlength="1"
+                              [(ngModel)]="model?.building_contributors_param[i].phone" name="{{'contributorPhone' + i}}" ng2TelInput
+                              [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
+                          </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-12">
+                          <div class="form-group-3">
+                            <label>{{'addForm.contributor.email' | translate}}</label>
+                            <input [disabled]="!canEditContributionInfo" [(ngModel)]="model?.building_contributors_param[i].email"
+                              class="form-control" type="email" name="{{'contributorEmail' + i}}"
+                              placeholder="{{'addForm.placeholder.developerEmail' | translate}}"
+                              pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- End of contributor Info Section -->
+              
+              <div class="row">
+                <div class="col-12">
+                  <div class="page-title paddingL0 paddingR0">
+                    <h3>{{'addForm.contributor.parking' | translate}}</h3>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.parking-spaces' | translate}}</label>
+                    <input class="form-control" type="text" disabled style="background-color: #8080803d;color: #000;"
+                    name="both_sum" [(ngModel)]="both_sum">
+                  </div>
+                </div>
+                
+                <div class="col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.spaces-available' | translate}}</label>
+                    <input class="form-control" type="text" disabled style="background-color: #8080803d;color: #000;"
+                    name="parkinLot_sum" [(ngModel)]="parkinLot_sum">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" *ngFor="let bankAccount of model.parking_space_lots; let s=index">
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.spaces-available' | translate}}{{s}}</label>
+                    <input class="form-control" type="number" name="no_parking{{s}}"
+                    [(ngModel)]="bankAccount.no_parking"  placeholder="No. of Properties"  autocomplete="off">
+                    <!-- <span>Total : {{getTotal(bankAccount.no_parking)}}</span> -->
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.spaces-type' | translate}}{{s}}</label>
+                    <select title="{{'addForm.spaces-type' | translate}}{{s}}" name="parking_space_id{{s}}" class="form-control"
+                    style="border-color: green;" [(ngModel)]="bankAccount.parking_space_id">
+                    <option value="0" disabled>{{'addForm.spaces-type' | translate}}</option>
+                    <option *ngFor="let maritalStatus of parameter.parkingLotSpaces"
+                      value="{{maritalStatus.id}}">{{language_code
+                      == 'en'? maritalStatus.name_en : maritalStatus.name_es}}</option>
+                  </select>
+                   
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-12">
+                <label><span class="pull-right"><a class="add" (click)="addDeveloperBank($event)" style="cursor: pointer;"
+                      href="javascript://">{{'addForm.another' | translate}}</a></span>
+                </label>
+              </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.saleParking' | translate}}</label>
+                    <input class="form-control" type="text" disabled style="background-color: #8080803d;color: #000;"
+                    name="parkingRent_sum" [(ngModel)]="parkingRent_sum">
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>&nbsp;</label>
+                    <div class="switchToggle">
+                      <input type="checkbox" id="switch50" (click)="toggleShow()">
+                      <label for="switch50">Toggle</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <div *ngIf="toggleSelectedDetails.isCreditCardChecked">
+              <div class="row" *ngFor="let rest of model.parking_space_rent; let i=index">
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.spaces-available' | translate}}{{i}}</label>
+                    <input class="form-control" type="number" name="no_parking1{{i}}"
+                    [(ngModel)]="rest.no_parking"  placeholder="No. of Properties"  autocomplete="off">
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.spaces-type' | translate}}{{i}}</label>
+                    <select title="{{'addForm.spaces-type' | translate}}{{i}}" name="parking_space_id1{{s}}" class="form-control"
+                    style="border-color: green;" [(ngModel)]="rest.parking_space_id">
+                    <option value="0" disabled>{{'addForm.spaces-type' | translate}}</option>
+                    <option *ngFor="let maritalStatus of parameter.parkingLotSpaces"
+                      value="{{maritalStatus.id}}">{{language_code
+                      == 'en'? maritalStatus.name_en : maritalStatus.name_es}}</option>
+                  </select>
+                  </div>
+                </div>
+              </div> 
+
+              <div class="row">
+                <div class="col-md-12 col-sm-12 col-12">
+                <label><span class="pull-right"><a class="add" (click)="addDeveloperBank1($event)" style="cursor: pointer;"
+                      href="javascript://">{{'addForm.another' | translate}}</a></span>
+                </label>
+              </div>
+              </div>
+
+            </div>
+              <div class="row">
+                <div class="col-12">
+                  <div class="btn-cont text-right">
+                    <button [disabled]="!f.valid" (click)="addProject()" class="btn-primary btn">{{'addForm.submit' | translate}}</button>
+                  </div>
+                </div>
+              </div>
 
             </div>
           </div>
-        </div>
       </form>
     </div>
 
   </div>
 </div>
 
-<!-- Amanities model -->
+<!-- Amenities model -->
 <div class="modal" id="amenities" style="display: none;" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content amenities-popup">
       <div class="modal-header popup-header">
-        <h4 class="modal-title">Amenities</h4>
+        <h4 class="modal-title">{{'addForm.amenities' | translate}}</h4>
         <button type="button" class="close" data-dismiss="modal">×</button>
       </div>
       <div class="modal-body">
-        <label *ngFor="let a of all_amenities; " (click)="a.selected = !a.selected" class="cust-check-bx2">
-             {{a.name}}
-           <span *ngIf="a.selected==true" class="checkmark open"></span>
-           </label>
+        <!-- searching -->
+        <!-- <div class="row">
+          <div class="col-md-8 col-6">
+              <input style="max-width:200px" [(ngModel)]="keyword" class="form-control" type="text" name="keyword" placeholder="Search">
+          </div>
+          <div class="col-md-4 col-5 btn-cont">
+              <a class="btn btn-primary pull-right" href="javascript://" (click)="getInhouseBroker('', keyword)">Search</a>
+          </div>
+        </div>
+        <div class="spacer30"></div> -->
 
+        <div>
+          <label *ngFor="let a of all_amenities; " (click)="a.selected = !a.selected" class="cust-check-bx2">
+            {{a.name}}
+            <span *ngIf="a.selected==true" class="checkmark open"></span>
+          </label>
+        </div>
       </div>
       <div class="modal-footer">
         <div class="btn-cont">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">{{'addForm.close' | translate}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Tower Amenities model -->
+<div class="modal" id="towerAmenities" style="display: none;" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content amenities-popup">
+      <div class="modal-header popup-header">
+        <h4 class="modal-title">{{'addForm.amenities' | translate}}</h4>
+        <button type="button" class="close" data-dismiss="modal">×</button>
+      </div>
+      <div class="modal-body">
+        <label *ngFor="let a of allTowerAmenities; " (click)="a.selected = !a.selected" class="cust-check-bx2">
+          {{a.name}}
+          <span *ngIf="a.selected==true" class="checkmark open"></span>
+        </label>
+      </div>
+      <div class="modal-footer">
+        <div class="btn-cont">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">{{'addForm.close' | translate}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Tower Amenities edit model -->
+<div class="modal" id="towerEditAmenities" style="display: none;" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content amenities-popup">
+      <div class="modal-header popup-header">
+        <h4 class="modal-title">{{'addForm.amenities' | translate}}</h4>
+        <button type="button" class="close" data-dismiss="modal">×</button>
+      </div>
+      <div class="modal-body">
+        <label *ngFor="let a of allTowerAmenityForEdit; let m=index " (click)="setTowerAmenity(a, m)"
+          class="cust-check-bx2">
+          {{a.name}}
+          <span *ngIf="a.selected==true" class="checkmark open"></span>
+        </label>
+      </div>
+      <div class="modal-footer">
+        <div class="btn-cont">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">{{'addForm.close' | translate}}</button>
         </div>
       </div>
     </div>
@@ -346,7 +1550,7 @@
 
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">Images</h4>
+        <h4 class="modal-title">{{'addForm.images' | translate}}</h4>
         <button type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
       </div>
 
@@ -355,91 +1559,552 @@
         <div class="uploaded-img-block">
           <div class="uploaded-img" *ngFor="let item of file2.files; let i=index">
             <a class="remove" (click)="file2.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
-            <img *ngIf="item" class="u-img" [src]="item.image" alt="img">
+            <img *ngIf="item" class="u-img" [src]="item.image| img:'thumb'" alt="img">
             <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+            <div *ngIf="item.loading" class="loaderr"></div>
           </div>
         </div>
         <div class="add-more-images">
           <input type="file" name="add-more" multiple max="6" accept="image/*" (change)="file2Select($event)">
-          <span>+ Add more images</span>
+          <span>{{'addForm.moreImages.addMoreBtn' | translate}}</span>
         </div>
       </div>
 
       <!-- Modal footer -->
       <div class="modal-footer btn-cont">
-        <button type="button" (click)="saveImages()" class="btn btn-primary">Submit</button>
+        <button type="button" (click)="saveImages()" class="btn btn-primary">{{'addForm.submit' | translate}}</button>
       </div>
 
     </div>
   </div>
 </div>
 
-<a #openDeveloperListModel class="btn-third btn btn-block" data-target="#developer-list" data-toggle="modal"></a>
+
+<!-- Add More 360 img -->
+<span data-target="#add-more-360-img" data-toggle="modal" #modal360ImageOpen></span>
+<div class="modal add-more-popup" id="add-more-360-img">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">360<span>&#176;</span> {{'addForm.images' | translate}}</h4>
+        <button type="button" class="close" data-dismiss="modal" #modal360ImageClose>&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="uploaded-img-block">
+          <div class="uploaded-img" *ngFor="let item of file7.files; let i=index">
+            <a class="remove" (click)="file7.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
+            <img *ngIf="item" (click)="open360imgviewerModal()" class="u-img" [src]="item.image| img:'thumb'" alt="img">
+            <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+            <div *ngIf="item.loading" class="loaderr"></div>
+          </div>
+        </div>
+        <div class="add-more-images">
+          <input type="file" name="add-more" multiple max="6" accept="image/*" (change)="file7Select($event)">
+          <span>{{'addForm.add360.addBtn1' | translate}}<span>&#176;</span> {{'addForm.add360.addBtn2' | translate}}</span>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer btn-cont">
+        <button type="button" (click)="save360Images()" class="btn btn-primary">{{'addForm.submit' | translate}}</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<!--Add More video -->
+<span data-target="#add-more-videos" data-toggle="modal" #modalAddMoreVideos></span>
+<div class="modal add-more-popup" id="add-more-videos">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h4 class="modal-title">{{'addForm.videos' | translate}}</h4>
+        <button type="button" class="close" data-dismiss="modal" #modalVideosClose>&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="uploaded-img-block">
+          <div class="uploaded-img" *ngFor="let item of amenVideo.files; let i=index">
+            <a class="remove" (click)="remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
+            <!-- <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'"
+              src="{{videoSrc}}" class="video{{i}} floor-plan" type="video/mp4" controls></video>
+            <canvas *ngIf="!item?.thumb" width="72" height="72" id="canvas3{{i}}"></canvas> -->
+            <img *ngIf="item.thumb" class="u-img" [src]="item.thumb| img:'thumb'" alt="img">
+            <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+            <div *ngIf="item.loading" class="loaderr"></div>
+          </div>
+        </div>
+        <div class="add-more-images dimensions">
+          <input type="file" name="add-more" multiple max="6" accept="video/*"
+            (change)="amenVideosSelect($event, 'videos')">
+          <span>{{'addForm.addVideo.addBtn' | translate}} </span>
+        </div>
+
+        <div class="modal-footer btn-cont">
+          <button type="button" (click)="saveVideos()" class="btn btn-primary">{{'addForm.submit' | translate}}</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Add amenities img -->
+<span data-target="#add-amenity-more-img" data-toggle="modal" #modalAmenOpen></span>
+<div class="modal add-more-popup" id="add-amenity-more-img">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h4 class="modal-title">{{amenity_obj?.name}} {{'addForm.images' | translate}}</h4>
+        <button type="button" class="close" data-dismiss="modal" #modalAmenClose>&times;</button>
+      </div>
+
+      <div class="modal-body">
+
+        <!-- images -->
+        <div class="uploaded-img-block">
+          <p>{{'addForm.images' | translate}}</p>
+          <div class="uploaded-img" *ngFor="let item of file2.files; let i=index">
+            <a class="remove" (click)="file2.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
+            <img *ngIf="item" class="u-img" [src]="item.image| img:'thumb'" alt="img">
+            <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+            <div *ngIf="item.loading" class="loaderr"></div>
+          </div>
+        </div>
+        <div class="add-more-images dimensions">
+          <input type="file" name="add-more" multiple max="6" accept="image/*" (change)="file2Select($event)">
+          <span>{{'addForm.moreImages.addMoreBtn' | translate}}</span>
+        </div>
+
+        <!-- 360 images -->
+        <div class="uploaded-img-block">
+          <p>360<span>&#176;</span> {{'addForm.images' | translate}} </p>
+          <div class="uploaded-img" *ngFor="let item of amen360Img.files; let i=index">
+            <a class="remove" (click)="amen360Img.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
+            <img *ngIf="item" class="u-img" [src]="item.image| img:'thumb'" alt="img">
+            <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+            <div *ngIf="item.loading" class="loaderr"></div>
+          </div>
+        </div>
+        <div class="add-more-images dimensions">
+          <input type="file" name="add-more" multiple max="6" accept="image/*" (change)="amen360ImagesSelect($event)">
+          <span>{{'addForm.add360.addBtn1' | translate}}<span>&#176;</span> {{'addForm.add360.addBtn2' | translate}}</span>
+        </div>
+
+        <!-- videos -->
+        <div class="uploaded-img-block">
+          <p>{{'addForm.videos' | translate}}</p>
+          <div class="uploaded-img" *ngFor="let item of amenVideo.files; let i=index">
+            <a class="remove" (click)="remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
+            <!-- <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'"
+              src="{{videoSrc}}" class="video{{i}} floor-plan" type="video/mp4" controls></video>
+            <canvas *ngIf="!item?.thumb" width="72" height="72" id="canvas{{i}}"></canvas> -->
+            <img *ngIf="item.thumb" class="u-img" [src]="item.thumb| img:'thumb'" alt="img">
+            <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+            <div *ngIf="item.loading" class="loaderr"></div>
+          </div>
+        </div>
+        <div class="add-more-images dimensions">
+          <input type="file" name="add-more" multiple max="6" accept="video/*"
+            (change)="amenVideosSelect($event, 'amenity')">
+          <span>{{'addForm.addVideo.addBtn' | translate}} </span>
+        </div>
+
+      </div>
+
+      <div class="modal-footer btn-cont">
+        <button type="button" (click)="saveAmenityImages()" class="btn btn-primary">{{'addForm.submit' | translate}}</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- Add tower amenities img -->
+<span data-target="#add-tower-amenity-more-img" data-toggle="modal" #modalTowerAmenOpen></span>
+<div class="modal add-more-popup" id="add-tower-amenity-more-img">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h4 class="modal-title">{{amenity_obj?.name}} {{'addForm.images' | translate}}</h4>
+        <button type="button" class="close" data-dismiss="modal" #modalTowerAmenClose>&times;</button>
+      </div>
+
+      <div class="modal-body">
+
+        <!-- images -->
+        <div class="uploaded-img-block">
+          <p>{{'addForm.images' | translate}}</p>
+          <div class="uploaded-img" *ngFor="let item of file2.files; let i=index">
+            <a class="remove" (click)="file2.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
+            <img *ngIf="item" class="u-img" [src]="item.image| img:'thumb'" alt="img">
+            <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+            <div *ngIf="item.loading" class="loaderr"></div>
+          </div>
+        </div>
+        <div class="add-more-images dimensions">
+          <input type="file" name="add-more" multiple max="6" accept="image/*" (change)="file2Select($event)">
+          <span>{{'addForm.moreImages.addMoreBtn' | translate}}</span>
+        </div>
+
+        <!-- 360 images -->
+        <div class="uploaded-img-block">
+          <p>360<span>&#176;</span> {{'addForm.images' | translate}} </p>
+          <div class="uploaded-img" *ngFor="let item of amen360Img.files; let i=index">
+            <a class="remove" (click)="amen360Img.remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
+            <img *ngIf="item" class="u-img" [src]="item.image| img:'thumb'" alt="img">
+            <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+            <div *ngIf="item.loading" class="loaderr"></div>
+          </div>
+        </div>
+        <div class="add-more-images dimensions">
+          <input type="file" name="add-more" multiple max="6" accept="image/*" (change)="amen360ImagesSelect($event)">
+          <span>{{'addForm.add360.addBtn1' | translate}} <span>&#176;</span> {{'addForm.add360.addBtn2' | translate}}</span>
+        </div>
+
+        <div class="uploaded-img-block">
+          <p>{{'addForm.videos' | translate}}</p>
+          <div class="uploaded-img" *ngFor="let item of amenVideo.files; let j=index">
+            <a class="remove" (click)="remove(j)"><img src="assets/img/remove-icon.png" alt="img"></a>
+            <!-- <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'"
+              src="{{videoSrc}}" class="video{{j}} floor-plan" type="video/mp4" controls></video>
+            <canvas *ngIf="!item?.thumb" width="72" height="72" id="canvas2{{j}}"></canvas> -->
+            <img *ngIf="item.thumb" class="u-img" [src]="item.thumb| img:'thumb'" alt="img">
+            <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+            <div *ngIf="item.loading" class="loaderr"></div>
+          </div>
+        </div>
+        <div class="add-more-images dimensions">
+          <input type="file" name="add-more" multiple max="3" accept="video/*"
+            (change)="amenVideosSelect($event, 'tower')">
+          <span>{{'addForm.addVideo.addBtn' | translate}}</span>
+        </div>
+      </div>
+
+      <div class="modal-footer btn-cont">
+        <button type="button" (click)="saveTowerAmenityImages()" class="btn btn-primary">{{'addForm.submit' | translate}}</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<a #openDeveloperListModel class="btn-third btn btn-block" data-target="#developer-list" data-toggle="modal" style="display: none;"></a>
 <div class="modal" id="developer-list">
   <div class="modal-dialog">
     <div class="modal-content notary-avail">
-        <div class="modal-header popup-header">
-        <h4 class="modal-title">Select Developer</h4>
-        <button type="button" class="close" data-dismiss="modal" #closeDeveloperListModel>&times;</button>
-        </div>
-        <div class="modal-body">
-            <div class="row">
-                <div class="col-md-8 col-6">
-                    <input style="max-width:200px" list="amenities" (input)="getAssignListing()" class="form-control" type="text" name="keyword" placeholder="Search">
-                </div>
-            </div>
-            <div class="spacer40"></div>
-            <table class="table">
-                <tr *ngFor="let item of all_developers">
-                    <td *ngIf="item.is_blocked!=1">
-                        <div class="n-avail-profile">
-                        <img [src]="item.image" onerror='src="assets/img/default_img.png"' alt="img">
-                        <div class="n-avail-info">
-                            <p class="p12">{{item.name}}</p>
-                            <p class="p10">Phone : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
-                        </div>
-                        </div>
-                    </td>
-                    <td *ngIf="item.is_blocked!=1">
-                        <label class="cust-check-bx float-right">
-                            <input type="radio" name="notary_id" (click)="setDeveloper(item)">
-                            <span class="checkmark"></span>
-                        </label>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </div>
-</div>
-</div>
-
-
-
-<a #openConfigPopup class="btn-third btn btn-block" data-target="#add-config" data-toggle="modal"></a>
-<div class="modal" id="add-config">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content add-config-popup">
-      <form #addConfig >
       <div class="modal-header popup-header">
-        <h4 class="modal-title">Add Configuration</h4>
-        <button type="button" class="close" data-dismiss="modal" #closeConfigPopup>×</button>
+        <h4 class="modal-title">{{'addForm.developer.selectDeveloper' | translate}}</h4>
+        <button type="button" class="close" data-dismiss="modal" #closeDeveloperListModel>&times;</button>
       </div>
-      <div *ngIf="new_config" class="modal-body">
+      <div class="modal-body">
         <div class="row">
-          <div class="col-sm-6 col-12">
-            <div class="form-group-3">
-              <label>Title</label>
-              <select class="form-control" [(ngModel)]="new_config.configuration_id" (change)="selectConfiguration($event.target.value,new_config)" name="config_name">
-                <option value="">Select</option>  
-                <option *ngFor="let c of all_configurations" value="{{c.id}}" daa-model="c">{{c.name}}</option>
-              </select>
-            </div>
+          <div class="col-md-8 col-6">
+            <input style="max-width:200px" autocomplete="off" [(ngModel)]="name" class="form-control" type="text"
+              name="keyword" placeholder="{{'addForm.placeholder.search' | translate}}">
+          </div>
+          <div class="col-md-4 col-5 btn-cont">
+            <a class="btn btn-primary pull-right" href="javascript://" (click)="selectDeveloper(name, 2)">Search</a>
+          </div>
+        </div>
+        <div class="spacer40"></div>
+        <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+          <table class="table">
+            <tr *ngFor="let item of all_developers">
+              <td *ngIf="item.is_blocked!=1">
+                <div class="n-avail-profile">
+                  <img [src]="item.image| img:'thumb'" onerror='src="assets/img/default_img.png"' alt="img">
+                  <div class="n-avail-info">
+                    <p class="p12">{{item.name}}</p>
+                    <p class="p10">{{'addForm.developer.phone' | translate}} : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
+                  </div>
+                </div>
+              </td>
+              <td *ngIf="item.is_blocked!=1">
+                <label class="cust-check-bx float-right">
+                  <input type="radio" name="notary_id" (click)="setDeveloper(item)">
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+            </tr>
+            <tr *ngIf="all_developers?.length<1">
+              <p class="show-not-found">{{'addForm.developer.notFound' | translate}}</p>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<a #openManagedByModel class="btn-third btn btn-block" data-target="#managed-by-list" data-toggle="modal"  style="display: none;"></a>
+<div class="modal" id="managed-by-list">
+  <div class="modal-dialog">
+    <div class="modal-content notary-avail">
+      <div class="modal-header popup-header">
+        <h4 class="modal-title">{{'addForm.select' | translate}} {{parameter.managedBy == 1 ? ('addForm.managedBy.manager' | translate) : ('addForm.managedBy.company' | translate)}}</h4>
+        <button type="button" class="close" data-dismiss="modal" #closeManagedByModel>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-8 col-6">
+            <input style="max-width:200px" [(ngModel)]="name" class="form-control" type="text" name="keyword"
+              placeholder="{{'addForm.placeholder.search' | translate}}">
+          </div>
+          <div class="col-md-4 col-5 btn-cont">
+            <a class="btn btn-primary pull-right" href="javascript://"
+              (click)="selectManagedBy(name, 2, parameter.managedBy)">{{'addForm.search' | translate}}</a>
+          </div>
+        </div>
+        <div class="spacer40"></div>
+        <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+          <div class="table-scroll">
+            <table class="table">
+              <tr *ngFor="let item of all_managers">
+                <td *ngIf="item.is_blocked!=1">
+                  <div class="n-avail-profile">
+                    <img [src]="item.image| img:'thumb'" onerror='src="assets/img/default_img.png"' alt="img">
+                    <div class="n-avail-info">
+                      <p class="p12">{{item.name}} {{item?.first_surname || ''}} {{item?.second_surname || ''}}</p>
+                      <p class="p10">{{'addForm.phone' | translate}} : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
+                    </div>
+                  </div>
+                </td>
+                <td *ngIf="item.is_blocked!=1">
+                  <label class="cust-check-bx float-right">
+                    <input type="radio" name="id" (click)="setManagedBy(item)">
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+              </tr>
+              <tr *ngIf="all_managers?.length<1">
+                <p class="show-not-found">{{'addForm.no' | translate}} {{parameter.managedBy == 1 ? ('addForm.managerAdded' | translate) : ('addForm.companyAdded' | translate)}} </p>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<a #openAgencyModel class="btn-third btn btn-block" data-target="#agency-list" data-toggle="modal" style="display: none;"></a>
+<div class="modal" id="agency-list">
+  <div class="modal-dialog">
+    <div class="modal-content notary-avail">
+      <div class="modal-header popup-header">
+        <h4 class="modal-title">{{'addForm.selectAgency' | translate}}</h4>
+        <button type="button" class="close" data-dismiss="modal" #closeAgencyListModel>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-8 col-6">
+            <input style="max-width:200px" [(ngModel)]="name" class="form-control" type="text" name="keyword"
+              placeholder="{{'addForm.placeholder.search' | translate}}">
+          </div>
+          <div class="col-md-4 col-5 btn-cont">
+            <a class="btn btn-primary pull-right" href="javascript://"
+              (click)="selectAgency(name, 2)">{{'addForm.search' | translate}}</a>
+          </div>
+        </div>
+        <div class="spacer40"></div>
+        <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+          <div class="table-scroll">
+            <table class="table">
+              <tr *ngFor="let item of agencies">
+                <td *ngIf="item.is_blocked!=1">
+                  <div class="n-avail-profile">
+                    <img [src]="item.image| img:'thumb'" onerror='src="assets/img/default_img.png"' alt="img">
+                    <div class="n-avail-info">
+                      <p class="p12">{{item.name}}</p>
+                      <p class="p10">{{'addForm.phone' | translate}} : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
+                    </div>
+                  </div>
+                </td>
+                <td *ngIf="item.is_blocked!=1">
+                  <label class="cust-check-bx float-right">
+                    <input type="radio" name="id" (click)="setAgency(item)">
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+              </tr>
+              <tr *ngIf="agencies?.length<1">
+                <p class="show-not-found">{{'addForm.no' | translate}} {{parameter.managedBy == 1 ? ('addForm.managerAdded' | translate) : ('addForm.companyAdded' | translate)}} </p>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- <a #openLegalEnityModel class="btn-third btn btn-block" data-target="#legal-entity-list" data-toggle="modal"></a>
+<div class="modal" id="legal-entity-list">
+  <div class="modal-dialog">
+    <div class="modal-content notary-avail">
+      <div class="modal-header popup-header">
+        <h4 class="modal-title">{{'addForm.selectLegakEntity' | translate}}</h4>
+        <button type="button" class="close" data-dismiss="modal" #closeLegalEnityListModel>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-8 col-6">
+            <input style="max-width:200px" [(ngModel)]="name" class="form-control" type="text" name="keyword"
+              placeholder="{{'addForm.placeholder.search' | translate}}">
+          </div>
+          <div class="col-md-4 col-5 btn-cont">
+            <a class="btn btn-primary pull-right" href="javascript://"
+              (click)="selectLegalEntity(name, 2)">{{'addForm.search' | translate}}</a>
+          </div>
+        </div>
+        <div class="spacer40"></div>
+        <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+          <div class="table-scroll">
+            <table class="table">
+              <tr *ngFor="let item of legalEntities">
+                <td *ngIf="item.is_blocked!=1">
+                  <div class="n-avail-profile">
+                    <img [src]="item.image| img:'thumb'" onerror='src="assets/img/default_img.png"' alt="img">
+                    <div class="n-avail-info">
+                      <p class="p12">{{item.comm_name}}</p>
+                      <p class="p10">{{'addForm.phone' | translate}} : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
+                    </div>
+                  </div>
+                </td>
+                <td *ngIf="item.is_blocked!=1">
+                  <label class="cust-check-bx float-right">
+                    <input type="radio" name="id" (click)="setLegalEntity(item)">
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+              </tr>
+              <tr *ngIf="legalEntities?.length<1">
+                <p class="show-not-found">{{'addForm.no' | translate}} </p>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<a #openLegalEnityModel class="btn-third btn btn-block" data-target="#legal-entity-list" data-toggle="modal" style="display: none;"></a>
+<div class="modal" id="legal-entity-list">
+  <div class="modal-dialog">
+    <div class="modal-content notary-avail">
+      <div class="modal-header popup-header">
+        <h4 class="modal-title">{{'addForm.selectLegakEntity' | translate}}</h4>
+        <button type="button" class="close" data-dismiss="modal" #closeLegalEnityListModel>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-8 col-6">
+            <input style="max-width:200px" [(ngModel)]="name" class="form-control" type="text" name="keyword"
+              placeholder="{{'addForm.placeholder.search' | translate}}">
+          </div>
+          <div class="col-md-4 col-5 btn-cont">
+            <a class="btn btn-primary pull-right" href="javascript://"
+              (click)="selectLegalEntity(name, 2)">{{'addForm.search' | translate}}</a>
+          </div>
+        </div>
+        <div class="spacer40"></div>
+        <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+          <div class="table-scroll">
+            <table class="table">
+              <tr *ngFor="let item of legalEntities ; let i=index">
+                <td *ngIf="item.is_blocked!=1">
+                  <div class="n-avail-profile">
+                    <img [src]="item.image| img:'thumb'" onerror='src="assets/img/default_img.png"' alt="img">
+                    <div class="n-avail-info">
+                      <p class="p12">{{item.comm_name}}</p>
+                      <p class="p10">{{'addForm.phone' | translate}} : {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</p>
+                    </div>
+                  </div>
+                </td>
+                <td *ngIf="item.is_blocked!=1">
+                  <label class="cust-check-bx float-right">
+                    <!-- <input type="radio" name="id" (click)="setLegalEntity(item)"> -->
+                    <input type="checkbox" name="id" (change)="setLegalEntity($event.target.checked,item)" [checked]="item.alreadyChecked">
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+              </tr>
+              <tr *ngIf="legalEntities?.length<1">
+                <p class="show-not-found">{{'addForm.no' | translate}} </p>
+              </tr>
+            </table>
           </div>
         </div>
         <div class="row">
+        <div class="col-md-8">
+        </div>
+        <div class="col-md-4 btn-cont">
+          <a class="btn btn-primary pull-right" href="javascript://"
+          (click)="addLegalEnityModel()" >{{'addForm.add' | translate}}</a>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<a #openConfigPopup class="btn-third btn btn-block" data-target="#add-config" data-toggle="modal" style="display: none;"></a>
+<div class="modal" id="add-config">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content add-config-popup">
+      <form #addConfig>
+        <div class="modal-header popup-header">
+          <h4 class="modal-title">{{'addForm.addConfiguration' | translate}}</h4>
+          <button type="button" class="close" data-dismiss="modal" #closeConfigPopup>×</button>
+        </div>
+        <div *ngIf="new_config" class="modal-body">
+          <div class="row">
+            <div class="col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addForm.title' | translate}}</label>
+                <select class="form-control" [(ngModel)]="new_config.configuration_id"
+                  (change)="selectConfiguration($event.target.value,new_config)" name="config_name">
+                  <option value="">{{'addForm.select' | translate}}</option>
+                  <option *ngFor="let c of all_configurations" value="{{c.id}}" daa-model="c">
+                    <!-- {{c.name}} -->
+                    <span *ngIf="c.status">
+                      <app-property-configuration *ngIf="c" [configuration]="c"></app-property-configuration>
+                    </span>
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addForm.name' | translate}}</label>
+                <input required [pattern]="constant.onlyWhiteSpaces" class="form-control" [(ngModel)]="new_config.name"
+                  type="text" name="name1">
+              </div>
+            </div>
+          </div>
+          <!-- <div class="row">
           <div class="col-sm-6 col-12">
             <div class="form-group-3">
-              <label>Carpet area (sqft)
+              <label>Carpet area (sqmt)
               </label>
               <input min="0" class="form-control" [(ngModel)]="new_config.carpet_area" type="number" name="base_price">
             </div>
@@ -451,56 +2116,184 @@
               <input min="0" class="form-control" [(ngModel)]="new_config.base_price" type="number" name="base_price">
             </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-12">
-            <div class="form-group-3">
-              <label>Floor Plan Image
-              </label>
-              <div class="upload-cover-img" style="max-width: 400px; margin: 0px auto;height: 250px;">
+        </div> -->
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group-3">
+                <label>{{'addForm.floorPlanImage' | translate}}</label>
+                <div class="upload-cover-img" style="max-width: 400px; margin: 0px auto;height: 250px;">
                   <img class="img-fluid" [src]="file3.image" onerror='this.src="assets/img/placeholder.png"' />
+                  <div *ngIf="file3.loading" class="loaderr"></div>
                   <div *ngIf="!file3.image" class="upload-caption">
-                      <p class="green-color marginT30">+Upload Cover image for the project</p>
-                      <p>JPG or PNG. Imae size should be 1920 × 1080 pixels (for HiDPI displays).</p>
+                    <p class="green-color marginT30">{{'addForm.uploadCoverImage' | translate}}</p>
+                    <p>{{'addForm.imageSizeForCover' | translate}}</p>
                   </div>
-                  <input type="file" accept="image/*" name="floor_map_image" (change)="file3.onSelectFile($event)">
-              </div>
-              <div class="spacer30"></div>
-              <label>Other Images
-              </label>
-              <div class="spacer30"></div>
-              <div class="uploaded-img-block">
-                <div class="uploaded-img" *ngFor="let item of file4.files; let i=index">
-                  <a class="remove" (click)="file4.remove(i)">
-                    <img src="assets/img/remove-icon.png" alt="img">
-                  </a>
-                  <img *ngIf="item.image" class="u-img" [src]="item.image" alt="img">
-                  <img *ngIf="!item.image" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+                  <input type="file" accept="image/*" name="floor_map_image" (change)="file3.onSelectFile($event, true)">
+                </div>
+                <div class="spacer30"></div>
+                <label>{{'addForm.otherImages' | translate}}</label>
+                <div class="spacer30"></div>
+                <div class="uploaded-img-block">
+                  <!-- showing add more image for selection -->
+                  <div class="uploaded-img add-config-media">
+                    <input type="file" name="add-more-images" multiple max="6" accept="image/*"
+                      (change)="file4Select($event)">
+                    <div class="upload-caption">
+                      <p class="green-color">{{'addForm.moreImages.addMoreBtn' | translate}}</p>
+                    </div>
+                  </div>
+                  <!-- showing all selected images -->
+                  <div class="uploaded-img" *ngFor="let item of file4.files; let i=index">
+                    <a class="remove" (click)="file4.remove(i)">
+                      <img src="assets/img/remove-icon.png" alt="img">
+                    </a>
+                    <img *ngIf="item.image" class="u-img" [src]="item.image| img:'thumb'" alt="img">
+                    <img *ngIf="!item.image" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+                    <div *ngIf="item.loading" class="loaderr"></div>
+                  </div>
+                </div>
+
+                <label>360<span>&#176;</span> {{'addForm.images' | translate}}</label>
+                <div class="spacer30"></div>
+                <div class="uploaded-img-block">
+                  <!-- showing add more image for selection -->
+                  <div class="uploaded-img add-config-media">
+                    <input type="file" name="add-more-images" multiple max="6" accept="image/*"
+                      (change)="config360ImgSelect($event)">
+                    <div class="upload-caption">
+                      <p class="green-color">{{'addForm.add360.addBtn1' | translate}}<span>&#176;</span> {{'addForm.add360.addBtn2' | translate}}</p>
+                    </div>
+                  </div>
+                  <!-- showing all selected images -->
+                  <div class="uploaded-img" *ngFor="let item of config360Img.files; let i=index">
+                    <a class="remove" (click)="config360Img.remove(i)">
+                      <img src="assets/img/remove-icon.png" alt="img">
+                    </a>
+                    <img *ngIf="item.image" class="u-img" [src]="item.image| img:'thumb'" alt="img">
+                    <img *ngIf="!item.image" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+                    <div *ngIf="item.loading" class="loaderr"></div>
+                  </div>
                 </div>
               </div>
-              
-              <div class="add-project-img-more">
-                <input type="file" name="add-more-images" multiple max="6" accept="image/*" (change)="file4Select($event)">
-                <div class="upload-caption">
-                  <p class="green-color">+ Add more images</p>
-                </div>
-              </div>
-          
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div class="btn-cont">
+              <button [disabled]="!new_config.configuration_id
+            || !new_config.name
+            || !file3.image || file3.loading" (click)="addNewConfig()" type="button" class="btn btn-primary">{{'addForm.save' | translate}}</button>
             </div>
           </div>
         </div>
-        <div class="modal-footer">
-          <div class="btn-cont">
-            <button [disabled]="!new_config.configuration_id
-            || !new_config.carpet_area
-            || !new_config.base_price
-            || !file3.image" (click)="addNewConfig()" type="button" class="btn btn-primary">Save</button>
-          </div>
-        </div>
-      </div>
       </form>
 
     </div>
   </div>
+</div>
 
-  
+<a data-toggle="modal" data-target="#link-user-model" #linkUserModal style="display: none;"></a>
+<div class="modal" id="link-user-model">
+   <div class="modal-dialog ">
+      <div class="modal-content notary-avail">
+         <div class="modal-header popup-header">
+            <h4 class="modal-title">{{'table.th.selectContributor' | translate}}</h4>
+            <button type="button" class="close" #closeLinkUserModal data-dismiss="modal">&times;</button>
+         </div>
+         <div class="modal-body">
+
+            <!-- <p class="modal-title marginB20" *ngIf="selecter_seller">
+               {{'table.th.currentlyLinkedToSeller' | translate}}
+               ({{selecter_seller?.user?.is_developer==1 ? 'Developer' :
+               (selecter_seller?.user?.legal_entity_id ? 'Legal Representative' : 'Person')}})-
+               <b>{{selecter_seller?.user?.legal_entity_id ? selecter_seller?.user?.legal_entity?.comm_name :
+                  selecter_seller?.user?.name}}</b>
+            </p> -->
+
+            <!-- <p class="modal-title marginB20" *ngIf="selecter_buyer">
+               {{'table.th.currentlyLinkedToBuyer' | translate}}
+               ({{selecter_buyer?.user?.is_developer==1 ? 'Developer' :
+               (selecter_buyer?.user?.legal_entity_id ? 'Legal Representative' : 'Person')}})-
+               <b>{{selecter_buyer?.user?.legal_entity_id ? selecter_buyer?.user?.legal_entity?.comm_name :
+                  selecter_buyer?.user?.name}}</b>
+            </p> -->
+
+            <div class="cust-tabs">
+               <div class="row flex-wrap-reverse">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                     <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                           <a [ngClass]="{'active':seller_type == 1}"
+                              (click)="selectContributor(keyword, 1, true)"
+                              class="nav-link cursor-pointer">Person</a>
+                        </li>
+                        <li class="nav-item">
+                           <a [ngClass]="{'active':seller_type == 2}"
+                              (click)="selectContributor(keyword, 2, true)"
+                              class="nav-link cursor-pointer">Legal Entity</a>
+                        </li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+
+            <div class="spacer40"></div>
+            <div class="row">
+               <div class="col-md-8 col-6">
+                  <input style="max-width:200px" (keyup.enter)="selectContributor(keyword, seller_type, true)"
+                     [(ngModel)]="keyword" class="form-control" type="text" name="keyword"
+                     placeholder="{{'addForm.placeholder.search' | translate}}">
+               </div>
+               <div class="col-md-4 col-5 btn-cont">
+                  <a class="btn btn-primary pull-right" href="javascript://"
+                     (click)="selectContributor(keyword, seller_type, true)">{{'table.th.search' |
+                     translate}}</a>
+               </div>
+            </div>
+
+
+
+            <div class="spacer40"></div>
+            <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+               <table class="table">
+                  <tr *ngFor="let item of users">
+                     <td>
+                        <div class="n-avail-profile">
+                           <img *ngIf="item?.image" onerror='src="assets/img/default_img.png"' alt="img"
+                              [defaultImage]="item?.image| img:'thumb'" [lazyLoad]="item?.image">
+                           <img *ngIf="!item?.image" src="assets/img/default_img.png" alt="img">
+
+                           <div class="n-avail-info">
+                              <p class="p12">{{item?.name ? item?.name : item?.comm_name}}</p>
+                              <p class="p12" *ngIf="item?.legal_reps && item?.legal_reps?.id">{{item?.legal_reps?.name}}
+                              </p>
+                              <p class="p10 marginB0">{{'viewProperty.phone' | translate}} : {{item?.dial_code ?
+                                 item?.dial_code : constant.dial_code}}-{{item?.phone}}</p>
+                           </div>
+                        </div>
+                     </td>
+                     <td>
+                        <input  type="checkbox"
+                           *ngIf="seller_type==2 ? model.seller_id!=item?.legal_reps?.id : model.seller_id!=item?.id"
+                           (click)="changeStatusPopUp(model.id, 
+                                                      (seller_type==2 ? item.id : item.id), 
+                                                      (seller_type==2 ? item.comm_name : item.name), 
+                                                      seller_type, item, $event)"  [(ngModel)]="item.value" [checked]="item.value ? 'checked' : ''"/>
+                        <input  type="checkbox"
+                           *ngIf="seller_type==2 ? model.seller_id==item?.legal_reps?.id : model.seller_id==item.id"
+                           (click)="changeStatusPopUp(model.property_id, 
+                              (seller_type==2 ? item.id : item.id), 
+                              (seller_type==2 ? item.comm_name : item.name), 
+                              seller_type, item, $event)"  [(ngModel)]="item.value" [checked]="item.value ? 'checked' : ''"/>
+                     </td>
+                  </tr>
+                  <tr *ngIf="users?.length==0">
+                     <p class="show-not-found">
+                        {{'viewProperty.noSellerFound' | translate}}
+                     </p>
+                  </tr>
+               </table>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

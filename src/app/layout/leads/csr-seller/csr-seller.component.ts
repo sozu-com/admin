@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AdminService } from '../../../services/admin.service';
-import { IProperty } from '../../../common/property';
-import { Constant } from './../../../common/constants';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Users } from '../../../models/users.model';
 import * as moment from 'moment';
-
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Constant } from 'src/app/common/constants';
+import { IProperty } from 'src/app/common/property';
+import { Users } from 'src/app/models/users.model';
+import { AdminService } from 'src/app/services/admin.service';
+import { LeadsService } from 'src/app/services/leads.service';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -15,7 +17,7 @@ declare let swal: any;
   providers: [Constant]
 })
 export class CsrSellerComponent implements OnInit {
-
+  public scrollbarOptions = { axis: 'y', theme: 'dark' };
   @ViewChild('openAssignModel') openAssignModel: ElementRef;
   @ViewChild('closeAssignModel') closeAssignModel: ElementRef;
 
@@ -29,32 +31,51 @@ export class CsrSellerComponent implements OnInit {
   users: any = [];
   selectedUser: any;
   initSelection = false;
+  allSelected: boolean = false;
 
-  dash: any= {
+  dash: any = {
     lead_total: 0,
     lead_property_pending: 0,
     lead_with_property: 0,
     lead_without_property: 0
   };
 
-  chartView: any= [];
-
+  chartView: any = [];
+  locale: any;
   constructor(
     public admin: AdminService,
+    public leadsService: LeadsService,
     private constant: Constant,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
+
+    this.locale = {
+      firstDayOfWeek: 0,
+      dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+      dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+      dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+      monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+      monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun',
+        'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+      today: 'Hoy',
+      clear: 'Clara',
+      dateFormat: 'mm/dd/yy',
+      weekHeader: 'Wk'
+    };
     this.parameter.is_selected = false;
     this.parameter.keyword = '';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
-    this.parameter.flag = 2;
+    this.parameter.flag = this.leadsService.sellerLeadsFlag ? this.leadsService.sellerLeadsFlag : this.constant.flag;
     this.parameter.total = 0;
-    this.parameter.count_flag = 1;
-    this.route.params.subscribe( params => {
+    this.parameter.count_flag = this.leadsService.sellerLeadsCountFlag ? this.leadsService.sellerLeadsCountFlag : this.constant.count_flag;
+    this.route.params.subscribe(params => {
       this.parameter.assignee_id = params.id;
     });
     this.getCountries();
@@ -112,21 +133,23 @@ export class CsrSellerComponent implements OnInit {
     // this.getCsrListing();
   }
 
-  changeFlag(flag) {
+  changeFlag(flag: number) {
     this.parameter.flag = flag;
+    this.leadsService.sellerLeadsFlag = flag;
     this.parameter.count_flag = 1;
     this.resetDates();
     this.getListing();
     this.getCSRDashBoardData();
   }
 
-  changeFilter(key, value) {
-    this.parameter[key] = value;
-    this.getListing();
-  }
+  // changeFilter = (key: string, value: any): void => {
+  //   this.parameter[key] = value;
+  //   this.getListing();
+  // }
 
-  changeCountFlag(flag) {
+  changeCountFlag(flag: number) {
     this.parameter.count_flag = flag;
+    this.leadsService.sellerLeadsCountFlag = flag;
     this.getListing();
   }
 
@@ -154,7 +177,6 @@ export class CsrSellerComponent implements OnInit {
     // }
     this.admin.postDataApi('getCsrSellers', input).subscribe(
       success => {
-        console.log(success.data);
         this.users = success.data;
       });
   }
@@ -234,19 +256,19 @@ export class CsrSellerComponent implements OnInit {
     }
 
     this.admin.postDataApi('leads/csr-seller-dash-count', input).subscribe(r => {
-      console.log('dash', r);
+      console.log('pie chart data ', r);
       this.dash = r.data;
       this.chartView = [
         {
-          'name': 'Lead Property pending',
+          'name': this.translate.instant('leads.propertyPending'),
           'value': parseInt(this.dash.lead_property_pending, 10)
         },
         {
-          'name': 'Lead with Property',
+          'name': this.translate.instant('leads.leadWithProperty'),
           'value': parseInt(this.dash.lead_with_property, 10)
         },
         {
-          'name': 'Lead without Property',
+          'name': this.translate.instant('leads.leadWithoutProperty'),
           'value': parseInt(this.dash.lead_without_property, 10)
         }
       ];
@@ -272,17 +294,16 @@ export class CsrSellerComponent implements OnInit {
     } else if (this.parameter.assignee_id) {
       input.assignee_id = this.parameter.assignee_id;
     }
-    this.parameter.loading = true;
-    this.admin.postDataApi('leads/csr-seller', input).subscribe(
-    success => {
-      this.parameter.loading = false;
-      this.items = success.data;
-      if (this.items.length <= 0) { this.parameter.noResultFound = true; }
-      console.log(success);
-      this.parameter.total = success.total_count;
-    }, error => {
-      this.parameter.loading = false;
-    });
+    this.spinner.show();
+    this.admin.postDataApi('leads/csr-seller-v2', input).subscribe(
+      success => {
+        this.spinner.hide();
+        this.items = success.data;
+        if (this.items.length <= 0) { this.parameter.noResultFound = true; }
+        this.parameter.total = success.total_count;
+      }, error => {
+        this.spinner.hide();
+      });
   }
 
 
@@ -295,7 +316,7 @@ export class CsrSellerComponent implements OnInit {
     if (this.parameter.sort_by_flag !== sort_by_flag) {
       this.parameter.sort_by_flag = sort_by_flag;
       this.parameter.sort_by_order = 0;
-    }else {
+    } else {
       this.parameter.sort_by_order = this.parameter.sort_by_order ? 0 : 1;
     }
     this.getListing();
@@ -309,57 +330,58 @@ export class CsrSellerComponent implements OnInit {
   }
 
   bulkAssign() {
-    // this.assign.keyword = '';
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     if (leads_ids.length === 0) {
-      swal('Error', 'Please choose atleast one lead.', 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAtleast1Lead'), 'error');
       return false;
     }
+    if (!this.assign.items) {
+      this.getAssignListing();
+    }
     this.openAssignModel.nativeElement.click();
-    // this.admin.postDataApi('getCsrSellers', {}).subscribe(
-    //   success => {
-    //     this.assign.items = success.data;
-    //   });
   }
 
   getAssignListing() {
-    // this.assign.items = [];
     const input = {
       keyword: this.assign.keyword
     };
+    this.spinner.show();
     this.admin.postDataApi('getCsrSellers', input).subscribe(
-    success => {
-      this.assign.items = success.data;
-    });
+      success => {
+        this.spinner.hide();
+        this.assign.items = success.data;
+      });
   }
 
   assignNow() {
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
+    const users_ids = this.items.filter(x => x.selected).map(y => y.admin.id);
     const input = {
       csr_seller_id: this.assignItem.id,
-      leads: leads_ids
+      leads: leads_ids,
+      users: users_ids
     };
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('leads/bulkAssignSeller', input).subscribe(r => {
-      this.parameter.loading = false;
-      swal('Success', 'Assigned successfully', 'success');
+      this.spinner.hide();
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.assignedSuccessfully'), 'success');
       this.closeAssignModel.nativeElement.click();
-      console.log(r);
       this.getListing();
+      this.allSelected = false;
     },
-    error => {
-      this.parameter.loading = false;
-      this.closeAssignModel.nativeElement.click();
-      swal('Error', error.error.message, 'error');
-    });
-
+      error => {
+        this.spinner.hide();
+        this.closeAssignModel.nativeElement.click();
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
+      });
   }
 
-  getCSRSellerChat($event, csr_seller_id, user_id) {
+  getCSRSellerChat($event: any, chat_with: number, csr_seller_id: number, lead_id: number) {
+    // chat_with = 1 means chat with seller, 2 means chat with agent
     if (csr_seller_id) {
-      this.router.navigate(['/dashboard/leads/chat-with-seller', csr_seller_id, user_id]);
+      this.router.navigate(['/dashboard/leads/chat-with-seller', chat_with, csr_seller_id, lead_id]);
     } else {
-      swal('Error', 'No CSR Seller is assigned.', 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.noCSRSellerAssigned'), 'error');
     }
   }
 }

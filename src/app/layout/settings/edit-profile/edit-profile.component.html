@@ -1,17 +1,69 @@
-<ngx-loading [show]="parameter.loading"></ngx-loading>
+
 <!--content start-->
 <div class="container-fluid">
     <div class="breadcrumb-group">
-      <h5>Settings</h5>
+      <h5>{{'settings.label' | translate}}</h5>
       <nav class="breadcrumb">
-          <a class="breadcrumb-item">Home</a>
-          <!-- <a class="breadcrumb-item" routerLink="/dashboard">Home</a> -->
-          <a class="breadcrumb-item">Settings</a>
-          <span class="breadcrumb-item active">Edit Profile</span>
+        <a class="breadcrumb-item">{{'settings.home' | translate}}</a>
+        <a class="breadcrumb-item">{{'settings.label' | translate}}</a>
+          <span class="breadcrumb-item active">{{'editProfile.label' | translate}}</span>
       </nav>
     </div>
 
-    <form class="form-horizontal" novalidate #addForm="ngForm" (ngSubmit)="updateProfile(addForm)">
+
+
+<div class="white-bg padding40">
+  <div class="row">
+  <form role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="updateProfile(addForm)">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+        <div class="row">
+          <div class="col-6">
+              <div class="add-img" style="display:flex;">
+                  <img *ngIf="model?.image" [src]="model?.image" style="object-fit: cover; width: 100%;">
+                  <label *ngIf="model?.image">
+                    <input accept="image/*" name="image" class="image" (change)="changeListner($event, 'img_loader', 'image')" type="file">
+                  </label>
+                  <label *ngIf="!model?.image">{{'addForm.image' | translate}}</label>
+                  <input *ngIf="!model?.image" accept="image/*" name="image" class="image" (change)="changeListner($event, 'img_loader', 'image')" type="file">
+                  <div *ngIf="model.img_loader" class="loaderr"></div>
+              </div>
+          </div>
+          <div class="col-6">
+              <div class="btn-cont text-right">
+                  <button *ngIf="model.id==''" type="submit" [disabled]="!addForm.valid" class="btn btn-primary">{{'addForm.addBtn' | translate}}</button>
+                  <button *ngIf="model.id!=''" type="submit" class="btn btn-primary">{{'addForm.updateBtn' | translate}}</button>
+              </div>
+          </div>
+          <div class="col-12">
+              <div class="spacer40"></div>
+          </div>
+          <div class="col-12">
+              <div class="form-group-2">
+                <label>{{'addForm.name' | translate}} <span class="color-red">*</span></label>
+                <input [pattern]="constant.onlyWhiteSpaces" autocomplete="off" required type="text" class="form-control" [(ngModel)]="model.name" name="name">
+              </div>
+          </div>
+          <div class="col-12">
+              <div class="form-group-2">
+                <label>{{'addForm.contactNumber' | translate}} <span class="color-red">*</span></label>
+                <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="constant.phonePattern" class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone"
+                      ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
+              </div>
+          </div>
+          <div class="col-12">
+              <div class="form-group-2">
+                <label>{{'addForm.emailId' | translate}} <span class="color-red">*</span></label>
+                <input [disabled]="true" (keydown.space)="$event.preventDefault();" autocomplete="off" required [pattern]="constant.emailPattern" type="email" class="form-control" [(ngModel)]="model.email" name="email">
+              </div>
+          </div>
+        </div>
+    </div>
+    </form>
+  </div>
+</div>
+
+
+    <!-- <form class="form-horizontal" novalidate #addForm="ngForm" (ngSubmit)="updateProfile(addForm)">
         
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Image:</label>
@@ -60,7 +112,7 @@ ng2TelInput
             </div>
 
             <div class="form-group btn-cont text-right">
-              <button [disabled]="parameter.loading" class="btn btn-primary apply-btn" type="submit">Update Settings</button>
+              <button class="btn btn-primary apply-btn" type="submit">Update Settings</button>
             </div>
-      </form>
+      </form> -->
 </div>

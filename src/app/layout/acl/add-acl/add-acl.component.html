@@ -1,135 +1,246 @@
-<ngx-loading [show]="parameter.loading"></ngx-loading>
+
 <div class="container-fluid">
-<div class="row">
-    <div class="col-12">
-      <div class="title-group">
-          <h5>{{model.id!='' ? 'Edit' : 'Add'}} ACL User</h5>
-          <div class="spacer30"></div>
+  <div class="row">
+      <div class="col-12">
+        <div class="title-group">
+            <h5>{{model.id!='' ? ('viewACL.editACLUser' | translate) : ('viewACL.addACLUser' | translate)}}</h5>
+            <div class="spacer30"></div>
+        </div>
       </div>
-    </div>
-</div>
-<div class="white-bg padding40">
-    <div class="row">
-    <form role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="add(addForm)">
-      <div class="col-xl-12 col-lg-12 col-md-12 col-12">
-          <div class="row">
-            <div class="col-6">
-                <!-- <div class="add-img">
-                  <input type="file" name="">
-                  <label>+ Add Image</label>
-                </div> -->
-                <div class="add-img" style="display:flex;">
-                    <img *ngIf="image" [src]="image" style="object-fit: cover; width: 100%;">
-                    <label *ngIf="model.image">
-                      <input accept="image/*" name="image" class="image" (change)="changeListner($event)" type="file">
+  </div>
+  <div class="white-bg padding40">
+      <div class="row">
+      <form role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="add(addForm)">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+            <div class="row">
+              <div class="col-6">
+                  <div class="add-img" style="display:flex;">
+                      <img *ngIf="model?.image" [src]="model?.image" [defaultImage]="model?.image| img:'thumb'" [lazyLoad]="model?.image" style="object-fit: cover; width: 100%;">
+                      <label *ngIf="model?.image">
+                        <input accept="image/*" name="image" class="image" (change)="changeListner($event, 'img_loader', 'image')" type="file">
+                      </label>
+                      <label *ngIf="!model?.image">{{'addForm.image' | translate}}</label>
+                      <input *ngIf="!model?.image" accept="image/*" name="image" class="image" (change)="changeListner($event, 'img_loader', 'image')" type="file">
+                      <div *ngIf="model.img_loader" class="loaderr"></div>
+                  </div>
+              </div>
+              <div class="col-6">
+                  <div class="btn-cont text-right">
+                      <button *ngIf="model.id==''" type="submit" [disabled]="!addForm.valid" class="btn btn-primary">{{'addForm.addBtn' | translate}}</button>
+                      <button *ngIf="model.id!=''" type="submit" class="btn btn-primary">{{'addForm.updateBtn' | translate}}</button>
+                  </div>
+              </div>
+              <div class="col-12">
+                  <div class="spacer40"></div>
+              </div>
+              <div class="col-12">
+                  <div class="form-group-2">
+                    <label>{{'addForm.names' | translate}} <span class="color-red">*</span></label>
+                    <input [pattern]="constant.onlyWhiteSpaces" autocomplete="off" maxlength="50" required type="text" class="form-control" [(ngModel)]="model.name" name="name">
+                  </div>
+              </div>
+              <div class="col-12">
+                  <div class="form-group-2">
+                    <label>{{'addForm.firstSurname' | translate}} <span class="color-red">*</span></label>
+                    <input [pattern]="constant.onlyWhiteSpaces" autocomplete="off" maxlength="30" required type="text" class="form-control" [(ngModel)]="model.first_surname" name="first_surname">
+                  </div>
+              </div>
+              <div class="col-12">
+                  <div class="form-group-2">
+                    <label>{{'addForm.secondSurname' | translate}} </label>
+                    <input [pattern]="constant.onlyWhiteSpaces" autocomplete="off" maxlength="30" type="text" class="form-control" [(ngModel)]="model.second_surname" name="second_surname">
+                  </div>
+              </div>
+              <div class="col-12">
+                  <div class="form-group-2">
+                    <label>{{'addForm.contactNumber' | translate}} <span class="color-red">*</span></label>
+                    <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="constant.phonePattern" class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone"
+                          ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
+                  </div>
+              </div>
+              <div class="col-12">
+                  <div class="form-group-2">
+                    <label>{{'addForm.emailId' | translate}} <span class="color-red">*</span></label>
+                    <input (keydown.space)="$event.preventDefault();" autocomplete="off" required [pattern]="constant.emailPattern" type="email" class="form-control" [(ngModel)]="model.email" name="email">
+                  </div>
+              </div>
+            </div>
+  
+  
+            <div class="row">
+           <!-- new addition -->
+           <div class="col-12">
+              <div class="form-group-2">
+                 <label>{{'addForm.chooseUserType' | translate}}<span class="color-red">*</span></label>
+                 <div class="form-group">
+                  <select class="form-control" required (change)="setUserType($event.target.value)" [(ngModel)]="model.user_type" name="user_type">
+                    <option value="">{{'addForm.chooseUserType' | translate}}</option>
+                    <option value="1">{{'addForm.customisedRole' | translate}}</option>
+                    <option value="2">{{'addForm.predefinedRole' | translate}}</option>
+                  </select>
+                </div>
+              </div>
+           </div>
+           <div class="col-12" *ngIf="model.user_type">
+              <div class="form-group-2">
+                 <label>{{'addForm.chooseUserRoles' | translate}} <span class="color-red">*</span></label>
+                  <div class="clearfix"></div>
+                  <div>
+                  <label class="cust-radio" *ngFor="let user of predefinedUsers; let ii=index">
+                    <input type="checkbox" (change)="setPredefinedUsers(user, !user.value, ii)"
+                      [value]="user.value" [checked]="user.value ? 'checked' : ''"
+                      name="user_id">
+                    <span class="checkmark">{{user.title}}</span>
+                  </label>       
+                </div>
+                  <div class="clearfix"></div>
+              </div>
+           </div>
+           <br>
+            <div class="col-12" *ngIf="model.is_external_agent">
+               <div class="form-group-2">
+                <div class="clearfix"></div>
+                  <label>{{'addForm.freeLancerOrComapny' | translate}} <span class="color-red">*</span></label>
+                  <div class="form-group">
+                   <select class="form-control" required (change)="setIsCompany($event.target.value)" [(ngModel)]="model.is_company" name="is_company">
+                     <option value="true">{{'addForm.company' | translate}}</option>
+                     <option value="false">{{'addForm.freelancer' | translate}}</option>
+                   </select>
+                 </div>
+               </div>
+            </div>
+            <div class="col-12" *ngIf="model.is_external_agent && model.is_company=='true'">
+             <div class="form-group-2">
+               <label>{{'addForm.agencyCommercialName' | translate}}</label>
+               <div class="form-group marginB0">
+                 <select required title="{{'table.title.chooseAgency' | translate}}" name="agency" class="form-control" (change)="setAgency($event.target.value)">
+                   <option value="">{{'addForm.selectAgency' | translate}}</option>
+                   <option *ngFor="let agency of agencies" value="{{agency.id}}" [selected]="model?.agency?.id == agency.id">{{agency.name}}</option>
+                 </select>
+               </div>
+             </div>
+           </div>
+           </div>
+           <div class="row" *ngIf="model.is_external_agent && model.is_company=='false'">
+              <div class="col-12">
+                <div class="form-group-2">
+                   <label>{{'addForm.rfcLegalId' | translate}} 
+                     <!-- <span class="color-red">*</span> -->
                     </label>
-                    <label *ngIf="!image">+ Add Image</label>
-                    <input *ngIf="!image" accept="image/*" name="image" class="image" (change)="changeListner($event)" type="file">
+                   <div class="form-group">
+                    <input autocomplete="off" type="text" class="form-control" name="rfc_legal_id" [(ngModel)]="model.rfc_legal_id">
+                  </div>
                 </div>
-            </div>
-            <div class="col-6">
-                <div class="btn-cont text-right">
-                    <button *ngIf="model.id==''" type="submit" [disabled]="!addForm.valid" class="btn btn-primary">ADD</button>
-                    <button *ngIf="model.id!=''" type="submit" class="btn btn-primary">UPDATE</button>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="spacer40"></div>
-            </div>
-            <div class="col-12">
-                <div class="form-group-2">
-                  <label>Name <span class="color-red">*</span></label>
-                  <input autocomplete="off" required type="text" class="form-control" [(ngModel)]="model.name" name="name">
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="form-group-2">
-                  <label>Contact number <span class="color-red">*</span></label>
-                  <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="constant.phonePattern" class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone"
-                        ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="form-group-2">
-                  <label>Email ID <span class="color-red">*</span></label>
-                  <input autocomplete="off" required [pattern]="constant.emailPattern" type="email" class="form-control" [(ngModel)]="model.email" name="email">
-                </div>
-            </div>
-          </div>
-          <div class="access-controls">
-              <div class="select-controls select-controls-1" *ngFor="let permission of model.admin_acl; let i=index">
-              <label class="cust-check-bx2" [ngClass]="{'access-control11':permission.can_create==1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1}">{{permission?.acl?.name}}
-              <input (click)="expandBox(i)" type="checkbox" [checked]="permission.can_create == 1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1 ? 'checked': ''">
-              <span class="checkmark"></span>
-              </label>
-              
-              <div class="clearfix"></div>
-              <div *ngIf="permission.show" id="broker-seller-dev" class="inner-select">
-                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_create==1}">Can Create
-                    <input type="checkbox" [checked]="permission.can_create == 1 ? 'checked': ''"  (click)="setPermission('can_create', i)">
-                    <span class="checkmark"></span>
-                </label>
-                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_read==1}">Can Read
-                    <input type="checkbox" [checked]="permission.can_read == 1 ? 'checked': ''"  (click)="setPermission('can_read', i)">
-                    <span class="checkmark"></span>
-                </label>
-                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_update==1}">Can Update
-                    <input type="checkbox" [checked]="permission.can_update == 1 ? 'checked': ''"  (click)="setPermission('can_update', i)">
-                    <span class="checkmark"></span>
-                </label>
-                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_delete==1}">Can Block/Unblock
-                    <input type="checkbox" [checked]="permission.can_delete == 1 ? 'checked': ''"  (click)="setPermission('can_delete', i)">
-                    <span class="checkmark"></span>
-                </label>
-                <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_crud==1}">CRUD
-                    <input type="checkbox" [checked]="permission.can_crud == 1 ? 'checked': ''"  (click)="setPermission('can_crud', i)">
-                    <span class="checkmark"></span>
-                </label>
-                <br>
               </div>
-              <div class="clearfix"></div>
-            </div>
-            
-            <!-- inner-checked -->
-                  <!-- <div class="select-controls">
-              <label class="cust-check-bx2">Data Collector
-              <input id="dc" type="checkbox">
-              <span class="checkmark"></span>
-              </label>
-              <div class="clearfix"></div>
-                    <div style="display:none;" id="data-collector" class="inner-select">
-                <label class="cust-check-bx">Abc
-                              <input type="checkbox">
-                              <span class="checkmark"></span>
+              <div class="col-12">
+                <div class="form-group-2">
+                   <label>{{'addForm.address' | translate}}  
+                     <!-- <span class="color-red">*</span> -->
                   </label>
-                  <label class="cust-check-bx inner-checked">Lorem ipsum
-                              <input type="checkbox" checked="checked">
-                              <span class="checkmark"></span>
-                  </label>
-                  <label class="cust-check-bx">xyz
-                              <input type="checkbox">
-                              <span class="checkmark"></span>
-                  </label>
-                  <label class="cust-check-bx">Abc
-                              <input type="checkbox">
-                              <span class="checkmark"></span>
-                  </label>
-                  <label class="cust-check-bx inner-checked">Lorem ipsum
-                              <input type="checkbox" checked="checked">
-                              <span class="checkmark"></span>
-                  </label>
-                  <label class="cust-check-bx">xyz
-                              <input type="checkbox">
-                              <span class="checkmark"></span>
-                  </label>
-  
+                   <div class="form-group">
+                    <input placeholder="Search for address" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search1 (input)="loadPlaces('adr', 'lat', 'lng', 'searchElementRef')" name="adr" [(ngModel)]="model.adr" autocomplete="off">
+                  </div>
+                </div>
               </div>
-                </div> -->
+              <div class="col-12">
+                <div class="form-group-2">
+                    <label>{{'addForm.locationPinOnMap' | translate}} 
+                      <!-- <span class="color-red">*</span> -->
+                    </label>
+                   <div class="form-group">
+                    <agm-map class="height200" [latitude]="model.lat" [longitude]="model.lng" [scrollwheel]="false" (mapClick)="placeMarker($event, 'lat', 'lng', 'adr')" [zoom]="constant.zoom">
+                      <agm-marker [latitude]="model.lat" [longitude]="model.lng"></agm-marker>
+                    </agm-map>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-2">
+                   <label>{{'addForm.description' | translate}} 
+                     <!-- <span class="color-red">*</span> -->
+                  </label>
+                   <div class="form-group">
+                    <textarea autocomplete="off" rows="3" class="form-control" name="description" [(ngModel)]="model.description"></textarea>
+                  </div>
+                </div>
+              </div>
+              </div>
   
+              <div class="row">      
+                <div class="col-12">
+                  <div class="form-group-2">
+                    <label>{{'addForm.locationTitle' | translate}}<span class="color-red">*</span></label>
+                    <div class="row">
+                      <div class="col-10" *ngFor="let add of model.address; let j=index">
+                        <app-address [countries]="parameter.countries" [address]="add" [index]="j" [status]="false" [disabledBuildings]="disabledBuildings" (disabledBuilding)="disabledBuildingId(j)" (removeAddress)="removeAddressObj($event)"></app-address>
+                      </div>
+                      <div class="col-2" *ngIf="model.address?.length!=0">
+                        <div class="btn-cont center">
+                          <button type="button" class="btn btn-primary-new margin0" (click)="addEmptyObj()">
+                            <img src="assets/img/add.png" alt="img">
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
   
+              <div class="clearfix"></div>
+              <div class="access-controls">
+                <div class="select-controls select-controls-1" *ngFor="let permission of model.admin_acl; let i=index">
+                <label class="cust-check-bx2" [ngClass]="{'access-control11':permission.can_create==1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1 || permission.can_purge==1}">{{permission?.acl?.name}}
+                <input (click)="expandBox(i)" type="checkbox" [checked]="permission.can_create == 1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1 || permission.can_purge==1 ? 'checked': ''">
+                <span class="checkmark"></span>
+                </label>
                 
-            </div>
+                <div class="clearfix"></div>
+                <div *ngIf="permission.show" id="broker-seller-dev" class="inner-select">
+                  <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_create==1}">{{'addForm.canCreate' | translate}}
+                      <input type="checkbox" [checked]="permission.can_create == 1 ? 'checked': ''"  (click)="setPermission('can_create', i)">
+                      <span class="checkmark"></span>
+                  </label>
+                  <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_read==1}">{{'addForm.canRead' | translate}}
+                      <input type="checkbox" [checked]="permission.can_read == 1 ? 'checked': ''"  (click)="setPermission('can_read', i)">
+                      <span class="checkmark"></span>
+                  </label>
+                  <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_update==1}">{{'addForm.canUpdate' | translate}}
+                      <input type="checkbox" [checked]="permission.can_update == 1 ? 'checked': ''"  (click)="setPermission('can_update', i)">
+                      <span class="checkmark"></span>
+                  </label>
+                  <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_delete==1}">{{'addForm.canBlockUnblock' | translate}}
+                      <input type="checkbox" [checked]="permission.can_delete == 1 ? 'checked': ''"  (click)="setPermission('can_delete', i)">
+                      <span class="checkmark"></span>
+                  </label>
+                  <label *ngIf="permission?.acl?.name == 'User Management' || permission?.acl?.name == 'Property Management'
+                  || permission?.acl?.name == 'Agencies Management'
+                  || permission?.acl?.name == 'Companies Management'
+                  || permission?.acl?.name == 'Managers Management'
+                  || permission?.acl?.name == 'Developers Management'
+                  || permission?.acl?.name == 'Outside Agent Management'
+                  || permission?.acl?.name == 'Seller Management'
+                  || permission?.acl?.name == 'Buyer Management'
+                  || permission?.acl?.name == 'Inhouse Agent Management'
+                  || permission?.acl?.name == 'Closer Management'
+                  || permission?.acl?.name == 'Data Collector Management'
+                  || permission?.acl?.name == 'Bank Management'
+                  || permission?.acl?.name == 'Templates'
+                  || permission?.acl?.name == 'Project Management' || permission?.acl?.name == 'Notaries Management'" 
+                    class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_purge==1}">{{'addForm.canDelete' | translate}}
+                      <input type="checkbox" [checked]="permission.can_purge == 1 ? 'checked': ''"  (click)="setPermission('can_purge', i)">
+                      <span class="checkmark"></span>
+                  </label>
+                  <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_crud==1}">{{'addForm.canCRUD' | translate}}
+                      <input type="checkbox" [checked]="permission.can_crud == 1 ? 'checked': ''"  (click)="setPermission('can_crud', i)">
+                      <span class="checkmark"></span>
+                  </label>
+                  <br>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+                   
+              </div>
+        </div>
+        </form>
       </div>
-      </form>
-    </div>
-</div>
+  </div>

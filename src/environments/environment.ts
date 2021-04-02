@@ -1,18 +1,18 @@
-// The file contents for the current environment will overwrite these during build.
-// The build system defaults to the dev environment which uses `environment.ts`, but if you do
-// `ng build --env=prod` then `environment.prod.ts` will be used instead.
-// The list of which env maps to which file can be found in `.angular-cli.json`.
+// This file can be replaced during build by using the `fileReplacements` array.
+// `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
+// The list of file replacements can be found in `angular.json`.
+
 
 export const environment = {
   production: false,
-  // baseIP: 'https://api.sozul.com/api/',
-  // baseUrl: 'https://api.sozul.com/api/admin/',
-  // baseIP: 'http://45.232.252.136:8002/',
-  // baseUrl: 'http://45.232.252.136:8002/api/admin/',
-  baseIP: 'https://apitest.sozul.com/',
-  baseUrl: 'https://apitest.sozul.com/api/admin/',
-  socketUrl: 'http://socket.sozul.com',
+  baseIP: 'https://apitest.sozu.com/',
+ //  baseUrl: 'https://api.sozu.com/api/admin/',
+  baseUrl: 'https://apitest.sozu.com/api/admin/',
+  socketUrl: 'https://sockettest.sozu.com',
+  termConditionUrl: 'https://apitest.sozu.com/termCondition/es',
+  privacyPolicyUrl: 'https://apitest.sozu.com/privacyPolicy/es',
   deviceId: 'ADMIN',
+  versionCheckURL: 'https://admintest.sozu.com/version.json',
 
   firebase: {
     apiKey: 'AIzaSyAZMJdN4-tFi3vkKLz-c-BoFHMq7eAkoAc',
@@ -23,3 +23,11 @@ export const environment = {
     messagingSenderId: '1056655786619'
   }
 };
+
+/*
+ * In development mode, for easier debugging, you can ignore zone related error
+ * stack frames such as `zone.run`/`zoneDelegate.invokeTask` by importing the
+ * below file. Don't forget to comment it out in production mode
+ * because it will have a performance impact when errors are thrown
+ */
+// import 'zone.js/dist/zone-error';  // Included with Angular CLI.

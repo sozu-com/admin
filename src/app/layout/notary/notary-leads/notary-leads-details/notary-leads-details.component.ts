@@ -1,12 +1,14 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute} from '@angular/router';
-import { AdminService } from '../../../../services/admin.service';
-import { CommonService } from '../../../../services/common.service';
-import { IProperty } from '../../../../common/property';
 import * as io from 'socket.io-client';
-import { Constant } from './../../../../common/constants';
-import { SelectedProperties, BankAssigned, NotaryAssigned, ScheduleMeeting } from './../../../../models/leads.model';
-import { Chat } from '../../../../models/chat.model';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { SelectedProperties, BankAssigned, NotaryAssigned, ScheduleMeeting } from 'src/app/models/leads.model';
+import { Chat } from 'src/app/models/chat.model';
+import { IProperty } from 'src/app/common/property';
+import { AdminService } from 'src/app/services/admin.service';
+import { CommonService } from 'src/app/services/common.service';
+import { Constant } from 'src/app/common/constants';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -32,7 +34,9 @@ export class NotaryLeadsDetailsComponent implements OnInit {
     public constant: Constant,
     public selectedProperties: SelectedProperties,
     public model: Chat,
-    public scheduleMeeting: ScheduleMeeting
+    public scheduleMeeting: ScheduleMeeting,
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) {
     this.admin.loginData$.subscribe(success => {
       this.parameter.admin_id = success['id'];
@@ -47,10 +51,9 @@ export class NotaryLeadsDetailsComponent implements OnInit {
     this.parameter.sent_as = this.constant.userType.notary;
     this.route.params.subscribe( params => {
       this.parameter.lead_id = params.id;
-      this.parameter.loading = true;
+      this.spinner.show();
       this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
-        this.parameter.loading = false;
-        // console.log('lead details', r);
+        this.spinner.hide();
         this.getDocumentOptions();
         this.parameter.lead = r.data.lead;
         this.selectedProperties = r.data.lead.selected_properties[0];
@@ -72,7 +75,7 @@ export class NotaryLeadsDetailsComponent implements OnInit {
         // notary will chat with closer
         this.parameter.user_id = this.parameter.lead.closer.id;
       }, error => {
-        this.parameter.loading = false;
+        this.spinner.hide();
       });
     });
   }
@@ -105,29 +108,29 @@ export class NotaryLeadsDetailsComponent implements OnInit {
       property_id: this.selectedProperties.property_id,
       documents: documents_ids
     };
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('leads/updateDocumentChecklist', input).subscribe(r => {
-      this.parameter.loading = false;
-      swal('Success', 'Successfully saved', 'success');
+      this.spinner.hide();
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.savedSuccessfully'), 'success');
     }, error => {
-      this.parameter.loading = false;
+      this.spinner.hide();
     }
   );
   }
 
   noDocumentUploaded() {
-    swal('Error', 'No document uploaded yet.', 'error');
+    swal(this.translate.instant('swal.error'), this.translate.instant('message.error.noDocumentUploadedYet'), 'error');
   }
 
   viewPropertyDetails(property) {
-    console.log('--', property.property_id);
     this.cs.setPropertyDetails(property);
     this.router.navigate(['/dashboard/properties/details/' + property.property_id]);
   }
 
   markLeadClose() {
     swal({
-      html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to close this lead?',
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+            this.translate.instant('message.error.wantTocloseLead'),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -136,9 +139,8 @@ export class NotaryLeadsDetailsComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.admin.postDataApi('leads/noatary-mark-lead-closed', {lead_id: this.parameter.lead_id}).subscribe(r => {
-          console.log('r', r);
           this.parameter.lead.lead_status_noatary = 1;
-          swal('Success', 'Lead closed successfully.', 'success');
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.leadClosedSuccessfully'), 'success');
         });
       }
     });

@@ -1,0 +1,389 @@
+
+  <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-8 col-md-8 col-6">
+          <div class="title-group">
+            <h5><a routerLink="/dashboard/collections/view-collections" href="javascript://"><i
+                  class="fa fa-angle-double-left"></i> </a> &nbsp;&nbsp;{{'quickVisualization.accountStatement' | translate}}</h5>
+          </div>
+        </div>
+         
+        <!-- <div class="col-lg-2 col-md-2 col-6">
+          <div class="btn-cont text-right">
+              <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#addInhouseUser" #inhouseUserModalOpen>{{'table.addNewBtn' | translate}}</a>
+              <a class="btn btn-primary-new width100P" href="javascript://" (click)="exportData()">{{'table.exportDataBtn' | translate}}</a>
+            </div>
+        </div>
+    
+        <div class="col-lg-2 col-md-2 col-6">
+          <div class="btn-cont text-right">
+              <a class="btn btn-primary-new width100P" href="javascript://" (click)="getCollectionDetails()">Refresh</a>
+            </div>
+        </div> -->
+      </div>
+    
+      <hr>
+    
+      <h5>{{'quickVisualization.stackholdersInformation' | translate}}</h5>
+      <div class="row cust-tabs">
+          <div class="col-md-4">
+      
+              <div class="table-responsive">
+                <table class="table table-bordered white-bg">
+                  <tbody>
+                    <tr>
+                      <th rowspan="3">{{'quickVisualization.buyer' | translate}}:</th>
+                      <td *ngIf="model?.buyer_type==2">{{model?.buyer_legal_entity?.comm_name || ('table.tr.td.NA' | translate)}}</td>
+                      <td *ngIf="model?.buyer_type!=2">{{model?.buyer?.name || ('table.tr.td.NA' | translate)}}</td>
+                    </tr>
+                    <tr>
+                      <td *ngIf="model?.buyer_type==2">{{model?.buyer_legal_entity?.email || ('table.tr.td.NA' | translate)}}</td>
+                      <td *ngIf="model?.buyer_type!=2">{{model?.buyer?.email || ('table.tr.td.NA' | translate)}}</td>
+                    </tr>
+                    <tr>
+                      <td *ngIf="model?.buyer_type==2">{{model?.buyer_legal_entity?.phone ? model?.buyer_legal_entity?.dial_code + ' ' + model?.buyer_legal_entity?.phone : ('table.tr.td.NA' | translate)}}</td>
+                      <td *ngIf="model?.buyer_type!=2">{{model?.buyer?.phone ? model?.buyer?.dial_code + ' ' + model?.buyer?.phone : ('table.tr.td.NA' | translate)}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+                <div class="table-responsive">
+                  <table class="table table-bordered white-bg">
+                    <tbody>
+                      <tr>
+                        <th rowspan="3">{{'quickVisualization.seller' | translate}}:</th>
+                        <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.comm_name || ('table.tr.td.NA' | translate)}}</td>
+                        <td *ngIf="model?.seller_type!=2">{{model?.seller?.name || ('table.tr.td.NA' | translate)}}</td>
+                      </tr>
+                      <tr>
+                        <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.email || ('table.tr.td.NA' | translate)}}</td>
+                        <td *ngIf="model?.seller_type!=2">{{model?.seller?.email || ('table.tr.td.NA' | translate)}}</td>
+                      </tr>
+                      <tr>
+                        <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.phone ? model?.seller_legal_entity?.dial_code + ' ' + model?.seller_legal_entity?.phone : ('table.tr.td.NA' | translate)}}</td>
+                        <td *ngIf="model?.seller_type!=2">{{model?.seller?.phone ? model?.seller?.dial_code + ' ' + model?.seller?.phone : ('table.tr.td.NA' | translate)}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-bordered white-bg">
+                    <tbody>
+                      <tr>
+                        <th rowspan="3">
+                          {{model?.deal_commission_agents?.length>0 && model?.deal_commission_agents[0]?.broker?.is_external_agent==1 ? ('quickVisualization.outsideAgent' | translate) : ('quickVisualization.inhouseAgent' | translate)}}:
+                        </th>
+                        <td>{{model?.deal_commission_agents?.length>0 ? model?.deal_commission_agents[0]?.name : ('table.tr.td.NA' | translate)}}</td>
+                      </tr>
+                      <tr>
+                        <td>{{model?.deal_commission_agents?.length>0 ? model?.deal_commission_agents[0]?.broker?.email : ('table.tr.td.NA' | translate)}}</td>
+                      </tr>
+                      <tr>
+                        <td>{{model?.deal_commission_agents?.length>0 ? model?.deal_commission_agents[0]?.broker?.dial_code + ' ' +model?.deal_commission_agents[0]?.broker?.phone : ('table.tr.td.NA' | translate)}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+          </div>
+      
+          <div class="col-md-1"></div>
+      
+          <div class="col-md-4">
+      
+                <div class="table-responsive">
+                  <table class="table table-bordered white-bg">
+                    <tbody>
+                      <tr>
+                        <th rowspan="3">{{'quickVisualization.buyerLegal' | translate}} <br> {{'quickVisualization.representativeContact' | translate}}:</th>
+                          <td *ngIf="model?.buyer_type==1">{{model?.buyer_leg_rep_name || ('table.tr.td.NA' | translate)}}</td>
+                          <td *ngIf="model?.buyer_type==2">{{model?.buyer_legal_entity?.legal_reps?.name || ('table.tr.td.NA' | translate)}}</td>
+                          <td *ngIf="model?.buyer_type==3">{{model?.buyer?.legal_representative?.name || ('table.tr.td.NA' | translate)}}</td>
+                       </tr>
+                      <tr>
+                        <td *ngIf="model?.buyer_type==1">{{model?.buyer_leg_rep_email || ('table.tr.td.NA' | translate)}}</td>
+                        <td *ngIf="model?.buyer_type==2">{{model?.buyer_legal_entity?.legal_reps?.email || ('table.tr.td.NA' | translate)}}</td>
+                        <td *ngIf="model?.buyer_type==3">{{model?.buyer?.legal_representative?.email || ('table.tr.td.NA' | translate)}}</td>
+                       </tr>
+                      <tr>
+                        <td *ngIf="model?.buyer_type==1">{{model?.buyer_leg_rep_phone ? model?.buyer?.dial_code + ' '+ model?.buyer_leg_rep_phone : ('table.tr.td.NA' | translate)}}</td>
+                        <td *ngIf="model?.buyer_type==2">{{model?.buyer_legal_entity?.legal_reps?.phone ? model?.buyer_legal_entity?.legal_reps?.dial_code + ' '+ model?.buyer_legal_entity?.legal_reps?.phone : ('table.tr.td.NA' | translate)}}</td>
+                        <td *ngIf="model?.buyer_type==3">{{model?.buyer?.legal_representative?.phone ? model?.buyer?.dial_code + ' ' + model?.buyer?.legal_representative?.phone : ('table.tr.td.NA' | translate)}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                  <div class="table-responsive">
+                    <table class="table table-bordered white-bg">
+                      <tbody>
+                        <tr>
+                          <th rowspan="3">{{'quickVisualization.sellerLegal' | translate}} <br> {{'quickVisualization.representativeContact' | translate}}:</th>
+                          <td *ngIf="model?.seller_type==1">{{model?.seller_leg_rep_name || ('table.tr.td.NA' | translate)}}</td>
+                          <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.legal_reps?.name || ('table.tr.td.NA' | translate)}}</td>
+                          <td *ngIf="model?.seller_type==3">{{model?.seller?.legal_representative?.name || ('table.tr.td.NA' | translate)}}</td>
+                       </tr>
+                      <tr>
+                        <td *ngIf="model?.seller_type==1">{{model?.seller_leg_rep_email || ('table.tr.td.NA' | translate)}}</td>
+                        <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.legal_reps?.email || ('table.tr.td.NA' | translate)}}</td>
+                        <td *ngIf="model?.seller_type==3">{{model?.seller?.legal_representative?.email || ('table.tr.td.NA' | translate)}}</td>
+                       </tr>
+                       <tr>
+                         <td *ngIf="model?.seller_type==1">{{model?.seller_leg_rep_phone ? model?.seller?.dial_code + ' '+ model?.seller_leg_rep_phone : ('table.tr.td.NA' | translate)}}</td>
+                         <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.legal_reps?.phone ? model?.seller_legal_entity?.legal_reps?.dial_code + ' '+ model?.seller_legal_entity?.legal_reps?.phone : ('table.tr.td.NA' | translate)}}</td>
+                         <td *ngIf="model?.seller_type==3">{{model?.seller?.legal_representative?.phone ? model?.seller?.dial_code + ' ' + model?.seller?.legal_representative?.phone : ('table.tr.td.NA' | translate)}}</td>
+                       </tr>
+                      </tbody>
+                    </table>
+                  </div>
+            </div>
+        </div>  
+    
+    
+        <h5>{{'quickVisualization.generalPropertyInformation' | translate}}</h5>
+        <div class="row">
+            <div class="col-md-4">
+        
+                  <div class="table-responsive">
+                    <table class="table table-bordered white-bg">
+                      <tbody>
+                          <tr>
+                              <th>{{'quickVisualization.project' | translate}}:</th>
+                              <td>{{model?.property?.building?.name || ('table.tr.td.NA' | translate)}}</td>
+                            </tr>
+                            <tr>
+                              <th>{{'quickVisualization.tower' | translate}}:</th>
+                              <td>{{model?.property?.building_towers?.tower_name || ('table.tr.td.NA' | translate)}}</td>
+                            </tr>
+                            <tr>
+                              <th>{{'quickVisualization.floor' | translate}}:</th>
+                              <td>
+                                  {{model?.property?.floor_num ? (model?.property?.floor_num == 0 ? ('addCollection.groundFloor' | translate) : ('addCollection.floor' | translate) + ' ' + model?.property?.floor_num) : ('table.tr.td.NA' | translate)}}
+                              </td>
+                            </tr>
+                            <tr>
+                              <th>{{'quickVisualization.model' | translate}}:</th>
+                              <td>{{model?.property?.building_configuration?.name || ('table.tr.td.NA' | translate)}}</td>
+                            </tr>
+                            <tr>
+                              <th>{{'quickVisualization.propertyName' | translate}}:</th>
+                              <td>{{model?.property?.name || ('table.tr.td.NA' | translate)}}</td>
+                            </tr>
+                            <tr>
+                              <th>{{'quickVisualization.price' | translate}}:</th>
+                              <td>{{(model?.deal_price || 0) | currency}}</td>
+                            </tr>
+                      </tbody>
+                    </table>
+                  </div>
+              </div>
+          
+              <div class="col-md-1"></div>
+          
+              <div class="col-md-4">  
+                    <div class="table-responsive">
+                      <table class="table table-bordered white-bg">
+                          <tbody>
+                              <tr>
+                                  <th>{{'quickVisualization.purchaseDate' | translate}}:</th>
+                                  <td>{{model?.deal_purchase_date ? (model?.deal_purchase_date | date:'dd/MMM/yyyy') : ('table.tr.td.NA' | translate)}}</td>
+                                </tr>
+                                <tr>
+                                  <th>{{'quickVisualization.currency' | translate}}:</th>
+                                  <td>{{model?.currency?.code || ('table.tr.td.NA' | translate)}}</td>
+                                </tr>
+                          </tbody>
+                      </table>
+                    </div>
+                      <div class="table-responsive">
+                        <table class="table table-bordered white-bg">
+                            <tbody>
+                                <tr>
+                                    <th>{{'quickVisualization.paid' | translate}}:</th>
+                                    <td>{{(model?.total_payment_recieved || 0) | currency}}</td>
+                                    <!-- <td>{{(totalPaid || 0) | currency}}</td> -->
+                                  </tr>
+                                  <tr>
+                                    <th>{{'quickVisualization.remaining' | translate}}:</th>
+                                    <!-- <td>{{((model?.total || 0) - (model?.paid || 0)) | currency}}</td> -->
+                                    <td>{{remainingAmt > 0 ? (remainingAmt | currency) : ( 0 | currency)}}</td>                                   <!-- <td>{{(totalOutstanding || 0) | currency}}</td> -->
+                                  </tr>
+                                  <tr>
+                                    <th>{{'quickVisualization.totalPenalty' | translate}}:</th>
+                                    <td>{{(model?.penalty || 0) | currency}}</td>
+                                  </tr>
+                            </tbody>
+                        </table>
+                      </div>
+                </div>
+        
+          </div>
+        
+        
+    
+  <h5>{{'quickVisualization.paymentInformation' | translate}}</h5>
+  <div class="cust-tabs">
+    <div class="tab-content white-bg">
+      <div class="table-responsive main-table">
+        <table class="table table-bordered table-striped table-align-center quick-table">
+          <thead>
+            <tr>
+                <th [style.width]="'200px'" [style.z-index]="100">
+                  <b>{{'quickVisualization.concept' | translate}}</b>
+                </th>
+                <th [style.width]="'140px'">
+                  <b>{{'quickVisualization.month' | translate}}</b>
+                </th>
+                <!-- <th [style.width]="'140px'">
+                  <b>{{'quickVisualization.paymentDate' | translate}}</b>
+                </th> -->
+                <th [style.width]="'120px'">
+                    <b>{{'quickVisualization.paid' | translate}}</b>
+                </th>
+                <!-- <th [style.width]="'150px'">
+                  <b>{{'quickVisualization.paymentMethods' | translate}}</b>
+                </th> -->
+                <th [style.width]="'120px'">
+                    <b>{{'quickVisualization.outstandingPayment' | translate}}</b>
+                </th>
+                <!-- <th [style.width]="'120px'">
+                    <b>{{'quickVisualization.paidByUser' | translate}}</b>
+                </th> -->
+                <th [style.width]="'120px'">
+                    <b>{{'quickVisualization.toBePaidByUser' | translate}}</b>
+                </th>
+                <!-- <th>
+                    <b>{{'quickVisualization.paymentAttachment' | translate}}</b>
+                </th> -->
+                <th [style.width]="'120px'">
+                    <b>{{'quickVisualization.penaltyFLP' | translate}}</b>
+                </th>
+                <th>
+                    <b>{{'quickVisualization.penaltyDescription' | translate}}</b>
+                </th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let p of paymentConcepts; let i=index">
+            <tr [ngClass]="{'remaining_amt': p.key == 'remaining_amt'}">
+              <td>
+                <a style="color: #fff;" class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{i}}">
+                    {{p?.name}}
+                </a>
+              </td>
+              <td>{{p?.date | date:'dd/MMM/yyyy'}}</td>
+              <!-- <td>{{p?.payment_date || ''}}</td> -->
+              <td>
+                <!-- {{p?.paid_amount}}<br> -->
+                {{p?.paid_amount && p?.paid_amount>'0.1' ? (p?.paid_amount | currency) : ''}}<br>
+                <!-- {{p?.new_paid_amt ? (p?.new_paid_amt | currency) : ''}}  -->
+                <!-- {{p?.is_paid_calculated == 1 ? p?.amount : (p?.collection_payment ? (p?.collection_payment?.amount | currency) : '')}} -->
+              </td>
+              <!-- <td>{{p?.collection_payment?.payment_method?.name || ''}}</td> -->
+              <td>
+                <span [ngClass]="{'red-color':p?.is_pending}">
+                  {{p?.outstanding_amount && p?.outstanding_amount > 0 ? (p?.outstanding_amount | currency) : ''}}
+                </span>
+                <!-- <span [ngClass]="{'red-color':(p?.amount != p?.collection_payment?.amount) && p?.collection_payment?.amount}">
+                  {{p?.is_paid_calculated!=1 && p?.amount ? ((p?.amount || 0) | currency) : ''}}
+                </span> -->
+              </td>
+              <!-- <td>
+                {{p?.collection_payment ? (p?.collection_payment?.amount | currency) : ''}}
+              </td> -->
+              <td>
+                  {{p?.amount ? ((p?.amount || 0) | currency) : ''}}
+              </td>
+              <!-- <td>
+                <a class="green-color fontW500" *ngIf="p?.collection_payment && p?.key!='total'" target="_blank" href="{{p?.collection_payment?.receipt}}">
+                  {{'quickVisualization.view' | translate}}
+                </a>
+              </td>
+              <td>
+                <button class="action-icon" *ngIf="p?.collection_payment?.description" (click)="showDescription(p?.collection_payment?.description, 1)">
+                    <img src="assets/img/eye-icon.png" alt="img">
+                </button>
+              </td> -->
+              <td>
+                {{p?.penalty ? ((p?.penalty?.amount || 0) | currency) : ''}}
+              </td>
+              <td>
+                  <button class="action-icon" *ngIf="p?.penalty?.description" (click)="showDescription(p?.penalty?.description, 2)">
+                      <img src="assets/img/eye-icon.png" alt="img">
+                  </button>
+              </td>              
+              </tr>
+            
+            
+              <tr id="collapse{{i}}" class="panel-collapse collapse">
+                  <td colspan="5" style="background: #fff;">
+                  <table>
+                    <thead style="background: #00B96F; color: #fff;">
+                      <th [style.width]="'240px'" [style.color]="'#fff'">{{'quickVisualization.concept' | translate}}</th>
+                      <th [style.width]="'300px'" [style.color]="'#fff'">{{'quickVisualization.paymentDate' | translate}}</th>
+                      <th [style.width]="'300px'" [style.color]="'#fff'">{{'quickVisualization.paidByUser' | translate}}</th>
+                      <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.paymentMethods' | translate}}</th>
+                      <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.paymentAttachment' | translate}}</th>
+                      <!-- <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.paymentDescription' | translate}}</th> -->
+                    </thead>
+                    <tbody *ngIf="p?.collection_paymentss?.length>0">
+                      <ng-container *ngFor="let stats of p?.collection_paymentss">
+                        <tr *ngIf="stats.payment_type==1 || stats.payment_type==3 || stats.payment_type==4 || stats.payment_type==5">
+                          <td [style.backgroundColor]="'#fff'" [style.color]="'#222'">
+                            {{p?.name || 'NA'}}
+                          </td>
+                          <td>
+                            {{stats.payment_date ? (stats.payment_date | date:'dd/MMM/yyyy') : 'NA'}}
+                          </td>
+                          <td>
+                            <span> {{stats?.amount ? (stats?.amount | currency) : ''}}</span> 
+                          </td>
+                          <td>
+                            <span> {{stats?.payment_method?.name || 'NA'}}</span> 
+                          </td>
+                          <td>
+                            <a class="green-color fontW500" *ngIf="stats?.key!='total'" target="_blank" href="{{stats?.receipt}}">
+                              {{'quickVisualization.view' | translate}}
+                            </a>
+                          </td>
+                          <!-- <td>
+                            <button class="action-icon" *ngIf="stats?.description" (click)="showDescription(stats?.description, 1)">
+                                <img src="assets/img/eye-icon.png" alt="img">
+                            </button>
+                          </td> -->
+                        </tr>
+                    </ng-container>
+                    </tbody>
+                  </table>
+                </td>
+                </tr>
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<a href="javascript://" data-toggle="modal" data-target="#des-modal" #viewDesModal></a>
+<div class="modal animated" id="des-modal">
+      <div class="modal-dialog fadeIndown">
+            <div class="modal-content notary-avail">
+                  <div class="modal-header popup-header">
+                        <h4 *ngIf="title==1">{{'quickVisualization.paymentDescription' | translate}}</h4>
+                        <h4 *ngIf="title==2">{{'quickVisualization.penaltyDescription' | translate}}</h4>
+                        <h4 *ngIf="title==3">{{'quickVisualization.PCDescription' | translate}}</h4>
+                        <h4 *ngIf="title==4">{{'quickVisualization.CCDescription' | translate}}</h4>
+                        <button style="display: none;" type="button" class="close" data-dismiss="modal" #viewDesModalClose>&times;</button>
+                        <button type="button" class="close" (click)="closeDescModal()">&times;</button>
+                  </div>
+
+                  <div class="modal-body">
+                        <div class="form-group-2">
+                              <div class="form-group">
+                                    <textarea rows="4" readonly required class="form-control note" name="description" [(ngModel)]="description"></textarea>
+                              </div>
+                        </div>
+                  </div>
+            </div>
+      </div>
+</div>

@@ -1,0 +1,275 @@
+
+<div class="container-fluid">
+    <div class="row">
+       <div class="col-md-4">
+             <div class="form-group">
+                <h5>{{'collectionReport.modelReport' | translate}}</h5>
+             </div>
+       </div>
+    </div>
+
+    <hr>
+  
+<div class="row">
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group">
+                     <label>{{'collectionReport.developer' | translate}}</label>
+                     <div class="clearfix"></div>
+                     <ng-multiselect-dropdown class="section-section2 multi-select"
+                           [placeholder]="''"
+                           [data]="developers"
+                           [(ngModel)]="selectedDevelopers"
+                           [settings]="singleDropdownSettings"
+                           (onDeSelect)="onSelectDeveloper(0, $event)"
+                           (onSelect)="onSelectDeveloper(1, $event)"
+                           (onSelectAll)="onSelectAll($event)">
+                     </ng-multiselect-dropdown>
+                 <div class="clearfix"></div>
+                  </div>
+            </div>
+          
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group">
+                     <label>{{'collectionReport.project' | translate}}</label>
+                  <div class="clearfix"></div>
+                        <ng-multiselect-dropdown class="section-section2 multi-select"
+                              [placeholder]="''"
+                              [data]="projects"
+                              [(ngModel)]="selctedProjects"
+                              [settings]="singleDropdownSettings"
+                              (onDeSelect)="onSelectProject(0, $event)"
+                              (onSelect)="onSelectProject(1, $event)"
+                              (onSelectAll)="onSelectAll($event)">
+                        </ng-multiselect-dropdown>
+                  <div class="clearfix"></div>
+                  </div>
+            </div>
+          
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group">
+                     <label>{{'collectionReport.tower' | translate}}</label>
+                  <div class="clearfix"></div>
+                        <ng-multiselect-dropdown class="section-section2 multi-select"
+                              [placeholder]="''"
+                              [data]="buildingTowers"
+                              [(ngModel)]="selectedTowers"
+                              [settings]="singleDropdownSettings"
+                              (onDeSelect)="onSelectTower(0, $event)"
+                              (onSelect)="onSelectTower(1, $event)"
+                              (onSelectAll)="onSelectAll($event)">
+                        </ng-multiselect-dropdown>
+                  <div class="clearfix"></div>
+
+                  </div>
+            </div>
+
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group">
+                     <label>{{'collectionReport.floor' | translate}}</label>
+                  <div class="clearfix"></div>
+                        <ng-multiselect-dropdown class="section-section2 multi-select"
+                              [placeholder]="''"
+                              [data]="floors"
+                              [(ngModel)]="selectedFloors"
+                              [settings]="singleDropdownSettings"
+                              (onDeSelect)="onSelectFloor(0, $event)"
+                              (onSelect)="onSelectFloor(1, $event)"
+                              (onSelectAll)="onSelectAll($event)">
+                        </ng-multiselect-dropdown>
+                  <div class="clearfix"></div>
+                  </div>
+            </div>
+
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group">
+                     <label>{{'collectionReport.property' | translate}}</label>
+                  <div class="clearfix"></div>
+                        <ng-multiselect-dropdown class="section-section2 multi-select"
+                              [placeholder]="''"
+                              [data]="properties"
+                              [(ngModel)]="selectedProperties"
+                              [settings]="multiDropdownSettings"
+                              (onDeSelect)="onItemDeSelect('properties', $event)"
+                              (onSelect)="onItemSelect('selectedProperties', $event)"
+                              (onSelectAll)="onSelectAll($event)">
+                        </ng-multiselect-dropdown>
+                  <div class="clearfix"></div>
+
+                  </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+               <div class="form-group marginB0">
+                  <label>{{'collectionReport.currency' | translate}}</label>
+                     <div class="clearfix"></div>
+                         <ng-multiselect-dropdown class="section-section2 multi-select"
+                               [placeholder]="''"
+                               [data]="currencies"
+                               [(ngModel)]="selectedCurrencies"
+                               [settings]="multiDropdownSettings"
+                               (onDeSelect)="onItemDeSelect('currencies', $event)"
+                               (onSelect)="onItemSelect('selectedCurrencies', $event)"
+                               (onSelectAll)="onSelectAll($event)">
+                         </ng-multiselect-dropdown>
+                     <div class="clearfix"></div>         
+               </div>
+            </div>
+            
+          </div>
+
+          <div class="row">
+
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group">
+                  <label>{{'collectionReport.start_date' | translate}}</label>
+                  <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true" [(ngModel)]="input.start_date" [maxDate]="today" 
+                    showButtonBar="true" class="coll-report-calendar" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+                  </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group">
+                    <label>{{'collectionReport.end_date' | translate}}</label>
+                    <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true" [(ngModel)]="input.end_date" [maxDate]="today" 
+                      showButtonBar="true" class="coll-report-calendar" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+                  </div>
+            </div>
+            <div class="col-lg-1 col-md-2">
+                  <div class="form-group btn-cont">
+                  <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                  <button type="button" (click)="getListing()" class="btn btn-primary-new width100P P86">{{'collectionReport.apply' | translate}}</button>
+                  </div>
+            </div>
+          
+            <div class="col-lg-1 col-md-2">
+                  <div class="form-group btn-cont">
+                  <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                  <button type="button" (click)="resetFilters()" class="btn btn-primary-new width100P P86">{{'collectionReport.reset' | translate}}</button>
+                  </div>
+            </div>
+          </div>
+  
+       <div class="cust-tabs">
+        <div class="row flex-wrap-reverse">
+        
+        <div class="col-xl-10 col-lg-12 col-md-12 col-sm-12 col-12">
+        </div>
+        <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="add-new pull-right">
+                    <!-- *ngIf="admin?.admin_acl['Project Management']?.can_create==1 || admin?.permissions?.can_data_collector==1"  -->
+              <!-- <a 
+              class="btn" href="javascript://" routerLink="/dashboard/collections/add-collection/0">{{'viewCollections.addNew' | translate}}</a> -->
+        </div>
+        </div>
+        </div>
+       <div class="tab-content white-bg">
+          <div class="tab-pane active">
+             <div class="tabel-section">
+                <div id="accordion" class="table-responsive main-table">
+                   <table class="table table-striped table-align-left quick-table">
+                      <thead>
+                          <tr class="text-bold">
+                              <th>
+                                  <b>{{'collectionReport.model' | translate}}</b>
+                              </th>
+                              <th>
+                                  <b>{{'collectionReport.status' | translate}}</b>
+                              </th>
+                              <th>
+                                    <div class="table-search">
+                                    <b>{{'collectionReport.propertyName' | translate}}</b>
+                                    <div class="searh-3">
+                                          <input autocomplete="off" class="width100px" type="text" [(ngModel)]="input.property_name" (keyup.enter)="getListing()" >
+                                          <button *ngIf="input.property_name" (click)="getListing()"><i class="fa fa-search"></i></button>
+                                    </div>
+                                    </div>
+                              </th>
+                              <th>
+                                  <div class="table-search">
+                                    <b>{{'collectionReport.buyerName' | translate}}</b>
+                                    <div class="searh-3">
+                                       <input autocomplete="off" class="width100px" type="text" [(ngModel)]="input.buyer_name" (keyup.enter)="getListing()" >
+                                       <button *ngIf="input.buyer_name" (click)="getListing()"><i class="fa fa-search"></i></button>
+                                    </div>
+                                 </div>
+                              </th>
+                              <th>
+                                  <div class="table-search">
+                                    <b>{{'collectionReport.sellerName' | translate}}</b>
+                                    <div class="searh-3">
+                                       <input autocomplete="off" class="width100px" type="text" [(ngModel)]="input.seller_name" (keyup.enter)="getListing()" >
+                                       <button *ngIf="input.seller_name" (click)="getListing()"><i class="fa fa-search"></i></button>
+                                    </div>
+                                 </div>
+                              </th>
+                              <th>
+                                  <b>{{'collectionReport.price' | translate}}</b>
+                              </th>
+                              <th>
+                                    <b>{{'collectionReport.paid' | translate}}</b>
+                              </th>
+                              <th>
+                                    <b>{{'collectionReport.remaining' | translate}}</b>
+                              </th>
+                              <th>
+                                   <b>{{'collectionReport.penalty' | translate}}</b>
+                              </th>
+                              <th>
+                                    <b>{{'collectionReport.total' | translate}}</b>
+                              </th>
+                           </tr>
+                      </thead>
+                      <tbody *ngFor="let final of finalData; let i=index">
+                        <tr class="text-bold">
+                          <td><span>
+                                <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{i}}">
+                                    <span><i class="fa fa-plus-circle"></i> </span>{{final?.name}}
+                                </a>
+                              </span></td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td><span>{{(final?.deal_price || 0 | currency)}}</span></td>
+                           <td><span>{{(final?.received || 0) | currency}}</span></td>
+                           <td><span>{{(final?.remaining || 0) | currency}}</span></td>
+                           <td><span>{{(final?.penalty || 0) | currency}}</span></td>
+                           <td><span>{{((final?.received || 0) + (final?.remaining || 0)) | currency}}</span></td>
+                         </tr>
+                         <tr id="collapse{{i}}" class="panel-collapse collapse">
+                           <td colspan="10">
+                              <table [style.width]="'100%'">
+                                    <thead></thead>
+                                    <tbody>
+                                          <tr *ngFor="let item of final.data"
+                                          [style.background]="item.is_cancelled ? '#80808057' : ''">
+                                             <td><span>
+                                                   <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{i}}">
+                                                       {{(item?.model || ('table.tr.td.NA' | translate)) | uppercase}}
+                                                   </a>
+                                                 </span></td>
+                                             <td><span>{{(item?.is_approved == 1 ? 'Approved' : (item.is_approved == 0 ? 'Unapproved' : '')) | uppercase}}</span></td>
+                                             <td><span>{{item?.name || ''}}</span></td>
+                                             <td><span>{{item?.buyer_name || ('table.tr.td.NA' | translate)}}</span></td>
+                                          <td><span>{{item?.seller_name || ('table.tr.td.NA' | translate)}}</span></td>
+                                          <td><span>{{(item?.deal_price || 0 | currency)}}</span></td>
+                                              <td><span>{{(item?.received || 0) | currency}}</span></td>
+                                              <td *ngIf="item.is_cancelled!=1"><span>{{((item?.deal_price || 0) + (item?.penalty || 0) - (item?.received || 0)) | currency}}</span></td>
+                                              <td *ngIf="item.is_cancelled==1"><span>$0</span></td>
+                                              <td><span>{{(item?.penalty || 0) | currency}}</span></td>
+                                              <td><span>{{((item?.deal_price || 0) + (item?.penalty || 0)) | currency}}</span></td>
+                                          </tr>
+                                    </tbody>
+                              </table>
+                           </td>
+                          </tr>
+                      </tbody>
+                   </table>
+                   <div class="padding20 center" *ngIf="finalData?.length == 0">
+                         <img src="assets/img/404-error.png">
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+  </div>
+  

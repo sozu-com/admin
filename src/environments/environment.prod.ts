@@ -1,14 +1,15 @@
 export const environment = {
   production: true,
-  // baseIP: 'http://kanguroo.mx/api/',
-  // baseUrl: 'http://kanguroo.mx/api/admin/',
-
-  baseIP: 'https://api.sozul.com/',
-  baseUrl: 'https://api.sozul.com/api/admin/',
-
-  // baseIP: 'http://45.232.252.136/',
-  // baseUrl: 'http://45.232.252.136/api/admin/',
-  socketUrl: 'http://45.232.252.136:8080',
+    // baseIP: 'https://api.sozu.com/',
+    // baseUrl: 'https://api.sozu.com/api/admin/',
+    // socketUrl: 'https://socket.sozu.com',
+   //versionCheckURL: 'https://admin.sozu.com/version.json',
+  termConditionUrl: 'https://api.sozu.com/termCondition/es',
+  privacyPolicyUrl: 'https://api.sozu.com/privacyPolicy/es',
+ baseIP: 'https://apitest.sozu.com/',
+  baseUrl: 'https://apitest.sozu.com/api/admin/',
+  socketUrl: 'https://sockettest.sozu.com',
+  versionCheckURL: 'http://admintest.sozu.com/version.json',
   deviceId: 'ADMIN',
 
   firebase: {

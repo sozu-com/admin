@@ -1,10 +1,13 @@
 
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AdminService } from '../../../services/admin.service';
-import { IProperty } from '../../../common/property';
-import { Constant } from './../../../common/constants';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Constant } from 'src/app/common/constants';
+import { IProperty } from 'src/app/common/property';
+import { AdminService } from 'src/app/services/admin.service';
+import { LeadsService } from 'src/app/services/leads.service';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -14,7 +17,7 @@ declare let swal: any;
   providers: [Constant]
 })
 export class InhouseBrokerComponent implements OnInit {
-
+  public scrollbarOptions = { axis: 'y', theme: 'dark'};
   @ViewChild('openAssignModel') openAssignModel: ElementRef;
   @ViewChild('closeAssignModel') closeAssignModel: ElementRef;
 
@@ -28,30 +31,49 @@ export class InhouseBrokerComponent implements OnInit {
   users: any = [];
   selectedUser: any;
   initSelection = false;
-
+  locale: any;
   dash: any = {
     lead_total: 0,
     lead_lead_properties: 0,
     lead_open: 0,
     lead_closed: 0
   };
-  chartView: any= [];
+  chartView: any = [];
 
   constructor(
     public admin: AdminService,
+    public leadsService: LeadsService,
     private constant: Constant,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
+
+    this.locale = {
+      firstDayOfWeek: 0,
+      dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+      dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+      dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+      monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+      monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun',
+        'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+      today: 'Hoy',
+      clear: 'Clara',
+      dateFormat: 'mm/dd/yy',
+      weekHeader: 'Wk'
+    };
     this.parameter.is_selected = false;
     this.parameter.keyword = '';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
-    this.parameter.flag = 2;
+    this.parameter.flag = this.leadsService.inhouseAgentLeadsFlag ? this.leadsService.inhouseAgentLeadsFlag : this.constant.flag;
     this.parameter.total = 0;
-    this.parameter.count_flag = 1;
-    this.route.params.subscribe( params => {
+    this.parameter.count_flag = this.leadsService.inhouseAgentLeadsCountFlag ?
+    this.leadsService.inhouseAgentLeadsCountFlag : this.constant.count_flag;
+    this.route.params.subscribe(params => {
       this.parameter.assignee_id = params.id;
     });
     this.getCountries();
@@ -110,8 +132,9 @@ export class InhouseBrokerComponent implements OnInit {
     // this.getCsrListing();
   }
 
-  changeFlag(flag) {
+  changeFlag(flag: number) {
     this.parameter.flag = flag;
+    this.leadsService.inhouseAgentLeadsFlag = flag;
     this.parameter.count_flag = 1;
     this.resetDates();
     this.getListing();
@@ -123,8 +146,9 @@ export class InhouseBrokerComponent implements OnInit {
     this.getListing();
   }
 
-  changeCountFlag(flag) {
+  changeCountFlag(flag: number) {
     this.parameter.count_flag = flag;
+    this.leadsService.inhouseAgentLeadsCountFlag = flag;
     this.getListing();
   }
 
@@ -238,15 +262,15 @@ export class InhouseBrokerComponent implements OnInit {
         //   'value': parseInt(this.dash.lead_total, 10)
         // },
         {
-          'name': 'Lead (Properties)',
+          'name': this.translate.instant('leads.properties'),
           'value': parseInt(this.dash.lead_properties, 10)
         },
         {
-          'name': 'Lead (Open)',
+          'name': this.translate.instant('leads.leadsOpen'),
           'value': parseInt(this.dash.lead_open, 10)
         },
         {
-          'name': 'Leads (Deal finalized)',
+          'name': this.translate.instant('leads.dealFinalised'),
           'value': parseInt(this.dash.lead_closed, 10)
         }
       ];
@@ -269,16 +293,16 @@ export class InhouseBrokerComponent implements OnInit {
     } else if (this.parameter.assignee_id) {
       input.assignee_id = this.parameter.assignee_id;
     }
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('leads/in-house-broker', input).subscribe(
-    success => {
-      this.parameter.loading = false;
-      this.items = success.data;
-      if (this.items.length <= 0) {this.parameter.noResultFound = true; }
-      this.parameter.total = success.total_count;
-    }, error => {
-      this.parameter.loading = false;
-    });
+      success => {
+        this.spinner.hide();
+        this.items = success.data;
+        if (this.items.length <= 0) { this.parameter.noResultFound = true; }
+        this.parameter.total = success.total_count;
+      }, error => {
+        this.spinner.hide();
+      });
   }
 
   getPage(page) {
@@ -290,7 +314,7 @@ export class InhouseBrokerComponent implements OnInit {
     if (this.parameter.sort_by_flag !== sort_by_flag) {
       this.parameter.sort_by_flag = sort_by_flag;
       this.parameter.sort_by_order = 0;
-    }else {
+    } else {
       this.parameter.sort_by_order = this.parameter.sort_by_order ? 0 : 1;
     }
     this.getListing();
@@ -298,10 +322,10 @@ export class InhouseBrokerComponent implements OnInit {
 
   updateLeadType($event, sale_rent, lead_id, index) {
     $event.stopPropagation();
-    console.log('----');
     this.parameter.url = 'leads/updateLeadType';
     swal({
-      html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to change availability for this property?',
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+        this.translate.instant('message.error.wantToChangeAvailablity'),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -309,15 +333,15 @@ export class InhouseBrokerComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.parameter.loading = true;
-        this.admin.postDataApi(this.parameter.url, {sale_rent: sale_rent, lead_id: lead_id})
+        this.spinner.show();
+        this.admin.postDataApi(this.parameter.url, { sale_rent: sale_rent, lead_id: lead_id })
           .subscribe(
             success => {
-              this.parameter.loading = false;
+              this.spinner.hide();
               this.items[index].sale_rent = sale_rent;
-              swal('Success', 'Availability for this property changed successfully.', 'success');
+              swal(this.translate.instant('swal.success'), this.translate.instant('message.success.availablityChangedSuccessfully'), 'success');
             }, error => {
-              this.parameter.loading = false;
+              this.spinner.hide();
             });
       }
     });
@@ -334,14 +358,13 @@ export class InhouseBrokerComponent implements OnInit {
     // this.assign.keyword = '';
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     if (leads_ids.length === 0) {
-      swal('Error', 'Please choose atleast one lead.', 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAtleast1Lead'), 'error');
       return false;
     }
+    if (!this.assign.items) {
+      this.getAssignListing();
+    }
     this.openAssignModel.nativeElement.click();
-    // this.admin.postDataApi('getInhouseBroker', {}).subscribe(
-    //   success => {
-    //     this.assign.items = success.data;
-    //   });
   }
 
   getAssignListing() {
@@ -349,10 +372,12 @@ export class InhouseBrokerComponent implements OnInit {
     const input = {
       keyword: this.assign.keyword
     };
+    this.spinner.show();
     this.admin.postDataApi('getInhouseBroker', input).subscribe(
-    success => {
-      this.assign.items = success.data;
-    });
+      success => {
+        this.spinner.hide();
+        this.assign.items = success.data;
+      });
   }
 
   assignNow() {
@@ -361,18 +386,18 @@ export class InhouseBrokerComponent implements OnInit {
       broker_id: this.assignItem.id,
       leads: leads_ids
     };
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('leads/bulkAssignBroker', input).subscribe(r => {
-      this.parameter.loading = false;
-      swal('Success', 'Assigned successfully', 'success');
+      this.spinner.hide();
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.assignedSuccessfully'), 'success');
       this.closeAssignModel.nativeElement.click();
       this.getListing();
     },
-    error => {
-      this.parameter.loading = false;
-      this.closeAssignModel.nativeElement.click();
-      swal('Error', error.error.message, 'error');
-    });
+      error => {
+        this.spinner.hide();
+        this.closeAssignModel.nativeElement.click();
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
+      });
 
   }
 

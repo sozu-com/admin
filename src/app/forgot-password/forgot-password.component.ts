@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AdminService } from './../services/admin.service';
 import { NgForm } from '@angular/forms';
-import { IProperty } from './../common/property';
-import { Constant } from './../common/constants';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { IProperty } from '../common/property';
+import { AdminService } from '../services/admin.service';
+import { Constant } from '../common/constants';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -19,28 +21,32 @@ export class ForgotPasswordComponent implements OnInit {
     email: ''
   };
   projectName: string;
-  constructor(private admin: AdminService, private router: Router, public constant: Constant) {
-    const token =  localStorage.getItem('token');
-    if (token) {
-      this.router.navigate(['dashboard/view-inhouse-users/data-collectors']);
-    }
+  constructor(public admin: AdminService, private router: Router, public constant: Constant,
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService) {
+    // const token =  localStorage.getItem('token');
+    // if (token) {
+    //   this.router.navigate(['dashboard/view-inhouse-users/data-collectors']);
+    // }
   }
 
-  ngOnInit() {
-    this.projectName = this.constant.projectName;
-  }
+  ngOnInit() {}
 
   forgotPassword(formData: NgForm) {
-    this.parameter.loading = true;
+    console.log(formData.value.email);
+    this.spinner.show();
     const input = new FormData();
     input.append('email', formData.value.email);
     this.admin.postDataApi('forgotPassword', input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
-          swal('Success', success.message, 'success');
+          console.log(success);
+          this.spinner.hide();
+          swal(this.translate.instant('swal.success'), success.message, 'success');
           formData.reset();
           this.router.navigate(['']);
+        }, error => {
+          console.log(error);
         });
   }
 }

@@ -1,10 +1,12 @@
-import { Component, OnInit, Input, ElementRef, ViewChild, AfterContentInit } from '@angular/core';
-import { AdminService } from './../../../services/admin.service';
-import { CommonService } from './../../../services/common.service';
-import { IProperty } from './../../../common/property';
-import { Constant } from './../../../common/constants';
-import { Chat } from './../../../models/chat.model';
+import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
 import * as io from 'socket.io-client';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Chat } from 'src/app/models/chat.model';
+import { IProperty } from 'src/app/common/property';
+import { AdminService } from 'src/app/services/admin.service';
+import { CommonService } from 'src/app/services/common.service';
+import { Constant } from 'src/app/common/constants';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -19,7 +21,7 @@ export class ChatComponent implements OnInit {
   @Input('lead_id') lead_id;
   @Input('user_id') user_id;
   @Input('sent_as') sent_as;
-  // loadingMessages = false;
+  @Input('other_sent_as') other_sent_as;
   textMessage: any;
   durationInSec = 0;
   video: any;
@@ -34,6 +36,7 @@ export class ChatComponent implements OnInit {
   public scrollbarOptions = { axis: 'y', theme: 'dark'};
   public parameter: IProperty = {};
   @ViewChild('optionsButton') optionsButton: ElementRef;
+  @ViewChild('msgInput') msgInput: ElementRef;
   text: string;
 
   constructor(
@@ -41,38 +44,42 @@ export class ChatComponent implements OnInit {
     public admin: AdminService,
     private cs: CommonService,
     public model: Chat,
-    public constant: Constant
+    public constant: Constant,
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
     // this.admin.loginData$.subscribe(success => {
     //   this.model.conversation_user = {admin_id: success['id']};
     // });
+    // this.msgInput.nativeElement.focus();
     this.parameter.messages = [];
     setTimeout(() => {
       const input = {lead_id: this.lead_id, user_id: this.user_id, sent_as: this.sent_as};
       this.initSocket();
       if ((this.sent_as === this.constant.userType.notary) || (this.sent_as === this.constant.userType.bank)) {
-        this.getLeadConversation();
+        this.getLeadConversation(false);
       } else {
         this.getMessages();
       }
     }, 100);
   }
 
-  getLeadConversation () {
+  getLeadConversation (showLoader: boolean) {
 
     const data = {
       lead_id: this.lead_id,
-      other_sent_as: this.constant.userType.csr_closer, // closure with chat with notary/bank
+      other_sent_as: this.other_sent_as, // closure chat with notary/bank
       other_id: this.user_id,
       sent_as: this.sent_as
     };
 
-    this.parameter.loading = true;
+    if (showLoader) {
+      this.spinner.show();
+    }
     this.admin.postDataApi('conversation/getLeadConversation', data).subscribe(r => {
-      this.parameter.loading = false;
-      console.log('conversation/getLeadConversation', r);
+      this.spinner.hide();
       if (r['data']) {
         this.parameter.messages = r.data[0].messages;
         if (this.parameter.messages.length < 30) {this.loadmore = false; }
@@ -80,7 +87,7 @@ export class ChatComponent implements OnInit {
         this.scrollToBottom();
       }
     }, error => {
-      this.parameter.loading = false;
+      this.spinner.hide();
     });
   }
 
@@ -102,11 +109,6 @@ export class ChatComponent implements OnInit {
     this.admin.postDataApi('conversation/getMessages', i).subscribe(res => {
 
       this.parameter.messages = res.data[0].messages;
-      // this.parameter.messages.map(r=>{
-      //   r.loading = true;
-      //   return r;
-      // });
-      console.log('messages', this.parameter.messages);
       if (this.parameter.messages.length < 30) {this.loadmore = false; }
       this.parameter.conversation_id = res.data[0].id;
       this.scrollToBottom();
@@ -120,8 +122,6 @@ export class ChatComponent implements OnInit {
     //   console.log('disconnect', this.parameter.socket);
     // });
     this.parameter.socket.on('connect', fun => {
-      console.log('connect');
-      console.log('connect', this.parameter.socket);
       this.parameter.socket_id = this.parameter.socket.id;
       this.parameter.connected = this.parameter.socket.connected;
 
@@ -167,7 +167,7 @@ export class ChatComponent implements OnInit {
 
   onSelectFile(param, event) {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
     } else {
       this.optionsButton.nativeElement.click();
 
@@ -182,8 +182,6 @@ export class ChatComponent implements OnInit {
       const d = new Date();
       model.updated_at = d.toUTCString();
       this.parameter.messages.push(model);
-
-
 
       setTimeout(() => {
         this.scrollToBottom();
@@ -212,7 +210,7 @@ export class ChatComponent implements OnInit {
   saveAttachment(event) {
 
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
     } else {
       this.optionsButton.nativeElement.click();
       const model = new Chat;
@@ -247,7 +245,7 @@ export class ChatComponent implements OnInit {
 
   showCanvas(event) {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
     } else {
       this.optionsButton.nativeElement.click();
       const model = new Chat;
@@ -331,14 +329,13 @@ export class ChatComponent implements OnInit {
   }
 
   setText() {
-    console.log('====', this.sent_as, this.admin.admin_acl);
-    if (!this.textMessage) {
+    if (!this.textMessage || !this.textMessage.trim()) {
       return false;
     } else if ((this.sent_as === this.constant.userType.csr_buyer &&
         ((Object.keys(this.admin.admin_acl).length !== 0 && this.admin.admin_acl['Buyer Lead Management'].can_update === 0)
         || this.admin.permissions.can_csr_buyer === 0)) ||
       this.sent_as === this.constant.userType.inhouse_broker &&
-      ((Object.keys(this.admin.admin_acl).length !== 0 && this.admin.admin_acl['Broker Lead Management'].can_update === 0) ||
+      ((Object.keys(this.admin.admin_acl).length !== 0 && this.admin.admin_acl['Inhouse Agent Lead Management'].can_update === 0) ||
       this.admin.permissions.can_in_house_broker === 0) ||
       this.sent_as === this.constant.userType.notary &&
       ((Object.keys(this.admin.admin_acl).length !== 0 && this.admin.admin_acl['Notary Lead Management'].can_update === 0) ||
@@ -356,9 +353,7 @@ export class ChatComponent implements OnInit {
       model.conversation_id =  this.parameter.conversation_id;
       model.conversation_user = {admin_id: this.admin_id};
       const d = new Date();
-      console.log('11', d);
       model.updated_at = d.toUTCString();
-      console.log('22', model.updated_at);
       model.admin_id = this.admin_id;
       this.parameter.messages.push(model);
       this.textMessage = '';
@@ -370,14 +365,12 @@ export class ChatComponent implements OnInit {
   }
 
   sendMessage(model) {
+    model.sent_as = this.sent_as;
     if (model.message_type == 1 && !model.message) {
-      swal('Error', 'Please enter some text.', 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterText'), 'error');
     } else {
-      console.log('Appending', model);
       this.admin.postDataApi('conversation/sendMessage', model).subscribe(r => {
-        console.log('sendMessage', r);
-
-        if (model.loading == true){
+        if (model.loading == true) {
           model.loading = false;
           const foundIndex = this.parameter.messages.findIndex(x => x.uid == model.uid);
           this.parameter.messages[foundIndex] = r['data'];
@@ -387,26 +380,9 @@ export class ChatComponent implements OnInit {
         }, 100);
       },
       error => {
-        swal('Error', error.error.message, 'error');
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
       });
     }
-
-    // if (model.message_type === 1 && !model.message) {
-    //   swal('Error', 'Please enter some text.', 'error');
-    // } else {
-    //   model.conversation_id =  this.parameter.conversation_id;
-    //   this.admin.postDataApi('conversation/sendMessage', model).subscribe(r => {
-    //     setTimeout(() => {
-    //       this.scrollToBottom();
-    //     }, 100);
-    //     if (model.loading === true) {
-    //       model.loading = false;
-    //     }
-    //   },
-    //   error => {
-    //     swal('Error', error.error.message, 'error');
-    //   });
-    // }
   }
 
   loadMore(admin_id) {
@@ -425,7 +401,22 @@ export class ChatComponent implements OnInit {
 
   sendProperty(property) {
     const model = new Chat;
-    model.message = property.configuration.name + ' in ' + property.building.name;
+    model.message = property.name + ' ' + this.translate.instant('commonBlock.with') + ' ';
+    if (property.configuration.bedroom) {
+      model.message += property.configuration.bedroom + ' ' + this.translate.instant('commonBlock.bed') + ' ';
+    }
+    if (property.configuration.bathroom) {
+      model.message += this.constant.middleDot + property.configuration.bathroom + ' ' + this.translate.instant('commonBlock.bath') + ' ';
+    }
+    if (property.configuration.half_bathroom) {
+      model.message += this.constant.middleDot + property.configuration.half_bathroom + ' ' +
+      this.translate.instant('commonBlock.halfBath') + ' ';
+    }
+    if (property.property_type.name) {
+      model.message += this.constant.middleDot + property.property_type.name;
+    }
+    model.message += ' ' + this.translate.instant('commonBlock.in') + ' ' + property.building.name;
+
     model.message_type = 5;
     model.property_id = property.id;
     model.image = property.image;

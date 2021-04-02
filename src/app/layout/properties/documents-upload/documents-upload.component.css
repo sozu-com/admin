@@ -1,0 +1,58 @@
+.input-icons i { 
+    position: absolute; 
+} 
+  
+.input-icons { 
+    width: 100%; 
+    margin-bottom: 10px; 
+} 
+  
+.icon { 
+    min-width: 40px;
+    margin-left: -10%;
+    color: #00B96F;
+    font-size: 145%;
+    padding: 12px;
+} 
+.icons { 
+    padding: 14px;
+    font-size: 145%;
+} 
+.iconss { 
+    padding: 40px;
+    margin-top: -26px;
+    font-size: 145%;
+    cursor: pointer;
+}  
+
+.input-field { 
+    width: 100%; 
+    padding: 10px; 
+    background-color: gainsboro;
+    color: black;
+} 
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 100%;
+    padding: 14px;
+  }
+  ::-webkit-input-placeholder { /* Chrome */
+    color: black;
+  }
+  :-ms-input-placeholder { /* IE 10+ */
+    color: black;
+  }
+  ::-moz-placeholder { /* Firefox 19+ */
+    color: black;
+    opacity: 1;
+  }
+  :-moz-placeholder { /* Firefox 4 - 18 */
+    color: black;
+    opacity: 1;
+  }
+
+
+
+  

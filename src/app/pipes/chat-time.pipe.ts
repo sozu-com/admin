@@ -12,7 +12,6 @@ export class ChatTimePipe implements PipeTransform {
       return moment(created_at, format).utc(true).local().fromNow();
     } else if (type === 3) {
       // converting date to utc
-      console.log(created_at, format);
       return moment.utc(created_at).format(format);
     } else if (type === 4) {
       // converting date to local

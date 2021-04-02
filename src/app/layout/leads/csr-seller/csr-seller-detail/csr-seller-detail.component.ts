@@ -1,8 +1,10 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { AdminService } from '../../../../services/admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IProperty } from '../../../../common/property';
-import { Constant } from '../../../../common/constants';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { IProperty } from 'src/app/common/property';
+import { Constant } from 'src/app/common/constants';
+import { AdminService } from 'src/app/services/admin.service';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -15,9 +17,9 @@ export class CsrSellerDetailComponent implements OnInit {
   public parameter: IProperty = {};
   public location: IProperty = {};
 
-  items: any= [];
-  total: any= 0;
-  configurations: any= [];
+  items: any = [];
+  total: any = 0;
+  configurations: any = [];
   countries: any;
 
   price_sort = 1;
@@ -29,11 +31,13 @@ export class CsrSellerDetailComponent implements OnInit {
   constructor(
     public constant: Constant,
     private route: ActivatedRoute,
-    public admin: AdminService
+    public admin: AdminService,
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
-    this.route.params.subscribe( params => {
+    this.route.params.subscribe(params => {
       this.parameter.seller_id = params.id;
       this.parameter.itemsPerPage = this.constant.itemsPerPage;
       this.parameter.page = this.constant.p;
@@ -47,18 +51,18 @@ export class CsrSellerDetailComponent implements OnInit {
   }
 
   getListing() {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.items = [];
     this.parameter.noResultFound = false;
     this.admin.postDataApi('propertyHome', this.parameter).subscribe(
       success => {
         this.items = success.data;
-        if (this.items.length <= 0) {this.parameter.noResultFound = true; }
+        if (this.items.length <= 0) { this.parameter.noResultFound = true; }
         this.total = success.total_count;
-        this.parameter.loading = false;
+        this.spinner.hide();
       },
       error => {
-        this.parameter.loading = false;
+        this.spinner.hide();
       });
   }
 
@@ -136,7 +140,7 @@ export class CsrSellerDetailComponent implements OnInit {
     if (this.parameter.sort_by !== sort_by) {
       this.parameter.sort_by = sort_by;
       this.parameter.sort_by_order = 0;
-    }else {
+    } else {
       this.parameter.sort_by_order = this.parameter.sort_by_order ? 0 : 1;
     }
     this.getListing();
@@ -149,31 +153,31 @@ export class CsrSellerDetailComponent implements OnInit {
 
   block(item) {
     item.is_blocked = true;
-    this.admin.postDataApi('blockProperty', {property_id: item.id, flag: 1}).subscribe(r => {
-      swal('Success', 'Property blocked successfully', 'success');
+    this.admin.postDataApi('blockProperty', { property_id: item.id, flag: 1 }).subscribe(r => {
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.propertyBlockedSuccessfully'), 'success');
     },
-    error => {
-      swal('Error', error.error.message, 'error');
-    });
+      error => {
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
+      });
   }
 
   unblock(item) {
     item.is_blocked = false;
-    this.admin.postDataApi('blockProperty', {property_id: item.id, flag: 0 }).subscribe(r => {
-      swal('Success', 'Property unblocked successfully', 'success');
+    this.admin.postDataApi('blockProperty', { property_id: item.id, flag: 0 }).subscribe(r => {
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.propertyUnblockedSuccessfully'), 'success');
     },
-    error => {
-      swal('Error', error.error.message, 'error');
-    });
+      error => {
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
+      });
   }
 
   changeStatus(item, status) {
     item.status = status;
-    this.admin.postDataApi('updatePropertyStatus', {property_id: item.id, status_id: status }).subscribe(r => {
-      swal('Success', 'Property status changed', 'success');
+    this.admin.postDataApi('updatePropertyStatus', { property_id: item.id, status_id: status }).subscribe(r => {
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.propertyStatusChanged'), 'success');
     },
-    error => {
-      swal('Error', error.error.message, 'error');
-    });
+      error => {
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
+      });
   }
 }

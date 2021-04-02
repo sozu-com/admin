@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AgmCoreModule } from '@agm/core';
 import { Ng2TelInputModule } from 'ng2-tel-input';
@@ -21,23 +21,37 @@ import { AclUserGuard } from '../../guards/acl-user.guard';
 import { ProfileComponent } from './profile/profile.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { DefaultSettingsComponent } from './default-settings/default-settings.component';
+import { MatchValueDirective } from 'src/app/directives/match-value.directive';
+import { SharedModule } from 'src/app/modules/shared.module';
 
 const routes: Routes = [
   { path: 'view-profile', component: ProfileComponent },
   { path: 'change-password', component: ChangePasswordComponent },
-  { path: 'default-settings', component: DefaultSettingsComponent },
-  { path: 'edit-profile', component: EditProfileComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Settings', 'can_read', '']}},
-  { path: 'setting-location', component: LocationComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Settings', 'can_read', '']}},
-  { path: 'setting-locality', component: LocalityComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Settings', 'can_read', '']}},
-  { path: 'setting-property', component: PropertyComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Settings', 'can_read', '']}},
-  { path: 'setting-project', component: ProjectComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Settings', 'can_read', '']}},
-  { path: 'documents-listing', component: DocumentsComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Settings', 'can_read', '']}}
+  {
+    path: 'default-settings', component: DefaultSettingsComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Settings', 'can_read', ''] }
+  },
+  { path: 'edit-profile', component: EditProfileComponent },
+  {
+    path: 'setting-location', component: LocationComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Settings', 'can_read', ''] }
+  },
+  {
+    path: 'setting-locality', component: LocalityComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Settings', 'can_read', ''] }
+  },
+  {
+    path: 'setting-property', component: PropertyComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Settings', 'can_read', ''] }
+  },
+  {
+    path: 'setting-project', component: ProjectComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Settings', 'can_read', ''] }
+  },
+  {
+    path: 'documents-listing', component: DocumentsComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Settings', 'can_read', ''] }
+  }
 ];
 
 
@@ -53,7 +67,8 @@ const routes: Routes = [
     DocumentsComponent,
     ProfileComponent,
     ChangePasswordComponent,
-    DefaultSettingsComponent
+    DefaultSettingsComponent,
+    MatchValueDirective
   ],
   imports: [
     RouterModule.forChild(routes),
@@ -62,17 +77,13 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     ModalModule.forRoot(),      // modal
-    LoadingModule.forRoot({
-        animationType: ANIMATION_TYPES.rectangleBounce,
-        // backdropBackgroundColour: 'rgba(0,0,0,0.5)',
-        // backdropBorderRadius: '4px',
-        primaryColour: '#00B96F'
-    }),
+    NgxSpinnerModule,
     AgmCoreModule.forRoot({
-        apiKey: 'AIzaSyCYv_zELZGVo2Ehzgp8eh8UeSIidhMCmH8',
-        libraries: ['drawing', 'places']
-      }),
-    Ng2TelInputModule
+      apiKey: 'AIzaSyDykCJGMqHIwJluSmSiqKTJBVN2KauM_uQ',
+      libraries: ['drawing', 'places']
+    }),
+    Ng2TelInputModule,
+    SharedModule
   ],
   exports: [RouterModule]
 })

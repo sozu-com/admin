@@ -1,17 +1,15 @@
-<ngx-loading [show]="parameter.loading"></ngx-loading>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-6 col-6">
           <div class="title-group">
-              <h5>Access Control Mgt.</h5>
-              <p>Showing {{parameter.items?.length}} out of {{parameter.total}}</p>
+            <h5>{{'viewACL.label' | translate}}</h5>
+            <p>{{'table.pagination.showing' | translate}} {{parameter?.items?.length}} {{'table.pagination.outof' | translate}} {{parameter.total}}</p>
           </div>
         </div>
         <div class="col-md-6 col-6">
           <div class="btn-cont text-right">
-              <a *ngIf="admin?.admin_acl['Access Controls']?.can_create==1" class="btn btn-primary" href="javascript://" routerLink="/dashboard/access-control-mgt/add-acl-user/0">+Add New</a>
-              <!-- <a *ngIf="admin?.admin_acl['Access Controls']?.can_create==1" class="btn btn-primary" href="javascript://" routerLink="/dashboard/access-control-mgt/add-acl-user/0">+Add New</a> -->
-              <!-- <a class="btn btn-primary" href="javascript://" data-toggle="modal" data-target="#add" #modalOpen>Add Popup</a> -->
+              <a *ngIf="admin?.admin_acl['Access Controls']?.can_create==1" class="btn btn-primary" href="javascript://" routerLink="/dashboard/access-control-mgt/add-acl-user/0">{{'table.addNewBtn' | translate}}</a>
           </div>
         </div>
     </div>
@@ -24,71 +22,87 @@
                 <th style="width:6%">&nbsp;</th>
                 <th style="width:20%">
                   <div class="table-search">
-                      <label>Name</label>
+                      <label>{{'table.th.name' | translate}}</label>
                       <div class="searh-3">
-                        <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)" name="">
-                        <button *ngIf="parameter.name" (click)="getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
+                        <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getAclUsers()" name="" autocomplete="address-level4" >
+                        <button *ngIf="parameter.name" (click)="getAclUsers()"><i class="fa fa-search"></i></button>
                       </div>
                   </div>
                 </th>
                 <th style="width:20%; text-align:left;">
                   <div class="table-search">
-                      <label>Contact Number</label>
+                      <label>{{'table.th.contactNumber' | translate}}</label>
                       <div class="searh-3">
-                        <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)" name="">
-                        <button *ngIf="parameter.phone" (click)="getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
+                        <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="getAclUsers()" name="" autocomplete="address-level4" >
+                        <button *ngIf="parameter.phone" (click)="getAclUsers()"><i class="fa fa-search"></i></button>
                       </div>
                   </div>
                 </th>
                 <th style="width:20%">
                   <div class="table-search">
-                      <label>Email Address</label>
+                    <label>{{'table.th.emailAddress' | translate}}</label>
                       <div class="searh-3">
-                        <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)" name="">
-                        <button *ngIf="parameter.email" (click)="getAclUsers(parameter.page, parameter.name, parameter.phone, parameter.email)"><i class="fa fa-search"></i></button>
+                        <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="getAclUsers()" name="" autocomplete="address-level4" >
+                        <button *ngIf="parameter.email" (click)="getAclUsers()"><i class="fa fa-search"></i></button>
                       </div>
                   </div>
                 </th>
                 <th style="width:10%; vertical-align: top;">
                   <div class="table-search">
-                    <label>Emp. ID</label>
+                    <label>{{'table.th.empId' | translate}}</label>
                   </div>
                 </th>
-                <th style="width:14%">
+                <th style="width:5%; vertical-align: top;">
+                  <div class="table-search">
+                    <label>{{'table.th.type' | translate}}</label>
+                    <select [(ngModel)]="parameter.user_type" (change)="getAclUsers()">
+                      <option value="0">{{'table.th.all' | translate}}</option>
+                      <option value="1">{{'table.tr.td.customised' | translate}}</option>
+                      <option value="2">{{'table.tr.td.predefined' | translate}}</option>
+                   </select>
+                  </div>
+                </th>
+                <th style="width:10%">
                   &nbsp;
                 </th>
               </tr>
         
               <tr *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
                 <td> 
-                  <!-- <img *ngIf="item.image && item.image!='image'" class="rounded-circle" [src]="item.image" alt="img">
-                  <img *ngIf="!item.image || item.image=='image'" class="rounded-circle" src="assets/img/default_img.png" alt="img"> -->
-                  <img [src]="item.image| img:'small'" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
+                    <img *ngIf="item.image" [defaultImage]="item.image| img:'thumb'" [lazyLoad]="item.image" class="rounded-circle" alt="img">
+                    <img *ngIf="!item.image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
                 </td>
                 <td class="text-left">
                   <span class="name">
                     <a data-toggle="popover" data-placement="top" title="{{item.name}}">
-                      {{item.name}}
+                      {{item.name | titlecase}}
+                      {{item?.first_surname | titlecase}}
+                      {{item?.second_surname ? (item?.second_surname | titlecase) : ''}}
                       <!-- {{admin?.admin_acl['Access Controls']?.can_delete}} -->
                     </a>
                   </span>
                 </td>
                 <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
-                <td class="text-left" *ngIf="!item.phone">NA</td>
+                <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
                 <td class="text-left" *ngIf="item.email">{{item.email}}</td>
-                <td class="text-left" *ngIf="!item.email">NA</td>
+                <td class="text-left" *ngIf="!item.email">{{'table.tr.td.NA' | translate}}</td>
                 <td>{{item.id}}</td>
+                <td>{{item.user_type == 1 ? ('table.tr.td.customised' | translate) : ('table.tr.td.predefined' | translate)}}</td>
                 <td>
-                  <!-- <a href="javascript://" routerLink="/dashboard/access-control-mgt/add-acl-user/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a> -->
-                  <!-- <a [ngClass]="{'display-none':admin?.admin_acl['Access Controls']?.can_update==0}" href="javascript://" (click)="editData(item, item.id)" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a> -->
-                  <!-- <a href="javascript://" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a>
-                  <a href="javascript://" class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a> -->
-                  <button title="Edit Details" [disabled]="admin?.admin_acl['Access Controls']?.can_update==0" (click)="editData(item, item.id)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
-                  <button [disabled]="admin?.admin_acl['Access Controls']?.can_delete==0"
-                      (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1, parameter.type)" 
-                      title="{{item.is_blocked==1?'Unblock User':'Block User'}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
-                      class="action-icon"><img src="assets/img/block.png" alt="img">
-                  </button>
+                  <div class="table-actions">
+                    <!-- <a href="javascript://" routerLink="/dashboard/access-control-mgt/add-acl-user/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a> -->
+                    <!-- <a [ngClass]="{'display-none':admin?.admin_acl['Access Controls']?.can_update==0}" href="javascript://" (click)="editData(item, item.id)" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a> -->
+                    <!-- <a href="javascript://" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a>
+                    <a href="javascript://" class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a> -->
+                    <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Access Controls']?.can_update==0" (click)="editData(item, item.id)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                    <button [disabled]="admin?.admin_acl['Access Controls']?.can_delete==0"
+                        (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1, parameter.type)" 
+                        title="{{item.is_blocked==1 ? ('table.title.unblock' | translate) : ('table.title.block' | translate)}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
+                        class="action-icon"><img src="assets/img/block.png" alt="img">
+                    </button>
+                    <button [disabled]="admin?.admin_acl['Access Controls']?.can_purge==0" (click)="deletePopup(item, i)" class="action-icon" 
+                    title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png" alt="img"></button>
+                  </div>
                 </td>
               </tr>
             </table>
@@ -106,89 +120,3 @@
     
   </div>
   
-  
-  
-  <!-- add inhouse user modal -->
-  <div class="modal animated" id="add">
-    <div class="modal-dialog fadeIndown modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-            <button style="display: none;" type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
-            <button type="button" class="close" (click)="closeModal()">&times;</button>
-        </div>
-  
-        <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="add(addForm)">
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-6">
-                <div class="add-img" [style.background-image]="image1">
-                <input accept="image/*" name="image" class="image" (change)="changeListner($event)" type="file">
-                <label *ngIf="!image1">+ Add Image</label>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="btn-cont text-right">
-                    <button *ngIf="model.id==''" type="submit" class="btn btn-primary">ADD</button>
-                    <button *ngIf="model.id!=''"  type="submit" [disabled]="!addForm.valid" class="btn btn-primary">UPDATE</button>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="spacer40"></div>
-              </div>
-              <div class="col-12">
-                <div class="form-group-2">
-                    <label>Name</label>
-                    <div class="form-group">
-                    <input autocomplete="off" required type="text" class="form-control" [(ngModel)]="model.name" name="name">
-                  </div>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group-2">
-                    <label>Contact number</label>
-                    <div class="form-group">
-                    <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="constant.phonePattern" class="form-control" id="phone" required minlength="1" [(ngModel)]="model.phone" name="phone"
-                        ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
-                  </div>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group-2">
-                    <label>Email ID</label>
-                    <div class="form-group">
-                    <input autocomplete="off" required [pattern]="constant.emailPattern" type="email" class="form-control" [(ngModel)]="model.email" name="email">
-                  </div>
-                </div>
-              </div>
-
-              <!-- <div class="access-controls">
-                <label *ngFor="let permission of model.acl; let i=index" class="cust-check-bx2">{{permission.name}}
-                  <input (click)="setPermission(permission.id, i)" type="checkbox" name="acl{{i}}">
-                  <span class="checkmark"></span>
-                </label>
-              </div> -->
-
-              <div class="row">
-                <div class="col-12" *ngFor="let permission of model.admin_acl; let i=index">
-                  <label><strong>{{permission?.acl?.name}}</strong></label><br>
-                  <label>Can Create
-                    <input type="checkbox" [checked]="permission.can_create == 1 ? 'checked': ''" (click)="setPermission('can_create', i)" name="can_create{{i}}">
-                  </label>
-                  <label>Can Read
-                    <input type="checkbox" [checked]="permission.can_read == 1 ? 'checked': ''" (click)="setPermission('can_read', i)" name="can_read{{i}}">
-                  </label>
-                  <label>Can Update
-                    <input type="checkbox" [checked]="permission.can_update == 1 ? 'checked': ''" (click)="setPermission('can_update', i)" name="can_update{{i}}">
-                  </label>
-                  <label>Can Block/Unblock
-                    <input type="checkbox" [checked]="permission.can_delete == 1 ? 'checked': ''" (click)="setPermission('can_delete', i)" name="can_delete{{i}}">
-                  </label>
-                </div>
-                <br>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>

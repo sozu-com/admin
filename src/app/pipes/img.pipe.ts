@@ -16,7 +16,6 @@ export class ImgPipe implements PipeTransform {
       return item.replace('uploads\/', 'thumbs\/200x200\/');
     }
     if (size === 'small') {
-      console.log('---');
       return item.replace('uploads\/', 'thumbs\/300x300\/');
     }
     if (size === 'medium') {

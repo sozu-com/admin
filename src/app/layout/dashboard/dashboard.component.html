@@ -1,12 +1,70 @@
-<ngx-loading [show]="parameter.loading"></ngx-loading>
 <div class="container-fluid">
+
   <div class="row">
-    <div class="col-md-4">
-      <div class="title-group">
-          <h5>Hello {{fullName}}</h5>
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group">
+        <label>{{'filters.location.country' | translate}}</label>
+        <select class="form-control" (change)="onCountryChange()" [(ngModel)]="selectedLocation.selectedCountry">
+          <option value="">{{'filters.location.allOption' | translate}}</option>
+          <option *ngFor="let item of location.countries" [value]="item.id">{{this.language_code == 'en' ? item?.name_en : item?.name_es}}</option>
+        </select>
       </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group">
+        <label>{{'filters.location.state' | translate}}</label>
+        <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selectedStates"
+        [data]="location.states" [(ngModel)]="selectedLocation.selectedStates" [settings]="multiDropdownSettings"
+        (onDeSelect)="onStateChange()" (onSelect)="onStateChange()"
+        (onSelectAll)="onStateChangeAll($event)" (onDeSelectAll)="onStateChangeAll($event)">
+      </ng-multiselect-dropdown>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group">
+        <label>{{'filters.location.city' | translate}}</label>
+        <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selectedCities"
+        [data]="location.cities" [(ngModel)]="selectedLocation.selectedCities" [settings]="multiDropdownSettings"
+        (onDeSelect)="onCityChange()" (onSelect)="onCityChange()"
+        (onSelectAll)="onCityChangeAll($event)" (onDeSelectAll)="onCityChangeAll($event)">
+      </ng-multiselect-dropdown>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group">
+        <label>{{'filters.location.locality' | translate}}</label>
+        <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selectedLocalities"
+        [data]="location.localities" [(ngModel)]="selectedLocation.selectedLocalities" [settings]="multiDropdownSettings"
+        >
+     </ng-multiselect-dropdown>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group btn-cont">
+        <label style="display: block; margin-top: 3px;">&nbsp;</label>
+        <button type="button" (click)="getDashboardDetails()"
+          class="btn btn-primary-new width100P P86">{{'filters.location.applyBtn' | translate}}</button>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group btn-cont">
+        <label style="display: block; margin-top: 3px;">&nbsp;</label>
+        <button type="button" (click)="resetSelectedLocation()"
+          class="btn btn-primary-new width100P P86">{{'filters.location.resetBtn' | translate}}</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="row">
+    <div class="col-md-4">
+      <div class="title-group">
+        <h5>{{'dashboard.hello' | translate}} {{fullName}}</h5>
+      </div>
+    </div>
+    <div class="col-md-8"> -->
       <!-- <div class="pull-right btn-cont">
         From: <input class="date-input" type="date" [ngModel] ="parameter.min | date:'yyyy-MM-dd'" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.min = $event; parameter.max=''" />
         To: <input class="date-input" type="date" [ngModel] ="parameter.max | date:'yyyy-MM-dd'" min="{{parameter.min | date:'yyyy-MM-dd'}}" max="{{today| date:'yyyy-MM-dd'}}" (ngModelChange)="parameter.max = $event" />
@@ -16,11 +74,11 @@
       <!-- <div class="pull-right btn-cont row">
         <div class="col-sm-5">
           <label>From:</label>
-          <p-calendar showIcon="true" [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+          <p-calendar showIcon="true" [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
         </div>
         <div class="col-sm-5">
             <label>To:</label>
-          <p-calendar showIcon="true" [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+          <p-calendar showIcon="true" [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
         </div>
         <div class="col-sm-2">
           <label>Apply:</label>
@@ -28,59 +86,107 @@
           [disabled]="!parameter.min || !parameter.max">Apply</button>
         </div>
       </div> -->
-
-
-    <div class="row">
+      <!-- <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-5 col-5">
           <div class="form-group marginB0">
-              <label>From:</label>
-              <p-calendar showIcon="true" [(ngModel)]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+            <label>{{'filters.time.custom.from' | translate}}</label>
+            <p-calendar showIcon="true" [locale]="locale" [(ngModel)]="parameter.min" [maxDate]="today"
+              showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
           </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-5 col-5">
           <div class="form-group marginB0">
-              <label>To:</label>
-              <p-calendar showIcon="true" [(ngModel)]="parameter.max" [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+            <label>{{'filters.time.custom.to' | translate}}</label>
+            <p-calendar showIcon="true" [locale]="locale" [(ngModel)]="parameter.max" [minDate]="parameter.min"
+              [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true"
+              yearRange="2000:2040"></p-calendar>
           </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-2 col-5">
           <div class="form-group btn-cont">
             <label class="addMT3">&nbsp;</label>
             <button class="btn btn-calender" href="javascript://" (click)="getReportData()"
-          [disabled]="!parameter.min || !parameter.max">Apply</button>
+              [disabled]="!parameter.min || !parameter.max">{{'filters.time.custom.applyBtn' | translate}}</button>
           </div>
         </div>
-    </div>
+      </div> -->
 
 
+    <!-- </div>
+  </div> -->
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="title-group">
+        <h5>{{'dashboard.dashboardProjects' | translate}}</h5>
+      </div>
     </div>
   </div>
-<div class="row">
-      <div class="col-md-4 col-sm-12 col-12">
-        <div class="info-box dashboard-bx">
-          <p class="p14">All Properties</p>
-          <h3>{{all_properties_count|numberWithCommas}}</h3>
-        </div>
+  <div class="row">
+    <!-- <div class="col-md-4 col-sm-12 col-12">
+      <div class="info-box dashboard-bx">
+        <p class="p14">{{'dashboard.allProperties' | translate}}</p>
+        <h3>{{all_properties_count|numberWithCommas}}</h3>
       </div>
-      <div class="col-md-4 col-sm-12 col-12">
-        <div class="info-box dashboard-bx">
-          <p class="p14">Property for Sale</p>
-          <h3>{{sale_properties_count|numberWithCommas}}</h3>
-        </div>
+    </div>
+    <div class="col-md-4 col-sm-12 col-12">
+      <div class="info-box dashboard-bx">
+        <p class="p14">{{'dashboard.propertiesForSale' | translate}}</p>
+        <h3>{{sale_properties_count|numberWithCommas}}</h3>
       </div>
-      <div class="col-md-4 col-sm-12 col-12">
-        <div class="info-box dashboard-bx">
-          <p class="p14">Property for Rent</p>
-          <h3>{{rent_properties_count|numberWithCommas}}</h3>
-        </div>
+    </div>
+    <div class="col-md-4 col-sm-12 col-12">
+      <div class="info-box dashboard-bx">
+        <p class="p14">{{'dashboard.propertiesForRent' | translate}}</p>
+        <h3>{{rent_properties_count|numberWithCommas}}</h3>
       </div>
-
-</div>
-<div class="spacer30"></div>
-<div class="white-bg padding40">
-      <h3>Stats and Trend Analytics</h3>
-      <hr>
-      <!-- <div class="row">
+    </div> -->
+  <div class="col-md-8 offset-md-1">
+    <div class="table-responsive">
+      <table class="table table-bordered white-bg">
+        <tbody>
+          <tr>
+            <th rowspan="2" style="text-align: center; padding-top: 32px;">{{'deshboard.Projects' | translate}}</th>
+            <th colspan="2" style="text-align: center;">{{'deshboard.Possesion' | translate}}</th>
+            <th colspan="4" style="text-align: center;">{{'deshboard.Projectsstatus' | translate}}</th>
+          </tr>
+          <tr>
+            <th style="text-align: center;">{{'deshboard.Sale' | translate}}</th>
+            <th style="text-align: center;">{{'deshboard.Presale' | translate}}</th>
+            <th style="text-align: center;">{{'deshboard.Withoutinformation' | translate}}</th>
+            <th style="text-align: center;">{{'deshboard.Basic' | translate}}</th>
+            <th style="text-align: center;">{{'deshboard.Semicomplete' | translate}}</th>
+            <th style="text-align: center;">{{'deshboard.Complete' | translate}}</th>
+          </tr>
+         <tr *ngIf="location.buildings">
+          <td style="text-align: center;">{{location.buildings?.building}}</td>
+          <td style="text-align: center;">{{location.buildings?.sale}}</td>
+          <td style="text-align: center;">{{location.buildings?.presale}}</td>
+          <td style="text-align: center;">{{location.buildings?.without_information}}</td>
+          <td style="text-align: center;">{{location.buildings?.basic_information}}</td>
+          <td style="text-align: center;">{{location.buildings?.semi_complete}}</td>
+          <td style="text-align: center;">{{location.buildings?.complete}}</td>
+        </tr>
+        <tr *ngIf="location.buildings">
+          <td style="text-align: center;">100%</td>
+          <td style="text-align: center;">{{getParseInt(location.buildings?.sale,location.buildings?.building)}}%</td>
+          <td style="text-align: center;">{{getParseInt(location.buildings?.presale,location.buildings?.building)}}%</td>
+          <td style="text-align: center;">{{getParseInt(location.buildings?.without_information,location.buildings?.building)}}%</td>
+          <td style="text-align: center;">{{getParseInt(location.buildings?.basic_information,location.buildings?.building)}}%</td>
+          <td style="text-align: center;">{{getParseInt(location.buildings?.semi_complete,location.buildings?.building)}}%</td>
+          <td style="text-align: center;">{{getParseInt(location.buildings?.complete,location.buildings?.building)}}%</td>
+        </tr>
+        <tr *ngIf="!location.buildings"><th colspan="7" style="text-align: center;">{{'message.error.noRecordFound' | translate}}</th></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  </div>
+  <div class="spacer30"></div>
+  <!-- <div class="white-bg padding40">
+    <h3>{{'dashboard.statsAndTrendAnalytics' | translate}}</h3>
+    <hr>
+     <div class="row">
       <div class="col-12">
       <div class="cust-tabs-2 dashboard-tabs">
             <ul class="nav nav-tabs">
@@ -92,57 +198,243 @@
 
         </div>
         </div> -->
-          <div class="clearfix"></div>
-
-        <div class="tab-content">
-          <div id="prop" class="tab-pane fade in active show">
-          <div class="row">
-            <div class="col-lg-5 col-md-6 col-sm-12 col-12">
+  <!-- <div class="clearfix"></div> -->
+  <!-- <div class="tab-content">
+      <div id="prop" class="tab-pane fade in active show">
+        <div class="row">
+          <div class="col-lg-5 col-md-6 col-sm-12 col-12">
             <div class="stats-block">
-                  <p class="p14">Total Commission on platform</p>
-                  <h2>${{total_commission|numberWithCommas}}</h2>
+              <p class="p14">{{'dashboard.totalCommissionOnPlatform' | translate}}</p>
+              <h2>{{total_commission|price}}</h2>
             </div>
+          </div>
+          <div class="col-lg-5 col-md-6 col-sm-12 col-12">
+            <div class="stats-block">
+              <p class="p14">{{'dashboard.yourSales' | translate}}</p>
+              <h2>{{total_sales|price}}</h2>
             </div>
-              <div class="col-lg-5 col-md-6 col-sm-12 col-12">
-              <div class="stats-block">
-                  <p class="p14">Your Sales</p>
-                  <h2>${{total_sales|numberWithCommas}}</h2>
-            </div>
-            </div>
-            </div>
-            <div class="spacer30"></div>
-            <div class="row">
-              <div class="col-md-6 col-sm-12 col-12">
-                <div style="height:300px">
-                  <ngx-charts-bar-vertical
-                  [scheme]="colorScheme"
-                  [results]="chartCommision"
-                  [gradient]="false"
-                  [xAxis]="true"
-                  [yAxis]="true"
-                  [showXAxisLabel]="true"
-                  [showYAxisLabel]="true">
-                </ngx-charts-bar-vertical>
-                </div>
-              </div>
-                <div class="col-md-6 col-sm-12 col-12">
-                <div style="height:300px">
-                    <ngx-charts-area-chart
-                      [scheme]="colorScheme"
-                      [results]="chartSales"
-                      [gradient]="false"
-                      [xAxis]="true"
-                      [yAxis]="true"
-                      [showXAxisLabel]="true"
-                      [showYAxisLabel]="true">
-                    </ngx-charts-area-chart>
-                </div>
-              </div>
-
-            </div>
-              </div>
+          </div>
         </div>
+        <div class="spacer30"></div>
+        <div class="row">
+          <div class="col-md-6 col-sm-12 col-12">
+            <div style="height:300px">
+              <ngx-charts-bar-vertical [scheme]="colorScheme" [results]="chartCommision" [gradient]="false"
+                [xAxis]="true" [yAxis]="true" [showXAxisLabel]="true" [showYAxisLabel]="true">
+              </ngx-charts-bar-vertical>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-12 col-12">
+            <div style="height:300px">
+              <ngx-charts-area-chart [scheme]="colorScheme" [results]="chartSales" [gradient]="false" [xAxis]="true"
+                [yAxis]="true" [showXAxisLabel]="true" [showYAxisLabel]="true">
+              </ngx-charts-area-chart>
+            </div>
+          </div>
 
-        <div class="clearfix"></div>
+        </div>
+      </div>
+    </div> -->
+  <!-- <div class="clearfix"></div>
+  </div> -->
+  
+  <div class="row">
+    <div class="graph-area col-lg-6 col-md-6">
+      <div id="agentContainer" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
+    </div>
+    <div class="graph-area col-lg-6 col-md-6">
+      <div id="agentContainer1" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
+    </div>
   </div>
+
+  <div class="spacer30"></div>
+
+  <!-- <div class="row">
+    <div class="graph-area col-md-12">
+      <div id="chartContainer" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
+    </div>
+  </div>
+
+  <div class="spacer30"></div>
+
+  <div class="row">
+  <div class=" col-md-10 offset-md-1">
+    <div class="table-responsive">
+      <table class="table table-bordered white-bg">
+        <tbody>
+          <tr>
+            <th style="text-align: center;">{{'deshboard.Localities' | translate}}</th>
+            <th style="text-align: center;">{{'deshboard.Total' | translate}}</th>
+            <th style="text-align: center;">{{'deshboard.Without' | translate}}</th>
+            <th style="text-align: center;">{{'deshboard.Basic' | translate}}</th>
+            <th style="text-align: center;">{{'deshboard.Semicomplete' | translate}}</th>
+            <th style="text-align: center;">{{'deshboard.Complete' | translate}}</th>
+          </tr>
+         <ng-container *ngFor="let locality of location.locality; let i=index">
+           <tr>
+             <td style="text-align: center;">{{this.language_code == 'en' ? locality?.locality_id?.name_en : locality?.locality_id?.name_es }}</td>
+             <td style="text-align: center;">{{locality?.building }}</td>
+             <td style="text-align: center;">{{locality?.without_information }}</td>
+             <td style="text-align: center;">{{locality?.basic_information }}</td>
+             <td style="text-align: center;">{{locality?.semi_complete }}</td>
+             <td style="text-align: center;">{{locality?.complete }}</td>
+           </tr>
+         </ng-container>
+         <tr *ngIf="location?.locality?.length == 0 "><th colspan="6" style="text-align: center;">{{'message.error.noRecordFound' | translate}}</th></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  </div> -->
+
+  <div class="white-bg marginT15 padding15">
+    <div class="row">
+    <div class="col-md-8"></div>
+    <div class="col-md-4 text-right">
+      <select class="form-control" [(ngModel)]="reportType1">
+        <option value="1">{{'collectionReport.graphicalview' | translate}}</option>
+        <option value="2">{{'collectionReport.tabularView' | translate}}</option>
+      </select>
+    </div></div>
+  <div class="row">
+    <div class="graph-area col-md-12" [style.display]="reportType1==1 ? 'block' : 'none'">
+      <div id="chartContainer" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
+    </div>
+  </div>
+  
+<div class="spacer30"></div>
+
+<div class="row" *ngIf="reportType1 == 2">
+  <div class=" col-md-10 offset-md-1">
+    <div class="table-responsive">
+      <table class="table table-bordered white-bg">
+        <tbody>
+          <tr>
+            <th style="text-align: center;">{{'deshboard.Localities' | translate}}</th>
+            <th style="text-align: center;">{{'deshboard.Total' | translate}}</th>
+            <th style="text-align: center;">{{'deshboard.Without' | translate}}</th>
+            <th style="text-align: center;">{{'deshboard.Basic' | translate}}</th>
+            <th style="text-align: center;">{{'deshboard.Semicomplete' | translate}}</th>
+            <th style="text-align: center;">{{'deshboard.Complete' | translate}}</th>
+          </tr>
+         <ng-container *ngFor="let locality of location.locality; let i=index">
+           <tr *ngIf="i < 10 ">
+             <td style="text-align: center;">{{this.language_code == 'en' ? locality?.locality?.name_en : locality?.locality?.name_es }}</td>
+             <td style="text-align: center;">{{locality?.locality_count }}</td>
+             <td style="text-align: center;">{{locality?.without_information }}</td>
+             <td style="text-align: center;">{{locality?.basic_information }}</td>
+             <td style="text-align: center;">{{locality?.semi_information }}</td>
+             <td style="text-align: center;">{{locality?.complete }}</td>
+           </tr>
+         </ng-container>
+         <tr *ngIf="location?.locality?.length == 0 "><th colspan="6" style="text-align: center;">{{'message.error.noRecordFound' | translate}}</th></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  </div></div>
+
+  <div class="spacer30"></div>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="title-group">
+        <h5>{{'dashboard.dashboardProperties' | translate}}</h5>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class=" col-md-10 offset-md-1">
+      <div class="table-responsive">
+        <table class="table table-bordered white-bg">
+          <tbody>
+            <tr>
+              <th rowspan="2" style="text-align: center; padding-top: 32px;">{{'deshboard.Total' | translate}}</th>
+              <th colspan="3" style="text-align: center;">{{'deshboard.Total' | translate}}</th>
+              <th rowspan="2" style="text-align: center; padding-top: 32px;">{{'deshboard.CommercializedSozu' | translate}}</th>
+              <th rowspan="2" style="text-align: center; padding-top: 32px;">{{'deshboard.SoldSozu' | translate}}</th>
+              <th colspan="4" style="text-align: center;">{{'deshboard.propertyStatus' | translate}}</th>
+            </tr>
+            <tr>
+              <th style="text-align: center;">{{'deshboard.ForSale' | translate}}</th>
+              <th style="text-align: center;">{{'deshboard.Rent' | translate}}</th>
+              <th style="text-align: center;">{{'deshboard.Inventory' | translate}}</th>
+              <th style="text-align: center;">{{'deshboard.Approved' | translate}}</th>
+              <th style="text-align: center;">{{'deshboard.Unapproved' | translate}}</th>
+              <th style="text-align: center;">{{'deshboard.PendingReview' | translate}}</th>
+              <th style="text-align: center;">{{'deshboard.InDraft' | translate}}</th>
+            </tr>
+            <tr *ngIf="location.propertyDetails">
+              <td style="text-align: center;">{{location.propertyDetails?.property || 0}}</td>
+              <td style="text-align: center;">{{location.propertyDetails?.forSale || 0}}</td>
+              <td style="text-align: center;">{{location.propertyDetails?.forRent || 0}}</td>
+              <td style="text-align: center;">{{location.propertyDetails?.inventory || 0}}</td>
+              <td style="text-align: center;">{{location.propertyDetails?.commercialized || 0}}</td>
+              <td style="text-align: center;">{{location.propertyDetails?.sold || 0}}</td>
+              <td style="text-align: center;">{{location.propertyDetails?.approved || 0}}</td>
+              <td style="text-align: center;">{{location.propertyDetails?.unapproved || 0}}</td>
+              <td style="text-align: center;">{{location.propertyDetails?.pending || 0}}</td>
+              <td style="text-align: center;">{{location.propertyDetails?.draft || 0}}</td>
+            </tr>
+            <tr *ngIf="!location.propertyDetails"><th colspan="10" style="text-align: center;">{{'message.error.noRecordFound' | translate}}</th></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+    <div class="spacer30"></div>
+    <div class="row">
+      <div class="graph-area col-lg-6 col-md-6">
+        <div id="availabilityContainer" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
+      </div>
+      <div class="graph-area col-lg-6 col-md-6">
+        <div id="propertyStatusContainer" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
+      </div>
+    </div>
+    <div class="spacer30"></div>
+    <div class="white-bg marginT15 padding15">
+      <div class="row">
+      <div class="col-md-8"></div>
+      <div class="col-md-4 text-right">
+        <select class="form-control" [(ngModel)]="reportType">
+          <option value="1">{{'collectionReport.graphicalview' | translate}}</option>
+          <option value="2">{{'collectionReport.tabularView' | translate}}</option>
+        </select>
+      </div></div>
+    <div class="row">
+      <div class="graph-area col-md-12" [style.display]="reportType==1 ? 'block' : 'none'">
+        <div id="chartContainer1" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
+      </div>
+    </div>
+    
+  <div class="spacer30"></div>
+  
+  <div class="row" *ngIf="reportType == 2">
+    <div class=" col-md-10 offset-md-1">
+      <div class="table-responsive">
+        <table class="table table-bordered white-bg">
+          <tbody>
+            <tr>
+              <th style="text-align: center;">{{'deshboard.City' | translate}}</th>
+              <th style="text-align: center;">{{'deshboard.Properties' | translate}}</th>
+              <th style="text-align: center;">{{'deshboard.Approved' | translate}}</th>
+              <th style="text-align: center;">{{'deshboard.Unapproved' | translate}}</th>
+              <th style="text-align: center;">{{'deshboard.PendingReview' | translate}}</th>
+              <th style="text-align: center;">{{'deshboard.InDraft' | translate}}</th>
+            </tr>
+           <ng-container *ngFor="let city of location.cities1; let j=index">
+             <tr *ngIf="j < 10 ">
+               <td style="text-align: center;">{{this.language_code == 'en' ? city?.city?.name_en : city?.city?.name_es}}</td>
+               <td style="text-align: center;">{{city?.property_count}}</td>
+               <td style="text-align: center;">{{city?.approved}}</td>
+               <td style="text-align: center;">{{city?.unapproved}}</td>
+               <td style="text-align: center;">{{city?.pending}}</td>
+               <td style="text-align: center;">{{city?.draft}}</td>
+             </tr>
+           </ng-container>
+           <tr *ngIf="location?.cities1?.length == 0 "><th colspan="6" style="text-align: center;">{{'message.error.noRecordFound' | translate}}</th></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    </div></div>
 </div>

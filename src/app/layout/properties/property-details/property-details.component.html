@@ -1,29 +1,50 @@
-<ngx-loading [show]="parameter.loading"></ngx-loading>
+
 <div class="container-fluid">
   <div class="white-bg configuration-page">
+    <div class="row">
+      <div class="col-md-6">
+         <div class="title-group">
+           <h5><a (click)="goBack()" href="javascript://">
+            <i class="fa fa-angle-double-left"></i> </a></h5>
+         </div>
+       </div>
+       <div class="col-md-6">
+               <div class="btn-cont text-right">
+                 <button   routerLink="/dashboard/properties/view-properties"
+                   class="btn btn-primary">{{'quickVisualization.back' | translate}}</button>
+               </div>
+       </div>
+    </div><br/>
       <div class="top-main-img-outer">
-        <div class="avl">Available for
-            <span *ngIf="property?.for_rent">Rent</span>
+        <div class="avl">{{'propertyDetail.availableFor' | translate}}
+            <span *ngIf="property?.for_rent">{{'propertyDetail.rent' | translate}}</span>
             <span *ngIf="property?.for_rent && property?.for_sale">/</span>
-            <span *ngIf="property?.for_sale">Sale</span>
+            <span *ngIf="property?.for_sale">{{'propertyDetail.sale' | translate}}</span>
+            
         </div>
+        
         <div class="fig-block">
             <!-- <img class="img-fluid top-main-img" [src]="property?.image" onerror='this.src="assets/img/loading_image_1.gif"'> -->
-            <img class="img-fluid top-main-img" onerror='this.src="constant.propertyPlaceholder"' [defaultImage]="property?.image| img:'thumb'" [lazyLoad]="property?.image">
+            <img class="img-fluid top-main-img" onerror='this.src="assets/img/placeholder.png"' [defaultImage]="property?.image| img:'thumb'" [lazyLoad]="property?.image">
       </div> 
       </div>
       <div class="padding30">
         <div class="apart-info ">
-            <p *ngIf="property?.configuration" class="p14">{{property?.configuration.name}} {{property?.property_type.name}}</p>
-            <p class="p12">{{property?.bedroom}} Bed, {{property?.bathroom}} Bath</p>
+            <p *ngIf="property?.name" class="p14">
+              {{property?.name}}
+            </p>
+            <p class="p12">
+              <app-property-configuration *ngIf="property?.building_configuration" [configuration]="property?.building_configuration?.config"></app-property-configuration>
+              <span>&middot; {{property?.property_type?.name}} </span>
+            </p>
 
-            <h6 class="float-left">{{property?.max_area}} sqft.</h6> <h6 class="float-right">{{property?.max_price|thousand}}</h6>
+            <h6 class="float-left">{{property?.max_area}} {{'propertyDetail.sqmt' | translate}}</h6> <h6 class="float-right">{{property?.max_price|price}}</h6>
             <div class="clearfix"></div>
         </div> 
         <div class="building-name">
             <div class="float-left">
                 <p *ngIf="property?.building" class="p14">{{property?.building?.name}}</p>
-                <p class="p12 marginB0">Building</p>
+                <p class="p12 marginB0">{{'propertyDetail.building' | translate}}</p>
             </div>
             <div class="float-right"><a href="javascript://">
                 <img src="assets/img/viewfull.png" alt="img"></a></div>
@@ -34,54 +55,54 @@
         <div class="clearfix"></div>
         <div class="row">
             <div class="col-md-6 col-12">
-                <h4>Description</h4>
+                <h4>{{'propertyDetail.description' | translate}}</h4>
                 <p class="p15 newline">{{property?.description}}</p>
 
-                <h4>Area</h4>
+                <h4>{{'propertyDetail.area' | translate}}</h4>
                 <div class="area-table" *ngIf="property?.carpet_areas">
                     <table class="table table-borderless">
                        <tbody><tr>
-                       <th>Carpet Area</th>
-                       <th>Base Price</th>
+                       <th>{{'propertyDetail.carpetArea' | translate}}</th>
+                       <th>{{'propertyDetail.basePrice' | translate}}</th>
                        </tr>
                        <tr *ngFor="let area of property?.carpet_areas " >
-                         <td>{{area.area}} sqft.</td>
-                         <td>{{area.price|thousand}}</td>
+                         <td>{{area.area}} {{'propertyDetail.sqmt' | translate}}</td>
+                         <td>{{area.price|price}}</td>
                        </tr>
 
                     </tbody></table>
                  </div>
 
-                <h4>Specifications</h4>
+                <h4>{{'propertyDetail.Specifications' | translate}}</h4>
                 <div class="spec-table">
                     <table class="table table-borderless">
                        <tbody><tr>
                           <td>
-                          <label>Bedrooms</label>
+                          <label>{{'propertyDetail.Bedrooms' | translate}}</label>
                           <span>{{property?.bedroom}}</span>
                           </td>
                           <td>
-                          <label>Bathrooms</label>
+                          <label>{{'propertyDetail.Bathrooms' | translate}}</label>
                           <span>{{property?.bathroom}}</span>
                           </td>
                        </tr>
                         <tr>
                           <td>
-                          <label>Parking</label>
-                          <span>{{property?.parking?'Yes':'No'}}</span>
+                          <label>{{'propertyDetail.Parking' | translate}}</label>
+                          <span>{{property?.parking ? ('propertyDetail.yes' | translate) : ('propertyDetail.no' | translate)}}</span>
                           </td>
                           <td>
-                          <label>Furnished</label>
-                          <span>{{property?.furnished?'Yes':'No'}}</span>
+                          <label>{{'propertyDetail.Furnished' | translate}}</label>
+                          <span>{{property?.furnished ? ('propertyDetail.yes' | translate) : ('propertyDetail.no' | translate)}}</span>
                           </td>
                        </tr>
                         <tr>
                           <td>
-                          <label>Pets Allowed</label>
-                          <span>{{property?.pets?'Yes':'No'}}</span>
+                          <label>{{'propertyDetail.petsAllowed' | translate}}</label>
+                          <span>{{property?.pets ? ('propertyDetail.yes' | translate) : ('propertyDetail.no' | translate)}}</span>
                           </td>
                           <td *ngIf="property?.marital_statuses">
-                          <label>Available For</label>
+                          <label>{{'propertyDetail.availableFor' | translate}}</label>
                           <span *ngFor="let ms of property.marital_statuses; let i=index">
                               {{ms.name}}
                               <span *ngIf="i<property?.marital_statuses?.length-1">,</span>
@@ -93,7 +114,7 @@
                 </div>
 
                 <div *ngIf="property?.amenities?.length > 0">
-                 <h4>Ameneties</h4>
+                 <h4>{{'propertyDetail.amenities' | translate}}</h4>
                  <ul class="green-icon-list">
                     <li *ngFor="let amenity of property?.amenities">
                       <span><img src="assets/img/green-icon.png" alt="img"></span>
@@ -106,7 +127,7 @@
             <div class="col-md-6 col-12">
                 <div class="fig-block text-center">
                     <!-- <img class="img-fluid" [src]="property?.floor_plan" alt="img"> -->
-                    <img class="img-fluid" onerror='this.src="constant.propertyPlaceholder"' [defaultImage]="property?.floor_plan| img:'thumb'" [lazyLoad]="property?.floor_plan">
+                    <img class="img-fluid" onerror='this.src="assets/img/placeholder.png"' [defaultImage]="property?.floor_plan| img:'thumb'" [lazyLoad]="property?.floor_plan">
                 </div>
             </div>
 

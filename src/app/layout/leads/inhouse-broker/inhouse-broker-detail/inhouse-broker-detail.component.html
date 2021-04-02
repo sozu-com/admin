@@ -1,15 +1,15 @@
-<ngx-loading [show]="parameter.loading"></ngx-loading>
+
 <div class="container-fluid">
   <div class="white-bg padding15">
      <div class="row">
       <div class="col-lg-3 col-md-12 col-sm-12 col-12">
          <div class="df-profile">
             <a routerLink="../"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
-            <img [src]="parameter?.lead?.user?.image" onerror='src="assets/img/default_img.png"' alt="img">
+            <img [src]="leadData?.user?.image" onerror='src="assets/img/default_img.png"' alt="img">
             <div class="df-info">
-                <p class="p14 text-ellipsis120">{{parameter?.lead?.user?.name ? parameter?.lead?.user?.name : parameter?.lead?.name}}</p>
+                <p class="p14 text-ellipsis120">{{leadData?.user?.name ? leadData?.user?.name : leadData?.name}}</p>
                 <p class="p12">
-                    {{parameter?.lead?.user?.dial_code ? parameter?.lead?.user?.dial_code : parameter?.lead?.dial_code}}-{{parameter?.lead?.user?.phone ? parameter?.lead?.user?.phone : parameter?.lead?.phone}}
+                    {{leadData?.user?.dial_code ? leadData?.user?.dial_code : leadData?.dial_code}}-{{leadData?.user?.phone ? leadData?.user?.phone : leadData?.phone}}
                 </p>
             </div>
         </div>
@@ -19,20 +19,20 @@
           <ul>
               <li>
                   <div class="df-info">
-                      <p class="p14 marginB0" *ngIf="parameter.lead?.admin">{{parameter.lead.admin.name}}</p>
-                      <p class="p12">CSR Buyer</p>
+                      <p class="p14 marginB0" *ngIf="leadData?.admin">{{leadData.admin.name | titlecase}}</p>
+                      <p class="p12">{{'leadDetails.CSRBuyer' | translate}}</p>
                   </div>
               </li>
               <li>
-                  <div class="df-info" *ngIf="parameter.lead?.broker">
-                      <p class="p14 marginB0">{{parameter.lead.broker.name}}</p>
-                      <p class="p12">Inhouse Broker</p>
+                  <div class="df-info" *ngIf="leadData?.broker">
+                      <p class="p14 marginB0">{{leadData.broker.name | titlecase}}</p>
+                      <p class="p12">{{leadData?.broker?.is_external_agent==1 ? ('leadDetails.outsideAgent' | translate) : ('leadDetails.inhouseAgent' | translate)}}</p>
                   </div>
               </li>
               <li>
-                  <div class="df-info" *ngIf="parameter.lead?.closer">
-                      <p class="p14 marginB0">{{parameter.lead.closer.name}}</p>
-                      <p class="p12">CSR Closure</p>
+                  <div class="df-info" *ngIf="leadData?.closer">
+                      <p class="p14 marginB0">{{leadData?.closer?.name | titlecase}}</p>
+                      <p class="p12">{{'leadDetails.CSRClosure' | translate}}</p>
                   </div>
               </li>
           </ul>
@@ -55,7 +55,7 @@
     <div class="col-lg-2 col-md-12 col-sm-12 col-12">
         <div class="row">
             <div class="col-sm-12 col-6 btn-cont">
-                <a (click)="getInvoice()" class="btn btn-fourth" href="javascript://">Invoice</a>
+                <a (click)="getInvoice()" class="btn btn-fourth" href="javascript://">{{'leadDetails.invoice' | translate}}</a>
                 <!-- <button type="button" class="btn btn-primary-new dropdown-toggle" data-toggle="dropdown">
                  Action
                </button>
@@ -74,10 +74,10 @@
         <div class="white-bg padding30">
            <div class="row">
               <div class="col-md-6">
-                 <h6>Details</h6>
+                 <h6>{{'leadDetails.details' | translate}}</h6>
               </div>
               <div class="col-md-6">
-                <h6 class="pull-right greenh6" *ngIf="is_deal_finalised">Deal Finalized</h6>
+                <h6 class="pull-right greenh6" *ngIf="is_deal_finalised">{{'leadDetails.dealFinalized' | translate}}</h6>
                     <!-- <div class="btn-cont">
                         <a *ngIf="is_deal_finalised" style="cursor: auto;" class="btn btn-fourth" href="javascript://">Deal Finalized</a>
                     </div> -->
@@ -87,51 +87,52 @@
            <div class="details-table">
              <table class="table">
                 <tbody><tr>
-                   <td style="padding-left:0"><label>Full Name</label></td>
-                   <td *ngIf="parameter?.lead?.name">{{parameter.lead.user.name}}</td>
+                   <td style="padding-left:0"><label>{{'leadDetails.fullName' | translate}}</label></td>
+                   <td *ngIf="leadData?.name">{{leadData.user.name | titlecase}}</td>
                 </tr>
                 <tr>
-                   <td style="padding-left:0"><label>Contact Number</label></td>
-                   <td *ngIf="parameter?.lead?.phone">{{parameter.lead.user.dial_code ? parameter.lead.user.dial_code : constant.dial_code}}-{{parameter.lead.phone}}</td>
+                   <td style="padding-left:0"><label>{{'leadDetails.contactNumber' | translate}}</label></td>
+                   <td *ngIf="leadData?.phone">{{leadData.user.dial_code ? leadData.user.dial_code : constant.dial_code}}-{{leadData.phone}}</td>
                 </tr>
                 <tr>
-                   <td style="padding-left:0"><label>Email address</label></td>
-                   <td *ngIf="parameter?.lead?.email">{{parameter.lead.user.email}}</td>
+                   <td style="padding-left:0"><label>{{'leadDetails.emailAddress' | translate}}</label></td>
+                   <td *ngIf="leadData?.email">{{leadData.user.email}}</td>
                 </tr>
                 <tr>
-                   <td style="padding-left:0"><label>Interested In</label></td>
-                   <td *ngIf="parameter?.lead?.configuration">
-                     <span *ngFor="let conf of parameter.lead.configuration; let ii=index">
-                       {{conf.name}}<span *ngIf="ii<parameter?.lead?.configuration.length-1">,</span>
+                   <td style="padding-left:0"><label>{{'leadDetails.interestedIn' | translate}}</label></td>
+                   <td *ngIf="leadData?.configuration">
+                     <span *ngFor="let conf of leadData.configuration; let ii=index">
+                        <app-property-configuration *ngIf="conf" [configuration]="conf"></app-property-configuration>
+                        <span *ngIf="ii<leadData?.configuration?.length-1"> | </span> <br>
                      </span>
-                     <span *ngIf="parameter.lead.configuration?.length==0">NA</span>
+                     <span *ngIf="leadData.configuration?.length==0">{{'leadDetails.NA' | translate}}</span>
                    </td>
                 </tr>
                 <tr>
-                   <td style="padding-left:0"><label>Favorite Projects</label></td>
-                   <td>{{parameter.favorites?.length}} 
+                   <td style="padding-left:0"><label>{{'leadDetails.favoriteProperties' | translate}}</label></td>
+                   <td>{{parameter.fav_properties_count}} 
                       <a style="display: none;" data-toggle="modal" #showPropertyModal data-target="#view-fav-property" class="view-all" href="javascript://">View All</a>
-                      <a *ngIf="parameter.favorites?.length!=0" class="view-all" href="javascript://" (click)="viewFavProperties()">View All</a>
+                      <a *ngIf="parameter.fav_properties_count" class="view-all" href="javascript://" (click)="viewFavProperties()">{{'leadDetails.viewAll' | translate}}</a>
                     </td>
                 </tr>
 
                 <!-- Meeting Schedule -->
-                <tr *ngIf="parameter?.lead?.sale_rent==1">
-                    <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
+                <tr *ngIf="leadData?.sale_rent==1">
+                    <td  style="padding-left:0"><label><strong>{{'leadDetails.meetingSchedule' | translate}}</strong></label></td>
                     <td colspan="2">
                         <p style="display:none;" class="date" #modalOpen data-toggle="modal" data-target="#set_appointment">Click to Schedule</p>
-                        <p class="date cursor-pointer" (click)="openModal()">Click to Schedule</p>
+                        <p class="date cursor-pointer" (click)="openModal()">{{'leadDetails.clickToSchedule' | translate}}</p>
                         <p *ngFor="let na of data; let m=index" class="date">
                             <span *ngIf="m<2">{{na.appointment_date | moment}}</span>
                         </p>
-                        <span class="read-more" *ngIf="data.length>2" data-toggle="modal" data-target="#get-availability1">View all</span>
+                        <span class="read-more" *ngIf="data.length>2" data-toggle="modal" data-target="#get-availability1">{{'leadDetails.viewAll' | translate}}</span>
                     </td>
                     <!-- <ng-template #noAvailability1>
                         <td colspan="2"><p>No meeting scheduled by you.</p></td>
                     </ng-template> -->
                 </tr>
 
-                <!-- <tr *ngIf="parameter?.lead?.sale_rent==1">
+                <!-- <tr *ngIf="leadData?.sale_rent==1">
                     <td  style="padding-left:0"><label><strong>Meeting Schedule</strong></label></td>
                     <td colspan="2" class="cursor-pointer">
                         <p style="display:none;" class="date" #modalOpen data-toggle="modal" data-target="#set_appointment">Click to Schedule</p>
@@ -144,75 +145,111 @@
         </div>
 
         <div class="spacer30"></div>
-        <div *ngIf="parameter.lead?.user">
-          <app-chat [lead_id]="parameter.lead_id" [sent_as]="parameter.sent_as" [user_id]="parameter.user_id" [admin_id]="parameter.admin_id"></app-chat>
+        <div>
+            <div class="white-bg move-below">
+                <div class="page-title-3 marginB0">
+                    <h4><i><img src="assets/img/chat-icon.png" alt="img"></i> {{'leadDetails.chat' | translate}}</h4>
+                </div>
+                <div class="cust-tabs-4">
+                    <app-chat-tabs *ngIf="leadData?.user" [lead_id]="parameter.lead_id" [sent_as]="parameter.sent_as"
+                        [user_id]="parameter.user_id" [admin_id]="parameter.admin_id" [leadData]="leadData">
+                    </app-chat-tabs>
+                </div>
+            </div>
         </div>
 
      </div>
      <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+        <!-- chat with developer -->
         <div class="white-bg chat-with-developer padding15">
            <i class="float-left marginR15"><img src="assets/img/chat-icon.png" alt="img"></i>
-           <a href="javascript://" routerLink="/dashboard/leads/chat-with-developer/{{parameter.lead_id}}">Chat with Developers <i class="fa fa-angle-right"></i></a>
+           <a href="javascript://" routerLink="/dashboard/leads/chat-list/1/{{parameter.lead_id}}">{{'leadDetails.chatWithSeller' | translate}} <i class="fa fa-angle-right"></i></a>
+        </div>
+
+        <!-- chat with csr seller -->
+        <div class="white-bg chat-with-developer padding15">
+            <i class="float-left marginR15"><img src="assets/img/chat-icon.png" alt="img"></i>
+            <a href="javascript://" routerLink="/dashboard/leads/chat-list/2/{{parameter.lead_id}}">{{'leadDetails.chatWithCSRSeller' | translate}}<i class="fa fa-angle-right"></i></a>
         </div>
         
-        <app-fill-information [sent_as]="parameter.sent_as" [fillInfo]="fillInfo" [lead_id]="parameter.lead_id"></app-fill-information>
-
+        <!-- <app-fill-information [sent_as]="parameter.sent_as" [fillInfo]="fillInfo" [lead_id]="parameter.lead_id"></app-fill-information> -->
+        <app-fill-information [sent_as]="parameter.sent_as" [leadData]="leadData"
+                [selectedAmenities]="selectedAmenities" [allAmenities]="allAmenities"
+                [lead_id]="parameter.lead_id" [showOtherTextBox]="showOtherTextBox">
+        </app-fill-information>
+        
         <app-notes [sent_as]="parameter.sent_as" [lead_id]="parameter.lead_id"></app-notes>
 
+        <!-- <div class="spacer30"></div>
+        <div class="white-bg padding15">
+            <p class="p16 marginB0">Chat with CSR Buyer</p>
+        </div>
+        <hr class="margin0">
+        <div *ngIf="leadData?.user">
+            <app-chat [lead_id]="parameter.lead_id" [sent_as]="parameter.sent_as" [user_id]="parameter.user_id" [admin_id]="parameter.admin_id"></app-chat>
+        </div> -->
      </div>
   </div>
 
   <!-- Interested Properties start -->
-  <!-- <app-interested-property (deal_finalised_success)="dealFinalisedReceived(v)" [is_deal_finalised]="is_deal_finalised" [selected_properties]="parameter?.lead?.selected_properties" [lead_id]="parameter.lead_id" [interested_properties]="parameter.interested_properties" [sent_as]="parameter.sent_as"></app-interested-property> -->
-  <app-interested-property [is_deal_finalised]="is_deal_finalised" [selected_properties]="parameter?.lead?.selected_properties" [lead_id]="parameter.lead_id" [interested_properties]="parameter.interested_properties" [sent_as]="parameter.sent_as"></app-interested-property>
+  <!-- <app-interested-property (deal_finalised_success)="dealFinalisedReceived(v)" [is_deal_finalised]="is_deal_finalised" [selected_properties]="leadData?.selected_properties" [lead_id]="parameter.lead_id" [interested_properties]="parameter.interested_properties" [sent_as]="parameter.sent_as"></app-interested-property> -->
+  <app-interested-property [is_deal_finalised]="is_deal_finalised" [selected_properties]="leadData?.selected_properties" [lead_id]="parameter.lead_id" [interested_properties]="parameter.interested_properties" [sent_as]="parameter.sent_as"></app-interested-property>
   <!-- Interested Properties end -->
 
   <!-- viewed property or projects start -->
-  <app-viewed-property [user_id]="parameter?.lead?.user_id" [viewed_properties]="parameter.viewed_properties"></app-viewed-property>
+  <app-viewed-property [user_id]="leadData?.user_id" [viewed_properties]="parameter.viewed_properties"></app-viewed-property>
   <!-- viewed property or projects end -->
 
   <!-- viewed projects start -->
-  <app-viewed-projects [user_id]="parameter?.lead?.user_id" [viewed_projects]="parameter.viewed_projects"></app-viewed-projects>
+  <app-viewed-projects [user_id]="leadData?.user_id" [viewed_projects]="parameter.viewed_projects"></app-viewed-projects>
   <!-- viewed projects end -->
 </div>
 
 
 <!-- show fav properties -->
 <div class="modal" id="view-fav-property">
-  <div class="modal-dialog  modal-lg">
-      <div class="modal-content">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
-          <h3>Favorite Properties</h3>
-          <hr>
-          <div class="scrollbox fav-prop">
+            <h3>{{'leadDetails.favoriteProperties' | translate}}</h3>
+            <hr>
+            <pagination-controls id="page2" class="my-pagination" (pageChange)="getPage2($event)"></pagination-controls>
+    
+            <div class="scrollbox fav-prop" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
             <div class="row">
-              <div class="col-lg-6 col-md-12 col-sm-12 col-12" *ngFor="let x of parameter.favorites">
-                  <div class="project-des-bx white-bg-2">
-                      <div class="price">${{x.min_price}}</div>
+                <div class="col-lg-6 col-md-12 col-sm-12 col-12"
+                *ngFor="let x of parameter.favorites| paginate: { id: 'page2', itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page2, totalItems: parameter.total2 }; let in=index">
+                <div class="project-des-bx white-bg-2">
+                    <div class="price" *ngIf="x">
+                    <p class="p10">{{x.for_sale==1 ? ('leadDetails.buy' | translate) : ('leadDetails.rent' | translate)}}</p>
+                    </div>
                     <div class="fig-block">
-                        <img [src]="x.image" onerror='src="assets/img/bank.png"' alt="img">
+                    <img [src]="x.image| img:'thumb'" onerror='src="assets/img/bank.png"' alt="img">
                     </div>
                     <div class="project-des-content">
-                        <small>{{x?.building?.developer?.name ? x?.building?.developer?.name : 'NA'}}</small>
-                        <a routerLink="/dashboard/properties/details/{{x.id}}">
-                            <h5>{{x?.building?.name.slice(0, 15)}}</h5>
-                        </a>
-                        <p class="p12">{{x.building.address.slice(0, 50)}}</p>
-                        <p class="p13" *ngIf="x">{{x.configuration.name}}, {{x.property_type.name}}</p>
-                        <p class="p13" *ngIf="x">{{x.for_sale==1 ? 'Buy': 'Rent'}}</p>
-                        <!-- <p class="p13" *ngIf="x">{{x.property_type.name}}</p>
-                        <p class="p13" *ngIf="!x">NA</p> -->
+                        <small title="{{'table.title.apartment' | translate}}">{{x?.name}}</small>
+                    <a title="{{'table.title.building' | translate}}" routerLink="/dashboard/properties/details/{{x?.id}}">
+                        <h5>{{x?.building?.name.slice(0, 15)}}</h5>
+                    </a>
+                    <p class="p12">{{x.building.address.slice(0, 40)}}</p>
+                    <p class="p13" *ngIf="x">
+                        <app-property-configuration *ngIf="x.configuration" [configuration]="x.configuration"></app-property-configuration>
+                        <span>&middot; {{x.property_type.name}}</span>
+                    </p>
+                    <p class="p13">
+                        {{x.min_price | price}}
+                    </p>
                     </div>
-                  </div>
-              </div>
+                </div>
+                </div>
             </div>
-          </div>
+            </div>
         </div>
-      </div>
-  </div>
+        </div>
+    </div>
 </div>
 
 
@@ -230,7 +267,7 @@
             <div class="modal-body modal-body-new">
                 <div class="row">
                     <div class="col-10">
-                        <p-calendar title="Click to add" name="app" [(ngModel)]="appointment.appointment_date" [minDate]="today" showButtonBar="true" showTime="true" hourFormat="12" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+                        <p-calendar title="Click to add" name="app" [(ngModel)]="appointment.appointment_date" [minDate]="today" showButtonBar="true" showTime="true" hourFormat="12" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
                     </div>
                     <div class="col-2">
                         <div class="form-group-2">
@@ -247,7 +284,7 @@
         <div class="modal-dialog fadeIndown">
             <div class="modal-content">
                 <div class="modal-header modal-header-new">
-                        <h4 class="modal-title">Schedule Meeting</h4>
+                        <h4 class="modal-title">{{'leadDetails.scheduleMeeting' | translate}}</h4>
                     <button type="button" style="display: none;" class="close" data-dismiss="modal" #modalClose>&times;</button>
                     <button type="button" class="close" (click)="closeModal()">&times;</button>
                 </div>
@@ -256,13 +293,13 @@
                 <div class="modal-body padding0">
                     <div class="row">
                         <div class="col-8">
-                            <label>Choose Date & Time</label>
-                            <p-calendar title="Click to add" name="app" [(ngModel)]="date" [minDate]="today" showButtonBar="true" showTime="true" hourFormat="12" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+                            <label>{{'leadDetails.chooseDateTime' | translate}}</label>
+                            <p-calendar [locale]="locale" title="{{'table.title.clickToAdd' | translate}}" name="app" [(ngModel)]="date" [minDate]="today" showButtonBar="true" showTime="true" hourFormat="12" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
                         </div>
                         <div class="col-2">
                             <div class="form-group-2">
                                 <label style="display: block; margin-top: 3px;">&nbsp;</label>
-                                <a class="green-color fontW500" href="javascript://" (click)="addDateTime()">Add</a>
+                                <a class="green-color fontW500" href="javascript://" (click)="addDateTime()">{{'leadDetails.add' | translate}}</a>
                             </div>
                         </div>
                     </div>
@@ -282,7 +319,7 @@
                         </div>
                         <div class="col-2">
                             <a class="green-color fontW500" (click)="removeAppointment(i)" href="javascript://">
-                                Remove
+                                {{'leadDetails.remove' | translate}}
                             </a>
                         </div>
                     </div>
@@ -290,7 +327,7 @@
                         <div class="col-8"></div>
                         <div class="col-2">
                             <div class="btn-cont text-right">
-                                <button type="submit" class="btn btn-primary-new">Save</button>
+                                <button type="submit" class="btn btn-primary-new">{{'leadDetails.save' | translate}}</button>
                             </div>
                         </div>
                     </div>
@@ -307,7 +344,7 @@
     <div class="modal-dialog fadeIndown">
         <div class="modal-content">
             <div class="modal-header modal-header-new">
-                <h4 class="modal-title">Meeting Scheduled</h4>
+                <h4 class="modal-title">{{'leadDetails.chooseDateTime' | translate}}</h4>
                 <button type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
                 <!-- <button type="button" class="close" (click)="closeModal()">&times;</button> -->
             </div>

@@ -1,0 +1,2875 @@
+<div class="white-bg padding15">
+  <div class="row">
+    <div class="col-11">
+      <div class="title-group">
+        <h5 *ngIf="!editMode"><a href="javascript://" (click)="goBack(true)"><i
+              class="fa fa-angle-double-left"></i> </a> &nbsp;&nbsp;{{'addCollection.addLabel' | translate}}</h5>
+        <h5 *ngIf="editMode"> <a href="javascript://" (click)="goBack()"><i
+              class="fa fa-angle-double-left"></i> </a> &nbsp;&nbsp;{{'addCollection.editLabel' | translate}}: {{model?.name}}</h5>
+      </div>
+    </div>
+    <div class="col-lg-1 col-md-1 col-6">
+      <div class="btn-cont text-right title-group">
+        <a href="javascript://" (click)="goBack(false)"
+          class="btn-sm btn-primary-new" href="javascript://">{{'quickVisualization.back' | translate}}</a>
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="spacer10"></div>
+<div class="white-bg add-property padding20">
+  <div class="steps">
+    <ul class="d-flex">
+      <li [ngClass]="{'current': tab == 1}"><span></span><a (click)="setTab(1)">{{'addCollection.tabs.property' |
+          translate}}</a></li>
+      <li [ngClass]="{'current': tab == 2}"><span></span><a (click)="setTab(2)">{{'addCollection.tabs.seller' |
+          translate}}</a></li>
+      <li [ngClass]="{'current': tab == 3}"><span></span><a (click)="setTab(3)">{{'addCollection.tabs.buyer' |
+          translate}}</a></li>
+      <li [ngClass]="{'current': tab == 4}"><span></span><a (click)="setTab(4)">{{'addCollection.tabs.deal' |
+          translate}}</a></li>
+      <li [ngClass]="{'current': tab == 5}"><span></span><a (click)="setTab(5)">{{'addCollection.tabs.commission' |
+          translate}}</a></li>
+      <li [ngClass]="{'current': tab == 6}"><span></span><a (click)="setTab(6)">{{'addCollection.tabs.uploadDocuments' |
+          translate}}</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="spacer10"></div>
+
+
+
+<!-- Tag a building start -->
+<div class="white-bg" *ngIf="tab==1">
+  <div class="page-title">
+    <h3>{{'addCollection.chooseYourProperty' | translate}}</h3>
+  </div>
+
+  <div class="padding40" *ngIf="model?.building?.id && showSearch==false">
+    <div class="row">
+      <div class="col-sm-9 col-lg-9">
+        <p class="p16">{{'addCollection.taggedBuildingName' | translate}}</p>
+      </div>
+      <div class="col-sm-3 col-lg-3 btn-cont text-right">
+        <button type="button" class="btn btn-primary" (click)="showSearchBox()">{{'addCollection.change' |
+          translate}}</button>
+      </div>
+    </div>
+    <p><b>{{model?.building?.name}}</b></p>
+
+    <div class="row">
+      <div class="col-sm-9 col-lg-9">
+        <p class="p16">{{'addCollection.taggedTowerName' | translate}}</p>
+      </div>
+    </div>
+    <p><b>{{model?.building_towers?.tower_name ? model?.building_towers?.tower_name : ('table.tr.td.NA' |
+        translate)}}</b></p>
+
+    <div class="row" *ngIf="model?.building_towers">
+      <div class="col-sm-9 col-lg-9">
+        <p class="p16">{{'addCollection.taggedFloor' | translate}}</p>
+      </div>
+    </div>
+    <p><b>
+        {{model?.building_towers?.tower_name ? (model?.floor_num == 0 ? ('addCollection.groundFloor' | translate) :
+        ('addCollection.floor' | translate) + ' ' + model?.floor_num) : 'NA'}}
+      </b></p>
+
+    <div class="row" *ngIf="model?.name">
+      <div class="col-sm-9 col-lg-9">
+        <p class="p16">{{'addCollection.taggedApartmentName' | translate}}</p>
+      </div>
+    </div>
+    <p><b>{{model?.name ? model?.name : ('table.tr.td.NA' | translate)}}</b></p>
+
+    <div class="row">
+      <div class="col-sm-9 col-lg-9">
+        <p class="p16">{{'addCollection.selectedDealType' | translate}}</p>
+      </div>
+    </div>
+    <p><b>{{model?.availabilityStatusId == 1 ? availabilityStatus[0].name : availabilityStatus[1].name}}</b></p>
+
+    <div class="row">
+      <div class="col-sm-9 col-lg-9">
+        <p class="p16">{{'addCollection.selectedModal' | translate}}</p>
+      </div>
+    </div>
+    <p><b>{{model?.building_configuration?.name}}</b></p>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="btn-cont text-right">
+          <button type="button" (click)="tab=2" class="btn btn-primary">{{'addCollection.next' | translate}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="padding40" *ngIf="showSearch">
+    <h5 class="p16-two">{{'addCollection.SearchYourBuildingInOurDatabase' | translate}}</h5>
+    <div class="searh d-flex">
+      <input autocomplete="off" class="border-right-0" autocomplete="off" type="text" #buildingname
+        (keyup.enter)="searchBuilding(buildingname.value)" name="buildingName" [(ngModel)]="buildingName">
+      <button type="button" class="btn" type="button"
+        (click)="searchBuilding(buildingname.value)">{{'addCollection.search' | translate}}</button>
+    </div>
+    <div class="spacer50"></div>
+    <div *ngIf="buildingLoading">
+      <img src="assets/img/loading_content.gif" />
+    </div>
+    <div *ngIf="!buildingLoading && parameter.buildingCount != 0" class="white-bg">
+
+      <form autocomplete="off" [formGroup]="addFormStep1" (ngSubmit)="createCollection(addFormStep1.value, 1)">
+
+        <!-- buildings listing -->
+        <div class="row">
+          <div class="col-lg-6 col-md-12 col-sm-12 col-12"
+            *ngFor="let item of searchedBuildings| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.buildingCount }; let i = index">
+            <app-project-block (setBuilding)="setBuildingId($event)" (buildingIndex)="getBuildingIndex($event)"
+              [data]="item" [index]="i"></app-project-block>
+          </div>
+        </div>
+        <div *ngIf="showError && (addFormStep1.controls.building_id.invalid)">
+          <div *ngIf="addFormStep1.controls.building_id.errors?.required " class="show-error">
+            {{'addCollectionValidations.thisIsRequired' | translate}}
+          </div>
+        </div>
+
+        <div class="row" *ngIf="searchedBuildings?.length>0">
+          <div class="col-lg-6 col-md-12 col-sm-12 col-12"></div>
+          <div class="col-lg-6 col-md-12 col-sm-12 col-12 btn-cont text-right marginT15">
+            <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+          </div>
+        </div>
+
+        <!-- towers listing wrt building id -->
+        <div class="row marginT20" *ngIf="building.id">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="form-group-3">
+              <label class="p16-two">{{'addCollection.selectTowerIn' | translate}} {{selectedBuilding?.name}} <span
+                  class="color-red">*</span></label>
+              <select name="tower" *ngIf="selectedBuilding" formControlName="building_towers_id" required
+                class="form-control" (change)="setTower($event.target.value)">
+                <option value="">{{'addCollection.selectTower' | translate}}</option>
+                <option *ngFor="let bt of selectedBuilding?.building_towers" [value]="bt.id">
+                  {{bt.tower_name}}</option>
+              </select>
+            </div>
+            <div *ngIf="showError && (addFormStep1.controls.building_towers_id.invalid)">
+              <div *ngIf="addFormStep1.controls.building_towers_id.errors?.required " class="show-error">
+                {{'addCollectionValidations.thisIsRequired' | translate}}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- floor listing wrt tower id -->
+        <div class="row marginT20" *ngIf="building.id && model.building_towers">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="form-group-3">
+              <label class="p16-two">{{'addCollection.selectFloorIn' | translate}} {{model.building_towers?.tower_name}}
+                <span class="color-red">*</span></label>
+              <select required class="form-control" name="floor_num" formControlName="floor_num"
+                (change)="getProperties($event)">
+                <option value="">{{'addCollection.selectFloor' | translate}}</option>
+                <option *ngFor="let fa of model.building_towers?.unique_floors; let j=index" [value]="fa">
+                  {{fa == 0 ? ('addCollection.groundFloor' | translate): ('addCollection.floor' | translate) + ' '+fa}}
+                </option>
+              </select>
+            </div>
+            <div *ngIf="showError && (addFormStep1.controls.floor_num.invalid)">
+              <div *ngIf="addFormStep1.controls.floor_num.errors?.required " class="show-error">
+                {{'addCollectionValidations.thisIsRequired' | translate}}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- properties listing wrt building id -->
+        <div class="row marginT20" *ngIf="building.id && model.building_towers && model.floor_num">
+          <div class="col-lg-6 col-md-6 col-sm-12 col-6">
+            <div class="form-group form-group-3">
+              <label class="p16-two">{{'addCollection.selectYourApartment' | translate}} <span
+                  class="color-red">*</span></label>
+
+              <p-dropdown class="search-dropdown" [options]="properties" [style]="{'width':'100%'}"
+                formControlName="property_id" [filter]="true" optionLabel="name"
+                (onChange)="setPropertyId(property_id)">
+              </p-dropdown>
+
+            </div>
+            <div *ngIf="showError && (addFormStep1.controls.property_id.invalid)">
+              <div *ngIf="addFormStep1.controls.property_id.errors?.required " class="show-error">
+                {{'addCollectionValidations.thisIsRequired' | translate}}
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-6">
+            <div class="form-group-3">
+              <label class="p16-two">{{'addCollection.selectDealType' | translate}}<span
+                  class="color-red">*</span></label>
+              <div class="clearfix"></div>
+              <label class="cust-radio" *ngFor="let astatus of availabilityStatus; let a=index">
+                <input disabled type="radio" (change)="setAvailableStatus(a)" value="{{astatus.id}}"
+                  [checked]="model?.availabilityStatusId == astatus.id ? 'checked' : ''" name="availabilityStatusId">
+                <span class="checkmark">{{astatus.name}}</span>
+              </label>
+              <div class="clearfix"></div>
+            </div>
+            <div *ngIf="showError && (addFormStep1.controls.for_sale.invalid)">
+              <div *ngIf="addFormStep1.controls.for_sale.errors?.required " class="show-error">
+                {{'addCollectionValidations.thisIsRequired' | translate}}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="spacer15"></div>
+        <div class="row" *ngIf="building.id && model.building_towers && model.floor_num">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="form-group-3">
+              <label class="p16-two">{{'addForm.selectModal' | translate}} <span class="color-red">*</span></label>
+              <div class="clearfix"></div>
+              <label class="cust-radio" *ngFor="let configuration of configurations">
+                <input disabled type="radio" required (change)="setConfiguration(configuration)"
+                  value="{{configuration.id}}"
+                  [checked]="model.building_configuration_id == configuration.id ? 'checked' : ''"
+                  name="configuration_id">
+                <span class="checkmark">{{configuration.name ? configuration.name : configuration.config.name}}</span>
+              </label>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="showError && (addFormStep1.controls.building_configuration_id.invalid)">
+          <div *ngIf="addFormStep1.controls.building_configuration_id.errors?.required " class="show-error">
+            {{'addCollectionValidations.thisIsRequired' | translate}}
+          </div>
+        </div>
+        <div class="spacer15"></div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="btn-cont text-right">
+              <button type="submit" class="btn btn-primary">{{'addCollection.next' | translate}}</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <p *ngIf="parameter.buildingCount == 0 && showText" class="p18">
+      <!-- {{'addCollection.didntFoundyourBuilding' | translate}}  -->
+      <strong>
+        <!-- <span (click)="showBuildingDetails(true)" class="green-color cursor-pointer">
+          {{'addCollection.GenerateARequesttoAddABuildingByOurDataCollectors' | translate}}
+        </span> -->
+        <span class="green-color">
+          {{'addCollection.buildingYouAreSearchingNotFound' | translate}}
+        </span>
+      </strong>
+    </p>
+    <div *ngIf="showBuilding" class="spacer50"></div>
+
+    <form autocomplete="off" ngNativeValidate #buildingRequestForm="ngForm" (ngSubmit)="buildingRequest()">
+      <div *ngIf="showBuilding" class="row">
+        <div class="col-lg-7 col-md-12 col-sm-12 col-12">
+          <div class="row">
+            <div class="col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.nameBuilding' | translate}}</label>
+                <input autocomplete="off" required class="form-control" [pattern]="constant.onlyWhiteSpaces" type="text"
+                  name="name" [(ngModel)]="building.name"
+                  placeholder="{{'addForm.placeholder.nameOfBuilding' | translate}}">
+              </div>
+            </div>
+            <div class="col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.whereItIsLocated' | translate}}</label>
+                <input required placeholder="{{'addForm.placeholder.searchForLocation' | translate}}" autocorrect="off"
+                  autocapitalize="off" spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces()"
+                  [formControl]="searchControl" [(ngModel)]="building.address" name="address">
+              </div>
+            </div>
+          </div>
+          <label class="label-optional">{{'addCollection.developerDetails' | translate}}</label>
+          <div class="row">
+            <div class="col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.nameOfDeveloper' | translate}}</label>
+                <input autocomplete="off" class="form-control" [pattern]="constant.onlyWhiteSpaces" type="text"
+                  name="dev_name" [(ngModel)]="building.dev_name">
+              </div>
+            </div>
+            <div class="col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.contactNumber' | translate}}</label>
+                <input (keydown.space)="$event.preventDefault();" autocomplete="off" type="text" class="form-control"
+                  id="dev_phone" [(ngModel)]="building.dev_phone" name="dev_phone" ng2TelInput
+                  [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.emailId' | translate}}</label>
+                <input (keydown.space)="$event.preventDefault();" autocomplete="off" class="form-control" type="email"
+                  name="dev_email" [(ngModel)]="building.dev_email">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5 col-md-12 col-sm-12 col-12">
+          <div class="form-group-3 mark-pin-map">
+            <label>{{'addCollection.markPinonMap' | translate}}</label>
+          </div>
+          <div>
+            <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false"
+              (mapClick)="placeMarker($event)" [zoom]="zoom">
+              <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+            </agm-map>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="showBuilding">
+        <div class="col-md-12">
+          <div class="btn-cont text-right">
+            <button type="submit" [disabled]="buildingRequestForm.invalid"
+              class="btn btn-primary">{{'addCollection.submitRequest' | translate}}</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Tag a building end -->
+
+
+<form autocomplete="off" [formGroup]="addFormStep2" (ngSubmit)="createCollection(addFormStep2.value, 2)">
+  <div class="white-bg" *ngIf="tab==2">
+    <div class="page-title">
+      <h3>{{'addCollection.chooseTheSeller' | translate}}</h3>
+    </div>
+
+    <div style="padding: 0px 40px;">
+
+      <div class="form-group-3 row">
+        <h5 class="col-sm-3 p16-two">{{'addCollection.chooseSellerType' | translate}}:</h5>
+        <div class="col-sm-9">
+          <div class="clearfix"></div>
+          <label class="cust-radio">
+            <input disabled type="radio" formControlName="seller_type" (change)="setValue('seller_type', 1)" value="1"
+              [checked]="model.seller_type == 1 ? 'checked' : ''" name="seller_type">
+            <span class="checkmark">{{'addCollection.person' | translate}}</span>
+          </label>
+          <label class="cust-radio">
+            <input disabled type="radio" formControlName="seller_type" (change)="setValue('seller_type', 2)" value="2"
+              [checked]="model.seller_type == 2 ? 'checked' : ''" name="seller_type">
+            <span class="checkmark">{{'addCollection.legalEntity' | translate}}</span>
+          </label>
+          <label class="cust-radio">
+            <input disabled type="radio" formControlName="seller_type" (change)="setValue('seller_type', 3)" value="3"
+              [checked]="model.seller_type == 3 ? 'checked' : ''" name="seller_type">
+            <span class="checkmark">{{'addCollection.developer' | translate}}</span>
+          </label>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="paddingT0 padding40">
+
+      <!-- search seller -->
+      <h5 class="p16-two">{{'addCollection.SearchASellerInOurDatabase' | translate}}</h5>
+      <div class="searh d-flex">
+        <!-- (click)="getAllSellers('')" -->
+        <input readonly class="border-right-0" autocomplete="off" type="text" readonly name="ss">
+        <button disabled class="btn" type="button">{{'addCollection.search' | translate}}</button>
+      </div>
+      <div class="spacer50"></div>
+
+      <!-- complete seller details -->
+      <h5 class="p16-two">{{'addCollection.completeTheSellerInfo' | translate}}</h5>
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{ model.seller_type == 1 ? ('addCollection.name' | translate) : ('addCollection.commercialName' |
+              translate)}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" type="text" name="seller_name" class="form-control"
+              formControlName="seller_name">
+          </div>
+          <div *ngIf="showError && (addFormStep2.controls.seller_name.invalid)">
+            <div *ngIf="addFormStep2.controls.seller_name.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep2.controls.seller_name.errors?.minlength " class="show-error">
+              {{'addCollectionValidations.nameMin1Limit' | translate}}
+            </div>
+            <div *ngIf="addFormStep2.controls.seller_name.errors?.maxlength " class="show-error">
+              {{'addCollectionValidations.nameMax50Limit' | translate}}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.seller_type !=2 ">
+          <div class="form-group-3">
+            <label>{{ model.seller_type == 1 ? ('addCollection.firstSurname' | translate) :
+              ('addCollection.firstSurname' | translate)}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" type="text" name="seller_first_surname" class="form-control"
+              formControlName="seller_first_surname">
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.seller_type !=2 ">
+          <div class="form-group-3">
+            <label>{{ model.seller_type == 1 ? ('addCollection.secondSurname' | translate) :
+              ('addCollection.secondSurname' | translate)}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" type="text" name="seller_second_surname" class="form-control"
+              formControlName="seller_second_surname">
+          </div>
+        </div>
+        <div *ngIf="model.seller_type !=1 " class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{ 'addCollection.legalName' | translate }}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" type="text" name="seller_legal_name" class="form-control"
+              formControlName="seller_legal_name">
+          </div>
+          <div *ngIf="showError && (addFormStep2.controls.seller_legal_name.invalid)">
+            <div *ngIf="addFormStep2.controls.seller_legal_name.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep2.controls.seller_legal_name.errors?.minlength " class="show-error">
+              {{'addCollectionValidations.nameMin1Limit' | translate}}
+            </div>
+            <div *ngIf="addFormStep2.controls.seller_legal_name.errors?.maxlength " class="show-error">
+              {{'addCollectionValidations.nameMax30Limit' | translate}}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.phonenumber' | translate}}</label>
+            <div class="clearfix"></div>
+            <input readonly (keydown.space)="$event.preventDefault();" class="form-control" type="text"
+              name="seller_phone" formControlName="seller_phone" autocomplete="off">
+          </div>
+          <div *ngIf="showError && (addFormStep2.controls.seller_phone.invalid)">
+            <div *ngIf="addFormStep2.controls.seller_phone.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep2.controls.seller_phone.errors?.pattern " class="show-error">
+              {{'addCollectionValidations.phonePatternCheck' | translate}}
+            </div>
+            <div
+              *ngIf="addFormStep2.controls.seller_phone.errors?.minlength && !addFormStep2.controls.seller_phone.errors?.pattern"
+              class="show-error">
+              {{'addCollectionValidations.phoneMin8Limit' | translate}}
+            </div>
+            <div
+              *ngIf="addFormStep2.controls.seller_phone.errors?.maxlength && !addFormStep2.controls.seller_phone.errors?.pattern"
+              class="show-error">
+              {{'addCollectionValidations.phoneMax15Limit' | translate}}
+            </div>
+          </div>
+        </div>
+        <div *ngIf="model.seller_type !=1" class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.address' | translate}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" class="form-control" type="text" name="seller_address"
+              formControlName="seller_address">
+          </div>
+          <div *ngIf="showError && (addFormStep2.controls.seller_address.invalid)">
+            <div *ngIf="addFormStep2.controls.seller_address.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep2.controls.seller_address.errors?.minlength " class="show-error">
+              {{'addCollectionValidations.nameMin1Limit' | translate}}
+            </div>
+          </div>
+        </div>
+        <div *ngIf="model.seller_type==1" class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.email' | translate}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" (keydown.space)="$event.preventDefault();" class="form-control"
+              type="email" name="seller_email" formControlName="seller_email">
+          </div>
+          <div *ngIf="showError && (addFormStep2.controls.seller_email.invalid)">
+            <div *ngIf="addFormStep2.controls.seller_email.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep2.controls.seller_email.errors?.email " class="show-error">
+              {{'addCollectionValidations.emailInvalid' | translate}}
+            </div>
+          </div>
+        </div>
+        <div *ngIf="model.seller_type==1" class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.companyName' | translate}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" class="form-control" type="text" name="seller_company_name"
+              formControlName="seller_company_name">
+          </div>
+          <div *ngIf="showError && (addFormStep2.controls.seller_company_name.invalid)">
+            <div *ngIf="addFormStep2.controls.seller_company_name.errors?.minlength " class="show-error">
+              {{'addCollectionValidations.nameMin1Limit' | translate}}
+            </div>
+            <div *ngIf="addFormStep2.controls.seller_company_name.errors?.maxlength " class="show-error">
+              {{'addCollectionValidations.nameMax30Limit' | translate}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" class="form-control" type="text" name="seller_fed_tax"
+              formControlName="seller_fed_tax">
+          </div>
+          <div *ngIf="showError && (addFormStep2.controls.seller_fed_tax.invalid)">
+            <div *ngIf="addFormStep2.controls.seller_fed_tax.errors?.minlength " class="show-error">
+              {{'addCollectionValidations.fedTaxMin12Limit' | translate}}
+            </div>
+            <div *ngIf="addFormStep2.controls.seller_fed_tax.errors?.maxlength " class="show-error">
+              {{'addCollectionValidations.fedTaxMax13Limit' | translate}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="spacer50"></div>
+      <!-- bank account -->
+      <h5 class="p16-two">{{'addCollection.bankAccount' | translate}}
+        <span [style.display]="'none'" class="pull-right"><a class="add" (click)="addSellerBank($event)"
+            href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
+      </h5>
+      <div formArrayName="collection_seller_banks">
+        <ng-container *ngFor="let seller_banks of addFormStep2.get('collection_seller_banks').controls; let i=index">
+          <div class="row" [formGroupName]="i">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.bankName' | translate}}</label>
+                <div class="clearfix"></div>
+                <input readonly required autocomplete="off" class="form-control" minlength="1" maxlength="30"
+                  type="text" name="bank_name" formControlName="bank_name">
+              </div>
+              <div
+                *ngIf="showError && (addFormStep2.controls.collection_seller_banks.controls[i].controls.bank_name.invalid)">
+                <div
+                  *ngIf="addFormStep2.controls.collection_seller_banks.controls[i].controls.bank_name.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+                <div
+                  *ngIf="addFormStep2.controls.collection_seller_banks.controls[i].controls.bank_name.errors?.minlength "
+                  class="show-error">
+                  {{'addCollectionValidations.nameMin1Limit' | translate}}
+                </div>
+                <div
+                  *ngIf="addFormStep2.controls.collection_seller_banks.controls[i].controls.bank_name.errors?.maxlength "
+                  class="show-error">
+                  {{'addCollectionValidations.nameMax30Limit' | translate}}
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.accountNumber' | translate}}</label>
+                <div class="clearfix"></div>
+                <input readonly required autocomplete="off" class="form-control" type="number" min="0"
+                  name="account_number" formControlName="account_number">
+              </div>
+              <div
+                *ngIf="showError && (addFormStep2.controls.collection_seller_banks.controls[i].controls.account_number.invalid)">
+                <div
+                  *ngIf="addFormStep2.controls.collection_seller_banks.controls[i].controls.account_number.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.clabeSwift' | translate}}</label>
+                <div class="clearfix"></div>
+                <input readonly required autocomplete="off" (keydown.space)="$event.preventDefault();"
+                  class="form-control" type="text" name="swift" formControlName="swift">
+              </div>
+              <div
+                *ngIf="showError && (addFormStep2.controls.collection_seller_banks.controls[i].controls.swift.invalid)">
+                <div *ngIf="addFormStep2.controls.collection_seller_banks.controls[i].controls.swift.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.currency' | translate}}</label>
+                <div class="clearfix"></div>
+                <select readonly required name="currency_id" formControlName="currency_id" required
+                  class="form-control">
+                  <option value="">{{'addCollection.currency' | translate}}</option>
+                  <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
+                </select>
+              </div>
+              <div
+                *ngIf="showError && (addFormStep2.controls.collection_seller_banks.controls[i].controls.currency_id.invalid)">
+                <div
+                  *ngIf="addFormStep2.controls.collection_seller_banks.controls[i].controls.currency_id.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+              </div>
+            </div>
+            <div [style.display]="'none'" class="col-lg-2 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.remove' | translate}}</label>
+                <div class="clearfix"></div>
+                <button type="button" (click)="removeSellerBank($event, seller_banks, i)">{{'addCollection.remove' |
+                  translate}}</button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="spacer50"></div>
+      <!-- legal Representative Info -->
+      <h5 class="p16-two">{{'addCollection.legalRepresentativeInfo' | translate}}</h5>
+      <div class="row" *ngIf="model.seller_type">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.name' | translate}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" class="form-control" type="text" name="seller_leg_rep_name"
+              formControlName="seller_leg_rep_name">
+          </div>
+          <div *ngIf="showError && (addFormStep2.controls.seller_leg_rep_name.invalid)">
+            <div *ngIf="addFormStep2.controls.seller_leg_rep_name.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep2.controls.seller_leg_rep_name.errors?.minlength " class="show-error">
+              {{'addCollectionValidations.nameMin1Limit' | translate}}
+            </div>
+            <div *ngIf="addFormStep2.controls.seller_leg_rep_name.errors?.maxlength " class="show-error">
+              {{'addCollectionValidations.nameMax30Limit' | translate}}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.firstSurname' | translate}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" class="form-control" type="text" name="seller_leg_rep_first_surname"
+              formControlName="seller_leg_rep_first_surname">
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.secondSurname' | translate}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" class="form-control" type="text" name="seller_leg_rep_second_surname"
+              formControlName="seller_leg_rep_second_surname">
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.phonenumber' | translate}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" class="form-control" (keydown.space)="$event.preventDefault();"
+              type="text" name="seller_leg_rep_phone" formControlName="seller_leg_rep_phone">
+          </div>
+          <div *ngIf="showError && (addFormStep2.controls.seller_leg_rep_phone.invalid)">
+            <div *ngIf="addFormStep2.controls.seller_leg_rep_phone.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep2.controls.seller_leg_rep_phone.errors?.pattern " class="show-error">
+              {{'addCollectionValidations.phonePatternCheck' | translate}}
+            </div>
+            <div
+              *ngIf="addFormStep2.controls.seller_leg_rep_phone.errors?.minlength && !addFormStep2.controls.seller_leg_rep_phone.errors?.pattern"
+              class="show-error">
+              {{'addCollectionValidations.phoneMin8Limit' | translate}}
+            </div>
+            <div
+              *ngIf="addFormStep2.controls.seller_leg_rep_phone.errors?.maxlength && !addFormStep2.controls.seller_leg_rep_phone.errors?.pattern"
+              class="show-error">
+              {{'addCollectionValidations.phoneMax15Limit' | translate}}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.email' | translate}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" class="form-control" type="email"
+              (keydown.space)="$event.preventDefault();" name="seller_leg_rep_email"
+              formControlName="seller_leg_rep_email">
+          </div>
+          <div *ngIf="showError && (addFormStep2.controls.seller_leg_rep_email.invalid)">
+            <div *ngIf="addFormStep2.controls.seller_leg_rep_email.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep2.controls.seller_leg_rep_email.errors?.email " class="show-error">
+              {{'addCollectionValidations.emailInvalid' | translate}}
+            </div>
+          </div>
+        </div>
+        <div *ngIf="model.seller_type==1" class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.companyName' | translate}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" class="form-control" type="text" name="seller_leg_rep_comp"
+              formControlName="seller_leg_rep_comp">
+          </div>
+          <div *ngIf="showError && (addFormStep2.controls.seller_leg_rep_comp.invalid)">
+            <div *ngIf="addFormStep2.controls.seller_leg_rep_comp.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep2.controls.seller_leg_rep_comp.errors?.minlength " class="show-error">
+              {{'addCollectionValidations.nameMin1Limit' | translate}}
+            </div>
+            <div *ngIf="addFormStep2.controls.seller_leg_rep_comp.errors?.maxlength " class="show-error">
+              {{'addCollectionValidations.nameMax30Limit' | translate}}
+            </div>
+          </div>
+        </div>
+        <!-- </div> -->
+        <!-- <div class="row"> -->
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" class="form-control" type="text" name="seller_leg_rep_fed_tax"
+              formControlName="seller_leg_rep_fed_tax">
+          </div>
+          <div *ngIf="showError && (addFormStep2.controls.seller_leg_rep_fed_tax.invalid)">
+            <div *ngIf="addFormStep2.controls.seller_leg_rep_fed_tax.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep2.controls.seller_leg_rep_fed_tax.errors?.minlength " class="show-error">
+              {{'addCollectionValidations.fedTaxMin12Limit' | translate}}
+            </div>
+            <div *ngIf="addFormStep2.controls.seller_leg_rep_fed_tax.errors?.maxlength " class="show-error">
+              {{'addCollectionValidations.fedTaxMax13Limit' | translate}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="spacer50"></div>
+      <!-- bank account -->
+      <h5 class="p16-two">{{'addCollection.bankAccount' | translate}}
+        <span [style.display]="'none'" class="pull-right"><a class="add" (click)="addSellerRepBank($event)"
+            href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
+      </h5>
+      <div formArrayName="collection_seller_rep_banks">
+        <ng-container
+          *ngFor="let seller_rep_banks of addFormStep2.get('collection_seller_rep_banks').controls; let i=index">
+          <div class="row" [formGroupName]="i">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.bankName' | translate}}</label>
+                <div class="clearfix"></div>
+                <input readonly required autocomplete="off" minlength="1" maxlength="30" class="form-control"
+                  type="text" name="bank_name" formControlName="bank_name">
+              </div>
+              <div
+                *ngIf="showError && (addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.bank_name.invalid)">
+                <div
+                  *ngIf="addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.bank_name.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+                <div
+                  *ngIf="addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.bank_name.errors?.minlength "
+                  class="show-error">
+                  {{'addCollectionValidations.nameMin1Limit' | translate}}
+                </div>
+                <div
+                  *ngIf="addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.bank_name.errors?.maxlength "
+                  class="show-error">
+                  {{'addCollectionValidations.nameMax30Limit' | translate}}
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.accountNumber' | translate}}</label>
+                <div class="clearfix"></div>
+                <input readonly required autocomplete="off" class="form-control" type="number" min="0"
+                  name="account_number" formControlName="account_number">
+              </div>
+              <div
+                *ngIf="showError && (addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.account_number.invalid)">
+                <div
+                  *ngIf="addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.account_number.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.clabeSwift' | translate}}</label>
+                <div class="clearfix"></div>
+                <input readonly required autocomplete="off" class="form-control"
+                  (keydown.space)="$event.preventDefault();" type="text" name="swift" formControlName="swift">
+              </div>
+              <div
+                *ngIf="showError && (addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.swift.invalid)">
+                <div
+                  *ngIf="addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.swift.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.currency' | translate}}</label>
+                <div class="clearfix"></div>
+                <select readonly required name="currency_id" formControlName="currency_id" required
+                  class="form-control">
+                  <option value="">{{'addCollection.currency' | translate}}</option>
+                  <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
+                </select>
+              </div>
+              <div
+                *ngIf="showError && (addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.currency_id.invalid)">
+                <div
+                  *ngIf="addFormStep2.controls.collection_seller_rep_banks.controls[i].controls.currency_id.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+              </div>
+            </div>
+            <div [style.display]="'none'" class="col-lg-2 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.remove' | translate}}</label>
+                <div class="clearfix"></div>
+                <button type="button"
+                  (click)="removeSellerRepBank($event, seller_rep_banks, i)">{{'addCollection.remove' |
+                  translate}}</button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+
+      <div class="spacer15"></div>
+
+      <div class="spacer15"></div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="btn-cont text-right">
+            <button type="button" class="btn btn-primary" (click)="setTab(1)">{{'addCollection.previous' |
+              translate}}</button>
+            <button type="submit" class="btn btn-primary marginL15">{{'addCollection.next' | translate}}</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</form>
+
+<form autocomplete="off" [formGroup]="addFormStep3" (ngSubmit)="createCollection(addFormStep3.value, 3)">
+  <div class="white-bg" *ngIf="tab==3">
+    <div class="page-title">
+      <h3>{{'addCollection.chooseTheBuyer' | translate}}</h3>
+    </div>
+
+
+    <div style="padding: 0px 40px;">
+      <div class="form-group-3 row">
+        <h5 class="col-sm-3 p16-two">{{'addCollection.chooseBuyerType' | translate}}:</h5>
+        <div class="col-sm-9">
+          <div class="clearfix"></div>
+          <label class="cust-radio">
+            <input disabled type="radio" formControlName="buyer_type" (change)="setValue('buyer_type', 1)" value="1"
+              [checked]="model.buyer_type == 1 ? 'checked' : ''" name="buyer_type">
+            <span class="checkmark">{{'addCollection.person' | translate}}</span>
+          </label>
+          <label class="cust-radio">
+            <input disabled type="radio" formControlName="buyer_type" (change)="setValue('buyer_type', 2)" value="2"
+              [checked]="model.buyer_type == 2 ? 'checked' : ''" name="buyer_type">
+            <span class="checkmark">{{'addCollection.legalEntity' | translate}}</span>
+          </label>
+          <label class="cust-radio">
+            <input disabled type="radio" formControlName="buyer_type" (change)="setValue('buyer_type', 3)" value="3"
+              [checked]="model.buyer_type == 3 ? 'checked' : ''" name="buyer_type">
+            <span class="checkmark">{{'addCollection.developer' | translate}}</span>
+          </label>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="paddingT0 padding40">
+
+      <!-- search -->
+      <h5 class="p16-two">{{'addCollection.SearchABuyerInOurDatabase' | translate}}</h5>
+      <div class="searh d-flex">
+        <!-- (click)="getAllSellers('')" -->
+        <input readonly class="border-right-0" autocomplete="off" type="text" readonly name="bb">
+        <button disabled class="btn" type="button">{{'addCollection.search' | translate}}</button>
+      </div>
+      <div class="spacer50"></div>
+
+      <!-- complete details -->
+      <h5 class="p16-two">{{'addCollection.completeTheBuyerInfo' | translate}}</h5>
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{ model.buyer_type == 1 ? ('addCollection.name' | translate) : ('addCollection.commercialName' |
+              translate)}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" type="text" name="buyer_name" class="form-control"
+              formControlName="buyer_name">
+          </div>
+          <div *ngIf="showError && (addFormStep3.controls.buyer_name.invalid)">
+            <div *ngIf="addFormStep3.controls.buyer_name.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep3.controls.buyer_name.errors?.minlength " class="show-error">
+              {{'addCollectionValidations.nameMin1Limit' | translate}}
+            </div>
+            <div *ngIf="addFormStep3.controls.buyer_name.errors?.maxlength " class="show-error">
+              {{'addCollectionValidations.nameMax50Limit' | translate}}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.buyer_type !=2 ">
+          <div class="form-group-3">
+            <label>{{ model.buyer_type == 1 ? ('addCollection.firstSurname' | translate) : ('addCollection.firstSurname'
+              | translate)}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" type="text" name="buyer_first_surname" class="form-control"
+              formControlName="buyer_first_surname">
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.buyer_type !=2 ">
+          <div class="form-group-3">
+            <label>{{ model.buyer_type == 1 ? ('addCollection.secondSurname' | translate) :
+              ('addCollection.secondSurname' | translate)}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" type="text" name="buyer_second_surname" class="form-control"
+              formControlName="buyer_second_surname">
+          </div>
+        </div>
+        <div *ngIf="model.buyer_type !=1 " class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{ 'addCollection.legalName' | translate }}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" type="text" name="buyer_legal_name" class="form-control"
+              formControlName="buyer_legal_name">
+          </div>
+          <div *ngIf="showError && (addFormStep3.controls.buyer_legal_name.invalid)">
+            <div *ngIf="addFormStep3.controls.buyer_legal_name.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep3.controls.buyer_legal_name.errors?.minlength " class="show-error">
+              {{'addCollectionValidations.nameMin1Limit' | translate}}
+            </div>
+            <div *ngIf="addFormStep3.controls.buyer_legal_name.errors?.maxlength " class="show-error">
+              {{'addCollectionValidations.nameMax30Limit' | translate}}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.phonenumber' | translate}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" class="form-control" type="text" pattern="{{constant.phonePattern}}"
+              (keydown.space)="$event.preventDefault();" name="buyer_phone" formControlName="buyer_phone">
+          </div>
+          <div *ngIf="showError && (addFormStep3.controls.buyer_phone.invalid)">
+            <div *ngIf="addFormStep3.controls.buyer_phone.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep3.controls.buyer_phone.errors?.pattern " class="show-error">
+              {{'addCollectionValidations.phonePatternCheck' | translate}}
+            </div>
+            <div
+              *ngIf="addFormStep3.controls.buyer_phone.errors?.minlength && !addFormStep3.controls.buyer_phone.errors?.pattern"
+              class="show-error">
+              {{'addCollectionValidations.phoneMin8Limit' | translate}}
+            </div>
+            <div
+              *ngIf="addFormStep3.controls.buyer_phone.errors?.maxlength && !addFormStep3.controls.buyer_phone.errors?.pattern"
+              class="show-error">
+              {{'addCollectionValidations.phoneMax15Limit' | translate}}
+            </div>
+          </div>
+        </div>
+        <div *ngIf="model.buyer_type !=1" class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.address' | translate}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" class="form-control" type="text" name="buyer_address"
+              formControlName="buyer_address">
+          </div>
+          <div *ngIf="showError && (addFormStep3.controls.buyer_address.invalid)">
+            <div *ngIf="addFormStep3.controls.buyer_address.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep3.controls.buyer_address.errors?.minlength " class="show-error">
+              {{'addCollectionValidations.nameMin1Limit' | translate}}
+            </div>
+            <div *ngIf="addFormStep3.controls.buyer_address.errors?.maxlength " class="show-error">
+              {{'addCollectionValidations.nameMax30Limit' | translate}}
+            </div>
+          </div>
+        </div>
+        <div *ngIf="model.buyer_type==1" class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.email' | translate}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" (keydown.space)="$event.preventDefault();" class="form-control"
+              type="email" name="buyer_email" formControlName="buyer_email">
+          </div>
+          <div *ngIf="showError && (addFormStep3.controls.buyer_email.invalid)">
+            <div *ngIf="addFormStep3.controls.buyer_email.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep3.controls.buyer_email.errors?.email " class="show-error">
+              {{'addCollectionValidations.emailInvalid' | translate}}
+            </div>
+          </div>
+        </div>
+        <div *ngIf="model.buyer_type==1" class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.companyName' | translate}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" class="form-control" type="text" name="buyer_company_name"
+              formControlName="buyer_company_name">
+          </div>
+          <div *ngIf="showError && (addFormStep3.controls.buyer_company_name.invalid)">
+            <div *ngIf="addFormStep3.controls.buyer_company_name.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep3.controls.buyer_company_name.errors?.minlength " class="show-error">
+              {{'addCollectionValidations.nameMin1Limit' | translate}}
+            </div>
+            <div *ngIf="addFormStep3.controls.buyer_company_name.errors?.maxlength " class="show-error">
+              {{'addCollectionValidations.nameMax30Limit' | translate}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" class="form-control" type="text" name="buyer_fed_tax"
+              formControlName="buyer_fed_tax">
+          </div>
+          <div *ngIf="showError && (addFormStep3.controls.buyer_fed_tax.invalid)">
+            <div *ngIf="addFormStep3.controls.buyer_fed_tax.errors?.minlength " class="show-error">
+              {{'addCollectionValidations.fedTaxMin12Limit' | translate}}
+            </div>
+            <div *ngIf="addFormStep3.controls.buyer_fed_tax.errors?.maxlength " class="show-error">
+              {{'addCollectionValidations.fedTaxMax13Limit' | translate}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div  *ngIf="model.buyer_type == 1">
+      <div class="spacer50"></div>
+      <!-- Beneficiaries -->
+      <h5 style="color: black;font-weight: bold;">{{'addCollection.beneficiaries' | translate}}</h5>
+      <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <div class="form-group">
+              <label>{{'creditForm.beneficiary' | translate}}</label>
+              <select title="{{'creditForm.selectBeneficiary' | translate}}"
+                class="form-control" name="beneficiary_id" 
+                [(ngModel)]="beneficiary_id"
+                [ngModelOptions]="{standalone: true}">
+                <option disabled selected value="">{{'creditForm.selectBeneficiary' | translate}}
+                </option>
+                <option *ngFor="let temp_beneficiary of beneficiaries_list" 
+                [value]="temp_beneficiary.id" [disabled]="checkAlreadySelected(temp_beneficiary.id)">
+                  {{temp_beneficiary?.beneficiary_name}} {{temp_beneficiary?.beneficiary_firstSurname}} {{temp_beneficiary?.beneficiary_secondSurname}}
+                </option>
+              </select>
+            <!-- <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selectedbeneficiaries"
+           [data]="beneficiaries_list" [(ngModel)]="selectedbeneficiaries" [settings]="multiDropdownSettings"
+           [ngModelOptions]="{standalone: true}">
+           </ng-multiselect-dropdown> -->
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.percentage' | translate}}</label>
+            <div class="clearfix"></div>
+            <input  autocomplete="off" class="form-control" type="text" name="percentage" 
+            [(ngModel)]="percentage"
+            [ngModelOptions]="{standalone: true}" appOnlyDecimal />
+          </div>
+        </div>
+          <div class="col-lg-2 col-md-6 col-sm-6 col-12" style="margin: 30px;">
+            <div class="btn-cont">
+              <button class="btn btn-primary" type="button" (click)="addBeneficiary(beneficiaryIndex == -1 ? true : false)" [disabled]="beneficiary_id == '' ? true : false">
+                {{beneficiaryIndex == -1 ? ('addForm.add' | translate) : ('addForm.edit' | translate)}}
+              </button>
+            </div>
+        </div>
+      </div> 
+      <div class="spacer50"></div>
+      <div class="white-bg">
+        <h5 style="color: black;font-weight: bold;">{{'creditForm.ListBeneficiaries' | translate}}</h5>
+        <div class="col-12">
+          <div class="spacer40"></div>
+        </div>
+        <table class="table">
+          <thead class="thead-light">
+            <tr>
+              <th style="color: black;">{{'creditForm.id' | translate}}</th>
+              <!-- <th style="color: black;">{{'creditForm.beneficiary' | translate}}:</th> -->
+              <th style="color: black;">{{'addCollection.beneficiaryNames' | translate}}:</th>
+              <th style="color: black;">{{'addCollection.tutorNames' | translate}}:</th>
+              <th style="color: black;">{{'addCollection.percentage' | translate}}:</th>
+              <!-- <th style="color: black;">{{'addCollection.edit' | translate}}</th> -->
+              <th style="color: black;">{{'addCollection.delete' | translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let temp_property_beneficiary of property_beneficiary; let i=index">
+              <td>{{i+1}}</td>
+              <td>{{temp_property_beneficiary?.beneficiary_id ? this.getBeneficiaryText(temp_property_beneficiary?.beneficiary_id) : ('table.tr.td.NA' | translate)}}</td>
+              <td>{{temp_property_beneficiary?.beneficiary_id ? this.getTutorText(temp_property_beneficiary?.beneficiary_id) : ('table.tr.td.NA' | translate)}}</td>
+              <td>{{temp_property_beneficiary?.percentage || ('table.tr.td.NA' | translate)}}</td>
+              <!-- <td>
+                <button class="action-icon" title="{{'addCollection.edit' | translate}}"
+                  (click)="editBeneficiary(temp_property_beneficiary,i)" type="button">
+                  <img src="assets/img/edit.png" alt="img">
+                </button>
+              </td> -->
+              <td>
+                <button class="action-icon" title="{{'addCollection.delete' | translate}}"
+                  (click)="deleteBeneficiary(temp_property_beneficiary,i)" type="button">
+                  <img src="assets/img/ic_delete.png" alt="img">
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="this.property_beneficiary.length == 0"><th colspan="5" style="text-align: center;">{{'message.error.noRecordFound' | translate}}</th></tr>
+          </tbody>
+        </table>
+       
+      </div>
+    </div>
+
+      <div class="spacer50"></div>
+      <!-- bank account -->
+      <h5 class="p16-two">{{'addCollection.bankAccount' | translate}}
+        <span [style.display]="'none'" class="pull-right"><a class="add" (click)="addBuyerBank($event)"
+            href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
+      </h5>
+      <div formArrayName="collection_buyer_banks">
+        <ng-container *ngFor="let buyer_banks of addFormStep3.get('collection_buyer_banks').controls; let i=index">
+          <div class="row" [formGroupName]="i">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.bankName' | translate}}</label>
+                <div class="clearfix"></div>
+                <input readonly required autocomplete="off" class="form-control" type="text" name="bank_name"
+                  formControlName="bank_name">
+              </div>
+              <div
+                *ngIf="showError && (addFormStep3.controls.collection_buyer_banks.controls[i].controls.bank_name.invalid)">
+                <div
+                  *ngIf="addFormStep3.controls.collection_buyer_banks.controls[i].controls.bank_name.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+                <div
+                  *ngIf="addFormStep3.controls.collection_buyer_banks.controls[i].controls.bank_name.errors?.minlength "
+                  class="show-error">
+                  {{'addCollectionValidations.nameMin1Limit' | translate}}
+                </div>
+                <div
+                  *ngIf="addFormStep3.controls.collection_buyer_banks.controls[i].controls.bank_name.errors?.maxlength "
+                  class="show-error">
+                  {{'addCollectionValidations.nameMax30Limit' | translate}}
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.accountNumber' | translate}}</label>
+                <div class="clearfix"></div>
+                <input readonly required autocomplete="off" class="form-control" type="number" min="0"
+                  name="account_number" formControlName="account_number">
+              </div>
+              <div
+                *ngIf="showError && (addFormStep3.controls.collection_buyer_banks.controls[i].controls.account_number.invalid)">
+                <div
+                  *ngIf="addFormStep3.controls.collection_buyer_banks.controls[i].controls.account_number.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.clabeSwift' | translate}}</label>
+                <div class="clearfix"></div>
+                <input readonly required autocomplete="off" class="form-control"
+                  (keydown.space)="$event.preventDefault();" type="text" name="swift" formControlName="swift">
+              </div>
+              <div
+                *ngIf="showError && (addFormStep3.controls.collection_buyer_banks.controls[i].controls.swift.invalid)">
+                <div *ngIf="addFormStep3.controls.collection_buyer_banks.controls[i].controls.swift.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.currency' | translate}}</label>
+                <div class="clearfix"></div>
+                <select disabled required name="currency_id" formControlName="currency_id" required
+                  class="form-control">
+                  <option value="">{{'addCollection.currency' | translate}}</option>
+                  <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
+                </select>
+              </div>
+              <div
+                *ngIf="showError && (addFormStep3.controls.collection_buyer_banks.controls[i].controls.currency_id.invalid)">
+                <div
+                  *ngIf="addFormStep3.controls.collection_buyer_banks.controls[i].controls.currency_id.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+              </div>
+            </div>
+            <div [style.display]="'none'" class="col-lg-2 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.remove' | translate}}</label>
+                <div class="clearfix"></div>
+                <button type="button" (click)="removeBuyerBank($event, buyer_banks, i)">{{'addCollection.remove' |
+                  translate}}</button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+
+      <div class="spacer50"></div>
+      <!-- legal Representative Info -->
+      <h5 class="p16-two">{{'addCollection.legalRepresentativeInfo' | translate}}</h5>
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.name' | translate}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" class="form-control" type="text" name="buyer_leg_rep_name"
+              formControlName="buyer_leg_rep_name">
+          </div>
+          <div *ngIf="showError && (addFormStep3.controls.buyer_leg_rep_name.invalid)">
+            <div *ngIf="addFormStep3.controls.buyer_leg_rep_name.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep3.controls.buyer_leg_rep_name.errors?.minlength " class="show-error">
+              {{'addCollectionValidations.nameMin1Limit' | translate}}
+            </div>
+            <div *ngIf="addFormStep3.controls.buyer_leg_rep_name.errors?.maxlength " class="show-error">
+              {{'addCollectionValidations.nameMax30Limit' | translate}}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.firstSurname' | translate}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" class="form-control" type="text" name="buyer_leg_rep_first_surname"
+              formControlName="buyer_leg_rep_first_surname">
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.secondSurname' | translate}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" class="form-control" type="text" name="buyer_leg_rep_second_surname"
+              formControlName="buyer_leg_rep_second_surname">
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.phonenumber' | translate}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" class="form-control" type="text" pattern="{{constant.phonePattern}}"
+              (keydown.space)="$event.preventDefault();" name="buyer_leg_rep_phone"
+              formControlName="buyer_leg_rep_phone">
+          </div>
+          <div *ngIf="showError && (addFormStep3.controls.buyer_leg_rep_phone.invalid)">
+            <div *ngIf="addFormStep3.controls.buyer_leg_rep_phone.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep3.controls.buyer_leg_rep_phone.errors?.pattern " class="show-error">
+              {{'addCollectionValidations.phonePatternCheck' | translate}}
+            </div>
+            <div
+              *ngIf="addFormStep3.controls.buyer_leg_rep_phone.errors?.minlength && !addFormStep3.controls.buyer_leg_rep_phone.errors?.pattern"
+              class="show-error">
+              {{'addCollectionValidations.phoneMin8Limit' | translate}}
+            </div>
+            <div
+              *ngIf="addFormStep3.controls.buyer_leg_rep_phone.errors?.maxlength && !addFormStep3.controls.buyer_leg_rep_phone.errors?.pattern"
+              class="show-error">
+              {{'addCollectionValidations.phoneMax15Limit' | translate}}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.email' | translate}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" class="form-control" (keydown.space)="$event.preventDefault();"
+              type="email" name="buyer_leg_rep_email" formControlName="buyer_leg_rep_email">
+          </div>
+          <div *ngIf="showError && (addFormStep3.controls.buyer_leg_rep_email.invalid)">
+            <div *ngIf="addFormStep3.controls.buyer_leg_rep_email.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep3.controls.buyer_leg_rep_email.errors?.email " class="show-error">
+              {{'addCollectionValidations.emailInvalid' | translate}}
+            </div>
+          </div>
+        </div>
+        <div *ngIf="model.buyer_type==1" class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.companyName' | translate}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" class="form-control" type="text" name="buyer_leg_rep_comp"
+              formControlName="buyer_leg_rep_comp">
+          </div>
+          <div *ngIf="showError && (addFormStep3.controls.buyer_leg_rep_comp.invalid)">
+            <div *ngIf="addFormStep3.controls.buyer_leg_rep_comp.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep3.controls.buyer_leg_rep_comp.errors?.minlength " class="show-error">
+              {{'addCollectionValidations.nameMin1Limit' | translate}}
+            </div>
+            <div *ngIf="addFormStep3.controls.buyer_leg_rep_comp.errors?.maxlength " class="show-error">
+              {{'addCollectionValidations.nameMax30Limit' | translate}}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
+            <div class="clearfix"></div>
+            <input readonly autocomplete="off" class="form-control" type="text" name="buyer_leg_rep_fed_tax"
+              formControlName="buyer_leg_rep_fed_tax">
+          </div>
+          <div *ngIf="showError && (addFormStep3.controls.buyer_leg_rep_fed_tax.invalid)">
+            <div *ngIf="addFormStep3.controls.buyer_leg_rep_fed_tax.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep3.controls.buyer_leg_rep_fed_tax.errors?.minlength " class="show-error">
+              {{'addCollectionValidations.fedTaxMin12Limit' | translate}}
+            </div>
+            <div *ngIf="addFormStep3.controls.buyer_leg_rep_fed_tax.errors?.maxlength " class="show-error">
+              {{'addCollectionValidations.fedTaxMax13Limit' | translate}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="spacer50"></div>
+      <!-- bank account -->
+      <h5 class="p16-two">{{'addCollection.bankAccount' | translate}}
+        <span [style.display]="'none'" class="pull-right"><a class="add" (click)="addBuyerRepBank($event)"
+            href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
+      </h5>
+      <div formArrayName="collection_buyer_rep_banks">
+        <ng-container
+          *ngFor="let buyer_rep_banks of addFormStep3.get('collection_buyer_rep_banks').controls; let i=index">
+          <div class="row" [formGroupName]="i">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.bankName' | translate}}</label>
+                <div class="clearfix"></div>
+                <input readonly required minlength="1" maxlength="30" autocomplete="off" class="form-control"
+                  type="text" name="bank_name" formControlName="bank_name">
+              </div>
+              <div
+                *ngIf="showError && (addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.bank_name.invalid)">
+                <div
+                  *ngIf="addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.bank_name.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+                <div
+                  *ngIf="addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.bank_name.errors?.minlength "
+                  class="show-error">
+                  {{'addCollectionValidations.nameMin1Limit' | translate}}
+                </div>
+                <div
+                  *ngIf="addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.bank_name.errors?.maxlength "
+                  class="show-error">
+                  {{'addCollectionValidations.nameMax30Limit' | translate}}
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.accountNumber' | translate}}</label>
+                <div class="clearfix"></div>
+                <input readonly required autocomplete="off" class="form-control" type="number" min="0"
+                  name="account_number" formControlName="account_number">
+              </div>
+              <div
+                *ngIf="showError && (addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.account_number.invalid)">
+                <div
+                  *ngIf="addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.account_number.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+                <!-- <div *ngIf="addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.account_number.errors?.maxlength " class="show-error">
+                          {{'addCollectionValidations.nameMax30Limit' | translate}}
+                      </div> -->
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.clabeSwift' | translate}}</label>
+                <div class="clearfix"></div>
+                <input readonly required autocomplete="off" class="form-control"
+                  (keydown.space)="$event.preventDefault();" type="text" name="swift" formControlName="swift">
+              </div>
+              <div
+                *ngIf="showError && (addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.swift.invalid)">
+                <div
+                  *ngIf="addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.swift.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+                <!-- <div *ngIf="addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.account_number.errors?.maxlength " class="show-error">
+                          {{'addCollectionValidations.nameMax30Limit' | translate}}
+                      </div> -->
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.currency' | translate}}</label>
+                <div class="clearfix"></div>
+                <select disabled required name="currency_id" formControlName="currency_id" required
+                  class="form-control">
+                  <option value="">{{'addCollection.currency' | translate}}</option>
+                  <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
+                </select>
+              </div>
+              <div
+                *ngIf="showError && (addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.currency_id.invalid)">
+                <div
+                  *ngIf="addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.currency_id.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+                <!-- <div *ngIf="addFormStep3.controls.collection_buyer_rep_banks.controls[i].controls.account_number.errors?.maxlength " class="show-error">
+                          {{'addCollectionValidations.nameMax30Limit' | translate}}
+                      </div> -->
+              </div>
+            </div>
+            <div [style.display]="'none'" class="col-lg-2 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.remove' | translate}}</label>
+                <div class="clearfix"></div>
+                <button type="button" (click)="removeBuyerRepBank($event, buyer_rep_banks, i)">{{'addCollection.remove'
+                  | translate}}</button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+
+      <div class="spacer15"></div>
+
+      <div class="spacer15"></div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="btn-cont text-right">
+            <button type="button" class="btn btn-primary" (click)="setTab(2)">{{'addCollection.previous' |
+              translate}}</button>
+            <button type="submit" class="btn btn-primary marginL15">{{'addCollection.next' | translate}}</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</form>
+
+
+
+<form autocomplete="off" [formGroup]="addFormStep4" (ngSubmit)="createCollection(addFormStep4.value, 4)">
+  <!-- tab-4 -->
+  <div class="white-bg" *ngIf="tab==4">
+    <div class="page-title">
+      <h3>{{'addCollection.deal' | translate}}</h3>
+    </div>
+    <div class="padding40">
+      <h5>{{'addCollection.completeTheDealInfo' | translate}}</h5>
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.purchaseDate' | translate}}</label>
+            <div class="clearfix"></div>
+            <p-calendar dateFormat="dd/M/yy" [style]="{'width':'100%'}" formControlName="deal_purchase_date"
+              class="sz-calendar" [locale]="locale" showIcon="true" (onSelect)="onSelect($event)" showButtonBar="true"
+              [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+          </div>
+          <div *ngIf="showError && (addFormStep4.controls.deal_purchase_date.invalid)">
+            <div *ngIf="addFormStep4.controls.deal_purchase_date.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.currency' | translate}}</label>
+            <div class="clearfix"></div>
+            <select required name="currency_id" formControlName="currency_id" required class="form-control">
+              <option value="">{{'addCollection.currency' | translate}}</option>
+              <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
+            </select>
+          </div>
+          <div *ngIf="showError && (addFormStep4.controls.currency_id.invalid)">
+            <div *ngIf="addFormStep4.controls.currency_id.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.price' | translate}}</label>
+            <div class="clearfix"></div>
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">$</span>
+              <input autocomplete="off" class="form-control" step="0.01" type="number"
+                placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="deal_price" min="0"
+                name="deal_price" appUptoTwoDigitDecimalNumber>
+            </div>
+          </div>
+          <div *ngIf="showError && (addFormStep4.controls.deal_price.invalid)">
+            <div *ngIf="addFormStep4.controls.deal_price.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.sumOfPaymentConcept' | translate}}</label>
+            <div class="clearfix"></div>
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">$</span>
+              <input autocomplete="off" class="form-control" step="0.01" type="number"
+                placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="sum_of_concepts" min="0"
+                name="sum_of_concepts" appUptoTwoDigitDecimalNumber>
+            </div>
+          </div>
+          <div *ngIf="showError && (addFormStep4.controls.deal_price.invalid)">
+            <div *ngIf="addFormStep4.controls.deal_price.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.choosePaymentType' | translate}}">
+          <div class="form-group-3">
+            <label>{{'addCollection.paymentChoice' | translate}}</label>
+            <div class="clearfix"></div>
+            <select #selectedPaymentChoice name="paymentchoice" formControlName="paymentchoice"
+              (change)="addPaymentChoice($event)" class="form-control">
+              <!-- <option value="">Payment Choice</option> -->
+              <option value="{{c.id}}" *ngFor="let c of paymentChoices">{{ c.name }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="spacer15"></div>
+      <div formArrayName="payment_choices">
+        <ng-container *ngFor="let payment_choice of addFormStep4.get('payment_choices').controls; let i=index">
+
+          <div class="row" [formGroupName]="i">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <label *ngIf="i==0">{{'addCollection.payments' | translate}}</label>
+              <div class="form-group-3">
+                <div class="clearfix"></div>
+                <input required autocomplete="off" class="form-control" minlength="1" type="text" name="name"
+                  formControlName="name">
+              </div>
+              <div *ngIf="showError && (addFormStep4.controls.payment_choices.controls[i].controls.name.invalid)">
+                <div *ngIf="addFormStep4.controls.payment_choices.controls[i].controls.name.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+                <div *ngIf="addFormStep4.controls.payment_choices.controls[i].controls.name.errors?.minlength "
+                  class="show-error">
+                  {{'addCollectionValidations.nameMin1Limit' | translate}}
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+              <label *ngIf="i==0">{{'addCollection.category' | translate}}</label>
+              <div class="form-group-3">
+                <div class="clearfix"></div>
+                <!-- value="{{addFormStep4.controls.payment_choices.controls[i].controls.calc_payment_amount ? addFormStep4.controls.payment_choices.controls[i].controls.calc_payment_amount.value : ''}}"  -->
+                <input readonly required autocomplete="off" class="form-control" minlength="1" type="text" name="name1"
+                  formControlName="category_name">
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+              <label *ngIf="i==0">&nbsp;&nbsp;</label>
+              <div class="form-group-3">
+                <div class="clearfix"></div>
+                <p-calendar dateFormat="dd/M/yy" [style]="{'width':'100%'}" formControlName="date" class="sz-calendar"
+                  [locale]="locale" showIcon="true" (onSelect)="onSelect($event)" showButtonBar="true"
+                  [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+              </div>
+              <div *ngIf="showError && (addFormStep4.controls.payment_choices.controls[i].controls.date.invalid)">
+                <div *ngIf="addFormStep4.controls.payment_choices.controls[i].controls.date.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-6 col-12" title="{{'addCollection.enterPercentage' | translate}}">
+              <label *ngIf="i==0">&nbsp;&nbsp;</label>
+              <div class="input-group form-group-3">
+                <div class="clearfix"></div>
+                <input required
+                  readonly="{{addFormStep4.controls.payment_choices.controls[i].controls.calc_payment_amount && addFormStep4.controls.payment_choices.controls[i].controls.calc_payment_amount.value ? true : ''}}"
+                  autocomplete="off" class="form-control" (input)="getAmount(i)" type="number" step="0.01"
+                  placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="percent" min="0" max="100"
+                  name="percent" appUptoTwoDigitDecimalNumber>
+                <div class="input-group-append">
+                  <span class="input-group-text" id="basic-addon1">%</span>
+                </div>
+              </div>
+              <div *ngIf="showError && (addFormStep4.controls.payment_choices.controls[i].controls.percent.invalid)">
+                <div *ngIf="addFormStep4.controls.payment_choices.controls[i].controls.percent.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+                <div *ngIf="addFormStep4.controls.payment_choices.controls[i].controls.percent.errors?.max "
+                  class="show-error">
+                  {{'addCollectionValidations.percentMax100Limit' | translate}}
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-6 col-12" title="{{'addCollection.enterAmount' | translate}}">
+              <label *ngIf="i==0">&nbsp;&nbsp;</label>
+              <div class="input-group form-group-3">
+                <div class="clearfix"></div>
+                <div class="input-group-append">
+                  <span class="input-group-text" id="basic-addon1">$</span>
+                  <input required
+                    readonly="{{addFormStep4.controls.payment_choices.controls[i].controls.calc_payment_amount && addFormStep4.controls.payment_choices.controls[i].controls.calc_payment_amount.value ? true : ''}}"
+                    autocomplete="off" class="form-control" (input)="getPercentage(i)" type="number" step="0.01"
+                    formControlName="amount" min="0" name="amount" appUptoTwoDigitDecimalNumber>
+                </div>
+              </div>
+              <div *ngIf="showError && (addFormStep4.controls.payment_choices.controls[i].controls.amount.invalid)">
+                <div *ngIf="addFormStep4.controls.payment_choices.controls[i].controls.amount.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-1 col-md-6 col-sm-6 col-12">
+              <label *ngIf="i==0">&nbsp;&nbsp;</label>
+              <div class="form-group-3">
+                <div class="clearfix"></div>
+                <button type="button" (click)="removePaymentChoicePopup(payment_choice, i)">
+                  <img src="assets/img/ic_delete.png" alt="img">
+                  <!-- {{'addCollection.remove' | translate}} -->
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="spacer15"></div>
+      <div class="row" *ngIf="showMonthlyInput">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.noOfMonthlyInstallments' | translate}}</label>
+            <div class="clearfix"></div>
+            <input autocomplete="off" class="form-control" type="number"
+              placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="num_of_months" min="0"
+              name="num_of_months">
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.chooseMonthlyInstallmentDate' | translate}}</label>
+            <div class="clearfix"></div>
+            <p-calendar dateFormat="dd/M/yy" [style]="{'width':'100%'}" formControlName="monthly_date"
+              class="sz-calendar" [locale]="locale" showIcon="true" (onSelect)="onSelect($event)" showButtonBar="true"
+              [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="input-group form-group-3">
+            <label>{{'addCollection.enterMonthlyAmount' | translate}}</label>
+            <div class="clearfix"></div>
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">$</span>
+              <input autocomplete="off" class="form-control" type="number" step="0.01"
+                placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="monthly_amount" min="0"
+                name="monthly_amount" appUptoTwoDigitDecimalNumber>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.done' | translate}}</label>
+            <div class="clearfix"></div>
+            <button type="button" (click)="findMonthlyInstallments()">{{'addCollection.done' | translate}}</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.interestRate' | translate}}</label>
+            <div class="clearfix"></div>
+            <input autocomplete="off" class="form-control" type="number" formControlName="deal_interest_rate" min="0" max="100" name="deal_interest_rate">
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.penalityForLatePayment' | translate}}</label>
+            <div class="clearfix"></div>
+            <input autocomplete="off" class="form-control" type="number" formControlName="deal_penality" min="0" name="deal_penality">
+          </div>
+        </div>
+      </div> -->
+    
+          <!-- (click)="myFlag = !myFlag" -->
+          <!-- *ngIf="myFlag" -->
+          <div class="spacer15"></div>
+          <div class="row">
+          <h5>{{'deshboard.accountEmail' | translate}}</h5>
+            <div class="switchToggle" style="margin-left: 10px;">
+              <input type="checkbox" id="switch2" (click)="toggleShow($event)" [checked]="addFormStep4.controls['email'].value || addFormStep4.controls['day'].value">
+              <label for="switch2">Toggle</label>
+            </div>
+          </div>
+          <div class="spacer15"></div>
+          <div class="row" *ngIf="isShown">
+            <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'deshboard.mail' | translate}}</label>
+                <div class="clearfix"></div>
+                <input formControlName="email"
+            placeholder="{{'deshboard.mail' | translate}}" 
+            style="width: 100%;border-color: #c0c0c0;background-color: white;height: 39px;" [disabled]="!edit_reminder && model.id">
+              </div>
+            </div>
+    
+            <div class="col-lg-1 col-5">
+              <div class="form-group-3">
+                <label style="width: 100px;">{{'deshboard.date' | translate}}</label>
+                <div class="clearfix"></div>
+                <select name="day_list" id="day_list" formControlName="day" [disabled]="!edit_reminder && model.id"  style="width:126px;height:39px;">
+                  <option value="{{days}}" selected="days == addFormStep4.value.day" *ngFor="let days of day_list">{{days}}</option>
+                </select>
+                <!-- <p-calendar class="form-control" formControlName="reminder_date" autocomplete="off"
+                [style]="{'width':'100%'}" name="date" class="sz-calendar" [showTime]="true"
+                showIcon="true" (onSelect)="onSelect1($event)" [readonlyInput]="true"></p-calendar> -->
+              </div>
+            </div>
+    
+            <div class="col-1">
+              <div class="form-group-3">
+                <label>&nbsp;&nbsp;</label>
+                <div class="clearfix"></div>
+                <a href="javascript://" style="float: right;">
+                  <i class="fa fa-pencil" aria-hidden="true" style="font-size: 25px;" (click)="editLeadPopup(true)" *ngIf="!edit_reminder && model.id != '0'"></i>
+                  <i class="fa fa-undo" aria-hidden="true" style="font-size: 25px;" (click)="editLeadPopup(false)" *ngIf="edit_reminder && model.id != '0'"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+    
+      <!-- <div class="row">
+        <h5>{{'deshboard.accountEmail' | translate}}</h5>
+        <div class="switchToggle">
+          <input type="checkbox" id="switch2">
+          <label for="switch2">Toggle</label>
+        </div>
+        <div class="col-12">
+          <div class="spacer10"></div>
+        </div>
+        <div class="col-md-4">
+          <label>{{'deshboard.mail' | translate}}</label>
+          <input formControlName="toAddress" [(ngModel)]="model.email"
+            placeholder="{{'addCollection.Addcollaborator' | translate}}" style="width: 100%;">
+        </div>
+        <div class="col-md-4">
+          <label>{{'deshboard.date' | translate}}</label>
+          <p-calendar class="form-control" [(ngModel)]="model.reminder_date" autocomplete="off"
+            [style]="{'width':'100%'}" name="date" class="sz-calendar" [showTime]="true"
+            showIcon="true" (onSelect)="onSelect1($event)" [readonlyInput]="true"></p-calendar>
+        </div>
+        <div class="col-md-4"> 
+          <label>{{'deshboard.date' | translate}}</label>
+          <a href="javascript://" (click)="editLeadPopup('edit')">
+          <i class="fa fa-pencil" aria-hidden="true"></i>
+        </a></div>
+      </div> -->
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="btn-cont text-right">
+            <button type="button" class="btn btn-primary" (click)="setTab(3)">{{'addForm.previous' |
+              translate}}</button>
+            <button type="submit" class="btn btn-primary marginL15">{{'addForm.next' | translate}}</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</form>
+
+
+<form autocomplete="off" [formGroup]="addFormStep5" (ngSubmit)="createCollection(addFormStep5.value, 5)">
+  <!-- tab-5 -->
+  <div class="white-bg" *ngIf="tab==5">
+    <div class="page-title">
+      <h3>{{'addCollection.commissionDetails' | translate}}</h3>
+    </div>
+    <div class="padding40">
+      <h5 class="marginB30">{{'addCollection.completeCommissionInfo' | translate}}</h5>
+
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <label class="p16-two">{{'addCollection.sozuCommission' | translate}}</label>
+          <div class="input-group form-group-3">
+            <input required autocomplete="off" class="form-control" type="number" appUptoThreeDecimal
+              (input)="getSozuAmount($event.target.value)" step="0.001" min="0" max="100" name="comm_total_commission"
+              formControlName="comm_total_commission">
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">%</span>
+            </div>
+          </div>
+          <div *ngIf="showError && (addFormStep5.controls.comm_total_commission.invalid)">
+            <div *ngIf="addFormStep5.controls.comm_total_commission.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep5.controls.comm_total_commission.errors?.max " class="show-error">
+              {{'addCollectionValidations.percentMax100Limit' | translate}}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <label class="p16-two">{{'addCollection.sozuCommissionAmount' | translate}}</label>
+          <div class="input-group form-group-3">
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">$</span>
+            </div>
+            <input required autocomplete="off" class="form-control" type="number" appUptoTwoDigitDecimalNumber
+              step="0.01" min="0" max="100" name="comm_total_commission_amount"
+              formControlName="comm_total_commission_amount">
+          </div>
+          <div *ngIf="showError && (addFormStep5.controls.comm_total_commission_amount.invalid)">
+            <div *ngIf="addFormStep5.controls.comm_total_commission_amount.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <label class="p16-two">{{'addCollection.sozuIVACommission' | translate}}</label>
+          <div class="input-group form-group-3">
+            <input required autocomplete="off" class="form-control" type="number" appUptoThreeDecimal
+              (input)="getIVAAmount($event.target.value, 'comm_total_commission_amount', 'sozu_iva_amt')" step="0.001"
+              min="0" max="100" name="sozu_iva_percent" formControlName="sozu_iva_percent">
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">%</span>
+            </div>
+          </div>
+          <div *ngIf="showError && (addFormStep5.controls.sozu_iva_percent.invalid)">
+            <div *ngIf="addFormStep5.controls.sozu_iva_percent.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep5.controls.sozu_iva_percent.errors?.max " class="show-error">
+              {{'addCollectionValidations.percentMax100Limit' | translate}}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <label class="p16-two">{{'addCollection.sozuIVACommissionAmount' | translate}}</label>
+          <div class="input-group form-group-3">
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">$</span>
+            </div>
+            <input required autocomplete="off" class="form-control" type="number" appUptoTwoDigitDecimalNumber
+              step="0.01" min="0" max="100" name="sozu_iva_amt" formControlName="sozu_iva_amt">
+          </div>
+          <div *ngIf="showError && (addFormStep5.controls.sozu_iva_amt.invalid)">
+            <div *ngIf="addFormStep5.controls.sozu_iva_amt.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <label class="p16-two">{{'addCollection.agentCommission' | translate}}</label>
+          <div class="input-group form-group-3">
+            <input required autocomplete="off" class="form-control" type="number" appUptoThreeDecimal
+              (input)="getAgentAmount($event.target.value)" step="0.001" min="0" max="100" name="comm_shared_commission"
+              formControlName="comm_shared_commission">
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">%</span>
+            </div>
+          </div>
+          <div *ngIf="showError && (addFormStep5.controls.comm_shared_commission.invalid)">
+            <div *ngIf="addFormStep5.controls.comm_shared_commission.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep5.controls.comm_shared_commission.errors?.max " class="show-error">
+              {{'addCollectionValidations.percentMax100Limit' | translate}}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <label class="p16-two">{{'addCollection.agentCommissionAmount' | translate}}</label>
+          <div class="input-group form-group-3">
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">$</span>
+            </div>
+            <input required autocomplete="off" class="form-control" type="number" appUptoTwoDigitDecimalNumber
+              step="0.01" min="0" max="100" name="comm_shared_commission_amount"
+              formControlName="comm_shared_commission_amount">
+          </div>
+          <div *ngIf="showError && (addFormStep5.controls.comm_shared_commission_amount.invalid)">
+            <div *ngIf="addFormStep5.controls.comm_shared_commission_amount.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <label class="p16-two">{{'addCollection.agentIVACommission' | translate}}</label>
+          <div class="input-group form-group-3">
+            <input required autocomplete="off" class="form-control" type="number" appUptoThreeDecimal
+              (input)="getIVAAmount($event.target.value, 'comm_shared_commission_amount', 'agent_iva_amt')" step="0.001"
+              min="0" max="100" name="agent_iva_percent" formControlName="agent_iva_percent">
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">%</span>
+            </div>
+          </div>
+          <div *ngIf="showError && (addFormStep5.controls.agent_iva_percent.invalid)">
+            <div *ngIf="addFormStep5.controls.agent_iva_percent.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep5.controls.agent_iva_percent.errors?.max " class="show-error">
+              {{'addCollectionValidations.percentMax100Limit' | translate}}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <label class="p16-two">{{'addCollection.agentIVACommissionAmount' | translate}}</label>
+          <div class="input-group form-group-3">
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">$</span>
+            </div>
+            <input required autocomplete="off" class="form-control" type="number" appUptoTwoDigitDecimalNumber
+              step="0.01" min="0" max="100" name="agent_iva_amt" formControlName="agent_iva_amt">
+          </div>
+          <div *ngIf="showError && (addFormStep5.controls.agent_iva_amt.invalid)">
+            <div *ngIf="addFormStep5.controls.agent_iva_amt.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div formArrayName="deal_commission_agents">
+        <ng-container
+          *ngFor="let deal_commission_agent of addFormStep5.get('deal_commission_agents').controls; let i=index">
+          <div class="row" [formGroupName]="i">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <label>{{'addCollection.agentName' | translate}}</label>
+              <div class="form-group-3">
+                <!-- (click)="getBothBroker('')" -->
+                <div class="clearfix"></div>
+                <input readonly disabled required autocomplete="off" class="form-control" type="text" name="name"
+                  readonly formControlName="name">
+              </div>
+              <div
+                *ngIf="showError && (addFormStep5.controls.deal_commission_agents.controls[i].controls.name.invalid)">
+                <div *ngIf="addFormStep5.controls.deal_commission_agents.controls[i].controls.name.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <label>{{'addCollection.agentFirstSurName' | translate}}</label>
+              <div class="form-group-3">
+                <div class="clearfix"></div>
+                <input readonly disabled autocomplete="off" class="form-control" type="text" name="first_surname"
+                  readonly formControlName="first_surname">
+              </div>
+              <div
+                *ngIf="showError && (addFormStep5.controls.deal_commission_agents.controls[i].controls.first_surname.invalid)">
+                <div
+                  *ngIf="addFormStep5.controls.deal_commission_agents.controls[i].controls.first_surname.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <label>{{'addCollection.agentSecondSurName' | translate}}</label>
+              <div class="form-group-3">
+                <div class="clearfix"></div>
+                <input readonly disabled autocomplete="off" class="form-control" type="text" name="second_surname"
+                  readonly formControlName="second_surname">
+              </div>
+              <div
+                *ngIf="showError && (addFormStep5.controls.deal_commission_agents.controls[i].controls.second_surname.invalid)">
+                <div
+                  *ngIf="addFormStep5.controls.deal_commission_agents.controls[i].controls.second_surname.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
+              <div class="form-group-3">
+                <div class="clearfix"></div>
+                <input readonly disabled autocomplete="off" class="form-control" type="text" minlength="12"
+                  maxlength="13" name="fed_tax_payer_reg" formControlName="fed_tax_payer_reg">
+              </div>
+              <div
+                *ngIf="showError  &&  (addFormStep5.controls.deal_commission_agents.controls[i].controls.fed_tax_payer_reg.invalid)">
+                <div
+                  *ngIf="addFormStep5.controls.deal_commission_agents.controls[i].controls.fed_tax_payer_reg.errors?.minlength "
+                  class="show-error">
+                  {{'addCollectionValidations.fedTaxMin12Limit' | translate}}
+                </div>
+                <div
+                  *ngIf="addFormStep5.controls.deal_commission_agents.controls[i].controls.fed_tax_payer_reg.errors?.maxlength "
+                  class="show-error">
+                  {{'addCollectionValidations.fedTaxMax13Limit' | translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+
+      <div class="spacer50"></div>
+      <h5 class="p16-two">{{'addCollection.bankAccount' | translate}}
+        <span class="pull-right"><a class="add" (click)="addAgentBank($event)"
+            href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
+      </h5>
+      <div formArrayName="collection_agent_banks">
+        <ng-container *ngFor="let agent_banks of addFormStep5.get('collection_agent_banks').controls; let i=index">
+          <div class="row" [formGroupName]="i">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.bankName' | translate}}</label>
+                <div class="clearfix"></div>
+                <input required autocomplete="off" class="form-control" minlength="1" maxlength="30" type="text"
+                  name="bank_name" formControlName="bank_name">
+              </div>
+              <div
+                *ngIf="showError && (addFormStep5.controls.collection_agent_banks.controls[i].controls.bank_name.invalid)">
+                <div
+                  *ngIf="addFormStep5.controls.collection_agent_banks.controls[i].controls.bank_name.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+                <div
+                  *ngIf="addFormStep5.controls.collection_agent_banks.controls[i].controls.bank_name.errors?.minlength "
+                  class="show-error">
+                  {{'addCollectionValidations.nameMin1Limit' | translate}}
+                </div>
+                <div
+                  *ngIf="addFormStep5.controls.collection_agent_banks.controls[i].controls.bank_name.errors?.maxlength "
+                  class="show-error">
+                  {{'addCollectionValidations.nameMax30Limit' | translate}}
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.accountNumber' | translate}}</label>
+                <div class="clearfix"></div>
+                <input required autocomplete="off" class="form-control" type="number" min="0" name="account_number"
+                  formControlName="account_number">
+              </div>
+              <div
+                *ngIf="showError && (addFormStep5.controls.collection_agent_banks.controls[i].controls.account_number.invalid)">
+                <div
+                  *ngIf="addFormStep5.controls.collection_agent_banks.controls[i].controls.account_number.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.clabeSwift' | translate}}</label>
+                <div class="clearfix"></div>
+                <input required autocomplete="off" class="form-control" (keydown.space)="$event.preventDefault();"
+                  type="text" name="swift" formControlName="swift">
+              </div>
+              <div
+                *ngIf="showError && (addFormStep5.controls.collection_agent_banks.controls[i].controls.swift.invalid)">
+                <div *ngIf="addFormStep5.controls.collection_agent_banks.controls[i].controls.swift.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.currency' | translate}}</label>
+                <div class="clearfix"></div>
+                <select required name="currency_id" formControlName="currency_id" required class="form-control">
+                  <option value="">{{'addCollection.currency' | translate}}</option>
+                  <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
+                </select>
+              </div>
+              <div
+                *ngIf="showError && (addFormStep5.controls.collection_agent_banks.controls[i].controls.currency_id.invalid)">
+                <div
+                  *ngIf="addFormStep5.controls.collection_agent_banks.controls[i].controls.currency_id.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+              <div class="form-group-3">
+                <label>{{'addCollection.remove' | translate}}</label>
+                <div class="clearfix"></div>
+                <button type="button" (click)="removeAgentBank($event, agent_banks, i)">{{'addCollection.remove' |
+                  translate}}</button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+
+      <div class="spacer15"></div>
+      <h5 class="p16-two">{{'addCollection.collectionCommission' | translate}}</h5>
+
+      <div class="spacer15"></div>
+      <div class="row">
+
+        <div class="col-lg-6 col-md-12 col-sm-6 col-12">
+          <label class="p16-two">
+            <input class="form-control" class="is_commission_sale_enabled" type="checkbox"
+              name="is_commission_sale_enabled" formControlName="is_commission_sale_enabled">
+            <span style="margin-left: 10px;    vertical-align: super;">{{'addCollection.salecommissionCheck' |
+              translate}}</span>
+          </label>
+        </div>
+      </div>
+      <div class="spacer15"></div>
+
+      <div class="form-group-3 row">
+        <h5 class="col-sm-3 p16-two">{{'addCollection.whoWillReceivePaymentDirectly' | translate}}</h5>
+        <div class="col-sm-9">
+            <div class="clearfix"></div>
+            <label class="cust-radio">
+              <input class="form-control" type="radio" formControlName="payment_received_by" 
+              value="1" 
+              name="payment_received_by" (change)="onAgencyOrSellerChange($event.target.value)">
+              <span class="checkmark">{{'addCollection.Sozu' | translate}}</span>
+            </label>
+            <label class="cust-radio">
+              <input class="form-control" type="radio" formControlName="payment_received_by" 
+              value="0" 
+              name="payment_received_by" (change)="onAgencyOrSellerChange($event.target.value)">
+              <span class="checkmark">{{'addCollection.Seller' | translate}}</span>
+            </label>
+            <div class="clearfix"></div><div class="form-group-3">
+              <div class="form-group" style="width: 25%;">
+                 <select name="payment_bank" class="form-control" formControlName="bank_id">
+                    <option value="" selected="!addFormStep5.value.bank_id || addFormStep5.value.bank_id == ''">{{'generatePDF.selectAccount' | translate}}</option>
+                    <option *ngFor="let tempPaymentBankDetailsArray of paymentBankDetailsArray"
+                       [ngValue]="tempPaymentBankDetailsArray.id" selected="tempPaymentBankDetailsArray.id == addFormStep5.value.bank_id">
+                       {{tempPaymentBankDetailsArray?.name}} |
+                       {{tempPaymentBankDetailsArray?.account_number}} |
+                       {{tempPaymentBankDetailsArray?.currency?.code}}</option>
+                 </select>
+              </div>
+           </div>
+        </div>
+      </div>
+
+      <div class="form-group-3 row">
+        <h5 class="col-sm-5 p16-two">
+          {{'addCollection.defineIVA' | translate}}
+        </h5>
+        <span class="col-sm-1"><input type="number" class="form-control" formControlName="iva_percent"></span>
+        <div class="col-sm-12">
+          <label class="p16-two">
+            <input class="form-control" class="is_commission_sale_enabled" type="checkbox" name="add_iva_to_cc"
+              formControlName="add_iva_to_cc">
+            <span style="margin-left: 10px;vertical-align: super;">{{'addCollection.adddIVAToColCommission' |
+              translate}}</span>
+          </label>
+        </div>
+        <div class="col-sm-12">
+          <div class="clearfix"></div>
+          <label class="p16-two">
+            <input class="form-control" class="is_commission_sale_enabled" type="checkbox" name="add_iva_to_pc"
+              formControlName="add_iva_to_pc">
+            <span style="margin-left: 10px;vertical-align: super;">{{'addCollection.adddIVAToPurCommission' |
+              translate}}</span>
+          </label>
+          <div class="clearfix"></div>
+        </div>
+        <div class="col-sm-12">
+          <div class="clearfix"></div>
+          <label class="p16-two">
+            <input class="form-control" class="is_commission_sale_enabled" type="checkbox" name="add_iva_to_ac"
+              formControlName="add_iva_to_ac">
+            <span style="margin-left: 10px;vertical-align: super;">{{'addCollection.adddIVAToAgentCommission' |
+              translate}}</span>
+          </label>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+
+
+      <div formArrayName="collection_commissions">
+
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th rowspan="2"><b>{{'addCollection.concept' | translate}}</b></th>
+              <th rowspan="2"><b>{{'addCollection.establishedDate' | translate}}</b></th>
+              <th rowspan="2"><b>{{'addCollection.amount' | translate}}</b></th>
+              <th rowspan="2"><b>{{'addCollection.addCollectionCommission' | translate}}</b></th>
+              <th colspan="2"><b>{{'addCollection.enterCollectionCommission' | translate}}</b></th>
+              <th rowspan="2"><b>{{'addCollection.addPurchaseCommission' | translate}}</b></th>
+              <th rowspan="2"><b>{{'addCollection.enterPCAmount' | translate}}</b></th>
+              <th rowspan="2"><b>{{'addCollection.addAgentCommission' | translate}}</b></th>
+              <th rowspan="2"><b>{{'addCollection.enterPCAmount' | translate}}</b></th>
+            </tr>
+            <tr>
+              <th colspan="1"><b>{{'addCollection.percent' | translate}}</b></th>
+              <th colspan="1"><b>{{'addCollection.amount' | translate}}</b></th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <ng-container
+              *ngFor="let collection_commission of addFormStep5.get('collection_commissions').controls; let i=index">
+              <tr [formGroupName]="i">
+                <td>{{model.collection_commissions[i]?.name}}</td>
+                <td>{{model.collection_commissions[i]?.date | date:'dd/MMM/yyyy'}}</td>
+                <td>{{model.collection_commissions[i]?.payment_amount}}</td>
+                <td>
+                  <input type="checkbox" class="form-control" formControlName="add_collection_commission"
+                    name="add_collection_commission"
+                    (change)="setCollectionComm(addFormStep5.controls.collection_commissions.controls[i].controls.add_collection_commission.value, i)">
+                </td>
+                <td>
+                  <input type="number" class="form-control" appUptoThreeDecimal formControlName="percent" step="0.001"
+                    name="percent{{i}}"
+                    (input)="getCollAmount($event.target.value, i, model.collection_commissions[i].payment_amount)">
+                </td>
+                <td>
+                  <input type="number" step="0.01" appUptoTwoDigitDecimalNumber class="form-control"
+                    formControlName="amount" name="amount{{i}}"
+                    (input)="getCollPercentage($event.target.value, i, model.collection_commissions[i].payment_amount)">
+                </td>
+                <td>
+                  <input type="checkbox" class="form-control" formControlName="add_purchase_commission"
+                    name="add_purchase_commission">
+                </td>
+                <td>
+                  <input type="number" step="0.01" appUptoTwoDigitDecimalNumber class="form-control"
+                    (input)="getPurcAmount($event.target.value, i)" formControlName="purchase_comm_amount"
+                    name="purchase_comm_amount{{i}}">
+                </td>
+                <td>
+                  <input type="checkbox" class="form-control" formControlName="add_agent_commission"
+                    name="add_agent_commission">
+                </td>
+                <td>
+                  <input type="number" step="0.01" appUptoTwoDigitDecimalNumber class="form-control"
+                    (input)="getAgentCommAmount($event.target.value, i)" formControlName="agent_comm_amount"
+                    name="agent_comm_amount{{i}}">
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+      <div class="spacer50"></div>
+
+      <div class="row">
+        <div class="col-lg-3 col-md-3 col-12"></div>
+        <div class="col-lg-6 col-md-6 col-12">
+          <table class="table table-bordered table-striped">
+            <tbody>
+              <tr>
+                <td><b>{{'addCollection.sumCC' | translate}}</b></td>
+                <td>{{ccsum | currency}}</td>
+                <td><b>{{'addCollection.sumPC' | translate}}</b></td>
+                <td>{{pcsum | currency}}</td>
+              </tr>
+              <tr>
+                <td><b>{{'addCollection.IVACC' | translate}}</b></td>
+                <td *ngIf="addFormStep5.controls.add_iva_to_cc.value">{{(((addFormStep5.controls.iva_percent.value ||
+                  0)*ccsum)/100 || 0) | currency}}</td>
+                <td *ngIf="!addFormStep5.controls.add_iva_to_cc.value">$0</td>
+                <td><b>{{'addCollection.IVAPC' | translate}}</b></td>
+                <td *ngIf="addFormStep5.controls.add_iva_to_pc.value">{{(((addFormStep5.controls.iva_percent.value ||
+                  0)*pcsum)/100 || 0) | currency}}</td>
+                <td *ngIf="!addFormStep5.controls.add_iva_to_pc.value">$0</td>
+                <!-- <td>{{(((addFormStep5.controls.iva_percent.value || 0)*pcsum)/100 || 0) | currency}}</td> -->
+              </tr>
+              <tr>
+                <td><b>{{'addCollection.TotalCC' | translate}}</b></td>
+                <td *ngIf="addFormStep5.controls.add_iva_to_cc.value">{{((((addFormStep5.controls.iva_percent.value ||
+                  0)*ccsum)/100)+ccsum || 0) | currency}}</td>
+                <td *ngIf="!addFormStep5.controls.add_iva_to_cc.value">{{ccsum | currency}}</td>
+                <!-- <td>{{((((addFormStep5.controls.iva_percent.value || 0)*ccsum)/100)+ccsum || 0) | currency}}</td> -->
+                <td><b>{{'addCollection.TotalPC' | translate}}</b></td>
+                <td *ngIf="addFormStep5.controls.add_iva_to_pc.value">{{((((addFormStep5.controls.iva_percent.value ||
+                  0)*pcsum)/100)+pcsum || 0) | currency}}</td>
+                <td *ngIf="!addFormStep5.controls.add_iva_to_pc.value">{{pcsum | currency}}</td>
+                <!-- <td>{{((((addFormStep5.controls.iva_percent.value || 0)*pcsum)/100)+pcsum || 0) | currency}}</td> -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="btn-cont text-right">
+            <button type="button" class="btn btn-primary" (click)="setTab(4)">{{'addForm.previous' |
+              translate}}</button>
+            <button type="submit" class="btn btn-primary marginL15">{{'addForm.next' | translate}}</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</form>
+
+
+
+<form autocomplete="off" ngNativeValidate #addFormStep6="ngForm" (ngSubmit)="saveCollectionFolders()">
+  <div class="white-bg" *ngIf="tab==6">
+    <div class="page-title">
+      <h3>{{'addCollection.tabs.uploadDocuments' | translate}}</h3>
+    </div>
+    <div class="padding40">
+      <h5 class="marginB30">{{'addCollection.folders' | translate}}
+        <span class="pull-right">
+          <a href="javascript://" data-toggle="modal" data-target="#add-folder" #folderModalOpen></a>
+          <a class="add" href="javascript://" (click)="openAddFolder('add', '', '')">
+            {{'addCollection.addNewFolder' | translate}}</a>
+        </span>
+      </h5>
+      <div class="row">
+        <ng-container *ngFor="let folder of collectionFolders; let i=index">
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12 folder-box"
+            style="background-image: url('/assets/img/ic_folder.svg')">
+            <div class="form-group-3" (click)="modelOpenFun(folder, i)">
+              <p>{{folder.name}}</p>
+            </div>
+            <div class="folder-action-btn">
+              <i (click)="modelOpenFun(folder, i)" class="fa fa-folder" aria-hidden="true"></i>
+              <i *ngIf="folder.id != payment_folder_id" (click)="openAddFolder('edit', folder, i)" class="fa fa-pencil"
+                aria-hidden="true"></i>
+              <i *ngIf="folder.id != payment_folder_id" (click)="deleteFolderPopup(folder, i)" class="fa fa-trash"
+                aria-hidden="true"></i>
+            </div>
+          </div>
+        </ng-container>
+        <div class="col-lg-2 col-md-4 col-sm-6 col-12 folder-box"
+          style="background-image: url('/assets/img/ic_folder.svg')">
+          <div class="form-group-3" (click)="this.openBuyerSellerPropertyDocumentationModal(1)">
+            <p>{{'commonBlock.buyerDocumentation' | translate}}</p>
+          </div>
+          <div class="folder-action-btn">
+            <i (click)="this.openBuyerSellerPropertyDocumentationModal(1)" class="fa fa-folder" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6 col-12 folder-box"
+          style="background-image: url('/assets/img/ic_folder.svg')">
+          <div class="form-group-3" (click)="this.openBuyerSellerPropertyDocumentationModal(2)">
+            <p>{{'commonBlock.sellerDocumentation' | translate}}</p>
+          </div>
+          <div class="folder-action-btn">
+            <i (click)="this.openBuyerSellerPropertyDocumentationModal(2)" class="fa fa-folder" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6 col-12 folder-box"
+          style="background-image: url('/assets/img/ic_folder.svg')">
+          <div class="form-group-3" (click)="this.openBuyerSellerPropertyDocumentationModal(3)">
+            <p>{{'commonBlock.propertyDocumentation' | translate}}</p>
+          </div>
+          <div class="folder-action-btn">
+            <i (click)="this.openBuyerSellerPropertyDocumentationModal(3)" class="fa fa-folder" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6 col-12 folder-box"
+          style="background-image: url('/assets/img/ic_folder.svg')">
+          <div class="form-group-3" (click)="this.openBuyerSellerPropertyDocumentationModal(4)">
+            <p>{{'commonBlock.beneficiaryDocumentation' | translate}}</p>
+          </div>
+          <div class="folder-action-btn">
+            <i (click)="this.openBuyerSellerPropertyDocumentationModal(4, documentation)" class="fa fa-folder" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6 col-12 folder-box"
+          style="background-image: url('/assets/img/ic_folder.svg')">
+          <div class="form-group-3" (click)="this.openBuyerSellerPropertyDocumentationModal(5)">
+            <p>{{'commonBlock.tutorDocumentation' | translate}}</p>
+          </div>
+          <div class="folder-action-btn">
+            <i (click)="this.openBuyerSellerPropertyDocumentationModal(5)" class="fa fa-folder" aria-hidden="true"></i>
+          </div>
+        </div>
+      </div>
+      <div class="spacer50"></div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="btn-cont text-right">
+            <button type="button" class="btn btn-primary" (click)="setTab(5)">{{'addForm.previous' |
+              translate}}</button>
+            <button type="submit" class="btn btn-primary marginL15">{{'addForm.submit' | translate}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+
+
+<!-- Link Seller -->
+<a data-toggle="modal" data-target="#link-user-model" #linkUserModal></a>
+<div class="modal" id="link-user-model">
+  <div class="modal-dialog ">
+    <div class="modal-content notary-avail">
+      <div class="modal-header popup-header">
+        <h4 class="modal-title">{{tab==2 ? ('addCollection.chooseTheSeller' | translate) :
+          ('addCollection.chooseTheBuyer' | translate)}}</h4>
+        <button type="button" class="close" #closeLinkUserModal data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-md-8 col-6">
+            <input autocomplete="off" style="max-width:200px" (keyup.enter)="getAllSellers(keyword)"
+              [(ngModel)]="keyword" class="form-control" type="text" name="keyword"
+              placeholder="{{'addForm.placeholder.search' | translate}}">
+          </div>
+          <div class="col-md-4 col-5 btn-cont">
+            <a class="btn btn-primary pull-right" href="javascript://"
+              (click)="getAllSellers(keyword)">{{'table.th.search' | translate}}</a>
+          </div>
+        </div>
+
+        <div class="spacer40"></div>
+        <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+          <table class="table">
+            <tr *ngFor="let item of allUsers">
+              <td>
+                <div class="n-avail-profile">
+                  <img *ngIf="item?.image" onerror='src="assets/img/default_img.png"' alt="img"
+                    [defaultImage]="item?.image| img:'thumb'" [lazyLoad]="item?.image">
+                  <img *ngIf="!item?.image" src="assets/img/default_img.png" alt="img">
+
+                  <div class="n-avail-info">
+                    <p class="p12">{{item?.name ? item?.name : item?.comm_name}}</p>
+                    <p class="p10">{{'viewProperty.phone' | translate}} : {{item?.dial_code ? item?.dial_code :
+                      constant.dial_code}}-{{item?.phone}}</p>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <button type="button" (click)="setSeller(item)" class="action-icon">
+                  <img src="assets/img/green-icon.png" alt="img">
+                </button>
+                <button type="button" (click)="unsetSeller(item)" class="action-icon">
+                  <img src="assets/img/ic_disapprove.png" alt="img">
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="allUsers?.length==0">
+              <p class="show-not-found">
+                {{'viewProperty.noSellerHasRequestedForTheProperty' | translate}}
+              </p>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Link External Broker -->
+<a data-toggle="modal" data-target="#link-broker-model" #linkExtBrokerModal></a>
+<div class="modal" id="link-broker-model">
+  <div class="modal-dialog ">
+    <div class="modal-content notary-avail">
+      <div class="modal-header popup-header">
+        <h4 class="modal-title">{{'viewProperty.linkAgent' | translate}}</h4>
+        <button type="button" class="close" #closeExtBrokerModal data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+
+        <!-- <p class="modal-title" *ngIf="property?.external_broker?.id">{{'viewProperty.currentlyLinkedToAgent' | translate}} - <b>{{property?.external_broker?.name}}</b></p> -->
+
+        <div class="row">
+          <div class="col-md-8 col-6">
+            <input style="max-width:200px" (keyup.enter)="getBothBroker(keyword)" [(ngModel)]="keyword"
+              class="form-control" type="text" name="keyword"
+              placeholder="{{'addForm.placeholder.search' | translate}}">
+          </div>
+          <div class="col-md-4 col-5 btn-cont">
+            <a class="btn btn-primary pull-right" href="javascript://"
+              (click)="getBothBroker(keyword)">{{'viewProperty.search' | translate}}</a>
+          </div>
+        </div>
+
+        <div class="spacer40"></div>
+        <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+          <table class="table">
+            <tr *ngFor="let item of allExtBrokers">
+              <td>
+                <div class="n-avail-profile">
+                  <img *ngIf="item?.image" onerror='src="assets/img/default_img.png"' alt="img"
+                    [defaultImage]="item?.image| img:'thumb'" [lazyLoad]="item?.image">
+                  <img *ngIf="!item?.image" src="assets/img/default_img.png" alt="img">
+
+                  <div class="n-avail-info">
+                    <p class="p12">{{item?.name | titlecase}}</p>
+                    <p class="p10 marginB0">{{item?.is_external_agent ? 'OUTSIDE AGENT' : 'IN-HOUSE AGENT'}}</p>
+                    <p class="p10">{{'viewProperty.phone' | translate}} : {{item?.dial_code ? item?.dial_code :
+                      constant.dial_code}}-{{item?.phone}}</p>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <button type="button" (click)="setAgent(item)" class="action-icon"
+                  title="{{'table.title.linkAgent' | translate}}">
+                  <img src="assets/img/green-icon.png" alt="img"></button>
+
+                <button type="button" (click)="unsetAgent()" class="action-icon"
+                  title="{{'table.title.unlinkAgent' | translate}}">
+                  <img src="assets/img/ic_disapprove.png" alt="img"></button>
+              </td>
+            </tr>
+            <tr *ngIf="allExtBrokers?.length==0">
+              <p class="show-not-found">{{'viewProperty.noExternalAgentFound' | translate}}</p>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- add note modal -->
+<div class="modal animated" id="add-folder">
+  <div class="modal-dialog fadeIndown">
+    <div class="modal-content">
+      <div class="modal-header modal-header-new">
+        <h4 class="modal-title">{{'addCollection.folderName' | translate}}</h4>
+        <button style="display: none;" type="button" class="close" data-dismiss="modal"
+          #folderModalClose>&times;</button>
+        <button type="button" class="close" (click)="closeFolderModal()">&times;</button>
+      </div>
+
+      <form autocomplete="off" class="form-horizontal form-model0P form-model-newP" role="form" ngNativeValidate
+        #addForm="ngForm" (ngSubmit)="addFolder(); addForm.reset();">
+        <div class="modal-body modal-body-new">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group-2">
+                <div class="form-group">
+                  <input autocomplete="off" maxlength="20" required class="form-control note" name="folderName"
+                    [(ngModel)]="folderName">
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="btn-cont text-right">
+                <button *ngIf="!selectedFolder.id else UpdateNote" type="submit"
+                  class="btn btn-primary">{{'commonBlock.addBtn' | translate}}</button>
+                <ng-template #UpdateNote>
+                  <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">{{'commonBlock.updateBtn' |
+                    translate}}</button>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<a href="javascript://" data-toggle="modal" data-target="#collection-notes" #docsModalOpen></a>
+<div class="modal animated" id="collection-notes">
+  <div class="modal-dialog fadeIndown">
+    <div class="modal-content notary-avail">
+      <div class="modal-header popup-header">
+        <h4>{{folderName}}</h4>
+        <button style="display: none;" type="button" class="close" data-dismiss="modal" #docsModalClose>&times;</button>
+        <button type="button" class="close" (click)="closeModal()">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="white-bg">
+          <div class="row">
+            <div class="col-8">
+              <p class="p16 marginB0">{{'addCollection.addDocxNameAndChooseFile' | translate}}</p>
+            </div>
+            <div class="col-4 text-right">
+              <a class="add" href="javascript://" (click)="addDocs()">
+                <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
+                {{'commonBlock.add' | translate}}
+              </a>
+
+              <ng-template #noAddPermissiom>
+                <a class="add" href="javascript://">{{'commonBlock.add' | translate}}</a>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+        <div class="form-group-2">
+          <div class="form-group">
+            <input type="text" autocomplete="off" name="docsName" [(ngModel)]="docsName">
+          </div>
+        </div>
+        <div class="form-group-2">
+          <div class="form-group">
+            <input type="file" name="docFile" #docsFile
+              accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/x-png,image/jpg,image/jpeg"
+              (change)="onSelectFile($event.target.files)">
+          </div>
+        </div>
+        <div *ngIf="docs?.length!=0" [ngStyle]="{'max-height':sent_as === 1 ? '250px' : '' }"
+          class="write-note white-bg" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+          <div class="wn-block" *ngFor="let item of docs; let i=index">
+            <div class="circle">
+              <span></span>
+            </div>
+
+            <a class="edit" href="javascript://" (click)="editDocsPopup(item, i, s)">{{'addCollection.edit' |
+              translate}}</a>
+
+            <a class="delete" href="javascript://" (click)="deleteDocsPopup(item, i)"
+              *ngIf="payment_folder_id != folderId">{{'commonBlock.delete' | translate}}</a>
+
+            <ng-template #noDeletePermissiom>
+              <a class="delete" href="javascript://" *ngIf="payment_folder_id != p.id">{{'commonBlock.delete' |
+                translate}}</a>
+            </ng-template>
+            <p class="time" title="'Click to view'">
+              <a target="_blank" href="{{item.display_name}}">
+                {{item?.name}}
+              </a>
+            </p>
+            <!-- <pre class="p13" *ngIf="!item.show">{{item.note.slice(0, 90)}} <span class="read-more" *ngIf="item.note.length>100" (click)="item.show=true">Read more</span></pre>
+                                      <pre class="p13" *ngIf="item.show">{{item.note}}</pre> -->
+          </div>
+        </div>
+        <div *ngIf="docs?.length==0" class="write-note white-bg"
+          [ngStyle]="{'height':sent_as === 1 ? '230px' : '245px' }">
+          <p class="show-not-found">
+            {{'message.error.noDocumentFound' | translate}}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Trigger the modal with a button -->
+<button type="button" style="display: none;" class="btn btn-info" data-toggle="modal" data-target="#myModal"
+  #localityOpen>Open Modal</button>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header my-modal-header">
+        <button type="button" class="close" (click)="closeEditModal()">&times;</button>
+        <h4 class="modal-title"> {{'editDocName.title' | translate}}</h4>
+      </div>
+      <form class="form-horizontal form-model0P" role="form" novalidate #addForm="ngForm"
+        (ngSubmit)="checkIfLocalitySpanishNameEntered(addForm)">
+        <div class="modal-body model-body10P">
+          <div class="form-group">
+            <input autocomplete="off" type="text" class="form-control" placeholder="{{'editDocName.name' | translate}}"
+              id="name_en" required [(ngModel)]="modelForDoc.name_en" name="name_en" #name_en="ngModel">
+          </div>
+
+        </div>
+        <div class="modal-footer btn-cont">
+          <button type="submit" [disabled]="addForm.invalid" class="btn btn-primary-new">{{'editDocName.submit' |
+            translate}}</button>
+          <button style="display:none;" type="button" class="btn btn-default" #localityClose
+            data-dismiss="modal">{{'addForm.close' | translate}}</button>
+          <button type="button" class="btn btn-default" (click)="closeEditModal()">{{'editDocName.close' |
+            translate}}</button>
+        </div>
+      </form>
+
+    </div>
+
+  </div>
+</div>
+
+<a href="javascript://" data-toggle="modal" data-target="#Buyer-Seller-Property-Documentation-modal" #buyerSellerPropertyDocumentationModalOpen></a>
+<div class="modal animated" id="Buyer-Seller-Property-Documentation-modal">
+  <div class="modal-dialog fadeIndown">
+    <div class="modal-content notary-avail">
+      <div class="modal-header popup-header">
+        <h4>{{
+          this.buyerSellerPropertyDocumentationId == 1 ? ('commonBlock.buyerDocumentation' | translate) : 
+          this.buyerSellerPropertyDocumentationId == 2 ? ('commonBlock.sellerDocumentation' | translate) : 
+          this.buyerSellerPropertyDocumentationId == 3 ? ('commonBlock.propertyDocumentation' | translate) : 
+          this.buyerSellerPropertyDocumentationId == 4 ? ('commonBlock.beneficiaryDocumentation' | translate)  : 
+          ('commonBlock.tutorDocumentation' | translate)
+        }}</h4>
+        <button style="display: none;" type="button" class="close" data-dismiss="modal" #buyerSellerPropertyDocumentationModalClose>&times;</button>
+        <button type="button" class="close" (click)="this.closeBuyerSellerPropertyDocumentationModal()">&times;</button>
+      </div>
+
+      <div class="modal-body">        
+        <div *ngIf="this.buyerSellerPropertyDocumentationFoldersDetailsLength > 0" [ngStyle]="{'max-height':sent_as === 1 ? '250px' : '' }"
+          class="write-note white-bg" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+          <ng-container *ngFor="let tempBuyerSellerPropertyDocumentationFoldersDetails of buyerSellerPropertyDocumentationFoldersDetails; let i = index">
+            <div class="wn-block" *ngIf="tempBuyerSellerPropertyDocumentationFoldersDetails?.document_link">
+              <div class="circle">
+                <span></span>
+              </div>
+              <p class="time" title="'Click to view'">
+                <a target="_blank" href="{{tempBuyerSellerPropertyDocumentationFoldersDetails?.document_link}}" *ngIf="buyerSellerPropertyDocumentationId == 4">
+                  {{this.language_code == 'en' ? tempBuyerSellerPropertyDocumentationFoldersDetails?.beneficiary_document?.name_en : tempBuyerSellerPropertyDocumentationFoldersDetails?.beneficiary_document?.name_es }}
+                  {{tempBuyerSellerPropertyDocumentationFoldersDetails?.beneficiary_last? tempBuyerSellerPropertyDocumentationFoldersDetails?.beneficiary_last : ''}}
+                </a>
+                <a target="_blank" href="{{tempBuyerSellerPropertyDocumentationFoldersDetails?.document_link}}" *ngIf="buyerSellerPropertyDocumentationId == 5">
+                {{this.language_code == 'en' ? tempBuyerSellerPropertyDocumentationFoldersDetails?.tutor_document?.name_en : tempBuyerSellerPropertyDocumentationFoldersDetails?.tutor_document?.name_es}}
+                {{tempBuyerSellerPropertyDocumentationFoldersDetails?.tutor_last? tempBuyerSellerPropertyDocumentationFoldersDetails?.tutor_last : ''}}
+              </a>
+              <a target="_blank" href="{{tempBuyerSellerPropertyDocumentationFoldersDetails?.document_link}}" *ngIf="buyerSellerPropertyDocumentationId == 1 || buyerSellerPropertyDocumentationId == 2 || buyerSellerPropertyDocumentationId == 3">
+                {{this.language_code == 'en' ? tempBuyerSellerPropertyDocumentationFoldersDetails?.user_document?.name_en :
+                tempBuyerSellerPropertyDocumentationFoldersDetails?.user_document?.name_es}}
+              </a>
+              </p>
+            </div>
+          </ng-container>
+        </div>
+        <div *ngIf="this.buyerSellerPropertyDocumentationFoldersDetailsLength == 0" class="write-note white-bg"
+          [ngStyle]="{'height':sent_as === 1 ? '230px' : '245px' }">
+          <p class="show-not-found">
+            {{'message.error.noDocumentFound' | translate}}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a href="javascript://" data-toggle="modal" data-target="#addd-notes" #notesadddModalOpen></a>
+<div class="modal animated" id="addd-notes">
+  <div class="modal-dialog fadeIndown">
+    <div class="modal-content">
+      <div class="modal-header modal-header-new">
+        <h4 class="modal-title">{{'commonBlock.edit' |
+          translate}}&nbsp;{{'table.title.collectionNotes' | translate}}</h4>
+        <button style="display: none;" type="button" class="close" data-dismiss="modal"
+          #notesadddModalClose>&times;</button>
+        <button type="button" class="close" (click)="this.buyerSellerPropertyDocumentationModalClose()">&times;</button>
+      </div>
+
+      <form autocomplete="off" class="form-horizontal form-model0P form-model-newP" role="form" ngNativeValidate
+        #addForm="ngForm" (ngSubmit)="addNote(); addForm.reset();">
+        <div class="modal-body modal-body-new">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group-3">
+                <div class="form-group">
+                  <div class="clearfix"></div>
+                  <p-calendar showAnim="slideDown" id="calendar" [showIcon]="true" [showTime]="true" [style]="{'width':'100%'}"
+                    [(ngModel)]="reminder_date" dateFormat="MM d, yy" (onSelect)="onSelect2($event)" name="calendar"
+                    [minDate]="minimumDate" [readonlyInput]="true">
+                  </p-calendar>
+                </div>
+              </div>  
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                <div class="form-group">
+                  <input type="text" autocomplete="off" class="form-control note" name="noteEmails"
+                    [(ngModel)]="noteEmails" (ngModelChange)="modelChange($event)"  placeholder="{{'addCollection.Addcollaborator' | translate}}">
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="btn-cont text-right">
+                <button type="submit" class="btn btn-primary">{{'commonBlock.updateBtn' |
+                  translate}}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

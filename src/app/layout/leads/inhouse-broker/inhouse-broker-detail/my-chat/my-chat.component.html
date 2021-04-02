@@ -1,4 +1,4 @@
-<ngx-loading [show]="parameter.loading"></ngx-loading>
+
 <div class="row">
     <div class="col-lg-4 col-md-4 col-sm-12 col-12">
       <div malihu-scrollbar [scrollbarOptions]="scrollbarOptions" class="chat-name-list white-bg">
@@ -7,12 +7,15 @@
          <a *ngFor="let con of conversations" [ngClass]="{'active':con.selected == true}" href="javascript://">
             <div class="profile" (click)="selectConversation(con)">
                <div class="fig-block">
-                  <img [src]="con.image" onerror='src="http://via.placeholder.com/62x62"' alt="img" />
+                  <img [src]="con.image" onerror='src="assets/img/default_img.png"' alt="img" />
                </div>
                <div class="profile-info">
-                  <h6>{{con.name}}</h6>
+                  <h6>{{con.name | titlecase}}</h6>
                   <!-- <p class="p12">{{con.phone}}</p> -->
-                  <p class="p12">{{con.phone}}</p>
+                  <p class="p12">
+                    {{con?.dialCode ? con?.dialCode : con.dial_code}}-{{con?.phone}}
+                  </p>
+                  <p *ngIf="type==1" class="p13">({{con?.is_developer==1 ? 'Developer' : 'Seller'}})</p>
                   <i class="fa fa-angle-right float-right"></i>
                </div>
             </div>
@@ -27,12 +30,15 @@
              <a href="javascript://">
                <div class="profile">
                   <div class="fig-block">
-                     <img [src]="parameter.image" onerror='src="http://via.placeholder.com/62x62"' alt="img">
+                     <img [src]="parameter.image" onerror='src="assets/img/default_img.png"' alt="img">
                   </div>
                   <div class="profile-info">
-                     <h6>{{parameter.name}}</h6>
+                     <h6>{{parameter.name | titlecase}}</h6>
                      <!-- <p class="p12">{{conversation.other.phone}}</p> -->
-                     <p class="p12">{{parameter.phone}}</p>
+                     <p class="p12">
+                       <!-- {{parameter.phone}} -->
+                       {{parameter?.dialCode ? parameter?.dialCode : constant.dial_code}}-{{parameter?.phone}}
+                      </p>
                   </div>
                </div>
             </a>
@@ -53,7 +59,7 @@
             <!-- <a *ngIf="m.message_type == 2" ng-box width="800" height="800" target="_blank" href="{{m.image}}">
                 <img src="{{m.image}}">
             </a> -->
-            <a *ngIf="m.message_type == 2" href="{{m.image}}" data-lightbox="image" title="image" >
+            <a *ngIf="m.message_type == 2" href="{{m.image}}" data-lightbox="image" title="{{'table.title.image' | translate}}" >
               <span>
                 <img class="ui bordered small image" src="{{m.image}}">
                 <div *ngIf="m.loading" class="loaderr"></div>
@@ -101,7 +107,7 @@
               </span>
             </div>
               
-            <a *ngIf="m.message_type == 5" href="{{m.property_url}}" target="_blank" title="image" >
+            <a *ngIf="m.message_type == 5" href="{{m.property_url}}" target="_blank" title="{{'table.title.image' | translate}}" >
               <span>
                 <img class="ui bordered small image" src="{{m.image}}">
                 <div *ngIf="m.loading" class="loaderr"></div>
@@ -148,7 +154,7 @@
               </a>
             </div>
           </div>
-          <input id="message" autocomplete="off" [(ngModel)]="textMessage" (keyup.enter)="setText()" class="chat-input" type="text" name="message" placeholder="Type your message here …">
+          <input id="message" #msgInput1 autocomplete="off" [(ngModel)]="textMessage" (keyup.enter)="setText()" class="chat-input" type="text" name="message" placeholder="Type your message here …">
           
           <!-- <div class="chat-attached-file" *ngIf="model.message_type == 2">
             <div class="attached-inner">
@@ -176,7 +182,7 @@
               </div>
             </div>
           </div> -->
-          <video style="width: 100%; height: 100%;" src="{{videoSrc}}" class="video55" autoplay type="video/mp4" controls></video>
+          <video style="width: 100%; height: 100%;" src="{{videoSrc}}" class="video55" type="video/mp4" controls></video>
           <canvas style="display: none;" width="800" height="600" id="canvas"></canvas>
   
           <button (click)="setText()" class="btn">Send</button>

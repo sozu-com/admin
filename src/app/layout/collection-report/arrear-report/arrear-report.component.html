@@ -1,0 +1,297 @@
+<div class="container-fluid">
+      <div class="row">
+            <div class="col-md-4">
+                  <div class="form-group">
+                        <h5>{{'collectionReport.arrearReport' | translate}}</h5>
+                  </div>
+            </div>
+      </div>
+
+      <hr>
+
+      <div class="row">
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group">
+                        <label>{{'collectionReport.project' | translate}}</label>
+                        <div class="clearfix"></div>
+                        <ng-multiselect-dropdown class="section-section2 multi-select" [placeholder]="''"
+                              [data]="projects" [(ngModel)]="selctedProjects" [settings]="multiDropdownSettings"
+                              (onDeSelect)="onItemDeSelect('projects', $event)"
+                              (onSelect)="onItemSelect('selctedProjects', $event)" (onSelectAll)="onSelectAll($event)">
+                        </ng-multiselect-dropdown>
+                        <div class="clearfix"></div>
+                  </div>
+            </div>
+
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group">
+                        <label>{{'collectionReport.buyerAsAPerson' | translate}}</label>
+                        <div class="clearfix"></div>
+                        <ng-multiselect-dropdown class="section-section2 multi-select" [placeholder]="''"
+                              [data]="buyers" [(ngModel)]="selectedBuyers" [settings]="multiDropdownSettings"
+                              (onDeSelect)="onItemDeSelect('buyers', $event)"
+                              (onSelect)="onItemSelect('selectedBuyers', $event)" (onSelectAll)="onSelectAll($event)">
+                        </ng-multiselect-dropdown>
+                        <div class="clearfix"></div>
+                  </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group">
+                        <label>{{'collectionReport.buyerAsADev' | translate}}</label>
+                        <div class="clearfix"></div>
+                        <ng-multiselect-dropdown class="section-section2 multi-select" [placeholder]="''"
+                              [data]="developers" [(ngModel)]="selectedBuyerDev" [settings]="multiDropdownSettings"
+                              (onDeSelect)="onItemDeSelect('developers', $event)"
+                              (onSelect)="onItemSelect('selectedBuyerDev', $event)" (onSelectAll)="onSelectAll($event)">
+                        </ng-multiselect-dropdown>
+                        <div class="clearfix"></div>
+                  </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group">
+                        <label>{{'collectionReport.buyerAsALegalRep' | translate}}</label>
+                        <div class="clearfix"></div>
+                        <ng-multiselect-dropdown class="section-section2 multi-select" [placeholder]="''"
+                              [data]="legalReps" [(ngModel)]="selectedLegalReps" [settings]="legalRepDropdownSettings"
+                              (onDeSelect)="onItemDeSelect('legalReps', $event)"
+                              (onSelect)="onItemSelect('selectedLegalReps', $event)"
+                              (onSelectAll)="onSelectAll($event)">
+                        </ng-multiselect-dropdown>
+                        <div class="clearfix"></div>
+                  </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group marginB0">
+                        <label>{{'collectionReport.currency' | translate}}</label>
+                        <div class="clearfix"></div>
+                        <ng-multiselect-dropdown class="section-section2 multi-select" [placeholder]="''"
+                              [data]="currencies" [(ngModel)]="selectedCurrencies" [settings]="multiDropdownSettings"
+                              (onDeSelect)="onItemDeSelect('currencies', $event)"
+                              (onSelect)="onItemSelect('selectedCurrencies', $event)"
+                              (onSelectAll)="onSelectAll($event)">
+                        </ng-multiselect-dropdown>
+                        <div class="clearfix"></div>
+                  </div>
+            </div>
+      </div>
+
+      <div class="row">
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group">
+                        <label>{{'collectionReport.start_date' | translate}}</label>
+                        <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true"
+                              [(ngModel)]="input.start_date" [maxDate]="today" showButtonBar="true"
+                              class="coll-report-calendar" [monthNavigator]="true" [yearNavigator]="true"
+                              yearRange="2000:2040"></p-calendar>
+                  </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group">
+                        <label>{{'collectionReport.end_date' | translate}}</label>
+                        <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true" [(ngModel)]="input.end_date"
+                              showButtonBar="true" class="coll-report-calendar" [monthNavigator]="true"
+                              [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+                  </div>
+            </div>
+            <div class="col-lg-1 col-md-2">
+                  <div class="form-group btn-cont">
+                        <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                        <button type="button" (click)="getListing()"
+                              class="btn btn-primary-new width100P P86">{{'collectionReport.apply' |
+                              translate}}</button>
+                  </div>
+            </div>
+
+            <div class="col-lg-1 col-md-2">
+                  <div class="form-group btn-cont">
+                        <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                        <button type="button" (click)="resetFilters()"
+                              class="btn btn-primary-new width100P P86">{{'collectionReport.reset' |
+                              translate}}</button>
+                  </div>
+            </div>
+            <div class="col-lg-1 col-md-2">
+                  <div class="form-group btn-cont">
+                        <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                        <button type="button" (click)="exportData()"
+                              class="btn btn-primary-new width100P P86">{{'collectionReport.export' |
+                              translate}}</button>
+                  </div>
+            </div>
+      </div>
+
+      <div class="cust-tabs">
+            <div class="row flex-wrap-reverse">
+
+                  <div class="col-xl-10 col-lg-12 col-md-12 col-sm-12 col-12">
+                  </div>
+                  <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="add-new pull-right">
+                        </div>
+                  </div>
+            </div>
+            <div class="tab-content white-bg">
+                  <div class="tab-pane active">
+                        <div class="tabel-section">
+                              <div class="table-responsive main-table">
+                                    <table class="table table-bordered table-striped table-align-left quick-table">
+                                          <thead>
+                                                <tr class="text-bold">
+                                                      <th rowspan="2" style="width:80px; text-align:left;">
+                                                            <b>{{'collectionReport.id' | translate}}</b>
+                                                      </th>
+                                                      <th rowspan="2" style="width:155px; text-align:left;">
+                                                            <div class="table-search">
+                                                                  <b>{{'collectionReport.buyerName' | translate}}</b>
+                                                                  <div class="searh-3">
+                                                                        <input autocomplete="off" class="width100px"
+                                                                              type="text" [(ngModel)]="input.buyer_name"
+                                                                              (keyup.enter)="getListing()">
+                                                                        <button *ngIf="input.buyer_name"
+                                                                              (click)="getListing()"><i
+                                                                                    class="fa fa-search"></i></button>
+                                                                  </div>
+                                                            </div>
+                                                      </th>
+                                                      <th rowspan="2" style="width:155px; text-align:left;">
+                                                            <div class="table-search">
+                                                                  <b>{{'collectionReport.sellerName' | translate}}</b>
+                                                                  <div class="searh-3">
+                                                                        <input autocomplete="off" class="width100px"
+                                                                              type="text"
+                                                                              [(ngModel)]="input.seller_name"
+                                                                              (keyup.enter)="getListing()">
+                                                                        <button *ngIf="input.seller_name"
+                                                                              (click)="getListing()"><i
+                                                                                    class="fa fa-search"></i></button>
+                                                                  </div>
+                                                            </div>
+                                                      </th>
+                                                      <th rowspan="2" style="width:140px; text-align:left;">
+                                                            <b>{{'collectionReport.project' | translate}}</b>
+                                                      </th>
+                                                      <th rowspan="2" style="width:115px; text-align:left;">
+                                                            <b>{{'collectionReport.model' | translate}}</b>
+                                                      </th>
+                                                      <th rowspan="2" style="width:115px; text-align:left;">
+                                                            <div class="table-search">
+                                                                  <b>{{'collectionReport.propertyName' | translate}}</b>
+                                                                  <div class="searh-3">
+                                                                        <input autocomplete="off" type="text"
+                                                                              [(ngModel)]="input.property_name"
+                                                                              (keyup.enter)="getListing()">
+                                                                        <button *ngIf="input.property_name"
+                                                                              (click)="getListing()"><i
+                                                                                    class="fa fa-search"></i></button>
+                                                                  </div>
+                                                            </div>
+                                                      </th>
+                                                      <th rowspan="2" style="width:80px; text-align:left;">
+                                                            <b>{{'collectionReport.currency' | translate}}</b>
+                                                      </th>
+                                                      <th colspan="3" style="width:360px; text-align:center;">
+                                                            <b>{{'collectionReport.overDuePayments' | translate}}</b>
+                                                      </th>
+                                                      <th rowspan="2" style="width:1155px; text-align:left;">
+                                                            <b>{{'collectionReport.totalArrear' | translate}}</b>
+                                                      </th>
+                                                </tr>
+                                                <tr>
+                                                      <th><b>{{'collectionReport.concept' | translate}}</b></th>
+                                                      <th><b>{{'collectionReport.date' | translate}}</b></th>
+                                                      <!-- <th><b>{{'collectionReport.amount' | translate}}</b></th>
+                               <th><b>{{'collectionReport.penalty' | translate}}</b></th> -->
+                                                      <th><b>{{'collectionReport.paymentTotal' | translate}}</b></th>
+                                                </tr>
+                                          </thead>
+                                          <tbody>
+                                                <tr *ngFor="let item of finalData; let i=index"
+                                                      [ngClass]="{'text-bold' : item?.key}">
+                                                      <td><span>{{(item?.showInfo || item?.id=='Total')? (item?.id ||
+                                                                  ('table.tr.td.NA' | translate)) : ''}}</span></td>
+                                                      <td><span>{{item?.showInfo ? (item?.buyer_name ||
+                                                                  ('table.tr.td.NA' | translate)) : ''}}</span></td>
+                                                      <td><span>{{item?.showInfo ? (item?.seller_name ||
+                                                                  ('table.tr.td.NA' | translate)) : ''}}</span></td>
+                                                      <td><span>{{item?.showInfo ? (item?.project_name ||
+                                                                  ('table.tr.td.NA' | translate)) : ''}}</span></td>
+                                                      <td><span>{{item?.showInfo ? (item?.model || ('table.tr.td.NA' |
+                                                                  translate)) : ''}}</span></td>
+                                                      <td><span>{{item?.showInfo ? (item?.property_name ||
+                                                                  ('table.tr.td.NA' | translate)) : ''}}</span></td>
+                                                      <td><span>{{item?.showInfo ? (item?.code || ('table.tr.td.NA' |
+                                                                  translate)) : ''}}</span></td>
+
+                                                      <td><span>{{item?.NAME || ''}}</span></td>
+                                                      <td><span>{{(item?.date | date:'dd/MMM/yyyy')}}</span></td>
+                                                      <!-- <td><span>${{(item?.amount || 0) | roundNumber}}</span></td>
+                          <td><span>${{(item?.penelty || 0) | roundNumber}}</span></td> -->
+                                                      <td><span>${{((item?.amount || 0) + (item?.penelty || 0) -
+                                                                  (item?.calc_payment_amount || 0)) |
+                                                                  roundNumber}}</span></td>
+
+                                                      <td><span>{{(item?.showInfo || item?.id=='Total')?
+                                                                  '$'+((item?.total_amount || 0) | roundNumber) :
+                                                                  ''}}</span></td>
+                                                </tr>
+                                          </tbody>
+                                    </table>
+                                    <div class="padding20 center" *ngIf="finalData?.length == 0">
+                                          <img src="assets/img/404-error.png">
+                                    </div>
+                              </div>
+                        </div>
+                  </div>
+
+
+                  <div class="row" style="padding-top: 20px;">
+                        <div class="col-lg-1 col-md-1"></div>
+                        <div class="col-lg-4 col-md-4">
+                              <table class="table table-striped table-align-left quick-table">
+                                    <thead>
+                                          <tr>
+                                                <th style="width:10%; text-align:left;">
+                                                      <b>{{'collectionReport.incomeProjection' | translate}}</b>
+                                                </th>
+                                                <th style="width:10%; text-align:left;">
+                                                      <b>{{'collectionReport.total' | translate}}</b>
+                                                </th>
+                                          </tr>
+                                    </thead>
+                                    <tbody>
+                                          <tr *ngFor="let item of paymentChoices; let i=index">
+                                                <td>{{item?.name_en}}</td>
+                                                <td>{{item?.total | currency}}</td>
+                                          </tr>
+                                    </tbody>
+                              </table>
+                        </div>
+                        <div class="col-lg-1 col-md-1"></div>
+                        <div class="col-lg-4 col-md-4">
+                              <table class="table table-striped table-align-left quick-table">
+                                    <thead>
+                                          <tr>
+                                                <th style="width:10%; text-align:left;">
+                                                      <b>{{'collectionReport.paymentconcpets' | translate}}</b>
+                                                </th>
+                                                <th style="width:10%; text-align:left;">
+                                                      <b>{{'collectionReport.paymentMade' | translate}}</b>
+                                                </th>
+                                                <th style="width:10%; text-align:left;">
+                                                      <b>{{'collectionReport.remaining' | translate}}</b>
+                                                </th>
+                                          </tr>
+                                    </thead>
+                                    <tbody>
+                                          <tr *ngFor="let item of paymentChoices; let i=index">
+                                                <td>{{item?.name_en}}</td>
+                                                <td>{{item?.paid_amount | currency}}</td>
+                                                <td>{{(item?.total - item?.paid_amount) | currency}}</td>
+                                          </tr>
+                                    </tbody>
+                              </table>
+                        </div>
+                  </div>
+            </div>
+      </div>
+</div>

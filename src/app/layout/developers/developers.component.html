@@ -1,0 +1,134 @@
+
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-md-6 col-6">
+        <div class="title-group">
+            <h5>{{'viewDevelopers.label' | translate}}</h5>
+            <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}} {{parameter.total}}</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-6">
+        <div class="btn-cont text-right">
+            <a *ngIf="admin?.admin_acl['Developers Management']?.can_create==1" class="btn btn-primary" href="javascript://" routerLink="/dashboard/developers/add-developer/0">{{'table.addNewBtn' | translate}}</a>
+        </div>
+      </div>
+  </div>
+
+  <div class="white-bg">
+      <div class="tabel-section">
+        <div class="table-responsive">
+          <table class="table table-striped table-align-left">
+            <tr>
+              <th style="width:6%">&nbsp;</th>
+              <th style="width:20%">
+                <div class="table-search">
+                  <!-- name is commercial name -->
+                    <label>{{'table.th.commercialName' | translate}}</label>
+                    <div class="searh-3">
+                      <input type="text" [(ngModel)]="model.name" (keyup.enter)="getDevelopersFrAdmin()" name=""  autocomplete="address-level4" >
+                      <button *ngIf="model.name" (click)="getDevelopersFrAdmin()"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+              </th>
+              <th style="width:25%">
+                <div class="table-search">
+                  <!-- comapny name is legal name -->
+                    <label>{{'table.th.legalName' | translate}}</label>
+                    <div class="searh-3">
+                      <input type="text" [(ngModel)]="model.developer_company" (keyup.enter)="getDevelopersFrAdmin()" name="" autocomplete="address-level4" >
+                      <button *ngIf="model.developer_company" (click)="getDevelopersFrAdmin()"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+              </th>
+              <th style="width:20%; text-align:left;">
+                <div class="table-search">
+                    <label>{{'table.th.contactNumber' | translate}}</label>
+                    <div class="searh-3">
+                      <input type="text" [(ngModel)]="model.phone" (keyup.enter)="getDevelopersFrAdmin()" name="" autocomplete="address-level4" >
+                      <button *ngIf="model.phone" (click)="getDevelopersFrAdmin()"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+              </th>
+              <th style="width:7%; text-align:left;">
+                <div class="table-search">
+                    <label>{{'table.th.systemDashboardAccess' | translate}}</label>
+                </div>
+              </th>
+              <th style="width:7%; vertical-align: top;">
+                  {{'table.th.projects' | translate}}
+                  <a (click)="setBuildingsSort(model.buildings_sort==1?2:1)" href="javascript://"><img [ngClass]="{'upsidedown':model.buildings_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
+              </th>
+              <th style="width:7%; vertical-align: top;">
+                  {{'table.th.legalEntities' | translate}}
+                  <a (click)="setLegalEntitySort(model.legal_entities_sort==1?2:1)" href="javascript://"><img [ngClass]="{'upsidedown':model.legal_entities_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
+              </th>
+              <th style="width:20%">
+                &nbsp;
+              </th>
+            </tr>
+      
+            <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
+              <td> 
+                  <img *ngIf="item.developer_image" [defaultImage]="item.developer_image| img:'thumb'" [lazyLoad]="item.developer_image" class="rounded-circle" alt="img">
+                  <img *ngIf="!item.developer_image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
+              </td>
+              <td class="text-left">
+                <span class="name">
+                  <a data-toggle="popover" data-placement="top" title="{{item.name}}">{{item.name | titlecase}}</a>
+                </span>
+              </td>
+              <td class="text-left">{{item.developer_company ? item.developer_company : ('table.tr.td.NA' | translate)}}</td>
+              <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
+              <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
+              <td><input name="have_dev_panel_access{{i}}" disabled class="form-control checkbox_size" type="checkbox" [checked]="item?.developer_access_status ? 'checked' : ''" readonly> </td>
+              <td class="text-left">
+                <a title="{{'table.title.clickToViewBuildings' | translate}}" routerLink="/dashboard/projects/view-projects/developer/{{item.id}}">
+                  <span class="green-color">{{item.buildings_count | numberWithCommas}}</span></a>
+              </td>
+              <td class="text-left">
+                <a title="{{'table.title.clickToViewDetails' | translate}}" routerLink="/dashboard/legal-entities/view-all/{{item.name}}/{{item.id}}">
+                  <span class="green-color">{{item.legal_entity_count | numberWithCommas}}</span></a>
+              </td>
+              <td>
+                <div class="table-actions">
+                    <!-- <a *ngIf="admin?.admin_acl['Notary Lead Management']?.can_read==1" title="View Leads" href="javascript://"
+                    routerLink="/dashboard/notary/view-notary-leads/{{item.id}}" class="icon-block edit-icon">
+                    <img src="assets/img/ic_leads.png" alt="img">
+                  </a> -->
+
+                  <button *ngIf="item.is_approved == 1"
+                  [disabled]="admin?.admin_acl['Developers Management']?.can_update==0" (click)="changeStatus(item, 0);"
+                  class="action-icon" title="{{'table.title.unapprove' | translate}}"><img
+                    src="assets/img/ic_disapprove.png" alt="img"></button>
+
+                <button *ngIf="item.is_approved == 0"
+                  [disabled]="admin?.admin_acl['Developers Management']?.can_update==0" (click)="changeStatus(item, 1);"
+                  class="action-icon" title="{{'table.title.approve' | translate}}"><img src="assets/img/tick.png"
+                    alt="img"></button>
+
+                  <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Developers Management']?.can_update==0" (click)="editUser(item)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                  <button [disabled]="admin?.admin_acl['Developers Management']?.can_delete==0"
+                    (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1)" 
+                    title="{{item.is_blocked==1 ? ('table.title.unblock' | translate) : ('table.title.block' | translate)}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
+                    class="action-icon"><img src="assets/img/block.png" alt="img">
+                  </button>
+                  <button [disabled]="admin?.admin_acl['Developers Management']?.can_purge==0"
+                    (click)="deletePopup(item, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png" alt="img"></button>
+                </div>
+              </td>
+            </tr>
+
+          </table>
+        </div>
+      </div>
+
+      <div class="center" *ngIf="parameter.total == 0">
+        <img src="assets/img/404-error.png">
+      </div>
+  </div>
+  
+  <div class="btn-cont text-right marginT15" *ngIf="parameter.total > 0 ">
+    <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+  </div>
+  
+</div>

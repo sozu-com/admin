@@ -1,0 +1,32 @@
+<a (click)="open360imgviewerModal($event)">Show</a>
+
+<a #show360ImgViewer class="btn-third btn btn-block" data-target="#360-img-viewer" data-toggle="modal"></a>
+<div class="modal" id="360-img-viewer">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <!-- <div class="modal-header popup-header">
+        <h4 class="modal-title">Image</h4>
+        <button type="button" class="close" data-dismiss="modal" #close360ImgViewer>&times;</button>
+      </div> -->
+      <div class="modal-body viewer-body">
+
+        <!-- <div id="content"> -->
+
+          <div id="container"></div>
+
+          <p style="text-align: center;">
+            <a href="#" (click)="loadPredefinedPanorama($event)">Load the predefined panorama</a>
+          </p>
+
+          <!-- <div id="your-pano"></div> -->
+
+          <!-- <form method="get" action="example1.html">
+            <p style="text-align: center;">
+              <input type="file" name="pano" id="pano" />
+            </p>
+          </form> -->
+        <!-- </div> -->
+      </div>
+    </div>
+  </div>
+</div>

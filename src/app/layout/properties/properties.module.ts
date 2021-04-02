@@ -3,52 +3,71 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { AgmCoreModule } from '@agm/core';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
+import { TranslateModule } from '@ngx-translate/core';
 
 // general components
 import { PropertiesComponent } from './properties.component';
 import { AddPropertyComponent } from './add-property/add-property.component';
 import { PropertyDetailsComponent } from './property-details/property-details.component';
-// import { ThousandPipe } from './../../pipes/thousand.pipe';
-import { AclUserGuard } from '../../guards/acl-user.guard';
-import { FilterByIdPipe } from '../../pipes/filter-by-id.pipe';
-import { FilterByNamePipe } from '../../pipes/filter-by-name.pipe';
-// import { AuthGuard } from '../../guards/auth.guard';
-import { SharedModule } from '../../modules/shared.module';
+import { AclUserGuard } from 'src/app/guards/acl-user.guard';
+import { FilterByIdPipe } from 'src/app/pipes/filter-by-id.pipe';
+import { FilterByNamePipe } from 'src/app/pipes/filter-by-name.pipe';
+import { SharedModule } from 'src/app/modules/shared.module';
 import { CalendarModule } from 'primeng/primeng';
-// import { ImgPipe } from '../../pipes/img.pipe';
-
+import { BulkAddComponent } from './bulk-add/bulk-add.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { DocumentsUploadComponent } from './documents-upload/documents-upload.component';
 const routes: Routes = [
   { path: 'details/:property_id', component: PropertyDetailsComponent },
   // { path: 'details/:property_id', component: PropertyDetailsComponent,
   //   canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_read', '']}},
-  { path: 'add-property/:property_id/:seller_id', component: AddPropertyComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_create', 'can_csr_seller']}},
-  { path: 'edit-property/:property_id', component: AddPropertyComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_update', 'can_csr_seller']}},
-  { path: 'edit-property/:property_id/:edit', component: AddPropertyComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_update', 'can_csr_seller']}},
-  { path: 'view-properties', component: PropertiesComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Property Management', 'can_read', '']}}
+  {
+    path: 'add-bulk-property/:property_id/:seller_id', component: BulkAddComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Property Management', 'can_create', 'can_csr_seller'] }
+  },
+  {
+    path: 'add-property/:property_id/:seller_id', component: AddPropertyComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Property Management', 'can_create', 'can_csr_seller'] }
+  },
+  {
+    path: 'edit-property/:property_id', component: AddPropertyComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Property Management', 'can_update', 'can_csr_seller'] }
+  },
+  {
+    path: 'edit-property/:property_id/:edit', component: AddPropertyComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Property Management', 'can_update', 'can_csr_seller'] }
+  },
+  {
+    path: 'view-properties', component: PropertiesComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Property Management', 'can_read', ''] }
+  },
+  {
+    path: 'view-properties/:project_id', component: PropertiesComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Property Management', 'can_read', ''] }
+  },
+  {
+    path: 'view-properties/property/:property_id', component: PropertiesComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Property Management', 'can_read', ''] }
+  },
+  {
+    path: 'view-properties/:name/:availability_filter', component: PropertiesComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Property Management', 'can_read', ''] }
+  },
+  {
+    path: 'view-properties/:id/:type', component: PropertiesComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Property Management', 'can_read', ''] }
+  },
+  {
+    path: 'documents-upload/:id', component: DocumentsUploadComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Property Management', 'can_read', ''] }
+  }
 ];
-
-
-// const routes: Routes = [
-//   { path: 'details/:property_id', component: PropertyDetailsComponent,
-//     canActivate: [AuthGuard], data: {roles: ['Property Management', 'can_read', '']}},
-//   { path: 'add-property/:property_id', component: AddPropertyComponent,
-//     canActivate: [AuthGuard], data: {roles: ['Property Management', 'can_create', '']}},
-//   { path: 'edit-property/:property_id', component: AddPropertyComponent,
-//     canActivate: [AuthGuard], data: {roles: ['Property Management', 'can_update', '']}},
-//   { path: 'edit-property/:property_id/:edit', component: AddPropertyComponent,
-//     canActivate: [AuthGuard], data: {roles: ['Property Management', 'can_update', '']}},
-//   { path: 'view-properties', component: PropertiesComponent,
-//     canActivate: [AuthGuard], data: {roles: ['Property Management', 'can_read', '']}}
-// ];
 
 @NgModule({
   imports: [
@@ -56,19 +75,19 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    LoadingModule.forRoot({
-        animationType: ANIMATION_TYPES.rectangleBounce,
-        primaryColour: '#00B96F'
-    }),
+    NgxSpinnerModule,
     AgmCoreModule.forRoot({
-        apiKey: 'AIzaSyCYv_zELZGVo2Ehzgp8eh8UeSIidhMCmH8',
-        libraries: ['drawing', 'places']
-      }),
+      apiKey: 'AIzaSyDykCJGMqHIwJluSmSiqKTJBVN2KauM_uQ',
+      libraries: ['drawing', 'places']
+    }),
     Ng2TelInputModule,
     NgxPaginationModule,
     CalendarModule,
     SharedModule,
-    LazyLoadImageModule
+    LazyLoadImageModule,
+    NgMultiSelectDropDownModule.forRoot(),
+    MalihuScrollbarModule.forRoot(),
+    TranslateModule
   ],
   declarations: [
     PropertiesComponent,
@@ -76,8 +95,8 @@ const routes: Routes = [
     PropertyDetailsComponent,
     FilterByIdPipe,
     FilterByNamePipe,
-    // ImgPipe
-    // ThousandPipe
+    BulkAddComponent,
+    DocumentsUploadComponent
   ]
 })
 

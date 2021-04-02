@@ -1,0 +1,320 @@
+
+<div class="container-fluid">
+    <div class="row">
+       <div class="col-md-6">
+             <div class="form-group">
+                <h5>{{'collectionReport.monthlyReport' | translate}}</h5>
+             </div>
+       </div>
+       <div class="col-md-6">
+            <div class="btn-cont text-right">
+                  <button  (click)="getExportlisting()"
+                    class="btn btn-primary">{{'table.exportDataBtn' | translate}}</button>
+                </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group">
+                     <label>{{'collectionReport.developer' | translate}}</label>
+                     <div class="clearfix"></div>
+                     <ng-multiselect-dropdown class="section-section2 multi-select"
+                           [placeholder]="''"
+                           [data]="developers"
+                           [(ngModel)]="selectedDevelopers"
+                           [settings]="singleDropdownSettings"
+                           (onDeSelect)="onSelectDeveloper(0, $event)"
+                           (onSelect)="onSelectDeveloper(1, $event)"
+                           (onSelectAll)="onSelectAll($event)">
+                     </ng-multiselect-dropdown>
+                 <div class="clearfix"></div>
+                  </div>
+            </div>
+          
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group">
+                     <label>{{'collectionReport.project' | translate}}</label>
+                  <div class="clearfix"></div>
+                        <ng-multiselect-dropdown class="section-section2 multi-select"
+                              [placeholder]="''"
+                              [data]="projects"
+                              [(ngModel)]="selctedProjects"
+                              [settings]="singleDropdownSettings"
+                              (onDeSelect)="onSelectProject(0, $event)"
+                              (onSelect)="onSelectProject(1, $event)"
+                              (onSelectAll)="onSelectAll($event)">
+                        </ng-multiselect-dropdown>
+                  <div class="clearfix"></div>
+                  </div>
+            </div>
+          
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group">
+                     <label>{{'collectionReport.tower' | translate}}</label>
+                  <div class="clearfix"></div>
+                        <ng-multiselect-dropdown class="section-section2 multi-select"
+                              [placeholder]="''"
+                              [data]="buildingTowers"
+                              [(ngModel)]="selectedTowers"
+                              [settings]="singleDropdownSettings"
+                              (onDeSelect)="onSelectTower(0, $event)"
+                              (onSelect)="onSelectTower(1, $event)"
+                              (onSelectAll)="onSelectAll($event)">
+                        </ng-multiselect-dropdown>
+                  <div class="clearfix"></div>
+
+                  </div>
+            </div>
+
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group">
+                     <label>{{'collectionReport.floor' | translate}}</label>
+                  <div class="clearfix"></div>
+                        <ng-multiselect-dropdown class="section-section2 multi-select"
+                              [placeholder]="''"
+                              [data]="floors"
+                              [(ngModel)]="selectedFloors"
+                              [settings]="singleDropdownSettings"
+                              (onDeSelect)="onSelectFloor(0, $event)"
+                              (onSelect)="onSelectFloor(1, $event)"
+                              (onSelectAll)="onSelectAll($event)">
+                        </ng-multiselect-dropdown>
+                  <div class="clearfix"></div>
+                  </div>
+            </div>
+
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group">
+                     <label>{{'collectionReport.property' | translate}}</label>
+                  <div class="clearfix"></div>
+                        <ng-multiselect-dropdown class="section-section2 multi-select"
+                              [placeholder]="''"
+                              [data]="properties"
+                              [(ngModel)]="selectedProperties"
+                              [settings]="multiDropdownSettings"
+                              (onDeSelect)="onItemDeSelect('properties', $event)"
+                              (onSelect)="onItemSelect('selectedProperties', $event)"
+                              (onSelectAll)="onSelectAll($event)">
+                        </ng-multiselect-dropdown>
+                  <div class="clearfix"></div>
+
+                  </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+               <div class="form-group marginB0">
+                  <label>{{'collectionReport.currency' | translate}}</label>
+                     <div class="clearfix"></div>
+                         <ng-multiselect-dropdown class="section-section2 multi-select"
+                               [placeholder]="''"
+                               [data]="currencies"
+                               [(ngModel)]="selectedCurrencies"
+                               [settings]="multiDropdownSettings"
+                               (onDeSelect)="onItemDeSelect('currencies', $event)"
+                               (onSelect)="onItemSelect('selectedCurrencies', $event)"
+                               (onSelectAll)="onSelectAll($event)">
+                         </ng-multiselect-dropdown>
+                     <div class="clearfix"></div>            
+               </div>
+            </div>
+            
+          </div>
+
+
+          <div class="row">
+
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group">
+                  <label>{{'collectionReport.currentMonth' | translate}}</label>
+                  <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true" [(ngModel)]="input.start_date" [maxDate]="today" 
+                    showButtonBar="true" class="coll-report-calendar" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+                  </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group">
+                    <label>{{'collectionReport.buyerAsAPerson' | translate}}</label>
+                  <div class="clearfix"></div>
+                        <ng-multiselect-dropdown class="section-section2 multi-select"
+                              [placeholder]="''"
+                              [data]="buyers"
+                              [(ngModel)]="selectedBuyers"
+                              [settings]="multiDropdownSettings"
+                              (onDeSelect)="onItemDeSelect('buyers', $event)"
+                              (onSelect)="onItemSelect('selectedBuyers', $event)"
+                              (onSelectAll)="onSelectAll($event)">
+                        </ng-multiselect-dropdown>
+                  <div class="clearfix"></div>
+                  </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group">
+                    <label>{{'collectionReport.buyerAsADev' | translate}}</label>
+                  <div class="clearfix"></div>
+                        <ng-multiselect-dropdown class="section-section2 multi-select"
+                              [placeholder]="''"
+                              [data]="buyersAsDev"
+                              [(ngModel)]="selectedBuyerDev"
+                              [settings]="multiDropdownSettings"
+                              (onDeSelect)="onItemDeSelect('buyersAsDev', $event)"
+                              (onSelect)="onItemSelect('selectedBuyerDev', $event)"
+                              (onSelectAll)="onSelectAll($event)">
+                        </ng-multiselect-dropdown>
+                  <div class="clearfix"></div>
+                  </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group">
+                    <label>{{'collectionReport.buyerAsALegalRep' | translate}}</label>
+                  <div class="clearfix"></div>
+                        <ng-multiselect-dropdown class="section-section2 multi-select"
+                              [placeholder]="''"
+                              [data]="legalReps"
+                              [(ngModel)]="selectedLegalReps"
+                              [settings]="legalRepDropdownSettings"
+                              (onDeSelect)="onItemDeSelect('legalReps', $event)"
+                              (onSelect)="onItemSelect('selectedLegalReps', $event)"
+                              (onSelectAll)="onSelectAll($event)">
+                        </ng-multiselect-dropdown>
+                  <div class="clearfix"></div>
+                  </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                  <div class="form-group">
+                    <label>{{'collectionReport.Concept' | translate}}</label>
+                  <div class="clearfix"></div>
+                  <ng-multiselect-dropdown class="section-section2 multi-select" [placeholder]="''" name="selctedConcept"
+                  [data]="concepts" [(ngModel)]="selctedConcept" [settings]="paymentDropdownSettings"
+                  (onDeSelect)="unsetProject($event)" (onSelect)="onItemSelect('selctedConcept', $event)"
+                  (onSelectAll)="onSelectAll($event)">
+               </ng-multiselect-dropdown>
+                  <div class="clearfix"></div>
+                  </div>
+            </div>
+            <div class="col-lg-1 col-md-2">
+                  <div class="form-group btn-cont">
+                  <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                  <button type="button" (click)="getListing()" class="btn btn-primary-new width100P P86">{{'collectionReport.apply' | translate}}</button>
+                  </div>
+            </div>
+          
+            <div class="col-lg-1 col-md-2">
+                  <div class="form-group btn-cont">
+                  <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                  <button type="button" (click)="resetFilters()" class="btn btn-primary-new width100P P86">{{'collectionReport.reset' | translate}}</button>
+                  </div>
+            </div>
+            <!-- <div class="col-lg-1 col-md-2">
+                  <div class="form-group btn-cont">
+                  <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                  <button type="button" (click)="getExportlisting()" class="btn btn-primary-new width100P P86">{{'table.exportDataBtn' | translate}}</button>
+                  </div>
+            </div> -->
+          </div>
+  
+       <div class="cust-tabs">
+        <div class="row flex-wrap-reverse">
+        
+        <div class="col-xl-10 col-lg-12 col-md-12 col-sm-12 col-12">
+        </div>
+        <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="add-new pull-right">
+                    <!-- *ngIf="admin?.admin_acl['Project Management']?.can_create==1 || admin?.permissions?.can_data_collector==1"  -->
+              <!-- <a 
+              class="btn" href="javascript://" routerLink="/dashboard/collections/add-collection/0">{{'viewCollections.addNew' | translate}}</a> -->
+        </div>
+        </div>
+        </div>
+       <div class="tab-content white-bg">
+          <div class="tab-pane active">
+             <div class="tabel-section">
+                <div class="table-responsive main-table">
+                   <table class="table table-bordered table-striped table-align-left quick-table">
+                      <thead>
+                          <tr class="text-bold">
+                              <th rowspan="3" style="width:17%; text-align:left;">
+                                  <b>{{'collectionReport.buyerName' | translate}}</b>
+                              </th>
+                              <th rowspan="3" style="width:17%; text-align:left;">
+                                  <b>{{'collectionReport.sellerName' | translate}}</b>
+                              </th>
+                              <th rowspan="3" style="width:13%; text-align:left;">
+                                  <b>{{'collectionReport.project' | translate}}</b>
+                              </th>
+                              <th rowspan="3" style="width:7%; text-align:left;">
+                                  <b>{{'collectionReport.model' | translate}}</b>
+                              </th>
+                              <th rowspan="3" style="width:7%; text-align:left;">
+                                  <b>{{'collectionReport.propertyName' | translate}}</b>
+                              </th>
+                              <th rowspan="3" style="width:5%; text-align:left;">
+                                    <b>{{'collectionReport.currency' | translate}}</b></th>
+                              <th style="width:10%; text-align:left;">
+                                  <b>{{'collectionReport.previousMonth' | translate}} (s)</b>
+                              </th>
+                              <th style="width:10%; text-align:left;">
+                                  <b>{{'collectionReport.currentMonth' | translate}}</b>
+                              </th>
+                              <th style="width:10%; text-align:left;">
+                                  <b>{{'collectionReport.nextMonth' | translate}}</b>
+                              </th>
+                           </tr>
+                           <tr>
+                              <!-- <th colspan="2"><b>{{previousMonth | date:'mediumDate'}}</b></th>
+                              <th colspan="2"><b>{{input.start_date | date:'mediumDate'}}</b></th>
+                              <th colspan="2"><b>{{nextMonth | date:'mediumDate'}}</b></th> -->
+                              <th><b>{{'collectionReport.monthsBefore' | translate}} {{input.start_date | date:'LLL, yyyy'}}</b></th>
+                              <th><b>{{input.start_date | date:'LLL, yyyy'}}</b></th>
+                              <th><b>{{nextMonth | date:'LLL, yyyy'}}</b></th>
+                            </tr>
+                            <tr>
+                               <th><b>{{'collectionReport.outstandingAmt' | translate}}</b></th>
+                               <!-- <th><b>{{'collectionReport.currency' | translate}}</b></th> -->
+                               <th><b>{{'collectionReport.outstandingAmt' | translate}}</b></th>
+                               <!-- <th><b>{{'collectionReport.currency' | translate}}</b></th> -->
+                               <th><b>{{'collectionReport.outstandingAmt' | translate}}</b></th>
+                               <!-- <th><b>{{'collectionReport.currency' | translate}}</b></th> -->
+                             </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of finalData | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index" 
+                        [ngClass]="{'text-bold' : item.calculated==1}">
+                          <td><span>{{item?.buyer_name || ('table.tr.td.NA' | translate)}}</span></td>
+                          <td><span>{{item?.seller_name || ('table.tr.td.NA' | translate)}}</span></td>
+                          <td><span>{{item?.project_name || ('table.tr.td.NA' | translate)}}</span></td>
+                          <td><span>{{item?.model || ('table.tr.td.NA' | translate)}}</span></td>
+                          <td><span>{{item?.property_name || ('table.tr.td.NA' | translate)}}</span></td>
+                          <td><span>{{item?.code || ('table.tr.td.NA' | translate)}}</span></td>
+                          <td><span>${{((item?.previous_month_amount || 0) + (item?.previous_month_penalty || 0) - (item?.previous_month_paid || 0)) | roundNumber}}</span></td>
+                          <!-- <td><span>{{item?.code || ('table.tr.td.NA' | translate)}}</span></td> -->
+                          <td><span>${{((item?.curent_month_amount || 0) + (item?.curent_month_penalty || 0) - (item?.curent_month_paid || 0)) | roundNumber}}</span></td>
+                          <!-- <td><span>{{item?.code || ('table.tr.td.NA' | translate)}}</span></td> -->
+                          <td><span>${{((item?.next_month_amount || 0) + (item?.next_month_penalty || 0) - (item?.next_month_paid || 0)) | roundNumber}}</span></td>
+                          <!-- <td><span>{{item?.code || ('table.tr.td.NA' | translate)}}</span></td> -->
+                         </tr>
+                      </tbody>
+                   </table>
+                   <div class="padding20 center" *ngIf="finalData?.length == 0">
+                         <img src="assets/img/404-error.png">
+                   </div>
+                </div>
+             </div>
+          </div>
+
+            <div class="btn-cont marginT15" *ngIf="total">
+                  <div class="row">
+                  <div class="col-6">
+                        <div class="title-group">
+                              <p>{{'table.pagination.showing' | translate}} {{finalData?.length}} {{'table.pagination.outof' | translate}} {{total}}</p>
+                        </div>
+                  </div>
+                  <div class="col-6 text-right">
+                        <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+                  </div>
+                  </div>
+            </div>
+       </div>
+    </div>
+  </div>
+  

@@ -1,9 +1,12 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { AdminService } from '../../../services/admin.service';
-import { IProperty } from '../../../common/property';
+import { AdminService } from 'src/app/services/admin.service';
+import { IProperty } from 'src/app/common/property';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { Location } from './../../../models/location.model';
-import { Constant } from './../../../common/constants';
+import { Location } from 'src/app/models/location.model';
+import { Constant } from 'src/app/common/constants';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
+import { value } from 'numeral';
 declare let swal: any;
 
 @Component({
@@ -17,13 +20,14 @@ export class LocationComponent implements OnInit {
 
   public parameter: IProperty = {};
   public modalRef: BsModalRef;
-
+  items: any = [];
   searchCountry: string;
   searchState: string;
   searchCity: string;
 
   constructor(private location: Location, private constant: Constant,
-    private modalService: BsModalService, public admin: AdminService,
+    private modalService: BsModalService, public admin: AdminService, private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -73,8 +77,6 @@ export class LocationComponent implements OnInit {
     this.admin.postDataApi('getCountries', input)
       .subscribe(
         success => {
-          // console.log(success.data);
-          // console.log('keyname', keyname);
           if (keyname === '') {
             this.parameter.countries1 = success.data.reverse();
             this.parameter.countries2 = success.data.reverse();
@@ -97,7 +99,7 @@ export class LocationComponent implements OnInit {
             this.parameter.countries5 = success.data.reverse();
           }
         }, error => {
-          // this.parameter.loading = false;
+          // this.spinner.hide();
         });
   }
 
@@ -160,21 +162,20 @@ export class LocationComponent implements OnInit {
           } else if (keyname === 1) {
             this.parameter.state_id1 = state_id;
             this.parameter.cities1 = success.data.reverse();
-            // console.log('cities1', this.parameter.cities1);
           } else if (keyname === 2) {
             this.parameter.cities2 = success.data.reverse();
           }
         }, error => {
-          // this.parameter.loading = false;
+          // this.spinner.hide();
         });
   }
 
 
-  checkIfCountrySpanishNameEntered(name_en, name_es= '') {
+  checkIfCountrySpanishNameEntered(name_en, name_es = '') {
     const self = this;
     if (name_es === '') {
       swal({
-        text: this.constant.errorMsg.SAVE_ENGLISH_COUNTRY_NAME,
+        text: this.translate.instant('message.error.saveEngCountryName'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,
@@ -185,14 +186,14 @@ export class LocationComponent implements OnInit {
           this.addCountry(name_en, name_en, self.location.countryModel.status, '');
         }
       });
-    }else {
+    } else {
       self.addCountry(name_en, name_es, self.location.countryModel.status, '');
     }
   }
 
 
   addCountry(name_en: string, name_es: string, status, country_id) {
-    if (country_id === '') {this.modalRef.hide(); }    // hide only when open
+    if (country_id === '') { this.modalRef.hide(); }    // hide only when open
 
     const input = new FormData();
     input.append('name_es', name_es);
@@ -201,7 +202,7 @@ export class LocationComponent implements OnInit {
 
     if (this.location.countryModel.country_id) {
       input.append('country_id', this.location.countryModel.country_id);
-    }else if (country_id) {
+    } else if (country_id) {
       input.append('country_id', country_id);
     }
 
@@ -209,9 +210,9 @@ export class LocationComponent implements OnInit {
       .subscribe(
         success => {
           const text = this.location.countryModel.country_id || country_id ?
-            this.constant.successMsg.COUNTRY_UPDATED_SUCCESSFULLY :
-            this.constant.successMsg.COUNTRY_ADDED_SUCCESSFULLY;
-          swal('Success', text, 'success');
+          this.translate.instant('message.success.updatedSuccessfully') :
+          this.translate.instant('message.success.addedSuccessfully');
+          swal(this.translate.instant('swal.success'), text, 'success');
           this.getCountries('', '');
           // this.getAllCountries('', 'added-country');   // loading dropdown
 
@@ -225,11 +226,11 @@ export class LocationComponent implements OnInit {
   }
 
 
-  checkIfStateSpanishNameEntered(country_id, name_en, name_es= '') {
+  checkIfStateSpanishNameEntered(country_id, name_en, name_es = '') {
     const self = this;
     if (name_es === '') {
       swal({
-        text: this.constant.errorMsg.SAVE_ENGLISH_STATE_NAME,
+        text: this.translate.instant('message.error.saveEngStateName'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,
@@ -240,7 +241,7 @@ export class LocationComponent implements OnInit {
           this.addState(country_id, name_en, name_en, self.location.stateModel.status, '');
         }
       });
-    }else {
+    } else {
       self.addState(country_id, name_en, name_es, self.location.stateModel.status, '');
     }
   }
@@ -248,7 +249,7 @@ export class LocationComponent implements OnInit {
 
   addState(country_id, name_en, name_es, status, state_id) {
 
-    if (state_id === '') {this.modalRef.hide(); }
+    if (state_id === '') { this.modalRef.hide(); }
 
     const input = new FormData();
     input.append('name_es', name_es);
@@ -257,13 +258,13 @@ export class LocationComponent implements OnInit {
 
     if (this.location.stateModel.country_id) {
       input.append('country_id', this.location.stateModel.country_id);  // edit
-    }else {
+    } else {
       input.append('country_id', country_id);  // add
     }
 
     if (this.location.stateModel.state_id) {
       input.append('state_id', this.location.stateModel.state_id);
-    }else if (state_id) {
+    } else if (state_id) {
       input.append('state_id', state_id);
     }
 
@@ -271,9 +272,9 @@ export class LocationComponent implements OnInit {
       .subscribe(
         success => {
           const text = this.location.stateModel.state_id || state_id ?
-          this.constant.successMsg.STATE_UPDATED_SUCCESSFULLY :
-          this.constant.successMsg.STATE_ADDED_SUCCESSFULLY;
-          swal('Success', text, 'success');
+          this.translate.instant('message.success.updatedSuccessfully') :
+          this.translate.instant('message.success.addedSuccessfully');
+          swal(this.translate.instant('swal.success'), text, 'success');
           this.getStates(this.parameter.country_id1, '', 1);
           this.getStates(this.parameter.country_id2, '', 2);
           // this.getStatesWRTCountry(this.parameter.country_id, '');
@@ -286,11 +287,11 @@ export class LocationComponent implements OnInit {
   }
 
 
-  checkIfCitySpanishNameEntered(state_id, name_en, name_es= '') {
+  checkIfCitySpanishNameEntered(state_id, name_en, name_es = '') {
     const self = this;
     if (name_es === '') {
       swal({
-        text: this.constant.errorMsg.SAVE_ENGLISH_CITY_NAME,
+        text: this.translate.instant('message.error.saveEngCityName'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,
@@ -301,14 +302,14 @@ export class LocationComponent implements OnInit {
           this.addCity(state_id, name_en, name_en, self.location.cityModel.status, '');
         }
       });
-    }else {
+    } else {
       self.addCity(state_id, name_en, name_es, self.location.cityModel.status, '');
     }
   }
 
 
   addCity(state_id, name_en, name_es, status, city_id) {
-    if (city_id === '') {this.modalRef.hide(); }
+    if (city_id === '') { this.modalRef.hide(); }
     const input = new FormData();
     input.append('name_es', name_es);
     input.append('name_en', name_en);
@@ -316,13 +317,13 @@ export class LocationComponent implements OnInit {
 
     if (this.location.cityModel.state_id) {
       input.append('state_id', this.location.cityModel.state_id);   // edit
-    }else {
+    } else {
       input.append('state_id', state_id);   // add
     }
 
     if (this.location.cityModel.city_id) {
       input.append('city_id', this.location.cityModel.city_id);   // edit
-    }else if (city_id) {
+    } else if (city_id) {
       input.append('city_id', city_id);   // edit
     }
 
@@ -330,37 +331,29 @@ export class LocationComponent implements OnInit {
       .subscribe(
         success => {
           const text = this.location.cityModel.city_id || city_id ?
-          this.constant.successMsg.CITY_UPDATED_SUCCESSFULLY : this.constant.successMsg.CITY_ADDED_SUCCESSFULLY;
-          swal('Success', text, 'success');
+          this.translate.instant('message.success.updatedSuccessfully') :
+          this.translate.instant('message.success.addedSuccessfully');
+          swal(this.translate.instant('swal.success'), text, 'success');
           this.getCities(this.parameter.state_id1, '', 1);
-
-          // if (this.parameter.index === -1) {
-          //   this.parameter.cities.push(success.data);
-          // }else {
-          //   this.parameter.cities[this.parameter.index] = success.data;
-          // }
         });
   }
 
 
   blockUnblockCountry(country_id, name_en, name_es, type, index) {
     this.parameter.index = index;
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
     switch (type) {
       case 0:
-        this.parameter.text = this.constant.title.BLOCK_COUNTRY;
-        this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
+      this.parameter.text = this.translate.instant('message.error.wantToBlockCountry');
+      this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
       case 1:
-        this.parameter.text = this.constant.title.UNBLOCK_COUNTRY;
-        this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
+      this.parameter.text = this.translate.instant('message.error.wantToUnblockCountry');
+      this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
         break;
     }
 
     swal({
-      // title: this.parameter.title,
-      // text: this.parameter.text,
-      html: this.parameter.title + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -376,15 +369,14 @@ export class LocationComponent implements OnInit {
 
   blockUnblockState(country_id, name_en, name_es, type, state_id, index) {
     this.parameter.index = index;
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
     switch (type) {
       case 0:
-        this.parameter.text = this.constant.title.BLOCK_STATE;
-        this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
+      this.parameter.text = this.translate.instant('message.error.wantToBlockState');
+      this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
       case 1:
-        this.parameter.text = this.constant.title.UNBLOCK_STATE;
-        this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
+      this.parameter.text = this.translate.instant('message.error.wantToUnblockState');
+      this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
         break;
     }
 
@@ -392,7 +384,7 @@ export class LocationComponent implements OnInit {
     swal({
       // title: this.parameter.title,
       // text: this.parameter.text,
-      html: this.parameter.title + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -408,22 +400,21 @@ export class LocationComponent implements OnInit {
 
   blockUnblockCity(state_id, name_en, name_es, type, city_id, index) {
     this.parameter.index = index;
-    this.parameter.title = this.constant.title.ARE_YOU_SURE;
     switch (type) {
       case 0:
-        this.parameter.text = this.constant.title.BLOCK_CITY;
-        this.parameter.successText = this.constant.successMsg.BLOCKED_SUCCESSFULLY;
+      this.parameter.text = this.translate.instant('message.error.wantToBlockCity');
+      this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
       case 1:
-        this.parameter.text = this.constant.title.UNBLOCK_CITY;
-        this.parameter.successText = this.constant.successMsg.UNBLOCKED_SUCCESSFULLY;
+      this.parameter.text = this.translate.instant('message.error.wantToUnblockCity');
+      this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
         break;
     }
 
     swal({
       // title: this.parameter.title,
       // text: this.parameter.text,
-      html: this.parameter.title + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -436,4 +427,59 @@ export class LocationComponent implements OnInit {
     });
   }
 
+// delete country , state , city
+  deletePopup(data : any, index: number, value : string ){
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+        this.translate.instant('message.error.wantToDelete' + value),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        value == 'Country'? this.deleteCountry(data, index) : value == 'State'?
+        this.deleteState(data, index): value == 'City'?
+        this.deleteCity(data, index): undefined;
+      }
+    });
+  }
+
+  deleteCountry(country: any, index: number) {
+    this.admin.postDataApi('deleteCountry',
+      { country_id: country.id }).subscribe(r => {
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
+        this.getCountries('', '');
+        this.items.splice(index, 1);
+      },
+        error => {
+          swal(this.translate.instant('swal.error'), error.message, 'error');
+        });
+  }
+
+  deleteState(state: any, index: number) {
+    this.admin.postDataApi('deleteState',
+      { state_id: state.id }).subscribe(r => {
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
+        this.getStates(this.parameter.country_id1, '', 1);
+          this.getStates(this.parameter.country_id2, '', 2);
+        this.items.splice(index, 1);
+      },
+        error => {
+          swal(this.translate.instant('swal.error'), error.message, 'error');
+        });
+  }
+
+  deleteCity(city: any, index: number) {
+    this.admin.postDataApi('deleteCity',
+      { city_id: city.id }).subscribe(r => {
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
+        this.getCities(this.parameter.state_id1, '', 1);
+        this.items.splice(index, 1);
+      },
+        error => {
+          swal(this.translate.instant('swal.error'), error.message, 'error');
+        });
+  }
 }

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AdminService } from '../../../services/admin.service';
-// import { SweetAlertService } from 'ngx-sweetalert2';
-import { IProperty } from '../../../common/property';
+import { AdminService } from 'src/app/services/admin.service';
+import { IProperty } from 'src/app/common/property';
 import { NgForm } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -21,22 +22,23 @@ export class ChangePasswordComponent implements OnInit {
     c_password: ''
   };
 
-  constructor(private router: Router, private admin: AdminService) { }
+  constructor(private router: Router, private admin: AdminService, private spinner: NgxSpinnerService,
+    private translate: TranslateService) { }
 
   ngOnInit() {}
 
   changePassword(formData: NgForm) {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('changePassword', this.model)
       .subscribe(
         success => {
-          this.parameter.loading = false;
-          swal('Success', 'Password is changed successfully!', 'success');
+          this.spinner.hide();
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
           localStorage.removeItem('token');
           this.router.navigate(['']);
         },
         error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 }

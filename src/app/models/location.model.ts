@@ -32,3 +32,31 @@ export class Location {
         poly_coordinates: []
     };
 }
+
+export class Country {
+    id: string;
+    name: string;
+    name_es: string;
+    name_en: string;
+    status: string;
+}
+
+export class State {
+    id: string;
+    country_id: string;
+    name: string;
+    name_es: string;
+    name_en: string;
+    status: string;
+    country?: Country;
+}
+
+export class City {
+    id: string;
+    state_id: string;
+    name: string;
+    name_es: string;
+    name_en: string;
+    status: string;
+    state?: State;
+}

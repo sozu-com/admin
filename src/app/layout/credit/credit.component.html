@@ -1,0 +1,441 @@
+<!-- <div class="white-bg padding40">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <p class="p16">{{'viewCredit.label' | translate}}</p>
+      </div>
+    </div> -->
+<!-- <div class="col-md-2">
+      <div class="btn-cont">
+        <button class="btn btn-calender" href="javascript://" style="font-size: 14px;" 
+        routerLink="/dashboard/credit/add-request/0">{{'viewCredit.addNewRequest' | translate}}</button>
+      </div>
+    </div> -->
+<!-- <div class="col-md-6">
+      <div class="btn-cont text-right">
+        <button class="btn btn-calender" href="javascript://" style="font-size: 14px;" 
+        routerLink="/dashboard/credit/add-credit/0">{{'viewCollections.addNew' | translate}}</button>
+      </div>
+    </div>
+  </div><br/>
+  <div class="row">
+    <div class="offset-md-4"></div>
+    <div class="col-md-8 col-12">
+      <div class="cust-tabs-2">
+        <ul class="nav nav-tabs float-right">
+          <li class="nav-item">
+            <a (click)="changeFlag(1)" class="nav-link"
+              data-toggle="tab" href="#tw">{{'filters.time.thisWeek' | translate}}</a>
+          </li>
+          <li class="nav-item">
+            <a (click)="changeFlag(2)" class="nav-link"
+              data-toggle="tab" href="#tm">{{'filters.time.thisMonth' | translate}}</a>
+          </li>
+          <li class="nav-item">
+            <a (click)="changeFlag(3)" class="nav-link"
+              data-toggle="tab" href="#lm">{{'filters.time.lastMonth' | translate}}</a>
+          </li>
+          <li class="nav-item">
+            <a (click)="changeFlag(4)" class="nav-link"
+              data-toggle="tab" href="#lt">{{'filters.time.lifetime' | translate}}</a>
+          </li>
+          <li class="nav-item">
+            <a (click)="changeFlag(5)" class="nav-link"
+              data-toggle="tab" href="#cust">{{'filters.time.custom.label' | translate}}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div> -->
+
+<!-- <div class="row">
+    <div class="col-12">
+      <div class="row">
+        <div class="offset-lg-7"></div>
+        <div class="col-lg-2 col-md-2 col-sm-5 col-5">
+          <div class="form-group marginB0">
+            <label>{{'filters.time.custom.from' | translate}}</label>
+            <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true" [(ngModel)]="parameter.min"
+              [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true"
+              yearRange="2000:2040"></p-calendar>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-5 col-5">
+          <div class="form-group marginB0">
+            <label>{{'filters.time.custom.to' | translate}}</label>
+            <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true" [(ngModel)]="parameter.max"
+              [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true"
+              [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+          </div>
+        </div>
+        <div class="col-lg-1 col-md-2 col-sm-2 col-6">
+          <div class="form-group btn-cont">
+            <label class="addMT3">&nbsp;</label>
+            <button class="btn btn-calender" href="javascript://" (click)="getListing()"
+              [disabled]="!parameter.min || !parameter.max">{{'filters.time.custom.applyBtn' | translate}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+<!-- <div class="row">
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group">
+        <label>{{'filters.location.country' | translate}}</label>
+        <select class="form-control" (change)="onCountryChange($event.target.value)">
+          <option value="0">{{'filters.location.allOption' | translate}}</option>
+          <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group">
+        <label>{{'filters.location.state' | translate}}</label>
+        <select class="form-control" (change)="onStateChange($event.target.value)">
+          <option value="0">{{'filters.location.allOption' | translate}}</option>
+          <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group">
+        <label>{{'filters.location.city' | translate}}</label>
+        <select class="form-control" (change)="onCityChange($event.target.value)">
+          <option value="0">{{'filters.location.allOption' | translate}}</option>
+          <option *ngFor="let item of location.cities" [value]="item.id">{{item.name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group">
+        <label>{{'filters.location.locality' | translate}}</label>
+        <select class="form-control" (change)="getLocalityBuildings($event.target.value)">
+          <option value="0">{{'filters.location.allOption' | translate}}</option>
+          <option *ngFor="let item of location.localities" [value]="item.id">{{item.name}}</option>
+        </select>
+      </div>
+    </div> -->
+
+<!-- <div class="col-lg-2 col-md-2">
+      <div class="form-group marginB0">
+        <label>{{'filters.location.building' | translate}}</label>
+        <select class="form-control" (change)="setBuilding($event.target.value)">
+          <option value="0">{{'filters.location.allOption' | translate}}</option>
+          <option *ngFor="let building of parameter.buildings" value="{{building.id}}">{{building.name}}</option>
+        </select>
+      </div>
+    </div> -->
+
+<!-- <div class="col-lg-2 col-md-2">
+      <div class="form-group btn-cont">
+        <label style="display: block; margin-top: 3px;">&nbsp;</label>
+        <button type="button" (click)="this.getCreditsUser()"
+          class="btn btn-primary-new width100P P86">{{'filters.location.applyBtn' | translate}}</button>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group btn-cont">
+        <label style="display: block; margin-top: 3px;">&nbsp;</label>
+        <button type="button" (click)="resetFilters()"
+          class="btn btn-primary-new width100P P86">{{'filters.location.resetBtn' | translate}}</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <p class="p16">{{'viewCredit.label' | translate}}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="offset-md-4"></div>
+    <div class="col-md-8 col-12">
+      <div class="cust-tabs-2">
+        <ul class="nav nav-tabs float-right">
+          <li class="nav-item">
+            <a [ngClass]="{'active':parameter.dash_flag == 1}" (click)="onChangeDashFlag(1)" class="nav-link"
+              data-toggle="tab" href="#tw">{{'filters.time.thisWeek' | translate}}</a>
+          </li>
+          <li class="nav-item">
+            <a [ngClass]="{'active':parameter.dash_flag == 2}" (click)="onChangeDashFlag(2)" class="nav-link"
+              data-toggle="tab" href="#tm">{{'filters.time.thisMonth' | translate}}</a>
+          </li>
+          <li class="nav-item">
+            <a [ngClass]="{'active':parameter.dash_flag == 3}" (click)="onChangeDashFlag(3)" class="nav-link"
+              data-toggle="tab" href="#lm">{{'filters.time.lastMonth' | translate}}</a>
+          </li>
+          <li class="nav-item">
+            <a [ngClass]="{'active':parameter.dash_flag == 4}" (click)="onChangeDashFlag(4)" class="nav-link"
+              data-toggle="tab" href="#lt">{{'filters.time.lifetime' | translate}}</a>
+          </li>
+          <li class="nav-item">
+            <a [ngClass]="{'active':parameter.dash_flag == 5}" (click)="onChangeDashFlag(5)" class="nav-link"
+              data-toggle="tab" href="#cust">{{'filters.time.custom.label' | translate}}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div *ngIf="parameter.dash_flag == 5" class="row">
+        <div class="offset-lg-7"></div>
+        <div class="col-lg-2 col-md-2 col-sm-5 col-5">
+          <div class="form-group marginB0">
+            <label>{{'filters.time.custom.from' | translate}}</label>
+            <p-calendar [locale]="locale" showIcon="true" [(ngModel)]="parameter.min" [maxDate]="today"
+              showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-5 col-5">
+          <div class="form-group marginB0">
+            <label>{{'filters.time.custom.to' | translate}}</label>
+            <p-calendar [locale]="locale" showIcon="true" [(ngModel)]="parameter.max" [minDate]="parameter.min"
+              [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true"
+              yearRange="2000:2040"></p-calendar>
+          </div>
+        </div>
+        <div class="col-lg-1 col-md-2 col-sm-2 col-6">
+          <div class="form-group btn-cont">
+            <label class="addMT3">&nbsp;</label>
+            <button class="btn btn-calender" href="javascript://" (click)="getListing()"
+              [disabled]="!parameter.min || !parameter.max">{{'filters.time.custom.applyBtn' | translate}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-2">
+      <div class="form-group">
+        <label>{{'filters.location.country' | translate}}</label>
+        <select class="form-control" (change)="onCountryChange($event.target.value)">
+          <option value="0">{{'filters.location.allOption' | translate}}</option>
+          <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="form-group">
+        <label>{{'filters.location.state' | translate}}</label>
+        <select class="form-control" (change)="onStateChange($event.target.value)">
+          <option value="0">{{'filters.location.allOption' | translate}}</option>
+          <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="form-group">
+        <label>{{'filters.location.city' | translate}}</label>
+        <select class="form-control" (change)="onCityChange($event.target.value)">
+          <option value="0">{{'filters.location.allOption' | translate}}</option>
+          <option *ngFor="let item of location.cities" [value]="item.id">{{item.name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="col-md-2">
+      <div class="form-group">
+        <label>{{'filters.location.locality' | translate}}</label>
+        <select class="form-control" (change)="onLocalityChange($event.target.value)">
+          <option value="0">{{'filters.location.allOption' | translate}}</option>
+          <option *ngFor="let item of location.localities" [value]="item.id">{{item.name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="col-md-2">
+      <div class="form-group btn-cont">
+        <label style="display: block; margin-top: 3px;">&nbsp;</label>
+        <button type="button" (click)="getBuyers()" class="btn btn-primary-new width100P">{{'filters.location.applyBtn'
+          | translate}}</button>
+      </div>
+    </div>
+
+    <div class="col-md-2">
+      <div class="form-group btn-cont">
+        <label style="display: block; margin-top: 3px;">&nbsp;</label>
+        <button type="button" (click)="resetFilters()"
+          class="btn btn-primary-new width100P">{{'filters.location.resetBtn' | translate}}</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cust-tabs">
+    <div class="row flex-wrap-reverse">
+
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="add-new pull-right">
+          <a *ngIf="admin?.admin_acl['Project Management']?.can_create==1 || admin?.permissions?.can_data_collector==1"
+            class="btn" href="javascript://" routerLink="/dashboard/credit/add-credit/0">{{'viewCollections.addNew' |
+            translate}}</a>
+        </div>
+        <!-- <div class="export-project pull-right mr-4">
+          <a class="btn" href="javascript://" (click)="getExportlisting()">{{'table.exportDataBtn' | translate}}</a>
+        </div>
+        <div class="export-project pull-right mr-4">
+          <a class="btn" href="javascript://" data-toggle="modal" data-target="#advancedSearch">
+            {{'advanceSearch.advancedSearch' | translate}}</a>
+        </div> -->
+      </div>
+    </div>
+    <div class="tab-content white-bg">
+      <div class="tab-pane active">
+        <div class="tabel-section">
+          <div class="table-responsive">
+            <table class="table table-striped table-align-left">
+              <tr>
+               <th style="vertical-align:top;width:6%">
+                  <div class="d-flex table-search">
+                    <label>{{'table.th.image' | translate}}</label>
+                  </div>
+                </th>
+                <th style="width:10%">
+                  <div class="table-search">
+                      <label>{{'table.th.name' | translate}}</label>
+                      <!-- <div class="searh-3">
+                        <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email
+                        ,parameter.first_surname,parameter.second_surname)" name="">
+                        <button *ngIf="parameter.name" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
+                        parameter.first_surname,parameter.second_surname)"><i class="fa fa-search"></i></button>
+                      </div> -->
+                  </div>
+                </th>
+                <th style="width:10%">
+                  <div class="table-search">
+                      <label>{{'table.th.firstSurname' | translate}}</label>
+                      <!-- <div class="searh-3">
+                        <input type="text" [(ngModel)]="parameter.first_surname" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
+                        parameter.first_surname,parameter.second_surname)" name="">
+                        <button *ngIf="parameter.first_surname" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
+                        parameter.first_surname,parameter.second_surname)"><i class="fa fa-search"></i></button>
+                      </div> -->
+                  </div>
+                </th>
+                <th style="width:10%">
+                  <div class="table-search">
+                      <label>{{'table.th.secondSurname' | translate}}</label>
+                      <!-- <div class="searh-3">
+                        <input type="text" [(ngModel)]="parameter.second_surname" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
+                        parameter.first_surname,parameter.second_surname)" name="">
+                        <button *ngIf="parameter.second_surname" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
+                        parameter.first_surname,parameter.second_surname)"><i class="fa fa-search"></i></button>
+                      </div> -->
+                  </div>
+                </th>
+                <th style="width:20%; text-align:left;">
+                  <div class="table-search">
+                      <label>{{'table.th.contactNumber' | translate}}</label>
+                      <!-- <div class="searh-3">
+                        <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
+                        parameter.first_surname,parameter.second_surname)" name="">
+                        <button *ngIf="parameter.phone" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
+                        parameter.first_surname,parameter.second_surname)"><i class="fa fa-search"></i></button>
+                      </div> -->
+                  </div>
+                </th>
+                <th style="width:20%">
+                  <div class="table-search">
+                      <label>{{'table.th.emailAddress' | translate}}</label>
+                      <!-- <div class="searh-3">
+                        <input (keydown.space)="$event.preventDefault();" type="text" [(ngModel)]="parameter.email" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
+                        parameter.first_surname,parameter.second_surname)" name="">
+                        <button *ngIf="parameter.email" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
+                        parameter.first_surname,parameter.second_surname)"><i class="fa fa-search"></i></button>
+                      </div> -->
+                  </div>
+                </th>
+                <th style="width:20%; vertical-align: top;" *ngIf="parameter.type==1">
+                  <div class="table-search">
+                    <label>{{'table.th.interestedIn' | translate}}</label>
+                  </div>
+                </th>
+                <th style="width:10%; vertical-align: top;" *ngIf="parameter.type==2">
+                  <div class="table-search">
+                    <label>{{'table.th.properties' | translate}}</label>
+                    <a (click)="sortData(parameter.property_sort==2?1:2, 'property_sort')" href="javascript://"><img [ngClass]="{'upsidedown':parameter.property_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
+                  </div>
+                </th>
+                <th style="width:14%">
+                  <label>{{'table.th.actions.label' | translate}}</label>
+                </th>
+              </tr>
+
+              <tr *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
+                <td> 
+                    <img *ngIf="item?.user?.image" [defaultImage]="item?.user?.image| img:'thumb'" [lazyLoad]="item?.user?.image" class="rounded-circle" alt="img">
+                    <img *ngIf="!item?.user?.image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
+                </td>
+                <td class="text-left">
+                    <a class="text-ellipsis" data-toggle="popover" data-placement="top" title="{{item?.user?.name}}" >
+                      {{item?.user?.name | titlecase}}
+                    </a>
+                </td>
+                <td class="text-left">
+                  {{item?.user?.first_surname ? (item?.user?.first_surname | titlecase) : 'NA'}}
+                </td>
+                <td class="text-left">
+                  {{item?.user?.second_surname ? (item?.user?.second_surname | titlecase) : 'NA'}}
+                </td>
+                <td class="text-left" *ngIf="item?.user?.phone">{{item?.user?.dial_code ? item?.user?.dial_code : constant.dial_code}}-{{item?.user?.phone}}</td>
+                <td class="text-left" *ngIf="!item?.user?.phone">{{'table.tr.td.NA' | translate}}</td>
+                <td class="text-left">{{item?.user?.email}}</td>
+                <td *ngIf="parameter.type==1">
+                  <span *ngFor="let interest of item.interests; let ii=index">
+                    <app-property-configuration *ngIf="interest" [configuration]="interest"></app-property-configuration>
+                    <span *ngIf="ii<item.interests?.length-1">, </span>
+                  </span>
+                  <span *ngIf="item.interests?.length == 0">{{'table.tr.td.NA' | translate}}</span>
+                </td>
+                <td *ngIf="parameter.type==2">{{item.properties_count}}</td>
+                <td>
+                  <div class="table-actions">
+                      <!-- <a href="javascript://" (click)="editUser(item, i)" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
+                      <a href="javascript://" *ngIf="item.is_blocked == 1" (click)="blockUnblockPopup(i, item.id, 0, parameter.type)" title="Unblock user" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a>
+                      <a href="javascript://" *ngIf="item.is_blocked == 0" (click)="blockUnblockPopup(i, item.id, 1, parameter.type)" title="Block user" class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a> -->
+                      <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Manage Credits']?.can_update==0" 
+                      routerLink="/dashboard/credit/edit-credit/{{item.id}}" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                      <!-- <button title="{{'table.title.addLegalEntity' | translate}}" 
+                      [disabled]="admin?.admin_acl['User Management']?.can_update==0" 
+                      (click)="addLegalEntity(item, i)" class="action-icon"><img src="assets/img/stamp.png" alt="img"></button> -->
+                      <button [disabled]="admin?.admin_acl['Manage Credits']?.can_delete==0"
+                        (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1, parameter.type)" 
+                        title="{{item.is_blocked==1 ? ('table.title.unblock' | translate) : ('table.title.block' | translate)}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
+                        class="action-icon"><img src="assets/img/block.png" alt="img">
+                      </button>
+                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
+                        (click)="deletePopup(item, i)" title="{{'table.title.delete' | translate}}"
+                        class="action-icon"><img src="assets/img/ic_delete.png" alt="img"></button>
+                  </div>
+                </td>
+              </tr>
+
+
+            </table>
+
+            <div class="center" *ngIf="parameter.total == 0">
+              <img src="assets/img/404-error.png">
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane container fade" id="seller">{{'viewProjects.sellerTabOn' | translate}}</div>
+    </div>
+  </div>
+
+  <div class="btn-cont text-right marginT15" *ngIf="parameter.total">
+    <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+  </div>
+</div>

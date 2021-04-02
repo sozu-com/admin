@@ -1,7 +1,7 @@
-import { Component, OnInit , ViewChild, ElementRef, Output, EventEmitter} from '@angular/core';
-import { Constant } from '../../../common/constants';
-import { AdminService } from '../../../services/admin.service';
-import { IProperty } from '../../../common/property';
+import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Constant } from 'src/app/common/constants';
+import { AdminService } from 'src/app/services/admin.service';
+import { IProperty } from 'src/app/common/property';
 
 @Component({
   selector: 'app-block-get-property',
@@ -16,7 +16,7 @@ export class BlockGetPropertyComponent implements OnInit {
   @Output() itemSelect = new EventEmitter();
 
   parameter: IProperty = {};
-  location: IProperty= {};
+  location: IProperty = {};
   items: any = [];
   loading = false;
 
@@ -35,16 +35,15 @@ export class BlockGetPropertyComponent implements OnInit {
   getListing() {
     this.loading = true;
     this.admin.postDataApi('propertySearch', this.parameter).subscribe(r => {
-      console.log(r);
       this.loading = false;
       this.items = r['data'];
       this.parameter.total = r['total'];
 
     },
-    error => {
-      this.loading = false;
-      this.parameter.total = 0;
-    });
+      error => {
+        this.loading = false;
+        this.parameter.total = 0;
+      });
   }
 
   getPage(page) {
@@ -58,7 +57,6 @@ export class BlockGetPropertyComponent implements OnInit {
 
   getCountries() {
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
-      console.log(r);
       this.location.countries = r['data'];
     });
   }

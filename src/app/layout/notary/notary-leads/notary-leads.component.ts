@@ -1,12 +1,14 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { AdminService } from '../../../services/admin.service';
-import { IProperty } from '../../../common/property';
-import { Constant } from './../../../common/constants';
-import { AddNotaryAvailabilty, NotaryLeads } from '../../../models/leads.model';
 declare let swal: any;
-import {} from './../../../services/http-interceptor';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { AddNotaryAvailabilty, NotaryLeads } from 'src/app/models/leads.model';
+import { IProperty } from 'src/app/common/property';
+import { AdminService } from 'src/app/services/admin.service';
+import { Constant } from 'src/app/common/constants';
+import { LeadsService } from 'src/app/services/leads.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-notary-leads',
@@ -36,30 +38,49 @@ export class NotaryLeadsComponent implements OnInit {
   selectedUser: any;
   initSelection = false;
 
-  dash: any= {
+  dash: any = {
     all_count: 0,
     open_count: 0,
     close_count: 0
   };
+  locale: any;
 
-
-  chartView: any= [];
+  chartView: any = [];
   constructor(
     public admin: AdminService,
+    public leadsService: LeadsService,
     private constant: Constant,
     public availability: AddNotaryAvailabilty,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
+
+    this.locale = {
+      firstDayOfWeek: 0,
+      dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+      dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+      dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+      monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+      monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun',
+        'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+      today: 'Hoy',
+      clear: 'Clara',
+      dateFormat: 'mm/dd/yy',
+      weekHeader: 'Wk'
+    };
     this.today = new Date();
     this.parameter.keyword = '';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
-    this.parameter.flag = 2;
+    this.parameter.flag = this.leadsService.notaryLeadsFlag ? this.leadsService.notaryLeadsFlag : this.constant.flag;
     this.parameter.total = 0;
-    this.parameter.count_flag = 1;
-    this.route.params.subscribe( params => {
+    this.parameter.count_flag = this.leadsService.notaryLeadsCountFlag ?
+      this.leadsService.notaryLeadsCountFlag : this.constant.count_flag;
+    this.route.params.subscribe(params => {
       this.parameter.assignee_id = params.id;
     });
     this.getListing();
@@ -67,8 +88,9 @@ export class NotaryLeadsComponent implements OnInit {
     Object.assign(this, this.chartView);
   }
 
-  changeFlag(flag) {
+  changeFlag(flag: number) {
     this.parameter.flag = flag;
+    this.leadsService.notaryLeadsFlag = flag;
     this.parameter.count_flag = 1;
     this.resetDates();
     this.getListing();
@@ -80,8 +102,9 @@ export class NotaryLeadsComponent implements OnInit {
     this.getListing();
   }
 
-  changeCountFlag(flag) {
+  changeCountFlag(flag: number) {
     this.parameter.count_flag = flag;
+    this.leadsService.notaryLeadsCountFlag = flag;
     this.getListing();
   }
 
@@ -92,21 +115,6 @@ export class NotaryLeadsComponent implements OnInit {
     if (this.parameter.keyword) {
       input.append('keyword', this.parameter.keyword);
     }
-    // if (this.parameter.country_id && this.parameter.country_id !== '-1') {
-    //   input.append('countries', JSON.stringify([this.parameter.country_id]));
-    // }
-
-    // if (this.parameter.state_id && this.parameter.state_id !== '-1') {
-    //   input.append('states', JSON.stringify([this.parameter.state_id]));
-    // }
-
-    // if (this.parameter.city_id && this.parameter.city_id !== '-1') {
-    //   input.append('cities', JSON.stringify([this.parameter.city_id]));
-    // }
-
-    // if (this.parameter.locality_id && this.parameter.locality_id !== '-1') {
-    //   input.append('localities', JSON.stringify([this.parameter.locality_id]));
-    // }
     this.admin.postDataApi('getNoataries', input).subscribe(
       success => {
         this.users = success.data;
@@ -118,7 +126,6 @@ export class NotaryLeadsComponent implements OnInit {
     this.parameter.page = this.constant.p;
     this.parameter.flag = 2;
     this.parameter.total = 0;
-    // this.selectedUser = '';
     this.parameter.keyword = '';
     this.parameter.count_flag = 1;
     this.resetDates();
@@ -151,7 +158,6 @@ export class NotaryLeadsComponent implements OnInit {
     this.parameter.keyword = '';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
-    // this.parameter.flag = 2;
     this.parameter.total = 0;
     this.parameter.count_flag = 1;
     this.getListing();
@@ -159,15 +165,6 @@ export class NotaryLeadsComponent implements OnInit {
   }
 
   getCSRDashBoardData() {
-    // const input = new FormData();
-    // if (this.selectedUser) {
-    //   input.append('assignee_id', this.selectedUser.id);
-    // } else if (this.parameter.assignee_id) {
-    //   input.append('assignee_id', this.parameter.assignee_id);
-    // }
-    // if (this.parameter.flag) {
-    //   input.append('flag', this.parameter.flag.toString());
-    // }
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
@@ -189,11 +186,11 @@ export class NotaryLeadsComponent implements OnInit {
         //   "value": parseInt(this.dash.all_count,10)
         // },
         {
-          'name': 'Leads (Open)',
+          'name': this.translate.instant('charts.leadsOpen'),
           'value': parseInt(this.dash.open_count, 10)
         },
         {
-          'name': 'Leads (Closed)',
+          'name': this.translate.instant('charts.leadsClosed'),
           'value': parseInt(this.dash.close_count, 10)
         }
       ];
@@ -215,16 +212,16 @@ export class NotaryLeadsComponent implements OnInit {
     } else if (this.parameter.assignee_id) {
       input.assignee_id = this.parameter.assignee_id;
     }
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('leads/noataries', input).subscribe(
-    success => {
-      this.parameter.loading = false;
-      this.items = success.data;
-      if (this.items.length <= 0) { this.parameter.noResultFound = true; }
-      this.parameter.total = success.total_count;
-    }, error => {
-      this.parameter.loading = false;
-    });
+      success => {
+        this.spinner.hide();
+        this.items = success.data;
+        if (this.items.length <= 0) { this.parameter.noResultFound = true; }
+        this.parameter.total = success.total_count;
+      }, error => {
+        this.spinner.hide();
+      });
   }
 
 
@@ -237,13 +234,13 @@ export class NotaryLeadsComponent implements OnInit {
     if (this.parameter.sort_by_flag !== sort_by_flag) {
       this.parameter.sort_by_flag = sort_by_flag;
       this.parameter.sort_by_order = 0;
-    }else {
+    } else {
       this.parameter.sort_by_order = this.parameter.sort_by_order ? 0 : 1;
     }
     this.getListing();
   }
 
-  addDateTime () {
+  addDateTime() {
     // if (this.date && this.time) {
     //   const newdate = this.date + ' ' + this.time + ':00';
     //   // const d = new ChatTimePipe().transform(newdate, 'YYYY-MM-DD HH:MM:SS', 3);
@@ -252,13 +249,12 @@ export class NotaryLeadsComponent implements OnInit {
     //   this.date = ''; this.time = '';
     // }
     if (this.date) {
-      this.availability.date_time_array.push({date_time: this.date});
+      this.availability.date_time_array.push({ date_time: this.date });
       this.date = '';
     }
   }
 
-  openModal ($event, item, index) {
-    console.log($event);
+  openModal($event, item, index) {
     // $event.stopPropagation();
     // this.availability.date_time_array = item.selected_properties[0].selected_noatary[0].noatary_availability;
     this.availability.property_id = item.selected_properties[0].property_id;
@@ -283,28 +279,25 @@ export class NotaryLeadsComponent implements OnInit {
       this.availability.date_time.push(element1.date_time);
     });
     if (this.availability.date_time.length === 0) {
-      swal('Error', 'Choose atleast one date.', 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAtleastOneLead'), 'error');
       return false;
     }
-    this.parameter.loading = true;
-    console.log('data', this.availability);
+    this.spinner.show();
     this.admin.postDataApi('leads/addNoataryAvailability', this.availability)
       .subscribe(
         success => {
           this.items[this.parameter.index] = success.data;
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.closeModal();
-          swal('Success', 'Availability added successfully.', 'success');
-          // this.items = success.data;
-          // this.parameter.total = success.total_count;
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.availabilityAddedSuccessfully'), 'success');
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         }
       );
   }
 
   removeNoataryAvailability(id, j) {
-    this.admin.postDataApi('leads/removeNoataryAvailability', {id: id})
+    this.admin.postDataApi('leads/removeNoataryAvailability', { id: id })
       .subscribe(
         success => {
           this.data.splice(j, 1);
@@ -318,7 +311,6 @@ export class NotaryLeadsComponent implements OnInit {
     this.availability.date_time_array.splice(i, 1);
   }
 
-
   selectAll() {
     this.items.forEach(item => {
       item.selected = true;
@@ -326,28 +318,22 @@ export class NotaryLeadsComponent implements OnInit {
   }
 
   bulkAssign() {
-    // this.assign.keyword = '';
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     if (leads_ids.length === 0) {
-      swal('Error', 'Please choose atleast one lead.', 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAtleastOneLead'), 'error');
       return false;
     }
     this.openAssignModel.nativeElement.click();
-    // this.admin.postDataApi('getCsrBuyers', {}).subscribe(
-    //   success => {
-    //     this.assign.items = success.data;
-    //   });
   }
 
   getAssignListing() {
-    // this.assign.items = [];
     const input = {
       keyword: this.assign.keyword
     };
     this.admin.postDataApi('getNoataries', input).subscribe(
-    success => {
-      this.assign.items = success.data;
-    });
+      success => {
+        this.assign.items = success.data;
+      });
   }
 
   assignNow() {
@@ -356,20 +342,18 @@ export class NotaryLeadsComponent implements OnInit {
       noatary_id: this.assignItem.id,
       leads: leads_ids
     };
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('leads/bulkAssignNoatary', input).subscribe(r => {
-      this.parameter.loading = false;
-      swal('Success', 'Assigned successfully', 'success');
+      this.spinner.hide();
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.assignedSuccessfully'), 'success');
       this.closeAssignModel.nativeElement.click();
       this.getListing();
     },
-    error => {
-      this.parameter.loading = false;
-      this.closeAssignModel.nativeElement.click();
-      swal('Error', error.error.message, 'error');
-    });
+      error => {
+        this.spinner.hide();
+        this.closeAssignModel.nativeElement.click();
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
+      });
 
   }
-
-
 }

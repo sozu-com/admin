@@ -4,7 +4,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content notary-avail">
         <div class="modal-header popup-header">
-          <h4 class="modal-title">Properties available</h4>
+          <h4 class="modal-title">{{'commonBlock.propertiesAvailable' | translate}}</h4>
           <button type="button" class="close" data-dismiss="modal" #hidePropertyWithSearchModal>&times;</button>
         </div>
         <div class="modal-body">
@@ -12,45 +12,45 @@
                 
                 <div class="col-3">
                     <div class="form-group">
-                    <label>Country</label>
+                    <label>{{'filters.location.country' | translate}}</label>
                     <select class="form-control" (change)="onCountryChange($event.target.value)">
-                        <option value="0">All</option>
+                        <option value="0">{{'filters.location.allOption' | translate}}</option>
                         <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
                     </select>
                     </div>
                 </div>
                 <div class="col-3">
                     <div class="form-group">
-                    <label>State</label>
+                    <label>{{'filters.location.state' | translate}}</label>
                     <select class="form-control" (change)="onStateChange($event.target.value)">
-                        <option value="0">All</option>
+                        <option value="0">{{'filters.location.allOption' | translate}}</option>
                         <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
                     </select>
                     </div>
                 </div>
                 <div class="col-3">
                     <div class="form-group">
-                    <label>City</label>
+                    <label>{{'filters.location.city' | translate}}</label>
                         <select class="form-control" (change)="onCityChange($event.target.value)">
-                        <option value="0">All</option>
+                        <option value="0">{{'filters.location.allOption' | translate}}</option>
                         <option *ngFor="let item of location.cities" [value]="item.id">{{item.name}}</option>
                         </select>
                     </div>
                 </div>
                 <div class="col-3">
                     <div class="form-group">
-                    <label>Locality</label>
+                    <label>{{'filters.location.locality' | translate}}</label>
                     <select class="form-control" (change)="onLocalityChange($event.target.value)">
-                        <option value="0">All</option>
+                        <option value="0">{{'filters.location.allOption' | translate}}</option>
                         <option *ngFor="let item of location.localities" [value]="item.id">{{item.name}}</option>
                     </select>
                     </div>
                 </div>
                 <div class="col-3">
                     <div class="form-group">
-                    <label>Building</label>
+                    <label>{{'filters.location.building' | translate}}</label>
                     <select class="form-control" (change)="onBuildingChange($event.target.value)">
-                        <option value="0">All</option>
+                        <option value="0">{{'filters.location.allOption' | translate}}</option>
                         <option *ngFor="let item of location.buildings" [value]="item.id">{{item.name}}</option>
                     </select>
                     </div>
@@ -58,7 +58,7 @@
                 <div class="col-3">
                     <div class="form-group btn-cont">
                     <label style="display: block; margin-top: 3px;">&nbsp;</label>
-                    <button type="button" (click)="getListing()" class="btn btn-primary-new width100P">Apply</button>
+                    <button type="button" (click)="getListing()" class="btn btn-primary-new width100P">{{'filters.location.applyBtn' | translate}}</button>
                     </div>
                 </div>
                 <div class="col-3">
@@ -66,7 +66,7 @@
                 </div>
                 <div class="col-3">
                     <div class="form-group">
-                        <label>Search</label>
+                        <label>{{'filters.location.search' | translate}}</label>
                         <div class="d-flex">
                             <div class="searh-3">
                                 <input class="form-control" type="text" [(ngModel)]="parameter.keyword" (keyup.enter)="getListing()" name="">
@@ -86,7 +86,7 @@
                 <img src="assets/img/loading_content.gif" alt="loading..."/>
             </div>
             <div *ngIf="!loading && items?.length==0">
-                <p class="show-not-found">No property found for selected filters.</p>
+                <p class="show-not-found">{{'commonBlock.noPropertyFound' | translate}}</p>
             </div>
 
             <table class="table" style="min-height:200px;">
@@ -96,9 +96,17 @@
                       <div class="n-avail-profile">
                         <img [src]="item.image" onerror='src="assets/img/house.png"' alt="img">
                         <div class="n-avail-info">
-                            <p class="p12">{{item.building.name}}</p>
-                            <p class="p10 marginB0">{{item.building.address ? item.building.address : 'NA'}}</p>
-                            <p class="p10">{{item.configuration.name}}</p>
+                            <!-- <p class="p12">{{item?.building?.name}}</p>
+                            <p class="p10 marginB0">{{item?.building?.address ? item?.building?.address : 'NA'}}</p>
+                            <p class="p10">{{item?.configuration?.name}}</p> -->
+                            <p title="Apartment" class="p12">{{item.name}}</p>
+                            <p class="p13">{{item.building.name}} &middot; {{item.building_towers.tower_name}} &middot;
+                                {{item.building_towers.num_of_floors == 0 ? ('commonBlock.groundFloor' | translate) : ('commonBlock.floor' | translate) + ' ' + item.building_towers.num_of_floors}}
+                            </p>
+                            <!-- <p class="p10 marginB0">{{item.building.address ? item.building.address : 'NA'}}</p> -->
+                            <p class="p10">
+                                <app-property-configuration *ngIf="item.configuration" [configuration]="item.configuration"></app-property-configuration>
+                            </p>
                         </div>
                       </div>
                   </td>
@@ -108,7 +116,7 @@
                       <span class="checkmark"></span>
                       </label> -->
                       <div class="form-group btn-cont">
-                          <button (click)="selectItem(item)" class="btn btn-primary-new">Send</button>
+                          <button (click)="selectItem(item)" class="btn btn-primary-new">{{'commonBlock.send' | translate}}</button>
                       </div>
                   </td>
                 </tr>

@@ -19,7 +19,7 @@ export class S3Uploader {
       this.config = config;
     }
 
-    upload(file: any, fileName): Promise<any> {
+    upload(file: any, fileName: string): Promise<any> {
       const date = this.generateTimestamp();
       const datetime = date + 'T000000Z';
 
@@ -28,13 +28,7 @@ export class S3Uploader {
       this.config.secretAccessKey = 'Hri6awV+eDOhUIzL7hD77aaW3JO0XgFv5fGML68h';
       this.config.region = 'ap-southeast-2';
 
-      // this.config.bucket = 'cbdevs3';
-      // this.config.accessKey = 'AKIAJNMP5L4BZ6S4LSFQ';
-      // this.config.secretAccessKey = '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';
-      // this.config.region = 'us-west-2';
-
       const credential = `${this.config.accessKey}/${date}/${this.config.region}/s3/aws4_request`;
-
 
       const policy = JSON.stringify({
         'expiration': (new Date(Date.now() + 100000)).toISOString(),
@@ -66,13 +60,21 @@ export class S3Uploader {
 
       return new Promise((resolve, reject) => {
         this.http.post(`https://s3-ap-southeast-2.amazonaws.com/${this.config.bucket}/`, formData).subscribe(x => {
-        console.log('sucesss');
         resolve(x.headers.get('Location'));
 
         }, x => {
-          console.log('error');
           reject();
         });
+      });
+    }
+
+    getImage() {
+      const bucket = new CryptoJS.S3({params: {Bucket: this.config.bucket}});
+      bucket.listObjects(function (err, data) {
+        if (err) {
+        } else {
+          // $scope.allImageData = data.Contents;
+        }
       });
     }
 

@@ -1,18 +1,21 @@
 import { Component, OnInit, TemplateRef, ElementRef } from '@angular/core';
-import { AdminService } from '../../../services/admin.service';
+import { AdminService } from 'src/app/services/admin.service';
 import { Router } from '@angular/router';
-import { IProperty } from '../../../common/property';
+import { IProperty } from 'src/app/common/property';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { Constant } from './../../../common/constants';
-import { Project, Amenities } from './../../../models/project.model';
+import { Constant } from 'src/app/common/constants';
+import { Project, Amenities, ParkingLotSpaces } from 'src/app/models/project.model';
 import { NgForm } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 declare let swal: any;
 
 @Component({
   selector: 'app-project',
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.css'],
-  providers: [Constant, Project, Amenities]
+  providers: [Constant, Project, Amenities, ParkingLotSpaces]
 })
 
 export class ProjectComponent implements OnInit {
@@ -23,7 +26,10 @@ export class ProjectComponent implements OnInit {
 
   constructor(private element: ElementRef, private constant: Constant, public project: Project,
     private modalService: BsModalService, public admin: AdminService,
-    public amenityModel: Amenities
+    public amenityModel: Amenities, private spinner: NgxSpinnerService,
+    private translate: TranslateService,
+    private parkingLotSpacesModel: ParkingLotSpaces,
+    private toastr: ToastrService,
   ) {
     this.parameter.index = -1;
     this.parameter.countryCount = 0;
@@ -35,6 +41,7 @@ export class ProjectComponent implements OnInit {
     this.getPossessionStatuses();
     this.getBuildingTypes();
     this.getAmenities();
+    this.getParkingLotSpaces();
   }
 
   closeModal() {
@@ -70,25 +77,66 @@ export class ProjectComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
+  public openParkingLotSpaces(template: TemplateRef<any>, index, id, name_en, name_es, status) {
+    this.parameter.index = index;
+    this.parkingLotSpacesModel.id = id;
+    this.parkingLotSpacesModel.name_en = name_en;
+    this.parkingLotSpacesModel.name_es = name_es;
+    this.parkingLotSpacesModel.status = status;
+    this.modalRef = this.modalService.show(template);
+  }
+
+  
+  addParkingLotSpaces(id, name_en, name_es, status, type) {
+    if (type === 'edit') { this.modalRef.hide(); }
+    this.parameter.url = 'addParkingLotSpaces';
+    const input = new FormData();
+    input.append('name_en', name_en);
+    input.append('name_es', name_es);
+    input.append('status', status);
+
+    if (id) { input.append('id', id); }
+    this.spinner.show();
+    this.admin.postDataApi(this.parameter.url, input)
+      .subscribe(
+        success => {
+          this.spinner.hide();
+          const text = id ?
+          this.translate.instant('message.success.updatedSuccessfully') :
+          this.translate.instant('message.success.addedSuccessfully');
+          swal(this.translate.instant('swal.success'), text, 'success');
+          this.project.parkingLotSpaces.name_en = '';
+          this.project.parkingLotSpaces.name_es = '';
+          if (this.parameter.index !== -1) {
+            this.parameter.parkingLotSpaces[this.parameter.index] = success.data;
+          } else {
+            this.parameter.parkingLotSpaces.push(success.data);
+          }
+          this.parameter.index = -1;
+          // this.getPossessionStatuses();
+        }, error => {
+          this.spinner.hide();
+        });
+  }
 
   addPossessionStatus(id, name_en, name_es, status, type) {
-    if (type === 'edit') {this.modalRef.hide(); }
+    if (type === 'edit') { this.modalRef.hide(); }
     this.parameter.url = 'addPossessionStatus';
     const input = new FormData();
     input.append('name_en', name_en);
     input.append('name_es', name_es);
     input.append('status', status);
 
-    if (id) {input.append('id', id); }
-    this.parameter.loading = true;
+    if (id) { input.append('id', id); }
+    this.spinner.show();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           const text = id ?
-          this.constant.successMsg.PROJECT_POSSESSION_UPDATED_SUCCESSFULLY :
-          this.constant.successMsg.PROJECT_POSSESSION_ADDED_SUCCESSFULLY;
-          swal('Success', text, 'success');
+          this.translate.instant('message.success.updatedSuccessfully') :
+          this.translate.instant('message.success.addedSuccessfully');
+          swal(this.translate.instant('swal.success'), text, 'success');
           this.project.possession.name_en = '';
           this.project.possession.name_es = '';
           if (this.parameter.index !== -1) {
@@ -99,12 +147,12 @@ export class ProjectComponent implements OnInit {
           this.parameter.index = -1;
           // this.getPossessionStatuses();
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 
   addBuildingType(id, name_en, name_es, status, type) {
-    if (type === 'edit') {this.modalRef.hide(); }
+    if (type === 'edit') { this.modalRef.hide(); }
     this.parameter.url = 'addBuildingType';
 
     const input = new FormData();
@@ -112,18 +160,18 @@ export class ProjectComponent implements OnInit {
     input.append('name_es', name_es);
     input.append('status', status);
 
-    if (id) {input.append('id', id); }
-    this.parameter.loading = true;
+    if (id) { input.append('id', id); }
+    this.spinner.show();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           const text = id ?
-            this.constant.successMsg.PROJECT_TYPE_UPDATED_SUCCESSFULLY :
-            this.constant.successMsg.PROJECT_TYPE_ADDED_SUCCESSFULLY;
-            this.project.type.name_en = '';
-            this.project.type.name_es = '';
-          swal('Success', text, 'success');
+          this.translate.instant('message.success.updatedSuccessfully') :
+          this.translate.instant('message.success.addedSuccessfully');
+          this.project.type.name_en = '';
+          this.project.type.name_es = '';
+          swal(this.translate.instant('swal.success'), text, 'success');
           if (this.parameter.index !== -1) {
             this.parameter.projectTypes[this.parameter.index] = success.data;
           } else {
@@ -132,13 +180,12 @@ export class ProjectComponent implements OnInit {
           this.parameter.index = -1;
           // this.getBuildingTypes();
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 
-
   addAmenity(id, icon, name_en, name_es, status, type) {
-    if (type === 'edit') {this.modalRef.hide(); }
+    if (type === 'edit') { this.modalRef.hide(); }
     const iconNew = this.icon ? this.icon : this.amenityModel.icon;
     this.parameter.url = 'addAmenity';
 
@@ -148,16 +195,18 @@ export class ProjectComponent implements OnInit {
     input.append('name_es', name_es);
     input.append('status', status);
 
-    if (this.icon) {input.append('icon', iconNew); }
+    if (this.icon) { input.append('icon', iconNew); }
 
-    if (id) {input.append('id', id); }
-    this.parameter.loading = true;
+    if (id) { input.append('id', id); }
+    this.spinner.show();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          this.parameter.loading = false;
-          const text = id ? this.constant.successMsg.AMENITY_UPDATED_SUCCESSFULLY : this.constant.successMsg.AMENITY_ADDED_SUCCESSFULLY;
-          swal('Success', text, 'success');
+          this.spinner.hide();
+          const text = id ?
+          this.translate.instant('message.success.updatedSuccessfully') :
+          this.translate.instant('message.success.addedSuccessfully');
+          swal(this.translate.instant('swal.success'), text, 'success');
           if (this.parameter.index !== -1) {
             this.parameter.amenities[this.parameter.index] = success.data;
           } else {
@@ -167,67 +216,80 @@ export class ProjectComponent implements OnInit {
           this.amenityModel = new Amenities;
           // this.getAmenities();
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 
-
-  getPossessionStatuses() {
-    this.parameter.loading = true;
-    this.parameter.url = 'getPossessionStatuses';
+  getParkingLotSpaces() {
+    this.spinner.show();
+    this.parameter.url = 'getParkingspace';
     const input = new FormData();
-    this.admin.postDataApi(this.parameter.url, input)
+    this.admin.postDataApi(this.parameter.url, {hide_blocked: 0})
       .subscribe(
         success => {
-          this.parameter.loading = false;
-          this.parameter.items = success.data;
-          this.parameter.total = success.data.length;
+          this.spinner.hide();
+          this.parameter.parkingLotSpaces = success.data;
+          this.parameter.parkingLotSpacesTotal = success.data.length;
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         }
       );
   }
 
-
-  getBuildingTypes() {
-    this.parameter.loading = true;
-    this.parameter.url = 'getBuildingTypes';
+  getPossessionStatuses() {
+    this.spinner.show();
+    this.parameter.url = 'getPossessionStatuses';
     const input = new FormData();
-    this.admin.postDataApi(this.parameter.url, input)
+    this.admin.postDataApi(this.parameter.url, {hide_blocked: 0})
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
+          this.parameter.items = success.data;
+          this.parameter.total = success.data.length;
+        }, error => {
+          this.spinner.hide();
+        }
+      );
+  }
+
+  getBuildingTypes() {
+    this.spinner.show();
+    this.parameter.url = 'getBuildingTypes';
+    const input = new FormData();
+    this.admin.postDataApi(this.parameter.url, {hide_blocked: 0})
+      .subscribe(
+        success => {
+          this.spinner.hide();
           this.parameter.projectTypes = success.data;
           this.parameter.projectTypesCount = success.data.length;
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         }
       );
   }
 
   getAmenities() {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.parameter.url = 'getAmenities';
     const input = new FormData();
-    this.admin.postDataApi(this.parameter.url, input)
+    this.admin.postDataApi(this.parameter.url, {hide_blocked: 0})
       .subscribe(
         success => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.parameter.amenities = success.data;
           this.parameter.amenitiesCount = success.data.length;
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         }
       );
   }
 
   addPossessionStatusPopup(index, id, name_en, name_es, status, type) {
     this.parameter.index = index;
-    const text = status === 1 ? this.constant.title.UNBLOCK_PROJECT_POSSESSION : this.constant.title.BLOCK_PROJECT_POSSESSION;
+    const text = status === 1 ? this.translate.instant('message.error.wantToUnblockPossessionStatus') :
+                        this.translate.instant('message.error.wantToBlockPossessionStatus');
     swal({
-      // title: this.constant.title.ARE_YOU_SURE,
-      // text: status === 1 ? this.constant.title.UNBLOCK_PROJECT_POSSESSION : this.constant.title.BLOCK_PROJECT_POSSESSION,
-      html: this.constant.title.ARE_YOU_SURE + '<br>' + text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -242,11 +304,10 @@ export class ProjectComponent implements OnInit {
 
   addBuildingTypePopup(index, id, name_en, name_es, status, type) {
     this.parameter.index = index;
-    const text = status === 1 ? this.constant.title.UNBLOCK_PROJECT_TYPE : this.constant.title.BLOCK_PROJECT_TYPE;
+    const text = status === 1 ? this.translate.instant('message.error.wantToUnblockProjectType') :
+                        this.translate.instant('message.error.wantToBlockProjectType');
     swal({
-      // title: this.constant.title.ARE_YOU_SURE,
-      // text: status === 1 ? this.constant.title.UNBLOCK_PROJECT_TYPE : this.constant.title.BLOCK_PROJECT_TYPE,
-      html: this.constant.title.ARE_YOU_SURE + '<br>' + text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -261,11 +322,10 @@ export class ProjectComponent implements OnInit {
 
   addAmenityPopup(index, id, icon, name_en, name_es, status, type) {
     this.parameter.index = index;
-    const text = status === 1 ? this.constant.title.UNBLOCK_AMENITY : this.constant.title.BLOCK_AMENITY;
+    const text = status === 1 ? this.translate.instant('message.error.wantToUnblockAmenity') :
+                        this.translate.instant('message.error.wantToBlockAmenity');
     swal({
-      // title: this.constant.title.ARE_YOU_SURE,
-      // text: status === 1 ? this.constant.title.UNBLOCK_AMENITY : this.constant.title.BLOCK_AMENITY,
-      html: this.constant.title.ARE_YOU_SURE + '<br>' + text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -283,7 +343,7 @@ export class ProjectComponent implements OnInit {
     formdata.reset();
     if (name_es === '') {
       swal({
-        text: this.constant.errorMsg.SAVE_ENGLISH_PROJECT_POSSESION,
+        text: this.translate.instant('message.error.saveEngParkingLotSpaces'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,
@@ -294,7 +354,7 @@ export class ProjectComponent implements OnInit {
           this.addPossessionStatus(id, name_en, name_en, status, type);
         }
       });
-    }else {
+    } else {
       self.addPossessionStatus(id, name_en, name_es, status, type);
     }
   }
@@ -305,7 +365,7 @@ export class ProjectComponent implements OnInit {
     formdata.reset();
     if (name_es === '') {
       swal({
-        text: this.constant.errorMsg.SAVE_ENGLISH_PROJECT_TYPE,
+        text: this.translate.instant('message.error.saveEngProjectType'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,
@@ -316,7 +376,7 @@ export class ProjectComponent implements OnInit {
           this.addBuildingType(id, name_en, name_en, status, type);
         }
       });
-    }else {
+    } else {
       self.addBuildingType(id, name_en, name_es, status, type);
     }
   }
@@ -327,7 +387,7 @@ export class ProjectComponent implements OnInit {
     formdata.reset();
     if (name_es === '') {
       swal({
-        text: this.constant.errorMsg.SAVE_ENGLISH_AMENITY,
+        text: this.translate.instant('message.error.saveEngAmenity'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,
@@ -338,12 +398,31 @@ export class ProjectComponent implements OnInit {
           this.addAmenity(id, icon, name_en, name_en, status, type);
         }
       });
-    }else {
+    } else {
       self.addAmenity(id, icon, name_en, name_es, status, type);
     }
   }
 
-
+  checkIfParkingLotSpacesSpanishNameEntered(formdata: NgForm, id, name_en, name_es, status, type) {
+    const self = this;
+    formdata.reset();
+    if (name_es === '') {
+      swal({
+        text: this.translate.instant('message.error.saveEngAmenity'),
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: this.constant.confirmButtonColor,
+        cancelButtonColor: this.constant.cancelButtonColor,
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          this.addParkingLotSpaces(id, name_en, name_en, status, type);
+        }
+      });
+    } else {
+      self.addParkingLotSpaces(id, name_en, name_es, status, type);
+    }
+  }
 
   changeListner(event) {
     const reader = new FileReader();
@@ -351,11 +430,46 @@ export class ProjectComponent implements OnInit {
     const fileToUpload = event.target.files[0];
     this.icon = fileToUpload;
 
-    reader.onload = function(e) {
+    reader.onload = function (e) {
       const src = e.target['result'];
-        image.src = src;
+      image.src = src;
     };
 
     reader.readAsDataURL(event.target.files[0]);
+  }
+  deletePopupProject(data: any, index: number,value : string) {
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+        this.translate.instant('message.error.wantToDelete'),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        value == 'one'? this.deleteCollection(data, index) : value == 'two'?
+        this.deleteProjectType(data, index): undefined;
+      }
+    });
+  }
+
+  deleteCollection(item: any, index: number) {
+    this.admin.postDataApi('deletePossessionStatus', { id: item.id }).subscribe(r => {
+      this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+      this.parameter.items.splice(index, 1);
+    },
+      error => {
+        this.toastr.error(error.error.message, this.translate.instant('swal.error'));
+      });
+  }
+  deleteProjectType(item: any, index: number) {
+    this.admin.postDataApi('ProjectType', { id: item.id }).subscribe(r => {
+      this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+      this.parameter.projectTypes.splice(index, 1);
+    },
+      error => {
+        this.toastr.error(error.error.message, this.translate.instant('swal.error'));
+      });
   }
 }

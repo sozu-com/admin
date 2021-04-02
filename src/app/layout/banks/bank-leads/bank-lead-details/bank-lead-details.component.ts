@@ -1,12 +1,14 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { Router, ActivatedRoute} from '@angular/router';
-import { AdminService } from '../../../../services/admin.service';
-import { CommonService } from '../../../../services/common.service';
-import { IProperty } from '../../../../common/property';
+import { Router, ActivatedRoute } from '@angular/router';
 import * as io from 'socket.io-client';
-import { Constant } from './../../../../common/constants';
-import { SelectedProperties, BankAssigned, NotaryAssigned } from './../../../../models/leads.model';
-import { Chat } from '../../../../models/chat.model';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { SelectedProperties, BankAssigned, NotaryAssigned } from 'src/app/models/leads.model';
+import { Chat } from 'src/app/models/chat.model';
+import { IProperty } from 'src/app/common/property';
+import { AdminService } from 'src/app/services/admin.service';
+import { CommonService } from 'src/app/services/common.service';
+import { Constant } from 'src/app/common/constants';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -26,8 +28,10 @@ export class BankLeadDetailsComponent implements OnInit {
     public admin: AdminService,
     private cs: CommonService,
     public constant: Constant,
+    private spinner: NgxSpinnerService,
     public selectedProperties: SelectedProperties,
-    public model: Chat
+    public model: Chat,
+    private translate: TranslateService
   ) {
     this.admin.loginData$.subscribe(success => {
       this.parameter.admin_id = success['id'];
@@ -36,25 +40,25 @@ export class BankLeadDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.parameter.sent_as = this.constant.userType.bank;
-    this.route.params.subscribe( params => {
+    this.route.params.subscribe(params => {
       this.parameter.lead_id = params.id;
-      this.parameter.loading = true;
-      this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
+      this.spinner.show();
+      this.admin.postDataApi('leads/details', { lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as }).subscribe(r => {
         this.getDocumentOptions();
-        this.parameter.loading = false;
+        this.spinner.hide();
         this.parameter.lead = r.data.lead;
         this.selectedProperties = r.data.lead.selected_properties[0];
         // bank will chat with closer only
         this.parameter.user_id = this.parameter.lead.closer.id;
       }, error => {
-        this.parameter.loading = false;
+        this.spinner.hide();
       });
     });
   }
 
   setValue(i) {
     this.selectedProperties.allDocuments[i].is_selected =
-    this.selectedProperties.allDocuments[i].is_selected && this.selectedProperties.allDocuments[i].is_selected === 1 ? 0 : 1;
+      this.selectedProperties.allDocuments[i].is_selected && this.selectedProperties.allDocuments[i].is_selected === 1 ? 0 : 1;
   }
 
   getDocumentOptions() {
@@ -68,7 +72,7 @@ export class BankLeadDetailsComponent implements OnInit {
         });
       });
     }
-  );
+    );
   }
 
 
@@ -80,18 +84,18 @@ export class BankLeadDetailsComponent implements OnInit {
       property_id: this.selectedProperties.property_id,
       documents: documents_ids
     };
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('leads/updateDocumentChecklist', input).subscribe(r => {
-      this.parameter.loading = false;
-      swal('Success', 'Successfully saved', 'success');
+      this.spinner.hide();
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.savedSuccessfully'), 'success');
     }, error => {
-      this.parameter.loading = false;
+      this.spinner.hide();
     }
-  );
+    );
   }
 
   noDocumentUploaded() {
-    swal('Error', 'No document uploaded yet.', 'error');
+    swal(this.translate.instant('swal.error'), this.translate.instant('message.error.noDocumentUploadedYet'), 'error');
   }
 
   viewPropertyDetails(property) {
@@ -101,7 +105,8 @@ export class BankLeadDetailsComponent implements OnInit {
 
   markLeadClose() {
     swal({
-      html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to close this lead?',
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+            this.translate.instant('message.error.wantTocloseLead'),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -109,13 +114,13 @@ export class BankLeadDetailsComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.parameter.loading = true;
-        this.admin.postDataApi('leads/bank-mark-lead-closed', {lead_id: this.parameter.lead_id}).subscribe(r => {
-          this.parameter.loading = false;
+        this.spinner.show();
+        this.admin.postDataApi('leads/bank-mark-lead-closed', { lead_id: this.parameter.lead_id }).subscribe(r => {
+          this.spinner.hide();
           this.parameter.lead.lead_status_bank = 1;
-          swal('Success', 'Lead closed successfully.', 'success');
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.leadClosedSuccessfully'), 'success');
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
       }
     });

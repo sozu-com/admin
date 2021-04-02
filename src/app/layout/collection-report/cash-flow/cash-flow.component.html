@@ -1,0 +1,253 @@
+<div class="container-fluid">
+      <div class="row">
+            <div class="col-12">
+                  <div class="title-group">
+                        <h5>{{'collectionReport.cashFlowReport' | translate}}</h5>
+                  </div>
+            </div>
+      </div>
+
+      <div class="white-bg marginT15 padding15">
+            <div class="page-title-4 row">
+                  <h3 class="col-10">{{'collectionReport.expectedAndRealCashFlow' | translate}}</h3>
+                  <span class="pull-right col-2">
+                        <select class="form-control" [(ngModel)]="reportType">
+                              <option value="1">{{'collectionReport.graphicalview' | translate}}</option>
+                              <option value="2">{{'collectionReport.tabularView' | translate}}</option>
+                        </select>
+                  </span>
+            </div>
+
+            <div class="filters row">
+                  <div class="col-lg-2 col-md-2">
+                        <div class="form-group">
+                              <label>{{'collectionReport.start_date' | translate}}</label>
+                              <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true"
+                                    [(ngModel)]="input.start_date" [maxDate]="today" showButtonBar="true"
+                                    class="coll-report-calendar" [monthNavigator]="true" [yearNavigator]="true"
+                                    yearRange="2000:2040"></p-calendar>
+                        </div>
+                  </div>
+                  <div class="col-lg-2 col-md-2">
+                        <div class="form-group">
+                              <label>{{'collectionReport.end_date' | translate}}</label>
+                              <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true"
+                                    [(ngModel)]="input.end_date" showButtonBar="true" class="coll-report-calendar"
+                                    [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+                        </div>
+                  </div>
+
+                  <div class="col-lg-2 col-md-2">
+                        <div class="form-group">
+                              <label>{{'collectionReport.project' | translate}}</label>
+                              <div class="clearfix"></div>
+                              <ng-multiselect-dropdown class="section-section2 multi-select" [placeholder]="''"
+                                    [data]="projects" [(ngModel)]="selctedProjects" [settings]="multiDropdownSettings"
+                                    (onDeSelect)="onItemDeSelect('projects', $event)"
+                                    (onSelect)="onItemSelect('selctedProjects', $event)"
+                                    (onSelectAll)="onSelectAll($event)">
+                              </ng-multiselect-dropdown>
+                              <div class="clearfix"></div>
+                        </div>
+                  </div>
+
+                  <div class="col-lg-2 col-md-2">
+                        <div class="form-group marginB0">
+                              <label>{{'collectionReport.currency' | translate}}</label>
+                              <div class="clearfix"></div>
+                              <ng-multiselect-dropdown class="section-section2 multi-select" [placeholder]="''"
+                                    [data]="currencies" [(ngModel)]="selectedCurrencies"
+                                    [settings]="multiDropdownSettings"
+                                    (onDeSelect)="onItemDeSelect('currencies', $event)"
+                                    (onSelect)="onItemSelect('selectedCurrencies', $event)"
+                                    (onSelectAll)="onSelectAll($event)">
+                              </ng-multiselect-dropdown>
+                              <div class="clearfix"></div>
+                        </div>
+                  </div>
+            </div>
+
+            <div class="filters2 row">
+                  <div class="col-lg-2 col-md-2">
+                        <div class="form-group">
+                              <label>{{'collectionReport.start_purchase_date' | translate}}</label>
+                              <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true"
+                                    [(ngModel)]="input.start_purchase_date" [maxDate]="today" showButtonBar="true"
+                                    class="coll-report-calendar" [monthNavigator]="true" [yearNavigator]="true"
+                                    yearRange="2000:2040"></p-calendar>
+                        </div>
+                  </div>
+                  <div class="col-lg-2 col-md-2">
+                        <div class="form-group">
+                              <label>{{'collectionReport.end_purchase_date' | translate}}</label>
+                              <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true"
+                                    [(ngModel)]="input.end_purchase_date" showButtonBar="true"
+                                    class="coll-report-calendar" [monthNavigator]="true" [yearNavigator]="true"
+                                    yearRange="2000:2040"></p-calendar>
+                        </div>
+                  </div>
+                  <div class="col-lg-1 col-md-2">
+                        <div class="form-group btn-cont">
+                              <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                              <button type="button" (click)="getReportData()"
+                                    class="btn btn-primary-new width100P P86">{{'collectionReport.apply' |
+                                    translate}}</button>
+                        </div>
+                  </div>
+
+                  <div class="col-lg-1 col-md-2">
+                        <div class="form-group btn-cont">
+                              <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                              <button type="button" (click)="resetFilters()"
+                                    class="btn btn-primary-new width100P P86">{{'collectionReport.reset' |
+                                    translate}}</button>
+                        </div>
+                  </div>
+            </div>
+            <div [style.display]="reportType==1 ? 'block' : 'none'">
+                  <div class="img-des">
+                        <div class="row">
+                          <div class="col-md-4 col-sm-6 col-12 img-c">
+                            <div class="block">
+                              <p class="p18"></p>
+                              <p class="p13" style="color: black;font-weight: bold;">{{'dashboard.total' | translate}}</p>
+                            </div>
+                          </div>
+                          <div class="col-md-4 col-sm-6 col-12 img-c">
+                            <div class="block">
+                              <p class="p18">{{(expectedTotal || 0) | currency}}</p>
+                              <p class="p13">{{'dashboard.Expectedamount' | translate}}</p>
+                            </div>
+                          </div>
+                          <div class="col-md-4 col-sm-6 col-12 img-c">
+                            <div class="block">
+                              <p class="p18">{{(actualTotal || 0) | currency}}</p>
+                              <p class="p13">{{'dashboard.Actualamount' | translate}}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+            <!-- <div class="row" style="padding: 0px 20px 60px 20px;">
+                  <div class="col-md-4" style="border-style: solid;border-color: #cccccc;">
+                    <h2 style="text-align: center;padding: 21px;">{{'dashboard.total' | translate}}</h2>
+                  </div>
+                  <div class="col-md-4" style="border-style: solid;border-color: #cccccc;">
+                    <h2 style="padding: 8px;text-align: center;">{{'dashboard.Expectedamount' | translate}}</h2>
+                    <p style="text-align: center;">{{(expectedTotal || 0) | currency}}</p>
+                  </div>
+                  <div class="col-md-4" style="border-style: solid;border-color: #cccccc;">
+                    <h2 style="padding: 8px;text-align: center;">{{'dashboard.Actualamount' | translate}}</h2>
+                    <p style="text-align: center;">{{(actualTotal || 0) | currency}}</p>
+                  </div>
+                </div> -->
+            </div>
+            <div class="graph-area" [style.display]="reportType==1 ? 'block' : 'none'">
+                  <p>{{'sidebar.ExpectedReport' | translate}}</p>
+                  <div id="chartContainer" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
+            </div>
+
+            <div class="graph-area" [style.display]="reportType==1 ? 'block' : 'none'">
+                  <p>{{'sidebar.RealReport' | translate}}</p>
+                  <div id="chartContainer1" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;">
+                  </div>
+            </div>
+
+            <div class="graph-area" [style.display]="reportType==1 ? 'block' : 'none'">
+                  <p>{{'sidebar.RealExpectedReport' | translate}}</p>
+                  <div id="chartContainer2" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;">
+                  </div>
+            </div>
+            <div class="table-responsive main-table" *ngIf="reportType == 2"
+                  style="width: 90%; margin-left:auto;margin-right:auto;" id="accordion">
+                  <h5>{{'collectionReport.tabularView' | translate}}<span class=" pull-right">
+                              <button class="btn btn-primary-new export-btn"
+                                    (click)="exportData()">{{'collectionReport.export' | translate}}</button>
+                        </span></h5>
+                  <table class="table table-bordered table-striped">
+                        <thead>
+                              <th>{{'collectionReport.month' | translate}}</th>
+                              <th>{{'collectionReport.expectedAmt' | translate}}</th>
+                              <th>{{'collectionReport.actualAmt' | translate}}</th>
+                        </thead>
+                        <tbody *ngFor="let item of items; let i=index">
+                              <tr >
+                                    <td (click)="getCashFlowInfo(item, i)"> <a class="color-changed" 
+                                          data-toggle="collapse" data-target="#collapseOne{{i}}" 
+                                          data-parent="#accordion" 
+                                          aria-expanded="true" aria-controls="collapseOne" 
+                                          href="#collapseOne{{i}}">
+                                          <span><i class="fa fa-plus"></i> </span>&nbsp;&nbsp;{{item.label}}
+                                      </a></td>
+                                    <td>{{(item.expected || 0) | currency}}</td>
+                                    <td>{{(item.actual || 0) | currency}}</td>
+                              </tr>
+                              <tr id="collapseOne{{i}}" class="collapse" data-parent="#accordion">
+                                    <td colspan="10">
+                                       <table [style.width]="'100%'">
+                                             <thead>
+                                                <th>{{'collectionReport.collection_id' | translate}}</th>
+                                                <th>{{'collectionReport.property_name' | translate}}</th>
+                                                <th>{{'collectionReport.buyername' | translate}}</th>
+                                                <th>{{'collectionReport.datee' | translate}}</th>
+                                                <th>{{'collectionReport.amountPaid' | translate}}</th>
+                                             </thead>
+                                             <tbody *ngFor="let cashFlowInfo of cashFlowInfos; let i=index">
+                                                <td><span>{{cashFlowInfo.id}}</span></td>
+                                                <td><span>{{cashFlowInfo.name}}</span></td>
+                                                <td><span>{{cashFlowInfo.buyer_name}}</span></td>
+                                                <td><span>{{cashFlowInfo.payment_date}}</span></td>
+                                                <td><span>{{(cashFlowInfo.amount || 0) | currency}}</span></td>
+                                             </tbody>
+                                       </table>
+                                    </td>
+                              </tr>
+                              
+                              
+                        </tbody>
+                  <tbody>
+                        <tr>
+                              <th style="font-weight: bold;color: black;">{{'dashboard.total' | translate}}:</th>
+                              <td>{{(expectedTotal || 0) | currency}}</td>
+                              <td>{{(actualTotal || 0) | currency}}</td>
+                        </tr> </tbody>
+                  </table>
+            </div>
+     
+     
+      <div class="table-responsive">
+            <table class="table table-bordered table-striped table-align-center quick-table" >
+              <tbody>
+                    <tr>
+                      <th>{{'collectionReport.Month' | translate}}:</th>
+                      <td *ngFor="let item of finalDataExpacted"
+                            style=" background-color: #00B96F;color: #fff; border:#00B96F ;">{{item.label}}</td>
+                   </tr>
+                    <tr>
+                      <th>{{'collectionReport.Expectedest' | translate}}:</th>
+                      <td *ngFor="let item of finalDataExpacted">{{(item.expected || 0) | currency}}</td>
+                    </tr>
+                    <tr>
+                      <th>{{'collectionReport.Expecteddin' | translate}}:</th>
+                      <td *ngFor="let item of finalDataExpacted">{{(item.total_expected || 0) | currency}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{'collectionReport.Real' | translate}}:</th>
+                        <td *ngFor="let item of finalDataExpacted">{{(item.actual || 0) | currency}}</td>
+                      </tr>
+                    <tr>
+                      <th>{{'collectionReport.Arrearest' | translate}}:</th>
+                      <td *ngFor="let item of finalDataExpacted">{{(item.pending || 0) | currency}}</td>
+                    </tr>
+                    <tr>
+                      <th>{{'collectionReport.Arreardin' | translate}}:</th>
+                      <td *ngFor="let item of finalDataExpacted">{{(item.total_pending || 0) | currency}}</td>
+                    </tr>
+                    <!-- <tr>
+                        <th>{{'table.dashboard.total' | translate}}:</th>
+                        <td *ngFor="let item of finalDataExpacted">{{(item.total_pending || 0) | currency}}</td>
+                  </tr> -->
+              </tbody>
+            </table>
+          </div>
+      </div>
+</div>

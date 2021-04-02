@@ -3,6 +3,8 @@ import { AdminService } from './admin.service';
 import { Router } from '@angular/router';
 import { IProperty } from './../common/property';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Injectable()
@@ -22,12 +24,13 @@ export class CommonService {
   propertyDetailsData$ = this.propertyDetails.asObservable();
 
   public parameter: IProperty = {};
-  constructor(public admin: AdminService, private router: Router) { }
+  constructor(public admin: AdminService, private router: Router, private spinner: NgxSpinnerService,
+    private translate: TranslateService) { }
 
 
   getCountries(keyword) {
 
-    this.parameter.loading = true;
+    this.spinner.show();
     this.parameter.url = 'getCountries';
     const input = new FormData();
 
@@ -36,22 +39,21 @@ export class CommonService {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          // console.log('countries', success);
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.country.next(success.data);
         },
         error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           if (error.statusCode === 401) {
             this.router.navigate(['']);
-          }else {
-            swal('Error', error.message, 'error');
+          } else {
+            swal(this.translate.instant('swal.error'), error.message, 'error');
           }
         });
   }
 
   getStates(country_id, keyword) {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.parameter.url = 'country/getStates';
     this.parameter.country_id = country_id;
 
@@ -63,22 +65,21 @@ export class CommonService {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          // console.log('states', success);
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.state.next(success.data);
         },
         error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           if (error.statusCode === 401) {
             this.router.navigate(['']);
-          }else {
-            swal('Error', error.message, 'error');
+          } else {
+            swal(this.translate.instant('swal.error'), error.message, 'error');
           }
         });
   }
 
   getCities(state_id, keyword) {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.parameter.url = 'getCities';
     this.parameter.state_id = state_id;
 
@@ -92,16 +93,15 @@ export class CommonService {
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
-          // console.log('cities', success);
-          this.parameter.loading = false;
+          this.spinner.hide();
           this.city.next(success.data);
         },
         error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
           if (error.statusCode === 401) {
             this.router.navigate(['']);
-          }else {
-            swal('Error', error.message, 'error');
+          } else {
+            swal(this.translate.instant('swal.error'), error.message, 'error');
           }
         });
   }
@@ -125,9 +125,26 @@ export class CommonService {
     input.append('attachment', file);
     return this.admin.postDataApi('saveAttachment', input);
   }
-
+  saveAttachment1(file,id) {
+    const input = new FormData();
+    input.append('attachment', file);
+    input.append('id', id);
+    return this.admin.postDataApi('addLinkedDocument',input);
+  }
+  saveAttachment2(file,id) {
+    const input = new FormData();
+    input.append('attachment', file);
+    input.append('id', id);
+    return this.admin.postDataApi('addLegalEntityDocument',input);
+  }
+  saveAttachment3(file,id) {
+    console.log(id,"saveAttachment3")
+    const input = new FormData();
+    input.append('attachment', file);
+    input.append('id', id);
+    return this.admin.postDataApi('addPropertyDocument',input);
+  }
   setPropertyDetails(data) {
-    // console.log('data', data);
     this.propertyDetails.next(data);
   }
 
@@ -136,7 +153,6 @@ export class CommonService {
   }
 
   checkAccess(key, subkey) {
-    console.log(key, subkey);
     const obj = this.admin.admin_acl[key];
     return obj ? obj[subkey] : 0;
   }

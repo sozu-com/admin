@@ -1,12 +1,15 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { Router, ActivatedRoute} from '@angular/router';
-import { AdminService } from '../../../../services/admin.service';
-import { CommonService } from '../../../../services/common.service';
-import { IProperty } from '../../../../common/property';
+import { Router, ActivatedRoute } from '@angular/router';
 import * as io from 'socket.io-client';
-import { Constant } from './../../../../common/constants';
-import { SelectedProperties, BankAssigned, NotaryAssigned, ScheduleMeeting } from './../../../../models/leads.model';
-import { Chat } from '../../../../models/chat.model';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { IProperty } from 'src/app/common/property';
+import { Chat } from 'src/app/models/chat.model';
+import { ScheduleMeeting, NotaryAssigned, BankAssigned, SelectedProperties, Leads } from 'src/app/models/leads.model';
+import { AdminService } from 'src/app/services/admin.service';
+import { CommonService } from 'src/app/services/common.service';
+import { Constant } from 'src/app/common/constants';
+import { LeadsService } from 'src/app/services/leads.service';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -24,7 +27,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
 
   @ViewChild('showNotaries') showNotaries: ElementRef;
   @ViewChild('hideNotaries') hideNotaries: ElementRef;
-
+  @ViewChild('msgInput') msgInput: ElementRef;
   public parameter: IProperty = {};
   // meetingDate: any = {
   //   appointment_date: '',
@@ -60,7 +63,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     original: ''
   };
   image: any;
-  imgArray= [];
+  imgArray = [];
   durationInSec = 0;
   showVideo = true;
   video: any;
@@ -77,11 +80,13 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   chat_seller: any;
   chat_buyer: any;
   chat_admin_sent_as = this.constant.userType.user_buyer;
-  loadmore= true;
+  loadmore = true;
   loadmoring: any = false;
   admin_id: string;
   showInput: false;
   pen_amount = 0;
+  leadData: Leads;
+  keyword: string;
   @ViewChild('chatWin') chatWin: ElementRef;
   @ViewChild('optionsButton') optionsButton: ElementRef;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
@@ -97,44 +102,51 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     public bankModel: BankAssigned,
     public notaryModel: NotaryAssigned,
     public model: Chat,
-    private element: ElementRef
-  ) { }
+    private element: ElementRef,
+    private spinner: NgxSpinnerService,
+    public leadsService: LeadsService,
+    private translate: TranslateService
+  ) {
+    this.admin.loginData$.subscribe(success => {
+      this.parameter.admin_id = success['id'];
+    });
+  }
 
   closeModal1() {
-    console.log('close');
     this.modalClose1.nativeElement.click();
   }
 
   closeModal2() {
-    console.log('close');
     this.modalClose2.nativeElement.click();
   }
 
   ngOnInit() {
+    // this.msgInput.nativeElement.focus();
+    this.keyword = '';
+    this.leadData = new Leads();
+    // this.leadsService.leadData = this.leadsService.leadData;
+    this.leadData.selected_properties = [new SelectedProperties()];
     this.parameter.sent_as = this.constant.userType.csr_closer;
 
-    this.admin.loginData$.subscribe(success => {
-      this.admin_id = success['id'];
-    });
-    this.route.params.subscribe( params => {
+    this.route.params.subscribe(params => {
       this.parameter.lead_id = params.id;
-      this.parameter.loading = true;
-      this.admin.postDataApi('leads/details', {lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
-        this.parameter.loading = false;
+      this.spinner.show();
+      this.admin.postDataApi('leads/details', { lead_id: this.parameter.lead_id, sent_as: this.parameter.sent_as }).subscribe(r => {
+        this.spinner.hide();
+        this.leadData = r.data.lead;
         this.getDocumentOptions();
-        this.parameter.lead = r.data.lead;
         this.selectedProperties = r.data.lead.selected_properties[0];
         this.pen_amount = this.selectedProperties.pending_amount ?
-                          this.selectedProperties.pending_amount :
-                          (this.selectedProperties.total_amount - this.selectedProperties.token_money);
-        this.parameter.user_id = this.parameter.lead.user.id;
+          this.selectedProperties.pending_amount :
+          (this.selectedProperties.total_amount - this.selectedProperties.token_money);
+        this.parameter.user_id = this.leadData.user.id;
 
-        if (this.parameter.lead.appointments.length !== 0) {
-          this.scheduleMeeting = this.parameter.lead.appointments[0];
+        if (this.leadData.appointments.length !== 0) {
+          this.scheduleMeeting = this.leadData.appointments[0];
         }
-        // if (this.parameter.lead.appointments && this.parameter.lead.appointments.length !== 0) {
-        //   for (let index = 0; index < this.parameter.lead.appointments.length; index++) {
-        //     const element = this.parameter.lead.appointments[index];
+        // if (this.leadData.appointments && this.leadData.appointments.length !== 0) {
+        //   for (let index = 0; index < this.leadData.appointments.length; index++) {
+        //     const element = this.leadData.appointments[index];
         //     if (element.sent_as === this.constant.userType.csr_closer) {
         //       this.meetingDate = {
         //         appointment_date: element.appointment_date,
@@ -149,10 +161,10 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
         this.chat_buyer = r.data.lead.user;
         this.chat_seller = r.data.lead.selected_properties[0].property.creator;
         this.chat_notary = r.data.lead.selected_properties[0].selected_noatary[0] ?
-                            r.data.lead.selected_properties[0].selected_noatary[0].noatary : [];
+          r.data.lead.selected_properties[0].selected_noatary[0].noatary : [];
         this.chat_bank = r.data.lead.selected_properties[0].banks ? r.data.lead.selected_properties[0].banks[0] : [];
 
-        this.getLeadConversation(this.constant.userType.user_buyer);
+        this.getLeadConversation(this.constant.userType.user_buyer, false);
         // this.chat_bank = r.data.lead.banks[0];
 
         // this.lead.all_documents.map(item=>{
@@ -164,7 +176,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
         // });
 
       }, error => {
-        this.parameter.loading = false;
+        this.spinner.hide();
       });
     });
   }
@@ -173,11 +185,21 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     // this.parameter.subscriber.uns
   }
 
-  getNotaries(property_id) {
-    this.notaryModel.property_id = property_id;
+  getNotaries(property_id: any, keyword: string, type: number) {
+    if (property_id) {
+      this.notaryModel.property_id = property_id;
+    }
     this.notaryModel.lead_id = this.parameter.lead_id;
-    this.admin.postDataApi('getNoataries', {}).subscribe(r => {
-      this.showNotaries.nativeElement.click();
+    const input = {keyword: ''};
+    if (keyword) {
+      input.keyword = keyword;
+    }
+    this.spinner.show();
+    this.admin.postDataApi('getNoataries', input).subscribe(r => {
+      this.spinner.hide();
+      if (type === 1) {
+        this.showNotaries.nativeElement.click();
+      }
       this.parameter.items = r.data;
       for (let index = 0; index < this.parameter.items.length; index++) {
         const element = this.parameter.items[index];
@@ -190,10 +212,10 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   }
 
   assignNoatary(notary) {
-    console.log('assignNoatary=', notary);
     this.notaryModel.noatary_id = notary.id;
+    this.parameter.text = this.translate.instant('message.error.wantToAssignNotary');
     swal({
-      html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to assign this notary?',
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -201,7 +223,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.parameter.loading = true;
+        this.spinner.show();
         this.selectedProperties.noataries = [notary];
         this.chat_notary = notary;
         // this.chat_notary = r.data.lead.selected_properties[0].selected_noatary[0] ?
@@ -209,32 +231,42 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
         // this.chat_bank = r.data.lead.selected_properties[0].banks ? r.data.lead.selected_properties[0].banks[0] : [];
 
         this.admin.postDataApi('leads/assignNoatary', this.notaryModel).subscribe(r => {
-          this.parameter.loading = false;
-          swal('Success', 'Notary is assigned successfully.', 'success');
+          this.spinner.hide();
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.notaryAssignedSuccessfully'), 'success');
           this.notaryModel = new NotaryAssigned();
           this.hideNotaries.nativeElement.click();
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
       } else if (result.dismiss === 'cancel') {
         // alert('c');
-     }else {
-      // alert('ca');
+      } else {
+        // alert('ca');
       }
-    }, function(dismiss){
+    }, function (dismiss) {
       // alert('csfd');
     }
       // if(dismiss == 'cancel'){
       //     // function when cancel button is clicked
       // }
-      );
+    );
   }
 
-  getBanks(property_id) {
-    this.bankModel.property_id = property_id;
+  getBanks(property_id: any, keyword: string, type: number) {
+    if (property_id) {
+      this.bankModel.property_id = property_id;
+    }
     this.bankModel.lead_id = this.parameter.lead_id;
-    this.admin.postDataApi('getBanks', {}).subscribe(r => {
-      this.showBanks.nativeElement.click();
+    const input = {keyword: ''};
+    if (keyword) {
+      input.keyword = keyword;
+    }
+    this.spinner.show();
+    this.admin.postDataApi('getBanks', input).subscribe(r => {
+      this.spinner.hide();
+      if (type === 1) {
+        this.showBanks.nativeElement.click();
+      }
       this.parameter.banks = r.data;
       for (let index = 0; index < this.parameter.banks.length; index++) {
         const element = this.parameter.banks[index];
@@ -248,8 +280,9 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
 
   assignBank(bank) {
     this.bankModel.bank_id = bank.id;
+    this.parameter.text = this.translate.instant('message.error.wantToAssignBank');
     swal({
-      html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to assign this bank?',
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -257,16 +290,16 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.parameter.loading = true;
+        this.spinner.show();
         this.selectedProperties.banks = [bank];
         this.chat_bank = bank;
         this.admin.postDataApi('leads/assignBank', this.bankModel).subscribe(r => {
-          this.parameter.loading = false;
-          swal('Success', 'Bank is assigned successfully.', 'success');
+          this.spinner.hide();
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.bankAssignedSuccessfully'), 'success');
           this.bankModel = new BankAssigned();
           this.hideBanks.nativeElement.click();
         }, error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
       }
     });
@@ -274,7 +307,7 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
 
   setValue(i) {
     this.selectedProperties.allDocuments[i].is_selected =
-    this.selectedProperties.allDocuments[i].is_selected && this.selectedProperties.allDocuments[i].is_selected === 1 ? 0 : 1;
+      this.selectedProperties.allDocuments[i].is_selected && this.selectedProperties.allDocuments[i].is_selected === 1 ? 0 : 1;
   }
 
   getDocumentOptions() {
@@ -288,34 +321,30 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
         });
       });
     }
-  );
+    );
   }
 
   blockThisLead() {
-    this.admin.postDataApi('conversation/block', {lead_id: this.id}).subscribe(r => {
-      // console.log(r);
+    this.admin.postDataApi('conversation/block', { lead_id: this.id }).subscribe(r => {
     });
   }
 
   updateDocumentChecklist() {
     const ids = this.selectedProperties.allDocuments.filter(d => d.is_selected === 1);
     const documents_ids = ids.map(d => d.id);
-    // console.log('selected', this.selectedProperties);
-    // console.log('ids', ids, documents_ids);
     const input = {
       lead_id: this.parameter.lead_id,
       property_id: this.selectedProperties.property_id,
       documents: documents_ids
     };
     this.admin.postDataApi('leads/updateDocumentChecklist', input).subscribe(r => {
-      // console.log('updateDocumentChecklist', r);
-      swal('Success', 'Updated successfully.', 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
     }
-  );
+    );
   }
 
   noDocumentUploaded() {
-    swal('Error', 'No document uploaded yet.', 'error');
+    swal(this.translate.instant('swal.error'), this.translate.instant('message.error.noDocumentUploadedYet'), 'error');
   }
 
   viewPropertyDetails(property) {
@@ -324,8 +353,9 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
   }
 
   markLeadClose() {
+    this.parameter.text = this.translate.instant('message.error.wantTocloseLead');
     swal({
-      html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to close this lead?',
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -333,10 +363,9 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.admin.postDataApi('leads/closer-mark-lead-closed', {lead_id: this.parameter.lead_id}).subscribe(r => {
-          console.log('r', r);
-          this.parameter.lead.lead_status_closer = 1;
-          swal('Success', 'Lead closed successfully.', 'success');
+        this.admin.postDataApi('leads/closer-mark-lead-closed', { lead_id: this.parameter.lead_id }).subscribe(r => {
+          this.leadData.lead_status_closer = 1;
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.leadClosedSuccessfully'), 'success');
         });
       }
     });
@@ -350,7 +379,6 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
 
 
   selectConversation(conversation) {
-    console.log('con', conversation);
     this.conversations.map(con => {
       con.selected = false;
       if (con === conversation) {
@@ -360,93 +388,86 @@ export class CsrCloserDetailComponent implements OnInit, OnDestroy {
     });
 
     this.conversation = conversation;
-console.log('con id', this.conversation_id);
     const data = {
       conversation_id: this.conversation_id
     };
 
     this.loadingMessages = true;
     this.admin.postDataApi('conversation/getMessages', data).subscribe(res => {
-      // console.log(res);
       this.messages = res['data'];
       this.loadingMessages = false;
       setTimeout(() => {
         this.scrollToBottom();
       }, 200);
     },
-    error => {
-      this.loadingMessages = false;
-    });
+      error => {
+        this.loadingMessages = false;
+      });
 
   }
 
   public initSocket(): void {
-      this.socket = io.connect(this.admin.socketUrl);
+    this.socket = io.connect(this.admin.socketUrl);
 
-      // this.parameter.socket.on('connect', fun => {
-      //   console.log('connect');
-      //   console.log('connect', this.parameter.socket);
-      //   this.parameter.socket_id = this.parameter.socket.id;
-      //   this.parameter.connected = this.parameter.socket.connected;
+    // this.parameter.socket.on('connect', fun => {
+    //   this.parameter.socket_id = this.parameter.socket.id;
+    //   this.parameter.connected = this.parameter.socket.connected;
 
-      //   const data = {
-      //     admin_id: this.admin_id,
-      //     socket_id: this.parameter.socket_id,
-      //     device_id: this.admin.deviceId + '_' + this.admin_id
-      //   };
-      //   if (this.parameter.connected) {
-      //     this.parameter.socket.emit('add-admin', data, (res: any) => {
-      //     });
-      //     this.parameter.socket.on('message', (response: any) => {
-      //       if (response.data.conversation_id === this.parameter.conversation_id) {
-      //         this.scrollToBottom();
-      //         this.parameter.messages.push(response.data);
-      //       }
-      //     });
-      //   }
-      // });
+    //   const data = {
+    //     admin_id: this.parameter.admin_id,
+    //     socket_id: this.parameter.socket_id,
+    //     device_id: this.admin.deviceId + '_' + this.parameter.admin_id
+    //   };
+    //   if (this.parameter.connected) {
+    //     this.parameter.socket.emit('add-admin', data, (res: any) => {
+    //     });
+    //     this.parameter.socket.on('message', (response: any) => {
+    //       if (response.data.conversation_id === this.parameter.conversation_id) {
+    //         this.scrollToBottom();
+    //         this.parameter.messages.push(response.data);
+    //       }
+    //     });
+    //   }
+    // });
 
 
-      this.socket.on('connect', fun => {
-        this.socket_id = this.socket.id;
-        this.connected = this.socket.connected;
+    this.socket.on('connect', fun => {
+      this.socket_id = this.socket.id;
+      this.connected = this.socket.connected;
 
-        const data = {
-          admin_id: this.admin_id,
-          socket_id: this.socket_id,
-          device_id: this.admin.deviceId + '_' + this.admin_id
-        };
-        if (this.connected) {
-          console.log('Socket Connected', this.socket_id);
+      const data = {
+        admin_id: this.parameter.admin_id,
+        socket_id: this.socket_id,
+        device_id: this.admin.deviceId + '_' + this.parameter.admin_id
+      };
+      if (this.connected) {
 
-          this.socket.emit('add-admin', data, (res: any) => {
-            console.log('res', res);
-          });
+        this.socket.emit('add-admin', data, (res: any) => {
+          // console.log('res', res);
+        });
 
-          this.socket.on('message', (response: any) => {
+        this.socket.on('message', (response: any) => {
           if (response.data.conversation_id === this.conversation_id) {
-            console.log('Socket conversation_id');
-            console.log('Socket conversation_id', this.conversation_id);
             this.messages.push(response.data);
             setTimeout(() => {
               this.scrollToBottom();
             }, 200);
           }
-          });
-        }
-      });
+        });
+      }
+    });
   }
 
   scrollToBottom() {
     if (this.chatWin) {
-      $('.chat-area').mCustomScrollbar('scrollTo', 'bottom', {scrollInertia: 0});
+      $('.chat-area').mCustomScrollbar('scrollTo', 'bottom', { scrollInertia: 0 });
     }
   }
 
   onSelectFile(param, event) {
     this.optionsButton.nativeElement.click();
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
 
@@ -455,8 +476,8 @@ console.log('con id', this.conversation_id);
     model.message_type = 2;
     model.loading = true;
     // model.uid = Math.random().toString(36).substr(2, 15);
-    model.conversation_id =  this.conversation_id;
-    model.conversation_user = {admin_id: this.admin_id};
+    model.conversation_id = this.conversation_id;
+    model.conversation_user = { admin_id: this.parameter.admin_id };
     model.updated_at = new Date();
     this.messages.push(model);
 
@@ -466,17 +487,17 @@ console.log('con id', this.conversation_id);
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
-          this.image = e.target.result;
-          model[param] = e.target.result;
-          setTimeout(() => {
-            this.scrollToBottom();
-          }, 100);
-          this.cs.saveImage(event.target.files[0]).subscribe(
-            success => {
-              model.image = success['data'].image;
-              this.sendMessage(model);
-            }
-          );
+        this.image = e.target.result;
+        model[param] = e.target.result;
+        setTimeout(() => {
+          this.scrollToBottom();
+        }, 100);
+        this.cs.saveImage(event.target.files[0]).subscribe(
+          success => {
+            model.image = success['data'].image;
+            this.sendMessage(model);
+          }
+        );
       };
       reader.readAsDataURL(event.target.files[0]);
 
@@ -487,7 +508,7 @@ console.log('con id', this.conversation_id);
     this.optionsButton.nativeElement.click();
 
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
 
@@ -496,8 +517,8 @@ console.log('con id', this.conversation_id);
     model.message_type = 4;
     model.loading = true;
     model.uid = Math.random().toString(36).substr(2, 15);
-    model.conversation_id =  this.conversation_id;
-    model.conversation_user = {admin_id: this.admin_id};
+    model.conversation_id = this.conversation_id;
+    model.conversation_user = { admin_id: this.parameter.admin_id };
     model.attachment_name = event.target.files[0].name;
     const date = new Date();
     model.updated_at = date;
@@ -510,7 +531,6 @@ console.log('con id', this.conversation_id);
     this.cs.saveAttachment(event.target.files[0]).subscribe(
       success => {
         model.attachment = success['data'].name;
-        // console.log('==>', model);
         this.sendMessage(model);
       }
     );
@@ -525,7 +545,7 @@ console.log('con id', this.conversation_id);
     this.optionsButton.nativeElement.click();
 
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
-      swal('Error', this.constant.errorMsg.FILE_SIZE_EXCEEDS, 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
       return false;
     }
 
@@ -535,8 +555,8 @@ console.log('con id', this.conversation_id);
     model.message_type = 3;
     model.loading = true;
     model.uid = Math.random().toString(36).substr(2, 15);
-    model.conversation_id =  this.conversation_id;
-    model.conversation_user = {admin_id: this.admin_id};
+    model.conversation_id = this.conversation_id;
+    model.conversation_user = { admin_id: this.parameter.admin_id };
     const date = new Date();
     model.updated_at = date;
     this.messages.push(model);
@@ -549,10 +569,10 @@ console.log('con id', this.conversation_id);
       this.video = document.getElementById('video1');
       const reader = new FileReader();
       const videoTest = this.element.nativeElement.querySelector('.video55');
-      reader.onload = function(e) {
+      reader.onload = function (e) {
         const src = e.target['result'];
         videoTest.src = src;
-        const timer = setInterval( () => {
+        const timer = setInterval(() => {
           // find duration of video only of video is in ready state
           if (videoTest.readyState === 4) {
             this.durationInSec = videoTest.duration.toFixed(0);
@@ -580,25 +600,18 @@ console.log('con id', this.conversation_id);
   newcanvas(video, videoFile, model) {
 
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-    // console.log(canvas);
     const ss = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight,
-                                                      0, 0, canvas.width, canvas.height);
+      0, 0, canvas.width, canvas.height);
 
     const ImageURL = canvas.toDataURL('image/jpeg');
     model.image = ImageURL;
-    // console.log(model);
     const fileToUpload = this.dataURLtoFile(ImageURL, 'tempFile.png');
     this.cs.saveVideo(videoFile, fileToUpload).subscribe(
       success => {
-        // console.log('image', success);
         model.video = success['data'].video;
         model.image = success['data'].thumb;
         this.sendMessage(model);
-      }
-      //  error => {
-      //   console.log(error);
-      // }
-    );
+      });
   }
 
   dataURLtoFile(dataurl, filename) {
@@ -608,13 +621,13 @@ console.log('con id', this.conversation_id);
     let n = bstr.length;
     const u8arr = new Uint8Array(n);
     while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
+      u8arr[n] = bstr.charCodeAt(n);
     }
-    return new File([u8arr], filename, {type: mime});
+    return new File([u8arr], filename, { type: mime });
   }
 
   setText() {
-    if (!this.textMessage) {
+    if (!this.textMessage || !this.textMessage.trim()) {
       return false;
     } else if ((Object.keys(this.admin.admin_acl).length !== 0 && this.admin.admin_acl['Closer Lead Management'].can_update === 0)
       || this.admin.permissions.can_csr_closer === 0) {
@@ -626,8 +639,8 @@ console.log('con id', this.conversation_id);
       model.message_type = 1;
       model.loading = true;
       model.uid = Math.random().toString(36).substr(2, 15);
-      model.conversation_id =  this.conversation_id;
-      model.conversation_user = {admin_id: this.admin_id};
+      model.conversation_id = this.conversation_id;
+      model.conversation_user = { admin_id: this.parameter.admin_id };
       const d = new Date();
       model.updated_at = d.toUTCString();
       this.messages.push(model);
@@ -652,8 +665,9 @@ console.log('con id', this.conversation_id);
   }
 
   sendMessage(model) {
+    model.sent_as = this.parameter.sent_as;
     if (model.message_type === 1 && !model.message) {
-      swal('Error', 'Please enter some text.', 'error');
+      swal(this.translate.instant('swal.error'), 'Please enter some text.', 'error');
     } else {
       // setTimeout(() => {
       //   this.scrollToBottom();
@@ -679,11 +693,11 @@ console.log('con id', this.conversation_id);
     input.append('attachment_name', file.name);
 
     this.admin.postDataApi('uploadDealDocument', input).subscribe(r => {
-      swal('Success', 'Successfully uploaded the document', 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.uploadedSuccessfully'), 'success');
     });
   }
 
-  getLeadConversation(admin_sent_as) {
+  getLeadConversation(admin_sent_as, showLoader: boolean) {
     this.chat_admin_sent_as = admin_sent_as;
     if (admin_sent_as === this.constant.userType.user_buyer) {
       this.chat_admin = this.chat_buyer;
@@ -697,18 +711,18 @@ console.log('con id', this.conversation_id);
     if (admin_sent_as === this.constant.userType.bank) {
       this.chat_admin = this.chat_bank;
     }
-console.log('chat_admin', this.chat_admin);
     const data = {
       lead_id: this.parameter.lead_id,
       other_sent_as: admin_sent_as,
       other_id: this.chat_admin.id,
       sent_as: this.constant.userType.csr_closer
     };
-console.log('=========', data);
-    this.parameter.loading = true;
+
+    if (showLoader) {
+      this.spinner.show();
+    }
     this.admin.postDataApi('conversation/getLeadConversation', data).subscribe(r => {
-      this.parameter.loading = false;
-      console.log('conversation/getLeadConversation', r);
+      this.spinner.hide();
       if (r['data']) {
         this.conversation_id = r['data'][0].id;
         this.initSocket();
@@ -719,32 +733,43 @@ console.log('=========', data);
         }, 100);
       }
     }, error => {
-      this.parameter.loading = false;
+      this.spinner.hide();
     });
   }
 
   loadMore() {
     this.loadmoring = true;
     const data = {
-      sent_as: 2,
+      sent_as: this.constant.userType.csr_closer,
       conversation_id: this.conversation_id,
       lead_id: this.parameter.lead_id,
       last_message_id: this.messages[0].id
     };
-    // console.log(data);
     this.admin.postDataApi('conversation/getMessages', data).subscribe(res => {
-      // console.log(res);
       this.loadmoring = false;
-      if (res['data'].length < 30) {this.loadmore = false; }
+      if (res['data'].length < 30) { this.loadmore = false; }
       this.messages = res['data'].concat(this.messages);
-    }
-    // error => {}
-    );
+    });
   }
 
   sendProperty(property) {
     const model = new Chat;
-    model.message = property.configuration.name + ' in ' + property.building.name;
+    model.message = property.name + ' ' + this.translate.instant('commonBlock.with') + ' ';
+    if (property.configuration.bedroom) {
+      model.message += property.configuration.bedroom + ' ' + this.translate.instant('commonBlock.bed') + ' ';
+    }
+    if (property.configuration.bathroom) {
+      model.message += this.constant.middleDot + property.configuration.bathroom + ' ' + this.translate.instant('commonBlock.bath') + ' ';
+    }
+    if (property.configuration.half_bathroom) {
+      model.message += this.constant.middleDot + property.configuration.half_bathroom + ' ' +
+      this.translate.instant('commonBlock.halfBath') + ' ';
+    }
+    if (property.property_type.name) {
+      model.message += this.constant.middleDot + property.property_type.name;
+    }
+    model.message += ' ' + this.translate.instant('commonBlock.in') + ' ' + property.building.name;
+
     model.message_type = 5;
     model.property_id = property.id;
     model.image = property.image;
@@ -752,16 +777,17 @@ console.log('=========', data);
     model.loading = true;
     model.updated_at = new Date();
     model.uid = Math.random().toString(36).substr(2, 15);
-    model.conversation_id =  this.conversation_id;
-    model.conversation_user = {admin_id: this.admin_id};
+    model.conversation_id = this.conversation_id;
+    model.conversation_user = { admin_id: this.parameter.admin_id };
     this.messages.push(model);
     this.sendMessage(model);
   }
 
 
   addAppointment(item) {
+    this.parameter.text = this.translate.instant('message.error.wantToScheduleMeeting');
     swal({
-      html: this.constant.title.ARE_YOU_SURE + '<br>' + 'You want to schedule this time for meeting?',
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -778,19 +804,17 @@ console.log('=========', data);
           this.scheduleMeeting.id = this.scheduleMeeting.id;
         }
         this.admin.postDataApi('leads/addAppointment', this.scheduleMeeting).subscribe(r => {
-          console.log('r', r);
           this.scheduleMeeting = r.data;
           this.closeModal2();
-          swal('Success', 'Meeting scheduled successfully.', 'success');
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.meetingScheduledSuccessfully'), 'success');
         });
       }
     });
   }
 
   updatePropertyAmount() {
-    console.log('11');
     if (this.pen_amount > this.selectedProperties.total_amount && this.pen_amount < 0) {
-      swal('Error', 'Incorrect amount entered', 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.incorrectAmountEntered'), 'error');
       return false;
     }
     const input = {
@@ -799,11 +823,10 @@ console.log('=========', data);
       pending_amount: this.pen_amount
     };
     this.admin.postDataApi('leads/updatePropertyAmount', input).subscribe(r => {
-      console.log('r', r);
       this.showInput = false;
       this.selectedProperties.pending_amount = this.pen_amount;
-      // this.parameter.lead.lead_status_closer = 1;
-      swal('Success', 'Amount updated successfully.', 'success');
+      // this.leadData.lead_status_closer = 1;
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.amountUpdatedSuccessfully'), 'success');
     });
   }
 }

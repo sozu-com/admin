@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
 import { AdminService } from './../services/admin.service';
 import { Location } from '@angular/common';
+import { of, Observable } from 'rxjs';
 
 @Injectable()
 export class AclUserGuard implements CanActivate {
@@ -18,8 +18,9 @@ export class AclUserGuard implements CanActivate {
             return this.checkData(next, state, this.admin.admin_acl, this.admin.permissions);
           }
         }).catch(() => {
-          // this.location.back();
-          return Observable.of(false);
+          this.location.back();
+          // return Observable.of(false); // used for angular4
+          return of(false);
         });
       } else {
         return this.checkData(next, state, this.admin.admin_acl, this.admin.permissions);
@@ -31,16 +32,18 @@ export class AclUserGuard implements CanActivate {
     const key = roles ? roles[0] : '';
     const subkey = roles ? roles[1] : '';
     const inhouseUserRole = roles ? roles[2] : '';
-    // const admin_acl = JSON.parse(localStorage.getItem('admin_acl'));
-    // const permissions = JSON.parse(localStorage.getItem('permissions'));
     if (permissions || admin_acl) {
       const obj = admin_acl[key];
-      if (((state.url === '/dashboard/view-inhouse-users/data-collectors') &&
-          (admin_acl['Data Collector Management']['can_read'] === 1)) ||
+      if (((state.url === '/dashboard/view-inhouse-users/data-collectors') && (admin_acl['Data Collector Management']['can_read'] === 1)) ||
         ((state.url === '/dashboard/view-inhouse-users/csr-sellers') && (admin_acl['Seller Management']['can_read'] === 1)) ||
         ((state.url === '/dashboard/view-inhouse-users/csr-buyers') && (admin_acl['Buyer Management']['can_read'] === 1)) ||
-        ((state.url === '/dashboard/view-inhouse-users/inhouse-broker') && (admin_acl['Broker Management']['can_read'] === 1)) ||
-        ((state.url === '/dashboard/view-inhouse-users/csr-closers') && (admin_acl['Closer Management']['can_read'] === 1))) {
+        ((state.url === '/dashboard/view-inhouse-users/inhouse-broker') && (admin_acl['Inhouse Agent Management']['can_read'] === 1)) ||
+        ((state.url === '/dashboard/view-inhouse-users/outside-broker') && (admin_acl['Outside Agent Management']['can_read'] === 1)) ||
+        ((state.url === '/dashboard/view-inhouse-users/csr-renters') && (admin_acl['Renter Management']['can_read'] === 1)) ||
+        ((state.url === '/dashboard/view-inhouse-users/collection-agents') && (admin_acl['Collection Agent Management']['can_read'] === 1)) ||
+        ((state.url === '/dashboard/view-inhouse-users/credit-agents') && (admin_acl['Credit Agent Management']['can_read'] === 1)) ||
+        ((state.url === '/dashboard/view-inhouse-users/csr-closers') && (admin_acl['Closer Management']['can_read'] === 1)) || 
+        ((state.url === '/dashboard/view-inhouse-users/alliance-agents') && (admin_acl['Alliance Agent Management']['can_read'] === 1))) {
           return true;
       } else if ((obj && obj[subkey] === 1) || (permissions && permissions[inhouseUserRole] === 1)) {
         return true;

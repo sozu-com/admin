@@ -2,11 +2,11 @@
   <div class="row">
     <!-- header -->
       <div class="col-6">
-        <a class="logo">
-        <img class="app-logo" src="assets/img/logo.png" alt="img">
+        <a class="logo" routerLink="/dashboard">
+        <img class="app-logo" src="assets/img/web_logo.png" alt="img">
         </a>
       </div>
-      <div class="col-4">
+      <div class="col-3">
         <div class="user-profile notification float-right">
             <a class="count-info bell cursor-pointer" (click)="viewNotification()">
                 <i class="fa fa-bell"></i>
@@ -39,6 +39,22 @@
             </ul> -->
         </div>
       </div>
+      <!-- <ul class="nav navbar-top-links navbar-right">
+            <li style="padding: 20px">
+                <span class="m-r-sm text-muted welcome-message">Welcome to INSPINIA+ Admin Theme.</span>
+            </li>
+          </ul> -->
+      <div class="col-1">
+        <div *ngIf="!fullName" class="user-profile float-right">
+          <a class="dropdown-toggle count-info color-white animation" data-toggle="dropdown" href="#" aria-expanded="true">
+            <h4>{{admin.language_code}}</h4>
+         </a>
+          <ul class="dropdown-menu animated slideInDown" style="min-width:0px;">
+            <li><a class="dropdown-item cursor-pointer" (click)="admin.setLanguage(constant.language[0].code)">{{constant.language[0].label}}</a></li>
+            <li><a class="dropdown-item cursor-pointer" (click)="admin.setLanguage(constant.language[1].code)">{{constant.language[1].label}}</a></li>
+          </ul>
+        </div>
+      </div>
       <div class="col-2">
         <div class="user-profile float-right">
            <!-- <a href="javascript://">
@@ -46,15 +62,15 @@
               <img (click)="onLoggedout()" class="rounded-circle" [src]="image" onerror='src="assets/img/default_img.png"' alt="img">
            </a> -->
            <a class="dropdown-toggle count-info color-white animation" data-toggle="dropdown" href="#" aria-expanded="true">
-              <h4>{{fullName}}</h4>
+              <h4>{{fullName ? fullName.slice(0,20) : ''}}</h4>
               <img class="rounded-circle" [src]="image" onerror='src="assets/img/default_img.png"' alt="img">
           </a>
           <ul class="dropdown-menu animated slideInDown">
-            <li><a class="dropdown-item" routerLink="/dashboard/settings/view-profile"><i class="ti-user"></i>Profile</a></li>
-            <li><a class="dropdown-item" routerLink="/dashboard/settings/change-password"><i class="ti-pencil"></i>Change Password</a></li>
-            <!-- <li><a class="dropdown-item" routerLink="/dashboard/settings/default-settings"><i class="ti-settings"></i>Default Settings</a></li> -->
+            <li><a class="dropdown-item" routerLink="/dashboard/settings/view-profile"><i class="ti-user"></i>{{'sidebar.profile' | translate}}</a></li>
+            <li><a class="dropdown-item" routerLink="/dashboard/settings/change-password"><i class="ti-pencil"></i>{{'sidebar.changePassword' | translate}}</a></li>
+            <li><a class="dropdown-item" routerLink="/dashboard/settings/edit-profile"><i class="ti-settings"></i>{{'sidebar.editProfile' | translate}}</a></li>
             <li class="dropdown-divider"></li>
-            <li><a class="dropdown-item cursor-pointer" (click)="onLoggedout()"><i class="ti-power-off"></i>Logout</a></li>
+            <li><a class="dropdown-item cursor-pointer" (click)="onLoggedout()"><i class="ti-power-off"></i>{{'sidebar.logout' | translate}}</a></li>
           </ul>
         </div>
       </div>
@@ -67,7 +83,7 @@
             <nav class="navbar navbar-expand-md navbar-dark">
                 <!-- Brand -->
                 <a class="navbar-brand">
-                  <img class="app-logo" src="assets/img/logo.png" alt="img">
+                  <img class="app-logo" src="assets/img/web_logo.png" alt="img">
                 </a>
                 <!-- Toggler/collapsibe Button -->
 
@@ -78,223 +94,46 @@
                 <!-- sidebar-collapse -->
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
                   <ul class="navbar-nav">
-                      <!-- <li class="nav-item">
-                        <a class="nav-link" routerLink="/"><i><img src="assets/img/dashboard.png"></i><span>Dashboard</span></a>
-                      </li> -->
-                      <!-- <li class="nav-item">
-                        <a class="nav-link" href="javascript://" routerLink="generate-thumb"><i><img src="assets/img/graph.png"></i><span>Thumb</span></a>
-                      </li> -->
-                      <!-- <li class="nav-item dropdown" [routerLinkActive]="'active'" appAclPermission>
-                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
-                         <i><img src="assets/img/user.png"></i><span>Manage Inhouse User</span></a>
-                         <div  class="dropdown-menu">
-                            <ul>
-                               <li appAclPermission [aclId]="adminACL.permission.data_collector_management" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="view-inhouse-users/data-collectors">Data Collector</a></li>
-                               <li appAclPermission [aclId]="adminACL.permission.seller_management" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/csr-sellers">CSR Seller</a></li>
-                               <li appAclPermission [aclId]="adminACL.permission.buyer_management" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/csr-buyers">CSR Buyer</a></li>
-                               <li appAclPermission [aclId]="adminACL.permission.broker_management" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/inhouse-broker">Inhouse Broker</a></li>
-                               <li appAclPermission [aclId]="adminACL.permission.closer_management" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/csr-closers">CSR Closer</a></li>
-                            </ul>
-                         </div>
-                      </li>
-                      <li class="nav-item dropdown" [routerLinkActive]="'active'" appAclPermission>
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
-                        <i><img src="assets/img/stamp.png"></i><span>Manage Notary</span></a>
-                        <div class="dropdown-menu">
-                           <ul>
-                              <li appAclPermission [aclId]="adminACL.permission.notary_management" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="notary/view-notary">Notary</a></li>
-                              <li appAclPermission [aclId]="adminACL.permission.notary_lead_management" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="notary/notary-leads">Leads</a></li>
-                           </ul>
-                        </div>
-                     </li>
-                     <li class="nav-item dropdown" [routerLinkActive]="'active'" appAclPermission>
-                       <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
-                       <i><img src="assets/img/bank.png"></i><span>Manage Banks</span></a>
-                       <div class="dropdown-menu">
-                          <ul>
-                             <li appAclPermission [aclId]="adminACL.permission.bank_management" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="banks/view-banks">Banks</a></li>
-                          </ul>
-                       </div>
-                    </li>
-                      <li appAclPermission [aclId]="adminACL.permission.user_management" class="nav-item" [routerLinkActive]="'active'">
-                        <a class="nav-link" href="javascript://" routerLink="users"><i><img src="assets/img/users.png"></i><span>Manage User</span></a>
-                      </li>
-                      <li appAclPermission [aclId]="adminACL.permission.manage_lead" class="nav-item dropdown" [routerLinkActive]="'active'">
-                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
-                         <i><img src="assets/img/graph.png"></i><span>Manage lead</span></a>
-                         <div class="dropdown-menu">
-                            <ul>
-                               <li appAclPermission [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="leads/data-collectors">Data Collector</a></li>
-                               <li appAclPermission [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/csr-sellers">CSR Seller</a></li>
-                               <li appAclPermission [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/csr-buyers">CSR Buyer</a></li>
-                               <li appAclPermission [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/inhouse-broker">Inhouse Broker</a></li>
-                               <li appAclPermission [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/csr-closers">CSR Closer</a></li>
-                            </ul>
-                         </div>
-                      </li>
-                      <li appAclPermission class="nav-item" [routerLinkActive]="'active'">
-                        <a class="nav-link" href="javascript://" routerLink="projects/add-project"><i><img src="assets/img/graph.png"></i><span>Add Project</span></a>
-                      </li>
-                      <li appAclPermission class="nav-item" [routerLinkActive]="'active'">
-                        <a class="nav-link" href="javascript://" routerLink="properties/view-properties"><i><img src="assets/img/graph.png"></i><span>Magage Properties</span></a>
-                      </li>
-                      <li appAclPermission class="nav-item" [routerLinkActive]="'active'">
-                        <a class="nav-link" href="javascript://" routerLink="access-control-mgt"><i><img src="assets/img/key.png"></i><span>ACL</span></a>
-                      </li>
-                      <li appAclPermission class="nav-item dropdown" [routerLinkActive]="'active'">
-                          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
-                          <i><img src="assets/img/graph2.png"></i><span>Reports</span></a>
-                          <div class="dropdown-menu">
-                             <ul>
-                                <li appAclPermission [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="reports/seller">Seller</a></li>
-                                <li appAclPermission [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="reports/buyer">Buyer</a></li>
-                                <li appAclPermission [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="reports/notary">Notary</a></li>
-                                <li appAclPermission [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="reports/bank">Bank</a></li>
-                             </ul>
-                          </div>
-                       </li>
-                      <li appAclPermission class="nav-item" [routerLinkActive]="'active'">
-                        <a class="nav-link" href="javascript://" routerLink="manual-leads"><i><img src="assets/img/graph.png"></i><span>Manual Leads</span></a>
-                      </li>
-                      <li appAclPermission class="nav-item" [routerLinkActive]="'active'">
-                        <a class="nav-link" href="javascript://" routerLink="edit-template"><i><img src="assets/img/users.png"></i><span>Edit Template</span></a>
-                      </li>
-                      <li appAclPermission class="nav-item dropdown" [routerLinkActive]="'active'">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i><img src="assets/img/settings.png"></i><span>Settings</span></a>
-                        <div class="dropdown-menu">
-                          <ul>
-                            <li appAclPermission [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/setting-location">Location</a></li>
-                            <li appAclPermission [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/setting-locality">Locality</a></li>
-                            <li appAclPermission [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/setting-property">Property</a></li>
-                            <li appAclPermission [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/setting-project">Project</a></li>
-                            <li><a class="dropdown-item" routerLink="settings/edit-profile">Edit Profile</a></li>
-                            <li appAclPermission [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/documents-listing">Documents Listing</a></li>
-                            <li appAclPermission [routerLinkActive]="'active'"><a class="dropdown-item logout-btn" (click)="onLoggedout()">Logout</a></li>
-                          </ul>
-                        </div>
-                      </li> -->
-
-                      <!-- {{admin.admin_acl | json}} -->
-
-                      <!-- <li class="nav-item dropdown" [routerLinkActive]="'active'">
-                          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
-                          <i><img src="assets/img/user.png"></i><span>Manage Inhouse User</span></a>
-                          <div  class="dropdown-menu">
-                             <ul>
-                                <li *ngIf="admin?.admin_acl['Data Collector Management']?.acl_id==7 && admin?.admin_acl['Data Collector Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="view-inhouse-users/data-collectors">Data Collector</a></li>
-                                <li *ngIf="admin?.admin_acl['Seller Management']?.acl_id==3 && admin?.admin_acl['Seller Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/csr-sellers">CSR Seller</a></li>
-                                <li *ngIf="admin?.admin_acl['Buyer Management']?.acl_id==15 && admin?.admin_acl['Buyer Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/csr-buyers">CSR Buyer</a></li>
-                                <li *ngIf="admin?.admin_acl['Broker Management']?.acl_id==2 && admin?.admin_acl['Broker Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/inhouse-broker">Inhouse Broker</a></li>
-                                <li *ngIf="admin?.admin_acl['Closer Management']?.acl_id==16 && admin?.admin_acl['Closer Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/csr-closers">CSR Closer</a></li>
-                             </ul>
-                          </div>
-                       </li>
-                       <li class="nav-item dropdown" [routerLinkActive]="'active'">
-                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
-                         <i><img src="assets/img/stamp.png"></i><span>Manage Notary</span></a>
-                         <div class="dropdown-menu">
-                            <ul>
-                               <li *ngIf="admin?.admin_acl['Noataries Management']?.acl_id==5 && admin?.admin_acl['Noataries Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="notary/view-notary">Notary</a></li>
-                               <li *ngIf="admin?.admin_acl['Notary Lead Management']?.acl_id==17 && admin?.admin_acl['Notary Lead Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="notary/notary-leads">Leads</a></li>
-                            </ul>
-                         </div>
-                      </li>
-                      <li *ngIf="admin?.admin_acl['Bank Management']?.acl_id==4 && admin?.admin_acl['Bank Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
-                        <a class="nav-link" href="javascript://" routerLink="banks/view-banks"><i><img src="assets/img/bank.png"></i><span>Manage Banks</span></a>
-                      </li>
-                       <li *ngIf="admin?.admin_acl['User Management']?.acl_id==6 && admin?.admin_acl['User Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
-                         <a class="nav-link" href="javascript://" routerLink="users"><i><img src="assets/img/users.png"></i><span>Manage Users</span></a>
-                       </li>
-                       <li class="nav-item dropdown" [routerLinkActive]="'active'">
-                          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
-                          <i><img src="assets/img/graph.png"></i><span>Manage lead</span></a>
-                          <div class="dropdown-menu">
-                             <ul>
-                                <li *ngIf="admin?.admin_acl['Data Collector Lead Management']?.acl_id==18 && admin?.admin_acl['Data Collector Lead Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="leads/data-collectors">Data Collector</a></li>
-                                <li *ngIf="admin?.admin_acl['Seller Lead Management']?.acl_id==19 && admin?.admin_acl['Seller Lead Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/csr-sellers">CSR Seller</a></li>
-                                <li *ngIf="admin?.admin_acl['Buyer Lead Management']?.acl_id==20 && admin?.admin_acl['Buyer Lead Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/csr-buyers">CSR Buyer</a></li>
-                                <li *ngIf="admin?.admin_acl['Broker Lead Management']?.acl_id==21 && admin?.admin_acl['Broker Lead Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/inhouse-broker">Inhouse Broker</a></li>
-                                <li *ngIf="admin?.admin_acl['Closer Lead Management']?.acl_id==22 && admin?.admin_acl['Closer Lead Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/csr-closers">CSR Closer</a></li>
-                             </ul>
-                          </div>
-                       </li>
-                       <li *ngIf="admin?.admin_acl['Building Management']?.acl_id==10 && admin?.admin_acl['Building Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
-                         <a class="nav-link" href="javascript://" routerLink="projects/add-project"><i><img src="assets/img/graph.png"></i><span>Manage Projects</span></a>
-                       </li>
-                       <li *ngIf="admin?.admin_acl['Property Management']?.acl_id==11 && admin?.admin_acl['Property Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
-                         <a class="nav-link" href="javascript://" routerLink="properties/view-properties"><i><img src="assets/img/graph.png"></i><span>Magage Properties</span></a>
-                       </li>
-                       <li *ngIf="admin?.admin_acl['Access Controls']?.acl_id==14 && admin?.admin_acl['Access Controls']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
-                         <a class="nav-link" href="javascript://" routerLink="access-control-mgt"><i><img src="assets/img/key.png"></i><span>ACL</span></a>
-                       </li>
-                       <li *ngIf="admin?.admin_acl['Reports']?.acl_id==23 && admin?.admin_acl['Reports']?.can_read==1" class="nav-item dropdown" [routerLinkActive]="'active'">
-                           <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
-                           <i><img src="assets/img/graph2.png"></i><span>Reports</span></a>
-                           <div class="dropdown-menu">
-                              <ul>
-                                 <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="reports/seller">Seller</a></li>
-                                 <li [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="reports/buyer">Buyer</a></li>
-                                 <li [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="reports/notary">Notary</a></li>
-                                 <li [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="reports/bank">Bank</a></li>
-                              </ul>
-                           </div>
-                        </li>
-                       <li *ngIf="admin?.admin_acl['Manual Leads']?.acl_id==24 && admin?.admin_acl['Manual Leads']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
-                         <a class="nav-link" href="javascript://" routerLink="manual-leads"><i><img src="assets/img/graph.png"></i><span>Manual Leads</span></a>
-                       </li>
-                       <li *ngIf="admin?.admin_acl['Templates']?.acl_id==25 && admin?.admin_acl['Templates']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
-                         <a class="nav-link" href="javascript://" routerLink="edit-template"><i><img src="assets/img/users.png"></i><span>Edit Template</span></a>
-                       </li>
-                       <li *ngIf="admin?.admin_acl['Settings']?.acl_id==26 && admin?.admin_acl['Settings']?.can_read==1" class="nav-item dropdown" [routerLinkActive]="'active'">
-                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
-                         <i><img src="assets/img/settings.png"></i><span>Settings</span></a>
-                         <div class="dropdown-menu">
-                           <ul>
-                             <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/setting-location">Location</a></li>
-                             <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/setting-locality">Locality</a></li>
-                             <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/setting-property">Property</a></li>
-                             <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/setting-project">Project</a></li>
-                             <li><a class="dropdown-item" routerLink="settings/edit-profile">Edit Profile</a></li>
-                             <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/documents-listing">Documents Listing</a></li>
-                             <li [routerLinkActive]="'active'"><a class="dropdown-item logout-btn" (click)="onLoggedout()">Logout</a></li>
-                           </ul>
-                         </div>
-                       </li> -->
-
-
                        <li *ngIf="admin?.admin_acl['Dashboard']?.can_read==1" class="nav-item"
                         [routerLinkActive]="'active'"
                         [routerLinkActiveOptions]="{exact:true}">
-                          <a class="nav-link" href="javascript://" routerLink="/dashboard"><i><img src="assets/img/dashboard.png"></i><span>Dashboard</span></a>
+                          <a class="nav-link" href="javascript://" routerLink="/dashboard"><i><img src="assets/img/dashboard.png"></i><span>{{'sidebar.dashboard' | translate}}</span></a>
                         </li>
 
                        <li *ngIf="admin?.admin_acl['Data Collector Management']?.can_read==1 || admin?.admin_acl['Seller Management']?.can_read==1 ||
-                                  admin?.admin_acl['Buyer Management']?.can_read==1 || admin?.admin_acl['Broker Management']?.can_read==1 ||
-                                  admin?.admin_acl['Closer Management']?.can_read==1" 
+                                  admin?.admin_acl['Buyer Management']?.can_read==1 || admin?.admin_acl['Inhouse Agent Management']?.can_read==1 ||
+                                  admin?.admin_acl['Closer Management']?.can_read==1 ||
+                                  admin?.admin_acl['Credit Agent Management']?.can_read==1 ||
+                                  admin?.admin_acl['Renter Management']?.can_read==1 ||
+                                  admin?.admin_acl['Collection Agent Management']?.can_read==1 || admin?.admin_acl['Alliance Agent Management']?.can_read == 1" 
                           class="nav-item dropdown" [routerLinkActive]="'active'">
                           <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
-                          <i><img src="assets/img/user.png"></i><span>Manage Inhouse Users</span></a>
+                          <i><img src="assets/img/user.png"></i><span>{{'sidebar.manageInhouseUsers' | translate}}</span></a>
                           <div  class="dropdown-menu">
                              <ul>
-                                <li *ngIf="admin?.admin_acl['Data Collector Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="view-inhouse-users/data-collectors">Data Collector</a></li>
-                                <li *ngIf="admin?.admin_acl['Seller Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/csr-sellers">CSR Seller</a></li>
-                                <li *ngIf="admin?.admin_acl['Buyer Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/csr-buyers">CSR Buyer</a></li>
-                                <li *ngIf="admin?.admin_acl['Broker Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/inhouse-broker">Inhouse Broker</a></li>
-                                <li *ngIf="admin?.admin_acl['Closer Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/csr-closers">CSR Closure</a></li>
-                             </ul>
+                                <li *ngIf="admin?.admin_acl['Data Collector Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="view-inhouse-users/data-collectors">{{'sidebar.dataCollector' | translate}}</a></li>
+                                <li *ngIf="admin?.admin_acl['Seller Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/csr-sellers">{{'sidebar.CSRSeller' | translate}}</a></li>
+                                <li *ngIf="admin?.admin_acl['Buyer Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/csr-buyers">{{'sidebar.CSRBuyer' | translate}}</a></li>
+                                <!-- <li *ngIf="admin?.admin_acl['Inhouse Agent Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/inhouse-broker">Inhouse Agent</a></li>
+                                <li *ngIf="admin?.admin_acl['Outside Agent Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/outside-broker">Outside Agent</a></li> -->
+                                <li *ngIf="admin?.admin_acl['Closer Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/csr-closers">{{'sidebar.CSRClosure' | translate}}</a></li>
+                                <li *ngIf="admin?.admin_acl['Credit Agent Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/credit-agents">{{'sidebar.creditAgent' | translate}}</a></li>
+                                <li *ngIf="admin?.admin_acl['Renter Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/csr-renters">{{'sidebar.CSRRenter' | translate}}</a></li>
+                                <li *ngIf="admin?.admin_acl['Collection Agent Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/collection-agents">{{'sidebar.collectionAgent' | translate}}</a></li>
+                                <li *ngIf="admin?.admin_acl['Alliance Agent Management']?.can_read == 1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/alliance-agents">{{'sidebar.allianceAgent' | translate}}</a></li>
+                              </ul>
                           </div>
                        </li>
 
-                       <li *ngIf="admin?.admin_acl['Noataries Management']?.can_read==1 ||
+                       <li *ngIf="admin?.admin_acl['Notaries Management']?.can_read==1 ||
                                   admin?.admin_acl['Notary Lead Management']?.can_read==1 ||
                                   admin?.permissions?.can_noatary==1" class="nav-item dropdown" [routerLinkActive]="'active'">
                          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
-                         <i><img src="assets/img/stamp.png"></i><span>Manage Notaries</span></a>
+                         <i><img src="assets/img/stamp.png"></i><span>{{'sidebar.manageNotaries' | translate}}</span></a>
                          <div class="dropdown-menu">
                             <ul>
-                               <li *ngIf="admin?.admin_acl['Noataries Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="notary/view-notary">Notary</a></li>
-                               <li *ngIf="admin?.admin_acl['Notary Lead Management']?.can_read==1 || admin?.permissions?.can_noatary==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="notary/notary-leads">Leads</a></li>
+                               <li *ngIf="admin?.admin_acl['Notaries Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="notary/view-notary">{{'sidebar.notary' | translate}}</a></li>
+                               <li *ngIf="admin?.admin_acl['Notary Lead Management']?.can_read==1 || admin?.permissions?.can_noatary==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="notary/notary-leads">{{'sidebar.leads' | translate}}</a></li>
                             </ul>
                          </div>
                       </li>
@@ -303,83 +142,170 @@
                             admin?.admin_acl['Bank Lead Management']?.can_read==1 || 
                             admin?.permissions?.can_bank==1" class="nav-item dropdown" [routerLinkActive]="'active'">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
-                        <i><img src="assets/img/bank.png"></i><span>Manage Banks</span></a>
+                        <i><img src="assets/img/bank.png"></i><span>{{'sidebar.manageBanks' | translate}}</span></a>
+                        <div class="dropdown-menu">
+                           <ul>
+                              <li *ngIf="admin?.admin_acl['Bank Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="banks/view-banks">{{'sidebar.banks' | translate}}</a></li>
+                              <li *ngIf="admin?.admin_acl['Bank Lead Management']?.can_read==1 || admin?.permissions?.can_bank==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="banks/bank-leads">{{'sidebar.leads' | translate}}</a></li>
+                           </ul>
+                        </div>
+                     </li>
+
+                     <li *ngIf="admin?.admin_acl['Agencies Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
+                      <a class="nav-link" href="javascript://" routerLink="agencies/view-all"><i><img src="assets/img/users.png"></i><span>{{'sidebar.manageAgencies' | translate}}</span></a>
+                    </li>
+
+                    <li *ngIf="admin?.admin_acl['Inhouse Agent Management']?.can_read==1 && admin?.admin_acl['Outside Agent Management']?.can_read==1" 
+                      class="nav-item dropdown" [routerLinkActive]="'active'">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
+                        <i><img src="assets/img/bank.png"></i><span>{{'sidebar.manageAgents' | translate}}</span></a>
+                        <div class="dropdown-menu">
+                           <ul>
+                            <li *ngIf="admin?.admin_acl['Inhouse Agent Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/inhouse-broker">{{'sidebar.inhouseAgent' | translate}}</a></li>
+                            <li *ngIf="admin?.admin_acl['Outside Agent Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="view-inhouse-users/outside-broker">{{'sidebar.outsideAgent' | translate}}</a></li>
+                           </ul>
+                        </div>
+                     </li>
+
+                    <li *ngIf="admin?.admin_acl['Companies Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
+                      <a class="nav-link" href="javascript://" routerLink="companies/view-all"><i><img src="assets/img/users.png"></i><span>{{'sidebar.manageCompanies' | translate}}</span></a>
+                    </li>
+
+                    <li *ngIf="admin?.admin_acl['Managers Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
+                      <a class="nav-link" href="javascript://" routerLink="managers/view-all"><i><img src="assets/img/users.png"></i><span>{{'sidebar.manageManagers' | translate}}</span></a>
+                    </li>
+
+                    <li *ngIf="admin?.admin_acl['User Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
+                      <a class="nav-link" href="javascript://" routerLink="users"><i><img src="assets/img/users.png"></i><span>{{'sidebar.manageUsers' | translate}}</span></a>
+                    </li>
+
+                    <li *ngIf="admin?.admin_acl['Manage Credits']?.can_read == 1" class="nav-item" [routerLinkActive]="'active'">
+                      <a class="nav-link" href="javascript://" routerLink="credit/view-credit"><i><img src="assets/img/users.png"></i><span>{{'sidebar.manageCredits' | translate}}</span></a>
+                    </li>
+
+                    <li *ngIf="admin?.admin_acl['Developers Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
+                      <a class="nav-link" href="javascript://" routerLink="developers/view-all"><i><img src="assets/img/users.png"></i><span>{{'sidebar.manageDevelopers' | translate}}</span></a>
+                    </li>
+
+                      <!-- <li *ngIf="admin?.admin_acl['Developers Management']?.can_read==1" class="nav-item dropdown" [routerLinkActive]="'active'">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
+                        <i><img src="assets/img/bank.png"></i><span>Manage Developers</span></a>
                         <div class="dropdown-menu">
                            <ul>
                               <li *ngIf="admin?.admin_acl['Bank Management']?.can_read==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="banks/view-banks">Banks</a></li>
                               <li *ngIf="admin?.admin_acl['Bank Lead Management']?.can_read==1 || admin?.permissions?.can_bank==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="banks/bank-leads">Leads</a></li>
                            </ul>
                         </div>
-                     </li>
-
-                      <li *ngIf="admin?.admin_acl['User Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
-                        <a class="nav-link" href="javascript://" routerLink="users"><i><img src="assets/img/users.png"></i><span>Manage Users</span></a>
-                      </li>
+                     </li> -->
 
                       <li *ngIf="admin?.admin_acl['Data Collector Lead Management']?.can_read==1 || admin?.permissions?.can_data_collector==1 ||
                                 admin?.admin_acl['Seller Lead Management']?.can_read==1 || admin?.permissions?.can_csr_seller==1 ||
                                 admin?.admin_acl['Buyer Lead Management']?.can_read==1 || admin?.permissions?.can_csr_buyer==1 ||
-                                admin?.admin_acl['Broker Lead Management']?.can_read==1 || admin?.permissions?.can_in_house_broker==1 ||
-                                admin?.admin_acl['Closer Lead Management']?.can_read==1 || admin?.permissions?.can_csr_closer==1"
+                                admin?.admin_acl['Inhouse Agent Lead Management']?.can_read==1 || admin?.permissions?.can_in_house_broker==1 ||
+                                admin?.admin_acl['Outside Agent Lead Management']?.can_read==1 || admin?.permissions?.can_outside_broker==1 ||
+                                admin?.admin_acl['Closer Lead Management']?.can_read==1 || admin?.permissions?.can_csr_closer==1 ||
+                                admin?.admin_acl['Renter Lead Management']?.can_read==1 || admin?.permissions?.can_csr_renter==1 ||
+                                admin?.admin_acl['Credit Agent Lead Management']?.can_read==1 || admin?.permissions?.can_credit_agent==1 ||
+                                admin?.admin_acl['Collection Agent Lead Management']?.can_read==1 || admin?.permissions?.can_collection_agent==1"
                         class="nav-item dropdown" [routerLinkActive]="'active'">
                           <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
-                          <i><img src="assets/img/ic_leads.png"></i><span>Manage Leads</span></a>
+                          <i><img src="assets/img/ic_leads.png"></i><span>{{'sidebar.manageLeads' | translate}}</span></a>
                           <div class="dropdown-menu">
                              <ul>
-                                <li *ngIf="admin?.admin_acl['Data Collector Lead Management']?.can_read==1 || admin?.permissions?.can_data_collector==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="leads/data-collectors">Data Collector</a></li>
-                                <li *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 || admin?.permissions?.can_csr_seller==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/csr-sellers">CSR Seller</a></li>
-                                <li *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_read==1 || admin?.permissions?.can_csr_buyer==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/csr-buyers">CSR Buyer</a></li>
-                                <li *ngIf="admin?.admin_acl['Broker Lead Management']?.can_read==1 || admin?.permissions?.can_in_house_broker==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/inhouse-broker">Inhouse Broker</a></li>
-                                <li *ngIf="admin?.admin_acl['Closer Lead Management']?.can_read==1 || admin?.permissions?.can_csr_closer==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/csr-closers">CSR Closure</a></li>
-                             </ul>
+                                <li *ngIf="admin?.admin_acl['Data Collector Lead Management']?.can_read==1 || admin?.permissions?.can_data_collector==1" [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="leads/data-collectors">{{'sidebar.dataCollector' | translate}}</a></li>
+                                <li *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 || admin?.permissions?.can_csr_seller==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/csr-sellers">{{'sidebar.CSRSeller' | translate}}</a></li>
+                                <li *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_read==1 || admin?.permissions?.can_csr_buyer==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/csr-buyers">{{'sidebar.CSRBuyer' | translate}}</a></li>
+                                <li *ngIf="admin?.admin_acl['Inhouse Agent Lead Management']?.can_read==1 || admin?.permissions?.can_in_house_broker==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/inhouse-broker">{{'sidebar.inhouseAgent' | translate}}</a></li>
+                                <li *ngIf="admin?.admin_acl['Outside Agent Lead Management']?.can_read==1 || admin?.permissions?.can_outside_broker==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/outside-broker">{{'sidebar.outsideAgent' | translate}}</a></li>
+                                <li *ngIf="admin?.admin_acl['Closer Lead Management']?.can_read==1 || admin?.permissions?.can_csr_closer==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/csr-closers">{{'sidebar.CSRClosure' | translate}}</a></li>
+                                <li *ngIf="admin?.admin_acl['Renter Lead Management']?.can_read==1 || admin?.permissions?.can_csr_renter==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/csr-renters">{{'sidebar.CSRRenter' | translate}}</a></li>
+                                <li *ngIf="admin?.admin_acl['Credit Agent Lead Management']?.can_read==1 || admin?.permissions?.can_credit_agent==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/credit-agents">{{'sidebar.creditAgent' | translate}}</a></li>
+                                <li *ngIf="admin?.admin_acl['Collection Agent Lead Management']?.can_read==1 || admin?.permissions?.can_collection_agent==1" [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="leads/collection-agents">{{'sidebar.collectionAgent' | translate}}</a></li>
+                              </ul>
                           </div>
                        </li>
-                       <li *ngIf="admin?.admin_acl['Building Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
-                         <a class="nav-link" href="javascript://" routerLink="projects/view-projects"><i><img src="assets/img/ic_projects_manage.png"></i><span>Manage Projects</span></a>
+                       <li *ngIf="admin?.admin_acl['Data Collector Lead Management']?.can_read==1 || admin?.permissions?.can_data_collector==1 ||
+                                admin?.admin_acl['Project Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
+                         <a class="nav-link" href="javascript://" routerLink="projects/view-projects"><i><img src="assets/img/ic_projects_manage.png"></i><span>{{'sidebar.manageProjects' | translate}}</span></a>
                        </li>
                        <li *ngIf="admin?.admin_acl['Property Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
-                         <a class="nav-link" href="javascript://" routerLink="properties/view-properties"><i><img src="assets/img/ic_properties_manage.png"></i><span>Manage Properties</span></a>
+                         <a class="nav-link" href="javascript://" routerLink="properties/view-properties"><i><img src="assets/img/ic_properties_manage.png"></i><span>{{'sidebar.manageProperties' | translate}}</span></a>
                        </li>
+                       <li *ngIf="admin?.admin_acl['Manage Legal Entity']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
+                        <a class="nav-link" href="javascript://" routerLink="legal-entities/view-all"><i><img src="assets/img/ic_properties_manage.png"></i><span>{{'sidebar.manageLegalEntity' | translate}}</span></a>
+                      </li>
+                       <li *ngIf="admin?.admin_acl['Manage Collections']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
+                         <a class="nav-link" href="javascript://" routerLink="collections/view-collections"><i><img src="assets/img/ic_properties_manage.png"></i><span>{{'sidebar.manageCollections' | translate}}</span></a>
+                       </li>
+                       <li *ngIf="admin?.admin_acl['Collection Reports']?.can_read==1" class="nav-item dropdown" [routerLinkActive]="'active'">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
+                        <i><img src="assets/img/graph2.png"></i><span>{{'sidebar.collectionReports' | translate}}</span></a>
+                        <div class="dropdown-menu">
+                           <ul>
+                              <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="collection-report/general-report">{{'sidebar.generalReport' | translate}}</a></li>
+                              <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="collection-report/monthly-report">{{'sidebar.monthlyReport' | translate}}</a></li>
+                              <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="collection-report/model-report">{{'sidebar.modelReport' | translate}}</a></li>
+                              <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="collection-report/concept-report">{{'sidebar.conceptReport' | translate}}</a></li>
+                              <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="collection-report/arrear-report">{{'sidebar.arrearReport' | translate}}</a></li>
+                              <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="collection-report/sales-report">{{'sidebar.salesReport' | translate}}</a></li>
+                              <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="collection-report/sales-trend">{{'sidebar.salesTrend' | translate}}</a></li>
+                              <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="collection-report/sales-booking">{{'sidebar.salesBooking' | translate}}</a></li>
+                              <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="collection-report/commission-income">{{'sidebar.commissionIncome' | translate}}</a></li>
+                              <!-- <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="collection-report/approved-unapproved">{{'sidebar.appUnapproveReport' | translate}}</a></li> -->
+                              <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="collection-report/cash-flow-report">{{'sidebar.cashFlowReport' | translate}}</a></li>
+                              <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="collection-report/project-report">{{'sidebar.projectReport' | translate}}</a></li>
+                              <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="collection-report/buyer-report">{{'sidebar.buyerReport' | translate}}</a></li>
+                          </ul>
+                        </div>
+                     </li>
+
+
                        <li *ngIf="admin?.admin_acl['Access Controls']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
-                         <a class="nav-link" href="javascript://" routerLink="access-control-mgt"><i><img src="assets/img/key.png"></i><span>ACL</span></a>
+                         <a class="nav-link" href="javascript://" routerLink="access-control-mgt"><i><img src="assets/img/key.png"></i><span>{{'sidebar.ACL' | translate}}</span></a>
                        </li>
+
                        <li *ngIf="admin?.admin_acl['Reports']?.can_read==1" class="nav-item dropdown" [routerLinkActive]="'active'">
                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
-                           <i><img src="assets/img/graph2.png"></i><span>Reports</span></a>
+                           <i><img src="assets/img/graph2.png"></i><span>{{'sidebar.reports' | translate}}</span></a>
                            <div class="dropdown-menu">
                               <ul>
-                                 <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="reports/seller">Seller</a></li>
-                                 <li [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="reports/buyer">Buyer</a></li>
-                                 <li [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="reports/notary">Notary</a></li>
-                                 <li [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="reports/bank">Bank</a></li>
+                                 <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="reports/seller">{{'sidebar.seller' | translate}}</a></li>
+                                 <li [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="reports/buyer">{{'sidebar.buyer' | translate}}</a></li>
+                                 <li [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="reports/notary">{{'sidebar.notary' | translate}}</a></li>
+                                 <li [routerLinkActive]="'active'"><a class="dropdown-item" href="javascript://" routerLink="reports/bank">{{'sidebar.bank' | translate}}</a></li>
                               </ul>
                            </div>
                         </li>
+
                        <li *ngIf="admin?.admin_acl['Manual Leads']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
-                         <a class="nav-link" href="javascript://" routerLink="manual-leads/view-all"><i><img src="assets/img/graph.png"></i><span>Manual Leads</span></a>
+                         <a class="nav-link" href="javascript://" routerLink="manual-leads/view-all"><i><img src="assets/img/graph.png"></i><span>{{'sidebar.manualLeads' | translate}}</span></a>
                        </li>
+
                        <li *ngIf="admin?.admin_acl['Templates']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
-                         <a class="nav-link" href="javascript://" routerLink="templates/view-all"><i><img src="assets/img/users.png"></i><span>Templates</span></a>
+                         <a class="nav-link" href="javascript://" routerLink="templates/view-all"><i><img src="assets/img/users.png"></i><span>{{'sidebar.templates' | translate}}</span></a>
                        </li>
+
                        <li class="nav-item" *ngIf="admin?.admin_acl['Appointments']?.can_read==1" [routerLinkActive]="'active'">
-                         <a class="nav-link" href="javascript://" routerLink="appointments"><i><img src="assets/img/calender-icon.png"></i><span>Appointments</span></a>
+                         <a class="nav-link" href="javascript://" routerLink="appointments"><i><img src="assets/img/calender-icon.png"></i><span>{{'sidebar.appointments' | translate}}</span></a>
                        </li>
+
                        <li class="nav-item" [routerLinkActive]="'active'">
-                        <a class="nav-link" href="javascript://" routerLink="notifications"><i><img src="assets/img/graph.png"></i><span>Notifications</span></a>
-                      </li>
+                        <a class="nav-link" href="javascript://" routerLink="notifications"><i><img src="assets/img/graph.png"></i><span>{{'sidebar.notifications' | translate}}</span></a>
+                       </li>
+
                        <li *ngIf="admin?.admin_acl['Settings']?.can_read==1" class="nav-item dropdown" [routerLinkActive]="'active'">
                          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
-                         <i><img src="assets/img/settings.png"></i><span>Settings</span></a>
+                         <i><img src="assets/img/settings.png"></i><span>{{'sidebar.settings' | translate}}</span></a>
                          <div class="dropdown-menu">
                            <ul>
-                             <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/setting-location">Location</a></li>
-                             <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/setting-locality">Locality</a></li>
-                             <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/setting-property">Property</a></li>
-                             <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/setting-project">Project</a></li>
-                             <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/default-settings">Default Settings</a></li>
+                             <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/setting-location">{{'sidebar.location' | translate}}</a></li>
+                             <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/setting-locality">{{'sidebar.locality' | translate}}</a></li>
+                             <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/setting-property">{{'sidebar.property' | translate}}</a></li>
+                             <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/setting-project">{{'sidebar.project' | translate}}</a></li>
+                             <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/default-settings">{{'sidebar.defaultSettings' | translate}}</a></li>
                              <!-- <li><a class="dropdown-item" routerLink="settings/edit-profile">Edit Profile</a></li> -->
-                             <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/documents-listing">Documents Listing</a></li>
-                             <li [routerLinkActive]="'active'"><a class="dropdown-item logout-btn" (click)="onLoggedout()">Logout</a></li>
+                             <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="settings/documents-listing">{{'sidebar.documentListing' | translate}}</a></li>
+                             <li [routerLinkActive]="'active'"><a class="dropdown-item logout-btn" (click)="onLoggedout()">{{'sidebar.logout' | translate}}</a></li>
                            </ul>
                          </div>
                        </li>

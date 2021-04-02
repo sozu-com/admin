@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute} from '@angular/router';
-import { AdminService } from '../../../services/admin.service';
-import { CommonService } from '../../../services/common.service';
-import { IProperty } from '../../../common/property';
-import { Constant } from './../../../common/constants';
-import { Notes } from './../../../models/leads.model';
+import { AdminService } from 'src/app/services/admin.service';
+import { CommonService } from 'src/app/services/common.service';
+import { IProperty } from 'src/app/common/property';
+import { Constant } from 'src/app/common/constants';
+import { Notes } from 'src/app/models/leads.model';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -27,7 +29,9 @@ export class ManualLeadDetailsComponent implements OnInit {
     private router: Router,
     private cs: CommonService,
     public constant: Constant,
-    public model: Notes
+    public model: Notes,
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -38,13 +42,13 @@ export class ManualLeadDetailsComponent implements OnInit {
     });
     this.route.params.subscribe( params => {
       this.parameter.lead_id = params.id;
-      this.parameter.loading = true;
+      this.spinner.show();
       this.admin.postDataApi('getManualLeadById', {id: this.parameter.lead_id, sent_as: this.parameter.sent_as}).subscribe(r => {
-        this.parameter.loading = false;
+        this.spinner.hide();
         this.parameter.data = r.data;
         this.parameter.user_id = this.parameter.data.user.id;
       }, error => {
-        this.parameter.loading = false;
+        this.spinner.hide();
       });
     });
   }
@@ -62,16 +66,15 @@ export class ManualLeadDetailsComponent implements OnInit {
   addLeadNote() {
     this.admin.postDataApi('addManualLeadNote', {manual_lead_id: this.parameter.lead_id, note: this.model.note}).subscribe(r => {
       this.closeModal();
-      // this.parameter.items.push(r.data);
       this.parameter.data.notes.unshift(r.data);
-      swal('Success', this.constant.successMsg.NOTE_ADDED_SUCCESSFULLY, 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
     });
   }
 
   deleteLeadPopup(note_id, index) {
     swal({
-      title: 'Are you sure?',
-      text: 'You want to delete this note?',
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+            this.translate.instant('message.error.wantToDeleteNote'),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -87,7 +90,7 @@ export class ManualLeadDetailsComponent implements OnInit {
   deleteLeadNote(note_id, index) {
     this.admin.postDataApi('deleteManualLeadNote', {note_id: note_id}).subscribe(r => {
       this.parameter.data.notes.splice(index, 1);
-      swal('Success', this.constant.successMsg.NOTE_DELETED_SUCCESSFULLY, 'success');
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
     });
   }
 }

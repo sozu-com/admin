@@ -2,7 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { IProperty } from './common/property';
 import { Router, NavigationEnd, NavigationCancel, NavigationError, NavigationStart } from '@angular/router';
 import { HttpInterceptor } from './services/http-interceptor';
+import { PlatformLocation } from '@angular/common';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { VersionCheckService } from './services/version-check.service';
+import { environment } from 'src/environments/environment';
+import { TranslateService } from '@ngx-translate/core';
 import { AdminService } from './services/admin.service';
+import { Constant } from './common/constants';
+
+declare var $: any;
 
 @Component({
   selector: 'app-root',
@@ -14,71 +22,47 @@ export class AppComponent implements OnInit {
 
   public parameter: IProperty = {};
   loading: any = false;
-  constructor(private router: Router, private admin: AdminService, public interceptor: HttpInterceptor) {
+  constructor(private router: Router, private location: PlatformLocation,
+    public interceptor: HttpInterceptor,
+    private versionCheckService: VersionCheckService,
+    private spinner: NgxSpinnerService,
+    private admin: AdminService,
+    private constant: Constant) {
 
-    // this.checkData().then(r => {
-    //   console.log('checkkkkk----------------');
-    //     // this.loading = false;
-    // });
+    // close popup if any opened
+    location.onPopState(() => {
+      $('.close').click();
+      // this.spinner.hide();
+    });
 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
-        this.parameter.loading = true;
+        this.spinner.show();
       }
       if (event instanceof NavigationEnd) {
-        this.parameter.loading = false;
+        this.spinner.hide();
         window.scrollTo(0, 0);
       }
       if (event instanceof NavigationCancel) {
-        this.parameter.loading = false;
+        this.spinner.hide();
       }
       if (event instanceof NavigationError) {
-        this.parameter.loading = false;
+        this.spinner.hide();
       }
     });
   }
 
   ngOnInit() {
+    this.versionCheckService.initVersionCheck(environment.versionCheckURL);
     this.interceptor.loaderValue$.subscribe(res => {
       setTimeout(() => {
         this.loading = Object.keys(res).length !== 0 ? res['value'] : false;
       }, 0);
     });
+
+    // translate
+    const code = localStorage.getItem('language_code');
+    this.admin.setLanguage(code ? code : this.constant.language[1].code);
   }
 
-
-  // checkData(): Promise<any> {
-
-  //   return new Promise(resolve => {
-  //     this.admin.login.subscribe(success => {
-  //       this.interceptor.loader.next({value: true});
-  //       // console.log('outside', success);
-  //       if (success['name'] === undefined) {
-  //         this.interceptor.loader.next({value: true});
-  //         // console.log('inside');
-  //         this.admin.postDataApi('get-details', {})
-  //         .subscribe(
-  //           success1 => {
-  //             this.interceptor.loader.next({value: true});
-  //             // console.log('ssss1', success1);
-  //             this.admin.login.next(success1.data);
-  //             this.admin.permissions = success1.data.permissions ? success1.data.permissions : {};
-  //             const aclData: any = {};
-  //             const dd = success1.data.m.map((obj, index) => {
-  //               const key =  Object.keys(obj)[0];
-  //               this.admin.admin_acl[key] =  obj[key];
-  //             });
-  //             this.interceptor.loader.next({value: false});
-  //             // console.log('111111');
-  //             resolve();
-  //             return true;
-  //           });
-  //       } else {
-  //         // console.log('inside guard');
-  //         resolve();
-  //         return true;
-  //       }
-  //     });
-  //   });
-  // }
 }

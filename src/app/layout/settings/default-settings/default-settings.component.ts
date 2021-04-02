@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from '../../../services/admin.service';
-import { IProperty } from '../../../common/property';
-import { Settings } from '../../../models/settings.model';
+import { AdminService } from 'src/app/services/admin.service';
+import { IProperty } from 'src/app/common/property';
+import { Settings } from 'src/app/models/settings.model';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 
 @Component({
@@ -14,7 +16,8 @@ export class DefaultSettingsComponent implements OnInit {
 
   public parameter: IProperty = {};
 
-  constructor(private admin: AdminService, public model: Settings) { }
+  constructor(private admin: AdminService, public model: Settings, private spinner: NgxSpinnerService,
+    private translate: TranslateService) { }
 
   ngOnInit() {
     this.getGlobalSetting();
@@ -28,24 +31,23 @@ export class DefaultSettingsComponent implements OnInit {
     this.admin.postDataApi('getGlobalSetting', {})
       .subscribe(
         success => {
-          this.parameter.loading = false;
           this.model = success.data;
         },
         error => {
-          this.parameter.loading = false;
         });
   }
 
   updateGlobalSetting() {
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('updateGlobalSetting', this.model)
       .subscribe(
         success => {
-          this.parameter.loading = false;
-          swal('Success', 'Details updated successfully!', 'success');
+          this.spinner.hide();
+          this.admin.globalSettings.next(success.data);
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
         },
         error => {
-          this.parameter.loading = false;
+          this.spinner.hide();
         });
   }
 }

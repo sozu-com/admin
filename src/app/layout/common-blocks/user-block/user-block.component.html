@@ -1,0 +1,23 @@
+<div *ngIf="data" class="project-des-bx white-bg">
+  <div class="fig-block">
+    <img *ngIf="data?.image" onerror='this.src="assets/img/default_img.png"'
+      [defaultImage]="data?.image| img:'thumb'" [lazyLoad]="data?.image">
+    <img *ngIf="!data?.image" src="assets/img/default_img.png">
+  </div>
+  <div class="project-des-content" style="padding-top: 23px;">
+    <div>
+      <small title="Developer Name">{{data?.name ? data?.name : ('commonBlock.NA' | translate)}}</small>
+      <!-- <div class="price"> -->
+          <!-- [(ngModel)]="buildingId" -->
+        <!-- <input type="radio" name="buildingId" (change)="setBuildingId(data)"> -->
+        <label class="cust-check-bx float-right">
+            <input type="radio" (click)="setUserId(data, index)" [checked]="data.selected ? 'checked' : ''" name="notary_id">
+            <span class="checkmark"></span>
+        </label>
+    </div>
+    <!-- <a routerLink="/dashboard/projects/details/{{data.id}}"> -->
+    <h5 title="number">{{data?.dial_code}} {{data?.phone}}</h5>
+    <!-- </a> -->
+    <p class="p12">{{data?.email}}</p>
+  </div>
+</div>

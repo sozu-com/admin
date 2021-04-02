@@ -1,30 +1,32 @@
+// third party libraries
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+// general components
 import { AclUserGuard } from '../../guards/acl-user.guard';
-import { AuthGuard } from '../../guards/auth.guard';
 import { AppointmentsComponent } from './appointments.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 const routes: Routes = [
-  // { path: '', component: AppointmentsComponent}
-  { path: '', component: AppointmentsComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Appointments', 'can_read', '']}}
+  {
+    path: '', component: AppointmentsComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Appointments', 'can_read', ''] }
+  }
 ];
 
 @NgModule({
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
-    LoadingModule.forRoot({
-      animationType: ANIMATION_TYPES.rectangleBounce,
-      primaryColour: '#00B96F'
-    }),
+    NgxSpinnerModule,
     NgxPaginationModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TranslateModule
   ],
   declarations: [
     AppointmentsComponent

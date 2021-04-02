@@ -1,14 +1,19 @@
+// third party libraries
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
-// import { NgBoxModule } from 'ngbox/ngbox.module';
-// import { NgBoxService } from 'ngbox/ngbox.service';
 import { NouisliderModule } from 'ng2-nouislider';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { CalendarModule } from 'primeng/primeng';
+
+// general components
 import { RemoveCommaPipe } from './../../pipes/remove-comma.pipe';
 import { LeadsComponent } from './leads.component';
 import { DataCollectorComponent } from './data-collector/data-collector.component';
@@ -26,95 +31,143 @@ import { MyChatComponent } from './inhouse-broker/inhouse-broker-detail/my-chat/
 import { AclUserGuard } from '../../guards/acl-user.guard';
 import { SharedModule } from '../../modules/shared.module';
 import { CsrSellerDetailComponent } from './csr-seller/csr-seller-detail/csr-seller-detail.component';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ViewedProjectsComponent } from '../common-blocks/viewed-projects/viewed-projects.component';
-import { CalendarModule } from 'primeng/primeng';
 import { SellerChatComponent } from './csr-seller/csr-seller-detail/seller-chat/seller-chat.component';
+import { OutsideBrokerComponent } from './outside-broker/outside-broker.component';
+import { OutsideBrokerDetailComponent } from './outside-broker/outside-broker-detail/outside-broker-detail.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { CsrRenterComponent } from './csr-renter/csr-renter.component';
+import { CreditAgentComponent } from './credit-agent/credit-agent.component';
+import { CollectionAgentComponent } from './collection-agent/collection-agent.component';
 
 const routes: Routes = [
-  { path: 'data-collectors', component: DataCollectorComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Data Collector Lead Management', 'can_read', 'can_data_collector']}},
+  {
+    path: 'data-collectors', component: DataCollectorComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Data Collector Lead Management', 'can_read', 'can_data_collector'] }
+  },
 
-  { path: 'csr-sellers', component: CsrSellerComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Seller Lead Management', 'can_read', 'can_csr_seller']}},
+  {
+    path: 'csr-renters', component: CsrRenterComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Renter Lead Management', 'can_read', 'can_csr_renter'] }
+  },
+  {
+    path: 'credit-agents', component: CreditAgentComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Credit Agent Lead Management', 'can_read', 'can_credit_agent'] }
+  },
+  // lead wrt credit-agents
+  {
+    path: 'credit-agents-leads/:id', component: CreditAgentComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Credit Agent Lead Management', 'can_read', 'can_credit_agent'] }
+  },
+  {
+    path: 'collection-agents', component: CsrRenterComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Renter Lead Management', 'can_read', 'can_csr_renter'] }
+  },
+  {
+    path: 'csr-sellers', component: CsrSellerComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Seller Lead Management', 'can_read', 'can_csr_seller'] }
+  },
   // lead wrt seller
-  { path: 'csr-sellers-leads/:id', component: CsrSellerComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Seller Lead Management', 'can_read', 'can_csr_seller']}},
+  {
+    path: 'csr-sellers-leads/:id', component: CsrSellerComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Seller Lead Management', 'can_read', 'can_csr_seller'] }
+  },
   // lead details
-  { path: 'csr-sellers/:id', component: CsrSellerDetailComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Seller Lead Management', 'can_read', 'can_csr_seller']}},
-  { path: 'chat-with-seller/:id/:user_id', component: SellerChatComponent,
-  canActivate: [AclUserGuard], data: {roles: ['Seller Lead Management', 'can_read', 'can_csr_seller']}},
+  {
+    path: 'csr-sellers/:id', component: CsrSellerDetailComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Seller Lead Management', 'can_read', 'can_csr_seller'] }
+  },
+  {
+    path: 'chat-with-seller/:chat_with/:assigned_csr_seller_id/:seller_id', component: SellerChatComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Seller Lead Management', 'can_read', 'can_csr_seller'] }
+  },
 
-  { path: 'csr-buyers', component: CsrBuyerComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Buyer Lead Management', 'can_read', 'can_csr_buyer']}},
+  {
+    path: 'csr-buyers', component: CsrBuyerComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Buyer Lead Management', 'can_read', 'can_csr_buyer'] }
+  },
   // lead wrt buyer
-  { path: 'csr-buyers-leads/:id', component: CsrBuyerComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Buyer Lead Management', 'can_read', 'can_csr_buyer']}},
+  {
+    path: 'csr-buyers-leads/:id', component: CsrBuyerComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Buyer Lead Management', 'can_read', 'can_csr_buyer'] }
+  },
   // lead details
-  { path: 'csr-buyers/:id', component: CsrBuyerDetailComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Buyer Lead Management', 'can_read', 'can_csr_buyer']}},
+  {
+    path: 'csr-buyers/:id', component: CsrBuyerDetailComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Buyer Lead Management', 'can_read', 'can_csr_buyer'] }
+  },
 
-  { path: 'inhouse-broker', component: InhouseBrokerComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker']}},
+  {
+    path: 'inhouse-broker', component: InhouseBrokerComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Inhouse Agent Lead Management', 'can_read', 'can_in_house_broker'] }
+  },
   // leads wrt inhouse broker
-  { path: 'inhouse-broker-leads/:id', component: InhouseBrokerComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker']}},
+  {
+    path: 'inhouse-broker-leads/:id', component: InhouseBrokerComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Inhouse Agent Lead Management', 'can_read', 'can_in_house_broker'] }
+  },
   // lead details
-  { path: 'inhouse-broker/:id', component: InhouseBrokerDetailComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker']}},
-  { path: 'chat-with-developer/:id', component: MyChatComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker']}},
+  {
+    path: 'inhouse-broker/:id', component: InhouseBrokerDetailComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Inhouse Agent Lead Management', 'can_read', 'can_in_house_broker'] }
+  },
+  {
+    path: 'chat-list/:type/:id', component: MyChatComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Inhouse Agent Lead Management', 'can_read', 'can_in_house_broker'] }
+  },
+  // {
+  //   path: 'chat-with-csr-seller/:type/:id', component: MyChatComponent,
+  //   canActivate: [AclUserGuard], data: { roles: ['Inhouse Agent Lead Management', 'can_read', 'can_in_house_broker'] }
+  // },
+  {
+    path: 'outside-broker', component: OutsideBrokerComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Outside Agent Lead Management', 'can_read', 'can_in_house_broker'] }
+  },
+  // leads wrt inhouse broker
+  {
+    path: 'outside-broker-leads/:id', component: OutsideBrokerComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Outside Agent Lead Management', 'can_read', 'can_in_house_broker'] }
+  },
+  // lead details
+  {
+    path: 'outside-broker/:id', component: OutsideBrokerDetailComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Outside Agent Lead Management', 'can_read', 'can_in_house_broker'] }
+  },
 
-  { path: 'csr-closers', component: CsrCloserComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Closer Lead Management', 'can_read', 'can_csr_closer']}},
+  {
+    path: 'csr-closers', component: CsrCloserComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Closer Lead Management', 'can_read', 'can_csr_closer'] }
+  },
   // leads wrt closure
-  { path: 'csr-closers-leads/:id', component: CsrCloserComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Closer Lead Management', 'can_read', 'can_csr_closer']}},
+  {
+    path: 'csr-closers-leads/:id', component: CsrCloserComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Closer Lead Management', 'can_read', 'can_csr_closer'] }
+  },
   // lead details
-  { path: 'csr-closers/:id', component: CsrCloserDetailComponent,
-    canActivate: [AclUserGuard], data: {roles: ['Closer Lead Management', 'can_read', 'can_csr_closer']}}
+  {
+    path: 'csr-closers/:id', component: CsrCloserDetailComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Closer Lead Management', 'can_read', 'can_csr_closer'] }
+  }
 ];
 
-
-// const routes: Routes = [
-//   { path: 'data-collectors', component: DataCollectorComponent,
-//     canActivate: [AuthGuard], data: {roles: ['Data Collector Lead Management', 'can_read', 'can_data_collector']}},
-//   { path: 'csr-sellers', component: CsrSellerComponent,
-//     canActivate: [AuthGuard], data: {roles: ['Seller Lead Management', 'can_read', 'can_csr_seller']}},
-//   { path: 'csr-buyers', component: CsrBuyerComponent,
-//     canActivate: [AuthGuard], data: {roles: ['Buyer Lead Management', 'can_read', 'can_csr_buyer']}},
-//   { path: 'csr-buyers/:id', component: CsrBuyerDetailComponent,
-//     canActivate: [AuthGuard], data: {roles: ['Buyer Lead Management', 'can_read', 'can_csr_buyer']}},
-//   { path: 'inhouse-broker', component: InhouseBrokerComponent,
-//     canActivate: [AuthGuard], data: {roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker']}},
-//   { path: 'inhouse-broker/:id', component: InhouseBrokerDetailComponent,
-//     canActivate: [AuthGuard], data: {roles: ['Broker Lead Management', 'can_read', 'can_in_house_broker']}},
-//   { path: 'chat-with-developer/:id', component: MyChatComponent,
-//     canActivate: [AuthGuard], data: {roles: ['Broker Lead Management', 'can_update', 'can_in_house_broker']}},
-//   { path: 'csr-closers', component: CsrCloserComponent,
-//     canActivate: [AuthGuard], data: {roles: ['Closer Lead Management', 'can_read', 'can_csr_closer']}},
-//   { path: 'csr-closers/:id', component: CsrCloserDetailComponent,
-//     canActivate: [AuthGuard], data: {roles: ['Closer Lead Management', 'can_read', 'can_csr_closer']}}
-// ];
 
 @NgModule({
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
-    LoadingModule.forRoot({
-      animationType: ANIMATION_TYPES.rectangleBounce,
-      primaryColour: '#00B96F'
-    }),
+    NgxSpinnerModule,
     NgxPaginationModule,
     FormsModule,
     ReactiveFormsModule,
     Ng2TelInputModule,
     MalihuScrollbarModule.forRoot(),
+    LazyLoadImageModule,
     NouisliderModule,
+    NgMultiSelectDropDownModule.forRoot(),
     NgxChartsModule,
     SharedModule,
-    CalendarModule
+    CalendarModule,
+    TranslateModule
     // LayoutModule
     // NgBoxModule
   ],
@@ -126,16 +179,21 @@ const routes: Routes = [
     CsrBuyerComponent,
     InhouseBrokerComponent,
     CsrCloserComponent,
-    CsrBuyerDetailComponent,
+    //CsrBuyerDetailComponent,
     InhouseBrokerDetailComponent,
     CsrCloserDetailComponent,
-    InterestedPropertyComponent,
-    ViewedPropertyComponent,
-    ViewedProjectsComponent,
+   // InterestedPropertyComponent,
+    //ViewedPropertyComponent,
+    //ViewedProjectsComponent,
     RemoveCommaPipe,
-    FillInformationComponent,
+    //FillInformationComponent,
     MyChatComponent,
-    SellerChatComponent
+    SellerChatComponent,
+    OutsideBrokerComponent,
+    OutsideBrokerDetailComponent,
+    CsrRenterComponent,
+    CreditAgentComponent,
+    CollectionAgentComponent
   ],
   // providers: [NgBoxService]
 })

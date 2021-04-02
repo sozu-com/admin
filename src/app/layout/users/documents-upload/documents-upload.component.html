@@ -1,0 +1,174 @@
+<div class="container-fluid">
+      <div class="row">
+            <div class="col-11">
+                  <div class="title-group">
+                        <h5>{{ 'addForm.documentation' | translate }}</h5>
+                  </div>
+            </div>
+            <div class="col-lg-1 col-md-1 col-6">
+                  <div class="btn-cont text-right title-group">
+                        <a href="javascript://" (click)="goBackToUserListing()" class="btn-sm btn-primary-new"
+                              href="javascript://">{{'quickVisualization.back' |
+                              translate}}</a>
+                  </div>
+            </div>
+      </div>
+      <div class="col-12">
+            <div class="spacer40"></div>
+      </div>
+      <div class="card">
+            <h5>{{ 'addForm.uploadDoc' | translate }}</h5>
+            <hr />
+            <div style="max-width: 400px; margin: 2%;" *ngIf="linked_documents?.length > 0">
+                  <div class="input-icons" *ngFor="let bankAccount of linked_documents; let i = index">
+                        <div class="row">
+                              <div class="col-md-8">
+                                    <div *ngIf="this.currentDocumentIndex == 1 ">
+                                          <input class="input-field" type="text"
+                                                [(ngModel)]="this.language_code == 'en' ? bankAccount.user_document.name_en : bankAccount.user_document.name_es "
+                                                name="this.language_code == 'en' ? name_en{{ i }} : name_es{{ i }} "
+                                                disabled />
+                                          <button class="fa fa-plus-circle icon"
+                                                [disabled]="admin?.admin_acl['User Management']?.can_create==0"
+                                                (click)="openAddFolder(bankAccount)" style="cursor: pointer;"
+                                                *ngIf="!bankAccount.document_link">
+                                          </button>
+                                          <button class="fa fa-check icon" aria-hidden="true"
+                                                *ngIf="bankAccount.document_link">
+                                          </button>
+                                    </div>
+                                    <div *ngIf="this.currentDocumentIndex == 2 ">
+                                          <input class="input-field" type="text"
+                                                [(ngModel)]="this.language_code == 'en' ? bankAccount.beneficiary_document.name_en : bankAccount.beneficiary_document.name_es "
+                                                name="this.language_code == 'en' ? name_en{{ i }} : name_es{{ i }} "
+                                                disabled />
+                                          <button class="fa fa-plus-circle icon"
+                                                [disabled]="admin?.admin_acl['User Management']?.can_create==0"
+                                                (click)="openAddFolder(bankAccount)" style="cursor: pointer;"
+                                                *ngIf="!bankAccount.document_link">
+                                          </button>
+                                          <button class="fa fa-check icon" aria-hidden="true"
+                                                *ngIf="bankAccount.document_link">
+                                          </button>
+                                    </div>
+                                    <div *ngIf="this.currentDocumentIndex == 3 ">
+                                          <input class="input-field" type="text"
+                                                [(ngModel)]="this.language_code == 'en' ? bankAccount.tutor_document.name_en : bankAccount.tutor_document.name_es "
+                                                name="this.language_code == 'en' ? name_en{{ i }} : name_es{{ i }} "
+                                                disabled />
+                                          <button class="fa fa-plus-circle icon"
+                                                [disabled]="admin?.admin_acl['User Management']?.can_create==0"
+                                                (click)="openAddFolder(bankAccount)" style="cursor: pointer;"
+                                                *ngIf="!bankAccount.document_link">
+                                          </button>
+                                          <button class="fa fa-check icon" aria-hidden="true"
+                                                *ngIf="bankAccount.document_link">
+                                          </button>
+                                    </div>
+                              </div>
+                              <div class="col-md-2">
+                                    <div *ngIf="this.currentDocumentIndex == 1 ">
+                                          <button class="fa fa-eye icons action-icon" *ngIf="bankAccount.document_link"
+                                                aria-hidden="true" style="border:0px solid rgba(206, 206, 206, 0.5);"
+                                                (click)="viewDocument(bankAccount?.document_link)"
+                                                [disabled]="admin?.admin_acl['User Management']?.can_read==0">
+                                          </button>
+                                    </div>
+                                    <div *ngIf="this.currentDocumentIndex == 2 ">
+                                          <button class="fa fa-eye icons action-icon" *ngIf="bankAccount.document_link"
+                                                aria-hidden="true" style="border:0px solid rgba(206, 206, 206, 0.5);"
+                                                (click)="viewDocument(bankAccount?.document_link)"
+                                                [disabled]="admin?.admin_acl['User Management']?.can_read==0">
+                                          </button>
+                                    </div>
+                                    <div *ngIf="this.currentDocumentIndex == 3 ">
+                                          <button class="fa fa-eye icons action-icon" *ngIf="bankAccount.document_link"
+                                                aria-hidden="true" style="border:0px solid rgba(206, 206, 206, 0.5);"
+                                                (click)="viewDocument(bankAccount?.document_link)"
+                                                [disabled]="admin?.admin_acl['User Management']?.can_read==0">
+                                          </button>
+                                    </div>
+                              </div>
+                              <div class="col-md-2">
+                                    <div *ngIf="this.currentDocumentIndex == 1 ">
+                                          <button class="fa fa-trash iconss action-icon"
+                                                *ngIf="bankAccount.document_link" aria-hidden="true"
+                                                title="{{'table.title.delete' | translate}}"
+                                                style="border:0px solid rgba(206, 206, 206, 0.5);"
+                                                (click)="deletePopup(i, bankAccount.id)"
+                                                [disabled]="admin?.admin_acl['User Management']?.can_purge==0">
+                                          </button>
+                                    </div>
+                                    <div *ngIf="this.currentDocumentIndex == 2 ">
+                                          <button class="fa fa-trash iconss action-icon"
+                                                *ngIf="bankAccount.document_link" aria-hidden="true"
+                                                title="{{'table.title.delete' | translate}}"
+                                                style="border:0px solid rgba(206, 206, 206, 0.5);"
+                                                (click)="deletePopup(i, bankAccount.id)"
+                                                [disabled]="admin?.admin_acl['User Management']?.can_purge==0">
+                                          </button>
+                                    </div>
+                                    <div *ngIf="this.currentDocumentIndex == 3 ">
+                                          <button class="fa fa-trash iconss action-icon"
+                                                *ngIf="bankAccount.document_link" aria-hidden="true"
+                                                title="{{'table.title.delete' | translate}}"
+                                                style="border:0px solid rgba(206, 206, 206, 0.5);"
+                                                (click)="deletePopup(i, bankAccount.id)"
+                                                [disabled]="admin?.admin_acl['User Management']?.can_purge==0">
+                                          </button>
+                                    </div>
+                              </div>
+                        </div>
+
+                  </div>
+            </div>
+            <div *ngIf="linked_documents?.length == 0" style="text-align: center; color: black;">
+                  <h5>{{'addForm.noRecordAvailable' | translate }}</h5>
+            </div>
+      </div>
+
+      <a href="javascript://" data-toggle="modal" data-target="#add-folder" #folderModalOpen style="display: none;"></a>
+      <div class="modal animated" id="add-folder">
+            <div class="modal-dialog fadeIndown" style="margin-top: 13%;">
+                  <div class="modal-content notary-avail">
+                        <div class="modal-header popup-header">
+                              <h4>{{ 'addForm.uploadDoc' | translate }}</h4>
+                              <button style="display: none;" type="button" class="close" data-dismiss="modal"
+                                    #docsModalClose>&times;</button>
+                              <button type="button" class="close" (click)="closeModal()">&times;</button>
+                        </div>
+
+                        <div class="modal-body">
+                              <div class="white-bg">
+                                    <div class="row">
+                                          <div class="col-8">
+                                                <p class="p16 marginB0">{{folderName}}</p>
+                                          </div>
+                                          <div class="col-4 text-right">
+                                                <a class="add" href="javascript://" (click)="addDocs()">
+                                                      <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif"
+                                                            height="20">
+                                                      {{'commonBlock.add' | translate}}
+                                                </a>
+
+                                                <ng-template #noAddPermissiom>
+                                                      <a class="add" href="javascript://">{{'commonBlock.add' |
+                                                            translate}}</a>
+                                                </ng-template>
+                                          </div>
+                                    </div>
+                              </div>
+                              <div class="form-group-2">
+                                    <div class="form-group">
+                                          <input type="file" name="docFile" id="folderId" #docsFile
+                                                accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/x-png,image/jpg,image/jpeg"
+                                                (change)="onSelectFile($event.target.files,folderId)">
+                                    </div>
+                              </div>
+
+                        </div>
+                  </div>
+            </div>
+      </div>
+
+</div>

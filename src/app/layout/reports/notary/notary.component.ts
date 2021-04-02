@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { IProperty } from '../../../common/property';
-import { AdminService } from './../../../services/admin.service';
+import { IProperty } from 'src/app/common/property';
+import { AdminService } from 'src/app/services/admin.service';
 import * as moment from 'moment';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-notary',
@@ -18,14 +20,30 @@ export class NotaryComponent implements OnInit {
   colorScheme = {
     domain: ['#4eb96f', '#4a85ff']
   };
-
-  constructor(public admin: AdminService) {
+  locale: any;
+  constructor(public admin: AdminService, private spinner: NgxSpinnerService,
+    private translate: TranslateService) {
     // Object.assign(this, this.chartView);
   }
 
   onSelect(event) {}
 
   ngOnInit() {
+
+    this.locale = {
+      firstDayOfWeek: 0,
+      dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+      dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+      dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+      monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+      monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun',
+        'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+      today: 'Hoy',
+      clear: 'Clara',
+      dateFormat: 'mm/dd/yy',
+      weekHeader: 'Wk'
+    };
     const date = new Date();
     // this.parameter.min = new Date(date.getFullYear() + '-' + '01' + '-' + '01');
     // this.parameter.max = date;
@@ -40,9 +58,9 @@ export class NotaryComponent implements OnInit {
     this.totalSignUpCount = 0; this.totalPropertyCount = 0;
     // const input = {start_date: this.parameter.min, end_date: this.parameter.max};
     const input = {start_date: moment(this.parameter.min).format('YYYY-MM-DD'), end_date: moment(this.parameter.max).format('YYYY-MM-DD')};
-    this.parameter.loading = true;
+    this.spinner.show();
     this.admin.postDataApi('reports/noatary', input).subscribe(r => {
-      this.parameter.loading = false;
+      this.spinner.hide();
       this.parameter.items = r.data;
       const data = [];
       this.parameter.items.forEach(element => {
@@ -52,10 +70,10 @@ export class NotaryComponent implements OnInit {
           'name' : element.month_name + ', ' + element.year,
           'series': [
             {
-              'name': 'Sign Up',
+              'name': this.translate.instant('reports.signUp'),
               'value': element.signup_count
             }, {
-              'name': 'Properties',
+              'name': this.translate.instant('reports.properties'),
               'value': element.property_count
             }
           ]
@@ -65,7 +83,7 @@ export class NotaryComponent implements OnInit {
       this.chartView = data;
       // Object.assign(this, this.chartView);
     }, error => {
-      this.parameter.loading = false;
+      this.spinner.hide();
     });
   }
 }

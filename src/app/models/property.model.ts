@@ -3,6 +3,9 @@ export class Property {
         id: '',
         name_es: '',
         name_en: '',
+        bedroom: 0,
+        bathroom: 0,
+        half_bathroom: 0,
         status: 0
     };
 

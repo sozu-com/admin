@@ -1,0 +1,532 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4 col-6">
+      <div class="title-group">
+        <h5>{{'viewManagers.label' | translate}}</h5>
+        <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}}
+          {{parameter.total}}</p>
+      </div>
+    </div>
+    <div class="col-md-5 col-6">
+      <div class="btn-cont upload-excel pull-right">
+        <a title="{{'table.title.downloadSampleFile' | translate}}" href="assets/docx/BD_TowerManagerPerson_Sozu.xlsx"
+          class="btn"><span class="fa fa-download"></span></a>
+        <label title="{{'table.title.chooseExcelFile' | translate}}" class="img_label">{{label}}
+          <input type="file" #fileInput accept=".xls,.xlsx" (change)="getFileName()">
+        </label>
+        <a title="{{'table.title.uploadSelectedFile' | translate}}" (click)="importData()" href="javascript://"
+          class="btn"><span class="fa fa-upload"></span></a>
+      </div>
+    </div>
+    <div class="col-md-3 col-6">
+      <div class="btn-cont text-right">
+        <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#addInhouseUser"
+          #inhouseUserModalOpen>{{'table.addNewBtn' | translate}}</a>
+        <a *ngIf="admin?.admin_acl['Managers Management']?.can_create==1" class="btn btn-primary" href="javascript://"
+          (click)="openAddModal()">{{'table.addNewBtn' | translate}}</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-6">
+      <!-- <div class="title-group">
+            <h5>{{'table.th.leads' | translate}}
+                <span *ngIf="parameter.count_flag == 1">({{'table.th.total' | translate}})</span>
+                <span *ngIf="parameter.count_flag == 2">({{'table.th.withoutAgent' | translate}})</span>
+                <span *ngIf="parameter.count_flag == 3">({{'table.th.infoFilled' | translate}})</span>
+                <span *ngIf="parameter.count_flag == 4">({{'table.th.agentAssigned' | translate}})</span>
+            </h5>
+        </div> -->
+    </div>
+    <div class="col-lg-6 col-md-6 col-5" *ngIf="admin?.admin_acl['Managers Management']?.can_read == 1">
+      <div class="add-new text-right">
+        <a class="btn" (click)="bulkAssign()" href="javascript://">
+          {{'table.th.bulkReassign' | translate}}</a>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="white-bg">
+    <div class="tabel-section">
+      <div class="table-responsive">
+
+        <table class="table table-striped">
+          <tr>
+            <th *ngIf="admin?.admin_acl['Managers Management']?.can_read == 1" style="width:6%">
+              <div class="table-search">
+                <!-- <label>{{'table.th.all' | translate}}</label> -->
+                <!-- <div>
+                    <label class="cust-check-bx">
+                        <input class="width1" type="checkbox" [(ngModel)]="allSelected"
+                            (click)="selectAll(parameter.is_selected)" name="document">
+                        <span class="checkmark"></span>
+                    </label>
+                </div> -->
+              </div>
+            </th>
+            <th style="width:6%">&nbsp;
+              <div class="searh-3">
+                <select [(ngModel)]="parameter.is_freelancer" name="is_freelancer"
+                  (change)="setIsFreelancer(parameter.is_freelancer)">
+                  <option value="0">All</option>
+                  <option value="1">Freelancer</option>
+                  <option value="2">Company</option>
+                </select>
+              </div>
+            </th>
+            <th style="width:20%">
+              <div class="table-search">
+                <label>{{'table.th.companyCommercialName' | translate}}</label>
+                <div class="searh-3">
+                  <input type="text" [(ngModel)]="parameter.company_name"
+                    (keyup.enter)="searchUserByCompanyName(parameter.company_name)" name=""
+                    autocomplete="address-level4">
+                  <button type="button" *ngIf="parameter.company_name"
+                    (click)="searchUserByCompanyName(parameter.company_name)"><i class="fa fa-search"></i></button>
+                </div>
+              </div>
+            </th>
+            <th style="width:15%">
+              <div class="table-search">
+                <label><br>&nbsp;{{'table.th.name' | translate}}</label>
+                <div class="searh-3">
+                  <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="searchUserByName(parameter.name)"
+                    name="" autocomplete="address-level4">
+                  <button type="button" *ngIf="parameter.name" (click)="searchUserByName(parameter.name)"><i
+                      class="fa fa-search"></i></button>
+                </div>
+              </div>
+            </th>
+            <th style="width:15%; text-align:left;">
+              <div class="table-search">
+                <label><br>&nbsp;{{'table.th.contactNumber' | translate}}</label>
+                <div class="searh-3">
+                  <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="searchUserByPhone(parameter.phone)"
+                    name="" autocomplete="address-level4">
+                  <button type="button" *ngIf="parameter.phone" (click)="searchUserByPhone(parameter.phone)"><i
+                      class="fa fa-search"></i></button>
+                </div>
+              </div>
+            </th>
+            <th style="width:20%">
+              <div class="table-search">
+                <label><br>&nbsp;{{'table.th.emailAddress' | translate}}</label>
+                <div class="searh-3">
+                  <input (keydown.space)="$event.preventDefault();" type="text" [(ngModel)]="parameter.email"
+                    (keyup.enter)="searchUserByEmail(parameter.email)" name="" autocomplete="address-level4">
+                  <button type="button" *ngIf="parameter.email" (click)="searchUserByEmail(parameter.email)"><i
+                      class="fa fa-search"></i></button>
+                </div>
+              </div>
+            </th>
+            <th style="width:5%; vertical-align: top;">
+              <div class="table-search">
+                <label>{{'table.th.linkedProjects' | translate}}</label>
+                <a (click)="sortData(model.project_sort==1?2:1)" href="javascript://"><img
+                    [ngClass]="{'upsidedown':model.project_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
+              </div>
+            </th>
+            <th style="width:5%; vertical-align: top;">
+              <div class="table-search">
+                <label>{{'table.th.agentAssignee' | translate}}</label>
+                <!-- <a (click)="sortData(model.project_sort==1?2:1)" href="javascript://"><img
+                    [ngClass]="{'upsidedown':model.project_sort==2}" src="assets/img/top-arrow.png" alt="img"></a> -->
+              </div>
+            </th>
+            <th style="width:19%">
+              &nbsp;
+            </th>
+          </tr>
+          <tr
+            *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }; let i = index">
+            <td *ngIf="admin?.admin_acl['Managers Management']?.can_read == 1" (click)="$event.stopPropagation()">
+              <label class="cust-check-bx">
+                <input type="checkbox" [(ngModel)]="item.selected" name="selected{{i}}" [disabled]="admin?.admin_acl['Managers Management']?.can_update == 0">
+                <span class="checkmark"></span>
+              </label>
+              <!-- <i class="fa" [ngClass]="item.selected?'fa-check-square-o':'fa-square-o'" (click)="item.selected = !item.selected" aria-hidden="true"></i> -->
+            </td>
+            <td>
+              <img *ngIf="item.image" [defaultImage]="item.image| img:'thumb'" [lazyLoad]="item.image"
+                class="rounded-circle" alt="img">
+              <img *ngIf="!item.image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
+            </td>
+            <td class="text-left" [ngClass]="{'green-color cursor-pointer': item?.company?.name}"
+              (click)="viewCompany(item)">
+              <span class="name">{{item?.company?.name ? item?.company?.name : ('table.th.freelancer' |
+                translate)}}</span>
+            </td>
+            <td class="text-left text-ellipsis120">
+              <span class="name">
+                {{item.name | titlecase}}
+                {{item.first_surname ? (item.first_surname | titlecase) : ''}}
+                {{item.second_surname ? (item.second_surname | titlecase) : ''}}
+              </span>
+            </td>
+            <td class="text-left" *ngIf="item.phone">
+              {{item.dial_code && item.dial_code!=undefined ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
+            <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
+            <td class="text-left">{{item.email || ('table.tr.td.NA' | translate)}}</td>
+            <td class="text-left">
+              <a routerLink="/dashboard/projects/view-projects/manager/{{item.id}}">
+                <span class="green-color">{{item.project_count | numberWithCommas}}</span>
+              </a>
+            </td>
+            <td class="text-left">
+              <!-- <a routerLink="/dashboard/projects/view-projects/manager/{{item.id}}">
+                <span class="green-color">{{item.project_count | numberWithCommas}}</span>
+              </a> -->
+              <span>
+                {{item?.agent_details?.name || ('table.tr.td.NA' | translate)}}
+              </span>
+            </td>
+            <!-- <td class="text-left">{{item.project_count | numberWithCommas}}</td> -->
+            <td>
+              <div class="table-actions">
+                <button [disabled]="admin?.admin_acl['Managers Management']?.can_update==0"
+                  title="{{'table.title.editDetails' | translate}}" (click)="editUser(item, i)" class="action-icon"><img
+                    src="assets/img/edit.png" alt="img"></button>
+                <button [disabled]="admin?.admin_acl['Managers Management']?.can_delete==0"
+                  (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1)"
+                  title="{{item.is_blocked==1 ? ('table.title.unblock' | translate) : ('table.title.block' | translate)}}"
+                  [ngClass]="{'unblock-bg':item.is_blocked==1}" class="action-icon">
+                  <img src="assets/img/block.png" alt="img">
+                </button>
+                <button [disabled]="admin?.admin_acl['Managers Management']?.can_purge==0"
+                  (click)="deletePopup(item, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img
+                    src="assets/img/ic_delete.png" alt="img"></button>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="center" *ngIf="parameter.total == 0">
+      <img src="assets/img/404-error.png">
+    </div>
+
+  </div>
+  <div class="btn-cont text-right marginT15">
+
+    <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+  </div>
+</div>
+
+
+<div class="modal animated" id="addInhouseUser">
+  <div class="modal-dialog fadeIndown modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" style="display: none;" class="close" data-dismiss="modal" #modalClose>&times;</button>
+        <button type="button" class="close" (click)="closeModal(); addForm.reset()">&times;</button>
+      </div>
+
+      <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm"
+        (ngSubmit)="addNewUser(addForm)">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-3">
+              <div class="add-img" style="display:flex;">
+                <img *ngIf="image" [src]="image" [defaultImage]="image| img:'thumb'" [lazyLoad]="image"
+                  style="object-fit: cover; width: 100%;">
+                <label *ngIf="model.image">
+                  <input accept="image/*" name="image" class="image"
+                    (change)="onFileChange($event, 'img_loader', 'image')" type="file">
+                </label>
+                <label *ngIf="!image">{{'addForm.image' | translate}}</label>
+                <input *ngIf="!image" accept="image/*" name="image" class="image"
+                  (change)="onFileChange($event, 'img_loader', 'image')" type="file">
+                <div *ngIf="model.img_loader" class="loaderr"></div>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="add-img" style="display:flex;">
+                <img *ngIf="logo" [src]="logo" [defaultImage]="logo| img:'thumb'" [lazyLoad]="logo"
+                  style="object-fit: cover; width: 100%;">
+                <label *ngIf="model.logo">
+                  <input accept="image/*" name="logo" class="image"
+                    (change)="onFileChange($event, 'logo_loader', 'logo')" type="file">
+                </label>
+                <label *ngIf="!logo">{{'addForm.logo' | translate}}</label>
+                <input *ngIf="!logo" accept="image/*" name="logo" class="image"
+                  (change)="onFileChange($event, 'logo_loader', 'logo')" type="file">
+                <div *ngIf="model.logo_loader" class="loaderr"></div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="btn-cont text-right">
+                <button *ngIf="!model.id" type="submit" [disabled]="addForm.invalid"
+                  class="btn btn-primary">{{'addForm.addBtn' | translate}}</button>
+                <button *ngIf="model.id" type="submit" [disabled]="addForm.invalid"
+                  class="btn btn-primary">{{'addForm.updateBtn' | translate}}</button>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="spacer40"></div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+              <div class="form-group-2">
+                <label>{{'addForm.names' | translate}} <span class="color-red">*</span></label>
+                <div class="form-group">
+                  <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" maxlength="50" type="text"
+                    class="form-control" required [(ngModel)]="model.name" name="name">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+              <div class="form-group-2">
+                <label>{{'addForm.firstSurname' | translate}} <span class="color-red">*</span></label>
+                <div class="form-group">
+                  <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" type="text" class="form-control"
+                    required maxlength="30" [(ngModel)]="model.first_surname" name="first_surname">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+              <div class="form-group-2">
+                <label>{{'addForm.secondSurname' | translate}} </label>
+                <div class="form-group">
+                  <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" type="text" class="form-control"
+                    maxlength="30" [(ngModel)]="model.second_surname" name="second_surname">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+              <div class="form-group-2">
+                <label>{{'addForm.contactNumber' | translate}}
+                  <!-- <span class="color-red">*</span> -->
+                </label>
+                <div class="form-group">
+                  <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="constant.phonePattern"
+                    class="form-control" id="phone" minlength="1" [(ngModel)]="model.phone" name="phone" ng2TelInput
+                    #phonetest (intlTelInputObject)="telInputObject($event)"
+                    (countryChange)="onCountryChange($event)" />
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+              <div class="form-group-2">
+                <label>{{'addForm.emailId' | translate}}
+                  <span class="color-red">*</span>
+                </label>
+                <div class="form-group">
+                  <input (keydown.space)="$event.preventDefault();" autocomplete="off" [pattern]="constant.emailPattern"
+                    type="email" class="form-control" required [(ngModel)]="model.email" name="email">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+              <div class="form-group-2">
+                <label>{{'addForm.freeLancerOrComapny' | translate}} <span class="color-red">*</span></label>
+                <div class="form-group">
+                  <select class="form-control" required (change)="setIsCompany($event.target.value)"
+                    [(ngModel)]="model.is_company" name="is_company">
+                    <option value="true">{{'addForm.company' | translate}}</option>
+                    <option value="false">{{'addForm.freelancer' | translate}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-12" *ngIf="model.is_company=='true'">
+              <div class="form-group-2">
+                <label>{{'addForm.companyName' | translate}}</label>
+                <select name="company" class="form-control" required (change)="setCompany($event.target.value)">
+                  <option value="">{{'addForm.selectCompany' | translate}}</option>
+                  <option *ngFor="let company of companies" value="{{company.id}}"
+                    [selected]="model?.company?.id == company.id">{{company.name}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="model.is_company=='false'">
+            <div class="col-12">
+              <div class="form-group-2">
+                <label>{{'addForm.rfcLegalId' | translate}} <span class="color-red">*</span></label>
+                <div class="form-group">
+                  <input autocomplete="off" type="text" class="form-control" name="rfc_legal_id"
+                    [(ngModel)]="model.rfc_legal_id">
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                <label>{{'addForm.address' | translate}} <span class="color-red">*</span></label>
+                <div class="form-group">
+                  <input placeholder="Search for address" autocorrect="off" autocapitalize="off" spellcheck="off"
+                    type="text" class="form-control" #search1
+                    (input)="loadPlaces('address', 'lat', 'lng', 'searchElementRef')" name="address"
+                    [(ngModel)]="model.address" autocomplete="off">
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                <label>{{'addForm.locationPinOnMap' | translate}} <span class="color-red">*</span></label>
+                <div class="form-group">
+                  <agm-map class="height200" [latitude]="model.lat" [longitude]="model.lng" [scrollwheel]="false"
+                    (mapClick)="placeMarker($event, 'lat', 'lng', 'address')" [zoom]="constant.zoom">
+                    <agm-marker [latitude]="model.lat" [longitude]="model.lng"></agm-marker>
+                  </agm-map>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                <label>{{'addForm.description' | translate}}
+                  <!-- <span class="color-red">*</span> -->
+                </label>
+                <div class="form-group">
+                  <textarea autocomplete="off" rows="3" class="form-control" name="description"
+                    [(ngModel)]="model.description"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="model.id">
+            <div class="spacer15"></div>
+            
+            <div class="row">
+              <div class="col-md-6">
+                <h5>{{'commonBlock.writeANote' | translate}}</h5>
+              </div>
+              <div class="col-md-6">
+                <a class="add1" href="javascript://" (click)="addNote()">{{'commonBlock.add' | translate}}</a>
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="row" *ngFor="let item of parameter.notes; let i=index">
+              <div class="col-md-2">
+                <div class="circle">
+                  <span></span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <pre class="p13">{{item?.date | date:'MMM d, y, h:mm a'}}</pre>
+              </div>
+              <div class="col-md-4">
+                <pre class="p13">{{item.description}}</pre>
+              </div>
+              <div class="col-md-2">
+                <a class="add" href="javascript://" (click)="deleteNotePopup(item.id, i)">{{'commonBlock.delete' |
+                  translate}}</a>
+              </div>
+              <ng-template #noDeletePermissiom>
+                <a class="delete" href="javascript://">{{'commonBlock.delete' | translate}}</a>
+              </ng-template>
+            </div>
+
+            <div *ngIf="parameter.notes?.length==0" class="write-note white-bg"
+              [ngStyle]="{'height':sent_as === 1 ? '230px' : '245px' }">
+              <p class="show-not-found">
+                {{'message.error.noNoteFound' | translate}}
+              </p>
+            </div>
+
+          </div>
+        </div>
+       
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Assignment model -->
+<a data-toggle="modal" data-target="#assign-model" #openAssignModel style="display: none;"></a>
+<div class="modal" id="assign-model">
+  <div class="modal-dialog ">
+    <div class="modal-content notary-avail">
+      <div class="modal-header popup-header">
+        <h4 class="modal-title">{{'leads.reAssignTo' | translate}}</h4>
+        <button type="button" class="close" data-dismiss="modal" #closeAssignModel
+          (click)="assignModelClose()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-8 col-6">
+            <input title="{{'table.title.clickEnterForSearch' | translate}}" style="max-width:200px" list="amenities"
+              [(ngModel)]="assign.keyword" (keyup.enter)="getAssignListing(false)" class="form-control" type="text"
+              name="keyword" placeholder="{{'addForm.placeholder.search' | translate}}">
+          </div>
+          <div class="col-md-4 col-5 btn-cont">
+            <a class="btn btn-primary pull-right" href="javascript://" (click)="assignNow()">{{'leads.assign' |
+              translate}}</a>
+          </div>
+        </div>
+        <div class="spacer40"></div>
+        <!-- <div *ngIf="showSearchText">
+          <p class="show-not-found">{{'leads.searchCSRBuyer' | translate}}</p>
+        </div> -->
+        <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+          <table class="table">
+            <tr *ngFor="let item of assign.items">
+              <td *ngIf="item.is_blocked!=1">
+                <div class="n-avail-profile">
+                  <img [src]="item.image| img:'small'" onerror='src="assets/img/default_img.png"' alt="img">
+                  <div class="n-avail-info">
+                    <p class="p12">{{item.name | titlecase}}</p>
+                    <p class="p10">{{'leads.phone' | translate}} :
+                      {{item.dial_code ? item.dial_code :
+                      constant.dial_code}}-{{item.phone.trim()}}
+                    </p>
+                  </div>
+                </div>
+              </td>
+              <td *ngIf="item.is_blocked!=1">
+                <label class="cust-check-bx float-right">
+                  <input type="radio" name="notary_id" (click)="assignItem = item">
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+            </tr>
+            <tr *ngIf="assign?.items?.length == 0">
+              <p class="show-not-found">{{'addForm.noAllianceAgentFound' | translate}}</p>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a href="javascript://" data-toggle="modal" data-target="#addd-notes" #notesadddModalOpen></a>
+<div class="modal animated" id="addd-notes">
+  <div class="modal-dialog fadeIndown">
+    <div class="modal-content">
+      <div class="modal-header modal-header-new">
+        <h4 class="modal-title">{{'leadDetails.note.addNote' |translate}}</h4>
+        <button style="display: none;" type="button" class="close" data-dismiss="modal"
+          #notesadddModalClose>&times;</button>
+        <button type="button" class="close" (click)="this.closeNotesadddModalModal()">&times;</button>
+      </div>
+
+      <form autocomplete="off" class="form-horizontal form-model0P form-model-newP" role="form" ngNativeValidate
+        #addForm="ngForm" (ngSubmit)="addManagerNote(); addForm.reset();">
+        <div class="modal-body modal-body-new">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group-2">
+                <div class="form-group">
+                  <textarea rows="3" required class="form-control" name="note" [(ngModel)]="model.note"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="btn-cont text-right">
+                <button type="submit" class="btn btn-primary">{{'commonBlock.add' |
+                  translate}}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

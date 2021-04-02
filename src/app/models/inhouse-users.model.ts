@@ -1,3 +1,5 @@
+import { Agency } from './agency.model';
+
 export class InhouseUsers {
 
     public address = [
@@ -34,6 +36,7 @@ export class UserModel {
     dial_code: string;
     phone: string;
     image: string;
+    img_loader: boolean;
     email: string;
     address: Array<NewAddress>;
     is_broker_seller_dev: boolean;
@@ -41,6 +44,33 @@ export class UserModel {
     is_broker: boolean;
     is_data_collector: boolean;
     is_csr_closer: boolean;
+    is_csr_renter: boolean;
+    is_collection_agent: boolean;
+    is_credit_agent: boolean;
+    // keys added for external broker
+    is_external_agent?: boolean;
+    agency?: Agency;
+    is_inhouse_agent?: boolean; // for frontend use only
+    // company_name?: string;
+    // company_logo?: string;
+    description?: string;
+    adr?: string;   // address string
+    lat?: any;
+    lng?: any;
+    // branches?: Array<Branches>;
+    // branch_office?: string;
+    // branch_lat?: any;
+    // branch_lng?: any;
+    // company_images?: Array<any>;
+    // company_videos?: Array<any>;
+    rfc_legal_id?: string;
+    is_company?: string;
+}
+
+export class Branches {
+    address: string;
+    lat: string;
+    lng: string;
 }
 
 export class User {
