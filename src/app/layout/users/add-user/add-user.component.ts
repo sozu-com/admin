@@ -257,25 +257,46 @@ export class AddUserComponent implements OnInit {
   ageFromDateOfBirthday(dateOfBirth: any): number {
     const today = new Date();
     const birthDate = new Date(dateOfBirth);
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const m = today.getMonth() - birthDate.getMonth();
-
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    const ynew = today.getFullYear();
+    const mnew = today.getMonth();
+    const dnew = today.getDate();
+    const yold = birthDate.getFullYear();
+    const mold = birthDate.getMonth();
+    const dold = birthDate.getDate();
+    let age = ynew - yold;
+    if (mold > mnew) {
       age--;
     }
+    else {
+      if (mold == mnew) {
+        if (dold > dnew) {
+          age--;
+        }
+      }
+    }
     this.age = age;
-   // console.log(this.age, this.age <= 18, "age")
     return age;
   }
 
   ageFromDateOfBirthday2(dateOfBirth: any): number {
     const today = new Date();
     const birthDate = new Date(dateOfBirth);
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const m = today.getMonth() - birthDate.getMonth();
-
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    const ynew = today.getFullYear();
+    const mnew = today.getMonth();
+    const dnew = today.getDate();
+    const yold = birthDate.getFullYear();
+    const mold = birthDate.getMonth();
+    const dold = birthDate.getDate();
+    let age = ynew - yold;
+    if (mold > mnew) {
       age--;
+    }
+    else {
+      if (mold == mnew) {
+        if (dold > dnew) {
+          age--;
+        }
+      }
     }
     return age;
   }
@@ -288,7 +309,7 @@ export class AddUserComponent implements OnInit {
   getBeneficiary = (): void => {
     this.spinner.show();
     this.beneficiary_list;
-   // console.log(this.beneficiary_list, "list")
+    // console.log(this.beneficiary_list, "list")
   }
 
   getAccountTypeText = (bankId: any): any => {
