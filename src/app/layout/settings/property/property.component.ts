@@ -25,7 +25,7 @@ export class PropertyComponent implements OnInit {
 
   constructor(private element: ElementRef, private constant: Constant, public property: Property,
     private modalService: BsModalService, public admin: AdminService, private router: Router,
-    private spinner: NgxSpinnerService,private toastr: ToastrService,
+    private spinner: NgxSpinnerService, private toastr: ToastrService,
     private translate: TranslateService
   ) {
     this.parameter.index = -1;
@@ -90,8 +90,8 @@ export class PropertyComponent implements OnInit {
         success => {
           this.spinner.hide();
           const text = id ?
-          this.translate.instant('message.success.updatedSuccessfully') :
-          this.translate.instant('message.success.addedSuccessfully');
+            this.translate.instant('message.success.updatedSuccessfully') :
+            this.translate.instant('message.success.addedSuccessfully');
           // this.getConfigurations();
           this.property.configuration.id = '';
           this.property.configuration.name_en = '';
@@ -124,8 +124,8 @@ export class PropertyComponent implements OnInit {
         success => {
           this.spinner.hide();
           const text = id ?
-          this.translate.instant('message.success.updatedSuccessfully') :
-          this.translate.instant('message.success.addedSuccessfully');
+            this.translate.instant('message.success.updatedSuccessfully') :
+            this.translate.instant('message.success.addedSuccessfully');
           swal(this.translate.instant('swal.success'), text, 'success');
           this.property.type.id = '';
           this.property.type.name_en = '';
@@ -161,8 +161,8 @@ export class PropertyComponent implements OnInit {
         success => {
           this.spinner.hide();
           const text = id ?
-          this.translate.instant('message.success.updatedSuccessfully') :
-          this.translate.instant('message.success.addedSuccessfully');
+            this.translate.instant('message.success.updatedSuccessfully') :
+            this.translate.instant('message.success.addedSuccessfully');
           swal(this.translate.instant('swal.success'), text, 'success');
           this.property.amenities.id = '';
           this.property.amenities.name_en = '';
@@ -185,7 +185,7 @@ export class PropertyComponent implements OnInit {
     this.spinner.show();
     this.parameter.url = 'getConfigurations';
     const input = new FormData();
-    this.admin.postDataApi(this.parameter.url, {hide_blocked: 0})
+    this.admin.postDataApi(this.parameter.url, { hide_blocked: 0 })
       .subscribe(
         success => {
           this.spinner.hide();
@@ -203,7 +203,7 @@ export class PropertyComponent implements OnInit {
     this.spinner.show();
     this.parameter.url = 'getPropertyTypes';
     const input = new FormData();
-    this.admin.postDataApi(this.parameter.url, {hide_blocked: 0})
+    this.admin.postDataApi(this.parameter.url, { hide_blocked: 0 })
       .subscribe(
         success => {
           this.spinner.hide();
@@ -220,7 +220,7 @@ export class PropertyComponent implements OnInit {
     this.spinner.show();
     this.parameter.url = 'getPropertyAmenities';
     const input = new FormData();
-    this.admin.postDataApi(this.parameter.url, {hide_blocked: 0})
+    this.admin.postDataApi(this.parameter.url, { hide_blocked: 0 })
       .subscribe(
         success => {
           this.spinner.hide();
@@ -236,7 +236,7 @@ export class PropertyComponent implements OnInit {
     this.parameter.index = index;
     const self = this;
     const text = status === 1 ? this.translate.instant('message.error.wantToUnblockPropertyConfig') :
-                        this.translate.instant('message.error.wantToBlockPropertyConfig');
+      this.translate.instant('message.error.wantToBlockPropertyConfig');
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
@@ -255,7 +255,7 @@ export class PropertyComponent implements OnInit {
     this.parameter.index = index;
     const self = this;
     const text = status === 1 ? this.translate.instant('message.error.wantToUnblockPropertyType') :
-                        this.translate.instant('message.error.wantToBlockPropertyType');
+      this.translate.instant('message.error.wantToBlockPropertyType');
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
@@ -274,7 +274,7 @@ export class PropertyComponent implements OnInit {
     this.parameter.index = index;
     const self = this;
     const text = status === 1 ? this.translate.instant('message.error.wantToUnblockAmenity') :
-                        this.translate.instant('message.error.wantToBlockAmenity');
+      this.translate.instant('message.error.wantToBlockAmenity');
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
@@ -385,10 +385,12 @@ export class PropertyComponent implements OnInit {
 
     reader.readAsDataURL(event.target.files[0]);
   }
-  deletePopup(item: any, index: number,value : string) {
+
+  openDeleteConfirmationPopup = (item: any, index: number, isDeletePropertyConfiguration: boolean): void => {
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' +
-        this.translate.instant('message.error.wantToDelete'),
+        (isDeletePropertyConfiguration ? this.translate.instant('message.error.wantToDeletePropertyConfiguration')
+        : this.translate.instant('message.error.wantToDeleteAmenities')),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -396,28 +398,45 @@ export class PropertyComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        value == 'one'? this.deleteCollection(item, index) : value == 'two'?
-        this.deleteProjectType(item, index): undefined;
+        if (isDeletePropertyConfiguration) {
+          this.deletePropertyConfiguration(item, index);
+        } else {
+          this.deleteAmenities(item, index);
+        }
       }
     });
   }
 
-  deleteCollection(item: any, index: number) {
-    this.admin.postDataApi('deletePropertyConfiguration', { id: item.id }).subscribe(r => {
-      this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
-      this.parameter.items.splice(index, 1);
-    },
-      error => {
-        this.toastr.error(error.error.message, this.translate.instant('swal.error'));
-      });
+  deletePropertyConfiguration = (item: any, index: number): void => {
+    this.spinner.show();
+    this.admin.postDataApi('deletePropertyConfiguration', { id: item.id }).subscribe((response) => {
+      this.spinner.hide();
+      if (response.success == '0') {
+        this.toastr.error(this.translate.instant('message.error.youCannotDeleteThisPropertyConfiguration'), this.translate.instant('swal.error'));
+      } else {
+        this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+        this.parameter.items.splice(index, 1);
+      }
+    }, (error) => {
+      this.spinner.hide();
+      this.toastr.error(((error || {}).error || {}).message, this.translate.instant('swal.error'));
+    });
   }
-  deleteProjectType(item: any, index: number) {
-    this.admin.postDataApi('DeleteAmenities', { id: item.id }).subscribe(r => {
-      this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
-      this.parameter.amenities.splice(index, 1);
-    },
-      error => {
-        this.toastr.error(error.error.message, this.translate.instant('swal.error'));
-      });
+
+  deleteAmenities = (item: any, index: number): void => {
+    this.spinner.show();
+    this.admin.postDataApi('DeleteAmenities', { id: item.id }).subscribe((response) => {
+      this.spinner.hide();
+      if (response.success == '0') {
+        this.toastr.error(this.translate.instant('message.error.youCannotDeleteThisAmenities'), this.translate.instant('swal.error'));
+      } else {
+        this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+        this.parameter.amenities.splice(index, 1);
+      }
+    }, (error) => {
+      this.spinner.hide();
+      this.toastr.error(((error || {}).error || {}).message, this.translate.instant('swal.error'));
+    });
   }
+
 }

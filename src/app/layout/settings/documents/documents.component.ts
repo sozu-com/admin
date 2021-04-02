@@ -27,7 +27,7 @@ export class DocumentsComponent implements OnInit {
     private modalService: BsModalService,
     public admin: AdminService,
     public model: Document, private spinner: NgxSpinnerService,
-    private translate: TranslateService,private toastr: ToastrService,
+    private translate: TranslateService, private toastr: ToastrService,
   ) {
   }
 
@@ -66,8 +66,8 @@ export class DocumentsComponent implements OnInit {
         success => {
           this.model = new Document();
           const text = id ?
-          this.translate.instant('message.success.updatedSuccessfully') :
-          this.translate.instant('message.success.addedSuccessfully');
+            this.translate.instant('message.success.updatedSuccessfully') :
+            this.translate.instant('message.success.addedSuccessfully');
           swal(this.translate.instant('swal.success'), text, 'success');
           if (id === '') {
             this.parameter.items.push(success.data);
@@ -162,7 +162,8 @@ export class DocumentsComponent implements OnInit {
       }
     });
   }
-  deletePopup(item: any, index: number) {
+
+  deletePopup = (item: any, index: number): void => {
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' +
         this.translate.instant('message.error.wantToDeleteDocument'),
@@ -173,18 +174,24 @@ export class DocumentsComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.deleteCollection(item, index);
+        this.deleteDocument(item, index);
       }
     });
   }
 
-  deleteCollection(item: any, index: number) {
-    this.admin.postDataApi('deleteDocument', { id: item.id }).subscribe(r => {
-      this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
-      this.parameter.items.splice(index, 1);
-    },
-      error => {
-        this.toastr.error(error.error.message, this.translate.instant('swal.error'));
-      });
+  deleteDocument = (item: any, index: number): void => {
+    this.spinner.show();
+    this.admin.postDataApi('deleteDocument', { id: item.id }).subscribe((response) => {
+      this.spinner.hide();
+      if (response.success == '0') {
+        this.toastr.error(this.translate.instant('message.error.youCannotDeleteThisDocument'), this.translate.instant('swal.error'));
+      } else {
+        this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+        this.parameter.items.splice(index, 1);
+      }
+    }, (error) => {
+      this.spinner.hide();
+      this.toastr.error(((error || {}).error || {}).message, this.translate.instant('swal.error'));
+    });
   }
 }
