@@ -1226,6 +1226,10 @@
       "wantToDeleteNote": "¿Quieres eliminar esta nota?",
       "wantToBlockDocument": "¿Quieres bloquear este documento?",
       "wantToUnblockDocument": "¿Quieres desbloquear este documento?",
+      "wantToDeletePropertyConfiguration": "¿Quiere eliminar esta configuración de propiedad?",
+      "wantToDeleteAmenities": "¿Quieres eliminar estas comodidades?",
+      "wantToDeletePossessionStatus1": "¿Quieres eliminar este estado de posesión?",
+      "wantToDeleteProjectType": "¿Quieres eliminar este tipo de proyecto?",
       "wantToDeleteDocument": "¿Quieres eliminar este documento??",
       "wantToBlockLocality": "¿Quieres bloquear esta localidad?",
       "wantToUnblockLocality": "¿Quieres desbloquear esta localidad?",
@@ -1292,7 +1296,12 @@
       "pleaseEnterAllCountryStateAndCity": "Ingrese el estado del país y la ciudad",
       "youWantToSendEmail":"¿Quieres enviar un correo electrónico?",
       "saveEngParkingLotSpaces": "Agrega los tipos de estacionamiento en español o lo actualizaremos igual que en inglés.",
-      "noParkingLotSpaces": "Tipos de estacionamiento no encontrado!"
+      "noParkingLotSpaces": "Tipos de estacionamiento no encontrado!",
+      "youCannotDeleteThisDocument":"No puedes borrar este documento",
+      "youCannotDeleteThisPropertyConfiguration":"No puede eliminar esta configuración de propiedad",
+      "youCannotDeleteThisAmenities":"No puede eliminar estas comodidades",
+      "youCannotDeleteThisPossessionStatus":"No puede eliminar este estado de posesión",
+      "youCannotDeleteThisProjectType":"No puedes eliminar este tipo de proyecto"
     }
   },
   "inhouseUsers": {
