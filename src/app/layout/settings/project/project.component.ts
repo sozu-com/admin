@@ -86,7 +86,7 @@ export class ProjectComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  
+
   addParkingLotSpaces(id, name_en, name_es, status, type) {
     if (type === 'edit') { this.modalRef.hide(); }
     this.parameter.url = 'addParkingLotSpaces';
@@ -102,8 +102,8 @@ export class ProjectComponent implements OnInit {
         success => {
           this.spinner.hide();
           const text = id ?
-          this.translate.instant('message.success.updatedSuccessfully') :
-          this.translate.instant('message.success.addedSuccessfully');
+            this.translate.instant('message.success.updatedSuccessfully') :
+            this.translate.instant('message.success.addedSuccessfully');
           swal(this.translate.instant('swal.success'), text, 'success');
           this.project.parkingLotSpaces.name_en = '';
           this.project.parkingLotSpaces.name_es = '';
@@ -134,8 +134,8 @@ export class ProjectComponent implements OnInit {
         success => {
           this.spinner.hide();
           const text = id ?
-          this.translate.instant('message.success.updatedSuccessfully') :
-          this.translate.instant('message.success.addedSuccessfully');
+            this.translate.instant('message.success.updatedSuccessfully') :
+            this.translate.instant('message.success.addedSuccessfully');
           swal(this.translate.instant('swal.success'), text, 'success');
           this.project.possession.name_en = '';
           this.project.possession.name_es = '';
@@ -167,8 +167,8 @@ export class ProjectComponent implements OnInit {
         success => {
           this.spinner.hide();
           const text = id ?
-          this.translate.instant('message.success.updatedSuccessfully') :
-          this.translate.instant('message.success.addedSuccessfully');
+            this.translate.instant('message.success.updatedSuccessfully') :
+            this.translate.instant('message.success.addedSuccessfully');
           this.project.type.name_en = '';
           this.project.type.name_es = '';
           swal(this.translate.instant('swal.success'), text, 'success');
@@ -204,8 +204,8 @@ export class ProjectComponent implements OnInit {
         success => {
           this.spinner.hide();
           const text = id ?
-          this.translate.instant('message.success.updatedSuccessfully') :
-          this.translate.instant('message.success.addedSuccessfully');
+            this.translate.instant('message.success.updatedSuccessfully') :
+            this.translate.instant('message.success.addedSuccessfully');
           swal(this.translate.instant('swal.success'), text, 'success');
           if (this.parameter.index !== -1) {
             this.parameter.amenities[this.parameter.index] = success.data;
@@ -224,7 +224,7 @@ export class ProjectComponent implements OnInit {
     this.spinner.show();
     this.parameter.url = 'getParkingspace';
     const input = new FormData();
-    this.admin.postDataApi(this.parameter.url, {hide_blocked: 0})
+    this.admin.postDataApi(this.parameter.url, { hide_blocked: 0 })
       .subscribe(
         success => {
           this.spinner.hide();
@@ -240,7 +240,7 @@ export class ProjectComponent implements OnInit {
     this.spinner.show();
     this.parameter.url = 'getPossessionStatuses';
     const input = new FormData();
-    this.admin.postDataApi(this.parameter.url, {hide_blocked: 0})
+    this.admin.postDataApi(this.parameter.url, { hide_blocked: 0 })
       .subscribe(
         success => {
           this.spinner.hide();
@@ -256,7 +256,7 @@ export class ProjectComponent implements OnInit {
     this.spinner.show();
     this.parameter.url = 'getBuildingTypes';
     const input = new FormData();
-    this.admin.postDataApi(this.parameter.url, {hide_blocked: 0})
+    this.admin.postDataApi(this.parameter.url, { hide_blocked: 0 })
       .subscribe(
         success => {
           this.spinner.hide();
@@ -272,7 +272,7 @@ export class ProjectComponent implements OnInit {
     this.spinner.show();
     this.parameter.url = 'getAmenities';
     const input = new FormData();
-    this.admin.postDataApi(this.parameter.url, {hide_blocked: 0})
+    this.admin.postDataApi(this.parameter.url, { hide_blocked: 0 })
       .subscribe(
         success => {
           this.spinner.hide();
@@ -287,7 +287,7 @@ export class ProjectComponent implements OnInit {
   addPossessionStatusPopup(index, id, name_en, name_es, status, type) {
     this.parameter.index = index;
     const text = status === 1 ? this.translate.instant('message.error.wantToUnblockPossessionStatus') :
-                        this.translate.instant('message.error.wantToBlockPossessionStatus');
+      this.translate.instant('message.error.wantToBlockPossessionStatus');
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
@@ -305,7 +305,7 @@ export class ProjectComponent implements OnInit {
   addBuildingTypePopup(index, id, name_en, name_es, status, type) {
     this.parameter.index = index;
     const text = status === 1 ? this.translate.instant('message.error.wantToUnblockProjectType') :
-                        this.translate.instant('message.error.wantToBlockProjectType');
+      this.translate.instant('message.error.wantToBlockProjectType');
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
@@ -323,7 +323,7 @@ export class ProjectComponent implements OnInit {
   addAmenityPopup(index, id, icon, name_en, name_es, status, type) {
     this.parameter.index = index;
     const text = status === 1 ? this.translate.instant('message.error.wantToUnblockAmenity') :
-                        this.translate.instant('message.error.wantToBlockAmenity');
+      this.translate.instant('message.error.wantToBlockAmenity');
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
@@ -437,10 +437,12 @@ export class ProjectComponent implements OnInit {
 
     reader.readAsDataURL(event.target.files[0]);
   }
-  deletePopupProject(data: any, index: number,value : string) {
+
+  openDeleteConfirmationPopup = (data: any, index: number, isDeletePossessionStatus: boolean): void => {
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' +
-        this.translate.instant('message.error.wantToDelete'),
+        (isDeletePossessionStatus ? this.translate.instant('message.error.wantToDeletePossessionStatus1')
+        : this.translate.instant('message.error.wantToDeleteProjectType')),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -448,28 +450,44 @@ export class ProjectComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        value == 'one'? this.deleteCollection(data, index) : value == 'two'?
-        this.deleteProjectType(data, index): undefined;
+        if (isDeletePossessionStatus) {
+          this.deletePossessionStatus(data, index);
+        } else {
+          this.deleteProjectType(data, index);
+        }
       }
     });
   }
 
-  deleteCollection(item: any, index: number) {
-    this.admin.postDataApi('deletePossessionStatus', { id: item.id }).subscribe(r => {
-      this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
-      this.parameter.items.splice(index, 1);
-    },
-      error => {
-        this.toastr.error(error.error.message, this.translate.instant('swal.error'));
-      });
+  deletePossessionStatus = (item: any, index: number): void => {
+    this.spinner.show();
+    this.admin.postDataApi('deletePossessionStatus', { id: item.id }).subscribe((response) => {
+      this.spinner.hide();
+      if (response.success == '0') {
+        this.toastr.error(this.translate.instant('message.error.youCannotDeleteThisPossessionStatus'), this.translate.instant('swal.error'));
+      } else {
+        this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+        this.parameter.items.splice(index, 1);
+      }
+    }, (error) => {
+      this.spinner.hide();
+      this.toastr.error(error.error.message, this.translate.instant('swal.error'));
+    });
   }
-  deleteProjectType(item: any, index: number) {
-    this.admin.postDataApi('ProjectType', { id: item.id }).subscribe(r => {
-      this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
-      this.parameter.projectTypes.splice(index, 1);
-    },
-      error => {
-        this.toastr.error(error.error.message, this.translate.instant('swal.error'));
-      });
+
+  deleteProjectType = (item: any, index: number): void => {
+    this.spinner.show();
+    this.admin.postDataApi('ProjectType', { id: item.id }).subscribe((response) => {
+      this.spinner.hide();
+      if (response.success == '0') {
+        this.toastr.error(this.translate.instant('message.error.youCannotDeleteThisProjectType'), this.translate.instant('swal.error'));
+      } else {
+        this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+        this.parameter.projectTypes.splice(index, 1);
+      }
+    }, (error) => {
+      this.spinner.hide();
+      this.toastr.error(error.error.message, this.translate.instant('swal.error'));
+    });
   }
 }

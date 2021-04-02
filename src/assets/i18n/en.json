@@ -1224,7 +1224,11 @@
       "wantToDeleteNote": "You want to delete this Note?",
       "wantToBlockDocument": "You want to block this Document?",
       "wantToUnblockDocument": "You want to unblock this Document?",
-      "wantToDeleteDocument": "You want to delete this Document?",
+      "wantToDeletePropertyConfiguration": "You want to delete this property configuration?",
+      "wantToDeleteAmenities": "You want to delete this amenities?",
+      "wantToDeletePossessionStatus1": "You want to delete this possession status?",
+      "wantToDeleteProjectType": "You want to delete this project type?",
+      "wantToDeleteDocument": "You want to delete this document?",
       "wantToBlockLocality": "You want to block this Locality?",
       "wantToUnblockLocality": "You want to unblock this Locality?",
       "wantToDeleteLocality": "You want to delete this Locality?",
@@ -1290,7 +1294,12 @@
       "pleaseEnterAllCountryStateAndCity": "Please enter both country state And city",
       "youWantToSendEmail":"You want to send email?",
       "saveEngParkingLotSpaces": "Please add Parking lot spaces in Spanish or we will update it same as in English.",
-      "noParkingLotSpaces": "No parking lot spaces found!"
+      "noParkingLotSpaces": "No parking lot spaces found!",
+      "youCannotDeleteThisDocument":"You cannot delete this document",
+      "youCannotDeleteThisPropertyConfiguration":"You cannot delete this property configuration",
+      "youCannotDeleteThisAmenities":"You cannot delete this amenities",
+      "youCannotDeleteThisPossessionStatus":"You cannot delete this possession status",
+      "youCannotDeleteThisProjectType":"You cannot delete this project type"
     } 
   },
   "inhouseUsers": {
