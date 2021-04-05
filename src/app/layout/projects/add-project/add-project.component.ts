@@ -256,6 +256,7 @@ export class AddProjectComponent implements OnInit {
             });
             this.model.building_contributors.push({ user_type: element.user_type, users_id: element.user_type == 1 ? element.users.id : element.legal_entity.id, building_id: r.data.id });
           });
+          this.toggleSelectedDetails.isCreditCardChecked = this.model.parking_space_rent.length > 0 ? true : false;
           this.model.manager = r.data.manager ? r.data.manager : new Manager();
           this.model.company = r.data.company ? r.data.company : new Company();
           this.model.agency = r.data.agency ? r.data.agency : new Agency();
@@ -2370,8 +2371,15 @@ export class AddProjectComponent implements OnInit {
     this.model.parking_space_lots = new Array<Parking>();
     }
    
-    toggleShow(){
-      this.toggleSelectedDetails.isCreditCardChecked = !this.toggleSelectedDetails.isCreditCardChecked;
+    toggleShow(value){
+     // this.toggleSelectedDetails.isCreditCardChecked = !this.toggleSelectedDetails.isCreditCardChecked;
+      this.toggleSelectedDetails.isCreditCardChecked = value.target.checked ? true : false;
+    if(!this.toggleSelectedDetails.isCreditCardChecked){
+             this.model.parking_space_rent = [];
+             this.parkingRent_sum = 0
+             this.both_sum = parseInt(this.parkinLot_sum) - parseInt(this.parkingRent_sum);
+             console.log(this.both_sum,"view rent");
+            }
     }
   // removeDeveloperBank($event: Event, item: any, i: number) {
   //   $event.stopPropagation();
@@ -2384,5 +2392,13 @@ export class AddProjectComponent implements OnInit {
   //     });
   //   }
   // }
-
+  checkAlreadySelected = (parkingSpaceId: number, isParkingSpaceLots: boolean): boolean => {
+  if (isParkingSpaceLots) {
+     const data = this.model.parking_space_lots.find((item) => item.parking_space_id == parkingSpaceId);
+         return data ? true : false;
+       } else {
+          const data = this.model.parking_space_rent.find((item) => item.parking_space_id == parkingSpaceId);
+          return data ? true : false;
+        }
+      }
 }
