@@ -1056,7 +1056,7 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   getRequestDataForNinethStep = (currentStep: number): any => {
-    if(!this.creditModel.incomes_bank_account){
+    if (!this.creditModel.incomes_bank_account) {
       this.toastr.clear();
       this.toastr.error(
         this.translate.instant('message.error.pleaseEnterSomeText'),
@@ -1108,19 +1108,27 @@ export class CreditAddEditComponent implements OnInit {
           this.spinnerService.hide();
           switch (index) {
             case 1:
-              this.creditModel.solidarity_liabilities.municipality = ((success.data || {}).response || {}).municipio || ''; // Municipality
-              this.creditModel.solidarity_liabilities.state = ((success.data || {}).response || {}).estado || ''; // State
-              this.creditModel.solidarity_liabilities.city = ((success.data || {}).response || {}).ciudad || ''; // city
-              this.creditModel.solidarity_liabilities.country = ((success.data || {}).response || {}).pais || ''; // Country
-              this.creditModel.solidarity_liabilities.neighbourhoods = ((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
+              this.creditModel.solidarity_liabilities.municipality = (((success.data || [])[0] || {}).response || {}).municipio || ''; // Municipality
+              this.creditModel.solidarity_liabilities.state = (((success.data || [])[0] || {}).response || {}).estado || ''; // State
+              this.creditModel.solidarity_liabilities.city = (((success.data || [])[0] || {}).response || {}).ciudad || ''; // city
+              this.creditModel.solidarity_liabilities.country = (((success.data || [])[0] || {}).response || {}).pais || ''; // Country
+              const tempNeighbourhoods1 = [];
+              if (!(success.data || {}).error) {
+                (success.data || []).forEach((data) => { tempNeighbourhoods1.push(data.response.asentamiento); });
+              }
+              this.creditModel.solidarity_liabilities.neighbourhoods = tempNeighbourhoods1;//((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
               this.creditModel.solidarity_liabilities.neighbourhood = (this.creditModel.solidarity_liabilities.neighbourhoods || [])[0] || '';
               break;
             case 2:
-              this.creditModel.incomes.municipality = ((success.data || {}).response || {}).municipio || ''; // Municipality
-              this.creditModel.incomes.state = ((success.data || {}).response || {}).estado || ''; // State
-              this.creditModel.incomes.city = ((success.data || {}).response || {}).ciudad || ''; // city
-              this.creditModel.incomes.country = ((success.data || {}).response || {}).pais || ''; // Country
-              this.creditModel.incomes.neighbourhoods = ((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
+              this.creditModel.incomes.municipality = (((success.data || [])[0] || {}).response || {}).municipio || ''; // Municipality
+              this.creditModel.incomes.state = (((success.data || [])[0] || {}).response || {}).estado || ''; // State
+              this.creditModel.incomes.city = (((success.data || [])[0] || {}).response || {}).ciudad || ''; // city
+              this.creditModel.incomes.country = (((success.data || [])[0] || {}).response || {}).pais || ''; // Country
+              const tempNeighbourhoods2 = [];
+              if (!(success.data || {}).error) {
+                (success.data || []).forEach((data) => { tempNeighbourhoods2.push(data.response.asentamiento); });
+              }
+              this.creditModel.incomes.neighbourhoods = tempNeighbourhoods2;//((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
               this.creditModel.incomes.colony = (this.creditModel.incomes.neighbourhoods || [])[0] || '';
               break;
             default:

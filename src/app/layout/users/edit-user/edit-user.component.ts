@@ -582,18 +582,26 @@ export class EditUserComponent implements OnInit {
         subscribe((success) => {
           this.spinner.hide();
           if (isTaxAddress) {
-            this.model.tax_municipality = ((success.data || {}).response || {}).municipio || ''; // Municipality
-            this.model.tax_state = ((success.data || {}).response || {}).estado || ''; // State
-            this.model.tax_city = ((success.data || {}).response || {}).ciudad || ''; // city
-            this.model.tax_country = ((success.data || {}).response || {}).pais || ''; // Country
-            this.model.tax_neighbourhoods = ((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
+            this.model.tax_municipality = (((success.data || [])[0] || {}).response || {}).municipio || ''; // Municipality
+            this.model.tax_state = (((success.data || [])[0] || {}).response || {}).estado || ''; // State
+            this.model.tax_city = (((success.data || [])[0] || {}).response || {}).ciudad || ''; // city
+            this.model.tax_country = (((success.data || [])[0] || {}).response || {}).pais || ''; // Country
+            const tempNeighbourhoods = [];
+            if (!(success.data || {}).error) {
+              (success.data || []).forEach((data) => { tempNeighbourhoods.push(data.response.asentamiento); });
+            }
+            this.model.tax_neighbourhoods = tempNeighbourhoods;//((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
             this.model.tax_neighbourhood = (this.model.tax_neighbourhoods || [])[0] || '';
           } else {
-            this.model.municipality = ((success.data || {}).response || {}).municipio || ''; // Municipality
-            this.model.state = ((success.data || {}).response || {}).estado || ''; // State
-            this.model.city = ((success.data || {}).response || {}).ciudad || ''; // city
-            this.model.country = ((success.data || {}).response || {}).pais || ''; // Country
-            this.model.neighbourhoods = ((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
+            this.model.municipality = (((success.data || [])[0] || {}).response || {}).municipio || ''; // Municipality
+            this.model.state = (((success.data || [])[0] || {}).response || {}).estado || ''; // State
+            this.model.city = (((success.data || [])[0] || {}).response || {}).ciudad || ''; // city
+            this.model.country = (((success.data || [])[0] || {}).response || {}).pais || ''; // Country
+            const tempNeighbourhoods = [];
+            if (!(success.data || {}).error) {
+              (success.data || []).forEach((data) => { tempNeighbourhoods.push(data.response.asentamiento); });
+            }
+            this.model.neighbourhoods = tempNeighbourhoods;//((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
             this.model.neighborhood = (this.model.neighbourhoods || [])[0] || '';
             this.onClickUseUserSameAddress();
           }
@@ -888,7 +896,7 @@ export class EditUserComponent implements OnInit {
   hasErrorBeneficiary = (): boolean => {
     if (!this.beneficiary.beneficiary_name) {
       return true;
-    } else if (this.age <= 18) {
+    } else if (this.age < 18) {
       if (!this.beneficiary.tutor.tutor_name) {
         return true;
       }

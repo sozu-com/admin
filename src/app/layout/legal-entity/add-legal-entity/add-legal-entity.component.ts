@@ -318,7 +318,7 @@ export class AddLegalEntityComponent implements OnInit {
     this.model.neighbourhoods.push(this.addDataForm.get('neighbourhood').value);
     this.model['tax_neighbourhoods'] = [];
     this.model.tax_neighbourhoods.push(this.addDataForm.get('tax_neighbourhood').value);
-   // (this.addDataForm.get('legal_rep') as FormGroup).get('developer_id').setValue(data.developer_id);
+    // (this.addDataForm.get('legal_rep') as FormGroup).get('developer_id').setValue(data.developer_id);
   }
 
   setSaleComm(sales_commission: number) {
@@ -623,21 +623,29 @@ export class AddLegalEntityComponent implements OnInit {
         subscribe((success) => {
           this.spinner.hide();
           if (isTaxAddress) {
-            this.model.tax_neighbourhoods = ((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
+            const tempNeighbourhoods = [];
+            if (!(success.data || {}).error) {
+              (success.data || []).forEach((data) => { tempNeighbourhoods.push(data.response.asentamiento); });
+            }
+            this.model.tax_neighbourhoods = tempNeighbourhoods;//((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
             this.addDataForm.patchValue({
-              tax_municipality: ((success.data || {}).response || {}).municipio || '', // Municipality
-              tax_state: ((success.data || {}).response || {}).estado || '', // State
-              tax_city: ((success.data || {}).response || {}).ciudad || '', // city
-              tax_country: ((success.data || {}).response || {}).pais || '', // Country
+              tax_municipality: (((success.data || [])[0] || {}).response || {}).municipio || '', // Municipality
+              tax_state: (((success.data || [])[0] || {}).response || {}).estado || '', // State
+              tax_city: (((success.data || [])[0] || {}).response || {}).ciudad || '', // city
+              tax_country: (((success.data || [])[0] || {}).response || {}).pais || '', // Country
               tax_neighbourhood: (this.model.tax_neighbourhoods || [])[0] || ''
             });
           } else {
-            this.model.neighbourhoods = ((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
+            const tempNeighbourhoods = [];
+            if (!(success.data || {}).error) {
+              (success.data || []).forEach((data) => { tempNeighbourhoods.push(data.response.asentamiento); });
+            }
+            this.model.neighbourhoods = tempNeighbourhoods; //((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
             this.addDataForm.patchValue({
-              municipality: ((success.data || {}).response || {}).municipio || '', // Municipality
-              state: ((success.data || {}).response || {}).estado || '', // State
-              city: ((success.data || {}).response || {}).ciudad || '', // city
-              country: ((success.data || {}).response || {}).pais || '', // Country
+              municipality: (((success.data || [])[0] || {}).response || {}).municipio || '', // Municipality
+              state: (((success.data || [])[0] || {}).response || {}).estado || '', // State
+              city: (((success.data || [])[0] || {}).response || {}).ciudad || '', // city
+              country: (((success.data || [])[0] || {}).response || {}).pais || '', // Country
               neighbourhood: (this.model.neighbourhoods || [])[0] || ''
             });
             this.onClickUseUserSameAddress();
