@@ -32,7 +32,7 @@ export class ArrearReportComponent implements OnInit {
   paymentConcepts: Array<any>;
   model: Array<any>;
   finalData: Array<any>;
-  finalDataSum:  any;
+  finalDataSum: any;
   developers: Array<any>;
   buyers: Array<any>;
   legalReps: Array<any>;
@@ -259,7 +259,7 @@ export class ArrearReportComponent implements OnInit {
         this.data = success['data'];
         this.incomeProjection = success['income_projection'];
         this.paidConcepts = success['data2'];
-       // this.finalDataSum = [];
+        // this.finalDataSum = [];
         this.finalData = [];
         this.model = [];
         for (const property in self.data) {
@@ -267,38 +267,52 @@ export class ArrearReportComponent implements OnInit {
             self.model.push(property);
           }
         }
-       
+
         for (let index = 0; index < self.model.length; index++) {
           const element = self.model[index];
-         self.data[element].forEach((r, index) => {
-          let t = 0;
-          self.data[element][index]['showInfo'] = true;
-          console.log(r, "user_document")
-          t = t + (r['amount'] || 0) + (r['penelty'] || 0);
-          self.data[element][index]['total_amount'] = t;
-        });
-        
-        self.finalData = [...self.finalData, ...self.data[element]];
+          let tempTotalAmount = 0;
+          self.data[element].forEach((r, index) => {
+            //let t = 0;
+            self.data[element][index]['showInfo'] = true;
+            // console.log(r, "user_document")
+            tempTotalAmount = tempTotalAmount + (((r['amount'] || 0) + (r['penelty'] || 0)) - (r.calc_payment_amount || 0));
+            // self.data[element][index]['total_amount'] = t;
+          });
+
+          self.data[element].forEach((r, index) => {
+            //let t = 0;
+            // self.data[element][index]['showInfo'] = true;
+            // console.log(r, "user_document")
+            // t = t + (r['amount'] || 0) + (r['penelty'] || 0);
+            if (index == 0) {
+              self.data[element][index]['total_amount'] = tempTotalAmount;
+            } else {
+              self.data[element][index]['total_amount'] = 0;
+            }
+
+          });
+
+          self.finalData = [...self.finalData, ...self.data[element]];
           // self.data[element].map(r => {
           //   t = t + (r['amount'] || 0) + (r['penelty'] || 0);
           // });
           // self.data[element][0]['total_amount'] = t;
           // self.finalData = [...self.finalData, ...self.data[element]];
         }
-        console.log(self.finalData,"model")
+        console.log(self.finalData, "model")
         let grand_amount = 0; let grand_penalty = 0; let grand_total_amount = 0;
         for (let index = 0; index < self.finalData.length; index++) {
           const element = self.finalData[index];
           grand_amount = grand_amount + (element['amount'] || 0) - (element['calc_payment_amount'] || 0);
-          console.log(grand_amount,"grand_amount")
+          console.log(grand_amount, "grand_amount")
           grand_penalty = grand_penalty + (element['penelty'] || 0);
           // grand_total = grand_total + (element['amount'] || 0) + (element['penalty'] || 0)
           grand_total_amount = grand_total_amount + (element['total_amount'] || 0);
-         
+
         }
-        this.finalData.push({ id: 'Total', key: 1,symbol: '$' , amount: grand_amount - grand_penalty, penelty: grand_penalty, total_amount: grand_total_amount });
+        this.finalData.push({ id: 'Total', key: 1, symbol: '$', amount: grand_amount - grand_penalty, penelty: grand_penalty, total_amount: grand_total_amount });
         console.log('finalData', this.finalData, 'response', success['data']);
-        console.log( this.finalData,"last result");
+        console.log(this.finalData, "last result");
         this.finalDataSum = grand_total_amount
         for (let index = 0; index < this.paymentChoices.length; index++) {
           const element = this.paymentChoices[index];
@@ -333,20 +347,20 @@ export class ArrearReportComponent implements OnInit {
       const finalData = [];
       for (let index = 0; index < this.finalData.length; index++) {
         const item = this.finalData[index];
-          finalData.push({
-            'Account ID': item.id != 'Total' ? item.id || '' : 'Total',
-            'Buyer Name': item.buyer_name || '',
-            'Seller Name': item.seller_name || '',
-            Project: item.project_name || '',
-            Tower: item.tower_name || '',
-            Model: item.model || '',
-            'Property Name': item.property_name || '',
-            Currency: item.code || '',
-            'concept': item.NAME || '',
-            'date': item.date || '',
-            'paymentTotal': item.symbol + Number((((item.amount || 0) + (item.penelty || 0)) - (item.calc_payment_amount || 0))).toFixed(2),
-            'totalArrear': item.symbol + Number((item.total_amount || 0)).toFixed(2),
-          });
+        finalData.push({
+          'Account ID': item.id != 'Total' ? item.id || '' : 'Total',
+          'Buyer Name': item.buyer_name || '',
+          'Seller Name': item.seller_name || '',
+          Project: item.project_name || '',
+          Tower: item.tower_name || '',
+          Model: item.model || '',
+          'Property Name': item.property_name || '',
+          Currency: item.code || '',
+          'concept': item.NAME || '',
+          'date': item.date || '',
+          'paymentTotal': item.symbol + Number((((item.amount || 0) + (item.penelty || 0)) - (item.calc_payment_amount || 0))).toFixed(2),
+          'totalArrear': item.symbol + Number((item.total_amount || 0)).toFixed(2),
+        });
       }
       this.exportAsExcelFile(finalData, 'arrearReport-');
     }

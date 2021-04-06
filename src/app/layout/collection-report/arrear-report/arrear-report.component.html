@@ -230,7 +230,7 @@
                                                                   (item?.calc_payment_amount || 0)) |
                                                                   roundNumber}}</span></td>
 
-                                                      <td><span>{{(item?.showInfo || item?.id=='Total')?
+                                                      <td *ngIf="item?.total_amount > 0" [attr.rowspan]="item?.showInfo && this.data[item?.id].length ? this.data[item?.id].length : 0 "><span>{{(item?.showInfo || item?.id=='Total')?
                                                                   '$'+((item?.total_amount || 0) | roundNumber) :
                                                                   ''}}</span></td>
                                                 </tr>

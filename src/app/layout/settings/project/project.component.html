@@ -68,7 +68,7 @@
                         title="{{item.status==1 ? ('table.title.block' | translate) : ('table.title.unblock' | translate)}}" [ngClass]="{'unblock-bg':item.status==0}"
                         class="action-icon"><img src="assets/img/block.png" alt="img">
                       </button>
-                      <button [disabled]="admin?.admin_acl['Settings']?.can_purge==0" (click)="openDeleteConfirmationPopup(item, i,true)"
+                      <button [disabled]="admin?.admin_acl['Settings']?.can_purge==0" (click)="openDeleteConfirmationPopup(item, i,1)"
                        title="{{'table.title.delete' | translate}}"
                       class="action-icon"><img src="assets/img/ic_delete.png" alt="img"></button>
   
@@ -147,7 +147,7 @@
                       class="action-icon"><img src="assets/img/block.png" alt="img">
                     </button>
                     <button [disabled]="admin?.admin_acl['Settings']?.can_purge==0"
-                    title="{{'table.title.delete' | translate}}" (click)="openDeleteConfirmationPopup(item, j, false)" 
+                    title="{{'table.title.delete' | translate}}" (click)="openDeleteConfirmationPopup(item, j, 2)" 
                     class="action-icon"><img src="assets/img/ic_delete.png" alt="img"></button>
                
                   <!-- <a title="Edit Property Type" (click)="openBuildingTypeModal(addBuildingTypeModal, item.id, item.name_en, item.name_es, item.status)" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
@@ -247,7 +247,9 @@
                         title="{{item.status==1 ? ('table.title.block' | translate) : ('table.title.unblock' | translate)}}" [ngClass]="{'unblock-bg':item.status==0}"
                         class="action-icon"><img src="assets/img/block.png" alt="img">
                       </button>
-
+                      <button [disabled]="admin?.admin_acl['Settings']?.can_purge==0" (click)="openDeleteConfirmationPopup(item, k, 3)"
+                      title="{{'table.title.delete' | translate}}"
+                     class="action-icon"><img src="assets/img/ic_delete.png" alt="img"></button>
                     <!-- <a title="Edit Amenity" (click)="openAmenityModal(addAmenityModal, item.id, item.icon, item.name_en, item.name_es, item.status)" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
                     <a *ngIf="item.status == 1" (click)="addAmenityPopup(item.id, item.icon, item.name_en, item.name_es, 0, 'block')" title="Block Amenity" class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a>
                     <a *ngIf="item.status == 0" (click)="addAmenityPopup(item.id, item.icon, item.name_en, item.name_es, 1, 'unblock')" title="Unblock Amenity" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a> -->

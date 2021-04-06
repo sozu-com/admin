@@ -438,11 +438,21 @@ export class ProjectComponent implements OnInit {
     reader.readAsDataURL(event.target.files[0]);
   }
 
-  openDeleteConfirmationPopup = (data: any, index: number, isDeletePossessionStatus: boolean): void => {
+  openDeleteConfirmationPopup = (data: any, index: number, deleteIndex: number): void => {
+    let text = '';
+    switch (deleteIndex) {
+      case 1:
+        text = this.translate.instant('message.error.wantToDeletePossessionStatus1')
+        break;
+      case 2:
+        text = this.translate.instant('message.error.wantToDeleteProjectType')
+        break;
+      case 3:
+        text = this.translate.instant('message.error.wantToDeleteAmenities')
+        break;
+    }
     swal({
-      html: this.translate.instant('message.error.areYouSure') + '<br>' +
-        (isDeletePossessionStatus ? this.translate.instant('message.error.wantToDeletePossessionStatus1')
-        : this.translate.instant('message.error.wantToDeleteProjectType')),
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -450,10 +460,16 @@ export class ProjectComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        if (isDeletePossessionStatus) {
-          this.deletePossessionStatus(data, index);
-        } else {
-          this.deleteProjectType(data, index);
+        switch (deleteIndex) {
+          case 1:
+            this.deletePossessionStatus(data, index);
+            break;
+          case 2:
+            this.deleteProjectType(data, index);
+            break;
+          case 3:
+            this.deleteProjectAmenities(data, index);
+            break;
         }
       }
     });
@@ -490,4 +506,21 @@ export class ProjectComponent implements OnInit {
       this.toastr.error(error.error.message, this.translate.instant('swal.error'));
     });
   }
+
+  deleteProjectAmenities = (item: any, index: number): void => {
+    this.spinner.show();
+    this.admin.postDataApi('DeleteProjectAmenities ', { id: item.id }).subscribe((response) => {
+      this.spinner.hide();
+      if (response.success == '0') {
+        this.toastr.error(this.translate.instant('message.error.youCannotDeleteThisAmenities'), this.translate.instant('swal.error'));
+      } else {
+        this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+        this.parameter.amenities.splice(index, 1);
+      }
+    }, (error) => {
+      this.spinner.hide();
+      this.toastr.error(((error || {}).error || {}).message, this.translate.instant('swal.error'));
+    });
+  }
+
 }
