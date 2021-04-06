@@ -184,6 +184,10 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   close() {
     $('.modal').modal('hide');
   }
+  closeNotesadddModalModal = (): void => {
+    this.notesadddModalClose.nativeElement.click();
+    this.modalClose.nativeElement.click();
+  }
   addNote() {
     this.notesadddModalOpen.nativeElement.click();
   }
