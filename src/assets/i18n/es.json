@@ -2350,6 +2350,7 @@
     "agency" : "Agencia",
     "seller" : "vendedora",
     "selectAccount":"Seleccionar cuenta",
+    "note":"Nota",
     "agent": "Agente de ventas",
     "accountInNameOf": "Cuenta a nombre de:",
     "clientDetails": "Datos del cliente",

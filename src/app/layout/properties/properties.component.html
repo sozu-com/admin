@@ -1250,9 +1250,9 @@ margin-left: -38%;">
          #closeInstallmentModal>&times;</button>
          <button type="button" class="close" (click)="this.closeModalInstallment()">&times;</button>
        </div>
-      
-       <form autocomplete="off" class="form-horizontal form-model0P form-model-newP" role="form" ngNativeValidate
-         #addForm="ngForm" (ngSubmit)="addManagerNote();">
+      <!-- role="form" ngNativeValidate #addForm="ngForm" -->
+       <form autocomplete="off" class="form-horizontal form-model0P form-model-newP" 
+       [formGroup]="this.installmentFormGroup">
          <div class="modal-body modal-body-new">
             <label>{{'generatePDF.offerDetails' | translate}}</label>
             <div class="spacer15"></div>
@@ -1261,13 +1261,13 @@ margin-left: -38%;">
             <div class="col-lg-4 col-md-12 col-sm-12 col-12">
                <div class="form-group-3">
                   <label>{{'generatePDF.listprice' | translate}}</label>
-                  <input autocomplete="off" type="text" class="form-control" placeholder="$2,812,912.00"/>
+                  <input autocomplete="off" type="text" class="form-control" placeholder="$" formControlName="listPrice"/>
                </div>
             </div>
             <div class="col-lg-4 col-md-12 col-sm-12 col-12">
                <div class="form-group-3">
                   <label>{{'generatePDF.finalprice' | translate}}</label>
-                  <input autocomplete="off" type="text" class="form-control" placeholder="$"/>
+                  <input autocomplete="off" type="text" class="form-control" placeholder="$" formControlName="finalPrice"/>
                </div>
             </div>
             <div class="col-lg-4 col-md-12 col-sm-12 col-12">
@@ -1275,29 +1275,29 @@ margin-left: -38%;">
                </div>
             </div>
            </div>
-           <div class="spacer15"></div>
+           <div class="spacer15" *ngIf="!this.installmentFormGroup.get('isAddParkingLotForSale').value"></div>
            <!-- parking lot for sale button-->
-           <div class="row">
+           <div class="row" *ngIf="!this.installmentFormGroup.get('isAddParkingLotForSale').value">
             <div class="col-12">
                <div class="btn-cont">
-                  <span><a class="add" href="javascript://">{{'addForm.addParking' | translate}}</a></span>
+                  <span><a class="add" href="javascript://" (click)="this.markIsParkingLotForSale(true,$event)">{{'addForm.addParking' | translate}}</a></span>
                </div>
             </div>
          </div>
          <div class="spacer15"></div>
          <!-- parking lot for sale row-->
-         <div class="row">
+         <div class="row" *ngIf="this.installmentFormGroup.get('isAddParkingLotForSale').value">
             <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                <div class="form-group-3">
-                  <label>{{'addForm.noparking' | translate}}<span class="color-red">*</span></label>
-                  <input autocomplete="off" type="number" class="form-control" placeholder="1"/>
+                  <label>{{'addForm.noparking' | translate}} <span class="color-red">*</span></label>
+                  <input autocomplete="off" type="text" class="form-control" placeholder="" formControlName="parkingLotsNumber" appOnlyNumber/>
                </div>
             </div>
             <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                <div class="form-group-3">
-                  <label>{{'addForm.Type' | translate}}<span class="color-red">*</span></label>
+                  <label>{{'addForm.Type' | translate}} <span class="color-red">*</span></label>
                   <!-- <input autocomplete="off" type="text" class="form-control" placeholder="$"/> -->
-                  <select title="Select Type" class="form-control">
+                  <select title="Select Type" class="form-control" formControlName="parkingLotsType">
                   <option>Tandom</option>
                   <option>Double</option>
                 </select>
@@ -1305,77 +1305,82 @@ margin-left: -38%;">
             </div>
             <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                <div class="form-group-3">
-                     <label>{{'addForm.Price(each)' | translate}}<span class="color-red">*</span></label>
-                     <input autocomplete="off" type="text" class="form-control" placeholder="$100,000.00"/>
+                     <label>{{'addForm.Price(each)' | translate}} <span class="color-red">*</span></label>
+                     <input autocomplete="off" type="text" class="form-control" placeholder="$100,000.00" formControlName="parkingLotsPrice"/>
                   </div>
             </div>
             <div class="col-lg-1 col-md-12 col-sm-12 col-12">
                <label style="color: white;">{{'addForm.Price(each)' | translate}}</label>
-               <span><a class="add" href="javascript://">{{'addForm.save' | translate}}</a></span>
+               <span><a class="add" href="javascript://" (click)="this.addNewParkingLotForSale($event)">{{'addForm.save' | translate}}</a></span>
             </div>
             <div class="col-lg-2 col-md-12 col-sm-12 col-12">
                <label style="color: white;">{{'addForm.Price(each)' | translate}}</label>
                <span><a class="add" style="color: red;"
-                  href="javascript://">{{'addForm.remove' | translate}}</a></span>
+                  href="javascript://"  (click)="this.markIsParkingLotForSale(false,$event)">{{'addForm.remove' | translate}}</a></span>
             </div>
          </div>
          <!-- parking list row -->
-         <div class="spacer15"></div>
-         <div class="row">
-            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-               <div class="form-group-3">
-                  <label>{{'addForm.noparking' | translate}}</label>
-                  <input autocomplete="off" type="number" class="form-control" placeholder="1"/>
-               </div>
-            </div>
-            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-               <div class="form-group-3">
-                  <label>{{'addForm.Type' | translate}}</label>
-                  <select title="Select Type" class="form-control">
-                  <option>Tandom</option>
-                  <option>Double</option>
-                </select>
-               </div>
-            </div>
-            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-               <div class="form-group-3">
-                     <label>{{'addForm.Price(each)' | translate}}</label>
-                     <input autocomplete="off" type="text" class="form-control" placeholder="$100,000.00"/>
+          <div formArrayName="parkingLotForSaleFormArray" *ngIf="this.getParkingLotForSaleFormArrayLength > 0">
+               <ng-container
+                  *ngFor="let temp_parking_lot_for_sale of this.getParkingLotForSaleFormArray['controls']; let i=index">
+                  <div [formGroupName]="i">
+                        <div class="row">
+                           <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                              <div class="form-group-3">
+                                 <label>{{'addForm.noparking' | translate}}</label>
+                                 <input autocomplete="off" type="text" class="form-control" placeholder="" formControlName="parkingLotsNumber"/>
+                              </div>
+                           </div>
+                           <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                              <div class="form-group-3">
+                                 <label>{{'addForm.Type' | translate}}</label>
+                                 <select title="Select Type" class="form-control"  formControlName="parkingLotsType">
+                                 <option>Tandom</option>
+                                 <option>Double</option>
+                              </select>
+                              </div>
+                           </div>
+                           <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                              <div class="form-group-3">
+                                    <label>{{'addForm.Price(each)' | translate}}</label>
+                                    <input autocomplete="off" type="text" class="form-control" placeholder="$100,000.00"  formControlName="parkingLotsPrice"/>
+                                 </div>
+                           </div>
+                           <div class="col-lg-1 col-md-12 col-sm-12 col-12">
+                              <label style="color: white;">{{'addForm.Price(each)' | translate}}&nbsp;&nbsp;</label>
+                              <button  class="action-icon" (click)="this.removeParkingLotForSaleFormGroup(i)"
+                              title="{{'addForm.remove' | translate}}"><img src="assets/img/ic_disapprove.png"
+                                 alt="img"></button>
+                           </div>
+                        </div>
                   </div>
+               </ng-container>
             </div>
-            <div class="col-lg-1 col-md-12 col-sm-12 col-12">
-               <label style="color: white;">{{'addForm.Price(each)' | translate}}&nbsp;&nbsp;</label>
-               <button  class="action-icon" 
-               title="{{'addForm.remove' | translate}}"><img src="assets/img/ic_disapprove.png"
-                  alt="img"></button>
-            </div>
-         </div>
-
          <hr>
          <!-- down or discount -->
          <div class="spacer15"></div>
          <div class="row">
             <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                <div class="form-group-3">
-                  <label>{{'generatePDF.downPaymentPercentage' | translate}}<span class="color-red">*</span></label>
-                  <input autocomplete="off" type="number" class="form-control" placeholder="30%"/>
+                  <label>{{'generatePDF.downPaymentPercentage' | translate}} <span class="color-red">*</span></label>
+                  <input autocomplete="off" type="text" class="form-control" placeholder="%" formControlName="downPayment" appOnlyDecimal />
                </div>
             </div>
             <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                <div class="form-group-3">
                   <label style="color: white;">{{'addForm.Type' | translate}}</label>
-                 <p style="color: red;font-size: 15px;">$2,102,178,00</p>
+                 <p style="color: red;font-size: 15px;" *ngIf="isPreview">${{installmentFormGroup.get("downPaymentFinalPrice").value}}</p>
                </div>
             </div>
             <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                <div class="form-group-3">
                      <label>{{'generatePDF.discountPercentage' | translate}}</label>
-                     <input autocomplete="off" type="text" class="form-control" placeholder="$100,000.00"/>
+                     <input autocomplete="off" type="text" class="form-control" placeholder="%" formControlName="discount" appOnlyDecimal/>
                   </div>
             </div>
             <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                <label style="color: white;">{{'addForm.Type' | translate}}</label>
-               <p style="color: red;font-size: 15px;">$2,102,178,00</p>
+               <p style="color: red;font-size: 15px;" *ngIf="isPreview && !installmentFormGroup.get('interestFinalPrice').value">${{installmentFormGroup.get("discountFinalPrice").value}}</p>
             </div>
          </div>
          <!-- month or interest -->
@@ -1383,25 +1388,25 @@ margin-left: -38%;">
          <div class="row">
             <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                <div class="form-group-3">
-                  <label>{{'generatePDF.monthlyInstallmentPercentage' | translate}}<span class="color-red">*</span></label>
-                  <input autocomplete="off" type="number" class="form-control" placeholder="30%"/>
+                  <label>{{'generatePDF.monthlyInstallmentPercentage' | translate}} <span class="color-red">*</span></label>
+                  <input autocomplete="off" type="text" class="form-control" placeholder="%" formControlName="monthlyInstallment" appOnlyDecimal />
                </div>
             </div>
             <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                <div class="form-group-3">
                   <label style="color: white;">{{'addForm.Type' | translate}}</label>
-                 <p style="color: red;font-size: 15px;">$102,178.00</p>
+                 <p style="color: red;font-size: 15px;" *ngIf="isPreview">${{installmentFormGroup.get("monthlyInstallmentFinalPrice").value}}</p>
                </div>
             </div>
             <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                <div class="form-group-3">
                      <label>{{'generatePDF.interest' | translate}}</label>
-                     <input autocomplete="off" type="text" class="form-control" placeholder="%"/>
+                     <input autocomplete="off" type="text" class="form-control" placeholder="%" formControlName="interest" appOnlyDecimal/>
                   </div>
             </div>
             <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                <label style="color: white;">{{'addForm.Type' | translate}}</label>
-               <p style="color: red;font-size: 15px;"> </p>
+               <p style="color: red;font-size: 15px;" *ngIf="isPreview && installmentFormGroup.get('interestFinalPrice').value">${{installmentFormGroup.get("interestFinalPrice").value}} </p>
             </div>
          </div>
          <!-- numberOfMI -->
@@ -1409,32 +1414,30 @@ margin-left: -38%;">
          <div class="row">
             <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                <div class="form-group-3">
-                  <label style="width: 232px;">{{'generatePDF.numberOfMI' | translate}}
-                     &nbsp;<span class="color-red">*</span></label>
-                  <input autocomplete="off" type="number" class="form-control" placeholder="10"/>
+                  <label style="width: 245px;">{{'generatePDF.numberOfMI' | translate}} <span class="color-red">*</span></label>
+                  <input autocomplete="off" type="text" class="form-control"  maxlength="6" appOnlyNumber placeholder="#" formControlName="numberOfMI"/>
                </div>
             </div>
-            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+            <!-- <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                <div class="form-group-3">
                   <label style="color: white;">{{'addForm.Type' | translate}}</label>
                  <p style="color: red;font-size: 15px;">$2,102,178.00</p>
                </div>
-            </div>
+            </div> -->
          </div>
           <!-- paymentupondeliveryPercentage -->
          <div class="spacer15"></div>
          <div class="row">
             <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                <div class="form-group-3">
-                  <label style="width: 232px;">{{'generatePDF.paymentupondeliveryPercentage' | translate}}
-                     &nbsp;<span class="color-red">*</span></label>
-                  <input autocomplete="off" type="number" class="form-control" placeholder="30%"/>
+                  <label style="width: 232px;">{{'generatePDF.paymentupondeliveryPercentage' | translate}} <span class="color-red">*</span></label>
+                  <input autocomplete="off" type="text" class="form-control"  formControlName="paymentupondelivery" placeholder="%" appOnlyDecimal/>
                </div>
             </div>
             <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                <div class="form-group-3">
                   <label style="color: white;">{{'addForm.Type' | translate}}</label>
-                 <p style="color: red;font-size: 15px;">$102,178.00</p>
+                 <p style="color: red;font-size: 15px;" *ngIf="isPreview">${{installmentFormGroup.get("paymentupondeliveryFinalPrice").value}}</p>
                </div>
             </div>
             <div class="col-lg-3 col-md-12 col-sm-12 col-12">
@@ -1447,46 +1450,93 @@ margin-left: -38%;">
             </div>
          </div>
          <!-- add variable button-->
-         <div class="spacer15"></div>
-         <div class="row">
+         <div class="spacer15" *ngIf="!this.installmentFormGroup.get('isAddVariables').value"></div>
+         <div class="row" *ngIf="!this.installmentFormGroup.get('isAddVariables').value">
             <div class="col-12">
                <div class="btn-cont">
-                  <span><a class="add" href="javascript://">{{'generatePDF.addNewVariablePlus' | translate}}</a></span>
+                  <span><a class="add" href="javascript://" (click)="this.markIsAddVariables(true,$event)">{{'generatePDF.addNewVariablePlus' | translate}}</a></span>
                </div>
             </div>
          </div>
          <div class="spacer15"></div>
          <!-- add variable row-->
-         <div class="row">
+         <div class="row" *ngIf="this.installmentFormGroup.get('isAddVariables').value">
             <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                <div class="form-group-3">
-                  <label>{{'generatePDF.variableName' | translate}}<span class="color-red">*</span></label>
-                  <input autocomplete="off" type="text" class="form-control" placeholder="1"/>
+                  <label>{{'generatePDF.variableName' | translate}} <span class="color-red">*</span></label>
+                  <input autocomplete="off" type="text" class="form-control" placeholder="" formControlName="tempAddVariablesText"/>
                </div>
             </div>
             <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                <div class="form-group-3">
-                     <label>{{'generatePDF.variablePercentage' | translate}}<span class="color-red">*</span></label>
-                     <input autocomplete="off" type="text" class="form-control" placeholder="$100,000.00"/>
+                     <label>{{'generatePDF.variablePercentage' | translate}} <span class="color-red">*</span></label>
+                     <input autocomplete="off" type="text" class="form-control" placeholder="%" formControlName="tempAddVariablesPercentage" appOnlyDecimal/>
                   </div>
             </div>
             <div class="col-lg-1 col-md-12 col-sm-12 col-12">
                <label style="color: white;">{{'addForm.Price(each)' | translate}}</label>
-               <span><a class="add" href="javascript://">{{'addForm.save' | translate}}</a></span>
+               <span><a class="add" href="javascript://" (click)="this.addNewAddVariables($event)">{{'addForm.save' | translate}}</a></span>
             </div>
             <div class="col-lg-2 col-md-12 col-sm-12 col-12">
                <label style="color: white;">{{'addForm.Price(each)' | translate}}</label>
                <span><a class="add" style="color: red;"
-                  href="javascript://">{{'addForm.remove' | translate}}</a></span>
+                  href="javascript://" (click)="this.markIsAddVariables(false,$event)">{{'addForm.remove' | translate}}</a></span>
             </div>
+         </div>
+         <!-- listing of add variable -->
+         <div formArrayName="addVariablesFormArray" *ngIf="this.getAddVariablesFormArrayLength > 0">
+            <ng-container
+               *ngFor="let temp_add_variables of this.getAddVariablesFormArray['controls']; let i=index">
+               <div [formGroupName]="i">
+                  <div class="row" style="margin: auto;">
+                     <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                        <div class="form-group-2">
+                           <label>{{'generatePDF.variableName' | translate}}
+                           </label>
+                        </div>
+                     </div>
+                     <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="form-group-2">
+                           <label>{{'generatePDF.variablePercentage' | translate}}
+                           </label>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row" style="margin-top: -15px;margin-left: auto;">
+                     <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                        <div class="form-group-3">
+                           <input required autocomplete="off" class="form-control" type="text"
+                              formControlName="addVariablesText" placeholder="">
+                        </div>
+                     </div>
+                     <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                        <div class="form-group-3">
+                           <input required autocomplete="off" class="form-control" type="text"
+                              formControlName="addVariablesPercentage" placeholder="%">
+                        </div>
+                     </div>
+                     <div class="col-lg-3 col-md-12 col-sm-12 col-12" *ngIf="isPreview">
+                        <div class="form-group-3">
+                          <p style="color: red;font-size: 15px;" >${{this.getAddVariablesFormArray['controls'][i].get("addVariablesPercentageFinalPrice").value}}</p>
+                        </div>
+                     </div>
+                     <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                        <div style="padding: 5px;">
+                           <button (click)="this.removeAddVariablesFormGroup(i);" class="action-icon"
+                              title="{{'addForm.remove' | translate}}"><img src="assets/img/ic_disapprove.png"
+                                 alt="img"></button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </ng-container>
          </div>
          <!-- leadName -->
          <div class="spacer15"></div>
          <div class="row">
             <div class="col-lg-6 col-md-12 col-sm-12 col-12">
-               <label style="width: 232px;">{{'generatePDF.leadName' | translate}}
-                  &nbsp;<span class="color-red">*</span></label>
-               <input autocomplete="off" type="text" class="form-control" placeholder="30%"/>
+               <label style="width: 232px;">{{'generatePDF.leadName' | translate}} <span class="color-red">*</span></label>
+               <input autocomplete="off" type="text" class="form-control" placeholder="" formControlName="leadName"/>
             </div>
          </div>
          <!-- bankDetails -->
@@ -1528,24 +1578,41 @@ margin-left: -38%;">
             </div>
          </div>
          <!-- addNote -->
-         <div class="spacer15"></div>
-         <div class="row">
+         <div class="spacer15" *ngIf="this.getAddNoteFormArrayLength == 0"></div>
+         <div class="row" *ngIf="this.getAddNoteFormArrayLength == 0">
             <div class="col-12">
                <div class="btn-cont">
-                  <span><a class="add" href="javascript://">{{'generatePDF.addNotePlus' | translate}}</a></span>
+                  <span><a class="add" href="javascript://" (click)="this.addNotes($event)">{{'generatePDF.addNotePlus' | translate}}</a></span>
                </div>
             </div>
          </div>
          <div class="spacer15"></div>
          <!-- addNote row-->
-         <div class="row">
+         <!-- <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                <div class="form-group-3">
-                  <label>Note<span class="color-red">*</span></label>
+                  <label>{{'generatePDF.note' | translate}}
+                  </label>
                   <textarea rows="2" required class="form-control" 
                   placeholder="This offer value is for our best friend"></textarea>
                </div>
             </div>
+         </div> -->
+         <div formArrayName="addNoteFormArray" *ngIf="this.getAddNoteFormArrayLength > 0">
+            <ng-container *ngFor="let temp_add_note of this.getAddNoteFormArray['controls']; let j=index">
+               <div [formGroupName]="j">
+                  <div class="row" >
+                     <div class="col-lg-12 col-md-6 col-sm-6 col-12">
+                        <div class="form-group-3">
+                           <label>{{'generatePDF.note' | translate}}
+                           </label>
+                           <textarea rows="3" type="text" class="form-control note"
+                              formControlName="addNote"></textarea>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </ng-container>
          </div>
          <div class="spacer15"></div>
          <!-- addNote row-->
