@@ -156,6 +156,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       numberOfMI: [''],
       paymentupondelivery: [''],
       isAddVariables: [false],
+      isAddParkingLotForSale: [false],
+      parkingLotsNumber: [''],
+      parkingLotsType: [''],
+      parkingLotsPrice: [''],
       agencyOrSeller: [false],
       leadName: [''],
       tempAddVariablesText: [''],
@@ -163,6 +167,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       interest: [''],
       paymentBankDetails: [''],
       addVariablesFormArray: this.formBuilder.array([]),
+      parkingLotForSaleFormArray: this.formBuilder.array([]),
       addNoteFormArray: this.formBuilder.array([]),
       addbankFormArray: this.formBuilder.array([]),
       listPrice: [{ value: '', disabled: true }],
@@ -699,6 +704,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.admin.postDataApi('getPropertyDetails', { id: (propertyDetails || {}).id }).subscribe((success) => {
       this.spinner.hide();
       this.bankDetails = (success || {}).data;
+      this.installmentFormGroup.patchValue({
+        listPrice: this.property_array.min_price ? ('$' + this.getTransformedAmount(this.property_array.min_price)) : ('$' + 0.00)
+      });
       this.makePaymentBankDetailsArray(true);
     }, (error) => {
       this.spinner.hide();
@@ -1633,6 +1641,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       numberOfMI: '',
       paymentupondelivery: '',
       isAddVariables: false,
+      isAddParkingLotForSale: false,
+      parkingLotsNumber: '',
+      parkingLotsType: '',
+      parkingLotsPrice: '',
       agencyOrSeller: false,
       leadName: '',
       tempAddVariablesText: '',
@@ -1649,6 +1661,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     });
     this.getAddNoteFormArray.controls = [];
     this.getAddVariablesFormArray.controls = [];
+    this.getParkingLotForSaleFormArray.controls = [];
     this.isPreview = false;
   }
 
@@ -1705,7 +1718,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         }
       }
     } else if (this.installmentFormGroup.get('agencyOrSeller').value) {
-      if (this.bankDetails.selected_seller.user.developer_company || this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id) {
+      if ((((this.bankDetails || {}).selected_seller || {}).user || {}).developer_company || (((this.bankDetails || {}).selected_seller || {}).user || {}).is_developer == 0 && !(((this.bankDetails || {}).selected_seller || {}).user || {}).legal_entity_id) {
         this.fedTaxPayer = (((this.bankDetails || {}).selected_seller || {}).user || {}).fed_tax_pay || '';
         ((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_rep_banks || []).forEach((element, innerIndex) => {
           element.name = 'Seller Bank | ' + element.bank_name;
@@ -1742,8 +1755,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       const paymentUponDelivery = this.installmentFormGroup.get('paymentupondelivery').value ? (this.installmentFormGroup.get('paymentupondelivery').value * this.getFinalPrice()) / 100 : 0;
       const monthlyInstallments = this.installmentFormGroup.get('monthlyInstallment').value ? (this.installmentFormGroup.get('monthlyInstallment').value * this.getFinalPrice()) / 100 : 0;
       this.installmentFormGroup.patchValue({
-        listPrice: this.property_array.min_price ? this.getTransformedAmount(this.property_array.min_price) : 0.00,
-        finalPrice: this.getFinalPrice() ? this.getTransformedAmount(this.getFinalPrice()) : 0.00,
+        listPrice: this.property_array.min_price ? ('$' + this.getTransformedAmount(this.property_array.min_price)) : ('$' + 0.00),
+        finalPrice: this.getFinalPrice() ? ('$' + this.getTransformedAmount(this.getFinalPrice())) : ('$' + 0.00),
         downPaymentFinalPrice: downPayment ? this.getTransformedAmount(downPayment) : 0.00,
         discountFinalPrice: discount ? this.getTransformedAmount(discount) : 0.00,
         monthlyInstallmentFinalPrice: monthlyInstallments ? this.getTransformedAmount(monthlyInstallments) : 0.00,
@@ -1752,6 +1765,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       });
       if (isPreviewClick) {
         this.isPreview = !this.isPreview;
+        (!this.isPreview) ? this.installmentFormGroup.patchValue({ finalPrice: '' }) : '';
       }
     } else {
       swal(this.translate.instant('swal.error'), this.translate.instant('generatePDF.percentageText'), 'error');
@@ -1818,6 +1832,44 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     localStorage.setItem('selectedLocalitiesForProperty', JSON.stringify(this.selectedLocation.selectedLocalities.length > 0 ? this.selectedLocation.selectedLocalities : []));
     localStorage.setItem('selectedCitiesForProperty', JSON.stringify(this.selectedLocation.selectedCities.length > 0 ? this.selectedLocation.selectedCities : []));
     localStorage.setItem('parametersForProperty', JSON.stringify(this.parameter));
+  }
+
+  get getParkingLotForSaleFormArray(): FormArray {
+    return this.installmentFormGroup.get('parkingLotForSaleFormArray') as FormArray;
+  }
+
+  get getParkingLotForSaleFormArrayLength(): number {
+    return this.getParkingLotForSaleFormArray.length;
+  }
+
+  addNewParkingLotForSale = ($event: any): void => {
+    $event.stopPropagation();
+    this.getParkingLotForSaleFormArray.push(this.createFormGroupForParkingLotForSale());
+    this.markIsParkingLotForSale(false);
+  }
+
+  createFormGroupForParkingLotForSale = (): FormGroup => {
+    return this.formBuilder.group({
+      parkingLotsNumber: [{ value: this.installmentFormGroup.get('parkingLotsNumber').value, disabled: true }],
+      parkingLotsType: [{ value: this.installmentFormGroup.get('parkingLotsType').value, disabled: true }],
+      parkingLotsPrice: [{ value: ('$'+this.installmentFormGroup.get('parkingLotsPrice').value), disabled: true }]
+    });
+  }
+
+  markIsParkingLotForSale = (isParkingLotForSale: boolean, $event?: any): void => {
+    if ($event) {
+      $event.stopPropagation();
+    }
+    this.installmentFormGroup.patchValue({
+      isAddParkingLotForSale: isParkingLotForSale,
+      parkingLotsNumber: '',
+      parkingLotsType: '',
+      parkingLotsPrice: ''
+    });
+  }
+
+  removeParkingLotForSaleFormGroup = (index: number): void => {
+    this.getParkingLotForSaleFormArray.removeAt(index);
   }
 
 }
