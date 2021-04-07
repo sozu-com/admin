@@ -259,7 +259,7 @@
             </div>
             <div class="col-6">
               <div class="btn-cont text-right">
-                <button *ngIf="!model.id" type="submit" [disabled]="!model.name || !model.first_surname || !model.email || !model.is_company"
+                <button *ngIf="!model.id" type="submit" [disabled]="!model.name || !model.phone"
                   class="btn btn-primary">{{'addForm.addBtn' | translate}}</button>
                 <button *ngIf="model.id" type="submit" 
                   class="btn btn-primary">{{'addForm.updateBtn' | translate}}</button>
@@ -279,16 +279,16 @@
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-12">
               <div class="form-group-2">
-                <label>{{'addForm.firstSurname' | translate}} <span class="color-red">*</span></label>
+                <label>{{'addForm.firstSurname' | translate}}</label>
                 <div class="form-group">
                   <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" type="text" class="form-control"
-                    required maxlength="30" [(ngModel)]="model.first_surname" name="first_surname">
+                     maxlength="30" [(ngModel)]="model.first_surname" name="first_surname">
                 </div>
               </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-12">
               <div class="form-group-2">
-                <label>{{'addForm.secondSurname' | translate}} </label>
+                <label>{{'addForm.secondSurname' | translate}}</label>
                 <div class="form-group">
                   <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" type="text" class="form-control"
                     maxlength="30" [(ngModel)]="model.second_surname" name="second_surname">
@@ -298,12 +298,12 @@
             <div class="col-lg-6 col-md-6 col-sm-12 col-12">
               <div class="form-group-2">
                 <label>{{'addForm.contactNumber' | translate}}
-                  <!-- <span class="color-red">*</span> -->
+                  <span class="color-red">*</span>
                 </label>
                 <div class="form-group">
                   <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="constant.phonePattern"
                     class="form-control" id="phone" minlength="1" [(ngModel)]="model.phone" name="phone" ng2TelInput
-                    #phonetest (intlTelInputObject)="telInputObject($event)"
+                    #phonetest (intlTelInputObject)="telInputObject($event)" required
                     (countryChange)="onCountryChange($event)" />
                 </div>
               </div>
@@ -311,34 +311,38 @@
             <div class="col-lg-6 col-md-6 col-sm-12 col-12">
               <div class="form-group-2">
                 <label>{{'addForm.emailId' | translate}}
-                  <span class="color-red">*</span>
+                  <!-- <span class="color-red">*</span> -->
                 </label>
                 <div class="form-group">
                   <input (keydown.space)="$event.preventDefault();" autocomplete="off" [pattern]="constant.emailPattern"
-                    type="email" class="form-control" required [(ngModel)]="model.email" name="email">
+                    type="email" class="form-control"  [(ngModel)]="model.email" name="email">
                 </div>
               </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-12">
               <div class="form-group-2">
-                <label>{{'addForm.freeLancerOrComapny' | translate}} <span class="color-red">*</span></label>
+                <label>{{'addForm.freeLancerOrComapny' | translate}} 
+                  <!-- <span class="color-red">*</span> -->
+                </label>
                 <div class="form-group">
-                  <select class="form-control" required (change)="setIsCompany($event.target.value)"
+                  <select class="form-control"  (change)="setIsCompany($event.target.value)"
                     [(ngModel)]="model.is_company" name="is_company">
                     <option value="true">{{'addForm.company' | translate}}</option>
                     <option value="false">{{'addForm.freelancer' | translate}}</option>
                   </select>
+                   <!-- required -->
                 </div>
               </div>
             </div>
             <div class="col-12" *ngIf="model.is_company=='true'">
               <div class="form-group-2">
                 <label>{{'addForm.companyName' | translate}}</label>
-                <select name="company" class="form-control" required (change)="setCompany($event.target.value)">
+                <select name="company" class="form-control"  (change)="setCompany($event.target.value)">
                   <option value="">{{'addForm.selectCompany' | translate}}</option>
                   <option *ngFor="let company of companies" value="{{company.id}}"
                     [selected]="model?.company?.id == company.id">{{company.name}}</option>
                 </select>
+                <!-- required -->
               </div>
             </div>
           </div>
@@ -346,7 +350,9 @@
           <div class="row" *ngIf="model.is_company=='false'">
             <div class="col-12">
               <div class="form-group-2">
-                <label>{{'addForm.rfcLegalId' | translate}} <span class="color-red">*</span></label>
+                <label>{{'addForm.rfcLegalId' | translate}} 
+                  <!-- <span class="color-red">*</span> -->
+                </label>
                 <div class="form-group">
                   <input autocomplete="off" type="text" class="form-control" name="rfc_legal_id"
                     [(ngModel)]="model.rfc_legal_id">
@@ -355,7 +361,9 @@
             </div>
             <div class="col-12">
               <div class="form-group-2">
-                <label>{{'addForm.address' | translate}} <span class="color-red">*</span></label>
+                <label>{{'addForm.address' | translate}} 
+                  <!-- <span class="color-red">*</span> -->
+                </label>
                 <div class="form-group">
                   <input placeholder="Search for address" autocorrect="off" autocapitalize="off" spellcheck="off"
                     type="text" class="form-control" #search1
@@ -366,7 +374,9 @@
             </div>
             <div class="col-12">
               <div class="form-group-2">
-                <label>{{'addForm.locationPinOnMap' | translate}} <span class="color-red">*</span></label>
+                <label>{{'addForm.locationPinOnMap' | translate}} 
+                  <!-- <span class="color-red">*</span> -->
+                </label>
                 <div class="form-group">
                   <agm-map class="height200" [latitude]="model.lat" [longitude]="model.lng" [scrollwheel]="false"
                     (mapClick)="placeMarker($event, 'lat', 'lng', 'address')" [zoom]="constant.zoom">

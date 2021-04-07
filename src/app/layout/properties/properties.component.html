@@ -1240,7 +1240,306 @@ margin-left: -38%;">
 </div>
 
 <a style="display:none;" #openInstallmentModal data-toggle="modal" data-target="#installmentModal"></a>
-<div class="modal animated" id="installmentModal" style="margin-top: -14%;">
+<div class="modal animated" id="installmentModal">
+   <div class="modal-dialog fadeIndown">
+     <div class="modal-content">
+       <div class="modal-header modal-header-new">
+         <h4 class="modal-title" style="font-weight: bold;">{{'generatePDF.offerInformaton' | translate}}</h4>
+         <br>
+         <button style="display: none;" type="button" class="close" data-dismiss="modal"
+         #closeInstallmentModal>&times;</button>
+         <button type="button" class="close" (click)="this.closeModalInstallment()">&times;</button>
+       </div>
+      
+       <form autocomplete="off" class="form-horizontal form-model0P form-model-newP" role="form" ngNativeValidate
+         #addForm="ngForm" (ngSubmit)="addManagerNote();">
+         <div class="modal-body modal-body-new">
+            <label>{{'generatePDF.offerDetails' | translate}}</label>
+            <div class="spacer15"></div>
+            <!-- List and final price fields -->
+           <div class="row">
+            <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+               <div class="form-group-3">
+                  <label>{{'generatePDF.listprice' | translate}}</label>
+                  <input autocomplete="off" type="text" class="form-control" placeholder="$2,812,912.00"/>
+               </div>
+            </div>
+            <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+               <div class="form-group-3">
+                  <label>{{'generatePDF.finalprice' | translate}}</label>
+                  <input autocomplete="off" type="text" class="form-control" placeholder="$"/>
+               </div>
+            </div>
+            <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+               <div class="form-group-3">
+               </div>
+            </div>
+           </div>
+           <div class="spacer15"></div>
+           <!-- parking lot for sale button-->
+           <div class="row">
+            <div class="col-12">
+               <div class="btn-cont">
+                  <span><a class="add" href="javascript://">{{'addForm.addParking' | translate}}</a></span>
+               </div>
+            </div>
+         </div>
+         <div class="spacer15"></div>
+         <!-- parking lot for sale row-->
+         <div class="row">
+            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+               <div class="form-group-3">
+                  <label>{{'addForm.noparking' | translate}}<span class="color-red">*</span></label>
+                  <input autocomplete="off" type="number" class="form-control" placeholder="1"/>
+               </div>
+            </div>
+            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+               <div class="form-group-3">
+                  <label>{{'addForm.Type' | translate}}<span class="color-red">*</span></label>
+                  <!-- <input autocomplete="off" type="text" class="form-control" placeholder="$"/> -->
+                  <select title="Select Type" class="form-control">
+                  <option>Tandom</option>
+                  <option>Double</option>
+                </select>
+               </div>
+            </div>
+            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+               <div class="form-group-3">
+                     <label>{{'addForm.Price(each)' | translate}}<span class="color-red">*</span></label>
+                     <input autocomplete="off" type="text" class="form-control" placeholder="$100,000.00"/>
+                  </div>
+            </div>
+            <div class="col-lg-1 col-md-12 col-sm-12 col-12">
+               <label style="color: white;">{{'addForm.Price(each)' | translate}}</label>
+               <span><a class="add" href="javascript://">{{'addForm.save' | translate}}</a></span>
+            </div>
+            <div class="col-lg-2 col-md-12 col-sm-12 col-12">
+               <label style="color: white;">{{'addForm.Price(each)' | translate}}</label>
+               <span><a class="add" style="color: red;"
+                  href="javascript://">{{'addForm.remove' | translate}}</a></span>
+            </div>
+         </div>
+         <div class="spacer15"></div>
+         <hr>
+         <!-- down or discount -->
+         <div class="spacer15"></div>
+         <div class="row">
+            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+               <div class="form-group-3">
+                  <label>{{'generatePDF.downPaymentPercentage' | translate}}<span class="color-red">*</span></label>
+                  <input autocomplete="off" type="number" class="form-control" placeholder="30%"/>
+               </div>
+            </div>
+            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+               <div class="form-group-3">
+                  <label style="color: white;">{{'addForm.Type' | translate}}</label>
+                 <p style="color: red;font-size: 15px;">$2,102,178,00</p>
+               </div>
+            </div>
+            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+               <div class="form-group-3">
+                     <label>{{'generatePDF.discountPercentage' | translate}}</label>
+                     <input autocomplete="off" type="text" class="form-control" placeholder="$100,000.00"/>
+                  </div>
+            </div>
+            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+               <label style="color: white;">{{'addForm.Type' | translate}}</label>
+               <p style="color: red;font-size: 15px;">$2,102,178,00</p>
+            </div>
+         </div>
+         <!-- month or interest -->
+         <div class="spacer15"></div>
+         <div class="row">
+            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+               <div class="form-group-3">
+                  <label>{{'generatePDF.monthlyInstallmentPercentage' | translate}}<span class="color-red">*</span></label>
+                  <input autocomplete="off" type="number" class="form-control" placeholder="30%"/>
+               </div>
+            </div>
+            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+               <div class="form-group-3">
+                  <label style="color: white;">{{'addForm.Type' | translate}}</label>
+                 <p style="color: red;font-size: 15px;">$102,178.00</p>
+               </div>
+            </div>
+            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+               <div class="form-group-3">
+                     <label>{{'generatePDF.interest' | translate}}</label>
+                     <input autocomplete="off" type="text" class="form-control" placeholder="%"/>
+                  </div>
+            </div>
+            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+               <label style="color: white;">{{'addForm.Type' | translate}}</label>
+               <p style="color: red;font-size: 15px;"> </p>
+            </div>
+         </div>
+         <!-- numberOfMI -->
+         <div class="spacer15"></div>
+         <div class="row">
+            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+               <div class="form-group-3">
+                  <label style="width: 232px;">{{'generatePDF.numberOfMI' | translate}}
+                     &nbsp;<span class="color-red">*</span></label>
+                  <input autocomplete="off" type="number" class="form-control" placeholder="10"/>
+               </div>
+            </div>
+            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+               <div class="form-group-3">
+                  <label style="color: white;">{{'addForm.Type' | translate}}</label>
+                 <p style="color: red;font-size: 15px;">$2,102,178.00</p>
+               </div>
+            </div>
+         </div>
+          <!-- paymentupondeliveryPercentage -->
+         <div class="spacer15"></div>
+         <div class="row">
+            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+               <div class="form-group-3">
+                  <label style="width: 232px;">{{'generatePDF.paymentupondeliveryPercentage' | translate}}
+                     &nbsp;<span class="color-red">*</span></label>
+                  <input autocomplete="off" type="number" class="form-control" placeholder="30%"/>
+               </div>
+            </div>
+            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+               <div class="form-group-3">
+                  <label style="color: white;">{{'addForm.Type' | translate}}</label>
+                 <p style="color: red;font-size: 15px;">$102,178.00</p>
+               </div>
+            </div>
+            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+               <div class="form-group btn-cont">
+                  <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                  <button type="button" class="btn  width100P P86 btn-primary-new"
+                     (click)="this.onClickPreview(true)">
+                     {{'generatePDF.preview' | translate}}</button>
+               </div>
+            </div>
+         </div>
+         <!-- add variable button-->
+         <div class="spacer15"></div>
+         <div class="row">
+            <div class="col-12">
+               <div class="btn-cont">
+                  <span><a class="add" href="javascript://">{{'generatePDF.addNewVariablePlus' | translate}}</a></span>
+               </div>
+            </div>
+         </div>
+         <div class="spacer15"></div>
+         <!-- add variable row-->
+         <div class="row">
+            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+               <div class="form-group-3">
+                  <label>{{'generatePDF.variableName' | translate}}<span class="color-red">*</span></label>
+                  <input autocomplete="off" type="text" class="form-control" placeholder="1"/>
+               </div>
+            </div>
+            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+               <div class="form-group-3">
+                     <label>{{'generatePDF.variablePercentage' | translate}}<span class="color-red">*</span></label>
+                     <input autocomplete="off" type="text" class="form-control" placeholder="$100,000.00"/>
+                  </div>
+            </div>
+            <div class="col-lg-1 col-md-12 col-sm-12 col-12">
+               <label style="color: white;">{{'addForm.Price(each)' | translate}}</label>
+               <span><a class="add" href="javascript://">{{'addForm.save' | translate}}</a></span>
+            </div>
+            <div class="col-lg-2 col-md-12 col-sm-12 col-12">
+               <label style="color: white;">{{'addForm.Price(each)' | translate}}</label>
+               <span><a class="add" style="color: red;"
+                  href="javascript://">{{'addForm.remove' | translate}}</a></span>
+            </div>
+         </div>
+         <!-- leadName -->
+         <div class="spacer15"></div>
+         <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+               <label style="width: 232px;">{{'generatePDF.leadName' | translate}}
+                  &nbsp;<span class="color-red">*</span></label>
+               <input autocomplete="off" type="text" class="form-control" placeholder="30%"/>
+            </div>
+         </div>
+         <!-- bankDetails -->
+         <div class="spacer20"></div>
+         <label>{{'generatePDF.bankDetails' | translate}}</label>
+         <div class="row" style="margin: auto;">
+            <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+               <div style="margin: 5px;">
+                  <span style="font-weight: 600;">{{'generatePDF.agency' | translate}}</span>
+               </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+               <div class="form-group-3">
+                  <label class="switch1">
+                     <input type="checkbox" class="form-control" formControlName="agencyOrSeller"
+                        (change)="this.onAgencyOrSellerChange()">
+                     <span class="slider round" style="background-color: #00B96F;"></span>
+                  </label>
+               </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+               <div style="margin: 5px;">
+                  <span style="font-weight: 600;">{{'generatePDF.seller' | translate}}</span>
+               </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+               <div class="form-group-3">
+                  <div class="form-group">
+                     <select name="payment_bank" class="form-control" formControlName="paymentBankDetails">
+                        <option value="">{{'generatePDF.selectAccount' | translate}}</option>
+                        <option *ngFor="let tempPaymentBankDetailsArray of paymentBankDetailsArray"
+                           [ngValue]="tempPaymentBankDetailsArray">
+                           {{tempPaymentBankDetailsArray?.name}} |
+                           {{tempPaymentBankDetailsArray?.account_number}} |
+                           {{tempPaymentBankDetailsArray?.currency?.code}}</option>
+                     </select>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- addNote -->
+         <div class="spacer15"></div>
+         <div class="row">
+            <div class="col-12">
+               <div class="btn-cont">
+                  <span><a class="add" href="javascript://">{{'generatePDF.addNotePlus' | translate}}</a></span>
+               </div>
+            </div>
+         </div>
+         <div class="spacer15"></div>
+         <!-- addNote row-->
+         <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+               <div class="form-group-3">
+                  <label>Note<span class="color-red">*</span></label>
+                  <textarea rows="2" required class="form-control" 
+                  placeholder="This offer value is for our best friend"></textarea>
+               </div>
+            </div>
+         </div>
+         <div class="spacer15"></div>
+         <!-- addNote row-->
+         <div class="row">
+            <div class="col-lg-4 col-md-5 col-sm-12 col-12" style="margin-left: auto;">
+               <div class="form-group btn-cont">
+                  <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                  <button type="button" (click)="this.checkIsGeneratePDF()" class="btn btn-primary-new width100P P86"
+                     style="height: 42px;">{{'generatePDF.generateOffer' | translate}}</button>
+               </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-12" style="margin-right: auto;">
+               <div class="form-group btn-cont">
+                  <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                  <button type="button" class="btn  width100P P86 btn-danger" (click)="this.closeModalInstallment()">
+                     {{'advanceSearch.cancel' | translate}}</button>
+               </div>
+            </div>
+         </div>
+         </div>
+       </form>
+     </div>
+   </div>
+ </div>
+<!-- <div class="modal animated" id="installmentModal" style="margin-top: -14%;">
    <div class="modal-dialog fadeIndown">
       <div class="modal-content" style="width: 170%;">
          <div class="modal-header modal-header-new">
@@ -1259,7 +1558,7 @@ margin-left: -38%;">
                      <div class="form-group-2">
                         <label>{{'generatePDF.listprice' | translate}}
                         </label>
-                     </div>
+                     </div>   
                   </div>
                   <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                      <div class="form-group-3">
@@ -1554,22 +1853,6 @@ margin-left: -38%;">
                <div>
                   <h6 style="font-weight: bold;">{{'generatePDF.bankDetails' | translate}}</h6>
                </div>
-               <!-- <div class="row">                 
-                  <div class="form-group col-md-6">
-                     {{'generatePDF.agency' | translate}}&nbsp;&nbsp;&nbsp;<label class="switch1">
-                        <input type="checkbox" class="form-control" formControlName="agencyOrSeller" (change)="this.onAgencyOrSellerChange()">
-                        <span class="slider round" style="background-color: #00B96F;"></span></label>&nbsp;&nbsp;&nbsp;{{'generatePDF.seller' | translate}}
-                  </div>
-                  <div class="col-6">
-                     <div class="form-group-2"> 
-                        <ng-multiselect-dropdown class="col-3 section-section2" [placeholder]="'Select account'"
-                        [data]="levels" [(ngModel)]="selectedvalue" [settings]="multiDropdownSettingss"
-                        (onDeSelect)="unsetProject($event)" (onSelect)="onItemSelects($event)"
-                        (onSelectAll)="onSelectAll($event)">
-                     </ng-multiselect-dropdown>
-                  </div>                     
-                  </div>
-               </div> -->
                <div class="row" style="margin: auto;">
                   <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                      <div style="margin: 5px;">
@@ -1647,4 +1930,4 @@ margin-left: -38%;">
          </div>
       </div>
    </div>
-</div>
+</div> -->

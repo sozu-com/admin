@@ -7,7 +7,7 @@
 }
 
 input[type="text"] {
-    background-color : #d1d1d1; 
+    background-color : white; 
 }
 .form-group .form-control {
   height: 40px;
@@ -17,12 +17,9 @@ input[type="text"] {
   font-size: 14px;
   font-weight: 500;
   box-shadow: none;
-  background-color: #d1d1d1;
+  background-color: white;
 }
-.modal-dialog {
-    max-width: 500px;
-    margin: 24.75rem auto;
-}
+
 .switch1 {
   position: relative;
   display: inline-block;
@@ -115,4 +112,14 @@ margin-left: 29px;
 }
 
 
-  
+@media screen and (min-width: 320px) and (max-width: 767px) {
+  .modal-dialog {
+    max-width: 100%;
+}
+}
+
+@media screen and (min-width: 1200px) {
+  .modal-dialog {
+    max-width: 45%;
+}
+}
