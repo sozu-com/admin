@@ -259,7 +259,7 @@
             </div>
             <div class="col-6">
               <div class="btn-cont text-right">
-                <button *ngIf="!model.id" type="submit" [disabled]="!model.name || !model.phone"
+                <button *ngIf="!model.id" type="submit" [disabled]="!model.name || !model.phone || !model.email"
                   class="btn btn-primary">{{'addForm.addBtn' | translate}}</button>
                 <button *ngIf="model.id" type="submit" 
                   class="btn btn-primary">{{'addForm.updateBtn' | translate}}</button>
@@ -315,7 +315,7 @@
                 </label>
                 <div class="form-group">
                   <input (keydown.space)="$event.preventDefault();" autocomplete="off" [pattern]="constant.emailPattern"
-                    type="email" class="form-control"  [(ngModel)]="model.email" name="email">
+                    type="email" class="form-control"  [(ngModel)]="model.email" name="email" required>
                 </div>
               </div>
             </div>
