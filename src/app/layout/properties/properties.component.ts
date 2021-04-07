@@ -1806,6 +1806,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.parameter.cities = this.selectedLocation.selectedCities.length > 0 ? this.selectedLocation.selectedCities.map(o => o.id) : null;
   }
 
+  addManagerNote(){
+    
+  }
+
   ngOnDestroy(): void {
     if (this.installmentFormGroupSubscription) {
       this.installmentFormGroupSubscription.unsubscribe();
