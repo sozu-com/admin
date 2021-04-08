@@ -119,6 +119,7 @@
     "selectParkingType":"Select parking type",
     "another":"+ Add another type",
     "addParking":"+ Add parking lot for sale",
+    "addParkingLot":"+ Add parking lot",
     "noparking":"No. parking lots",
     "Type":"Type",
     "Price(each)":"Price(each)",
@@ -1120,6 +1121,11 @@
       "pleaseFillCustomAttributeFields": "Please fill custom attribute fields",
       "pleaseEnterSomeText": "Please Fill All Details.",
       "parkingSpaceTypeAllAreInUse": "Parking space type all are in use.",
+      "pleaseEnterVariableName": "Please enter variable name",
+      "pleaseEnterVariablePercentage": "Please enter variable percentage",
+      "pleaseEnterNoParkingLots": "Please enter no. parking lots",
+      "pleaseEnterType": "Please enter type",
+      "pleaseEnterPriceEach": "Please enter price(each)",
       "parkingForSaleCannotGreaterThanTotalParking": "Parking for sale cannot be greater than total parkings available.",
       "pleaseAddCarpetArea": "Please add carpet area.",
       "pleaseChooseCoverImage": "Please choose cover image.",
@@ -2393,7 +2399,10 @@
     "preview":"Preview",
     "listprice":"List Price",
     "finalprice":"Final Price",
-    "warning": "*The cash limit payment has been exceeded"
+    "warning": "*The cash limit payment has been exceeded",
+    "parkingForSale": "Parking For Sale",
+    "parkingType": "Parking Type",
+    "parkingPrice": "Parking Price"
   },
   "viewCredit": {
     "label": "Manage Credit",
