@@ -611,54 +611,152 @@
           </div>
         </div>
       </div>
-
+        <!--add Parking included? ,Parking available for sale and furnished  -->
+        <div class="spacer15"></div>
+        <div class="row">
+          <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+            <div class="form-group-3">
+              <label>{{'addForm.isParkingIncluded' | translate}} <span class="color-red">*</span></label>
+              <div class="clearfix"></div>
+              <label class="cust-radio">
+                <input type="radio" (change)="setValue('parking', 1)" value="1"
+                  [checked]="model.parking == 1 ? 'checked' : ''" name="parking">
+                <span class="checkmark">{{'addForm.yes' | translate}}</span>
+              </label>
+              <label class="cust-radio">
+                <input type="radio" (change)="setValue('parking', 0)" value="0"
+                  [checked]="model.parking == 0 ? 'checked' : ''" name="parking">
+                <span class="checkmark">{{'addForm.no' | translate}}</span>
+              </label>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+            <div class="form-group-3">
+              <label>{{'addForm.parkingAvailableForSale' | translate}} <span class="color-red">*</span></label>
+              <div class="clearfix"></div>
+              <label class="cust-radio">
+                <input type="radio" (change)="setValue('parking_for_sale', 1)" value="1"
+                  [checked]="model.parking_for_sale == 1 ? 'checked' : ''" name="parking_for_sale">
+                <span class="checkmark">{{'addForm.yes' | translate}}</span>
+              </label>
+              <label class="cust-radio">
+                <input type="radio" (change)="setValue('parking_for_sale', 0)" value="0"
+                  [checked]="model.parking_for_sale == 0 ? 'checked' : ''" name="parking_for_sale">
+                <span class="checkmark">{{'addForm.no' | translate}}</span>
+              </label>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+            <div class="form-group-3">
+              <label>{{'addForm.IsPropertyFurnished' | translate}} <span class="color-red">*</span></label>
+              <div class="clearfix"></div>
+              <label class="cust-radio">
+                <input type="radio" (change)="setValue('furnished', 1)" value="1"
+                  [checked]="model.furnished == 1 ? 'checked' : ''" name="furnished">
+                <span class="checkmark">{{'addForm.yes' | translate}}</span>
+              </label>
+              <label class="cust-radio">
+                <input type="radio" (change)="setValue('furnished', 0)" value="0"
+                  [checked]="model.furnished == 0 ? 'checked' : ''" name="furnished">
+                <span class="checkmark">{{'addForm.no' | translate}}</span>
+              </label>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
       <!-- parking -->
-      <div class="spacer15"></div>
-      <div class="row">
-        <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-          <div class="form-group-3">
-            <label>{{'addForm.isParkingIncluded' | translate}} <span class="color-red">*</span></label>
-            <div class="clearfix"></div>
-            <label class="cust-radio">
-              <input type="radio" (change)="setValue('parking', 1)" value="1"
-                [checked]="model.parking == 1 ? 'checked' : ''" name="parking">
-              <span class="checkmark">{{'addForm.yes' | translate}}</span>
-            </label>
-            <label class="cust-radio">
-              <input type="radio" (change)="setValue('parking', 0)" value="0"
-                [checked]="model.parking == 0 ? 'checked' : ''" name="parking">
-              <span class="checkmark">{{'addForm.no' | translate}}</span>
-            </label>
-            <div class="clearfix"></div>
-          </div>
+      <div class="spacer15" ></div>
+      <div class="row" *ngIf="model.parking_for_sale == 1">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+           <div class="btn-cont">
+              <span><a class="add" href="javascript://" (click)="this.addParkingLot($event)">{{'addForm.addParkingLot' | translate}}</a></span>
+           </div>
         </div>
-        <div class="col-lg-2 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
-          <div class="form-group-3">
-            <label>{{'addForm.totaNoofParkings' | translate}}</label>
-            <div class="clearfix"></div>
-            <input class="form-control" type="number" [(ngModel)]="model.parking_count" min="0"
-                name="parking_count">
+     </div>
+     <div class="spacer15"></div>
+
+      <div *ngIf="model?.parking_area?.length > 0 && model.parking_for_sale == 1">
+        <div class="row" *ngFor="let temp_parking_area of model?.parking_area; let i = index">
+          <!-- <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+            <div class="form-group-3">
+              <label>{{'addForm.isParkingIncluded' | translate}} <span class="color-red">*</span></label>
+              <div class="clearfix"></div>
+              <label class="cust-radio">
+                <input type="radio" (change)="setValue1(1,i)" value="1"
+                  [checked]="model.parking_area[i].parking == 1 ? 'checked' : ''" name="{{'parking' + i}}">
+                <span class="checkmark">{{'addForm.yes' | translate}}</span>
+              </label>
+              <label class="cust-radio">
+                <input type="radio" (change)="setValue1(0,i)" value="0"
+                  [checked]="model.parking_area[i].parking == 0 ? 'checked' : ''" name="{{'parkingNot' + i}}">
+                <span class="checkmark">{{'addForm.no' | translate}}</span>
+              </label>
+              <div class="clearfix"></div>
+            </div>
+          </div> -->
+          <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+            <div class="form-group-3">
+              <label>{{'addForm.totaNoofParkings' | translate}}</label>
+              <div class="clearfix"></div>
+              <input class="form-control" type="text" [(ngModel)]="model.parking_area[i].parking_count" min="0" appOnlyNumber
+                  name="{{'parking_count' + i}}">
+            </div>
           </div>
+          <!-- <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1 && model.for_sale">
+            <div class="form-group-3">
+              <label>{{'addForm.noofParkingsForSale' | translate}}</label>
+              <div class="clearfix"></div>
+              <input class="form-control" type="number" [(ngModel)]="model.parking_for_sale" min="0"
+                  name="parking_for_sale">
+            </div>
+          </div> -->
+          <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+            <div class="form-group-3">
+              <label>{{'addForm.parkingType' | translate}}</label>
+              <select class="form-control" name="{{'parking_type' + i}}"  [(ngModel)]="model.parking_area[i].parking_type"
+                  style="background-color: white;" (change)="selectChange($event)">
+                  <option value="" disabled>{{'addForm.selectParkingType' | translate}}</option>
+                  <option *ngFor="let item of parkingSpaceLotsArray" [value]="item.id" [disabled]="checkAlreadySelected(item.id)">
+                    {{ this.language_code == 'en' ? item.name_en : item.name_es }}
+                  </option>
+              </select>
+            </div>
         </div>
-        <!-- <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1 && model.for_sale">
-          <div class="form-group-3">
-            <label>{{'addForm.noofParkingsForSale' | translate}}</label>
-            <div class="clearfix"></div>
-            <input class="form-control" type="number" [(ngModel)]="model.parking_for_sale" min="0"
-                name="parking_for_sale">
-          </div>
-        </div> -->
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking==1">
-          <div class="form-group-3">
-             <label>{{'addForm.parkingType' | translate}}</label>
-             <select class="form-control" 
-                style="background-color: white;">
-                <option value="0">{{'addForm.selectParkingType' | translate}}</option>
-                <!-- <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option> [(ngModel)]="model.country_id" -->
-             </select>
-          </div>
+        <div class="col-lg-2 col-md-3 col-sm-3 col-12">
+          <button  class="action-icon" (click)="this.removeParkingLot(i)" style="margin: 35px;"
+          title="{{'addForm.remove' | translate}}"><img src="assets/img/ic_disapprove.png"
+             alt="img"></button>
        </div>
-        <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+        </div>
+      </div>
+
+       <!-- Parking included? -->
+       <!-- <div class="spacer15"></div>
+       <div class="row">
+         <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+           <div class="form-group-3">
+             <label>{{'addForm.isParkingIncluded' | translate}} <span class="color-red">*</span></label>
+             <div class="clearfix"></div>
+             <label class="cust-radio">
+               <input type="radio" (change)="setValue('parking', 1)" value="1"
+                 [checked]="model.parking == 1 ? 'checked' : ''" name="parking">
+               <span class="checkmark">{{'addForm.yes' | translate}}</span>
+             </label>
+             <label class="cust-radio">
+               <input type="radio" (change)="setValue('parking', 0)" value="0"
+                 [checked]="model.parking == 0 ? 'checked' : ''" name="parking">
+               <span class="checkmark">{{'addForm.no' | translate}}</span>
+             </label>
+             <div class="clearfix"></div>
+           </div>
+         </div>
+       </div> -->
+       <!-- Parking available for sale -->
+      <!-- <div class="spacer15"></div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
           <div class="form-group-3">
             <label>{{'addForm.parkingAvailableForSale' | translate}} <span class="color-red">*</span></label>
             <div class="clearfix"></div>
@@ -675,20 +773,10 @@
             <div class="clearfix"></div>
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngIf="model.parking_for_sale == 1">
-          <div class="form-group-3">
-             <label>{{'addForm.parkingType' | translate}}</label>
-             <select class="form-control" 
-                style="background-color: white;">
-                <option value="0">{{'addForm.selectParkingType' | translate}}</option>
-                <!-- <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option> [(ngModel)]="model.country_id" -->
-             </select>
-          </div>
-       </div>
-      </div>
+      </div> -->
 
       <!-- furnished -->
-      <div class="spacer15"></div>
+      <!-- <div class="spacer15"></div>
       <div class="form-group-3">
         <label>{{'addForm.IsPropertyFurnished' | translate}} <span class="color-red">*</span></label>
         <div class="clearfix"></div>
@@ -703,7 +791,7 @@
           <span class="checkmark">{{'addForm.no' | translate}}</span>
         </label>
         <div class="clearfix"></div>
-      </div>
+      </div> -->
 
       <div class="form-group-3">
         <label>{{'addForm.description' | translate}} <span class="color-red">*</span></label>

@@ -21,6 +21,8 @@ import { HttpClient } from '@angular/common/http';
 import { PricePipe } from 'src/app/pipes/price.pipe';
 import { ExcelDownload } from 'src/app/common/excelDownload';
 import { ApiConstants } from 'src/app/common/api-constants';
+import { forkJoin } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 declare let swal: any;
 declare var $: any;
@@ -133,6 +135,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   public language_code: string;
   public selectedLocation: { selectedCountry: string, selectedStates: any[], selectedCities: any[], selectedLocalities: any[] } =
     { selectedCountry: '', selectedStates: [], selectedCities: [], selectedLocalities: [] };
+  public parkingSpaceLotsArray: any[] = [];
 
   constructor(
     public constant: Constant,
@@ -147,7 +150,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
     private http: HttpClient,
-    private price: PricePipe
+    private price: PricePipe,
+    private toastr: ToastrService
   ) {
     this.installmentFormGroup = this.formBuilder.group({
       downPayment: [''],
@@ -704,6 +708,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.admin.postDataApi('getPropertyDetails', { id: (propertyDetails || {}).id }).subscribe((success) => {
       this.spinner.hide();
       this.bankDetails = (success || {}).data;
+      this.getParkingSpaceLots(((success || {}).data || {}).building_id);
       this.installmentFormGroup.patchValue({
         listPrice: this.property_array.min_price ? ('$' + this.getTransformedAmount(this.property_array.min_price)) : ('$' + 0.00)
       });
@@ -1552,8 +1557,16 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   addNewAddVariables = ($event: any): void => {
     $event.stopPropagation();
-    this.getAddVariablesFormArray.push(this.createFormGroup());
-    this.markIsAddVariables(false);
+    if (this.installmentFormGroup.get('tempAddVariablesText').value == '') {
+      this.toastr.clear()
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterVariableName'), this.translate.instant('swal.error'));
+    } else if (this.installmentFormGroup.get('tempAddVariablesPercentage').value == '') {
+      this.toastr.clear()
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterVariablePercentage'), this.translate.instant('swal.error'));
+    } else {
+      this.getAddVariablesFormArray.push(this.createFormGroup());
+      this.markIsAddVariables(false);
+    }
   }
 
   createFormGroup = (): FormGroup => {
@@ -1796,9 +1809,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   getFinalPrice = (): any => {
-    const discount = this.installmentFormGroup.get('discount').value ? (this.installmentFormGroup.get('discount').value * this.property_array.min_price) / 100 : 0;
-    const interest = this.installmentFormGroup.get('interest').value ? (this.installmentFormGroup.get('interest').value * this.property_array.min_price) / 100 : 0;
-    const finalPrice = discount ? (this.property_array.min_price - discount) : interest ? (this.property_array.min_price + interest) : this.property_array.min_price;
+    let parking_price = this.property_array.min_price;
+    this.getParkingLotForSaleFormArray.controls.forEach((element: FormGroup) => {
+      parking_price += (parseFloat(element.get('parkingLotsPrice').value.toString().substring(1)) || 0)
+    });
+    const discount = this.installmentFormGroup.get('discount').value ? (this.installmentFormGroup.get('discount').value * parking_price) / 100 : 0;
+    const interest = this.installmentFormGroup.get('interest').value ? (this.installmentFormGroup.get('interest').value * parking_price) / 100 : 0;
+    const finalPrice = discount ? (parking_price - discount) : interest ? (parking_price + interest) : parking_price;
     return finalPrice;
   }
 
@@ -1820,8 +1837,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.parameter.cities = this.selectedLocation.selectedCities.length > 0 ? this.selectedLocation.selectedCities.map(o => o.id) : null;
   }
 
-  addManagerNote(){
-    
+  addManagerNote() {
+
   }
 
   ngOnDestroy(): void {
@@ -1844,15 +1861,26 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   addNewParkingLotForSale = ($event: any): void => {
     $event.stopPropagation();
-    this.getParkingLotForSaleFormArray.push(this.createFormGroupForParkingLotForSale());
-    this.markIsParkingLotForSale(false);
+    if (this.installmentFormGroup.get('parkingLotsNumber').value == '') {
+      this.toastr.clear()
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterNoParkingLots'), this.translate.instant('swal.error'));
+    } else if (this.installmentFormGroup.get('parkingLotsType').value == '') {
+      this.toastr.clear()
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterType'), this.translate.instant('swal.error'));
+    } else if (this.installmentFormGroup.get('parkingLotsPrice').value == '') {
+      this.toastr.clear()
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterPriceEach'), this.translate.instant('swal.error'));
+    } else {
+      this.getParkingLotForSaleFormArray.push(this.createFormGroupForParkingLotForSale());
+      this.markIsParkingLotForSale(false);
+    }
   }
 
   createFormGroupForParkingLotForSale = (): FormGroup => {
     return this.formBuilder.group({
       parkingLotsNumber: [{ value: this.installmentFormGroup.get('parkingLotsNumber').value, disabled: true }],
       parkingLotsType: [{ value: this.installmentFormGroup.get('parkingLotsType').value, disabled: true }],
-      parkingLotsPrice: [{ value: ('$'+this.installmentFormGroup.get('parkingLotsPrice').value), disabled: true }]
+      parkingLotsPrice: [{ value: ('$' + this.installmentFormGroup.get('parkingLotsPrice').value), disabled: true }]
     });
   }
 
@@ -1860,16 +1888,38 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     if ($event) {
       $event.stopPropagation();
     }
-    this.installmentFormGroup.patchValue({
-      isAddParkingLotForSale: isParkingLotForSale,
-      parkingLotsNumber: '',
-      parkingLotsType: '',
-      parkingLotsPrice: ''
-    });
+    if (this.getParkingLotForSaleFormArrayLength == this.parkingSpaceLotsArray.length && isParkingLotForSale) {
+      this.toastr.clear()
+      this.toastr.error(this.translate.instant('message.error.parkingSpaceTypeAllAreInUse'), this.translate.instant('swal.error'));
+    } else {
+      this.installmentFormGroup.patchValue({
+        isAddParkingLotForSale: isParkingLotForSale,
+        parkingLotsNumber: '',
+        parkingLotsType: '',
+        parkingLotsPrice: ''
+      });
+    }
   }
 
   removeParkingLotForSaleFormGroup = (index: number): void => {
     this.getParkingLotForSaleFormArray.removeAt(index);
+  }
+
+  getParkingSpaceLots = (buildingId: any): void => {
+    this.spinner.show();
+    forkJoin([
+      this.admin.postDataApi('parkingSpaceLots', { building_id: buildingId || 0 }),
+      //this.us.postDataApi('parkingSpaceRent', { building_id: (this.parameter.propertyDetails || {}).building_id || 0 }),
+    ]).subscribe((response: any[]) => {
+      this.spinner.hide();
+      this.parkingSpaceLotsArray = response[0].data || [];
+      // this.parkingSpaceRentArray = response[1].data;
+    });
+  }
+
+  checkAlreadySelected = (parkingSpaceId: number): boolean => {
+    const data = this.getParkingLotForSaleFormArray.controls.find((item: FormGroup) => item.get('parkingLotsType').value == parkingSpaceId);
+    return data ? true : false;
   }
 
 }

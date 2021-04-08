@@ -70,10 +70,11 @@ export class AddPropertyModel {
     creator: User;
     broker_commision = 0;
     total_commission = 0;
-    price : string = null;
+    price: string = null;
     property_linked_documents?: Array<Docs>;
-    comm_total_commission_amount?:number;
-    comm_shared_commission_amount?:number;
+    comm_total_commission_amount?: number;
+    comm_shared_commission_amount?: number;
+    parking_area: Array<any> = [];
 }
 export class Docs {
     id: string;

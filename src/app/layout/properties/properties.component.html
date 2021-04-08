@@ -1298,15 +1298,18 @@ margin-left: -38%;">
                   <label>{{'addForm.Type' | translate}} <span class="color-red">*</span></label>
                   <!-- <input autocomplete="off" type="text" class="form-control" placeholder="$"/> -->
                   <select title="Select Type" class="form-control" formControlName="parkingLotsType">
-                  <option>Tandom</option>
-                  <option>Double</option>
+                  <option value="" disabled >Select Type</option>
+                  <!-- <option value="" disabled>{{'addForm.selectParkingType' | translate}}</option> -->
+                  <option *ngFor="let item of parkingSpaceLotsArray" [value]="item.id" [disabled]="checkAlreadySelected(item.id)">
+                    {{ this.language_code == 'en' ? item.name_en : item.name_es }}
+                  </option>
                 </select>
                </div>
             </div>
             <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                <div class="form-group-3">
                      <label>{{'addForm.Price(each)' | translate}} <span class="color-red">*</span></label>
-                     <input autocomplete="off" type="text" class="form-control" placeholder="$100,000.00" formControlName="parkingLotsPrice"/>
+                     <input autocomplete="off" type="text" class="form-control" placeholder="$100,000.00" formControlName="parkingLotsPrice" mask="separator.2" thousandSeparator=","/>
                   </div>
             </div>
             <div class="col-lg-1 col-md-12 col-sm-12 col-12">
@@ -1335,8 +1338,11 @@ margin-left: -38%;">
                               <div class="form-group-3">
                                  <label>{{'addForm.Type' | translate}}</label>
                                  <select title="Select Type" class="form-control"  formControlName="parkingLotsType">
-                                 <option>Tandom</option>
-                                 <option>Double</option>
+                                    <option value="" disabled >Select Type</option>
+                                    <!-- <option value="" disabled>{{'addForm.selectParkingType' | translate}}</option> -->
+                                    <option *ngFor="let item of parkingSpaceLotsArray" [value]="item.id">
+                                      {{ this.language_code == 'en' ? item.name_en : item.name_es }}
+                                    </option>
                               </select>
                               </div>
                            </div>

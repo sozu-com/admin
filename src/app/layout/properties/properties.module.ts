@@ -23,6 +23,7 @@ import { CalendarModule } from 'primeng/primeng';
 import { BulkAddComponent } from './bulk-add/bulk-add.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { DocumentsUploadComponent } from './documents-upload/documents-upload.component';
+import { NgxMaskModule } from 'ngx-mask';
 const routes: Routes = [
   { path: 'details/:property_id', component: PropertyDetailsComponent },
   // { path: 'details/:property_id', component: PropertyDetailsComponent,
@@ -87,7 +88,8 @@ const routes: Routes = [
     LazyLoadImageModule,
     NgMultiSelectDropDownModule.forRoot(),
     MalihuScrollbarModule.forRoot(),
-    TranslateModule
+    TranslateModule,
+    NgxMaskModule.forRoot()
   ],
   declarations: [
     PropertiesComponent,

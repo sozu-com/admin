@@ -17,6 +17,8 @@ import { HttpInterceptor } from 'src/app/services/http-interceptor';
 import { from } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { forkJoin } from 'rxjs';
+import { runInThisContext } from 'vm';
 
 declare const google;
 declare let swal: any;
@@ -119,6 +121,10 @@ export class AddPropertyComponent implements OnInit {
   amenity_index: number;
   amenity_obj: any;
   // @ViewChild('scrollToTower') scrollToTower: ElementRef;
+  public parkingSpaceLotsArray: any[] = [];
+  // parkingSpaceRentArray: any[] = [];
+  public language_code: string;
+
   constructor(public model: AddPropertyModel, public us: AdminService, private cs: CommonService,
     private router: Router, private sanitization: DomSanitizer, private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone, private building: Building, public constant: Constant,
@@ -135,6 +141,7 @@ export class AddPropertyComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.language_code = localStorage.getItem('language_code');
     this.property_names = [];
     this.parameter.page = 1;
     this.parameter.itemsPerPage = this.constant.limit4;
@@ -243,6 +250,7 @@ export class AddPropertyComponent implements OnInit {
           this.spinner.hide();
           this.spinner.hide();
           this.parameter.propertyDetails = success['data'];
+          this.getParkingSpaceLotsAndparkingSpaceRent();
           this.setModelData(success['data']);
           if (this.parameter.propertyDetails.step < 5) {
             this.tab = this.parameter.propertyDetails.step;
@@ -587,6 +595,14 @@ export class AddPropertyComponent implements OnInit {
   setValue(key: any, value: any) {
     this.model[key] = value;
   }
+
+  // setValue1 = (value: any, index: number): void => {
+  //   this.model.parking_area[index].parking = value;
+  //   if (!value) {
+  //     this.model.parking_area[index].parking_count = '';
+  //     this.model.parking_area[index].parking_type = '';
+  //   }
+  // }
 
   getConfigurations() {
     this.us.postDataApi('getConfigurations', { hide_blocked: 1 })
@@ -1094,6 +1110,7 @@ export class AddPropertyComponent implements OnInit {
           JSON.stringify(this.model.property_quantity_details ? this.model.property_quantity_details : []));
         input.append('comm_total_commission_amount', this.model.comm_total_commission_amount ? this.model.comm_total_commission_amount.toString() : null);
         input.append('comm_shared_commission_amount', this.model.comm_shared_commission_amount ? this.model.comm_shared_commission_amount.toString() : null);
+        input.append('parking_area', JSON.stringify(this.model.parking_area));
       }
       if (this.model.step === 3) {
         // added building_id and step cuz need to update sttaus and step
@@ -1683,4 +1700,46 @@ export class AddPropertyComponent implements OnInit {
       this.model.comm_shared_commission_amount = this.numberUptoNDecimal((this.model.broker_commision * Number(this.newcarpet_area.price)) / 100, 2)
     }
   }
+
+  getParkingSpaceLotsAndparkingSpaceRent = (): void => {
+    this.spinner.show();
+    forkJoin([
+      this.us.postDataApi('parkingSpaceLots', { building_id: (this.parameter.propertyDetails || {}).building_id || 0 }),
+      // this.us.postDataApi('parkingSpaceRent', { building_id: (this.parameter.propertyDetails || {}).building_id || 0 }),
+    ]).subscribe((response: any[]) => {
+      this.spinner.hide();
+      this.parkingSpaceLotsArray = response[0].data || [];
+      //this.parkingSpaceRentArray = response[1].data;
+    });
+  }
+
+  addParkingLot = ($event: any): void => {
+    $event.stopPropagation();
+    if (this.parkingSpaceLotsArray.length == this.model.parking_area.length) {
+      this.toastr.clear()
+      this.toastr.error(this.translate.instant('message.error.parkingSpaceTypeAllAreInUse'), this.translate.instant('swal.error'));
+    } else {
+      this.model.parking_area.push({ parking_count: '', parking_type: '' });
+      const tempParking_area  = this.model.parking_area;
+      this.model.parking_area = [];
+      this.model.parking_area = tempParking_area;
+    }
+  }
+
+  checkAlreadySelected = (parkingSpaceId: number): boolean => {
+    const data = this.model.parking_area.find((item) => parseInt(item.parking_type) == parkingSpaceId);
+    return data ? true : false;
+  }
+
+  selectChange = ($event: any): void => {
+    const tempParkingSpaceLotsArray = this.parkingSpaceLotsArray;
+    this.parkingSpaceLotsArray = [];
+    this.parkingSpaceLotsArray = tempParkingSpaceLotsArray;
+  }
+
+  removeParkingLot = (index: number): void => {
+    this.model.parking_area.splice(index, 1);
+    this.selectChange('');
+  }
+
 }
