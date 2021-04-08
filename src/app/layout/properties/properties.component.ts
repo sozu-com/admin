@@ -1264,11 +1264,17 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   generatePDF() {
+    let least_price = this.property_array.min_price
+    if(this.installmentFormGroup.controls.parkingLotForSaleFormArray.value && this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.length > 0){
+      this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.forEach(element =>{
+        least_price = final_price + parseInt(element.parkingLotsPrice.replace('$', ''));
+      });
+    }
     let current_date = new Date();
     let date = this.datePipe.transform(current_date, 'd/M/y');
-    let discount = this.installmentFormGroup.value.discount ? (this.installmentFormGroup.value.discount * this.property_array.min_price) / 100 : 0;
-    let interest = this.installmentFormGroup.value.interest ? (this.installmentFormGroup.value.interest * this.property_array.min_price) / 100 : 0;
-    let final_price = discount ? this.property_array.min_price - discount : interest ? this.property_array.min_price + interest : this.property_array.min_price;
+    let discount = this.installmentFormGroup.value.discount ? (this.installmentFormGroup.value.discount * least_price) / 100 : 0;
+    let interest = this.installmentFormGroup.value.interest ? (this.installmentFormGroup.value.interest * least_price) / 100 : 0;
+    let final_price = discount ? least_price - discount : interest ? least_price + interest : least_price;
     let pricePerM2 = final_price / this.property_array.max_area;
     let downpayment = (this.installmentFormGroup.value.downPayment * final_price) / 100;
     let monthly_installment_amount = (this.installmentFormGroup.value.monthlyInstallment * final_price) / 100;
@@ -1360,7 +1366,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.listPrice'), bold: true, border: [false, false, false, false], color: '#858291' },
-                      { text: this.price.transform(Number(this.property_array.min_price).toFixed(2)), border: [false, false, false, false], bold: true },
+                      { text: this.price.transform(Number(least_price).toFixed(2)), border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.installmentFormGroup.value.discount ? this.translate.instant('generatePDF.discountP') : this.translate.instant('generatePDF.interestP'), bold: true, border: [false, false, false, false], color: '#858291' },
@@ -1538,6 +1544,26 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         no = no + 1;
       });
       add_variable
+    }
+    if(this.installmentFormGroup.controls.parkingLotForSaleFormArray.value && this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.length > 0){
+      let no = 5;
+      let count = 1;
+      this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.forEach(element =>{
+        docDefinition.content[1].columns[0][2].table.body.splice(no, 0, [
+          { text: this.translate.instant('generatePDF.parkingForSale') + ' ' + count + ':', bold: true, border: [false, false, false, false], color: '#858291' },
+          { text: element.parkingLotsNumber, border: [false, false, false, false], bold: true }
+        ]);
+        docDefinition.content[1].columns[0][2].table.body.splice(no + 1, 0, [
+          { text: this.translate.instant('generatePDF.parkingType') + ' ' + count + ':', bold: true, border: [false, false, false, false], color: '#858291' },
+          { text: element.parkingLotsType, border: [false, false, false, false], bold: true }
+        ]); 
+        docDefinition.content[1].columns[0][2].table.body.splice(no + 2, 0, [
+          { text: this.translate.instant('generatePDF.parkingPrice') + ' ' + count + ':', bold: true, border: [false, false, false, false], color: '#858291' },
+          { text: this.price.transform(Number(element.parkingLotsPrice.replace('$', '')).toFixed(2)), border: [false, false, false, false], bold: true }
+        ]);
+        no = no + 3;
+        count = count + 1;
+      });
     }
     pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.commercialOffer') + ' ' + current_date.toISOString() + '.pdf');
     // }else if(action === 'print'){

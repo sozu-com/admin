@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Constant } from 'src/app/common/constants';
 import { IProperty } from 'src/app/common/property';
@@ -35,6 +35,10 @@ export class CreditComponent implements OnInit {
     this.initCalendarLocale();
     // this.getCreditsUser();
     this.getBuyers();
+
+    this.translate.onDefaultLangChange.subscribe((event: LangChangeEvent) => {
+      this.initCalendarLocale();
+    });
   }
 
   getCountryLocality = (): void => {

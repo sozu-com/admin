@@ -4,7 +4,7 @@ import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { CollectionReport } from 'src/app/models/collection-report.model';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
@@ -51,6 +51,10 @@ export class SalesReportComponent implements OnInit {
     this.getCurrencies();
     this.initCalendarLocale();
     this.getReportData();
+
+    this.translate.onDefaultLangChange.subscribe((event: LangChangeEvent) => {
+      this.initCalendarLocale();
+    });
   }
 
   initCalendarLocale() {

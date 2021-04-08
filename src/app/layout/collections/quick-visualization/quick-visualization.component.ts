@@ -12,7 +12,7 @@ const EXCEL_EXTENSION = '.xlsx';
 import { CurrencyPipe } from '@angular/common';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
-import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { ApiConstants } from 'src/app/common/api-constants';
 import { Constant } from 'src/app/common/constants';
 declare let swal: any;
@@ -111,6 +111,10 @@ export class QuickVisualizationComponent implements OnInit {
     this.parameter.sub = this.route.params.subscribe(params => {
       this.property_collection_id = params['id'];
       this.getCollectionDetails();
+    });
+
+    this.translate.onDefaultLangChange.subscribe((event: LangChangeEvent) => {
+      this.setDatePickerLocale();
     });
   }
 
