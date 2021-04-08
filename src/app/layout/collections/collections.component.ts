@@ -9,7 +9,7 @@ import { ApiConstants } from 'src/app/common/api-constants';
 import { AdminService } from 'src/app/services/admin.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PropertyService } from 'src/app/services/property.service';
-import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Notes } from '../../models/leads.model';
 import { CommonService } from '../../services/common.service';
 import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
@@ -287,6 +287,10 @@ export class CollectionsComponent implements OnInit, OnDestroy {
 
         reader.readAsDataURL(res);
       });
+
+      this.translate.onDefaultLangChange.subscribe((event: LangChangeEvent) => {
+        this.initCalendarLocale();
+      });
   }
   userinfo(userdata) {
     console.log(userdata, "user id")
@@ -296,6 +300,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     console.log(userdata, "user id")
     this.router.navigate(['/dashboard/legal-entities/add-legal-entity/', userdata.buyer_legal_entity_id]);
   }
+
   initCalendarLocale() {
     if (this.translate.defaultLang === 'en') {
       this.locale = {
@@ -309,7 +314,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         today: 'Today',
         clear: 'Clear',
         dateFormat: 'mm/dd/yy',
-        weekHeader: 'Wk',
+        weekHeader: 'Wk',                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
         dataType: 'string'
       };
     } else {

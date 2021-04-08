@@ -4,7 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { IProperty } from 'src/app/common/property';
 import { Constant } from 'src/app/common/constants';
 import { AdminService } from 'src/app/services/admin.service';
-import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { CollectionReport } from '../../../models/collection-report.model';
 import { Towers } from '../../../models/addProject.model';
 import * as FileSaver from 'file-saver';
@@ -91,6 +91,10 @@ export class MonthlyComponent implements OnInit {
     this.initCalendarLocale();
     this.getListing();
     this.getPropertyAmenities();
+
+    this.translate.onDefaultLangChange.subscribe((event: LangChangeEvent) => {
+      this.initCalendarLocale();
+    });
   }
   getPropertyAmenities() {
     this.admin.postDataApi('getPaymentChoices',{})

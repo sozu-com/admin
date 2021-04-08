@@ -2393,7 +2393,10 @@
     "preview":"Preview",
     "listprice":"List Price",
     "finalprice":"Final Price",
-    "warning": "*The cash limit payment has been exceeded"
+    "warning": "*The cash limit payment has been exceeded",
+    "parkingForSale": "Parking For Sale",
+    "parkingType": "Parking Type",
+    "parkingPrice": "Parking Price"
   },
   "viewCredit": {
     "label": "Manage Credit",

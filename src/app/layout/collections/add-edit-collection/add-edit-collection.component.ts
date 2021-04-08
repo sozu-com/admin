@@ -11,7 +11,7 @@ import { AdminService } from 'src/app/services/admin.service';
 import { CommonService } from 'src/app/services/common.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpInterceptor } from 'src/app/services/http-interceptor';
-import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { SelectItem } from 'primeng/primeng';
 import { Collection, Seller } from 'src/app/models/collection.model';
 import { ToastrService } from 'ngx-toastr';
@@ -206,6 +206,10 @@ export class AddEditCollectionComponent implements OnInit {
     this.getCurrencies();
     this.initializedDropDownSetting();
     this.searchControl = new FormControl();
+
+    this.translate.onDefaultLangChange.subscribe((event: LangChangeEvent) => {
+      this.setDatePickerLocale();
+    });
   }
 
   editCollection() {

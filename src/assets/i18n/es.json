@@ -2392,7 +2392,10 @@
     "preview":"Avance",
     "listprice":"Precio de lista",
     "finalprice":"Precio final",
-    "warning": "*El pago en efectivo ha llegado a su límite"
+    "warning": "*El pago en efectivo ha llegado a su límite",
+    "parkingForSale": "Estacionamiento en venta",
+    "parkingType": "Tipo de estacionamiento",
+    "parkingPrice": "Precio de estacionamiento"
   },
   "viewCredit":{
     "label": "Administrar crédito",
