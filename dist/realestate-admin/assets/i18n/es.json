@@ -219,6 +219,7 @@
     "CSRRenter": "CSR Renter",
     "creditAgent": "Agente de crédito",
     "allianceAgent":"Agente Alianza",
+    "cordinatorAgent":"Agente coordinador",
     "noAllianceAgentFound":"Ningún agente de la Alianza encontrado",
     "collectionAgent": "Agente de cobranza",
     "inhouseAgent": "Agente interno",
@@ -1751,7 +1752,8 @@
     "project": "Proyecto",
     "defaultSettings": "Configuración por defecto",
     "documentListing": "Listado de documentos",
-    "manageCredits" : "Gestionar créditos"
+    "manageCredits" : "Gestionar créditos",
+    "cordinatorAgent": "Agente coordinador"
   },
   "commonBlock": {
     "propertiesAvailable": "Departamentos disponibles",

@@ -220,6 +220,7 @@
     "CSRRenter": "CSR Renter",
     "creditAgent": "Credit Agent",
     "allianceAgent":"Alliance Agent",
+    "cordinatorAgent":"Cordinator Agent",
     "noAllianceAgentFound":"No Alliance Agent found",
     "collectionAgent": "Collection Agent",
     "inhouseAgent": "Inhouse Agent",
@@ -1751,7 +1752,8 @@
     "project": "Project",
     "defaultSettings": "Default Settings",
     "documentListing": "Document Listing",
-    "manageCredits" : "Manage Credits"
+    "manageCredits" : "Manage Credits",
+    "cordinatorAgent": "Cordinator Agent"
   },
   "commonBlock": {
     "propertiesAvailable": "Properties available",
