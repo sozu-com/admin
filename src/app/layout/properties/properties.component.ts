@@ -1549,19 +1549,20 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       let no = 5;
       let count = 1;
       this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.forEach(element =>{
+        let parkingName = this.parkingSpaceLotsArray.find(parking => parking.id == element.parkingLotsType)
         docDefinition.content[1].columns[0][2].table.body.splice(no, 0, [
-          { text: this.translate.instant('generatePDF.parkingForSale') + ' ' + count + ':', bold: true, border: [false, false, false, false], color: '#858291' },
+          { text: this.translate.instant('generatePDF.parkingForSale') + ' ' + (this.translate.defaultLang == 'en'? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
           { text: element.parkingLotsNumber, border: [false, false, false, false], bold: true }
         ]);
+        // docDefinition.content[1].columns[0][2].table.body.splice(no + 1, 0, [
+        //   { text: this.translate.instant('generatePDF.parkingType') + ' ' + (this.translate.defaultLang == 'en'? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
+        //   { text: element.parkingLotsType, border: [false, false, false, false], bold: true }
+        // ]); 
         docDefinition.content[1].columns[0][2].table.body.splice(no + 1, 0, [
-          { text: this.translate.instant('generatePDF.parkingType') + ' ' + count + ':', bold: true, border: [false, false, false, false], color: '#858291' },
-          { text: element.parkingLotsType, border: [false, false, false, false], bold: true }
-        ]); 
-        docDefinition.content[1].columns[0][2].table.body.splice(no + 2, 0, [
-          { text: this.translate.instant('generatePDF.parkingPrice') + ' ' + count + ':', bold: true, border: [false, false, false, false], color: '#858291' },
+          { text: this.translate.instant('generatePDF.parkingPrice') + ' ' + (this.translate.defaultLang == 'en'? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
           { text: this.price.transform(Number(element.parkingLotsPrice.replace('$', '')).toFixed(2)), border: [false, false, false, false], bold: true }
         ]);
-        no = no + 3;
+        no = no + 2;
         count = count + 1;
       });
     }
