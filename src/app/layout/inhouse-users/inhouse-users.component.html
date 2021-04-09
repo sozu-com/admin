@@ -36,7 +36,7 @@
                 admin?.admin_acl['Renter Management']?.can_create==1 && parameter.userType=='csr-renters' ||
                 admin?.admin_acl['Closer Management']?.can_create==1 && parameter.userType=='csr-closers' || 
                 admin?.admin_acl['Alliance Agent Management']?.can_create == 1 && parameter.userType=='alliance-agents' || 
-                admin?.admin_acl['Cordinator']?.can_create == 1 && parameter.userType=='cordinator-agents'" 
+                admin?.admin_acl['Cordinator Agent Management']?.can_create == 1 && parameter.userType=='cordinator-agents'" 
                 class="btn btn-primary-new width100P" href="javascript://" (click)="showAclAddPage()">{{'table.addNewBtn' | translate}}</a>
           </div>
         </div>
@@ -262,7 +262,7 @@
                     admin?.admin_acl['Renter Management']?.can_update==0 && parameter.userType=='csr-renters' ||
                     admin?.admin_acl['Outside Agent Management']?.can_update==0 && parameter.userType=='outside-broker' || 
                     admin?.admin_acl['Alliance Agent Management']?.can_update == 0 && parameter.userType=='alliance-agents' || 
-                    admin?.admin_acl['Cordinator']?.can_update == 0 && parameter.userType=='cordinator-agents'"
+                    admin?.admin_acl['Cordinator Agent Management']?.can_update == 0 && parameter.userType=='cordinator-agents'"
                   (click)="getACLById(item.id)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
   
                   <button [disabled]="admin?.admin_acl['Data Collector Management']?.can_delete==0 && parameter.userType=='data-collectors' ||
@@ -275,7 +275,7 @@
                     admin?.admin_acl['Renter Management']?.can_delete==0 && parameter.userType=='csr-renters' ||
                     admin?.admin_acl['Outside Agent Management']?.can_delete==0 && parameter.userType=='outside-broker' || 
                     admin?.admin_acl['Alliance Agent Management']?.can_delete == 0 && parameter.userType=='alliance-agents' || 
-                    admin?.admin_acl['Cordinator']?.can_delete == 0 && parameter.userType=='cordinator-agents'"
+                    admin?.admin_acl['Cordinator Agent Management']?.can_delete == 0 && parameter.userType=='cordinator-agents'"
                   (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1, parameter.type)" 
                   title="{{item.is_blocked==1 ? ('table.title.unblock' | translate) : ('table.title.block' | translate)}}" 
                   [ngClass]="{'unblock-bg':item.is_blocked==1}"
@@ -292,7 +292,7 @@
                   admin?.admin_acl['Renter Management']?.can_purge==0 && parameter.userType=='csr-renters' ||
                   admin?.admin_acl['Outside Agent Management']?.can_purge==0 && parameter.userType=='outside-broker' || 
                   admin?.admin_acl['Alliance Agent Management']?.can_purge ==0 && parameter.userType=='alliance-agents' || 
-                  admin?.admin_acl['Cordinator']?.can_purge ==0 && parameter.userType=='cordinator-agents'" 
+                  admin?.admin_acl['Cordinator Agent Management']?.can_purge ==0 && parameter.userType=='cordinator-agents'" 
                 (click)="deletePopup(item, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png" alt="img"></button>
                 </div>
               </td>
