@@ -455,7 +455,7 @@
                     translate) : ('table.tr.td.presale' | translate)}}</span>
                 </td>
                 <td>
-                  <a class="add1" href="javascript://" (click)="addNote()">
+                  <a class="add1" href="javascript://" (click)="addNote(p)">
                     <span style="color: green;">{{p?.parking_count || '0'}}/{{(p?.parking_for_rent + p?.parking_lots) || '0'}}</span>
                   </a>
                  
@@ -763,45 +763,45 @@
             </div>
             
             <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-              <h4  style="color: #00B96F;float: right;font-weight: 700;">300/800</h4>
+              <h4  style="color: #00B96F;float: right;font-weight: 700;">{{aloted_parking || 0}}/{{total_parking || 0}}</h4>
             </div>
           </div>
           <hr>
           <label>{{'addForm.totalAssign' | translate}}</label>
-            <div class="row">
+            <div class="row" *ngFor="let parking of parking_alots; let i=index">
               <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                <p style="color: #585252;">1.&nbsp;Tandem</p>
+                <p style="color: #585252;">{{i +1}}.&nbsp;{{parking.name_en}}</p>
               </div>
               <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                <p  style="color: #00B96F;">300/600</p>
+                <p  style="color: #00B96F;">{{parking.lots_parking || 0}}/{{parking.total_count || 0}}</p>
               </div>
             </div>
-            <div class="row">
+            <!-- <div class="row">
               <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                 <p style="color: #585252;">2.&nbsp;Double</p>
               </div>
               <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                 <p  style="color: #00B96F;">50/200</p>
               </div>
-            </div> 
+            </div>  -->
           <hr>
           <label>{{'addForm.availableSale' | translate}}</label>
-          <div class="row">
+          <div class="row" *ngFor="let parking of sales_parking_alots; let i=index">
             <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-              <p style="color: #585252;">1.&nbsp;Tandem</p>
+              <p style="color: #585252;">{{i +1}}.&nbsp;{{parking.name_en}}</p>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-              <p  style="color: #00B96F;">300/600</p>
+              <p  style="color: #00B96F;">{{parking.lots_parking || 0}}/{{parking.total_count || 0}}</p>
             </div>
           </div>
-          <div class="row">
+          <!-- <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12 col-12">
               <p style="color: #585252;">2.&nbsp;Double</p>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-12">
               <p  style="color: #00B96F;">50/200</p>
             </div>
-          </div>  
+          </div>   -->
         </div>
       </form>
     </div>

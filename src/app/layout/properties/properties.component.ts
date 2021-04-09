@@ -1267,7 +1267,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     let least_price = this.property_array.min_price
     if(this.installmentFormGroup.controls.parkingLotForSaleFormArray.value && this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.length > 0){
       this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.forEach(element =>{
-        least_price = final_price + parseInt(element.parkingLotsPrice.replace('$', ''));
+        least_price = least_price + parseInt(element.parkingLotsPrice.replace('$', ''));
       });
     }
     let current_date = new Date();
@@ -1787,8 +1787,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   onClickPreview = (isPreviewClick: boolean): void => {
     if (this.getTotalPercentage() == 100.00) {
-      const discount = this.installmentFormGroup.get('discount').value ? (this.installmentFormGroup.get('discount').value * this.property_array.min_price) / 100 : 0;
-      const interest = this.installmentFormGroup.get('interest').value ? (this.installmentFormGroup.get('interest').value * this.property_array.min_price) / 100 : 0;
+      let parking_price = this.property_array.min_price;
+      this.getParkingLotForSaleFormArray.controls.forEach((element: FormGroup) => {
+        parking_price += (parseFloat(element.get('parkingLotsPrice').value.toString().substring(1)) || 0)
+      });
+      const discount = this.installmentFormGroup.get('discount').value ? (this.installmentFormGroup.get('discount').value * parking_price) / 100 : 0;
+      const interest = this.installmentFormGroup.get('interest').value ? (this.installmentFormGroup.get('interest').value * parking_price) / 100 : 0;
       // const finalPrice = discount ? this.property_array.min_price - discount : interest ? this.property_array.min_price + interest : this.property_array.min_price;
       const downPayment = this.installmentFormGroup.get('downPayment').value ? (this.installmentFormGroup.get('downPayment').value * this.getFinalPrice()) / 100 : 0;
       const paymentUponDelivery = this.installmentFormGroup.get('paymentupondelivery').value ? (this.installmentFormGroup.get('paymentupondelivery').value * this.getFinalPrice()) / 100 : 0;

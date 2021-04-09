@@ -54,6 +54,10 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   legalEntities: any[] = [];
   contributor: any[] = [];
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
+  aloted_parking: any;
+  total_parking: any;
+  sales_parking_alots = [];
+  parking_alots = [];
   
   constructor(
     public constant: Constant,
@@ -188,8 +192,16 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.notesadddModalClose.nativeElement.click();
     this.modalClose.nativeElement.click();
   }
-  addNote() {
+  addNote(project) {
+    this.aloted_parking = project.parking_count;
+    this.total_parking = project.parking_for_rent + project.parking_lots;
+    this.spinner.show();
+    this.admin.postDataApi('getParkingCount', {building_id: project.id}).subscribe(r => {
+      this.parking_alots = r.data.assign;
+      this.sales_parking_alots = r.data.sale;
+      this.spinner.hide();
     this.notesadddModalOpen.nativeElement.click();
+    });
   }
   getCountries() {
     this.spinner.show();

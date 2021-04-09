@@ -44,6 +44,7 @@ export class ACL {
     admin_acl?: Array<Permission> = [];
     address?: Array<NewAddress>;
     user_type?: any;
+    is_cordinator?:any;
 }
 
 export class Permission {

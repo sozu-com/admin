@@ -213,6 +213,7 @@ export class AddAclComponent implements OnInit {
     input.append('is_collection_agent', this.model.is_collection_agent ? '1' : '0');
     input.append('is_csr_renter', this.model.is_csr_renter ? '1' : '0');
     input.append('is_alliance_agent', this.model.is_alliance_agent ? '1' : '0');
+    input.append('is_cordinator', this.model.is_cordinator ? '1' : '0');
 
     if (this.model.is_external_agent && this.model.is_company == 'false') {
       input.append('adr', this.model.adr || '');
@@ -358,6 +359,7 @@ export class AddAclComponent implements OnInit {
       this.model.is_collection_agent = userdata.permissions && userdata.permissions.can_collection_agent == 1 ? true : false;
       this.model.is_credit_agent = userdata.permissions && userdata.permissions.can_credit_agent == 1 ? true : false;
       this.model.is_alliance_agent = userdata.permissions && userdata.permissions.can_alliance_agent == 1 ? true : false;
+      this.model.is_cordinator = userdata.permissions && userdata.permissions.can_cordinator == 1 ? true : false;
 
       for (let ind = 0; ind < userdata.countries.length; ind++) {
         const tempAdd = {
@@ -740,7 +742,11 @@ export class AddAclComponent implements OnInit {
           title: this.translate.instant('addForm.allianceAgent'),
           key: 'is_alliance_agent',
           value: this.model.is_alliance_agent
-        },
+        }, {
+          title: this.translate.instant('addForm.cordinatorAgent'),
+          key: 'is_cordinator',
+          value: this.model.is_cordinator
+        }
         // {
         //   title: this.translate.instant('addForm.developerName'),
         //   key: 'is_developer',

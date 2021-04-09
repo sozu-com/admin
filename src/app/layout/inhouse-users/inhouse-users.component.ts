@@ -707,6 +707,12 @@ export class InhouseUsersComponent implements OnInit {
         this.parameter.type = 9;
         break;
 
+        case 'cordinator-agents':
+        this.parameter.url = 'getCordinators';
+        this.title = this.language_code == 'en' ? 'Cordinator Agent' : 'Agente Coordinador';
+        this.parameter.type = 9;
+        break;
+
       default:
         this.parameter.url = 'getDataCollectors';
         this.parameter.type = 1;
