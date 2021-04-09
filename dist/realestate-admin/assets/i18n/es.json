@@ -640,6 +640,7 @@
       "emailId": "ID de Correo electrónico",
       "leads": "Leads",
       "managersLinked":"Administradores linkeados",
+      "leadsLinked": "Leads linkeados",
       "linkedProperties": "Propiedades vinculadas",
       "linkedAgent": "Agente vinculado",
       "linkedManagers": "Gerentes vinculados",

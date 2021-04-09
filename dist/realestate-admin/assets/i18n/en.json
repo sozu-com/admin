@@ -643,6 +643,7 @@
       "emailId": "Email ID",
       "leads": "Leads",
       "managersLinked":"Managers Linked",
+      "leadsLinked": "Leads Linked",
       "linkedProperties": "Linked Properties",
       "linkedAgent": "Linked Agent",
       "linkedManagers": "Linked Managers",
