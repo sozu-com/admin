@@ -121,7 +121,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   @ViewChild('openInstallmentModal') openInstallmentModal: ElementRef;
   @ViewChild('closeInstallmentModal') closeInstallmentModal: ElementRef;
   local_storage_parameter: any;
-
+  @ViewChild('notesadddModalOpen') notesadddModalOpen: ElementRef;
+  @ViewChild('notesadddModalClose') notesadddModalClose: ElementRef;
   public installmentFormGroup: FormGroup;
   public paymentBankDetailsArray: any[] = [];
   private installmentFormGroupSubscription: Subscription;
@@ -209,7 +210,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   //     itemsShowLimit: 2
   //   };
   // }
-
+  addNote(item: any) {
+    this.notesadddModalOpen.nativeElement.click();
+  }
+  closeNotesadddModalModal = (): void => {
+    this.notesadddModalClose.nativeElement.click();
+    this.modalClose.nativeElement.click();
+  }
   ngOnInit(): void {
     this.language_code = localStorage.getItem('language_code');
     this.iniDropDownSetting();
