@@ -17,6 +17,8 @@ import { IDestinationStatus, IMarritalStatus } from 'src/app/common/marrital-sta
 import { Bank, Credit, EconomicDependent, GeneralData, PaymentScheme, References, SolidarityLiabilities, BankDetail, Incomes, Debit, CreditBeneficiary } from 'src/app/models/credit.model';
 import { forkJoin } from 'rxjs'
 import { PricePipe } from 'src/app/pipes/price.pipe';
+import { ViewChild } from '@angular/core'
+import { ElementRef } from '@angular/core'
 declare let swal: any
 @Component({
   selector: 'app-credit-add-edit',
@@ -31,6 +33,7 @@ export class CreditAddEditComponent implements OnInit {
   searchedUser = [];
   currencies = Array<any>();
   public parameter: IProperty = {};
+  public isDocumentLoading: boolean = false;
   showText: boolean;
   buildingLoading: boolean;
   showBuilding: boolean;
@@ -86,6 +89,14 @@ export class CreditAddEditComponent implements OnInit {
     };
   //dataView: boolean = false ;
   initialCountry: any;
+  public credits_document_list: any[] = [];
+  @ViewChild('openAddDocumentationModal') openAddDocumentationModal: ElementRef;
+  @ViewChild('closeAddDocumentationModal') closeAddDocumentationModal: ElementRef;
+  @ViewChild('docsFile') docsFile: ElementRef;
+  docFile: any;
+  folderId: number;
+  folderName: string;
+  docs = new Array<any>();
 
   constructor(
     public constant: Constant,
@@ -116,6 +127,7 @@ export class CreditAddEditComponent implements OnInit {
       if (params['id'] !== '0') {
         this.parameter.property_id = params['id'];
         this.getcredits();
+        // this.getCreditsDocument();
       } else {
         this.parameter.property_id = '';
         this.showSearch = true;
@@ -255,6 +267,14 @@ export class CreditAddEditComponent implements OnInit {
 
   setsubTab = (subtab: number): void => {
     this.subtab = subtab;
+  }
+
+  setDocumentationTab = (tab: number): void => {
+    this.tab = tab;
+    this.subtab = 20; // for upload documentation  
+    if (this.parameter.property_id) {
+      this.getCreditsDocument();
+    }
   }
 
 
@@ -608,6 +628,16 @@ export class CreditAddEditComponent implements OnInit {
       }, (error) => {
         this.spinnerService.hide();
       });
+  }
+
+  getCreditsDocument = (): void => {
+    this.spinnerService.show()
+    this.adminService.postDataApi('getCreditsDocument', { id: this.parameter.property_id }).subscribe((success) => {
+      this.spinnerService.hide();
+      this.credits_document_list = success.data || [];
+    }, (error) => {
+      this.spinnerService.hide();
+    });
   }
 
   loadCredits = (creditDetails: any): void => {
@@ -1310,5 +1340,74 @@ export class CreditAddEditComponent implements OnInit {
   getTypeOfDebitText = (debitId: any): any => {
     const data = this.debt.find((item) => item.id == debitId);
     return (this.language_code == 'en' ? data.name_en : data.name_es);
+  }
+
+  viewDocument = (document: string): void => {
+    window.open(document, '_blank');
+  }
+
+  deletePopup = (index: number, id: string): void => {
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.translate.instant('message.error.wantToDeleteFile'),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteCreditsDocument(index, id);
+      }
+    });
+  }
+
+  deleteCreditsDocument = (index: number, id: string): void => {
+    this.spinnerService.show();
+    const input = new FormData();
+    input.append('id', id);
+    this.adminService.postDataApi('deleteCreditsDocument', input).subscribe((success) => {
+      this.spinnerService.hide();
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
+      this.getCreditsDocument();
+    });
+  }
+
+  addDocumentationModalClose = (): void => {
+    this.docFile = '';
+    this.docsFile.nativeElement.value = '';
+    this.closeAddDocumentationModal.nativeElement.click();
+  }
+
+  onSelectFile = (files: any, folderId: number): void => {
+    this.docFile = files[0];
+    this.folderId = folderId;
+  }
+
+
+  addDocs = (): void => {
+    if (!this.docFile) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterDocuFile'), this.translate.instant('swal.error'));
+    } else {
+      const postData = new FormData();
+      postData.append('attachment', this.docFile);
+      postData.append('id', this.folderId.toString());
+      this.isDocumentLoading = true;
+      this.adminService.postDataApi('addcreditsDocument', postData).subscribe((success) => {
+        this.isDocumentLoading = false;
+        this.docs.push({ display_name: this.docFile });
+        this.docFile = '';
+        this.docsFile.nativeElement.value = '';
+        this.getCreditsDocument();
+      }, (error) => {
+        this.isDocumentLoading = false;
+      });
+    }
+  }
+
+  openAddFolder = (folder: any, index: number): void => {
+    this.folderName = this.language_code == 'en' ? folder.creadit_document.name_en : folder.creadit_document.name_es;;
+    this.folderId = folder.id;
+    this.openAddDocumentationModal.nativeElement.click();
   }
 }
