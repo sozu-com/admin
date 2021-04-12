@@ -384,7 +384,14 @@
                 <a class="nav-item nav-link" (click)="setsubTab(11)"
                   style="cursor: pointer;">{{'creditForm.additionalData'
                   | translate}}</a>
+                  <!-- <div class="btn-cont text-right" >
+                    <button  class="btn-sm btn-primary-new" (click)="setDocumentationTab(3)">{{'addForm.documentation' | translate}}</button>
+                    </div> -->
               </nav>
+              <div class="btn-cont text-right" style="margin-top: -35px;">
+                <a  style="color: white;" class="btn-sm btn-primary-new" href="javascript://"
+                (click)="setDocumentationTab(3)">{{'addForm.documentation' | translate}}</a>
+                </div>
             </div><br />
 
             <!-- Tag a building start -->
@@ -2926,6 +2933,89 @@
                 <!-- </div> -->
               </div>
 
+            </div>
+            <!-- upload documentation -->
+            <div *ngIf="subtab==20">
+              <div class="card">
+                <h5>{{ 'addForm.uploadDoc' | translate }}</h5>
+                <hr />
+                <div style="max-width: 45%; margin: 2%;"
+                      *ngIf="credits_document_list?.length > 0">
+                      <div class="input-icons" *ngFor="let temp_credits_document_list of credits_document_list; let i = index">
+                            <div class="row">
+                                  <div class="col-md-8">
+                                        <input class="input-field" type="text"
+                                              [(ngModel)]="this.language_code == 'en' ? temp_credits_document_list.creadit_document.name_en : temp_credits_document_list.creadit_document.name_es "
+                                              name="this.language_code == 'en' ? name_en{{ i }} : name_es{{ i }} "
+                                              disabled />
+    
+                                        <i class="fa fa-plus-circle icon" aria-hidden="true"
+                                              *ngIf="!temp_credits_document_list.document_link" style="cursor: pointer;"
+                                              (click)="openAddFolder(temp_credits_document_list,i)"></i>
+                                        <i class="fa fa-check icon" aria-hidden="true"
+                                              *ngIf="temp_credits_document_list.document_link"></i>
+                                  </div>
+                                  <div class="col-md-2">
+                                        <i class="fa fa-eye icons" *ngIf="temp_credits_document_list.document_link"
+                                              (click)="viewDocument(temp_credits_document_list?.document_link)"
+                                              style="cursor: pointer;"></i>
+                                  </div>
+                                  <div class="col-md-2">
+                                        <i class="fa fa-trash iconss" *ngIf="temp_credits_document_list.document_link" aria-hidden="true"
+                                              (click)="deletePopup(i, temp_credits_document_list.id)"
+                                              title="{{'table.title.delete' | translate}}"></i>
+                                  </div>
+                            </div>
+    
+                      </div>
+                </div>
+                <div *ngIf="credits_document_list?.length == 0" style="text-align: center; color: black;">
+                      <h5>{{'addForm.noRecordAvailable' | translate }}</h5>
+                </div>
+             </div>
+             <a href="javascript://" data-toggle="modal" data-target="#add-folder" #openAddDocumentationModal style="display: none;"></a>
+              <div class="modal animated" id="add-folder">
+                    <div class="modal-dialog fadeIndown" style="margin-top: 13%;">
+                          <div class="modal-content notary-avail">
+                                <div class="modal-header popup-header">
+                                      <h4>{{ 'addForm.uploadDoc' | translate }}</h4>
+                                      <button style="display: none;" type="button" class="close" data-dismiss="modal"
+                                            #closeAddDocumentationModal>&times;</button>
+                                      <button type="button" class="close" (click)="addDocumentationModalClose()">&times;</button>
+                                </div>
+
+                                <div class="modal-body">
+                                      <div class="white-bg">
+                                            <div class="row">
+                                                  <div class="col-8">
+                                                        <p class="p16 marginB0">{{folderName}}</p>
+                                                  </div>
+                                                  <div class="col-4 text-right">
+                                                        <a class="add" href="javascript://" (click)="addDocs()">
+                                                              <img *ngIf="isDocumentLoading" src="assets/img/loader_gif.gif"
+                                                                    height="20">
+                                                              {{'commonBlock.add' | translate}}
+                                                        </a>
+
+                                                        <ng-template #noAddPermissiom>
+                                                              <a class="add" href="javascript://">{{'commonBlock.add' |
+                                                                    translate}}</a>
+                                                        </ng-template>
+                                                  </div>
+                                            </div>
+                                      </div>
+                                      <div class="form-group-2">
+                                            <div class="form-group">
+                                                  <input type="file" name="docFile" id="folderId" #docsFile
+                                                        accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/x-png,image/jpg,image/jpeg"
+                                                        (change)="onSelectFile($event.target.files,folderId)">
+                                            </div>
+                                      </div>
+
+                                </div>
+                          </div>
+                    </div>
+              </div>
             </div>
           </div>
           <!-- Coaccredited -->

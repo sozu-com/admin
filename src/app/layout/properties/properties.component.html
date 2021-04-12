@@ -384,12 +384,33 @@
                               </select>
                            </div>
                         </th>
-                        <th style="width:8%;vertical-align:top;">
+                        <th style="width:10%;vertical-align:top;">
+                           <div class="d-flex table-search">
+                              <label>{{'table.th.editPrice' | translate}}</label>
+                           </div>
+                        </th>
+                        <th style="width:10%;vertical-align:top;">
                            <div (click)="sort_by(1)" class="d-flex table-search">
-                              <label>{{'table.th.price' | translate}}</label>
+                              <label>{{'table.th.listPrice' | translate}}</label>
                               <a href="javascript://"><img
                                     [ngClass]="{'upsidedown':parameter.sort_by==1 && parameter.sort_by_order==0}"
                                     src="assets/img/top-arrow.png" alt="img"></a>
+                           </div>
+                        </th>
+                        <th style="width:10%;vertical-align:top;">
+                           <div (click)="sort_by(1)" class="d-flex table-search">
+                              <label>{{'table.th.finalPrice' | translate}}</label>
+                              <a href="javascript://"><img
+                                    [ngClass]="{'upsidedown':parameter.sort_by==1 && parameter.sort_by_order==0}"
+                                    src="assets/img/top-arrow.png" alt="img"></a>
+                           </div>
+                        </th>
+                        <th style="width:10%;vertical-align:top;">
+                           <div (click)="sort_by(1)" class="d-flex table-search">
+                              <label>{{'table.th.Commercialoffers' | translate}}</label>
+                              <!-- <a href="javascript://"><img
+                                    [ngClass]="{'upsidedown':parameter.sort_by==1 && parameter.sort_by_order==0}"
+                                    src="assets/img/top-arrow.png" alt="img"></a> -->
                            </div>
                         </th>
                         <th style="width:8%;vertical-align:top;">
@@ -425,11 +446,7 @@
                            </div>
                         </th>
 
-                        <th style="width:4%;vertical-align:top;">
-                           <div class="d-flex table-search">
-                              <label>{{'table.th.editPrice' | translate}}</label>
-                           </div>
-                        </th>
+                       
                         <th style="width:8%;vertical-align:top;">
                            <div (click)="sort_by(1)" class="d-flex table-search">
                               <label>{{'table.th.agentCommission' | translate}}</label>
@@ -565,7 +582,21 @@
                            <app-property-configuration *ngIf="p?.building_configuration"
                               [configuration]="p.building_configuration.config"></app-property-configuration>
                         </td>
+                        <td><span>
+                           <button (click)="editPricePopup(p, i)"
+                              [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                              title="{{'table.title.editPrice' | translate}}" class="action-icon"><img
+                                 src="assets/img/edit.png" alt="img"></button>
+                        </span></td>
                         <td><span>{{p.min_price | price}}</span></td>
+                        <td><span>{{p.final_price | price}}</span></td>
+                        <td>
+                           <span [ngClass]="{'green-color cursor-pointer': p?.name}">
+                              <a class="add1" href="javascript://" (click)="addNote(p)">
+                                 <b>{{p?.name || ('table.tr.td.NA' | translate)}}</b>
+                              </a> 
+                           </span>
+                        </td>
                         <!-- <td><span>{{p?.carpet_areas && p?.carpet_areas?.length>0 ? (p?.carpet_areas[0]?.area| number : '1.2-2') : 0.00}}</span></td> -->
                         <td><span>{{p?.max_area ? p.max_area : 0.00}}</span></td>
                         <td><span>{{p?.is_commercialized ? ( 'table.th.yes' | translate ): ( 'table.th.no' | translate )
@@ -573,12 +604,7 @@
                         <td><span>{{p?.building_towers?.possession_status_id == apiConstant.possessionStatus.sale ?
                               ('table.tr.td.sale' |
                               translate) : ('table.tr.td.presale' | translate)}}</span></td>
-                        <td><span>
-                              <button (click)="editPricePopup(p, i)"
-                                 [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                                 title="{{'table.title.editPrice' | translate}}" class="action-icon"><img
-                                    src="assets/img/edit.png" alt="img"></button>
-                           </span></td>
+                      
                         <td><span>{{p.broker_commision | percentage}}</span></td>
                         <td><span>
                               <button (click)="editAgentCommissionPopup(p, i, true)"
@@ -1642,7 +1668,73 @@ margin-left: -38%;">
        </form>
      </div>
    </div>
- </div>
+</div>
+
+<!-- Commercial offers popup -->
+<a href="javascript://" data-toggle="modal" data-target="#addd-notes" #notesadddModalOpen></a>
+<div class="modal animated" id="addd-notes">
+  <div class="modal-dialogg fadeIndown">
+    <div class="modal-content">
+      <div class="modal-header modal-header-new">
+        <!-- <h4 class="modal-title">{{'leadDetails.note.addNote' |translate}}</h4> -->
+        <button style="display: none;" type="button" class="close" data-dismiss="modal"
+          #notesadddModalClose>&times;</button>
+        <button type="button" class="close" (click)="this.closeNotesadddModalModal()">&times;</button>
+      </div>
+     
+     <!-- table -->
+     <div class="modal-body modal-body-new">
+     <div class="row" style="margin: 2px;">
+      <div class="col-md-6">
+          <h6>{{'table.th.Commercialofferslist' | translate}}</h6>
+      </div>
+      <div class="col-md-6">
+         <div class="text-right">
+           <b style="color: #00B96F;font-size: 15px;">5</b>
+         </div>
+       </div>
+    </div>
+    <hr>
+    <div class="table-responsive">
+    <table style="width:100%">
+      <tr>
+        <th>{{'table.th.offerID' | translate}}</th>
+        <th>{{'table.th.agent' | translate}}</th> 
+        <th>{{'table.th.date' | translate}}</th>
+      </tr>
+      <tr>
+        <td>Jill</td>
+        <td>Smith</td>
+        <td>50</td>
+        <td> <button (click)="deletePopup(p, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img
+           src="assets/img/ic_delete.png" alt="img"></button></td>
+      </tr>
+      <tr>
+        <td>Eve</td>
+        <td>Jackson</td>
+        <td>94</td>
+        <td> <button (click)="deletePopup(p, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img
+           src="assets/img/ic_delete.png" alt="img"></button></td>
+      </tr>
+      <tr>
+        <td>John</td>
+        <td>Doe</td>
+        <td>80</td>
+        <td> <button (click)="deletePopup();" class="action-icon" title="{{'table.title.delete' | translate}}"><img
+           src="assets/img/ic_delete.png" alt="img"></button></td>
+      </tr>
+    </table></div>
+    <br/>
+    <div class="row">
+      <div class="col-md-12">
+         <p>{{'table.th.30days' | translate}}</p>
+      </div>
+   </div>
+    </div>
+    </div>
+  </div>
+</div>
+
 <!-- <div class="modal animated" id="installmentModal" style="margin-top: -14%;">
    <div class="modal-dialog fadeIndown">
       <div class="modal-content" style="width: 170%;">

@@ -39,6 +39,8 @@ export class CommissionIncomeComponent implements OnInit {
   items: Array<any>;
   commissions = [];
   already_index: any;
+  commission_sum: any = 0 ;
+  iva_amountt: any = 0 ;
   constructor(public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService) {
@@ -209,6 +211,14 @@ export class CommissionIncomeComponent implements OnInit {
         const obj = {label: e.label, commission: e.y, iva_amount: this.reportData.iva_amount[index].y};
         this.items.push(obj);
       }
+      let sum: any = 0;
+      this.reportData.commission.forEach(a => sum += a.y);
+          this.commission_sum = sum
+          console.log(this.commission_sum,"this.commission_sum");
+          let sum1: any = 0;
+          this.reportData.iva_amount.forEach(a => sum1 += a.y);
+           console.log(sum1,"iva_amount");
+          this.iva_amountt = sum1
       this.plotData();
       this.plotData1();
     }, error => {

@@ -121,7 +121,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   @ViewChild('openInstallmentModal') openInstallmentModal: ElementRef;
   @ViewChild('closeInstallmentModal') closeInstallmentModal: ElementRef;
   local_storage_parameter: any;
-
+  @ViewChild('notesadddModalOpen') notesadddModalOpen: ElementRef;
+  @ViewChild('notesadddModalClose') notesadddModalClose: ElementRef;
   public installmentFormGroup: FormGroup;
   public paymentBankDetailsArray: any[] = [];
   private installmentFormGroupSubscription: Subscription;
@@ -209,7 +210,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   //     itemsShowLimit: 2
   //   };
   // }
-
+  addNote(item: any) {
+    this.notesadddModalOpen.nativeElement.click();
+  }
+  closeNotesadddModalModal = (): void => {
+    this.notesadddModalClose.nativeElement.click();
+    this.modalClose.nativeElement.click();
+  }
   ngOnInit(): void {
     this.language_code = localStorage.getItem('language_code');
     this.iniDropDownSetting();
@@ -1265,8 +1272,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   generatePDF() {
     let least_price = this.property_array.min_price
-    if(this.installmentFormGroup.controls.parkingLotForSaleFormArray.value && this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.length > 0){
-      this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.forEach(element =>{
+    if (this.installmentFormGroup.controls.parkingLotForSaleFormArray.value && this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.length > 0) {
+      this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.forEach(element => {
         least_price = least_price + parseInt(element.parkingLotsPrice.replace('$', ''));
       });
     }
@@ -1545,13 +1552,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       });
       add_variable
     }
-    if(this.installmentFormGroup.controls.parkingLotForSaleFormArray.value && this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.length > 0){
+    if (this.installmentFormGroup.controls.parkingLotForSaleFormArray.value && this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.length > 0) {
       let no = 5;
       let count = 1;
-      this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.forEach(element =>{
+      this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.forEach(element => {
         let parkingName = this.parkingSpaceLotsArray.find(parking => parking.id == element.parkingLotsType)
         docDefinition.content[1].columns[0][2].table.body.splice(no, 0, [
-          { text: this.translate.instant('generatePDF.parkingForSale') + ' ' + (this.translate.defaultLang == 'en'? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
+          { text: this.translate.instant('generatePDF.parkingForSale') + ' ' + (this.translate.defaultLang == 'en' ? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
           { text: element.parkingLotsNumber, border: [false, false, false, false], bold: true }
         ]);
         // docDefinition.content[1].columns[0][2].table.body.splice(no + 1, 0, [
@@ -1559,7 +1566,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         //   { text: element.parkingLotsType, border: [false, false, false, false], bold: true }
         // ]); 
         docDefinition.content[1].columns[0][2].table.body.splice(no + 1, 0, [
-          { text: this.translate.instant('generatePDF.parkingPrice') + ' ' + (this.translate.defaultLang == 'en'? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
+          { text: this.translate.instant('generatePDF.parkingPrice') + ' ' + (this.translate.defaultLang == 'en' ? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
           { text: this.price.transform(Number(element.parkingLotsPrice.replace('$', '')).toFixed(2)), border: [false, false, false, false], bold: true }
         ]);
         no = no + 2;
@@ -1966,8 +1973,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   getParkingSpaceLots = (buildingId: any): void => {
     this.spinner.show();
     forkJoin([
-      this.admin.postDataApi('parkingSpaceLots', { building_id: buildingId || 0 }),
-      //this.us.postDataApi('parkingSpaceRent', { building_id: (this.parameter.propertyDetails || {}).building_id || 0 }),
+      //this.admin.postDataApi('parkingSpaceLots', { building_id: buildingId || 0 }),
+      this.admin.postDataApi('parkingSpaceRent', { building_id: buildingId || 0 }),
     ]).subscribe((response: any[]) => {
       this.spinner.hide();
       this.parkingSpaceLotsArray = response[0].data || [];
