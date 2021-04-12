@@ -1673,8 +1673,35 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   checkIsGeneratePDF = (): void => {
     this.updateAddVariablesFinalValue();
     if (this.getTotalPercentage() == 100.00) {
+      this.spinner.show();
+      let addVar = [];
+      this.getAddVariablesFormArray.controls.forEach((element: FormGroup) => {
+        addVar.push({variable_name: element.value.addVariablesText, variable_percentage: element.value.addVariablesPercentage});
+      });
+      let park = [];
+      (this.installmentFormGroup.controls.parkingLotForSaleFormArray.value || []).forEach(element =>{
+        park.push({parking_lots: element.parkingLotsNumber, parking_type: element.parkingLotsType, price: element.parkingLotsPrice});
+      });
+      let param={
+        id: this.property_array.id,
+        down_payment: this.installmentFormGroup.get('downPayment').value,
+        discount: this.installmentFormGroup.get('discount').value,
+        monthly_installment: this.installmentFormGroup.get('monthlyInstallment').value,
+        interest: this.installmentFormGroup.get('interest').value,
+        number_of_month: this.installmentFormGroup.get('paymentupondelivery').value,
+        payment_upon_delivery: this.installmentFormGroup.get('paymentupondelivery').value,
+        lead_name: this.installmentFormGroup.get('leadName').value,
+        bank_type: this.installmentFormGroup.value.paymentBankDetails.id,
+        account_type: this.installmentFormGroup.get('agencyOrSeller').value? 2 : 1,
+        note: this.installmentFormGroup.value.addNoteFormArray[0].addNote || null,
+        parking_lots: park,
+        property_var: addVar
+      }
+      this.admin.postDataApi('createOffers', param).subscribe(result=>{
       this.generatePDF();
       this.closeModalInstallment();
+      this.spinner.hide();
+      });
     } else {
       swal(this.translate.instant('swal.error'), this.translate.instant('generatePDF.percentageText'), 'error');
     }

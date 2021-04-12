@@ -478,6 +478,7 @@
     "groundFloor": "Planta baja",
     "floor": "Piso",
     "SearchYourBuildingInOurDatabase": "Busca tu edificio en nuestra base de datos",
+    "SearchYourCommercialOfferInOurDatabase": "Busque su oferta comercial en Nuestra base de datos",
     "selectTowerIn": "Seleccionar torre en ",
     "selectTower": "Seleccionar torre",
     "selectFloorIn": "Seleccionar piso en",
@@ -833,6 +834,7 @@
       "penalty": "Multa",
       "statusAccount": "Cuenta de estado",
       "lead_date": "Fecha de entrega",
+      "leastPrice": "Precio de lista",
       "actions": {
         "label": "Acciones",
         "all": "Todo",
@@ -2065,7 +2067,8 @@
     "TotalPC": "Total (PC)",
     "TotalCC": "Total (CC)",
     "Sozu": "Sozu",
-    "Seller": "Vendedor"
+    "Seller": "Vendedor",
+    "createCollectionBasedOnCommercialOffer": "Crear colección basada en oferta comercial"
   },
   "swal": {
     "error": "Error",

@@ -43,7 +43,7 @@
 
 <!-- Tag a building start -->
 <div class="white-bg" *ngIf="tab==1">
-  <div class="page-title">
+  <div class="page-title" style="margin-bottom: 10px">
     <h3>{{'addCollection.chooseYourProperty' | translate}}</h3>
   </div>
 
@@ -108,8 +108,20 @@
   </div>
 
   <div class="padding40" *ngIf="showSearch">
-    <h5 class="p16-two">{{'addCollection.SearchYourBuildingInOurDatabase' | translate}}</h5>
-    <div class="searh d-flex">
+    <div class="switchToggle" style="margin-bottom: 70px;">
+      <h5 class="p16-two">{{'addCollection.createCollectionBasedOnCommercialOffer' | translate}}</h5>
+      <input type="checkbox" id="switch3" (click)="toggleSearch($event)" [checked]="isCommercialOffer">
+      <label for="switch3">Toggle</label>
+    </div>
+    <h5 class="p16-two" *ngIf="!isCommercialOffer">{{'addCollection.SearchYourBuildingInOurDatabase' | translate}}</h5>
+    <div class="searh d-flex" *ngIf="!isCommercialOffer">
+      <input autocomplete="off" class="border-right-0" autocomplete="off" type="text" #buildingname
+        (keyup.enter)="searchBuilding(buildingname.value)" name="buildingName" [(ngModel)]="buildingName">
+      <button type="button" class="btn" type="button"
+        (click)="searchBuilding(buildingname.value)">{{'addCollection.search' | translate}}</button>
+    </div>
+    <h5 class="p16-two" *ngIf="isCommercialOffer">{{'addCollection.SearchYourCommercialOfferInOurDatabase' | translate}}</h5>
+    <div class="searh d-flex" *ngIf="isCommercialOffer">
       <input autocomplete="off" class="border-right-0" autocomplete="off" type="text" #buildingname
         (keyup.enter)="searchBuilding(buildingname.value)" name="buildingName" [(ngModel)]="buildingName">
       <button type="button" class="btn" type="button"

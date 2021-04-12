@@ -155,6 +155,7 @@ export class AddEditCollectionComponent implements OnInit {
   public beneficiaryIndex: number = -1;
   public multiDropdownSettings = {};
   collection_account_statement_id: any;
+  isCommercialOffer: boolean;
   //public selectedbeneficiaries: any[] = [];
 
   constructor(
@@ -2850,6 +2851,10 @@ export class AddEditCollectionComponent implements OnInit {
   checkAlreadySelected = (beneficiaryId: number): boolean => {
     const data = this.property_beneficiary.find((item) => item.beneficiary_id == beneficiaryId);
     return data ? true : false;
+  }
+
+  toggleSearch(value){
+    this.isCommercialOffer = value.target.checked ? true : false;
   }
 
 }
