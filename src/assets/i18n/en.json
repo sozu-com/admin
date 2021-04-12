@@ -825,6 +825,7 @@
       "penalty": "Penalty",
       "statusAccount": "Status Account",
       "lead_date": "Lead Date",
+      "leastPrice": "List price",
       "actions": {
         "label": "Actions",
         "all": "All",
@@ -1915,6 +1916,7 @@
     "previous": "Previous",
     "next": "Next",
     "SearchYourBuildingInOurDatabase": "Search your building in Our Database",
+    "SearchYourCommercialOfferInOurDatabase": "Search your commercial offer in Our Database",
     "search": "Search",
     "selectTowerIn": "Select Tower In",
     "selectTower": "Select Tower",
@@ -2057,7 +2059,8 @@
     "TotalPC": "Total (PC)",
     "TotalCC": "Total (CC)",
     "Sozu": "Sozu",
-    "Seller": "Seller"
+    "Seller": "Seller",
+    "createCollectionBasedOnCommercialOffer": "Create collection based on commercial offer"
   },
   "swal": {
     "error": "Error",
