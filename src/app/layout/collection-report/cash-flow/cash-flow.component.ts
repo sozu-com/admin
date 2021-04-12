@@ -32,9 +32,9 @@ export class CashFlowComponent implements OnInit {
   today = new Date();
   reportData: any;
   reportsData: any;
-  expectedTotal: any;
+  expectedTotal: Array<any>;
   actualTotal: any;
-  expectedData: Array<any>;
+  expectedData: any;
   actualData: Array<any>;
   paymentChoices: Array<any>;
   finalData: Array<any>;
@@ -293,6 +293,17 @@ export class CashFlowComponent implements OnInit {
       for (let index = 0; index < reportData['expected'].length; index++) {
         const element = reportData['expected'][index];
         const ff = []; let d = {};
+       
+        let sum: any = element.y.map(a => a.y).reduce(function(a, b)
+        {
+          return a + b;
+        });
+         this.expectedTotal = sum
+        console.log(this.expectedTotal,"this.expectedTotal");
+        // let sum1: any = 0;
+        // this.expectedTotal.forEach(a => sum1 += a.expectedTotal);
+        // console.log(sum1,"iva_amount");
+       // this.actualTotal = sum1
         for (let ind = 0; ind < element.y.length; ind++) {
           d = {y: element.y[ind].y, label: element.y[ind].label};
           ff.push(d);
@@ -322,6 +333,11 @@ export class CashFlowComponent implements OnInit {
         });
       }
       this.plotData1();
+      
+      // let sum1: any = 0;
+      // this.reportData.actual.forEach(a => sum1 += a.y);
+      //  console.log(sum1,"iva_amount");
+      // this.actualTotal = sum1
     }, error => {
       this.spinner.hide();
     });
@@ -364,18 +380,19 @@ export class CashFlowComponent implements OnInit {
         this.items.push(obj);
         // expected output: 81
       }
-      let sum: number = this.items.map(a => a.expected).reduce(function(a, b)
-        {
-          return a + b;
-        });
-        this.expectedTotal = sum
-        console.log(this.expectedTotal,"this.expectedTotal");
-        let sum1: number = this.items.map(a => a.actual).reduce(function(a, b)
-        {
-          return a + b;
-        });
-        this.actualTotal = sum1
-        console.log(this.actualTotal,"this.actualTotal");
+      // let sum: number = this.items.map(a => a.expected).reduce(function(a, b)
+      //   {
+      //     return a + b;
+      //   });
+      //   this.expectedTotal = sum
+      //   console.log(this.expectedTotal,"this.expectedTotal");
+      //   let sum1: number = this.items.map(a => a.actual).reduce(function(a, b)
+      //   {
+      //     return a + b;
+      //   });
+      //   this.actualTotal = sum1
+      //   console.log(this.actualTotal,"this.actualTotal");
+        
       this.plotData2();
     }, error => {
       this.spinner.hide();

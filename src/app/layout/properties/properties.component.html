@@ -589,7 +589,7 @@
                                  src="assets/img/edit.png" alt="img"></button>
                         </span></td>
                         <td><span>{{p.min_price | price}}</span></td>
-                        <td><span>{{p.min_price | price}}</span></td>
+                        <td><span>{{p.final_price | price}}</span></td>
                         <td>
                            <span [ngClass]="{'green-color cursor-pointer': p?.name}">
                               <a class="add1" href="javascript://" (click)="addNote(p)">
