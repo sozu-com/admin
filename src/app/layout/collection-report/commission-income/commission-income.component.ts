@@ -216,14 +216,12 @@ export class CommissionIncomeComponent implements OnInit {
           return a + b;
         });
       this.commission_sum = sum
-      console.log(this.commission_sum,"this.commission_sum");
-      
+
       let sum1: any = this.reportData.iva_amount.map(a => a.y).reduce(function(a, b)
       {
         return a + b;
       });
       this.iva_amountt = sum1
-    console.log(this.iva_amountt,"this.iva_amountt");
          
       this.plotData();
       this.plotData1();
