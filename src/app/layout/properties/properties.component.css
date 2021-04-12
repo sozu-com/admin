@@ -116,10 +116,18 @@ margin-left: 29px;
   .modal-dialog {
     max-width: 100%;
 }
+.modal-dialogg.fadeIndown {
+  max-width: 100%;
+}
 }
 
 @media screen and (min-width: 1200px) {
   .modal-dialog {
     max-width: 45%;
+}
+.modal-dialogg.fadeIndown {
+  max-width: 30%;
+  margin-left: 41%;
+margin-top: 12%;
 }
 }
