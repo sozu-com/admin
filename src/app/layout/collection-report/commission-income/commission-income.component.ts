@@ -211,14 +211,20 @@ export class CommissionIncomeComponent implements OnInit {
         const obj = {label: e.label, commission: e.y, iva_amount: this.reportData.iva_amount[index].y};
         this.items.push(obj);
       }
-      let sum: any = 0;
-      this.reportData.commission.forEach(a => sum += a.y);
-          this.commission_sum = sum
-          console.log(this.commission_sum,"this.commission_sum");
-          let sum1: any = 0;
-          this.reportData.iva_amount.forEach(a => sum1 += a.y);
-           console.log(sum1,"iva_amount");
-          this.iva_amountt = sum1
+      let sum: any = this.reportData.commission.map(a => a.y).reduce(function(a, b)
+        {
+          return a + b;
+        });
+      this.commission_sum = sum
+      console.log(this.commission_sum,"this.commission_sum");
+      
+      let sum1: any = this.reportData.iva_amount.map(a => a.y).reduce(function(a, b)
+      {
+        return a + b;
+      });
+      this.iva_amountt = sum1
+    console.log(this.iva_amountt,"this.iva_amountt");
+         
       this.plotData();
       this.plotData1();
     }, error => {
