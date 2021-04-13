@@ -32,7 +32,7 @@ export class CashFlowComponent implements OnInit {
   today = new Date();
   reportData: any;
   reportsData: any;
-  expectedTotal: Array<any>;
+  expectedTotal:  any;
   actualTotal: any;
   expectedData: any;
   actualData: Array<any>;
@@ -51,6 +51,8 @@ export class CashFlowComponent implements OnInit {
   y: any;
   already_index: any;
   cashFlowInfos: any[];
+  empList: Array<any>;
+  actualList: Array<any> = [];
   constructor(public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService) {
@@ -289,21 +291,20 @@ export class CashFlowComponent implements OnInit {
       this.spinner.hide();
       this.finalData = [];
       this.finalData1 = [];
+      this.empList = [];
+      this.actualList = [];
       const reportData = r['data'];
       for (let index = 0; index < reportData['expected'].length; index++) {
         const element = reportData['expected'][index];
         const ff = []; let d = {};
-       
         let sum: any = element.y.map(a => a.y).reduce(function(a, b)
         {
           return a + b;
         });
-         this.expectedTotal = sum
-        console.log(this.expectedTotal,"this.expectedTotal");
-        // let sum1: any = 0;
-        // this.expectedTotal.forEach(a => sum1 += a.expectedTotal);
-        // console.log(sum1,"iva_amount");
-       // this.actualTotal = sum1
+          this.empList.push(sum);
+          var total = this.empList.reduce(function(a, b){ return a + b; }); 
+          this.expectedTotal = total;
+
         for (let ind = 0; ind < element.y.length; ind++) {
           d = {y: element.y[ind].y, label: element.y[ind].label};
           ff.push(d);
@@ -314,13 +315,20 @@ export class CashFlowComponent implements OnInit {
           type: 'stackedColumn',
           dataPoints: ff
         });
-
+       
       }
       this.plotData();
 
       for (let index = 0; index < reportData['actual'].length; index++) {
         const element = reportData['actual'][index];
         const ff = []; let d = {};
+        let sum1: any = element.y.map(a => a.y).reduce(function(a, b)
+        {
+          return a + b;
+        });
+        this.actualList.push(sum1);
+        var total = this.actualList.reduce(function(a, b){ return a + b; }); 
+        this.actualTotal = total;
         for (let ind = 0; ind < element.y.length; ind++) {
           d = {y: element.y[ind].y, label: element.y[ind].label};
           ff.push(d);
@@ -333,11 +341,6 @@ export class CashFlowComponent implements OnInit {
         });
       }
       this.plotData1();
-      
-      // let sum1: any = 0;
-      // this.reportData.actual.forEach(a => sum1 += a.y);
-      //  console.log(sum1,"iva_amount");
-      // this.actualTotal = sum1
     }, error => {
       this.spinner.hide();
     });
@@ -380,18 +383,16 @@ export class CashFlowComponent implements OnInit {
         this.items.push(obj);
         // expected output: 81
       }
-      // let sum: number = this.items.map(a => a.expected).reduce(function(a, b)
-      //   {
-      //     return a + b;
-      //   });
-      //   this.expectedTotal = sum
-      //   console.log(this.expectedTotal,"this.expectedTotal");
-      //   let sum1: number = this.items.map(a => a.actual).reduce(function(a, b)
-      //   {
-      //     return a + b;
-      //   });
-      //   this.actualTotal = sum1
-      //   console.log(this.actualTotal,"this.actualTotal");
+      let sum: number = this.items.map(a => a.expected).reduce(function(a, b)
+        {
+          return a + b;
+        });
+        console.log(sum,"Expected & Actual Revenue");
+        let sum1: number = this.items.map(a => a.actual).reduce(function(a, b)
+        {
+          return a + b;
+        });
+        console.log(sum1,"Expected & Actual Revenue");
         
       this.plotData2();
     }, error => {

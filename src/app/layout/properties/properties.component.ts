@@ -68,7 +68,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   public parameter: IProperty = {};
   public location: IProperty = {};
   showMore = false;
-  items: any = [];
+  items: any[] = [];
   total: any = 0;
   configurations: any = [];
   countries: any;
@@ -137,6 +137,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   public selectedLocation: { selectedCountry: string, selectedStates: any[], selectedCities: any[], selectedLocalities: any[] } =
     { selectedCountry: '', selectedStates: [], selectedCities: [], selectedLocalities: [] };
   public parkingSpaceLotsArray: any[] = [];
+  property_offers: any[] = [];
+  property_index: any;
 
   constructor(
     public constant: Constant,
@@ -210,13 +212,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   //     itemsShowLimit: 2
   //   };
   // }
-  addNote(item: any) {
-    this.notesadddModalOpen.nativeElement.click();
-  }
-  closeNotesadddModalModal = (): void => {
-    this.notesadddModalClose.nativeElement.click();
-    this.modalClose.nativeElement.click();
-  }
+
   ngOnInit(): void {
     this.language_code = localStorage.getItem('language_code');
     this.iniDropDownSetting();
@@ -1673,8 +1669,35 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   checkIsGeneratePDF = (): void => {
     this.updateAddVariablesFinalValue();
     if (this.getTotalPercentage() == 100.00) {
+      this.spinner.show();
+      let addVar = [];
+      this.getAddVariablesFormArray.controls.forEach((element: FormGroup) => {
+        addVar.push({variable_name: element.value.addVariablesText, variable_percentage: element.value.addVariablesPercentage});
+      });
+      let park = [];
+      (this.installmentFormGroup.controls.parkingLotForSaleFormArray.value || []).forEach(element =>{
+        park.push({parking_lots: element.parkingLotsNumber, parking_type: element.parkingLotsType, price: element.parkingLotsPrice});
+      });
+      let param={
+        id: this.property_array.id,
+        down_payment: this.installmentFormGroup.get('downPayment').value,
+        discount: this.installmentFormGroup.get('discount').value,
+        monthly_installment: this.installmentFormGroup.get('monthlyInstallment').value,
+        interest: this.installmentFormGroup.get('interest').value,
+        number_of_month: this.installmentFormGroup.get('paymentupondelivery').value,
+        payment_upon_delivery: this.installmentFormGroup.get('paymentupondelivery').value,
+        lead_name: this.installmentFormGroup.get('leadName').value,
+        bank_type: this.installmentFormGroup.value.paymentBankDetails.id,
+        account_type: this.installmentFormGroup.get('agencyOrSeller').value? 2 : 1,
+        note: (this.installmentFormGroup.value.addNoteFormArray[0] || []).addNote || null,
+        parking_lots: park,
+        property_var: addVar
+      }
+      this.admin.postDataApi('createOffers', param).subscribe(result=>{
       this.generatePDF();
       this.closeModalInstallment();
+      this.spinner.hide();
+      });
     } else {
       swal(this.translate.instant('swal.error'), this.translate.instant('generatePDF.percentageText'), 'error');
     }
@@ -1958,6 +1981,52 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   checkAlreadySelected = (parkingSpaceId: number): boolean => {
     const data = this.getParkingLotForSaleFormArray.controls.find((item: FormGroup) => item.get('parkingLotsType').value == parkingSpaceId);
     return data ? true : false;
+  }
+
+  openOfferModel(item: any, i) {
+    this.property_index = i;
+    this.spinner.show();
+    this.admin.postDataApi('getPropertyOfferById', {id: item.id}).subscribe(result=>{
+      this.property_offers = result.data;
+      this.notesadddModalOpen.nativeElement.click();
+      this.spinner.hide();
+      },error=>{
+        this.spinner.hide();
+      });
+  }
+
+  deleteOffer(offer){
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+        this.translate.instant('message.error.wantToDeleteCommercialOffer'),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        let self = this;
+        this.spinner.show();
+        this.admin.postDataApi('deleteOffers', {id: offer.id}).subscribe(result=>{
+      if(result.data){
+      let index = self.property_offers.findIndex(x=> x.id == result.data);
+      self.property_offers.splice(index, 1);
+      self.items.filter(x=>{
+        
+      })
+      }
+      this.spinner.hide();
+      },error=>{
+        this.spinner.hide();
+      });
+      }
+    });
+  }
+
+  closeNotesadddModalModal = (): void => {
+    this.notesadddModalClose.nativeElement.click();
+    this.modalClose.nativeElement.click();
   }
 
 }

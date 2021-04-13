@@ -591,10 +591,13 @@
                         <td><span>{{p.min_price | price}}</span></td>
                         <td><span>{{p.final_price | price}}</span></td>
                         <td>
-                           <span [ngClass]="{'green-color cursor-pointer': p?.name}">
-                              <a class="add1" href="javascript://" (click)="addNote(p)">
-                                 <b>{{p?.name || ('table.tr.td.NA' | translate)}}</b>
+                           <span [ngClass]="{'green-color cursor-pointer': p?.name}" *ngIf="p?.offer_count">
+                              <a class="add1" href="javascript://" (click)="openOfferModel(p, i)">
+                                 <b>{{p?.offer_count || ('table.tr.td.NA' | translate)}}</b>
                               </a> 
+                           </span>
+                           <span *ngIf="!p?.offer_count">
+                              <b>{{'table.tr.td.NA' | translate}}</b>
                            </span>
                         </td>
                         <!-- <td><span>{{p?.carpet_areas && p?.carpet_areas?.length>0 ? (p?.carpet_areas[0]?.area| number : '1.2-2') : 0.00}}</span></td> -->
@@ -1690,7 +1693,7 @@ margin-left: -38%;">
       </div>
       <div class="col-md-6">
          <div class="text-right">
-           <b style="color: #00B96F;font-size: 15px;">5</b>
+           <b style="color: #00B96F;font-size: 15px;">{{property_offers.length}}</b>
          </div>
        </div>
     </div>
@@ -1702,28 +1705,15 @@ margin-left: -38%;">
         <th>{{'table.th.agent' | translate}}</th> 
         <th>{{'table.th.date' | translate}}</th>
       </tr>
-      <tr>
-        <td>Jill</td>
-        <td>Smith</td>
-        <td>50</td>
+      <tr *ngFor="let offer of property_offers">
+        <td>{{offer.id}}</td>
+        <td>{{offer.name}}</td>
+        <td>{{offer.date | date }}</td>
         <td> <button (click)="deletePopup(p, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img
-           src="assets/img/ic_delete.png" alt="img"></button></td>
+           src="assets/img/ic_delete.png" alt="img" (click)="deleteOffer(offer)"></button></td>
       </tr>
-      <tr>
-        <td>Eve</td>
-        <td>Jackson</td>
-        <td>94</td>
-        <td> <button (click)="deletePopup(p, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img
-           src="assets/img/ic_delete.png" alt="img"></button></td>
-      </tr>
-      <tr>
-        <td>John</td>
-        <td>Doe</td>
-        <td>80</td>
-        <td> <button (click)="deletePopup();" class="action-icon" title="{{'table.title.delete' | translate}}"><img
-           src="assets/img/ic_delete.png" alt="img"></button></td>
-      </tr>
-    </table></div>
+    </table>
+   </div>
     <br/>
     <div class="row">
       <div class="col-md-12">

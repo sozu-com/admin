@@ -834,6 +834,7 @@
       "penalty": "Penalty",
       "statusAccount": "Status Account",
       "lead_date": "Lead Date",
+      "leastPrice": "List price",
       "actions": {
         "label": "Actions",
         "all": "All",
@@ -1224,6 +1225,7 @@
       "wantToBlockProject": "¿Quieres bloquear este proyecto?",
       "wantToUnBlockProject": "¿Quieres desbloquear este proyecto?",
       "wantToDeleteProject": "You want to delete this project?",
+      "wantToUnapproveProject": "you want to disaprove this project?",
       "wantToDeleteEconomicDependent": "You want to delete this economic dependent?",
       "wantToDeleteBeneficiary": "You want to delete this Beneficiary Detail?",
       "wantToDeleteReferences": "You want to delete this references?",
@@ -1247,6 +1249,7 @@
       "wantToBlockProperty": "You want to block this Property?",
       "wantToUnblockProperty": "You want to unblock this Property?",
       "wantToDeleteProperty": "You want to delete this Property?",
+      "wantToDeleteCommercialOffer" : "You want To Delete Commercial Offer?",
       "wantToBlockTemplate": "You want to block this Template?",
       "wantToUnblockTemplate": "You want to unblock this Template?",
       "wantToDeleteTemplate": "You want to delete this Template?",
@@ -1924,6 +1927,7 @@
     "previous": "Previous",
     "next": "Next",
     "SearchYourBuildingInOurDatabase": "Search your building in Our Database",
+    "SearchYourCommercialOfferInOurDatabase": "Search your commercial offer in Our Database",
     "search": "Search",
     "selectTowerIn": "Select Tower In",
     "selectTower": "Select Tower",
@@ -2016,6 +2020,7 @@
     "folderName": "Folder Name",
     "Addcollaborator": "Add collaborator",
     "buildingYouAreSearchingNotFound": "Building you are searching, not found in our Database",
+    "offerYouAreSearchingNotFound": "Offer you are searching, not found in our Database",
     "userYouAreSearchingNotFound": "User you are searching, not found in our Database",
     "chooseDate": "Choose Date",
     "enterPercentage": "Enter Percentage",
@@ -2066,7 +2071,8 @@
     "TotalPC": "Total (PC)",
     "TotalCC": "Total (CC)",
     "Sozu": "Sozu",
-    "Seller": "Seller"
+    "Seller": "Seller",
+    "createCollectionBasedOnCommercialOffer": "Create collection based on commercial offer"
   },
   "swal": {
     "error": "Error",
@@ -2211,6 +2217,8 @@
     "representativeContact": "Representative Contact",
     "sellerLegal": "Seller Legal",
     "generalPropertyInformation": "General Property Information",
+    "Parkinglotincluded":"Parking lot included",
+    "Parkinglotsale":"Parking lot for sale",
     "project": "Project",
     "tower": "Tower",
     "floor": "Floor",

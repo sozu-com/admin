@@ -479,6 +479,7 @@
     "groundFloor": "Planta baja",
     "floor": "Piso",
     "SearchYourBuildingInOurDatabase": "Busca tu edificio en nuestra base de datos",
+    "SearchYourCommercialOfferInOurDatabase": "Busque su oferta comercial en Nuestra base de datos",
     "selectTowerIn": "Seleccionar torre en ",
     "selectTower": "Seleccionar torre",
     "selectFloorIn": "Seleccionar piso en",
@@ -834,6 +835,7 @@
       "penalty": "Multa",
       "statusAccount": "Cuenta de estado",
       "lead_date": "Fecha de entrega",
+      "leastPrice": "Precio de lista",
       "actions": {
         "label": "Acciones",
         "all": "Todo",
@@ -1224,6 +1226,7 @@
       "wantToBlockProject": "¿Quieres bloquear este proyecto?",
       "wantToUnBlockProject": "¿Quieres desbloquear este proyecto?",
       "wantToDeleteProject": "¿Quieres eliminar este proyecto?",
+      "wantToUnapproveProject": "Estás seguro que quieres desaprobar este proyecto ?",
       "wantToDeleteEconomicDependent": "¿Quiere eliminar este dependiente económico?",
       "wantToDeleteBeneficiary": "¿Quiere eliminar este detalle del beneficiario?",
       "wantToDeleteReferences": "¿Quieres eliminar estas referencias?",
@@ -1247,6 +1250,7 @@
       "wantToBlockProperty": "¿Quieres bloquear esta propiedad?",
       "wantToUnblockProperty": "¿Quieres desbloquear esta propiedad?",
       "wantToDeleteProperty": "¿Quieres eliminar esta propiedad?",
+      "wantToDeleteCommercialOffer" : "¿Quieres eliminar esta oferta comercial",
       "wantToBlockTemplate": "¿Quieres bloquear esta plantilla?",
       "wantToUnblockTemplate": "¿Quieres desbloquear esta plantilla?",
       "wantToDeleteTemplate": "¿Quieres eliminar esta plantilla?",
@@ -2016,6 +2020,7 @@
     "folderName": "Nombre de la carpeta",
     "Addcollaborator" :"Agregar colaborador",
     "buildingYouAreSearchingNotFound": "Edificio que está buscando, no se encuentra en nuestra base de datos",
+    "offerYouAreSearchingNotFound": "Oferta que está buscando, que no se encuentra en nuestra base de datos",
     "userYouAreSearchingNotFound": "User que está buscando, no se encuentra en nuestra base de datos",
     "chooseDate": "Elegir fecha",
     "enterPercentage": "Ingrese porcentaje",
@@ -2066,7 +2071,8 @@
     "TotalPC": "Total (PC)",
     "TotalCC": "Total (CC)",
     "Sozu": "Sozu",
-    "Seller": "Vendedor"
+    "Seller": "Vendedor",
+    "createCollectionBasedOnCommercialOffer": "Crear colección basada en oferta comercial"
   },
   "swal": {
     "error": "Error",
@@ -2211,6 +2217,8 @@
     "representativeContact": "Contacto representativo",
     "sellerLegal": "Vendedor legal",
     "generalPropertyInformation": "Información general de propiedad",
+    "Parkinglotincluded":"Estacionamiento incluido",
+    "Parkinglotsale":"Estacionamiento en venta",
     "project": "Proyecto",
     "tower": "Torre",
     "floor": "Suelo",

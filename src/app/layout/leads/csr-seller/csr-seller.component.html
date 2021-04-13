@@ -279,7 +279,10 @@
                                         </div>
                                     </div>
                                 </th>
-                                <th style="width:5%;">
+                                <th style="width:9%">
+                                    <div class="table-search"><label>{{'table.th.lead_date' | translate}}</label></div>
+                                </th>
+                                <th style="width:6%;">
                                     <div class="table-search">
                                         <label>{{'table.th.image' | translate}}</label>
                                     </div>
@@ -416,6 +419,9 @@
                                         <span class="checkmark"></span>
                                     </label>
                                     <!-- <i class="fa" [ngClass]="item.selected?'fa-check-square-o':'fa-square-o'" (click)="item.selected = !item.selected" aria-hidden="true"></i> -->
+                                </td>
+                                <td>
+                                    <span class="name" *ngIf="item.created_at">{{item.created_at | date}}</span>
                                 </td>
                                 <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}">
                                     <img class="rounded-circle" *ngIf="item.image"

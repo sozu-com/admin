@@ -363,6 +363,28 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     });
   }
 
+  openunapprove(item){
+    console.log(item,"status")
+    this.parameter.text = this.translate.instant('message.error.wantToUnapproveProject');
+
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: this.translate.instant('propertyDetail.yes')
+    }).then((result) => {
+      if (result.value) {
+
+        this.parameter.status = item.status = 4;
+        console.log(this.parameter.status,"this.parameter.status")
+        // this.parameter.index = index;
+        this.rejectProject(this.parameter.status)
+      }
+    });
+  }
+
   blockProject(item, flag: number) {
     this.admin.postDataApi('blockProject', { building_id: item.id, flag: flag })
       .subscribe(

@@ -43,7 +43,7 @@
 
 <!-- Tag a building start -->
 <div class="white-bg" *ngIf="tab==1">
-  <div class="page-title">
+  <div class="page-title" style="margin-bottom: 10px">
     <h3>{{'addCollection.chooseYourProperty' | translate}}</h3>
   </div>
 
@@ -97,7 +97,18 @@
       </div>
     </div>
     <p><b>{{model?.building_configuration?.name}}</b></p>
-
+    <div class="row">
+      <div class="col-sm-9 col-lg-9">
+        <p class="p16">{{'quickVisualization.Parkinglotincluded' | translate}}</p>
+      </div>
+    </div>
+    <p><b>1,Normal</b></p>
+    <div class="row">
+      <div class="col-sm-9 col-lg-9">
+        <p class="p16">{{'quickVisualization.Parkinglotsale' | translate}}</p>
+      </div>
+    </div>
+    <p><b>1,Tandem</b></p>
     <div class="row">
       <div class="col-md-12">
         <div class="btn-cont text-right">
@@ -108,13 +119,27 @@
   </div>
 
   <div class="padding40" *ngIf="showSearch">
-    <h5 class="p16-two">{{'addCollection.SearchYourBuildingInOurDatabase' | translate}}</h5>
-    <div class="searh d-flex">
+    <div class="switchToggle" style="margin-bottom: 70px;">
+      <h5 class="p16-two">{{'addCollection.createCollectionBasedOnCommercialOffer' | translate}}</h5>
+      <input type="checkbox" id="switch3" (click)="toggleSearch($event)" [checked]="isCommercialOffer">
+      <label for="switch3">Toggle</label>
+    </div>
+    <h5 class="p16-two" *ngIf="!isCommercialOffer">{{'addCollection.SearchYourBuildingInOurDatabase' | translate}}</h5>
+    <div class="searh d-flex" *ngIf="!isCommercialOffer">
       <input autocomplete="off" class="border-right-0" autocomplete="off" type="text" #buildingname
         (keyup.enter)="searchBuilding(buildingname.value)" name="buildingName" [(ngModel)]="buildingName">
       <button type="button" class="btn" type="button"
         (click)="searchBuilding(buildingname.value)">{{'addCollection.search' | translate}}</button>
     </div>
+    <!-- offer search -->
+    <h5 class="p16-two" *ngIf="isCommercialOffer">{{'addCollection.SearchYourCommercialOfferInOurDatabase' | translate}}</h5>
+    <div class="searh d-flex" *ngIf="isCommercialOffer">
+      <input autocomplete="off" class="border-right-0" autocomplete="off" type="text" #buildingname
+        (keyup.enter)="searchOffer(buildingname.value)" name="buildingName" [(ngModel)]="buildingName">
+      <button type="button" class="btn" type="button"
+        (click)="searchOffer(buildingname.value)">{{'addCollection.search' | translate}}</button>
+    </div>
+    <!--end offer search -->
     <div class="spacer50"></div>
     <div *ngIf="buildingLoading">
       <img src="assets/img/loading_content.gif" />
@@ -131,6 +156,58 @@
               [data]="item" [index]="i"></app-project-block>
           </div>
         </div>
+        <div class="row">
+          <div class="col-lg-6 col-md-12 col-sm-12 col-12"
+            *ngFor="let item of searchedOffers| paginate: { itemsPerPage: parameter.itemsPerPage, 
+              currentPage: parameter.page, totalItems: parameter.offerCount }; let i = index">
+            <app-offer-block (setBuilding)="setBuildingId($event)" (buildingIndex)="getBuildingIndex($event)"
+              [data]="item" [index]="i"></app-offer-block>
+          </div>
+        </div>
+        
+        <!-- offer data -->
+        <div class="padding40" *ngIf="building.id && model.property_offer_payment_id">
+          <div class="row">
+            <div class="col-sm-9 col-lg-9">
+              <p class="p16">{{'addCollection.taggedTowerName' | translate}}</p>
+            </div>
+          </div>
+          <p><b>{{model?.building_towers?.tower_name ? model?.building_towers?.tower_name : ('table.tr.td.NA' |
+              translate)}}</b></p>
+      
+          <div class="row" *ngIf="model?.building_towers">
+            <div class="col-sm-9 col-lg-9">
+              <p class="p16">{{'addCollection.taggedFloor' | translate}}</p>
+            </div>
+          </div>
+          <p><b>
+            {{model?.building_towers?.floor_num ? model?.building_towers?.floor_num : ('table.tr.td.NA' |
+              translate)}}
+            </b></p>
+      
+          <div class="row" *ngIf="model?.name">
+            <div class="col-sm-9 col-lg-9">
+              <p class="p16">{{'addCollection.taggedApartmentName' | translate}}</p>
+            </div>
+          </div>
+          <p><b>{{model?.name ? model?.name : ('table.tr.td.NA' | translate)}}</b></p>
+      
+          <div class="row">
+            <div class="col-sm-9 col-lg-9">
+              <p class="p16">{{'addCollection.selectedDealType' | translate}}</p>
+            </div>
+          </div>
+          <p><b>{{model?.availabilityStatusId == 1 ? availabilityStatus[0].name : availabilityStatus[1].name}}</b></p>
+      
+          <div class="row">
+            <div class="col-sm-9 col-lg-9">
+              <p class="p16">{{'addCollection.selectedModal' | translate}}</p>
+            </div>
+          </div>
+          <p><b>{{model?.building_configuration?.name}}</b></p>
+        </div>
+          
+
         <div *ngIf="showError && (addFormStep1.controls.building_id.invalid)">
           <div *ngIf="addFormStep1.controls.building_id.errors?.required " class="show-error">
             {{'addCollectionValidations.thisIsRequired' | translate}}
@@ -145,7 +222,7 @@
         </div>
 
         <!-- towers listing wrt building id -->
-        <div class="row marginT20" *ngIf="building.id">
+        <div class="row marginT20" *ngIf="building.id && !model.property_offer_payment_id">
           <div class="col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="form-group-3">
               <label class="p16-two">{{'addCollection.selectTowerIn' | translate}} {{selectedBuilding?.name}} <span
@@ -166,7 +243,7 @@
         </div>
 
         <!-- floor listing wrt tower id -->
-        <div class="row marginT20" *ngIf="building.id && model.building_towers">
+        <div class="row marginT20" *ngIf="building.id && model.building_towers && !model.property_offer_payment_id">
           <div class="col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="form-group-3">
               <label class="p16-two">{{'addCollection.selectFloorIn' | translate}} {{model.building_towers?.tower_name}}
@@ -188,7 +265,7 @@
         </div>
 
         <!-- properties listing wrt building id -->
-        <div class="row marginT20" *ngIf="building.id && model.building_towers && model.floor_num">
+        <div class="row marginT20" *ngIf="building.id && model.building_towers && model.floor_num && !model.property_offer_payment_id">
           <div class="col-lg-6 col-md-6 col-sm-12 col-6">
             <div class="form-group form-group-3">
               <label class="p16-two">{{'addCollection.selectYourApartment' | translate}} <span
@@ -227,7 +304,7 @@
         </div>
 
         <div class="spacer15"></div>
-        <div class="row" *ngIf="building.id && model.building_towers && model.floor_num">
+        <div class="row" *ngIf="building.id && model.building_towers && model.floor_num && !model.property_offer_payment_id">
           <div class="col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="form-group-3">
               <label class="p16-two">{{'addForm.selectModal' | translate}} <span class="color-red">*</span></label>
@@ -268,6 +345,13 @@
         </span> -->
         <span class="green-color">
           {{'addCollection.buildingYouAreSearchingNotFound' | translate}}
+        </span>
+      </strong>
+    </p>
+    <p *ngIf="parameter.offerCount == 0 && showText" class="p18">
+      <strong>
+        <span class="green-color">
+          {{'addCollection.offerYouAreSearchingNotFound' | translate}}
         </span>
       </strong>
     </p>

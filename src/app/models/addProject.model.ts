@@ -84,6 +84,7 @@ export class AddProjectModel {
     parking_space_rent?: Array<Parking>;
     
   building_towers: Array<Towers>;
+  property_offer_payment: Array<pay>;
   building_tower_edit_index: any;
   videoLoader: boolean;
   locality: LocalityToCountry;
@@ -168,6 +169,11 @@ export class Towers {
   floors?: Array<any>;
   // amenities: Array<any>;
   // amenitiesId: Array<any>;
+}
+export class pay {
+  id?: string;
+  building_id?: string;
+  final_price: string;
 }
 
 export class AmenitiesShowObj {
