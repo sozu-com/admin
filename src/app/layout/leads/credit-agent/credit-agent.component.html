@@ -251,6 +251,9 @@
                       </div>
                   </div>
               </th> -->
+              <th style="width:8%">
+                <div class="table-search"><label>{{'table.th.lead_date' | translate}}</label></div>
+            </th>
               <th style="width:5%;">
                   <div class="table-search">
                           <label>{{'table.th.image' | translate}}</label>
@@ -328,6 +331,9 @@
                   <span class="checkmark"></span>
                   </label>
               </td> -->
+              <td>
+                <span class="name" *ngIf="item.created_at">{{item.created_at | date}}</span>
+            </td>
               <td >
                   <img class="rounded-circle" *ngIf="item.image" onerror='src="assets/img/default_img.png"' alt="img"
                             [defaultImage]="item.image| img:'thumb'" [lazyLoad]="item.image">
