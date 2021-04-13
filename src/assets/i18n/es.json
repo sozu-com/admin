@@ -200,6 +200,7 @@
     "address": "Dirección",
     "taxAddress":"Dirección fiscal",
     "useUserSameAddress":"Usar la misma dirección del usuario",
+    "addThisInformationAsAUser":"Agrega esta información como usuario",
     "legalAddress": "Dirección Legal",
     "fedralTaxPayerRegistry": "RFC",
     "pleaseProvideAccessToSystem": "Proporcione acceso al sistema (super sistema)",

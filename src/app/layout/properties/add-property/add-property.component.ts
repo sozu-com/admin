@@ -122,8 +122,10 @@ export class AddPropertyComponent implements OnInit {
   amenity_obj: any;
   // @ViewChild('scrollToTower') scrollToTower: ElementRef;
   public parkingSpaceLotsArray: any[] = [];
+  private parkingSpaceLotsArray1: any[] = [];
   // parkingSpaceRentArray: any[] = [];
   public language_code: string;
+  tempParking_area1: Array<any> = [];
 
   constructor(public model: AddPropertyModel, public us: AdminService, private cs: CommonService,
     private router: Router, private sanitization: DomSanitizer, private mapsAPILoader: MapsAPILoader,
@@ -251,6 +253,8 @@ export class AddPropertyComponent implements OnInit {
           this.spinner.hide();
           this.parameter.propertyDetails = success['data'];
           this.getParkingSpaceLotsAndparkingSpaceRent();
+          this.tempParking_area1 = JSON.parse(JSON.stringify(success.data.property_parking_space || []));
+          //Object.assign(this.tempParking_area1, success.data.property_parking_space || []);
           this.setModelData(success['data']);
           if (this.parameter.propertyDetails.step < 5) {
             this.tab = this.parameter.propertyDetails.step;
@@ -337,6 +341,11 @@ export class AddPropertyComponent implements OnInit {
 
           this.parameter.propertyDetails.custom_values = this.buildingData.custom_values;
           this.tab = step + 1;
+          if (this.tab == 1) {
+            ((this.parameter || {}).propertyDetails || {}).building_id = this.building.id;
+            this.model.parking_area = [];
+            this.getParkingSpaceLotsAndparkingSpaceRent();
+          }
         }, error => {
           this.spinner.hide();
         }
@@ -497,6 +506,9 @@ export class AddPropertyComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.tab = tab;
+        if (this.tab == 2) {
+          this.getParkingSpaceLotsAndparkingSpaceRent();
+        }
       }
     });
   }
@@ -1111,6 +1123,23 @@ export class AddPropertyComponent implements OnInit {
           JSON.stringify(this.model.property_quantity_details ? this.model.property_quantity_details : []));
         input.append('comm_total_commission_amount', this.model.comm_total_commission_amount ? this.model.comm_total_commission_amount.toString() : null);
         input.append('comm_shared_commission_amount', this.model.comm_shared_commission_amount ? this.model.comm_shared_commission_amount.toString() : null);
+        let isValid = false;
+        (this.model.parking_area || []).forEach((outerItem) => {
+          const data = this.parkingSpaceLotsArray1.find((innerItem) => parseInt(innerItem.space_type) == outerItem.parking_type);
+          const data2 = this.tempParking_area1.find((innerItem2) => parseInt(innerItem2.parking_type) == outerItem.parking_type);
+          if (data && data2) {
+            const temp = parseInt(data.total_space) - (parseInt(data.lot_space[0].total_payments) - parseInt(data2.parking_count));
+            if (temp < parseInt(outerItem.parking_count)) {
+              isValid = true;
+              return;
+            }
+          }
+        });
+        if (isValid) {
+          this.toastr.clear()
+          this.toastr.error(this.translate.instant('message.error.parkingSpaceTypeAllAreInUse423432'), this.translate.instant('swal.error'));
+          return;
+        }
         input.append('parking_area', JSON.stringify(this.model.parking_area));
       }
       if (this.model.step === 3) {
@@ -1710,6 +1739,7 @@ export class AddPropertyComponent implements OnInit {
     ]).subscribe((response: any[]) => {
       this.spinner.hide();
       this.parkingSpaceLotsArray = response[0].data || [];
+      this.parkingSpaceLotsArray1 = response[0].data1 || [];
       //this.parkingSpaceRentArray = response[1].data;
     });
   }
@@ -1721,7 +1751,7 @@ export class AddPropertyComponent implements OnInit {
       this.toastr.error(this.translate.instant('message.error.parkingSpaceTypeAllAreInUse'), this.translate.instant('swal.error'));
     } else {
       this.model.parking_area.push({ parking_count: '', parking_type: '' });
-      const tempParking_area  = this.model.parking_area;
+      const tempParking_area = this.model.parking_area;
       this.model.parking_area = [];
       this.model.parking_area = tempParking_area;
     }

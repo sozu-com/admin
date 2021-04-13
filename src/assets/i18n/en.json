@@ -196,6 +196,7 @@
     "address": "Address",
     "taxAddress": "Tax Address",
     "useUserSameAddress": "Use user same address",
+    "addThisInformationAsAUser":"Add this information as a user",
     "legalAddress": "Legal Address",
     "fedralTaxPayerRegistry": "Federal Tax Payer Registry",
     "pleaseProvideAccessToSystem": "Please provide access to system (super system)",

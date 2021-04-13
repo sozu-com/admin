@@ -155,6 +155,7 @@ export class AddLegalEntityComponent implements OnInit {
         building_ids: [''],
         sales_commission: [''],
         //developer_id: ['']
+      //  addThisInformationAsAUser:[false]
       })
 
     });
