@@ -1137,7 +1137,7 @@ export class AddPropertyComponent implements OnInit {
         });
         if (isValid) {
           this.toastr.clear()
-          this.toastr.error(this.translate.instant('message.error.parkingSpaceTypeAllAreInUse423432'), this.translate.instant('swal.error'));
+          this.toastr.error(this.translate.instant('Cannot be select more than assigned value'), this.translate.instant('swal.error'));
           return;
         }
         input.append('parking_area', JSON.stringify(this.model.parking_area));
