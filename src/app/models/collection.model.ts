@@ -8,6 +8,7 @@ export class Collection {
     step: number;
     building_id: string;
     building_towers_id: string;
+    property_offer_payment_id: string;
     floor_num: string;
     building: Building;
     building_towers: Towers;

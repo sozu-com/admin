@@ -35,6 +35,7 @@ import { Ng2TelInputModule } from 'ng2-tel-input';
 import { RouterModule } from '@angular/router';
 import { OnlyNumberDirective } from '../directives/only-number.directive';
 import { OnlyDecimalDirective } from '../directives/only-decimal.directive';
+import { OfferBlockComponent } from '../layout/common-blocks/offer-block/offer-block.component';
 
 @NgModule({
   imports: [
@@ -70,6 +71,7 @@ import { OnlyDecimalDirective } from '../directives/only-decimal.directive';
     PricePipe,
     PercentagePipe,
     ProjectBlockComponent,
+    OfferBlockComponent,
     RoundNumberPipe,
     UptoTwoDigitDecimalNumberDirective,
     LocalizedNumericInputDirective,
@@ -99,6 +101,7 @@ import { OnlyDecimalDirective } from '../directives/only-decimal.directive';
     PricePipe,
     PercentagePipe,
     ProjectBlockComponent,
+    OfferBlockComponent,
     RoundNumberPipe,
     UptoTwoDigitDecimalNumberDirective,
     LocalizedNumericInputDirective,

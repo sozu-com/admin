@@ -1066,11 +1066,11 @@ export class AddEditCollectionComponent implements OnInit {
     input.append('id', id);
     input.append('status', '1');  // means only approved projects
 
-    this.adminService.postDataApi('getOfferById', input)
+    this.adminService.postDataApi('searchOffer', input)
       .subscribe(
         success => {
-          //this.searchedOffers = success['data'];
-          this.searchedBuildings = success['data'];
+          this.searchedOffers = success['data'];
+         // this.searchedBuildings = success['data'];
           this.parameter.offerCount = success['data'].length;
           if (this.parameter.offerCount === 0) {
             this.showText = true;
@@ -1093,18 +1093,30 @@ export class AddEditCollectionComponent implements OnInit {
     this.offerId = '';
   }
   getBuildingIndex(i: number) {
-    this.searchedBuildings.forEach(e => {
+    (this.searchedBuildings || []).forEach(e => {
       e.selected = false;
     });
     const searchindex = (this.parameter.page - 1) * 4 + i;
     this.searchedBuildings[searchindex].selected = true;
   }
+  getofferIndex(i: number) {
+    (this.searchedOffers || []).forEach(e => {
+      e.selected = false;
+    });
+    const searchindex = (this.parameter.page - 1) * 4 + i;
+    this.searchedOffers[searchindex].selected = true;
+  }
 
   setBuildingId(building: any) {
     this.selectedBuilding = building;
+   (building.property_offer_payment || []).forEach(e => {
+     this.model.property_offer_payment_id = e.id;
+    });
     this.building.id = building.id;
     this.model.building_id = building.id;
+    this.model.building_towers = building.building_towers;
   }
+ 
 
   setTower(building_towers_id: string) {
     for (let index = 0; index < this.searchedBuildings.length; index++) {
