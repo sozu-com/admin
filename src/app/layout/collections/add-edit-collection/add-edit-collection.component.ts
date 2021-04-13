@@ -72,6 +72,7 @@ export class AddEditCollectionComponent implements OnInit {
   showText = false;
   showSearch = false;
   buildingName = '';
+  offerId= '';
   initialCountry: any;
   propertyDetails = false;
   details: any;
@@ -81,6 +82,7 @@ export class AddEditCollectionComponent implements OnInit {
   buildingLoading = false;
   buildingData: AddProjectModel;
   searchedBuildings: Array<AddProjectModel>;
+  searchedOffers: Array<AddProjectModel>;
   selectedBuilding: AddProjectModel;
   selectedTower: Towers;
 
@@ -1050,6 +1052,37 @@ export class AddEditCollectionComponent implements OnInit {
       );
   }
 
+  searchOffer(id: string) {
+    if (!id) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterSomeText'), this.translate.instant('swal.error'));
+      return false;
+    }
+
+    this.showBuilding = false;
+    this.buildingLoading = true;
+
+    const input = new FormData();
+    input.append('id', id);
+    input.append('status', '1');  // means only approved projects
+
+    this.adminService.postDataApi('getOfferById', input)
+      .subscribe(
+        success => {
+          //this.searchedOffers = success['data'];
+          this.searchedBuildings = success['data'];
+          this.parameter.offerCount = success['data'].length;
+          if (this.parameter.offerCount === 0) {
+            this.showText = true;
+          }
+          this.buildingLoading = false;
+        },
+        error => {
+          this.buildingLoading = true;
+        }
+      );
+  }
+
   getPage(page: number) {
     this.parameter.page = page;
   }
@@ -1057,6 +1090,7 @@ export class AddEditCollectionComponent implements OnInit {
   showBuildingDetails(showBuilding) {
     this.showBuilding = showBuilding;
     this.buildingName = '';
+    this.offerId = '';
   }
   getBuildingIndex(i: number) {
     this.searchedBuildings.forEach(e => {

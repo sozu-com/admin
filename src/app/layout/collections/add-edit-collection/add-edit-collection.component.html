@@ -131,13 +131,15 @@
       <button type="button" class="btn" type="button"
         (click)="searchBuilding(buildingname.value)">{{'addCollection.search' | translate}}</button>
     </div>
+    <!-- offer search -->
     <h5 class="p16-two" *ngIf="isCommercialOffer">{{'addCollection.SearchYourCommercialOfferInOurDatabase' | translate}}</h5>
     <div class="searh d-flex" *ngIf="isCommercialOffer">
       <input autocomplete="off" class="border-right-0" autocomplete="off" type="text" #buildingname
-        (keyup.enter)="searchBuilding(buildingname.value)" name="buildingName" [(ngModel)]="buildingName">
+        (keyup.enter)="searchOffer(buildingname.value)" name="buildingName" [(ngModel)]="buildingName">
       <button type="button" class="btn" type="button"
-        (click)="searchBuilding(buildingname.value)">{{'addCollection.search' | translate}}</button>
+        (click)="searchOffer(buildingname.value)">{{'addCollection.search' | translate}}</button>
     </div>
+    <!--end offer search -->
     <div class="spacer50"></div>
     <div *ngIf="buildingLoading">
       <img src="assets/img/loading_content.gif" />
@@ -291,6 +293,13 @@
         </span> -->
         <span class="green-color">
           {{'addCollection.buildingYouAreSearchingNotFound' | translate}}
+        </span>
+      </strong>
+    </p>
+    <p *ngIf="parameter.offerCount == 0 && showText" class="p18">
+      <strong>
+        <span class="green-color">
+          {{'addCollection.offerYouAreSearchingNotFound' | translate}}
         </span>
       </strong>
     </p>
