@@ -160,7 +160,7 @@
           <div class="col-lg-6 col-md-12 col-sm-12 col-12"
             *ngFor="let item of searchedOffers| paginate: { itemsPerPage: parameter.itemsPerPage, 
               currentPage: parameter.page, totalItems: parameter.offerCount }; let i = index">
-            <app-offer-block (setBuilding)="setBuildingId($event)" (buildingIndex)="getBuildingIndex($event)"
+            <app-offer-block (setBuilding)="setBuildingId($event)" (buildingIndex)="getBuildingIndex($event, item)"
               [data]="item" [index]="i"></app-offer-block>
           </div>
         </div>
@@ -330,7 +330,7 @@
         <div class="row">
           <div class="col-md-12">
             <div class="btn-cont text-right">
-              <button type="submit" class="btn btn-primary">{{'addCollection.next' | translate}}</button>
+              <button type="submit" class="btn btn-primary" (click)="createCollection(addFormStep1.value, 1)">{{'addCollection.next' | translate}}</button>
             </div>
           </div>
         </div>

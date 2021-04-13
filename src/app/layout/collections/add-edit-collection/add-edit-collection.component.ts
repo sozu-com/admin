@@ -158,6 +158,7 @@ export class AddEditCollectionComponent implements OnInit {
   public multiDropdownSettings = {};
   collection_account_statement_id: any;
   isCommercialOffer: boolean;
+  offer_id: any;
   //public selectedbeneficiaries: any[] = [];
 
   constructor(
@@ -573,17 +574,17 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   patchFormStep1(data) {
-    this.model.building = data.property.building;
-    this.model.building_towers = data.property.building_towers;
-    this.model.floor_num = data.property.floor_num;
-    this.model.name = data.property.name;
+    this.model.building = this.isCommercialOffer ? data.building : data.property.building;
+    this.model.building_towers = this.isCommercialOffer ? data.building_towers : data.property.building_towers;
+    this.model.floor_num = this.isCommercialOffer ? data.building_towers : data.property.floor_num;
+    this.model.name = this.isCommercialOffer ? data.name : data.property.name;
     this.model.availabilityStatusId = data.for_sale ? this.availabilityStatus[0].id : this.availabilityStatus[1].id;
-    this.model.building_configuration_id = data.property.building_configuration_id;
-    this.model.building_configuration = data.property.building_configuration;
-    this.addFormStep1.controls.building_id.patchValue(data.property.building.id);
-    this.addFormStep1.controls.building_towers_id.patchValue(data.property.building_towers.id);
-    this.addFormStep1.controls.floor_num.patchValue(data.property.floor_num);
-    this.addFormStep1.controls.property_id.patchValue(data.property_id);
+    this.model.building_configuration_id = this.isCommercialOffer ? data.building_configuration_id : data.property.building_configuration_id;
+    this.model.building_configuration = this.isCommercialOffer ? data.building_configuration_id : data.property.building_configuration;
+    this.addFormStep1.controls.building_id.patchValue(this.isCommercialOffer ? data.building_id : data.property.building.id);
+    this.addFormStep1.controls.building_towers_id.patchValue(this.isCommercialOffer ? data.building_towers.id : data.property.building_towers.id);
+    this.addFormStep1.controls.floor_num.patchValue(this.isCommercialOffer ? data.floor_num : data.property.floor_num);
+    this.addFormStep1.controls.property_id.patchValue(this.isCommercialOffer ? data.id : data.property_id);
     this.addFormStep1.controls.for_sale.patchValue(data.for_sale);
     this.addFormStep1.controls.for_rent.patchValue(data.for_rent);
     this.addFormStep1.controls.step.patchValue(1);
@@ -1092,12 +1093,16 @@ export class AddEditCollectionComponent implements OnInit {
     this.buildingName = '';
     this.offerId = '';
   }
-  getBuildingIndex(i: number) {
+  getBuildingIndex(i: number, item) {
     (this.searchedBuildings || []).forEach(e => {
       e.selected = false;
     });
     const searchindex = (this.parameter.page - 1) * 4 + i;
-    this.searchedBuildings[searchindex].selected = true;
+    this.searchedBuildings ? this.searchedBuildings[searchindex].selected = true : null;
+    if(this.isCommercialOffer && item){
+      this.offer_id = item.property_offer_payment[0].id;
+      this.patchFormStep1(item);
+    }
   }
   getofferIndex(i: number) {
     (this.searchedOffers || []).forEach(e => {
@@ -2169,11 +2174,14 @@ export class AddEditCollectionComponent implements OnInit {
     }
     if (this.model.step == 1) {
       if (formdata['property_id']) {
-        const pid = formdata['property_id'].id;
+        const pid = this.isCommercialOffer? formdata['property_id'] : formdata['property_id'].id;
         formdata['property_id'] = pid;
       }
       if (this.model.building_id) {
         formdata['building_id'] = this.model.building_id;
+      }
+      if(this.isCommercialOffer){
+      formdata['offer_id'] = this.offer_id;
       }
       formdata['for_sale'] = this.availabilityStatus[0].checked ? 1 : 0;
       formdata['for_rent'] = this.availabilityStatus[1].checked ? 1 : 0;

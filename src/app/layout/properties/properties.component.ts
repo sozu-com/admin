@@ -2013,7 +2013,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       let index = self.property_offers.findIndex(x=> x.id == result.data);
       self.property_offers.splice(index, 1);
       self.items.filter(x=>{
-        
+     
       })
       }
       this.spinner.hide();
