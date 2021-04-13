@@ -1247,6 +1247,7 @@
       "wantToBlockProperty": "You want to block this Property?",
       "wantToUnblockProperty": "You want to unblock this Property?",
       "wantToDeleteProperty": "You want to delete this Property?",
+      "wantToDeleteCommercialOffer" : "You want To Delete Commercial Offer?",
       "wantToBlockTemplate": "You want to block this Template?",
       "wantToUnblockTemplate": "You want to unblock this Template?",
       "wantToDeleteTemplate": "You want to delete this Template?",
