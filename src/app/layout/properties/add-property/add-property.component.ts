@@ -222,7 +222,7 @@ export class AddPropertyComponent implements OnInit {
     this.setCurrentPosition();
   }
   uploadDoc(userdata) {
-    console.log(userdata, "user id")
+    //console.log(userdata, "user id")
     this.router.navigate(['/dashboard/properties/documents-upload', userdata.id]);
   }
   setAvailableStatus(aindex: number) {
@@ -1055,7 +1055,7 @@ export class AddPropertyComponent implements OnInit {
         }
 
         // amenities images
-        console.log(this.parameter.amenities);
+        //console.log(this.parameter.amenities);
         if (this.parameter.amenities && this.parameter.amenities.length > 0) {
           this.parameter.amenities.forEach(element => {
             const img = [];
@@ -1126,8 +1126,8 @@ export class AddPropertyComponent implements OnInit {
         (this.getParkingLotFormArray.controls || []).forEach((outerItem: FormGroup) => {
           const data = this.parkingSpaceLotsArray1.find((innerItem) => parseInt(innerItem.space_type) == outerItem.get('parking_type').value);
           const data2 = this.tempParking_area1.find((innerItem2) => parseInt(innerItem2.parking_type) == outerItem.get('parking_type').value);
-          if (data && data2) {
-            const temp = parseInt(data.total_space) - (parseInt(data.lot_space[0].total_payments) - parseInt(data2.parking_count));
+          if (data) {
+            const temp = parseInt(data.total_space || 0) - (parseInt(data.lot_space[0].total_payments || 0) - ( data2 ? parseInt(data2.parking_count) : 0) );
             if (temp < parseInt(outerItem.get('parking_count').value)) {
               isValid = true;
               return;
