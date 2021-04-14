@@ -672,7 +672,7 @@
       "agent": "Agente",
       "date": "Date",
       "editPrice": "Editar precio de lista",
-      "30days":"Las ofertas comerciales tendrán una duración de 30 días en el sistema.",
+      "30days":"*Las ofertas comerciales tendrán una duración de 30 días en el sistema.",
       "agentCommission": "Comisión del agente (en %)",
       "totalSozuCommission": "Comisión total (en %)",
       "sozuCommission": "Sozu Comisión (in %)",

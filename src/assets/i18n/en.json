@@ -674,7 +674,7 @@
       "offerID": "Offer ID",
       "agent": "Agent",
       "date": "Date",
-      "30days":"The commercial offers will last 30 days in the system",
+      "30days":"*The commercial offers will last 30 days in the system",
       "agentCommission": "Agent Commission (in %)",
       "totalSozuCommission": "Total Commission (in %)",
       "sozuCommission": "Sozu Commission (in %)",

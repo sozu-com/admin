@@ -2029,4 +2029,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.modalClose.nativeElement.click();
   }
 
+  offerID(item){
+    console.log(item,"offers")
+  }
 }
