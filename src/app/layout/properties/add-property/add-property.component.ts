@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { NgForm, FormControl } from '@angular/forms';
+import { NgForm, FormControl, FormGroup, FormArray } from '@angular/forms';
 import { MapsAPILoader } from '@agm/core';
 import { AddProjectModel, Towers, Configuration } from 'src/app/models/addProject.model';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -19,6 +19,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { forkJoin } from 'rxjs';
 import { runInThisContext } from 'vm';
+import { FormBuilder } from '@angular/forms';
 
 declare const google;
 declare let swal: any;
@@ -126,6 +127,9 @@ export class AddPropertyComponent implements OnInit {
   // parkingSpaceRentArray: any[] = [];
   public language_code: string;
   tempParking_area1: Array<any> = [];
+  public parkingLotFormGroup: FormGroup = new FormGroup({
+    parkingLotFormArray: new FormArray([])
+  });
 
   constructor(public model: AddPropertyModel, public us: AdminService, private cs: CommonService,
     private router: Router, private sanitization: DomSanitizer, private mapsAPILoader: MapsAPILoader,
@@ -135,7 +139,8 @@ export class AddPropertyComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private element: ElementRef,
     private translate: TranslateService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private formBuilder: FormBuilder,
   ) {
     this.us.globalSettings$.subscribe(suc1 => {
       this.parameter.bulk_approve_property = suc1['bulk_approve_property'];
@@ -253,8 +258,7 @@ export class AddPropertyComponent implements OnInit {
           this.spinner.hide();
           this.parameter.propertyDetails = success['data'];
           this.getParkingSpaceLotsAndparkingSpaceRent();
-          this.tempParking_area1 = JSON.parse(JSON.stringify(success.data.property_parking_space || []));
-          //Object.assign(this.tempParking_area1, success.data.property_parking_space || []);
+          this.tempParking_area1 = JSON.parse(JSON.stringify((success.data || {}).property_parking_space || []));
           this.setModelData(success['data']);
           if (this.parameter.propertyDetails.step < 5) {
             this.tab = this.parameter.propertyDetails.step;
@@ -343,7 +347,7 @@ export class AddPropertyComponent implements OnInit {
           this.tab = step + 1;
           if (this.tab == 1) {
             ((this.parameter || {}).propertyDetails || {}).building_id = this.building.id;
-            this.model.parking_area = [];
+            this.getParkingLotFormArray.controls = [];
             this.getParkingSpaceLotsAndparkingSpaceRent();
           }
         }, error => {
@@ -491,7 +495,10 @@ export class AddPropertyComponent implements OnInit {
     this.model.total_commission = data.total_commission || 0;
     this.model.comm_total_commission_amount = data.comm_total_commission_amount || 0;
     this.model.comm_shared_commission_amount = data.comm_shared_commission_amount || 0;
-    this.model.parking_area = data.property_parking_space || [];
+    this.getParkingLotFormArray.controls = [];
+    ((data || {}).property_parking_space || []).forEach((item) => {
+      this.getParkingLotFormArray.push(this.formBuilder.group({ parking_count: [item.parking_count], parking_type: [item.parking_type] }));
+    });
   }
 
   setTab(tab: any) {
@@ -608,14 +615,6 @@ export class AddPropertyComponent implements OnInit {
   setValue(key: any, value: any) {
     this.model[key] = value;
   }
-
-  // setValue1 = (value: any, index: number): void => {
-  //   this.model.parking_area[index].parking = value;
-  //   if (!value) {
-  //     this.model.parking_area[index].parking_count = '';
-  //     this.model.parking_area[index].parking_type = '';
-  //   }
-  // }
 
   getConfigurations() {
     this.us.postDataApi('getConfigurations', { hide_blocked: 1 })
@@ -1124,12 +1123,12 @@ export class AddPropertyComponent implements OnInit {
         input.append('comm_total_commission_amount', this.model.comm_total_commission_amount ? this.model.comm_total_commission_amount.toString() : null);
         input.append('comm_shared_commission_amount', this.model.comm_shared_commission_amount ? this.model.comm_shared_commission_amount.toString() : null);
         let isValid = false;
-        (this.model.parking_area || []).forEach((outerItem) => {
-          const data = this.parkingSpaceLotsArray1.find((innerItem) => parseInt(innerItem.space_type) == outerItem.parking_type);
-          const data2 = this.tempParking_area1.find((innerItem2) => parseInt(innerItem2.parking_type) == outerItem.parking_type);
+        (this.getParkingLotFormArray.controls || []).forEach((outerItem: FormGroup) => {
+          const data = this.parkingSpaceLotsArray1.find((innerItem) => parseInt(innerItem.space_type) == outerItem.get('parking_type').value);
+          const data2 = this.tempParking_area1.find((innerItem2) => parseInt(innerItem2.parking_type) == outerItem.get('parking_type').value);
           if (data && data2) {
             const temp = parseInt(data.total_space) - (parseInt(data.lot_space[0].total_payments) - parseInt(data2.parking_count));
-            if (temp < parseInt(outerItem.parking_count)) {
+            if (temp < parseInt(outerItem.get('parking_count').value)) {
               isValid = true;
               return;
             }
@@ -1140,7 +1139,7 @@ export class AddPropertyComponent implements OnInit {
           this.toastr.error(this.translate.instant('Cannot be select more than assigned value'), this.translate.instant('swal.error'));
           return;
         }
-        input.append('parking_area', JSON.stringify(this.model.parking_area));
+        input.append('parking_area', JSON.stringify(this.getParkingLotFormArray.getRawValue()));
       }
       if (this.model.step === 3) {
         // added building_id and step cuz need to update sttaus and step
@@ -1744,33 +1743,37 @@ export class AddPropertyComponent implements OnInit {
     });
   }
 
-  addParkingLot = ($event: any): void => {
-    $event.stopPropagation();
-    if (this.parkingSpaceLotsArray.length == this.model.parking_area.length) {
-      this.toastr.clear()
-      this.toastr.error(this.translate.instant('message.error.parkingSpaceTypeAllAreInUse'), this.translate.instant('swal.error'));
-    } else {
-      this.model.parking_area.push({ parking_count: '', parking_type: '' });
-      const tempParking_area = JSON.parse(JSON.stringify(this.model.parking_area));
-      this.model.parking_area = [];
-      this.model.parking_area = tempParking_area;
-    }
-  }
-
-  checkAlreadySelected = (parkingSpaceId: number): boolean => {
-    const data = this.model.parking_area.find((item) => parseInt(item.parking_type) == parkingSpaceId);
-    return data ? true : false;
-  }
-
   selectChange = ($event: any): void => {
     const tempParkingSpaceLotsArray = this.parkingSpaceLotsArray;
     this.parkingSpaceLotsArray = [];
     this.parkingSpaceLotsArray = tempParkingSpaceLotsArray;
   }
 
+  get getParkingLotFormArray(): FormArray {
+    return this.parkingLotFormGroup.get('parkingLotFormArray') as FormArray;
+  }
+
+  get getParkingLotFormArrayLength(): number {
+    return this.getParkingLotFormArray.length;
+  }
+
+  addParkingLot = ($event: any): void => {
+    $event.stopPropagation();
+    if (this.parkingSpaceLotsArray.length == this.getParkingLotFormArrayLength) {
+      this.toastr.clear()
+      this.toastr.error(this.translate.instant('message.error.parkingSpaceTypeAllAreInUse'), this.translate.instant('swal.error'));
+    } else {
+      this.getParkingLotFormArray.push(this.formBuilder.group({ parking_count: [''], parking_type: [''] }));
+    }
+  }
+
   removeParkingLot = (index: number): void => {
-    this.model.parking_area.splice(index, 1);
-    this.selectChange('');
+    this.getParkingLotFormArray.removeAt(index);
+  }
+
+  checkAlreadySelected = (parkingSpaceId: number): boolean => {
+    const data = this.getParkingLotFormArray.controls.find((item: FormGroup) => parseInt(item.get('parking_type').value) == parkingSpaceId);
+    return data ? true : false;
   }
 
 }
