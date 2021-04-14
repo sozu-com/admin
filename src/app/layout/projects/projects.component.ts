@@ -364,7 +364,6 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   }
 
   openunapprove(item){
-    console.log(item,"status")
     this.parameter.text = this.translate.instant('message.error.wantToUnapproveProject');
 
     swal({
@@ -376,11 +375,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       confirmButtonText: this.translate.instant('propertyDetail.yes')
     }).then((result) => {
       if (result.value) {
-
-        this.parameter.status = item.status = 4;
-        console.log(this.parameter.status,"this.parameter.status")
-        // this.parameter.index = index;
-        this.rejectProject(this.parameter.status)
+        this.rejectProject(4)
       }
     });
   }
@@ -413,7 +408,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
   rejectProject(status) {
     this.items[this.parameter.index].status = status;
-    this.admin.postDataApi('rejectProject', { building_id: this.parameter.building_id, reason: this.reason }).subscribe(r => {
+    this.admin.postDataApi('rejectProject', { building_id: this.parameter.building_id}).subscribe(r => {
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.projectUnapprovedSuccessfully'), 'success');
       this.closeModal();
     },
@@ -423,9 +418,25 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   }
 
   openCancellationModal(item, index) {
-    this.parameter.building_id = item.id;
-    this.parameter.index = index;
-    this.modalOpen.nativeElement.click();
+    this.parameter.text = this.translate.instant('message.error.wantToUnapproveProject');
+
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: this.translate.instant('propertyDetail.yes')
+    }).then((result) => {
+      if (result.value) {
+        this.parameter.building_id = item.id;
+        this.parameter.index = index;
+        this.rejectProject(4)
+      }
+    });
+    // this.parameter.building_id = item.id;
+    // this.parameter.index = index;
+    // this.modalOpen.nativeElement.click();
   }
 
   searchProject() {
