@@ -489,8 +489,10 @@ export class AddPropertyComponent implements OnInit {
 
     this.model.broker_commision = data.broker_commision || 0;
     this.model.total_commission = data.total_commission || 0;
-    this.model.comm_total_commission_amount = data.comm_total_commission_amount || 0;
-    this.model.comm_shared_commission_amount = data.comm_shared_commission_amount || 0;
+    //this.model.comm_total_commission_amount = data.comm_total_commission_amount || 0;
+    //this.model.comm_shared_commission_amount = data.comm_shared_commission_amount || 0;
+    this.model.comm_total_commission_amount = this.numberUptoNDecimal((this.model.total_commission * Number(this.newcarpet_area.price)) / 100, 2)
+    this.model.comm_shared_commission_amount = this.numberUptoNDecimal((this.model.broker_commision * Number(this.newcarpet_area.price)) / 100, 2)
     this.model.parking_area = data.property_parking_space || [];
   }
 
