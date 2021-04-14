@@ -41,6 +41,7 @@ export class CommissionIncomeComponent implements OnInit {
   already_index: any;
   commission_sum: any = 0 ;
   iva_amountt: any = 0 ;
+  totalComission: any = 0 ;
   constructor(public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService) {
@@ -222,7 +223,7 @@ export class CommissionIncomeComponent implements OnInit {
         return a + b;
       });
       this.iva_amountt = sum1
-         
+      this.totalComission =  this.commission_sum + this.iva_amountt;
       this.plotData();
       this.plotData1();
     }, error => {

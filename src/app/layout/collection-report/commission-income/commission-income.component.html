@@ -92,10 +92,10 @@
                   <div class="img-des">
                         <div class="row">
                           <div class="col-md-4 col-sm-6 col-12 img-c">
-                            <div class="block">
-                              <p class="p18"></p>
-                              <p class="p13" style="color: black;font-weight: bold;">{{'dashboard.total' | translate}}</p>
-                            </div>
+                              <div class="block">
+                                    <p class="p18">{{(totalComission || 0) | currency}}</p>
+                                    <p class="p13" style="color: black;font-weight: bold;">{{'dashboard.total' | translate}}</p>
+                              </div>
                           </div>
                           <div class="col-md-4 col-sm-6 col-12 img-c">
                             <div class="block">
