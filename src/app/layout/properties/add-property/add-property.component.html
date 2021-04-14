@@ -676,22 +676,23 @@
         </div>
      </div>
      <div class="spacer15"></div>
-
-      <div *ngIf="model?.parking_area?.length > 0 && model.parking == 1">
-        <div class="row" *ngFor="let temp_parking_area of model?.parking_area; let i = index">
+      <form [formGroup]="this.parkingLotFormGroup">
+      <div *ngIf="getParkingLotFormArrayLength > 0 && model.parking == 1" formArrayName="parkingLotFormArray">
+        <ng-container
+        *ngFor="let temp_parking_lot_for_sale of this.getParkingLotFormArray['controls']; let i=index">
+        <div class="row" [formGroupName]="i">
           <div class="col-lg-4 col-md-6 col-sm-6 col-12">
             <div class="form-group-3">
               <label>{{'addForm.totaNoofParkings' | translate}}</label>
               <div class="clearfix"></div>
-              <input class="form-control" type="text" [(ngModel)]="model.parking_area[i].parking_count" min="0" appOnlyNumber
-              id="parking_count{{i}}" name="parking_count"  #parking_count="ngModel">
+              <input class="form-control" type="text" appOnlyNumber  formControlName="parking_count">
             </div>
           </div>
           <div class="col-lg-4 col-md-6 col-sm-6 col-12">
             <div class="form-group-3">
               <label>{{'addForm.parkingType' | translate}}</label>
-              <select class="form-control"  [(ngModel)]="model.parking_area[i].parking_type"
-                  style="background-color: white;" (change)="selectChange($event)"  id="parking_type{{i}}" name="parking_type"  #parking_type="ngModel">
+              <select class="form-control" 
+                  style="background-color: white;" (change)="selectChange($event)"  formControlName="parking_type">
                   <option value="" disabled>{{'addForm.selectParkingType' | translate}}</option>
                   <option *ngFor="let item of parkingSpaceLotsArray" [value]="item.id" [disabled]="checkAlreadySelected(item.id)">
                     {{ this.language_code == 'en' ? item.name_en : item.name_es }}
@@ -705,7 +706,9 @@
              alt="img"></button>
        </div>
         </div>
+      </ng-container>
       </div>
+    </form>
           <!-- parking ENDED-->
       <div class="form-group-3">
         <label>{{'addForm.description' | translate}} <span class="color-red">*</span></label>
