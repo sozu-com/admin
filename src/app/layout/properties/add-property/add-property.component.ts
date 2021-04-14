@@ -1179,6 +1179,10 @@ export class AddPropertyComponent implements OnInit {
               }
             }
             this.parameter.property_id = success['data'].id;
+            this.getParkingLotFormArray.controls = [];
+            (((success || {}).data || {}).property_parking_space || []).forEach((item) => {
+              this.getParkingLotFormArray.push(this.formBuilder.group({ parking_count: [item.parking_count], parking_type: [item.parking_type] }));
+            });
             this.tab = tab;
           }, error => {
             this.spinner.hide();
