@@ -591,8 +591,8 @@
                         <td><span>{{p.min_price | price}}</span></td>
                         <td><span>{{p.final_price | price}}</span></td>
                         <td>
-                           <span [ngClass]="{'green-color cursor-pointer': p?.name}" *ngIf="p?.offer_count">
-                              <a class="add1" href="javascript://" (click)="openOfferModel(p, i)">
+                           <span  *ngIf="p?.offer_count">
+                              <a class="add1" href="javascript://" (click)="openOfferModel(p, i)" style="color: #00B96F;">
                                  <b>{{p?.offer_count || ('table.tr.td.NA' | translate)}}</b>
                               </a> 
                            </span>
@@ -1699,6 +1699,7 @@ margin-left: -38%;">
     </div>
     <hr>
     <div class="table-responsive">
+     
     <table style="width:100%">
       <tr>
         <th>{{'table.th.offerID' | translate}}</th>
@@ -1706,7 +1707,11 @@ margin-left: -38%;">
         <th>{{'table.th.date' | translate}}</th>
       </tr>
       <tr *ngFor="let offer of property_offers">
-        <td>{{offer.id}}</td>
+        <td> 
+           <a class="add1" href="javascript://" (click)="offerID(offer)" style="color: #00B96F;">
+           {{offer.id}}
+         </a>
+      </td>
         <td>{{offer.name}}</td>
         <td>{{offer.date | date }}</td>
         <td> <button (click)="deletePopup(p, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img
