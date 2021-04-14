@@ -1751,7 +1751,7 @@ export class AddPropertyComponent implements OnInit {
       this.toastr.error(this.translate.instant('message.error.parkingSpaceTypeAllAreInUse'), this.translate.instant('swal.error'));
     } else {
       this.model.parking_area.push({ parking_count: '', parking_type: '' });
-      const tempParking_area = this.model.parking_area;
+      const tempParking_area = JSON.parse(JSON.stringify(this.model.parking_area));
       this.model.parking_area = [];
       this.model.parking_area = tempParking_area;
     }
