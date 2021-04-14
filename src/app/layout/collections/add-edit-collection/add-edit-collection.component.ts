@@ -159,6 +159,7 @@ export class AddEditCollectionComponent implements OnInit {
   collection_account_statement_id: any;
   isCommercialOffer: boolean;
   offer_id: any;
+  offerDetail: any;
   //public selectedbeneficiaries: any[] = [];
 
   constructor(
@@ -1065,9 +1066,16 @@ export class AddEditCollectionComponent implements OnInit {
 
     const input = new FormData();
     input.append('id', id);
-    input.append('status', '1');  // means only approved projects
-
-    this.adminService.postDataApi('searchOffer', input)
+    //input.append('status', '1');  // means only approved projects
+    this.model.building = undefined;
+    this.model.building_towers = undefined;
+    this.model.floor_num = undefined;
+    this.model.name = undefined;
+    this.model.availabilityStatusId = undefined;
+    this.model.building_configuration_id = undefined;
+    this.model.building_configuration = undefined;
+    this.addFormStep1.reset()
+    this.adminService.postDataApi('getPropertyOfferSearch', {id: id})
       .subscribe(
         success => {
           this.searchedOffers = success['data'];
@@ -1093,6 +1101,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.buildingName = '';
     this.offerId = '';
   }
+
   getBuildingIndex(i: number, item) {
     (this.searchedBuildings || []).forEach(e => {
       e.selected = false;
@@ -1100,10 +1109,11 @@ export class AddEditCollectionComponent implements OnInit {
     const searchindex = (this.parameter.page - 1) * 4 + i;
     this.searchedBuildings ? this.searchedBuildings[searchindex].selected = true : null;
     if(this.isCommercialOffer && item){
-      this.offer_id = item.property_offer_payment[0].id;
-      this.patchFormStep1(item);
+      this.offer_id = item.id;
+      this.getOfferPropertyDetail(this.offer_id);
     }
   }
+  
   getofferIndex(i: number) {
     (this.searchedOffers || []).forEach(e => {
       e.selected = false;
@@ -2909,6 +2919,22 @@ export class AddEditCollectionComponent implements OnInit {
 
   toggleSearch(value){
     this.isCommercialOffer = value.target.checked ? true : false;
+    this.searchedBuildings = undefined;
+    this.parameter.buildingCount = undefined
+    this.searchedOffers = undefined;
+    this.parameter.offerCount = undefined;
+  }
+
+  getOfferPropertyDetail(id){
+    this.spinner.show();
+    this.adminService.postDataApi('getOfferById', { id: id }).subscribe(success => {
+      this.model.property_offer_payment_id = id;
+      this.offerDetail = success.data;
+      this.patchFormStep1(this.offerDetail);
+      this.spinner.hide();
+    }, (error) => {
+      this.spinner.hide();
+    });
   }
 
 }

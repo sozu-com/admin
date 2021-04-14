@@ -6,24 +6,17 @@
   </div> -->
   <div class="project-des-content">
     <div>
-      <small title="Developer Name">{{data?.external_broker?.name ? data?.external_broker?.name : ('commonBlock.NA' | translate)}}
-        {{data?.external_broker?.first_surname ? data?.external_broker?.first_surname : ('commonBlock.NA' | translate)}}
-        {{data?.external_broker?.second_surname ? data?.external_broker?.second_surname : ('commonBlock.NA' | translate)}}
-      </small>
+      <small title="Developer Name">{{data?.name ? data?.name : ('commonBlock.NA' | translate)}}</small>
         <label class="cust-check-bx float-right">
             <input type="radio" (click)="setBuildingId(data, index)" [checked]="data.selected ? 'checked' : ''" name="notary_id">
             <span class="checkmark"></span>
         </label>
     </div>
-    <h5 title="Building Name">{{data?.property_offer_payment.id}}</h5>
     <p class="p13">
-      <span *ngFor="let conf1 of data?.property_offer_payment; let k=index">
-        <b>OfferID:</b>&nbsp;{{conf1?.id}}<span *ngIf="k<data?.configurations?.length-1">,</span>
-        <p class="p12">{{conf1?.date | date}}</p>
+      <span>
+        <b>OfferID:</b>&nbsp;{{data?.id}}<span *ngIf="k<data?.configurations?.length-1">,</span>
+        <p class="p12">{{data?.date | date}}</p>
       </span>
-      <span *ngIf="data?.property_offer_payment?.length==0">NA</span>
-     
-
     </p>
   </div>
 </div>

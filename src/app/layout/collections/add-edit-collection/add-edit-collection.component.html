@@ -166,7 +166,7 @@
         </div>
         
         <!-- offer data -->
-        <div class="padding40" *ngIf="building.id && model.property_offer_payment_id">
+        <div class="padding40" *ngIf="model.property_offer_payment_id && isCommercialOffer">
           <div class="row">
             <div class="col-sm-9 col-lg-9">
               <p class="p16">{{'addCollection.taggedTowerName' | translate}}</p>
@@ -222,7 +222,7 @@
         </div>
 
         <!-- towers listing wrt building id -->
-        <div class="row marginT20" *ngIf="building.id && !model.property_offer_payment_id">
+        <div class="row marginT20" *ngIf="building.id && !model.property_offer_payment_id && !isCommercialOffer">
           <div class="col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="form-group-3">
               <label class="p16-two">{{'addCollection.selectTowerIn' | translate}} {{selectedBuilding?.name}} <span
