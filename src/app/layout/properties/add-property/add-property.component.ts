@@ -258,7 +258,6 @@ export class AddPropertyComponent implements OnInit {
           this.spinner.hide();
           this.parameter.propertyDetails = success['data'];
           this.getParkingSpaceLotsAndparkingSpaceRent();
-          this.tempParking_area1 = JSON.parse(JSON.stringify((success.data || {}).property_parking_space || []));
           this.setModelData(success['data']);
           if (this.parameter.propertyDetails.step < 5) {
             this.tab = this.parameter.propertyDetails.step;
@@ -498,7 +497,8 @@ export class AddPropertyComponent implements OnInit {
     this.getParkingLotFormArray.controls = [];
     ((data || {}).property_parking_space || []).forEach((item) => {
       this.getParkingLotFormArray.push(this.formBuilder.group({ parking_count: [item.parking_count], parking_type: [item.parking_type] }));
-    });
+    });    
+    this.tempParking_area1 = JSON.parse(JSON.stringify((data || {}).property_parking_space || []));
   }
 
   setTab(tab: any) {
@@ -1183,6 +1183,7 @@ export class AddPropertyComponent implements OnInit {
             (((success || {}).data || {}).property_parking_space || []).forEach((item) => {
               this.getParkingLotFormArray.push(this.formBuilder.group({ parking_count: [item.parking_count], parking_type: [item.parking_type] }));
             });
+            this.tempParking_area1 = JSON.parse(JSON.stringify(((success || {}).data || {}).property_parking_space || []));
             this.tab = tab;
           }, error => {
             this.spinner.hide();
