@@ -223,23 +223,33 @@
                             style=" background-color: #00B96F;color: #fff; border:#00B96F ;">{{item.label}}</td>
                    </tr>
                     <tr>
-                      <th>{{'collectionReport.Expectedest' | translate}}:</th>
+                      <th>{{'collectionReport.Expectedest' | translate}}:
+                        <i class="fa fa-info" aria-hidden="true" title="All payments whether received or not wrt programmed date" style="color: white;margin-left: 10px;"></i>
+                      </th>
                       <td *ngFor="let item of finalDataExpacted">{{(item.expected || 0) | currency}}</td>
                     </tr>
                     <tr>
-                      <th>{{'collectionReport.Expecteddin' | translate}}:</th>
+                      <th>{{'collectionReport.Expecteddin' | translate}}:
+                        <i class="fa fa-info" aria-hidden="true" title="All pending / not received payments wrt month (payments wrt programmed date - received payments)" style="color: white;margin-left: 10px;"></i>
+                      </th>
                       <td *ngFor="let item of finalDataExpacted">{{(item.total_expected || 0) | currency}}</td>
                     </tr>
                     <tr>
-                        <th>{{'collectionReport.Real' | translate}}:</th>
+                        <th>{{'collectionReport.Real' | translate}}:
+                              <i class="fa fa-info" aria-hidden="true" title="Received payments wrt month" style="color: white;margin-left: 10px;"></i>
+                        </th>
                         <td *ngFor="let item of finalDataExpacted">{{(item.actual || 0) | currency}}</td>
                       </tr>
                     <tr>
-                      <th>{{'collectionReport.Arrearest' | translate}}:</th>
+                      <th>{{'collectionReport.Arrearest' | translate}}:
+                        <i class="fa fa-info" aria-hidden="true" title="Saved values, that will not change on changing the month filter" style="color: white;margin-left: 10px;"></i>
+                      </th>
                       <td *ngFor="let item of finalDataExpacted">{{(item.pending || 0) | currency}}</td>
                     </tr>
                     <tr>
-                      <th>{{'collectionReport.Arreardin' | translate}}:</th>
+                      <th>{{'collectionReport.Arreardin' | translate}}:
+                        <i class="fa fa-info" aria-hidden="true" title="Arrear that will tend to zero with time" style="color: white;margin-left: 10px;"></i>
+                      </th>
                       <td *ngFor="let item of finalDataExpacted">{{(item.total_pending || 0) | currency}}</td>
                     </tr>
                     <!-- <tr>
