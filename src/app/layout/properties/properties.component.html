@@ -591,8 +591,8 @@
                         <td><span>{{p.min_price | price}}</span></td>
                         <td><span>{{p.final_price | price}}</span></td>
                         <td>
-                           <span [ngClass]="{'green-color cursor-pointer': p?.name}" *ngIf="p?.offer_count">
-                              <a class="add1" href="javascript://" (click)="openOfferModel(p, i)">
+                           <span  *ngIf="p?.offer_count">
+                              <a class="add1" href="javascript://" (click)="openOfferModel(p, i)" style="color: #00B96F;">
                                  <b>{{p?.offer_count || ('table.tr.td.NA' | translate)}}</b>
                               </a> 
                            </span>
@@ -1698,26 +1698,36 @@ margin-left: -38%;">
        </div>
     </div>
     <hr>
-    <div class="table-responsive">
-    <table style="width:100%">
+    <div class="table-responsive main-table">
+    <table class="table table-striped table-align-left quick-table">
+      <thead id="myHeader">
       <tr>
         <th>{{'table.th.offerID' | translate}}</th>
         <th>{{'table.th.agent' | translate}}</th> 
         <th>{{'table.th.date' | translate}}</th>
+        <th></th>
       </tr>
+   </thead>
+   <tbody class="content">
       <tr *ngFor="let offer of property_offers">
-        <td>{{offer.id}}</td>
-        <td>{{offer.name}}</td>
-        <td>{{offer.date | date }}</td>
-        <td> <button (click)="deletePopup(p, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img
-           src="assets/img/ic_delete.png" alt="img" (click)="deleteOffer(offer)"></button></td>
-      </tr>
+         <td> 
+            <a class="add1" href="javascript://" (click)="offerID(offer)" style="color: #00B96F;">
+            {{offer.id}}
+          </a>
+       </td>
+         <td>{{offer.name}}</td>
+         <td>{{offer.date | date }}</td>
+         <td> <button (click)="deletePopup(p, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img
+            src="assets/img/ic_delete.png" alt="img" (click)="deleteOffer(offer)"></button></td>
+       </tr>
+   </tbody>
     </table>
+
    </div>
     <br/>
     <div class="row">
       <div class="col-md-12">
-         <p>{{'table.th.30days' | translate}}</p>
+         <p style="font-weight: bold;">{{'table.th.30days' | translate}}</p>
       </div>
    </div>
     </div>

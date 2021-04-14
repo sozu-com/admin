@@ -505,7 +505,7 @@
                         alt="img"></button>
                     <!-- unapprove => when status=2(pending), 1(approved)   (click)="openCancellationModal(p, i)"-->
                     <a style="display:none;" #modalOpen data-toggle="modal" data-target="#addNote"></a>
-                    <button (click)="openunapprove(p, i)"
+                    <button (click)="openCancellationModal(p, i)"
                       [disabled]="admin?.admin_acl['Project Management']?.can_update==0"
                       *ngIf="p.status == 1 || p.status==2" class="action-icon"
                       title="{{'table.title.unapprove' | translate}}"><img src="assets/img/ic_disapprove.png"

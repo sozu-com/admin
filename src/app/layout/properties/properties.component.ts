@@ -105,6 +105,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   //multiDropdownSettingss = {};
   invoice = new Invoice();
   property_array: any;
+  offer_array: any;
+  property_offer_payment: any;
   paymentBanks: Array<any>;
   isPreview: boolean = false;
 
@@ -2029,4 +2031,37 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.modalClose.nativeElement.click();
   }
 
+  offerID(item){
+    this.spinner.show();
+    this.admin.postDataApi('getOfferById', { id: (item || {}).id }).subscribe((success) => {
+      this.spinner.hide();
+      this.offer_array = (success || {}).data;
+      if(this.offer_array.property_id){
+         this.openModaloffer(this.offer_array)
+      }
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
+
+  openModaloffer = (propertyDetails: any): void => {
+    // (propertyDetails.property_offer_payment || []).forEach(e => {
+    //   this.property_offer_payment = e;
+    //  });
+    this.property_array = propertyDetails.property;
+    this.getBase64ImageFromUrl(this.property_array.id);
+    this.spinner.show();
+    this.admin.postDataApi('getPropertyDetails', { id: (propertyDetails || {}).property_id }).subscribe((success) => {
+      this.spinner.hide();
+      this.bankDetails = (success || {}).data;
+      this.makePaymentBankDetailsArray(false);
+      this.getParkingSpaceLots(((success || {}).data || {}).building_id);
+
+      this.generatePDF();
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
 }
