@@ -1573,6 +1573,7 @@
     "seller": "Seller",
     "searchUser": "Please search the user",
     "noSellerFound": "No seller found.",
+    "noFound": "Data No found.",
     "requests": "Requests",
     "currentlyLinkedToSeller": "Currently linked to Seller",
     "NA": "NA",
@@ -2072,7 +2073,9 @@
     "TotalCC": "Total (CC)",
     "Sozu": "Sozu",
     "Seller": "Seller",
-    "createCollectionBasedOnCommercialOffer": "Create collection based on commercial offer"
+    "createCollectionBasedOnCommercialOffer": "Create collection based on commercial offer",
+    "finalPrice":"Final Price",  
+    "discountInterst": "Discount/Interset%"
   },
   "swal": {
     "error": "Error",

@@ -1573,6 +1573,7 @@
     "developer": "Desarrollador",
     "seller": "Vendedor",
     "noSellerFound": "Ningún vendedor encontrado.",
+    "noFound": "Datos no encontrados.",
     "searchUser": "Por favor busca a la usuaria",
     "requests": "Solicitudes",
     "currentlyLinkedToSeller": "Actualmente vinculado al vendedor",
@@ -2072,7 +2073,9 @@
     "TotalCC": "Total (CC)",
     "Sozu": "Sozu",
     "Seller": "Vendedor",
-    "createCollectionBasedOnCommercialOffer": "Crear colección basada en oferta comercial"
+    "createCollectionBasedOnCommercialOffer": "Crear colección basada en oferta comercial",
+    "finalPrice":"Precio final",  
+    "discountInterst": "Descuento/Interés%"
   },
   "swal": {
     "error": "Error",
