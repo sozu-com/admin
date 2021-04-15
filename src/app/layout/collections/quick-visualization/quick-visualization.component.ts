@@ -15,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { ApiConstants } from 'src/app/common/api-constants';
 import { Constant } from 'src/app/common/constants';
+import { forkJoin } from 'rxjs';
 declare let swal: any;
 
 @Component({
@@ -87,6 +88,10 @@ export class QuickVisualizationComponent implements OnInit {
   cashLimit: any;
   @ViewChild('stickyMenu') menuElement: ElementRef;
   language_code: string;
+  public parkingLotIncludedDetails: any;
+  public parkingLotSaleDetails: any;
+  private parkingSpaceLotsArray: any[] = [];
+  private parkingSpaceRentArray: any[] = [];
   constructor(
     private route: ActivatedRoute,
     public constant: Constant,
@@ -160,6 +165,7 @@ export class QuickVisualizationComponent implements OnInit {
         success => {
           this.spinner.hide();
           this.model = success['data'];
+          this.getParkingSpaceLots(((success.data || {}).property || {}).building_id);
           this.data2 = success['data2'];
           if (this.model.seller_type === 1) {
             // this.sellerBanks = this.model.collection_seller_banks;
@@ -1078,5 +1084,57 @@ export class QuickVisualizationComponent implements OnInit {
     const dateA = new Date(a.created_at).getTime();
     const dateB = new Date(b.created_at).getTime();
     return dateA > dateB ? 1 : -1;
+  }
+
+  getParkingSpaceLots = (buildingId: any): void => {
+    this.spinner.show();
+    forkJoin([
+      this.admin.postDataApi('parkingSpaceLots', { building_id: buildingId || 0 }), // included
+      this.admin.postDataApi('parkingSpaceRent', { building_id: buildingId || 0 }), // for sale
+    ]).subscribe((response: any[]) => {
+      this.spinner.hide();
+      this.parkingSpaceLotsArray = response[0].data || [];
+      this.parkingSpaceRentArray = response[1].data || [];
+      this.makeDetailsForPaking();
+    });
+  }
+
+  makeDetailsForPaking = (): void => {
+    ((this.model.property || {}).property_parking_space || []).forEach((item) => {
+      if (this.parkingLotIncludedDetails) {
+        this.parkingLotIncludedDetails += ',';
+      } else {
+        this.parkingLotIncludedDetails = '';
+      }
+      this.parkingLotIncludedDetails += (this.getParkingLotIncludedText(item.parking_type) + ':' + item.parking_count);
+    });
+
+    // (((this.model || {}).property || {}).property_offer_payment || []).forEach((item) => {
+    //   if (this.parkingLotSaleDetails) {
+    //     this.parkingLotSaleDetails += ',';
+    //   } else {
+    //     this.parkingLotSaleDetails = '';
+    //   }
+    //   this.parkingLotSaleDetails += (this.getParkingLotForSaleText(item.parking_type) + ':' + item.parking_count);
+    // });
+    // const property_parking_lot_sale_array = (((this.model || {}).property || {}).property_offer_payment || [])[(((this.model || {}).property || {}).property_offer_payment || []).length - 1];
+    // ((property_parking_lot_sale_array || {}).property_parking_lot_sale || []).forEach((item) => {
+    //   if (this.parkingLotSaleDetails) {
+    //     this.parkingLotSaleDetails += ',';
+    //   } else {
+    //     this.parkingLotSaleDetails = '';
+    //   }
+    //   this.parkingLotSaleDetails += (this.getParkingLotForSaleText(item.parking_type) + ':' + item.parking_lots);
+    // });
+  }
+
+  getParkingLotIncludedText = (parking_type: any): any => {
+    const data = this.parkingSpaceLotsArray.find((item) => item.id == parking_type);
+    return this.language_code == 'en' ? ((data || {}).name_en || '') : ((data || {}).name_es || '');
+  }
+
+  getParkingLotForSaleText = (parking_type: any): any => {
+    const data = this.parkingSpaceRentArray.find((item) => item.id == parking_type);
+    return this.language_code == 'en' ? ((data || {}).name_en || '') : ((data || {}).name_es || '');
   }
 }
