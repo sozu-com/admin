@@ -1697,16 +1697,28 @@ margin-left: -38%;">
              </div>
           </div>
           <div class="spacer40"></div>
+          <div class="row" style="margin: 2px;">
+            <div class="col-md-3">
+                <h6>{{'table.th.offerID' | translate}}</h6>
+            </div>
+            <div class="col-md-3">
+               <h6>{{'table.th.agent' | translate}}</h6>
+             </div>
+             <div class="col-md-6">
+               <h6>{{'table.th.date' | translate}}</h6>
+             </div>
+          </div>
+          
             <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
                <table class="table table-striped table-align-left quick-table">
-                  <thead id="myHeader">
+                  <!-- <thead id="myHeader">
                      <tr>
                        <th>{{'table.th.offerID' | translate}}</th>
                        <th>{{'table.th.agent' | translate}}</th> 
                        <th>{{'table.th.date' | translate}}</th>
                        <th></th>
                      </tr>
-                  </thead>
+                  </thead> -->
                   <tbody class="content">
                      <tr *ngFor="let offer of property_offers">
                         <td> 
