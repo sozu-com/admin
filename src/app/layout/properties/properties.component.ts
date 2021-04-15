@@ -838,7 +838,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
     this.admin.postDataApi('getAllBuyers', input).subscribe(r => {
       this.spinner.hide();
-      if (property) { this.linkUserModal.nativeElement.click(); }
+      if (property) { 
+        this.linkUserModal.nativeElement.click();  
+        this.keyword = '';
+      }
       this.allUsers = r['data'];
     }, error => {
       this.spinner.hide();

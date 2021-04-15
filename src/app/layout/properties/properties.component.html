@@ -486,7 +486,7 @@
                               <div class="searh-3">
                                  <input class="width100px" type="text" [(ngModel)]="parameter.buyer_name"
                                     name="buyer_name" (keyup.enter)="getListing()" autocomplete="address-level4" >
-                                 <button *ngIf="parameter.seller_name" (click)="getListing()"><i
+                                 <button *ngIf="parameter.buyer_name" (click)="getListing()"><i
                                        class="fa fa-search"></i></button>
                               </div>
                            </div>
@@ -783,7 +783,7 @@
 
 
 <!-- All Sellers -->
-<a data-toggle="modal" data-target="#link-user-model" #linkUserModal></a>
+<a data-toggle="modal" data-target="#link-user-model" #linkUserModal style="display: none;"></a>
 <div class="modal" id="link-user-model">
    <div class="modal-dialog ">
       <div class="modal-content notary-avail">
@@ -861,7 +861,8 @@
                            <img *ngIf="!item?.image" src="assets/img/default_img.png" alt="img">
 
                            <div class="n-avail-info">
-                              <p class="p12">{{item?.name ? item?.name : item?.comm_name}}</p>
+                              <p class="p12" *ngIf="item?.name">{{item?.name}} {{item?.first_surname}} {{item?.second_surname}}</p>
+                              <p class="p12" *ngIf="item?.comm_name">{{item?.comm_name}}</p>
                               <p class="p12" *ngIf="item?.legal_reps && item?.legal_reps?.id">{{item?.legal_reps?.name}}
                               </p>
                               <p class="p10 marginB0">{{'viewProperty.phone' | translate}} : {{item?.dial_code ?
