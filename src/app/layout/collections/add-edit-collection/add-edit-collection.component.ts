@@ -2441,7 +2441,7 @@ export class AddEditCollectionComponent implements OnInit {
             //   }
             //   this.editCollection();
             // }
-            if(tab == 1 && !this.is_choices){
+            if(tab == 1 && !this.is_choices && this.isCommercialOffer){
               this.createOfferCollections(this.offer_id);
             }
             if (tab == 1 || tab == 2) {
