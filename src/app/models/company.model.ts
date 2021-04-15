@@ -40,7 +40,7 @@ export class Manager {
     phone: string;
     image: any;
     logo: any;
-    email: string;
+    email?: string;
     note: string;
     img_loader: boolean;
     logo_loader: boolean;
