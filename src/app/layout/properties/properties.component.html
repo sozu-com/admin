@@ -486,7 +486,7 @@
                               <div class="searh-3">
                                  <input class="width100px" type="text" [(ngModel)]="parameter.buyer_name"
                                     name="buyer_name" (keyup.enter)="getListing()" autocomplete="address-level4" >
-                                 <button *ngIf="parameter.seller_name" (click)="getListing()"><i
+                                 <button *ngIf="parameter.buyer_name" (click)="getListing()"><i
                                        class="fa fa-search"></i></button>
                               </div>
                            </div>
@@ -783,7 +783,7 @@
 
 
 <!-- All Sellers -->
-<a data-toggle="modal" data-target="#link-user-model" #linkUserModal></a>
+<a data-toggle="modal" data-target="#link-user-model" #linkUserModal style="display: none;"></a>
 <div class="modal" id="link-user-model">
    <div class="modal-dialog ">
       <div class="modal-content notary-avail">
@@ -861,7 +861,8 @@
                            <img *ngIf="!item?.image" src="assets/img/default_img.png" alt="img">
 
                            <div class="n-avail-info">
-                              <p class="p12">{{item?.name ? item?.name : item?.comm_name}}</p>
+                              <p class="p12" *ngIf="item?.name">{{item?.name}} {{item?.first_surname}} {{item?.second_surname}}</p>
+                              <p class="p12" *ngIf="item?.comm_name">{{item?.comm_name}}</p>
                               <p class="p12" *ngIf="item?.legal_reps && item?.legal_reps?.id">{{item?.legal_reps?.name}}
                               </p>
                               <p class="p10 marginB0">{{'viewProperty.phone' | translate}} : {{item?.dial_code ?
@@ -1684,53 +1685,61 @@ margin-left: -38%;">
           #notesadddModalClose>&times;</button>
         <button type="button" class="close" (click)="this.closeNotesadddModalModal()">&times;</button>
       </div>
-     
-     <!-- table -->
-     <div class="modal-body modal-body-new">
-     <div class="row" style="margin: 2px;">
-      <div class="col-md-6">
-          <h6>{{'table.th.Commercialofferslist' | translate}}</h6>
+      <div class="modal-body">
+         <div class="row" style="margin: 2px;">
+            <div class="col-md-6">
+                <h6>{{'table.th.Commercialofferslist' | translate}}</h6>
+            </div>
+            <div class="col-md-6">
+               <div class="text-right">
+                 <b style="color: #00B96F;font-size: 15px;">{{property_offers.length}}</b>
+               </div>
+             </div>
+          </div>
+          <div class="spacer40"></div>
+          <div class="row" style="margin: 2px;">
+            <div class="col-md-3">
+                <h6>{{'table.th.offerID' | translate}}</h6>
+            </div>
+            <div class="col-md-3">
+               <h6>{{'table.th.agent' | translate}}</h6>
+             </div>
+             <div class="col-md-6">
+               <h6>{{'table.th.date' | translate}}</h6>
+             </div>
+          </div>
+          
+            <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+               <table class="table table-striped table-align-left quick-table">
+                  <!-- <thead id="myHeader">
+                     <tr>
+                       <th>{{'table.th.offerID' | translate}}</th>
+                       <th>{{'table.th.agent' | translate}}</th> 
+                       <th>{{'table.th.date' | translate}}</th>
+                       <th></th>
+                     </tr>
+                  </thead> -->
+                  <tbody class="content">
+                     <tr *ngFor="let offer of property_offers">
+                        <td> 
+                           <a class="add1" href="javascript://" (click)="offerID(offer)" style="color: #00B96F;">
+                           {{offer.id}}
+                         </a>
+                      </td>
+                        <td>{{offer.name ? offer.name : ('viewProperty.NA' | translate)}}</td>
+                        <td>{{offer.date | date }}</td>
+                        <td> <button (click)="deletePopup(p, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img
+                           src="assets/img/ic_delete.png" alt="img" (click)="deleteOffer(offer)"></button></td>
+                      </tr>
+                  </tbody>
+               </table>
+            </div><br>
+            <div class="row">
+               <div class="col-md-12">
+                  <p style="font-weight: bold;">{{'table.th.30days' | translate}}</p>
+               </div>
+            </div>
       </div>
-      <div class="col-md-6">
-         <div class="text-right">
-           <b style="color: #00B96F;font-size: 15px;">{{property_offers.length}}</b>
-         </div>
-       </div>
-    </div>
-    <hr>
-    <div class="table-responsive main-table">
-    <table class="table table-striped table-align-left quick-table">
-      <thead id="myHeader">
-      <tr>
-        <th>{{'table.th.offerID' | translate}}</th>
-        <th>{{'table.th.agent' | translate}}</th> 
-        <th>{{'table.th.date' | translate}}</th>
-        <th></th>
-      </tr>
-   </thead>
-   <tbody class="content">
-      <tr *ngFor="let offer of property_offers">
-         <td> 
-            <a class="add1" href="javascript://" (click)="offerID(offer)" style="color: #00B96F;">
-            {{offer.id}}
-          </a>
-       </td>
-         <td>{{offer.name}}</td>
-         <td>{{offer.date | date }}</td>
-         <td> <button (click)="deletePopup(p, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img
-            src="assets/img/ic_delete.png" alt="img" (click)="deleteOffer(offer)"></button></td>
-       </tr>
-   </tbody>
-    </table>
-
-   </div>
-    <br/>
-    <div class="row">
-      <div class="col-md-12">
-         <p style="font-weight: bold;">{{'table.th.30days' | translate}}</p>
-      </div>
-   </div>
-    </div>
     </div>
   </div>
 </div>

@@ -18,6 +18,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Document } from 'src/app/models/document.model';
 import { IDestinationStatus } from 'src/app/common/marrital-status-interface';
 import { element } from 'protractor';
+import { forkJoin } from 'rxjs';
 declare let swal: any;
 
 @Component({
@@ -72,7 +73,7 @@ export class AddEditCollectionComponent implements OnInit {
   showText = false;
   showSearch = false;
   buildingName = '';
-  offerId= '';
+  offerId = '';
   initialCountry: any;
   propertyDetails = false;
   details: any;
@@ -162,6 +163,10 @@ export class AddEditCollectionComponent implements OnInit {
   offerDetail: any;
   is_choices: boolean;
   //public selectedbeneficiaries: any[] = [];
+  public parkingLotIncludedDetails: any;
+  public parkingLotSaleDetails: any;
+  private parkingSpaceLotsArray: any[] = [];
+  private parkingSpaceRentArray: any[] = [];
 
   constructor(
     public model: Collection,
@@ -175,7 +180,8 @@ export class AddEditCollectionComponent implements OnInit {
     private translate: TranslateService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
-    public modelForDoc: Document
+    public modelForDoc: Document,
+    public tempmodel: Collection,
   ) { }
 
   ngOnInit(): void {
@@ -507,7 +513,9 @@ export class AddEditCollectionComponent implements OnInit {
       .subscribe(
         success => {
           this.spinner.hide();
+          this.tempmodel = JSON.parse(JSON.stringify(success['data']));
           this.property_beneficiary = (success.data || {}).beneficiary || [];
+          this.getParkingSpaceLots(((success.data || {}).property || {}).building_id);
           this.getCollectionDocument(success.data);
           (success.data || {}).buyer_type == 1 ? this.getAllBeneficiary(success.data) : '';
           this.collection_account_statement_id = success.data.account_statement ? success.data.account_statement.id : undefined;
@@ -895,7 +903,7 @@ export class AddEditCollectionComponent implements OnInit {
       });
       this.addFormStep4.controls.email.patchValue(emails);
     }
-    this.isShown =  data.account_statement && data.account_statement.usersemail && data.account_statement.usersemail.length > 0 ? true : false;
+    this.isShown = data.account_statement && data.account_statement.usersemail && data.account_statement.usersemail.length > 0 ? true : false;
     this.addFormStep4.controls.day.patchValue(data.account_statement ? data.account_statement.day : '');
 
     if(this.isCommercialOffer && data.property.property_offer_payment && data.property.property_offer_payment.length > 0){
@@ -1086,11 +1094,11 @@ export class AddEditCollectionComponent implements OnInit {
     this.model.building_configuration = undefined;
     this.model.property_offer_payment_id = undefined;
     this.addFormStep1.reset()
-    this.adminService.postDataApi('getPropertyOfferSearch', {id: id})
+    this.adminService.postDataApi('getPropertyOfferSearch', { id: id })
       .subscribe(
         success => {
           this.searchedOffers = success['data'];
-         // this.searchedBuildings = success['data'];
+          // this.searchedBuildings = success['data'];
           this.parameter.offerCount = success['data'].length;
           if (this.parameter.offerCount === 0) {
             this.showText = true;
@@ -1119,12 +1127,12 @@ export class AddEditCollectionComponent implements OnInit {
     });
     const searchindex = (this.parameter.page - 1) * 4 + i;
     this.searchedBuildings ? this.searchedBuildings[searchindex].selected = true : null;
-    if(this.isCommercialOffer && item){
+    if (this.isCommercialOffer && item) {
       this.offer_id = item.id;
       this.getOfferPropertyDetail(this.offer_id);
     }
   }
-  
+
   getofferIndex(i: number) {
     (this.searchedOffers || []).forEach(e => {
       e.selected = false;
@@ -1135,14 +1143,14 @@ export class AddEditCollectionComponent implements OnInit {
 
   setBuildingId(building: any) {
     this.selectedBuilding = building;
-   (building.property_offer_payment || []).forEach(e => {
-     this.model.property_offer_payment_id = e.id;
+    (building.property_offer_payment || []).forEach(e => {
+      this.model.property_offer_payment_id = e.id;
     });
     this.building.id = building.id;
     this.model.building_id = building.id;
     this.model.building_towers = building.building_towers;
   }
- 
+
 
   setTower(building_towers_id: string) {
     for (let index = 0; index < this.searchedBuildings.length; index++) {
@@ -2195,14 +2203,14 @@ export class AddEditCollectionComponent implements OnInit {
     }
     if (this.model.step == 1) {
       if (formdata['property_id']) {
-        const pid = this.isCommercialOffer? formdata['property_id'] : formdata['property_id'].id;
+        const pid = this.isCommercialOffer ? formdata['property_id'] : formdata['property_id'].id;
         formdata['property_id'] = pid;
       }
       if (this.model.building_id) {
         formdata['building_id'] = this.model.building_id;
       }
-      if(this.isCommercialOffer){
-      formdata['offer_id'] = this.offer_id;
+      if (this.isCommercialOffer) {
+        formdata['offer_id'] = this.offer_id;
       }
       formdata['for_sale'] = this.availabilityStatus[0].checked ? 1 : 0;
       formdata['for_rent'] = this.availabilityStatus[1].checked ? 1 : 0;
@@ -2931,7 +2939,7 @@ export class AddEditCollectionComponent implements OnInit {
     return data ? true : false;
   }
 
-  toggleSearch(value){
+  toggleSearch(value) {
     this.isCommercialOffer = value.target.checked ? true : false;
     this.searchedBuildings = undefined;
     this.parameter.buildingCount = undefined
@@ -2939,7 +2947,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.parameter.offerCount = undefined;
   }
 
-  getOfferPropertyDetail(id){
+  getOfferPropertyDetail(id) {
     this.spinner.show();
     this.adminService.postDataApi('getOfferById', { id: id }).subscribe(success => {
       this.model.property_offer_payment_id = id;
@@ -2960,6 +2968,58 @@ export class AddEditCollectionComponent implements OnInit {
       }
     }, (error) => {
     });
+  }
+
+  getParkingSpaceLots = (buildingId: any): void => {
+    this.spinner.show();
+    forkJoin([
+      this.adminService.postDataApi('parkingSpaceLots', { building_id: buildingId || 0 }), // included
+      this.adminService.postDataApi('parkingSpaceRent', { building_id: buildingId || 0 }), // for sale
+    ]).subscribe((response: any[]) => {
+      this.spinner.hide();
+      this.parkingSpaceLotsArray = response[0].data || [];
+      this.parkingSpaceRentArray = response[1].data || [];
+      this.makeDetailsForPaking();
+    });
+  }
+
+  makeDetailsForPaking = (): void => {
+    ((this.tempmodel.property || {}).property_parking_space || []).forEach((item) => {
+      if (this.parkingLotIncludedDetails) {
+        this.parkingLotIncludedDetails += ',';
+      } else {
+        this.parkingLotIncludedDetails = '';
+      }
+      this.parkingLotIncludedDetails += (this.getParkingLotIncludedText(item.parking_type) + ':' + item.parking_count);
+    });
+
+    // (((this.tempmodel || {}).property || {}).property_offer_payment || []).forEach((item) => {
+    //   if (this.parkingLotSaleDetails) {
+    //     this.parkingLotSaleDetails += ',';
+    //   } else {
+    //     this.parkingLotSaleDetails = '';
+    //   }
+    //   this.parkingLotSaleDetails += (this.getParkingLotForSaleText(item.parking_type) + ':' + item.parking_count);
+    // });
+    // const property_parking_lot_sale_array = (((this.tempmodel || {}).property || {}).property_offer_payment || [])[(((this.tempmodel || {}).property || {}).property_offer_payment || []).length - 1];
+    // ((property_parking_lot_sale_array || {}).property_parking_lot_sale || []).forEach((item) => {
+    //   if (this.parkingLotSaleDetails) {
+    //     this.parkingLotSaleDetails += ',';
+    //   } else {
+    //     this.parkingLotSaleDetails = '';
+    //   }
+    //   this.parkingLotSaleDetails += (this.getParkingLotForSaleText(item.parking_type) + ':' + item.parking_lots);
+    // });
+  }
+
+  getParkingLotIncludedText = (parking_type: any): any => {
+    const data = this.parkingSpaceLotsArray.find((item) => item.id == parking_type);
+    return this.language_code == 'en' ? ((data || {}).name_en || '') : ((data || {}).name_es || '');
+  }
+
+  getParkingLotForSaleText = (parking_type: any): any => {
+    const data = this.parkingSpaceRentArray.find((item) => item.id == parking_type);
+    return this.language_code == 'en' ? ((data || {}).name_en || '') : ((data || {}).name_es || '');
   }
 
 }

@@ -288,11 +288,12 @@
                     </tr>
                     <tr>
                       <th>{{'quickVisualization.Parkinglotincluded' | translate}}:</th>
-                      <td>1,Normal</td>
+                      <td>{{parkingLotIncludedDetails || ('table.tr.td.NA' | translate)}}</td>
                     </tr>
                     <tr>
                       <th>{{'quickVisualization.Parkinglotsale' | translate}}:</th>
-                      <td>1,Tandem</td>
+                      <!-- <td>{{parkingLotSaleDetails || ('table.tr.td.NA' | translate)}}</td> -->
+                      <td>{{'table.tr.td.NA' | translate}}</td>
                     </tr>
                     <tr>
                       <th>{{'quickVisualization.propertyName' | translate}}:</th>
