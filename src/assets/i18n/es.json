@@ -2072,7 +2072,9 @@
     "TotalCC": "Total (CC)",
     "Sozu": "Sozu",
     "Seller": "Vendedor",
-    "createCollectionBasedOnCommercialOffer": "Crear colección basada en oferta comercial"
+    "createCollectionBasedOnCommercialOffer": "Crear colección basada en oferta comercial",
+    "finalPrice":"Precio final",  
+    "discountInterst": "Descuento/Interés%"
   },
   "swal": {
     "error": "Error",

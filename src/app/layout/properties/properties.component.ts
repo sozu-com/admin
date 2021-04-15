@@ -1672,6 +1672,15 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.updateAddVariablesFinalValue();
     if (this.getTotalPercentage() == 100.00) {
       this.spinner.show();
+      let least_price = this.property_array.min_price
+    if (this.installmentFormGroup.controls.parkingLotForSaleFormArray.value && this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.length > 0) {
+      this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.forEach(element => {
+        least_price = least_price + parseInt(element.parkingLotsPrice.replace('$', ''));
+      });
+    }
+      let discount = this.installmentFormGroup.value.discount ? (this.installmentFormGroup.value.discount * least_price) / 100 : 0;
+      let interest = this.installmentFormGroup.value.interest ? (this.installmentFormGroup.value.interest * least_price) / 100 : 0;
+      let final_price = discount ? least_price - discount : interest ? least_price + interest : least_price;
       let addVar = [];
       this.getAddVariablesFormArray.controls.forEach((element: FormGroup) => {
         addVar.push({variable_name: element.value.addVariablesText, variable_percentage: element.value.addVariablesPercentage});
@@ -1686,9 +1695,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         discount: this.installmentFormGroup.get('discount').value,
         monthly_installment: this.installmentFormGroup.get('monthlyInstallment').value,
         interest: this.installmentFormGroup.get('interest').value,
-        number_of_month: this.installmentFormGroup.get('paymentupondelivery').value,
+        number_of_month: this.installmentFormGroup.get('numberOfMI').value,
         payment_upon_delivery: this.installmentFormGroup.get('paymentupondelivery').value,
         lead_name: this.installmentFormGroup.get('leadName').value,
+        final_price: final_price,
         bank_type: this.installmentFormGroup.value.paymentBankDetails.id,
         account_type: this.installmentFormGroup.get('agencyOrSeller').value? 2 : 1,
         note: (this.installmentFormGroup.value.addNoteFormArray[0] || []).addNote || null,

@@ -181,7 +181,7 @@
             </div>
           </div>
           <p><b>
-            {{model?.building_towers?.floor_num ? model?.building_towers?.floor_num : ('table.tr.td.NA' |
+            {{model?.floor_num ? model?.floor_num : ('table.tr.td.NA' |
               translate)}}
             </b></p>
       
@@ -330,7 +330,7 @@
         <div class="row">
           <div class="col-md-12">
             <div class="btn-cont text-right">
-              <button type="submit" class="btn btn-primary" (click)="createCollection(addFormStep1.value, 1)">{{'addCollection.next' | translate}}</button>
+              <button type="submit" class="btn btn-primary">{{'addCollection.next' | translate}}</button>
             </div>
           </div>
         </div>
@@ -1696,6 +1696,45 @@
               <!-- <option value="">Payment Choice</option> -->
               <option value="{{c.id}}" *ngFor="let c of paymentChoices">{{ c.name }}</option>
             </select>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.finalPrice' | translate}}</label>
+            <div class="clearfix"></div>
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">$</span>
+              <input autocomplete="off" class="form-control" step="0.01" type="number"
+                placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="final_price" min="0"
+                name="sum_of_concepts" appUptoTwoDigitDecimalNumber>
+            </div>
+          </div>
+          <div *ngIf="showError && (addFormStep4.controls.final_price.invalid)">
+            <div *ngIf="addFormStep4.controls.final_price.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <label>{{'addCollection.discountInterst' | translate}}</label>
+            <div class="clearfix"></div>
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">$</span>
+              <input autocomplete="off" class="form-control" step="0.01" type="number"
+                placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="discount_interest" min="0"
+                name="sum_of_concepts" appUptoTwoDigitDecimalNumber>
+            </div>
+          </div>
+          <div *ngIf="showError && (addFormStep4.controls.discount_interest.invalid)">
+            <div *ngIf="addFormStep4.controls.discount_interest.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
           </div>
         </div>
       </div>

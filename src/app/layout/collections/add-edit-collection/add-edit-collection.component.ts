@@ -160,6 +160,7 @@ export class AddEditCollectionComponent implements OnInit {
   isCommercialOffer: boolean;
   offer_id: any;
   offerDetail: any;
+  is_choices: boolean;
   //public selectedbeneficiaries: any[] = [];
 
   constructor(
@@ -448,6 +449,8 @@ export class AddEditCollectionComponent implements OnInit {
       sum_of_concepts: [''],
       deal_interest_rate: [0],
       deal_penality: [0],
+      final_price:[''],
+      discount_interest:['']
 
     });
     if (this.model.id === '0') {
@@ -577,11 +580,11 @@ export class AddEditCollectionComponent implements OnInit {
   patchFormStep1(data) {
     this.model.building = this.isCommercialOffer ? data.building : data.property.building;
     this.model.building_towers = this.isCommercialOffer ? data.building_towers : data.property.building_towers;
-    this.model.floor_num = this.isCommercialOffer ? data.building_towers : data.property.floor_num;
+    this.model.floor_num = this.isCommercialOffer ? data.floor_num : data.property.floor_num;
     this.model.name = this.isCommercialOffer ? data.name : data.property.name;
     this.model.availabilityStatusId = data.for_sale ? this.availabilityStatus[0].id : this.availabilityStatus[1].id;
     this.model.building_configuration_id = this.isCommercialOffer ? data.building_configuration_id : data.property.building_configuration_id;
-    this.model.building_configuration = this.isCommercialOffer ? data.building_configuration_id : data.property.building_configuration;
+    this.model.building_configuration = this.isCommercialOffer ? data.building_configuration : data.property.building_configuration;
     this.addFormStep1.controls.building_id.patchValue(this.isCommercialOffer ? data.building_id : data.property.building.id);
     this.addFormStep1.controls.building_towers_id.patchValue(this.isCommercialOffer ? data.building_towers.id : data.property.building_towers.id);
     this.addFormStep1.controls.floor_num.patchValue(this.isCommercialOffer ? data.floor_num : data.property.floor_num);
@@ -894,6 +897,12 @@ export class AddEditCollectionComponent implements OnInit {
     }
     this.isShown =  data.account_statement && data.account_statement.usersemail && data.account_statement.usersemail.length > 0 ? true : false;
     this.addFormStep4.controls.day.patchValue(data.account_statement ? data.account_statement.day : '');
+
+    if(this.isCommercialOffer && data.property.property_offer_payment && data.property.property_offer_payment.length > 0){
+      this.addFormStep4.controls.final_price.patchValue(Number(data.property.property_offer_payment[0].final_price).toFixed(2));
+      this.addFormStep4.controls.discount_interest.patchValue(data.property.property_offer_payment[0].discount ? data.property.property_offer_payment[0].discount : 
+        data.property.property_offer_payment[0].interest ? data.property.property_offer_payment[0].interest : 0 );
+    }
   }
 
   patchFormStep5(data) {
@@ -1033,6 +1042,7 @@ export class AddEditCollectionComponent implements OnInit {
 
     this.showBuilding = false;
     this.buildingLoading = true;
+    this.isCommercialOffer = false;
 
     const input = new FormData();
     input.append('keyword', keyword);
@@ -1074,6 +1084,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.model.availabilityStatusId = undefined;
     this.model.building_configuration_id = undefined;
     this.model.building_configuration = undefined;
+    this.model.property_offer_payment_id = undefined;
     this.addFormStep1.reset()
     this.adminService.postDataApi('getPropertyOfferSearch', {id: id})
       .subscribe(
@@ -2422,6 +2433,9 @@ export class AddEditCollectionComponent implements OnInit {
             //   }
             //   this.editCollection();
             // }
+            if(tab == 1 && !this.is_choices){
+              this.createOfferCollections(this.offer_id);
+            }
             if (tab == 1 || tab == 2) {
               this.initFormStep2();
               this.patchFormStep2(success['data'], 'add');
@@ -2934,6 +2948,17 @@ export class AddEditCollectionComponent implements OnInit {
       this.spinner.hide();
     }, (error) => {
       this.spinner.hide();
+    });
+  }
+
+  createOfferCollections(id){
+    this.adminService.postDataApi('createOfferCollections', { id: id }).subscribe(success => {
+      if(success.data){
+      this.is_choices = true;
+      this.patchFormStep4(success.data[0]);
+      this.patchFormStep5(success.data[0]);
+      }
+    }, (error) => {
     });
   }
 
