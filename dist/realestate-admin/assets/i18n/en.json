@@ -2075,7 +2075,7 @@
     "Seller": "Seller",
     "createCollectionBasedOnCommercialOffer": "Create collection based on commercial offer",
     "finalPrice":"Final Price",  
-    "discountInterst": "Discount/Interset%"
+    "discountInterst": "Discount/Interest%"
   },
   "swal": {
     "error": "Error",
@@ -2425,7 +2425,8 @@
     "warning": "*The cash limit payment has been exceeded",
     "parkingForSale": "Parking For Sale",
     "parkingType": "Parking Type",
-    "parkingPrice": "Parking Price"
+    "parkingPrice": "Parking Price",
+    "comnercialOfferId": "Comnercial offer id:"
   },
   "viewCredit": {
     "label": "Manage Credit",

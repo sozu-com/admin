@@ -2424,7 +2424,8 @@
     "warning": "*El pago en efectivo ha llegado a su límite",
     "parkingForSale": "Estacionamiento en venta",
     "parkingType": "Tipo de estacionamiento",
-    "parkingPrice": "Precio de estacionamiento"
+    "parkingPrice": "Precio de estacionamiento",
+    "comnercialOfferId": "ID de oferta comercial:"
   },
   "viewCredit":{
     "label": "Administrar crédito",
