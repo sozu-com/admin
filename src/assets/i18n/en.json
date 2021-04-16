@@ -2075,7 +2075,7 @@
     "Seller": "Seller",
     "createCollectionBasedOnCommercialOffer": "Create collection based on commercial offer",
     "finalPrice":"Final Price",  
-    "discountInterst": "Discount/Interset%"
+    "discountInterst": "Discount/Interest%"
   },
   "swal": {
     "error": "Error",

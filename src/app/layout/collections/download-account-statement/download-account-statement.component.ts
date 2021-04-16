@@ -9,6 +9,7 @@ import pdfFonts from "pdfmake/build/vfs_fonts";
 import { PricePipe } from 'src/app/pipes/price.pipe';
 import { AdminService } from 'src/app/services/admin.service';
 import * as moment from 'moment';
+import { forkJoin } from 'rxjs';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 declare let swal: any;
@@ -45,6 +46,7 @@ export class DownloadAccountStatementComponent implements OnInit {
   legal_name: any;
   fedTaxPayer: any;
   cashLimit: any;
+  parkingSpaceLotsArray: any[] = [];
 
   constructor(
     public admin: AdminService,
@@ -215,6 +217,7 @@ export class DownloadAccountStatementComponent implements OnInit {
             { text: self.monthly_installment_amunts >= 0 ? self.price.transform(Number(self.monthly_installment_amunts).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true }
           );
           self.getBanks(this.collection_data.property.id);
+          self.getParkingSpaceLots(this.collection_data.property.building_id);
         });
   }
 
@@ -227,6 +230,18 @@ export class DownloadAccountStatementComponent implements OnInit {
     }, (error) => {
       this.spinner.hide();
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
+
+  getParkingSpaceLots = (buildingId: any): void => {
+    this.spinner.show();
+    forkJoin([
+      this.admin.postDataApi('parkingSpaceLots', { building_id: buildingId || 0 }),
+      //this.admin.postDataApi('parkingSpaceRent', { building_id: buildingId || 0 }),
+    ]).subscribe((response: any[]) => {
+      this.spinner.hide();
+      this.parkingSpaceLotsArray = response[0].data || [];
+      // this.parkingSpaceRentArray = response[1].data;
     });
   }
 
@@ -758,6 +773,27 @@ export class DownloadAccountStatementComponent implements OnInit {
         { text: element.total_amount? this.price.transform(Number(element.total_amount).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true }
       ])
     });
+    if (this.collection_data.property.property_parking_space && this.collection_data.property.property_parking_space.length > 0) {
+      let no = 6;
+      let count = 1;
+      this.collection_data.property.property_parking_space.forEach(element => {
+        let parkingName = this.parkingSpaceLotsArray.find(parking => parking.id == element.parking_type)
+        docDefinition.content[1].columns[0][2].table.body.splice(no, 0, [
+          { text: this.translate.instant('generatePDF.parkingForSale') + ' ' + (this.translate.defaultLang == 'en' ? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
+          { text: element.parking_count, border: [false, false, false, false], bold: true }
+        ]);
+        // docDefinition.content[1].columns[0][2].table.body.splice(no + 1, 0, [
+        //   { text: this.translate.instant('generatePDF.parkingType') + ' ' + (this.translate.defaultLang == 'en'? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
+        //   { text: element.parkingLotsType, border: [false, false, false, false], bold: true }
+        // ]); 
+        docDefinition.content[1].columns[0][2].table.body.splice(no + 1, 0, [
+          { text: this.translate.instant('generatePDF.parkingPrice') + ' ' + (this.translate.defaultLang == 'en' ? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
+          { text: this.price.transform(Number(element.parkingLotsPrice ? element.parkingLotsPrice.replace('$', '') : 0).toFixed(2)), border: [false, false, false, false], bold: true }
+        ]);
+        no = no + 2;
+        count = count + 1;
+      });
+    }
     pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.accountStatments') + ' ' + current_date.toISOString() + '.pdf');
     setTimeout(function(){ 
       window.open('','_self').close();

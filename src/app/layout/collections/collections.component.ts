@@ -25,6 +25,7 @@ import { PricePipe } from 'src/app/pipes/price.pipe';
 import { HttpClient } from '@angular/common/http';
 import { count } from 'rxjs-compat/operator/count';
 import { OnDestroy } from '@angular/core';
+import { forkJoin } from 'rxjs';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 declare let swal: any;
 declare var $: any;
@@ -210,6 +211,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   is_back: boolean;
   footer_address: any;
   legal_name: any;
+  parkingSpaceLotsArray: any [] = [];
   constructor(
     public constant: Constant,
     public apiConstants: ApiConstants,
@@ -2829,6 +2831,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           this.spinner.hide();
           this.collection_data = success['data'];
           this.collection_payments = success['data2'];
+          self.getParkingSpaceLots(this.collection_data.property.building_id);
           const monthNames = ["January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"
           ];
@@ -2937,6 +2940,18 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           );
           self.getBanks(this.collection_data.property.id);
         });
+  }
+
+  getParkingSpaceLots = (buildingId: any): void => {
+    this.spinner.show();
+    forkJoin([
+      this.admin.postDataApi('parkingSpaceLots', { building_id: buildingId || 0 }),
+      //this.admin.postDataApi('parkingSpaceRent', { building_id: buildingId || 0 }),
+    ]).subscribe((response: any[]) => {
+      this.spinner.hide();
+      this.parkingSpaceLotsArray = response[0].data || [];
+      // this.parkingSpaceRentArray = response[1].data;
+    });
   }
 
   getBanks(id) {
@@ -3456,6 +3471,28 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         { text: '', border: [false, false, false, false] },
         { text: 'N/A', border: [false, false, false, false], bold: true },
       ]);
+    }
+
+    if (this.collection_data.property.property_parking_space && this.collection_data.property.property_parking_space.length > 0) {
+      let no = 6;
+      let count = 1;
+      this.collection_data.property.property_parking_space.forEach(element => {
+        let parkingName = this.parkingSpaceLotsArray.find(parking => parking.id == element.parking_type)
+        docDefinition.content[1].columns[0][2].table.body.splice(no, 0, [
+          { text: this.translate.instant('generatePDF.parkingForSale') + ' ' + (this.translate.defaultLang == 'en' ? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
+          { text: element.parking_count, border: [false, false, false, false], bold: true }
+        ]);
+        // docDefinition.content[1].columns[0][2].table.body.splice(no + 1, 0, [
+        //   { text: this.translate.instant('generatePDF.parkingType') + ' ' + (this.translate.defaultLang == 'en'? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
+        //   { text: element.parkingLotsType, border: [false, false, false, false], bold: true }
+        // ]); 
+        docDefinition.content[1].columns[0][2].table.body.splice(no + 1, 0, [
+          { text: this.translate.instant('generatePDF.parkingPrice') + ' ' + (this.translate.defaultLang == 'en' ? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
+          { text: this.price.transform(Number(element.parkingLotsPrice ? element.parkingLotsPrice.replace('$', '') : 0).toFixed(2)), border: [false, false, false, false], bold: true }
+        ]);
+        no = no + 2;
+        count = count + 1;
+      });
     }
     // this.collection_payments.forEach(element => {
     //   docDefinition.content[1].columns[0][4].table.body.push([
