@@ -2609,19 +2609,19 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           'Purchase Date': p.deal_purchase_date ? this.getDateWRTTimezone(p.deal_purchase_date, 'DD/MMM/YYYY') : '',
           'Last Concept': p.last_payment ? this.getLastPaymentConcept(p) : '',
           'Last Date Of Payment': (p.last_payment || {}).payment_date ? (p.last_payment || {}).payment_date : '',//(p?.last_payment?.payment_date | date:'dd/MMM/yyyy') :
-          'Last Amount': '$ ' + ((p.last_payment || {}).collection_amount || 0),
+          'Last Amount': '$ ' + parseInt((p.last_payment || {}).collection_amount || 0),
           'Next Concept': (p.next_payment || {}).name || '',
           'Next Date Of Payment': (p.next_payment || {}).date ? (p.next_payment || {}).date : '',//(p.next_payment?.date | date:'dd/MMM/yyyy') :
           'Next Amount': '$ ' + (((p.next_payment || {}).amount || 0) - ((p.next_payment || {}).calc_payment_amount || 0)),
           'Currency': (p.currency || {}).code || '',
           'Sozu Commission (in %)': p.comm_total_commission ? p.comm_total_commission : 0,//(p.comm_total_commission | number : '1.2-3') :
           'IVA Added in Amount': p.add_iva_to_pc ? 'Yes' : 'No',
-          'PC Amount': '$ ' + (p.pc_received || 0),
+          'PC Amount': '$ ' + parseInt(p.pc_received || 0),
           'PC Receipt': p.pc_receipt ? 'Yes' : 'No',
           'PC Invoice': p.pc_invoice ? 'Yes' : 'No',
           'Collection Commission (in %)': p.cc_percent || 0,
           'IVA Added in Amount 2': p.add_iva_to_cc ? 'Yes' : 'No',
-          'CC Amount': '$ ' + (p.cc_received || 0),
+          'CC Amount': '$ ' + parseInt(p.cc_received || 0),
           'CC Receipt': p.cc_receipt ? 'Yes' : 'No',
           'CC Invoice': p.cc_invoice ? 'Yes' : 'No',
           'Agent Commission (in %)': p.comm_shared_commission ? p.comm_shared_commission : 0,//(p?.comm_shared_commission | number : '1.2-3') :
@@ -2629,9 +2629,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           'AC Receipt': p.ac_receipt ? 'Yes' : 'No',
           'AC Invoice': p.ac_invoice ? 'Yes' : 'No',
           'Commission Agent': (((p.deal_commission_agents || [])[0] || []).broker || {}).name ? ((((p.deal_commission_agents || [])[0] || []).broker || {}).name + ' ' + (((p.deal_commission_agents || [])[0] || []).broker || {}).first_surname + ' ' + (((p.deal_commission_agents || [])[0] || []).broker || {}).second_surname) : '',
-          'Price': '$ ' + (p.deal_price || 0),
-          'Penalty': '$ ' + (p.penalty || 0),
-          'Amount Paid': '$ ' + (p.total_payment_recieved || 0),
+          'Price': '$ ' + parseInt(p.deal_price || 0),
+          'Penalty': '$ ' + parseInt(p.penalty || 0),
+          'Amount Paid': '$ ' + parseInt(p.total_payment_recieved || 0),
           'Remanining Amount': '$ ' + (this.getRemainingAmt(p) || 0),
           // 'Status Account': ''
         });
