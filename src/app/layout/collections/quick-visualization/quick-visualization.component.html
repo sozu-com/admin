@@ -286,9 +286,13 @@
                       <th>{{'quickVisualization.model' | translate}}:</th>
                       <td>{{model?.property?.building_configuration?.name || ('table.tr.td.NA' | translate)}}</td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                       <th>{{'quickVisualization.Parkinglotincluded' | translate}}:</th>
-                      <td>{{parkingLotIncludedDetails || ('table.tr.td.NA' | translate)}}</td>
+                      <td *ngFor="let item of this.model.property.property_parking_space; let i=index">{{item.parking_type && item.parking_count ? (this.getParkingLotIncludedText(item.parking_type) + ':' + item.parking_count) : ('table.tr.td.NA' | translate)}}</td>
+                    </tr> -->
+                    <tr *ngFor="let item of this.model?.property?.property_parking_space; let i=index">
+                      <th [attr.rowspan]="this.model?.property?.property_parking_space?.length" *ngIf="i == 0 ">{{'quickVisualization.Parkinglotincluded' | translate}}:</th>
+                      <td >{{item.parking_type && item.parking_count ? (this.getParkingLotIncludedText(item.parking_type) + ':' + item.parking_count) : ('table.tr.td.NA' | translate)}}</td>
                     </tr>
                     <tr>
                       <th>{{'quickVisualization.Parkinglotsale' | translate}}:</th>
