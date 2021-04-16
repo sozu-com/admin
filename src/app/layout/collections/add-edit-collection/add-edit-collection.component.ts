@@ -2986,7 +2986,7 @@ export class AddEditCollectionComponent implements OnInit {
   makeDetailsForPaking = (): void => {
     ((this.tempmodel.property || {}).property_parking_space || []).forEach((item) => {
       if (this.parkingLotIncludedDetails) {
-        this.parkingLotIncludedDetails += ',';
+        this.parkingLotIncludedDetails += ', ';
       } else {
         this.parkingLotIncludedDetails = '';
       }

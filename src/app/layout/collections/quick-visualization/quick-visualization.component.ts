@@ -1100,9 +1100,10 @@ export class QuickVisualizationComponent implements OnInit {
   }
 
   makeDetailsForPaking = (): void => {
+    this.parkingLotIncludedDetails = 'Tandem:100, Double:300';
     ((this.model.property || {}).property_parking_space || []).forEach((item) => {
       if (this.parkingLotIncludedDetails) {
-        this.parkingLotIncludedDetails += ',';
+        this.parkingLotIncludedDetails += ', ';
       } else {
         this.parkingLotIncludedDetails = '';
       }
