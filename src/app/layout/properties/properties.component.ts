@@ -1711,6 +1711,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       this.admin.postDataApi('createOffers', param).subscribe(result=>{
       this.generatePDF();
       this.closeModalInstallment();
+      this.getListing();
       this.spinner.hide();
       });
     } else {
