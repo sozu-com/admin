@@ -1285,6 +1285,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     let interest;
     let final_price;
     let monthly_installment_amount;
+    let index;
     let add_variable = [];
 
     if(!this.is_for_Offer){
@@ -1312,15 +1313,15 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   else{
-    let index = this.property_array.property_offer_payment.findIndex(x=> x.random_id == this.offer_id);
-    discount = this.property_array.property_offer_payment[0].discount;
-    interest = this.property_array.property_offer_payment[0].interest;
-    final_price = this.property_array.property_offer_payment[0].final_price;
+    index = this.property_array.property_offer_payment.findIndex(x=> x.random_id == this.offer_id);
+    discount = this.property_array.property_offer_payment[index].discount;
+    interest = this.property_array.property_offer_payment[index].interest;
+    final_price = this.property_array.property_offer_payment[index].final_price;
     pricePerM2 = final_price / this.property_array.max_area;
-    downpayment = (this.property_array.property_offer_payment[0].down_payment * final_price) / 100;
-    monthly_installment_amount = (this.property_array.property_offer_payment[0].monthly_installment * final_price) / 100;
-    payment_upon_delivery = (this.property_array.property_offer_payment[0].payment_upon_delivery * final_price) / 100;
-    monthly_installments = monthly_installment_amount / this.property_array.property_offer_payment[0].number_of_month;
+    downpayment = (this.property_array.property_offer_payment[index].down_payment * final_price) / 100;
+    monthly_installment_amount = (this.property_array.property_offer_payment[index].monthly_installment * final_price) / 100;
+    payment_upon_delivery = (this.property_array.property_offer_payment[index].payment_upon_delivery * final_price) / 100;
+    monthly_installments = monthly_installment_amount / this.property_array.property_offer_payment[index].number_of_month;
   }
 
     let docDefinition = {
@@ -1342,7 +1343,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
             },
             {
 
-              text: this.translate.instant('generatePDF.addressName') + '\n' + date,
+              text: this.translate.instant('generatePDF.addressName') + '\n' + date + '\n' + this.translate.instant('generatePDF.comnercialOfferId') + ' ' + this.offer_id,
               alignment: 'right',
               color: '#858291'
             },
@@ -1428,7 +1429,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                   body: [
                     [
                       { text: this.translate.instant('generatePDF.leadName'), border: [false, false, false, false], bold: true, color: '#858291' },
-                      { text: (this.is_for_Offer ? this.property_array.property_offer_payment[0].lead_name : this.installmentFormGroup.value.leadName) || 'N/A', border: [false, false, false, false], bold: true }
+                      { text: (this.is_for_Offer ? this.property_array.property_offer_payment[index].lead_name : this.installmentFormGroup.value.leadName) || 'N/A', border: [false, false, false, false], bold: true }
                     ],
                     [
                       { text: this.translate.instant('generatePDF.agent'), border: [false, false, false, false], color: '#858291' },
@@ -1453,7 +1454,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                   body: [
                     [
                       { text: this.translate.instant('generatePDF.monthlyPayments'), border: [false, false, false, false], color: '#858291' },
-                      { text: (this.is_for_Offer ? this.property_array.property_offer_payment[0].number_of_month : this.installmentFormGroup.value.numberOfMI) || 'N/A', border: [false, false, false, false], bold: true },
+                      { text: (this.is_for_Offer ? this.property_array.property_offer_payment[index].number_of_month : this.installmentFormGroup.value.numberOfMI) || 'N/A', border: [false, false, false, false], bold: true },
                       { text: '', border: [false, false, false, false] }
                     ],
                     [
@@ -1468,13 +1469,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.downpayment') + ':', border: [false, false, false, false], color: '#858291' },
-                      { text: this.is_for_Offer ? this.property_array.property_offer_payment[0].down_payment : this.installmentFormGroup.value.downPayment ? 
+                      { text: this.is_for_Offer ? this.property_array.property_offer_payment[index].down_payment : this.installmentFormGroup.value.downPayment ? 
                         this.installmentFormGroup.value.downPayment + '%' : 'N/A', border: [false, false, false, false], bold: true },
                       { text: downpayment ? this.price.transform(Number(downpayment || 0).toFixed(2)) : '', border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.monthlyPaymentsAmount'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.is_for_Offer ? this.property_array.property_offer_payment[0].monthly_installment : this.installmentFormGroup.value.monthlyInstallment ? 
+                      { text: this.is_for_Offer ? this.property_array.property_offer_payment[index].monthly_installment : this.installmentFormGroup.value.monthlyInstallment ? 
                         this.installmentFormGroup.value.monthlyInstallment + '%' : 'N/A', border: [false, false, false, false], bold: true },
                       { text: monthly_installment_amount ? this.price.transform(Number(monthly_installment_amount).toFixed(2)) : '', border: [false, false, false, false], bold: true }
                     ],
@@ -1486,7 +1487,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                         ],
                         border: [false, false, false, true], color: '#858291'
                       },
-                      { text: this.is_for_Offer ? this.property_array.property_offer_payment[0].payment_upon_delivery : this.installmentFormGroup.value.paymentupondelivery ? 
+                      { text: this.is_for_Offer ? this.property_array.property_offer_payment[index].payment_upon_delivery : this.installmentFormGroup.value.paymentupondelivery ? 
                         this.installmentFormGroup.value.paymentupondelivery + '%' : '', border: [false, false, false, true], bold: true },
                       { text: payment_upon_delivery ? this.price.transform(Number(payment_upon_delivery).toFixed(2)) : 'N/A', border: [false, false, false, true], bold: true }
                     ],
@@ -1504,7 +1505,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                 bold: true
               },
               {
-                text: this.is_for_Offer ? this.property_array.property_offer_payment[0].notes : this.installmentFormGroup.value.addNoteFormArray.length > 0 ? this.installmentFormGroup.value.addNoteFormArray[0].addNote : '',
+                text: this.is_for_Offer ? this.property_array.property_offer_payment[index].notes : this.installmentFormGroup.value.addNoteFormArray.length > 0 ? this.installmentFormGroup.value.addNoteFormArray[0].addNote : '',
                 color: '#858291'
               },
               {
@@ -2075,7 +2076,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   offerID(item){
-    this.offer_id = item;
+    this.offer_id = item.random_id;
     this.spinner.show();
     this.admin.postDataApi('getOfferById', { id: (item || {}).id }).subscribe((success) => {
       this.spinner.hide();
