@@ -906,7 +906,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.isShown = data.account_statement && data.account_statement.usersemail && data.account_statement.usersemail.length > 0 ? true : false;
     this.addFormStep4.controls.day.patchValue(data.account_statement ? data.account_statement.day : '');
 
-    if(this.isCommercialOffer && data.property.property_offer_payment && data.property.property_offer_payment.length > 0){
+    if(data.property.property_offer_payment && data.property.property_offer_payment.length > 0){
       this.addFormStep4.controls.final_price.patchValue(Number(data.property.property_offer_payment[0].final_price).toFixed(2));
       this.addFormStep4.controls.discount_interest.patchValue(data.property.property_offer_payment[0].discount ? data.property.property_offer_payment[0].discount : 
         data.property.property_offer_payment[0].interest ? data.property.property_offer_payment[0].interest : 0 );
@@ -1741,8 +1741,19 @@ export class AddEditCollectionComponent implements OnInit {
     });
   }
 
-  onSelect(event) {
+  onSelect(event, payment_choice) {
     // console.log(event);
+    let count = 0;
+    const control1 = this.addFormStep4.get('payment_choices') as FormArray;
+    if (control1.value) {
+      control1.value.forEach(function(result, index) {
+        if( result.payment_choice.id == payment_choice.value.payment_choice.id){
+          result.date = moment(event).add(count, 'months').toDate();
+          count = count + 1;
+        }
+      });
+      this.addFormStep4.controls.payment_choices.patchValue(control1.value);
+    }
   }
 
   getBothBroker(keyword: string) {
@@ -3022,4 +3033,7 @@ export class AddEditCollectionComponent implements OnInit {
     return this.language_code == 'en' ? ((data || {}).name_en || '') : ((data || {}).name_es || '');
   }
 
+  identify(index, item){
+    return item.name; 
+ }
 }

@@ -1741,7 +1741,7 @@
 
       <div class="spacer15"></div>
       <div formArrayName="payment_choices">
-        <ng-container *ngFor="let payment_choice of addFormStep4.get('payment_choices').controls; let i=index">
+        <ng-container *ngFor="let payment_choice of addFormStep4.get('payment_choices').controls; let i=index; trackBy:identify">
 
           <div class="row" [formGroupName]="i">
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -1776,7 +1776,7 @@
               <div class="form-group-3">
                 <div class="clearfix"></div>
                 <p-calendar dateFormat="dd/M/yy" [style]="{'width':'100%'}" formControlName="date" class="sz-calendar"
-                  [locale]="locale" showIcon="true" (onSelect)="onSelect($event)" showButtonBar="true"
+                  [locale]="locale" showIcon="true" (onSelect)="onSelect($event, payment_choice)" showButtonBar="true"
                   [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
               </div>
               <div *ngIf="showError && (addFormStep4.controls.payment_choices.controls[i].controls.date.invalid)">
