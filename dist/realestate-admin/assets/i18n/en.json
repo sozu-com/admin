@@ -1052,6 +1052,7 @@
       "noNoteFound": "No notes to show.",
       "noRecordFound": "No record found",
       "noApprovedCollectionFound": "No approved collection found",
+      "noCommissionFound": "No commission found",
       "noUnApprovedCollectionFound": "No unapproved collection found",
       "fileSizeExceeds": "The file you have selected is too large. The maximum size is 50MB.",
       "pdfSizeExceeds": "The file you have selected is too large. The maximum size is 100MB.",
@@ -1768,7 +1769,8 @@
     "defaultSettings": "Default Settings",
     "documentListing": "Document Listing",
     "manageCredits" : "Manage Credits",
-    "cordinatorAgent": "Cordinator Agent"
+    "cordinatorAgent": "Cordinator Agent",
+    "manageCommissions": "Manage Commissions"
   },
   "commonBlock": {
     "propertiesAvailable": "Properties available",
@@ -2667,5 +2669,8 @@
       "mail":"Email of the buyer",
       "date":"Sending mail",
       "selectday": "Select Day"
+  },
+  "viewCommission":{
+    "label": "Manage Commission"
   }
 }

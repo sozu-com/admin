@@ -19,6 +19,16 @@ export class ManageCommissionsComponent implements OnInit {
   locale: any;
   items: any = [];
   total: any = 0;
+  today: Date;
+
+  collectionStatusFilter = [
+    { name: 'Up to Date', value: 1 },
+    { name: 'Payment Period', value: 2 },
+    { name: 'Overdue Payment', value: 3 },
+    { name: 'Cancelled', value: 4 },
+    { name: 'Settled', value: 5 },
+    { name: 'Inconsistency', value: 6 },
+    { name: 'Only Commission for sale', value: 7 }];
 
   constructor(
     private propertyService: PropertyService,
@@ -29,6 +39,7 @@ export class ManageCommissionsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.today = new Date();
     this.getCountries();
     this.initCalendarLocale();
   }
@@ -81,6 +92,16 @@ export class ManageCommissionsComponent implements OnInit {
   resetDates() {
     this.parameter.min = '';
     this.parameter.max = '';
+  }
+
+  sort_by(sort_by) {
+    if (this.parameter.sort_by !== sort_by) {
+      this.parameter.sort_by = sort_by;
+      this.parameter.sort_by_order = 1;
+    } else {
+      this.parameter.sort_by_order = this.parameter.sort_by_order ? 0 : 1;
+    }
+    this.getListing();
   }
 
   getCountries() {

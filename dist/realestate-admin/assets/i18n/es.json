@@ -1053,6 +1053,7 @@
       "noNoteFound": "No hay notas para mostrar.",
       "noRecordFound": "Ningún registro encontrado",
       "noApprovedCollectionFound": "No se encontró una colección aprobada.",
+      "noCommissionFound": "No se encontró comisión",
       "noUnApprovedCollectionFound": "No se encontró una colección no aprobada",
       "fileSizeExceeds": "El archivo que ha seleccionado es demasiado grande. El tamaño máximo es 50 MB.",
       "pdfSizeExceeds": "El archivo que ha seleccionado es demasiado grande. El tamaño máximo es 100 MB.",
@@ -1769,7 +1770,8 @@
     "defaultSettings": "Configuración por defecto",
     "documentListing": "Listado de documentos",
     "manageCredits" : "Gestionar créditos",
-    "cordinatorAgent": "Agente coordinador"
+    "cordinatorAgent": "Agente coordinador",
+    "manageCommissions": "Administrar Comisiones"
   },
   "commonBlock": {
     "propertiesAvailable": "Departamentos disponibles",
@@ -2665,5 +2667,8 @@
     "mail":"Email del comprador",
     "date":"Fecha de envio",
     "selectday": "Seleccionar día"
+  },
+  "viewCommission":{
+    "label": "Administrar Comisiones"
   }
 }
