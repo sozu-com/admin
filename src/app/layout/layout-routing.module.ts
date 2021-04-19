@@ -103,6 +103,10 @@ const routes: Routes = [
         path: 'commissions',
         loadChildren: './manage-commissions/manage-commissions.module#ManageCommissionsModule'
       },
+      {
+        path: 'properties-for-sale',
+        loadChildren: './properties-for-sale/properties-for-sale.module#PropertiesForSaleModule'
+      }
     ]
   }
 ];
@@ -111,4 +115,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class LayoutRoutingModule {}
+export class LayoutRoutingModule { }

@@ -1,0 +1,7 @@
+:host ::ng-deep .multiselect-dropdown {
+    position: relative;
+    width: 100%;
+    font-size: inherit;
+    font-family: inherit;
+    background-color: white;
+}
