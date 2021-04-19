@@ -50,7 +50,7 @@ export class Collection {
     buyer_legal_entity?: any;
     seller_legal_entity?: any;
     payment_received_by?: number;
-    
+    offer_id?: any;
 }
 
 export class DealType {

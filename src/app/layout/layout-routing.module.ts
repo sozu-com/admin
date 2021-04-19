@@ -98,7 +98,11 @@ const routes: Routes = [
       {
         path: 'credit',
         loadChildren: './credit/credit.module#CreditModule'
-      }
+      },
+      {
+        path: 'commissions',
+        loadChildren: './manage-commissions/manage-commissions.module#ManageCommissionsModule'
+      },
     ]
   }
 ];

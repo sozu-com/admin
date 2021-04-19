@@ -238,6 +238,9 @@
                        <li *ngIf="admin?.admin_acl['Manage Collections']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
                          <a class="nav-link" href="javascript://" routerLink="collections/view-collections"><i><img src="assets/img/ic_properties_manage.png"></i><span>{{'sidebar.manageCollections' | translate}}</span></a>
                        </li>
+                      <li *ngIf="admin?.admin_acl['Manage Collections']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
+                        <a class="nav-link" href="javascript://" routerLink="commissions/view-commissions"><i><img src="assets/img/ic_properties_manage.png"></i><span>{{'sidebar.manageCommissions' | translate}}</span></a>
+                      </li>
                        <li *ngIf="admin?.admin_acl['Collection Reports']?.can_read==1" class="nav-item dropdown" [routerLinkActive]="'active'">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
                         <i><img src="assets/img/graph2.png"></i><span>{{'sidebar.collectionReports' | translate}}</span></a>
