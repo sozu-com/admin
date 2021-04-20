@@ -334,6 +334,10 @@ export class ManagersComponent implements OnInit {
     this.parameter.name = name;
     this.getTowerManager();
   }
+  searchUserByagentAssignee(agent: string) {
+    this.parameter.agent = agent;
+    this.getTowerManager();
+  }
   searchUserByCompanyName(company_name: string) {
     this.parameter.company_name = company_name;
     this.getTowerManager();
@@ -362,6 +366,7 @@ export class ManagersComponent implements OnInit {
     input.append('project_sort', this.model.project_sort);
     input.append('page', this.parameter.p.toString());
     if (this.parameter.name) { input.append('name', this.parameter.name); }
+    if (this.parameter.agent) { input.append('agent', this.parameter.agent); }
     if (this.parameter.email) { input.append('email', this.parameter.email); }
     if (this.parameter.phone) { input.append('phone', this.parameter.phone); }
     if (this.parameter.company_name) { input.append('company_name', this.parameter.company_name); }

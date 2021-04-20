@@ -132,12 +132,18 @@
             <th style="width:5%; vertical-align: top;">
               <div class="table-search">
                 <label>{{'table.th.agentAssignee' | translate}}</label>
+                <div class="searh-3">
+                  <input type="text" [(ngModel)]="parameter.agent" (keyup.enter)="searchUserByagentAssignee(parameter.agent)"
+                  agent="" autocomplete="address-level4">
+                  <button type="button" *ngIf="parameter.agent" (click)="searchUserByagentAssignee(parameter.agent)"><i
+                      class="fa fa-search"></i></button>
+                </div>
                 <!-- <a (click)="sortData(model.project_sort==1?2:1)" href="javascript://"><img
                     [ngClass]="{'upsidedown':model.project_sort==2}" src="assets/img/top-arrow.png" alt="img"></a> -->
-                    <select [(ngModel)]="parameter.agent_id" (change)="getTowerManager()" name="agent_id">
+                    <!-- <select [(ngModel)]="parameter.agent_id" (change)="getTowerManager()" name="agent_id">
                      <option value="">{{'table.th.all' | translate}}</option>
                     <option [value]="tempTowerManagerAgentArray.id" *ngFor="let tempTowerManagerAgentArray of towerManagerAgentArray">{{tempTowerManagerAgentArray.name}}</option>
-                   </select>
+                   </select> -->
               </div>
             </th>
             <th style="width:19%">
