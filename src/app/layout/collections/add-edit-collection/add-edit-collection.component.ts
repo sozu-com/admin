@@ -170,6 +170,7 @@ export class AddEditCollectionComponent implements OnInit {
   private parkingSpaceRentArray: any[] = [];
   property_offer_id: any;
   edit_price: boolean;
+  edit_collection: boolean = false;
 
   constructor(
     public model: Collection,
@@ -516,6 +517,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.adminService.postDataApi('getCollectionById', { id: id })
       .subscribe(
         success => {
+          this.edit_collection =true;
           this.spinner.hide();
           this.tempmodel = JSON.parse(JSON.stringify(success['data']));
           this.property_beneficiary = (success.data || {}).beneficiary || [];
