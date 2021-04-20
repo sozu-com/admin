@@ -607,7 +607,8 @@
       "enter": "Enter",
       "chooseDate": "Choose Date",
       "parkingLotSpacesEn": "Parking lot spaces name (English)",
-      "parkingLotSpacesEs": "Parking lot spaces name (Spanish)"
+      "parkingLotSpacesEs": "Parking lot spaces name (Spanish)",
+      "manageCommissions": "Manage Commissions"
     }
   },
   "charts": {
@@ -1332,7 +1333,8 @@
       "youCannotDeleteThisPropertyConfiguration":"You cannot delete this property configuration",
       "youCannotDeleteThisAmenities":"You cannot delete this amenities",
       "youCannotDeleteThisPossessionStatus":"You cannot delete this possession status",
-      "youCannotDeleteThisProjectType":"You cannot delete this project type"
+      "youCannotDeleteThisProjectType":"You cannot delete this project type",
+      "doYouWantToEditTheFinalPriceOfCollection":"Do you want to edit the final price of collection?"
     } 
   },
   "inhouseUsers": {

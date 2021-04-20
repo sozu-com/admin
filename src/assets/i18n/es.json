@@ -606,7 +606,8 @@
       "enter": "Entrar",
       "chooseDate": "Elegir fecha",
       "parkingLotSpacesEn": "Nombre del tipos de estacionamientos (Inglés)",
-      "parkingLotSpacesEs": "Nombre del tipos de estacionamientos (Español)"
+      "parkingLotSpacesEs": "Nombre del tipos de estacionamientos (Español)",
+      "manageCommissions": "Administrar Comisiones"
     }
   },
   "charts": {
@@ -1333,7 +1334,8 @@
       "youCannotDeleteThisPropertyConfiguration":"No puede eliminar esta configuración de propiedad",
       "youCannotDeleteThisAmenities":"No puede eliminar estas comodidades",
       "youCannotDeleteThisPossessionStatus":"No puede eliminar este estado de posesión",
-      "youCannotDeleteThisProjectType":"No puedes eliminar este tipo de proyecto"
+      "youCannotDeleteThisProjectType":"No puedes eliminar este tipo de proyecto",
+      "doYouWantToEditTheFinalPriceOfCollection":"¿Quieres editar el precio final de la colección"
     }
   },
   "inhouseUsers": {

@@ -19,6 +19,7 @@ import { Document } from 'src/app/models/document.model';
 import { IDestinationStatus } from 'src/app/common/marrital-status-interface';
 import { element } from 'protractor';
 import { forkJoin } from 'rxjs';
+import { GenerateOfferPdfService } from 'src/app/services/generate-offer-pdf.service';
 declare let swal: any;
 
 @Component({
@@ -167,6 +168,8 @@ export class AddEditCollectionComponent implements OnInit {
   public parkingLotSaleDetails: any;
   private parkingSpaceLotsArray: any[] = [];
   private parkingSpaceRentArray: any[] = [];
+  property_offer_id: any;
+  edit_price: boolean;
 
   constructor(
     public model: Collection,
@@ -182,6 +185,7 @@ export class AddEditCollectionComponent implements OnInit {
     private toastr: ToastrService,
     public modelForDoc: Document,
     public tempmodel: Collection,
+    private offerPdf: GenerateOfferPdfService
   ) { }
 
   ngOnInit(): void {
@@ -3042,4 +3046,29 @@ export class AddEditCollectionComponent implements OnInit {
   identify(index, item){
     return item.name; 
  }
+
+ getOfferPdf(){
+  this.property_offer_id = this.tempmodel.property.offer_id;
+  let offer = this.tempmodel.property.property_offer_payment.find(x=> x.random_id == this.property_offer_id)
+  this.offerPdf.offerID(offer);
+}
+
+editPrice(isEdit){
+  if(isEdit){
+  swal({
+    html: this.translate.instant('message.error.areYouSure') + '<br>' +
+      this.translate.instant('message.error.doYouWantToEditTheFinalPriceOfCollection'),
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: this.constant.confirmButtonColor,
+    cancelButtonColor: this.constant.cancelButtonColor,
+    confirmButtonText: 'Yes'
+  }).then((result) => {
+      this.edit_price = result.value;
+  });
+}
+else{
+  this.edit_price = false;
+}
+}
 }
