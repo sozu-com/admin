@@ -97,7 +97,7 @@ export class MonthlyComponent implements OnInit {
     });
   }
   getPropertyAmenities() {
-    this.admin.postDataApi('getPaymentChoices',{})
+    this.admin.postDataApi('getPaymentChoices', {})
       .subscribe(
         success => {
           this.spinner.hide();
@@ -122,7 +122,7 @@ export class MonthlyComponent implements OnInit {
         dayNamesShort: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
         dayNamesMin: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
         monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
-            'November', 'December'],
+          'November', 'December'],
         monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         today: 'Today',
         clear: 'Clear',
@@ -176,7 +176,7 @@ export class MonthlyComponent implements OnInit {
       allowSearchFilter: true,
       itemsShowLimit: 1
     };
-    
+
     this.legalRepDropdownSettings = {
       singleSelection: false,
       idField: 'id',
@@ -293,14 +293,14 @@ export class MonthlyComponent implements OnInit {
     for (let index = 0; index < this.projects.length; index++) {
       if (this.projects[index].id == this.input.building_id) {
         const bt = this.projects[index].building_towers;
-        for(let i = 0; i < bt.length; i++) {
+        for (let i = 0; i < bt.length; i++) {
           if (bt[i].id == building_towers_id) {
             this.towers = bt[i];
             this.towers['floors'] = [];
             // floors
             this.towers['unique_floors'].map(s => {
               let obj = {};
-              obj = {id: s, name: s == 0 ? 'Ground Floor' : 'Floor ' + s};
+              obj = { id: s, name: s == 0 ? 'Ground Floor' : 'Floor ' + s };
               this.towers['floors'].push(obj);
               this.floors.push(obj);
             });
@@ -345,7 +345,7 @@ export class MonthlyComponent implements OnInit {
   }
 
   getBuyers() {
-    this.admin.postDataApi('getAllBuyersForCollections', { user_type : 1 })
+    this.admin.postDataApi('getAllBuyersForCollections', { user_type: 1 })
       .subscribe(
         success => {
           this.buyers = success.data;
@@ -353,7 +353,7 @@ export class MonthlyComponent implements OnInit {
   }
 
   getLegalRep() {
-    this.admin.postDataApi('getAllBuyersForCollections', { user_type : 2 })
+    this.admin.postDataApi('getAllBuyersForCollections', { user_type: 2 })
       .subscribe(
         success => {
           this.legalReps = success.data;
@@ -361,7 +361,7 @@ export class MonthlyComponent implements OnInit {
   }
 
   getBuyersAsDev() {
-    this.admin.postDataApi('getAllBuyersForCollections', { user_type : 3 })
+    this.admin.postDataApi('getAllBuyersForCollections', { user_type: 3 })
       .subscribe(
         success => {
           this.buyersAsDev = success.data;
@@ -373,7 +373,7 @@ export class MonthlyComponent implements OnInit {
     const input: any = JSON.parse(JSON.stringify(this.input));
     input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
     input.year = new Date(this.input.start_date).getFullYear(),
-    input.month = new Date(this.input.start_date).getMonth() + 1;
+      input.month = new Date(this.input.start_date).getMonth() + 1;
     input.page = this.parameter.page;
 
     this.previousMonth = moment(this.input.start_date).subtract(1, 'months').toDate();
@@ -397,10 +397,10 @@ export class MonthlyComponent implements OnInit {
     }
     if (this.selectedProperties) {
       const d = []
-      this.selectedProperties.forEach((element, index) =>{
+      this.selectedProperties.forEach((element, index) => {
         let id = d.find(id => id == element.id);
-        if(!id){
-        d.push(element.id);
+        if (!id) {
+          d.push(element.id);
         }
       });
       input.property_id = d;
@@ -423,10 +423,10 @@ export class MonthlyComponent implements OnInit {
     }
     if (this.selctedConcept) {
       const d = [];
-      this.selctedConcept.forEach((element, index) =>{
+      this.selctedConcept.forEach((element, index) => {
         let id = d.find(id => id == element.id);
-        if(!id){
-        d.push(element.id);
+        if (!id) {
+          d.push(element.id);
         }
       });
       input.paymentConcepts = d;
@@ -434,7 +434,16 @@ export class MonthlyComponent implements OnInit {
     this.admin.postDataApi('generateCollectionMonthlyReport', input).subscribe(
       success => {
         this.total = success['total_count'];
-        this.finalData = success['data'];
+        this.finalData = success['data'] || [];
+        let total_previous_month_amount = 0;
+        let total_curent_month_amount = 0;
+        let total_next_month_amount = 0;
+        (success['data'] || []).forEach((arrayData) => {
+          total_previous_month_amount += (arrayData.previous_month_amount || 0) + (arrayData.previous_month_penalty || 0) - (arrayData.previous_month_paid || 0);
+          total_curent_month_amount += (arrayData.curent_month_amount || 0) + (arrayData.curent_month_penalty || 0) - (arrayData.curent_month_paid || 0);
+          total_next_month_amount += (arrayData.next_month_amount || 0) + (arrayData.next_month_penalty || 0) - (arrayData.next_month_paid || 0);
+        });
+        this.finalData.length > 0 ? this.finalData.push({ total: true, total_previous_month_amount: total_previous_month_amount, total_curent_month_amount: total_curent_month_amount, total_next_month_amount: total_next_month_amount }) : '';
         this.spinner.hide();
       },
       error => {
@@ -458,14 +467,14 @@ export class MonthlyComponent implements OnInit {
     this.selectedLegalReps = [];
     this.selctedConcept = [];
   }
-  
+
   getExportlisting() {
     this.spinner.show();
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     input.page = 0;
     input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
     input.year = new Date(this.input.start_date).getFullYear(),
-    input.month = new Date(this.input.start_date).getMonth() + 1;
+      input.month = new Date(this.input.start_date).getMonth() + 1;
 
     this.previousMonth = moment(this.input.start_date).subtract(1, 'months').toDate();
     this.nextMonth = moment(this.input.start_date).add(1, 'months').toDate();
