@@ -109,7 +109,13 @@
       "page": "Page",
       "news": "News",
       "mainTemplates": "Main Templates"
-    }
+    },
+  "commisionType":{
+    "type": "Commission Type",
+    "purchase": "Purchase",
+    "agent": "Agent",
+    "collection": "Collection"
+  }
   },
   "addForm": {
     "parking-spaces":"Total parking spaces",

@@ -109,6 +109,12 @@
       "page": "Página",
       "news": "Noticias",
       "mainTemplates": "Plantillas principales"
+    },
+    "commisionType":{
+      "type": "Tipo de comisión",
+      "purchase": "Compra",
+      "agent": "Agente",
+      "collection": "Colección"
     }
   },
   "addForm": {
