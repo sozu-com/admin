@@ -759,6 +759,7 @@
       "selectCompany": "Seleccionar Compañía",
       "linkedProjects": "Proyectos vinculados",
       "agentAssignee":"Agente cesionario",
+      "typeOfAgent":"Tipo de agente",
       "status": "Estatus",
       "type": "Tipo",
       "title": "Título",
