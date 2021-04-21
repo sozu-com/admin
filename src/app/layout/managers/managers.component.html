@@ -67,8 +67,9 @@
                 </div> -->
               </div>
             </th>
-            <th style="width:6%">&nbsp;
-              <div class="searh-3">
+            <th style="width:6%;vertical-align: top;">
+              <div class="table-search">
+                <label><br>&nbsp;{{'table.th.typeOfAgent' | translate}}</label>
                 <select [(ngModel)]="parameter.is_freelancer" name="is_freelancer"
                   (change)="setIsFreelancer(parameter.is_freelancer)">
                   <option value="0">All</option>
@@ -79,7 +80,7 @@
             </th>
             <th style="width:20%">
               <div class="table-search">
-                <label>{{'table.th.companyCommercialName' | translate}}</label>
+                <label><br>&nbsp;{{'table.th.companyCommercialName' | translate}}</label>
                 <div class="searh-3">
                   <input type="text" [(ngModel)]="parameter.company_name"
                     (keyup.enter)="searchUserByCompanyName(parameter.company_name)" name=""
