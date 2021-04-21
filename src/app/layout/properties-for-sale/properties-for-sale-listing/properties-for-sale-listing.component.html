@@ -105,7 +105,7 @@
                  {{'table.exportDataBtn' | translate}}</a>
            </div>
         </div>
-        <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
+        <!-- <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
            <div class="add-new text-center">
               <a *ngIf="admin?.admin_acl['Property Management']?.can_create==1" class="btn" href="javascript://"
                  routerLink="/dashboard/properties/add-bulk-property/0/0">{{'viewProperty.addBulkProperty' |
@@ -117,7 +117,7 @@
               <a *ngIf="admin?.admin_acl['Property Management']?.can_create==1" class="btn" href="javascript://"
                  routerLink="/dashboard/properties/add-property/0/0">{{'viewProperty.addNewProperty' | translate}}</a>
            </div>
-        </div>
+        </div> -->
      </div>
      <div class="tab-content white-bg">
         <div class="tab-pane active">
@@ -200,11 +200,11 @@
                              </select>
                           </div>
                        </th>
-                       <th style="width:10%;vertical-align:top;">
+                       <!-- <th style="width:10%;vertical-align:top;">
                           <div class="d-flex table-search">
                              <label>{{'table.th.editPrice' | translate}}</label>
                           </div>
-                       </th>
+                       </th> -->
                        <th style="width:10%;vertical-align:top;">
                           <div (click)="sort_by(1)" class="d-flex table-search">
                              <label>{{'table.th.listPrice' | translate}}</label>
@@ -291,12 +291,12 @@
                           <app-property-configuration *ngIf="p?.building_configuration"
                              [configuration]="p.building_configuration.config"></app-property-configuration>
                        </td>
-                       <td><span>
+                       <!-- <td><span>
                           <button (click)="editPricePopup(p, i)"
                              [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
                              title="{{'table.title.editPrice' | translate}}" class="action-icon"><img
                                 src="assets/img/edit.png" alt="img"></button>
-                       </span></td>
+                       </span></td> -->
                        <td><span>{{p.min_price | price}}</span></td>
                        <td><span>{{p.final_price | price}}</span></td>
 
