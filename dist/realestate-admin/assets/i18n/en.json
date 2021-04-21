@@ -761,6 +761,7 @@
       "selectCompany": "Select Company",
       "linkedProjects": "Linked Projects",
       "agentAssignee":"Agent assignee",
+      "typeOfAgent":"Type of agent",
       "status": "Status",
       "type": "Type",
       "title": "Title",

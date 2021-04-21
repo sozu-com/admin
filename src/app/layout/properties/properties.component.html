@@ -589,7 +589,7 @@
                                  src="assets/img/edit.png" alt="img"></button>
                         </span></td>
                         <td><span>{{p.min_price | price}}</span></td>
-                        <td><span>{{p.final_price | price}}</span></td>
+                        <td><span>{{p.final_price ? (p.final_price | price) : ('table.tr.td.NA' | translate)}}</span></td>
                         <td>
                            <span  *ngIf="p?.offer_count">
                               <a class="add1" href="javascript://" (click)="openOfferModel(p, i)" style="color: #00B96F;">

@@ -23,6 +23,7 @@ import { ExcelDownload } from 'src/app/common/excelDownload';
 import { ApiConstants } from 'src/app/common/api-constants';
 import { forkJoin } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { GenerateOfferPdfService } from 'src/app/services/generate-offer-pdf.service';
 
 declare let swal: any;
 declare var $: any;
@@ -158,7 +159,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     private datePipe: DatePipe,
     private http: HttpClient,
     private price: PricePipe,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private offerPdf: GenerateOfferPdfService
   ) {
     this.installmentFormGroup = this.formBuilder.group({
       downPayment: [''],
@@ -1292,14 +1294,15 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     let add_variable = [];
     let bank_detail;
     if(!this.is_for_Offer){
+      let price = least_price;
     if (this.installmentFormGroup.controls.parkingLotForSaleFormArray.value && this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.length > 0) {
       this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.forEach(element => {
-        least_price = least_price + parseInt(element.parkingLotsPrice.replace('$', ''));
+        price = least_price + parseInt(element.parkingLotsPrice.replace('$', ''));
       });
     }
     discount = this.installmentFormGroup.value.discount ? (this.installmentFormGroup.value.discount * least_price) / 100 : 0;
     interest = this.installmentFormGroup.value.interest ? (this.installmentFormGroup.value.interest * least_price) / 100 : 0;
-    final_price = discount ? least_price - discount : interest ? least_price + interest : least_price;
+    final_price = discount ? price - discount : interest ? price + interest : price;
     pricePerM2 = final_price / this.property_array.max_area;
     downpayment = (this.installmentFormGroup.value.downPayment * final_price) / 100;
     monthly_installment_amount = (this.installmentFormGroup.value.monthlyInstallment * final_price) / 100;
@@ -1329,6 +1332,14 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     monthly_installments = monthly_installment_amount / this.property_array.property_offer_payment[index].number_of_month;
     let bank_index = this.paymentBankDetailsArray.findIndex(bank => bank.id == this.property_array.property_offer_payment[0].bank_id)
     bank_detail = this.paymentBankDetailsArray[bank_index];
+    this.property_array.property_offer_payment[index].property_variable.forEach(element => {
+      let variable_amount = element.variable_percentage ? (element.variable_percentage * final_price) / 100 : 0;
+      add_variable.push([
+        { text: element.variable_name, border: [false, false, false, false], color: '#858291' },
+        { text: element.variable_percentage ? element.variable_percentage + '%' : 'N/A', border: [false, false, false, false], bold: true },
+        { text: variable_amount ? this.price.transform(Number(variable_amount).toFixed(2)) : '', border: [false, false, false, false], bold: true }
+      ]);
+    })
   }
 
     let docDefinition = {
@@ -1587,7 +1598,6 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         docDefinition.content[1].columns[1][1].table.body.splice(no, 0, element);
         no = no + 1;
       });
-      add_variable
     }
     if (this.installmentFormGroup.controls.parkingLotForSaleFormArray.value && this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.length > 0) {
       let no = 5;
@@ -1740,7 +1750,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         final_price: final_price,
         bank_id: this.installmentFormGroup.value.paymentBankDetails.id,
         account_type: this.installmentFormGroup.get('agencyOrSeller').value? 2 : 1,
-        note: (this.installmentFormGroup.value.addNoteFormArray[0] || []).addNote || null,
+        notes: (this.installmentFormGroup.value.addNoteFormArray[0] || []).addNote || null,
         parking_lots: park,
         property_var: addVar
       }
@@ -2084,18 +2094,19 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   offerID(item){
-    this.offer_id = item.random_id;
-    this.spinner.show();
-    this.admin.postDataApi('getOfferById', { id: (item || {}).id }).subscribe((success) => {
-      this.spinner.hide();
-      this.offer_array = (success || {}).data;
-      if(this.offer_array.id){
-         this.openModaloffer(this.offer_array)
-      }
-    }, (error) => {
-      this.spinner.hide();
-      swal(this.translate.instant('swal.error'), error.error.message, 'error');
-    });
+    // this.offer_id = item.random_id;
+    // this.spinner.show();
+    // this.admin.postDataApi('getOfferById', { id: (item || {}).id }).subscribe((success) => {
+    //   this.spinner.hide();
+    //   this.offer_array = (success || {}).data;
+    //   if(this.offer_array.id){
+    //      this.openModaloffer(this.offer_array)
+    //   }
+    // }, (error) => {
+    //   this.spinner.hide();
+    //   swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    // });
+    this.offerPdf.offerID(item);
   }
 
   openModaloffer = (propertyDetails: any): void => {
