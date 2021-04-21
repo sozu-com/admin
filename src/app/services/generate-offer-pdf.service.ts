@@ -179,6 +179,14 @@ export class GenerateOfferPdfService {
     monthly_installments = monthly_installment_amount / this.property_array.property_offer_payment[index].number_of_month;
     let bank_index = this.paymentBankDetailsArray.findIndex(bank => bank.id == this.property_array.property_offer_payment[0].bank_id)
     bank_detail = this.paymentBankDetailsArray[bank_index];
+    this.property_array.property_offer_payment[index].property_variable.forEach(element => {
+      let variable_amount = element.variable_percentage ? (element.variable_percentage * final_price) / 100 : 0;
+      add_variable.push([
+        { text: element.variable_name, border: [false, false, false, false], color: '#858291' },
+        { text: element.variable_percentage ? element.variable_percentage + '%' : 'N/A', border: [false, false, false, false], bold: true },
+        { text: variable_amount ? this.price.transform(Number(variable_amount).toFixed(2)) : '', border: [false, false, false, false], bold: true }
+      ]);
+    })
 
     let docDefinition = {
       pageSize: {
@@ -436,7 +444,7 @@ export class GenerateOfferPdfService {
         docDefinition.content[1].columns[1][1].table.body.splice(no, 0, element);
         no = no + 1;
       });
-      add_variable
+
     }
     pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.commercialOffer') + ' ' + current_date.toISOString() + '.pdf');
     // }else if(action === 'print'){

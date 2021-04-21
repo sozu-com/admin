@@ -1730,7 +1730,7 @@
                 placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="discount_interest" min="0"
                 name="sum_of_concepts" appUptoTwoDigitDecimalNumber [readonly]="isCommercialOffer || (tempmodel?.property && tempmodel?.property?.offer_id) || !edit_price">
             </div>
-            <a href="javascript://" style="float: right;margin-top: 10px;" *ngIf="( edit_collection && !tempmodel?.property) && !isCommercialOffer">
+            <a href="javascript://" style="float: right;margin-top: 10px;" *ngIf="!isCommercialOffer && !isByOffer">
               <i class="fa fa-pencil" aria-hidden="true" style="font-size: 25px;" (click)="editPrice(true)" *ngIf="!edit_price"></i>
               <i class="fa fa-undo" aria-hidden="true" style="font-size: 25px;" (click)="editPrice(false)" *ngIf="edit_price"></i>
             </a>
@@ -2949,22 +2949,22 @@
             </div>
           </ng-container>
         </div>
-        <div *ngIf="(tempmodel?.property && tempmodel?.property.offer_id)" [ngStyle]="{'max-height':sent_as === 1 ? '250px' : '' }"
+        <div *ngIf="isByOffer" [ngStyle]="{'max-height':sent_as === 1 ? '250px' : '' }"
           class="write-note white-bg" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
           <ng-container>
-            <div class="wn-block" *ngIf="(tempmodel?.property && tempmodel?.property.offer_id)">
+            <div class="wn-block" *ngIf="isByOffer">
               <div class="circle">
                 <span></span>
               </div>
               <p class="time" title="'Click to view'">
-                <a *ngIf="(tempmodel?.property && tempmodel?.property.offer_id)" (click)="getOfferPdf()" style="cursor: pointer;">
+                <a *ngIf="isByOffer" (click)="getOfferPdf()" style="cursor: pointer;">
                   {{tempmodel?.property?.offer_id }}
                 </a>
               </p>
             </div>
           </ng-container>
         </div>
-        <div *ngIf="this.buyerSellerPropertyDocumentationFoldersDetailsLength == 0  && (edit_collection && !tempmodel?.property)" class="write-note white-bg"
+        <div *ngIf="this.buyerSellerPropertyDocumentationFoldersDetailsLength == 0  && isByOffer" class="write-note white-bg"
           [ngStyle]="{'height':sent_as === 1 ? '230px' : '245px' }">
           <p class="show-not-found">
             {{'message.error.noDocumentFound' | translate}}
