@@ -7,6 +7,7 @@ import { AdminService } from './admin.service';
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import { HttpClient } from '@angular/common/http';
+import { forkJoin } from 'rxjs';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 declare let swal: any;
@@ -36,7 +37,7 @@ export class GenerateOfferPdfService {
     private http: HttpClient,
   ) { 
 
-    this.http.get('../../../assets/img/sozu_black.png', { responseType: 'blob' })
+    this.http.get('../../assets/img/sozu_black.png', { responseType: 'blob' })
       .subscribe(res => {
         const reader = new FileReader();
         reader.onloadend = () => {
@@ -126,15 +127,13 @@ export class GenerateOfferPdfService {
     //   this.property_offer_payment = e;
     //  });
     this.property_array = propertyDetails;
-    this.getBase64ImageFromUrl(this.property_array.id);
     this.spinner.show();
     this.admin.postDataApi('getPropertyDetails', { id: (propertyDetails || {}).id }).subscribe((success) => {
-      this.spinner.hide();
       this.bankDetails = (success || {}).data;
       this.makePaymentBankDetailsArray(this.property_array.property_offer_payment[0].account_type == 1 ? false : true);
       //this.getParkingSpaceLots(((success || {}).data || {}).building_id);
       this.is_for_Offer = true;
-      this.generatePDF();
+      this.getBase64ImageFromUrl(this.property_array.id);
     }, (error) => {
       this.spinner.hide();
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
@@ -142,9 +141,13 @@ export class GenerateOfferPdfService {
   }
 
   getBase64ImageFromUrl(id) {
-    this.admin.postDataApi('getPdfImage', { id: id }).subscribe((success) => {
-      this.base64 = (success || {}).data;
+    forkJoin([
+    this.admin.postDataApi('getPdfImage', { id: id })
+    ]).subscribe((success: any) => {
+      this.base64 = (success[0] || {}).data;
       this.projectLogoImageBase64 = 'data:image/jpeg;base64,' + this.base64;
+      this.spinner.hide();
+      this.generatePDF();
     }, (error) => {
     });
   }
@@ -167,6 +170,11 @@ export class GenerateOfferPdfService {
     let add_variable = [];
     let bank_detail;
     index = this.property_array.property_offer_payment.findIndex(x=> x.random_id == this.offer_id);
+    if (this.property_array.property_offer_payment[index].property_parking_lot_sale && this.property_array.property_offer_payment[index].property_parking_lot_sale) {
+      this.property_array.property_offer_payment[index].property_parking_lot_sale.forEach(element => {
+      least_price = least_price + parseInt(element.price);
+      });
+    }
     discountPer = this.property_array.property_offer_payment[index].discount;
     interestPer = this.property_array.property_offer_payment[index].interest;
     discount =  this.property_array.property_offer_payment[index].discount ? ( this.property_array.property_offer_payment[index].discount * least_price) / 100 : 0;
@@ -186,7 +194,7 @@ export class GenerateOfferPdfService {
         { text: element.variable_percentage ? element.variable_percentage + '%' : 'N/A', border: [false, false, false, false], bold: true },
         { text: variable_amount ? this.price.transform(Number(variable_amount).toFixed(2)) : '', border: [false, false, false, false], bold: true }
       ]);
-    })
+    });
 
     let docDefinition = {
       pageSize: {
@@ -444,7 +452,6 @@ export class GenerateOfferPdfService {
         docDefinition.content[1].columns[1][1].table.body.splice(no, 0, element);
         no = no + 1;
       });
-
     }
     pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.commercialOffer') + ' ' + current_date.toISOString() + '.pdf');
     // }else if(action === 'print'){

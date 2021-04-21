@@ -1294,15 +1294,14 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     let add_variable = [];
     let bank_detail;
     if(!this.is_for_Offer){
-      let price = least_price;
     if (this.installmentFormGroup.controls.parkingLotForSaleFormArray.value && this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.length > 0) {
       this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.forEach(element => {
-        price = least_price + parseInt(element.parkingLotsPrice.replace('$', ''));
+        least_price = least_price + parseInt(element.parkingLotsPrice.replace('$', ''));
       });
     }
     discount = this.installmentFormGroup.value.discount ? (this.installmentFormGroup.value.discount * least_price) / 100 : 0;
     interest = this.installmentFormGroup.value.interest ? (this.installmentFormGroup.value.interest * least_price) / 100 : 0;
-    final_price = discount ? price - discount : interest ? price + interest : price;
+    final_price = discount ? least_price - discount : interest ? least_price + interest : least_price;
     pricePerM2 = final_price / this.property_array.max_area;
     downpayment = (this.installmentFormGroup.value.downPayment * final_price) / 100;
     monthly_installment_amount = (this.installmentFormGroup.value.monthlyInstallment * final_price) / 100;
@@ -1721,7 +1720,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.updateAddVariablesFinalValue();
     if (this.getTotalPercentage() == 100.00) {
       this.spinner.show();
-      let least_price = this.property_array.min_price
+      let least_price = this.property_array.min_price;
     if (this.installmentFormGroup.controls.parkingLotForSaleFormArray.value && this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.length > 0) {
       this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.forEach(element => {
         least_price = least_price + parseInt(element.parkingLotsPrice.replace('$', ''));
@@ -1736,7 +1735,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       });
       let park = [];
       (this.installmentFormGroup.controls.parkingLotForSaleFormArray.value || []).forEach(element =>{
-        park.push({parking_lots: element.parkingLotsNumber, parking_type: element.parkingLotsType, price: element.parkingLotsPrice});
+        park.push({parking_lots: element.parkingLotsNumber, parking_type: element.parkingLotsType, price: element.parkingLotsPrice.substring(1)});
       });
       let param={
         id: this.property_array.id,

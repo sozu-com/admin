@@ -461,8 +461,8 @@ export class AddEditCollectionComponent implements OnInit {
       sum_of_concepts: [''],
       deal_interest_rate: [0],
       deal_penality: [0],
-      final_price:[''],
-      discount_interest:['']
+      final_price: [''],
+      discount_interest: ['']
 
     });
     if (this.model.id === '0') {
@@ -518,7 +518,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.adminService.postDataApi('getCollectionById', { id: id })
       .subscribe(
         success => {
-          this.edit_collection =true;
+          this.edit_collection = true;
           this.isByOffer = ((success.data || {}).property || {}).offer_id;
           this.spinner.hide();
           this.tempmodel = JSON.parse(JSON.stringify(success['data']));
@@ -639,7 +639,7 @@ export class AddEditCollectionComponent implements OnInit {
       this.addFormStep2.controls.seller_leg_rep_email.patchValue(
         data.seller && data.seller.legal_representative ? data.seller.legal_representative.email : '');
       this.addFormStep2.controls.seller_leg_rep_fed_tax.patchValue(
-        data.seller &&  data.seller.legal_representative ? data.seller.legal_representative.fed_tax_pay : '');
+        data.seller && data.seller.legal_representative ? data.seller.legal_representative.fed_tax_pay : '');
       this.addFormStep2.controls.seller_leg_rep_comp.patchValue(data.seller_leg_rep_comp || '');
 
       this.addFormStep2.controls.step.patchValue(2);
@@ -675,7 +675,7 @@ export class AddEditCollectionComponent implements OnInit {
       this.addFormStep2.controls.seller_leg_rep_first_surname.patchValue(
         data.seller && data.seller.legal_representative ? data.seller.legal_representative.first_surname : '');
       this.addFormStep2.controls.seller_leg_rep_second_surname.patchValue(
-        data.seller &&  data.seller.legal_representative ? data.seller.legal_representative.second_surname : '');
+        data.seller && data.seller.legal_representative ? data.seller.legal_representative.second_surname : '');
       this.addFormStep2.controls.seller_leg_rep_phone.patchValue(
         data.seller && data.seller.legal_representative ? data.seller.legal_representative.phone : '');
       this.addFormStep2.controls.seller_leg_rep_email.patchValue(
@@ -914,12 +914,12 @@ export class AddEditCollectionComponent implements OnInit {
     this.isShown = data.account_statement && data.account_statement.usersemail && data.account_statement.usersemail.length > 0 ? true : false;
     this.addFormStep4.controls.day.patchValue(data.account_statement ? data.account_statement.day : '');
 
-    if(data.property.property_offer_payment && data.property.property_offer_payment.length > 0){
+    if (data.property.property_offer_payment && data.property.property_offer_payment.length > 0) {
       this.addFormStep4.controls.final_price.patchValue(Number(data.property.property_offer_payment[0].final_price).toFixed(2));
-      this.addFormStep4.controls.discount_interest.patchValue(data.property.property_offer_payment[0].discount ? data.property.property_offer_payment[0].discount : 
-        data.property.property_offer_payment[0].interest ? data.property.property_offer_payment[0].interest : 0 );
+      this.addFormStep4.controls.discount_interest.patchValue(data.property.property_offer_payment[0].discount ? data.property.property_offer_payment[0].discount :
+        data.property.property_offer_payment[0].interest ? data.property.property_offer_payment[0].interest : 0);
     }
-    else{
+    else {
       this.addFormStep4.controls.final_price.patchValue(Number(data.property.min_price).toFixed(2));
     }
   }
@@ -1756,9 +1756,9 @@ export class AddEditCollectionComponent implements OnInit {
     // console.log(event);
     let count = 0;
     const control1 = this.addFormStep4.get('payment_choices') as FormArray;
-    if (control1.value) {
-      control1.value.forEach(function(result, index) {
-        if( result.payment_choice.id == payment_choice.value.payment_choice.id){
+    if (control1.value && payment_choice) {
+      control1.value.forEach(function (result, index) {
+        if (result.payment_choice.id == payment_choice.value.payment_choice.id) {
           result.date = moment(event).add(count, 'months').toDate();
           count = count + 1;
         }
@@ -2337,8 +2337,8 @@ export class AddEditCollectionComponent implements OnInit {
         const d = formdata['deal_purchase_date'];
         // const nd = moment(d).add(330, 'minutes').toDate();
         formdata['deal_purchase_date'] = moment(d).format('YYYY-MM-DD');
-        if(!this.isCommercialOffer || this.tempmodel.property.offer_id){
-        formdata['final_price'] = this.addFormStep4.controls.final_price.value;
+        if (!this.isCommercialOffer || this.isByOffer) {
+          formdata['final_price'] = this.addFormStep4.controls.final_price.value;
         }
         let paymentSum: any = 0;
         let i = 0;
@@ -2466,7 +2466,7 @@ export class AddEditCollectionComponent implements OnInit {
             //   }
             //   this.editCollection();
             // }
-            if(tab == 1 && !this.is_choices && this.isCommercialOffer){
+            if (tab == 1 && !this.is_choices && this.isCommercialOffer) {
               this.createOfferCollections(this.offer_id);
             }
             if (tab == 1 || tab == 2) {
@@ -2984,12 +2984,12 @@ export class AddEditCollectionComponent implements OnInit {
     });
   }
 
-  createOfferCollections(id){
+  createOfferCollections(id) {
     this.adminService.postDataApi('createOfferCollections', { id: id }).subscribe(success => {
-      if(success.data){
-      this.is_choices = true;
-      this.patchFormStep4(success.data[0]);
-      this.patchFormStep5(success.data[0]);
+      if (success.data) {
+        this.is_choices = true;
+        this.patchFormStep4(success.data[0]);
+        this.patchFormStep5(success.data[0]);
       }
     }, (error) => {
     });
@@ -3047,32 +3047,49 @@ export class AddEditCollectionComponent implements OnInit {
     return this.language_code == 'en' ? ((data || {}).name_en || '') : ((data || {}).name_es || '');
   }
 
-  identify(index, item){
-    return item.name; 
- }
+  identify(index, item) {
+    return item.name;
+  }
 
- getOfferPdf(){
-  this.property_offer_id = this.tempmodel.property.offer_id;
-  let offer = this.tempmodel.property.property_offer_payment.find(x=> x.random_id == this.property_offer_id)
-  this.offerPdf.offerID(offer);
-}
+  getOfferPdf() {
+    this.property_offer_id = this.tempmodel.property.offer_id;
+    let offer = this.tempmodel.property.property_offer_payment.find(x => x.random_id == this.property_offer_id)
+    this.offerPdf.offerID(offer);
+  }
 
-editPrice(isEdit){
-  if(isEdit){
-  swal({
-    html: this.translate.instant('message.error.areYouSure') + '<br>' +
-      this.translate.instant('message.error.doYouWantToEditTheFinalPriceOfCollection'),
-    type: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: this.constant.confirmButtonColor,
-    cancelButtonColor: this.constant.cancelButtonColor,
-    confirmButtonText: 'Yes'
-  }).then((result) => {
-      this.edit_price = result.value;
-  });
-}
-else{
-  this.edit_price = false;
-}
-}
+  editPrice(isEdit) {
+    if (isEdit) {
+      swal({
+        html: this.translate.instant('message.error.areYouSure') + '<br>' +
+          this.translate.instant('message.error.doYouWantToEditTheFinalPriceOfCollection'),
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: this.constant.confirmButtonColor,
+        cancelButtonColor: this.constant.cancelButtonColor,
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        this.edit_price = result.value;
+      });
+    }
+    else {
+      this.edit_price = false;
+    }
+  }
+
+  onFinalPriceChange(){
+    let interest;
+    let discount;
+    let price = this.addFormStep4.controls.final_price.value;
+    let deal_price = this.addFormStep4.controls.deal_price.value;
+    if(price > deal_price){
+      let diff = price - deal_price;
+      discount = (diff * 100) / Number(deal_price);
+      this.addFormStep4.controls.final_price.patchValue(Number().toFixed(3));
+    }
+    else{
+      let diff = deal_price - price;
+      interest = (diff * 100) / Number(deal_price);
+      this.addFormStep4.controls.final_price.patchValue(Number().toFixed(3));
+    }
+  }
 }
