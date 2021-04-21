@@ -22,8 +22,8 @@ export class AgenciesComponent implements OnInit {
   model: Agency;
   items: Array<Agency>;
   label: string;
-  public scrollbarOptions = { axis: 'y', theme: 'dark'};
-  exportfinalData: Array<any>;
+  public scrollbarOptions = { axis: 'y', theme: 'dark' };
+  private exportfinalData: any[] = [];
   constructor(public constant: Constant,
     private spinner: NgxSpinnerService,
     public admin: AdminService, private router: Router,
@@ -92,12 +92,12 @@ export class AgenciesComponent implements OnInit {
     this.parameter.title = this.translate.instant('message.error.areYouSure');
     switch (flag) {
       case 0:
-      this.parameter.text = this.translate.instant('message.error.wantToUnblockAgency');
-      this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
-      break;
-    case 1:
-      this.parameter.text = this.translate.instant('message.error.wantToBlockAgency');
-      this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
+        this.parameter.text = this.translate.instant('message.error.wantToUnblockAgency');
+        this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
+        break;
+      case 1:
+        this.parameter.text = this.translate.instant('message.error.wantToBlockAgency');
+        this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
     }
 
@@ -194,7 +194,7 @@ export class AgenciesComponent implements OnInit {
 
   getAgencyAgents(agency_id: string) {
     this.spinner.show();
-    this.admin.postDataApi('getAgencyAgents', {agency_id: agency_id})
+    this.admin.postDataApi('getAgencyAgents', { agency_id: agency_id })
       .subscribe(
         success => {
           this.spinner.hide();
@@ -204,23 +204,22 @@ export class AgenciesComponent implements OnInit {
           this.spinner.hide();
         });
   }
-  getExportlisting() {
+  
+  getExportlisting = (): void => {
     this.spinner.show();
-    const input: any = JSON.parse(JSON.stringify(this.parameter));
+    const input: any = JSON.parse(JSON.stringify(this.model));
     input.page = -1;
-    this.admin.postDataApi('getAgencies',  input).subscribe(
-      success => {
-        this.exportfinalData = success['data'];
-        this.exportData();
-        this.spinner.hide();
-      },
-      error => {
-        this.spinner.hide();
-      });
+    this.admin.postDataApi('getAgencies', input).subscribe((success) => {
+      this.exportfinalData = success['data'] || [];
+      this.exportData();
+      this.spinner.hide();
+    }, (error) => {
+      this.spinner.hide();
+    });
   }
 
-  exportData() {
-    if (this.exportfinalData) {
+  exportData = (): void => {
+    if (this.exportfinalData.length > 0) {
       const exportfinalData = [];
       for (let index = 0; index < this.exportfinalData.length; index++) {
         const p = this.exportfinalData[index];
@@ -228,6 +227,7 @@ export class AgenciesComponent implements OnInit {
         exportfinalData.push({
           'Company name': p.name || '',
           'Contact number': p.phone || '',
+          'Email': p.email || '',
           'Location': p.address || '',
           'Latitude': p.lat || '',
           'Longitude': p.lng || '',

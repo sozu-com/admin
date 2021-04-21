@@ -277,6 +277,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     this.parameter.country_id = '0';
     this.parameter.state_id = '0';
     this.parameter.building_id = '0';
+    this.parameter.broker_id = 1;
     // this.local_storage_parameter = JSON.parse(localStorage.getItem('parametersForProperty'));
     // this.parameter = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.parameter;
     //this.getCountries();

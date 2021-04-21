@@ -607,7 +607,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
           'Max Carpet Area': parseInt(p.max_carpet_area) || 0,
           'Avg Carpet Area': parseInt(p.avg_carpet_area) || 0,
           'Avg Price per m2': p.avg_price && p.avg_carpet_area ? p.avg_price / p.avg_carpet_area : 0,
-          'Towers': p.building_towers ? p.building_towers.length : 0
+          'Towers': p.building_towers_count || 0
         });
       }
       this.exportAsExcelFile(exportfinalData, 'projects-');

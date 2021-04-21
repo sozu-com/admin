@@ -11,6 +11,7 @@ import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 import { ApiConstants } from 'src/app/common/api-constants';
 import { element } from 'protractor';
+import { forkJoin } from 'rxjs';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 @Component({
@@ -431,24 +432,45 @@ export class MonthlyComponent implements OnInit {
       });
       input.paymentConcepts = d;
     }
-    this.admin.postDataApi('generateCollectionMonthlyReport', input).subscribe(
-      success => {
-        this.total = success['total_count'];
-        this.finalData = success['data'] || [];
-        let total_previous_month_amount = 0;
-        let total_curent_month_amount = 0;
-        let total_next_month_amount = 0;
-        (success['data'] || []).forEach((arrayData) => {
-          total_previous_month_amount += (arrayData.previous_month_amount || 0) + (arrayData.previous_month_penalty || 0) - (arrayData.previous_month_paid || 0);
-          total_curent_month_amount += (arrayData.curent_month_amount || 0) + (arrayData.curent_month_penalty || 0) - (arrayData.curent_month_paid || 0);
-          total_next_month_amount += (arrayData.next_month_amount || 0) + (arrayData.next_month_penalty || 0) - (arrayData.next_month_paid || 0);
-        });
-        this.finalData.length > 0 ? this.finalData.push({ total: true, total_previous_month_amount: total_previous_month_amount, total_curent_month_amount: total_curent_month_amount, total_next_month_amount: total_next_month_amount }) : '';
-        this.spinner.hide();
-      },
-      error => {
-        this.spinner.hide();
-      });
+
+    // this.admin.postDataApi('generateCollectionMonthlyReport', input).subscribe(
+    //   success => {
+    //     this.total = success['total_count'];
+    //     this.finalData = success['data'] || [];
+    //     let total_previous_month_amount = 0;
+    //     let total_curent_month_amount = 0;
+    //     let total_next_month_amount = 0;
+    //     // (success['data'] || []).forEach((arrayData) => {
+    //     //   total_previous_month_amount += (arrayData.previous_month_amount || 0) + (arrayData.previous_month_penalty || 0) - (arrayData.previous_month_paid || 0);
+    //     //   total_curent_month_amount += (arrayData.curent_month_amount || 0) + (arrayData.curent_month_penalty || 0) - (arrayData.curent_month_paid || 0);
+    //     //   total_next_month_amount += (arrayData.next_month_amount || 0) + (arrayData.next_month_penalty || 0) - (arrayData.next_month_paid || 0);
+    //     // });
+    //     this.finalData.length > 0 ? this.finalData.push({ 
+    //       total: true, 
+    //       total_previous_month_amount: total_previous_month_amount, 
+    //       total_curent_month_amount: total_curent_month_amount, 
+    //       total_next_month_amount: total_next_month_amount 
+    //     }) : '';
+    //     this.spinner.hide();
+    //   },
+    //   error => {
+    //     this.spinner.hide();
+    //   });
+    forkJoin([
+      this.admin.postDataApi('generateCollectionMonthlyReport', input),
+      this.admin.postDataApi('generateCollectionMonthlyReports', input),
+    ]).subscribe((response: any[]) => {
+      this.spinner.hide();
+      this.total = response[0].total_count;
+      this.finalData = response[0].data || [];
+      const totalDetails = response[1].data1;
+      this.finalData.length > 0 ? this.finalData.push({
+        total: true,
+        total_previous_month_amount: (totalDetails.previous_month_amount || 0) + (totalDetails.previous_month_penalty || 0) - (totalDetails.previous_month_paid || 0),
+        total_curent_month_amount: (totalDetails.curent_month_amount || 0) + (totalDetails.curent_month_penalty || 0) - (totalDetails.curent_month_paid || 0),
+        total_next_month_amount: (totalDetails.next_month_amount || 0) + (totalDetails.next_month_penalty || 0) - (totalDetails.next_month_paid || 0)
+      }) : '';
+    });
   }
 
   resetFilters() {
@@ -466,6 +488,7 @@ export class MonthlyComponent implements OnInit {
     this.selectedProperties = [];
     this.selectedLegalReps = [];
     this.selctedConcept = [];
+    this.getListing();
   }
 
   getExportlisting() {
