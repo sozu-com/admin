@@ -293,11 +293,11 @@
                           <td *ngIf="!item?.total"><span>${{((item?.next_month_amount || 0) + (item?.next_month_penalty || 0) - (item?.next_month_paid || 0)) | roundNumber}}</span></td>
                           <!-- <td><span>{{item?.code || ('table.tr.td.NA' | translate)}}</span></td> -->
                           <td *ngIf="item?.total"><span>Total</span></td>
-                          <td *ngIf="item?.total"><span></span></td>                          
-                          <td *ngIf="item?.total"><span></span></td>                      
+                          <td *ngIf="item?.total" [attr.colspan]="5"><span></span></td>                          
+                          <!-- <td *ngIf="item?.total"><span></span></td>                      
                           <td *ngIf="item?.total"><span></span></td>
                           <td *ngIf="item?.total"><span></span></td>                          
-                          <td *ngIf="item?.total"><span></span></td>                    
+                          <td *ngIf="item?.total"><span></span></td>                     -->
                           <td *ngIf="item?.total"><span>${{(item?.total_previous_month_amount || 0) | roundNumber}}</span></td>                          
                           <td *ngIf="item?.total"><span>${{(item?.total_curent_month_amount || 0) | roundNumber}}</span></td>                      
                           <td *ngIf="item?.total"><span>${{(item?.total_next_month_amount || 0) | roundNumber}}</span></td>

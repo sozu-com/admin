@@ -221,7 +221,8 @@ export interface IProperty {
   is_email?: any;
   parkingLotSpaces?: any;
   parkingLotSpacesTotal?: any;
-  parking_sort?:number;
+  parking_sort?: number;
+  broker_id?: any;
 }
 export class Docs {
   id: string;

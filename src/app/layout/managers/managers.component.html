@@ -67,9 +67,20 @@
                 </div> -->
               </div>
             </th>
-            <th style="width:6%;vertical-align: top;">
+            <th style="width:10%">
               <div class="table-search">
-                <label><br>&nbsp;{{'table.th.typeOfAgent' | translate}}</label>
+                <label><br>&nbsp;{{'table.th.typeOfAgent' | translate}}</label> 
+                <!-- <div class="searh-3">
+                  <input type="text" [(ngModel)]="parameter.company_name"
+                    (keyup.enter)="searchUserByCompanyName(parameter.company_name)" name=""
+                    autocomplete="address-level4">
+                  <button type="button" *ngIf="parameter.company_name"
+                    (click)="searchUserByCompanyName(parameter.company_name)"><i class="fa fa-search"></i></button>
+                </div> -->
+              </div>
+            </th>
+            <th style="width:6%">
+              <div class="searh-3">
                 <select [(ngModel)]="parameter.is_freelancer" name="is_freelancer"
                   (change)="setIsFreelancer(parameter.is_freelancer)">
                   <option value="0">All</option>
@@ -159,6 +170,10 @@
                 <span class="checkmark"></span>
               </label>
               <!-- <i class="fa" [ngClass]="item.selected?'fa-check-square-o':'fa-square-o'" (click)="item.selected = !item.selected" aria-hidden="true"></i> -->
+            </td>
+            <td class="text-left">
+              <span class="name">{{item?.agent_details?.is_external_agent ? ('table.title.outsideAgent' | translate)
+                : item?.agent_details?.is_external_agent == 0 ? ('table.title.inhouseAgent' | translate) : ('table.tr.td.NA' | translate)}}</span>
             </td>
             <td>
               <img *ngIf="item.image" [defaultImage]="item.image| img:'thumb'" [lazyLoad]="item.image"
