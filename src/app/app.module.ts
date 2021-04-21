@@ -21,6 +21,7 @@ import * as firebase from 'firebase';
 firebase.initializeApp(environment.firebase);
 // firebase -end
 
+
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { LayoutModule } from './layout/layout.module';
