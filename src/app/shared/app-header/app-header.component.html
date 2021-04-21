@@ -229,6 +229,9 @@
                                 admin?.admin_acl['Project Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
                          <a class="nav-link" href="javascript://" routerLink="projects/view-projects"><i><img src="assets/img/ic_projects_manage.png"></i><span>{{'sidebar.manageProjects' | translate}}</span></a>
                        </li>
+                       <li *ngIf="admin?.admin_acl['Properties For Sale Management']?.can_read == 1" class="nav-item" [routerLinkActive]="'active'">
+                        <a class="nav-link" href="javascript://" routerLink="properties-for-sale/view-properties-for-sale"><i><img src="assets/img/ic_properties_manage.png"></i><span>{{'sidebar.managePropertiesForSale' | translate}}</span></a>
+                      </li>
                        <li *ngIf="admin?.admin_acl['Property Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
                          <a class="nav-link" href="javascript://" routerLink="properties/view-properties"><i><img src="assets/img/ic_properties_manage.png"></i><span>{{'sidebar.manageProperties' | translate}}</span></a>
                        </li>
@@ -238,6 +241,9 @@
                        <li *ngIf="admin?.admin_acl['Manage Collections']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
                          <a class="nav-link" href="javascript://" routerLink="collections/view-collections"><i><img src="assets/img/ic_properties_manage.png"></i><span>{{'sidebar.manageCollections' | translate}}</span></a>
                        </li>
+                      <li *ngIf="admin?.admin_acl['Manage Commission']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
+                        <a class="nav-link" href="javascript://" routerLink="commissions/view-commissions"><i><img src="assets/img/ic_properties_manage.png"></i><span>{{'sidebar.manageCommissions' | translate}}</span></a>
+                      </li>
                        <li *ngIf="admin?.admin_acl['Collection Reports']?.can_read==1" class="nav-item dropdown" [routerLinkActive]="'active'">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
                         <i><img src="assets/img/graph2.png"></i><span>{{'sidebar.collectionReports' | translate}}</span></a>

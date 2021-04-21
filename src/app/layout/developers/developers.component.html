@@ -1,14 +1,20 @@
 
 <div class="container-fluid">
   <div class="row">
-      <div class="col-md-6 col-6">
+      <div class="col-md-8 col-4">
         <div class="title-group">
             <h5>{{'viewDevelopers.label' | translate}}</h5>
             <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}} {{parameter.total}}</p>
         </div>
       </div>
-      <div class="col-md-6 col-6">
+      <div class="col-md-2 col-4">
         <div class="btn-cont text-right">
+            <a *ngIf="admin?.admin_acl['Developers Management']?.can_create==1" class="btn btn-primary" 
+            href="javascript://" (click)="getExportlisting()">{{'table.exportDataBtn' | translate}}</a>
+        </div>
+      </div>
+      <div class="col-md-2 col-4">
+        <div class="btn-cont text-right"> 
             <a *ngIf="admin?.admin_acl['Developers Management']?.can_create==1" class="btn btn-primary" href="javascript://" routerLink="/dashboard/developers/add-developer/0">{{'table.addNewBtn' | translate}}</a>
         </div>
       </div>
@@ -51,6 +57,15 @@
               </th>
               <th style="width:7%; text-align:left;">
                 <div class="table-search">
+                    <label>{{'table.th.emailAddress' | translate}}</label>
+                    <div class="searh-3" style="display: none;">
+                      <input type="text" [(ngModel)]="model.phone" (keyup.enter)="getDevelopersFrAdmin()" name="" autocomplete="address-level4" >
+                      <button *ngIf="model.phone" (click)="getDevelopersFrAdmin()"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+              </th>
+              <th style="width:7%; text-align:left;">
+                <div class="table-search">
                     <label>{{'table.th.systemDashboardAccess' | translate}}</label>
                 </div>
               </th>
@@ -80,6 +95,7 @@
               <td class="text-left">{{item.developer_company ? item.developer_company : ('table.tr.td.NA' | translate)}}</td>
               <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
               <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
+              <td class="text-left">{{item.email ? item.email : ('table.tr.td.NA' | translate)}}</td>
               <td><input name="have_dev_panel_access{{i}}" disabled class="form-control checkbox_size" type="checkbox" [checked]="item?.developer_access_status ? 'checked' : ''" readonly> </td>
               <td class="text-left">
                 <a title="{{'table.title.clickToViewBuildings' | translate}}" routerLink="/dashboard/projects/view-projects/developer/{{item.id}}">

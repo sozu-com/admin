@@ -1,0 +1,798 @@
+<div class="container-fluid">
+  <div class="row">
+     <div class="col-md-4">
+        <div class="form-group">
+           <p class="p16">{{'sidebar.managePropertiesForSale' | translate}}</p>
+        </div>
+     </div>
+  </div>
+
+  <div class="row">
+     <div class="col-lg-2 col-md-2">
+        <div class="form-group">
+           <label>{{'filters.location.country' | translate}}</label>
+           <select class="form-control" (change)="onCountryChange($event.target.value)"  [(ngModel)]="parameter.country_id"
+              style="background-color: white;">
+              <option value="0">{{'filters.location.allOption' | translate}}</option>
+              <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
+           </select>
+        </div>
+     </div>
+     <div class="col-lg-2 col-md-2">
+        <div class="form-group">
+           <label>{{'filters.location.state' | translate}}</label>
+           <select class="form-control" (change)="onStateChange($event.target.value)"  [(ngModel)]="parameter.state_id" style="background-color: white;">
+              <option value="0">{{'filters.location.allOption' | translate}}</option>
+              <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
+           </select>
+        </div>
+     </div>
+     
+
+     <div class="col-lg-2 col-md-2">
+        <div class="form-group">
+           <label>{{'filters.location.city' | translate}}</label>
+           <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
+              name="selectedCities" [data]="location.cities" [(ngModel)]="selectedLocation.selectedCities"
+              [settings]="multiDropdownSettingsForLocation" (onDeSelect)="onCityChange()" (onSelect)="onCityChange()"
+              (onSelectAll)="onCityChangeAll($event)" (onDeSelectAll)="onCityChangeAll($event)">
+           </ng-multiselect-dropdown>
+        </div>
+     </div>
+
+     <div class="col-lg-2 col-md-2">
+        <div class="form-group">
+           <label>{{'filters.location.locality' | translate}}</label>
+           <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
+              name="selectedLocalities" [data]="location.localities" [(ngModel)]="selectedLocation.selectedLocalities"
+              [settings]="multiDropdownSettingsForLocation" (onDeSelect)="onLocalityChange()"
+              (onSelect)="onLocalityChange()" (onSelectAll)="onLocalityChangeAll($event)"
+              (onDeSelectAll)="onLocalityChangeAll($event)">
+           </ng-multiselect-dropdown>
+        </div>
+     </div>
+
+     <div class="col-lg-2 col-md-2">
+        <div class="form-group marginB0">
+           <label>{{'filters.location.building' | translate}}</label>
+           <select class="form-control" (change)="setBuilding($event.target.value)" [(ngModel)]="parameter.building_id" 
+           style="background-color: white;">
+              <option value="0">{{'filters.location.allOption' | translate}}</option>
+              <option *ngFor="let building of parameter.buildings" value="{{building.id}}">{{building.name}}</option>
+           </select>
+        </div>
+     </div>
+
+     <div class="col-lg-1 col-md-2">
+        <div class="form-group btn-cont">
+           <label style="display: block; margin-top: 3px;">&nbsp;</label>
+           <button type="button" (click)="getListing()"
+              class="btn btn-primary-new width100P P86">{{'filters.location.applyBtn' | translate}}</button>
+        </div>
+     </div>
+
+     <div class="col-lg-1 col-md-2">
+        <div class="form-group btn-cont">
+           <label style="display: block; margin-top: 3px;">&nbsp;</label>
+           <button type="button" (click)="resetFilters()"
+              class="btn btn-primary-new width100P P86">{{'filters.location.resetBtn' | translate}}</button>
+        </div>
+     </div>
+  </div>
+  
+
+  <div class="cust-tabs">
+     <div class="row flex-wrap-reverse">
+
+        <!-- <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12">
+           <ul class="nav nav-tabs">
+              <li class="nav-item">
+                 <a [ngClass]="{'active':parameter.flag==3}"
+                    class="nav-link cursor-pointer">{{'filters.flag.approved' | translate}}</a>
+              </li>            
+           </ul>
+        </div> -->
+        <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
+           <div class="add-new text-left">
+              <a class="btn" #modalOpen data-toggle="modal" data-target="#advancedSearch"
+                 routerLink="/dashboard/properties/add-bulk-property/0/0">
+                 {{'advanceSearch.advancedSearch' | translate}}</a>
+           </div>
+        </div>
+        <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
+           <div class="add-new text-left">
+              <a class="btn" (click)="getExportlisting()" href="javascript://">
+                 {{'table.exportDataBtn' | translate}}</a>
+           </div>
+        </div>
+        <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
+           <div class="add-new text-center">
+              <a *ngIf="admin?.admin_acl['Property Management']?.can_create==1" class="btn" href="javascript://"
+                 routerLink="/dashboard/properties/add-bulk-property/0/0">{{'viewProperty.addBulkProperty' |
+                 translate}}</a>
+           </div>
+        </div>
+        <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
+           <div class="add-new text-right">
+              <a *ngIf="admin?.admin_acl['Property Management']?.can_create==1" class="btn" href="javascript://"
+                 routerLink="/dashboard/properties/add-property/0/0">{{'viewProperty.addNewProperty' | translate}}</a>
+           </div>
+        </div>
+     </div>
+     <div class="tab-content white-bg">
+        <div class="tab-pane active">
+           <div class="tabel-section">
+              <div class="table-responsive">
+                 <table class="table table-striped table-align-left">
+                    <tr>
+                       <th style="width:10%; text-align:left;">
+                          <div class="table-search">
+                             <label>{{'table.th.nameOfBuilding' | translate}}</label>
+                             <div class="searh-3">
+                                <input class="width100px" type="text" [(ngModel)]="parameter.keyword" name="keyword"
+                                   (keyup.enter)="getListing()" autocomplete="address-level4" >
+                                <button *ngIf="parameter.keyword" (click)="getListing()"><i
+                                      class="fa fa-search"></i></button>
+                             </div>
+                          </div>
+                       </th>
+                       <th style="width:10%; text-align:left;">
+                          <div class="table-search">
+                             <label>{{'table.th.nameOfTower' | translate}}</label>
+                             <div class="searh-3">
+                                <input class="width100px" type="text" [(ngModel)]="parameter.tower_name"
+                                   name="tower_name" (keyup.enter)="getListing()" autocomplete="address-level4" >
+                                <button *ngIf="parameter.tower_name" (click)="getListing()"><i
+                                      class="fa fa-search"></i></button>
+                             </div>
+                          </div>
+                       </th>
+                       <th style="width:10%; text-align:left;">
+                          <div class="table-search">
+                             <label>{{'table.th.floor' | translate}}</label>
+                             <select [(ngModel)]="parameter.floor_num" (change)="getListing()" name="floor_num">
+                                <option value="">{{'table.th.allFloors' | translate}}</option>
+                                <option *ngFor="let c of floors" value="{{c.id}}">
+                                   {{c.name}}
+                                </option>
+                             </select>
+                          </div>
+                       </th>
+                       <th style="width:10%; text-align:left;">
+                          <div class="table-search">
+                             <label>{{'table.th.apartment' | translate}}
+                                <a (click)="sort_by(4)" href="javascript://"><img
+                                      [ngClass]="{'upsidedown':parameter.sort_by==4}" src="assets/img/top-arrow.png"
+                                      alt="img"></a>
+                             </label>
+                             <div class="searh-3">
+                                <input class="width120px" type="text" [(ngModel)]="parameter.name" name="name"
+                                   (keyup.enter)="getListing()" autocomplete="address-level4" >
+                                <button *ngIf="parameter.name" (click)="getListing()"><i
+                                      class="fa fa-search"></i></button>
+                             </div>
+                          </div>
+                       </th>
+                       <th style="width:10%; text-align:left;">
+                          <div class="table-search">
+                             <label>{{'table.th.model' | translate}}</label>
+                             <div class="searh-3">
+                                <input class="width120px" type="text" [(ngModel)]="parameter.configuration_name"
+                                   name="configuration_name" (keyup.enter)="getListing()" autocomplete="address-level4" >
+                                <button *ngIf="parameter.configuration_name" (click)="getListing()"><i
+                                      class="fa fa-search"></i></button>
+                             </div>
+                          </div>
+                       </th>
+                       <th style="width:10%; text-align:left;">
+                          <div class="table-search">
+                             <label>{{'table.th.configuration' | translate}}</label>
+                             <select [(ngModel)]="parameter.configuration_id" (change)="getListing()"
+                                name="configuration_id">
+                                <option value="0">{{'table.th.allConfiguration' | translate}}</option>
+                                <option *ngFor="let c of configurations" value="{{c.id}}">
+                                 
+                                   <span *ngIf="c.status">
+                                      <app-property-configuration *ngIf="c" [configuration]="c">
+                                      </app-property-configuration>
+                                   </span>
+                                </option>
+                             </select>
+                          </div>
+                       </th>
+                       <th style="width:10%;vertical-align:top;">
+                          <div class="d-flex table-search">
+                             <label>{{'table.th.editPrice' | translate}}</label>
+                          </div>
+                       </th>
+                       <th style="width:10%;vertical-align:top;">
+                          <div (click)="sort_by(1)" class="d-flex table-search">
+                             <label>{{'table.th.listPrice' | translate}}</label>
+                             <a href="javascript://"><img
+                                   [ngClass]="{'upsidedown':parameter.sort_by==1 && parameter.sort_by_order==0}"
+                                   src="assets/img/top-arrow.png" alt="img"></a>
+                          </div>
+                       </th>
+                       <th style="width:10%;vertical-align:top;">
+                          <div (click)="sort_by(1)" class="d-flex table-search">
+                             <label>{{'table.th.finalPrice' | translate}}</label>
+                             <a href="javascript://"><img
+                                   [ngClass]="{'upsidedown':parameter.sort_by==1 && parameter.sort_by_order==0}"
+                                   src="assets/img/top-arrow.png" alt="img"></a>
+                          </div>
+                       </th>
+                       <th style="width:8%;vertical-align:top;">
+                          <div (click)="sort_by(5)" class="d-flex table-search">
+                             <label>{{'table.th.carpetArea' | translate}}</label>
+                             <a href="javascript://"><img
+                                   [ngClass]="{'upsidedown':parameter.sort_by==5 && parameter.sort_by_order==0}"
+                                   src="assets/img/top-arrow.png" alt="img"></a>
+                          </div>
+                       </th>
+                       <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
+                          <div class="table-search">
+                             <label>{{'table.th.commercializedBySOZU' | translate}}</label>
+                             <select class="width100px" [(ngModel)]="parameter.is_commercialized"
+                                (change)="getListing()" name="is_commercialized">
+                                <option value="">{{'table.th.all' | translate}}</option>
+                                <option value="1">{{'table.th.yes' | translate}}</option>
+                                <option value="0">{{'table.th.no' | translate}}</option>
+                             </select>
+                          </div>
+                       </th>
+                    
+                   
+                       
+                       <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
+                          <div class="table-search">
+                             <label>{{'table.th.changeSeller' | translate}}</label>
+                             <div class="searh-3">
+                                <input class="width100px" type="text" [(ngModel)]="parameter.seller_name"
+                                   name="seller_name" (keyup.enter)="getListing()" autocomplete="address-level4" >
+                                <button *ngIf="parameter.seller_name" (click)="getListing()"><i
+                                      class="fa fa-search"></i></button>
+                             </div>
+                          </div>
+                       </th>
+                       <th *ngIf="parameter.flag!=5" style="width:6%;vertical-align:top;">
+                          <div class="table-search">
+                             <label>{{'table.th.linkUnlinkAgent' | translate}}</label>
+                            
+                          </div>
+                       </th>
+                    </tr>
+
+                    <tr
+                       *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
+                       <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
+                          (click)="viewPropertyDetails(p.id, p)">
+                         
+                          <strong>{{p?.building?.name || ('table.tr.td.NA' | translate)}}</strong>
+                          <div class="clearfix"></div>
+                          <small *ngIf="p.quantity > 0">
+                             {{p.quantity}}
+                             <span *ngIf="p.quantity == 1">property</span>
+                             <span *ngIf="p.quantity > 1">properties</span>
+                          </small>
+                       </td>
+                       <td><span>{{p?.building_towers ? p?.building_towers?.tower_name : ('table.tr.td.NA' |
+                             translate)}}</span></td>
+                       <td><span>{{p?.building_towers?.tower_name
+                             ? (p?.floor_num == 0 ? ('addCollection.groundFloor' | translate) : ('addCollection.floor'
+                             | translate) + ' ' + p?.floor_num)
+                             : ('table.tr.td.NA' | translate)}}</span></td>
+                       <td><span>{{p?.name || ('table.tr.td.NA' | translate)}}</span></td>
+                       <td>
+                          <span [style.textAlign]="'center'">
+                             <b>{{p?.building_configuration?.name || ('table.tr.td.NA' | translate)}}</b>
+                          </span>
+                       </td>
+                       <td>
+                          <app-property-configuration *ngIf="p?.building_configuration"
+                             [configuration]="p.building_configuration.config"></app-property-configuration>
+                       </td>
+                       <td><span>
+                          <button (click)="editPricePopup(p, i)"
+                             [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                             title="{{'table.title.editPrice' | translate}}" class="action-icon"><img
+                                src="assets/img/edit.png" alt="img"></button>
+                       </span></td>
+                       <td><span>{{p.min_price | price}}</span></td>
+                       <td><span>{{p.final_price | price}}</span></td>
+
+                     
+                       <td><span>{{p?.max_area ? p.max_area : 0.00}}</span></td>
+                       <td><span>{{p?.is_commercialized ? ( 'table.th.yes' | translate ): ( 'table.th.no' | translate )
+                             }}</span></td>
+                     
+                     
+
+                       <td *ngIf="parameter.flag==5" class="cursor-pointer"
+                          title="{{'table.title.viewSellerRequest' | translate}}" (click)="showAllSellers(p?.id, i)">
+                          <span class="green-color"><span>{{'table.tr.td.view' | translate}}</span></span>
+                       </td>
+
+                       <td *ngIf="parameter.flag!=5" class="cursor-pointer"
+                          title="{{p?.selected_seller?.user?.name ? ('table.title.clickToChangeSeller' | translate) : ('table.title.clickToAddSeller' | translate)}}"
+                          (click)="getAllSellers(p, '1', i, 'seller', 1)">
+                          <span *ngIf="p?.selected_seller?.user?.legal_entity" class="green-color">
+                             {{p?.selected_seller?.user?.legal_entity?.comm_name || ('table.tr.td.add' | translate)}}
+                          </span>
+                          <span *ngIf="!p?.selected_seller?.user?.legal_entity" class="green-color">
+                             {{p?.selected_seller?.user?.name || ('table.tr.td.add' | translate)}}
+                          </span>
+                       </td>
+
+                       <td *ngIf="parameter.flag!=5" class="cursor-pointer" (click)="getBothBroker(p, '')">
+                          <span class="green-color">
+                             <span
+                                title="{{p?.external_broker?.id ? ('table.title.clickToChange' | translate) : ('table.title.clickToAssign' | translate) }}">{{p?.external_broker?.id
+                                ? ('table.tr.td.change' | translate) : ('table.tr.td.link' | translate)}}</span>
+                          </span>
+                       </td>
+                    </tr>
+                   
+                 </table>
+                 <div class="padding20 center" *ngIf="total == 0">
+                    <img src="assets/img/404-error.png">
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class="tab-pane container fade" id="seller">{{'table.th.sellerTabOn' | translate}}</div>
+     </div>
+  </div>
+
+  <div class="btn-cont marginT15" *ngIf="total">
+     <div class="row">
+        <div class="col-6">
+           <div class="title-group">
+              <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}}
+                 {{total}}</p>
+           </div>
+        </div>
+        <div class="col-6 text-right">
+           <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+        </div>
+     </div>
+  </div>
+</div>
+
+
+
+
+<!-- All Sellers -->
+<a data-toggle="modal" data-target="#link-user-model" #linkUserModal style="display: none;"></a>
+<div class="modal" id="link-user-model">
+  <div class="modal-dialog ">
+     <div class="modal-content notary-avail">
+        <div class="modal-header popup-header">
+           <h4 class="modal-title">{{ user_type=='seller' ? ('table.th.linkUnlinkSeller' | translate) :
+              ('table.th.linkUnlinkBuyer' | translate)}}</h4>
+           <button type="button" class="close" #closeLinkUserModal data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+
+           <p class="modal-title marginB20" *ngIf="selecter_seller">
+              {{'table.th.currentlyLinkedToSeller' | translate}}
+              ({{selecter_seller?.user?.is_developer==1 ? 'Developer' :
+              (selecter_seller?.user?.legal_entity_id ? 'Legal Representative' : 'Person')}})-
+              <b>{{selecter_seller?.user?.legal_entity_id ? selecter_seller?.user?.legal_entity?.comm_name :
+                 selecter_seller?.user?.name}}</b>
+           </p>
+
+           <p class="modal-title marginB20" *ngIf="selecter_buyer">
+              {{'table.th.currentlyLinkedToBuyer' | translate}}
+              ({{selecter_buyer?.user?.is_developer==1 ? 'Developer' :
+              (selecter_buyer?.user?.legal_entity_id ? 'Legal Representative' : 'Person')}})-
+              <b>{{selecter_buyer?.user?.legal_entity_id ? selecter_buyer?.user?.legal_entity?.comm_name :
+                 selecter_buyer?.user?.name}}</b>
+           </p>
+
+           <div class="cust-tabs">
+              <div class="row flex-wrap-reverse">
+                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <ul class="nav nav-tabs">
+                       <li class="nav-item">
+                          <a [ngClass]="{'active':seller_type == 1}"
+                             (click)="getAllSellers('', keyword, '', user_type, 1)"
+                             class="nav-link cursor-pointer">Person</a>
+                       </li>
+                       <li class="nav-item">
+                          <a [ngClass]="{'active':seller_type == 2}"
+                             (click)="getAllSellers('', keyword, '', user_type, 2)"
+                             class="nav-link cursor-pointer">Legal Entity</a>
+                       </li>
+                       <li class="nav-item">
+                          <a [ngClass]="{'active':seller_type == 3}"
+                             (click)="getAllSellers('', keyword, '', user_type, 3)"
+                             class="nav-link cursor-pointer">Developer</a>
+                       </li>
+                    </ul>
+                 </div>
+              </div>
+           </div>
+
+           <div class="spacer40"></div>
+           <div class="row">
+              <div class="col-md-8 col-6">
+                 <input style="max-width:200px" (keyup.enter)="getAllSellers('', keyword, '', user_type, seller_type)"
+                    [(ngModel)]="keyword" class="form-control" type="text" name="keyword"
+                    placeholder="{{'addForm.placeholder.search' | translate}}">
+              </div>
+              <div class="col-md-4 col-5 btn-cont">
+                 <a class="btn btn-primary pull-right" href="javascript://"
+                    (click)="getAllSellers('', keyword, '', user_type, seller_type)">{{'table.th.search' |
+                    translate}}</a>
+              </div>
+           </div>
+
+
+
+           <div class="spacer40"></div>
+           <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+              <table class="table">
+                 <tr *ngFor="let item of allUsers">
+                    <td>
+                       <div class="n-avail-profile">
+                          <img *ngIf="item?.image" onerror='src="assets/img/default_img.png"' alt="img"
+                             [defaultImage]="item?.image| img:'thumb'" [lazyLoad]="item?.image">
+                          <img *ngIf="!item?.image" src="assets/img/default_img.png" alt="img">
+
+                          <div class="n-avail-info">
+                             <p class="p12" *ngIf="item?.name">{{item?.name}} {{item?.first_surname}} {{item?.second_surname}}</p>
+                             <p class="p12" *ngIf="item?.comm_name">{{item?.comm_name}}</p>
+                             <p class="p12" *ngIf="item?.legal_reps && item?.legal_reps?.id">{{item?.legal_reps?.name}}
+                             </p>
+                             <p class="p10 marginB0">{{'viewProperty.phone' | translate}} : {{item?.dial_code ?
+                                item?.dial_code : constant.dial_code}}-{{item?.phone}}</p>
+                           
+                          </div>
+                       </div>
+                    </td>
+                    <td *ngIf="user_type=='seller'">
+                       <button
+                          *ngIf="seller_type==2 ? parameter.seller_id!=item?.legal_reps?.id : parameter.seller_id!=item?.id"
+                          (click)="changeStatusPopUp(parameter.property_id, 
+                                                     (seller_type==2 ? item.legal_reps.id : item.id), 
+                                                     (seller_type==2 ? item.comm_name : item.name), 
+                                                     1, 'link')" class="action-icon"
+                          title="{{'table.title.acceptRequest' | translate}}">
+                          <img src="assets/img/green-icon.png" alt="img"></button>
+                       <button
+                          *ngIf="seller_type==2 ? parameter.seller_id==item?.legal_reps?.id : parameter.seller_id==item.id"
+                          (click)="changeStatusPopUp(parameter.property_id, 
+                             (seller_type==2 ? item.legal_reps.id : item.id), 
+                             (seller_type==2 ? item.comm_name : item.name), 
+                             2, 'request')" class="action-icon" title="{{'table.title.rejectRequest' | translate}}">
+                         
+                          <img src="assets/img/ic_disapprove.png" alt="img">
+                       </button>
+                    </td>
+                    <td *ngIf="user_type=='buyer'">
+                       <button
+                          *ngIf="seller_type==2 ? parameter.buyer_id!=item?.legal_reps?.id : parameter.buyer_id!=item?.id"
+                          (click)="changeStatusPopUp(parameter.property_id, 
+                                                     (seller_type==2 ? item.legal_reps.id : item.id), 
+                                                     (seller_type==2 ? item.comm_name : item.name), 
+                                                     1, 'link')" class="action-icon"
+                          title="{{'table.title.acceptRequest' | translate}}">
+                          <img src="assets/img/green-icon.png" alt="img"></button>
+                       <button
+                          *ngIf="seller_type==2 ? parameter.buyer_id==item?.legal_reps?.id : parameter.buyer_id==item.id"
+                          (click)="changeStatusPopUp(parameter.property_id, 
+                                                     (seller_type==2 ? item.legal_reps.id : item.id), 
+                                                     (seller_type==2 ? item.comm_name : item.name), 
+                                                     2, 'request')" class="action-icon"
+                          title="{{'table.title.rejectRequest' | translate}}">
+                          
+                          <img src="assets/img/ic_disapprove.png" alt="img">
+                       </button>
+                    </td>
+                 </tr>
+                 <tr *ngIf="allUsers?.length==0">
+                    <p class="show-not-found">
+                       {{'viewProperty.noSellerFound' | translate}}
+                    </p>
+                 </tr>
+              </table>
+           </div>
+        </div>
+     </div>
+  </div>
+</div>
+
+
+<!-- Link Seller -->
+<a data-toggle="modal" data-target="#link-seller-model" #linkSellerModal></a>
+<div class="modal" id="link-seller-model">
+  <div class="modal-dialog ">
+     <div class="modal-content notary-avail">
+        <div class="modal-header popup-header">
+           <h4 class="modal-title">{{'viewProperty.requests' | translate}}</h4>
+           <button type="button" class="close" #closeLinkSellerModal data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+
+           <p class="modal-title" *ngIf="selecter_seller">{{'viewProperty.currentlyLinkedToSeller' | translate}} -
+              <b>{{selecter_seller?.user?.name}}</b>
+           </p>
+
+         
+           <div class="spacer40"></div>
+           <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+              <table class="table">
+                 <tr *ngFor="let item of allSellers">
+                    <td *ngIf="item?.user && item?.user?.is_blocked!=1">
+                       <div class="n-avail-profile">
+                          <img *ngIf="item?.user?.image" onerror='src="assets/img/default_img.png"' alt="img"
+                             [defaultImage]="item?.user?.image| img:'thumb'" [lazyLoad]="item?.user?.image">
+                          <img *ngIf="!item?.user?.image" src="assets/img/default_img.png" alt="img">
+
+                          <div class="n-avail-info">
+                             <p class="p12">{{item?.user?.name ? item?.user?.name : ('viewProperty.NA' | translate)}}
+                             </p>
+                             <p class="p10">{{'viewProperty.phone' | translate}} : {{item?.user?.dial_code ?
+                                item?.user?.dial_code : constant.dial_code}}-{{item?.user?.phone}}</p>
+                          </div>
+                       </div>
+                    </td>
+                    <td *ngIf="item?.user && item?.user?.is_blocked!=1">
+                       <button
+                          (click)="changeStatusPopUp(item.property_id, item.user_id, item.user.name, 1, 'request')"
+                          class="action-icon" title="{{'table.title.acceptRequest' | translate}}">
+                          <img src="assets/img/green-icon.png" alt="img"></button>
+                       <button (click)="showRejectSellerRequestModal(item.property_id, item.user_id, 2)"
+                          class="action-icon" title="{{'table.title.rejectRequest' | translate}}">
+                          <img src="assets/img/ic_disapprove.png" alt="img"></button>
+                    </td>
+                 </tr>
+                 <tr *ngIf="allSellers?.length==0">
+                    <p class="show-not-found">
+                       {{'viewProperty.noSellerHasRequestedForTheProperty' | translate}}
+                    </p>
+                 </tr>
+              </table>
+           </div>
+        </div>
+     </div>
+  </div>
+</div>
+
+<!-- Link External Broker -->
+<a data-toggle="modal" data-target="#link-broker-model" #linkExtBrokerModal></a>
+<div class="modal" id="link-broker-model">
+  <div class="modal-dialog ">
+     <div class="modal-content notary-avail">
+        <div class="modal-header popup-header">
+           <h4 class="modal-title">{{property?.external_broker?.id ? ('viewProperty.changeAgent' | translate) :
+              ('viewProperty.linkAgent' | translate)}}</h4>
+           <button type="button" class="close" #closeExtBrokerModal data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+
+           <p class="modal-title" *ngIf="property?.external_broker?.id">{{'viewProperty.currentlyLinkedToAgent' |
+              translate}} - <b>{{property?.external_broker?.name}}</b></p>
+
+           <div class="row">
+              <div class="col-md-8 col-6">
+                 <input style="max-width:200px" (keyup.enter)="getBothBroker('', keyword)" [(ngModel)]="keyword"
+                    class="form-control" type="text" name="keyword"
+                    placeholder="{{'addForm.placeholder.search' | translate}}">
+              </div>
+              <div class="col-md-4 col-5 btn-cont">
+                 <a class="btn btn-primary pull-right" href="javascript://"
+                    (click)="getBothBroker('', keyword)">{{'viewProperty.search' | translate}}</a>
+              </div>
+           </div>
+
+           <div class="spacer40"></div>
+           <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+              <table class="table">
+                 <tr *ngFor="let item of allExtBrokers">
+                    <td>
+                       <div class="n-avail-profile">
+                          <img *ngIf="item?.image" onerror='src="assets/img/default_img.png"' alt="img"
+                             [defaultImage]="item?.image| img:'thumb'" [lazyLoad]="item?.image">
+                          <img *ngIf="!item?.image" src="assets/img/default_img.png" alt="img">
+
+                          <div class="n-avail-info">
+                             <p class="p12">{{item?.name | titlecase}}</p>
+                             <p class="p10 marginB0">{{item?.is_external_agent ? 'OUTSIDE AGENT' : 'IN-HOUSE AGENT'}}
+                             </p>
+                             <p class="p10">{{'viewProperty.phone' | translate}} : {{item?.dial_code ? item?.dial_code
+                                : constant.dial_code}}-{{item?.phone}}</p>
+                          </div>
+                       </div>
+                    </td>
+                    <td>
+                       <button *ngIf="property?.external_broker?.id!=item.id"
+                          (click)="attachExternalBrokerPopUp(item, 1)" class="action-icon"
+                          title="{{'table.title.linkAgent' | translate}}">
+                          <img src="assets/img/green-icon.png" alt="img"></button>
+
+                       <button *ngIf="property?.external_broker?.id==item.id"
+                          (click)="attachExternalBrokerPopUp(item, 2)" class="action-icon"
+                          title="{{'table.title.unlinkAgent' | translate}}">
+                          <img src="assets/img/ic_disapprove.png" alt="img"></button>
+                    </td>
+                 </tr>
+                 <tr *ngIf="allExtBrokers?.length==0">
+                    <p class="show-not-found">{{'viewProperty.noExternalAgentFound' | translate}}</p>
+                 </tr>
+              </table>
+           </div>
+        </div>
+     </div>
+  </div>
+</div>
+
+
+
+<a style="display:none;" #rejectModalOpen data-toggle="modal" data-target="#addSellerRejectReason"></a>
+<div class="modal animated" id="addSellerRejectReason">
+  <div class="modal-dialog fadeIndown">
+     <div class="modal-content">
+        <div class="modal-header modal-header-new">
+           <h4 class="modal-title">{{'viewProperty.addReasonForRejection' | translate}}</h4>
+           <button style="display: none;" type="button" class="close" data-dismiss="modal"
+              #rejectModalClose>&times;</button>
+           <button type="button" class="close" (click)="closeReasonModal()">&times;</button>
+        </div>
+
+        <form class="form-horizontal form-model0P form-model-newP" role="form" ngNativeValidate #addForm="ngForm"
+           (ngSubmit)="changeStatusSellerSelection(); addForm.reset();">
+           <div class="modal-body modal-body-new">
+              <div class="row">
+                 <div class="col-12">
+                    <div class="form-group-2">
+                       <div class="form-group">
+                          <textarea rows="4" required class="form-control note" name="reason"
+                             [(ngModel)]="reason"></textarea>
+                       </div>
+                    </div>
+                 </div>
+                 <div class="col-12">
+                    <div class="btn-cont text-right">
+                       <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">{{'viewProperty.add' |
+                          translate}}</button>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </form>
+     </div>
+  </div>
+</div>
+
+
+<div class="modal animated" id="advancedSearch">
+  <div class="modal-dialog fadeIndown">
+     <div class="modal-content" style="
+    border-top-style: solid;
+    border-top-width: thick;
+    border-top-color: rgb(0, 185, 111); margin-top: -47%; border-radius: 5px;
+    box-shadow: 0px -2px 0px 7px rgb(105,105,105);width: 217%;
+margin-left: -38%;">
+        <div class="modal-header modal-header-new" style="background-color: white;">
+           <h4 class="modal-title">{{'advanceSearch.advancedSearch' | translate}}</h4>
+           <button style="display: none;" type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
+           <button type="button" class="close" (click)="close()">&times;</button>
+        </div>
+
+        <form class="form-horizontal form-model0P form-model-newP">
+           <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.rangePrice' | translate}}</h4>
+           <div class="row">
+              <div class="form-group col-md-6">
+                 <input type="text" class="form-control" placeholder="Min" name="min_price"
+                    [(ngModel)]="parameter.min_price">
+              </div>
+              <div class="form-group col-md-6">
+                 <input type="text" class="form-control" placeholder="Max" name="max_price"
+                    [(ngModel)]="parameter.max_price">
+              </div>
+           </div>
+           <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.rangeCarpetArea' | translate}}</h4>
+           <div class="row">
+              <div class="form-group col-md-6">
+                 <input type="text" class="form-control" placeholder="Min" name="min_carpet_area"
+                    [(ngModel)]="parameter.min_carpet_area">
+              </div>
+              <div class="form-group col-md-6">
+                 <input type="text" class="form-control" placeholder="Max" name="max_carpet_area"
+                    [(ngModel)]="parameter.max_carpet_area">
+              </div>
+           </div>
+        
+           <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.PropertyType' | translate}}</h4>
+           <div class="row">
+              <div class="form-group col-md-12">
+                 <label class="cust-radio" *ngFor="let propertyType of propertyTypes">
+                    <input type="radio" (change)="setValue('property_type_id', propertyType.id)"
+                       value="{{propertyType.id}}" [(ngModel)]="parameter.property_type_id"
+                       [checked]="parameter.property_type_id == propertyType.id ? 'checked' : ''"
+                       name="property_type_id">
+                    <span class="checkmark">{{propertyType.name_en}}</span>
+                 </label>
+              </div>
+           </div>
+         
+           <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.ParkingDetails' | translate}}</h4>
+           <div class="row">
+              <div class="form-group col-md-4">
+                 <p class="parking" style="color: #00B96F;">{{'advanceSearch.ParkingAvailable' | translate}}</p>
+                 <label class="switch">
+                    <input type="checkbox" [(ngModel)]="parameter.parking" name="parking">
+                    <span class="slider round"></span>
+                 </label>
+              </div>
+
+              <div class="form-group col-md-4">
+                 <p class="parking" style="color: #00B96F;">{{'advanceSearch.PropertyFurnished' | translate}}</p>
+                 <label class="switch">
+                    <input type="checkbox" [(ngModel)]="parameter.furnished" name="furnished">
+                    <span class="slider round"></span>
+                 </label>
+              </div>
+
+              <div class="form-group col-md-4">
+                 <p class="parking" style="color: #00B96F;">{{'advanceSearch.ParkingForSale' | translate}}</p>
+                 <label class="switch">
+                    <input type="checkbox" [(ngModel)]="parameter.parking_for_sale" name="parking_for_sale" checked>
+                    <span class="slider round"></span>
+                 </label>
+              </div>
+
+              <div class="form-group col-md-4" *ngIf="parameter.parking == 1">
+                 {{'advanceSearch.ParkingPlace' | translate}}
+                 <input class="form-control" type="number" [(ngModel)]="parameter.parking_place" min="0"
+                    name="parking_place">
+              </div>
+
+           </div>
+        
+           <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.configuration' | translate}}</h4>
+           <div class="row">
+              <div class="form-group col-md-4">
+                 {{'advanceSearch.Bedrooms' | translate}}<br />
+                 <input class="form-control" type="number" [(ngModel)]="parameter.bedroom" min="0" name="bedroom">
+                
+              </div>
+              <div class="form-group col-md-4">
+                 {{'advanceSearch.Bathrooms' | translate}}<br />
+                 <input class="form-control" type="number" [(ngModel)]="parameter.bathroom" min="0" name="bathroom">
+                
+              </div>
+              <div class="form-group col-md-4">
+                 {{'advanceSearch.HalfBathrooms' | translate}}<br />
+                 <input class="form-control" type="number" [(ngModel)]="parameter.half_bathroom" min="0"
+                    name="half_bathroom">
+              
+              </div>
+           </div>
+       
+           <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.Amenities' | translate}}</h4>
+           <div class="row">
+              <div class="form-group col-md-12">
+                 <div class="clearfix"></div>
+                 <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
+                    name="selctedAmenities" [data]="amenities" [(ngModel)]="selctedAmenities"
+                    [settings]="multiDropdownSettings" (onDeSelect)="unsetProject($event)"
+                    (onSelect)="onItemSelect('selctedAmenities', $event)" (onSelectAll)="onSelectAll($event)">
+                 </ng-multiselect-dropdown>
+                 <div class="clearfix"></div>
+                
+              </div>
+           </div>
+           <button type="submit" class="btn btn-success" (click)="searchProperties()" style="border-left-color: rgb(0, 185, 111);
+              border-right-color: rgb(0, 185, 111);">
+              {{'advanceSearch.apply' | translate}}
+           </button>&nbsp;&nbsp;
+
+           <button type="button" class="btn btn-danger" (click)="close()"
+              style="background-color: rgb(238, 123, 124);">{{'advanceSearch.cancel' | translate}}</button>
+
+        </form>
+     </div>
+  </div>
+</div>

@@ -8,7 +8,10 @@ import { Constant } from 'src/app/common/constants';
 import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
-
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 @Component({
   selector: 'app-developers',
   templateUrl: './developers.component.html',
@@ -22,6 +25,7 @@ export class DevelopersComponent implements OnInit {
   items: Array<Users>;
   local_storage_parameter: any;
   is_back: boolean;
+  exportfinalData: Array<any>;
   constructor(public constant: Constant, public admin: AdminService, private router: Router,
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
@@ -165,4 +169,73 @@ export class DevelopersComponent implements OnInit {
         swal(this.translate.instant('swal.error'), error.error.message, 'error');
       });
   }
+  getExportlisting() {
+    this.spinner.show();
+    const input: any = JSON.parse(JSON.stringify(this.parameter));
+    input.page = -1;
+    this.admin.postDataApi('getDevelopersFrAdmin', input).subscribe(
+      success => {
+        this.exportfinalData = success['data'];
+        this.exportData();
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      });
+  }
+
+  exportData() {
+    if (this.exportfinalData) {
+      const exportfinalData = [];
+      for (let index = 0; index < this.exportfinalData.length; index++) {
+        const p = this.exportfinalData[index];
+
+        exportfinalData.push({
+          'Commercial name': p.name || '',
+          'Location': p.developer_address || '',
+          'Latitude': p.lat || '',
+          'Longitude': p.lng || '',
+          'Legal name': p.developer_company || '',
+          'email': p.email || '',
+          'contact number': p.phone || '',
+          'Projects linked': p.buildings_count || 0
+        });
+      }
+      this.exportAsExcelFile(exportfinalData, 'developers-');
+    }
+  }
+
+  public exportAsExcelFile(json: any[], excelFileName: string): void {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { data: worksheet },
+      SheetNames: ['data']
+    };
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array'
+    });
+    this.spinner.hide();
+    this.saveAsExcelFile(excelBuffer, excelFileName);
+  }
+
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    const today = new Date();
+    const date =
+      today.getDate() +
+      '-' +
+      today.getMonth() +
+      '-' +
+      today.getFullYear() +
+      '_' +
+      today.getHours() +
+      '_' +
+      today.getMinutes() +
+      '_' +
+      today.getSeconds();
+    fileName = fileName + date;
+    FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
+  }
+
 }

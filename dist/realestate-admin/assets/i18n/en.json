@@ -109,7 +109,13 @@
       "page": "Page",
       "news": "News",
       "mainTemplates": "Main Templates"
-    }
+    },
+  "commisionType":{
+    "type": "Commission Type",
+    "purchase": "Purchase",
+    "agent": "Agent",
+    "collection": "Collection"
+  }
   },
   "addForm": {
     "parking-spaces":"Total parking spaces",
@@ -607,7 +613,8 @@
       "enter": "Enter",
       "chooseDate": "Choose Date",
       "parkingLotSpacesEn": "Parking lot spaces name (English)",
-      "parkingLotSpacesEs": "Parking lot spaces name (Spanish)"
+      "parkingLotSpacesEs": "Parking lot spaces name (Spanish)",
+      "manageCommissions": "Manage Commissions"
     }
   },
   "charts": {
@@ -1052,6 +1059,7 @@
       "noNoteFound": "No notes to show.",
       "noRecordFound": "No record found",
       "noApprovedCollectionFound": "No approved collection found",
+      "noCommissionFound": "No commission found",
       "noUnApprovedCollectionFound": "No unapproved collection found",
       "fileSizeExceeds": "The file you have selected is too large. The maximum size is 50MB.",
       "pdfSizeExceeds": "The file you have selected is too large. The maximum size is 100MB.",
@@ -1331,7 +1339,8 @@
       "youCannotDeleteThisPropertyConfiguration":"You cannot delete this property configuration",
       "youCannotDeleteThisAmenities":"You cannot delete this amenities",
       "youCannotDeleteThisPossessionStatus":"You cannot delete this possession status",
-      "youCannotDeleteThisProjectType":"You cannot delete this project type"
+      "youCannotDeleteThisProjectType":"You cannot delete this project type",
+      "doYouWantToEditTheFinalPriceOfCollection":"Do you want to edit the final price of collection?"
     } 
   },
   "inhouseUsers": {
@@ -1731,6 +1740,7 @@
     "manageLeads": "Manage Leads",
     "manageProjects": "Manage Projects",
     "manageProperties": "Manage Properties",
+    "managePropertiesForSale":"Properties For Sale",
     "manageLegalEntity": "Manage Legal Entity",
     "manageCollections": "Manage Collections",
     "collectionReports": "Collection Reports",
@@ -1767,7 +1777,8 @@
     "defaultSettings": "Default Settings",
     "documentListing": "Document Listing",
     "manageCredits" : "Manage Credits",
-    "cordinatorAgent": "Cordinator Agent"
+    "cordinatorAgent": "Cordinator Agent",
+    "manageCommissions": "Manage Commissions"
   },
   "commonBlock": {
     "propertiesAvailable": "Properties available",
@@ -2666,5 +2677,8 @@
       "mail":"Email of the buyer",
       "date":"Sending mail",
       "selectday": "Select Day"
+  },
+  "viewCommission":{
+    "label": "Manage Commission"
   }
 }

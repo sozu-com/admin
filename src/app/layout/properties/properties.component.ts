@@ -716,6 +716,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       this.spinner.hide();
       this.bankDetails = (success || {}).data;
       this.getParkingSpaceLots(((success || {}).data || {}).building_id);
+      this.installmentFormGroup.get('paymentBankDetails').setValue(false);
       this.installmentFormGroup.patchValue({
         listPrice: this.property_array.min_price ? ('$' + this.getTransformedAmount(this.property_array.min_price)) : ('$' + 0.00)
       });
@@ -1281,6 +1282,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     let downpayment;
     let payment_upon_delivery;
     let monthly_installments;
+    let discountPer;
+    let interestPer;
     let discount;
     let interest;
     let final_price;
@@ -1314,8 +1317,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   else{
     index = this.property_array.property_offer_payment.findIndex(x=> x.random_id == this.offer_id);
-    discount = this.property_array.property_offer_payment[index].discount;
-    interest = this.property_array.property_offer_payment[index].interest;
+    discountPer = this.property_array.property_offer_payment[index].discount;
+    interestPer = this.property_array.property_offer_payment[index].interest;
+    discount =  this.property_array.property_offer_payment[index].discount ? ( this.property_array.property_offer_payment[index].discount * least_price) / 100 : 0;
+    interest = this.property_array.property_offer_payment[index].interest ? (this.property_array.property_offer_payment[index].interest * least_price) / 100 : 0;
     final_price = this.property_array.property_offer_payment[index].final_price;
     pricePerM2 = final_price / this.property_array.max_area;
     downpayment = (this.property_array.property_offer_payment[index].down_payment * final_price) / 100;
@@ -1405,11 +1410,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                       { text: this.price.transform(Number(least_price).toFixed(2)), border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: this.installmentFormGroup.value.discount ? this.translate.instant('generatePDF.discountP') : this.translate.instant('generatePDF.interestP'), bold: true, border: [false, false, false, false], color: '#858291' },
-                      { text: discount ? this.installmentFormGroup.value.discount + '%' : interest ? this.installmentFormGroup.value.interest + '%' : 'N/A', border: [false, false, false, false], bold: true },
+                      { text: this.installmentFormGroup.value.discount || discountPer ? this.translate.instant('generatePDF.discountP') : this.translate.instant('generatePDF.interestP'), bold: true, border: [false, false, false, false], color: '#858291' },
+                      { text: discount ? (this.installmentFormGroup.value.discount || discountPer) + '%' : interest ? (this.installmentFormGroup.value.interest || interestPer) + '%' : 'N/A', border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: this.installmentFormGroup.value.discount ? this.translate.instant('generatePDF.discountD') : this.translate.instant('generatePDF.interestD'), bold: true, border: [false, false, false, false], color: '#858291' },
+                      { text: this.installmentFormGroup.value.discount || discountPer ? this.translate.instant('generatePDF.discountD') : this.translate.instant('generatePDF.interestD') || interestPer, bold: true, border: [false, false, false, false], color: '#858291' },
                       { text: this.price.transform(Number(discount ? discount : interest ? interest : 0).toFixed(2)) || 'N/A', border: [false, false, false, false], bold: true },
                     ],
                     [
@@ -2103,7 +2108,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.admin.postDataApi('getPropertyDetails', { id: (propertyDetails || {}).id }).subscribe((success) => {
       this.spinner.hide();
       this.bankDetails = (success || {}).data;
-      this.makePaymentBankDetailsArray(this.property_array.property_offer_payment[0].account_type == 1 ? false : true);
+      this.installmentFormGroup.get('agencyOrSeller').setValue(this.property_array.property_offer_payment[0].account_type == 1 ? false : true);
+      this.makePaymentBankDetailsArray(false);
       this.getParkingSpaceLots(((success || {}).data || {}).building_id);
       this.is_for_Offer = true;
       this.generatePDF();

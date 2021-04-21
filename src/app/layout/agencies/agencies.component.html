@@ -1,13 +1,13 @@
 
 <div class="container-fluid">
   <div class="row">
-      <div class="col-md-4 col-6">
+      <div class="col-md-2 col-3">
         <div class="title-group">
             <h5>{{'viewAgency.label' | translate}}</h5>
             <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}} {{parameter.total}}</p>
         </div>
       </div>
-      <div class="col-md-5 col-6">
+      <div class="col-md-6 col-3">
         <div class="btn-cont upload-excel pull-right">
             <a title="{{'table.title.downloadSampleFile' | translate}}" href="assets/docx/Sozu_Agencies_Sample.xlsx" class="btn"><span class="fa fa-download"></span></a>
             <label title="{{'table.title.chooseExcelFile' | translate}}" class="img_label">{{label}}
@@ -16,9 +16,16 @@
             <a title="{{'table.title.uploadSelectedFile' | translate}}" (click)="importAgency()" href="javascript://" class="btn"><span class="fa fa-upload"></span></a>
         </div>
       </div>
-      <div class="col-md-3 col-6">
+      <div class="col-md-2 col-3">
         <div class="btn-cont text-right">
-            <a *ngIf="admin?.admin_acl['Agencies Management']?.can_create==1" class="btn btn-primary" href="javascript://" routerLink="/dashboard/agencies/add-agency/0">{{'table.addNewBtn' | translate}}</a>
+           <a *ngIf="admin?.admin_acl['Agencies Management']?.can_create==1" class="btn btn-primary" href="javascript://" (click)="getExportlisting()">
+              {{'table.exportDataBtn' | translate}}</a>
+        </div>
+     </div>
+      <div class="col-md-2 col-3">
+        <div class="btn-cont text-right">
+            <a *ngIf="admin?.admin_acl['Agencies Management']?.can_create==1" class="btn btn-primary" href="javascript://" routerLink="/dashboard/agencies/add-agency/0">
+              {{'table.addNewBtn' | translate}}</a>
         </div>
       </div>
   </div>

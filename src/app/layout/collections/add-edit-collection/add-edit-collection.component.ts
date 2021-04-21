@@ -19,6 +19,7 @@ import { Document } from 'src/app/models/document.model';
 import { IDestinationStatus } from 'src/app/common/marrital-status-interface';
 import { element } from 'protractor';
 import { forkJoin } from 'rxjs';
+import { GenerateOfferPdfService } from 'src/app/services/generate-offer-pdf.service';
 declare let swal: any;
 
 @Component({
@@ -167,6 +168,9 @@ export class AddEditCollectionComponent implements OnInit {
   public parkingLotSaleDetails: any;
   private parkingSpaceLotsArray: any[] = [];
   private parkingSpaceRentArray: any[] = [];
+  property_offer_id: any;
+  edit_price: boolean;
+  edit_collection: boolean = false;
 
   constructor(
     public model: Collection,
@@ -182,6 +186,7 @@ export class AddEditCollectionComponent implements OnInit {
     private toastr: ToastrService,
     public modelForDoc: Document,
     public tempmodel: Collection,
+    private offerPdf: GenerateOfferPdfService
   ) { }
 
   ngOnInit(): void {
@@ -512,6 +517,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.adminService.postDataApi('getCollectionById', { id: id })
       .subscribe(
         success => {
+          this.edit_collection =true;
           this.spinner.hide();
           this.tempmodel = JSON.parse(JSON.stringify(success['data']));
           this.property_beneficiary = (success.data || {}).beneficiary || [];
@@ -621,29 +627,29 @@ export class AddEditCollectionComponent implements OnInit {
       this.addFormStep2.controls.seller_fed_tax.patchValue(data.seller ? data.seller.fed_tax_pay : '');
 
       this.addFormStep2.controls.seller_leg_rep_name.patchValue(
-        data.seller.legal_representative ? data.seller.legal_representative.name : '');
+        data.seller && data.seller.legal_representative ? data.seller.legal_representative.name : '');
       this.addFormStep2.controls.seller_leg_rep_first_surname.patchValue(
-        data.seller.legal_representative ? data.seller.legal_representative.first_surname : '');
+        data.seller && data.seller.legal_representative ? data.seller.legal_representative.first_surname : '');
       this.addFormStep2.controls.seller_leg_rep_second_surname.patchValue(
-        data.seller.legal_representative ? data.seller.legal_representative.second_surname : '');
+        data.seller && data.seller.legal_representative ? data.seller.legal_representative.second_surname : '');
       this.addFormStep2.controls.seller_leg_rep_phone.patchValue(
-        data.seller.legal_representative ? data.seller.legal_representative.phone : '');
+        data.seller && data.seller.legal_representative ? data.seller.legal_representative.phone : '');
       this.addFormStep2.controls.seller_leg_rep_email.patchValue(
-        data.seller.legal_representative ? data.seller.legal_representative.email : '');
+        data.seller && data.seller.legal_representative ? data.seller.legal_representative.email : '');
       this.addFormStep2.controls.seller_leg_rep_fed_tax.patchValue(
-        data.seller.legal_representative ? data.seller.legal_representative.fed_tax_pay : '');
+        data.seller &&  data.seller.legal_representative ? data.seller.legal_representative.fed_tax_pay : '');
       this.addFormStep2.controls.seller_leg_rep_comp.patchValue(data.seller_leg_rep_comp || '');
 
       this.addFormStep2.controls.step.patchValue(2);
       const control = this.addFormStep2.get('collection_seller_rep_banks') as FormArray;
-      if (data.seller.legal_representative && data.seller.legal_representative.legal_rep_banks) {
+      if (data.seller && data.seller.legal_representative && data.seller.legal_representative.legal_rep_banks) {
         data.seller.legal_representative.legal_rep_banks.forEach(x => {
           delete x.id;  // no need to send id ( cuz these are saving separtely in table)
           control.push(this.formBuilder.group(x));
         });
       }
       const control1 = this.addFormStep2.get('collection_seller_banks') as FormArray;
-      if (data.seller.legal_rep_banks) {
+      if (data.seller && data.seller.legal_rep_banks) {
         data.seller.legal_rep_banks.forEach(x => {
           delete x.id;  // no need to send id ( cuz these are saving separtely in table)
           control1.push(this.formBuilder.group(x));
@@ -663,26 +669,26 @@ export class AddEditCollectionComponent implements OnInit {
       this.addFormStep2.controls.seller_phone.patchValue(data.seller.phone || '');
       this.addFormStep2.controls.seller_address.patchValue(data.seller.developer_address || '');
       this.addFormStep2.controls.seller_leg_rep_name.patchValue(
-        data.seller.legal_representative ? data.seller.legal_representative.name : '');
+        data.seller && data.seller.legal_representative ? data.seller.legal_representative.name : '');
       this.addFormStep2.controls.seller_leg_rep_first_surname.patchValue(
-        data.seller.legal_representative ? data.seller.legal_representative.first_surname : '');
+        data.seller && data.seller.legal_representative ? data.seller.legal_representative.first_surname : '');
       this.addFormStep2.controls.seller_leg_rep_second_surname.patchValue(
-        data.seller.legal_representative ? data.seller.legal_representative.second_surname : '');
+        data.seller &&  data.seller.legal_representative ? data.seller.legal_representative.second_surname : '');
       this.addFormStep2.controls.seller_leg_rep_phone.patchValue(
-        data.seller.legal_representative ? data.seller.legal_representative.phone : '');
+        data.seller && data.seller.legal_representative ? data.seller.legal_representative.phone : '');
       this.addFormStep2.controls.seller_leg_rep_email.patchValue(
-        data.seller.legal_representative ? data.seller.legal_representative.email : '');
+        data.seller && data.seller.legal_representative ? data.seller.legal_representative.email : '');
       this.addFormStep2.controls.seller_leg_rep_fed_tax.patchValue(
-        data.seller.legal_representative ? data.seller.legal_representative.fed_tax_pay : '');
+        data.seller && data.seller.legal_representative ? data.seller.legal_representative.fed_tax_pay : '');
       const control = this.addFormStep2.get('collection_seller_rep_banks') as FormArray;
       if (data.seller.legal_representative && data.seller.legal_representative.legal_rep_banks) {
-        data.seller.legal_representative.legal_rep_banks.forEach(x => {
+        data.seller && data.seller.legal_representative.legal_rep_banks.forEach(x => {
           delete x.id;  // no need to send id ( cuz these are saving separtely in table)
           control.push(this.formBuilder.group(x));
         });
       }
       const control1 = this.addFormStep2.get('collection_seller_banks') as FormArray;
-      if (data.seller.legal_rep_banks) {
+      if (data.seller && data.seller.legal_rep_banks) {
         data.seller.legal_rep_banks.forEach(x => {
           delete x.id;  // no need to send id ( cuz these are saving separtely in table)
           control1.push(this.formBuilder.group(x));
@@ -753,28 +759,28 @@ export class AddEditCollectionComponent implements OnInit {
       this.addFormStep3.controls.buyer_fed_tax.patchValue(data.buyer ? data.buyer.fed_tax_pay : '');
 
       this.addFormStep3.controls.buyer_leg_rep_name.patchValue(data.buyer && data.buyer.legal_representative ?
-        data.buyer.legal_representative.name : '');
+        data.buyer && data.buyer.legal_representative.name : '');
       this.addFormStep3.controls.buyer_leg_rep_first_surname.patchValue(data.buyer && data.buyer.legal_representative ?
-        data.buyer.legal_representative.first_surname : '');
+        data.buyer && data.buyer.legal_representative.first_surname : '');
       this.addFormStep3.controls.buyer_leg_rep_second_surname.patchValue(data.buyer && data.buyer.legal_representative ?
-        data.buyer.legal_representative.second_surname : '');
+        data.buyer && data.buyer.legal_representative.second_surname : '');
       this.addFormStep3.controls.buyer_leg_rep_phone.patchValue(data.buyer && data.buyer.legal_representative ?
-        data.buyer.legal_representative.phone : '');
+        data.buyer && data.buyer.legal_representative.phone : '');
       this.addFormStep3.controls.buyer_leg_rep_email.patchValue(data.buyer && data.buyer.legal_representative ?
-        data.buyer.legal_representative.email : '');
+        data.buyer && data.buyer.legal_representative.email : '');
       this.addFormStep3.controls.buyer_leg_rep_comp.patchValue(data.buyer_leg_rep_comp || '');
       this.addFormStep3.controls.buyer_leg_rep_fed_tax.patchValue(data.buyer && data.buyer.legal_representative ?
-        data.buyer.legal_representative.fed_tax_pay : '');
+        data.buyer && data.buyer.legal_representative.fed_tax_pay : '');
       this.addFormStep3.controls.step.patchValue(2);
       const control = this.addFormStep3.get('collection_buyer_rep_banks') as FormArray;
-      if (data.buyer.legal_representative && data.buyer.legal_representative.legal_rep_banks) {
+      if (data.buyer && data.buyer.legal_representative && data.buyer.legal_representative.legal_rep_banks) {
         data.buyer.legal_representative.legal_rep_banks.forEach(x => {
           delete x.id;  // no need to send id ( cuz these are saving separtely in table)
           control.push(this.formBuilder.group(x));
         });
       }
       const control1 = this.addFormStep3.get('collection_buyer_banks') as FormArray;
-      if (data.buyer.legal_rep_banks) {
+      if (data.buyer && data.buyer.legal_rep_banks) {
         data.buyer.legal_rep_banks.forEach(x => {
           delete x.id;  // no need to send id ( cuz these are saving separtely in table)
           control1.push(this.formBuilder.group(x));
@@ -910,6 +916,9 @@ export class AddEditCollectionComponent implements OnInit {
       this.addFormStep4.controls.final_price.patchValue(Number(data.property.property_offer_payment[0].final_price).toFixed(2));
       this.addFormStep4.controls.discount_interest.patchValue(data.property.property_offer_payment[0].discount ? data.property.property_offer_payment[0].discount : 
         data.property.property_offer_payment[0].interest ? data.property.property_offer_payment[0].interest : 0 );
+    }
+    else{
+      this.addFormStep4.controls.final_price.patchValue(Number(data.property.min_price).toFixed(2));
     }
   }
 
@@ -2326,6 +2335,9 @@ export class AddEditCollectionComponent implements OnInit {
         const d = formdata['deal_purchase_date'];
         // const nd = moment(d).add(330, 'minutes').toDate();
         formdata['deal_purchase_date'] = moment(d).format('YYYY-MM-DD');
+        if(!this.isCommercialOffer || this.tempmodel.property.offer_id){
+        formdata['final_price'] = this.addFormStep4.controls.final_price.value;
+        }
         let paymentSum: any = 0;
         let i = 0;
         for (let index = 0; index < formdata['payment_choices'].length; index++) {
@@ -3036,4 +3048,29 @@ export class AddEditCollectionComponent implements OnInit {
   identify(index, item){
     return item.name; 
  }
+
+ getOfferPdf(){
+  this.property_offer_id = this.tempmodel.property.offer_id;
+  let offer = this.tempmodel.property.property_offer_payment.find(x=> x.random_id == this.property_offer_id)
+  this.offerPdf.offerID(offer);
+}
+
+editPrice(isEdit){
+  if(isEdit){
+  swal({
+    html: this.translate.instant('message.error.areYouSure') + '<br>' +
+      this.translate.instant('message.error.doYouWantToEditTheFinalPriceOfCollection'),
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: this.constant.confirmButtonColor,
+    cancelButtonColor: this.constant.cancelButtonColor,
+    confirmButtonText: 'Yes'
+  }).then((result) => {
+      this.edit_price = result.value;
+  });
+}
+else{
+  this.edit_price = false;
+}
+}
 }

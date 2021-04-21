@@ -21,6 +21,8 @@ export class CommissionIncomeComponent implements OnInit {
   public parameter: IProperty = {};
   singleDropdownSettings: any;
   multiDropdownSettings: any;
+  start_purchase_date: any;
+  end_purchase_date: any;
   input: CollectionReport;
   projects: Array<any>;
   selctedProjects: Array<any>;
@@ -28,6 +30,7 @@ export class CommissionIncomeComponent implements OnInit {
   selectedCurrencies: Array<any>;
   commissionsType: Array<any>;
   selectedCommissions: Array<any>;
+  cashFlowInfos: any[];
   colorScheme = {
     domain: ['#ee7b7c', '#f5d05c']
   };
@@ -37,6 +40,9 @@ export class CommissionIncomeComponent implements OnInit {
   avgValue: number;
   reportType: number;
   items: Array<any>;
+  expectedActual: Array<any>;
+  expectedTotal:  any;
+  actualTotal: any;
   commissions = [];
   already_index: any;
   commission_sum: any = 0 ;
@@ -67,7 +73,7 @@ export class CommissionIncomeComponent implements OnInit {
     this.getCurrencies();
     this.initCalendarLocale();
     this.getReportData();
-
+    this.getReportData2();
     this.translate.onDefaultLangChange.subscribe((event: LangChangeEvent) => {
       this.initCalendarLocale();
     });
@@ -300,7 +306,124 @@ export class CommissionIncomeComponent implements OnInit {
     });
     chart.render();
   }
+  plotData2() {
+    const chart = new CanvasJS.Chart('chartContainer2', {
+      animationEnabled: true,
+      exportFileName: 'cash-flow',
+      exportEnabled: true,
+      title: {
+        // text: "Crude Oil Reserves vs Production, 2016"
+      },
+      toolTip: {
+        shared: true
+      },
+      legend: {
+        cursor: 'pointer',
+        itemclick: toggleDataSeries
+      },
+      data: [{
+        type: 'column',
+        name: 'Expected',
+        legendText: 'Expected',
+        color: '#4a85ff',
+        showInLegend: true,
+        dataPoints: this.reportData['expected']
+      },
+      {
+        type: 'column',
+        name: 'Actual',
+        legendText: 'Actual',
+        color: '#ee7b7c',
+        // axisYType: "secondary",
+        showInLegend: true,
+        dataPoints: this.reportData['actual']
+      }
+    ]
+    });
+    chart.render();
 
+    function toggleDataSeries(e) {
+      if (typeof(e.dataSeries.visible) === 'undefined' || e.dataSeries.visible) {
+        e.dataSeries.visible = false;
+      } else {
+        e.dataSeries.visible = true;
+      }
+      chart.render();
+    }
+  }
+  getReportData2 () {
+    const input: any = JSON.parse(JSON.stringify(this.input));
+    input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
+    input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
+
+    if (this.selctedProjects) {
+      const d = this.selctedProjects.map(o => o.id);
+      input.building_id = d;
+    }
+    if (this.selectedCurrencies) {
+      const d = this.selectedCurrencies.map(o => o.id);
+      input.currency_id = d;
+    }
+
+    if (this.start_purchase_date) {
+      input.start_purchase_date = moment(this.start_purchase_date).format('YYYY-MM-DD');
+    }
+    if (this.end_purchase_date) {
+      input.end_purchase_date = moment(this.end_purchase_date).format('YYYY-MM-DD');
+    }
+    
+    this.spinner.show();
+    this.admin.postDataApi('graphs/cash-flows', input).subscribe(r => {
+      this.spinner.hide();
+      this.reportData = r['data'];
+
+      this.expectedActual = [];
+      for (let index = 0; index < this.reportData['expected'].length; index++) {
+        const element = this.reportData['expected'][index];
+        // array to export
+        const obj = {label: element.label, expected: element.y, actual: this.reportData['actual'][index].y};
+
+        this.expectedActual.push(obj);
+        // expected output: 81
+      }
+      let sum: number = this.expectedActual.map(a => a.expected).reduce(function(a, b)
+        {
+          return a + b;
+        });
+        console.log(sum,"Expected & Actual Revenue");
+        this.expectedTotal = sum;
+        let sum1: number = this.expectedActual.map(a => a.actual).reduce(function(a, b)
+        {
+          return a + b;
+        });
+        console.log(sum1,"Expected & Actual Revenue");
+        this.actualTotal = sum1;
+        
+      this.plotData2();
+    }, error => {
+      this.spinner.hide();
+    });
+  }
+  getCashFlowInfo(item, index) {
+    if(index != this.already_index){
+      this.already_index = index;
+      this.cashFlowInfos = [];
+    let data = this.reportData.actual.find(value=> value.label == item.label);
+    let  id = data.id.split(',');
+    let param ={
+      id: id
+    }
+    this.spinner.show();
+    this.admin.postDataApi('graphs/cash-flow-actualinfo', param)
+      .subscribe(
+        success => {
+          this.cashFlowInfos = success.data;
+          this.spinner.hide();
+        }, error => {
+          this.spinner.hide();
+        });
+      }
+  }
   resetFilters() {
     this.input = new CollectionReport();
     this.input.start_date = moment().subtract(6, 'months').toDate();

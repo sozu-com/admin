@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Agency } from 'src/app/models/agency.model';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
+import { ExcelDownload } from 'src/app/common/excelDownload';
 declare let swal: any;
 
 @Component({
@@ -22,7 +23,7 @@ export class AgenciesComponent implements OnInit {
   items: Array<Agency>;
   label: string;
   public scrollbarOptions = { axis: 'y', theme: 'dark'};
-
+  exportfinalData: Array<any>;
   constructor(public constant: Constant,
     private spinner: NgxSpinnerService,
     public admin: AdminService, private router: Router,
@@ -202,5 +203,40 @@ export class AgenciesComponent implements OnInit {
         }, error => {
           this.spinner.hide();
         });
+  }
+  getExportlisting() {
+    this.spinner.show();
+    const input: any = JSON.parse(JSON.stringify(this.parameter));
+    input.page = -1;
+    this.admin.postDataApi('getAgencies',  input).subscribe(
+      success => {
+        this.exportfinalData = success['data'];
+        this.exportData();
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      });
+  }
+
+  exportData() {
+    if (this.exportfinalData) {
+      const exportfinalData = [];
+      for (let index = 0; index < this.exportfinalData.length; index++) {
+        const p = this.exportfinalData[index];
+
+        exportfinalData.push({
+          'Company name': p.name || '',
+          'Contact number': p.phone || '',
+          'Location': p.address || '',
+          'Latitude': p.lat || '',
+          'Longitude': p.lng || '',
+          'Linked agent': p.agents_count || 0,
+          'Linked properties': p.property_count || 0,
+          'Linked projects': p.project_count || 0
+        });
+      }
+      new ExcelDownload().exportAsExcelFile(exportfinalData, 'Agencies');
+    }
   }
 }

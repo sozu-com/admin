@@ -26,6 +26,7 @@ import { HttpClient } from '@angular/common/http';
 import { count } from 'rxjs-compat/operator/count';
 import { OnDestroy } from '@angular/core';
 import { forkJoin } from 'rxjs';
+import { GenerateOfferPdfService } from 'src/app/services/generate-offer-pdf.service';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 declare let swal: any;
 declare var $: any;
@@ -212,6 +213,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   footer_address: any;
   legal_name: any;
   parkingSpaceLotsArray: any [] = [];
+  property_offer_id: any;
   constructor(
     public constant: Constant,
     public apiConstants: ApiConstants,
@@ -228,7 +230,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     public modelForDoc: Document,
     private datePipe: DatePipe,
     private http: HttpClient,
-    private price: PricePipe
+    private price: PricePipe,
+    private offerPdf: GenerateOfferPdfService
   ) {
     // this.userForm = this.fb.group({
     //   email: this.fb.array([this.fb.control(null)])
@@ -2346,6 +2349,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       buyer_type: details.buyer_type
     };
     this.admin.postDataApi('getCollectionDocument', postData).subscribe((success) => {
+      this.property_offer_id = success.offer_id;
       this.buyerDocumentationFoldersDetails = success.buyer || [];
       this.sellerDocumentationFoldersDetails = success.seller || [];
       this.propertyDocumentationFoldersDetails = success.property || [];
@@ -3540,6 +3544,10 @@ export class CollectionsComponent implements OnInit, OnDestroy {
 
   navigateToProperty = (collectionDetails: any): void => {
     this.router.navigate(['/dashboard/properties/view-properties/property', ((collectionDetails || {}).property || {}).id || '']);
+  }
+
+  getOfferPdf(){
+    this.offerPdf.offerID(this.property_offer_id);
   }
 
   ngOnDestroy(): void {

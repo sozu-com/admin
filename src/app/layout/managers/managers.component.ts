@@ -46,6 +46,7 @@ export class ManagersComponent implements OnInit {
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
   public assign: IProperty = {};
   public assignItem: any;
+  public towerManagerAgentArray: any[] = [];
 
   constructor(public constant: Constant, private cs: CommonService,
     private route: ActivatedRoute,
@@ -60,7 +61,8 @@ export class ManagersComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.getTowerManagerAgent();
     this.label = this.translate.instant('table.title.chooseManagersFile');
     this.file1 = new FileUpload(false, this.admin);
     this.model = new Manager();
@@ -94,7 +96,7 @@ export class ManagersComponent implements OnInit {
   addManagerNote() {
     const input = { tower_managers_id: this.model.id, description: this.model.note };
     this.admin.postDataApi('addManagerNotes', input).subscribe(success => {
-      console.log(success.data);
+      //console.log(success.data);
       this.closeNotesadddModalModal();
       this.getAllNotes(this.model.id);
       this.modalClose.nativeElement.click();
@@ -106,7 +108,7 @@ export class ManagersComponent implements OnInit {
       .subscribe(
         success => {
           this.parameter.notes = success.data;
-          console.log(success.data, "all notes")
+          //console.log(success.data, "all notes")
         });
   }
 
@@ -281,7 +283,7 @@ export class ManagersComponent implements OnInit {
               swal(this.translate.instant('swal.success'), text, 'success');
               if (this.model.id) {
                 this.items[this.parameter.index] = success.data;
-                console.log(this.items, "edit resp")
+                // console.log(this.items, "edit resp")
               } else {
                 this.items.push(success.data);
                 this.parameter.total++;
@@ -332,6 +334,10 @@ export class ManagersComponent implements OnInit {
     this.parameter.name = name;
     this.getTowerManager();
   }
+  searchUserByagentAssignee(agent: string) {
+    this.parameter.agent = agent;
+    this.getTowerManager();
+  }
   searchUserByCompanyName(company_name: string) {
     this.parameter.company_name = company_name;
     this.getTowerManager();
@@ -360,17 +366,17 @@ export class ManagersComponent implements OnInit {
     input.append('project_sort', this.model.project_sort);
     input.append('page', this.parameter.p.toString());
     if (this.parameter.name) { input.append('name', this.parameter.name); }
+    if (this.parameter.agent) { input.append('agent', this.parameter.agent); }
     if (this.parameter.email) { input.append('email', this.parameter.email); }
     if (this.parameter.phone) { input.append('phone', this.parameter.phone); }
     if (this.parameter.company_name) { input.append('company_name', this.parameter.company_name); }
     if (this.parameter.is_freelancer) { input.append('is_freelancer', this.parameter.is_freelancer); }
-
+    if (this.parameter.agent_id) { input.append('agent_id', this.parameter.agent_id); }
     this.admin.postDataApi('getTowerManager', input)
       .subscribe(
         success => {
           this.spinner.hide();
           this.items = success.data;
-          console.log(this.items, "all list")
           this.parameter.total = success.total;
         }, error => {
           this.spinner.hide();
@@ -623,6 +629,19 @@ export class ManagersComponent implements OnInit {
     this.assign.items = null;
     this.assignItem = null;
     this.closeAssignModel.nativeElement.click();
+  }
+
+  getTowerManagerAgent = (): void => {
+    this.spinner.show();
+    this.admin.postDataApi('getTowerManagerAgent', {}).subscribe((success) => {
+      this.spinner.hide();
+      (success.data || []).forEach((arrayData) => {
+        const tempData = this.towerManagerAgentArray.find((item) => item.id == arrayData.id);
+        tempData ? '' : this.towerManagerAgentArray.push(arrayData)
+      });
+    }, (error) => {
+      this.spinner.hide();
+    });
   }
 
 }

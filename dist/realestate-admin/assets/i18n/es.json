@@ -109,6 +109,12 @@
       "page": "Página",
       "news": "Noticias",
       "mainTemplates": "Plantillas principales"
+    },
+    "commisionType":{
+      "type": "Tipo de comisión",
+      "purchase": "Compra",
+      "agent": "Agente",
+      "collection": "Colección"
     }
   },
   "addForm": {
@@ -606,7 +612,8 @@
       "enter": "Entrar",
       "chooseDate": "Elegir fecha",
       "parkingLotSpacesEn": "Nombre del tipos de estacionamientos (Inglés)",
-      "parkingLotSpacesEs": "Nombre del tipos de estacionamientos (Español)"
+      "parkingLotSpacesEs": "Nombre del tipos de estacionamientos (Español)",
+      "manageCommissions": "Administrar Comisiones"
     }
   },
   "charts": {
@@ -1053,6 +1060,7 @@
       "noNoteFound": "No hay notas para mostrar.",
       "noRecordFound": "Ningún registro encontrado",
       "noApprovedCollectionFound": "No se encontró una colección aprobada.",
+      "noCommissionFound": "No se encontró comisión",
       "noUnApprovedCollectionFound": "No se encontró una colección no aprobada",
       "fileSizeExceeds": "El archivo que ha seleccionado es demasiado grande. El tamaño máximo es 50 MB.",
       "pdfSizeExceeds": "El archivo que ha seleccionado es demasiado grande. El tamaño máximo es 100 MB.",
@@ -1332,7 +1340,8 @@
       "youCannotDeleteThisPropertyConfiguration":"No puede eliminar esta configuración de propiedad",
       "youCannotDeleteThisAmenities":"No puede eliminar estas comodidades",
       "youCannotDeleteThisPossessionStatus":"No puede eliminar este estado de posesión",
-      "youCannotDeleteThisProjectType":"No puedes eliminar este tipo de proyecto"
+      "youCannotDeleteThisProjectType":"No puedes eliminar este tipo de proyecto",
+      "doYouWantToEditTheFinalPriceOfCollection":"¿Quieres editar el precio final de la colección"
     }
   },
   "inhouseUsers": {
@@ -1732,6 +1741,7 @@
     "manageLeads": "Administrar leads",
     "manageProjects": "Administrar proyectos",
     "manageProperties": "Administrar Propiedades",
+    "managePropertiesForSale":"Propiedades en venta",
     "manageCollections": "Administrar colecciones",
     "manageLegalEntity": "Gestionar entidad jurídica",
     "collectionReports": "Informes de colección",
@@ -1768,7 +1778,8 @@
     "defaultSettings": "Configuración por defecto",
     "documentListing": "Listado de documentos",
     "manageCredits" : "Gestionar créditos",
-    "cordinatorAgent": "Agente coordinador"
+    "cordinatorAgent": "Agente coordinador",
+    "manageCommissions": "Administrar Comisiones"
   },
   "commonBlock": {
     "propertiesAvailable": "Departamentos disponibles",
@@ -2664,5 +2675,8 @@
     "mail":"Email del comprador",
     "date":"Fecha de envio",
     "selectday": "Seleccionar día"
+  },
+  "viewCommission":{
+    "label": "Administrar Comisiones"
   }
 }
