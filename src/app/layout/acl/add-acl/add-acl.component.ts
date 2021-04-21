@@ -746,7 +746,12 @@ export class AddAclComponent implements OnInit {
           title: this.translate.instant('addForm.cordinatorAgent'),
           key: 'is_cordinator',
           value: this.model.is_cordinator
+        }, {
+          title: this.translate.instant('addForm.manageCommissions'),
+          key: 'can_manage_commission',
+          value: this.model.is_cordinator
         }
+
         // {
         //   title: this.translate.instant('addForm.developerName'),
         //   key: 'is_developer',

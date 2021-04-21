@@ -1711,7 +1711,7 @@
               <span class="input-group-text" id="basic-addon1">$</span>
               <input autocomplete="off" class="form-control" step="0.01" type="number"
                 placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="final_price" min="0"
-                name="sum_of_concepts" appUptoTwoDigitDecimalNumber [readonly]="isCommercialOffer || tempmodel.property.offer_id">
+                name="sum_of_concepts" appUptoTwoDigitDecimalNumber [readonly]="isCommercialOffer || (tempmodel?.property && tempmodel?.property?.offer_id) || !edit_price">
             </div>
           </div>
           <div *ngIf="showError && (addFormStep4.controls.final_price.invalid)">
@@ -1728,8 +1728,12 @@
             <div class="input-group-append">
               <input autocomplete="off" class="form-control" step="0.01" type="number"
                 placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="discount_interest" min="0"
-                name="sum_of_concepts" appUptoTwoDigitDecimalNumber [readonly]="isCommercialOffer || tempmodel.property.offer_id">
+                name="sum_of_concepts" appUptoTwoDigitDecimalNumber [readonly]="isCommercialOffer || (tempmodel?.property && tempmodel?.property?.offer_id) || !edit_price">
             </div>
+            <a href="javascript://" style="float: right;margin-top: 10px;" *ngIf="!isCommercialOffer && !isByOffer">
+              <i class="fa fa-pencil" aria-hidden="true" style="font-size: 25px;" (click)="editPrice(true)" *ngIf="!edit_price"></i>
+              <i class="fa fa-undo" aria-hidden="true" style="font-size: 25px;" (click)="editPrice(false)" *ngIf="edit_price"></i>
+            </a>
           </div>
           <div *ngIf="showError && (addFormStep4.controls.discount_interest.invalid)">
             <div *ngIf="addFormStep4.controls.discount_interest.errors?.required " class="show-error">
@@ -1737,6 +1741,13 @@
             </div>
           </div>
         </div>
+
+        <!-- <div class="col-lg-1 col-md-1 col-sm-1 col-1" *ngIf="!isCommercialOffer || !tempmodel.property.offer_id">
+          <div class="form-group-3">
+            <div class="clearfix"></div>
+            
+          </div>
+        </div> -->
       </div>
 
       <div class="spacer15"></div>
@@ -2938,7 +2949,22 @@
             </div>
           </ng-container>
         </div>
-        <div *ngIf="this.buyerSellerPropertyDocumentationFoldersDetailsLength == 0" class="write-note white-bg"
+        <div *ngIf="isByOffer" [ngStyle]="{'max-height':sent_as === 1 ? '250px' : '' }"
+          class="write-note white-bg" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+          <ng-container>
+            <div class="wn-block" *ngIf="isByOffer">
+              <div class="circle">
+                <span></span>
+              </div>
+              <p class="time" title="'Click to view'">
+                <a *ngIf="isByOffer" (click)="getOfferPdf()" style="cursor: pointer;">
+                  {{tempmodel?.property?.offer_id }}
+                </a>
+              </p>
+            </div>
+          </ng-container>
+        </div>
+        <div *ngIf="this.buyerSellerPropertyDocumentationFoldersDetailsLength == 0  && isByOffer" class="write-note white-bg"
           [ngStyle]="{'height':sent_as === 1 ? '230px' : '245px' }">
           <p class="show-not-found">
             {{'message.error.noDocumentFound' | translate}}

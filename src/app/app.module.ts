@@ -21,6 +21,7 @@ import * as firebase from 'firebase';
 firebase.initializeApp(environment.firebase);
 // firebase -end
 
+
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { LayoutModule } from './layout/layout.module';
@@ -42,6 +43,9 @@ import { LeadsService } from './services/leads.service';
 import { ExcelService } from './services/excel.service';
 import { DownloadAccountStatementComponent } from './layout/collections/download-account-statement/download-account-statement.component';
 import { AclUserGuard } from './guards/acl-user.guard';
+import { GenerateOfferPdfService } from './services/generate-offer-pdf.service';
+import { DatePipe } from '@angular/common';
+import { PricePipe } from './pipes/price.pipe';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent },
@@ -115,7 +119,10 @@ const appRoutes: Routes = [
     AdminACL,
     // TranslateService,
     AngularFireMessaging,
-    ExcelService
+    ExcelService,
+    GenerateOfferPdfService,
+    DatePipe,
+    PricePipe
   ],
   bootstrap: [AppComponent]
 })

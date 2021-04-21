@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
+import { ExcelDownload } from 'src/app/common/excelDownload';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 @Component({
@@ -25,11 +26,11 @@ export class DevelopersComponent implements OnInit {
   items: Array<Users>;
   local_storage_parameter: any;
   is_back: boolean;
-  exportfinalData: Array<any>;
+  private exportfinalData: any[] = [];
   constructor(public constant: Constant, public admin: AdminService, private router: Router,
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
-  private route: ActivatedRoute) { }
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.model = new Users();
@@ -38,7 +39,7 @@ export class DevelopersComponent implements OnInit {
     this.parameter.page = this.constant.p;
     this.route.params.subscribe(params => {
       this.model.name = params.name;
-      if(params.for){
+      if (params.for) {
         this.is_back = true;
       }
     });
@@ -74,7 +75,7 @@ export class DevelopersComponent implements OnInit {
           localStorage.setItem('parametersForDeveloper', JSON.stringify(this.model));
           this.items = success.data;
           this.parameter.total = success.total;
-          console.log(success.data,"all developers data")
+          // console.log(success.data,"all developers data")
         }, error => {
           this.spinner.hide();
         });
@@ -89,12 +90,12 @@ export class DevelopersComponent implements OnInit {
     this.parameter.title = this.translate.instant('message.error.areYouSure');
     switch (flag) {
       case 0:
-      this.parameter.text = this.translate.instant('message.error.wantToUnblockDeveloper');
-      this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
-      break;
-    case 1:
-      this.parameter.text = this.translate.instant('message.error.wantToBlockDeveloper');
-      this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
+        this.parameter.text = this.translate.instant('message.error.wantToUnblockDeveloper');
+        this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
+        break;
+      case 1:
+        this.parameter.text = this.translate.instant('message.error.wantToBlockDeveloper');
+        this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
     }
 
@@ -149,14 +150,14 @@ export class DevelopersComponent implements OnInit {
 
   deleteData(item: any, index: number) {
     this.admin.postDataApi('deleteBuyerSeller',
-    { id: item.id, user_type: 3 }).subscribe(r => {
-      this.items.splice(index, 1);
-      this.parameter.total--;
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
-    },
-    error => {
-      swal(this.translate.instant('swal.error'), error.error.message, 'error');
-    });
+      { id: item.id, user_type: 3 }).subscribe(r => {
+        this.items.splice(index, 1);
+        this.parameter.total--;
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
+      },
+        error => {
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
+        });
   }
 
   changeStatus(item: any, status: number) {
@@ -169,23 +170,22 @@ export class DevelopersComponent implements OnInit {
         swal(this.translate.instant('swal.error'), error.error.message, 'error');
       });
   }
-  getExportlisting() {
+
+  getExportlisting = (): void => {
     this.spinner.show();
-    const input: any = JSON.parse(JSON.stringify(this.parameter));
+    const input: any = JSON.parse(JSON.stringify(this.model));
     input.page = -1;
-    this.admin.postDataApi('getDevelopersFrAdmin', input).subscribe(
-      success => {
-        this.exportfinalData = success['data'];
-        this.exportData();
-        this.spinner.hide();
-      },
-      error => {
-        this.spinner.hide();
-      });
+    this.admin.postDataApi('getDevelopersFrAdmin', input).subscribe((success) => {
+      this.exportfinalData = success['data'] || [];
+      this.exportData();
+      this.spinner.hide();
+    }, (error) => {
+      this.spinner.hide();
+    });
   }
 
-  exportData() {
-    if (this.exportfinalData) {
+  exportData = (): void => {
+    if (this.exportfinalData.length > 0) {
       const exportfinalData = [];
       for (let index = 0; index < this.exportfinalData.length; index++) {
         const p = this.exportfinalData[index];
@@ -201,41 +201,42 @@ export class DevelopersComponent implements OnInit {
           'Projects linked': p.buildings_count || 0
         });
       }
-      this.exportAsExcelFile(exportfinalData, 'developers-');
+      //this.exportAsExcelFile(exportfinalData, 'developers-');
+      new ExcelDownload().exportAsExcelFile(exportfinalData, 'Developers');
     }
   }
 
-  public exportAsExcelFile(json: any[], excelFileName: string): void {
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
-    const workbook: XLSX.WorkBook = {
-      Sheets: { data: worksheet },
-      SheetNames: ['data']
-    };
-    const excelBuffer: any = XLSX.write(workbook, {
-      bookType: 'xlsx',
-      type: 'array'
-    });
-    this.spinner.hide();
-    this.saveAsExcelFile(excelBuffer, excelFileName);
-  }
+  // public exportAsExcelFile(json: any[], excelFileName: string): void {
+  //   const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+  //   const workbook: XLSX.WorkBook = {
+  //     Sheets: { data: worksheet },
+  //     SheetNames: ['data']
+  //   };
+  //   const excelBuffer: any = XLSX.write(workbook, {
+  //     bookType: 'xlsx',
+  //     type: 'array'
+  //   });
+  //   this.spinner.hide();
+  //   this.saveAsExcelFile(excelBuffer, excelFileName);
+  // }
 
-  private saveAsExcelFile(buffer: any, fileName: string): void {
-    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
-    const today = new Date();
-    const date =
-      today.getDate() +
-      '-' +
-      today.getMonth() +
-      '-' +
-      today.getFullYear() +
-      '_' +
-      today.getHours() +
-      '_' +
-      today.getMinutes() +
-      '_' +
-      today.getSeconds();
-    fileName = fileName + date;
-    FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
-  }
+  // private saveAsExcelFile(buffer: any, fileName: string): void {
+  //   const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+  //   const today = new Date();
+  //   const date =
+  //     today.getDate() +
+  //     '-' +
+  //     today.getMonth() +
+  //     '-' +
+  //     today.getFullYear() +
+  //     '_' +
+  //     today.getHours() +
+  //     '_' +
+  //     today.getMinutes() +
+  //     '_' +
+  //     today.getSeconds();
+  //   fileName = fileName + date;
+  //   FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
+  // }
 
 }

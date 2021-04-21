@@ -2243,7 +2243,7 @@
                   <img src="assets/img/ic_folder_1.svg">{{'commonBlock.propertyDocumentation' | translate}}
                 </a>
               </td>
-              <td>{{this.propertyDocumentationFoldersDetailsLength || 0}}</td>
+              <td>{{(property_offer_id ? this.propertyDocumentationFoldersDetailsLength + 1 : this.propertyDocumentationFoldersDetailsLength) || 0}}</td>
               <td></td>
             </tr>
             <tr id="collapsePropertyDocumentation" class="panel-collapse collapse" *ngIf="this.propertyDocumentationFoldersDetails.length > 0">
@@ -2262,8 +2262,22 @@
                         </p>
                       </div>
                     </ng-container>
-                  </div>               
-                <div class="padding20 center" *ngIf="this.propertyDocumentationFoldersDetailsLength == 0">
+                    </div>
+                  <div class="write-note white-bg" *ngIf="property_offer_id"> 
+                  <ng-container>
+                    <div class="wn-block" *ngIf="property_offer_id">
+                      <div class="circle">
+                        <span></span>
+                      </div>
+                      <p class="time" title="'Click to view'">
+                        <a (click)="getOfferPdf()" style="cursor: pointer;">
+                          {{property_offer_id.random_id}}
+                        </a>
+                      </p>
+                    </div>
+                  </ng-container>     
+                  </div>         
+                <div class="padding20 center" *ngIf="this.propertyDocumentationFoldersDetailsLength == 0 && !property_offer_id">
                   <p class="show-not-found">
                     {{'message.error.noDocumentUploadedYet' | translate}}
                   </p>

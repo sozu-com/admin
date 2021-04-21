@@ -131,6 +131,18 @@
           class="btn btn-primary-new width100P P86">{{'filters.location.resetBtn' | translate}}</button>
       </div>
     </div>
+
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group">
+        <label>{{'filters.commisionType.type' | translate}}</label>
+        <select class="form-control" (change)="onCountryChange($event.target.value)" [(ngModel)]="parameter.country_id">
+          <option >{{'filters.location.allOption' | translate}}</option>
+          <option >{{'filters.commisionType.purchase' | translate}}</option>
+          <option >{{'filters.commisionType.agent' | translate}}</option>
+          <option >{{'filters.commisionType.collection' | translate}}</option>
+        </select>
+      </div>
+    </div>
   </div>
 
   <div class="cust-tabs">

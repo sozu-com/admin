@@ -19,6 +19,7 @@ import { Document } from 'src/app/models/document.model';
 import { IDestinationStatus } from 'src/app/common/marrital-status-interface';
 import { element } from 'protractor';
 import { forkJoin } from 'rxjs';
+import { GenerateOfferPdfService } from 'src/app/services/generate-offer-pdf.service';
 declare let swal: any;
 
 @Component({
@@ -167,6 +168,10 @@ export class AddEditCollectionComponent implements OnInit {
   public parkingLotSaleDetails: any;
   private parkingSpaceLotsArray: any[] = [];
   private parkingSpaceRentArray: any[] = [];
+  property_offer_id: any;
+  edit_price: boolean;
+  edit_collection: boolean = false;
+  isByOffer: any;
 
   constructor(
     public model: Collection,
@@ -182,6 +187,7 @@ export class AddEditCollectionComponent implements OnInit {
     private toastr: ToastrService,
     public modelForDoc: Document,
     public tempmodel: Collection,
+    private offerPdf: GenerateOfferPdfService
   ) { }
 
   ngOnInit(): void {
@@ -512,6 +518,8 @@ export class AddEditCollectionComponent implements OnInit {
     this.adminService.postDataApi('getCollectionById', { id: id })
       .subscribe(
         success => {
+          this.edit_collection =true;
+          this.isByOffer = ((success.data || {}).property || {}).offer_id;
           this.spinner.hide();
           this.tempmodel = JSON.parse(JSON.stringify(success['data']));
           this.property_beneficiary = (success.data || {}).beneficiary || [];
@@ -2354,7 +2362,7 @@ export class AddEditCollectionComponent implements OnInit {
         }
         // check if total sum of monthly installments is equal or greater than property price
         paymentSum = paymentSum.toFixed(2);
-        const diff = formdata['deal_price'] - paymentSum;
+        const diff = formdata['final_price'] - paymentSum;
         const currency_id = this.addFormStep4.get('currency_id').value;
         if (this.addFormStep4.controls.email.value && this.addFormStep4.controls.email.value.length > 0) {
           formdata['email'] = this.addFormStep4.controls.email.value.split(',');
@@ -3042,4 +3050,29 @@ export class AddEditCollectionComponent implements OnInit {
   identify(index, item){
     return item.name; 
  }
+
+ getOfferPdf(){
+  this.property_offer_id = this.tempmodel.property.offer_id;
+  let offer = this.tempmodel.property.property_offer_payment.find(x=> x.random_id == this.property_offer_id)
+  this.offerPdf.offerID(offer);
+}
+
+editPrice(isEdit){
+  if(isEdit){
+  swal({
+    html: this.translate.instant('message.error.areYouSure') + '<br>' +
+      this.translate.instant('message.error.doYouWantToEditTheFinalPriceOfCollection'),
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: this.constant.confirmButtonColor,
+    cancelButtonColor: this.constant.cancelButtonColor,
+    confirmButtonText: 'Yes'
+  }).then((result) => {
+      this.edit_price = result.value;
+  });
+}
+else{
+  this.edit_price = false;
+}
+}
 }
