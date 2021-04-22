@@ -225,9 +225,22 @@ export class AddEditCollectionComponent implements OnInit {
     this.initializedDropDownSetting();
     this.searchControl = new FormControl();
 
-    this.translate.onDefaultLangChange.subscribe((event: LangChangeEvent) => {
+    this.translate.onDefaultLangChange.subscribe((event: LangChangeEvent) => {    
       this.setDatePickerLocale();
     });
+
+    this.addFormStep4
+   .controls["final_price"]
+   .valueChanges
+   .subscribe(selectedValue => {
+    if(selectedValue){
+    this.onFinalPriceChange();
+  }
+  else{
+    this.addFormStep4.controls.interest_discount.patchValue(Number(0).toFixed(3));
+    this.addFormStep4.controls.final_price.patchValue(this.addFormStep4.controls.deal_price.value);
+  }
+   });
   }
 
   editCollection() {
@@ -462,7 +475,7 @@ export class AddEditCollectionComponent implements OnInit {
       deal_interest_rate: [0],
       deal_penality: [0],
       final_price: [''],
-      discount_interest: ['']
+      interest_discount: ['']
 
     });
     if (this.model.id === '0') {
@@ -902,6 +915,11 @@ export class AddEditCollectionComponent implements OnInit {
       }
     }
 
+    if(!this.isByOffer){
+      let price = this.addFormStep4.controls.final_price.value;
+      this.addFormStep4.controls.final_price.patchValue(price ? price : data.property.final_price);
+      this.addFormStep4.controls.interest_discount.patchValue(data.property.interest_discount);
+    }
     this.addFormStep4.controls['sum_of_concepts'].patchValue(this.numberUptoNDecimal(sum_of_concepts, 2));
     this.addFormStep4.controls.step.patchValue(4);
     if (data.account_statement && data.account_statement.usersemail && data.account_statement.usersemail.length > 0) {
@@ -915,12 +933,10 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep4.controls.day.patchValue(data.account_statement ? data.account_statement.day : '');
 
     if (data.property.property_offer_payment && data.property.property_offer_payment.length > 0) {
-      this.addFormStep4.controls.final_price.patchValue(Number(data.property.property_offer_payment[0].final_price).toFixed(2));
-      this.addFormStep4.controls.discount_interest.patchValue(data.property.property_offer_payment[0].discount ? data.property.property_offer_payment[0].discount :
-        data.property.property_offer_payment[0].interest ? data.property.property_offer_payment[0].interest : 0);
-    }
-    else {
-      this.addFormStep4.controls.final_price.patchValue(Number(data.property.min_price).toFixed(2));
+      let index = data.property.property_offer_payment.findIndex(x=> x.random_id == data.property.offer_id)
+      this.addFormStep4.controls.final_price.patchValue(Number(data.property.property_offer_payment[index].final_price).toFixed(2));
+      this.addFormStep4.controls.interest_discount.patchValue(data.property.property_offer_payment[index].discount ? data.property.property_offer_payment[index].discount :
+        data.property.property_offer_payment[0].interest ? data.property.property_offer_payment[index].interest : 0);
     }
   }
 
@@ -1470,7 +1486,7 @@ export class AddEditCollectionComponent implements OnInit {
     const num_of_months = this.addFormStep4.get('num_of_months').value;
     let monthly_amount = this.addFormStep4.get('monthly_amount').value;
     let monthly_date = this.addFormStep4.get('monthly_date').value;
-    const price = this.addFormStep4.get('deal_price').value;
+    const price = this.addFormStep4.get('final_price').value;
     const percent = this.numberUptoNDecimal((monthly_amount * 100) / price, 2);
     monthly_amount = this.numberUptoNDecimal(monthly_amount, 2);
     let name = ''; let payment_choice = {};
@@ -1992,7 +2008,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   getSozuAmount(percent: number) {
-    const price = this.addFormStep4.get('deal_price').value;
+    const price = this.addFormStep4.get('final_price').value;
     if (!price || price == 0) {
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
@@ -2003,7 +2019,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   getAgentAmount(percent: number) {
-    const price = this.addFormStep4.get('deal_price').value;
+    const price = this.addFormStep4.get('final_price').value;
     if (!price || price == 0) {
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
@@ -2047,7 +2063,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep5.controls['agent_iva_amt'].patchValue(amount);
   }
   getAmount(index: number) {
-    const price = this.addFormStep4.get('deal_price').value;
+    const price = this.addFormStep4.get('final_price').value;
     if (!price || price == 0) {
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
@@ -2068,7 +2084,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   getPercentage(index: number) {
-    const price = this.addFormStep4.get('deal_price').value;
+    const price = this.addFormStep4.get('final_price').value;
     if (!price || price == 0) {
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
@@ -2207,7 +2223,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   getMonthlyPerAndAmount() {
-    const price = this.addFormStep4.get('deal_price').value;
+    const price = this.addFormStep4.get('final_price').value;
     const numOfInstallments = this.addFormStep4.get('deal_monthly_payment').value;
     const monthlyAmount = Math.round(price / numOfInstallments);
     // const monthlyAmount: any = this.currencyPipe.transform(price / numOfInstallments);
@@ -2339,6 +2355,10 @@ export class AddEditCollectionComponent implements OnInit {
         formdata['deal_purchase_date'] = moment(d).format('YYYY-MM-DD');
         if (!this.isCommercialOffer || this.isByOffer) {
           formdata['final_price'] = this.addFormStep4.controls.final_price.value;
+        }
+        else{
+          formdata['final_price'] = this.addFormStep4.controls.final_price.value;
+          formdata['interest_discount'] = this.addFormStep4.controls.interest_discount.value;
         }
         let paymentSum: any = 0;
         let i = 0;
@@ -3081,15 +3101,17 @@ export class AddEditCollectionComponent implements OnInit {
     let discount;
     let price = this.addFormStep4.controls.final_price.value;
     let deal_price = this.addFormStep4.controls.deal_price.value;
-    if(price > deal_price){
-      let diff = price - deal_price;
-      discount = (diff * 100) / Number(deal_price);
-      this.addFormStep4.controls.final_price.patchValue(Number().toFixed(3));
+    if(!this.isByOffer){
+    if(deal_price > price){
+      let diff = (price * 100) / Number(deal_price);
+      discount = 100 - diff;
+      this.addFormStep4.controls.interest_discount.patchValue(Number(discount).toFixed(3));
     }
     else{
-      let diff = deal_price - price;
+      let diff = price - deal_price;
       interest = (diff * 100) / Number(deal_price);
-      this.addFormStep4.controls.final_price.patchValue(Number().toFixed(3));
+      this.addFormStep4.controls.interest_discount.patchValue(Number(interest).toFixed(3));
     }
+  }
   }
 }

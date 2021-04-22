@@ -26,7 +26,8 @@ export class GenerateOfferPdfService {
   offer_array: any;
   offer_id: any;
   is_for_Offer: boolean;
-  fullName: string;
+  fullName: string;3
+  public parkingSpaceLotsArray: any[] = [];
   
   constructor(
     private translate: TranslateService,
@@ -107,6 +108,18 @@ export class GenerateOfferPdfService {
     }
   }
 
+  getParkingSpaceLots = (buildingId: any): void => {
+    this.spinner.show();
+    forkJoin([
+      this.admin.postDataApi('parkingSpaceLots', { building_id: buildingId || 0 }),
+      //this.admin.postDataApi('parkingSpaceRent', { building_id: buildingId || 0 }),
+    ]).subscribe((response: any[]) => {
+      this.spinner.hide();
+      this.parkingSpaceLotsArray = response[0].data || [];
+      // this.parkingSpaceRentArray = response[1].data;
+    });
+  }
+
   offerID(item){
     this.offer_id = item.random_id;
     this.spinner.show();
@@ -131,7 +144,7 @@ export class GenerateOfferPdfService {
     this.admin.postDataApi('getPropertyDetails', { id: (propertyDetails || {}).id }).subscribe((success) => {
       this.bankDetails = (success || {}).data;
       this.makePaymentBankDetailsArray(this.property_array.property_offer_payment[0].account_type == 1 ? false : true);
-      //this.getParkingSpaceLots(((success || {}).data || {}).building_id);
+    this.getParkingSpaceLots(((success || {}).data || {}).building_id);
       this.is_for_Offer = true;
       this.getBase64ImageFromUrl(this.property_array.id);
     }, (error) => {
@@ -170,9 +183,10 @@ export class GenerateOfferPdfService {
     let add_variable = [];
     let bank_detail;
     index = this.property_array.property_offer_payment.findIndex(x=> x.random_id == this.offer_id);
-    if (this.property_array.property_offer_payment[index].property_parking_lot_sale && this.property_array.property_offer_payment[index].property_parking_lot_sale) {
+    if (this.property_array.property_offer_payment[index].property_parking_lot_sale && this.property_array.property_offer_payment[index].property_parking_lot_sale.length > 0) {
       this.property_array.property_offer_payment[index].property_parking_lot_sale.forEach(element => {
       least_price = least_price + parseInt(element.price);
+      
       });
     }
     discountPer = this.property_array.property_offer_payment[index].discount;
@@ -185,7 +199,7 @@ export class GenerateOfferPdfService {
     monthly_installment_amount = (this.property_array.property_offer_payment[index].monthly_installment * final_price) / 100;
     payment_upon_delivery = (this.property_array.property_offer_payment[index].payment_upon_delivery * final_price) / 100;
     monthly_installments = monthly_installment_amount / this.property_array.property_offer_payment[index].number_of_month;
-    let bank_index = this.paymentBankDetailsArray.findIndex(bank => bank.id == this.property_array.property_offer_payment[0].bank_id)
+    let bank_index = this.paymentBankDetailsArray.findIndex(bank => bank.id == this.property_array.property_offer_payment[index].bank_id)
     bank_detail = this.paymentBankDetailsArray[bank_index];
     this.property_array.property_offer_payment[index].property_variable.forEach(element => {
       let variable_amount = element.variable_percentage ? (element.variable_percentage * final_price) / 100 : 0;
@@ -451,6 +465,27 @@ export class GenerateOfferPdfService {
       add_variable.forEach(element => {
         docDefinition.content[1].columns[1][1].table.body.splice(no, 0, element);
         no = no + 1;
+      });
+    }
+    if (this.property_array.property_offer_payment[index].property_parking_lot_sale && this.property_array.property_offer_payment[index].property_parking_lot_sale.length > 0) {
+      let no = 5;
+      let count = 1;
+      this.property_array.property_offer_payment[index].property_parking_lot_sale.forEach(element => {
+        let parkingName = this.parkingSpaceLotsArray.find(parking => parking.id == element.parking_type);
+        docDefinition.content[1].columns[0][2].table.body.splice(no, 0, [
+          { text: this.translate.instant('generatePDF.parkingForSale') + ' ' + (this.translate.defaultLang == 'en' ? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
+          { text: element.parking_lots, border: [false, false, false, false], bold: true }
+        ]);
+        // docDefinition.content[1].columns[0][2].table.body.splice(no + 1, 0, [
+        //   { text: this.translate.instant('generatePDF.parkingType') + ' ' + (this.translate.defaultLang == 'en'? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
+        //   { text: element.parkingLotsType, border: [false, false, false, false], bold: true }
+        // ]); 
+        docDefinition.content[1].columns[0][2].table.body.splice(no + 1, 0, [
+          { text: this.translate.instant('generatePDF.parkingPrice') + ' ' + (this.translate.defaultLang == 'en' ? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
+          { text: this.price.transform(Number(element.price).toFixed(2)), border: [false, false, false, false], bold: true }
+        ]);
+        no = no + 2;
+        count = count + 1;
       });
     }
     pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.commercialOffer') + ' ' + current_date.toISOString() + '.pdf');
