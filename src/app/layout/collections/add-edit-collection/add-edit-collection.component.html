@@ -1713,6 +1713,10 @@
                 placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="final_price" min="0"
                 name="sum_of_concepts" appUptoTwoDigitDecimalNumber [readonly]="isCommercialOffer || (tempmodel?.property && tempmodel?.property?.offer_id) || !edit_price">
             </div>
+            <a href="javascript://" style="float: right;margin-top: 10px;" *ngIf="!isCommercialOffer && !isByOffer">
+              <i class="fa fa-pencil" aria-hidden="true" style="font-size: 25px;" (click)="editPrice(true)" *ngIf="!edit_price"></i>
+              <i class="fa fa-undo" aria-hidden="true" style="font-size: 25px;" (click)="editPrice(false)" *ngIf="edit_price"></i>
+            </a>
           </div>
           <div *ngIf="showError && (addFormStep4.controls.final_price.invalid)">
             <div *ngIf="addFormStep4.controls.final_price.errors?.required " class="show-error">
@@ -1727,16 +1731,12 @@
             <div class="clearfix"></div>
             <div class="input-group-append">
               <input autocomplete="off" class="form-control" step="0.01" type="number"
-                placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="discount_interest" min="0"
-                name="sum_of_concepts" appUptoTwoDigitDecimalNumber [readonly]="isCommercialOffer || (tempmodel?.property && tempmodel?.property?.offer_id) || !edit_price">
+                placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="interest_discount" min="0"
+                name="sum_of_concepts" appUptoTwoDigitDecimalNumber readonly>
             </div>
-            <a href="javascript://" style="float: right;margin-top: 10px;" *ngIf="!isCommercialOffer && !isByOffer">
-              <i class="fa fa-pencil" aria-hidden="true" style="font-size: 25px;" (click)="editPrice(true)" *ngIf="!edit_price"></i>
-              <i class="fa fa-undo" aria-hidden="true" style="font-size: 25px;" (click)="editPrice(false)" *ngIf="edit_price"></i>
-            </a>
           </div>
-          <div *ngIf="showError && (addFormStep4.controls.discount_interest.invalid)">
-            <div *ngIf="addFormStep4.controls.discount_interest.errors?.required " class="show-error">
+          <div *ngIf="showError && (addFormStep4.controls.interest_discount.invalid)">
+            <div *ngIf="addFormStep4.controls.interest_discount.errors?.required " class="show-error">
               {{'addCollectionValidations.thisIsRequired' | translate}}
             </div>
           </div>
