@@ -1342,7 +1342,8 @@
       "youCannotDeleteThisAmenities":"You cannot delete this amenities",
       "youCannotDeleteThisPossessionStatus":"You cannot delete this possession status",
       "youCannotDeleteThisProjectType":"You cannot delete this project type",
-      "doYouWantToEditTheFinalPriceOfCollection":"Do you want to edit the final price of collection?"
+      "doYouWantToEditTheFinalPriceOfCollection":"Do you want to edit the final price of collection?",
+      "SorryYouDoNotHaveThePermissionToGoThere":"Sorry you do not have the permission to go there"
     } 
   },
   "inhouseUsers": {
