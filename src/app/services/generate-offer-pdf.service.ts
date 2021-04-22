@@ -111,8 +111,8 @@ export class GenerateOfferPdfService {
   getParkingSpaceLots = (buildingId: any): void => {
     this.spinner.show();
     forkJoin([
-      this.admin.postDataApi('parkingSpaceLots', { building_id: buildingId || 0 }),
-      //this.admin.postDataApi('parkingSpaceRent', { building_id: buildingId || 0 }),
+      //this.admin.postDataApi('parkingSpaceLots', { building_id: buildingId || 0 }),
+      this.admin.postDataApi('parkingSpaceRent', { building_id: buildingId || 0 }),
     ]).subscribe((response: any[]) => {
       this.spinner.hide();
       this.parkingSpaceLotsArray = response[0].data || [];
