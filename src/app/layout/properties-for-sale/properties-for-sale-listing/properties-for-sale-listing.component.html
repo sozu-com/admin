@@ -264,8 +264,9 @@
 
                     <tr
                        *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
-                       <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
-                          (click)="viewPropertyDetails(p.id, p)">
+                       <td>
+                          <!-- class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}" (click)="viewPropertyDetails(p.id, p)" -->
+                        
                          
                           <strong>{{p?.building?.name || ('table.tr.td.NA' | translate)}}</strong>
                           <div class="clearfix"></div>
@@ -671,7 +672,7 @@
      <div class="modal-content" style="
     border-top-style: solid;
     border-top-width: thick;
-    border-top-color: rgb(0, 185, 111); margin-top: -47%; border-radius: 5px;
+    border-top-color: rgb(0, 185, 111); border-radius: 5px;
     box-shadow: 0px -2px 0px 7px rgb(105,105,105);width: 217%;
 margin-left: -38%;">
         <div class="modal-header modal-header-new" style="background-color: white;">
