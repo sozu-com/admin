@@ -213,14 +213,14 @@
                                    src="assets/img/top-arrow.png" alt="img"></a>
                           </div>
                        </th>
-                       <th style="width:10%;vertical-align:top;">
+                       <!-- <th style="width:10%;vertical-align:top;">
                           <div (click)="sort_by(1)" class="d-flex table-search">
                              <label>{{'table.th.finalPrice' | translate}}</label>
                              <a href="javascript://"><img
                                    [ngClass]="{'upsidedown':parameter.sort_by==1 && parameter.sort_by_order==0}"
                                    src="assets/img/top-arrow.png" alt="img"></a>
                           </div>
-                       </th>
+                       </th> -->
                        <th style="width:8%;vertical-align:top;">
                           <div (click)="sort_by(5)" class="d-flex table-search">
                              <label>{{'table.th.carpetArea' | translate}}</label>
@@ -298,7 +298,7 @@
                                 src="assets/img/edit.png" alt="img"></button>
                        </span></td> -->
                        <td><span>{{p.min_price | price}}</span></td>
-                       <td><span>{{p.final_price | price}}</span></td>
+                       <!-- <td><span>{{p.final_price | price}}</span></td> -->
 
                      
                        <td><span>{{p?.max_area ? p.max_area : 0.00}}</span></td>
