@@ -762,6 +762,7 @@
       "linkedProjects": "Linked Projects",
       "agentAssignee":"Agent assignee",
       "typeOfAgent":"Type of agent",
+      "managerType":"Manager type",
       "status": "Status",
       "type": "Type",
       "title": "Title",
