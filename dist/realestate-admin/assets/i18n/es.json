@@ -1343,7 +1343,8 @@
       "youCannotDeleteThisAmenities":"No puede eliminar estas comodidades",
       "youCannotDeleteThisPossessionStatus":"No puede eliminar este estado de posesión",
       "youCannotDeleteThisProjectType":"No puedes eliminar este tipo de proyecto",
-      "doYouWantToEditTheFinalPriceOfCollection":"¿Quieres editar el precio final de la colección"
+      "doYouWantToEditTheFinalPriceOfCollection":"¿Quieres editar el precio final de la colección",
+      "SorryYouDoNotHaveThePermissionToGoThere":"Lo lamento, no tienes los permisos para realizar esta acción"
     }
   },
   "inhouseUsers": {
