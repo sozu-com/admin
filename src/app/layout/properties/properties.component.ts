@@ -452,9 +452,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
 
   getCountries() {
-    this.spinner.show();
+    //this.spinner.show();
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
-      this.spinner.hide();
+      //this.spinner.hide();
       this.location.countries = r['data'];
       if (this.is_back) {
         const selectedCountry = this.location.countries.filter(x => x.id.toString() === this.parameter.country_id);
@@ -479,9 +479,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   getPropertyConfigurations() {
-    this.spinner.show();
+    //this.spinner.show();
     this.admin.postDataApi('getPropertyConfigurations', {}).subscribe(r => {
-      this.spinner.hide();
+      //this.spinner.hide();
       this.configurations = r['data'];
     });
   }
@@ -605,11 +605,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   getPropertyAmenities() {
-    this.spinner.show();
+    //this.spinner.show();
     this.admin.postDataApi('getPropertyAmenities', { hide_blocked: 1 })
       .subscribe(
         success => {
-          this.spinner.hide();
+          //this.spinner.hide();
           this.amenities = success['data'];
           // this.exportfinalData = success['data'].map(item => {
           //   item.name
