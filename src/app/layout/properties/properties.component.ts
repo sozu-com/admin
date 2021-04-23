@@ -1603,6 +1603,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       let count = 1;
       this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.forEach(element => {
         let parkingName = this.parkingSpaceLotsArray.find(parking => parking.id == element.parkingLotsType);
+        if(parkingName){
         docDefinition.content[1].columns[0][2].table.body.splice(no, 0, [
           { text: this.translate.instant('generatePDF.parkingForSale') + ' ' + (this.translate.defaultLang == 'en' ? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
           { text: element.parkingLotsNumber, border: [false, false, false, false], bold: true }
@@ -1617,6 +1618,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         ]);
         no = no + 2;
         count = count + 1;
+      }
       });
     }
     pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.commercialOffer') + ' ' + current_date.toISOString() + '.pdf');

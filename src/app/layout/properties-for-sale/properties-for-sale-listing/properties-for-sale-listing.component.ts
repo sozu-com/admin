@@ -383,7 +383,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
   getListing() {
     this.spinner.show();
     this.makePostRequest();
-    this.parameter.availability_filter = 1;
+    //this.parameter.availability_filter = 1;
     let input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');

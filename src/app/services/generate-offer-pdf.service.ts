@@ -143,7 +143,8 @@ export class GenerateOfferPdfService {
     this.spinner.show();
     this.admin.postDataApi('getPropertyDetails', { id: (propertyDetails || {}).id }).subscribe((success) => {
       this.bankDetails = (success || {}).data;
-      this.makePaymentBankDetailsArray(this.property_array.property_offer_payment[0].account_type == 1 ? false : true);
+     let index = this.property_array.property_offer_payment.findIndex(x=> x.random_id == this.offer_id);
+      this.makePaymentBankDetailsArray(this.property_array.property_offer_payment[index].account_type == 1 ? false : true);
     this.getParkingSpaceLots(((success || {}).data || {}).building_id);
       this.is_for_Offer = true;
       this.getBase64ImageFromUrl(this.property_array.id);
@@ -472,6 +473,7 @@ export class GenerateOfferPdfService {
       let count = 1;
       this.property_array.property_offer_payment[index].property_parking_lot_sale.forEach(element => {
         let parkingName = this.parkingSpaceLotsArray.find(parking => parking.id == element.parking_type);
+        if(parkingName){
         docDefinition.content[1].columns[0][2].table.body.splice(no, 0, [
           { text: this.translate.instant('generatePDF.parkingForSale') + ' ' + (this.translate.defaultLang == 'en' ? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
           { text: element.parking_lots, border: [false, false, false, false], bold: true }
@@ -486,6 +488,7 @@ export class GenerateOfferPdfService {
         ]);
         no = no + 2;
         count = count + 1;
+      }
       });
     }
     pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.commercialOffer') + ' ' + current_date.toISOString() + '.pdf');
