@@ -281,7 +281,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     // this.parameter = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.parameter;
     //this.getCountries();
     this.getPropertyConfigurations();
-    //this.getListing();
+    this.getListing();
     this.getPropertyTypes();
     this.getPropertyAmenities();
     this.subscribeInstallmentFormGroup();
@@ -349,11 +349,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
 
   getPropertyTypes() {
-    this.spinner.show();
+    // this.spinner.show();
     this.admin.postDataApi('getPropertyTypes', { hide_blocked: 1 })
       .subscribe(
         success => {
-          this.spinner.hide();
+          // this.spinner.hide();
           this.propertyTypes = success['data'];
           // if (this.parameter.propertyTypes.length !== 0 && this.parameter.property_id === '') {
           //   this.model.property_type_id = this.parameter.propertyTypes[0].id;
@@ -474,7 +474,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         this.parameter.state_id = '0';
         this.parameter.building_id = '0';
       }
-      this.getListing();
+     // this.getListing();
     });
   }
 
@@ -1073,7 +1073,17 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
     });
   }
-
+  agentTab(property){
+    if (property.external_broker && property.external_broker.name) {
+      this.router.navigate(['/dashboard/view-inhouse-users/:userType']);
+      //this.router.navigate(['/dashboard/access-control-mgt/add-acl-user', property.external_broker.id]);
+      // this.router.navigate(['/dashboard/view-inhouse-users/outside-broker', property.external_broker.name]);
+    } else {                               
+      this.router.navigate(['/dashboard/view-inhouse-users/:userType']);
+    }
+    
+    console.log(property.external_broker.id,"id")
+  }
   attachExternalBrokerPopUp(broker: any, flag: number) {
 
     this.parameter.text = flag === 1 ? this.translate.instant('message.error.wantToLinkAgent') :
@@ -1199,7 +1209,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   getExportlisting() {
-    this.spinner.show();
+    // this.spinner.show();
     this.makePostRequest();
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     input.page = 0;
@@ -1230,10 +1240,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       success => {
         this.exportfinalData = success['data'];
         this.exportData();
-        this.spinner.hide();
+        // this.spinner.hide();
       },
       error => {
-        this.spinner.hide();
+        // this.spinner.hide();
       });
   }
 
