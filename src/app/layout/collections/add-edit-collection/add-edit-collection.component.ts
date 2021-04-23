@@ -1774,7 +1774,7 @@ export class AddEditCollectionComponent implements OnInit {
     const control1 = this.addFormStep4.get('payment_choices') as FormArray;
     if (control1.value && payment_choice) {
       control1.value.forEach(function (result, index) {
-        if (result.payment_choice.id == payment_choice.value.payment_choice.id) {
+        if (result.payment_choice.id == payment_choice.value.payment_choice.id && payment_choice.value.payment_choice.name.includes('Monthly Installment')) {
           result.date = moment(event).add(count, 'months').toDate();
           count = count + 1;
         }
