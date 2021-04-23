@@ -1278,6 +1278,7 @@ export class AddEditCollectionComponent implements OnInit {
         this.model.deal_price = p.min_price;
         this.model.building_configuration_id = p.building_configuration.id;
         this.addFormStep4.controls.deal_price.patchValue(p.min_price);
+        this.addFormStep4.controls.final_price.patchValue(p.min_price);
         if (p.for_sale == 1) {
           this.setAvailableStatus(0);
         }
