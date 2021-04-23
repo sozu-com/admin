@@ -1073,17 +1073,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
     });
   }
-  agentTab(property){
-    if (property.external_broker && property.external_broker.name) {
-      this.router.navigate(['/dashboard/view-inhouse-users/:userType']);
-      //this.router.navigate(['/dashboard/access-control-mgt/add-acl-user', property.external_broker.id]);
-      // this.router.navigate(['/dashboard/view-inhouse-users/outside-broker', property.external_broker.name]);
-    } else {                               
-      this.router.navigate(['/dashboard/view-inhouse-users/:userType']);
-    }
-    
-    console.log(property.external_broker.id,"id")
+  
+  agentTab(){
+    this.router.navigate(['/dashboard/view-inhouse-users/:userType']);
   }
+
   attachExternalBrokerPopUp(broker: any, flag: number) {
 
     this.parameter.text = flag === 1 ? this.translate.instant('message.error.wantToLinkAgent') :

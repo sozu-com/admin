@@ -383,7 +383,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
   getListing() {
     this.spinner.show();
     this.makePostRequest();
-    //this.parameter.availability_filter = 1;
+    this.parameter.availability_filter = 1;
     let input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
@@ -446,17 +446,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
         this.spinner.hide();
       });
   }
-  agentTab(property){
-    if (property.external_broker && property.external_broker.name) {
-      this.router.navigate(['/dashboard/view-inhouse-users/:userType']);
-      //this.router.navigate(['/dashboard/access-control-mgt/add-acl-user', property.external_broker.id]);
-      // this.router.navigate(['/dashboard/view-inhouse-users/outside-broker', property.external_broker.name]);
-    } else {
-      this.router.navigate(['/dashboard/view-inhouse-users/:userType']);
-    }
-    
-    console.log(property.external_broker.id,"id")
-  }
+
   searchProperties() {
     this.close();
     this.getListing();
@@ -497,7 +487,9 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
       this.configurations = r['data'];
     });
   }
-
+  agentTab1(){
+    this.router.navigate(['/dashboard/view-inhouse-users/:userType']);
+  }
   onCountryChange(id) {
     this.selectedLocation.selectedCities = [];
     this.selectedLocation.selectedLocalities = [];
