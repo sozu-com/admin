@@ -2093,7 +2093,8 @@
   },
   "swal": {
     "error": "Error",
-    "success": "Success"
+    "success": "Success",
+    "warning":"Warning"
   },
   "manageUsers": {
     "addLegalEntity": "Add Legal Entity"

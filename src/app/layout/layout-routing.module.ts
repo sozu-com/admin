@@ -7,6 +7,7 @@ import { AuthGuard } from './../guards/auth.guard';
 import { InhouseUsersComponent } from './inhouse-users/inhouse-users.component';
 import { GenerateThumbComponent } from './generate-thumb/generate-thumb.component';
 import { AclUserGuard } from '../guards/acl-user.guard';
+import { HasPermissionToRouteGuard } from '../guards/has-permission-to-route.guard';
 
 const routes: Routes = [
   {
@@ -81,7 +82,8 @@ const routes: Routes = [
       },
       {
         path: 'projects',
-        loadChildren: './projects/projects.module#ProjectsModule'
+        loadChildren: './projects/projects.module#ProjectsModule',
+        //canActivate: [HasPermissionToRouteGuard]
       },
       {
         path: 'collections',
