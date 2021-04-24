@@ -282,7 +282,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     // this.parameter = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.parameter;
     //this.getCountries();
     this.getPropertyConfigurations();
-    //this.getListing();
+    this.getListing();
     this.getPropertyTypes();
     this.getPropertyAmenities();
     this.subscribeInstallmentFormGroup();
@@ -350,11 +350,11 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
 
 
   getPropertyTypes() {
-    this.spinner.show();
+    //this.spinner.show();
     this.admin.postDataApi('getPropertyTypes', { hide_blocked: 1 })
       .subscribe(
         success => {
-          this.spinner.hide();
+         // this.spinner.hide();
           this.propertyTypes = success['data'];
           // if (this.parameter.propertyTypes.length !== 0 && this.parameter.property_id === '') {
           //   this.model.property_type_id = this.parameter.propertyTypes[0].id;
@@ -456,7 +456,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
   getCountries() {
     this.spinner.show();
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
-      this.spinner.hide();
+      //this.spinner.hide();
       this.location.countries = r['data'];
       if (this.is_back) {
         const selectedCountry = this.location.countries.filter(x => x.id.toString() === this.parameter.country_id);
@@ -476,18 +476,20 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
         this.parameter.state_id = '0';
         this.parameter.building_id = '0';
       }
-      this.getListing();
+      //this.getListing();
     });
   }
 
   getPropertyConfigurations() {
-    this.spinner.show();
+    //this.spinner.show();
     this.admin.postDataApi('getPropertyConfigurations', {}).subscribe(r => {
-      this.spinner.hide();
+      //this.spinner.hide();
       this.configurations = r['data'];
     });
   }
-
+  agentTab1(){
+    this.router.navigate(['/dashboard/view-inhouse-users/:userType']);
+  }
   onCountryChange(id) {
     this.selectedLocation.selectedCities = [];
     this.selectedLocation.selectedLocalities = [];
@@ -607,11 +609,11 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
   }
 
   getPropertyAmenities() {
-    this.spinner.show();
+    //this.spinner.show();
     this.admin.postDataApi('getPropertyAmenities', { hide_blocked: 1 })
       .subscribe(
         success => {
-          this.spinner.hide();
+         // this.spinner.hide();
           this.amenities = success['data'];
           // this.exportfinalData = success['data'].map(item => {
           //   item.name

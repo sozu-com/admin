@@ -398,10 +398,10 @@
                            </div>
                         </th>
                         <th style="width:10%;vertical-align:top;">
-                           <div (click)="sort_by(1)" class="d-flex table-search">
+                           <div (click)="sort_by(6)" class="d-flex table-search">
                               <label>{{'table.th.finalPrice' | translate}}</label>
                               <a href="javascript://"><img
-                                    [ngClass]="{'upsidedown':parameter.sort_by==1 && parameter.sort_by_order==0}"
+                                    [ngClass]="{'upsidedown':parameter.sort_by==6 && parameter.sort_by_order==0}"
                                     src="assets/img/top-arrow.png" alt="img"></a>
                            </div>
                         </th>
@@ -656,7 +656,8 @@
                         <td *ngIf="parameter.flag!=5" class="cursor-pointer" (click)="getBothBroker(p, '')">
                            <span class="green-color">
                               <span
-                                 title="{{p?.external_broker?.id ? ('table.title.clickToChange' | translate) : ('table.title.clickToAssign' | translate) }}">{{p?.external_broker?.id
+                                 title="{{p?.external_broker?.id ? ('table.title.clickToChange' | translate) : ('table.title.clickToAssign' | translate) }}">
+                                 {{p?.external_broker?.id
                                  ? ('table.tr.td.change' | translate) : ('table.tr.td.link' | translate)}}</span>
                            </span>
                         </td>
@@ -994,9 +995,13 @@
          </div>
          <div class="modal-body">
 
-            <p class="modal-title" *ngIf="property?.external_broker?.id">{{'viewProperty.currentlyLinkedToAgent' |
-               translate}} - <b>{{property?.external_broker?.name}}</b></p>
-
+            <p class="modal-title" *ngIf="property?.external_broker?.id"
+            [ngClass]="{'green-color cursor-pointer': property?.external_broker?.name}" (click)="agentTab()">
+                  {{'viewProperty.currentlyLinkedToAgent' | translate}} - 
+                  <b>{{property?.external_broker?.name}}&nbsp;
+                  {{property?.external_broker?.first_surname}}&nbsp;
+                  {{property?.external_broker?.second_surname}}</b></p>
+          <br/>
             <div class="row">
                <div class="col-md-8 col-6">
                   <input style="max-width:200px" (keyup.enter)="getBothBroker('', keyword)" [(ngModel)]="keyword"

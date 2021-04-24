@@ -281,7 +281,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     // this.parameter = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.parameter;
     //this.getCountries();
     this.getPropertyConfigurations();
-    //this.getListing();
+    this.getListing();
     this.getPropertyTypes();
     this.getPropertyAmenities();
     this.subscribeInstallmentFormGroup();
@@ -349,11 +349,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
 
   getPropertyTypes() {
-    this.spinner.show();
+    // this.spinner.show();
     this.admin.postDataApi('getPropertyTypes', { hide_blocked: 1 })
       .subscribe(
         success => {
-          this.spinner.hide();
+          // this.spinner.hide();
           this.propertyTypes = success['data'];
           // if (this.parameter.propertyTypes.length !== 0 && this.parameter.property_id === '') {
           //   this.model.property_type_id = this.parameter.propertyTypes[0].id;
@@ -452,9 +452,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
 
   getCountries() {
-    this.spinner.show();
+    //this.spinner.show();
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
-      this.spinner.hide();
+      //this.spinner.hide();
       this.location.countries = r['data'];
       if (this.is_back) {
         const selectedCountry = this.location.countries.filter(x => x.id.toString() === this.parameter.country_id);
@@ -474,14 +474,14 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         this.parameter.state_id = '0';
         this.parameter.building_id = '0';
       }
-      this.getListing();
+     // this.getListing();
     });
   }
 
   getPropertyConfigurations() {
-    this.spinner.show();
+    //this.spinner.show();
     this.admin.postDataApi('getPropertyConfigurations', {}).subscribe(r => {
-      this.spinner.hide();
+      //this.spinner.hide();
       this.configurations = r['data'];
     });
   }
@@ -605,11 +605,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   getPropertyAmenities() {
-    this.spinner.show();
+    //this.spinner.show();
     this.admin.postDataApi('getPropertyAmenities', { hide_blocked: 1 })
       .subscribe(
         success => {
-          this.spinner.hide();
+          //this.spinner.hide();
           this.amenities = success['data'];
           // this.exportfinalData = success['data'].map(item => {
           //   item.name
@@ -1073,6 +1073,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
     });
   }
+  
+  agentTab(){
+    this.router.navigate(['/dashboard/view-inhouse-users/:userType']);
+  }
 
   attachExternalBrokerPopUp(broker: any, flag: number) {
 
@@ -1199,7 +1203,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   getExportlisting() {
-    this.spinner.show();
+    // this.spinner.show();
     this.makePostRequest();
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     input.page = 0;
@@ -1230,10 +1234,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       success => {
         this.exportfinalData = success['data'];
         this.exportData();
-        this.spinner.hide();
+        // this.spinner.hide();
       },
       error => {
-        this.spinner.hide();
+        // this.spinner.hide();
       });
   }
 
@@ -1603,6 +1607,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       let count = 1;
       this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.forEach(element => {
         let parkingName = this.parkingSpaceLotsArray.find(parking => parking.id == element.parkingLotsType);
+        if(parkingName){
         docDefinition.content[1].columns[0][2].table.body.splice(no, 0, [
           { text: this.translate.instant('generatePDF.parkingForSale') + ' ' + (this.translate.defaultLang == 'en' ? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
           { text: element.parkingLotsNumber, border: [false, false, false, false], bold: true }
@@ -1617,6 +1622,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         ]);
         no = no + 2;
         count = count + 1;
+      }
       });
     }
     pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.commercialOffer') + ' ' + current_date.toISOString() + '.pdf');
