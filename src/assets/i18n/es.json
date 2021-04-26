@@ -227,6 +227,7 @@
     "creditAgent": "Agente de crédito",
     "allianceAgent":"Agente Alianza",
     "cordinatorAgent":"Agente coordinador",
+    "manageCommissions": "Administrar Comisiones",
     "noAllianceAgentFound":"Ningún agente de la Alianza encontrado",
     "collectionAgent": "Agente de cobranza",
     "inhouseAgent": "Agente interno",

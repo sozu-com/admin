@@ -77,6 +77,9 @@ export class InhouseUsersComponent implements OnInit {
     this.parameter.sub = this.route.params.subscribe(params => {
       this.parameter.p = this.constant.p;
       this.parameter.userType = params['userType'];
+      if (params.id) {
+        this.parameter.id = params.id || '';
+      }
       this.parameter.name = ''; this.parameter.phone = ''; this.parameter.email = '';
       this.parameter.items = []; this.parameter.total = 0;
       this.getCountries();
@@ -707,7 +710,7 @@ export class InhouseUsersComponent implements OnInit {
         this.parameter.type = 9;
         break;
 
-        case 'cordinator-agents':
+      case 'cordinator-agents':
         this.parameter.url = 'getCordinators';
         this.title = this.language_code == 'en' ? 'Cordinator Agent' : 'Agente Coordinador';
         this.parameter.type = 9;
@@ -744,6 +747,7 @@ export class InhouseUsersComponent implements OnInit {
       input.append('buildings', JSON.stringify([this.parameter.building_id]));
     }
     input.append('is_external_agent', this.model.is_external_agent === true ? '1' : '0');
+    if (this.parameter.id) { input.append('id', this.parameter.id); }
     this.spinner.show();
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(

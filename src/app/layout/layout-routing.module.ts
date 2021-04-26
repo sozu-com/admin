@@ -24,6 +24,12 @@ const routes: Routes = [
         canActivate: [AclUserGuard],
         data: { roles: ['', '', ''] }
       },
+      {
+        path: 'view-inhouse-users/:userType/:id',
+        component: InhouseUsersComponent,
+        canActivate: [AclUserGuard],
+        data: { roles: ['', '', ''] }
+      },
       // { path: 'change-password', component: ChangePasswordComponent},
       { path: 'notary', loadChildren: './notary/notary.module#NotaryModule' },
       { path: 'banks', loadChildren: './banks/banks.module#BanksModule' },

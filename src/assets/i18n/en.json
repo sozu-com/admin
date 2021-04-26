@@ -228,6 +228,7 @@
     "creditAgent": "Credit Agent",
     "allianceAgent":"Alliance Agent",
     "cordinatorAgent":"Cordinator Agent",
+    "manageCommissions": "Manage Commissions",
     "noAllianceAgentFound":"No Alliance Agent found",
     "collectionAgent": "Collection Agent",
     "inhouseAgent": "Inhouse Agent",
