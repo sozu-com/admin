@@ -172,6 +172,7 @@ export class AddEditCollectionComponent implements OnInit {
   edit_price: boolean;
   edit_collection: boolean = false;
   isByOffer: any;
+  parking_area: any[] = [];
 
   constructor(
     public model: Collection,
@@ -533,6 +534,11 @@ export class AddEditCollectionComponent implements OnInit {
         success => {
           this.edit_collection = true;
           this.isByOffer = ((success.data || {}).property || {}).offer_id;
+          if(this.isByOffer){
+            this.parking_area = success.data.property.property_offer_payment.find(x=> x.random_id == this.isByOffer);
+            this.parkingSpaceSale(((success.data || {}).property || {}).building_id
+            );
+          }
           this.spinner.hide();
           this.tempmodel = JSON.parse(JSON.stringify(success['data']));
           this.property_beneficiary = (success.data || {}).beneficiary || [];
@@ -933,7 +939,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep4.controls.day.patchValue(data.account_statement ? data.account_statement.day : '');
 
     if (data.property.property_offer_payment && data.property.property_offer_payment.length > 0) {
-      let index = data.property.property_offer_payment.findIndex(x=> x.random_id == data.property.offer_id)
+      let index = data.property.property_offer_payment.findIndex(x=> x.random_id == data.property.offer_id);
       this.addFormStep4.controls.final_price.patchValue(Number(data.property.property_offer_payment[index].final_price).toFixed(2));
       this.addFormStep4.controls.interest_discount.patchValue(data.property.property_offer_payment[index].discount ? data.property.property_offer_payment[index].discount :
         data.property.property_offer_payment[0].interest ? data.property.property_offer_payment[index].interest : 0);
@@ -944,7 +950,6 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep5.controls.comm_total_commission.patchValue(this.numberUptoNDecimal(data.comm_total_commission || 0, 3));
     this.addFormStep5.controls.comm_total_commission_amount.patchValue(this.numberUptoNDecimal(data.comm_total_commission_amount || 0, 2));
     this.addFormStep5.controls.is_commission_sale_enabled.patchValue(data.is_commission_sale_enabled || 0);
-    this.addFormStep5.controls.payment_received_by.patchValue(data.payment_received_by.toString() || '0');
     this.addFormStep5.controls.comm_shared_commission.patchValue(this.numberUptoNDecimal(data.comm_shared_commission || 0, 3));
     this.addFormStep5.controls.comm_shared_commission_amount.patchValue(
       this.numberUptoNDecimal(data.comm_shared_commission_amount || 0, 2));
@@ -956,7 +961,9 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep5.controls.add_iva_to_cc.patchValue(data.add_iva_to_cc || 0);
     this.addFormStep5.controls.add_iva_to_pc.patchValue(data.add_iva_to_pc || 0);
     this.addFormStep5.controls.add_iva_to_ac.patchValue(data.add_iva_to_ac || 0);
-    this.addFormStep5.controls.bank_id.patchValue(data.bank_id || 0)
+    let index = data.property.property_offer_payment.findIndex(x=> x.random_id == data.property.offer_id);
+    this.addFormStep5.controls.bank_id.patchValue(this.isByOffer ? data.property.property_offer_payment[index].bank_id || 0: data.bank_id || 0);
+    this.addFormStep5.controls.payment_received_by.patchValue(this.isByOffer ? (data.property.property_offer_payment[index].account_type == 1 ? 1 : '0') : data.payment_received_by.toString() || '0');
 
     // this.addFormStep5.controls.deal_commission_agents.patchValue(data.deal_commission_agents);
     const control1 = this.addFormStep5.get('deal_commission_agents') as FormArray;
@@ -2998,7 +3005,9 @@ export class AddEditCollectionComponent implements OnInit {
     this.adminService.postDataApi('getOfferById', { id: id }).subscribe(success => {
       this.model.property_offer_payment_id = id;
       this.offerDetail = success.data;
+      this.parkingSpaceSale(this.offerDetail.building_id);
       this.patchFormStep1(this.offerDetail);
+      this.parking_area = success.data.property_offer_payment.find(x=> x.random_id == id);
       this.spinner.hide();
     }, (error) => {
       this.spinner.hide();
@@ -3096,6 +3105,31 @@ export class AddEditCollectionComponent implements OnInit {
       this.edit_price = false;
     }
   }
+
+  parkingSpaceSale = (buildingId: any): void => {
+    this.spinner.show();
+    forkJoin([
+      //this.admin.postDataApi('parkingSpaceLots', { building_id: buildingId || 0 }),
+      this.adminService.postDataApi('parkingSpaceRent', { building_id: buildingId || 0 }),
+    ]).subscribe((response: any[]) => {
+      this.spinner.hide();
+      this.parkingSpaceRentArray = response[0].data || [];
+      this.ForPakingSale(this.parking_area);
+      // this.parkingSpaceRentArray = response[1].data;
+    });
+  }
+
+  ForPakingSale(offer) {
+    ((offer || {}).property_parking_lot_sale || []).forEach((item) => {
+      let parkingName = this.parkingSpaceRentArray.find(parking => parking.id == item.parking_type);
+      if (this.parkingLotSaleDetails) {
+        this.parkingLotSaleDetails += ', ';
+      } else {
+        this.parkingLotSaleDetails = '';
+      }
+      this.parkingLotSaleDetails += ((this.translate.defaultLang == 'en' ? parkingName.name_en : parkingName.name_es) + ':' + item.parking_lots);
+    });
+  } 
 
   onFinalPriceChange(){
     let interest;

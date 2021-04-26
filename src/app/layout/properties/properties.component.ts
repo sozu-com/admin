@@ -1203,7 +1203,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   getExportlisting() {
-    // this.spinner.show();
+     this.spinner.show();
     this.makePostRequest();
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     input.page = 0;
@@ -1234,7 +1234,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       success => {
         this.exportfinalData = success['data'];
         this.exportData();
-        // this.spinner.hide();
+         this.spinner.hide();
       },
       error => {
         // this.spinner.hide();

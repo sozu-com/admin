@@ -103,13 +103,13 @@
       </div>
     </div>
     <p><b>{{parkingLotIncludedDetails || ('table.tr.td.NA' | translate)}}</b></p>
-    <div class="row">
+    <div class="row" *ngIf="parkingLotSaleDetails">
       <div class="col-sm-9 col-lg-9">
         <p class="p16">{{'quickVisualization.Parkinglotsale' | translate}}</p>
       </div>
     </div>
-    <!-- <p><b>{{parkingLotSaleDetails || ('table.tr.td.NA' | translate)}}</b></p> -->
-    <p><b>{{'table.tr.td.NA' | translate}}</b></p>
+     <p *ngIf="parkingLotSaleDetails"><b>{{parkingLotSaleDetails || ('table.tr.td.NA' | translate)}}</b></p>
+    <!-- <p><b>{{'table.tr.td.NA' | translate}}</b></p> -->
     <div class="row">
       <div class="col-md-12">
         <div class="btn-cont text-right">
@@ -206,6 +206,12 @@
             </div>
           </div>
           <p><b>{{model?.building_configuration?.name}}</b></p>
+          <div class="row">
+            <div class="col-sm-9 col-lg-9">
+              <p class="p16">{{'quickVisualization.Parkinglotsale' | translate}}</p>
+            </div>
+          </div>
+           <p><b>{{parkingLotSaleDetails || ('table.tr.td.NA' | translate)}}</b></p>
         </div>
           
 
