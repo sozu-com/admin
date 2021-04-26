@@ -1079,7 +1079,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     if (details.is_external_agent) {
       route = `${'/dashboard/view-inhouse-users/outside-broker/'}${details.id}`;
     } else {
-      route = `${'/dashboard/view-inhouse-users/inhouse-broker'}${details.id}`;
+      route = `${'/dashboard/view-inhouse-users/inhouse-broker/'}${details.id}`;
     }
     this.closeExtBrokerModal.nativeElement.click();
     this.router.navigate([route]);
