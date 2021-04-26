@@ -393,7 +393,8 @@
       "companyName": "Nombre de la compañía",
       "logo": "Logo",
       "coverImage": "Imagen de portada",
-      "notFound": "No se encontró desarrollador"
+      "notFound": "No se encontró desarrollador",
+      "notAmenityFound": "No se encontró ningún servicio"
     },
     "managedBy": {
       "label": "Gestionado por",

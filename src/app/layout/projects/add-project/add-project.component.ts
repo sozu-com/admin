@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone, Input } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder, FormArray,AbstractControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder, FormArray, AbstractControl } from '@angular/forms';
 import { AdminService } from 'src/app/services/admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IProperty } from 'src/app/common/property';
@@ -62,6 +62,8 @@ export class AddProjectComponent implements OnInit {
   @ViewChild('closeLegalEnityListModel') closeLegalEnityListModel: ElementRef;
   @ViewChild('linkUserModal') linkUserModal: ElementRef;
   @ViewChild('closeLinkUserModal') closeLinkUserModal: ElementRef;
+  @ViewChild('openAmenitiesModal') openAmenitiesModal: ElementRef;
+  @ViewChild('towerAmenitiesModal') towerAmenitiesModal: ElementRef;
   myform: FormGroup;
   myform2: FormGroup;
 
@@ -158,18 +160,20 @@ export class AddProjectComponent implements OnInit {
   users = [];
   seller_type: any;
   user_type: any;
-  parkinLot_sum: any = 0 ;
-  parkingRent_sum: any = 0 ;
+  parkinLot_sum: any = 0;
+  parkingRent_sum: any = 0;
   both_sum: any = 0;
   tempSetLegalEntity: any[] = [];
   userForm: FormGroup;
   obtainedMarks: null
   toggleSelectedDetails: {
-    isCreditCardChecked: boolean 
+    isCreditCardChecked: boolean
   } =
     {
       isCreditCardChecked: false
     };
+  public language_code: string;
+  public amenitiesKeyword: string = ''
   constructor(
     public model: AddProjectModel,
     private admin: AdminService,
@@ -190,6 +194,7 @@ export class AddProjectComponent implements OnInit {
   //   return marks.reduce((acc, {obtainedMarks}) => acc += +(obtainedMarks || 0), 0);
   // }
   ngOnInit() {
+    this.language_code = localStorage.getItem('language_code');
     this.getParkingLotSpaces();
     // this.parkinLot_sum;
     // this.parkingRent_sum;
@@ -213,7 +218,7 @@ export class AddProjectComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.id = params.id;
       this.newTower = new Towers();
-    
+
       if (this.id) {
         /* if id exists edit mode */
         let self = this;
@@ -226,11 +231,11 @@ export class AddProjectComponent implements OnInit {
           //sum parking
           let sum: any = 0;
           this.model.parking_space_lots.forEach(a => sum += parseInt(a.no_parking));
-           console.log(sum);
+          console.log(sum);
           this.parkinLot_sum = sum
           let sum1: any = 0;
           this.model.parking_space_rent.forEach(a => sum1 += parseInt(a.no_parking));
-           console.log(sum1,"rent");
+          console.log(sum1, "rent");
           this.parkingRent_sum = sum1
 
           // console.log(this.parkinLot_sum,"viewtime");
@@ -241,7 +246,7 @@ export class AddProjectComponent implements OnInit {
           // this.parkingRent_sum = sum2
           // console.log(this.parkinLot_sum,"view resnt");
           this.both_sum = parseInt(this.parkinLot_sum) + parseInt(this.parkingRent_sum);
-          console.log(this.both_sum,"view 0");
+          console.log(this.both_sum, "view 0");
           //end parking sum
           this.model.parking_space_rent = r.data.parking_space_rent;
           self.model.building_contributors_param = self.model.building_contributors_param ? self.model.building_contributors_param : [];
@@ -585,22 +590,49 @@ export class AddProjectComponent implements OnInit {
     this.model[key] = value;
   }
 
-  searchAmenity(keyword: string) {
+  searchAmenity(index: number) {
+    this.spinner.show();
     const input = { keyword: '', hide_blocked: 1 };
-    input.keyword = keyword;
+    input.keyword = this.amenitiesKeyword;
     this.admin.postDataApi('getAmenities', input).subscribe(res => {
       // this.all_amenities = res.data.map(item => { item.selected = false; item.images = []; return item; });
-      this.all_amenities = res.data.map(item => {
-        item.selected = false;
-        item.images = [];
-        item.images360 = [];
-        item.images_360 = [];
-        item.videos = [];
-        return item;
-      });
-      this.allTowerAmenities = JSON.parse(JSON.stringify(this.all_amenities));
-      this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
-
+      this.spinner.hide();
+      switch (index) {
+        case 1:
+          this.all_amenities = res.data.map(item => {
+            item.selected = false;
+            item.images = [];
+            item.images360 = [];
+            item.images_360 = [];
+            item.videos = [];
+            return item;
+          });
+          break;
+        case 2:
+          const all_amenities = res.data.map(item => {
+            item.selected = false;
+            item.images = [];
+            item.images360 = [];
+            item.images_360 = [];
+            item.videos = [];
+            return item;
+          });
+          this.allTowerAmenities = JSON.parse(JSON.stringify(all_amenities));
+          break;
+          case 3:
+          const all_amenities1 = res.data.map(item => {
+            item.selected = false;
+            item.images = [];
+            item.images360 = [];
+            item.images_360 = [];
+            item.videos = [];
+            return item;
+          });
+          this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(all_amenities1));
+          break;
+        default:
+          break;
+      }
     });
   }
 
@@ -1352,20 +1384,20 @@ export class AddProjectComponent implements OnInit {
       this.admin.postDataApi('updateProject', modelSave).subscribe(success => {
         this.spinner.hide();
         swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
-         //sum parking
-         let sum: any = 0;
-         this.model.parking_space_lots.forEach(a => sum += parseInt(a.no_parking));
-          console.log(sum);
-         this.parkinLot_sum = sum
+        //sum parking
+        let sum: any = 0;
+        this.model.parking_space_lots.forEach(a => sum += parseInt(a.no_parking));
+        console.log(sum);
+        this.parkinLot_sum = sum
 
-         let sum1: any = 0;
-         this.model.parking_space_rent.forEach(a => sum1 += parseInt(a.no_parking));
-          console.log(sum1,"rent");
-         this.parkingRent_sum = sum1
-         
-         this.both_sum = this.parkinLot_sum + this.parkingRent_sum;
-         console.log(this.both_sum,"view 0");
-         //end parking sum
+        let sum1: any = 0;
+        this.model.parking_space_rent.forEach(a => sum1 += parseInt(a.no_parking));
+        console.log(sum1, "rent");
+        this.parkingRent_sum = sum1
+
+        this.both_sum = this.parkinLot_sum + this.parkingRent_sum;
+        console.log(this.both_sum, "view 0");
+        //end parking sum
         // set model to avoid duplication creation of project
         this.setProjectModel(success['data']);
 
@@ -1759,6 +1791,7 @@ export class AddProjectComponent implements OnInit {
   }
 
   editTowerAmenity(btoweramenity, index: any) {
+    this.language_code = localStorage.getItem('language_code');
     this.towerAmenityIndex = index;
     this.towerEditAmenitiesModal.nativeElement.click();
     // this.allTowerAmenityForEdit.map(item => { item.selected = false; return item; });
@@ -2332,7 +2365,7 @@ export class AddProjectComponent implements OnInit {
     this.spinner.show();
     this.parameter.url = 'getParkingspace';
     const input = new FormData();
-    this.admin.postDataApi(this.parameter.url, {hide_blocked: 0})
+    this.admin.postDataApi(this.parameter.url, { hide_blocked: 0 })
       .subscribe(
         success => {
           this.spinner.hide();
@@ -2346,41 +2379,41 @@ export class AddProjectComponent implements OnInit {
 
   addDeveloperBank(e) {
     //console.log(e,"send")
-    if(this.parameter.parkingLotSpacesTotal == this.model.parking_space_lots.length){
+    if (this.parameter.parkingLotSpacesTotal == this.model.parking_space_lots.length) {
       this.toastrService.clear()
-      this.toastrService.error(this.translate.instant('message.error.parkingSpaceTypeAllAreInUse'),this.translate.instant('swal.error'));
+      this.toastrService.error(this.translate.instant('message.error.parkingSpaceTypeAllAreInUse'), this.translate.instant('swal.error'));
     } else {
       const bank = new Parking();
       this.model.parking_space_lots.push(bank);
     }
     // this.model.parking_space_lots.forEach((r.) => {
     // }
-   
+
   }
   addDeveloperBank1(e) {
-    if(this.parameter.parkingLotSpacesTotal == this.model.parking_space_rent.length){
+    if (this.parameter.parkingLotSpacesTotal == this.model.parking_space_rent.length) {
       this.toastrService.clear()
-      this.toastrService.error(this.translate.instant('message.error.parkingSpaceTypeAllAreInUse'),this.translate.instant('swal.error'));
+      this.toastrService.error(this.translate.instant('message.error.parkingSpaceTypeAllAreInUse'), this.translate.instant('swal.error'));
     } else {
       const bank = new Parking();
       this.model.parking_space_rent.push(bank);
-    }    
+    }
   }
-  
+
   initModel() {
     this.model.parking_space_lots = new Array<Parking>();
+  }
+
+  toggleShow(value) {
+    // this.toggleSelectedDetails.isCreditCardChecked = !this.toggleSelectedDetails.isCreditCardChecked;
+    this.toggleSelectedDetails.isCreditCardChecked = value.target.checked ? true : false;
+    if (!this.toggleSelectedDetails.isCreditCardChecked) {
+      this.model.parking_space_rent = [];
+      this.parkingRent_sum = 0
+      this.both_sum = parseInt(this.parkinLot_sum) - parseInt(this.parkingRent_sum);
+      console.log(this.both_sum, "view rent");
     }
-   
-    toggleShow(value){
-     // this.toggleSelectedDetails.isCreditCardChecked = !this.toggleSelectedDetails.isCreditCardChecked;
-      this.toggleSelectedDetails.isCreditCardChecked = value.target.checked ? true : false;
-    if(!this.toggleSelectedDetails.isCreditCardChecked){
-             this.model.parking_space_rent = [];
-             this.parkingRent_sum = 0
-             this.both_sum = parseInt(this.parkinLot_sum) - parseInt(this.parkingRent_sum);
-             console.log(this.both_sum,"view rent");
-            }
-    }
+  }
   // removeDeveloperBank($event: Event, item: any, i: number) {
   //   $event.stopPropagation();
   //   this.model.parking_space_lots.splice(i, 1);
@@ -2393,12 +2426,27 @@ export class AddProjectComponent implements OnInit {
   //   }
   // }
   checkAlreadySelected = (parkingSpaceId: number, isParkingSpaceLots: boolean): boolean => {
-  if (isParkingSpaceLots) {
-     const data = this.model.parking_space_lots.find((item) => item.parking_space_id == parkingSpaceId);
-         return data ? true : false;
-       } else {
-          const data = this.model.parking_space_rent.find((item) => item.parking_space_id == parkingSpaceId);
-          return data ? true : false;
-        }
-      }
+    if (isParkingSpaceLots) {
+      const data = this.model.parking_space_lots.find((item) => item.parking_space_id == parkingSpaceId);
+      return data ? true : false;
+    } else {
+      const data = this.model.parking_space_rent.find((item) => item.parking_space_id == parkingSpaceId);
+      return data ? true : false;
+    }
+  }
+
+  openModalAmenities = (index: number): void => {
+    this.language_code = localStorage.getItem('language_code');
+    this.amenitiesKeyword = '';
+    switch (index) {
+      case 1:
+        this.openAmenitiesModal.nativeElement.click();
+        break;
+      case 2:
+        this.towerAmenitiesModal.nativeElement.click();
+        break;
+      default:
+        break;
+    }
+  }
 }

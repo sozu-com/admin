@@ -395,7 +395,8 @@
       "companyName": "Company Name",
       "logo": "Logo",
       "coverImage": "Cover Image",
-      "notFound": "No Developer found"
+      "notFound": "No Developer found",
+      "notAmenityFound": "No amenity found"
     },
     "managedBy": {
       "label": "Managed By",
