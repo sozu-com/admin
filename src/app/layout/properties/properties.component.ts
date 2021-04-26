@@ -474,7 +474,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         this.parameter.state_id = '0';
         this.parameter.building_id = '0';
       }
-     // this.getListing();
+      // this.getListing();
     });
   }
 
@@ -843,8 +843,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
     this.admin.postDataApi('getAllBuyers', input).subscribe(r => {
       this.spinner.hide();
-      if (property) { 
-        this.linkUserModal.nativeElement.click();  
+      if (property) {
+        this.linkUserModal.nativeElement.click();
         this.keyword = '';
       }
       this.allUsers = r['data'];
@@ -1073,8 +1073,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
     });
   }
-  
-  agentTab(){
+
+  agentTab() {
     this.router.navigate(['/dashboard/view-inhouse-users/:userType']);
   }
 
@@ -1248,22 +1248,23 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         const p = this.exportfinalData[index];
 
         exportfinalData.push({
-          'Name of Building': p.building && p.building.name ? p.building.name : '',
-          'Name of Tower': p.building_towers && p.building_towers.tower_name ? p.building_towers.tower_name : '',
+          'Name of Building': (p.building || {}).name || '',
+          'Name of Tower': (p.building_towers || {}).tower_name || '',
           'Floor': p.floor_num > 0 ? 'Floor ' + p.floor_num : 'Ground Floor',
           'Apartment': p.name || '',
-          'Model': p.building_configuration && p.building_configuration.name ? p.building_configuration.name : '',
+          'Model':  (p.building_configuration || {}).name || '',
           'Configuration Bed': p.configuration ? p.configuration.bedroom + ' Bed' : "0 Bed",
           'Configuration Bath': p.configuration ? p.configuration.bathroom + ' Bath' : '0 Bath',
           'Configuration Half Bath': p.configuration ? p.configuration.half_bathroom + ' Half Bath' : '0 Half Bath',
           'Price': parseInt(p.min_price) || 0,
+          'Final Price': parseInt(p.final_price) || 0,
           'Carpet Area': parseInt(p.max_area) || 0,
           'Agent Commission (in %)': parseInt(p.broker_commision) || 0,
           'Commercialized by SOZU': p.is_commercialized ? 'yes' : 'no',
           'Total Commission (in %)': parseInt(p.total_commission) || 0,
           'Leads': parseInt(p.lead_properties_count) || 0,
-          'Buyer': p.selected_buyer && p.selected_buyer.user.name ? p.selected_buyer.user.name : '',
-          'Seller': p.selected_seller && p.selected_seller.user.name ? p.selected_seller.user.name : '',
+          'Buyer':  ((p.selected_buyer || {}).user || {}).name || '',
+          'Seller': ((p.selected_seller || {}).user || {}).name || '',
           'Is Property Sold': p.is_property_sold ? 'yes' : 'no',
           'Linked Collection': p.collection ? 'yes' : 'no',
         });
@@ -1297,53 +1298,53 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     let index;
     let add_variable = [];
     let bank_detail;
-    if(!this.is_for_Offer){
-    if (this.installmentFormGroup.controls.parkingLotForSaleFormArray.value && this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.length > 0) {
-      this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.forEach(element => {
-        least_price = least_price + parseInt(element.parkingLotsPrice.replace('$', ''));
-      });
+    if (!this.is_for_Offer) {
+      if (this.installmentFormGroup.controls.parkingLotForSaleFormArray.value && this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.length > 0) {
+        this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.forEach(element => {
+          least_price = least_price + parseInt(element.parkingLotsPrice.replace('$', ''));
+        });
+      }
+      discount = this.installmentFormGroup.value.discount ? (this.installmentFormGroup.value.discount * least_price) / 100 : 0;
+      interest = this.installmentFormGroup.value.interest ? (this.installmentFormGroup.value.interest * least_price) / 100 : 0;
+      final_price = discount ? least_price - discount : interest ? least_price + interest : least_price;
+      pricePerM2 = final_price / this.property_array.max_area;
+      downpayment = (this.installmentFormGroup.value.downPayment * final_price) / 100;
+      monthly_installment_amount = (this.installmentFormGroup.value.monthlyInstallment * final_price) / 100;
+      payment_upon_delivery = (this.installmentFormGroup.value.paymentupondelivery * final_price) / 100;
+      monthly_installments = monthly_installment_amount / this.installmentFormGroup.value.numberOfMI;
+      this.getAddVariablesFormArray.controls.forEach((element: FormGroup) => {
+        let variable_amount = element.value.addVariablesPercentage ? (element.value.addVariablesPercentage * final_price) / 100 : 0;
+        add_variable.push([
+          { text: element.value.addVariablesText, border: [false, false, false, false], color: '#858291' },
+          { text: element.value.addVariablesPercentage ? element.value.addVariablesPercentage + '%' : 'N/A', border: [false, false, false, false], bold: true },
+          { text: variable_amount ? this.price.transform(Number(variable_amount).toFixed(2)) : '', border: [false, false, false, false], bold: true }
+        ]);
+      })
     }
-    discount = this.installmentFormGroup.value.discount ? (this.installmentFormGroup.value.discount * least_price) / 100 : 0;
-    interest = this.installmentFormGroup.value.interest ? (this.installmentFormGroup.value.interest * least_price) / 100 : 0;
-    final_price = discount ? least_price - discount : interest ? least_price + interest : least_price;
-    pricePerM2 = final_price / this.property_array.max_area;
-    downpayment = (this.installmentFormGroup.value.downPayment * final_price) / 100;
-    monthly_installment_amount = (this.installmentFormGroup.value.monthlyInstallment * final_price) / 100;
-    payment_upon_delivery = (this.installmentFormGroup.value.paymentupondelivery * final_price) / 100;
-    monthly_installments = monthly_installment_amount / this.installmentFormGroup.value.numberOfMI;
-    this.getAddVariablesFormArray.controls.forEach((element: FormGroup) => {
-      let variable_amount = element.value.addVariablesPercentage ? (element.value.addVariablesPercentage * final_price) / 100 : 0;
-      add_variable.push([
-        { text: element.value.addVariablesText, border: [false, false, false, false], color: '#858291' },
-        { text: element.value.addVariablesPercentage ? element.value.addVariablesPercentage + '%' : 'N/A', border: [false, false, false, false], bold: true },
-        { text: variable_amount ? this.price.transform(Number(variable_amount).toFixed(2)) : '', border: [false, false, false, false], bold: true }
-      ]);
-    })
-  }
 
-  else{
-    index = this.property_array.property_offer_payment.findIndex(x=> x.random_id == this.offer_id);
-    discountPer = this.property_array.property_offer_payment[index].discount;
-    interestPer = this.property_array.property_offer_payment[index].interest;
-    discount =  this.property_array.property_offer_payment[index].discount ? ( this.property_array.property_offer_payment[index].discount * least_price) / 100 : 0;
-    interest = this.property_array.property_offer_payment[index].interest ? (this.property_array.property_offer_payment[index].interest * least_price) / 100 : 0;
-    final_price = this.property_array.property_offer_payment[index].final_price;
-    pricePerM2 = final_price / this.property_array.max_area;
-    downpayment = (this.property_array.property_offer_payment[index].down_payment * final_price) / 100;
-    monthly_installment_amount = (this.property_array.property_offer_payment[index].monthly_installment * final_price) / 100;
-    payment_upon_delivery = (this.property_array.property_offer_payment[index].payment_upon_delivery * final_price) / 100;
-    monthly_installments = monthly_installment_amount / this.property_array.property_offer_payment[index].number_of_month;
-    let bank_index = this.paymentBankDetailsArray.findIndex(bank => bank.id == this.property_array.property_offer_payment[0].bank_id)
-    bank_detail = this.paymentBankDetailsArray[bank_index];
-    this.property_array.property_offer_payment[index].property_variable.forEach(element => {
-      let variable_amount = element.variable_percentage ? (element.variable_percentage * final_price) / 100 : 0;
-      add_variable.push([
-        { text: element.variable_name, border: [false, false, false, false], color: '#858291' },
-        { text: element.variable_percentage ? element.variable_percentage + '%' : 'N/A', border: [false, false, false, false], bold: true },
-        { text: variable_amount ? this.price.transform(Number(variable_amount).toFixed(2)) : '', border: [false, false, false, false], bold: true }
-      ]);
-    })
-  }
+    else {
+      index = this.property_array.property_offer_payment.findIndex(x => x.random_id == this.offer_id);
+      discountPer = this.property_array.property_offer_payment[index].discount;
+      interestPer = this.property_array.property_offer_payment[index].interest;
+      discount = this.property_array.property_offer_payment[index].discount ? (this.property_array.property_offer_payment[index].discount * least_price) / 100 : 0;
+      interest = this.property_array.property_offer_payment[index].interest ? (this.property_array.property_offer_payment[index].interest * least_price) / 100 : 0;
+      final_price = this.property_array.property_offer_payment[index].final_price;
+      pricePerM2 = final_price / this.property_array.max_area;
+      downpayment = (this.property_array.property_offer_payment[index].down_payment * final_price) / 100;
+      monthly_installment_amount = (this.property_array.property_offer_payment[index].monthly_installment * final_price) / 100;
+      payment_upon_delivery = (this.property_array.property_offer_payment[index].payment_upon_delivery * final_price) / 100;
+      monthly_installments = monthly_installment_amount / this.property_array.property_offer_payment[index].number_of_month;
+      let bank_index = this.paymentBankDetailsArray.findIndex(bank => bank.id == this.property_array.property_offer_payment[0].bank_id)
+      bank_detail = this.paymentBankDetailsArray[bank_index];
+      this.property_array.property_offer_payment[index].property_variable.forEach(element => {
+        let variable_amount = element.variable_percentage ? (element.variable_percentage * final_price) / 100 : 0;
+        add_variable.push([
+          { text: element.variable_name, border: [false, false, false, false], color: '#858291' },
+          { text: element.variable_percentage ? element.variable_percentage + '%' : 'N/A', border: [false, false, false, false], bold: true },
+          { text: variable_amount ? this.price.transform(Number(variable_amount).toFixed(2)) : '', border: [false, false, false, false], bold: true }
+        ]);
+      })
+    }
 
     let docDefinition = {
       pageSize: {
@@ -1490,14 +1491,18 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.downpayment') + ':', border: [false, false, false, false], color: '#858291' },
-                      { text: this.is_for_Offer && this.property_array.property_offer_payment[index].down_payment ? this.property_array.property_offer_payment[index].down_payment + '%' : 
-                      this.installmentFormGroup.value.downPayment ? this.installmentFormGroup.value.downPayment + '%' : 'N/A', border: [false, false, false, false], bold: true },
+                      {
+                        text: this.is_for_Offer && this.property_array.property_offer_payment[index].down_payment ? this.property_array.property_offer_payment[index].down_payment + '%' :
+                          this.installmentFormGroup.value.downPayment ? this.installmentFormGroup.value.downPayment + '%' : 'N/A', border: [false, false, false, false], bold: true
+                      },
                       { text: downpayment ? this.price.transform(Number(downpayment || 0).toFixed(2)) : '', border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.monthlyPaymentsAmount'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.is_for_Offer && this.property_array.property_offer_payment[index].monthly_installment ? this.property_array.property_offer_payment[index].monthly_installment + '%' : 
-                      this.installmentFormGroup.value.monthlyInstallment ? this.installmentFormGroup.value.monthlyInstallment + '%' : 'N/A', border: [false, false, false, false], bold: true },
+                      {
+                        text: this.is_for_Offer && this.property_array.property_offer_payment[index].monthly_installment ? this.property_array.property_offer_payment[index].monthly_installment + '%' :
+                          this.installmentFormGroup.value.monthlyInstallment ? this.installmentFormGroup.value.monthlyInstallment + '%' : 'N/A', border: [false, false, false, false], bold: true
+                      },
                       { text: monthly_installment_amount ? this.price.transform(Number(monthly_installment_amount).toFixed(2)) : '', border: [false, false, false, false], bold: true }
                     ],
                     [
@@ -1508,8 +1513,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                         ],
                         border: [false, false, false, true], color: '#858291'
                       },
-                      { text: this.is_for_Offer && this.property_array.property_offer_payment[index].payment_upon_delivery? this.property_array.property_offer_payment[index].payment_upon_delivery  + '%' : 
-                      this.installmentFormGroup.value.paymentupondelivery ? this.installmentFormGroup.value.paymentupondelivery + '%' : '', border: [false, false, false, true], bold: true },
+                      {
+                        text: this.is_for_Offer && this.property_array.property_offer_payment[index].payment_upon_delivery ? this.property_array.property_offer_payment[index].payment_upon_delivery + '%' :
+                          this.installmentFormGroup.value.paymentupondelivery ? this.installmentFormGroup.value.paymentupondelivery + '%' : '', border: [false, false, false, true], bold: true
+                      },
                       { text: payment_upon_delivery ? this.price.transform(Number(payment_upon_delivery).toFixed(2)) : 'N/A', border: [false, false, false, true], bold: true }
                     ],
                     [
@@ -1607,22 +1614,22 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       let count = 1;
       this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.forEach(element => {
         let parkingName = this.parkingSpaceLotsArray.find(parking => parking.id == element.parkingLotsType);
-        if(parkingName){
-        docDefinition.content[1].columns[0][2].table.body.splice(no, 0, [
-          { text: this.translate.instant('generatePDF.parkingForSale') + ' ' + (this.translate.defaultLang == 'en' ? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
-          { text: element.parkingLotsNumber, border: [false, false, false, false], bold: true }
-        ]);
-        // docDefinition.content[1].columns[0][2].table.body.splice(no + 1, 0, [
-        //   { text: this.translate.instant('generatePDF.parkingType') + ' ' + (this.translate.defaultLang == 'en'? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
-        //   { text: element.parkingLotsType, border: [false, false, false, false], bold: true }
-        // ]); 
-        docDefinition.content[1].columns[0][2].table.body.splice(no + 1, 0, [
-          { text: this.translate.instant('generatePDF.parkingPrice') + ' ' + (this.translate.defaultLang == 'en' ? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
-          { text: this.price.transform(Number(element.parkingLotsPrice.replace('$', '')).toFixed(2)), border: [false, false, false, false], bold: true }
-        ]);
-        no = no + 2;
-        count = count + 1;
-      }
+        if (parkingName) {
+          docDefinition.content[1].columns[0][2].table.body.splice(no, 0, [
+            { text: this.translate.instant('generatePDF.parkingForSale') + ' ' + (this.translate.defaultLang == 'en' ? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
+            { text: element.parkingLotsNumber, border: [false, false, false, false], bold: true }
+          ]);
+          // docDefinition.content[1].columns[0][2].table.body.splice(no + 1, 0, [
+          //   { text: this.translate.instant('generatePDF.parkingType') + ' ' + (this.translate.defaultLang == 'en'? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
+          //   { text: element.parkingLotsType, border: [false, false, false, false], bold: true }
+          // ]); 
+          docDefinition.content[1].columns[0][2].table.body.splice(no + 1, 0, [
+            { text: this.translate.instant('generatePDF.parkingPrice') + ' ' + (this.translate.defaultLang == 'en' ? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
+            { text: this.price.transform(Number(element.parkingLotsPrice.replace('$', '')).toFixed(2)), border: [false, false, false, false], bold: true }
+          ]);
+          no = no + 2;
+          count = count + 1;
+        }
       });
     }
     pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.commercialOffer') + ' ' + current_date.toISOString() + '.pdf');
@@ -1727,23 +1734,23 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     if (this.getTotalPercentage() == 100.00) {
       this.spinner.show();
       let least_price = this.property_array.min_price;
-    if (this.installmentFormGroup.controls.parkingLotForSaleFormArray.value && this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.length > 0) {
-      this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.forEach(element => {
-        least_price = least_price + parseInt(element.parkingLotsPrice.replace('$', ''));
-      });
-    }
+      if (this.installmentFormGroup.controls.parkingLotForSaleFormArray.value && this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.length > 0) {
+        this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.forEach(element => {
+          least_price = least_price + parseInt(element.parkingLotsPrice.replace('$', ''));
+        });
+      }
       let discount = this.installmentFormGroup.value.discount ? (this.installmentFormGroup.value.discount * least_price) / 100 : 0;
       let interest = this.installmentFormGroup.value.interest ? (this.installmentFormGroup.value.interest * least_price) / 100 : 0;
       let final_price = discount ? least_price - discount : interest ? least_price + interest : least_price;
       let addVar = [];
       this.getAddVariablesFormArray.controls.forEach((element: FormGroup) => {
-        addVar.push({variable_name: element.value.addVariablesText, variable_percentage: element.value.addVariablesPercentage});
+        addVar.push({ variable_name: element.value.addVariablesText, variable_percentage: element.value.addVariablesPercentage });
       });
       let park = [];
-      (this.installmentFormGroup.controls.parkingLotForSaleFormArray.value || []).forEach(element =>{
-        park.push({parking_lots: element.parkingLotsNumber, parking_type: element.parkingLotsType, price: element.parkingLotsPrice.substring(1)});
+      (this.installmentFormGroup.controls.parkingLotForSaleFormArray.value || []).forEach(element => {
+        park.push({ parking_lots: element.parkingLotsNumber, parking_type: element.parkingLotsType, price: element.parkingLotsPrice.substring(1) });
       });
-      let param={
+      let param = {
         id: this.property_array.id,
         down_payment: this.installmentFormGroup.get('downPayment').value,
         discount: this.installmentFormGroup.get('discount').value,
@@ -1754,12 +1761,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         lead_name: this.installmentFormGroup.get('leadName').value,
         final_price: final_price,
         bank_id: this.installmentFormGroup.value.paymentBankDetails.id,
-        account_type: this.installmentFormGroup.get('agencyOrSeller').value? 2 : 1,
+        account_type: this.installmentFormGroup.get('agencyOrSeller').value ? 2 : 1,
         notes: (this.installmentFormGroup.value.addNoteFormArray[0] || []).addNote || null,
         parking_lots: park,
         property_var: addVar
       }
-      this.admin.postDataApi('createOffers', param).subscribe(result=>{
+      this.admin.postDataApi('createOffers', param).subscribe(result => {
         this.is_for_Offer = false;
         this.offer_id = result.data;
         this.generatePDF();
@@ -2055,16 +2062,16 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   openOfferModel(item: any, i) {
     this.property_index = i;
     this.spinner.show();
-    this.admin.postDataApi('getPropertyOfferById', {id: item.id}).subscribe(result=>{
+    this.admin.postDataApi('getPropertyOfferById', { id: item.id }).subscribe(result => {
       this.property_offers = result.data;
       this.notesadddModalOpen.nativeElement.click();
       this.spinner.hide();
-      },error=>{
-        this.spinner.hide();
-      });
+    }, error => {
+      this.spinner.hide();
+    });
   }
 
-  deleteOffer(offer){
+  deleteOffer(offer) {
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' +
         this.translate.instant('message.error.wantToDeleteCommercialOffer'),
@@ -2077,18 +2084,18 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       if (result.value) {
         let self = this;
         this.spinner.show();
-        this.admin.postDataApi('deleteOffers', {id: offer.id}).subscribe(result=>{
-      if(result.data){
-      let index = self.property_offers.findIndex(x=> x.id == result.data);
-      self.property_offers.splice(index, 1);
-      self.items.filter(x=>{
-     
-      })
-      }
-      this.spinner.hide();
-      },error=>{
-        this.spinner.hide();
-      });
+        this.admin.postDataApi('deleteOffers', { id: offer.id }).subscribe(result => {
+          if (result.data) {
+            let index = self.property_offers.findIndex(x => x.id == result.data);
+            self.property_offers.splice(index, 1);
+            self.items.filter(x => {
+
+            })
+          }
+          this.spinner.hide();
+        }, error => {
+          this.spinner.hide();
+        });
       }
     });
   }
@@ -2098,7 +2105,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.modalClose.nativeElement.click();
   }
 
-  offerID(item){
+  offerID(item) {
     // this.offer_id = item.random_id;
     // this.spinner.show();
     // this.admin.postDataApi('getOfferById', { id: (item || {}).id }).subscribe((success) => {
