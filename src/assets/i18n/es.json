@@ -227,6 +227,7 @@
     "creditAgent": "Agente de crédito",
     "allianceAgent":"Agente Alianza",
     "cordinatorAgent":"Agente coordinador",
+    "manageCommissions": "Administrar Comisiones",
     "noAllianceAgentFound":"Ningún agente de la Alianza encontrado",
     "collectionAgent": "Agente de cobranza",
     "inhouseAgent": "Agente interno",
@@ -393,7 +394,8 @@
       "companyName": "Nombre de la compañía",
       "logo": "Logo",
       "coverImage": "Imagen de portada",
-      "notFound": "No se encontró desarrollador"
+      "notFound": "No se encontró desarrollador",
+      "notAmenityFound": "No se encontró ningún servicio"
     },
     "managedBy": {
       "label": "Gestionado por",

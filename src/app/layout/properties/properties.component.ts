@@ -1074,8 +1074,15 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     });
   }
 
-  agentTab() {
-    this.router.navigate(['/dashboard/view-inhouse-users/:userType']);
+  agentTab(details: any) {
+    let route = '';
+    if (details.is_external_agent) {
+      route = `${'/dashboard/view-inhouse-users/outside-broker/'}${details.id}`;
+    } else {
+      route = `${'/dashboard/view-inhouse-users/inhouse-broker/'}${details.id}`;
+    }
+    this.closeExtBrokerModal.nativeElement.click();
+    this.router.navigate([route]);
   }
 
   attachExternalBrokerPopUp(broker: any, flag: number) {
@@ -1252,7 +1259,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
           'Name of Tower': (p.building_towers || {}).tower_name || '',
           'Floor': p.floor_num > 0 ? 'Floor ' + p.floor_num : 'Ground Floor',
           'Apartment': p.name || '',
-          'Model':  (p.building_configuration || {}).name || '',
+          'Model': (p.building_configuration || {}).name || '',
           'Configuration Bed': p.configuration ? p.configuration.bedroom + ' Bed' : "0 Bed",
           'Configuration Bath': p.configuration ? p.configuration.bathroom + ' Bath' : '0 Bath',
           'Configuration Half Bath': p.configuration ? p.configuration.half_bathroom + ' Half Bath' : '0 Half Bath',
@@ -1263,7 +1270,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
           'Commercialized by SOZU': p.is_commercialized ? 'yes' : 'no',
           'Total Commission (in %)': parseInt(p.total_commission) || 0,
           'Leads': parseInt(p.lead_properties_count) || 0,
-          'Buyer':  ((p.selected_buyer || {}).user || {}).name || '',
+          'Buyer': ((p.selected_buyer || {}).user || {}).name || '',
           'Seller': ((p.selected_seller || {}).user || {}).name || '',
           'Is Property Sold': p.is_property_sold ? 'yes' : 'no',
           'Linked Collection': p.collection ? 'yes' : 'no',

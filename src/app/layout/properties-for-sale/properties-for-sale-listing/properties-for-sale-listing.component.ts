@@ -487,9 +487,18 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
       this.configurations = r['data'];
     });
   }
-  agentTab1(){
-    this.router.navigate(['/dashboard/view-inhouse-users/:userType']);
+  
+  agentTab(details: any) {
+    let route = '';
+    if (details.is_external_agent) {
+      route = `${'/dashboard/view-inhouse-users/outside-broker/'}${details.id}`;
+    } else {
+      route = `${'/dashboard/view-inhouse-users/inhouse-broker/'}${details.id}`;
+    }
+    this.closeExtBrokerModal.nativeElement.click();
+    this.router.navigate([route]);
   }
+  
   onCountryChange(id) {
     this.selectedLocation.selectedCities = [];
     this.selectedLocation.selectedLocalities = [];

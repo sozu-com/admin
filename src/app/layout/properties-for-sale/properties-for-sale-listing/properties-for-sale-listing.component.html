@@ -573,7 +573,7 @@
         <div class="modal-body">
 
          <p class="modal-title" *ngIf="property?.external_broker?.id"
-         [ngClass]="{'green-color cursor-pointer': property?.external_broker?.name}" (click)="agentTab1()">
+         [ngClass]="{'green-color cursor-pointer': property?.external_broker?.name}" (click)="agentTab(property?.external_broker)">
                {{'viewProperty.currentlyLinkedToAgent' | translate}} - 
                <b>{{property?.external_broker?.name}}&nbsp;
                {{property?.external_broker?.first_surname}}&nbsp;
