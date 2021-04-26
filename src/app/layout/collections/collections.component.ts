@@ -2949,8 +2949,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   getParkingSpaceLots = (buildingId: any): void => {
     this.spinner.show();
     forkJoin([
-      this.admin.postDataApi('parkingSpaceLots', { building_id: buildingId || 0 }),
-      //this.admin.postDataApi('parkingSpaceRent', { building_id: buildingId || 0 }),
+      //this.admin.postDataApi('parkingSpaceLots', { building_id: buildingId || 0 }),
+      this.admin.postDataApi('parkingSpaceRent', { building_id: buildingId || 0 }),
     ]).subscribe((response: any[]) => {
       this.spinner.hide();
       this.parkingSpaceLotsArray = response[0].data || [];
@@ -2962,7 +2962,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     this.spinner.show();
     this.admin.postDataApi('getPropertyDetails', { id: id }).subscribe((success) => {
       this.bankDetails = (success || {}).data;
-      this.makePaymentBankDetailsArray(true);
+      let index = this.collection_data.property.property_offer_payment.findIndex(x=> x.random_id == this.collection_data.property.offer_id);
+      let received_by = this.collection_data.property.offer_id? (this.collection_data.property.property_offer_payment[index].account_type == 1 ? 1 : '0') : this.collection_data.payment_received_by;
+      this.makePaymentBankDetailsArray(received_by);
       this.spinner.hide();
     }, (error) => {
       this.spinner.hide();
@@ -2970,9 +2972,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     });
   }
 
-  makePaymentBankDetailsArray = (isFirstTimeClick: boolean): void => {
+  makePaymentBankDetailsArray = (payment_received_by): void => {
     this.paymentBankDetailsArray = [];
-    if (this.collection_data.payment_received_by == 1) {
+    if (payment_received_by == 1) {
       this.footer_address = this.bankDetails.building.agency.address;
       this.fedTaxPayer = (((this.bankDetails || {}).building || {}).agency || {}).fed_tax_pay || '';
       // agency banks
@@ -2987,7 +2989,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           this.paymentBankDetailsArray.push(element);
         }
       }
-    } else if (this.collection_data.payment_received_by == 0) {
+    } else if (payment_received_by == 0) {
       this.legal_name = this.bankDetails.selected_seller.user.developer_company ? this.bankDetails.selected_seller.user.developer_company :
         this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id ? this.bankDetails.selected_seller.user.name + ' ' + this.bankDetails.selected_seller.user.first_surname
           + ' ' + this.bankDetails.selected_seller.user.second_surname : '';
@@ -3063,6 +3065,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       + (this.collection_data.buyer.state ? this.collection_data.buyer.state + ', ' : '') + (this.collection_data.buyer.country ? this.collection_data.buyer.country + ', ' : '') : undefined;
 
     let cash_limit_amount = this.collection_payments.find(x=> x.payment_mode_id == 1);
+    let index = this.collection_data.property.property_offer_payment.findIndex(x=> x.random_id == this.collection_data.property.offer_id);
+    let bank_index = this.paymentBankDetailsArray.findIndex(x=> x.id == this.collection_data.bank_id);
     let docDefinition = {
       pageSize: 'LEGAL',
       pageMargins: [40, 70, 40, 180],
@@ -3277,25 +3281,25 @@ export class CollectionsComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.bank'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[0].bank_name ? this.paymentBankDetailsArray[0].bank_name : 'N/A', border: [false, false, false, false], bold: true }
+                      { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[bank_index].bank_name ? this.paymentBankDetailsArray[bank_index].bank_name : 'N/A', border: [false, false, false, false], bold: true }
                     ],
                     [
                       { text: this.translate.instant('generatePDF.accountInNameOf'), border: [false, false, false, false], color: '#858291' },
                       {
-                        text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[0].legal_name ? this.paymentBankDetailsArray[0].legal_name : 'N/A', border: [false, false, false, false], bold: true
+                        text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[bank_index].legal_name ? this.paymentBankDetailsArray[bank_index].legal_name : 'N/A', border: [false, false, false, false], bold: true
                       },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.federalTaxPayer'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[0].bank_name && this.fedTaxPayer ? this.fedTaxPayer : 'N/A', border: [false, false, false, false], bold: true },
+                      { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[bank_index].bank_name && this.fedTaxPayer ? this.fedTaxPayer : 'N/A', border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.accountNumber'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[0].account_number ? this.paymentBankDetailsArray[0].account_number : 'N/A', border: [false, false, false, false], bold: true }
+                      { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[bank_index].account_number ? this.paymentBankDetailsArray[bank_index].account_number : 'N/A', border: [false, false, false, false], bold: true }
                     ],
                     [
                       { text: this.translate.instant('generatePDF.cLABE'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[0].swift ? this.paymentBankDetailsArray[0].swift : 'N/A', border: [false, false, false, false], bold: true }
+                      { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[bank_index].swift ? this.paymentBankDetailsArray[bank_index].swift : 'N/A', border: [false, false, false, false], bold: true }
                     ],
                   ],
                 }
@@ -3477,23 +3481,20 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       ]);
     }
 
-    if (this.collection_data.property.property_parking_space && this.collection_data.property.property_parking_space.length > 0) {
+    if (this.collection_data.property.property_offer_payment && this.collection_data.property.property_offer_payment.length > 0 && 
+      this.collection_data.property.property_offer_payment[index].property_parking_lot_sale && this.collection_data.property.property_offer_payment[index].property_parking_lot_sale.length > 0) {
       let no = 6;
       let count = 1;
-      this.collection_data.property.property_parking_space.forEach(element => {
+      this.collection_data.property.property_offer_payment[index].property_parking_lot_sale.forEach(element => {
         let parkingName = this.parkingSpaceLotsArray.find(parking => parking.id == element.parking_type);
         if(parkingName){
         docDefinition.content[1].columns[0][2].table.body.splice(no, 0, [
           { text: this.translate.instant('generatePDF.parkingForSale') + ' ' + (this.translate.defaultLang == 'en' ? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
-          { text: element.parking_count, border: [false, false, false, false], bold: true }
+          { text: element.parking_lots, border: [false, false, false, false], bold: true }
         ]);
-        // docDefinition.content[1].columns[0][2].table.body.splice(no + 1, 0, [
-        //   { text: this.translate.instant('generatePDF.parkingType') + ' ' + (this.translate.defaultLang == 'en'? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
-        //   { text: element.parkingLotsType, border: [false, false, false, false], bold: true }
-        // ]); 
         docDefinition.content[1].columns[0][2].table.body.splice(no + 1, 0, [
           { text: this.translate.instant('generatePDF.parkingPrice') + ' ' + (this.translate.defaultLang == 'en' ? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
-          { text: this.price.transform(Number(element.parkingLotsPrice ? element.parkingLotsPrice.replace('$', '') : 0).toFixed(2)), border: [false, false, false, false], bold: true }
+          { text: this.price.transform(Number(element.price).toFixed(2)), border: [false, false, false, false], bold: true }
         ]);
         no = no + 2;
         count = count + 1;

@@ -127,7 +127,7 @@ export class GenerateOfferPdfService {
       this.spinner.hide();
       this.offer_array = (success || {}).data;
       if(this.offer_array.id){
-         this.openModaloffer(this.offer_array)
+         this.openModaloffer(this.offer_array);
       }
     }, (error) => {
       this.spinner.hide();
