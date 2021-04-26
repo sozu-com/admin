@@ -228,6 +228,7 @@
     "creditAgent": "Credit Agent",
     "allianceAgent":"Alliance Agent",
     "cordinatorAgent":"Cordinator Agent",
+    "manageCommissions": "Manage Commissions",
     "noAllianceAgentFound":"No Alliance Agent found",
     "collectionAgent": "Collection Agent",
     "inhouseAgent": "Inhouse Agent",
@@ -395,7 +396,8 @@
       "companyName": "Company Name",
       "logo": "Logo",
       "coverImage": "Cover Image",
-      "notFound": "No Developer found"
+      "notFound": "No Developer found",
+      "notAmenityFound": "No amenity found"
     },
     "managedBy": {
       "label": "Managed By",
@@ -2093,7 +2095,8 @@
   },
   "swal": {
     "error": "Error",
-    "success": "Success"
+    "success": "Success",
+    "warning":"Warning"
   },
   "manageUsers": {
     "addLegalEntity": "Add Legal Entity"
