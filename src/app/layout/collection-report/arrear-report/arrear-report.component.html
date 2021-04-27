@@ -230,9 +230,12 @@
                                                                   (item?.calc_payment_amount || 0)) |
                                                                   roundNumber}}</span></td>
 
-                                                      <td *ngIf="item?.total_amount > 0" [attr.rowspan]="item?.showInfo && this.data[item?.id].length ? this.data[item?.id].length : 0 "><span>{{(item?.showInfo || item?.id=='Total')?
+                                                      <td *ngIf="item?.total_amount > 0"
+                                                            [attr.rowspan]="item?.showInfo && this.data[item?.id].length ? this.data[item?.id].length : 0 ">
+                                                            <span>{{(item?.showInfo || item?.id=='Total')?
                                                                   '$'+((item?.total_amount || 0) | roundNumber) :
-                                                                  ''}}</span></td>
+                                                                  ''}}</span>
+                                                      </td>
                                                 </tr>
                                           </tbody>
                                     </table>
@@ -242,9 +245,100 @@
                               </div>
                         </div>
                   </div>
+                  <br />
 
-
-                  <div class="row" style="padding-top: 20px;">
+                  <div class="box">
+                        <div class="header-text">
+                              <h5 style="
+                              color: #00B96F;
+                              font-size: 14px;
+                              font-weight: 600;">{{'sidebar.arrear' | translate}}</h5>
+                              <h6 class="sideko">$7,235,032.44</h6>
+                        </div>
+                        <div class="spacer40"></div>
+                        <div class="row">
+                              <!-- yellow -->
+                              <div class="hvrbox">
+                                    <div class="col-lg-2 col-12" style="height: 27px;
+                                    width: 140px;background-color: rgba(243,202,62,0.67);" class="hvrbox-layer_bottom">
+                                    </div>
+                              
+                                    <div class="hvrbox-layer_top">
+                                          <div class="hvrbox-text">$2,356,239.00</div>
+                                    </div>
+                              </div>
+                              <!-- yellow end -->
+                              <!-- pink -->
+                              <div class="hvrbox">
+                                    <div class="col-lg-4 col-md-6 col-sm-12 col-12" style="height: 27px;
+                                    width: 260px;
+                                    background-color: #FFA5A1;" class="hvrbox-layer_bottom">
+                                    </div>
+                              
+                                    <div class="hvrbox-layer_top">
+                                          <div class="hvrbox-text">$2,356,239.00</div>
+                                    </div>
+                              </div>
+                              <!-- pink end -->
+                              <!-- pich -->
+                              <div class="hvrbox">
+                                    <div class="col-lg-2 col-md-6 col-sm-12 col-12" style="height: 27px;
+                                    width: 180px;
+                                    background-color: rgba(255,51,54,0.7);" class="hvrbox-layer_bottom">
+                                    </div>
+                              
+                                    <div class="hvrbox-layer_top">
+                                          <div class="hvrbox-text">$2,356,239.00</div>
+                                    </div>
+                              </div>
+                              <!-- pich end -->
+                              <!-- red -->
+                              <div class="hvrbox">
+                                    <div  class="col-lg-3 col-md-6 col-sm-12 col-12" style="box-sizing: border-box;
+                                    height: 27px;
+                                    width: 180px;
+                                    background-color: #FF3336;" class="hvrbox-layer_bottom">
+                                    </div>
+                              
+                                    <div class="hvrbox-layer_top">
+                                          <div class="hvrbox-text">$2,356,239.00</div>
+                                    </div>
+                              </div>
+                              <!-- red end -->
+                        </div>
+                        <div class="spacer50"></div>
+                        <div class="row">
+                              <div style="height: 25px;
+                              width: 25px;
+                              border-radius: 50%;
+                              display: inline-block;
+                              background-color: #F3CA3E;">
+                              </div>
+                              &nbsp;&nbsp;1-30 days
+                              <div style="height: 25px;
+                              width: 25px;
+                              border-radius: 50%;
+                              display: inline-block;
+                              margin-left: 11%;
+                              background-color: rgba(255,95,88,0.56);"></div>
+                              &nbsp;&nbsp;30-60 days
+                              <div  style="height: 25px;
+                              width: 25px;
+                              border-radius: 50%;
+                              display: inline-block;
+                              margin-left: 16%;
+                              background-color: #FF7072;"></div>
+                              &nbsp;&nbsp;60-90 days
+                              <div  style="height: 25px;
+                              width: 25px;
+                              border-radius: 50%;
+                              display: inline-block;
+                              margin-left: 11%;
+                              background-color: #FF3336;"></div>
+                              &nbsp;&nbsp;+90 days
+                        </div>
+                 
+                  <!-- <div class="row" style="padding-top: 20px;">
                         <div class="col-lg-1 col-md-1"></div>
                         <div class="col-lg-4 col-md-4">
                               <table class="table table-striped table-align-left quick-table">
@@ -291,7 +385,7 @@
                                     </tbody>
                               </table>
                         </div>
-                  </div>
+                  </div> -->
             </div>
       </div>
 </div>
