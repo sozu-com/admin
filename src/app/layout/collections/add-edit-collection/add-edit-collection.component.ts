@@ -239,7 +239,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
   else{
     this.addFormStep4.controls.interest_discount.patchValue(Number(0).toFixed(3));
-    this.addFormStep4.controls.final_price.patchValue(this.addFormStep4.controls.deal_price.value);
+    //this.addFormStep4.controls.final_price.patchValue(0);
   }
    });
   }
