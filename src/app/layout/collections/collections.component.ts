@@ -2993,6 +2993,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       this.legal_name = this.bankDetails.selected_seller.user.developer_company ? this.bankDetails.selected_seller.user.developer_company :
         this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id ? this.bankDetails.selected_seller.user.name + ' ' + this.bankDetails.selected_seller.user.first_surname
           + ' ' + this.bankDetails.selected_seller.user.second_surname : '';
+          
       this.footer_address = this.collection_data.seller_type == 1 ? (this.bankDetails.selected_seller.user.tax_street_address && this.bankDetails.selected_seller.user.tax_street_address != '0' ? this.bankDetails.selected_seller.user.tax_street_address + ' ' : '') +
         (this.bankDetails.selected_seller.user.tax_external_number ? this.bankDetails.selected_seller.user.tax_external_number + '\n' : '')
         + (this.bankDetails.selected_seller.user.tax_internal_number ? this.bankDetails.selected_seller.user.tax_internal_number + ', ' : '') + (this.bankDetails.selected_seller.user.tax_neighborhood ? this.bankDetails.selected_seller.user.tax_neighborhood + '\n' : '')
