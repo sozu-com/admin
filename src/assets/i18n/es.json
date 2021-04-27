@@ -847,6 +847,8 @@
       "statusAccount": "Cuenta de estado",
       "lead_date": "Fecha de entrega",
       "leastPrice": "Precio de lista",
+      "commission": "Comisión",
+      "iva": "IVA",
       "actions": {
         "label": "Acciones",
         "all": "Todo",

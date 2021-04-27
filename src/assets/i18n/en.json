@@ -846,6 +846,8 @@
       "statusAccount": "Status Account",
       "lead_date": "Lead Date",
       "leastPrice": "List price",
+      "commission": "Commission",
+      "iva": "IVA",
       "actions": {
         "label": "Actions",
         "all": "All",

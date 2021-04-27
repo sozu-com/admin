@@ -278,130 +278,14 @@
                       </div>
                     </div>
                   </th>
-
-                  <th style="vertical-align:top; width: 110px;">
-                    <div class="d-flex table-search">
-                      <label>{{'table.th.lastConcept' | translate}}</label>
-                    </div>
-                  </th>
-                  <th style="vertical-align:top; width: 110px;">
-                    <div class="d-flex table-search">
-                      <label>{{'table.th.lastDateOfPayment' | translate}}</label>
-                    </div>
-                  </th>
-                  <th style="vertical-align:top; width: 110px;">
-                    <div class="d-flex table-search">
-                      <label class="width100px">{{'table.th.lastAmount' | translate}}</label>
-                    </div>
-                  </th>
-                  <th style="vertical-align:top; width: 110px;">
-                    <div class="d-flex table-search">
-                      <label>{{'table.th.nextConcept' | translate}}</label>
-                    </div>
-                  </th>
-                  <th style="vertical-align:top; width: 110px;">
-                    <div class="d-flex table-search">
-                      <label>{{'table.th.nextDateOfPayment' | translate}}</label>
-                    </div>
-                  </th>
-                  <th style="vertical-align:top; width: 110px;">
-                    <div class="table-search">
-                      <label class="width100px">{{'table.th.nextAmount' | translate}}</label>
-                    </div>
-                  </th>
-                  <th style="text-align:left; width: 100px;">
-                    <div class="table-search">
-                      <label>{{'table.th.currency' | translate}}</label>
-                    </div>
-                  </th>
                   <th style="vertical-align:top; width: 100px;">
                     <div class="table-search">
                       <label>{{'table.th.sozuPC' | translate}}</label>
                     </div>
-                  </th>
-                  <!-- <th style="vertical-align:top; width: 100px;">
-                    <div class="table-search">
-                      <label>{{'table.th.ivaAdded' | translate}}</label>
-                    </div>
-                  </th> -->
-                  <!-- <th style="vertical-align:top; width: 100px;">
-                    <div class="table-search">
-                      <label>{{'table.th.tobeRePC' | translate}}</label>
-                      <select style="width: 70px;" [(ngModel)]="parameter.pc_amount" (change)="getListing()" name="pc_amount">
-                        <option value="0">{{'table.th.all' | translate}}</option>
-                        <option value="1">{{'table.th.defined' | translate}}</option>
-                        <option value="2">{{'table.th.undefined' | translate}}</option>
-                     </select>
-                    </div>
-                  </th> -->
-                  <!-- <th style="vertical-align:top; width: 100px;">
-                    <div class="table-search">
-                      <label>{{'table.th.PCReceipt' | translate}}</label>
-                      <select style="width: 70px;" [(ngModel)]="parameter.pc_receipt" (change)="getListing()" name="pc_receipt">
-                        <option value="0">{{'table.th.all' | translate}}</option>
-                        <option value="1">{{'table.th.yes' | translate}}</option>
-                        <option value="2">{{'table.th.no' | translate}}</option>
-                     </select>
-                    </div>
-                  </th> -->
-                  <!-- <th style="vertical-align:top; width: 100px;">
-                    <div class="table-search">
-                      <label>{{'table.th.PCInvoice' | translate}}</label>
-                      <select style="width: 70px;" [(ngModel)]="parameter.pc_invoice" (change)="getListing()" name="pc_invoice">
-                        <option value="0">{{'table.th.all' | translate}}</option>
-                        <option value="1">{{'table.th.yes' | translate}}</option>
-                        <option value="2">{{'table.th.no' | translate}}</option>
-                     </select>
-                    </div>
-                  </th> -->
+                  </th>    
                   <th style="vertical-align:top; width: 100px;">
                     <div class="table-search">
-                      <label>{{'table.th.sozuCC' | translate}}</label>
-                    </div>
-                  </th>
-                  <!-- <th style="vertical-align:top; width: 100px;">
-                    <div class="table-search">
-                      <label>{{'table.th.ivaAdded' | translate}}</label>
-                    </div>
-                  </th> -->
-                  <th style="vertical-align:top; width: 100px;">
-                    <div class="table-search">
-                      <label>{{'table.th.tobeReCC' | translate}}</label>
-                    </div>
-                  </th>
-                  <!-- <th style="vertical-align:top; width: 100px;">
-                    <div class="table-search">
-                      <label>{{'table.th.CCReceipt' | translate}}</label>
-                    </div>
-                  </th> -->
-                  <!-- <th style="vertical-align:top; width: 100px;">
-                    <div class="table-search">
-                      <label>{{'table.th.CCInvoice' | translate}}</label>
-                    </div>
-                  </th> -->
-                  <th style="vertical-align:top; width: 100px;">
-                    <div class="table-search">
-                      <label>{{'table.th.agentCommission' | translate}}</label>
-                    </div>
-                  </th>
-                  <th style="vertical-align:top; width: 100px;">
-                    <div class="table-search">
-                      <label>{{'table.th.ivaAdded' | translate}}</label>
-                    </div>
-                  </th>
-                  <!-- <th style="vertical-align:top; width: 100px;">
-                    <div class="table-search">
-                      <label>{{'table.th.ACReceipt' | translate}}</label>
-                    </div>
-                  </th> -->
-                  <!-- <th style="vertical-align:top; width: 100px;">
-                    <div class="table-search">
-                      <label>{{'table.th.ACInvoice' | translate}}</label>
-                    </div>
-                  </th> -->
-                  <th style="vertical-align:top; width: 100px;">
-                    <div class="table-search">
-                      <label>{{'table.th.commissionAgent' | translate}}</label>
+                      <label>{{'table.th.commission' | translate}}</label>
                       <div class="searh-3">
                         <input autocomplete="off" class="width100px" type="text" [(ngModel)]="parameter.agent_name"
                           (keyup.enter)="getListing()">
@@ -410,27 +294,39 @@
                       </div>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 120px;">
+                  <th style="vertical-align:top; width: 100px;">
                     <div class="table-search">
-                      <label>{{'table.th.price' | translate}}</label>
+                      <label>{{'table.th.iva' | translate}}</label>
+                      <div class="searh-3">
+                        <input autocomplete="off" class="width100px" type="text" [(ngModel)]="parameter.agent_name"
+                          (keyup.enter)="getListing()">
+                        <button *ngIf="parameter.agent_name" (click)="getListing()"><i
+                            class="fa fa-search"></i></button>
+                      </div>
                     </div>
                   </th>
-                  <!-- <th style="text-align:left; width: 100px;">
+                  <th style="vertical-align:top; width: 100px;">
                     <div class="table-search">
-                      <label>{{'table.th.penalty' | translate}}</label>
+                      <label>{{'table.th.total' | translate}}</label>
+                      <div class="searh-3">
+                        <input autocomplete="off" class="width100px" type="text" [(ngModel)]="parameter.agent_name"
+                          (keyup.enter)="getListing()">
+                        <button *ngIf="parameter.agent_name" (click)="getListing()"><i
+                            class="fa fa-search"></i></button>
+                      </div>
                     </div>
-                  </th> -->
-                  <!-- <th style="text-align:left; width: 120px;">
+                  </th>
+                  <th style="vertical-align:top; width: 100px;">
                     <div class="table-search">
                       <label>{{'table.th.amountPaid' | translate}}</label>
                     </div>
-                  </th> -->
-                  <!-- <th style="text-align:left; width: 120px;">
+                  </th>
+                  <th style="text-align:left; width: 120px;">
                     <div class="table-search">
                       <label>{{'table.th.remaniningAmount' | translate}}</label>
                     </div>
-                  </th> -->
-                  <th style="text-align:left; width: 100px;">
+                  </th>
+                  <th style="text-align:left; width: 180px;">
                     <div class="table-search">
                       <label>{{'table.th.statusAccount' | translate}}</label>
                       <select [(ngModel)]="parameter.collection_status" (change)="parameter.page=1;getListing()">
