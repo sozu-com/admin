@@ -847,6 +847,8 @@
       "statusAccount": "Cuenta de estado",
       "lead_date": "Fecha de entrega",
       "leastPrice": "Precio de lista",
+      "commission": "Comisión",
+      "iva": "IVA",
       "actions": {
         "label": "Acciones",
         "all": "Todo",
@@ -1755,6 +1757,7 @@
     "modelReport": "Informe modelo",
     "conceptReport": "Informe conceptual",
     "arrearReport": "Informe de atrasos",
+    "arrear": "atrasos",
     "salesReport": "Reporte de ventas",
     "salesTrend": "Tendencia de ventas",
     "salesBooking": "Reserva de ventas",

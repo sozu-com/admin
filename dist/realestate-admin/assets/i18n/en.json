@@ -846,6 +846,8 @@
       "statusAccount": "Status Account",
       "lead_date": "Lead Date",
       "leastPrice": "List price",
+      "commission": "Commission",
+      "iva": "IVA",
       "actions": {
         "label": "Actions",
         "all": "All",
@@ -1754,6 +1756,7 @@
     "modelReport": "Model Report",
     "conceptReport": "Concept Report",
     "arrearReport": "Arrear Report",
+    "arrear": "Arrear",
     "salesReport": "Sales Report",
     "salesTrend": "Sales Trend",
     "salesBooking": "Sales Booking",
