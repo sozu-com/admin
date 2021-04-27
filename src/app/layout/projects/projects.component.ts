@@ -11,6 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
+import { PricePipe } from 'src/app/pipes/price.pipe';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 declare let swal: any;
@@ -67,7 +68,8 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     public projectService: ProjectService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService, private http: HttpClient,
-    private router: Router, private elementRef: ElementRef
+    private router: Router, private elementRef: ElementRef,
+    private price: PricePipe,
   ) {
   }
 
@@ -600,18 +602,22 @@ export class ProjectsComponent implements OnInit, OnDestroy {
           'Properties': parseInt(p.properties_count_all) || 0,
           'Properties available for rent': parseInt(p.rent_count_all) || 0,
           'Properties available for sale': parseInt(p.sale_count_all) || 0,
-          'Min Price ($)': parseInt(p.min_price) || 0,
-          'Max Price ($)': parseInt(p.max_price) || 0,
-          'Avg Price ($)': parseInt(p.avg_price) || 0,
+          'Min Price ($)': this.getTransformedAmount(p.min_price || 0),// parseInt(p.min_price) || 0,
+          'Max Price ($)':this.getTransformedAmount(p.max_price || 0),// parseInt(p.max_price) || 0,
+          'Avg Price ($)': this.getTransformedAmount(p.avg_price || 0),// parseInt(p.avg_price) || 0,
           'Min Carpet Area': parseInt(p.min_carpet_area) || 0,
           'Max Carpet Area': parseInt(p.max_carpet_area) || 0,
           'Avg Carpet Area': parseInt(p.avg_carpet_area) || 0,
-          'Avg Price per m2': p.avg_price && p.avg_carpet_area ? p.avg_price / p.avg_carpet_area : 0,
+          'Avg Price per m2': this.getTransformedAmount(p.avg_price && p.avg_carpet_area ? p.avg_price / p.avg_carpet_area : 0), //p.avg_price && p.avg_carpet_area ? p.avg_price / p.avg_carpet_area : 0,
           'Towers': p.building_towers_count || 0
         });
       }
       this.exportAsExcelFile(exportfinalData, 'projects-');
     }
+  }
+
+  getTransformedAmount(value: any) {
+    return (this.price.transform(Number(value).toFixed(2)).toString()).substring(1);
   }
 
   public exportAsExcelFile(json: any[], excelFileName: string): void {
