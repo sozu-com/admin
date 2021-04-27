@@ -1263,7 +1263,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
           'Configuration Bed': p.configuration ? p.configuration.bedroom + ' Bed' : "0 Bed",
           'Configuration Bath': p.configuration ? p.configuration.bathroom + ' Bath' : '0 Bath',
           'Configuration Half Bath': p.configuration ? p.configuration.half_bathroom + ' Half Bath' : '0 Half Bath',
-          'Price': parseInt(p.min_price) || 0,
+          'List Price': parseInt(p.min_price) || 0,
           'Final Price': parseInt(p.final_price) || 0,
           'Carpet Area': parseInt(p.max_area) || 0,
           'Agent Commission (in %)': parseInt(p.broker_commision) || 0,
