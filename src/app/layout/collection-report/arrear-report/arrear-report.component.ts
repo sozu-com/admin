@@ -8,6 +8,7 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { CollectionReport } from '../../../models/collection-report.model';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
+import { PricePipe } from 'src/app/pipes/price.pipe';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 
@@ -55,7 +56,8 @@ export class ArrearReportComponent implements OnInit {
     public constant: Constant,
     public admin: AdminService,
     private spinner: NgxSpinnerService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private price: PricePipe
   ) { }
 
   ngOnInit() {
@@ -355,20 +357,26 @@ export class ArrearReportComponent implements OnInit {
           'Account ID': item.id != 'Total' ? item.id || '' : 'Total',
           'Buyer Name': item.buyer_name || '',
           'Seller Name': item.seller_name || '',
-          Project: item.project_name || '',
-          Tower: item.tower_name || '',
-          Model: item.model || '',
+          'Project': item.project_name || '',
+          'Tower': item.tower_name || '',
+          'Model': item.model || '',
           'Property Name': item.property_name || '',
-          Currency: item.code || '',
-          'concept': item.NAME || '',
-          'date': item.date || '',
-          'paymentTotal': item.symbol + Number((((item.amount || 0) + (item.penelty || 0)) - (item.calc_payment_amount || 0))).toFixed(2),
-          'totalArrear': item.symbol + Number((item.total_amount || 0)).toFixed(2),
+          'Currency': item.code || '',
+          'Concept': item.NAME || '',
+          'Date': item.date || '',
+          'Payment Total': this.getTransformedAmount((((item.amount || 0) + (item.penelty || 0)) - (item.calc_payment_amount || 0)) || 0), 
+          // item.symbol + Number((((item.amount || 0) + (item.penelty || 0)) - (item.calc_payment_amount || 0))).toFixed(2),
+          'Total Arrear': this.getTransformedAmount(item.total_amount || 0),//item.symbol + Number((item.total_amount || 0)).toFixed(2),
         });
       }
       this.exportAsExcelFile(finalData, 'arrearReport-');
     }
   }
+
+  getTransformedAmount(value: any) {
+    return (this.price.transform(Number(value).toFixed(2)).toString()).substring(1);
+  }
+
   // will be used in case of excel
   public exportAsExcelFile(json: any[], excelFileName: string): void {
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
