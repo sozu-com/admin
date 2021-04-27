@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class AclUserGuard implements CanActivate {
+  previousUrl: any = null;
   constructor(private admin: AdminService, private location: Location, private router: Router
     , private toastrService: ToastrService, private translateService: TranslateService) { }
   canActivate(
@@ -51,64 +52,79 @@ export class AclUserGuard implements CanActivate {
         ((state.url === `${'/dashboard/view-inhouse-users/'}${next.params.userType}${'/'}${next.params.id}`) && (admin_acl['Inhouse Agent Management']['can_read'] === 1)) ||
         ((state.url === `${'/dashboard/view-inhouse-users/'}${next.params.userType}${'/'}${next.params.id}`) && (admin_acl['Outside Agent Management']['can_read'] === 1))
       ) {
+        this.previousUrl = state.url;
         return true;
       } else if ((obj && obj[subkey] === 1) || (permissions && permissions[inhouseUserRole] === 1)) {
+        this.previousUrl = state.url;
         return true;
-      } else {
-        // this.location.back();
-        // return false;
-        if (state) {
-          return this.hasPermissionToRoute(next, state);
+      } else if (obj && obj[subkey] === 0) {
+        if (this.previousUrl) {
+          this.toastrService.clear();
+          this.toastrService.warning(
+            this.translateService.instant('message.error.SorryYouDoNotHaveThePermissionToGoThere'),
+            this.translateService.instant('swal.warning')
+          );
+          return false;
         } else {
+          this.location.back();
+          //this.router.navigate(['/dashboard']);
           return false;
         }
+      } else {
+        this.location.back();
+        return false;
+        // if (state) {
+        //   return this.hasPermissionToRoute(next, state);
+        // } else {
+        //   return false;
+        // }
       }
     } else {
       return false;
     }
   }
 
-  hasPermissionToRoute(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const route = state.url.split('/');
-    switch (route[2]) {
-      case 'projects':
-        return this.canRead('Project Management');
-      case 'legal-entities':
-        return this.canRead('Manage Legal Entity');
-      case 'collections':
-        return this.canRead('Manage Collections');
-      case 'properties':
-        return this.canRead('Property Management');
-      case 'developers':
-        return this.canRead('Developers Management');
-      case 'leads':
-        switch (route[3]) {
-          case 'inhouse-broker-leads':
-            return this.canRead('Inhouse Agent Lead Management');
-          case 'outside-broker-leads':
-            return this.canRead('Outside Agent Lead Management');
-        }
-      case 'managers':
-        return this.canRead('Managers Management');
-      // case 'projects':
-      //   return this.canRead('Project Management');
-      //break;
-      default:
-        this.location.back();
-        return false;
-    }
-  }
+  // hasPermissionToRoute(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+  //   const route = state.url.split('/');
+  //   switch (route[2]) {
+  //     case 'projects':
+  //       return this.canRead('Project Management');
+  //     case 'legal-entities':
+  //       return this.canRead('Manage Legal Entity');
+  //     case 'collections':
+  //       return this.canRead('Manage Collections');
+  //     case 'properties':
+  //       return this.canRead('Property Management');
+  //     case 'developers':
+  //       return this.canRead('Developers Management');
+  //     case 'leads':
+  //       switch (route[3]) {
+  //         case 'inhouse-broker-leads':
+  //           return this.canRead('Inhouse Agent Lead Management');
+  //         case 'outside-broker-leads':
+  //           return this.canRead('Outside Agent Lead Management');
+  //       }
+  //     case 'managers':
+  //       return this.canRead('Managers Management');
+  //     // case 'projects':
+  //     //   return this.canRead('Project Management');
+  //     //break;
+  //     default:
+  //       this.location.back();
+  //       return false;
+  //   }
+  // }
 
-  canRead(managementName: any): boolean {
-    if (this.admin.admin_acl[managementName].can_read == 1) {
-      return true;
-    } else {
-      this.toastrService.clear();
-      this.toastrService.warning(
-        this.translateService.instant('message.error.SorryYouDoNotHaveThePermissionToGoThere'),
-        this.translateService.instant('swal.warning')
-      );
-      return false;
-    }
-  }
+  // canRead(managementName: any): boolean {
+  //   if (this.admin.admin_acl[managementName].can_read == 1) {
+  //     return true;
+  //   } else {
+  //     this.toastrService.clear();
+  //     this.toastrService.warning(
+  //       this.translateService.instant('message.error.SorryYouDoNotHaveThePermissionToGoThere'),
+  //       this.translateService.instant('swal.warning')
+  //     );
+  //     return false;
+  //   }
+  // }
 }
