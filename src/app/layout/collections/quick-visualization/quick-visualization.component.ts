@@ -205,7 +205,7 @@ export class QuickVisualizationComponent implements OnInit {
           this.collectionCommission = success['data']['collection_commissions'];
           this.totalPaid = 0.00;
           this.totalOutstanding = 0.00;
-          this.remainingAmt = (((this.model.deal_price || 0) + (this.model.penalty || 0)) - (this.model.total_payment_recieved || 0));
+          this.remainingAmt = (((this.model.property.final_price || 0) + (this.model.penalty || 0)) - (this.model.total_payment_recieved || 0));
           const reducingP = [];
           for (let index = 0; index < this.allPaymentConcepts.length; index++) {
             const m = this.allPaymentConcepts[index];
