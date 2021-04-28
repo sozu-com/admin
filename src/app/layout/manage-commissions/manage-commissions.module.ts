@@ -10,11 +10,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrModule } from 'ngx-toastr';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { QuickVisualizationCommissionComponent } from './quick-visualization-commission/quick-visualization-commission.component';
+import { AclUserGuard } from 'src/app/guards/acl-user.guard';
 
 const routes: Routes = [
   {
-    path: 'view-commissions', component: ManageCommissionsComponent 
-  }
+    path: 'view-commissions', component: ManageCommissionsComponent
+  },
+  {
+    path: 'quick-visualization-commission', component: QuickVisualizationCommissionComponent
+  },
 ];
 
 @NgModule({
@@ -38,6 +43,7 @@ const routes: Routes = [
   ],
   declarations: [
     ManageCommissionsComponent,
+    QuickVisualizationCommissionComponent,
   ]
 })
 export class ManageCommissionsModule { }

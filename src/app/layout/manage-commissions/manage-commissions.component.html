@@ -116,6 +116,8 @@
       </div>
     </div>
 
+  
+
     <div class="col-lg-1 col-md-2">
       <div class="form-group btn-cont">
         <label style="display: block; margin-top: 3px;">&nbsp;</label>
@@ -131,7 +133,6 @@
           class="btn btn-primary-new width100P P86">{{'filters.location.resetBtn' | translate}}</button>
       </div>
     </div>
-
     <div class="col-lg-2 col-md-2">
       <div class="form-group">
         <label>{{'filters.commisionType.type' | translate}}</label>
@@ -543,76 +544,13 @@
                     <div *ngIf="p?.is_cancelled==0 && p?.is_commission_sale_enabled==0 && p?.payment_status==6"
                       class="status orange" title="Inconsistency between price and deal scheme"></div>
                   </td>
-                  <!-- <td>
+                  <td>
                     <div class="table-actions">
-
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
-                        routerLink="/dashboard/collections/edit-collection/{{p.id}}"
-                        title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
-                          src="assets/img/edit.png" alt="img"></button>
-
                       <button [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0"
-                        (click)="quickCollectionView(p)" title="{{'table.title.quickVisuaization' | translate}}"
-                        class="action-icon"><img src="assets/img/eye-icon.png" alt="img"></button> -->
-
-                      <!-- <button [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0"
-                        (click)="viewAccountStatement(p)" title="{{'table.title.accountStatement' | translate}}"
-                        class="action-icon"><img src="assets/img/ic_account.png" alt="img"></button> -->
-
-                      <!-- <button [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0"
-                        (click)="generateAccountStatementPdf(p)" title="{{'table.title.accountStatement' | translate}}"
-                        class="action-icon"><img src="assets/img/ic_account.png" alt="img"></button>
-
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
-                        (click)="showPenaltyPaymentPopup(p, i, 'penalty-popup', 0)"
-                        title="{{'table.title.penaltyPayment' | translate}}" class="action-icon"><img
-                          src="assets/img/stamp.png" alt="img"></button>
-
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
-                        (click)="showApplyPaymentPopup(p, i, 'apply-popup')"
-                        title="{{'table.title.applyPayment' | translate}}" class="action-icon"><img
-                          src="assets/img/ic_payment.png" alt="img"></button>
-
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
-                        (click)="showEditPaymentPopup(p, i)" title="{{'table.title.editPayment' | translate}}"
-                        class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
-
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
-                        (click)="showCollectionCommReceipt(p, i, 'commission-popup')"
-                        title="{{'table.title.collectionCommission' | translate}}" class="action-icon"><img
-                          src="assets/img/ic_commission.png" alt="img"></button>
-
-                      <button *ngIf="p.is_approved == 1"
-                        [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0" (click)="changeStatus(p, 0);"
-                        class="action-icon" title="{{'table.title.unapprove' | translate}}"><img
-                          src="assets/img/ic_disapprove.png" alt="img"></button>
-
-                      <button *ngIf="p.is_approved == 0"
-                        [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0" (click)="changeStatus(p, 1);"
-                        class="action-icon" title="{{'table.title.approve' | translate}}"><img src="assets/img/tick.png"
-                          alt="img"></button>
-
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0"
-                        (click)="openFoldersModal(p)" title="{{'table.title.viewFolders' | translate}}"
-                        class="action-icon"><img src="assets/img/ic_folder_1.svg" alt="img"></button>
-
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0 " (click)="getNotes(p)"
-                        title="{{'table.title.collectionNotes' | translate}}" class="action-icon"><img
-                          src="assets/img/chat-icon.png" alt="img"></button>
-
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
-                        (click)="cancelPopup(p, i, p?.is_cancelled == 0 ? 1 : 0)"
-                        title="{{p?.is_cancelled == 0 ? ('table.title.cancelCollection' | translate) : ('table.title.activeCollection' | translate)}}"
-                        class="action-icon" [ngClass]="{'unblock-bg':p?.is_cancelled==1}"><img
-                          src="assets/img/block.png" alt="img"></button>
-
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
-                        (click)="deletePopup(p, i)" title="{{'table.title.delete' | translate}}"
-                        class="action-icon"><img src="assets/img/ic_delete.png" alt="img"></button>
-
+                      (click)="quickCollectionView()" title="{{'table.title.quickVisuaization' | translate}}"
+                        class="action-icon"><img src="assets/img/eye-icon.png" alt="img"></button> 
                     </div>
-
-                  </td> -->
+                  </td> 
                 </tr>
               </tbody>
             </table>

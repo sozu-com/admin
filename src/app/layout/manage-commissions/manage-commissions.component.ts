@@ -6,6 +6,7 @@ import { AdminService } from 'src/app/services/admin.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Constant } from 'src/app/common/constants';
 import * as moment from 'moment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage-commissions',
@@ -35,7 +36,7 @@ export class ManageCommissionsComponent implements OnInit {
     private spinner: NgxSpinnerService,
     public admin: AdminService,
     private translate: TranslateService,
-    public constant: Constant,
+    public constant: Constant, private router: Router,
   ) { }
 
   ngOnInit() {
@@ -57,7 +58,7 @@ export class ManageCommissionsComponent implements OnInit {
         today: 'Today',
         clear: 'Clear',
         dateFormat: 'mm/dd/yy',
-        weekHeader: 'Wk',                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+        weekHeader: 'Wk',
         dataType: 'string'
       };
     } else {
@@ -221,7 +222,7 @@ export class ManageCommissionsComponent implements OnInit {
   }
 
 
-  getListing(){
+  getListing() {
     this.spinner.show();
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.parameter.deal_to_date && this.parameter.deal_from_date) {
@@ -343,5 +344,7 @@ export class ManageCommissionsComponent implements OnInit {
   numberUptoNDecimal(num: any, n: number) {
     return num ? num.toFixed(n) : 0;
   }
-
+  quickCollectionView(item: any) {
+    this.router.navigate(['/dashboard/commissions/quick-visualization-commission']);
+  }
 }
