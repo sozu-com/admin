@@ -1617,7 +1617,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       });
     }
     if (this.installmentFormGroup.controls.parkingLotForSaleFormArray.value && this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.length > 0) {
-      let no = 5;
+      let no = 7;
       let count = 1;
       this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.forEach(element => {
         let parkingName = this.parkingSpaceLotsArray.find(parking => parking.id == element.parkingLotsType);

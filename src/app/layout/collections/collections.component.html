@@ -427,7 +427,7 @@
                   </th>
                   <th style="text-align:left; width: 120px;">
                     <div class="table-search">
-                      <label>{{'table.th.price' | translate}}</label>
+                      <label>{{'table.th.finalPrice' | translate}}</label>
                     </div>
                   </th>
                   <th style="text-align:left; width: 100px;">
@@ -642,7 +642,7 @@
                   <td *ngIf="!p?.deal_commission_agents?.length">
                     <span>{{('table.tr.td.NA' | translate)}}</span>
                   </td>
-                  <td><span>{{(p?.deal_price || 0) | currency}}</span></td>
+                  <td><span>{{(p?.property.final_price || 0) | currency}}</span></td>
                   <td><span>{{(p?.penalty || 0) | currency}}</span></td>
                   <td><span>{{(p?.total_payment_recieved || 0) | currency}}</span></td>
                   <td><span>{{getRemainingAmt(p) | currency}}</span></td>
