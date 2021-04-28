@@ -59,7 +59,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   total_parking: any;
   sales_parking_alots = [];
   parking_alots = [];
-  
+
   constructor(
     public constant: Constant,
     public apiConstant: ApiConstants,
@@ -136,10 +136,10 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   }
 
   sortData1(value: number) {
-     this.parameter.property_sort = 0;
-       this.parameter.parking_sort = value;
-     this.getListing();
-    }
+    this.parameter.property_sort = 0;
+    this.parameter.parking_sort = value;
+    this.getListing();
+  }
 
   getListing() {
     this.spinner.show();
@@ -198,11 +198,11 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.aloted_parking = project.parking_count;
     this.total_parking = project.parking_for_rent + project.parking_lots;
     this.spinner.show();
-    this.admin.postDataApi('getParkingCount', {building_id: project.id}).subscribe(r => {
+    this.admin.postDataApi('getParkingCount', { building_id: project.id }).subscribe(r => {
       this.parking_alots = r.data.assign;
       this.sales_parking_alots = r.data.sale;
       this.spinner.hide();
-    this.notesadddModalOpen.nativeElement.click();
+      this.notesadddModalOpen.nativeElement.click();
     });
   }
   getCountries() {
@@ -365,7 +365,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     });
   }
 
-  openunapprove(item){
+  openunapprove(item) {
     this.parameter.text = this.translate.instant('message.error.wantToUnapproveProject');
 
     swal({
@@ -410,7 +410,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
   rejectProject(status) {
     this.items[this.parameter.index].status = status;
-    this.admin.postDataApi('rejectProject', { building_id: this.parameter.building_id}).subscribe(r => {
+    this.admin.postDataApi('rejectProject', { building_id: this.parameter.building_id }).subscribe(r => {
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.projectUnapprovedSuccessfully'), 'success');
       this.closeModal();
     },
@@ -602,13 +602,13 @@ export class ProjectsComponent implements OnInit, OnDestroy {
           'Properties': parseInt(p.properties_count_all) || 0,
           'Properties available for rent': parseInt(p.rent_count_all) || 0,
           'Properties available for sale': parseInt(p.sale_count_all) || 0,
-          'Min Price ($)': this.getTransformedAmount(p.min_price || 0),// parseInt(p.min_price) || 0,
-          'Max Price ($)':this.getTransformedAmount(p.max_price || 0),// parseInt(p.max_price) || 0,
-          'Avg Price ($)': this.getTransformedAmount(p.avg_price || 0),// parseInt(p.avg_price) || 0,
+          'Min Price List($)': this.getTransformedAmount(p.min_price || 0),// parseInt(p.min_price) || 0,
+          'Max Price List ($)': this.getTransformedAmount(p.max_price || 0),// parseInt(p.max_price) || 0,
+          'Avg Price List ($)': this.getTransformedAmount(p.avg_price || 0),// parseInt(p.avg_price) || 0,
           'Min Carpet Area': parseInt(p.min_carpet_area) || 0,
           'Max Carpet Area': parseInt(p.max_carpet_area) || 0,
           'Avg Carpet Area': parseInt(p.avg_carpet_area) || 0,
-          'Avg Price per m2': this.getTransformedAmount(p.avg_price && p.avg_carpet_area ? p.avg_price / p.avg_carpet_area : 0), //p.avg_price && p.avg_carpet_area ? p.avg_price / p.avg_carpet_area : 0,
+          'Avg Price List per m2': this.getTransformedAmount(p.avg_price && p.avg_carpet_area ? p.avg_price / p.avg_carpet_area : 0), //p.avg_price && p.avg_carpet_area ? p.avg_price / p.avg_carpet_area : 0,
           'Towers': p.building_towers_count || 0
         });
       }
@@ -689,8 +689,8 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
   openContributorListModel = (contributor: any[]): void => {
     this.contributor = contributor;
-    if(this.contributor.length > 0){
-    this.contributorListModelOpen.nativeElement.click();
+    if (this.contributor.length > 0) {
+      this.contributorListModelOpen.nativeElement.click();
     }
   }
 
@@ -705,18 +705,18 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
   getLegalEntityInfo = (legal_entity_info: any[]): any => {
     if (legal_entity_info.length == 1) {
-      return legal_entity_info[0].legal_entity.comm_name ;
+      return legal_entity_info[0].legal_entity.comm_name;
     } else {
-      return (legal_entity_info[0].legal_entity.comm_name +'+'+  (legal_entity_info.length - 1));
+      return (legal_entity_info[0].legal_entity.comm_name + '+' + (legal_entity_info.length - 1));
     }
   }
 
   getBuildingContributorsInfo = (contributor: any[]): any => {
     if (contributor.length == 1) {
-      return contributor[0].user_type == 1 ? (contributor[0].users.name + " " + (contributor[0].users.first_name ? contributor[0].users.first_name + ' ' : '') + (contributor[0].users.second_name ? contributor[0].users.second_name : '')) : contributor[0].legal_entity.comm_name ;
-    } 
-    else if(contributor.length > 1) {
-      return contributor[0].user_type == 1 ? (contributor[0].users.name + " " + (contributor[0].users.first_name ? contributor[0].users.first_name + ' ' : '') + (contributor[0].users.second_name ? contributor[0].users.second_name : '') +'+'+  (contributor.length - 1)) : (contributor[0].legal_entity.comm_name +'+'+  (contributor.length - 1));
+      return contributor[0].user_type == 1 ? (contributor[0].users.name + " " + (contributor[0].users.first_name ? contributor[0].users.first_name + ' ' : '') + (contributor[0].users.second_name ? contributor[0].users.second_name : '')) : contributor[0].legal_entity.comm_name;
+    }
+    else if (contributor.length > 1) {
+      return contributor[0].user_type == 1 ? (contributor[0].users.name + " " + (contributor[0].users.first_name ? contributor[0].users.first_name + ' ' : '') + (contributor[0].users.second_name ? contributor[0].users.second_name : '') + '+' + (contributor.length - 1)) : (contributor[0].legal_entity.comm_name + '+' + (contributor.length - 1));
     }
   }
 
