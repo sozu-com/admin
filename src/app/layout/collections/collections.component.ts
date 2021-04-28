@@ -212,7 +212,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   is_back: boolean;
   footer_address: any;
   legal_name: any;
-  parkingSpaceLotsArray: any [] = [];
+  parkingSpaceLotsArray: any[] = [];
   property_offer_id: any;
   constructor(
     public constant: Constant,
@@ -293,9 +293,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         reader.readAsDataURL(res);
       });
 
-      this.translate.onDefaultLangChange.subscribe((event: LangChangeEvent) => {
-        this.initCalendarLocale();
-      });
+    this.translate.onDefaultLangChange.subscribe((event: LangChangeEvent) => {
+      this.initCalendarLocale();
+    });
   }
   userinfo(userdata) {
     console.log(userdata, "user id")
@@ -319,7 +319,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         today: 'Today',
         clear: 'Clear',
         dateFormat: 'mm/dd/yy',
-        weekHeader: 'Wk',                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+        weekHeader: 'Wk',
         dataType: 'string'
       };
     } else {
@@ -391,7 +391,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         // fetching payment status
         for (let index = 0; index < this.items.length; index++) {
           const element = this.items[index];
-          const dif = (element.deal_price || 0).toFixed(2) - (element.total_deals_sum || 0).toFixed(2);
+          const dif = (element.property.final_price || 0).toFixed(2) - (element.total_deals_sum || 0).toFixed(2);
           const currency_id = element.currency_id;
 
           if (!element.total_deals_sum) {
@@ -2308,7 +2308,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   }
 
   getRemainingAmt(p: any) {
-    const v = (((p.deal_price || 0) + (p.penalty || 0)) - (p.total_payment_recieved || 0));
+    const v = (((p.property.final_price || 0) + (p.penalty || 0)) - (p.total_payment_recieved || 0));
     return v > 0 ? v : 0;
   }
 
@@ -2355,28 +2355,28 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       this.propertyDocumentationFoldersDetails = success.property || [];
       let beneficiaryDocumentation = success.beneficiary || [];
       let tutorDocumentationFolders = [];
-        beneficiaryDocumentation.forEach(function(element){
-        element.beneficiary_linked_document.forEach(function(x){ 
+      beneficiaryDocumentation.forEach(function (element) {
+        element.beneficiary_linked_document.forEach(function (x) {
           x.beneficiary_name = null;
           x.beneficiary_firstSurname = null;
           x.beneficiary_secondSurname = null;
-          if(x.document_link){
+          if (x.document_link) {
             x.beneficiary_name = element.beneficiary_name;
             x.beneficiary_firstSurname = element.beneficiary_firstSurname
             x.beneficiary_secondSurname = element.beneficiary_secondSurname;
             self.beneficiaryDocumentationFoldersDetails.push(x);
           }
         });
-        if(element.tutor && element.tutor.tutor_name){
+        if (element.tutor && element.tutor.tutor_name) {
           tutorDocumentationFolders.push(element.tutor);
         }
       });
-      tutorDocumentationFolders.forEach(function(element){
-        element.tutor_linked_document.forEach(function(x){ 
+      tutorDocumentationFolders.forEach(function (element) {
+        element.tutor_linked_document.forEach(function (x) {
           x.tutor_name = null;
           x.tutor_firstSurname = null;
           x.tutor_secondSurname = null;
-          if(x.document_link){
+          if (x.document_link) {
             x.tutor_name = element.tutor_name;
             x.tutor_firstSurname = element.tutor_firstSurname;
             x.tutor_secondSurname = element.tutor_secondSurname;
@@ -2385,21 +2385,21 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           }
         });
       });
-      self.beneficiaryDocumentationFoldersDetails.forEach(element=>{
+      self.beneficiaryDocumentationFoldersDetails.forEach(element => {
         let count = 1;
-        self.beneficiaryDocumentationFoldersDetails.forEach(item=>{
+        self.beneficiaryDocumentationFoldersDetails.forEach(item => {
           item.last = null;
-          if(element.beneficiary_document.name_en == item.beneficiary_document.name_en){
+          if (element.beneficiary_document.name_en == item.beneficiary_document.name_en) {
             item.beneficiary_last = '_beneficiary_' + count;
             count = count + 1;
           }
         });
       });
-      self.tutorDocumentationFoldersDetails.forEach(element=>{
+      self.tutorDocumentationFoldersDetails.forEach(element => {
         let count = 1;
-        self.tutorDocumentationFoldersDetails.forEach(item=>{
+        self.tutorDocumentationFoldersDetails.forEach(item => {
           item.tutor_last = null;
-          if(element.tutor_document.name_en == item.tutor_document.name_en){
+          if (element.tutor_document.name_en == item.tutor_document.name_en) {
             item.tutor_last = '_tutor_' + count;
             count = count + 1;
           }
@@ -2422,7 +2422,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       this.toastr.error(this.translate.instant('message.error.pleaseEnterDocuName'), this.translate.instant('swal.error'));
       return;
     }
-    if (!this.docFile) { 
+    if (!this.docFile) {
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.pleaseEnterDocuFile'), this.translate.instant('swal.error'));
       return;
@@ -2507,7 +2507,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       // fetching payment status
       for (let index = 0; index < this.items.length; index++) {
         const element = this.items[index];
-        const dif = (element.deal_price || 0).toFixed(2) - (element.total_deals_sum || 0).toFixed(2);
+        const dif = (element.property.final_price || 0).toFixed(2) - (element.total_deals_sum || 0).toFixed(2);
         const currency_id = element.currency_id;
 
         if (!element.total_deals_sum) {
@@ -2635,7 +2635,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           'AC Receipt': p.ac_receipt ? 'Yes' : 'No',
           'AC Invoice': p.ac_invoice ? 'Yes' : 'No',
           'Commission Agent': (((p.deal_commission_agents || [])[0] || []).broker || {}).name ? ((((p.deal_commission_agents || [])[0] || []).broker || {}).name + ' ' + (((p.deal_commission_agents || [])[0] || []).broker || {}).first_surname + ' ' + (((p.deal_commission_agents || [])[0] || []).broker || {}).second_surname) : '',
-          'Price': this.getTransformedAmount(p.deal_price || 0),//'$ ' + parseInt(p.deal_price || 0),
+          'final Price': this.getTransformedAmount(p.property.final_price || 0),//'$ ' + parseInt(p.deal_price || 0),
           'Penalty': this.getTransformedAmount(p.penalty || 0),//'$ ' + parseInt(p.penalty || 0),
           'Amount Paid': this.getTransformedAmount(p.total_payment_recieved || 0),//'$ ' + parseInt(p.total_payment_recieved || 0),
           'Remanining Amount': this.getTransformedAmount(this.getRemainingAmt(p) || 0),//'$ ' + (this.getRemainingAmt(p) || 0),
@@ -2871,7 +2871,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             self.monthly_installment_amunts = element.category_name.includes('Monthly Installment') ? self.monthly_installment_amunts + element.amount : self.monthly_installment_amunts + 0;
 
             if (element.category_name == 'Layaway Payment') {
-              let layaway_payments_per = Number((self.collection_data.deal_price ? element.amount * 100 / self.collection_data.deal_price : 0)).toFixed(3) + '%';
+              let layaway_payments_per = Number((self.collection_data.property.final_price ? element.amount * 100 / self.collection_data.property.final_price : 0)).toFixed(3) + '%';
               layaway_payments_per = layaway_payments_per.includes('.000') ? layaway_payments_per.replace('.000', '') : layaway_payments_per;
               self.layaway_payments.push([
                 { text: self.translate.instant('generatePDF.layaway') + ' ' + (count == 0 ? '' : count) + ':', border: [false, false, false, false], color: '#858291' },
@@ -2881,7 +2881,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
               count = count + 1;
             }
             else if (element.category_name == 'Down Payment') {
-              let down_payments_per = Number((self.collection_data.deal_price ? element.amount * 100 / self.collection_data.deal_price : 0)).toFixed(3) + '%';
+              let down_payments_per = Number((self.collection_data.property.final_price ? element.amount * 100 / self.collection_data.property.final_price : 0)).toFixed(3) + '%';
               down_payments_per = down_payments_per.includes('.000') ? down_payments_per.replace('.000', '') : down_payments_per;
               self.down_payments.push([
                 { text: self.translate.instant('generatePDF.downpayment') + ' ' + (count1 == 0 ? '' : count1) + ':', border: [false, false, false, false], color: '#858291' },
@@ -2891,7 +2891,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
               count1 = count1 + 1;
             }
             else if (element.category_name == 'Payment upon Delivery') {
-              let payments_upon_delivery_per = Number((self.collection_data.deal_price ? element.amount * 100 / self.collection_data.deal_price : 0)).toFixed(3) + '%';
+              let payments_upon_delivery_per = Number((self.collection_data.property.final_price ? element.amount * 100 / self.collection_data.property.final_price : 0)).toFixed(3) + '%';
               payments_upon_delivery_per = payments_upon_delivery_per.includes('.000') ? payments_upon_delivery_per.replace('.000', '') : payments_upon_delivery_per;
               self.payments_upon_delivery.push([
                 { text: self.translate.instant('generatePDF.PaymentUponDelivery') + ' ' + (count2 == 0 ? '' : count2) + ':', border: [false, false, false, false], color: '#858291' },
@@ -2939,7 +2939,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             ]);
           });
           let monthly_installment_amunt_per = undefined;
-          monthly_installment_amunt_per = Number((self.collection_data.deal_price ? self.monthly_installment_amunts * 100 / self.collection_data.deal_price : 0)).toFixed(3) + '%';
+          monthly_installment_amunt_per = Number((self.collection_data.property.final_price ? self.monthly_installment_amunts * 100 / self.collection_data.property.final_price : 0)).toFixed(3) + '%';
           monthly_installment_amunt_per = monthly_installment_amunt_per.includes('.000') ? monthly_installment_amunt_per.replace('.000', '') : monthly_installment_amunt_per;
           self.monthly_installment_amunt.push(
             { text: self.translate.instant('generatePDF.monthlyInstallmentAmt'), border: [false, false, false, false], color: '#858291' },
@@ -2966,8 +2966,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     this.spinner.show();
     this.admin.postDataApi('getPropertyDetails', { id: id }).subscribe((success) => {
       this.bankDetails = (success || {}).data;
-      let index = this.collection_data.property.property_offer_payment.findIndex(x=> x.random_id == this.collection_data.property.offer_id);
-      let received_by = this.collection_data.property.offer_id? (this.collection_data.property.property_offer_payment[index].account_type == 1 ? 1 : '0') : this.collection_data.payment_received_by;
+      let index = this.collection_data.property.property_offer_payment.findIndex(x => x.random_id == this.collection_data.property.offer_id);
+      let received_by = this.collection_data.property.offer_id ? (this.collection_data.property.property_offer_payment[index].account_type == 1 ? 1 : '0') : this.collection_data.payment_received_by;
       this.makePaymentBankDetailsArray(received_by);
       this.spinner.hide();
     }, (error) => {
@@ -2997,7 +2997,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       this.legal_name = this.bankDetails.selected_seller.user.developer_company ? this.bankDetails.selected_seller.user.developer_company :
         this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id ? this.bankDetails.selected_seller.user.name + ' ' + this.bankDetails.selected_seller.user.first_surname
           + ' ' + this.bankDetails.selected_seller.user.second_surname : '';
-          
+
       this.footer_address = this.collection_data.seller_type == 1 ? (this.bankDetails.selected_seller.user.tax_street_address && this.bankDetails.selected_seller.user.tax_street_address != '0' ? this.bankDetails.selected_seller.user.tax_street_address + ' ' : '') +
         (this.bankDetails.selected_seller.user.tax_external_number ? this.bankDetails.selected_seller.user.tax_external_number + '\n' : '')
         + (this.bankDetails.selected_seller.user.tax_internal_number ? this.bankDetails.selected_seller.user.tax_internal_number + ', ' : '') + (this.bankDetails.selected_seller.user.tax_neighborhood ? this.bankDetails.selected_seller.user.tax_neighborhood + '\n' : '')
@@ -3036,7 +3036,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     this.generatePDF();
   }
 
-  getBase64ImageFromUrl(id) { 
+  getBase64ImageFromUrl(id) {
     this.admin.postDataApi('getPdfImage', { id: id }).subscribe((success) => {
       this.base64 = (success || {}).data;
       this.projectLogoImageBase64 = 'data:image/jpeg;base64,' + this.base64;
@@ -3069,9 +3069,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       + (this.collection_data.buyer.zipcode && this.collection_data.buyer.zipcode != '0' ? this.collection_data.buyer.zipcode + ', ' : '') + (this.collection_data.buyer.city ? this.collection_data.buyer.city + ', ' : '')
       + (this.collection_data.buyer.state ? this.collection_data.buyer.state + ', ' : '') + (this.collection_data.buyer.country ? this.collection_data.buyer.country + ', ' : '') : undefined;
 
-    let cash_limit_amount = this.collection_payments.find(x=> x.payment_mode_id == 1);
-    let index = this.collection_data.property.property_offer_payment.findIndex(x=> x.random_id == this.collection_data.property.offer_id);
-    let bank_index = this.paymentBankDetailsArray.findIndex(x=> x.id == this.collection_data.bank_id);
+    let cash_limit_amount = this.collection_payments.find(x => x.payment_mode_id == 1);
+    let index = this.collection_data.property.property_offer_payment.findIndex(x => x.random_id == this.collection_data.property.offer_id);
+    let bank_index = this.paymentBankDetailsArray.findIndex(x => x.id == this.collection_data.bank_id);
     let docDefinition = {
       pageSize: 'LEGAL',
       pageMargins: [40, 70, 40, 180],
@@ -3203,8 +3203,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
                       { text: this.collection_data.property.name, border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: this.translate.instant('generatePDF.listPrice'), bold: true, border: [false, false, false, false], color: '#858291' },
-                      { text: this.price.transform(Number(this.collection_data.deal_price).toFixed(2)), border: [false, false, false, false], bold: true },
+                      { text: this.translate.instant('generatePDF.finalPrice'), bold: true, border: [false, false, false, false], color: '#858291' },
+                      { text: this.price.transform(Number(this.collection_data.property.final_price).toFixed(2)), border: [false, false, false, false], bold: true },
                     ]
                   ]
                 }
@@ -3232,7 +3232,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
                   ]
                 }
               },
-                cash_limit_amount.total_amount >= this.cashLimit?
+              cash_limit_amount.total_amount >= this.cashLimit ?
                 {
                   text: this.translate.instant('generatePDF.warning'), color: '#858291',
                 } : {
@@ -3486,24 +3486,24 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       ]);
     }
 
-    if (this.collection_data.property.property_offer_payment && this.collection_data.property.property_offer_payment.length > 0 && 
+    if (this.collection_data.property.property_offer_payment && this.collection_data.property.property_offer_payment.length > 0 &&
       this.collection_data.property.property_offer_payment[index].property_parking_lot_sale && this.collection_data.property.property_offer_payment[index].property_parking_lot_sale.length > 0) {
       let no = 6;
       let count = 1;
       this.collection_data.property.property_offer_payment[index].property_parking_lot_sale.forEach(element => {
         let parkingName = this.parkingSpaceLotsArray.find(parking => parking.id == element.parking_type);
-        if(parkingName){
-        docDefinition.content[1].columns[0][2].table.body.splice(no, 0, [
-          { text: this.translate.instant('generatePDF.parkingForSale') + ' ' + (this.translate.defaultLang == 'en' ? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
-          { text: element.parking_lots, border: [false, false, false, false], bold: true }
-        ]);
-        docDefinition.content[1].columns[0][2].table.body.splice(no + 1, 0, [
-          { text: this.translate.instant('generatePDF.parkingPrice') + ' ' + (this.translate.defaultLang == 'en' ? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
-          { text: this.price.transform(Number(element.price).toFixed(2)), border: [false, false, false, false], bold: true }
-        ]);
-        no = no + 2;
-        count = count + 1;
-      }
+        if (parkingName) {
+          docDefinition.content[1].columns[0][2].table.body.splice(no, 0, [
+            { text: this.translate.instant('generatePDF.parkingForSale') + ' ' + (this.translate.defaultLang == 'en' ? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
+            { text: element.parking_lots, border: [false, false, false, false], bold: true }
+          ]);
+          docDefinition.content[1].columns[0][2].table.body.splice(no + 1, 0, [
+            { text: this.translate.instant('generatePDF.parkingPrice') + ' ' + (this.translate.defaultLang == 'en' ? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
+            { text: this.price.transform(Number(element.price).toFixed(2)), border: [false, false, false, false], bold: true }
+          ]);
+          no = no + 2;
+          count = count + 1;
+        }
       });
     }
     // this.collection_payments.forEach(element => {
@@ -3554,7 +3554,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     this.router.navigate(['/dashboard/properties/view-properties/property', ((collectionDetails || {}).property || {}).id || '']);
   }
 
-  getOfferPdf(){
+  getOfferPdf() {
     this.offerPdf.offerID(this.property_offer_id);
   }
 

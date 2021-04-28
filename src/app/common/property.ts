@@ -223,6 +223,7 @@ export interface IProperty {
   parkingLotSpacesTotal?: any;
   parking_sort?: number;
   broker_id?: any;
+  commission_type?:string;
 }
 export class Docs {
   id: string;

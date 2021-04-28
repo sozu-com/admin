@@ -40,6 +40,11 @@ export class ManageCommissionsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.parameter.page = this.constant.p;
+    this.parameter.dash_flag = this.constant.dash_flag;
+    this.parameter.itemsPerPage = 25;
+    this.parameter.flag = 1;
+    this.parameter.commission_type = '1';
     this.today = new Date();
     this.getCountries();
     this.initCalendarLocale();
@@ -347,4 +352,40 @@ export class ManageCommissionsComponent implements OnInit {
   quickCollectionView(item: any) {
     this.router.navigate(['/dashboard/commissions/quick-visualization-commission']);
   }
+
+  getDateWRTTimezone(date: any, format: any) {
+    const offset = new Date(date).getTimezoneOffset();
+    if (offset < 0) {
+      return moment(date).subtract(offset, 'minutes').format(format);
+    } else {
+      return moment(date).add(offset, 'minutes').format(format);
+    }
+  }
+
+  getLastPaymentConcept(item: any) {
+    // payment_type == 1 means => pay to following => means show concept name
+    // payment_type == 2 means => pay to remaining (reduce amt) => show same
+    // payment_type == 3 means => pay to remaining (reduce time) => show same
+    if (item.last_payment.payment_type == 1 || item.last_payment.payment_type == 4) {
+      return item.last_payment.name;
+    } else if (item.last_payment.payment_type == 2) {
+      return 'Payment to remaining (Reduce Amount)';
+    } else if (item.last_payment.payment_type == 3) {
+      return 'Payment to remaining (Reduce Amount)';
+    } else {
+      return 'Total Payment';
+    }
+  }
+
+  getRemainingAmt(p: any) {
+    const v = (((p.deal_price || 0) + (p.penalty || 0)) - (p.total_payment_recieved || 0));
+    //const v = ((p.deal_price || 0) - (p.total_payment_recieved || 0));
+    return v > 0 ? v : 0;
+  }
+
+  getPage(page) {
+    this.parameter.page = page;
+    this.getListing();
+  }
+
 }
