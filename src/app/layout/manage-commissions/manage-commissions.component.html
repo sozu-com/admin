@@ -135,11 +135,10 @@
     <div class="col-lg-2 col-md-2">
       <div class="form-group">
         <label>{{'filters.commisionType.type' | translate}}</label>
-        <select class="form-control" (change)="onCountryChange($event.target.value)" [(ngModel)]="parameter.country_id">
-          <option >{{'filters.location.allOption' | translate}}</option>
-          <option >{{'filters.commisionType.purchase' | translate}}</option>
-          <option >{{'filters.commisionType.agent' | translate}}</option>
-          <option >{{'filters.commisionType.collection' | translate}}</option>
+        <select class="form-control" (change)="onCountryChange($event.target.value)" [(ngModel)]="parameter.commission_type">
+          <option value="1">{{'filters.commisionType.purchase' | translate}}</option>
+          <option value="2">{{'filters.commisionType.agent' | translate}}</option>
+          <option value="3">{{'filters.commisionType.collection' | translate}}</option>
         </select>
       </div>
     </div>
@@ -269,10 +268,6 @@
                           [(ngModel)]="parameter.deal_to_date" [minDate]="parameter.deal_from_date"
                           showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040">
                         </p-calendar>
-
-                        <!-- <input autocomplete="off" class="width100" type="date"
-                          [(ngModel)]="parameter.deal_from_date">
-                        <input autocomplete="off" class="width100" type="date" [(ngModel)]="parameter.deal_to_date"> -->
                         <button *ngIf="parameter.deal_from_date && parameter.deal_to_date" (click)="getListing()"><i
                             class="fa fa-search"></i></button>
                       </div>
@@ -326,7 +321,7 @@
                       <label>{{'table.th.remaniningAmount' | translate}}</label>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 180px;">
+                  <th style="text-align:left; width: 200px;">
                     <div class="table-search">
                       <label>{{'table.th.statusAccount' | translate}}</label>
                       <select [(ngModel)]="parameter.collection_status" (change)="parameter.page=1;getListing()">
@@ -335,11 +330,6 @@
                       </select>
                     </div>
                   </th>
-                  <!-- <th style="width: 400px;" *ngIf="parameter.flag!=5">
-                    <div class="table-search">
-                      <label>{{'table.th.actions.label' | translate}}</label>
-                    </div>
-                  </th> -->
                 </tr>
               </thead>
               <tbody class="content">
@@ -414,9 +404,7 @@
                     <span>{{p?.property?.building_towers ? p?.property?.building_towers?.tower_name : ('table.tr.td.NA'
                       | translate)}}</span>
                   </td>
-                  <!-- <td>
-                    <span  (click)="this.navigateToProperty(p)" style="cursor: pointer;">{{p?.property?.name ? p?.property?.name : ('table.tr.td.NA' | translate)}}</span>
-                  </td> -->
+                  
                   <td [ngClass]="{'green-color cursor-pointer': p?.property?.name }" >
                     <span (click)="this.navigateToProperty(p)" *ngIf="p?.property?.name">
                       {{p?.property?.name}}
@@ -431,100 +419,24 @@
                       translate)}}</span>
                   </td>
                   <td>
-                    <!-- <span>{{p?.property?.locality?.name ? p?.property?.locality?.name : ('table.tr.td.NA' |
-                      translate)}}</span> pc_contract -->
                       <span>{{p?.contract_count > 0 ? ('table.th.yes' | translate) : ('table.th.no' | translate)}}</span>
                   </td>
                   <td>
-                    <span>{{p.deal_purchase_date ? getDateWRTTimezone(p.deal_purchase_date, 'DD/MMM/YYYY') :
+                    <span>{{p.deal_purchase_date ? this.getDateWRTTimezone(p.deal_purchase_date, 'DD/MMM/YYYY') :
                       ('table.tr.td.NA' | translate)}}</span>
                   </td>
-
-                  <td><span>{{ p?.last_payment ? getLastPaymentConcept(p) : ('table.tr.td.NA' | translate)}}</span></td>
-                  <td>
-                    <span>{{(p?.last_payment?.payment_date ? (p?.last_payment?.payment_date | date:'dd/MMM/yyyy') :
-                      ('table.tr.td.NA' | translate) )}}</span>
-                  </td>
-                  <td><span
-                      [ngClass]="{'red-color':((p?.last_payment?.calc_payment_amount || 0) < (p?.last_payment?.amount || 0))}">
-                      {{ (p?.last_payment?.collection_amount || 0) | currency}}
-                    </span></td>
-                  <td><span>{{p?.next_payment?.name || ('table.tr.td.NA' | translate)}}</span></td>
-                  <td>
-                    <span>{{(p?.next_payment?.date ? (p?.next_payment?.date | date:'dd/MMM/yyyy') : ('table.tr.td.NA' |
-                      translate) )}}</span>
-                  </td>
-                  <td>
-                    <span>{{ ((p?.next_payment?.amount || 0)-(p?.next_payment?.calc_payment_amount || 0)) |
-                      currency}}</span>
-                  </td>
-
-                  <td><span>{{p?.currency?.code || ('table.tr.td.NA' | translate)}}</span></td>
                   <td>
                     <span>{{p?.comm_total_commission ? (p?.comm_total_commission | number : '1.2-3') : ('table.tr.td.NA'
                       | translate)}}</span>
                   </td>
-                  <td>
-                    <input name="add_iva_to_pc{{i}}" disabled class="form-control checkbox_size" type="checkbox"
-                      [checked]="p?.add_iva_to_pc ? 'checked' : ''" readonly>
-                  </td>
-                  <td>
-                    <span [ngClass]="{'red-color':((p?.sum_pc || 0) != (p?.comm_total_commission_amount || 0))}">
-                      {{(p?.pc_received || 0) | currency}}
-                    </span>
-                  </td>
-                  <td>
-                    <input name="pc_receipt{{i}}" disabled class="form-control checkbox_size" type="checkbox"
-                      [checked]="p?.pc_receipt ? 'checked' : ''" readonly>
-                  </td>
-                  <td>
-                    <input name="pc_invoice{{i}}" disabled class="form-control checkbox_size" type="checkbox"
-                      [checked]="p?.pc_invoice ? 'checked' : ''" readonly>
-                  </td>
+                  
                   <td>{{p?.cc_percent}}</td>
                   <td>
                     <input name="add_iva_to_cc{{i}}" disabled class="form-control checkbox_size" type="checkbox"
                       [checked]="p?.add_iva_to_cc ? 'checked' : ''" readonly>
                   </td>
-                  <td>{{(p?.cc_received || 0) | currency}}</td>
-                  <td>
-                    <input name="cc_receipt{{i}}" disabled class="form-control checkbox_size" type="checkbox"
-                      [checked]="p?.cc_receipt ? 'checked' : ''" readonly>
-                  </td>
-                  <td>
-                    <input name="cc_invoice{{i}}" disabled class="form-control checkbox_size" type="checkbox"
-                      [checked]="p?.cc_invoice ? 'checked' : ''" readonly>
-                  </td>
-                  <td>
-                    <span>{{p?.comm_shared_commission ? (p?.comm_shared_commission | number : '1.2-3') :
-                      ('table.tr.td.NA' | translate)}}</span>
-                  </td>
-
-                  <td>
-                    <input name="add_iva_to_ac{{i}}" disabled class="form-control checkbox_size" type="checkbox"
-                      [checked]="p?.add_iva_to_ac ? 'checked' : ''" readonly>
-                  </td>
-                  <td>
-                    <input name="ac_receipt{{i}}" disabled class="form-control checkbox_size" type="checkbox"
-                      [checked]="p?.ac_receipt ? 'checked' : ''" readonly>
-                  </td>
-                  <td>
-                    <input name="ac_invoice{{i}}" disabled class="form-control checkbox_size" type="checkbox"
-                      [checked]="p?.ac_invoice ? 'checked' : ''" readonly>
-                  </td>
-
-                  <td *ngIf="p?.deal_commission_agents?.length">
-                    <span>
-                      {{p?.deal_commission_agents[0]?.broker?.name ? (p?.deal_commission_agents[0]?.broker?.name + ' '
-                      +p?.deal_commission_agents[0]?.broker?.first_surname + ' ' +
-                      p?.deal_commission_agents[0]?.broker?.second_surname) : ('table.tr.td.NA' | translate)}}
-                    </span>
-                  </td>
-                  <td *ngIf="!p?.deal_commission_agents?.length">
-                    <span>{{('table.tr.td.NA' | translate)}}</span>
-                  </td>
-                  <td><span>{{(p?.deal_price || 0) | currency}}</span></td>
-                  <td><span>{{(p?.penalty || 0) | currency}}</span></td>
+                  <td>N/A</td>
+                  
                   <td><span>{{(p?.total_payment_recieved || 0) | currency}}</span></td>
                   <td><span>{{getRemainingAmt(p) | currency}}</span></td>
 
@@ -543,76 +455,7 @@
                     <div *ngIf="p?.is_cancelled==0 && p?.is_commission_sale_enabled==0 && p?.payment_status==6"
                       class="status orange" title="Inconsistency between price and deal scheme"></div>
                   </td>
-                  <!-- <td>
-                    <div class="table-actions">
-
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
-                        routerLink="/dashboard/collections/edit-collection/{{p.id}}"
-                        title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
-                          src="assets/img/edit.png" alt="img"></button>
-
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0"
-                        (click)="quickCollectionView(p)" title="{{'table.title.quickVisuaization' | translate}}"
-                        class="action-icon"><img src="assets/img/eye-icon.png" alt="img"></button> -->
-
-                      <!-- <button [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0"
-                        (click)="viewAccountStatement(p)" title="{{'table.title.accountStatement' | translate}}"
-                        class="action-icon"><img src="assets/img/ic_account.png" alt="img"></button> -->
-
-                      <!-- <button [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0"
-                        (click)="generateAccountStatementPdf(p)" title="{{'table.title.accountStatement' | translate}}"
-                        class="action-icon"><img src="assets/img/ic_account.png" alt="img"></button>
-
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
-                        (click)="showPenaltyPaymentPopup(p, i, 'penalty-popup', 0)"
-                        title="{{'table.title.penaltyPayment' | translate}}" class="action-icon"><img
-                          src="assets/img/stamp.png" alt="img"></button>
-
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
-                        (click)="showApplyPaymentPopup(p, i, 'apply-popup')"
-                        title="{{'table.title.applyPayment' | translate}}" class="action-icon"><img
-                          src="assets/img/ic_payment.png" alt="img"></button>
-
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
-                        (click)="showEditPaymentPopup(p, i)" title="{{'table.title.editPayment' | translate}}"
-                        class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
-
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
-                        (click)="showCollectionCommReceipt(p, i, 'commission-popup')"
-                        title="{{'table.title.collectionCommission' | translate}}" class="action-icon"><img
-                          src="assets/img/ic_commission.png" alt="img"></button>
-
-                      <button *ngIf="p.is_approved == 1"
-                        [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0" (click)="changeStatus(p, 0);"
-                        class="action-icon" title="{{'table.title.unapprove' | translate}}"><img
-                          src="assets/img/ic_disapprove.png" alt="img"></button>
-
-                      <button *ngIf="p.is_approved == 0"
-                        [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0" (click)="changeStatus(p, 1);"
-                        class="action-icon" title="{{'table.title.approve' | translate}}"><img src="assets/img/tick.png"
-                          alt="img"></button>
-
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0"
-                        (click)="openFoldersModal(p)" title="{{'table.title.viewFolders' | translate}}"
-                        class="action-icon"><img src="assets/img/ic_folder_1.svg" alt="img"></button>
-
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0 " (click)="getNotes(p)"
-                        title="{{'table.title.collectionNotes' | translate}}" class="action-icon"><img
-                          src="assets/img/chat-icon.png" alt="img"></button>
-
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
-                        (click)="cancelPopup(p, i, p?.is_cancelled == 0 ? 1 : 0)"
-                        title="{{p?.is_cancelled == 0 ? ('table.title.cancelCollection' | translate) : ('table.title.activeCollection' | translate)}}"
-                        class="action-icon" [ngClass]="{'unblock-bg':p?.is_cancelled==1}"><img
-                          src="assets/img/block.png" alt="img"></button>
-
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
-                        (click)="deletePopup(p, i)" title="{{'table.title.delete' | translate}}"
-                        class="action-icon"><img src="assets/img/ic_delete.png" alt="img"></button>
-
-                    </div>
-
-                  </td> -->
+          
                 </tr>
               </tbody>
             </table>
