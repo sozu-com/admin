@@ -30,7 +30,7 @@
 
     .box {
       border: 1px solid black;
-      padding: 58px;
+      padding: 20px;
   }
   .hvrbox {
     position: relative;
@@ -77,3 +77,6 @@
   .hvrbox.active .hvrbox-text_mobile {
     display: block;
   } */
+  .row.line {
+    margin-left: 12%;
+}

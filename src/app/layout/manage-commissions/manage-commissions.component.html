@@ -116,6 +116,8 @@
       </div>
     </div>
 
+  
+
     <div class="col-lg-1 col-md-2">
       <div class="form-group btn-cont">
         <label style="display: block; margin-top: 3px;">&nbsp;</label>
@@ -131,7 +133,6 @@
           class="btn btn-primary-new width100P P86">{{'filters.location.resetBtn' | translate}}</button>
       </div>
     </div>
-
     <div class="col-lg-2 col-md-2">
       <div class="form-group">
         <label>{{'filters.commisionType.type' | translate}}</label>
@@ -455,6 +456,13 @@
                     <div *ngIf="p?.is_cancelled==0 && p?.is_commission_sale_enabled==0 && p?.payment_status==6"
                       class="status orange" title="Inconsistency between price and deal scheme"></div>
                   </td>
+                  <td>
+                    <div class="table-actions">
+                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0"
+                      (click)="quickCollectionView()" title="{{'table.title.quickVisuaization' | translate}}"
+                        class="action-icon"><img src="assets/img/eye-icon.png" alt="img"></button> 
+                    </div>
+                  </td> 
           
                 </tr>
               </tbody>
