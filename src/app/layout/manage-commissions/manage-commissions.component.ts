@@ -680,6 +680,10 @@ export class ManageCommissionsComponent implements OnInit {
     return (this.price.transform(Number(value).toFixed(2)).toString()).substring(1);
   }
 
+  onSelect(e) {
+    this.paymentDate = moment.utc(e).toDate();
+  }
+
   showCollectionCommReceipt(item: any, i: number, type: string) {
     this.property_collection_id = item.id;
     this.selectedItem = item;
@@ -1096,9 +1100,5 @@ export class ManageCommissionsComponent implements OnInit {
       // this.toastr.error(error.message, this.translate.instant('swal.error'));
       return false;
     });
-  }
-
-  onSelect(data){
-
   }
 }
