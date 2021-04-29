@@ -2230,7 +2230,8 @@
     "incomeProjection": "Proyección de ingresos",
     "paymentconcpets": "Conceptos de pago",
     "paymentMade": "Pago realizado",
-    "paymentMethod": "Método de pago"
+    "paymentMethod": "Método de pago",
+    "finalPrice":"Precio final"
   },
   "quickVisualization": {
     "label": "Visualización rápida",
