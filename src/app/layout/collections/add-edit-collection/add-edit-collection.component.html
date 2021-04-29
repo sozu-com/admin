@@ -2493,6 +2493,8 @@
                 <td>{{ccsum | currency}}</td>
                 <td><b>{{'addCollection.sumPC' | translate}}</b></td>
                 <td>{{pcsum | currency}}</td>
+                <td><b>{{'addCollection.sumAC' | translate}}</b></td>
+                <td>{{acsum | currency}}</td>
               </tr>
               <tr>
                 <td><b>{{'addCollection.IVACC' | translate}}</b></td>
@@ -2503,6 +2505,10 @@
                 <td *ngIf="addFormStep5.controls.add_iva_to_pc.value">{{(((addFormStep5.controls.iva_percent.value ||
                   0)*pcsum)/100 || 0) | currency}}</td>
                 <td *ngIf="!addFormStep5.controls.add_iva_to_pc.value">$0</td>
+                <td><b>{{'addCollection.IVAAC' | translate}}</b></td>
+                <td *ngIf="addFormStep5.controls.add_iva_to_ac.value">{{(((addFormStep5.controls.iva_percent.value ||
+                  0)*acsum)/100 || 0) | currency}}</td>
+                <td *ngIf="!addFormStep5.controls.add_iva_to_ac.value">$0</td>
                 <!-- <td>{{(((addFormStep5.controls.iva_percent.value || 0)*pcsum)/100 || 0) | currency}}</td> -->
               </tr>
               <tr>
@@ -2516,6 +2522,10 @@
                   0)*pcsum)/100)+pcsum || 0) | currency}}</td>
                 <td *ngIf="!addFormStep5.controls.add_iva_to_pc.value">{{pcsum | currency}}</td>
                 <!-- <td>{{((((addFormStep5.controls.iva_percent.value || 0)*pcsum)/100)+pcsum || 0) | currency}}</td> -->
+                <td><b>{{'addCollection.TotalAC' | translate}}</b></td>
+                <td *ngIf="addFormStep5.controls.add_iva_to_ac.value">{{((((addFormStep5.controls.iva_percent.value ||
+                  0)*acsum)/100)+pcsum || 0) | currency}}</td>
+                <td *ngIf="!addFormStep5.controls.add_iva_to_ac.value">{{acsum | currency}}</td>
               </tr>
             </tbody>
           </table>
