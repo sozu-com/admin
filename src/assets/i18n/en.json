@@ -839,6 +839,7 @@
       "totalCommission": "Total Commission",
       "sharedCommission": "Shared Commission",
       "commissionAgent": "Commission Agent",
+      "agentCommission1": "Agent Commission",
       "amountPaid": "Amount Paid",
       "remaniningAmount": "Remanining Amount",
       "statusAmount": "Status Amount",
@@ -1347,7 +1348,8 @@
       "youCannotDeleteThisPossessionStatus":"You cannot delete this possession status",
       "youCannotDeleteThisProjectType":"You cannot delete this project type",
       "doYouWantToEditTheFinalPriceOfCollection":"Do you want to edit the final price of collection?",
-      "SorryYouDoNotHaveThePermissionToGoThere":"Sorry you do not have the permission to go there"
+      "SorryYouDoNotHaveThePermissionToGoThere":"Sorry you do not have the permission to go there",
+      "whenFinalPriceIsGeneratedCommissionSetAccordingToPercentageEnter": "When final price is generated commission set according to percentage enter."
     } 
   },
   "inhouseUsers": {

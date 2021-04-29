@@ -1347,7 +1347,8 @@
       "youCannotDeleteThisPossessionStatus":"You cannot delete this possession status",
       "youCannotDeleteThisProjectType":"You cannot delete this project type",
       "doYouWantToEditTheFinalPriceOfCollection":"Do you want to edit the final price of collection?",
-      "SorryYouDoNotHaveThePermissionToGoThere":"Sorry you do not have the permission to go there"
+      "SorryYouDoNotHaveThePermissionToGoThere":"Sorry you do not have the permission to go there",
+      "whenFinalPriceIsGeneratedCommissionSetAccordingToPercentageEnter": "When final price is generated commission set according to percentage enter."
     } 
   },
   "inhouseUsers": {
@@ -2230,7 +2231,8 @@
     "incomeProjection": "Income Projection",
     "paymentconcpets": "Payment Concepts",
     "paymentMade": "Payment Made",
-    "paymentMethod": "Payment Method"
+    "paymentMethod": "Payment Method",
+    "finalPrice":"Final Price"
   },
   "quickVisualization": {
     "label": "Quick Visualization",

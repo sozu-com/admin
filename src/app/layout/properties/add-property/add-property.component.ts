@@ -494,8 +494,8 @@ export class AddPropertyComponent implements OnInit {
     this.model.total_commission = data.total_commission || 0;
     //this.model.comm_total_commission_amount = data.comm_total_commission_amount || 0;
     //this.model.comm_shared_commission_amount = data.comm_shared_commission_amount || 0;
-    this.model.comm_total_commission_amount = this.numberUptoNDecimal((this.model.total_commission * Number(this.newcarpet_area.price)) / 100, 2)
-    this.model.comm_shared_commission_amount = this.numberUptoNDecimal((this.model.broker_commision * Number(this.newcarpet_area.price)) / 100, 2)
+    this.model.comm_total_commission_amount = this.numberUptoNDecimal((this.model.total_commission * Number(this.model.final_price || 0)) / 100, 2)
+    this.model.comm_shared_commission_amount = this.numberUptoNDecimal((this.model.broker_commision * Number(this.model.final_price || 0)) / 100, 2)
     this.getParkingLotFormArray.controls = [];
     ((data || {}).property_parking_space || []).forEach((item) => {
       this.getParkingLotFormArray.push(this.formBuilder.group({ parking_count: [item.parking_count], parking_type: [item.parking_type] }));
@@ -1694,10 +1694,10 @@ export class AddPropertyComponent implements OnInit {
   }
 
   getSozuAmount(percent: number) {
-    const price = parseFloat(this.newcarpet_area.price);
+    const price = parseFloat(this.model.final_price || 0);
     if (!price || price == 0) {
       this.toastr.clear();
-      this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
+      this.toastr.info(this.translate.instant('message.error.whenFinalPriceIsGeneratedCommissionSetAccordingToPercentageEnter'), this.translate.instant('swal.error'));
       return;
     }
     const amount = this.numberUptoNDecimal((percent * price) / 100, 2);
@@ -1705,10 +1705,10 @@ export class AddPropertyComponent implements OnInit {
   }
 
   getAgentAmount(percent: number) {
-    const price = parseFloat(this.newcarpet_area.price);
+    const price = parseFloat(this.model.final_price || 0);
     if (!price || price == 0) {
       this.toastr.clear();
-      this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
+      this.toastr.info(this.translate.instant('message.error.whenFinalPriceIsGeneratedCommissionSetAccordingToPercentageEnter'), this.translate.instant('swal.error'));
       return;
     }
     const amount = this.numberUptoNDecimal((percent * price) / 100, 2);
@@ -1721,19 +1721,19 @@ export class AddPropertyComponent implements OnInit {
 
   changeCommissionPer(value) {
     if (value) {
-      this.model.total_commission = this.numberUptoNDecimal((this.model.comm_total_commission_amount * 100) / Number(this.newcarpet_area.price), 2);
+      this.model.total_commission = this.numberUptoNDecimal((this.model.comm_total_commission_amount * 100) / Number(this.model.final_price || 0), 2);
     }
     else {
-      this.model.broker_commision = this.numberUptoNDecimal((this.model.comm_shared_commission_amount * 100) / Number(this.newcarpet_area.price), 2);
+      this.model.broker_commision = this.numberUptoNDecimal((this.model.comm_shared_commission_amount * 100) / Number(this.model.final_price || 0), 2);
     }
   }
 
   changeCommissionAmt(value) {
     if (value) {
-      this.model.comm_total_commission_amount = this.numberUptoNDecimal((this.model.total_commission * Number(this.newcarpet_area.price)) / 100, 2)
+      this.model.comm_total_commission_amount = this.numberUptoNDecimal((this.model.total_commission * Number(this.model.final_price || 0)) / 100, 2)
     }
     else {
-      this.model.comm_shared_commission_amount = this.numberUptoNDecimal((this.model.broker_commision * Number(this.newcarpet_area.price)) / 100, 2)
+      this.model.comm_shared_commission_amount = this.numberUptoNDecimal((this.model.broker_commision * Number(this.model.final_price || 0)) / 100, 2)
     }
   }
 

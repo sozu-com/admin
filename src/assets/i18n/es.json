@@ -840,6 +840,7 @@
       "totalCommission": "Comisión total",
       "sharedCommission": "Comisión compartida",
       "commissionAgent": "Comisionista",
+      "agentCommission1": "Agente de comisión",
       "amountPaid": "Cantidad pagada",
       "remaniningAmount": "Cantidad restante",
       "statusAmount": "Monto de estado",
@@ -1348,7 +1349,8 @@
       "youCannotDeleteThisPossessionStatus":"No puede eliminar este estado de posesión",
       "youCannotDeleteThisProjectType":"No puedes eliminar este tipo de proyecto",
       "doYouWantToEditTheFinalPriceOfCollection":"¿Quieres editar el precio final de la colección",
-      "SorryYouDoNotHaveThePermissionToGoThere":"Lo lamento, no tienes los permisos para realizar esta acción"
+      "SorryYouDoNotHaveThePermissionToGoThere":"Lo lamento, no tienes los permisos para realizar esta acción",
+      "whenFinalPriceIsGeneratedCommissionSetAccordingToPercentageEnter": "Cuando se genera el precio final, la comisión se establece según el porcentaje ingrese."
     }
   },
   "inhouseUsers": {
