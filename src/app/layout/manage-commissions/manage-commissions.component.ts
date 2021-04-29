@@ -1097,4 +1097,8 @@ export class ManageCommissionsComponent implements OnInit {
       return false;
     });
   }
+
+  onSelect(data){
+
+  }
 }
