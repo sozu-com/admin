@@ -322,13 +322,18 @@
                       <label>{{'table.th.remaniningAmount' | translate}}</label>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 200px;">
+                  <th style="text-align:left; width: 100px;">
                     <div class="table-search">
                       <label>{{'table.th.statusAccount' | translate}}</label>
-                      <select [(ngModel)]="parameter.collection_status" (change)="parameter.page=1;getListing()">
+                      <select [(ngModel)]="parameter.collection_status" (change)="parameter.page=1;getListing()" style="width: 100px;">
                         <option value="">{{'table.th.all' | translate}}</option>
                         <option *ngFor="let c of collectionStatusFilter" value="{{c.value}}">{{c.name}}</option>
                       </select>
+                    </div>
+                  </th>
+                  <th style="width: 100px;" *ngIf="parameter.flag!=5">
+                    <div class="table-search">
+                      <label>{{'table.th.actions.label' | translate}}</label>
                     </div>
                   </th>
                 </tr>

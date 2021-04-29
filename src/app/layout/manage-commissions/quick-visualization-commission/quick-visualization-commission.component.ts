@@ -8,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 export class QuickVisualizationCommissionComponent implements OnInit {
   property_collection_id: any;
   i: any;
+  citySelection = false;
   constructor() { }
 
   ngOnInit() {
+    this.citySelection = false;
   }
 
 }
