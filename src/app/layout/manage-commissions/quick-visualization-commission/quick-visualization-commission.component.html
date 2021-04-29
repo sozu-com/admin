@@ -532,9 +532,9 @@
               <td> </td>
               <td></td>
               <td></td>
-              <td *ngIf="collectionCommission[i]?.purchase_payment">{{collectionCommission[i]?.purchase_payment ? 
+              <td *ngIf="collectionCommission[i]?.purchase_payment" style="color: red;">{{collectionCommission[i]?.purchase_payment ? 
                     ((collectionCommission[i]['purchase_payment']?.amount + (collectionCommission[i]['purchase_payment']?.iva_amount || 0)) | currency) : ''}}</td>
-              <td *ngIf="collectionCommission[i]?.purchase_payment">
+              <td *ngIf="collectionCommission[i]?.purchase_payment"  style="color: red;">
                 {{collectionCommission[i]?.purchase_payment ? (collectionCommission[i]['purchase_payment']?.payment_date | date:'dd/MMM/yyyy') : ''}}</td>
               <td *ngIf="collectionCommission[i]?.purchase_payment">
                 <a class="green-color fontW500" *ngIf="collectionCommission[i]?.purchase_payment" target="_blank" href="{{collectionCommission[i]?.purchase_payment?.receipt}}">
@@ -560,9 +560,9 @@
                   {{'quickVisualization.view' | translate}}
                 </a>
               </td>
-              <td *ngIf="collectionCommission[i]?.payment"> {{collectionCommission[i]?.payment ? 
+              <td *ngIf="collectionCommission[i]?.payment"  style="color: red;"> {{collectionCommission[i]?.payment ? 
                 ((collectionCommission[i]['payment']?.amount + (collectionCommission[i]['payment']?.iva_amount || 0)) | currency) : ''}}</td>
-              <td *ngIf="collectionCommission[i]?.payment">
+              <td *ngIf="collectionCommission[i]?.payment"  style="color: red;">
                 {{collectionCommission[i]?.payment ? (collectionCommission[i]['payment']?.payment_date | date:'dd/MMM/yyyy') : ''}}</td>
               <td *ngIf="collectionCommission[i]?.payment">
                 <a class="green-color fontW500" *ngIf="collectionCommission[i]?.payment" target="_blank" href="{{collectionCommission[i]?.payment?.receipt}}">
@@ -586,10 +586,10 @@
                   {{'quickVisualization.view' | translate}}
                 </a>
               </td>
-              <td *ngIf="collectionCommission[i]?.agent_payment">
+              <td *ngIf="collectionCommission[i]?.agent_payment"  style="color: red;">
                 {{collectionCommission[i]?.agent_payment ? 
                   ((collectionCommission[i]['agent_payment']?.amount + (collectionCommission[i]['agent_payment']?.iva_amount || 0)) | currency) : ''}}</td>
-              <td *ngIf="collectionCommission[i]?.agent_payment">
+              <td *ngIf="collectionCommission[i]?.agent_payment"  style="color: red;">
                 {{collectionCommission[i]?.agent_payment ? (collectionCommission[i]['agent_payment']?.payment_date | date:'dd/MMM/yyyy') : ''}}</td>
               <td *ngIf="collectionCommission[i]?.agent_payment">
                 <a class="green-color fontW500" *ngIf="collectionCommission[i]?.agent_payment" target="_blank" href="{{collectionCommission[i]?.agent_payment?.receipt}}">
