@@ -349,8 +349,9 @@ export class ManageCommissionsComponent implements OnInit {
   numberUptoNDecimal(num: any, n: number) {
     return num ? num.toFixed(n) : 0;
   }
-  quickCollectionView(item: any) {
-    this.router.navigate(['/dashboard/commissions/quick-visualization-commission']);
+  all(data: any) {
+    console.log(data, "id item aa gi")
+    this.router.navigate(['/dashboard/commissions/quick-visualization-commission', data.id]);
   }
 
   getDateWRTTimezone(date: any, format: any) {

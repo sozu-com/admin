@@ -463,8 +463,8 @@
                   </td>
                   <td>
                     <div class="table-actions">
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0"
-                      (click)="quickCollectionView()" title="{{'table.title.quickVisuaization' | translate}}"
+                      <button 
+                      (click)="all(p)" title="{{'table.title.quickVisuaization' | translate}}"
                         class="action-icon"><img src="assets/img/eye-icon.png" alt="img"></button> 
                     </div>
                   </td> 

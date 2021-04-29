@@ -18,8 +18,8 @@ const routes: Routes = [
     path: 'view-commissions', component: ManageCommissionsComponent
   },
   {
-    path: 'quick-visualization-commission', component: QuickVisualizationCommissionComponent
-  },
+    path: 'quick-visualization-commission/:id', component: QuickVisualizationCommissionComponent
+  }
 ];
 
 @NgModule({
@@ -43,7 +43,7 @@ const routes: Routes = [
   ],
   declarations: [
     ManageCommissionsComponent,
-    QuickVisualizationCommissionComponent,
+    QuickVisualizationCommissionComponent
   ]
 })
 export class ManageCommissionsModule { }
