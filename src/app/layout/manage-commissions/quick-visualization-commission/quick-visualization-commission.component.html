@@ -422,8 +422,10 @@
           <td></td>
           <td>monthlypay</td>
           <td><a style="color: black;" class="color-changed" data-toggle="collapse" data-parent="#accordion"
-              href="#collapse{{i}}">
-              8765867843
+              href="#collapse{{i}}" (click)="citySelection = !citySelection">
+              8765867843&nbsp;
+              <i [ngClass]="{'fa-angle-up':citySelection, 'fa-angle-down':!citySelection}" class="fa"
+              aria-hidden="true"></i>
             </a></td>
           <td></td>
           <td></td>
@@ -453,28 +455,6 @@
           <td style="color: green;">view</td>
          
         </tr>
-
-        <tr>
-          <td>monthlypay</td>
-          <td>7/oct/2020</td>
-          <td></td>
-          <td>$20.00</td>
-          <td></td>
-          <td></td>
-          <td>monthlypay</td>
-          <td><a style="color: black;" class="color-changed" data-toggle="collapse" data-parent="#accordion"
-              href="#collapse{{i}}">
-              8765867843
-            </a></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-
       </tbody>
     </table>
   </div>
