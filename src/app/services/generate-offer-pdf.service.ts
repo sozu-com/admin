@@ -170,6 +170,7 @@ export class GenerateOfferPdfService {
     let current_date = new Date();
     let date = this.datePipe.transform(current_date, 'd/M/y');
     let least_price = this.property_array.min_price;
+    let price = this.property_array.min_price;
     let pricePerM2;
     let downpayment;
     let payment_upon_delivery;
@@ -186,14 +187,14 @@ export class GenerateOfferPdfService {
     index = this.property_array.property_offer_payment.findIndex(x=> x.random_id == this.offer_id);
     if (this.property_array.property_offer_payment[index].property_parking_lot_sale && this.property_array.property_offer_payment[index].property_parking_lot_sale.length > 0) {
       this.property_array.property_offer_payment[index].property_parking_lot_sale.forEach(element => {
-      least_price = least_price + parseInt(element.price);
+        price = price + parseInt(element.price);
       
       });
     }
     discountPer = this.property_array.property_offer_payment[index].discount;
     interestPer = this.property_array.property_offer_payment[index].interest;
-    discount =  this.property_array.property_offer_payment[index].discount ? ( this.property_array.property_offer_payment[index].discount * least_price) / 100 : 0;
-    interest = this.property_array.property_offer_payment[index].interest ? (this.property_array.property_offer_payment[index].interest * least_price) / 100 : 0;
+    discount =  this.property_array.property_offer_payment[index].discount ? ( this.property_array.property_offer_payment[index].discount * price) / 100 : 0;
+    interest = this.property_array.property_offer_payment[index].interest ? (this.property_array.property_offer_payment[index].interest * price) / 100 : 0;
     final_price = this.property_array.property_offer_payment[index].final_price;
     pricePerM2 = final_price / this.property_array.max_area;
     downpayment = (this.property_array.property_offer_payment[index].down_payment * final_price) / 100;
