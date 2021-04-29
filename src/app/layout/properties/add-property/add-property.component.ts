@@ -415,6 +415,7 @@ export class AddPropertyComponent implements OnInit {
     this.model.parking_for_sale = data.parking_for_sale;
     this.model.furnished = data.furnished;
     this.model.property_quantity_details = data.details;
+    this.model.final_price =  data.final_price;
 
     this.model.for_hold = data.for_hold === 1 ? true : false;
 
@@ -494,8 +495,8 @@ export class AddPropertyComponent implements OnInit {
     this.model.total_commission = data.total_commission || 0;
     //this.model.comm_total_commission_amount = data.comm_total_commission_amount || 0;
     //this.model.comm_shared_commission_amount = data.comm_shared_commission_amount || 0;
-    this.model.comm_total_commission_amount = this.numberUptoNDecimal((this.model.total_commission * Number(this.model.final_price || 0)) / 100, 2)
-    this.model.comm_shared_commission_amount = this.numberUptoNDecimal((this.model.broker_commision * Number(this.model.final_price || 0)) / 100, 2)
+    this.model.comm_total_commission_amount = this.numberUptoNDecimal((data.total_commission * Number(data.final_price || 0)) / 100, 2)
+    this.model.comm_shared_commission_amount = this.numberUptoNDecimal((data.broker_commision * Number(data.final_price || 0)) / 100, 2)
     this.getParkingLotFormArray.controls = [];
     ((data || {}).property_parking_space || []).forEach((item) => {
       this.getParkingLotFormArray.push(this.formBuilder.group({ parking_count: [item.parking_count], parking_type: [item.parking_type] }));
