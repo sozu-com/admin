@@ -2230,7 +2230,8 @@
     "incomeProjection": "Income Projection",
     "paymentconcpets": "Payment Concepts",
     "paymentMade": "Payment Made",
-    "paymentMethod": "Payment Method"
+    "paymentMethod": "Payment Method",
+    "finalPrice":"Final Price"
   },
   "quickVisualization": {
     "label": "Quick Visualization",

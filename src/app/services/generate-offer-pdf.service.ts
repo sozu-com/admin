@@ -407,25 +407,25 @@ export class GenerateOfferPdfService {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.bank'), border: [false, false, false, false], color: '#858291' },
-                      { text: bank_detail.bank_name  || 'N/A', border: [false, false, false, false], bold: true }
+                      { text: bank_detail && bank_detail.bank_name? bank_detail.bank_name  : 'N/A', border: [false, false, false, false], bold: true }
                     ],
                     [
                       { text: this.translate.instant('generatePDF.accountInNameOf'), border: [false, false, false, false], color: '#858291' },
                       {
-                        text: bank_detail.legal_name || 'N/A', border: [false, false, false, false], bold: true
+                        text: bank_detail && bank_detail.legal_name ? bank_detail.legal_name : 'N/A', border: [false, false, false, false], bold: true
                       },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.federalTaxPayer'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.fedTaxPayer ? this.fedTaxPayer : 'N/A', border: [false, false, false, false], bold: true },
+                      { text: bank_detail && this.fedTaxPayer ? this.fedTaxPayer : 'N/A', border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.accountNumber'), border: [false, false, false, false], color: '#858291' },
-                      { text: bank_detail.account_number || 'N/A', border: [false, false, false, false], bold: true }
+                      { text: bank_detail && bank_detail.account_number ? bank_detail.account_number : 'N/A', border: [false, false, false, false], bold: true }
                     ],
                     [
                       { text: this.translate.instant('generatePDF.cLABE'), border: [false, false, false, false], color: '#858291' },
-                      { text: bank_detail.swift || 'N/A', border: [false, false, false, false], bold: true }
+                      { text: bank_detail && bank_detail.swift ? bank_detail.swift : 'N/A', border: [false, false, false, false], bold: true }
                     ],
                   ]
                 }
