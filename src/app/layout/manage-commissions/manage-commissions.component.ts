@@ -8,6 +8,7 @@ import { Constant } from 'src/app/common/constants';
 import * as moment from 'moment';
 import { ExcelDownload } from 'src/app/common/excelDownload';
 import { PricePipe } from 'src/app/pipes/price.pipe';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage-commissions',
@@ -40,7 +41,8 @@ export class ManageCommissionsComponent implements OnInit {
     public admin: AdminService,
     private translate: TranslateService,
     public constant: Constant,
-    private price: PricePipe
+    private price: PricePipe,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -352,6 +354,9 @@ export class ManageCommissionsComponent implements OnInit {
 
   numberUptoNDecimal(num: any, n: number) {
     return num ? num.toFixed(n) : 0;
+  }
+  quickCollectionView(item: any) {
+    this.router.navigate(['/dashboard/commissions/quick-visualization-commission']);
   }
 
   getDateWRTTimezone(date: any, format: any) {

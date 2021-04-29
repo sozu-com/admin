@@ -1349,7 +1349,8 @@
       "youCannotDeleteThisPossessionStatus":"No puede eliminar este estado de posesión",
       "youCannotDeleteThisProjectType":"No puedes eliminar este tipo de proyecto",
       "doYouWantToEditTheFinalPriceOfCollection":"¿Quieres editar el precio final de la colección",
-      "SorryYouDoNotHaveThePermissionToGoThere":"Lo lamento, no tienes los permisos para realizar esta acción"
+      "SorryYouDoNotHaveThePermissionToGoThere":"Lo lamento, no tienes los permisos para realizar esta acción",
+      "whenFinalPriceIsGeneratedCommissionSetAccordingToPercentageEnter": "Cuando se genera el precio final, la comisión se establece según el porcentaje ingrese."
     }
   },
   "inhouseUsers": {
@@ -2231,7 +2232,8 @@
     "incomeProjection": "Proyección de ingresos",
     "paymentconcpets": "Conceptos de pago",
     "paymentMade": "Pago realizado",
-    "paymentMethod": "Método de pago"
+    "paymentMethod": "Método de pago",
+    "finalPrice":"Precio final"
   },
   "quickVisualization": {
     "label": "Visualización rápida",
@@ -2286,6 +2288,7 @@
     "editPaymentDetails": "Editar detalles de pago",
     "clickToViewReceipt": "Haga clic para ver el recibo",
     "penaltyDescription": "Descripción de la penalización",
+    "AgentCommission": "Agente de comisión",
     "CCDescription": "Descripción CC",
     "PCDescription": "Descripción PC",
     "programmedDate": "Fecha programada",

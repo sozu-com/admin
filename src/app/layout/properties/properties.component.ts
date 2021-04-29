@@ -1292,6 +1292,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     let current_date = new Date();
     let date = this.datePipe.transform(current_date, 'd/M/y');
     let least_price = this.property_array.min_price;
+    let price = this.property_array.min_price;
     let pricePerM2;
     let downpayment;
     let payment_upon_delivery;
@@ -1308,12 +1309,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     if (!this.is_for_Offer) {
       if (this.installmentFormGroup.controls.parkingLotForSaleFormArray.value && this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.length > 0) {
         this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.forEach(element => {
-          least_price = least_price + parseInt(element.parkingLotsPrice.replace('$', ''));
+          price = price + parseInt(element.parkingLotsPrice.replace('$', ''));
         });
       }
-      discount = this.installmentFormGroup.value.discount ? (this.installmentFormGroup.value.discount * least_price) / 100 : 0;
-      interest = this.installmentFormGroup.value.interest ? (this.installmentFormGroup.value.interest * least_price) / 100 : 0;
-      final_price = discount ? least_price - discount : interest ? least_price + interest : least_price;
+      discount = this.installmentFormGroup.value.discount ? (this.installmentFormGroup.value.discount * price) / 100 : 0;
+      interest = this.installmentFormGroup.value.interest ? (this.installmentFormGroup.value.interest * price) / 100 : 0;
+      final_price = discount ? price - discount : interest ? price + interest : price;
       pricePerM2 = final_price / this.property_array.max_area;
       downpayment = (this.installmentFormGroup.value.downPayment * final_price) / 100;
       monthly_installment_amount = (this.installmentFormGroup.value.monthlyInstallment * final_price) / 100;
@@ -1333,8 +1334,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       index = this.property_array.property_offer_payment.findIndex(x => x.random_id == this.offer_id);
       discountPer = this.property_array.property_offer_payment[index].discount;
       interestPer = this.property_array.property_offer_payment[index].interest;
-      discount = this.property_array.property_offer_payment[index].discount ? (this.property_array.property_offer_payment[index].discount * least_price) / 100 : 0;
-      interest = this.property_array.property_offer_payment[index].interest ? (this.property_array.property_offer_payment[index].interest * least_price) / 100 : 0;
+      discount = this.property_array.property_offer_payment[index].discount ? (this.property_array.property_offer_payment[index].discount * price) / 100 : 0;
+      interest = this.property_array.property_offer_payment[index].interest ? (this.property_array.property_offer_payment[index].interest * price) / 100 : 0;
       final_price = this.property_array.property_offer_payment[index].final_price;
       pricePerM2 = final_price / this.property_array.max_area;
       downpayment = (this.property_array.property_offer_payment[index].down_payment * final_price) / 100;

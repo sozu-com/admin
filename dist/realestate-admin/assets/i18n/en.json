@@ -753,7 +753,7 @@
       "propertiesForRent": "Properties Available For Rent",
       "propertiesForSale": "Properties Available For Sale",
       "document": "Document",
-      "avgPrice": "Avg Price",
+      "avgPrice": "Avg list price",
       "avgCarpetArea": "Avg Carpet Area",
       "assignee": "Assignee",
       "mortgageLoanType": "Mortgage Loan Types",
@@ -1347,7 +1347,8 @@
       "youCannotDeleteThisPossessionStatus":"You cannot delete this possession status",
       "youCannotDeleteThisProjectType":"You cannot delete this project type",
       "doYouWantToEditTheFinalPriceOfCollection":"Do you want to edit the final price of collection?",
-      "SorryYouDoNotHaveThePermissionToGoThere":"Sorry you do not have the permission to go there"
+      "SorryYouDoNotHaveThePermissionToGoThere":"Sorry you do not have the permission to go there",
+      "whenFinalPriceIsGeneratedCommissionSetAccordingToPercentageEnter": "When final price is generated commission set according to percentage enter."
     } 
   },
   "inhouseUsers": {
@@ -2094,7 +2095,8 @@
     "Seller": "Seller",
     "createCollectionBasedOnCommercialOffer": "Create collection based on commercial offer",
     "finalPrice":"Final Price",  
-    "discountInterst": "Discount/Interest%"
+    "discountInterst": "Discount/Interest%",
+    "listprice":"List Price"
   },
   "swal": {
     "error": "Error",
@@ -2229,7 +2231,8 @@
     "incomeProjection": "Income Projection",
     "paymentconcpets": "Payment Concepts",
     "paymentMade": "Payment Made",
-    "paymentMethod": "Payment Method"
+    "paymentMethod": "Payment Method",
+    "finalPrice":"Final Price"
   },
   "quickVisualization": {
     "label": "Quick Visualization",
@@ -2285,6 +2288,7 @@
     "editPaymentDetails": "Edit Payment Details",
     "clickToViewReceipt": "Click to view receipt",
     "penaltyDescription": "Penalty Description",
+    "AgentCommission": "Agent Commission",
     "CCDescription": "CC Description",
     "PCDescription": "PC Description",
     "programmedDate": "Programmed Date",
@@ -2301,7 +2305,8 @@
     "name": "Name",
     "lastCommit": "Last Commit",
     "size": "Size",
-    "docsCount": "Docs"
+    "docsCount": "Docs",
+    "finalprice":"Final Price"
   },
   "addCollectionValidations": {
     "thisIsRequired": "This is required",
