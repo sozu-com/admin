@@ -840,6 +840,7 @@
       "totalCommission": "Comisión total",
       "sharedCommission": "Comisión compartida",
       "commissionAgent": "Comisionista",
+      "agentCommission1": "Agente de comisión",
       "amountPaid": "Cantidad pagada",
       "remaniningAmount": "Cantidad restante",
       "statusAmount": "Monto de estado",
