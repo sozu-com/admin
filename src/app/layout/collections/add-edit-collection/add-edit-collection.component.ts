@@ -938,7 +938,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.isShown = data.account_statement && data.account_statement.usersemail && data.account_statement.usersemail.length > 0 ? true : false;
     this.addFormStep4.controls.day.patchValue(data.account_statement ? data.account_statement.day : '');
 
-    if (data.property.property_offer_payment && data.property.property_offer_payment.length > 0) {
+    if (data.property.property_offer_payment && data.property.property_offer_payment.length > 0 && data.property.offer_id) {
       let index = data.property.property_offer_payment.findIndex(x=> x.random_id == data.property.offer_id);
       this.addFormStep4.controls.final_price.patchValue(Number(data.property.property_offer_payment[index].final_price).toFixed(2));
       this.addFormStep4.controls.interest_discount.patchValue(data.property.property_offer_payment[index].discount ? data.property.property_offer_payment[index].discount :

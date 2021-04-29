@@ -313,10 +313,10 @@ export class ModelComponent implements OnInit {
         for (const property in this.data) {
           if (property) {
             console.log(this.data[property]);
-            const deal_price = this.data[property].reduce((a, b) => a + (b['final_price'] || 0), 0);
+            const deal_price = this.data[property].reduce((a, b) => a + (b['deal_price'] || 0), 0);
             const penalty = this.data[property].reduce((a, b) => a + (b['penalty'] || 0), 0);
             const received = this.data[property].reduce((a, b) => a + (b['received'] || 0), 0);
-            const c_deal_price = this.data[property].reduce((a, b) => a + (b['is_cancelled'] === 1 ? (b['final_price'] || 0) : 0), 0);
+            const c_deal_price = this.data[property].reduce((a, b) => a + (b['is_cancelled'] === 1 ? (b['deal_price'] || 0) : 0), 0);
             const c_penalty = this.data[property].reduce((a, b) => a + (b['is_cancelled'] === 1 ? (b['penalty'] || 0) : 0), 0);
             const c_received = this.data[property].reduce((a, b) => a + (b['is_cancelled'] === 1 ? (b['received'] || 0) : 0), 0);
             const remaining =  (deal_price + penalty - received) - (c_deal_price + c_penalty - c_received);
@@ -337,7 +337,7 @@ export class ModelComponent implements OnInit {
         this.finalData.push({
           model: '',
           name: 'Grand Total',
-          deal_price: f.reduce((a, b) => a + (b['final_price'] || 0), 0),
+          deal_price: f.reduce((a, b) => a + (b['deal_price'] || 0), 0),
           received: f.reduce((a, b) => a + (b['received'] || 0), 0),
           remaining: f.reduce((a, b) => a + (b['remaining'] || 0), 0),
           penalty: f.reduce((a, b) => a + (b['penalty'] || 0), 0),
