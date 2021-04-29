@@ -961,7 +961,10 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep5.controls.add_iva_to_cc.patchValue(data.add_iva_to_cc || 0);
     this.addFormStep5.controls.add_iva_to_pc.patchValue(data.add_iva_to_pc || 0);
     this.addFormStep5.controls.add_iva_to_ac.patchValue(data.add_iva_to_ac || 0);
+    let index;
+    if(this.isByOffer){
     let index = data.property.property_offer_payment.findIndex(x => x.random_id == data.property.offer_id);
+    }
     this.addFormStep5.controls.bank_id.patchValue(this.isByOffer ? data.property.property_offer_payment[index].bank_id || 0 : data.bank_id || 0);
     this.addFormStep5.controls.payment_received_by.patchValue(this.isByOffer ? (data.property.property_offer_payment[index].account_type == 1 ? 1 : '0') : data.payment_received_by.toString() || '0');
 
