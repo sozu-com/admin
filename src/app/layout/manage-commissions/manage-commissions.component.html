@@ -133,17 +133,34 @@
           class="btn btn-primary-new width100P P86">{{'filters.location.resetBtn' | translate}}</button>
       </div>
     </div>
-    <div class="col-lg-2 col-md-2">
-      <div class="form-group">
-        <label>{{'filters.commisionType.type' | translate}}</label>
-        <select class="form-control" (change)="onCountryChange($event.target.value)" [(ngModel)]="parameter.commission_type">
-          <option value="1">{{'filters.commisionType.purchase' | translate}}</option>
-          <option value="2">{{'filters.commisionType.agent' | translate}}</option>
-          <option value="3">{{'filters.commisionType.collection' | translate}}</option>
-        </select>
+  </div>
+
+    <div class="row flex-wrap-reverse">
+      <div class="col-lg-2 col-md-2">
+        <div class="form-group">
+          <label>{{'filters.commisionType.type' | translate}}</label>
+          <select class="form-control" (change)="getListing()"  [(ngModel)]="parameter.commission_type">
+            <option value="1">{{'filters.commisionType.purchase' | translate}}</option>
+            <option value="2">{{'filters.commisionType.agent' | translate}}</option>
+            <option value="3">{{'filters.commisionType.collection' | translate}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6">
+      </div>
+      <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="add-new pull-right text-left">
+          <a class="btn" (click)="this.getExportlisting()" href="javascript://">
+            {{'table.exportDataBtn' | translate}}</a>
+        </div>
+      </div>
+      <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="add-new pull-right">
+          <a *ngIf="admin?.admin_acl['Manage Commission']?.can_create==1" class="btn" href="javascript://"
+            routerLink="/dashboard">{{'viewCollections.addNew' | translate}}</a>
+        </div>
       </div>
     </div>
-  </div>
 
   <div class="cust-tabs">
     <div class="tab-content white-bg">
@@ -270,6 +287,17 @@
                           showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040">
                         </p-calendar>
                         <button *ngIf="parameter.deal_from_date && parameter.deal_to_date" (click)="getListing()"><i
+                            class="fa fa-search"></i></button>
+                      </div>
+                    </div>
+                  </th>
+                  <th style="vertical-align:top; width: 100px;" *ngIf="parameter.commission_type == '2' ">
+                    <div class="table-search">
+                      <label>{{'table.th.agentCommission1' | translate}}</label>
+                      <div class="searh-3">
+                        <input autocomplete="off" class="width100px" type="text" [(ngModel)]="parameter.agent_name"
+                          (keyup.enter)="getListing()">
+                        <button *ngIf="parameter.agent_name" (click)="getListing()"><i
                             class="fa fa-search"></i></button>
                       </div>
                     </div>
@@ -431,6 +459,9 @@
                     <span>{{p.deal_purchase_date ? this.getDateWRTTimezone(p.deal_purchase_date, 'DD/MMM/YYYY') :
                       ('table.tr.td.NA' | translate)}}</span>
                   </td>
+                  <td  *ngIf="parameter.commission_type == '2' "> 
+                    <span>{{'table.tr.td.NA' | translate}}</span>
+                  </td>
                   <td>
                     <span>{{p?.comm_total_commission ? (p?.comm_total_commission | number : '1.2-3') : ('table.tr.td.NA'
                       | translate)}}</span>
@@ -447,19 +478,19 @@
                   <td><span>{{getRemainingAmt(p) | currency}}</span></td>
 
                   <td>
-                    <div *ngIf="p?.is_cancelled==1" class="status grey" title="Cancelled"></div>
+                    <!-- <div *ngIf="p?.is_cancelled==1" class="status grey" title="Cancelled"></div>
                     <div *ngIf="p?.is_cancelled==0 && p?.is_commission_sale_enabled==1" class="status purple"
-                      title="Only Commission for sale"></div>
+                      title="Only Commission for sale"></div> -->
                     <div *ngIf="p?.is_cancelled==0 && p?.is_commission_sale_enabled==0 && p?.payment_status==1"
                       class="status green" title="Up to Date"></div>
                     <div *ngIf="p?.is_cancelled==0 && p?.is_commission_sale_enabled==0 && p?.payment_status==2"
                       class="status yellow" title="Payment Period"></div>
                     <div *ngIf="p?.is_cancelled==0 && p?.is_commission_sale_enabled==0 && p?.payment_status==3"
                       class="status red" title="Overdue Payment"></div>
-                    <div *ngIf="p?.is_cancelled==0 && p?.is_commission_sale_enabled==0 && p?.payment_status==5"
+                    <!-- <div *ngIf="p?.is_cancelled==0 && p?.is_commission_sale_enabled==0 && p?.payment_status==5"
                       class="status blue" title="Settled"></div>
                     <div *ngIf="p?.is_cancelled==0 && p?.is_commission_sale_enabled==0 && p?.payment_status==6"
-                      class="status orange" title="Inconsistency between price and deal scheme"></div>
+                      class="status orange" title="Inconsistency between price and deal scheme"></div> -->
                   </td>
                   <td>
                     <div class="table-actions">

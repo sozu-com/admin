@@ -839,6 +839,7 @@
       "totalCommission": "Total Commission",
       "sharedCommission": "Shared Commission",
       "commissionAgent": "Commission Agent",
+      "agentCommission1": "Agent Commission",
       "amountPaid": "Amount Paid",
       "remaniningAmount": "Remanining Amount",
       "statusAmount": "Status Amount",
