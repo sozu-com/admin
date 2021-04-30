@@ -33,12 +33,14 @@ export class SalesReportComponent implements OnInit {
   reportData: any;
   items: Array<any>;
   reportType: number;
+  already_index: any;
+  cashFlowInfos: any[];
   constructor(public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService) {
   }
 
-  onSelect(event) {}
+  onSelect(event) { }
 
   ngOnInit() {
     this.reportType = 1;
@@ -65,7 +67,7 @@ export class SalesReportComponent implements OnInit {
         dayNamesShort: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
         dayNamesMin: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
         monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
-            'November', 'December'],
+          'November', 'December'],
         monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         today: 'Today',
         clear: 'Clear',
@@ -141,7 +143,7 @@ export class SalesReportComponent implements OnInit {
       );
   }
 
-  getReportData () {
+  getReportData() {
     this.reportType = 1;
     const input: any = JSON.parse(JSON.stringify(this.input));
     input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
@@ -163,7 +165,7 @@ export class SalesReportComponent implements OnInit {
       this.items = [];
       for (let index = 0; index < this.reportData.approved.length; index++) {
         const e = this.reportData.approved[index];
-        const obj = {label: e.label, approved_count: e.y, unapproved_count: this.reportData.unapproved[index].y};
+        const obj = { label: e.label, approved_count: e.y, unapproved_count: this.reportData.unapproved[index].y };
         this.items.push(obj);
       }
       this.plotData();
@@ -192,20 +194,20 @@ export class SalesReportComponent implements OnInit {
         color: '#f5d05c',
         name: 'Inhouse Agent Approved Collections',
         dataPoints: this.reportData['approved']
-        },
-        {
-          type: 'stackedColumn',
-          showInLegend: true,
-          name: 'Outside Agent Approved Collections',
-          color: '#2d2a2a',
-          dataPoints: this.reportData['unapproved']
+      },
+      {
+        type: 'stackedColumn',
+        showInLegend: true,
+        name: 'Outside Agent Approved Collections',
+        color: '#2d2a2a',
+        dataPoints: this.reportData['unapproved']
       }, {
         type: 'stackedColumn',
         showInLegend: true,
         color: '#b95500',
         name: 'Collections Without Agent',
         dataPoints: this.reportData['not_linked']
-        }]
+      }]
     });
 
     function toolTipContent(e) {
@@ -213,8 +215,8 @@ export class SalesReportComponent implements OnInit {
       let total = 0;
       let str2, str3;
       for (let i = 0; i < e.entries.length; i++) {
-        const  str1 = '<span style= "color:' + e.entries[i].dataSeries.color + '"> ' +
-        e.entries[i].dataSeries.name + '</span>: $<strong>' + e.entries[i].dataPoint.y + '</strong>bn<br/>';
+        const str1 = '<span style= "color:' + e.entries[i].dataSeries.color + '"> ' +
+          e.entries[i].dataSeries.name + '</span>: $<strong>' + e.entries[i].dataPoint.y + '</strong>bn<br/>';
         total = e.entries[i].dataPoint.y + total;
         str = str.concat(str1);
       }
@@ -281,5 +283,25 @@ export class SalesReportComponent implements OnInit {
       today.getSeconds();
     fileName = fileName + date;
     FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
+  }
+  getCashFlowInfo(item, index) {
+    if (index != this.already_index) {
+      this.already_index = index;
+      this.cashFlowInfos = [];
+      let data = this.reportData.approved.find(value => value.label == item.label);
+      let id = data.id.split(',');
+      let param = {
+        id: id
+      }
+      this.spinner.show();
+      this.admin.postDataApi('graphs/sale-reports-actualinfo', param)
+        .subscribe(
+          success => {
+            this.cashFlowInfos = success.data;
+            this.spinner.hide();
+          }, error => {
+            this.spinner.hide();
+          });
+    }
   }
 }

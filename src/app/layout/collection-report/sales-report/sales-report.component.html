@@ -98,7 +98,7 @@
       <div id="chartContainer" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
     </div>
 
-    <div class="table-responsive main-table" *ngIf="reportType == 2" style="width: 90%; margin-left:auto;margin-right:auto;">
+    <!-- <div class="table-responsive main-table" *ngIf="reportType == 2" style="width: 90%; margin-left:auto;margin-right:auto;">
       <h5>{{'collectionReport.tabularView' | translate}}<span class=" pull-right">
             <button class="btn btn-primary-new export-btn" (click)="exportData()">{{'collectionReport.export' | translate}}</button>
       </span></h5>
@@ -116,7 +116,59 @@
                   </tr>
             </tbody>
       </table>
-    </div>
+    </div> -->
+    <div class="table-responsive main-table" *ngIf="reportType == 2"
+                  style="width: 90%; margin-left:auto;margin-right:auto;" id="accordion">
+                  <h5>{{'collectionReport.tabularView' | translate}}<span class=" pull-right">
+                              <button class="btn btn-primary-new export-btn"
+                                    (click)="exportData()">{{'collectionReport.export' | translate}}</button>
+                        </span></h5>
+                  <table class="table table-bordered table-striped">
+                        <thead>
+                              <th>{{'collectionReport.month' | translate}}</th>
+                              <th>{{'collectionReport.InhouseAgentApprovedCollections' | translate}}</th>
+                              <th>{{'collectionReport.OutsideAgentApprovedCollections' | translate}}</th>
+                        </thead>
+                        <tbody *ngFor="let item of items; let i=index">
+                              <tr >
+                                    <td (click)="getCashFlowInfo(item, i)"> <a class="color-changed" 
+                                          data-toggle="collapse" data-target="#collapseOne{{i}}" 
+                                          data-parent="#accordion" 
+                                          aria-expanded="true" aria-controls="collapseOne" 
+                                          href="#collapseOne{{i}}">
+                                         {{item.label}}&nbsp;&nbsp;<span><i class="fa fa-plus"></i> </span>
+                                      </a></td>
+                                      <td>{{item.approved_count}}</td>
+                                      <td>{{item.unapproved_count}}</td>
+                              </tr>
+                              <tr id="collapseOne{{i}}" class="collapse" data-parent="#accordion">
+                                    <td colspan="12">
+                                       <table [style.width]="'100%'">
+                                             <thead>
+                                                   <th style="color: white;">{{'collectionReport.collection_id' | translate}}</th>
+                                                <th>{{'collectionReport.collection_id' | translate}}</th>
+                                                <th>{{'collectionReport.property_name' | translate}}</th>
+                                                <th>{{'collectionReport.buyername' | translate}}</th>
+                                                <th>{{'collectionReport.datee' | translate}}</th>
+                                                <!-- <th>{{'collectionReport.amountPaid' | translate}}</th> -->
+                                             </thead>
+                                             <tbody *ngFor="let cashFlowInfo of cashFlowInfos; let i=index">
+                                                   <td style="color: white;">{{cashFlowInfo.id}}</td>
+                                                   <!-- <td></td> -->
+                                                <td><span>{{cashFlowInfo.id}}</span></td>
+                                                <td><span>{{cashFlowInfo.name}}</span></td>
+                                                <td><span>{{cashFlowInfo.buyer_name}}</span></td>
+                                                <td><span>{{cashFlowInfo.payment_date}}</span></td>
+                                                <!-- <td><span>{{(cashFlowInfo.amount || 0) | currency}}</span></td> -->
+                                             </tbody>
+                                       </table>
+                                    </td>
+                              </tr>
+                              
+                              
+                        </tbody>
+                  </table>
+            </div>
   </div>
     
 </div>
