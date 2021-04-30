@@ -1164,10 +1164,10 @@ export class AddEditCollectionComponent implements OnInit {
     });
     const searchindex = (this.parameter.page - 1) * 4 + i;
     this.searchedBuildings ? this.searchedBuildings[searchindex].selected = true : null;
-    if (this.isCommercialOffer && item) {
-      this.offer_id = item.ramdom_id;
-      this.getOfferPropertyDetail(this.offer_id);
-    }
+    // if (this.isCommercialOffer && item) {
+    //   this.offer_id = item.ramdom_id;
+    //   this.getOfferPropertyDetail(this.offer_id);
+    // }
   }
 
   getofferIndex(i: number) {
@@ -2500,9 +2500,9 @@ export class AddEditCollectionComponent implements OnInit {
             //   }
             //   this.editCollection();
             // }
-            if (tab == 1 && !this.is_choices && this.isCommercialOffer) {
-              this.createOfferCollections(this.offer_id);
-            }
+            // if (tab == 1 && !this.is_choices && this.isCommercialOffer) {
+            //   this.createOfferCollections(this.offer_id);
+            // }
             if (tab == 1 || tab == 2) {
               this.initFormStep2();
               this.patchFormStep2(success['data'], 'add');
