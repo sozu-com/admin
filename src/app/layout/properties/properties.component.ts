@@ -1210,7 +1210,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   getExportlisting() {
-     this.spinner.show();
+    this.spinner.show();
     this.makePostRequest();
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     input.page = 0;
@@ -1241,7 +1241,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       success => {
         this.exportfinalData = success['data'];
         this.exportData();
-         this.spinner.hide();
+        this.spinner.hide();
       },
       error => {
         // this.spinner.hide();
@@ -1959,8 +1959,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   getFinalPrice = (): any => {
     let parking_price = this.property_array.min_price;
     this.getParkingLotForSaleFormArray.controls.forEach((element: FormGroup) => {
-      parking_price += (parseFloat(element.get('parkingLotsPrice').value.toString().substring(1)) || 0)
+      const tempparkingLotsNumber = (parseInt(element.get('parkingLotsNumber').value.toString()) || 0);
+      const parkings = (parseFloat(element.get('parkingLotsPrice').value.toString().substring(1)) || 0);
+      parking_price += (parkings * tempparkingLotsNumber);
     });
+
     const discount = this.installmentFormGroup.get('discount').value ? (this.installmentFormGroup.get('discount').value * parking_price) / 100 : 0;
     const interest = this.installmentFormGroup.get('interest').value ? (this.installmentFormGroup.get('interest').value * parking_price) / 100 : 0;
     const finalPrice = discount ? (parking_price - discount) : interest ? (parking_price + interest) : parking_price;
