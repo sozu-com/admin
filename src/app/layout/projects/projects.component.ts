@@ -720,4 +720,9 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     }
   }
 
+
+  totalParkingCount(p: any){
+    let value = ((  parseInt(p.parking_count) || 0) + (parseInt(p.parking_sale_count) || 0)) + '/' + ((parseInt(p.parking_for_rent) || 0) + (parseInt(p.parking_lots) || 0))
+    return value;
+  }
 }
