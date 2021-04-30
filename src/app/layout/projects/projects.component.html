@@ -456,7 +456,7 @@
                 </td>
                 <td>
                   <a class="add1" href="javascript://" (click)="addNote(p)">
-                    <span style="color: green;">{{p?.parking_count || '0'}}/{{(p?.parking_for_rent + p?.parking_lots) || '0'}}</span>
+                    <span style="color: green;">{{totalParkingCount(p) || '0'}}</span>
                   </a>
                  
                 </td>

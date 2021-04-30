@@ -1164,10 +1164,10 @@ export class AddEditCollectionComponent implements OnInit {
     });
     const searchindex = (this.parameter.page - 1) * 4 + i;
     this.searchedBuildings ? this.searchedBuildings[searchindex].selected = true : null;
-    if (this.isCommercialOffer && item) {
-      this.offer_id = item.ramdom_id;
-      this.getOfferPropertyDetail(this.offer_id);
-    }
+    // if (this.isCommercialOffer && item) {
+    //   this.offer_id = item.ramdom_id;
+    //   this.getOfferPropertyDetail(this.offer_id);
+    // }
   }
 
   getofferIndex(i: number) {

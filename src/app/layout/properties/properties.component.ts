@@ -1309,7 +1309,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     if (!this.is_for_Offer) {
       if (this.installmentFormGroup.controls.parkingLotForSaleFormArray.value && this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.length > 0) {
         this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.forEach(element => {
-          price = price + parseInt(element.parkingLotsPrice.replace('$', ''));
+          let parkingPrice = parseInt(element.parkingLotsPrice.replace('$', '')) * parseInt(element.parkingLotsNumber);
+          price = price + parkingPrice;
         });
       }
       discount = this.installmentFormGroup.value.discount ? (this.installmentFormGroup.value.discount * price) / 100 : 0;
@@ -1741,15 +1742,17 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.updateAddVariablesFinalValue();
     if (this.getTotalPercentage() == 100.00) {
       this.spinner.show();
-      let least_price = this.property_array.min_price;
+      //let least_price = this.property_array.min_price;
+      let price = this.property_array.min_price;
       if (this.installmentFormGroup.controls.parkingLotForSaleFormArray.value && this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.length > 0) {
         this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.forEach(element => {
-          least_price = least_price + parseInt(element.parkingLotsPrice.replace('$', ''));
+          let parkingPrice = parseInt(element.parkingLotsPrice.replace('$', '')) * parseInt(element.parkingLotsNumber);
+          price = price + parkingPrice;
         });
       }
-      let discount = this.installmentFormGroup.value.discount ? (this.installmentFormGroup.value.discount * least_price) / 100 : 0;
-      let interest = this.installmentFormGroup.value.interest ? (this.installmentFormGroup.value.interest * least_price) / 100 : 0;
-      let final_price = discount ? least_price - discount : interest ? least_price + interest : least_price;
+      let discount = this.installmentFormGroup.value.discount ? (this.installmentFormGroup.value.discount * price) / 100 : 0;
+      let interest = this.installmentFormGroup.value.interest ? (this.installmentFormGroup.value.interest * price) / 100 : 0;
+      let final_price = discount ? price - discount : interest ? price + interest : price;
       let addVar = [];
       this.getAddVariablesFormArray.controls.forEach((element: FormGroup) => {
         addVar.push({ variable_name: element.value.addVariablesText, variable_percentage: element.value.addVariablesPercentage });
