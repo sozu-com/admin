@@ -557,7 +557,7 @@
                         *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
                         <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
                            (click)="viewPropertyDetails(p.id, p)">
-                           <!-- routerLink="/dashboard/properties/details/{{p.id}}" -->
+                           
                            <strong>{{p?.building?.name || ('table.tr.td.NA' | translate)}}</strong>
                            <div class="clearfix"></div>
                            <small *ngIf="p.quantity > 0">
