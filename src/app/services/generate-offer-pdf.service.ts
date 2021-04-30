@@ -187,6 +187,8 @@ export class GenerateOfferPdfService {
     index = this.property_array.property_offer_payment.findIndex(x=> x.random_id == this.offer_id);
     if (this.property_array.property_offer_payment[index].property_parking_lot_sale && this.property_array.property_offer_payment[index].property_parking_lot_sale.length > 0) {
       this.property_array.property_offer_payment[index].property_parking_lot_sale.forEach(element => {
+        let parkingPrice = parseInt(element.price) * parseInt(element.parking_lots);
+        price = price + parkingPrice;
         price = price + parseInt(element.price);
       
       });
