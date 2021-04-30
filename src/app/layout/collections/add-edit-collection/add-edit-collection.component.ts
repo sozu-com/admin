@@ -962,8 +962,8 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep5.controls.add_iva_to_pc.patchValue(data.add_iva_to_pc || 0);
     this.addFormStep5.controls.add_iva_to_ac.patchValue(data.add_iva_to_ac || 0);
     let index;
-    if(this.isByOffer){
-     index = data.property.property_offer_payment.findIndex(x => x.random_id == data.property.offer_id);
+    if (this.isByOffer) {
+      index = data.property.property_offer_payment.findIndex(x => x.random_id == data.property.offer_id);
     }
     this.addFormStep5.controls.bank_id.patchValue(this.isByOffer ? data.property.property_offer_payment[index].bank_id || 0 : data.bank_id || 0);
     this.addFormStep5.controls.payment_received_by.patchValue(this.isByOffer ? (data.property.property_offer_payment[index].account_type == 1 ? 1 : '0') : data.payment_received_by.toString() || '0');
@@ -1164,10 +1164,10 @@ export class AddEditCollectionComponent implements OnInit {
     });
     const searchindex = (this.parameter.page - 1) * 4 + i;
     this.searchedBuildings ? this.searchedBuildings[searchindex].selected = true : null;
-    // if (this.isCommercialOffer && item) {
-    //   this.offer_id = item.ramdom_id;
-    //   this.getOfferPropertyDetail(this.offer_id);
-    // }
+    if (this.isCommercialOffer && item) {
+      this.offer_id = item.ramdom_id;
+      this.getOfferPropertyDetail(this.offer_id);
+    }
   }
 
   getofferIndex(i: number) {
