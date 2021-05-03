@@ -677,11 +677,11 @@
                                  ? ('table.tr.td.change' | translate) : ('table.tr.td.link' | translate)}}</span>
                            </span>
                         </td>
-                        <td *ngIf="parameter.flag!=5" class="cursor-pointer" (click)="getBothBroker(p, '')">
+                        <td *ngIf="parameter.flag!=5" class="cursor-pointer" (click)="getAgency(p, '',i)">
                            <span class="green-color">
                               <span
-                                 title="{{p?.external_broker?.id ? ('table.title.clickToChange' | translate) : ('table.title.clickToAssign' | translate) }}">
-                                 {{p?.external_broker?.id
+                                 title="{{p?.get_agency?.id ? ('table.title.clickToChange' | translate) : ('table.title.clickToAssign' | translate) }}">
+                                 {{p?.get_agency?.id
                                  ? ('table.tr.td.change' | translate) : ('table.tr.td.link' | translate)}}</span>
                            </span>
                         </td>
@@ -1080,40 +1080,38 @@
 </div>
 
 <!-- Link Agency -->
-<a data-toggle="modal" data-target="#link-broker-model" #openLinkAgencyModal style="display: none;"></a>
+<a data-toggle="modal" data-target="#link-agency-model" #openLinkAgencyModal style="display: none;"></a>
 <div class="modal" id="link-agency-model">
    <div class="modal-dialog ">
       <div class="modal-content notary-avail">
          <div class="modal-header popup-header">
-            <h4 class="modal-title">{{property?.external_broker?.id ? ('viewProperty.changeAgency' | translate) :
+            <h4 class="modal-title">{{property?.get_agency?.id ? ('viewProperty.changeAgency' | translate) :
                ('viewProperty.linkAgency' | translate)}}</h4>
             <button type="button" class="close" #closeLinkAgencyModal data-dismiss="modal">&times;</button>
          </div>
          <div class="modal-body">
 
-            <!-- <p class="modal-title" *ngIf="property?.external_broker?.id"
-            [ngClass]="{'green-color cursor-pointer': property?.external_broker?.name}" (click)="gotoAgencyTab(property?.external_broker)">
-                  {{'viewProperty.currentlyLinkedToAgent' | translate}} - 
-                  <b>{{property?.external_broker?.name}}&nbsp;
-                  {{property?.external_broker?.first_surname}}&nbsp;
-                  {{property?.external_broker?.second_surname}}</b></p> -->
+            <p class="modal-title" *ngIf="property?.get_agency?.id"
+            [ngClass]="{'green-color cursor-pointer': property?.get_agency?.name}" (click)="gotoAgencyTab(property?.get_agency)">
+                  {{'viewProperty.currentlyLinkedToAgency' | translate}} - 
+                  <b>{{property?.get_agency?.name}}&nbsp;</b></p>
           <br/>
             <div class="row">
                <div class="col-md-8 col-6">
-                  <input style="max-width:200px" (keyup.enter)="getBothBroker('', keyword)" [(ngModel)]="keyword"
+                  <input style="max-width:200px" (keyup.enter)="getAgency('', keyword)" [(ngModel)]="keyword"
                      class="form-control" type="text" name="keyword"
                      placeholder="{{'addForm.placeholder.search' | translate}}">
                </div>
                <div class="col-md-4 col-5 btn-cont">
                   <a class="btn btn-primary pull-right" href="javascript://"
-                     (click)="getBothBroker('', keyword)">{{'viewProperty.search' | translate}}</a>
+                     (click)="getAgency('', keyword)">{{'viewProperty.search' | translate}}</a>
                </div>
             </div>
 
             <div class="spacer40"></div>
             <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
                <table class="table">
-                  <tr *ngFor="let item of allExtBrokers">
+                  <tr *ngFor="let item of agency_list">
                      <td>
                         <div class="n-avail-profile">
                            <img *ngIf="item?.image" onerror='src="assets/img/default_img.png"' alt="img"
@@ -1122,26 +1120,26 @@
 
                            <div class="n-avail-info">
                               <p class="p12">{{item?.name | titlecase}}</p>
-                              <p class="p10 marginB0">{{item?.is_external_agent ? 'OUTSIDE AGENT' : 'IN-HOUSE AGENT'}}
-                              </p>
+                              <!-- <p class="p10 marginB0">{{item?.is_external_agent ? 'OUTSIDE AGENT' : 'IN-HOUSE AGENT'}}
+                              </p> -->
                               <p class="p10">{{'viewProperty.phone' | translate}} : {{item?.dial_code ? item?.dial_code
                                  : constant.dial_code}}-{{item?.phone}}</p>
                            </div>
                         </div>
                      </td>
                      <td>
-                        <button *ngIf="property?.external_broker?.id!=item.id"
-                           (click)="attachExternalBrokerPopUp(item, 1)" class="action-icon"
-                           title="{{'table.title.linkAgent' | translate}}">
+                        <button *ngIf="property?.get_agency?.id!=item.id"
+                           (click)="attachAgencyPopUp(item, false)" class="action-icon"
+                           title="{{'table.title.linkAgency' | translate}}">
                            <img src="assets/img/green-icon.png" alt="img"></button>
 
-                        <button *ngIf="property?.external_broker?.id==item.id"
-                           (click)="attachExternalBrokerPopUp(item, 2)" class="action-icon"
-                           title="{{'table.title.unlinkAgent' | translate}}">
+                        <button *ngIf="property?.get_agency?.id==item.id"
+                           (click)="attachAgencyPopUp(item, true)" class="action-icon"
+                           title="{{'table.title.unlinkAgency' | translate}}">
                            <img src="assets/img/ic_disapprove.png" alt="img"></button>
                      </td>
                   </tr>
-                  <tr *ngIf="allExtBrokers?.length==0">
+                  <tr *ngIf="agency_list?.length==0">
                      <p class="show-not-found">{{'table.th.noAgencyFound' | translate}}</p>
                   </tr>
                </table>
