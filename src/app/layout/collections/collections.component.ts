@@ -2615,30 +2615,30 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           'Purchase Date': p.deal_purchase_date ? this.getDateWRTTimezone(p.deal_purchase_date, 'DD/MMM/YYYY') : '',
           'Last Concept': p.last_payment ? this.getLastPaymentConcept(p) : '',
           'Last Date Of Payment': (p.last_payment || {}).payment_date ? (p.last_payment || {}).payment_date : '',//(p?.last_payment?.payment_date | date:'dd/MMM/yyyy') :
-          'Last Amount': this.getTransformedAmount((p.last_payment || {}).collection_amount || 0),//'$ ' + parseInt((p.last_payment || {}).collection_amount || 0),
+          'Last Amount': parseInt((p.last_payment || {}).collection_amount || 0),
           'Next Concept': (p.next_payment || {}).name || '',
           'Next Date Of Payment': (p.next_payment || {}).date ? (p.next_payment || {}).date : '',//(p.next_payment?.date | date:'dd/MMM/yyyy') :
-          'Next Amount': this.getTransformedAmount((((p.next_payment || {}).amount || 0) - ((p.next_payment || {}).calc_payment_amount || 0)) || 0),//'$ ' + (((p.next_payment || {}).amount || 0) - ((p.next_payment || {}).calc_payment_amount || 0)),
+          'Next Amount': (((p.next_payment || {}).amount || 0) - ((p.next_payment || {}).calc_payment_amount || 0)),
           'Currency': (p.currency || {}).code || '',
-          'Sozu Commission (in %)': this.getTransformedAmount(p.comm_total_commission ? p.comm_total_commission : 0),//p.comm_total_commission ? p.comm_total_commission : 0,//(p.comm_total_commission | number : '1.2-3') :
+          'Sozu Commission (in %)': p.comm_total_commission ? p.comm_total_commission : 0,//(p.comm_total_commission | number : '1.2-3') :
           'IVA Added in Amount': p.add_iva_to_pc ? 'Yes' : 'No',
-          'PC Amount': this.getTransformedAmount(p.pc_received || 0),//'$ ' + parseInt(p.pc_received || 0),
+          'PC Amount': parseInt(p.pc_received || 0),
           'PC Receipt': p.pc_receipt ? 'Yes' : 'No',
           'PC Invoice': p.pc_invoice ? 'Yes' : 'No',
-          'Collection Commission (in %)': this.getTransformedAmount(p.cc_percent || 0),//p.cc_percent || 0
+          'Collection Commission (in %)': p.cc_percent || 0,
           'IVA Added in Amount 2': p.add_iva_to_cc ? 'Yes' : 'No',
-          'CC Amount': this.getTransformedAmount(p.cc_received || 0),//'$ ' + parseInt(p.cc_received || 0),
+          'CC Amount':  parseInt(p.cc_received || 0),
           'CC Receipt': p.cc_receipt ? 'Yes' : 'No',
           'CC Invoice': p.cc_invoice ? 'Yes' : 'No',
-          'Agent Commission (in %)': this.getTransformedAmount(p.comm_shared_commission ? p.comm_shared_commission : 0),//p.comm_shared_commission ? p.comm_shared_commission : 0,//(p?.comm_shared_commission | number : '1.2-3') :
+          'Agent Commission (in %)': p.comm_shared_commission ? p.comm_shared_commission : 0,//(p?.comm_shared_commission | number : '1.2-3') :
           'IVA Added in Amount 3': p.add_iva_to_ac ? 'Yes' : 'No',
           'AC Receipt': p.ac_receipt ? 'Yes' : 'No',
           'AC Invoice': p.ac_invoice ? 'Yes' : 'No',
           'Commission Agent': (((p.deal_commission_agents || [])[0] || []).broker || {}).name ? ((((p.deal_commission_agents || [])[0] || []).broker || {}).name + ' ' + (((p.deal_commission_agents || [])[0] || []).broker || {}).first_surname + ' ' + (((p.deal_commission_agents || [])[0] || []).broker || {}).second_surname) : '',
-          'final Price': this.getTransformedAmount(p.property.final_price || 0),//'$ ' + parseInt(p.deal_price || 0),
-          'Penalty': this.getTransformedAmount(p.penalty || 0),//'$ ' + parseInt(p.penalty || 0),
-          'Amount Paid': this.getTransformedAmount(p.total_payment_recieved || 0),//'$ ' + parseInt(p.total_payment_recieved || 0),
-          'Remanining Amount': this.getTransformedAmount(this.getRemainingAmt(p) || 0),//'$ ' + (this.getRemainingAmt(p) || 0),
+          'final Price':  parseInt(p.deal_price || 0),
+          'Penalty': parseInt(p.penalty || 0),
+          'Amount Paid': parseInt(p.total_payment_recieved || 0),
+          'Remanining Amount': (this.getRemainingAmt(p) || 0),
           // 'Status Account': ''
         });
 
@@ -2647,9 +2647,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     }
   }
 
-  getTransformedAmount(value: any) {
-    return (this.price.transform(Number(value).toFixed(2)).toString()).substring(1);
-  }
+  // getTransformedAmount(value: any) {
+  //   return (this.price.transform(Number(value).toFixed(2)).toString()).substring(1);
+  // }
 
   editDocsPopup(item: any, folderIndex: number, docIndex: number) {
     this.modelForDoc.name_en = item.name;

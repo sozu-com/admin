@@ -364,18 +364,18 @@ export class ArrearReportComponent implements OnInit {
           'Currency': item.code || '',
           'Concept': item.NAME || '',
           'Date': item.date || '',
-          'Payment Total': this.getTransformedAmount((((item.amount || 0) + (item.penelty || 0)) - (item.calc_payment_amount || 0)) || 0), 
+          'Payment Total': (((item.amount || 0) + (item.penelty || 0)) - (item.calc_payment_amount || 0)) || 0, 
           // item.symbol + Number((((item.amount || 0) + (item.penelty || 0)) - (item.calc_payment_amount || 0))).toFixed(2),
-          'Total Arrear': this.getTransformedAmount(item.total_amount || 0),//item.symbol + Number((item.total_amount || 0)).toFixed(2),
+          'Total Arrear':  Number((item.total_amount || 0)).toFixed(2),
         });
       }
       this.exportAsExcelFile(finalData, 'arrearReport-');
     }
   }
 
-  getTransformedAmount(value: any) {
-    return (this.price.transform(Number(value).toFixed(2)).toString()).substring(1);
-  }
+  // getTransformedAmount(value: any) {
+  //   return (this.price.transform(Number(value).toFixed(2)).toString()).substring(1);
+  // }
 
   // will be used in case of excel
   public exportAsExcelFile(json: any[], excelFileName: string): void {

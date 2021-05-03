@@ -569,18 +569,18 @@ export class MonthlyComponent implements OnInit {
           'Model': p.model || '',
           'Property Name': p.property_name || '',
           'Currency': p.code || '',
-          'Previous Month': this.getTransformedAmount(p.previous_month_amount + p.previous_month_penalty - p.previous_month_paid || 0),//p.previous_month_amount + p.previous_month_penalty - p.previous_month_paid || 0,
-          'Current Month': this.getTransformedAmount(p.curent_month_amount + p.curent_month_penalty - p.curent_month_paid || 0),//p.curent_month_amount + p.curent_month_penalty - p.curent_month_paid || 0,
-          'Next Month': this.getTransformedAmount(p.next_month_amount + p.next_month_penalty - p.next_month_paid || 0),//p.next_month_amount + p.next_month_penalty - p.next_month_paid || 0,
+          'Previous Month': p.previous_month_amount + p.previous_month_penalty - p.previous_month_paid || 0,
+          'Current Month': p.curent_month_amount + p.curent_month_penalty - p.curent_month_paid || 0,
+          'Next Month': p.next_month_amount + p.next_month_penalty - p.next_month_paid || 0,
         });
       }
       this.exportAsExcelFile(exportfinalData, 'MonthlyReport-');
     }
   }
 
-  getTransformedAmount(value: any) {
-    return (this.price.transform(Number(value).toFixed(2)).toString()).substring(1);
-  }
+  // getTransformedAmount(value: any) {
+  //   return (this.price.transform(Number(value).toFixed(2)).toString()).substring(1);
+  // }
 
   public exportAsExcelFile(json: any[], excelFileName: string): void {
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);

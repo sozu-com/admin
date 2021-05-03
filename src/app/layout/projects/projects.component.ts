@@ -602,13 +602,13 @@ export class ProjectsComponent implements OnInit, OnDestroy {
           'Properties': parseInt(p.properties_count_all) || 0,
           'Properties available for rent': parseInt(p.rent_count_all) || 0,
           'Properties available for sale': parseInt(p.sale_count_all) || 0,
-          'Min Price List($)': this.getTransformedAmount(p.min_price || 0),// parseInt(p.min_price) || 0,
-          'Max Price List ($)': this.getTransformedAmount(p.max_price || 0),// parseInt(p.max_price) || 0,
-          'Avg Price List ($)': this.getTransformedAmount(p.avg_price || 0),// parseInt(p.avg_price) || 0,
+          'Min Price List($)': parseInt(p.min_price) || 0,
+          'Max Price List ($)': parseInt(p.max_price) || 0,
+          'Avg Price List ($)': parseInt(p.avg_price) || 0,
           'Min Carpet Area': parseInt(p.min_carpet_area) || 0,
           'Max Carpet Area': parseInt(p.max_carpet_area) || 0,
           'Avg Carpet Area': parseInt(p.avg_carpet_area) || 0,
-          'Avg Price List per m2': this.getTransformedAmount(p.avg_price && p.avg_carpet_area ? p.avg_price / p.avg_carpet_area : 0), //p.avg_price && p.avg_carpet_area ? p.avg_price / p.avg_carpet_area : 0,
+          'Avg Price List per m2': p.avg_price && p.avg_carpet_area ? p.avg_price / p.avg_carpet_area : 0,
           'Towers': p.building_towers_count || 0
         });
       }
@@ -616,9 +616,9 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     }
   }
 
-  getTransformedAmount(value: any) {
-    return (this.price.transform(Number(value).toFixed(2)).toString()).substring(1);
-  }
+  // getTransformedAmount(value: any) {
+  //   return (this.price.transform(Number(value).toFixed(2)).toString()).substring(1);
+  // }
 
   public exportAsExcelFile(json: any[], excelFileName: string): void {
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
