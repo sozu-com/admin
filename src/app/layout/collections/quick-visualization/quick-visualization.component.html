@@ -533,8 +533,11 @@
                   </button>
               </td>
               <td>
-                {{collectionCommission[i]?.purchase_payment ? 
-                  ((collectionCommission[i]['purchase_payment']?.amount + (collectionCommission[i]['purchase_payment']?.iva_amount || 0)) | currency) : ''}}</td>
+                <a style="color: green;" data-toggle="collapse" data-parent="#accordion" href="#collapseOne{{i}}">
+                  {{collectionCommission[i]?.purchase_payment ? 
+                    ((collectionCommission[i]['purchase_payment']?.amount + (collectionCommission[i]['purchase_payment']?.iva_amount || 0)) | currency) : ''}}
+              </a>
+                </td>
               <td>
                 {{collectionCommission[i]?.purchase_payment ? (collectionCommission[i]['purchase_payment']?.payment_date | date:'dd/MMM/yyyy') : ''}}</td>
               <td>
@@ -674,7 +677,98 @@
                   </table>
                 </td>
                 </tr>
-            
+              <tr id="collapseOne{{i}}" class="panel-collapse collapse">
+                  <td>Commission&nbsp;{{i+0}}</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td> </td>
+                  <td></td>
+                  <td></td>
+                  <td *ngIf="collectionCommission[i]?.purchase_payment" style="color: red;">{{collectionCommission[i]?.purchase_payment ? 
+                        ((collectionCommission[i]['purchase_payment']?.amount + (collectionCommission[i]['purchase_payment']?.iva_amount || 0)) | currency) : ''}}</td>
+                  <td *ngIf="collectionCommission[i]?.purchase_payment"  style="color: red;">
+                    {{collectionCommission[i]?.purchase_payment ? (collectionCommission[i]['purchase_payment']?.payment_date | date:'dd/MMM/yyyy') : ''}}</td>
+                  <td *ngIf="collectionCommission[i]?.purchase_payment">
+                    <a class="green-color fontW500" *ngIf="collectionCommission[i]?.purchase_payment" target="_blank" href="{{collectionCommission[i]?.purchase_payment?.receipt}}">
+                      {{'quickVisualization.view' | translate}}
+                    </a>
+                  </td>
+                  <td *ngIf="collectionCommission[i]?.purchase_payment">
+                      <button class="action-icon" *ngIf="collectionCommission[i]?.purchase_payment?.description" (click)="showDescription(collectionCommission[i]?.purchase_payment?.description, 3)">
+                          <img src="assets/img/eye-icon.png" alt="img">
+                      </button>
+                  </td>
+                  <td *ngIf="collectionCommission[i]?.purchase_payment">{{collectionCommission[i]?.purchase_payment ?
+                    (collectionCommission[i]['purchase_payment']?.invoice_date | date:'dd/MMM/yyyy') : ''}}</td>
+                  <td *ngIf="collectionCommission[i]?.purchase_payment">{{collectionCommission[i]?.purchase_payment ?
+                    (collectionCommission[i]['purchase_payment']?.invoice_id) : ''}}</td>
+                  <td *ngIf="collectionCommission[i]?.purchase_payment">
+                    <a class="green-color fontW500" *ngIf="collectionCommission[i]?.purchase_payment && collectionCommission[i]?.purchase_payment?.pdf_url" target="_blank" href="{{collectionCommission[i]?.purchase_payment?.pdf_url}}">
+                      {{'quickVisualization.view' | translate}}
+                    </a>
+                  </td>
+                  <td *ngIf="collectionCommission[i]?.purchase_payment">
+                    <a class="green-color fontW500" *ngIf="collectionCommission[i]?.purchase_payment && collectionCommission[i]?.purchase_payment?.xml_url" target="_blank" href="{{collectionCommission[i]?.purchase_payment?.xml_url}}">
+                      {{'quickVisualization.view' | translate}}
+                    </a>
+                  </td>
+                  <td *ngIf="collectionCommission[i]?.payment"  style="color: red;"> {{collectionCommission[i]?.payment ? 
+                    ((collectionCommission[i]['payment']?.amount + (collectionCommission[i]['payment']?.iva_amount || 0)) | currency) : ''}}</td>
+                  <td *ngIf="collectionCommission[i]?.payment"  style="color: red;">
+                    {{collectionCommission[i]?.payment ? (collectionCommission[i]['payment']?.payment_date | date:'dd/MMM/yyyy') : ''}}</td>
+                  <td *ngIf="collectionCommission[i]?.payment">
+                    <a class="green-color fontW500" *ngIf="collectionCommission[i]?.payment" target="_blank" href="{{collectionCommission[i]?.payment?.receipt}}">
+                      {{'quickVisualization.view' | translate}}
+                    </a>
+                  </td>
+                  <td *ngIf="collectionCommission[i]?.payment">
+                      <button class="action-icon" *ngIf="collectionCommission[i]?.payment?.description" (click)="showDescription(collectionCommission[i]?.payment?.description, 4)">
+                          <img src="assets/img/eye-icon.png" alt="img">
+                      </button>
+                  </td>   
+                  <td *ngIf="collectionCommission[i]?.payment">{{collectionCommission[i]?.payment ? (collectionCommission[i]['payment']?.invoice_date | date:'dd/MMM/yyyy') : ''}}</td>
+                  <td *ngIf="collectionCommission[i]?.payment">{{collectionCommission[i]?.payment ? (collectionCommission[i]['payment']?.invoice_id) : ''}}</td>
+                  <td *ngIf="collectionCommission[i]?.payment">
+                    <a class="green-color fontW500" *ngIf="collectionCommission[i]?.payment && collectionCommission[i]?.payment?.pdf_url" target="_blank" href="{{collectionCommission[i]?.payment?.pdf_url}}">
+                      {{'quickVisualization.view' | translate}}
+                    </a>
+                  </td>
+                  <td *ngIf="collectionCommission[i]?.payment">
+                    <a class="green-color fontW500" *ngIf="collectionCommission[i]?.payment && collectionCommission[i]?.payment?.xml_url" target="_blank" href="{{collectionCommission[i]?.payment?.xml_url}}">
+                      {{'quickVisualization.view' | translate}}
+                    </a>
+                  </td>
+                  <td *ngIf="collectionCommission[i]?.agent_payment"  style="color: red;">
+                    {{collectionCommission[i]?.agent_payment ? 
+                      ((collectionCommission[i]['agent_payment']?.amount + (collectionCommission[i]['agent_payment']?.iva_amount || 0)) | currency) : ''}}</td>
+                  <td *ngIf="collectionCommission[i]?.agent_payment"  style="color: red;">
+                    {{collectionCommission[i]?.agent_payment ? (collectionCommission[i]['agent_payment']?.payment_date | date:'dd/MMM/yyyy') : ''}}</td>
+                  <td *ngIf="collectionCommission[i]?.agent_payment">
+                    <a class="green-color fontW500" *ngIf="collectionCommission[i]?.agent_payment" target="_blank" href="{{collectionCommission[i]?.agent_payment?.receipt}}">
+                      {{'quickVisualization.view' | translate}}
+                    </a>
+                  </td>
+                  <td *ngIf="collectionCommission[i]?.agent_payment">
+                      <button class="action-icon" *ngIf="collectionCommission[i]?.agent_payment?.description" (click)="showDescription(collectionCommission[i]?.agent_payment?.description, 5)">
+                          <img src="assets/img/eye-icon.png" alt="img">
+                      </button>
+                  </td>
+                  <td *ngIf="collectionCommission[i]?.agent_payment">{{collectionCommission[i]?.agent_payment ?
+                    (collectionCommission[i]['agent_payment']?.invoice_date | date:'dd/MMM/yyyy') : ''}}</td>
+                  <td *ngIf="collectionCommission[i]?.agent_payment">{{collectionCommission[i]?.agent_payment ?
+                    (collectionCommission[i]['agent_payment']?.invoice_id) : ''}}</td>
+                  <td *ngIf="collectionCommission[i]?.agent_payment">
+                    <a class="green-color fontW500" *ngIf="collectionCommission[i]?.agent_payment && collectionCommission[i]?.agent_payment?.pdf_url" target="_blank" href="{{collectionCommission[i]?.agent_payment?.pdf_url}}">
+                      {{'quickVisualization.view' | translate}}
+                    </a>
+                  </td>
+                  <td *ngIf="collectionCommission[i]?.agent_payment">
+                    <a class="green-color fontW500" *ngIf="collectionCommission[i]?.agent_payment && collectionCommission[i]?.agent_payment?.xml_url" target="_blank" href="{{collectionCommission[i]?.agent_payment?.xml_url}}">
+                      {{'quickVisualization.view' | translate}}
+                    </a>
+                  </td>    
+                  </tr>
           </tbody>
         </table>
       </div>
