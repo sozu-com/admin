@@ -1,14 +1,14 @@
 <div class="container-fluid">
    <div class="row">
-      <div class="col-md-10">
+      <div class="col-md-11">
          <div class="form-group">
             <p class="p16">{{'viewProperty.label' | translate}}</p>
          </div>
       </div>
-      <div class="col-md-2">
-         <div class="form-group">
-            <button class="action-icon"
-            title="{{'table.title.generatePDF' | translate}}"><i class="fa fa-pause" 
+      <div class="col-md-1">
+         <div class="form-group" style="margin-left: 70px;">
+            <button class="action-icon" (click)="openSelectColumnsPopup()"
+            title="{{'table.title.selectColumns' | translate}}"><i class="fa fa-pause" 
                 style="cursor: pointer;"></i></button>               
          </div>
       </div>
@@ -2235,3 +2235,69 @@ margin-left: -20%;">
       </div>
    </div>
 </div> -->
+
+<!-- select columns -->
+<a data-toggle="modal" data-target="#link-select-columns-model" #openSelectColumnsModal style="display: none;"></a>
+<div class="modal" id="link-select-columns-model">
+   <div class="modal-dialog" style="width: max-content;">
+      <div class="modal-content notary-avail">
+         <div class="modal-header popup-header">
+            <h4 class="modal-title">{{'table.title.columnsSelection' | translate}}</h4>
+            <button type="button" class="close" #closeSelectColumnsModal data-dismiss="modal">&times;</button>
+         </div>
+         <div class="modal-body">
+
+            <p class="modal-title" >
+                  {{'table.title.selectTheColumnYouWantToVisualize' | translate}}
+            </p>
+          <br/>
+          <div class="row">
+            <div class="col-md-8 col-6">
+                     <label class="p16-two">
+                       <input class="form-control" class="is_commission_sale_enabled" type="checkbox"
+                         name="" >
+                       <span style="margin-left: 10px; vertical-align: super;">{{'commonBlock.selectAll' |
+                         translate}}</span>
+                     </label>
+            </div>
+            <div class="col-md-4 col-6 btn-cont">
+               <a class="btn btn-primary pull-right" href="javascript://"
+                  (click)="applyShowSelectedColumns()">{{'filters.location.applyBtn' | translate}}</a>
+            </div>
+         </div>
+         <div class="spacer40"></div>
+            <div class="row">
+               <div class="col-md-8 col-6">
+                  <input style="max-width:200px" (keyup.enter)="getAgency('', keyword)" [(ngModel)]="keyword"
+                     class="form-control" type="text" name="keyword"
+                     placeholder="{{'addForm.placeholder.search' | translate}}">
+               </div>
+               <div class="col-md-4 col-5 btn-cont">
+                  <a class="btn btn-primary pull-right" href="javascript://"
+                     (click)="getAgency('', keyword)">{{'viewProperty.search' | translate}}</a>
+               </div>
+            </div>
+
+            <div class="spacer40"></div>
+            <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+               <table class="table">
+                  <tr *ngFor="let item of select_columns_list">
+                     <td>
+                        <div class="row">
+                           <div class="col-md-8 col-6">
+                                    <label class="p16-two">
+                                      <input class="form-control" class="is_commission_sale_enabled" type="checkbox"
+                                        name="" >
+                                      <span style="margin-left: 10px; vertical-align: super;">{{'addForm.select' |
+                                        translate}}</span>
+                                    </label>
+                           </div>
+                        </div>
+                     </td>
+                  </tr>
+               </table>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

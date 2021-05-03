@@ -24,6 +24,7 @@ import { ApiConstants } from 'src/app/common/api-constants';
 import { forkJoin } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { GenerateOfferPdfService } from 'src/app/services/generate-offer-pdf.service';
+import { runInThisContext } from 'vm';
 
 declare let swal: any;
 declare var $: any;
@@ -148,6 +149,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   @ViewChild('closeLinkAgencyModal') closeLinkAgencyModal: ElementRef;
   agency_list: any[] = [];
   propertyIndex: number;
+  @ViewChild('openSelectColumnsModal') openSelectColumnsModal: ElementRef;
+  @ViewChild('closeSelectColumnsModal') closeSelectColumnsModal: ElementRef;
+  select_columns_list: any[] = [];
 
   constructor(
     public constant: Constant,
@@ -2231,4 +2235,18 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     });
   }
 
+  openSelectColumnsPopup = (): void => {
+    for (let index = 0; index < 20; index++) {
+      this.select_columns_list.push({ id: '', name: '' });
+    }
+    this.openSelectColumnsModal.nativeElement.click();
+  }
+
+  closeSelectColumnsPopup = (): void => {
+    this.closeSelectColumnsModal.nativeElement.click();
+  }
+
+  applyShowSelectedColumns = (): void => {
+
+  }
 }
