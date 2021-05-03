@@ -2332,7 +2332,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   }
 
   getRemainingAmt(p: any) {
-    const v = (((p.property.final_price || 0) + (p.penalty || 0)) - (p.total_payment_recieved || 0));
+    const v = (((p.final_price || 0) + (p.penalty || 0)) - (p.total_payment_recieved || 0));
     return v > 0 ? v : 0;
   }
 
@@ -2531,7 +2531,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       // fetching payment status
       for (let index = 0; index < this.items.length; index++) {
         const element = this.items[index];
-        const dif = (element.property.final_price || 0).toFixed(2) - (element.total_deals_sum || 0).toFixed(2);
+        const dif = (element.final_price || 0).toFixed(2) - (element.total_deals_sum || 0).toFixed(2);
         const currency_id = element.currency_id;
 
         if (!element.total_deals_sum) {
@@ -2639,30 +2639,30 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           'Purchase Date': p.deal_purchase_date ? this.getDateWRTTimezone(p.deal_purchase_date, 'DD/MMM/YYYY') : '',
           'Last Concept': p.last_payment ? this.getLastPaymentConcept(p) : '',
           'Last Date Of Payment': (p.last_payment || {}).payment_date ? (p.last_payment || {}).payment_date : '',//(p?.last_payment?.payment_date | date:'dd/MMM/yyyy') :
-          'Last Amount': this.getTransformedAmount((p.last_payment || {}).collection_amount || 0),//'$ ' + parseInt((p.last_payment || {}).collection_amount || 0),
+          'Last Amount': parseInt((p.last_payment || {}).collection_amount || 0),
           'Next Concept': (p.next_payment || {}).name || '',
           'Next Date Of Payment': (p.next_payment || {}).date ? (p.next_payment || {}).date : '',//(p.next_payment?.date | date:'dd/MMM/yyyy') :
-          'Next Amount': this.getTransformedAmount((((p.next_payment || {}).amount || 0) - ((p.next_payment || {}).calc_payment_amount || 0)) || 0),//'$ ' + (((p.next_payment || {}).amount || 0) - ((p.next_payment || {}).calc_payment_amount || 0)),
+          'Next Amount': (((p.next_payment || {}).amount || 0) - ((p.next_payment || {}).calc_payment_amount || 0)),
           'Currency': (p.currency || {}).code || '',
-          'Sozu Commission (in %)': this.getTransformedAmount(p.comm_total_commission ? p.comm_total_commission : 0),//p.comm_total_commission ? p.comm_total_commission : 0,//(p.comm_total_commission | number : '1.2-3') :
+          'Sozu Commission (in %)': p.comm_total_commission ? p.comm_total_commission : 0,//(p.comm_total_commission | number : '1.2-3') :
           'IVA Added in Amount': p.add_iva_to_pc ? 'Yes' : 'No',
-          'PC Amount': this.getTransformedAmount(p.pc_received || 0),//'$ ' + parseInt(p.pc_received || 0),
+          'PC Amount': parseInt(p.pc_received || 0),
           'PC Receipt': p.pc_receipt ? 'Yes' : 'No',
           'PC Invoice': p.pc_invoice ? 'Yes' : 'No',
-          'Collection Commission (in %)': this.getTransformedAmount(p.cc_percent || 0),//p.cc_percent || 0
+          'Collection Commission (in %)': p.cc_percent || 0,
           'IVA Added in Amount 2': p.add_iva_to_cc ? 'Yes' : 'No',
-          'CC Amount': this.getTransformedAmount(p.cc_received || 0),//'$ ' + parseInt(p.cc_received || 0),
+          'CC Amount':  parseInt(p.cc_received || 0),
           'CC Receipt': p.cc_receipt ? 'Yes' : 'No',
           'CC Invoice': p.cc_invoice ? 'Yes' : 'No',
-          'Agent Commission (in %)': this.getTransformedAmount(p.comm_shared_commission ? p.comm_shared_commission : 0),//p.comm_shared_commission ? p.comm_shared_commission : 0,//(p?.comm_shared_commission | number : '1.2-3') :
+          'Agent Commission (in %)': p.comm_shared_commission ? p.comm_shared_commission : 0,//(p?.comm_shared_commission | number : '1.2-3') :
           'IVA Added in Amount 3': p.add_iva_to_ac ? 'Yes' : 'No',
           'AC Receipt': p.ac_receipt ? 'Yes' : 'No',
           'AC Invoice': p.ac_invoice ? 'Yes' : 'No',
           'Commission Agent': (((p.deal_commission_agents || [])[0] || []).broker || {}).name ? ((((p.deal_commission_agents || [])[0] || []).broker || {}).name + ' ' + (((p.deal_commission_agents || [])[0] || []).broker || {}).first_surname + ' ' + (((p.deal_commission_agents || [])[0] || []).broker || {}).second_surname) : '',
-          'final Price': this.getTransformedAmount(p.property.final_price || 0),//'$ ' + parseInt(p.deal_price || 0),
-          'Penalty': this.getTransformedAmount(p.penalty || 0),//'$ ' + parseInt(p.penalty || 0),
-          'Amount Paid': this.getTransformedAmount(p.total_payment_recieved || 0),//'$ ' + parseInt(p.total_payment_recieved || 0),
-          'Remanining Amount': this.getTransformedAmount(this.getRemainingAmt(p) || 0),//'$ ' + (this.getRemainingAmt(p) || 0),
+          'final Price':  parseInt(p.deal_price || 0),
+          'Penalty': parseInt(p.penalty || 0),
+          'Amount Paid': parseInt(p.total_payment_recieved || 0),
+          'Remanining Amount': (this.getRemainingAmt(p) || 0),
           // 'Status Account': ''
         });
 
@@ -2671,9 +2671,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     }
   }
 
-  getTransformedAmount(value: any) {
-    return (this.price.transform(Number(value).toFixed(2)).toString()).substring(1);
-  }
+  // getTransformedAmount(value: any) {
+  //   return (this.price.transform(Number(value).toFixed(2)).toString()).substring(1);
+  // }
 
   editDocsPopup(item: any, folderIndex: number, docIndex: number) {
     this.modelForDoc.name_en = item.name;
@@ -2895,7 +2895,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             self.monthly_installment_amunts = element.category_name.includes('Monthly Installment') ? self.monthly_installment_amunts + element.amount : self.monthly_installment_amunts + 0;
 
             if (element.category_name == 'Layaway Payment') {
-              let layaway_payments_per = Number((self.collection_data.property.final_price ? element.amount * 100 / self.collection_data.property.final_price : 0)).toFixed(3) + '%';
+              let layaway_payments_per = Number((self.collection_data.final_price ? element.amount * 100 / self.collection_data.final_price : 0)).toFixed(3) + '%';
               layaway_payments_per = layaway_payments_per.includes('.000') ? layaway_payments_per.replace('.000', '') : layaway_payments_per;
               self.layaway_payments.push([
                 { text: self.translate.instant('generatePDF.layaway') + ' ' + (count == 0 ? '' : count) + ':', border: [false, false, false, false], color: '#858291' },
@@ -2905,7 +2905,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
               count = count + 1;
             }
             else if (element.category_name == 'Down Payment') {
-              let down_payments_per = Number((self.collection_data.property.final_price ? element.amount * 100 / self.collection_data.property.final_price : 0)).toFixed(3) + '%';
+              let down_payments_per = Number((self.collection_data.final_price ? element.amount * 100 / self.collection_data.final_price : 0)).toFixed(3) + '%';
               down_payments_per = down_payments_per.includes('.000') ? down_payments_per.replace('.000', '') : down_payments_per;
               self.down_payments.push([
                 { text: self.translate.instant('generatePDF.downpayment') + ' ' + (count1 == 0 ? '' : count1) + ':', border: [false, false, false, false], color: '#858291' },
@@ -2915,7 +2915,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
               count1 = count1 + 1;
             }
             else if (element.category_name == 'Payment upon Delivery') {
-              let payments_upon_delivery_per = Number((self.collection_data.property.final_price ? element.amount * 100 / self.collection_data.property.final_price : 0)).toFixed(3) + '%';
+              let payments_upon_delivery_per = Number((self.collection_data.final_price ? element.amount * 100 / self.collection_data.final_price : 0)).toFixed(3) + '%';
               payments_upon_delivery_per = payments_upon_delivery_per.includes('.000') ? payments_upon_delivery_per.replace('.000', '') : payments_upon_delivery_per;
               self.payments_upon_delivery.push([
                 { text: self.translate.instant('generatePDF.PaymentUponDelivery') + ' ' + (count2 == 0 ? '' : count2) + ':', border: [false, false, false, false], color: '#858291' },
@@ -2963,7 +2963,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             ]);
           });
           let monthly_installment_amunt_per = undefined;
-          monthly_installment_amunt_per = Number((self.collection_data.property.final_price ? self.monthly_installment_amunts * 100 / self.collection_data.property.final_price : 0)).toFixed(3) + '%';
+          monthly_installment_amunt_per = Number((self.collection_data.final_price ? self.monthly_installment_amunts * 100 / self.collection_data.final_price : 0)).toFixed(3) + '%';
           monthly_installment_amunt_per = monthly_installment_amunt_per.includes('.000') ? monthly_installment_amunt_per.replace('.000', '') : monthly_installment_amunt_per;
           self.monthly_installment_amunt.push(
             { text: self.translate.instant('generatePDF.monthlyInstallmentAmt'), border: [false, false, false, false], color: '#858291' },
@@ -3228,7 +3228,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.finalPrice'), bold: true, border: [false, false, false, false], color: '#858291' },
-                      { text: this.price.transform(Number(this.collection_data.property.final_price).toFixed(2)), border: [false, false, false, false], bold: true },
+                      { text: this.price.transform(Number(this.collection_data.final_price).toFixed(2)), border: [false, false, false, false], bold: true },
                     ]
                   ]
                 }
@@ -3510,7 +3510,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       ]);
     }
 
-    if (this.collection_data.property.property_offer_payment && this.collection_data.property.property_offer_payment.length > 0 &&
+    if (index >= 0 && this.collection_data.property.property_offer_payment && this.collection_data.property.property_offer_payment.length > 0 &&
       this.collection_data.property.property_offer_payment[index].property_parking_lot_sale && this.collection_data.property.property_offer_payment[index].property_parking_lot_sale.length > 0) {
       let no = 6;
       let count = 1;

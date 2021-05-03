@@ -24,6 +24,7 @@ import { ApiConstants } from 'src/app/common/api-constants';
 import { forkJoin } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { GenerateOfferPdfService } from 'src/app/services/generate-offer-pdf.service';
+import { runInThisContext } from 'vm';
 
 declare let swal: any;
 declare var $: any;
@@ -144,6 +145,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   property_index: any;
   is_for_Offer: boolean;
   offer_id: any;
+  @ViewChild('openLinkAgencyModal') openLinkAgencyModal: ElementRef;
+  @ViewChild('closeLinkAgencyModal') closeLinkAgencyModal: ElementRef;
+  agency_list: any[] = [];
+  propertyIndex: number;
+  @ViewChild('openSelectColumnsModal') openSelectColumnsModal: ElementRef;
+  @ViewChild('closeSelectColumnsModal') closeSelectColumnsModal: ElementRef;
+  select_columns_list: any[] = [];
 
   constructor(
     public constant: Constant,
@@ -1066,7 +1074,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     input.keyword = keyword;
     this.admin.postDataApi('getBothBroker', input).subscribe(r => {
       this.spinner.hide();
-      if (property) { this.linkExtBrokerModal.nativeElement.click(); }
+      if (property) {
+        this.keyword = '';
+        this.linkExtBrokerModal.nativeElement.click();
+      }
       this.allExtBrokers = r['data'];
     }, error => {
       this.spinner.hide();
@@ -1081,6 +1092,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     } else {
       route = `${'/dashboard/view-inhouse-users/inhouse-broker/'}${details.id}`;
     }
+    this.keyword = '';
     this.closeExtBrokerModal.nativeElement.click();
     this.router.navigate([route]);
   }
@@ -2154,5 +2166,87 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       this.spinner.hide();
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
     });
+  }
+
+  gotoAgencyTab = (details: any): void => {
+    let route = '';
+    route = `${'/dashboard/agencies/view-all/'}${details.name}`;
+    this.keyword = '';
+    this.closeLinkAgencyModal.nativeElement.click();
+    this.router.navigate([route]);
+  }
+
+  getAgency = (property: any, keyword: string, index?: number): void => {
+    this.spinner.show();
+    if (property) {
+      this.property = property;
+    }
+    const input = { name: keyword };
+    this.admin.postDataApi('getAgency', input).subscribe((response) => {
+      this.spinner.hide();
+      if (property) {
+        this.keyword = '';
+        this.openLinkAgencyModal.nativeElement.click();
+        this.propertyIndex = index;
+      }
+      this.agency_list = response.data || [];
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
+
+  attachAgencyPopUp = (agency: any, isUnlinkAgency: boolean): void => {
+    this.parameter.text = isUnlinkAgency == false ? this.translate.instant('message.error.wantToLinkAgency') :
+      this.translate.instant('message.error.wantToUnLinkAgency');
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.attachAgency(agency, isUnlinkAgency);
+      }
+    });
+  }
+
+  attachAgency = (agency: any, isUnlinkAgency: boolean): void => {
+    const input = {
+      property_id: (this.property || {}).id, agency_id: (agency || {}).id
+    };
+    if (isUnlinkAgency) {
+      input.agency_id = null;
+    }
+    this.admin.postDataApi('attachAgency', input).subscribe((response) => {
+      this.closeLinkAgencyModal.nativeElement.click();
+      if (isUnlinkAgency) {
+        this.items[this.propertyIndex].get_agency = null;
+      } else {
+        this.items[this.propertyIndex].get_agency = agency;
+      }
+      const text = isUnlinkAgency == false ? this.translate.instant('message.success.linkedSuccessfully') :
+        this.translate.instant('message.success.unlinkedSuccessfully');
+      swal(this.translate.instant('swal.success'), text, 'success');
+    }, (error) => {
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
+
+  openSelectColumnsPopup = (): void => {
+    for (let index = 0; index < 20; index++) {
+      this.select_columns_list.push({ id: '', name: '' });
+    }
+    this.openSelectColumnsModal.nativeElement.click();
+  }
+
+  closeSelectColumnsPopup = (): void => {
+    this.closeSelectColumnsModal.nativeElement.click();
+  }
+
+  applyShowSelectedColumns = (): void => {
+
   }
 }

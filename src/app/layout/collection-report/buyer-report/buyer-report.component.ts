@@ -460,23 +460,23 @@ export class BuyerReportComponent implements OnInit {
           'Property Name': (item.property || {}).name || '',
           'Currency': (item.currency || {}).code || '',
           'Date': item.payment_date,
-          'Amount Paid By User': this.getTransformedAmount(item.amt_paid || 0),//'$ ' + item.amt_paid || 0,
+          'Amount Paid By User':  item.amt_paid || 0,
           'Payment Method': (item.payment_method || {}).name || '',
           'Bank Name': item.bank_name || '',
           'Account Number': item.account_number || '',
           'Clabe Swift': item.swift || '',
           'Bank Currency': item.bank_currency || '',
-          'Total Paid': this.getTransformedAmount((item.deal_price || 0 - (item.remaning_amount || 0)) || 0),//'$ ' + (item.deal_price || 0 - (item.remaning_amount || 0)) || 0,
-          'Remaining': this.getTransformedAmount(item.remaning_amount || 0),//'$ ' + item.remaning_amount || 0,
+          'Total Paid':  (item.deal_price || 0 - (item.remaning_amount || 0)) || 0,
+          'Remaining':  item.remaning_amount || 0,
         });
       }
       new ExcelDownload().exportAsExcelFile(exportfinalData, 'buyerReport');
     }
   }
 
-  getTransformedAmount(value: any) {
-    return (this.price.transform(Number(value).toFixed(2)).toString()).substring(1);
-  }
+  // getTransformedAmount(value: any) {
+  //   return (this.price.transform(Number(value).toFixed(2)).toString()).substring(1);
+  // }
 
   getExportlisting() {
     this.spinner.show();
