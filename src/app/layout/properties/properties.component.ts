@@ -144,6 +144,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   property_index: any;
   is_for_Offer: boolean;
   offer_id: any;
+  @ViewChild('openLinkAgencyModal') openLinkAgencyModal: ElementRef;
+  @ViewChild('closeLinkAgencyModal') closeLinkAgencyModal: ElementRef;
 
   constructor(
     public constant: Constant,
@@ -2155,4 +2157,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
     });
   }
+
+  gotoAgencyTab = (details: any): void => {
+    let route = '';
+    route = `${'/dashboard/view-inhouse-users/outside-broker/'}${details.id}`;
+    this.closeLinkAgencyModal.nativeElement.click();
+    this.router.navigate(['/dashboard/agencies/view-all']);
+  }
+
 }
