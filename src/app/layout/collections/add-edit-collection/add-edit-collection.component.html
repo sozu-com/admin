@@ -258,8 +258,8 @@
               <select required class="form-control" name="floor_num" formControlName="floor_num"
                 (change)="getProperties($event)">
                 <option value="">{{'addCollection.selectFloor' | translate}}</option>
-                <option *ngFor="let fa of model.building_towers?.unique_floors; let j=index" [value]="fa">
-                  {{fa == 0 ? ('addCollection.groundFloor' | translate): ('addCollection.floor' | translate) + ' '+fa}}
+                <option *ngFor="let fa of model.building_towers?.unique_floors; let j=index" [value]="j">
+                  {{j == 0 ? ('addCollection.groundFloor' | translate): ('addCollection.floor' | translate) + ' '+j}}
                 </option>
               </select>
             </div>
