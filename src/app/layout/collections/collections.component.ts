@@ -57,6 +57,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   total: any = 0;
   configurations: any = [];
   countries: any;
+  test_pay: any;
+  test_agent: any;
+  test_Collection: any;
   property_status: string;
   price_sort = 1;
   availability_sort = 1;
@@ -91,6 +94,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   invoice_id: string;
   invoice_date: any;
   currentAmount: any;
+  sameAmount: any;
   penaltyPercent: number;
   paymentAmount: any;
   ivaAmount: any;
@@ -1328,21 +1332,30 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       this.ivaAmount = 0;
       if (this.commission_type == 1) {
         this.paymentAmount = item.purchase_comm_amount || 0;
+        this.test_pay = item.purchase_comm_amount || 0;
+        console.log(item.purchase_comm_amount, "actual")
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_pc)) {
           this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
           this.paymentAmount = this.paymentAmount + this.ivaAmount;
+          this.sameAmount = this.paymentAmount;
+          console.log(this.paymentAmount, "ai")
+
         }
       } else if (this.commission_type == 3) {
         this.paymentAmount = item.agent_comm_amount || 0;
+        this.test_agent = item.agent_comm_amount || 0;
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_ac)) {
           this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
           this.paymentAmount = this.paymentAmount + this.ivaAmount;
+          this.sameAmount = this.paymentAmount;
         }
       } else {
         this.paymentAmount = item.amount || 0;
+        this.test_Collection = item.amount || 0;
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_cc)) {
           this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
           this.paymentAmount = this.paymentAmount + this.ivaAmount;
+          this.sameAmount = this.paymentAmount;
         }
       }
       // this.paymentAmount = this.commission_type == 1 ? (item.purchase_comm_amount || 0) : (item.amount || 0);
@@ -1523,7 +1536,11 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       this.toastr.error(this.translate.instant('message.error.totalPayemntCheck'), this.translate.instant('swal.error'));
       return false;
     }
-
+    if (this.sameAmount < this.paymentAmount) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterValidAmt'), this.translate.instant('swal.error'));
+      return false;
+    }
     const offset = new Date(this.paymentDate).getTimezoneOffset();
     if (offset < 0) {
       this.paymentDate = moment(this.paymentDate).subtract(offset, 'minutes').toDate();
@@ -1541,11 +1558,19 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       receipt: this.docFile,
       description: this.description,
       payment_date: this.paymentDate,
-      full_amount: this.paymentAmount // sending real amount entered by user
+      full_amount: this.paymentAmount, // sending real amount entered by user
+      //total_amount: this.test_pay
     };
-
+    if (this.commission_type == 1) {
+      input['total_amount'] = this.test_pay
+    } else if (this.commission_type == 3) {
+      input['total_amount'] = this.test_agent
+    } else {
+      input['total_amount'] = this.test_Collection
+    }
     // send commission_type, collection_commission_id, percent incase of applying commission
     if (this.typeOfPayment === 'commission-popup') {
+
       delete input.amount;
       input['commission_type'] = this.commission_type;
       input['collection_commission_id'] = this.selectedCollectionCommission.id;
@@ -1553,7 +1578,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       input['invoice_id'] = this.invoice_id;
       input['pdf_url'] = this.pdf_url;
       input['xml_url'] = this.xml_url;
-      input['amount'] = amt - this.ivaAmount;
+      input['amount'] = this.ivaAmount - amt;
       input['iva_amount'] = this.ivaAmount;
 
       if (this.invoice_date) {
@@ -1946,9 +1971,19 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     for (let index = 0; index < this.selectedItem.collection_commissions.length; index++) {
       const element = this.selectedItem.collection_commissions[index];
       element['payment_made'] = 0;
-      if (this.selectedItem.payment_choices[index] && this.selectedItem.payment_choices[index].is_paid_calculated) {
+      if (this.selectedItem.collection_commissions[index] && this.selectedItem.collection_commissions[index].purchase_payment_status) {
         element['payment_made'] = 1;
       }
+      if (this.selectedItem.collection_commissions[index] && this.selectedItem.collection_commissions[index].collection_payment_status) {
+        element['payment_made'] = 1;
+      }
+      if (this.selectedItem.collection_commissions[index] && this.selectedItem.collection_commissions[index].agent_payment_status) {
+        element['payment_made'] = 1;
+      }
+      // element['payment_made'] = 0;
+      // if (this.selectedItem.payment_choices[index] && this.selectedItem.payment_choices[index].is_paid_calculated) {
+      //   element['payment_made'] = 1;
+      // }
       if (type == 1) {
         if (element.add_purchase_commission == 1) {
           this.paymentConcepts.push(element);
@@ -2627,7 +2662,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           'PC Invoice': p.pc_invoice ? 'Yes' : 'No',
           'Collection Commission (in %)': p.cc_percent || 0,
           'IVA Added in Amount 2': p.add_iva_to_cc ? 'Yes' : 'No',
-          'CC Amount':  parseInt(p.cc_received || 0),
+          'CC Amount': parseInt(p.cc_received || 0),
           'CC Receipt': p.cc_receipt ? 'Yes' : 'No',
           'CC Invoice': p.cc_invoice ? 'Yes' : 'No',
           'Agent Commission (in %)': p.comm_shared_commission ? p.comm_shared_commission : 0,//(p?.comm_shared_commission | number : '1.2-3') :
@@ -2635,7 +2670,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           'AC Receipt': p.ac_receipt ? 'Yes' : 'No',
           'AC Invoice': p.ac_invoice ? 'Yes' : 'No',
           'Commission Agent': (((p.deal_commission_agents || [])[0] || []).broker || {}).name ? ((((p.deal_commission_agents || [])[0] || []).broker || {}).name + ' ' + (((p.deal_commission_agents || [])[0] || []).broker || {}).first_surname + ' ' + (((p.deal_commission_agents || [])[0] || []).broker || {}).second_surname) : '',
-          'final Price':  parseInt(p.deal_price || 0),
+          'final Price': parseInt(p.deal_price || 0),
           'Penalty': parseInt(p.penalty || 0),
           'Amount Paid': parseInt(p.total_payment_recieved || 0),
           'Remanining Amount': (this.getRemainingAmt(p) || 0),

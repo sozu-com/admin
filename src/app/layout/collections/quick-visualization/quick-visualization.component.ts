@@ -39,7 +39,9 @@ export class QuickVisualizationComponent implements OnInit {
   @ViewChild('applyPaymentChoiceId') applyPaymentChoiceId: ElementRef;
   @ViewChild('applyPaymentMethodId') applyPaymentMethodId: ElementRef;
   @ViewChild('docsFile1') docsFile1: ElementRef;
-
+  purchase_payments: any[];
+  collection_payments: any[];
+  agent_payments: any[];
   description: string;
   title: any;
   paymentConcepts: Array<any>;
@@ -391,6 +393,40 @@ export class QuickVisualizationComponent implements OnInit {
           this.spinner.hide();
         }
       );
+  }
+
+  getInfo(item: any) {
+    this.purchase_payments = [];
+    this.collectionCommission.forEach((r) => {
+      if (item == (r.payment_choice || {}).id) {
+        for (let i = 0; i < (r.purchase_payment || []).length; i++) {
+          const paymnts = r.purchase_payment[i];
+          this.purchase_payments.push(paymnts);
+        }
+      }
+    });
+  }
+  getCollectionInfo(item: any) {
+    this.collection_payments = [];
+    this.collectionCommission.forEach((r) => {
+      if (item == (r.payment_choice || {}).id) {
+        for (let i = 0; i < (r.payment || []).length; i++) {
+          const paymntss = r.payment[i];
+          this.collection_payments.push(paymntss);
+        }
+      }
+    });
+  }
+  getAgentInfo(item: any) {
+    this.agent_payments = [];
+    this.collectionCommission.forEach((r) => {
+      if (item == (r.payment_choice || {}).id) {
+        for (let i = 0; i < (r.agent_payment || []).length; i++) {
+          const paymntsss = r.agent_payment[i];
+          this.agent_payments.push(paymntsss);
+        }
+      }
+    });
   }
 
   exportData() {
