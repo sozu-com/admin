@@ -533,7 +533,7 @@ export class AddEditCollectionComponent implements OnInit {
       .subscribe(
         success => {
           this.edit_collection = true;
-          this.isByOffer = ((success.data || {}).property || {}).offer_id;
+          this.isByOffer = (success.data || {}).offer_id;
           if (this.isByOffer) {
             this.parking_area = success.data.property.property_offer_payment.find(x => x.random_id == this.isByOffer);
             this.parkingSpaceSale(((success.data || {}).property || {}).building_id
@@ -938,8 +938,8 @@ export class AddEditCollectionComponent implements OnInit {
     this.isShown = data.account_statement && data.account_statement.usersemail && data.account_statement.usersemail.length > 0 ? true : false;
     this.addFormStep4.controls.day.patchValue(data.account_statement ? data.account_statement.day : '');
 
-    if (data.property.property_offer_payment && data.property.property_offer_payment.length > 0 && data.property.offer_id) {
-      let index = data.property.property_offer_payment.findIndex(x => x.random_id == data.property.offer_id);
+    if (data.property.property_offer_payment && data.property.property_offer_payment.length > 0 && data.offer_id) {
+      let index = data.property.property_offer_payment.findIndex(x => x.random_id == data.offer_id);
       this.addFormStep4.controls.final_price.patchValue(Number(data.property.property_offer_payment[index].final_price).toFixed(2));
       this.addFormStep4.controls.interest_discount.patchValue(data.property.property_offer_payment[index].discount ? data.property.property_offer_payment[index].discount :
         data.property.property_offer_payment[0].interest ? data.property.property_offer_payment[index].interest : 0);
@@ -963,7 +963,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep5.controls.add_iva_to_ac.patchValue(data.add_iva_to_ac || 0);
     let index;
     if (this.isByOffer) {
-      index = data.property.property_offer_payment.findIndex(x => x.random_id == data.property.offer_id);
+      index = data.property.property_offer_payment.findIndex(x => x.random_id == data.offer_id);
     }
     this.addFormStep5.controls.bank_id.patchValue(this.isByOffer ? data.property.property_offer_payment[index].bank_id || 0 : data.bank_id || 0);
     this.addFormStep5.controls.payment_received_by.patchValue(this.isByOffer ? (data.property.property_offer_payment[index].account_type == 1 ? 1 : '0') : data.payment_received_by.toString() || '0');
@@ -3088,7 +3088,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   getOfferPdf() {
-    this.property_offer_id = this.tempmodel.property.offer_id;
+    this.property_offer_id = this.tempmodel.offer_id;
     let offer = this.tempmodel.property.property_offer_payment.find(x => x.random_id == this.property_offer_id)
     this.offerPdf.offerID(offer);
   }
