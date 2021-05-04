@@ -1700,7 +1700,10 @@
                     [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
                     <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
                     <option *ngFor="let bt of paymentConcepts" [ngValue]="bt"
-                      [disabled]="bt?.payment_made==0 || bt?.agent_payment"> {{bt?.payment_choice?.name}}</option>
+                    [disabled]="bt?.payment_made==1"> 
+                    {{bt?.payment_choice?.name}}
+                    <span *ngIf="bt?.payment_made==1"> | Paid</span>
+                  </option>
                   </select>
                 </div>
               </div>
@@ -1713,7 +1716,9 @@
                     [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
                     <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
                     <option *ngFor="let bt of paymentConcepts" [ngValue]="bt"
-                      [disabled]="bt?.payment_made==0 || bt?.payment"> {{bt?.payment_choice?.name}}</option>
+                    [disabled]="bt?.payment_made==1"> {{bt?.payment_choice?.name}}
+                    <span *ngIf="bt?.payment_made==1"> | Paid</span>
+                  </option>
                   </select>
                 </div>
               </div>

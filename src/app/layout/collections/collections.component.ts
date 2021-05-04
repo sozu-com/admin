@@ -58,6 +58,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   configurations: any = [];
   countries: any;
   test_pay: any;
+  test_agent: any;
+  test_Collection: any;
   property_status: string;
   price_sort = 1;
   availability_sort = 1;
@@ -1341,17 +1343,19 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         }
       } else if (this.commission_type == 3) {
         this.paymentAmount = item.agent_comm_amount || 0;
+        this.test_agent = item.agent_comm_amount || 0;
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_ac)) {
           this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
           this.paymentAmount = this.paymentAmount + this.ivaAmount;
-          //  this.sameAmount = this.paymentAmount + this.ivaAmount;
+          this.sameAmount = this.paymentAmount;
         }
       } else {
         this.paymentAmount = item.amount || 0;
+        this.test_Collection = item.amount || 0;
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_cc)) {
           this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
           this.paymentAmount = this.paymentAmount + this.ivaAmount;
-          //this.sameAmount = this.paymentAmount + this.ivaAmount;
+          this.sameAmount = this.paymentAmount;
         }
       }
       // this.paymentAmount = this.commission_type == 1 ? (item.purchase_comm_amount || 0) : (item.amount || 0);
@@ -1555,11 +1559,18 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       description: this.description,
       payment_date: this.paymentDate,
       full_amount: this.paymentAmount, // sending real amount entered by user
-      total_amount: this.test_pay
+      //total_amount: this.test_pay
     };
-
+    if (this.commission_type == 1) {
+      input['total_amount'] = this.test_pay
+    } else if (this.commission_type == 3) {
+      input['total_amount'] = this.test_agent
+    } else {
+      input['total_amount'] = this.test_Collection
+    }
     // send commission_type, collection_commission_id, percent incase of applying commission
     if (this.typeOfPayment === 'commission-popup') {
+
       delete input.amount;
       input['commission_type'] = this.commission_type;
       input['collection_commission_id'] = this.selectedCollectionCommission.id;
@@ -2651,7 +2662,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           'PC Invoice': p.pc_invoice ? 'Yes' : 'No',
           'Collection Commission (in %)': p.cc_percent || 0,
           'IVA Added in Amount 2': p.add_iva_to_cc ? 'Yes' : 'No',
-          'CC Amount':  parseInt(p.cc_received || 0),
+          'CC Amount': parseInt(p.cc_received || 0),
           'CC Receipt': p.cc_receipt ? 'Yes' : 'No',
           'CC Invoice': p.cc_invoice ? 'Yes' : 'No',
           'Agent Commission (in %)': p.comm_shared_commission ? p.comm_shared_commission : 0,//(p?.comm_shared_commission | number : '1.2-3') :
@@ -2659,7 +2670,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           'AC Receipt': p.ac_receipt ? 'Yes' : 'No',
           'AC Invoice': p.ac_invoice ? 'Yes' : 'No',
           'Commission Agent': (((p.deal_commission_agents || [])[0] || []).broker || {}).name ? ((((p.deal_commission_agents || [])[0] || []).broker || {}).name + ' ' + (((p.deal_commission_agents || [])[0] || []).broker || {}).first_surname + ' ' + (((p.deal_commission_agents || [])[0] || []).broker || {}).second_surname) : '',
-          'final Price':  parseInt(p.deal_price || 0),
+          'final Price': parseInt(p.deal_price || 0),
           'Penalty': parseInt(p.penalty || 0),
           'Amount Paid': parseInt(p.total_payment_recieved || 0),
           'Remanining Amount': (this.getRemainingAmt(p) || 0),

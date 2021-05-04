@@ -45,6 +45,9 @@ export class QuickVisualizationCommissionComponent implements OnInit {
   paymentConcepts: Array<any>;
   allPaymentConcepts: Array<any>;
   collectionCommission: Array<any>;
+  purchase_payments: any[];
+  collection_payments: any[];
+  agent_payments: any[];
   totalPaid: number;
   remainingAmt: number;
   totalOutstanding: number;
@@ -53,6 +56,7 @@ export class QuickVisualizationCommissionComponent implements OnInit {
   payment_type: any;
   payment_id: any;
   pur: any;
+  firstObj: any;
   docFile: string;
   payment_method_id: number;
   today1: Date;
@@ -78,6 +82,7 @@ export class QuickVisualizationCommissionComponent implements OnInit {
   penaltyAmount: any;
   currentAmount: any;
   surplus_amt: any;
+  comm_payment_choice_id: any;
   sellerBanks: Array<any>;
   buyerBanks: Array<any>;
   sellerRepBanks: Array<any>;
@@ -205,6 +210,7 @@ export class QuickVisualizationCommissionComponent implements OnInit {
           this.paymentConcepts = [...this.allPaymentConcepts];
 
           this.collectionCommission = success['data']['collection_commissions'];
+
           this.totalPaid = 0.00;
           this.totalOutstanding = 0.00;
           this.remainingAmt = (((this.model.property.final_price || 0) + (this.model.penalty || 0)) - (this.model.total_payment_recieved || 0));
@@ -393,6 +399,40 @@ export class QuickVisualizationCommissionComponent implements OnInit {
           this.spinner.hide();
         }
       );
+  }
+
+  getInfo(item: any) {
+    this.purchase_payments = [];
+    this.collectionCommission.forEach((r) => {
+      if (item == (r.payment_choice || {}).id) {
+        for (let i = 0; i < (r.purchase_payment || []).length; i++) {
+          const paymnts = r.purchase_payment[i];
+          this.purchase_payments.push(paymnts);
+        }
+      }
+    });
+  }
+  getCollectionInfo(item: any) {
+    this.collection_payments = [];
+    this.collectionCommission.forEach((r) => {
+      if (item == (r.payment_choice || {}).id) {
+        for (let i = 0; i < (r.payment || []).length; i++) {
+          const paymntss = r.payment[i];
+          this.collection_payments.push(paymntss);
+        }
+      }
+    });
+  }
+  getAgentInfo(item: any) {
+    this.agent_payments = [];
+    this.collectionCommission.forEach((r) => {
+      if (item == (r.payment_choice || {}).id) {
+        for (let i = 0; i < (r.agent_payment || []).length; i++) {
+          const paymntsss = r.agent_payment[i];
+          this.agent_payments.push(paymntsss);
+        }
+      }
+    });
   }
 
   exportData() {
