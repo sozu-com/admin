@@ -2314,10 +2314,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   getPropertyHome = (): void => {
-    this.spinner.show();
+    //this.spinner.show();
     this.admin.postDataApi('getPropertyHome', { user_id: (JSON.parse(localStorage.getItem('all')).data || {}).id || 0 }).subscribe((response) => {
-      this.spinner.hide();
       this.selectedPropertyColumnsToShow = response.data || {};
+      //this.spinner.hide();
     }, (error) => {
       this.spinner.hide();
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
