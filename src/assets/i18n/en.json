@@ -699,6 +699,8 @@
       "ACInvoice": "AC Invoice",
       "ivaAdded": "IVA Added in Amount",
       "editCommission": "Edit Commission",
+      "editAgentCommission": "Edit Agent Commission",
+      "editTotalCommission": "Edit Total Commission",
       "viewSellerRequest": "View Seller's Request",
       "changeSeller": "Change Seller",
       "changeBuyer": "Change Buyer",

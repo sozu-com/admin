@@ -7,7 +7,7 @@
       </div>
       <div class="col-md-1">
          <div class="form-group" style="margin-left: 70px;">
-            <button class="action-icon" (click)="openSelectColumnsPopup()"
+            <button class="action-icon" (click)="getPropertySelection(true)"
             title="{{'table.title.selectColumns' | translate}}"><i class="fa fa-pause" 
                 style="cursor: pointer;"></i></button>               
          </div>
@@ -316,7 +316,7 @@
                <div class="table-responsive">
                   <table class="table table-striped table-align-left">
                      <tr>
-                        <th style="width:10%; text-align:left;">
+                        <th style="width:10%; text-align:left;" *ngIf="selectedPropertyColumnsToShow?.building_name">
                            <div class="table-search">
                               <label>{{'table.th.nameOfBuilding' | translate}}</label>
                               <div class="searh-3">
@@ -327,7 +327,7 @@
                               </div>
                            </div>
                         </th>
-                        <th style="width:10%; text-align:left;">
+                        <th style="width:10%; text-align:left;"  *ngIf="selectedPropertyColumnsToShow?.tower_name">
                            <div class="table-search">
                               <label>{{'table.th.nameOfTower' | translate}}</label>
                               <div class="searh-3">
@@ -338,7 +338,7 @@
                               </div>
                            </div>
                         </th>
-                        <th style="width:10%; text-align:left;">
+                        <th style="width:10%; text-align:left;"  *ngIf="selectedPropertyColumnsToShow?.floor">
                            <div class="table-search">
                               <label>{{'table.th.floor' | translate}}</label>
                               <select [(ngModel)]="parameter.floor_num" (change)="getListing()" name="floor_num">
@@ -349,7 +349,7 @@
                               </select>
                            </div>
                         </th>
-                        <th style="width:10%; text-align:left;">
+                        <th style="width:10%; text-align:left;"  *ngIf="selectedPropertyColumnsToShow?.apartment">
                            <div class="table-search">
                               <label>{{'table.th.apartment' | translate}}
                                  <a (click)="sort_by(4)" href="javascript://"><img
@@ -364,7 +364,7 @@
                               </div>
                            </div>
                         </th>
-                        <th style="width:10%; text-align:left;">
+                        <th style="width:10%; text-align:left;"  *ngIf="selectedPropertyColumnsToShow?.model">
                            <div class="table-search">
                               <label>{{'table.th.model' | translate}}</label>
                               <div class="searh-3">
@@ -375,7 +375,7 @@
                               </div>
                            </div>
                         </th>
-                        <th style="width:10%; text-align:left;">
+                        <th style="width:10%; text-align:left;"  *ngIf="selectedPropertyColumnsToShow?.configuration">
                            <div class="table-search">
                               <label>{{'table.th.configuration' | translate}}</label>
                               <select [(ngModel)]="parameter.configuration_id" (change)="getListing()"
@@ -391,12 +391,12 @@
                               </select>
                            </div>
                         </th>
-                        <th style="width:10%;vertical-align:top;">
+                        <th style="width:10%;vertical-align:top;"  *ngIf="selectedPropertyColumnsToShow?.edit_list_price">
                            <div class="d-flex table-search">
                               <label>{{'table.th.editPrice' | translate}}</label>
                            </div>
                         </th>
-                        <th style="width:10%;vertical-align:top;">
+                        <th style="width:10%;vertical-align:top;"  *ngIf="selectedPropertyColumnsToShow?.list_price">
                            <div (click)="sort_by(1)" class="d-flex table-search">
                               <label>{{'table.th.listPrice' | translate}}</label>
                               <a href="javascript://"><img
@@ -404,7 +404,7 @@
                                     src="assets/img/top-arrow.png" alt="img"></a>
                            </div>
                         </th>
-                        <th style="width:10%;vertical-align:top;">
+                        <th style="width:10%;vertical-align:top;"  *ngIf="selectedPropertyColumnsToShow?.final_price">
                            <div (click)="sort_by(6)" class="d-flex table-search">
                               <label>{{'table.th.finalPrice' | translate}}</label>
                               <a href="javascript://"><img
@@ -412,7 +412,7 @@
                                     src="assets/img/top-arrow.png" alt="img"></a>
                            </div>
                         </th>
-                        <th style="width:10%;vertical-align:top;">
+                        <th style="width:10%;vertical-align:top;"  *ngIf="selectedPropertyColumnsToShow?.commercial_offers">
                            <div (click)="sort_by(1)" class="d-flex table-search">
                               <label>{{'table.th.Commercialoffers' | translate}}</label>
                               <!-- <a href="javascript://"><img
@@ -420,7 +420,7 @@
                                     src="assets/img/top-arrow.png" alt="img"></a> -->
                            </div>
                         </th>
-                        <th style="width:8%;vertical-align:top;">
+                        <th style="width:8%;vertical-align:top;"  *ngIf="selectedPropertyColumnsToShow?.carpet_area">
                            <div (click)="sort_by(5)" class="d-flex table-search">
                               <label>{{'table.th.carpetArea' | translate}}</label>
                               <a href="javascript://"><img
@@ -428,7 +428,7 @@
                                     src="assets/img/top-arrow.png" alt="img"></a>
                            </div>
                         </th>
-                        <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
+                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.commercialized_sozu" style="width:5%;vertical-align:top;">
                            <div class="table-search">
                               <label>{{'table.th.commercializedBySOZU' | translate}}</label>
                               <select class="width100px" [(ngModel)]="parameter.is_commercialized"
@@ -439,7 +439,7 @@
                               </select>
                            </div>
                         </th>
-                        <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
+                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.possession_status" style="width:5%;vertical-align:top;">
                            <div class="table-search">
                               <label>{{'table.th.possession_status' | translate}}</label>
                               <select [(ngModel)]="parameter.possession_status_id" (change)="getListing()">
@@ -454,27 +454,27 @@
                         </th>
 
                        
-                        <th style="width:8%;vertical-align:top;">
+                        <th style="width:8%;vertical-align:top;"   *ngIf="selectedPropertyColumnsToShow?.agent_commission">
                            <div (click)="sort_by(1)" class="d-flex table-search">
                               <label>{{'table.th.agentCommission' | translate}}</label>
                            </div>
                         </th>
-                        <th style="width:4%;vertical-align:top;">
+                        <th style="width:4%;vertical-align:top;"   *ngIf="selectedPropertyColumnsToShow?.edit_agent_commission">
                            <div class="d-flex table-search">
-                              <label>{{'table.th.editCommission' | translate}}</label>
+                              <label>{{'table.th.editAgentCommission' | translate}}</label>
                            </div>
                         </th>
-                        <th style="width:8%;vertical-align:top;">
+                        <th style="width:8%;vertical-align:top;"   *ngIf="selectedPropertyColumnsToShow?.total_commission">
                            <div (click)="sort_by(1)" class="d-flex table-search">
                               <label>{{'table.th.totalSozuCommission' | translate}}</label>
                            </div>
                         </th>
-                        <th style="width:4%;vertical-align:top;">
+                        <th style="width:4%;vertical-align:top;"   *ngIf="selectedPropertyColumnsToShow?.edit_total_commission">
                            <div class="d-flex table-search">
-                              <label>{{'table.th.editCommission' | translate}}</label>
+                              <label>{{'table.th.editTotalCommission' | translate}}</label>
                            </div>
                         </th>
-                        <th style="width:4%;vertical-align:top;">
+                        <th style="width:4%;vertical-align:top;"   *ngIf="selectedPropertyColumnsToShow?.leads">
                            <div (click)="sort_by(3)" class="d-flex table-search">
                               <label>{{'table.th.leads' | translate}}</label>
                               <a href="javascript://"><img
@@ -482,12 +482,12 @@
                                     src="assets/img/top-arrow.png" alt="img"></a>
                            </div>
                         </th>
-                        <th style="width:5%;vertical-align:top;" *ngIf="parameter.flag==5">
+                        <th style="width:5%;vertical-align:top;" *ngIf="parameter.flag==5 && selectedPropertyColumnsToShow?.view_seller_request">
                            <div class="d-flex table-search">
                               <label>{{'table.th.viewSellerRequest' | translate}}</label>
                            </div>
                         </th>
-                        <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
+                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.change_buyer" style="width:5%;vertical-align:top;">
                            <div class="table-search">
                               <label>{{'table.th.changeBuyer' | translate}}</label>
                               <div class="searh-3">
@@ -498,7 +498,7 @@
                               </div>
                            </div>
                         </th>
-                        <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
+                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.change_seller" style="width:5%;vertical-align:top;">
                            <div class="table-search">
                               <label>{{'table.th.changeSeller' | translate}}</label>
                               <div class="searh-3">
@@ -509,7 +509,7 @@
                               </div>
                            </div>
                         </th>
-                        <th *ngIf="parameter.flag!=5" style="width:6%;vertical-align:top;">
+                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.link_unlink_agent" style="width:6%;vertical-align:top;">
                            <div class="table-search">
                               <label>{{'table.th.linkUnlinkAgent' | translate}}</label>
                               <!-- <div class="searh-3">
@@ -518,7 +518,7 @@
                                  </div> -->
                            </div>
                         </th>
-                        <th *ngIf="parameter.flag!=5" style="width:6%;vertical-align:top;">
+                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.link_agency" style="width:6%;vertical-align:top;">
                            <div class="table-search">
                               <label>{{'table.th.LinkAgency' | translate}}</label>
                               <!-- <div class="searh-3">
@@ -527,7 +527,7 @@
                                  </div> -->
                            </div>
                         </th>
-                        <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
+                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.change_availability" style="width:5%;vertical-align:top;">
                            <div class="table-search">
                               <label>{{'table.th.changeAvailability' | translate}}</label>
                               <select [(ngModel)]="parameter.availability_filter" (change)="getListing()"
@@ -539,7 +539,7 @@
                               </select>
                            </div>
                         </th>
-                        <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
+                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.is_property_sold" style="width:5%;vertical-align:top;">
                            <div class="table-search">
                               <label>{{'table.th.isPropertySold' | translate}}</label>
                               <select class="width100px" [(ngModel)]="parameter.sold_filter" (change)="getListing()"
@@ -550,12 +550,12 @@
                               </select>
                            </div>
                         </th>
-                        <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
+                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.linked_collection" style="width:5%;vertical-align:top;">
                            <div class="table-search">
                               <label>{{'table.th.linkedCollection' | translate}}</label>
                            </div>
                         </th>
-                        <th style="width:10%;" *ngIf="parameter.flag!=5">
+                        <th style="width:10%;" *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.action">
                            <div class="table-search">
                               <label>{{'table.th.actions.label' | translate}}</label>
                               <select [(ngModel)]="parameter.action_filter" (change)="getListing()"
@@ -572,7 +572,7 @@
                      <tr
                         *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
                         <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
-                           (click)="viewPropertyDetails(p.id, p)">
+                           (click)="viewPropertyDetails(p.id, p)" *ngIf="selectedPropertyColumnsToShow?.building_name">
                            
                            <strong>{{p?.building?.name || ('table.tr.td.NA' | translate)}}</strong>
                            <div class="clearfix"></div>
@@ -582,31 +582,31 @@
                               <span *ngIf="p.quantity > 1">properties</span>
                            </small>
                         </td>
-                        <td><span>{{p?.building_towers ? p?.building_towers?.tower_name : ('table.tr.td.NA' |
+                        <td *ngIf="selectedPropertyColumnsToShow?.tower_name"><span>{{p?.building_towers ? p?.building_towers?.tower_name : ('table.tr.td.NA' |
                               translate)}}</span></td>
-                        <td><span>{{p?.building_towers?.tower_name
+                        <td *ngIf="selectedPropertyColumnsToShow?.floor"><span>{{p?.building_towers?.tower_name
                               ? (p?.floor_num == 0 ? ('addCollection.groundFloor' | translate) : ('addCollection.floor'
                               | translate) + ' ' + p?.floor_num)
                               : ('table.tr.td.NA' | translate)}}</span></td>
-                        <td><span>{{p?.name || ('table.tr.td.NA' | translate)}}</span></td>
-                        <td>
+                        <td *ngIf="selectedPropertyColumnsToShow?.apartment"><span>{{p?.name || ('table.tr.td.NA' | translate)}}</span></td>
+                        <td *ngIf="selectedPropertyColumnsToShow?.model">
                            <span [style.textAlign]="'center'">
                               <b>{{p?.building_configuration?.name || ('table.tr.td.NA' | translate)}}</b>
                            </span>
                         </td>
-                        <td>
+                        <td *ngIf="selectedPropertyColumnsToShow?.configuration">
                            <app-property-configuration *ngIf="p?.building_configuration"
                               [configuration]="p.building_configuration.config"></app-property-configuration>
                         </td>
-                        <td><span>
+                        <td *ngIf="selectedPropertyColumnsToShow?.edit_list_price"><span>
                            <button (click)="editPricePopup(p, i)"
                               [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
                               title="{{'table.title.editPrice' | translate}}" class="action-icon"><img
                                  src="assets/img/edit.png" alt="img"></button>
                         </span></td>
-                        <td><span>{{p.min_price | price}}</span></td>
-                        <td><span>{{p.final_price ? (p.final_price | price) : ('table.tr.td.NA' | translate)}}</span></td>
-                        <td>
+                        <td *ngIf="selectedPropertyColumnsToShow?.list_price"><span>{{p.min_price | price}}</span></td>
+                        <td *ngIf="selectedPropertyColumnsToShow?.final_price"><span>{{p.final_price ? (p.final_price | price) : ('table.tr.td.NA' | translate)}}</span></td>
+                        <td *ngIf="selectedPropertyColumnsToShow?.commercial_offers">
                            <span  *ngIf="p?.offer_count">
                               <a class="add1" href="javascript://" (click)="openOfferModel(p, i)" style="color: #00B96F;">
                                  <b>{{p?.offer_count || ('table.tr.td.NA' | translate)}}</b>
@@ -617,32 +617,32 @@
                            </span>
                         </td>
                         <!-- <td><span>{{p?.carpet_areas && p?.carpet_areas?.length>0 ? (p?.carpet_areas[0]?.area| number : '1.2-2') : 0.00}}</span></td> -->
-                        <td><span>{{p?.max_area ? p.max_area : 0.00}}</span></td>
-                        <td><span>{{p?.is_commercialized ? ( 'table.th.yes' | translate ): ( 'table.th.no' | translate )
+                        <td *ngIf="selectedPropertyColumnsToShow?.carpet_area"><span>{{p?.max_area ? p.max_area : 0.00}}</span></td>
+                        <td *ngIf="selectedPropertyColumnsToShow?.commercialized_sozu"><span>{{p?.is_commercialized ? ( 'table.th.yes' | translate ): ( 'table.th.no' | translate )
                               }}</span></td>
-                        <td><span>{{p?.building_towers?.possession_status_id == apiConstant.possessionStatus.sale ?
+                        <td *ngIf="selectedPropertyColumnsToShow?.possession_status"><span>{{p?.building_towers?.possession_status_id == apiConstant.possessionStatus.sale ?
                               ('table.tr.td.sale' |
                               translate) : ('table.tr.td.presale' | translate)}}</span></td>
                       
-                        <td><span>{{p.broker_commision | percentage}}</span></td>
-                        <td><span>
+                        <td  *ngIf="selectedPropertyColumnsToShow?.agent_commission"><span>{{p.broker_commision | percentage}}</span></td>
+                        <td *ngIf="selectedPropertyColumnsToShow?.edit_agent_commission"><span>
                               <button (click)="editAgentCommissionPopup(p, i, true)"
                                  [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
                                  title="{{'table.title.editPrice' | translate}}" class="action-icon"><img
                                     src="assets/img/edit.png" alt="img"></button>
                            </span></td>
 
-                        <td><span>{{p?.total_commission | percentage}}</span></td>
-                        <td><span>
+                        <td *ngIf="selectedPropertyColumnsToShow?.total_commission"><span>{{p?.total_commission | percentage}}</span></td>
+                        <td *ngIf="selectedPropertyColumnsToShow?.edit_total_commission"><span>
                               <button (click)="editAgentCommissionPopup(p, i, false)"
                                  [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
                                  title="{{'table.title.editPrice' | translate}}" class="action-icon"><img
                                     src="assets/img/edit.png" alt="img"></button>
                            </span></td>
 
-                        <td><span>{{p.lead_properties_count | roundNumber}}</span></td>
+                        <td *ngIf="selectedPropertyColumnsToShow?.leads"><span>{{p.lead_properties_count | roundNumber}}</span></td>
 
-                        <td *ngIf="parameter.flag!=5" class="cursor-pointer"
+                        <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.change_buyer" class="cursor-pointer"
                            title="{{p?.selected_buyer?.user?.name ? ('table.title.clickToChangeBuyer' | translate) : ('table.title.clickToAddBuyer' | translate)}}"
                            (click)="getAllSellers(p, '1', i, 'buyer', 1)">
                            <span *ngIf="p?.selected_buyer?.user?.legal_entity" class="green-color">
@@ -653,12 +653,12 @@
                            </span>
                         </td>
 
-                        <td *ngIf="parameter.flag==5" class="cursor-pointer"
+                        <td *ngIf="parameter.flag==5  && selectedPropertyColumnsToShow?.view_seller_request" class="cursor-pointer"
                            title="{{'table.title.viewSellerRequest' | translate}}" (click)="showAllSellers(p?.id, i)">
                            <span class="green-color"><span>{{'table.tr.td.view' | translate}}</span></span>
                         </td>
 
-                        <td *ngIf="parameter.flag!=5" class="cursor-pointer"
+                        <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.change_seller" class="cursor-pointer"
                            title="{{p?.selected_seller?.user?.name ? ('table.title.clickToChangeSeller' | translate) : ('table.title.clickToAddSeller' | translate)}}"
                            (click)="getAllSellers(p, '1', i, 'seller', 1)">
                            <span *ngIf="p?.selected_seller?.user?.legal_entity" class="green-color">
@@ -669,7 +669,7 @@
                            </span>
                         </td>
 
-                        <td *ngIf="parameter.flag!=5" class="cursor-pointer" (click)="getBothBroker(p, '')">
+                        <td *ngIf="parameter.flag!=5  && selectedPropertyColumnsToShow?.link_unlink_agent" class="cursor-pointer" (click)="getBothBroker(p, '')">
                            <span class="green-color">
                               <span
                                  title="{{p?.external_broker?.id ? ('table.title.clickToChange' | translate) : ('table.title.clickToAssign' | translate) }}">
@@ -677,7 +677,7 @@
                                  ? ('table.tr.td.change' | translate) : ('table.tr.td.link' | translate)}}</span>
                            </span>
                         </td>
-                        <td *ngIf="parameter.flag!=5" class="cursor-pointer" (click)="getAgency(p, '',i)">
+                        <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.link_agency" class="cursor-pointer" (click)="getAgency(p, '',i)">
                            <span class="green-color">
                               <span
                                  title="{{p?.get_agency?.id ? ('table.title.clickToChange' | translate) : ('table.title.clickToAssign' | translate) }}">
@@ -685,17 +685,17 @@
                                  ? ('table.tr.td.change' | translate) : ('table.tr.td.link' | translate)}}</span>
                            </span>
                         </td>
-                        <td *ngIf="parameter.flag!=5" class="cursor-pointer">
+                        <td *ngIf="parameter.flag!=5  && selectedPropertyColumnsToShow?.change_availability" class="cursor-pointer">
                            <select (change)="changeSoldStatusPopup(p, i, $event)">
                               <option [selected]="p.for_sale==1" value="1">{{'table.th.buy' | translate}}</option>
                               <option [selected]="p.for_rent==1" value="2">{{'table.th.rent' | translate}}</option>
                               <option [selected]="p.for_hold==1" value="3">{{'table.th.inventory' | translate}}</option>
                            </select>
                         </td>
-                        <td *ngIf="parameter.flag!=5">
+                        <td *ngIf="parameter.flag!=5  && selectedPropertyColumnsToShow?.is_property_sold">
                            {{p?.is_property_sold ? ('table.th.yes' | translate) : ('table.th.no' | translate)}}
                         </td>
-                        <td *ngIf="parameter.flag!=5">
+                        <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.linked_collection">
                            <span *ngIf="p?.collection && p?.collection?.is_cancelled!=1">{{'table.th.yes' | translate}}
                               <span class="green-color cursor-pointer"
                                  routerLink="/dashboard/collections/view-collections/{{p?.collection?.id}}">{{p?.collection?.id}}</span>
@@ -704,7 +704,7 @@
                               *ngIf="!p?.collection || (p?.collection && p?.collection?.is_cancelled==1)">{{'table.th.no'
                               | translate}}</span>
                         </td>
-                        <td *ngIf="parameter.flag!=5">
+                        <td *ngIf="parameter.flag!=5  && selectedPropertyColumnsToShow?.action">
                            <div class="table-actions">
                               <!--this button to open installment modal -->
                               <button (click)="this.openModalInstallment(p);" class="action-icon"
@@ -2246,16 +2246,13 @@ margin-left: -20%;">
             <button type="button" class="close" #closeSelectColumnsModal data-dismiss="modal">&times;</button>
          </div>
          <div class="modal-body">
-
-            <p class="modal-title" >
-                  {{'table.title.selectTheColumnYouWantToVisualize' | translate}}
-            </p>
+            <p class="modal-title">{{'table.title.selectTheColumnYouWantToVisualize' | translate}}</p>
           <br/>
           <div class="row">
             <div class="col-md-8 col-6">
                      <label class="p16-two">
                        <input class="form-control" class="is_commission_sale_enabled" type="checkbox"
-                         name="" >
+                         name="SelectAll" (change)="changeSelectAll()"  [(ngModel)]="isSelectAllColumns" >
                        <span style="margin-left: 10px; vertical-align: super;">{{'commonBlock.selectAll' |
                          translate}}</span>
                      </label>
@@ -2268,29 +2265,30 @@ margin-left: -20%;">
          <div class="spacer40"></div>
             <div class="row">
                <div class="col-md-8 col-6">
-                  <input style="max-width:200px" (keyup.enter)="getAgency('', keyword)" [(ngModel)]="keyword"
+                  <input style="max-width:200px" (keyup.enter)="getPropertySelection(false, keyword)" [(ngModel)]="keyword"
                      class="form-control" type="text" name="keyword"
                      placeholder="{{'addForm.placeholder.search' | translate}}">
                </div>
                <div class="col-md-4 col-5 btn-cont">
                   <a class="btn btn-primary pull-right" href="javascript://"
-                     (click)="getAgency('', keyword)">{{'viewProperty.search' | translate}}</a>
+                     (click)="getPropertySelection(false, keyword)">{{'viewProperty.search' | translate}}</a>
                </div>
             </div>
 
             <div class="spacer40"></div>
             <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
                <table class="table">
-                  <tr *ngFor="let item of select_columns_list">
+                  <tr *ngFor="let item of select_columns_list; let ii=index">
                      <td>
                         <div class="row">
                            <div class="col-md-8 col-6">
-                                    <label class="p16-two">
-                                      <input class="form-control" class="is_commission_sale_enabled" type="checkbox"
-                                        name="" >
-                                      <span style="margin-left: 10px; vertical-align: super;">{{'addForm.select' |
-                                        translate}}</span>
-                                    </label>
+                              <label class="p16-two">
+                                 <input class="form-control" class="is_commission_sale_enabled" type="checkbox"
+                                        name="checkbox{{ii}}" [(ngModel)]="item.isCheckBoxChecked" (change)="changeSelect()">
+                                 <span style="margin-left: 10px; vertical-align: super;">
+                                    {{this.language_code == 'en' ? item.name_en : item.name_es }}
+                                 </span>
+                                 </label>
                            </div>
                         </div>
                      </td>

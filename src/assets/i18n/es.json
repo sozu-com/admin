@@ -697,6 +697,8 @@
       "ACInvoice": "Factura de AC",
       "ivaAdded": "IVA agregado en la cantidad",
       "editCommission": "Editar comisión",
+      "editAgentCommission": "Editar comisión de agente",
+      "editTotalCommission": "Editar comisión total",
       "viewSellerRequest": "Ver la solicitud del vendedor",
       "changeSeller": "Cambiar vendedor",
       "changeBuyer": "Cambiar comprador",

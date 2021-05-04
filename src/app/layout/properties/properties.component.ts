@@ -152,6 +152,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   @ViewChild('openSelectColumnsModal') openSelectColumnsModal: ElementRef;
   @ViewChild('closeSelectColumnsModal') closeSelectColumnsModal: ElementRef;
   select_columns_list: any[] = [];
+  public selectedPropertyColumnsToShow: any = {};
+  public isSelectAllColumns: boolean = false;
 
   constructor(
     public constant: Constant,
@@ -229,6 +231,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.language_code = localStorage.getItem('language_code');
+    this.getPropertyHome();
     this.iniDropDownSetting();
     this.initializedDropDownSetting();
     // this.iniDropDownSettings();
@@ -2214,6 +2217,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   attachAgency = (agency: any, isUnlinkAgency: boolean): void => {
+    this.spinner.show();
     const input = {
       property_id: (this.property || {}).id, agency_id: (agency || {}).id
     };
@@ -2221,6 +2225,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       input.agency_id = null;
     }
     this.admin.postDataApi('attachAgency', input).subscribe((response) => {
+      this.spinner.hide();
       this.closeLinkAgencyModal.nativeElement.click();
       if (isUnlinkAgency) {
         this.items[this.propertyIndex].get_agency = null;
@@ -2231,22 +2236,203 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         this.translate.instant('message.success.unlinkedSuccessfully');
       swal(this.translate.instant('swal.success'), text, 'success');
     }, (error) => {
+      this.spinner.hide();
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
     });
   }
 
-  openSelectColumnsPopup = (): void => {
-    for (let index = 0; index < 20; index++) {
-      this.select_columns_list.push({ id: '', name: '' });
-    }
-    this.openSelectColumnsModal.nativeElement.click();
+  getPropertySelection = (isFirstTime: boolean, keyword?: string): void => {
+    this.spinner.show();
+    this.admin.postDataApi('getPropertySelection', { name: keyword }).subscribe((response) => {
+      this.spinner.hide();
+      this.select_columns_list = (response.data || []).sort((a, b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0));
+      (this.select_columns_list || []).forEach((data, index) => {
+        this.makeSelectedColumns(data.id, index);
+      });
+      this.changeSelect();
+      if (isFirstTime) {
+        this.keyword = '';
+        this.isSelectAllColumns = false;
+        this.language_code = localStorage.getItem('language_code');
+        this.openSelectColumnsModal.nativeElement.click();
+      }
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), ((error || {}).error || {}).message, 'error');
+    });
   }
 
   closeSelectColumnsPopup = (): void => {
+    this.keyword = '';
+    this.isSelectAllColumns = false;
     this.closeSelectColumnsModal.nativeElement.click();
   }
 
   applyShowSelectedColumns = (): void => {
+    this.spinner.show();
+    this.admin.postDataApi('updatePropertyHome', this.getPostRequestForColumn()).subscribe((response) => {
+      this.spinner.hide();
+      this.closeSelectColumnsPopup();
+      this.getPropertyHome();
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
+
+  getPostRequestForColumn = (): any => {
+    return {
+      user_id: JSON.parse(localStorage.getItem('all')).data.id,
+      building_name: (this.select_columns_list[0] || []).isCheckBoxChecked,
+      tower_name: (this.select_columns_list[1] || []).isCheckBoxChecked,
+      floor: (this.select_columns_list[2] || []).isCheckBoxChecked,
+      apartment: (this.select_columns_list[3] || []).isCheckBoxChecked,
+      model: (this.select_columns_list[4] || []).isCheckBoxChecked,
+      configuration: (this.select_columns_list[5] || []).isCheckBoxChecked,
+      edit_list_price: (this.select_columns_list[6] || []).isCheckBoxChecked,
+      list_price: (this.select_columns_list[7] || []).isCheckBoxChecked,
+      final_price: (this.select_columns_list[8] || []).isCheckBoxChecked,
+      commercial_offers: (this.select_columns_list[9] || []).isCheckBoxChecked,
+      carpet_area: (this.select_columns_list[10] || []).isCheckBoxChecked,
+      commercialized_sozu: (this.select_columns_list[11] || []).isCheckBoxChecked,
+      possession_status: (this.select_columns_list[12] || []).isCheckBoxChecked,
+      agent_commission: (this.select_columns_list[13] || []).isCheckBoxChecked,
+      edit_agent_commission: (this.select_columns_list[14] || []).isCheckBoxChecked,
+      total_commission: (this.select_columns_list[15] || []).isCheckBoxChecked,
+      leads: (this.select_columns_list[17] || []).isCheckBoxChecked,
+      change_buyer: (this.select_columns_list[18] || []).isCheckBoxChecked,
+      change_seller: (this.select_columns_list[19] || []).isCheckBoxChecked,
+      link_unlink_agent: (this.select_columns_list[20] || []).isCheckBoxChecked,
+      link_agency: (this.select_columns_list[21] || []).isCheckBoxChecked,
+      change_availability: (this.select_columns_list[22] || []).isCheckBoxChecked,
+      is_property_sold: (this.select_columns_list[23] || []).isCheckBoxChecked,
+      linked_collection: (this.select_columns_list[24] || []).isCheckBoxChecked,
+      edit_total_commission: (this.select_columns_list[25] || []).isCheckBoxChecked,
+      view_seller_request: (this.select_columns_list[26] || []).isCheckBoxChecked,
+      action: (this.select_columns_list[27] || []).isCheckBoxChecked
+    };
+  }
+
+  getPropertyHome = (): void => {
+    this.spinner.show();
+    this.admin.postDataApi('getPropertyHome', { user_id: JSON.parse(localStorage.getItem('all')).data.id }).subscribe((response) => {
+      this.spinner.hide();
+      this.selectedPropertyColumnsToShow = response.data || {};
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
+
+  changeSelectAll = (): void => {
+    (this.select_columns_list || []).forEach((data) => {
+      data.isCheckBoxChecked = this.isSelectAllColumns;
+    });
+  }
+
+  changeSelect = (): void => {
+    let index = 0;
+    (this.select_columns_list || []).forEach((data) => {
+      if (data.isCheckBoxChecked) {
+        index += 1;
+      }
+    });
+    if ((this.select_columns_list || []).length == index) {
+      this.isSelectAllColumns = true;
+    } else {
+      this.isSelectAllColumns = false;
+    }
+  }
+
+  makeSelectedColumns = (id: number, index: number): void => {
+    switch (id) {
+      case 1:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.building_name;
+        break;
+      case 2:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.tower_name;
+        break;
+      case 3:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.floor;
+        break;
+      case 4:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.apartment;
+        break;
+      case 5:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.model;
+        break;
+      case 6:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.configuration;
+        break;
+      case 7:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.edit_list_price;
+        break;
+      case 8:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.list_price;
+        break;
+      case 9:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.final_price;
+        break;
+      case 10:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.commercial_offers;
+        break;
+      case 11:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.carpet_area;
+        break;
+      case 12:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.commercialized_sozu;
+        break;
+      case 13:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.possession_status;
+        break;
+      case 14:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.agent_commission;
+        break;
+
+      
+      case 16:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.total_commission;
+        break;
+        case 17:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.edit_agent_commission;
+        break;
+      case 18:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.leads;
+        break;
+      case 19:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.change_buyer;
+        break;
+      case 20:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.change_seller;
+        break;
+      case 21:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.link_unlink_agent;
+        break;
+      case 22:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.link_agency;
+        break;
+      case 23:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.change_availability;
+        break;
+      case 24:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.is_property_sold;
+        break;
+      case 25:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.linked_collection;
+        break;
+      case 26:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.edit_total_commission;
+        break;
+      case 27:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.view_seller_request;
+        break;
+      case 28:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.action;
+        break;
+      default:
+        break;
+    }
 
   }
+
 }
