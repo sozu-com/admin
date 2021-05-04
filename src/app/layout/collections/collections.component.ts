@@ -1578,7 +1578,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       input['invoice_id'] = this.invoice_id;
       input['pdf_url'] = this.pdf_url;
       input['xml_url'] = this.xml_url;
-      input['amount'] = amt - this.ivaAmount;
+      input['amount'] = this.ivaAmount - amt;
       input['iva_amount'] = this.ivaAmount;
 
       if (this.invoice_date) {

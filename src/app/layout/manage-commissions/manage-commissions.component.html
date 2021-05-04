@@ -467,14 +467,14 @@
                       | translate)}}</span>
                   </td>
                   
-                  <td>{{p?.cc_percent}}</td>
+                  <td>{{p?.cc_percent || 0}}</td>
                   <td>
                     <input name="add_iva_to_cc{{i}}" disabled class="form-control checkbox_size" type="checkbox"
                       [checked]="p?.add_iva_to_cc ? 'checked' : ''" readonly>
                   </td>
                   <td>N/A</td>
                   
-                  <td><span>{{(p?.total_payment_recieved || 0) | currency}}</span></td>
+                  <td><span>{{(p?.payment_commission || 0) | currency}}</span></td>
                   <td><span>{{getRemainingAmt(p) | currency}}</span></td>
 
                   <td>
