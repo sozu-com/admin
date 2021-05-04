@@ -110,6 +110,7 @@ export class AdminService {
     return this.http.post(this.baseUrl + 'login', input, {headers: headers})
                 .map(response => {
                   const r = response.json();
+                  localStorage.setItem('all', JSON.stringify(r));
                   localStorage.setItem('token', r.data.token);
                   this.login.next(r.data);
                   this.globalSettings.next(r.data.global_settings);
