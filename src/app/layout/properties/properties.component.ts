@@ -2282,7 +2282,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   getPostRequestForColumn = (): any => {
     return {
-      user_id: JSON.parse(localStorage.getItem('all')).data.id,
+      user_id: (JSON.parse(localStorage.getItem('all')).data || {}).id || 0,
       building_name: (this.select_columns_list[0] || []).isCheckBoxChecked,
       tower_name: (this.select_columns_list[1] || []).isCheckBoxChecked,
       floor: (this.select_columns_list[2] || []).isCheckBoxChecked,
@@ -2315,7 +2315,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   getPropertyHome = (): void => {
     this.spinner.show();
-    this.admin.postDataApi('getPropertyHome', { user_id: JSON.parse(localStorage.getItem('all')).data.id }).subscribe((response) => {
+    this.admin.postDataApi('getPropertyHome', { user_id: (JSON.parse(localStorage.getItem('all')).data || {}).id || 0 }).subscribe((response) => {
       this.spinner.hide();
       this.selectedPropertyColumnsToShow = response.data || {};
     }, (error) => {
@@ -2389,11 +2389,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.agent_commission;
         break;
 
-      
+
       case 16:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.total_commission;
         break;
-        case 17:
+      case 17:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.edit_agent_commission;
         break;
       case 18:
