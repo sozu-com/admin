@@ -1226,6 +1226,7 @@
       "pleaseEnterContactNumber": "Please enter contact number",
       "pleaseEnterLegalRepresentativeFTPR": "Please enter legal representative's federal tax payer registry",
       "payToSpecificCheck": "In Pay to Specific, you can either pay partial amount or the exact amount.",
+      "deal": "Please Pay Deal Payment firstly.",
       "totalPayemntCheck": "In Total Payment, you need to pay exact sum of remanining amount and penalties.",
       "payToRemainingcheck": "You cannot pay more than the sum of remaining unpaid monthly installments",
       "payToFollowingCheck": "You cannot pay more than the remaining amount",
