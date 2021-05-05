@@ -1347,7 +1347,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_ac)) {
           this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
           this.paymentAmount = this.paymentAmount + this.ivaAmount;
+          console.log(this.paymentAmount," this.paymentAmount")
           this.sameAmount = this.paymentAmount;
+          console.log(this.sameAmount," this.sameAmount")
         }
       } else {
         this.paymentAmount = item.amount || 0;
@@ -1578,7 +1580,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       input['invoice_id'] = this.invoice_id;
       input['pdf_url'] = this.pdf_url;
       input['xml_url'] = this.xml_url;
-      input['amount'] = this.ivaAmount - amt;
+      input['amount'] =  amt-this.ivaAmount;
       input['iva_amount'] = this.ivaAmount;
 
       if (this.invoice_date) {
@@ -2001,7 +2003,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   }
 
   showCollectionCommReceipt(item: any, i: number, type: string) {
-    if (item.paid) {
+    // if (item.paid) {
       this.property_collection_id = item.id;
       this.selectedItem = item;
       this.collectionIndex = i;
@@ -2010,11 +2012,12 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       this.is_external_agent = item.deal_commission_agents && item.deal_commission_agents.length > 0 && item.deal_commission_agents[0].broker ?
         item.deal_commission_agents[0].broker.is_external_agent : 0;
       this.collectionReceiptOpen.nativeElement.click();
-    } else {
-      this.toastr.clear();
-      this.toastr.error(this.translate.instant('message.error.deal'), this.translate.instant('swal.error'));
-      return false;
-    }
+   // } 
+    // else {
+    //   this.toastr.clear();
+    //   this.toastr.error(this.translate.instant('message.error.deal'), this.translate.instant('swal.error'));
+    //   return false;
+    // }
 
   }
 
