@@ -323,7 +323,7 @@ export class ModelComponent implements OnInit {
             this.finalData.push({
               model: property,
               name: 'TOTAL - ' + property,
-              deal_price: deal_price - c_deal_price,
+              final_price: deal_price - c_deal_price,
               received: received,
               remaining: remaining,
               penalty: penalty,
@@ -337,7 +337,7 @@ export class ModelComponent implements OnInit {
         this.finalData.push({
           model: '',
           name: 'Grand Total',
-          deal_price: f.reduce((a, b) => a + (b['final_price'] || 0), 0),
+          final_price: f.reduce((a, b) => a + (b['final_price'] || 0), 0),
           received: f.reduce((a, b) => a + (b['received'] || 0), 0),
           remaining: f.reduce((a, b) => a + (b['remaining'] || 0), 0),
           penalty: f.reduce((a, b) => a + (b['penalty'] || 0), 0),
