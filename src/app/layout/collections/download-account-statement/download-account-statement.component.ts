@@ -263,8 +263,8 @@ export class DownloadAccountStatementComponent implements OnInit {
         }
       }
     } else if (this.collection_data.payment_received_by == 0) {
-      this.legal_name = this.bankDetails.selected_seller.user.developer_company ? this.bankDetails.selected_seller.user.developer_company :
-        this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id ? this.bankDetails.selected_seller.user.name + ' ' + this.bankDetails.selected_seller.user.first_surname
+      this.legal_name = ((this.bankDetails.selected_seller || {}).user || {}).developer_company ? this.bankDetails.selected_seller.user.developer_company :
+        ((this.bankDetails.selected_seller || {}).user || {}).is_developer == 0 && !((this.bankDetails.selected_seller || {}).user || {}).legal_entity_id ? this.bankDetails.selected_seller.user.name + ' ' + this.bankDetails.selected_seller.user.first_surname
           + ' ' + this.bankDetails.selected_seller.user.second_surname : '';
       this.footer_address = this.collection_data.seller_type == 1 ? (this.bankDetails.selected_seller.user.tax_street_address && this.bankDetails.selected_seller.user.tax_street_address != '0' ? this.bankDetails.selected_seller.user.tax_street_address + ' ' : '') +
         (this.bankDetails.selected_seller.user.tax_external_number ? this.bankDetails.selected_seller.user.tax_external_number + '\n' : '')
@@ -272,7 +272,7 @@ export class DownloadAccountStatementComponent implements OnInit {
         + (this.bankDetails.selected_seller.user.tax_zipcode && this.bankDetails.selected_seller.user.tax_zipcode != '0' ? this.bankDetails.selected_seller.user.tax_zipcode + ', ' : '') + (this.bankDetails.selected_seller.user.tax_city ? this.bankDetails.selected_seller.user.tax_city + ', ' : '')
         + (this.bankDetails.selected_seller.user.tax_state ? this.bankDetails.selected_seller.user.tax_state + ', ' : '') + (this.bankDetails.selected_seller.user.tax_country ? this.bankDetails.selected_seller.user.tax_country + ', ' : '') : this.collection_data.seller_type == 3 ? this.bankDetails.selected_seller.user.address : '';
 
-      if (this.bankDetails.selected_seller.user.developer_company || this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id) {
+      if (((this.bankDetails.selected_seller || {}).user || {}).developer_company || ((this.bankDetails.selected_seller || {}).user || {}).is_developer == 0 && !((this.bankDetails.selected_seller || {}).user || {}).legal_entity_id) {
         this.fedTaxPayer = (((this.bankDetails || {}).selected_seller || {}).user || {}).fed_tax_pay || '';
         ((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_rep_banks || []).forEach((element, innerIndex) => {
           if (element.id == this.collection_data.bank_id) {
@@ -285,13 +285,18 @@ export class DownloadAccountStatementComponent implements OnInit {
         });
       }
       else {
-        this.legal_name = this.bankDetails.selected_seller.user.legal_entity.legal_name;
+        this.legal_name = (((this.bankDetails.selected_seller || {}).user ||{}).legal_entity || {}).legal_name;
+        if(this.bankDetails.selected_seller){
         this.footer_address = (this.bankDetails.selected_seller.user.legal_entity.tax_street_address && this.bankDetails.selected_seller.user.legal_entity.tax_street_address != '0' ? this.bankDetails.selected_seller.user.legal_entity.tax_street_address + ' ' : '') +
           (this.bankDetails.selected_seller.user.legal_entity.tax_external_number ? this.bankDetails.selected_seller.user.legal_entity.tax_external_number + '\n' : '')
           + (this.bankDetails.selected_seller.user.legal_entity.tax_internal_number ? this.bankDetails.selected_seller.user.legal_entity.tax_internal_number + ', ' : '') + (this.bankDetails.selected_seller.user.legal_entity.tax_neighborhood ? this.bankDetails.selected_seller.user.legal_entity.tax_neighborhood + '\n' : '')
           + (this.bankDetails.selected_seller.user.legal_entity.tax_zipcode && this.bankDetails.selected_seller.user.legal_entity.tax_zipcode != '0' ? this.bankDetails.selected_seller.user.legal_entity.tax_zipcode + ', ' : '') + (this.bankDetails.selected_seller.user.legal_entity.tax_city ? this.bankDetails.selected_seller.user.legal_entity.tax_city + ', ' : '')
           + (this.bankDetails.selected_seller.user.legal_entity.tax_state ? this.bankDetails.selected_seller.user.legal_entity.tax_state + ', ' : '') + (this.bankDetails.selected_seller.user.legal_entity.tax_country ? this.bankDetails.selected_seller.user.legal_entity.tax_country + ', ' : '');
-        (((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_entity || {}).legal_entity_banks || []).forEach((element, innerIndex) => {
+        }
+        else{
+          this.footer_address = undefined;
+        }
+          (((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_entity || {}).legal_entity_banks || []).forEach((element, innerIndex) => {
           this.fedTaxPayer = ((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_entity || {}).fed_tax_pay || '';
           if (element.id == this.collection_data.bank_id) {
             element.name = 'Seller Bank | ' + element.bank_name;
@@ -482,8 +487,8 @@ export class DownloadAccountStatementComponent implements OnInit {
                       { text: this.collection_data.property.name, border: [false, false, false, false], bold: true },
                     ],
                     [
-                      { text: this.translate.instant('generatePDF.listPrice'), bold: true, border: [false, false, false, false], color: '#858291' },
-                      { text: this.price.transform(Number(this.collection_data.deal_price).toFixed(2)), border: [false, false, false, false], bold: true },
+                      { text: this.translate.instant('generatePDF.finalPrice'), bold: true, border: [false, false, false, false], color: '#858291' },
+                      { text: this.price.transform(Number(this.collection_data.final_price).toFixed(2)), border: [false, false, false, false], bold: true },
                     ]
                   ]
                 }
@@ -767,12 +772,12 @@ export class DownloadAccountStatementComponent implements OnInit {
         { text: 'N/A', border: [false, false, false, false], bold: true },
       ]);
     }
-    this.collection_payments.forEach(element => {
-      docDefinition.content[1].columns[0][4].table.body.push([
-        { text: element.name_en + ':', border: [false, false, false, false], color: '#858291' },
-        { text: element.total_amount? this.price.transform(Number(element.total_amount).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true }
-      ])
-    });
+    // this.collection_payments.forEach(element => {
+    //   docDefinition.content[1].columns[0][4].table.body.push([
+    //     { text: element.name_en + ':', border: [false, false, false, false], color: '#858291' },
+    //     { text: element.total_amount? this.price.transform(Number(element.total_amount).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true }
+    //   ])
+    // });
     if (this.collection_data.property.property_parking_space && this.collection_data.property.property_parking_space.length > 0) {
       let no = 6;
       let count = 1;
@@ -782,10 +787,6 @@ export class DownloadAccountStatementComponent implements OnInit {
           { text: this.translate.instant('generatePDF.parkingForSale') + ' ' + (this.translate.defaultLang == 'en' ? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
           { text: element.parking_count, border: [false, false, false, false], bold: true }
         ]);
-        // docDefinition.content[1].columns[0][2].table.body.splice(no + 1, 0, [
-        //   { text: this.translate.instant('generatePDF.parkingType') + ' ' + (this.translate.defaultLang == 'en'? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
-        //   { text: element.parkingLotsType, border: [false, false, false, false], bold: true }
-        // ]); 
         docDefinition.content[1].columns[0][2].table.body.splice(no + 1, 0, [
           { text: this.translate.instant('generatePDF.parkingPrice') + ' ' + (this.translate.defaultLang == 'en' ? parkingName.name_en : parkingName.name_es) + ':', bold: true, border: [false, false, false, false], color: '#858291' },
           { text: this.price.transform(Number(element.parkingLotsPrice ? element.parkingLotsPrice.replace('$', '') : 0).toFixed(2)), border: [false, false, false, false], bold: true }
