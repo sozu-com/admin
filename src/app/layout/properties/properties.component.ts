@@ -2297,19 +2297,19 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       commercialized_sozu: (this.select_columns_list[11] || []).isCheckBoxChecked,
       possession_status: (this.select_columns_list[12] || []).isCheckBoxChecked,
       agent_commission: (this.select_columns_list[13] || []).isCheckBoxChecked,
-      edit_agent_commission: (this.select_columns_list[14] || []).isCheckBoxChecked,
-      total_commission: (this.select_columns_list[15] || []).isCheckBoxChecked,
-      leads: (this.select_columns_list[17] || []).isCheckBoxChecked,
-      change_buyer: (this.select_columns_list[18] || []).isCheckBoxChecked,
-      change_seller: (this.select_columns_list[19] || []).isCheckBoxChecked,
-      link_unlink_agent: (this.select_columns_list[20] || []).isCheckBoxChecked,
-      link_agency: (this.select_columns_list[21] || []).isCheckBoxChecked,
-      change_availability: (this.select_columns_list[22] || []).isCheckBoxChecked,
-      is_property_sold: (this.select_columns_list[23] || []).isCheckBoxChecked,
-      linked_collection: (this.select_columns_list[24] || []).isCheckBoxChecked,
-      edit_total_commission: (this.select_columns_list[25] || []).isCheckBoxChecked,
-      view_seller_request: (this.select_columns_list[26] || []).isCheckBoxChecked,
-      action: (this.select_columns_list[27] || []).isCheckBoxChecked
+      total_commission: (this.select_columns_list[14] || []).isCheckBoxChecked,
+      edit_agent_commission: (this.select_columns_list[15] || []).isCheckBoxChecked,
+      leads: (this.select_columns_list[16] || []).isCheckBoxChecked,
+      change_buyer: (this.select_columns_list[17] || []).isCheckBoxChecked,
+      change_seller: (this.select_columns_list[18] || []).isCheckBoxChecked,
+      link_unlink_agent: (this.select_columns_list[19] || []).isCheckBoxChecked,
+      link_agency: (this.select_columns_list[20] || []).isCheckBoxChecked,
+      change_availability: (this.select_columns_list[21] || []).isCheckBoxChecked,
+      is_property_sold: (this.select_columns_list[22] || []).isCheckBoxChecked,
+      linked_collection: (this.select_columns_list[23] || []).isCheckBoxChecked,
+      edit_total_commission: (this.select_columns_list[24] || []).isCheckBoxChecked,
+      view_seller_request: (this.select_columns_list[25] || []).isCheckBoxChecked,
+      action: (this.select_columns_list[26] || []).isCheckBoxChecked
     };
   }
 
