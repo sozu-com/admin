@@ -227,7 +227,8 @@ export class AddProjectComponent implements OnInit {
         this.admin.postDataApi('getProjectById', { building_id: this.id }).subscribe(r => {
           this.spinner.hide();
           this.model = JSON.parse(JSON.stringify(r.data));
-          this.model.parking_space_lots = r.data.parking_space_lots;
+          this.model.parking_space_lots = r.data.parking_space_lots; 
+          this.model.possession_status_id = r.data.possession_status_id ? r.data.possession_status_id : '';
           //sum parking
           let sum: any = 0;
           this.model.parking_space_lots.forEach(a => sum += parseInt(a.no_parking));
