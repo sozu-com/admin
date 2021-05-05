@@ -284,11 +284,13 @@ export class SalesReportComponent implements OnInit {
     fileName = fileName + date;
     FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
   }
-  getCashFlowInfo(item, index) {
+
+  getCashFlowInfo(item, index, value) {
     if (index != this.already_index) {
       this.already_index = index;
       this.cashFlowInfos = [];
-      let data = this.reportData.approved.find(value => value.label == item.label);
+      
+      let data = value == 1 ? this.reportData.approved.find(value => value.label == item.label) : this.reportData.unapproved.find(value => value.label == item.label);
       let id = data.id.split(',');
       let param = {
         id: id
