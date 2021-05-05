@@ -3114,7 +3114,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     let address = this.collection_data.buyer ? (this.collection_data.buyer.street_address && this.collection_data.buyer.street_address != '0' ? this.collection_data.buyer.street_address + ' ' : '') + (this.collection_data.buyer.external_number ? this.collection_data.buyer.external_number + '\n' : '')
       + (this.collection_data.buyer.internal_number ? this.collection_data.buyer.internal_number + ', ' : '') + (this.collection_data.buyer.neighborhood ? this.collection_data.buyer.neighborhood + '\n' : '')
       + (this.collection_data.buyer.zipcode && this.collection_data.buyer.zipcode != '0' ? this.collection_data.buyer.zipcode + ', ' : '') + (this.collection_data.buyer.city ? this.collection_data.buyer.city + ', ' : '')
-      + (this.collection_data.buyer.state ? this.collection_data.buyer.state + ', ' : '') + (this.collection_data.buyer.country ? this.collection_data.buyer.country + ', ' : '') : undefined;
+      + (this.collection_data.buyer.state ? this.collection_data.buyer.state + ', ' : '') + (this.collection_data.buyer.country ? this.collection_data.buyer.country + ', ' : '') : this.collection_data.buyer_legal_entity ? this.collection_data.buyer_legal_entity. address : undefined;
 
     let cash_limit_amount = this.collection_payments.find(x => x.payment_mode_id == 1);
     let index = this.collection_data.property.property_offer_payment.findIndex(x => x.random_id == this.collection_data.property.offer_id);
@@ -3140,7 +3140,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
                   body: [
                     [
                       { text: this.translate.instant('generatePDF.name'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.collection_data.buyer && this.collection_data.buyer.name ? this.collection_data.buyer.name + ' ' + this.collection_data.buyer.first_surname + ' ' + this.collection_data.buyer.second_surname : 'N/A', border: [false, false, false, false], bold: true }
+                      { text: this.collection_data.buyer && this.collection_data.buyer.name ? this.collection_data.buyer.name + ' ' + this.collection_data.buyer.first_surname + ' ' + this.collection_data.buyer.second_surname : this.collection_data.buyer_legal_entity? this.collection_data.buyer_legal_entity.comm_name : 'N/A', border: [false, false, false, false], bold: true }
                     ],
                     [
                       { text: this.translate.instant('generatePDF.purchaseDate'), border: [false, false, false, false], color: '#858291' },
@@ -3148,11 +3148,11 @@ export class CollectionsComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.email'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.collection_data.buyer ? this.collection_data.buyer.email : 'N/A', border: [false, false, false, false], bold: true }
+                      { text: this.collection_data.buyer ? this.collection_data.buyer.email : this.collection_data.buyer_legal_entity? this.collection_data.buyer_legal_entity.email : 'N/A', border: [false, false, false, false], bold: true }
                     ],
                     [
                       { text: this.translate.instant('generatePDF.contactNumber'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.collection_data.buyer && this.collection_data.buyer.phone ? this.collection_data.buyer.dial_code + ' ' + this.collection_data.buyer.phone : 'N/A', border: [false, false, false, false], bold: true }
+                      { text: this.collection_data.buyer && this.collection_data.buyer.phone ? this.collection_data.buyer.dial_code + ' ' + this.collection_data.buyer.phone : this.collection_data.buyer_legal_entity? this.collection_data.buyer_legal_entity.dial_code + ' ' + this.collection_data.buyer_legal_entity.phone : 'N/A', border: [false, false, false, false], bold: true }
                     ],
                     [
                       { text: this.translate.instant('generatePDF.addressLable'), border: [false, false, false, false], color: '#858291' },
