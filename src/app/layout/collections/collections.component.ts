@@ -2001,14 +2001,21 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   }
 
   showCollectionCommReceipt(item: any, i: number, type: string) {
-    this.property_collection_id = item.id;
-    this.selectedItem = item;
-    this.collectionIndex = i;
-    this.paymentConcepts = item.collection_commissions;
-    this.typeOfPayment = type;
-    this.is_external_agent = item.deal_commission_agents && item.deal_commission_agents.length > 0 && item.deal_commission_agents[0].broker ?
-      item.deal_commission_agents[0].broker.is_external_agent : 0;
-    this.collectionReceiptOpen.nativeElement.click();
+    if (item.paid) {
+      this.property_collection_id = item.id;
+      this.selectedItem = item;
+      this.collectionIndex = i;
+      this.paymentConcepts = item.collection_commissions;
+      this.typeOfPayment = type;
+      this.is_external_agent = item.deal_commission_agents && item.deal_commission_agents.length > 0 && item.deal_commission_agents[0].broker ?
+        item.deal_commission_agents[0].broker.is_external_agent : 0;
+      this.collectionReceiptOpen.nativeElement.click();
+    } else {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.deal'), this.translate.instant('swal.error'));
+      return false;
+    }
+
   }
 
   editCollectionCommReceipt(item: any) {
