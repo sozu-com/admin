@@ -466,7 +466,7 @@ export class BuyerReportComponent implements OnInit {
           'Account Number': item.account_number || '',
           'Clabe Swift': item.swift || '',
           'Bank Currency': item.bank_currency || '',
-          'Total Paid':  (item.deal_price || 0 - (item.remaning_amount || 0)) || 0,
+          'Total Paid':  (item.final_price || 0 - (item.remaning_amount || 0)) || 0,
           'Remaining':  item.remaning_amount || 0,
         });
       }
