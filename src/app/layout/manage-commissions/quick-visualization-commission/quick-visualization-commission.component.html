@@ -597,12 +597,16 @@
               <img src="assets/img/eye-icon.png" alt="img">
             </button>
           </td>
-          <td (click)="getInfo(p?.id)"> <a class="color-changed" data-toggle="collapse" data-target="#collapseOne{{i}}"
-              data-parent="#accordion" aria-expanded="true" aria-controls="collapseOne" href="#collapseOne{{i}}"
-              style="color: #00B96F; font-weight: bold;">
+          <td (click)="getInfo(p?.id,i)"> 
+            <a class="color-changed" data-toggle="collapse" data-target="#collapseOne{{i}}"
+              data-parent="#accordion" aria-expanded="true" aria-controls="collapseOne" 
+              href="#collapseOne{{i}}" style="color: #00B96F; font-weight: bold;">
               {{collectionCommission[i] ? ((collectionCommission[i]?.purchase_comm_amount || 0) | currency) : ''}} &nbsp;
-              <span *ngIf="collectionCommission[i]?.purchase_comm_amount"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
-            </a></td>
+              <span *ngIf="collectionCommission[i]?.purchase_comm_amount">
+                <i class="fa fa-angle-down" aria-hidden="true"></i>
+              </span>
+            </a>
+          </td>
           <!-- <td>
                 <a style="color: #00B96F; font-weight: bold;" class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{i}}">
                   {{collectionCommission[i] ? ((collectionCommission[i]?.purchase_comm_amount || 0) | currency) : ''}}
@@ -615,12 +619,16 @@
           <td></td>
           <td></td>
           <td></td> -->
-          <td (click)="getCollectionInfo(p?.id)"> <a class="color-changed" data-toggle="collapse" data-target="#collapsetwo{{i}}"
+          <td (click)="getCollectionInfo(p?.id,i)"> 
+            <a class="color-changed" data-toggle="collapse" data-target="#collapsetwo{{i}}"
             data-parent="#accordion" aria-expanded="true" aria-controls="collapsetwo" href="#collapsetwo{{i}}"
             style="color: #00B96F; font-weight: bold;">
             {{collectionCommission[i] ? ((collectionCommission[i]?.amount || 0) | currency) : ''}}
-            <span *ngIf="collectionCommission[i]?.amount"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
-          </a></td>
+            <span *ngIf="collectionCommission[i]?.amount">
+              <i class="fa fa-angle-down" aria-hidden="true"></i>
+            </span>
+          </a>
+        </td>
           <!-- <td>
             <a style="color: #00B96F; font-weight: bold;" class="color-changed" data-toggle="collapse"
               data-parent="#accordion" href="#collapse{{i}}">
@@ -635,12 +643,16 @@
           <td></td>
           <td></td>
           <td></td> -->
-          <td (click)="getAgentInfo(p?.id)"> <a class="color-changed" data-toggle="collapse" data-target="#collapsethree{{i}}"
-            data-parent="#accordion" aria-expanded="true" aria-controls="collapsethree" href="#collapsethree{{i}}"
-            style="color: #00B96F; font-weight: bold;">
+          <td (click)="getAgentInfo(p?.id,i)">
+             <a class="color-changed" data-toggle="collapse" data-target="#collapsethree{{i}}"
+            data-parent="#accordion" aria-expanded="true" aria-controls="collapsethree" 
+            href="#collapsethree{{i}}" style="color: #00B96F; font-weight: bold;">
             {{collectionCommission[i] ? ((collectionCommission[i]?.agent_comm_amount || 0) | currency) : ''}}
-            <span *ngIf="collectionCommission[i]?.agent_comm_amount"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
-          </a></td>
+            <span *ngIf="collectionCommission[i]?.agent_comm_amount">
+              <i class="fa fa-angle-down" aria-hidden="true"></i>
+            </span>
+          </a>
+        </td>
           <!-- <td>
             <a style="color: #00B96F; font-weight: bold;" class="color-changed" data-toggle="collapse"
               data-parent="#accordion" href="#collapse{{i}}">
@@ -657,7 +669,7 @@
           <td></td> -->
         </tr>
         <!-- purchaseCommission -->
-        <tr id="collapseOne{{i}}" class="collapse" data-parent="#accordion">
+        <tr id="collapseOne{{i}}" class="collapse" data-parent="#accordion" *ngIf="visibleIndex === i">
           <td colspan="10" style="background: #fff; border-color: white;">
             <table [style.width]="'100%'">
               <thead style="background: #00B96F; color: #fff;">
@@ -777,7 +789,7 @@
         </tr>
 
         <!-- collection_commission -->
-        <tr id="collapsetwo{{i}}" class="collapse" data-parent="#accordion">
+        <tr id="collapsetwo{{i}}" class="collapse" data-parent="#accordion" *ngIf="visibleIndex === i"> 
           <td colspan="10" style="background: #fff; border-color: white;">
             <table [style.width]="'100%'">
               <thead style="background: #00B96F; color: #fff;">
@@ -897,7 +909,7 @@
         </tr>
 
         <!-- collection_agent -->
-        <tr id="collapsethree{{i}}" class="collapse" data-parent="#accordion">
+        <tr id="collapsethree{{i}}" class="collapse" data-parent="#accordion" *ngIf="visibleIndex === i">
           <td colspan="10" style="background: #fff; border-color: white;">
             <table [style.width]="'100%'">
               <thead style="background: #00B96F; color: #fff;">

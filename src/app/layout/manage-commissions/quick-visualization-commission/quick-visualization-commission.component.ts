@@ -39,7 +39,7 @@ export class QuickVisualizationCommissionComponent implements OnInit {
   @ViewChild('applyPaymentChoiceId') applyPaymentChoiceId: ElementRef;
   @ViewChild('applyPaymentMethodId') applyPaymentMethodId: ElementRef;
   @ViewChild('docsFile1') docsFile1: ElementRef;
-
+  visibleIndex = -1;
   description: string;
   title: any;
   paymentConcepts: Array<any>;
@@ -75,6 +75,7 @@ export class QuickVisualizationCommissionComponent implements OnInit {
   collectionIndex: number;
   disablePayToRemaining = true;
   isApplyBtnClicked = false;
+  isShown: boolean = false ;
   pendingPayment: any;
   paymentAmount: any;
   paymentDate: Date;
@@ -401,8 +402,14 @@ export class QuickVisualizationCommissionComponent implements OnInit {
       );
   }
 
-  getInfo(item: any) {
+  getInfo(item: any,ind) {
     this.purchase_payments = [];
+    if (this.visibleIndex === ind) {
+      this.visibleIndex = -1;
+    } else {
+      this.visibleIndex = ind;
+    }
+  
     this.collectionCommission.forEach((r) => {
       if (item == (r.payment_choice || {}).id) {
         for (let i = 0; i < (r.purchase_payment || []).length; i++) {
@@ -411,8 +418,15 @@ export class QuickVisualizationCommissionComponent implements OnInit {
         }
       }
     });
+    this.isShown = ! this.isShown;
   }
-  getCollectionInfo(item: any) {
+  getCollectionInfo(item: any,ind) {
+    this.purchase_payments = [];
+    if (this.visibleIndex === ind) {
+      this.visibleIndex = -1;
+    } else {
+      this.visibleIndex = ind;
+    }
     this.collection_payments = [];
     this.collectionCommission.forEach((r) => {
       if (item == (r.payment_choice || {}).id) {
@@ -422,9 +436,16 @@ export class QuickVisualizationCommissionComponent implements OnInit {
         }
       }
     });
+    this.isShown = ! this.isShown;
   }
-  getAgentInfo(item: any) {
+  getAgentInfo(item: any,ind) {
     this.agent_payments = [];
+    this.purchase_payments = [];
+    if (this.visibleIndex === ind) {
+      this.visibleIndex = -1;
+    } else {
+      this.visibleIndex = ind;
+    }
     this.collectionCommission.forEach((r) => {
       if (item == (r.payment_choice || {}).id) {
         for (let i = 0; i < (r.agent_payment || []).length; i++) {
@@ -433,6 +454,7 @@ export class QuickVisualizationCommissionComponent implements OnInit {
         }
       }
     });
+    this.isShown = ! this.isShown;
   }
 
   exportData() {
