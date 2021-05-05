@@ -1337,25 +1337,26 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_pc)) {
           this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
           this.paymentAmount = this.paymentAmount + this.ivaAmount;
-          this.sameAmount = this.paymentAmount || 0;
-
         }
+        this.sameAmount = this.paymentAmount || 0;
       } else if (this.commission_type == 3) {
         this.paymentAmount = item.agent_comm_amount || 0;
         this.test_agent = item.agent_comm_amount || 0;
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_ac)) {
           this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
           this.paymentAmount = this.paymentAmount + this.ivaAmount;
-          this.sameAmount = this.paymentAmount || 0;
+         // this.sameAmount = this.paymentAmount || 0;
         }
+        this.sameAmount = this.paymentAmount || 0;
       } else {
         this.paymentAmount = item.amount || 0;
         this.test_Collection = item.amount || 0;
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_cc)) {
           this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
           this.paymentAmount = this.paymentAmount + this.ivaAmount;
-          this.sameAmount = this.paymentAmount || 0;
+          //this.sameAmount = this.paymentAmount || 0;
         }
+        this.sameAmount = this.paymentAmount || 0;
       }
       // this.paymentAmount = this.commission_type == 1 ? (item.purchase_comm_amount || 0) : (item.amount || 0);
       this.selectedCollectionCommission = item;
