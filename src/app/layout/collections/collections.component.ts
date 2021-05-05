@@ -1337,8 +1337,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_pc)) {
           this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
           this.paymentAmount = this.paymentAmount + this.ivaAmount;
-          this.sameAmount = this.paymentAmount;
-          console.log(this.paymentAmount, "ai")
+          this.sameAmount = this.paymentAmount || 0;
 
         }
       } else if (this.commission_type == 3) {
@@ -1347,7 +1346,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_ac)) {
           this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
           this.paymentAmount = this.paymentAmount + this.ivaAmount;
-          this.sameAmount = this.paymentAmount;
+          this.sameAmount = this.paymentAmount || 0;
         }
       } else {
         this.paymentAmount = item.amount || 0;
@@ -1355,7 +1354,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_cc)) {
           this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
           this.paymentAmount = this.paymentAmount + this.ivaAmount;
-          this.sameAmount = this.paymentAmount;
+          this.sameAmount = this.paymentAmount || 0;
         }
       }
       // this.paymentAmount = this.commission_type == 1 ? (item.purchase_comm_amount || 0) : (item.amount || 0);
@@ -1578,7 +1577,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       input['invoice_id'] = this.invoice_id;
       input['pdf_url'] = this.pdf_url;
       input['xml_url'] = this.xml_url;
-      input['amount'] = this.ivaAmount - amt;
+      input['amount'] =  amt-this.ivaAmount;
       input['iva_amount'] = this.ivaAmount;
 
       if (this.invoice_date) {
@@ -1971,14 +1970,16 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     for (let index = 0; index < this.selectedItem.collection_commissions.length; index++) {
       const element = this.selectedItem.collection_commissions[index];
       element['payment_made'] = 0;
+      element['payment_made1'] = 0;
+      element['payment_made2'] = 0;
       if (this.selectedItem.collection_commissions[index] && this.selectedItem.collection_commissions[index].purchase_payment_status) {
         element['payment_made'] = 1;
       }
       if (this.selectedItem.collection_commissions[index] && this.selectedItem.collection_commissions[index].collection_payment_status) {
-        element['payment_made'] = 1;
+        element['payment_made1'] = 1;
       }
       if (this.selectedItem.collection_commissions[index] && this.selectedItem.collection_commissions[index].agent_payment_status) {
-        element['payment_made'] = 1;
+        element['payment_made2'] = 1;
       }
       // element['payment_made'] = 0;
       // if (this.selectedItem.payment_choices[index] && this.selectedItem.payment_choices[index].is_paid_calculated) {
@@ -2001,7 +2002,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   }
 
   showCollectionCommReceipt(item: any, i: number, type: string) {
-    if (item.paid) {
+    // if (item.paid) {
       this.property_collection_id = item.id;
       this.selectedItem = item;
       this.collectionIndex = i;
@@ -2010,11 +2011,12 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       this.is_external_agent = item.deal_commission_agents && item.deal_commission_agents.length > 0 && item.deal_commission_agents[0].broker ?
         item.deal_commission_agents[0].broker.is_external_agent : 0;
       this.collectionReceiptOpen.nativeElement.click();
-    } else {
-      this.toastr.clear();
-      this.toastr.error(this.translate.instant('message.error.deal'), this.translate.instant('swal.error'));
-      return false;
-    }
+   // } 
+    // else {
+    //   this.toastr.clear();
+    //   this.toastr.error(this.translate.instant('message.error.deal'), this.translate.instant('swal.error'));
+    //   return false;
+    // }
 
   }
 
@@ -3036,8 +3038,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         }
       }
     } else if (payment_received_by == 0) {
-      this.legal_name = ((this.bankDetails.selected_seller || {}).user || {}).developer_company ? this.bankDetails.selected_seller.user.developer_company :
-        ((this.bankDetails.selected_seller || {}).user || {}).is_developer == 0 && !((this.bankDetails.selected_seller || {}).user || {}).legal_entity_id ? this.bankDetails.selected_seller.user.name + ' ' + this.bankDetails.selected_seller.user.first_surname
+      this.legal_name = this.bankDetails.selected_seller.user.developer_company ? this.bankDetails.selected_seller.user.developer_company :
+        this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id ? this.bankDetails.selected_seller.user.name + ' ' + this.bankDetails.selected_seller.user.first_surname
           + ' ' + this.bankDetails.selected_seller.user.second_surname : '';
 
       this.footer_address = this.collection_data.seller_type == 1 ? (this.bankDetails.selected_seller.user.tax_street_address && this.bankDetails.selected_seller.user.tax_street_address != '0' ? this.bankDetails.selected_seller.user.tax_street_address + ' ' : '') +
@@ -3046,8 +3048,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         + (this.bankDetails.selected_seller.user.tax_zipcode && this.bankDetails.selected_seller.user.tax_zipcode != '0' ? this.bankDetails.selected_seller.user.tax_zipcode + ', ' : '') + (this.bankDetails.selected_seller.user.tax_city ? this.bankDetails.selected_seller.user.tax_city + ', ' : '')
         + (this.bankDetails.selected_seller.user.tax_state ? this.bankDetails.selected_seller.user.tax_state + ', ' : '') + (this.bankDetails.selected_seller.user.tax_country ? this.bankDetails.selected_seller.user.tax_country + ', ' : '') : this.collection_data.seller_type == 3 ? this.bankDetails.selected_seller.user.address : '';
 
-        if (((this.bankDetails.selected_seller || {}).user || {}).developer_company || ((this.bankDetails.selected_seller || {}).user || {}).is_developer == 0 && !((this.bankDetails.selected_seller || {}).user || {}).legal_entity_id) {
-          this.fedTaxPayer = (((this.bankDetails || {}).selected_seller || {}).user || {}).fed_tax_pay || '';
+      if (this.bankDetails.selected_seller.user.developer_company || this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id) {
+        this.fedTaxPayer = (((this.bankDetails || {}).selected_seller || {}).user || {}).fed_tax_pay || '';
         ((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_rep_banks || []).forEach((element, innerIndex) => {
           if (element.id == this.collection_data.bank_id) {
             element.name = 'Seller Bank | ' + element.bank_name;
@@ -3059,19 +3061,14 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         });
       }
       else {
-        this.legal_name = (((this.bankDetails.selected_seller || {}).user ||{}).legal_entity || {}).legal_name;
-        if(this.bankDetails.selected_seller){
-          this.footer_address = (this.bankDetails.selected_seller.user.legal_entity.tax_street_address && this.bankDetails.selected_seller.user.legal_entity.tax_street_address != '0' ? this.bankDetails.selected_seller.user.legal_entity.tax_street_address + ' ' : '') +
-            (this.bankDetails.selected_seller.user.legal_entity.tax_external_number ? this.bankDetails.selected_seller.user.legal_entity.tax_external_number + '\n' : '')
-            + (this.bankDetails.selected_seller.user.legal_entity.tax_internal_number ? this.bankDetails.selected_seller.user.legal_entity.tax_internal_number + ', ' : '') + (this.bankDetails.selected_seller.user.legal_entity.tax_neighborhood ? this.bankDetails.selected_seller.user.legal_entity.tax_neighborhood + '\n' : '')
-            + (this.bankDetails.selected_seller.user.legal_entity.tax_zipcode && this.bankDetails.selected_seller.user.legal_entity.tax_zipcode != '0' ? this.bankDetails.selected_seller.user.legal_entity.tax_zipcode + ', ' : '') + (this.bankDetails.selected_seller.user.legal_entity.tax_city ? this.bankDetails.selected_seller.user.legal_entity.tax_city + ', ' : '')
-            + (this.bankDetails.selected_seller.user.legal_entity.tax_state ? this.bankDetails.selected_seller.user.legal_entity.tax_state + ', ' : '') + (this.bankDetails.selected_seller.user.legal_entity.tax_country ? this.bankDetails.selected_seller.user.legal_entity.tax_country + ', ' : '');
-          }
-          else{
-            this.footer_address = undefined;
-          }
-            (((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_entity || {}).legal_entity_banks || []).forEach((element, innerIndex) => {
-            this.fedTaxPayer = ((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_entity || {}).fed_tax_pay || '';
+        this.legal_name = this.bankDetails.selected_seller.user.legal_entity.legal_name;
+        this.footer_address = (this.bankDetails.selected_seller.user.legal_entity.tax_street_address && this.bankDetails.selected_seller.user.legal_entity.tax_street_address != '0' ? this.bankDetails.selected_seller.user.legal_entity.tax_street_address + ' ' : '') +
+          (this.bankDetails.selected_seller.user.legal_entity.tax_external_number ? this.bankDetails.selected_seller.user.legal_entity.tax_external_number + '\n' : '')
+          + (this.bankDetails.selected_seller.user.legal_entity.tax_internal_number ? this.bankDetails.selected_seller.user.legal_entity.tax_internal_number + ', ' : '') + (this.bankDetails.selected_seller.user.legal_entity.tax_neighborhood ? this.bankDetails.selected_seller.user.legal_entity.tax_neighborhood + '\n' : '')
+          + (this.bankDetails.selected_seller.user.legal_entity.tax_zipcode && this.bankDetails.selected_seller.user.legal_entity.tax_zipcode != '0' ? this.bankDetails.selected_seller.user.legal_entity.tax_zipcode + ', ' : '') + (this.bankDetails.selected_seller.user.legal_entity.tax_city ? this.bankDetails.selected_seller.user.legal_entity.tax_city + ', ' : '')
+          + (this.bankDetails.selected_seller.user.legal_entity.tax_state ? this.bankDetails.selected_seller.user.legal_entity.tax_state + ', ' : '') + (this.bankDetails.selected_seller.user.legal_entity.tax_country ? this.bankDetails.selected_seller.user.legal_entity.tax_country + ', ' : '');
+        (((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_entity || {}).legal_entity_banks || []).forEach((element, innerIndex) => {
+          this.fedTaxPayer = ((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_entity || {}).fed_tax_pay || '';
           if (element.id == this.collection_data.bank_id) {
             element.name = 'Seller Bank | ' + element.bank_name;
             element.legal_name = this.bankDetails.selected_seller.user.legal_entity.legal_name;
@@ -3553,7 +3550,18 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         }
       });
     }
+    // this.collection_payments.forEach(element => {
+    //   docDefinition.content[1].columns[0][4].table.body.push([
+    //     { text: element.name_en + ':', border: [false, false, false, false], color: '#858291' },
+    //     { text: element.total_amount? this.price.transform(Number(element.total_amount).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true }
+    //   ])
+    // });
     pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.accountStatments') + ' ' + current_date.toISOString() + '.pdf');
+    // }else if(action === 'print'){
+    //   pdfMake.createPdf(docDefinition).print();
+    // }else{
+    //   pdfMake.createPdf(docDefinition).open();
+    // }
   }
 
   get buyerDocumentationFoldersDetailsLength(): number {
