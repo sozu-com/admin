@@ -2524,7 +2524,7 @@
                 <!-- <td>{{((((addFormStep5.controls.iva_percent.value || 0)*pcsum)/100)+pcsum || 0) | currency}}</td> -->
                 <td><b>{{'addCollection.TotalAC' | translate}}</b></td>
                 <td *ngIf="addFormStep5.controls.add_iva_to_ac.value">{{((((addFormStep5.controls.iva_percent.value ||
-                  0)*acsum)/100)+pcsum || 0) | currency}}</td>
+                  0)*acsum)/100)+acsum || 0) | currency}}</td>
                 <td *ngIf="!addFormStep5.controls.add_iva_to_ac.value">{{acsum | currency}}</td>
               </tr>
             </tbody>

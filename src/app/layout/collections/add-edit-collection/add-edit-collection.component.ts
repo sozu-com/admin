@@ -1002,6 +1002,7 @@ export class AddEditCollectionComponent implements OnInit {
     const control1 = this.addFormStep5.get('collection_commissions') as FormArray;
     this.ccsum = 0;
     this.pcsum = 0;
+    this.acsum = 0;
     if (payment_choices) {
       for (let index = 0; index < payment_choices.length; index++) {
         const element = payment_choices[index];
@@ -2167,6 +2168,7 @@ export class AddEditCollectionComponent implements OnInit {
     // if first monthly installment percent added, => update amount in all monthly installments
     this.ccsum = 0;
     this.pcsum = 0;
+    this.acsum = 0;
     if (installOne && (installOne.name === pcArray[index].name)) {
       pcArray.map(e => {
         // if (e.pc_id == 5) {
@@ -2189,6 +2191,7 @@ export class AddEditCollectionComponent implements OnInit {
     const installOne = pcArray.find(r => r.name.includes('Monthly Installment'));
     this.ccsum = 0;
     this.pcsum = 0;
+    this.acsum = 0;
     // if first monthly installment percent added, => update amount in all monthly installments
     if (installOne && (installOne.name === pcArray[index].name)) {
       const sta = add_purchase_commission;
