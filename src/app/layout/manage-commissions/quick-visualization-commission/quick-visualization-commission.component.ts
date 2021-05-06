@@ -94,6 +94,8 @@ export class QuickVisualizationCommissionComponent implements OnInit {
   data2: any;
   cashLimit: any;
   citySelection = false;
+  all: any;
+  commission_type: any;
   @ViewChild('stickyMenu') menuElement: ElementRef;
   language_code: string;
   public parkingLotIncludedDetails: any;
@@ -129,6 +131,9 @@ export class QuickVisualizationCommissionComponent implements OnInit {
     this.translate.onDefaultLangChange.subscribe((event: LangChangeEvent) => {
       this.setDatePickerLocale();
     });
+    this.all = JSON.parse(localStorage.getItem('parametersForCommission'));
+    console.log(this.all.commission_type,"filter data")
+    this.commission_type = this.all.commission_type;
   }
 
   setDatePickerLocale() {
