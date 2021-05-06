@@ -1632,7 +1632,7 @@
             <label>{{'addCollection.purchaseDate' | translate}}</label>
             <div class="clearfix"></div>
             <p-calendar dateFormat="dd/M/yy" [style]="{'width':'100%'}" formControlName="deal_purchase_date"
-              class="sz-calendar" [locale]="locale" showIcon="true" (onSelect)="onSelect($event)" showButtonBar="true"
+              class="sz-calendar" [locale]="locale" showIcon="true" (onSelect)="onSelectDealPurchaseDate($event)" showButtonBar="true"
               [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
           </div>
           <div *ngIf="showError && (addFormStep4.controls.deal_purchase_date.invalid)">
@@ -1964,6 +1964,21 @@
               </div>
             </div>
           </div>
+
+          <div class="spacer15"></div>
+          <div class="row">
+          <h5>{{'deshboard.deliveryEstimatedDate' | translate}}</h5>            
+          </div>
+          <div class="row">
+            <div class="col-lg-2 col-md-3 col-sm-3 col-6">
+              <div class="form-group-3">
+                <div class="clearfix"></div>
+                <input formControlName="delivery_date" placeholder="{{'deshboard.deliveryEstimatedDate' | translate}}" 
+            style="width: 100%;border-color: #c0c0c0;height: 39px;">
+              </div>
+            </div>
+              
+            </div>
     
       <!-- <div class="row">
         <h5>{{'deshboard.accountEmail' | translate}}</h5>

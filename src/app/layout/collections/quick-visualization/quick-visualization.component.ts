@@ -1174,4 +1174,50 @@ export class QuickVisualizationComponent implements OnInit {
     const data = this.parkingSpaceRentArray.find((item) => item.id == parking_type);
     return this.language_code == 'en' ? ((data || {}).name_en || '') : ((data || {}).name_es || '');
   }
+
+  getFormattedDate(delivery_date: string) {
+    const date_array = delivery_date.split('/');
+    let temp_date = '';
+    switch (date_array[1]) {
+      case '01':
+        temp_date = date_array[0] + '/' + 'Jan' + '/' + date_array[2];
+        break;
+      case '02':
+        temp_date = date_array[0] + '/' + 'Feb' + '/' + date_array[2];
+        break;
+      case '03':
+        temp_date = date_array[0] + '/' + 'Mar' + '/' + date_array[2];
+        break;
+      case '04':
+        temp_date = date_array[0] + '/' + 'Apr' + '/' + date_array[2];
+        break;
+      case '05':
+        temp_date = date_array[0] + '/' + 'May' + '/' + date_array[2];
+        break;
+      case '06':
+        temp_date = date_array[0] + '/' + 'Jun' + '/' + date_array[2];
+        break;
+      case '07':
+        temp_date = date_array[0] + '/' + 'Jul' + '/' + date_array[2];
+        break;
+      case '08':
+        temp_date = date_array[0] + '/' + 'Aug' + '/' + date_array[2];
+        break;
+      case '09':
+        temp_date = date_array[0] + '/' + 'Sep' + '/' + date_array[2];
+        break;
+      case '10':
+        temp_date = date_array[0] + '/' + 'Oct' + '/' + date_array[2];
+        break;
+      case '11':
+        temp_date = date_array[0] + '/' + 'Nov' + '/' + date_array[2];
+        break;
+      case '12':
+        temp_date = date_array[0] + '/' + 'Dec' + '/' + date_array[2];
+        break;
+      default:
+        break;
+    }
+    return temp_date;
+  }
 }

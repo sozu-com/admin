@@ -476,8 +476,8 @@ export class AddEditCollectionComponent implements OnInit {
       deal_interest_rate: [0],
       deal_penality: [0],
       final_price: [''],
-      interest_discount: ['']
-
+      interest_discount: [''],
+      delivery_date: [{value:'',disabled:true}]
     });
     if (this.model.id === '0') {
       this.addFormStep4.get('deal_price').enable({ onlySelf: true });
@@ -904,6 +904,8 @@ export class AddEditCollectionComponent implements OnInit {
   patchFormStep4(data) {
     this.addFormStep4.controls.deal_purchase_date.patchValue(
       data.deal_purchase_date ? this.getDateWRTTimezone(data.deal_purchase_date) : null);
+      this.addFormStep4.controls.delivery_date.patchValue(
+        data.delivery_date ? data.delivery_date : null);
     this.addFormStep4.controls.deal_price.patchValue(this.numberUptoNDecimal(data.deal_price, 2));
     this.addFormStep4.controls.currency_id.patchValue(data.currency_id ? data.currency_id : 1);
     this.addFormStep4.controls.deal_interest_rate.patchValue(data.deal_interest_rate);
@@ -1795,6 +1797,10 @@ export class AddEditCollectionComponent implements OnInit {
     }
   }
 
+  onSelectDealPurchaseDate($event){
+    this.addFormStep4.get('delivery_date').setValue(moment($event).add(3, 'years').format('DD/MM/YYYY'));
+  }
+
   getBothBroker(keyword: string) {
     this.spinner.show();
     const input = { keyword: '' };
@@ -2365,7 +2371,7 @@ export class AddEditCollectionComponent implements OnInit {
           this.toastr.error(this.translate.instant('message.error.pleaseChoosePayments'), this.translate.instant('swal.error'));
           return;
         }
-
+        formdata['delivery_date'] = this.addFormStep4.get('delivery_date').value;
         // converting to local
         const d = formdata['deal_purchase_date'];
         // const nd = moment(d).add(330, 'minutes').toDate();
