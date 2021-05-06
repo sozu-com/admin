@@ -2282,7 +2282,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   getPostRequestForColumn = (): any => {
     return {
-      user_id: (JSON.parse(localStorage.getItem('all')).data || {}).id || 0,
+      user_id: JSON.parse(localStorage.getItem('user-id')) || 0,
       building_name: (this.select_columns_list[0] || []).isCheckBoxChecked,
       tower_name: (this.select_columns_list[1] || []).isCheckBoxChecked,
       floor: (this.select_columns_list[2] || []).isCheckBoxChecked,
@@ -2315,7 +2315,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   getPropertyHome = (): void => {
     //this.spinner.show();
-    this.admin.postDataApi('getPropertyHome', { user_id: (JSON.parse(localStorage.getItem('all')).data || {}).id || 0 }).subscribe((response) => {
+    this.admin.postDataApi('getPropertyHome', { user_id: JSON.parse(localStorage.getItem('user-id')) || 0 }).subscribe((response) => {
       this.selectedPropertyColumnsToShow = response.data || {};
       //this.spinner.hide();
     }, (error) => {

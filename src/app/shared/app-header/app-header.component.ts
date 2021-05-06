@@ -67,6 +67,7 @@ export class AppHeaderComponent {
     this.admin.postDataApi('get-details', {})
       .subscribe(
         success1 => {
+          localStorage.setItem('user-id', JSON.stringify(((success1 || {}).data || {}).id));
           this.fullName = success1.data.name;
           this.image = success1.data.image;
           const dd = success1.data.m.map((obj, index) => {
