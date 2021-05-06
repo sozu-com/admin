@@ -30,6 +30,7 @@ import { ArrearReportComponent } from './arrear-report/arrear-report.component';
 import { CashFlowComponent } from './cash-flow/cash-flow.component';
 import { ProjectReportComponent } from './project-report/project-report.component';
 import { BuyerReportComponent } from './buyer-report/buyer-report.component';
+import { DeliveryReportComponent } from './delivery-report/delivery-report.component';
 
 const routes: Routes = [
   // {
@@ -87,6 +88,10 @@ const routes: Routes = [
   {
     path: 'buyer-report', component: BuyerReportComponent,
     canActivate: [AclUserGuard], data: { roles: ['Collection Reports', 'can_read', ''] }
+  },
+  {
+    path: 'delivery-report', component: DeliveryReportComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Collection Reports', 'can_read', ''] }
   }
 ];
 
@@ -118,7 +123,8 @@ const routes: Routes = [
     ArrearReportComponent,
     CashFlowComponent,
     ProjectReportComponent,
-    BuyerReportComponent
+    BuyerReportComponent,
+    DeliveryReportComponent
   ]
 })
 
