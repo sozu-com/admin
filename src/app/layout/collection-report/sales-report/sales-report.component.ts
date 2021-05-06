@@ -35,6 +35,7 @@ export class SalesReportComponent implements OnInit {
   reportType: number;
   already_index: any;
   cashFlowInfos: any[];
+  already_value: any;
   constructor(public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService) {
@@ -286,8 +287,9 @@ export class SalesReportComponent implements OnInit {
   }
 
   getCashFlowInfo(item, index, value) {
-    if (index != this.already_index) {
+    if (index != this.already_index || value != this.already_value) {
       this.already_index = index;
+      this.already_value = value;
       this.cashFlowInfos = [];
       
       let data = value == 1 ? this.reportData.approved.find(value => value.label == item.label) : this.reportData.unapproved.find(value => value.label == item.label);
