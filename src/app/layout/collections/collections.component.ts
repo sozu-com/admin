@@ -2552,7 +2552,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       // fetching payment status
       for (let index = 0; index < this.items.length; index++) {
         const element = this.items[index];
-        const dif = (element.final_price || 0).toFixed(2) - (element.total_deals_sum || 0).toFixed(2);
+        const dif = parseInt(Number(element.final_price || 0).toFixed()) - (element.total_deals_sum || 0).toFixed(2);
         const currency_id = element.currency_id;
 
         if (!element.total_deals_sum) {

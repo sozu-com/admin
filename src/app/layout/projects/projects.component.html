@@ -453,7 +453,8 @@
                 <td>
                   <span *ngIf="p?.possession_status_id">{{p?.possession_status_id == apiConstant.possessionStatus.sale ? ('table.tr.td.sale' |
                     translate) : ('table.tr.td.presale' | translate)}}</span>
-                    <span  *ngIf="!p?.possession_status_id">{{'table.tr.td.NA' | translate}}</span>
+                    <!-- <span  *ngIf="!p?.possession_status_id">{{'table.tr.td.NA' | translate}}</span> -->
+                    <span  *ngIf="!p?.possession_status_id">N/A</span>
                 </td>
                 <td>
                   <a class="add1" href="javascript://" (click)="addNote(p)">
