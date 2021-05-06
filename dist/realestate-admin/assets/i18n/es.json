@@ -1788,6 +1788,7 @@
     "RealExpectedReport":"Ingreso esperado contra real",
     "projectReport": "Reporte de Proyecto",
     "buyerReport": "Informe del comprador",
+    "deliveryReport":"Informe de entrega",
     "ACL": "ACL",
     "reports": "Reportes",
     "seller": "Vendedor",
@@ -2274,6 +2275,7 @@
     "price": "Precio",
     "purchaseDate": "Fecha de compra",
     "currency": "Moneda",
+    "deliveryDate":"Fecha de entrega",
     "paymentInformation": "Información del pago",
     "concept": "Concepto",
     "month": "Mes",
@@ -2707,6 +2709,7 @@
     "pReview":"P. revisión",
     "expectedIVAAmount":"Importe de IVA esperado",
     "accountEmail":"Estado de cuenta email",
+    "deliveryEstimatedDate":"Fecha estimada de entrega",
     "mail":"Email del comprador",
     "date":"Fecha de envio",
     "selectday": "Seleccionar día"

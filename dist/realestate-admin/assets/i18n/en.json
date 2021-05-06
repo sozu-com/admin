@@ -1787,6 +1787,7 @@
     "RealExpectedReport":"Expected & Actual Revenue",
     "projectReport": "Project Report",
     "buyerReport": "Buyer Report",
+    "deliveryReport":"Delivery Report",
     "ACL": "ACL",
     "reports": "Reports",
     "seller": "Seller",
@@ -2274,6 +2275,7 @@
     "price": "Price",
     "purchaseDate": "Purchase Date",
     "currency": "Currency",
+    "deliveryDate":"Delivery Date",
     "paymentInformation": "Payment Information",
     "concept": "Concept",
     "month": "Month",
@@ -2709,6 +2711,7 @@
       "pReview":"P.review",
       "expectedIVAAmount":"Expected IVA Amount",
       "accountEmail":"Account statement email",
+      "deliveryEstimatedDate":"Delivery estimated date",
       "mail":"Email of the buyer",
       "date":"Sending mail",
       "selectday": "Select Day"
