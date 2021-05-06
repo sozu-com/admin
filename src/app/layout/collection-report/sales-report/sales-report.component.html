@@ -139,17 +139,17 @@
                                           href="#collapseOne{{i}}" (click)="getCashFlowInfo(item, i, 1)">{{item.approved_count}}&nbsp;&nbsp;<span><i class="fa fa-plus"></i> </span>
                                     </a></td>
                                       <td><a class="color-changed" 
-                                          data-toggle="collapse" data-target="#collapseOne{{i}}" 
+                                          data-toggle="collapse" data-target="#collapseTwo{{i}}" 
                                           data-parent="#accordion" 
-                                          aria-expanded="true" aria-controls="collapseOne" 
-                                          href="#collapseOne{{i}}" (click)="getCashFlowInfo(item, i, 2)">{{item.unapproved_count}}&nbsp;&nbsp;<span><i class="fa fa-plus"></i> </span>
+                                          aria-expanded="true" aria-controls="collapseTwo" 
+                                          href="#collapseTwo{{i}}" (click)="getCashFlowInfo(item, i, 2)">{{item.unapproved_count}}&nbsp;&nbsp;<span><i class="fa fa-plus"></i> </span>
                                       </a></td>
                               </tr>
                               <tr id="collapseOne{{i}}" class="collapse" data-parent="#accordion">
                                     <td colspan="12">
                                        <table [style.width]="'100%'">
                                              <thead>
-                                                   <th style="color: white;">{{'collectionReport.collection_id' | translate}}</th>
+                                                   <!-- <th style="color: white;">{{'collectionReport.collection_id' | translate}}</th> -->
                                                 <th>{{'collectionReport.collection_id' | translate}}</th>
                                                 <th>{{'collectionReport.property_name' | translate}}</th>
                                                 <th>{{'collectionReport.buyername' | translate}}</th>
@@ -168,7 +168,29 @@
                                        </table>
                                     </td>
                               </tr>
-                              
+                              <tr id="collapseTwo{{i}}" class="collapse" data-parent="#accordion">
+                                    <td colspan="12">
+                                       <table [style.width]="'100%'">
+                                             <thead>
+                                                   <!-- <th style="color: white;">{{'collectionReport.collection_id' | translate}}</th> -->
+                                                <th>{{'collectionReport.collection_id' | translate}}</th>
+                                                <th>{{'collectionReport.property_name' | translate}}</th>
+                                                <th>{{'collectionReport.buyername' | translate}}</th>
+                                                <th>{{'collectionReport.datee' | translate}}</th>
+                                                <!-- <th>{{'collectionReport.amountPaid' | translate}}</th> -->
+                                             </thead>
+                                             <tbody *ngFor="let cashFlowInfo of cashFlowInfos; let i=index">
+                                                   <td style="color: white;">{{cashFlowInfo.id}}</td>
+                                                   <!-- <td></td> -->
+                                                <td><span>{{cashFlowInfo.id}}</span></td>
+                                                <td><span>{{cashFlowInfo.name}}</span></td>
+                                                <td><span>{{cashFlowInfo.buyer_name}}</span></td>
+                                                <td><span>{{cashFlowInfo.payment_date}}</span></td>
+                                                <!-- <td><span>{{(cashFlowInfo.amount || 0) | currency}}</span></td> -->
+                                             </tbody>
+                                       </table>
+                                    </td>
+                              </tr>
                               
                         </tbody>
                   </table>
