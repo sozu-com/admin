@@ -352,9 +352,16 @@ export class CommissionIncomeComponent implements OnInit {
     }
   }
   getReportData2 () {
+    this.reportType = 1;
     const input: any = JSON.parse(JSON.stringify(this.input));
     input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
     input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
+
+    // input.start_date = moment(this.input.start_date).format('YYYY-MM');
+    // input.end_date = moment(this.input.end_date).format('YYYY-MM');
+
+    // input.start_date = input.start_date + '-01';
+    // input.end_date = input.end_date + '-31';
 
     if (this.selctedProjects) {
       const d = this.selctedProjects.map(o => o.id);
@@ -364,16 +371,17 @@ export class CommissionIncomeComponent implements OnInit {
       const d = this.selectedCurrencies.map(o => o.id);
       input.currency_id = d;
     }
-
-    if (this.start_purchase_date) {
-      input.start_purchase_date = moment(this.start_purchase_date).format('YYYY-MM-DD');
+    if (this.selectedCommissions) {
+      const d = this.selectedCommissions.map(o => o.id);
+      input.commission_type = d[0];
     }
-    if (this.end_purchase_date) {
-      input.end_purchase_date = moment(this.end_purchase_date).format('YYYY-MM-DD');
+    if (!input.commission_type) {
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectCommissionType'), 'error');
+      return false;
     }
     
     this.spinner.show();
-    this.admin.postDataApi('graphs/cash-flows', input).subscribe(r => {
+    this.admin.postDataApi('graphs/get-commission-amount', input).subscribe(r => {
       this.spinner.hide();
       this.reportData = r['data'];
 
