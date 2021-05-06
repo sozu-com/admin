@@ -1788,6 +1788,7 @@
     "RealExpectedReport":"Ingreso esperado contra real",
     "projectReport": "Reporte de Proyecto",
     "buyerReport": "Informe del comprador",
+    "deliveryReport":"Informe de entrega",
     "ACL": "ACL",
     "reports": "Reportes",
     "seller": "Vendedor",
