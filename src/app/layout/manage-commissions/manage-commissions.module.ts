@@ -18,6 +18,9 @@ const routes: Routes = [
     path: 'view-commissions', component: ManageCommissionsComponent
   },
   {
+    path: 'view-commissions/:id', component: ManageCommissionsComponent
+  },
+  {
     path: 'quick-visualization-commission/:id', component: QuickVisualizationCommissionComponent
   }
 ];

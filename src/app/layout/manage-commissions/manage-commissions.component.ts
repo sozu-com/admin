@@ -8,7 +8,7 @@ import { Constant } from 'src/app/common/constants';
 import * as moment from 'moment';
 import { ExcelDownload } from 'src/app/common/excelDownload';
 import { PricePipe } from 'src/app/pipes/price.pipe';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ElementRef } from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
@@ -170,6 +170,7 @@ export class ManageCommissionsComponent implements OnInit {
     public admin: AdminService,
     private translate: TranslateService,
     public constant: Constant,
+    private route: ActivatedRoute,
     private price: PricePipe,
     private router: Router,
     private toastr: ToastrService
@@ -184,6 +185,18 @@ export class ManageCommissionsComponent implements OnInit {
     this.today = new Date();
     this.getCountries();
     this.initCalendarLocale();
+    this.route.params.subscribe(params => {
+      if (params['id']) {
+        this.parameter.collection_id = params['id'];
+        this.parameter.dash_flag = 4;
+      }
+      if (params.for == 'back') {
+        this.is_back = true;
+        this.local_storage_parameter = JSON.parse(localStorage.getItem('parametersForCommission'));
+        this.parameter = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.parameter;
+      }
+
+    });
   }
 
   initCalendarLocale() {
@@ -1106,5 +1119,8 @@ export class ManageCommissionsComponent implements OnInit {
   }
   legalinfo = (userdata: any): void => {
     this.router.navigate(['/dashboard/legal-entities/add-legal-entity/', userdata.buyer_legal_entity_id]);
+  }
+  ngOnDestroy(): void {
+    localStorage.setItem('parametersForCommission', JSON.stringify(this.parameter));
   }
 }
