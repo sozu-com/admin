@@ -326,6 +326,10 @@
                           <th>{{'quickVisualization.currency' | translate}}:</th>
                           <td>{{model?.currency?.code || ('table.tr.td.NA' | translate)}}</td>
                         </tr>
+                        <tr>
+                          <th>{{'quickVisualization.deliveryDate' | translate}}:</th>
+                          <td>{{model?.delivery_date ? getFormattedDate(model?.delivery_date) : ('table.tr.td.NA' | translate)}}</td>
+                        </tr>
                   </tbody>
               </table>
             </div>
