@@ -95,6 +95,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   invoice_date: any;
   currentAmount: any;
   sameAmount: any;
+  agentAmount: any;
+ collAmount: any;
   penaltyPercent: number;
   paymentAmount: any;
   ivaAmount: any;
@@ -218,6 +220,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   legal_name: any;
   parkingSpaceLotsArray: any[] = [];
   property_offer_id: any;
+ paid_purchase_commision_amount : number;
+  paid_agent_commision_amount : number;
+  paid_collection_commision_amount : number;
   constructor(
     public constant: Constant,
     public apiConstants: ApiConstants,
@@ -395,6 +400,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         // fetching payment status
         for (let index = 0; index < this.items.length; index++) {
           const element = this.items[index];
+          this.paid_purchase_commision_amount = element.paid_purchase_commision_amount;
+          this.paid_agent_commision_amount = element.paid_agent_commision_amount;
+          this.paid_collection_commision_amount = element.paid_collection_commision_amount;
           const dif = (element.property.final_price || 0).toFixed(2) - (element.total_deals_sum || 0).toFixed(2);
           const currency_id = element.currency_id;
 
@@ -1338,7 +1346,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
           this.paymentAmount = this.paymentAmount + this.ivaAmount;
         }
-        this.sameAmount = this.paymentAmount || 0;
+        this.sameAmount = (parseFloat(this.paymentAmount)  - this.paid_purchase_commision_amount).toFixed(2);
       } else if (this.commission_type == 3) {
         this.paymentAmount = item.agent_comm_amount || 0;
         this.test_agent = item.agent_comm_amount || 0;
@@ -1347,18 +1355,16 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           this.paymentAmount = this.paymentAmount + this.ivaAmount;
          // this.sameAmount = this.paymentAmount || 0;
         }
-        this.sameAmount = this.paymentAmount || 0;
+        this.agentAmount = (parseFloat(this.paymentAmount) - this.paid_agent_commision_amount).toFixed(2);
       } else {
         this.paymentAmount = item.amount || 0;
         this.test_Collection = item.amount || 0;
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_cc)) {
           this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
           this.paymentAmount = this.paymentAmount + this.ivaAmount;
-          //this.sameAmount = this.paymentAmount || 0;
         }
-        this.sameAmount = this.paymentAmount || 0;
+        this.collAmount = (parseFloat(this.paymentAmount) - this.paid_collection_commision_amount).toFixed(2);
       }
-      // this.paymentAmount = this.commission_type == 1 ? (item.purchase_comm_amount || 0) : (item.amount || 0);
       this.selectedCollectionCommission = item;
     } else {
       this.selectedPaymentConcept = item;
