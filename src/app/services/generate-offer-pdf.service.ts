@@ -472,7 +472,7 @@ export class GenerateOfferPdfService {
       });
     }
     if (this.property_array.property_offer_payment[index].property_parking_lot_sale && this.property_array.property_offer_payment[index].property_parking_lot_sale.length > 0) {
-      let no = 5;
+      let no = 7;
       let count = 1;
       this.property_array.property_offer_payment[index].property_parking_lot_sale.forEach(element => {
         let parkingName = this.parkingSpaceLotsArray.find(parking => parking.id == element.parking_type);
