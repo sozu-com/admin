@@ -351,15 +351,19 @@ export class CommissionIncomeComponent implements OnInit {
       chart.render();
     }
   }
+  
   getReportData() {
     this.reportType = 1;
     this.getReportData1();
     this.getReportData2();
   }
+
   getReportData2 () {
     const input: any = JSON.parse(JSON.stringify(this.input));
     input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
     input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
+    input.start = moment(this.input.start_date).format('YYYY-MM-DD');
+    input.end = moment(this.input.end_date).format('YYYY-MM-DD');
     if (this.selctedProjects) {
       const d = this.selctedProjects.map(o => o.id);
       input.building_id = d;
