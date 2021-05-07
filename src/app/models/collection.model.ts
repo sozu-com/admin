@@ -30,6 +30,7 @@ export class Collection {
     payment_choices?: Array<any>;
     property?: any;
     deal_purchase_date?: any;
+    delivery_date?: any;
     currency?: any;
     buyer_leg_rep_name?: string;
     buyer_leg_rep_email?: string;
