@@ -57,9 +57,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   total: any = 0;
   configurations: any = [];
   countries: any;
-  // test_pay: any;
-  // test_agent: any;
-  // test_Collection: any;
+  test_pay: any;
+  test_agent: any;
+  test_Collection: any;
   property_status: string;
   price_sort = 1;
   availability_sort = 1;
@@ -94,6 +94,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   invoice_id: string;
   invoice_date: any;
   currentAmount: any;
+  sameAmount: any;
+  agentAmount: any;
+ collAmount: any;
   penaltyPercent: number;
   paymentAmount: any;
   ivaAmount: any;
@@ -1337,22 +1340,30 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       this.ivaAmount = 0;
       if (this.commission_type == 1) {
         this.paymentAmount = item.purchase_comm_amount || 0;
+        this.test_pay = item.purchase_comm_amount || 0;
+        console.log(item.purchase_comm_amount, "actual")
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_pc)) {
           this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
           this.paymentAmount = this.paymentAmount + this.ivaAmount;
         }
+        this.sameAmount = (parseFloat(this.paymentAmount)  - this.paid_purchase_commision_amount).toFixed(2);
       } else if (this.commission_type == 3) {
         this.paymentAmount = item.agent_comm_amount || 0;
+        this.test_agent = item.agent_comm_amount || 0;
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_ac)) {
           this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
           this.paymentAmount = this.paymentAmount + this.ivaAmount;
+         // this.sameAmount = this.paymentAmount || 0;
         }
+        this.agentAmount = (parseFloat(this.paymentAmount) - this.paid_agent_commision_amount).toFixed(2);
       } else {
         this.paymentAmount = item.amount || 0;
+        this.test_Collection = item.amount || 0;
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_cc)) {
           this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
           this.paymentAmount = this.paymentAmount + this.ivaAmount;
         }
+        this.collAmount = (parseFloat(this.paymentAmount) - this.paid_collection_commision_amount).toFixed(2);
       }
       this.selectedCollectionCommission = item;
     } else {
@@ -1531,7 +1542,11 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       this.toastr.error(this.translate.instant('message.error.totalPayemntCheck'), this.translate.instant('swal.error'));
       return false;
     }
-   
+    if (this.sameAmount < this.paymentAmount) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterValidAmt'), this.translate.instant('swal.error'));
+      return false;
+    }
     const offset = new Date(this.paymentDate).getTimezoneOffset();
     if (offset < 0) {
       this.paymentDate = moment(this.paymentDate).subtract(offset, 'minutes').toDate();
@@ -1550,7 +1565,15 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       description: this.description,
       payment_date: this.paymentDate,
       full_amount: this.paymentAmount, // sending real amount entered by user
+      //total_amount: this.test_pay
     };
+    if (this.commission_type == 1) {
+      input['total_amount'] = this.test_pay
+    } else if (this.commission_type == 3) {
+      input['total_amount'] = this.test_agent
+    } else {
+      input['total_amount'] = this.test_Collection
+    }
     // send commission_type, collection_commission_id, percent incase of applying commission
     if (this.typeOfPayment === 'commission-popup') {
 
@@ -1954,9 +1977,21 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     for (let index = 0; index < this.selectedItem.collection_commissions.length; index++) {
       const element = this.selectedItem.collection_commissions[index];
       element['payment_made'] = 0;
-      if (this.selectedItem.payment_choices[index] && this.selectedItem.payment_choices[index].is_paid_calculated) {
+      element['payment_made1'] = 0;
+      element['payment_made2'] = 0;
+      if (this.selectedItem.collection_commissions[index] && this.selectedItem.collection_commissions[index].purchase_payment_status) {
         element['payment_made'] = 1;
       }
+      if (this.selectedItem.collection_commissions[index] && this.selectedItem.collection_commissions[index].collection_payment_status) {
+        element['payment_made1'] = 1;
+      }
+      if (this.selectedItem.collection_commissions[index] && this.selectedItem.collection_commissions[index].agent_payment_status) {
+        element['payment_made2'] = 1;
+      }
+      // element['payment_made'] = 0;
+      // if (this.selectedItem.payment_choices[index] && this.selectedItem.payment_choices[index].is_paid_calculated) {
+      //   element['payment_made'] = 1;
+      // }
       if (type == 1) {
         if (element.add_purchase_commission == 1) {
           this.paymentConcepts.push(element);
