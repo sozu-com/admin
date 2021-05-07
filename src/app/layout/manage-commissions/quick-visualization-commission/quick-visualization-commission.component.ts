@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { IProperty } from 'src/app/common/property';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Collection } from 'src/app/models/collection.model';
 import { AdminService } from 'src/app/services/admin.service';
 import { CommonService } from 'src/app/services/common.service';
@@ -115,7 +115,8 @@ export class QuickVisualizationCommissionComponent implements OnInit {
     private currencyPipe: CurrencyPipe,
     private translate: TranslateService,
     private toastr: ToastrService,
-    private cs: CommonService
+    private cs: CommonService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -1257,5 +1258,8 @@ export class QuickVisualizationCommissionComponent implements OnInit {
       }
     })
 
+  }
+  goBack() {
+    this.router.navigate(['/dashboard/commissions/view-commissions', { for: 'back' }]);
   }
 }

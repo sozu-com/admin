@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IProperty } from 'src/app/common/property';
 import { PropertyService } from 'src/app/services/property.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -19,7 +19,7 @@ declare let swal: any;
   templateUrl: './manage-commissions.component.html',
   styleUrls: ['./manage-commissions.component.css']
 })
-export class ManageCommissionsComponent implements OnInit {
+export class ManageCommissionsComponent implements OnInit ,OnDestroy{
   public parameter: IProperty = {};
   public location: IProperty = {};
   is_back: boolean;
@@ -278,6 +278,7 @@ export class ManageCommissionsComponent implements OnInit {
         this.parameter.city_id = '0';
         this.parameter.locality_id = '0';
         this.parameter.building_id = '0';
+        this.parameter.commission_type = '1';
       }
       this.getListing();
     });
