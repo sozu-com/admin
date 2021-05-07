@@ -40,6 +40,7 @@ export class CommissionIncomeComponent implements OnInit {
   avgValue: number;
   reportType: number;
   items: Array<any>;
+  commissionss: Array<any>;
   expectedActual: Array<any>;
   expectedTotal:  any;
   actualTotal: any;
@@ -73,7 +74,6 @@ export class CommissionIncomeComponent implements OnInit {
     this.getCurrencies();
     this.initCalendarLocale();
     this.getReportData();
-    this.getReportData2();
     this.translate.onDefaultLangChange.subscribe((event: LangChangeEvent) => {
       this.initCalendarLocale();
     });
@@ -180,8 +180,7 @@ export class CommissionIncomeComponent implements OnInit {
     }
   }
 
-  getReportData () {
-    this.reportType = 1;
+  getReportData1 () {
     const input: any = JSON.parse(JSON.stringify(this.input));
     input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
     input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
@@ -306,6 +305,7 @@ export class CommissionIncomeComponent implements OnInit {
     });
     chart.render();
   }
+
   plotData2() {
     const chart = new CanvasJS.Chart('chartContainer2', {
       animationEnabled: true,
@@ -351,18 +351,15 @@ export class CommissionIncomeComponent implements OnInit {
       chart.render();
     }
   }
-  getReportData2 () {
+  getReportData() {
     this.reportType = 1;
+    this.getReportData1();
+    this.getReportData2();
+  }
+  getReportData2 () {
     const input: any = JSON.parse(JSON.stringify(this.input));
     input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
     input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
-
-    // input.start_date = moment(this.input.start_date).format('YYYY-MM');
-    // input.end_date = moment(this.input.end_date).format('YYYY-MM');
-
-    // input.start_date = input.start_date + '-01';
-    // input.end_date = input.end_date + '-31';
-
     if (this.selctedProjects) {
       const d = this.selctedProjects.map(o => o.id);
       input.building_id = d;
@@ -384,34 +381,18 @@ export class CommissionIncomeComponent implements OnInit {
     this.admin.postDataApi('graphs/get-commission-amount', input).subscribe(r => {
       this.spinner.hide();
       this.reportData = r['data'];
-
-      this.expectedActual = [];
+      this.commissionss = [];
       for (let index = 0; index < this.reportData['expected'].length; index++) {
         const element = this.reportData['expected'][index];
-        // array to export
         const obj = {label: element.label, expected: element.y, actual: this.reportData['actual'][index].y};
-
-        this.expectedActual.push(obj);
-        // expected output: 81
+        this.commissionss.push(obj);
       }
-      let sum: number = this.expectedActual.map(a => a.expected).reduce(function(a, b)
-        {
-          return a + b;
-        });
-        console.log(sum,"Expected & Actual Revenue");
-        this.expectedTotal = sum;
-        let sum1: number = this.expectedActual.map(a => a.actual).reduce(function(a, b)
-        {
-          return a + b;
-        });
-        console.log(sum1,"Expected & Actual Revenue");
-        this.actualTotal = sum1;
-        
       this.plotData2();
     }, error => {
       this.spinner.hide();
     });
   }
+
   getCashFlowInfo(item, index) {
     if(index != this.already_index){
       this.already_index = index;
@@ -432,6 +413,7 @@ export class CommissionIncomeComponent implements OnInit {
         });
       }
   }
+
   resetFilters() {
     this.input = new CollectionReport();
     this.input.start_date = moment().subtract(6, 'months').toDate();

@@ -96,6 +96,9 @@ export class QuickVisualizationCommissionComponent implements OnInit {
   citySelection = false;
   all: any;
   commission_type: any;
+  purchase_payment_sum: any;
+  agent_payment_sum: any;
+  payment_sum: any;
   @ViewChild('stickyMenu') menuElement: ElementRef;
   language_code: string;
   public parkingLotIncludedDetails: any;
@@ -172,6 +175,7 @@ export class QuickVisualizationCommissionComponent implements OnInit {
   }
 
   getCollectionDetails() {
+    let self = this;
     this.spinner.show();
     this.admin.postDataApi('getComissionById', { id: this.property_collection_id })
       .subscribe(
@@ -180,49 +184,79 @@ export class QuickVisualizationCommissionComponent implements OnInit {
           this.model = success['data'];
           this.getParkingSpaceLots(((success.data || {}).property || {}).building_id);
           this.data2 = success['data2'];
-          if (this.model.seller_type === 1) {
+          if (self.model.seller_type === 1) {
             // this.sellerBanks = this.model.collection_seller_banks;
             // this.sellerRepBanks = this.model.collection_seller_rep_banks;
-            this.sellerBanks = this.model.seller.legal_rep_banks;
-            this.sellerRepBanks = this.model.seller.legal_representative && this.model.seller.legal_representative.legal_rep_banks ?
-              this.model.seller.legal_representative.legal_rep_banks : null;
-          } else if (this.model.seller_type === 2) {
-            this.sellerBanks = this.model.seller_legal_entity.legal_entity_banks;
-            this.sellerRepBanks = this.model.seller_legal_entity.legal_reps && this.model.seller_legal_entity.legal_reps.legal_rep_banks ?
-              this.model.seller_legal_entity.legal_reps.legal_rep_banks : null;
+            self.sellerBanks = self.model.seller.legal_rep_banks;
+            self.sellerRepBanks = self.model.seller.legal_representative && self.model.seller.legal_representative.legal_rep_banks ?
+            self.model.seller.legal_representative.legal_rep_banks : null;
+          } else if (self.model.seller_type === 2) {
+            self.sellerBanks = self.model.seller_legal_entity.legal_entity_banks;
+            self.sellerRepBanks = self.model.seller_legal_entity.legal_reps && self.model.seller_legal_entity.legal_reps.legal_rep_banks ?
+            self.model.seller_legal_entity.legal_reps.legal_rep_banks : null;
           } else {
-            this.sellerBanks = this.model.seller.legal_rep_banks;
-            this.sellerRepBanks = this.model.seller.legal_representative && this.model.seller.legal_representative.legal_rep_banks ?
-              this.model.seller.legal_representative.legal_rep_banks : null;
+            self.sellerBanks = self.model.seller.legal_rep_banks;
+            self.sellerRepBanks = self.model.seller.legal_representative && self.model.seller.legal_representative.legal_rep_banks ?
+            self.model.seller.legal_representative.legal_rep_banks : null;
           }
-          if (this.model.buyer_type === 1) {
+          if (self.model.buyer_type === 1) {
             // this.buyerBanks = this.model.collection_buyer_banks;
             // this.buyerRepBanks = this.model.collection_buyer_rep_banks;
-            this.buyerBanks = this.model.buyer.legal_rep_banks;
-            this.buyerRepBanks = this.model.buyer.legal_representative && this.model.buyer.legal_representative.legal_rep_banks ?
-              this.model.buyer.legal_representative.legal_rep_banks : null;
-          } else if (this.model.buyer_type === 2) {
-            this.buyerBanks = this.model.buyer_legal_entity.legal_entity_banks;
-            this.buyerRepBanks = this.model.buyer_legal_entity.legal_reps && this.model.buyer_legal_entity.legal_reps.legal_rep_banks ?
-              this.model.buyer_legal_entity.legal_reps.legal_rep_banks : null;
+            self.buyerBanks = self.model.buyer.legal_rep_banks;
+            self.buyerRepBanks = self.model.buyer.legal_representative && self.model.buyer.legal_representative.legal_rep_banks ?
+            self.model.buyer.legal_representative.legal_rep_banks : null;
+          } else if (self.model.buyer_type === 2) {
+            self.buyerBanks = self.model.buyer_legal_entity.legal_entity_banks;
+            self.buyerRepBanks = self.model.buyer_legal_entity.legal_reps && self.model.buyer_legal_entity.legal_reps.legal_rep_banks ?
+            self.model.buyer_legal_entity.legal_reps.legal_rep_banks : null;
           } else {
-            this.buyerBanks = this.model.buyer.legal_rep_banks;
-            this.buyerRepBanks = this.model.buyer.legal_representative && this.model.buyer.legal_representative.legal_rep_banks ?
-              this.model.buyer.legal_representative.legal_rep_banks : null;
+            self.buyerBanks = self.model.buyer.legal_rep_banks;
+            self.buyerRepBanks = self.model.buyer.legal_representative && self.model.buyer.legal_representative.legal_rep_banks ?
+            self.model.buyer.legal_representative.legal_rep_banks : null;
           }
 
-          this.allPaymentConcepts = success['data']['payment_choices'];
+          self.allPaymentConcepts = success['data']['payment_choices'];
           // for dropdown
-          this.paymentConcepts = [...this.allPaymentConcepts];
+          self.paymentConcepts = [...self.allPaymentConcepts];
 
-          this.collectionCommission = success['data']['collection_commissions'];
-
-          this.totalPaid = 0.00;
-          this.totalOutstanding = 0.00;
-          this.remainingAmt = (((this.model.property.final_price || 0) + (this.model.penalty || 0)) - (this.model.total_payment_recieved || 0));
+          self.collectionCommission = success['data']['collection_commissions'];
+          self.collectionCommission.forEach((r) => {
+            if(self.commission_type == 1){
+              for (let i = 0; i < (r.purchase_payment || []).length; i++) {
+                let sum: number = r.purchase_payment.map(a => a.amount).reduce(function(a, b)
+                {
+                  return a + b;
+                });
+                self.purchase_payment_sum = sum;
+                console.log(sum,"purchase_sum");
+            }
+            }else if(self.commission_type == 2){
+              for (let i = 0; i < (r.agent_payment || []).length; i++) {
+                let sum1: number = r.agent_payment.map(a => a.amount).reduce(function(a, b)
+                {
+                  return a + b;
+                });
+                self.agent_payment_sum = sum1;
+                console.log(sum1,"agent_payment_sum");
+            }
+            }else {
+              for (let i = 0; i < (r.payment || []).length; i++) {
+                let sum2: number = r.payment.map(a => a.amount).reduce(function(a, b)
+                {
+                  return a + b;
+                });
+                self.payment_sum = sum2;
+                console.log(sum2,"payment_sum");
+            }
+            }
+           
+        });
+        self.totalPaid = 0.00;
+        self.totalOutstanding = 0.00;
+        self.remainingAmt = (((self.model.property.final_price || 0) + (self.model.penalty || 0)) - (self.model.total_payment_recieved || 0));
           const reducingP = [];
-          for (let index = 0; index < this.allPaymentConcepts.length; index++) {
-            const m = this.allPaymentConcepts[index];
+          for (let index = 0; index < self.allPaymentConcepts.length; index++) {
+            const m = self.allPaymentConcepts[index];
             m.payment_date = m.collection_payment > 0 ? this.getDateWRTTimezone(m.collection_payment.payment_date, 'YYYY-MM-DD') : '';
             m.paid_amount = m.calc_payment_amount ? m.calc_payment_amount : 0;
 
@@ -325,34 +359,34 @@ export class QuickVisualizationCommissionComponent implements OnInit {
             }
 
             // calculating total paid and total outstanding payment
-            this.totalPaid = this.totalPaid + m.paid_amount;
+            self.totalPaid = self.totalPaid + m.paid_amount;
             m['outstanding_amount'] = m.amount - (m.calc_payment_amount || 0);
             if ((m.amount - (m.calc_payment_amount || 0)) >= 0) {
               const a = (m.calc_payment_amount || 0);
               m['is_pending'] = a ? 1 : 0;
-              this.totalOutstanding = this.totalOutstanding + m['outstanding_amount'];
+              self.totalOutstanding = self.totalOutstanding + m['outstanding_amount'];
             }
           }
           // now insert at reducing remaining payments at type=2 index
           // sorting reducingP according to date => in case user is paying using type 3 consecutively many times
-          reducingP.sort(this.sortFunction);
+          reducingP.sort(self.sortFunction);
 
           for (let i = 0; i < reducingP.length; i++) {
             const element = reducingP[i];
             // for payment_type 3,5 check display_choice_id
             // loop is for if need to insert 2 type 2 payments on same index
-            for (let j = 0; j < this.allPaymentConcepts.length; j++) {
-              const e = this.allPaymentConcepts[j];
+            for (let j = 0; j < self.allPaymentConcepts.length; j++) {
+              const e = self.allPaymentConcepts[j];
               if (e.id == element.display_choice_id) {
-                this.allPaymentConcepts.splice(j, 0, element);
+                self.allPaymentConcepts.splice(j, 0, element);
                 break;
               }
             }
           }
 
           // calculating new paid amt, by skipping type 2
-          for (let index = 0; index < this.allPaymentConcepts.length; index++) {
-            const element = this.allPaymentConcepts[index];
+          for (let index = 0; index < self.allPaymentConcepts.length; index++) {
+            const element = self.allPaymentConcepts[index];
             const p_amt: any = 0;
             if (element.collection_paymentss && element.collection_paymentss.length > 0) {
               for (let i = 0; i < element.collection_paymentss.length; i++) {
@@ -363,8 +397,8 @@ export class QuickVisualizationCommissionComponent implements OnInit {
                   const ids = ele.choices_ids.split(',');
 
                   // deleting the share of type 2 from main header
-                  for (let j = 0; j < this.allPaymentConcepts.length; j++) {
-                    const e = this.allPaymentConcepts[j];
+                  for (let j = 0; j < self.allPaymentConcepts.length; j++) {
+                    const e = self.allPaymentConcepts[j];
                     if (e.id) {
                       const d = e.id.toString();
                       const h = ids.indexOf(d);
@@ -374,13 +408,13 @@ export class QuickVisualizationCommissionComponent implements OnInit {
                           name: 'Payment to remaining (Reduce Amount)',
                           payment_type: 1,  // in real its 3
                           paid_amount: v,
-                          payment_date: this.getDateWRTTimezone(ele.payment_date, 'YYYY-MM-DD'),
+                          payment_date: self.getDateWRTTimezone(ele.payment_date, 'YYYY-MM-DD'),
                           receipt: ele.receipt,
                           description: ele.description,
                           payment_method: ele.payment_method,
                           payment_bank: ele.payment_bank
                         };
-                        this.allPaymentConcepts[j].paid_amount = parseFloat(this.allPaymentConcepts[j].paid_amount) - parseFloat(v);
+                        self.allPaymentConcepts[j].paid_amount = parseFloat(self.allPaymentConcepts[j].paid_amount) - parseFloat(v);
                       }
                     }
                   }
@@ -391,16 +425,20 @@ export class QuickVisualizationCommissionComponent implements OnInit {
             element.new_paid_amt = p_amt;
           }
 
-          this.allPaymentConcepts.push({
+          self.allPaymentConcepts.push({
             key: 'total',
             name: 'Total',
             // paid_amount: this.totalPaid,
-            paid_amount: this.model.total_payment_recieved,
+            paid_amount: self.model.total_payment_recieved,
             is_paid_calculated: 1,
-            outstanding_amount: this.totalOutstanding
+            outstanding_amount: self.totalOutstanding,
+            purchase_comm_amount:self.purchase_payment_sum,
+            amount:self.payment_sum,
+            agent_comm_amount:self.agent_payment_sum
           });
 
-          this.collectionCommission.push({});
+          self.collectionCommission.push({});
+         
         }, error => {
           this.spinner.hide();
         }

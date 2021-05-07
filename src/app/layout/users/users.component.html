@@ -145,14 +145,14 @@
                     </a>
                 </td>
                 <td class="text-left">
-                  {{item.first_surname ? (item.first_surname | titlecase) : 'NA'}}
+                  {{item.first_surname ? (item.first_surname | titlecase) : ('table.tr.td.NA' | translate)}}
                 </td>
                 <td class="text-left">
-                  {{item.second_surname ? (item.second_surname | titlecase) : 'NA'}}
+                  {{item.second_surname ? (item.second_surname | titlecase) : ('table.tr.td.NA' | translate)}}
                 </td>
                 <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
                 <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
-                <td class="text-left">{{item.email}}</td>
+                <td class="text-left">{{item?.email || ('table.tr.td.NA' | translate)}}</td>
                 <td *ngIf="parameter.type==1">
                   <span *ngFor="let interest of item.interests; let ii=index">
                     <app-property-configuration *ngIf="interest" [configuration]="interest"></app-property-configuration>
