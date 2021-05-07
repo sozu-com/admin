@@ -199,6 +199,7 @@ export class ManageCommissionsComponent implements OnInit {
     });
   }
 
+  
   initCalendarLocale() {
     if (this.translate.defaultLang === 'en') {
       this.locale = {

@@ -237,7 +237,7 @@ export class QuickVisualizationCommissionComponent implements OnInit {
                   return a + b;
                 });
                 self.agent_payment_sum = sum1;
-                console.log(sum1,"agent_payment_sum");
+                console.log(sum1,"aaa");
             }
             }else {
               for (let i = 0; i < (r.payment || []).length; i++) {
