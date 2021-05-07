@@ -530,7 +530,7 @@ export class ManageCommissionsComponent implements OnInit {
 
   getRemainingAmt(p: any) {
     // const v = (((p.deal_price || 0) + (p.penalty || 0)) - (p.total_payment_recieved || 0));
-    const v = ((p.expected_payment_commission || 0) - (p.payment_commission || 0));
+    const v = (parseFloat(p.expected_payment_commission || 0) - parseFloat(p.payment_commission || 0));
     return v > 0 ? v : 0;
   }
 
