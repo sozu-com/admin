@@ -295,7 +295,8 @@ export class SalesReportComponent implements OnInit {
       let data = value == 1 ? this.reportData.approved.find(value => value.label == item.label) : this.reportData.unapproved.find(value => value.label == item.label);
       let id = data.id.split(',');
       let param = {
-        id: id
+        id: id,
+        sort_sales_by: this.input.sort_sales_by
       }
       this.spinner.show();
       this.admin.postDataApi('graphs/sale-reports-actualinfo', param)
