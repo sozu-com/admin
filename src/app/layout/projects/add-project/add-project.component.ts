@@ -111,6 +111,8 @@ export class AddProjectComponent implements OnInit {
   file6: FileUpload;
   file7: FileUpload;
   file8: FileUpload;
+
+  file9: FileUpload;
   amen360Img: FileUpload;
   amenVideo: VideoUpload;
   config360Img: FileUpload;
@@ -209,6 +211,7 @@ export class AddProjectComponent implements OnInit {
     this.file6 = new FileUpload(true, this.admin);
     this.file7 = new FileUpload(false, this.admin);
     this.file8 = new FileUpload(false, this.admin);
+    this.file9 = new FileUpload(true, this.admin);
     this.projectLogo = new FileUpload(true, this.admin);
     this.amen360Img = new FileUpload(false, this.admin);
     this.amenVideo = new VideoUpload(false, this.admin);
@@ -966,6 +969,7 @@ export class AddProjectComponent implements OnInit {
     this.file4.files = [];
     this.config360Img.files = [];
     this.configVideo.files = [];
+    this.file9.image = '';
   }
 
   selectConfiguration(id: string, parentModel: any) {
@@ -982,6 +986,8 @@ export class AddProjectComponent implements OnInit {
     this.config360Img.files = [];
     this.configVideo.files = [];
 
+    this.file9.image = config.cover_profile;
+
     config.images.forEach((item, i: number) => {
       this.file4.files.push(item);
     });
@@ -996,7 +1002,7 @@ export class AddProjectComponent implements OnInit {
 
   deleteConfiguration(index) {
     swal({
-      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.translate.instant('message.error.wantToDeleteConf'),
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.translate.instant('message.error.wantToDeleteConfiguration'),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -1049,6 +1055,8 @@ export class AddProjectComponent implements OnInit {
     // this.file3.upload().then(r => {
     this.new_config.floor_map_image = this.file3.image;
     // });
+
+    this.new_config.cover_profile = this.file9.image;
 
     this.file4.upload().then(r1 => {
       this.new_config.images = this.file4.files;

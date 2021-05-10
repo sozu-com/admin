@@ -244,7 +244,9 @@
     "moreImages": {
       "label": "Imágenes",
       "addMoreBtn": "+ Agregar más imágenes",
-      "submitBtn": "Enviar"
+      "submitBtn": "Enviar",
+      "Gallery":"+ Galería",
+      "CoverImage":"+ Imagen de portada"
     },
     "add360": {
       "label1": "Agregar 360",
@@ -1301,6 +1303,7 @@
       "wantToBlockCity": "¿Quieres bloquear esta ciudad?",
       "wantToUnblockCity": "¿Quieres debloquear esta ciudad?",
       "wantToDeleteCity": "¿Quieres eliminar esta ciudad??",
+      "wantToDeleteConfiguration": "¿Quiere eliminar esta configuración?",
       "wantToBlockPossessionStatus": "¿Quieres bloquear esta fecha de entrega?",
       "wantToUnblockPossessionStatus": "¿Quieres desbloquear esta fecha de entrega?",
       "wantToBlockProjectType": "¿Quieres bloquear este tipo de proyecto?",
