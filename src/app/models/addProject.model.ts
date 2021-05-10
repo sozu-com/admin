@@ -151,6 +151,7 @@ export class Configuration {
   videos: any = [];
   updated_at: any = '';
   name: any = '';
+  cover_profile:any='';
 }
 
 export class Towers {

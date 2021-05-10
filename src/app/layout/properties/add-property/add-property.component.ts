@@ -360,6 +360,7 @@ export class AddPropertyComponent implements OnInit {
     this.model.name = data.name;
     this.model.property_price = data.property_price;
     this.model.for_hold = data.for_hold;
+    this.model.configuration_toggle = data.configuration_toggle || false;
     if (data.for_hold) {
       this.setAvailableStatus(2);
       // this.model.availabilityStatusId = this.availabilityStatus[2].id;
@@ -415,7 +416,7 @@ export class AddPropertyComponent implements OnInit {
     this.model.parking_for_sale = data.parking_for_sale;
     this.model.furnished = data.furnished;
     this.model.property_quantity_details = data.details;
-    this.model.final_price =  data.final_price;
+    this.model.final_price = data.final_price;
 
     this.model.for_hold = data.for_hold === 1 ? true : false;
 
@@ -500,7 +501,7 @@ export class AddPropertyComponent implements OnInit {
     this.getParkingLotFormArray.controls = [];
     ((data || {}).property_parking_space || []).forEach((item) => {
       this.getParkingLotFormArray.push(this.formBuilder.group({ parking_count: [item.parking_count], parking_type: [item.parking_type] }));
-    });    
+    });
     this.tempParking_area1 = JSON.parse(JSON.stringify((data || {}).property_parking_space || []));
   }
 
@@ -1130,7 +1131,7 @@ export class AddPropertyComponent implements OnInit {
           const data = this.parkingSpaceLotsArray1.find((innerItem) => parseInt(innerItem.space_type) == outerItem.get('parking_type').value);
           const data2 = this.tempParking_area1.find((innerItem2) => parseInt(innerItem2.parking_type) == outerItem.get('parking_type').value);
           if (data) {
-            const temp = parseInt(data.total_space || 0) - (parseInt(data.lot_space[0].total_payments || 0) - ( data2 ? parseInt(data2.parking_count) : 0) );
+            const temp = parseInt(data.total_space || 0) - (parseInt(data.lot_space[0].total_payments || 0) - (data2 ? parseInt(data2.parking_count) : 0));
             if (temp < parseInt(outerItem.get('parking_count').value)) {
               isValid = true;
               return;
@@ -1143,6 +1144,7 @@ export class AddPropertyComponent implements OnInit {
           return;
         }
         input.append('parking_area', JSON.stringify(this.getParkingLotFormArray.getRawValue()));
+        input.append('configuration_toggle', this.model.configuration_toggle);
       }
       if (this.model.step === 3) {
         // added building_id and step cuz need to update sttaus and step

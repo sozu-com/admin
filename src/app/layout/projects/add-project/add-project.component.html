@@ -2167,12 +2167,22 @@
                 <label>{{'addForm.otherImages' | translate}}</label>
                 <div class="spacer30"></div>
                 <div class="uploaded-img-block">
+                   <!-- add cover image -->
+                   <div class="uploaded-img add-config-media">
+                    <img class="img-fluid" [src]="file9.image" onerror='this.src="assets/img/placeholder.png"' />
+                    <div *ngIf="file9.loading" class="loaderr"></div>
+                    <input type="file" accept="image/*" name="cover_profile" (change)="file9.onSelectFile($event, true)">
+                    <div class="upload-caption" *ngIf="!file9.image" >
+                      <p class="green-color">{{'addForm.moreImages.CoverImage' | translate}}</p>
+                    </div>
+                  </div>
+
                   <!-- showing add more image for selection -->
                   <div class="uploaded-img add-config-media">
                     <input type="file" name="add-more-images" multiple max="6" accept="image/*"
                       (change)="file4Select($event)">
                     <div class="upload-caption">
-                      <p class="green-color">{{'addForm.moreImages.addMoreBtn' | translate}}</p>
+                      <p class="green-color">{{'addForm.moreImages.Gallery' | translate}}</p>
                     </div>
                   </div>
                   <!-- showing all selected images -->

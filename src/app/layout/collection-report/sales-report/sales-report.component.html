@@ -153,16 +153,16 @@
                                                 <th>{{'collectionReport.collection_id' | translate}}</th>
                                                 <th>{{'collectionReport.property_name' | translate}}</th>
                                                 <th>{{'collectionReport.buyername' | translate}}</th>
-                                                <th>{{'collectionReport.datee' | translate}}</th>
+                                                <th>{{'collectionReport.date' | translate}}</th>
                                                 <!-- <th>{{'collectionReport.amountPaid' | translate}}</th> -->
                                              </thead>
                                              <tbody *ngFor="let cashFlowInfo of cashFlowInfos; let i=index">
-                                                   <td style="color: white;">{{cashFlowInfo.id}}</td>
+                                                   <!-- <td style="color: white;">{{cashFlowInfo.id}}</td> -->
                                                    <!-- <td></td> -->
                                                 <td><span>{{cashFlowInfo.id}}</span></td>
                                                 <td><span>{{cashFlowInfo.name}}</span></td>
                                                 <td><span>{{cashFlowInfo.buyer_name}}</span></td>
-                                                <td><span>{{cashFlowInfo.payment_date}}</span></td>
+                                                <td><span>{{cashFlowInfo.date}}</span></td>
                                                 <!-- <td><span>{{(cashFlowInfo.amount || 0) | currency}}</span></td> -->
                                              </tbody>
                                        </table>
@@ -176,16 +176,16 @@
                                                 <th>{{'collectionReport.collection_id' | translate}}</th>
                                                 <th>{{'collectionReport.property_name' | translate}}</th>
                                                 <th>{{'collectionReport.buyername' | translate}}</th>
-                                                <th>{{'collectionReport.datee' | translate}}</th>
+                                                <th>{{'collectionReport.date' | translate}}</th>
                                                 <!-- <th>{{'collectionReport.amountPaid' | translate}}</th> -->
                                              </thead>
                                              <tbody *ngFor="let cashFlowInfo of cashFlowInfos; let i=index">
-                                                   <td style="color: white;">{{cashFlowInfo.id}}</td>
+                                                   <!-- <td style="color: white;">{{cashFlowInfo.id}}</td> -->
                                                    <!-- <td></td> -->
                                                 <td><span>{{cashFlowInfo.id}}</span></td>
                                                 <td><span>{{cashFlowInfo.name}}</span></td>
                                                 <td><span>{{cashFlowInfo.buyer_name}}</span></td>
-                                                <td><span>{{cashFlowInfo.payment_date}}</span></td>
+                                                <td><span>{{cashFlowInfo.date}}</span></td>
                                                 <!-- <td><span>{{(cashFlowInfo.amount || 0) | currency}}</span></td> -->
                                              </tbody>
                                        </table>
