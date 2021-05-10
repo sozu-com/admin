@@ -173,6 +173,7 @@ export class AddEditCollectionComponent implements OnInit {
   edit_collection: boolean = false;
   isByOffer: any;
   parking_area: any[] = [];
+  isEditDeliveryDate :boolean = false;
 
   constructor(
     public model: Collection,
@@ -3162,6 +3163,15 @@ export class AddEditCollectionComponent implements OnInit {
         interest = (diff * 100) / Number(deal_price);
         this.addFormStep4.controls.interest_discount.patchValue(Number(interest).toFixed(3));
       }
+    }
+  }
+
+  editDeliveryDate(value:any){
+    this.isEditDeliveryDate = value;
+    if(value){
+      this.addFormStep4.get('delivery_date').enable({onlySelf:true});
+    }else{
+      this.addFormStep4.get('delivery_date').disable({onlySelf:true});
     }
   }
 }

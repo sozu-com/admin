@@ -1977,6 +1977,17 @@
             style="width: 100%;border-color: #c0c0c0;height: 39px;">
               </div>
             </div>
+
+            <div class="col-1">
+              <div class="form-group-3">
+                <!-- <label>&nbsp;&nbsp;</label>
+                <div class="clearfix"></div> style="float: right;" -->
+                <a href="javascript://" >
+                  <i class="fa fa-pencil" aria-hidden="true" style="font-size: 25px;" (click)="editDeliveryDate(true)" *ngIf="!isEditDeliveryDate "></i>
+                  <i class="fa fa-undo" aria-hidden="true" style="font-size: 25px;" (click)="editDeliveryDate(false)" *ngIf="isEditDeliveryDate "></i>
+                </a>
+              </div>
+            </div>
               
             </div>
     
