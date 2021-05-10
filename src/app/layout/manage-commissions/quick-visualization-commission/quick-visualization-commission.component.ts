@@ -249,8 +249,7 @@ agent_minus:any;
                   {
                     return a + b;
                   });
-                  this.agent_minus = sum1;
-                  console.log(this.agent_minus,"agent_payment");
+                  self.agent_minus = sum1;
               }
             }else {
               for (let i = 0; i < (r.payment || []).length; i++) {
@@ -446,10 +445,12 @@ agent_minus:any;
             outstanding_amount: self.totalOutstanding,
             purchase_comm_amount:self.purchase_payment_sum,
             amount:self.payment_sum,
-            agent_comm_amount:self.agent_payment_sum
+            agent_comm_amount:self.agent_payment_sum,
+            agent_amt : self.agent_minus
           });
-
+          console.log(self.allPaymentConcepts,"commission")
           self.collectionCommission.push({});
+          
          
         }, error => {
           this.spinner.hide();
