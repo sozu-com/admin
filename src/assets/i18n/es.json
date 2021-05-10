@@ -481,7 +481,8 @@
       "createDraft": "Crear borrador",
       "additionalInfo": "Información adicional",
       "PreferableBuyers": "Compradores preferidos",
-      "Custom": "Personalizar"
+      "Custom": "Personalizar",
+      "takeImagesFromConfiguration":"Tomar imágenes de la configuración"
     },
     "taggedBuildingName": "Nombre del edificio etiquetado",
     "taggedTowerName": "Nombre de la torre etiquetada",

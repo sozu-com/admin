@@ -483,7 +483,8 @@
       "createDraft": "Create Draft",
       "additionalInfo": "Additional Info",
       "PreferableBuyers": "Preferable Buyers",
-      "Custom": "Custom"
+      "Custom": "Custom",
+      "takeImagesFromConfiguration":"Take images from configuration"
     },
     "taggedBuildingName": "Tagged Building Name",
     "taggedTowerName": "Tagged Tower Name",
