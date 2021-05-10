@@ -1144,7 +1144,7 @@ export class AddPropertyComponent implements OnInit {
           return;
         }
         input.append('parking_area', JSON.stringify(this.getParkingLotFormArray.getRawValue()));
-        input.append('configuration_toggle', this.model.configuration_toggle);
+        input.append('configuration_toggle', (this.model.configuration_toggle ? 1 : 0).toString());
       }
       if (this.model.step === 3) {
         // added building_id and step cuz need to update sttaus and step
