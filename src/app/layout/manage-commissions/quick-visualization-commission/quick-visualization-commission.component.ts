@@ -98,6 +98,8 @@ export class QuickVisualizationCommissionComponent implements OnInit {
   commission_type: any;
   purchase_payment_sum: any;
   agent_payment_sum: any;
+  sumData:any;
+agent_minus:any;
   payment_sum: any;
   @ViewChild('stickyMenu') menuElement: ElementRef;
   language_code: string;
@@ -130,6 +132,7 @@ export class QuickVisualizationCommissionComponent implements OnInit {
     this.parameter.sub = this.route.params.subscribe(params => {
       this.property_collection_id = params['id'];
       this.getCollectionDetails();
+      this.getSum();
     });
 
     this.translate.onDefaultLangChange.subscribe((event: LangChangeEvent) => {
@@ -173,6 +176,16 @@ export class QuickVisualizationCommissionComponent implements OnInit {
         dataType: 'string'
       };
     }
+  }
+  getSum(){
+    this.admin.postDataApi('getComissionFinalAmount', { id: this.property_collection_id })
+      .subscribe(
+        success => {
+          this.sumData = success['data'];
+          this.purchase_payment_sum = this.sumData.purchase_amount;
+          this.agent_payment_sum = this.sumData.agent_amount;
+          this.payment_sum = this.sumData.commission_amount;
+      })
   }
 
   getCollectionDetails() {
@@ -228,25 +241,23 @@ export class QuickVisualizationCommissionComponent implements OnInit {
                 {
                   return a + b;
                 });
-                self.purchase_payment_sum = sum;
                 console.log(sum,"purchase_sum");
             }
             }else if(self.commission_type == 2){
               for (let i = 0; i < (r.agent_payment || []).length; i++) {
-                let sum1: number = r.agent_payment.map(a => a.amount).reduce(function(a, b)
-                {
-                  return a + b;
-                });
-                self.agent_payment_sum = sum1;
-                console.log(sum1,"aaa");
-            }
+                  let sum1: number = r.agent_payment.map(a => a.amount).reduce(function(a, b)
+                  {
+                    return a + b;
+                  });
+                  this.agent_minus = sum1;
+                  console.log(this.agent_minus,"agent_payment");
+              }
             }else {
               for (let i = 0; i < (r.payment || []).length; i++) {
                 let sum2: number = r.payment.map(a => a.amount).reduce(function(a, b)
                 {
                   return a + b;
                 });
-                self.payment_sum = sum2;
                 console.log(sum2,"payment_sum");
             }
             }
