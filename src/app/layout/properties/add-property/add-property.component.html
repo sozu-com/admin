@@ -452,7 +452,7 @@
             <!-- <label>{{'creditForm.yesno1' | translate}}</label> -->
             <div class="switchToggle">
               <input type="checkbox" id="switch2" [(ngModel)]="model.configuration_toggle"
-                name="configuration_toggle">
+                name="configuration_toggle" (change)="changeConfigurationToggle()">
               <label for="switch2">Toggle</label>
             </div>
           </div>
