@@ -1695,11 +1695,11 @@
         </div>
 
         <div class="col-lg-3 col-md-6 col-sm-6 col-12" title="{{'addCollection.choosePaymentType' | translate}}">
-          <div class="form-group-3">
+          <div class="form-group-3" *ngIf="!isByOffer">
             <label>{{'addCollection.paymentChoice' | translate}}</label>
             <div class="clearfix"></div>
             <select #selectedPaymentChoice name="paymentchoice" formControlName="paymentchoice"
-              (change)="addPaymentChoice($event)" class="form-control">
+              (change)="addPaymentChoice($event)" class="form-control" >
               <!-- <option value="">Payment Choice</option> -->
               <option value="{{c.id}}" *ngFor="let c of paymentChoices">{{ c.name }}</option>
             </select>
@@ -1850,7 +1850,7 @@
               <label *ngIf="i==0">&nbsp;&nbsp;</label>
               <div class="form-group-3">
                 <div class="clearfix"></div>
-                <button type="button" (click)="removePaymentChoicePopup(payment_choice, i)">
+                <button type="button" (click)="removePaymentChoicePopup(payment_choice, i)" [disabled]="isByOffer">
                   <img src="assets/img/ic_delete.png" alt="img">
                   <!-- {{'addCollection.remove' | translate}} -->
                 </button>
@@ -1861,7 +1861,7 @@
       </div>
 
       <div class="spacer15"></div>
-      <div class="row" *ngIf="showMonthlyInput">
+      <div class="row" *ngIf="showMonthlyInput && !isByOffer">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
             <label>{{'addCollection.noOfMonthlyInstallments' | translate}}</label>
