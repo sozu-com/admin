@@ -46,15 +46,20 @@
        <div class="row">
           <div class="col-md-3 col-sm-6 col-12 img-c">
              <div class="block">
-                <p class="p18">{{project?.building_towers?.length}} {{'addForm.tower.tower' | translate}} - 
-                   {{project?.properties_count > 1 ? project?.properties_count+ ('addForm.units' | translate) : project?.properties_count+ ('addForm.unit' | translate)}}</p>
+               <p class="p18">{{project?.building_towers?.length}} {{'addForm.tower.tower' | translate}} - 
+                  {{project?.units}} {{('addForm.units' | translate)}}</p>
                 <p class="p13">{{'addForm.projectSize' | translate}}</p>
+                <!-- <p class="p18">{{project?.building_towers?.length}} {{'addForm.tower.tower' | translate}} - 
+                   {{project?.properties_count > 1 ? project?.properties_count+ ('addForm.units' | translate) : project?.properties_count+ ('addForm.unit' | translate)}}</p> -->
+                <!-- <p class="p13">{{'addForm.projectSize' | translate}}</p> -->
              </div>
           </div>
           <div class="col-md-3 col-sm-6 col-12 img-c">
              <div class="block">
-                <p class="p18">{{project.starting_price|price}}</p>
-                <p class="p13">{{'addForm.MinPricePerSqMtrs' | translate}}</p>
+                <!-- <p class="p18">{{project.starting_price|price}}</p> -->
+                <!-- <p class="p13">{{'addForm.MinPricePerSqMtrs' | translate}}</p> -->
+                <p class="p18">{{project?.base_min_price | customPrice}} / {{'addForm.mts2' | translate}}</p>
+                <p class="p13">{{'addForm.AveragePricePerMts2' | translate}}</p>
              </div>
           </div>
           <div class="col-md-3 col-sm-6 col-12 img-c">

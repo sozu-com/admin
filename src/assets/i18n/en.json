@@ -465,6 +465,8 @@
     },
     "amenities": "Amenities",
     "projectSize": "Project Size",
+    "AveragePricePerMts2":"Average price per mts2",
+    "mts2": "mts2",
     "MinPricePerSqMtrs": "Min. Price per Sq. meters",
     "possessionDate": "Possession Date",
     "notAvailable": "Not available",

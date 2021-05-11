@@ -55,6 +55,7 @@ export class AddPropertyComponent implements OnInit {
   public searchControl: FormControl;
   public zoom: number;
 
+  propertyData:any;
   name: string;
 
   url: File;
@@ -258,6 +259,7 @@ export class AddPropertyComponent implements OnInit {
           this.spinner.hide();
           this.parameter.propertyDetails = success['data'];
           this.getParkingSpaceLotsAndparkingSpaceRent();
+          this.propertyData = success['data'];
           this.setModelData(success['data']);
           if (this.parameter.propertyDetails.step < 5) {
             this.tab = this.parameter.propertyDetails.step;
@@ -397,10 +399,24 @@ export class AddPropertyComponent implements OnInit {
     this.model.property_type_id = data.property_type ? data.property_type.id : '';
 
     // images
-    this.model.floor_plan = data.floor_plan;
-    this.model.cover_image = data.image;
-    this.model.images = data.images;
-    this.model.images360 = data.images360;
+    if(this.model.configuration_toggle){
+      this.model.floor_plan = data.floor_plan;
+      //this.model.cover_image = data.image;
+      this.model.cover_image = (data.building_configuration || {}).cover_profile;
+      this.model.images = data.images;
+      this.model.images360 = data.images360;
+    }else{
+      this.model.floor_plan =null;
+      //this.model.cover_image = data.image;
+      this.model.cover_image = null;
+      this.model.images = [];
+      this.model.images360 = [];
+    }
+    // this.model.floor_plan = data.floor_plan;
+    // //this.model.cover_image = data.image;
+    // this.model.cover_image = (data.building_configuration || {}).cover_profile;
+    // this.model.images = data.images;
+    // this.model.images360 = data.images360;
     this.model.videos = data.videos;
 
     this.model.description = data.description;
@@ -1168,7 +1184,7 @@ export class AddPropertyComponent implements OnInit {
         .subscribe(
           success => {
             this.spinner.hide();
-
+            this.propertyData = success['data'];
             this.spinner.hide();
             if (this.model.step.toString() === '4') {
               const successText = this.parameter.bulk_approve_property ? '' :
@@ -1784,6 +1800,22 @@ export class AddPropertyComponent implements OnInit {
   checkAlreadySelected = (parkingSpaceId: number): boolean => {
     const data = this.getParkingLotFormArray.controls.find((item: FormGroup) => parseInt(item.get('parking_type').value) == parkingSpaceId);
     return data ? true : false;
+  }
+
+  changeConfigurationToggle(){
+    if(this.model.configuration_toggle){
+      this.model.floor_plan = this.propertyData.floor_plan;
+      //this.model.cover_image = data.image;
+      this.model.cover_image = (this.propertyData.building_configuration || {}).cover_profile;
+      this.model.images = this.propertyData.images;
+      this.model.images360 = this.propertyData.images360;
+    }else{
+      this.model.floor_plan = null;
+      //this.model.cover_image = data.image;
+      this.model.cover_image = null;
+      this.model.images = [];
+      this.model.images360 = [];
+    }
   }
 
 }

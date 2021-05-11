@@ -329,7 +329,7 @@
                       </div>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 100px;">
+                  <th style="vertical-align:top; width: 115px;">
                     <div class="table-search">
                       <label>{{'table.th.total' | translate}}</label>
                       <div class="searh-3">
@@ -466,14 +466,13 @@
                     <span>{{p?.comm_total_commission ? (p?.comm_total_commission | number : '1.2-3') : ('table.tr.td.NA'
                       | translate)}}</span>
                   </td>
-                  
-                  <td>{{p?.cc_percent || 0}}</td>
+                  <td><span>{{p?.expected_payment_commission ? p?.expected_payment_commission : ('table.tr.td.NA' | translate)}}</span></td>
                   <td>
                     <input name="add_iva_to_cc{{i}}" disabled class="form-control checkbox_size" type="checkbox"
                       [checked]="p?.add_iva_to_cc ? 'checked' : ''" readonly>
                   </td>
-                  <td>N/A</td>
-                  
+                  <!-- <td>{{p?.iva_payment_commission}}</td> -->
+                  <td><span>{{(p?.iva_payment_commission || 0) | currency}}</span></td>
                   <td><span>{{(p?.payment_commission || 0) | currency}}</span></td>
                   <td><span>{{getRemainingAmt(p) | currency}}</span></td>
 

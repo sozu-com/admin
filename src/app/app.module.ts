@@ -46,6 +46,7 @@ import { AclUserGuard } from './guards/acl-user.guard';
 import { GenerateOfferPdfService } from './services/generate-offer-pdf.service';
 import { DatePipe } from '@angular/common';
 import { PricePipe } from './pipes/price.pipe';
+import { CustomPricePipe } from './pipes/custom-price.pipe';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent },
@@ -122,7 +123,8 @@ const appRoutes: Routes = [
     ExcelService,
     GenerateOfferPdfService,
     DatePipe,
-    PricePipe
+    PricePipe,
+    CustomPricePipe
   ],
   bootstrap: [AppComponent]
 })

@@ -36,6 +36,7 @@ import { RouterModule } from '@angular/router';
 import { OnlyNumberDirective } from '../directives/only-number.directive';
 import { OnlyDecimalDirective } from '../directives/only-decimal.directive';
 import { OfferBlockComponent } from '../layout/common-blocks/offer-block/offer-block.component';
+import { CustomPricePipe } from '../pipes/custom-price.pipe';
 
 @NgModule({
   imports: [
@@ -79,7 +80,8 @@ import { OfferBlockComponent } from '../layout/common-blocks/offer-block/offer-b
     PreventDoubleClickDirective,
     UptoThreeDecimalDirective,
     OnlyNumberDirective,
-    OnlyDecimalDirective
+    OnlyDecimalDirective,
+    CustomPricePipe
   ],
   exports: [
     CsrBuyerDetailComponent,
@@ -109,7 +111,8 @@ import { OfferBlockComponent } from '../layout/common-blocks/offer-block/offer-b
     PreventDoubleClickDirective,
     UptoThreeDecimalDirective,
     OnlyNumberDirective,
-    OnlyDecimalDirective
+    OnlyDecimalDirective,
+    CustomPricePipe
   ]
 })
 export class SharedModule { }
