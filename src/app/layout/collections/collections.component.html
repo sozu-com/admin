@@ -1681,7 +1681,7 @@
                     [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
                     <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
                     <option *ngFor="let bt of paymentConcepts"
-                      [disabled]="bt?.payment_made==1" [ngValue]="bt">
+                      [disabled]="bt?.payment_made==1 || bt?.purchase_payment_status==1" [ngValue]="bt">
                       {{bt?.payment_choice?.name}}
                       <span *ngIf="bt?.purchase_payment_status==1"> | Paid</span>
                     </option>
@@ -1697,7 +1697,7 @@
                     [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
                     <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
                     <option *ngFor="let bt of paymentConcepts" [ngValue]="bt"
-                    [disabled]="bt?.payment_made2==1"> 
+                    [disabled]="bt?.payment_made2==1 || bt?.agent_payment_status==1"> 
                     {{bt?.payment_choice?.name}}
                     <span *ngIf="bt?.agent_payment_status==1"> | Paid</span>
                   </option>
@@ -1713,7 +1713,7 @@
                     [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
                     <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
                     <option *ngFor="let bt of paymentConcepts" [ngValue]="bt"
-                    [disabled]="bt?.payment_made1==1"> {{bt?.payment_choice?.name}}
+                    [disabled]="bt?.payment_made1==1 || bt?.collection_payment_status==1" > {{bt?.payment_choice?.name}}
                     <span *ngIf="bt?.collection_payment_status==1"> | Paid</span>
                   </option>
                   </select>
