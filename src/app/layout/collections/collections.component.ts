@@ -1982,19 +1982,22 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       element['payment_made'] = 0;
       element['payment_made1'] = 0;
       element['payment_made2'] = 0;
-      if (this.selectedItem.collection_commissions[index] && this.selectedItem.collection_commissions[index].purchase_payment_status) {
-        element['payment_made'] = 1;
-      }
-      if (this.selectedItem.collection_commissions[index] && this.selectedItem.collection_commissions[index].collection_payment_status) {
-        element['payment_made1'] = 1;
-      }
-      if (this.selectedItem.collection_commissions[index] && this.selectedItem.collection_commissions[index].agent_payment_status) {
-        element['payment_made2'] = 1;
-      }
-      // element['payment_made'] = 0;
-      // if (this.selectedItem.payment_choices[index] && this.selectedItem.payment_choices[index].is_paid_calculated) {
+      // if (this.selectedItem.collection_commissions[index] && this.selectedItem.collection_commissions[index].purchase_payment_status) {
       //   element['payment_made'] = 1;
       // }
+      // if (this.selectedItem.collection_commissions[index] && this.selectedItem.collection_commissions[index].collection_payment_status) {
+      //   element['payment_made1'] = 1;
+      // }
+      if (this.selectedItem.collection_commissions[index].payment_choice.calc_payment_amount < this.selectedItem.collection_commissions[index].purchase_comm_amount) {
+        element['payment_made'] = 1;
+      }  
+      if (this.selectedItem.collection_commissions[index].payment_choice.calc_payment_amount < this.selectedItem.collection_commissions[index].amount) {
+        element['payment_made1'] = 1;
+      }
+      if (this.selectedItem.collection_commissions[index].payment_choice.calc_payment_amount < this.selectedItem.collection_commissions[index].agent_comm_amount) {
+          element['payment_made2'] = 1;
+      }
+     
       if (type == 1) {
         if (element.add_purchase_commission == 1) {
           this.paymentConcepts.push(element);
@@ -2012,24 +2015,17 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   }
 
   showCollectionCommReceipt(item: any, i: number, type: string) {
-    // if (item.paid) {
       this.property_collection_id = item.id;
       this.selectedItem = item;
       this.collectionIndex = i;
       this.paymentConcepts = item.collection_commissions;
+      console.log(this.paymentConcepts,"seleted commission")
       this.typeOfPayment = type;
       this.is_external_agent = item.deal_commission_agents && item.deal_commission_agents.length > 0 && item.deal_commission_agents[0].broker ?
         item.deal_commission_agents[0].broker.is_external_agent : 0;
       this.collectionReceiptOpen.nativeElement.click();
-      //this.getValue(this.paymentConcepts)
-   // } 
-    // else {
-    //   this.toastr.clear();
-    //   this.toastr.error(this.translate.instant('message.error.deal'), this.translate.instant('swal.error'));
-    //   return false;
-    // }
-
   }
+
   getValue(commission_type,item){
     console.log(item,"getid")
     this.admin.postDataApi('addCollectionCommissionAmount', { id: item.id , commission_type:commission_type })

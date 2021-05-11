@@ -245,7 +245,9 @@
     "moreImages": {
       "label": "Images",
       "addMoreBtn": "+ Add more images",
-      "submitBtn": "Submit"
+      "submitBtn": "Submit",
+      "Gallery":"+ Gallery",
+      "CoverImage":"+ Cover Image"
     },
     "add360": {
       "label1": "Add 360",
@@ -481,7 +483,8 @@
       "createDraft": "Create Draft",
       "additionalInfo": "Additional Info",
       "PreferableBuyers": "Preferable Buyers",
-      "Custom": "Custom"
+      "Custom": "Custom",
+      "takeImagesFromConfiguration":"Take images from configuration"
     },
     "taggedBuildingName": "Tagged Building Name",
     "taggedTowerName": "Tagged Tower Name",
@@ -1300,6 +1303,7 @@
       "wantToBlockCity": "You want to block this City?",
       "wantToUnblockCity": "You want to unblock this City?",
       "wantToDeleteCity": "You want to delete this City?",
+      "wantToDeleteConfiguration": "You want to delete this Configuration?",
       "wantToBlockPossessionStatus": "You want to block this Possession Status?",
       "wantToUnblockPossessionStatus": "You want to unblock this Possession Status?",
       "wantToBlockProjectType": "You want to block this Project Type?",
