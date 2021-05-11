@@ -55,6 +55,8 @@ export class Building {
   data?: any;
   project?: any;
   avg_price?: any;
+  units?:any;
+  building_towers?: any[] = [];
 }
 
 export class Locality {

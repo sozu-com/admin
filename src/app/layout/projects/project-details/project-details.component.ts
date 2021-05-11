@@ -56,6 +56,10 @@ export class ProjectDetailsComponent implements OnInit {
       this.spinner.hide();
       this.project = res['data'].building;
       this.properties = res['data'].properties;
+      this.project.units = 0;
+      this.project.building_towers.forEach(bt => {
+        this.project.units = bt.num_of_properties + this.project.units;
+      });
       this.configurations = this.project.configurations;
       this.configuration = this.configurations[0];
       this.config_string = this.project.configurations.map(r => r.name ? r.name : r.config.name).join(', ');
