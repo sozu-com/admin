@@ -96,7 +96,7 @@
             <div class="col-lg-1 col-md-2">
                   <div class="form-group btn-cont">
                         <label style="display: block; margin-top: 3px;">&nbsp;</label>
-                        <button type="button" (click)="getListing()"
+                        <button type="button" (click)="apply()"
                               class="btn btn-primary-new width100P P86">{{'collectionReport.apply' |
                               translate}}</button>
                   </div>
@@ -253,7 +253,9 @@
                               color: #00B96F;
                               font-size: 14px;
                               font-weight: 600;">{{'sidebar.arrear' | translate}}</h5>
-                              <h6 class="sideko">$7,235,032.44</h6>
+                              <h6 class="sideko">
+                              ${{((overdueReportDetails?.below_30 || 0) + (overdueReportDetails?.below_60 || 0) + 
+                                 (overdueReportDetails?.above_60 || 0) + (overdueReportDetails?.above_90 || 0)) | roundNumber}}</h6>
                         </div>
                         <div class="spacer40"></div>
                         <div class="row line">
@@ -264,7 +266,7 @@
                                     </div>
                               
                                     <div class="hvrbox-layer_top">
-                                          <div class="hvrbox-text">$2,356,239.00</div>
+                                          <div class="hvrbox-text">${{(overdueReportDetails?.below_30 || 0) | roundNumber}}</div>
                                     </div>
                               </div>
                               <!-- yellow end -->
@@ -276,7 +278,7 @@
                                     </div>
                               
                                     <div class="hvrbox-layer_top">
-                                          <div class="hvrbox-text">$2,356,239.00</div>
+                                          <div class="hvrbox-text">${{(overdueReportDetails?.below_60 || 0) | roundNumber}}</div>
                                     </div>
                               </div>
                               <!-- pink end -->
@@ -288,7 +290,7 @@
                                     </div>
                               
                                     <div class="hvrbox-layer_top">
-                                          <div class="hvrbox-text">$2,356,239.00</div>
+                                          <div class="hvrbox-text">${{(overdueReportDetails?.above_60 || 0) | roundNumber}}</div>
                                     </div>
                               </div>
                               <!-- pich end -->
@@ -301,7 +303,7 @@
                                     </div>
                               
                                     <div class="hvrbox-layer_top">
-                                          <div class="hvrbox-text">$2,356,239.00</div>
+                                          <div class="hvrbox-text">${{(overdueReportDetails?.above_90 || 0) | roundNumber}}</div>
                                     </div>
                               </div>
                               <!-- red end -->
