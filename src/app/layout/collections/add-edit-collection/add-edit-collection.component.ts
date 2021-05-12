@@ -906,7 +906,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep4.controls.deal_purchase_date.patchValue(
       data.deal_purchase_date ? this.getDateWRTTimezone(data.deal_purchase_date) : null);
       this.addFormStep4.controls.delivery_date.patchValue(
-        data.delivery_date ? data.delivery_date : null);
+        data.delivery_date ? this.getDateWRTTimezone(data.delivery_date) : null);
     this.addFormStep4.controls.deal_price.patchValue(this.numberUptoNDecimal(data.deal_price, 2));
     this.addFormStep4.controls.currency_id.patchValue(data.currency_id ? data.currency_id : 1);
     this.addFormStep4.controls.deal_interest_rate.patchValue(data.deal_interest_rate);
@@ -1799,7 +1799,12 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   onSelectDealPurchaseDate($event){
-    this.addFormStep4.get('delivery_date').setValue(moment($event).add(3, 'years').format('DD/MM/YYYY'));
+    //this.addFormStep4.get('delivery_date').setValue(moment($event).add(3, 'years').format('DD/MM/YYYY'));    
+    this.addFormStep4.get('delivery_date').setValue(new Date(moment($event).add(3, 'years').format('YYYY-MM-DD')));
+  }
+
+  onSelectDeliveryDate($event){
+    this.addFormStep4.get('delivery_date').setValue(new Date(moment($event).format('YYYY-MM-DD')));
   }
 
   getBothBroker(keyword: string) {
