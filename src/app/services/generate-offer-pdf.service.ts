@@ -184,6 +184,7 @@ export class GenerateOfferPdfService {
     let index;
     let add_variable = [];
     let bank_detail;
+    let layaway_per;
     index = this.property_array.property_offer_payment.findIndex(x=> x.random_id == this.offer_id);
     if (this.property_array.property_offer_payment[index].property_parking_lot_sale && this.property_array.property_offer_payment[index].property_parking_lot_sale.length > 0) {
       this.property_array.property_offer_payment[index].property_parking_lot_sale.forEach(element => {
@@ -199,6 +200,7 @@ export class GenerateOfferPdfService {
     interest = this.property_array.property_offer_payment[index].interest ? (this.property_array.property_offer_payment[index].interest * price) / 100 : 0;
     final_price = this.property_array.property_offer_payment[index].final_price;
     pricePerM2 = final_price / this.property_array.max_area;
+    layaway_per = 20000 * 100 / final_price;
     downpayment = (this.property_array.property_offer_payment[index].down_payment * final_price) / 100;
     monthly_installment_amount = (this.property_array.property_offer_payment[index].monthly_installment * final_price) / 100;
     payment_upon_delivery = (this.property_array.property_offer_payment[index].payment_upon_delivery * final_price) / 100;
@@ -354,12 +356,12 @@ export class GenerateOfferPdfService {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.layaway') + ':', border: [false, false, false, false], color: '#858291' },
-                      { text: '', border: [false, false, false, false] },
+                      { text: layaway_per? ((Number(layaway_per).toFixed(3)) + '%' ): '', border: [false, false, false, false] },
                       { text: this.price.transform(20000) + '*', border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.downpayment') + ':', border: [false, false, false, false], color: '#858291' },
-                      { text: this.is_for_Offer && this.property_array.property_offer_payment[index].down_payment ? this.property_array.property_offer_payment[index].down_payment + '%' : 
+                      { text: this.is_for_Offer && this.property_array.property_offer_payment[index].down_payment ? ((Number(this.property_array.property_offer_payment[index].down_payment).toFixed(3)) + '%') : 
                        'N/A', border: [false, false, false, false], bold: true },
                       { text: downpayment ? this.price.transform(Number(downpayment || 0).toFixed(2)) : '', border: [false, false, false, false], bold: true },
                     ],

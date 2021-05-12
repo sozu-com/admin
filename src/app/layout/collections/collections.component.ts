@@ -2931,7 +2931,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             self.monthly_installment_amunts = element.category_name.includes('Monthly Installment') ? self.monthly_installment_amunts + element.amount : self.monthly_installment_amunts + 0;
 
             if (element.category_name == 'Layaway Payment') {
-              let layaway_payments_per = Number((self.collection_data.final_price ? element.amount * 100 / self.collection_data.final_price : 0)).toFixed(3) + '%';
+              let layaway_payments_per = Number((parseFloat(self.collection_data.final_pric) ? element.amount * 100 / self.collection_data.final_price : 0)).toFixed(3) + '%';
               layaway_payments_per = layaway_payments_per.includes('.000') ? layaway_payments_per.replace('.000', '') : layaway_payments_per;
               self.layaway_payments.push([
                 { text: self.translate.instant('generatePDF.layaway') + ' ' + (count == 0 ? '' : count) + ':', border: [false, false, false, false], color: '#858291' },
@@ -2941,7 +2941,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
               count = count + 1;
             }
             else if (element.category_name == 'Down Payment') {
-              let down_payments_per = Number((self.collection_data.final_price ? element.amount * 100 / self.collection_data.final_price : 0)).toFixed(3) + '%';
+              let down_payments_per = Number((parseFloat(self.collection_data.final_price) ? element.amount * 100 / self.collection_data.final_price : 0)).toFixed(3) + '%';
               down_payments_per = down_payments_per.includes('.000') ? down_payments_per.replace('.000', '') : down_payments_per;
               self.down_payments.push([
                 { text: self.translate.instant('generatePDF.downpayment') + ' ' + (count1 == 0 ? '' : count1) + ':', border: [false, false, false, false], color: '#858291' },
@@ -2951,7 +2951,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
               count1 = count1 + 1;
             }
             else if (element.category_name == 'Payment upon Delivery') {
-              let payments_upon_delivery_per = Number((self.collection_data.final_price ? element.amount * 100 / self.collection_data.final_price : 0)).toFixed(3) + '%';
+              let payments_upon_delivery_per = Number((parseFloat(self.collection_data.final_price) ? element.amount * 100 / self.collection_data.final_price : 0)).toFixed(3) + '%';
               payments_upon_delivery_per = payments_upon_delivery_per.includes('.000') ? payments_upon_delivery_per.replace('.000', '') : payments_upon_delivery_per;
               self.payments_upon_delivery.push([
                 { text: self.translate.instant('generatePDF.PaymentUponDelivery') + ' ' + (count2 == 0 ? '' : count2) + ':', border: [false, false, false, false], color: '#858291' },
@@ -2999,7 +2999,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             ]);
           });
           let monthly_installment_amunt_per = undefined;
-          monthly_installment_amunt_per = Number((self.collection_data.final_price ? self.monthly_installment_amunts * 100 / self.collection_data.final_price : 0)).toFixed(3) + '%';
+          monthly_installment_amunt_per = Number((parseFloat(self.collection_data.final_price) ? self.monthly_installment_amunts * 100 / self.collection_data.final_price : 0)).toFixed(3) + '%';
           monthly_installment_amunt_per = monthly_installment_amunt_per.includes('.000') ? monthly_installment_amunt_per.replace('.000', '') : monthly_installment_amunt_per;
           self.monthly_installment_amunt.push(
             { text: self.translate.instant('generatePDF.monthlyInstallmentAmt'), border: [false, false, false, false], color: '#858291' },

@@ -162,6 +162,8 @@ export class SalesReportComponent implements OnInit {
     this.spinner.show();
     this.admin.postDataApi('graphs/sales-reports-2', input).subscribe(r => {
       this.spinner.hide();
+      this.already_index = undefined;
+      this.already_value = undefined;
       this.reportData = r['data'];
       this.items = [];
       for (let index = 0; index < this.reportData.approved.length; index++) {
@@ -236,6 +238,8 @@ export class SalesReportComponent implements OnInit {
     this.input.end_date = moment().toDate();
     this.selectedCurrencies = [];
     this.selctedProjects = [];
+    this.already_index = undefined;
+    this.already_value = undefined;
   }
 
   exportData() {
