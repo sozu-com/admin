@@ -362,7 +362,7 @@ export class AddPropertyComponent implements OnInit {
     this.model.name = data.name;
     this.model.property_price = data.property_price;
     this.model.for_hold = data.for_hold;
-    this.model.configuration_toggle = data.configuration_toggle || false;
+    this.model.configuration_toggle = data.configuration_toggle ? true : false;
     if (data.for_hold) {
       this.setAvailableStatus(2);
       // this.model.availabilityStatusId = this.availabilityStatus[2].id;
