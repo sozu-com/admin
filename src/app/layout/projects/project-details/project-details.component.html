@@ -1,8 +1,8 @@
-
+<!-- 
 <div *ngIf="!project" style="margin-top:120px;" class="container" >
   <img style="width:100%" src="assets/img/loading_content.gif">
 </div>
-<div class="inner-page-wrapper details-page gray-bg-1" *ngIf="project">
+<div class="inner-page-wrapper details-page gray-bg-1" *ngIf="project" id="contentToConvert">
  <div class="container">
 
     <div class="clearfix"></div>
@@ -18,7 +18,12 @@
              <p class="p18">{{project.address}}</p>
           </div>
           {{fixed}}
-          <div class="col-md-4">
+          <div class="col-md-2">
+            <div class="btn-cont text-right">
+              <button   (click)="downloadPDF()" class="btn btn-primary">{{'propertyDetail.DownloadPDF' | translate}}</button>
+            </div>
+            </div>
+          <div class="col-md-2">
                   <div class="btn-cont text-right">
                     <button   routerLink="/dashboard/projects/view-projects"
                       class="btn btn-primary">{{'quickVisualization.back' | translate}}</button>
@@ -29,18 +34,16 @@
     <div class="details-photos">
        <div class="row cust-row">
           <div class="col-md-8 cust-col">
-             <!-- <img class="main-photo img-fluid" [src]="project.main_image" onerror='this.src="http://via.placeholder.com/770x416"' alt="img"> -->
              <img class="main-photo img-fluid" onerror='this.src="assets/img/placeholder.png"' [defaultImage]="project?.main_image| img:'thumb'" [lazyLoad]="project?.main_image">
           </div>
           <div class="col-md-4 cust-col" *ngIf="project.images">
               <img *ngIf="project.images[0]" class="secondary-photo img-fluid" onerror='this.src="assets/img/placeholder.png"' [defaultImage]="project.images[0].image| img:'thumb'" [lazyLoad]="project.images[0].image">
               <img *ngIf="project.images[1]" class="secondary-photo img-fluid" onerror='this.src="assets/img/placeholder.png"' [defaultImage]="project.images[1].image| img:'thumb'" [lazyLoad]="project.images[1].image">
-             <!-- <img *ngIf="project.images[0]" class="secondary-photo img-fluid" [src]="project.images[0].image" onerror="this.src='http://via.placeholder.com/392x200'" alt="img">
-             <img *ngIf="project.images[1]"class="secondary-photo img-fluid" [src]="project.images[1].image" onerror="this.src='http://via.placeholder.com/392x200'" alt="img"> -->
+            
           </div>
        </div>
 
-       <!-- <a *ngIf="project.images.length > 2" class="btn view-photos" href="javascript://">{{ts.lang.View_Photos}}</a> -->
+       
     </div>
     <div class="img-des">
        <div class="row">
@@ -49,15 +52,11 @@
                <p class="p18">{{project?.building_towers?.length}} {{'addForm.tower.tower' | translate}} - 
                   {{project?.units}} {{('addForm.units' | translate)}}</p>
                 <p class="p13">{{'addForm.projectSize' | translate}}</p>
-                <!-- <p class="p18">{{project?.building_towers?.length}} {{'addForm.tower.tower' | translate}} - 
-                   {{project?.properties_count > 1 ? project?.properties_count+ ('addForm.units' | translate) : project?.properties_count+ ('addForm.unit' | translate)}}</p> -->
-                <!-- <p class="p13">{{'addForm.projectSize' | translate}}</p> -->
+            
              </div>
           </div>
           <div class="col-md-3 col-sm-6 col-12 img-c">
              <div class="block">
-                <!-- <p class="p18">{{project.starting_price|price}}</p> -->
-                <!-- <p class="p13">{{'addForm.MinPricePerSqMtrs' | translate}}</p> -->
                 <p class="p18">{{project?.base_min_price | customPrice}} / {{'addForm.mts2' | translate}}</p>
                 <p class="p13">{{'addForm.AveragePricePerMts2' | translate}}</p>
              </div>
@@ -75,12 +74,7 @@
                 <p class="p13">{{'addForm.possessionDate' | translate}}</p>
              </div>
           </div>
-          <!-- <div class="col-md-3 col-sm-6 col-12 img-c">
-             <div *ngIf="configuration" class="block">
-                <p class="p18">{{carpet_area_string}}</p>
-                <p class="p13">{{ts.lang.Carpet_Area}} <i><img src="assets/img/info.png" alt="img"></i></p>
-             </div>
-          </div> -->
+         
        </div>
     </div>
  </div>
@@ -131,122 +125,6 @@
                          <div style="height:200px;" #mapListing>
                          </div>
                       </div>
-<!-- 
-                      <div class="spacer30"></div>
-
-                      <p *ngIf="project.configurations.length > 0" class="p14">{{ts.lang.Configs}}</p>
-                      <div *ngFor="let config of project.configurations">
-                        <div class="config-table">
-                           <table style="width:100%;">
-                              <tbody>
-                                 <tr>
-                                    <th>{{ts.lang.Configuration_type}}</th>
-                                    <th>{{ts.lang.Carpet_Area}}</th>
-                                    <th>{{ts.lang.Base_Price}}</th>
-                                 </tr>
-                                 <tr>
-                                    <td>
-                                      <p class="p14 marginB0">{{config.config.name}}</p>
-                                      <p></p>
-                                   </td>
-                                    <td>
-                                       <table style="width:100%;">
-                                          <tbody>
-                                             <tr>
-                                                <td>{{config.carpet_area}} sqmt</td>
-                                             </tr>
-
-                                          </tbody>
-                                       </table>
-                                    </td>
-                                    <td>
-                                       <table style="width:100%;">
-                                          <tbody>
-                                             <tr>
-                                                <td>{{config.base_price | number}}</td>
-                                             </tr>
-                                          </tbody>
-                                       </table>
-                                    </td>
-                                 </tr>
-                              </tbody>
-                           </table>
-                        </div>
-                        <div class="fig-block padding40 text-center">
-                           <img class="img-fluid" [src]="config.floor_map_image" alt="img">
-                        </div>
-                      </div>
-
-
-                      <div class="spacer30"></div>
-                      <p class="p14">{{ts.lang.Amenities}}</p>
-                      <div class="icons-group">
-                         <div *ngFor="let am of project.amenities" class="icons-control">
-                            <div class="fig-block">
-                               <img  class="icon" [src]="am.icon" onerror='src="http://via.placeholder.com/24x24"' alt="img">
-                            </div>
-                            <p class="p13">{{am.name}}</p>
-                         </div>
-                     </div>
-
-                     <div *ngIf="project.banks.length > 0">
-                       <div class="row">
-                           <div class="col-6">
-                              <p class="p14">{{ts.lang.Home_Loans}}</p>
-                           </div>
-                           <div class="col-6" *ngIf="project.banks.length > 3 && bankClicked == false">
-                              <div class="text-right">
-                                 <a class="see-more" (click)="bankLimit = 100; bankClicked = true;" href="javascript://"><span>+{{project.banks.length - 3}} more</span> <i class="fa fa-angle-right"></i></a>
-                              </div>
-                           </div>
-                        </div>
-                        <div class="bank-blocks">
-                          <div  *ngFor="let bank of project.banks | slice : 0 : bankLimit"  class="block">
-                             <div class="fig-block text-center">
-                                <img class="img-fluid" [src]="bank.image" onerror="this.src='http://via.placeholder.com/152x48'" alt="img">
-                             </div>
-                             <div class="d-flex">
-                                <p class="p13">{{ts.lang.Fixed_Interest}}</p>
-                                <p class="p16">{{bank.floating_int}}</p>
-                             </div>
-                          </div>
-                       </div>
-                     </div>
-
-                     <p *ngIf="project.developer" class="p14 marginT30">{{ts.lang.Contact_Developer}}</p>
-                     <div *ngIf="project.developer" class="contact-developer white-bg">
-                        <table class="table">
-                           <tr>
-                              <td style="width:10%">
-                                 <div class="fig-block">
-                                    <img class="img-fluid" [src]="project.developer.developer_image" src="http://via.placeholder.com/56x56" alt="img">
-                                 </div>
-                              </td>
-                              <td style="width:50%">
-                                 <p class="p11">{{ts.lang.Developer}}</p>
-                                 <p class="p16">{{project.developer.name}}</p>
-                                 <p class="p13">{{project.developer.developer_title}}</p>
-                              </td>
-                              <td style="width:40%;">
-                                 <p class="p16">1</p>
-                                 <p class="p13">{{ts.lang.Projects}}</p>
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 &nbsp;
-                              </td>
-                              <td>
-                                 <p class="p12">{{ts.lang.Contact}}</p>
-                                 <p>{{project.developer.country_code}} {{project.developer.phone | numberex:2}}</p>
-                              </td>
-                              <td>
-                                 &nbsp;
-                              </td>
-                           </tr>
-                        </table>
-                     </div> -->
-
                    </div>
                    <div class="tab-pane" id="two">
 
@@ -291,7 +169,7 @@
                        </div>
                        <div class="fig-block padding40 text-center">
                           <img class="img-fluid" onerror='this.src="assets/img/placeholder.png"' [defaultImage]="config.floor_map_image| img:'thumb'" [lazyLoad]="config.floor_map_image">
-                          <!-- <img class="img-fluid" [src]="config.floor_map_image" alt="img"> -->
+                          
                        </div>
                      </div>
 
@@ -352,4 +230,531 @@
     </div>
  </div>
   <div class="spacer60"></div>
-</div>
+</div> -->
+
+
+<div *ngIf="loadingListing" style="margin-top:120px;" class="container">
+   <img style="width:100%" src="assets/img/loading_content.gif">
+ </div>
+ <div class="inner-page-wrapper details-page gray-bg-1" *ngIf="!loadingListing">
+   <div class="container">
+     <!-- <app-schema [schema]="schema"></app-schema> -->
+     <div class="clearfix"></div>
+     <!-- <div class="row">
+       <div class="col-12">
+         <ol class="breadcrumb">
+           <li class="breadcrumb-item"><a href="javascript://" (click)="gotoHome()">{{ts.lang.Home}}</a></li>
+           <li class="breadcrumb-item" *ngIf="project.city"><a href="javascript://">{{project.city.name}}</a></li>
+           <li class="breadcrumb-item" *ngIf="project.locality"><a
+             href="javascript://">{{project.locality.name}}</a></li>
+           <li class="breadcrumb-item active"><a href="javascript://">{{project.name}}</a></li>
+         </ol>
+       </div>
+     </div> -->
+     <div class="details-header marginB30">
+       <div class="row">
+         <div class="col-md-6 col-12">
+           <h4>{{project.name | titlecase}} <span *ngIf="project.building_type"
+                                                  class="new-project">{{project.building_type.name}}</span></h4>
+           <p class="p14" *ngIf="project.developer">{{'commonBlock.By' | translate}} {{project.developer.name}}</p>
+           <p class="p18">{{project.address}}</p>
+           <p class="p14">{{project?.possession_status?.name}}</p>
+         </div>
+         {{fixed}}
+         <div class="col-md-6 col-12">
+           <div class="header-details-right text-right">
+             <p class="p18">
+               <span>{{'addForm.basePrice' | translate}}:</span>
+               {{project?.mprice | currency:'USD':'symbol':'.0'}}
+               
+               <b *ngIf="project?.max_price">-</b>
+               <b *ngIf="project?.max_price">{{project?.max_price | currency:'USD':'symbol':'.0'}}</b>
+               
+             </p>
+             <p class="p16">{{'addForm.Price_on_Request' | translate}}</p>
+             <!-- <div class="btn-cont float-right"><a [ngx-scroll-to]="'#bottomDetails'" class="btn btn-primary btn-lg"
+                                                  href="javascript://">{{ts.lang.ContactUs}}</a></div> -->
+           </div>
+         </div>
+       </div>
+     </div>
+     <div class="details-photos">
+       <div class="row cust-row">
+         <div class="col-md-8 cust-col">
+           <img class="main-photo img-fluid" [lazyLoad]="project.main_image"
+                [defaultImage]="project.main_image|img:'thumb'" onerror='this.src="assets/img/placeholder.png"'
+                alt="img">
+         </div>
+         <div class="col-md-4 cust-col" *ngIf="project.images">
+           <img *ngIf="project.images[0]" class="secondary-photo img-fluid"
+                [src]="project.images[0].image| img:'medium'" onerror="this.src='assets/img/placeholder.png'"
+                alt="img">
+           <img *ngIf="project.images[1]" class="secondary-photo img-fluid"
+                [src]="project.images[1].image| img:'medium'" onerror="this.src='assets/img/placeholder.png'"
+                alt="img">
+         </div>
+       </div>
+ 
+       <a *ngIf="project.images && project.images.length > 2"
+           class="btn view-photos"
+          href="javascript://">{{'addForm.View_Photos'  | translate}}</a>
+          <!--(click)="viewProjectPhotos(project.images, project.images360, project.videos)"-->
+     </div>
+     <div class="img-des">
+       <div class="row">
+         <div class="col-md-3 col-sm-6 col-12 img-c">
+           <div class="block">
+             <p class="p18">{{project.base_min_price | customPrice}} / {{'addForm.mts2' | translate}}</p>
+             <p class="p13">{{'addForm.AveragePricePerMts2' | translate}}</p>
+           </div>
+         </div>
+         <div class="col-md-3 col-sm-6 col-12 img-c">
+           <div class="block">
+             <p class="p18">{{project?.building_towers?.length}} {{'addForm.tower.tower' | translate}} - {{project?.units}}
+               {{('addForm.units' | translate)}}</p>
+            
+             <p class="p13">{{'addForm.projectSize' | translate}}</p>
+           </div>
+         </div>
+         <div class="col-md-3 col-sm-6 col-12 img-c">
+           <div class="block">
+             <p class="p18">{{project.total_sale}} {{'addForm.sale' | translate}} - {{project.total_rent}} {{'addForm.Rent' | translate}}</p>
+             <p class="p13">{{'addForm.Properties'  | translate}}</p>
+           </div>
+         </div>
+         <div class="col-md-3 col-sm-6 col-12 img-c">
+           <div *ngIf="configuration" class="block">
+             <p class="p18">{{carpet_area_string}}</p>
+             <p class="p13">{{'addForm.Carpet_Area'  | translate}}
+
+             </p>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>
+   <div class="cust-tabs full-width-tabs marginT20">
+     <hr id="bottomDetails">
+     
+     <div class="container">
+       <ul class="nav nav-pills">
+         <li class="nav-item" (click)="tab=1" [ngClass]="{'active':tab==1}">
+           <a class="nav-link" href="javascript://">{{'addForm.overview'  | translate}}</a>
+         </li>
+         <li class="nav-item" (click)="tab=2" [ngClass]="{'active':tab==2}">
+           <a class="nav-link" href="javascript://">{{'addForm.ConfigurationTypes'  | translate}}</a>
+         </li>
+         <li class="nav-item" (click)="tab=5" [ngClass]="{'active':tab==5}">
+           <a class="nav-link" href="javascript://">{{'addForm.Gallery'  | translate}}</a>
+         </li>
+         <li class="nav-item" (click)="tab=6" [ngClass]="{'active':tab==6}">
+           <a class="nav-link" href="javascript://">{{'addForm.Towers'  | translate}}</a>
+         </li>
+         <li class="nav-item" (click)="tab=3" [ngClass]="{'active':tab==3}">
+           <a class="nav-link" href="javascript://">{{'addForm.Amenities'  | translate}}</a>
+         </li>
+           <li class="nav-item"  > <!--(click)="tooglePath1(project.id)"-->
+             <a class="nav-link" href="javascript://">{{"addForm.Properties"  | translate}}</a>
+           </li>
+       </ul>
+     </div>
+     <hr>
+     <div class="spacer30"></div>
+     <div class="container">
+       <div class="row">
+         <div class="col-lg-7 col-md-12 col-sm-12 col-12">
+           <div class="white-bg padding40">
+             <div class="tab-content">
+               <div *ngIf="tab==1">
+                 <p class="p14">{{'addForm.overview' | translate}}</p>
+                 <p class="newline">{{project.description  | translate}}</p>
+                 <p class="p14">{{'addForm.Address'  | translate}}: </p>
+                 <p class="newline">{{project.address}}</p>
+ 
+                 <div class="row">
+                   <div *ngIf="project.custom_values" class="overview-table marginT15 col-6">
+                     <table style="width: 100%">
+                       <tbody>
+                       <tr *ngFor="let item of project.custom_values">
+                         <td><label>{{item.name}}:</label></td>
+                         <td><label>{{item.value}}</label></td>
+                       </tr>
+                       </tbody>
+                     </table>
+                   </div>
+                 </div>
+ 
+              
+                 <div class="map-3 marginT30">
+                   <div style="height:350px;" #mapListing>
+                   </div>
+                 </div>
+ 
+                 <div class="spacer30"></div>
+ 
+                 <p *ngIf="project.configurations && project.configurations.length > 0" class="p14">{{'addForm.ConfigurationTypes'  | translate}}</p>
+                 <div *ngFor="let config of project.configurations">
+                   <div class="config-table">
+                     <table style="width:100%;">
+                       <tbody>
+                       <tr>
+                         <th>{{'addForm.Configuration_type'  | translate}}</th>
+                         <th>{{'addForm.Carpet_Area'  | translate}}</th>
+                         <th>{{'addForm.Base_Price'  | translate}}</th>
+                       </tr>
+                       <tr>
+                         <td>
+                       
+                           <p class="p14 marginB0">
+                             {{config?.config?.bedroom ? config?.config?.bedroom + ' ' + ('addForm.Bed'  | translate ): ''}}
+                             {{config?.config?.bathroom ? ' · ' + config?.config?.bathroom + ' ' + ('addForm.Bath'  | translate) : ''}}
+                             {{config?.config?.half_bathroom ? ' · ' + config?.config?.half_bathroom + ' ' + ('addForm.Half_Bath'  | translate): ''}}
+                           </p>
+                           <a *ngIf="config?.name" class="available-for">
+                             {{config?.name}}
+                           </a>
+ 
+                         </td>
+                         <td>
+                           <table style="width:100%;">
+                             <tbody>
+                             <tr>
+                               <td>{{config.carpet_area ? (config.carpet_area | numberWithCommas): 'N/A'}} {{config.carpet_area ? ('addForm.mts2'  | translate) : ''}}</td>
+                             </tr>
+ 
+                             </tbody>
+                           </table>
+                         </td>
+                         <td>
+                           <table style="width:100%;">
+                             <tbody>
+                             <tr *ngIf="config?.base_price>0">
+                               <td>{{(config.base_price || 0 ) | customPrice}}</td>
+                             </tr>
+                             <tr *ngIf="config?.base_price <=0">
+                               <td>{{'addForm.soldOut'  | translate}}</td>
+                             </tr>
+                             </tbody>
+                           </table>
+                         </td>
+                       </tr>
+                       </tbody>
+                     </table>
+                   </div>
+                   <div class="fig-block padding40 text-center">
+                     <img class="img-fluid" [src]="config.floor_map_image| img:'small'" alt="img">
+                   </div>
+                 </div>
+ 
+                 <div class="spacer30"></div>
+                 <p class="p14">{{'addForm.Gallery'  | translate}}
+                   <span style="float:right;"><a                     
+                     href="javascript://">{{'addForm.View_Photos'  | translate}}</a></span>
+                     <!--(click)="viewProjectPhotos(project.images, project.images360, project.videos)"-->
+                 </p>
+                 <div class="project-gallery marginB15" *ngIf="project?.images360 && project?.images360.length>0">
+                   <img [lazyLoad]="project.images360[0].image"
+                        [defaultImage]="project.images360[0].image|img:'thumb'"
+                         onerror='this.src="assets/img/placeholder.png"'
+                        alt="img">
+                        <!--(click)="view360Img(project.images360[0].image)"-->
+                        <!--(click)="view360Img(project.images360[0].image)"-->
+                   <div class="upload-caption" >
+                     <p class="number ng-star-inserted">
+                       <img src="assets/img/ic_360img.png" alt="360 img">
+                     </p>
+                   </div>
+                 </div>
+                 <div *ngIf="(project?.images && project?.images.length>0) || (project?.videos && project?.videos.length>0)" class="gallery-bottom">
+                   <div *ngIf="project?.images.length>0" class="images-wrapper">
+                     <a [href]="project.images[0].image" data-lightbox="image">
+                       <img [lazyLoad]="project.images[0].image"
+                            [defaultImage]="project.images[0].image|img:'thumb'"
+                            onerror='this.src="assets/img/placeholder.png"'
+                            alt="img">
+                     </a>
+                   </div>
+                   <div *ngIf="project?.videos && project?.videos.length>0" class="video-wrapper">
+                     <img [lazyLoad]="project.videos[0].thumb"
+                          [defaultImage]="project.videos[0].thumb|img:'thumb'"
+                          onerror='this.src="assets/img/placeholder.png"'
+                          alt="img">
+                          <!--(click)="viewVideo(project.videos[0].video)" -->
+                          <!--(click)="viewVideo(project.videos[0].video)"-->
+                     <div class="upload-caption" >
+                       <p class="number ng-star-inserted">
+                         <img src="assets/img/ic_video.png" alt="360 img">
+                       </p>
+                     </div>
+                   </div>
+                 </div>
+ 
+ 
+                 <div class="spacer30"></div>
+                 <p class="p14">{{'addForm.Towers' | translate}}</p>
+                 <div *ngFor="let item of project?.building_towers">
+                   <div class="tower-block">
+                     <div class="row marginB15">
+                       <div class="col-md-6 col-xs-6">
+                         <p class="p14 marginB0">{{item?.tower_name}}</p>
+                         <p class="p12 bold">{{'addForm.totalFloors'  | translate}}:{{item?.num_of_floors}}
+                           
+                         </p>
+                       </div>
+                       <div class="col-md-6 col-xs-6 text-right">
+                         <p class="p12 bold marginB0">{{'addForm.possession_Status'  | translate}}:
+                           {{item?.possession_status?.name_en }}</p>
+                         
+                       </div>
+                     </div>
+                     <div class="row">
+                       <div class="col-md-6 col-xs-6">
+                         <p class="p12 marginB0 green">
+                           {{'addForm.availableForSale'  | translate}}:{{item?.sale_properties_count}} |
+                           {{'addForm.Rent' | translate}}:{{item?.rent_properties_count}}</p>
+                       </div>
+                       <div class="col-md-6 col-xs-6 text-right">
+                         <a (click)="this.cs.data = item;" routerLink="{{item.id}}"
+                            class="p12 marginB0 green">{{'addForm.viewProperties'  | translate}}</a>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+ 
+                 <div class="spacer30"></div>
+                 <p class="p14">{{'addForm.Amenities'  | translate}}</p>
+                 <div class="icons-group">
+                   <div *ngFor="let am of project.amenities" class="icons-control">
+                     <div class="fig-block">  <!-- (click)="viewAmenities(am)"-->
+                       <img class="icon" [src]="am.icon" onerror='src="assets/img/placeholder.png"' alt="img">
+                     </div>
+                     <p class="p13">{{language_code
+                       == 'en'? am.name_en : am.name_es}}</p>
+                   </div>
+                 </div>
+ 
+                 <div *ngIf="project.banks.length > 0">
+                   <div class="row">
+                     <div class="col-6">
+                       <p class="p14">{{'addForm.Home_Loans'  | translate}}</p>
+                     </div>
+                     <div class="col-6" *ngIf="project.banks.length > 3 && bankClicked == false">
+                       <div class="text-right">
+                         <a class="see-more" (click)="bankLimit = 100; bankClicked = true;"
+                            href="javascript://"><span>+{{project.banks.length - 3}} more</span> <i
+                           class="fa fa-angle-right"></i></a>
+                       </div>
+                     </div>
+                   </div>
+                   <div class="bank-blocks">
+                     <div *ngFor="let bank of project.banks | slice : 0 : bankLimit" class="block">
+                       <div class="fig-block text-center">
+                         <img class="img-fluid" [src]="bank.image| img:'small'"
+                              onerror="this.src='assets/img/placeholder.png'" alt="img">
+                       </div>
+                       <div class="d-flex">
+                         <p class="p13">{{'addForm.Fixed_Interest'  | translate}}</p>
+                         <p class="p16">{{bank.floating_int}}</p>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+ 
+                 
+ 
+               </div>
+               <div *ngIf="tab==2">
+ 
+                 <p class="p14">{{'addForm.ConfigurationTypes'  | translate}}</p>
+                 <div *ngFor="let config of project.configurations">
+                   <div class="config-table">
+                     <table style="width:100%;">
+                       <tbody>
+                       <tr>
+                         <th>{{'addForm.Configuration_type' | translate}}</th>
+                         <th>{{'addForm.Carpet_Area'  | translate}}</th>
+                         <th>{{'addForm.Base_Price'  | translate}}</th>
+                       </tr>
+                       <tr>
+                         <td>
+                 
+                           <p class="p14 marginB0">
+                             {{config?.config?.bedroom ? config?.config?.bedroom + ' ' + ('addForm.Bed'  | translate) : ''}}
+                             {{config?.config?.bathroom ? ' · ' + config?.config?.bathroom + ' ' + ('addForm.Bath'  | translate): ''}}
+                             {{config?.config?.half_bathroom ? ' · ' + config?.config?.half_bathroom + ' ' + ('addForm.Half_Bath'  | translate): ''}}
+                           </p>
+                           <a *ngIf="config?.name" class="available-for">
+                             {{config?.name}}
+                           </a>
+                         </td>
+                         <td>
+                           <table style="width:100%;">
+                             <tbody>
+                             <tr>
+                             
+                               <td>{{config.carpet_area ? (config.carpet_area | numberWithCommas): 'N/A'}} {{config.carpet_area ? ('addForm.mts2'  | translate): ''}}</td>
+                             </tr>
+ 
+                             </tbody>
+                           </table>
+                         </td>
+                         <td>
+                           <table style="width:100%;">
+                             <tbody>
+                             <tr *ngIf="config?.base_price>0">
+                               <td>{{config.base_price| customPrice}}</td>
+                             </tr>
+                             <tr *ngIf="config?.base_price <=0">
+                               <td>{{'addForm.soldOut'  | translate}}</td>
+                             </tr>
+                             </tbody>
+                           </table>
+                         </td>
+                       </tr>
+                       </tbody>
+                     </table>
+                   </div>
+                   <div class="fig-block padding40 text-center">
+                     <img class="img-fluid" [src]="config.floor_map_image | img:'medium'" alt="img">
+                   </div>
+                 </div>
+ 
+               </div>
+               <div *ngIf="tab==3">
+                 <p class="p14">{{'addForm.Amenities'  | translate}}</p>
+                 <div class="icons-group">
+                   <div *ngFor="let am of project.amenities" class="icons-control">
+                     <div class="fig-block" (click)="viewAmenities(am)">
+                       <img class="icon" [src]="am.icon" onerror='src="assets/img/placeholder.png"' alt="img">
+                     </div>
+                     <p class="p13">{{language_code
+                       == 'en'? am.name_en : am.name_es}}</p>
+                   </div>
+                 </div>
+               </div>
+               <div *ngIf="tab==4">
+                 <p class="p14">{{'addForm.ContactUs'  | translate}}</p>
+                 <div *ngIf="project?.developer" class="contact-developer white-bg">
+                   <table class="table">
+                     <tr>
+                       <td style="width:10%">
+                         <div class="fig-block">
+                           <img class="img-fluid" [src]="project?.developer?.developer_image| img:'thumb'"
+                                onerror='this.src="assets/img/placeholder.png"' alt="img">
+                         </div>
+                       </td>
+                       <td style="width:30%">
+                         <p class="p11">{{'addForm.Developer'  | translate}}</p>
+                         <p class="p16">{{project?.developer.name}}</p>
+                         <p class="p13">{{project?.developer.developer_title}}</p>
+                       </td>
+                       <td style="width:60%;">
+                         <p class="p16">1</p>
+                         <p class="p13">{{'addForm.projects'  | translate}}</p>
+                       </td>
+                     </tr>
+                     <tr>
+                       <td>
+                         &nbsp;
+                       </td>
+                       <td>
+                         <p class="p12">{{'addForm.ContactUs'  | translate}}</p>
+                         <p>{{project?.developer?.dial_code}} {{project?.developer?.phone | numberex:2}}</p>
+                       </td>
+                       <td>
+                         &nbsp;
+                       </td>
+                     </tr>
+                   </table>
+                 </div>
+                 
+               </div>
+ 
+ 
+               <div *ngIf="tab==5">
+                 <p class="p14">{{'addForm.Gallery'  | translate}}
+                   <span style="float:right;"><a                     
+                     href="javascript://">{{'addForm.View_Photos'  | translate}}</a></span>
+                     <!--(click)="viewProjectPhotos(project.images, project.images360, project.videos)"-->
+                 </p>
+ 
+ 
+                 <div class="project-gallery marginB15" *ngIf="project?.images360.length>0">
+                   <img [lazyLoad]="project.images360[0].image"
+                        [defaultImage]="project.images360[0].image|img:'thumb'"
+                         onerror='this.src="assets/img/placeholder.png"'
+                        alt="img">
+                        <!--(click)="view360Img(project.images360[0].image)"-->
+                        <!--(click)="view360Img(project.images360[0].image)"-->
+                   <div class="upload-caption" >
+                     <p class="number ng-star-inserted">
+                       <img src="assets/img/ic_360img.png" alt="360 img">
+                     </p>
+                   </div>
+                 </div>
+                 <div *ngIf="project?.images.length>0 || project?.videos.length>0" class="gallery-bottom">
+                   <div *ngIf="project?.images.length>0" class="images-wrapper">
+                     <a [href]="project.images[0].image" data-lightbox="image">
+                       <img [lazyLoad]="project.images[0].image"
+                            [defaultImage]="project.images[0].image|img:'thumb'"
+                            onerror='this.src="assets/img/placeholder.png"'
+                            alt="img">
+                     </a>
+                   </div>
+                   <div *ngIf="project?.videos.length>0" class="video-wrapper">
+                     <img [lazyLoad]="project.videos[0].thumb"
+                          [defaultImage]="project.videos[0].thumb|img:'thumb'"
+                          onerror='this.src="assets/img/placeholder.png"'
+                          alt="img">
+                          <!--(click)="viewVideo(project.videos[0].video)" -->
+                          <!--(click)="viewVideo(project.videos[0].video)"-->
+                     <div class="upload-caption" >
+                       <p class="number ng-star-inserted">
+                         <img src="assets/img/ic_video.png" alt="360 img">
+                       </p>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+ 
+               <div *ngIf="tab==6">
+                 <p class="p14">{{'addForm.Towers' | translate}}</p>
+                 <div *ngFor="let item of project?.building_towers">
+                   <div class="tower-block">
+                     <div class="row marginB15">
+                       <div class="col-md-6 col-xs-6">
+                         <p class="p14 marginB0">{{item?.tower_name}}</p>
+                         <p class="p12 bold">{{'addForm.totalFloors'  | translate}}:{{item?.num_of_floors}}
+                           
+                         </p>
+                       </div>
+                       <div class="col-md-6 col-xs-6 text-right">
+                         <p class="p12 bold marginB0">{{'addForm.possession_Status'  | translate}}:
+                           {{item?.possession_status?.name_en}}</p>
+                         
+                       </div>
+                     </div>
+                     <div class="row">
+                       <div class="col-md-6 col-xs-6">
+                         <p class="p12 marginB0 green">
+                           {{'addForm.availableForSale' | translate}}:{{item?.sale_properties_count}} |
+                           {{'addForm.Rent' | translate}}:{{item?.rent_properties_count}}</p>
+                       </div>
+                       <div class="col-md-6 col-xs-6 text-right">
+                         <a (click)="this.cs.data = item;" routerLink="{{item.id}}"
+                            class="p12 marginB0 green">{{'addForm.viewProperties' | translate}}</a>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+        
+       </div>
+     </div>
+   </div>
+   <div class="spacer60"></div>
+ </div>
+ 

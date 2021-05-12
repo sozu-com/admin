@@ -1,14 +1,19 @@
 
-<div class="container-fluid">
+<div class="container-fluid" id="contentToConvert">
   <div class="white-bg configuration-page">
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-8">
          <div class="title-group">
            <h5><a (click)="goBack()" href="javascript://">
             <i class="fa fa-angle-double-left"></i> </a></h5>
          </div>
        </div>
-       <div class="col-md-6">
+       <div class="col-md-2">
+        <div class="btn-cont text-right">
+          <button   (click)="downloadPDF()" class="btn btn-primary">{{'propertyDetail.DownloadPDF' | translate}}</button>
+        </div>
+        </div>
+       <div class="col-md-2">
                <div class="btn-cont text-right">
                  <button   routerLink="/dashboard/properties/view-properties"
                    class="btn btn-primary">{{'quickVisualization.back' | translate}}</button>
