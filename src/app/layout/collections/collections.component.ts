@@ -2038,7 +2038,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   
   editCollectionCommReceipt(item: any) {
     this.payment_id = item.id;
-    this.payment_method_id = item.payment_method.id;
+    this.payment_method_id = (item.payment_method || {}).id;
     this.description = item.description;
     this.docFile = item.receipt;
     this.amount = item.amount;
