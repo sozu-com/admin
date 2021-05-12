@@ -2531,6 +2531,10 @@ export class AddEditCollectionComponent implements OnInit {
               }
               this.patchFormStep5(success['data']);
             }
+            if (tab == 5) {
+              this.initFormStep5();
+              this.patchFormStep5(success['data']);
+            }
             if (tab == 6) {
               this.router.navigate(['/dashboard/collections/view-collections']);
               // swal({
