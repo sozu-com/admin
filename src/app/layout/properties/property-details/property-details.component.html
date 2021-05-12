@@ -29,7 +29,6 @@
         </div>
         
         <div class="fig-block">
-            <!-- <img class="img-fluid top-main-img" [src]="property?.image" onerror='this.src="assets/img/loading_image_1.gif"'> -->
             <img class="img-fluid top-main-img" onerror='this.src="assets/img/placeholder.png"' [defaultImage]="property?.image| img:'thumb'" [lazyLoad]="property?.image">
       </div> 
       </div>
@@ -53,7 +52,7 @@
             </div>
             <div class="float-right"><a href="javascript://">
                 <img src="assets/img/viewfull.png" alt="img"></a></div>
-            <!-- <div *ngIf="property.building" class="float-right" [routerLink]="['/project',property.building.id]"><a href="javascript://"><img src="assets/img/viewfull.png" alt="img"></a></div> -->
+           
             <div class="clearfix"></div>
         </div>
 
@@ -131,12 +130,10 @@
             </div>
             <div class="col-md-6 col-12">
                 <div class="fig-block text-center">
-                    <!-- <img class="img-fluid" [src]="property?.floor_plan" alt="img"> -->
+                  
                     <img class="img-fluid" onerror='this.src="assets/img/placeholder.png"' [defaultImage]="property?.floor_plan| img:'thumb'" [lazyLoad]="property?.floor_plan">
                 </div>
             </div>
-
-
         </div>
       </div>
       </div>

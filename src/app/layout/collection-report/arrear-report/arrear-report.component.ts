@@ -51,6 +51,7 @@ export class ArrearReportComponent implements OnInit {
   incomeProjection: Array<any>;
   paidConcepts: Array<any>;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
+  public overdueReportDetails: any;
 
   constructor(
     public constant: Constant,
@@ -77,6 +78,7 @@ export class ArrearReportComponent implements OnInit {
     this.initCalendarLocale();
     this.getAllPaymentChoices();
     this.getListing();
+    this.generateOverdueReport();
 
     this.translate.onDefaultLangChange.subscribe((event: LangChangeEvent) => {
       this.initCalendarLocale();
@@ -346,6 +348,13 @@ export class ArrearReportComponent implements OnInit {
     this.selectedBuyerDev = [];
     this.selectedLegalReps = [];
     this.selectedBuyers = [];
+    this.getListing();
+    this.generateOverdueReport();
+  }
+
+  apply(){
+    this.getListing();
+    this.generateOverdueReport(); 
   }
 
   exportData() {
@@ -364,9 +373,9 @@ export class ArrearReportComponent implements OnInit {
           'Currency': item.code || '',
           'Concept': item.NAME || '',
           'Date': item.date || '',
-          'Payment Total': (((item.amount || 0) + (item.penelty || 0)) - (item.calc_payment_amount || 0)) || 0, 
+          'Payment Total': (((item.amount || 0) + (item.penelty || 0)) - (item.calc_payment_amount || 0)) || 0,
           // item.symbol + Number((((item.amount || 0) + (item.penelty || 0)) - (item.calc_payment_amount || 0))).toFixed(2),
-          'Total Arrear':  Number((item.total_amount || 0)).toFixed(2),
+          'Total Arrear': Number((item.total_amount || 0)).toFixed(2),
         });
       }
       this.exportAsExcelFile(finalData, 'arrearReport-');
@@ -408,5 +417,48 @@ export class ArrearReportComponent implements OnInit {
       today.getSeconds();
     fileName = fileName + date;
     FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
+  }
+
+  generateOverdueReport() {
+    this.spinner.show();
+    const input: any = JSON.parse(JSON.stringify(this.input));
+    input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
+    input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
+    input.year = new Date(this.input.end_date).getFullYear(),
+      input.month = new Date(this.input.end_date).getMonth() + 1;
+
+    this.previousMonth = moment(this.input.end_date).subtract(1, 'months').toDate();
+    this.nextMonth = moment(this.input.end_date).add(1, 'months').toDate();
+
+    if (this.selctedProjects) {
+      const d = this.selctedProjects.map(o => o.id);
+      input.building_id = d;
+    }
+    if (this.selectedCurrencies) {
+      const d = this.selectedCurrencies.map(o => o.id);
+      input.currency_id = d;
+    }
+    if (this.selectedBuyers) {
+      const d = this.selectedBuyers.map(o => o.id);
+      input.buyer_id = d;
+    }
+    if (this.selectedLegalReps) {
+      const d = this.selectedLegalReps.map(o => o.id);
+      input.legal_rep_id = d;
+    }
+    if (this.selectedBuyerDev) {
+      const d = this.selectedBuyerDev.map(o => o.id);
+      input.buyer_dev_id = d;
+    }
+    this.admin.postDataApi('generateOverdueReport', input).subscribe((success) => {
+      this.spinner.hide();
+      this.overdueReportDetails = success.data || {};
+      this.overdueReportDetails.above_60 = parseFloat(this.overdueReportDetails.above_60 );
+      this.overdueReportDetails.above_90 = parseFloat(this.overdueReportDetails.above_90 );
+      this.overdueReportDetails.below_30 = parseFloat(this.overdueReportDetails.below_30 );
+      this.overdueReportDetails.below_60 = parseFloat(this.overdueReportDetails.below_60 );
+    }, (error) => {
+      this.spinner.hide();
+    });
   }
 }

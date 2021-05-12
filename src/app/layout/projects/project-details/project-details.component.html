@@ -236,7 +236,7 @@
 <div *ngIf="loadingListing" style="margin-top:120px;" class="container">
    <img style="width:100%" src="assets/img/loading_content.gif">
  </div>
- <div class="inner-page-wrapper details-page gray-bg-1" *ngIf="!loadingListing">
+ <div class="inner-page-wrapper details-page gray-bg-1" *ngIf="!loadingListing" id="contentToConvert">
    <div class="container">
      <!-- <app-schema [schema]="schema"></app-schema> -->
      <div class="clearfix"></div>
@@ -272,8 +272,8 @@
                
              </p>
              <p class="p16">{{'addForm.Price_on_Request' | translate}}</p>
-             <!-- <div class="btn-cont float-right"><a [ngx-scroll-to]="'#bottomDetails'" class="btn btn-primary btn-lg"
-                                                  href="javascript://">{{ts.lang.ContactUs}}</a></div> -->
+             <div class="btn-cont float-right"><a (click)="downloadPDF()" class="btn btn-primary btn-lg"
+                                                  href="javascript://">{{'propertyDetail.DownloadPDF' | translate}}</a></div>
            </div>
          </div>
        </div>
