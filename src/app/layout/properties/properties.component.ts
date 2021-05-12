@@ -1321,6 +1321,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     let index;
     let add_variable = [];
     let bank_detail;
+    let final_downpayment_per;
+    let final_downpayment;
+    let layaway_per;
     if (!this.is_for_Offer) {
       if (this.installmentFormGroup.controls.parkingLotForSaleFormArray.value && this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.length > 0) {
         this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.forEach(element => {
@@ -1332,7 +1335,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       interest = this.installmentFormGroup.value.interest ? (this.installmentFormGroup.value.interest * price) / 100 : 0;
       final_price = discount ? price - discount : interest ? price + interest : price;
       pricePerM2 = final_price / this.property_array.max_area;
-      downpayment = (this.installmentFormGroup.value.downPayment * final_price) / 100;
+      layaway_per = 20000 * 100 / final_price;
+      final_downpayment = this.installmentFormGroup.value.downPayment ? (this.installmentFormGroup.value.downPayment * final_price) / 100 : 0;
+      downpayment = final_downpayment - 20000;
+      final_downpayment_per = downpayment ? downpayment * 100 / final_price : 0;
       monthly_installment_amount = (this.installmentFormGroup.value.monthlyInstallment * final_price) / 100;
       payment_upon_delivery = (this.installmentFormGroup.value.paymentupondelivery * final_price) / 100;
       monthly_installments = monthly_installment_amount / this.installmentFormGroup.value.numberOfMI;
@@ -1354,6 +1360,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       interest = this.property_array.property_offer_payment[index].interest ? (this.property_array.property_offer_payment[index].interest * price) / 100 : 0;
       final_price = this.property_array.property_offer_payment[index].final_price;
       pricePerM2 = final_price / this.property_array.max_area;
+      layaway_per = 20000 * 100 / final_price;
       downpayment = (this.property_array.property_offer_payment[index].down_payment * final_price) / 100;
       monthly_installment_amount = (this.property_array.property_offer_payment[index].monthly_installment * final_price) / 100;
       payment_upon_delivery = (this.property_array.property_offer_payment[index].payment_upon_delivery * final_price) / 100;
@@ -1510,14 +1517,14 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.layaway') + ':', border: [false, false, false, false], color: '#858291' },
-                      { text: '', border: [false, false, false, false] },
+                      { text: layaway_per ? ((Number(layaway_per).toFixed(3)) + '%' ) : '', border: [false, false, false, false] },
                       { text: this.price.transform(20000) + '*', border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.downpayment') + ':', border: [false, false, false, false], color: '#858291' },
                       {
                         text: this.is_for_Offer && this.property_array.property_offer_payment[index].down_payment ? this.property_array.property_offer_payment[index].down_payment + '%' :
-                          this.installmentFormGroup.value.downPayment ? this.installmentFormGroup.value.downPayment + '%' : 'N/A', border: [false, false, false, false], bold: true
+                        final_downpayment_per ? ((Number(final_downpayment_per).toFixed(3)) + '%') : 'N/A', border: [false, false, false, false], bold: true
                       },
                       { text: downpayment ? this.price.transform(Number(downpayment || 0).toFixed(2)) : '', border: [false, false, false, false], bold: true },
                     ],
@@ -1768,6 +1775,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       let discount = this.installmentFormGroup.value.discount ? (this.installmentFormGroup.value.discount * price) / 100 : 0;
       let interest = this.installmentFormGroup.value.interest ? (this.installmentFormGroup.value.interest * price) / 100 : 0;
       let final_price = discount ? price - discount : interest ? price + interest : price;
+      let layaway_per = 20000 * 100 / final_price;
+      let downpayment = this.installmentFormGroup.value.downPayment ? (this.installmentFormGroup.value.downPayment * final_price) / 100 : 0;
+      let value = downpayment - 20000;
+      let final_downpayment = value ? value * 100 / final_price : 0;
       let addVar = [];
       this.getAddVariablesFormArray.controls.forEach((element: FormGroup) => {
         addVar.push({ variable_name: element.value.addVariablesText, variable_percentage: element.value.addVariablesPercentage });
@@ -1778,7 +1789,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       });
       let param = {
         id: this.property_array.id,
-        down_payment: this.installmentFormGroup.get('downPayment').value,
+        down_payment: final_downpayment,
         discount: this.installmentFormGroup.get('discount').value,
         monthly_installment: this.installmentFormGroup.get('monthlyInstallment').value,
         interest: this.installmentFormGroup.get('interest').value,
@@ -1790,7 +1801,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         account_type: this.installmentFormGroup.get('agencyOrSeller').value ? 2 : 1,
         notes: (this.installmentFormGroup.value.addNoteFormArray[0] || []).addNote || null,
         parking_lots: park,
-        property_var: addVar
+        property_var: addVar,
+        layaway_payment: 20000
       }
       this.admin.postDataApi('createOffers', param).subscribe(result => {
         this.is_for_Offer = false;

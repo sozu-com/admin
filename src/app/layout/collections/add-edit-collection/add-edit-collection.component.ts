@@ -1170,6 +1170,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.searchedBuildings ? this.searchedBuildings[searchindex].selected = true : null;
     if (this.isCommercialOffer && item) {
       this.offer_id = item.ramdom_id;
+      this.isByOffer = item.ramdom_id;
       this.getOfferPropertyDetail(this.offer_id);
     }
   }
