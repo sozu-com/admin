@@ -8,8 +8,13 @@ import { Property, Building } from 'src/app/models/global.model';
 import { AdminService } from 'src/app/services/admin.service';
 import { Constant } from 'src/app/common/constants';
 import { TranslateService } from '@ngx-translate/core';
+import jspdf from 'jspdf';  
+import html2canvas from 'html2canvas';
+
 declare let swal: any;
 declare const google;
+declare var jsPDF:any;
+
 
 @Component({
   selector: 'app-project-details',
@@ -127,5 +132,22 @@ export class ProjectDetailsComponent implements OnInit {
   }
   goBack(){ 
     this.router.navigate(['/dashboard/projects/view-projects', {for: 'back'}])
+  }
+
+  downloadPDF(){
+    var data = document.getElementById('contentToConvert');  //Id of the table
+      html2canvas(data).then(canvas => {  
+        // Few necessary setting options  
+        let imgWidth = 208;   
+        let pageHeight = 295;    
+        let imgHeight = canvas.height * imgWidth / canvas.width;  
+        let heightLeft = imgHeight;  
+  
+        const contentDataURL = canvas.toDataURL('image/png')  
+        let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF  
+        let position = 0;  
+        pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)  
+        pdf.save('project-details.pdf'); // Generated PDF   
+      });
   }
 }

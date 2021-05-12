@@ -1585,6 +1585,7 @@
   },
   "propertyDetail": {
     "availableFor": "Disponible para",
+    "DownloadPDF":"Descargar PDF",
     "rent": "Renta",
     "sale": "Venta",
     "sqmt": "mts2",

@@ -2,7 +2,7 @@
 <div *ngIf="!project" style="margin-top:120px;" class="container" >
   <img style="width:100%" src="assets/img/loading_content.gif">
 </div>
-<div class="inner-page-wrapper details-page gray-bg-1" *ngIf="project">
+<div class="inner-page-wrapper details-page gray-bg-1" *ngIf="project" id="contentToConvert">
  <div class="container">
 
     <div class="clearfix"></div>
@@ -18,7 +18,12 @@
              <p class="p18">{{project.address}}</p>
           </div>
           {{fixed}}
-          <div class="col-md-4">
+          <div class="col-md-2">
+            <div class="btn-cont text-right">
+              <button   (click)="downloadPDF()" class="btn btn-primary">{{'propertyDetail.DownloadPDF' | translate}}</button>
+            </div>
+            </div>
+          <div class="col-md-2">
                   <div class="btn-cont text-right">
                     <button   routerLink="/dashboard/projects/view-projects"
                       class="btn btn-primary">{{'quickVisualization.back' | translate}}</button>

@@ -1584,6 +1584,7 @@
   },
   "propertyDetail": {
     "availableFor": "Available for",
+    "DownloadPDF":"Download PDF",
     "rent": "Rent",
     "sale": "Sale",
     "sqmt": "sqmt",
