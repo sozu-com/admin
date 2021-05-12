@@ -76,7 +76,7 @@ export class AddPropertyModel {
     comm_shared_commission_amount?: number;
     parking_area: Array<any> = [];
     final_price: any;
-    configuration_toggle:any=true;
+    configuration_toggle:any=false;
 }
 export class Docs {
     id: string;

@@ -328,7 +328,8 @@
                         </tr>
                         <tr>
                           <th>{{'quickVisualization.deliveryDate' | translate}}:</th>
-                          <td >{{model?.delivery_date ? getFormattedDate(model?.delivery_date) : ('table.tr.td.NA' | translate)}}</td>
+                          <!-- <td >{{model?.delivery_date ? getFormattedDate(model?.delivery_date) : ('table.tr.td.NA' | translate)}}</td> -->
+                          <td >{{model?.delivery_date ? (model?.delivery_date | date:'dd/MMM/yyyy') : ('table.tr.td.NA' | translate)}}</td>
                         </tr>
                   </tbody>
               </table>

@@ -57,6 +57,11 @@ export class Building {
   avg_price?: any;
   units?:any;
   building_towers?: any[] = [];
+  total_rent?: any;
+  total_sale?: any;
+  min_carpet_area?: number;
+  max_carpet_area?: number;
+  images360?: any[] = [];
 }
 
 export class Locality {

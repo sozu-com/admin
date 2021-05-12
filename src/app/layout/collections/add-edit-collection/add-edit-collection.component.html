@@ -1973,8 +1973,17 @@
             <div class="col-lg-2 col-md-3 col-sm-3 col-6">
               <div class="form-group-3">
                 <div class="clearfix"></div>
-                <input formControlName="delivery_date" placeholder="{{'deshboard.deliveryEstimatedDate' | translate}}" 
-            style="width: 100%;border-color: #c0c0c0;height: 39px;">
+                <!-- <input formControlName="delivery_date" placeholder="{{'deshboard.deliveryEstimatedDate' | translate}}"  *ngIf="!isEditDeliveryDate "
+            style="width: 100%;border-color: #c0c0c0;height: 39px;"> -->
+
+      
+            <p-calendar dateFormat="dd/M/yy" [style]="{'width':'100%'}"  formControlName="delivery_date"
+            class="sz-calendar" [locale]="locale" showIcon="true"  showButtonBar="true"
+            [monthNavigator]="true" disabled [yearNavigator]="true" yearRange="2000:2040" *ngIf="!isEditDeliveryDate "></p-calendar>
+
+          <p-calendar dateFormat="dd/M/yy" [style]="{'width':'100%'}"  formControlName="delivery_date"
+          class="sz-calendar" [locale]="locale" showIcon="true" (onSelect)="onSelectDeliveryDate($event)" showButtonBar="true"
+          [monthNavigator]="true"  [yearNavigator]="true" yearRange="2000:2040" *ngIf="isEditDeliveryDate "></p-calendar>
               </div>
             </div>
 
@@ -2535,7 +2544,6 @@
                 <td *ngIf="addFormStep5.controls.add_iva_to_ac.value">{{(((addFormStep5.controls.iva_percent.value ||
                   0)*acsum)/100 || 0) | currency}}</td>
                 <td *ngIf="!addFormStep5.controls.add_iva_to_ac.value">$0</td>
-                <!-- <td>{{(((addFormStep5.controls.iva_percent.value || 0)*pcsum)/100 || 0) | currency}}</td> -->
               </tr>
               <tr>
                 <td><b>{{'addCollection.TotalCC' | translate}}</b></td>
