@@ -341,7 +341,7 @@ export class ArrearReportComponent implements OnInit {
 
   resetFilters() {
     this.input = new CollectionReport();
-    this.input.end_date = moment().subtract(6, 'months').toDate();
+    this.input.start_date = moment().subtract(12, 'months').toDate();
     this.input.end_date = moment().toDate();
     this.selctedProjects = [];
     this.selectedCurrencies = [];
