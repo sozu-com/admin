@@ -1170,6 +1170,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.searchedBuildings ? this.searchedBuildings[searchindex].selected = true : null;
     if (this.isCommercialOffer && item) {
       this.offer_id = item.ramdom_id;
+      this.isByOffer = item.ramdom_id;
       this.getOfferPropertyDetail(this.offer_id);
     }
   }
@@ -2534,6 +2535,10 @@ export class AddEditCollectionComponent implements OnInit {
               if (this.selectedPaymentChoice) {
                 this.selectedPaymentChoice.nativeElement.value = '';
               }
+              this.patchFormStep5(success['data']);
+            }
+            if (tab == 5) {
+              this.initFormStep5();
               this.patchFormStep5(success['data']);
             }
             if (tab == 6) {
