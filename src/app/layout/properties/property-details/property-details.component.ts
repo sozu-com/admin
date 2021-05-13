@@ -19,6 +19,45 @@ export class PropertyDetailsComponent implements OnInit {
 
   public parameter: IProperty = {};
   property: any;
+  marital_statuses: any;
+  amenities_string: any;
+  parking_count = 0;
+  bedrooms: any = [
+    { name: '1' },
+    { name: '2' },
+    { name: '3' },
+    { name: '4' },
+    { name: '5+' }
+  ];
+  bathrooms: any = [
+    { name: '1' },
+    { name: '2' },
+    { name: '3' },
+    { name: '4' },
+    { name: '5+' }
+  ];
+  halfBathrooms: any = [
+    { name: '1' },
+    { name: '2' },
+    { name: '3' },
+    { name: '4' },
+    { name: '5+' }
+  ];
+
+  familySizes: any = [
+    { name: '1' },
+    { name: '2' },
+    { name: '3' },
+    { name: '4' },
+    { name: '5+' }
+  ];
+
+  carsArray: any = [
+    { name: 'No car' },
+    { name: '1 car' },
+    { name: '2 cars' },
+    { name: '2+' },
+  ];
   constructor(public admin: AdminService, private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
     public constant: Constant,
@@ -37,11 +76,19 @@ export class PropertyDetailsComponent implements OnInit {
     this.router.navigate(['/dashboard/properties/view-properties', {for: 'back'}])
   }
   getPropertyDetails(property_id: string) {
+    let self = this;
     // this.spinner.show();
     this.admin.postDataApi('getPropertyById', {property_id: property_id})
       .subscribe(success => {
         this.spinner.hide();
         this.property = success.data;
+        if(this.property.property_parking_space && this.property.property_parking_space.length > 0){
+          this.property.property_parking_space.forEach(item=>{
+          self.parking_count = self.parking_count + item.parking_count;
+          })
+         }
+        this.amenities_string = this.property.amenities.map(r => { return r.name }).join(',');
+       this.marital_statuses = this.property.marital_statuses.map(r => { return r.name }).join(', ');
       }, error => {
         this.spinner.hide();
       });
