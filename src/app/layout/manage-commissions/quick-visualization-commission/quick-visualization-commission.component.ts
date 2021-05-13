@@ -99,7 +99,9 @@ export class QuickVisualizationCommissionComponent implements OnInit {
   purchase_payment_sum: any;
   agent_payment_sum: any;
   sumData:any;
-agent_minus:any;
+  agent_minus:any;
+  collection_minus:any;
+  pay_minus:any;
   payment_sum: any;
   @ViewChild('stickyMenu') menuElement: ElementRef;
   language_code: string;
@@ -241,6 +243,7 @@ agent_minus:any;
                 {
                   return a + b;
                 });
+                r.pay_minus = sum;
                 console.log(sum,"purchase_sum");
             }
             }else if(self.commission_type == 2){
@@ -249,7 +252,7 @@ agent_minus:any;
                   {
                     return a + b;
                   });
-                  self.agent_minus = sum1;
+                  r.agent_minus = sum1;
               }
             }else {
               for (let i = 0; i < (r.payment || []).length; i++) {
@@ -257,7 +260,8 @@ agent_minus:any;
                 {
                   return a + b;
                 });
-                console.log(sum2,"payment_sum");
+                r.collection_minus = sum2
+                console.log(this.collection_minus,"payment_sum");
             }
             }
            
@@ -446,7 +450,6 @@ agent_minus:any;
             purchase_comm_amount:self.purchase_payment_sum,
             amount:self.payment_sum,
             agent_comm_amount:self.agent_payment_sum,
-            agent_amt : self.agent_minus
           });
           console.log(self.allPaymentConcepts,"commission")
           self.collectionCommission.push({});

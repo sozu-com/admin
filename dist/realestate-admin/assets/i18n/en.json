@@ -1394,7 +1394,8 @@
       "youCannotDeleteThisProjectType":"You cannot delete this project type",
       "doYouWantToEditTheFinalPriceOfCollection":"Do you want to edit the final price of collection?",
       "SorryYouDoNotHaveThePermissionToGoThere":"Sorry you do not have the permission to go there",
-      "whenFinalPriceIsGeneratedCommissionSetAccordingToPercentageEnter": "When final price is generated commission set according to percentage enter."
+      "whenFinalPriceIsGeneratedCommissionSetAccordingToPercentageEnter": "When final price is generated commission set according to percentage enter.",
+      "dealWillNotSameAsCommercialOffer": "Deal will not same as commercial offer"
     } 
   },
   "inhouseUsers": {
@@ -1608,6 +1609,25 @@
     "linkAgents": "link Agent"
   },
   "propertyDetail": {
+    "FloorPlan": "Floor Plan",
+    "Gallery": "Gallery",
+    "View_Photos": "View Photos",
+    "Featured": "Buy in the most profitable stage",
+    "Kids_Friendly": "Kids Friendly",
+    "Student_Friendly": "Student Friendly",
+    "LGTB_Friendly": "LGTB Friendly",
+    "Mature_People_Friendy": "Mature People Friendy",
+    "Parking_Count": "Parking Count",
+    "Parking_for_sale": "Parking for sale",
+    "Bed": "Bed",
+    "Bath": "Bath",
+    "Half_Bath": "Half Bath",
+    "Half_Bathroom": "Half Bathroom",
+    "ForSale":" For Sale",
+    "groundFloor": "Ground Floor",
+    "floor": "Floor",
+    "Tower_Name": "Tower Name",
+    "Floor_Number":" Floor Number",
     "availableFor": "Available for",
     "DownloadPDF":"Download PDF",
     "rent": "Rent",

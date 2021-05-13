@@ -1395,7 +1395,8 @@
       "youCannotDeleteThisProjectType":"No puedes eliminar este tipo de proyecto",
       "doYouWantToEditTheFinalPriceOfCollection":"¿Quieres editar el precio final de la colección",
       "SorryYouDoNotHaveThePermissionToGoThere":"Lo lamento, no tienes los permisos para realizar esta acción",
-      "whenFinalPriceIsGeneratedCommissionSetAccordingToPercentageEnter": "Cuando se genera el precio final, la comisión se establece según el porcentaje ingrese."
+      "whenFinalPriceIsGeneratedCommissionSetAccordingToPercentageEnter": "Cuando se genera el precio final, la comisión se establece según el porcentaje ingrese.",
+      "dealWillNotSameAsCommercialOffer": "La oferta no será la misma que la oferta comercial"
     }
   },
   "inhouseUsers": {
@@ -1609,6 +1610,25 @@
     "linkAgents": "link Agent"
   },
   "propertyDetail": {
+    "FloorPlan": "Piso",
+    "Gallery": "Galería",
+    "View_Photos": "Ver Fotos",
+    "Featured": "Amueblado",
+    "Kids_Friendly": "Kids Friendly",
+    "Student_Friendly": "Student Friendly",
+    "LGTB_Friendly": "LGTB Friendly",
+    "Mature_People_Friendy": "Mature People Friendy",
+    "Parking_Count": "Estacionamiento",
+    "Parking_for_sale": "Estacionamiento A La Venta",
+    "Bed": "Cama",
+    "Bath": "Baño",
+    "Half_Bath": "Medio baño",
+    "Half_Bathroom": "Medio baño",
+    "ForSale":"Comprar",
+    "groundFloor": "Planta",
+    "floor": "Piso",
+    "Tower_Name": "Torre",
+    "Floor_Number":"Piso",
     "availableFor": "Disponible para",
     "DownloadPDF":"Descargar PDF",
     "rent": "Renta",
