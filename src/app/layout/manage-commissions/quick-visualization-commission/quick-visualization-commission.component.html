@@ -538,9 +538,9 @@
             <a class="color-changed" data-toggle="collapse" data-target="#collapseOne{{i}}"
               data-parent="#accordion" aria-expanded="true" aria-controls="collapseOne" 
               href="#collapseOne{{i}}" style="color: #00B96F; font-weight: bold;">
-              {{p.key == 'total' ? (p.purchase_comm_amount | currency) : collectionCommission[i] ? (collectionCommission[i]?.purchase_comm_amount | currency)  : ''}}
+              {{p.key == 'total' ? (p.purchase_comm_amount | currency) : collectionCommission[i] ? (collectionCommission[i]?.pay_minus | currency)  : ''}}
                &nbsp;
-              <span *ngIf="collectionCommission[i]?.purchase_comm_amount">
+              <span *ngIf="collectionCommission[i]?.pay_minus">
                 <i class="fa fa-angle-down" aria-hidden="true"></i>
               </span>
             </a>
@@ -549,8 +549,8 @@
             <a class="color-changed" data-toggle="collapse" data-target="#collapsetwo{{i}}"
             data-parent="#accordion" aria-expanded="true" aria-controls="collapsetwo" href="#collapsetwo{{i}}"
             style="color: #00B96F; font-weight: bold;">
-            {{p.key == 'total' ? (p.amount | currency) : collectionCommission[i] ? (collectionCommission[i]?.amount | currency)  : ''}}
-            <span *ngIf="collectionCommission[i]?.amount">
+            {{p.key == 'total' ? (p.amount | currency) : collectionCommission[i] ? (collectionCommission[i]?.collection_minus | currency)  : 0}}
+            <span *ngIf="collectionCommission[i]?.collection_minus">
               <i class="fa fa-angle-down" aria-hidden="true"></i>
             </span>
           </a>
@@ -559,8 +559,8 @@
              <a class="color-changed" data-toggle="collapse" data-target="#collapsethree{{i}}"
             data-parent="#accordion" aria-expanded="true" aria-controls="collapsethree" 
             href="#collapsethree{{i}}" style="color: #00B96F; font-weight: bold;">
-            {{p.key == 'total' ? (p.agent_comm_amount | currency) : collectionCommission[i] ? (collectionCommission[i]?.agent_comm_amount | currency)  : ''}}
-            <span *ngIf="collectionCommission[i]?.agent_comm_amount">
+            {{p.key == 'total' ? (p.agent_comm_amount | currency) : collectionCommission[i] ? (collectionCommission[i]?.agent_minus | currency)  : ''}}
+            <span *ngIf="collectionCommission[i]?.agent_minus">
               <i class="fa fa-angle-down" aria-hidden="true"></i>
             </span>
           </a>

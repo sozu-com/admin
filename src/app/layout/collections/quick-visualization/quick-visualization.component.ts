@@ -87,7 +87,12 @@ export class QuickVisualizationComponent implements OnInit {
   payment_bank: any;
   paymentBank: any;
   data2: any;
-  cashLimit: any;
+  cashLimit: any;agent_minus:any;
+  collection_minus:any;
+  pay_minus:any;commission_type: any;
+  purchase_payment_sum: any;
+  agent_payment_sum: any;
+  sumData:any; payment_sum: any;
   @ViewChild('stickyMenu') menuElement: ElementRef;
   language_code: string;
   public parkingLotIncludedDetails: any;
@@ -118,6 +123,7 @@ export class QuickVisualizationComponent implements OnInit {
     this.parameter.sub = this.route.params.subscribe(params => {
       this.property_collection_id = params['id'];
       this.getCollectionDetails();
+      this.getSum();
     });
 
     this.translate.onDefaultLangChange.subscribe((event: LangChangeEvent) => {
@@ -159,9 +165,18 @@ export class QuickVisualizationComponent implements OnInit {
       };
     }
   }
-
+  getSum(){
+    this.admin.postDataApi('getComissionFinalAmount', { id: this.property_collection_id })
+      .subscribe(
+        success => {
+          this.sumData = success['data'];
+          this.purchase_payment_sum = this.sumData.purchase_amount;
+          this.agent_payment_sum = this.sumData.agent_amount;
+          this.payment_sum = this.sumData.commission_amount;
+      })
+  }
   getCollectionDetails() {
-    this.spinner.show();
+    this.spinner.show(); let self = this;
     this.admin.postDataApi('getCollectionById', { id: this.property_collection_id })
       .subscribe(
         success => {
@@ -205,6 +220,36 @@ export class QuickVisualizationComponent implements OnInit {
           this.paymentConcepts = [...this.allPaymentConcepts];
 
           this.collectionCommission = success['data']['collection_commissions'];
+          self.collectionCommission.forEach((r) => {
+            // if(self.commission_type == 1){
+              for (let i = 0; i < (r.purchase_payment || []).length; i++) {
+                let sum: number = r.purchase_payment.map(a => a.amount).reduce(function(a, b)
+                {
+                  return a + b;
+                });
+                r.pay_minus = sum;
+                console.log(sum,"purchase_sum");
+            }
+            // }else if(self.commission_type == 2){
+              for (let i = 0; i < (r.agent_payment || []).length; i++) {
+                  let sum1: number = r.agent_payment.map(a => a.amount).reduce(function(a, b)
+                  {
+                    return a + b;
+                  });
+                  r.agent_minus = sum1;
+              }
+            // }else {
+              for (let i = 0; i < (r.payment || []).length; i++) {
+                let sum2: number = r.payment.map(a => a.amount).reduce(function(a, b)
+                {
+                  return a + b;
+                });
+                r.collection_minus = sum2
+                console.log(this.collection_minus,"payment_sum");
+            }
+          //  }
+           
+        });
           this.totalPaid = 0.00;
           this.totalOutstanding = 0.00;
           this.remainingAmt = (((this.model.property.final_price || 0) + (this.model.penalty || 0)) - (this.model.total_payment_recieved || 0));
@@ -385,7 +430,10 @@ export class QuickVisualizationComponent implements OnInit {
             // paid_amount: this.totalPaid,
             paid_amount: this.model.total_payment_recieved,
             is_paid_calculated: 1,
-            outstanding_amount: this.totalOutstanding
+            outstanding_amount: this.totalOutstanding,
+            purchase_comm_amount:self.purchase_payment_sum,
+            amount:self.payment_sum,
+            agent_comm_amount:self.agent_payment_sum,
           });
 
           this.collectionCommission.push({});
