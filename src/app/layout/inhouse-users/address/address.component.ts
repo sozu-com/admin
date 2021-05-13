@@ -168,7 +168,7 @@ export class AddressComponent implements OnInit {
   getLocalityBuildings(locality_id, setZero) {
     this.parameter.locality_id = locality_id;
     this.parameter.buildingsAdd = [];
-    this.admin.postDataApi('getLocalityBuildings', {locality_id: locality_id})
+    this.admin.postDataApi('getLocalityBuildings', {localities: [locality_id]})
       .subscribe(
         success => {
           this.parameter.buildingsAdd = success.data;

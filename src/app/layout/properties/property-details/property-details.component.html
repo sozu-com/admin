@@ -7,12 +7,18 @@
   <!-- <app-schema [schema]="schema"></app-schema> -->
 
   <div class="container">
+    
     <div class="white-bg">
       <div class="top-main-img-outer">
         <div class="avl">{{'propertyDetail.availableFor' | translate}}
           <span *ngIf="property?.for_rent">{{'propertyDetail.rent' | translate}}</span>
           <span *ngIf="property?.for_rent && property?.for_sale">/</span>
           <span *ngIf="property?.for_sale">{{'propertyDetail.sale' | translate}}</span>
+          
+            
+      </div>
+      <div class="btn-cont text-right">
+        <button   (click)="downloadPDF()" class="btn btn-primary">{{'propertyDetail.DownloadPDF' | translate}}</button>
       </div>
       <div class="fig-block">
         <img class="img-fluid top-main-img" 

@@ -72,3 +72,18 @@ a {
     margin-bottom: 1rem;
     margin-top: 2rem;
 }
+
+.btn-cont .btn-primary {
+    color: #fff;
+    background-color: #00B96F;
+    border-color: #00B96F;
+    font-size: 14px;
+    font-family: 'sf_ui_textmedium';
+    text-align: center;
+    border-radius: 0;
+    padding: 8px 15px;
+    min-width: 152px;
+    position: absolute;
+    margin-left: -15%;
+    margin-top: 27px;
+}

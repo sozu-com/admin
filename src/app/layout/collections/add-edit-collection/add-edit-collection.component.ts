@@ -1440,6 +1440,9 @@ export class AddEditCollectionComponent implements OnInit {
     this.currentPaymentChoiceId = $event.target.value;
     $event.stopPropagation();
     this.newPaymentChoice();
+    if(this.isByOffer){
+    this.toastr.warning(this.translate.instant('message.error.dealWillNotSameAsCommercialOffer'), this.translate.instant('swal.warning'))
+    }
   }
 
   get getPaymentChoices(): FormArray {
