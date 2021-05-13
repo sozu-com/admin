@@ -146,9 +146,9 @@
                                                                   <div class="searh-3">
                                                                         <input autocomplete="off" class="width100px"
                                                                               type="text" [(ngModel)]="input.buyer_name"
-                                                                              (keyup.enter)="getListing()">
+                                                                              (keyup.enter)="apply()">
                                                                         <button *ngIf="input.buyer_name"
-                                                                              (click)="getListing()"><i
+                                                                              (click)="apply()"><i
                                                                                     class="fa fa-search"></i></button>
                                                                   </div>
                                                             </div>
@@ -160,9 +160,9 @@
                                                                         <input autocomplete="off" class="width100px"
                                                                               type="text"
                                                                               [(ngModel)]="input.seller_name"
-                                                                              (keyup.enter)="getListing()">
+                                                                              (keyup.enter)="apply()">
                                                                         <button *ngIf="input.seller_name"
-                                                                              (click)="getListing()"><i
+                                                                              (click)="apply()"><i
                                                                                     class="fa fa-search"></i></button>
                                                                   </div>
                                                             </div>
@@ -179,9 +179,9 @@
                                                                   <div class="searh-3">
                                                                         <input autocomplete="off" type="text"
                                                                               [(ngModel)]="input.property_name"
-                                                                              (keyup.enter)="getListing()">
+                                                                              (keyup.enter)="apply()">
                                                                         <button *ngIf="input.property_name"
-                                                                              (click)="getListing()"><i
+                                                                              (click)="apply()"><i
                                                                                     class="fa fa-search"></i></button>
                                                                   </div>
                                                             </div>
