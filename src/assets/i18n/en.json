@@ -1394,7 +1394,8 @@
       "youCannotDeleteThisProjectType":"You cannot delete this project type",
       "doYouWantToEditTheFinalPriceOfCollection":"Do you want to edit the final price of collection?",
       "SorryYouDoNotHaveThePermissionToGoThere":"Sorry you do not have the permission to go there",
-      "whenFinalPriceIsGeneratedCommissionSetAccordingToPercentageEnter": "When final price is generated commission set according to percentage enter."
+      "whenFinalPriceIsGeneratedCommissionSetAccordingToPercentageEnter": "When final price is generated commission set according to percentage enter.",
+      "dealWillNotSameAsCommercialOffer": "Deal will not same as commercial offer"
     } 
   },
   "inhouseUsers": {

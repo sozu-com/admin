@@ -356,8 +356,8 @@ export class GenerateOfferPdfService {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.layaway') + ':', border: [false, false, false, false], color: '#858291' },
-                      { text: layaway_per? ((Number(layaway_per).toFixed(3)) + '%' ): '', border: [false, false, false, false] },
-                      { text: this.price.transform(20000) + '*', border: [false, false, false, false], bold: true },
+                      { text: layaway_per? ((Number(layaway_per).toFixed(3)) + '%' ): '', border: [false, false, false, false], bold: true },
+                      { text: this.price.transform(20000), border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.downpayment') + ':', border: [false, false, false, false], color: '#858291' },
@@ -372,13 +372,7 @@ export class GenerateOfferPdfService {
                       { text: monthly_installment_amount ? this.price.transform(Number(monthly_installment_amount).toFixed(2)) : '', border: [false, false, false, false], bold: true }
                     ],
                     [
-                      {
-                        text: [
-                          { text: this.translate.instant('generatePDF.PaymentUponDelivery') + ':' },
-                          { text: '\n' + this.translate.instant('generatePDF.commercialOfferP'), color: '#858291', fontSize: 8, margin: [0, 5, 0, 5] }
-                        ],
-                        border: [false, false, false, true], color: '#858291'
-                      },
+                      { text: this.translate.instant('generatePDF.PaymentUponDelivery') + ':', border: [false, false, false, true], color: '#858291' },
                       { text: this.is_for_Offer && this.property_array.property_offer_payment[index].payment_upon_delivery? this.property_array.property_offer_payment[index].payment_upon_delivery  + '%' : 
                        '', border: [false, false, false, true], bold: true },
                       { text: payment_upon_delivery ? this.price.transform(Number(payment_upon_delivery).toFixed(2)) : 'N/A', border: [false, false, false, true], bold: true }

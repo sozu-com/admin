@@ -538,7 +538,7 @@ export class AddAclComponent implements OnInit {
     this.parameter.building_id = '-1';
 
     const input = new FormData();
-    input.append('locality_id', locality_id);
+    input.append('localities', locality_id);
 
     this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
