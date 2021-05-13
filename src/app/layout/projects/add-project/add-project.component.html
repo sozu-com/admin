@@ -2217,6 +2217,29 @@
                     <div *ngIf="item.loading" class="loaderr"></div>
                   </div>
                 </div>
+                  <!--for videos -->
+                <label>{{'addForm.addVideo.label1' | translate}}</label>
+                <div class="spacer30"></div>
+                <div class="uploaded-img-block">
+                  <!-- showing add video selection -->
+                  <div class="uploaded-img add-config-media">
+                    <input type="file" name="add-more" multiple max="6" accept="video/*"
+                    (change)="configVideoSelect($event)">
+                    <div class="upload-caption">
+                      <p class="green-color">{{'addForm.addVideo.addBtn' | translate}}</p>
+                    </div>
+                  </div>
+
+                  <!-- showing all selected videos -->
+                  <div class="uploaded-img" *ngFor="let item of configVideos.files; let i=index">
+                    <a class="remove" (click)="removeConfigVideo(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
+                    <img *ngIf="item.thumb" class="u-img" [src]="item.thumb| img:'thumb'" alt="img">
+                    <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+                    <div *ngIf="item.loading" class="loaderr"></div>
+                  </div>
+
+                </div>
+
               </div>
             </div>
           </div>

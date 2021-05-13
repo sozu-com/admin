@@ -405,19 +405,21 @@ export class AddPropertyComponent implements OnInit {
       this.model.cover_image = (data.building_configuration || {}).cover_profile;
       this.model.images = data.images;
       this.model.images360 = data.images360;
+      this.model.videos = data.videos;
     }else{
       this.model.floor_plan =null;
       //this.model.cover_image = data.image;
       this.model.cover_image = null;
       this.model.images = [];
       this.model.images360 = [];
+      this.model.videos = []
     }
     // this.model.floor_plan = data.floor_plan;
     // //this.model.cover_image = data.image;
     // this.model.cover_image = (data.building_configuration || {}).cover_profile;
     // this.model.images = data.images;
     // this.model.images360 = data.images360;
-    this.model.videos = data.videos;
+    
 
     this.model.description = data.description;
     this.model.property_key = data.property_key;
@@ -1206,6 +1208,9 @@ export class AddPropertyComponent implements OnInit {
             });
             this.tempParking_area1 = JSON.parse(JSON.stringify(((success || {}).data || {}).property_parking_space || []));
             this.tab = tab;
+            if(this.model.step == 1){
+            this.changeConfigurationToggle();
+            }
           }, error => {
             this.spinner.hide();
           }
@@ -1803,18 +1808,20 @@ export class AddPropertyComponent implements OnInit {
   }
 
   changeConfigurationToggle(){
-    if(this.model.configuration_toggle){
-      this.model.floor_plan = this.propertyData.floor_plan;
+    if(this.model.configuration_toggle && this.model.building_configuration_id){
+      this.model.floor_plan = (this.propertyData || {}).floor_plan;
       //this.model.cover_image = data.image;
-      this.model.cover_image = (this.propertyData.building_configuration || {}).cover_profile;
-      this.model.images = this.propertyData.images;
-      this.model.images360 = this.propertyData.images360;
+      this.model.cover_image = ((this.propertyData || {}).building_configuration || {}).cover_profile;
+      this.model.images = (this.propertyData || {}).images;
+      this.model.images360 = (this.propertyData || {}).images360;
+      this.model.videos = (this.propertyData || {}).videos;
     }else{
       this.model.floor_plan = null;
       //this.model.cover_image = data.image;
       this.model.cover_image = null;
       this.model.images = [];
       this.model.images360 = [];
+      this.model.videos = [];
     }
   }
 
