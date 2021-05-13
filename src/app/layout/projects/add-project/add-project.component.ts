@@ -119,6 +119,8 @@ export class AddProjectComponent implements OnInit {
   configVideo: FileUpload;
   projectLogo: FileUpload;
 
+  configVideos: VideoUpload;
+
   newTower: Towers;
   allTowerAmenities: any = [];
   allTowerAmenityForEdit: any = [];
@@ -217,6 +219,8 @@ export class AddProjectComponent implements OnInit {
     this.amenVideo = new VideoUpload(false, this.admin);
     this.config360Img = new FileUpload(false, this.admin);
     this.configVideo = new FileUpload(false, this.admin);
+
+    this.configVideos = new VideoUpload(false, this.admin);
 
     this.route.params.subscribe(params => {
       this.id = params.id;
@@ -984,7 +988,7 @@ export class AddProjectComponent implements OnInit {
     this.file3.image = config.floor_map_image;
     this.file4.files = [];
     this.config360Img.files = [];
-    this.configVideo.files = [];
+    this.configVideos.files = [];
 
     this.file9.image = config.cover_profile;
 
@@ -995,7 +999,7 @@ export class AddProjectComponent implements OnInit {
       this.config360Img.files.push(item);
     });
     config.videos.forEach((item, i: number) => {
-      this.configVideo.files.push(item);
+      this.configVideos.files.push(item);
     });
     this.openConfigPopup.nativeElement.click();
   }
@@ -1046,7 +1050,7 @@ export class AddProjectComponent implements OnInit {
 
   addNewConfig() {
     let count = 0;
-    const totalFilesCount = this.file4.files.length + this.config360Img.files.length + this.configVideo.files.length;
+    const totalFilesCount = this.file4.files.length + this.config360Img.files.length + this.configVideo.files.length + this.configVideos.files.length;
     if (this.file4.files.length < 1) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAtleastOneImage'), 'error');
       return false;
@@ -1066,8 +1070,8 @@ export class AddProjectComponent implements OnInit {
       this.new_config.images360 = this.config360Img.files;
     });
 
-    this.configVideo.upload().then(r1 => {
-      this.new_config.videos = this.configVideo.files;
+    this.configVideos.upload().then(r1 => {
+      this.new_config.videos = this.configVideos.files;
     });
 
     this.file4.files.forEach(element => {
@@ -1080,7 +1084,7 @@ export class AddProjectComponent implements OnInit {
         count++;
       }
     });
-    this.configVideo.files.forEach(element => {
+    this.configVideos.files.forEach(element => {
       if (element.loading !== true) {
         count++;
       }
@@ -2457,5 +2461,55 @@ export class AddProjectComponent implements OnInit {
       default:
         break;
     }
+  }
+
+  configVideoSelect($event) {
+    if ((this.configVideos.files.length + $event.target.files.length) > 6) {
+      swal(this.translate.instant('message.error.limitExceeded'),
+        this.translate.instant('message.error.youCanUploadMaximumof6Videos'), 'error');
+      return false;
+    }
+    this.showConfigVideo($event);
+  }
+
+  async showConfigVideo(event) {
+
+    for (let index = 0; index < event.target.files.length; index++) {
+      if (event.target.files[index].size < this.constant.fileSizeLimit) {
+        this.configVideos.files.push(event.target.files[index]);
+      } else {
+        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
+      }
+    }
+
+    setTimeout(async () => {
+      this.configVideos.files.forEach(async (item, index) => {
+        if (!item.id) {
+          if (!this.configVideos.files[index]['fileToUpload'] &&
+            !this.configVideos.files[index]['thumb']) {          // check file if not then loader will show
+            this.configVideos.files[index].loading = true;
+          }
+
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const timer = setTimeout(async () => {
+              const data = await this.setVideoStaticThumbForConfigVideos(index);
+            }, 1000);
+          }.bind(this);
+          reader.readAsDataURL(this.configVideos.files[index]);
+        }
+      });
+    }, 1000);
+  }
+
+  setVideoStaticThumbForConfigVideos(myIndex) {
+    const fileToUpload = 'assets/img/video-file.svg';
+    this.configVideos.files[myIndex].loading = false;
+    this.configVideos.files[myIndex]['thumb'] = fileToUpload;
+    this.configVideos.files[myIndex]['fileToUpload'] = fileToUpload;
+  }
+
+  removeConfigVideo(index: number) {
+    this.configVideos.files.splice(index, 1);
   }
 }
