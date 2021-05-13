@@ -52,6 +52,7 @@ export class ArrearReportComponent implements OnInit {
   paidConcepts: Array<any>;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
   public overdueReportDetails: any;
+  public isShow :boolean= true;
 
   constructor(
     public constant: Constant,
@@ -450,6 +451,7 @@ export class ArrearReportComponent implements OnInit {
       const d = this.selectedBuyerDev.map(o => o.id);
       input.buyer_dev_id = d;
     }
+    this.isShow = false;
     this.admin.postDataApi('generateOverdueReport', input).subscribe((success) => {
       this.spinner.hide();
       this.overdueReportDetails = success.data || {};
@@ -457,6 +459,9 @@ export class ArrearReportComponent implements OnInit {
       this.overdueReportDetails.above_90 = parseFloat(this.overdueReportDetails.above_90 );
       this.overdueReportDetails.below_30 = parseFloat(this.overdueReportDetails.below_30 );
       this.overdueReportDetails.below_60 = parseFloat(this.overdueReportDetails.below_60 );
+      this.overdueReportDetails['overdueTotal'] = ((this.overdueReportDetails.below_30 || 0) + (this.overdueReportDetails.below_60 || 0) + 
+       (this.overdueReportDetails.above_60 || 0) + (this.overdueReportDetails.above_90 || 0));
+       this.isShow = true;
     }, (error) => {
       this.spinner.hide();
     });

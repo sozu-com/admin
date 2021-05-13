@@ -258,11 +258,12 @@
                                  (overdueReportDetails?.above_60 || 0) + (overdueReportDetails?.above_90 || 0)) | roundNumber}}</h6>
                         </div>
                         <div class="spacer40"></div>
-                        <div class="row line">
+                        <div class="row line" *ngIf="isShow">
                               <!-- yellow -->
                               <div class="hvrbox">
                                     <div class="col-lg-2 col-12" style="height: 27px;
-                                    width: 140px;background-color: rgba(243,202,62,0.67);" class="hvrbox-layer_bottom">
+                                    background-color: rgba(243,202,62,0.67);" class="hvrbox-layer_bottom"
+                                    [ngStyle]="{'width': ((overdueReportDetails?.below_30 || 0) / (overdueReportDetails?.overdueTotal || 0)* 1000) +'px'}">
                                     </div>
                               
                                     <div class="hvrbox-layer_top">
@@ -273,8 +274,8 @@
                               <!-- pink -->
                               <div class="hvrbox">
                                     <div class="col-lg-4 col-md-6 col-sm-12 col-12" style="height: 27px;
-                                    width: 260px;
-                                    background-color: #FFA5A1;" class="hvrbox-layer_bottom">
+                                    background-color: #FFA5A1;" class="hvrbox-layer_bottom"
+                                    [ngStyle]="{'width': ((overdueReportDetails?.below_60 || 0) / (overdueReportDetails?.overdueTotal || 0) * 1000) +'px'}">
                                     </div>
                               
                                     <div class="hvrbox-layer_top">
@@ -285,8 +286,8 @@
                               <!-- pich -->
                               <div class="hvrbox">
                                     <div class="col-lg-2 col-md-6 col-sm-12 col-12" style="height: 27px;
-                                    width: 180px;
-                                    background-color: rgba(255,51,54,0.7);" class="hvrbox-layer_bottom">
+                                    background-color: rgba(255,51,54,0.7);" class="hvrbox-layer_bottom"
+                                     [ngStyle]="{'width': ((overdueReportDetails?.above_60 || 0) / (overdueReportDetails?.overdueTotal || 0) * 1000) +'px'}">
                                     </div>
                               
                                     <div class="hvrbox-layer_top">
@@ -298,8 +299,8 @@
                               <div class="hvrbox">
                                     <div  class="col-lg-3 col-md-6 col-sm-12 col-12" style="box-sizing: border-box;
                                     height: 27px;
-                                    width: 180px;
-                                    background-color: #FF3336;" class="hvrbox-layer_bottom">
+                                    background-color: #FF3336;" class="hvrbox-layer_bottom" 
+                                    [ngStyle]="{'width': ((overdueReportDetails?.above_90 || 0) / (overdueReportDetails?.overdueTotal || 0) * 1000) +'px'}">
                                     </div>
                               
                                     <div class="hvrbox-layer_top">
@@ -308,6 +309,19 @@
                               </div>
                               <!-- red end -->
                         </div>
+
+                        <!-- <div class="progress">
+                              <div class="progress-bar progress-bar-success" role="progressbar" style="width:40%">
+                                Free Space
+                              </div>
+                              <div class="progress-bar progress-bar-warning" role="progressbar" style="width:10%">
+                                Warning
+                              </div>
+                              <div class="progress-bar progress-bar-danger" role="progressbar" style="width:20%">
+                                Danger
+                              </div>
+                            </div> -->
+
                         <div class="spacer50"></div>
                         <div class="row line">
                               <div style="height: 25px;
