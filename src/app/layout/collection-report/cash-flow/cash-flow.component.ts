@@ -549,6 +549,7 @@ export class CashFlowComponent implements OnInit {
   }
 
   getCashFlowInfo(item, index) {
+    if(item && (this.reportData.actual || []).length > 0){
     if(index != this.already_index){
       this.already_index = index;
       this.cashFlowInfos = [];
@@ -568,4 +569,5 @@ export class CashFlowComponent implements OnInit {
         });
       }
   }
+}
 }
