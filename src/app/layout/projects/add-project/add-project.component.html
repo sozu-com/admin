@@ -2169,6 +2169,9 @@
                 <div class="uploaded-img-block">
                    <!-- add cover image -->
                    <div class="uploaded-img add-config-media">
+                    <a class="remove" (click)="removeCoverImage()" *ngIf="file9.image">
+                      <img src="assets/img/remove-icon.png" alt="img">
+                    </a>
                     <img class="img-fluid" [src]="file9.image" onerror='this.src="assets/img/placeholder.png"' />
                     <div *ngIf="file9.loading" class="loaderr"></div>
                     <input type="file" accept="image/*" name="cover_profile" (change)="file9.onSelectFile($event, true)">
