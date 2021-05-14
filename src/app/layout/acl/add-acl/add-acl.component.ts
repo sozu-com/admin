@@ -394,7 +394,7 @@ export class AddAclComponent implements OnInit {
         element.can_crud = element.can_crud || 0,
         element.can_purge = element.can_purge || 0;
       }
-      this.setUserType(userdata.user_type);
+      this.setUserType(userdata.user_type, false);
     }, erorr => {
       this.spinner.hide();
     });
@@ -699,7 +699,7 @@ export class AddAclComponent implements OnInit {
     }
   }
 
-  setUserType(user_type: number) {
+  setUserType(user_type: number, check) {
     this.model.user_type = user_type;
     if (user_type == 2) {
       this.predefinedUsers = [
@@ -769,8 +769,9 @@ export class AddAclComponent implements OnInit {
         }
       ];
     }
-
-    this.toastr.warning(this.translate.instant('message.error.thisUserHasLeadsAssignedPleaseDeleteTheDependenciesFirst'), this.translate.instant('swal.warning'))
+    if(check){
+    this.toastr.warning(this.translate.instant('message.error.thisUserHasLeadsAssignedPleaseDeleteTheDependenciesFirst'), this.translate.instant('swal.warning'));
+    }
   }
 
   setPredefinedUsers(item, value, i: number) {
