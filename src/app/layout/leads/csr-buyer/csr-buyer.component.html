@@ -426,10 +426,10 @@
                             <td class="text-left" *ngIf="item.sale_rent >= 0">{{item.sale_rent==1 ? ('leadDetails.buy' |
                                 translate) : ('table.tr.td.rent' | translate)}}</td>
 
-                            <td class="text-left green-color cursor-pointer"> <span>Assign CSR Agent</span> </td>
-                            <td class="text-left green-color cursor-pointer"> <span>text</span> </td>
-                            <td class="text-left green-color cursor-pointer"> <span>Assign Agent</span> </td>
-                            <td class="text-left green-color cursor-pointer"> <span>text</span> </td>
+                            <td class="text-left green-color cursor-pointer" (click)="openModel('CSR')"> <span>Assign CSR Agent</span> </td>
+                            <td class="text-left green-color cursor-pointer" (click)="openAddChangeStatusModel(true)"> <span>text</span> </td>
+                            <td class="text-left green-color cursor-pointer" (click)="openModel('')"> <span>Assign Agent</span> </td>
+                            <td class="text-left green-color cursor-pointer" (click)="openAddChangeStatusModel(false)"> <span>text</span> </td>
                         </tr>
                     </table>
                     <div class="padding20 center" *ngIf="parameter.noResultFound">
@@ -603,6 +603,10 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-md-6 col-5 btn-cont">
+                        <!-- <a class="btn btn-primary pull-right" style="width: 180px;padding: 12px 15px;"
+                            href="javascript://" (click)="this.onClickAddStatus()">{{'leads.addStatus' | translate}}</a> -->
+                    </div>
                     <div class="col-md-6 col-5 btn-cont">
                         <a class="btn btn-primary pull-right" style="width: 180px;padding: 12px 15px;"
                             href="javascript://" (click)="this.onClickAddStatus()">{{'leads.addStatus' | translate}}</a>

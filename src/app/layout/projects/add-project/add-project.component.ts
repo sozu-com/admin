@@ -2512,4 +2512,8 @@ export class AddProjectComponent implements OnInit {
   removeConfigVideo(index: number) {
     this.configVideos.files.splice(index, 1);
   }
+
+  removeCoverImage(){
+    this.file9.image = '';
+  }
 }
