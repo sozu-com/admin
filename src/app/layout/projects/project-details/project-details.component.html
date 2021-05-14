@@ -256,7 +256,7 @@
          <div class="col-md-6 col-12">
            <h4>{{project.name | titlecase}} <span *ngIf="project.building_type"
                                                   class="new-project">{{project.building_type.name}}</span></h4>
-           <p class="p14" *ngIf="project.developer">{{'commonBlock.By' | translate}} {{project.developer.name}}</p>
+           <p class="p14" *ngIf="project.developer">{{'commonBlock.by' | translate}} {{project.developer.name}}</p>
            <p class="p18">{{project.address}}</p>
            <p class="p14">{{project?.possession_status?.name}}</p>
          </div>
@@ -339,23 +339,24 @@
      <div class="container">
        <ul class="nav nav-pills">
          <li class="nav-item" (click)="tab=1" [ngClass]="{'active':tab==1}">
-           <a class="nav-link" href="javascript://">{{'addForm.overview'  | translate}}</a>
+           <a class="nav-link" data-toggle="pill" href="javascript://">{{'addForm.overview'  | translate}}</a>
          </li>
          <li class="nav-item" (click)="tab=2" [ngClass]="{'active':tab==2}">
-           <a class="nav-link" href="javascript://">{{'addForm.ConfigurationTypes'  | translate}}</a>
+           <a class="nav-link" data-toggle="pill" href="javascript://">{{'addForm.ConfigurationTypes'  | translate}}</a>
          </li>
          <li class="nav-item" (click)="tab=5" [ngClass]="{'active':tab==5}">
-           <a class="nav-link" href="javascript://">{{'addForm.Gallery'  | translate}}</a>
+           <a class="nav-link" data-toggle="pill" href="javascript://">{{'addForm.Gallery'  | translate}}</a>
          </li>
          <li class="nav-item" (click)="tab=6" [ngClass]="{'active':tab==6}">
-           <a class="nav-link" href="javascript://">{{'addForm.Towers'  | translate}}</a>
+           <a class="nav-link" data-toggle="pill" href="javascript://">{{'addForm.Towers'  | translate}}</a>
          </li>
          <li class="nav-item" (click)="tab=3" [ngClass]="{'active':tab==3}">
-           <a class="nav-link" href="javascript://">{{'addForm.Amenities'  | translate}}</a>
+           <a class="nav-link" data-toggle="pill" href="javascript://">{{'addForm.Amenities'  | translate}}</a>
          </li>
-           <li class="nav-item"  > <!--(click)="tooglePath1(project.id)"-->
+         <!--(click)="tooglePath1(project.id)"-->
+           <!-- <li class="nav-item"  > 
              <a class="nav-link" href="javascript://">{{"addForm.Properties"  | translate}}</a>
-           </li>
+           </li> -->
        </ul>
      </div>
      <hr>
@@ -514,7 +515,8 @@
                            {{'addForm.Rent' | translate}}:{{item?.rent_properties_count}}</p>
                        </div>
                        <div class="col-md-6 col-xs-6 text-right">
-                         <a (click)="this.cs.data = item;" routerLink="{{item.id}}"
+                         <!--(click)="this.cs.data = item;" routerLink="{{item.id}}"-->
+                         <a 
                             class="p12 marginB0 green">{{'addForm.viewProperties'  | translate}}</a>
                        </div>
                      </div>
@@ -741,8 +743,8 @@
                            {{'addForm.Rent' | translate}}:{{item?.rent_properties_count}}</p>
                        </div>
                        <div class="col-md-6 col-xs-6 text-right">
-                         <a (click)="this.cs.data = item;" routerLink="{{item.id}}"
-                            class="p12 marginB0 green">{{'addForm.viewProperties' | translate}}</a>
+                         <!--(click)="this.cs.data = item;" routerLink="{{item.id}}"-->
+                         <a class="p12 marginB0 green">{{'addForm.viewProperties' | translate}}</a>
                        </div>
                      </div>
                    </div>

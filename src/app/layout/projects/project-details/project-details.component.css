@@ -18,3 +18,30 @@
     height: 100%;
     object-fit: cover;
 }
+
+.tower-block{
+    padding: 20px;
+    background: #fff;
+    box-shadow: -6px 9px 8px #eee;
+    margin-bottom: 20px;
+}
+
+.images-wrapper{
+    width:48%;
+    height:180px;
+    margin-right:4%;
+    background: #eee;
+    float: left;
+}
+.video-wrapper{
+    width:48%;
+    height:180px;
+    background: #eee;
+    float: left;
+}
+
+
+
+/* a{
+    text-transform: uppercase;
+} */

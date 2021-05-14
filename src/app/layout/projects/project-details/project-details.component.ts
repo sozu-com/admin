@@ -113,24 +113,19 @@ export class ProjectDetailsComponent implements OnInit {
   //           },
   //           zoom: 15
   //         });
-
   //         const infowindow = new google.maps.InfoWindow();
   //         let marker, i;
-
   //         marker = new google.maps.Marker({
   //           position: new google.maps.LatLng(this.project.lat, this.project.lng),
   //           map: map
   //         });
-
   //         google.maps.event.addListener(marker, 'click', ((marker, i) => {
   //           return () => {
   //             infowindow.setContent('<p>' + this.project.name + '</p>');
   //             infowindow.open(map, marker);
   //           };
   //         })(marker, i));
-
   //         map.setCenter(marker.position);
-
   //       });
   //     }
   //   });
@@ -276,11 +271,11 @@ this.base64address = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAs
      // this.cs.setMetaForProject(this.project);
       this.initMapLocations();
 
-      if (this.project.images360.length > 0) {
-        setTimeout(r => {
+      // if (this.project.images360.length > 0) {
+      //   setTimeout(r => {
           
-        }, 2000);
-      }
+      //   }, 2000);
+      // }
 
 
     });
@@ -300,20 +295,17 @@ this.base64address = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAs
           });
 
           const infowindow = new google.maps.InfoWindow();
-          var marker, i;
-
+          let marker, i;
           marker = new google.maps.Marker({
             position: new google.maps.LatLng(this.project.lat, this.project.lng),
             map: map
           });
-
           google.maps.event.addListener(marker, 'click', ((marker, i) => {
             return () => {
               infowindow.setContent('<p>' + this.project.name + '</p>');
               infowindow.open(map, marker);
             }
           })(marker, i));
-
           map.setCenter(marker.position);
 
         });
