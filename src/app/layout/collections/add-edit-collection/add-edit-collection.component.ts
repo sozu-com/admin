@@ -87,7 +87,7 @@ export class AddEditCollectionComponent implements OnInit {
   searchedOffers: Array<AddProjectModel>;
   selectedBuilding: AddProjectModel;
   selectedTower: Towers;
-
+  agent_amount: any;
   num_of_property: any;
   property_names: Array<any>;
   amenity_index: number;
@@ -135,7 +135,10 @@ export class AddEditCollectionComponent implements OnInit {
   ccsum: any;
   pcsum: any;
   acsum: any;
+  purchase_amount : any;
+  coll_amt: any;
   isAgencyBank: boolean;
+  coll_amtt: number;
   buyerDocumentationFoldersDetails: any[] = [];
   sellerDocumentationFoldersDetails: any[] = [];
   propertyDocumentationFoldersDetails: any[] = [];
@@ -2152,7 +2155,24 @@ export class AddEditCollectionComponent implements OnInit {
     const amount = this.numberUptoNDecimal((percent * payment_amount) / 100, 2);
     const pcArray: Array<any> = this.addFormStep5.get('collection_commissions').value;
     pcArray[index].amount = amount;
-    // const installOne = pcArray.find(r => r.pc_id == 5);
+   
+  for (let i = 0; i < (pcArray || []).length; i++) {
+    let sum: number = pcArray.map(a => a.agent_comm_amount).reduce(function(a, b)
+    {
+      return parseFloat(a) + parseFloat(b);
+    });
+    let sum1: number = pcArray.map(a => a.purchase_comm_amount).reduce(function(a, b)
+    {
+      return parseFloat(a) + parseFloat(b);
+    });
+    let sum2: number = pcArray.map(a => a.amount).reduce(function(a, b)
+    {
+      return parseFloat(a) + parseFloat(b);
+    });
+    this.agent_amount = sum;
+    this.purchase_amount = sum1;
+    this.coll_amt = sum2;
+}
     const installOne = pcArray.find(r => r.name.includes('Monthly Installment'));
     // if first monthly installment percent added, => update amount in all monthly installments
     this.ccsum = 0;
@@ -2168,9 +2188,9 @@ export class AddEditCollectionComponent implements OnInit {
       });
     }
     pcArray.map(e => {
-      this.ccsum = parseFloat(this.ccsum) + e.add_collection_commission ? parseFloat(e.amount) : 0.00;
-      this.pcsum = parseFloat(this.pcsum) + e.add_purchase_commission ? parseFloat(e.purchase_comm_amount) : 0.00;
-      this.acsum = parseFloat(this.acsum) + e.add_agent_commission ? parseFloat(e.agent_comm_amount) : 0.00;
+      this.ccsum = parseFloat(this.ccsum) + e.add_collection_commission ? parseFloat(this.coll_amt) : 0.00;
+      this.pcsum = parseFloat(this.pcsum) + e.add_purchase_commission ? parseFloat(this.purchase_amount) : 0.00;
+      this.acsum = parseFloat(this.acsum) + e.add_agent_commission ? parseFloat(this.agent_amount) : 0.00;
     });
     this.addFormStep5.controls['collection_commissions'].patchValue(pcArray);
   }
@@ -2187,7 +2207,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.acsum = 0;
     if (installOne && (installOne.name === pcArray[index].name)) {
       pcArray.map(e => {
-        // if (e.pc_id == 5) {
+        // if (e.pc_id == 5) {purchase_sum
         if (e.name.includes('Monthly Installment')) {
           e.amount = amount;
           e.percent = percent;
@@ -2229,28 +2249,77 @@ export class AddEditCollectionComponent implements OnInit {
 
   getPurcAmount(amount: number, index: number) {
     const pcArray: Array<any> = this.addFormStep5.get('collection_commissions').value;
-    pcArray[index].purchase_comm_amount = amount;
+   // pcArray[index].purchase_comm_amount = amount;
+   for (let i = 0; i < (pcArray || []).length; i++) {
+    let sum: number = pcArray.map(a => a.agent_comm_amount).reduce(function(a, b)
+    {
+      return a + b;
+    });
+    let sum1: number = pcArray.map(a => a.purchase_comm_amount).reduce(function(a, b)
+    {
+      return a + b;
+    });
+    let sum2: number = pcArray.map(a => a.amount).reduce(function(a, b)
+    {
+      return a + b;
+    });
+    this.agent_amount = sum;
+    this.purchase_amount = sum1;
+    this.coll_amt = sum2;
+}
     this.ccsum = 0;
     this.pcsum = 0;
     this.acsum = 0;
     pcArray.map(e => {
-      this.ccsum = parseFloat(this.ccsum) + e.add_collection_commission ? parseFloat(e.amount) : 0.00;
-      this.pcsum = parseFloat(this.pcsum) + e.add_purchase_commission ? parseFloat(e.purchase_comm_amount) : 0.00;
-      this.acsum = parseFloat(this.acsum) + e.add_agent_commission ? parseFloat(e.agent_comm_amount) : 0.00;
+      // this.ccsum = this.coll_amt || 0;
+      // this.pcsum = this.purchase_amount || 0;
+      // this.acsum = this.agent_amount || 0;
+      this.ccsum = parseFloat(this.ccsum) + e.add_collection_commission ? parseFloat(this.coll_amt) : 0.00;
+      this.pcsum = parseFloat(this.pcsum) + e.add_purchase_commission ? parseFloat(this.purchase_amount) : 0.00;
+      this.acsum = parseFloat(this.acsum) + e.add_agent_commission ? parseFloat(this.agent_amount) : 0.00;
+      // this.ccsum = parseFloat(this.ccsum) + e.add_collection_commission ? parseFloat(e.amount) : 0.00;
+      // this.pcsum = parseFloat(this.pcsum) + e.add_purchase_commission ? parseFloat(e.purchase_comm_amount) : 0.00;
+      // this.acsum = parseFloat(this.acsum) + e.add_agent_commission ? parseFloat(e.agent_comm_amount) : 0.00;
     });
     this.addFormStep5.controls['collection_commissions'].patchValue(pcArray);
   }
 
   getAgentCommAmount(amount: number, index: number) {
     const pcArray: Array<any> = this.addFormStep5.get('collection_commissions').value;
-    pcArray[index].agent_comm_amount = amount;
+    for (let i = 0; i < (pcArray || []).length; i++) {
+      let sum: number = pcArray.map(a => a.agent_comm_amount).reduce(function(a, b)
+      {
+        return a + b;
+      });
+      let sum1: number = pcArray.map(a => a.purchase_comm_amount).reduce(function(a, b)
+      {
+        return a + b;
+      });
+      let sum2: number = pcArray.map(a => a.amount).reduce(function(a, b)
+      {
+        return a + b;
+      });
+      this.agent_amount = sum;
+      this.purchase_amount = sum1;
+      this.coll_amt = sum2;
+  }
+    // pcArray.forEach((r) => {
+    //   console.log(r.agent_comm_amount,"agent_comm_amount")
+    // })
+   // pcArray[index].agent_comm_amount = amount;
     this.ccsum = 0;
     this.pcsum = 0;
     this.acsum = 0;
     pcArray.map(e => {
-      this.ccsum = parseFloat(this.ccsum) + e.add_collection_commission ? parseFloat(e.amount) : 0.00;
-      this.pcsum = parseFloat(this.pcsum) + e.add_purchase_commission ? parseFloat(e.purchase_comm_amount) : 0.00;
-      this.acsum = parseFloat(this.acsum) + e.add_agent_commission ? parseFloat(e.agent_comm_amount) : 0.00;
+    // this.ccsum = this.coll_amt || 0;
+    // this.pcsum = this.purchase_amount || 0;
+    // this.acsum = this.agent_amount || 0;
+      this.ccsum = parseFloat(this.ccsum) + e.add_collection_commission ? parseFloat(this.coll_amt) : 0.00;
+      this.pcsum = parseFloat(this.pcsum) + e.add_purchase_commission ? parseFloat(this.purchase_amount) : 0.00;
+      this.acsum = parseFloat(this.acsum) + e.add_agent_commission ? parseFloat(this.agent_amount) : 0.00;
+      // this.ccsum = parseFloat(this.ccsum) + e.add_collection_commission ? parseFloat(e.amount) : 0.00;
+      // this.pcsum = parseFloat(this.pcsum) + e.add_purchase_commission ? parseFloat(e.purchase_comm_amount) : 0.00;
+      // this.acsum = parseFloat(this.acsum) + e.add_agent_commission ? parseFloat(e.agent_comm_amount) : 0.00;
     });
     this.addFormStep5.controls['collection_commissions'].patchValue(pcArray);
   }
