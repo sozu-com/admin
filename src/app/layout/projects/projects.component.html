@@ -418,8 +418,9 @@
                     class="rounded-circle" alt="img">
                   <img *ngIf="!p.main_image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
                 </td>
+                <!-- routerLink="/dashboard/projects/details/{{p.id}}" -->
                 <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
-                  routerLink="/dashboard/projects/details/{{p.id}}">
+                 >
                   <strong>{{p?.name}}</strong>
                 </td>
                 <td [ngClass]="{'green-color cursor-pointer': p?.developer?.name}" (click)="viewDeveloper(p)">
