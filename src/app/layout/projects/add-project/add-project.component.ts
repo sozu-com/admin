@@ -973,6 +973,7 @@ export class AddProjectComponent implements OnInit {
     this.file4.files = [];
     this.config360Img.files = [];
     this.configVideo.files = [];
+    this.configVideos.files = [];
     this.file9.image = '';
   }
 
