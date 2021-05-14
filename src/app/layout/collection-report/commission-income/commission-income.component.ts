@@ -475,24 +475,27 @@ export class CommissionIncomeComponent implements OnInit {
   }
 
   getCommission(item, index) {
-    if(index != this.already_index){
-      this.already_index = index;
-      this.commissions = [];
-    let data = this.reportData.commission.find(value=> value.label == item.label);
-    let  id = data.id.split(',');
-    let param ={
-      commission_type: this.selectedCommissions[0].id,
-      id: id
-    }
-    this.spinner.show();
-    this.admin.postDataApi('graphs/sozu-get-commission', param)
-      .subscribe(
-        success => {
-          this.commissions = success.data;
-          this.spinner.hide();
-        }, error => {
-          this.spinner.hide();
-        });
+    if(item && (this.reportData.commission || []).length > 0){
+      if(index != this.already_index){
+        this.already_index = index;
+        this.commissions = [];
+      let data = this.reportData.commission.find(value=> value.label == item.label);
+      let  id = data.id.split(',');
+      let param ={
+        commission_type: this.selectedCommissions[0].id,
+        id: id
       }
+      this.spinner.show();
+      this.admin.postDataApi('graphs/sozu-get-commission', param)
+        .subscribe(
+          success => {
+            this.commissions = success.data;
+            this.spinner.hide();
+          }, error => {
+            this.spinner.hide();
+          });
+        }
+    }
+   
   }
 }

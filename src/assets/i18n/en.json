@@ -202,6 +202,7 @@
     "address": "Address",
     "taxAddress": "Tax Address",
     "useUserSameAddress": "Use user same address",
+    "loginWebsite": "Login website",
     "addThisInformationAsAUser":"Add this information as a user",
     "legalAddress": "Legal Address",
     "fedralTaxPayerRegistry": "Federal Tax Payer Registry",
@@ -1395,7 +1396,8 @@
       "doYouWantToEditTheFinalPriceOfCollection":"Do you want to edit the final price of collection?",
       "SorryYouDoNotHaveThePermissionToGoThere":"Sorry you do not have the permission to go there",
       "whenFinalPriceIsGeneratedCommissionSetAccordingToPercentageEnter": "When final price is generated commission set according to percentage enter.",
-      "dealWillNotSameAsCommercialOffer": "Deal will not same as commercial offer"
+      "dealWillNotSameAsCommercialOffer": "Deal will not same as commercial offer",
+      "thisUserHasLeadsAssignedPleaseDeleteTheDependenciesFirst": "This user has leads assigned, please delete the dependencies first"
     } 
   },
   "inhouseUsers": {
@@ -1609,6 +1611,7 @@
     "linkAgents": "link Agent"
   },
   "propertyDetail": {
+    "ps":"pesos M.N.",
     "FloorPlan": "Floor Plan",
     "Gallery": "Gallery",
     "View_Photos": "View Photos",

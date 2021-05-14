@@ -11,6 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Agency } from 'src/app/models/agency.model';
 import { MapsAPILoader } from '@agm/core';
 import { User, Address, UserModel } from 'src/app/models/inhouse-users.model';
+import { ToastrService } from 'ngx-toastr';
 
 declare let swal: any;
 declare const google;
@@ -43,7 +44,8 @@ export class AddAclComponent implements OnInit {
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
     private router: Router,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private toastr: ToastrService
   ) {
     this.admin.countryData$.subscribe(success => {
       this.parameter.allCountry = success;
@@ -392,7 +394,7 @@ export class AddAclComponent implements OnInit {
         element.can_crud = element.can_crud || 0,
         element.can_purge = element.can_purge || 0;
       }
-      this.setUserType(userdata.user_type);
+      this.setUserType(userdata.user_type, false);
     }, erorr => {
       this.spinner.hide();
     });
@@ -697,7 +699,7 @@ export class AddAclComponent implements OnInit {
     }
   }
 
-  setUserType(user_type: number) {
+  setUserType(user_type: number, check) {
     this.model.user_type = user_type;
     if (user_type == 2) {
       this.predefinedUsers = [
@@ -766,6 +768,9 @@ export class AddAclComponent implements OnInit {
           value: this.model.is_acl
         }
       ];
+    }
+    if(check){
+    this.toastr.warning(this.translate.instant('message.error.thisUserHasLeadsAssignedPleaseDeleteTheDependenciesFirst'), this.translate.instant('swal.warning'));
     }
   }
 
