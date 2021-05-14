@@ -11,6 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Agency } from 'src/app/models/agency.model';
 import { MapsAPILoader } from '@agm/core';
 import { User, Address, UserModel } from 'src/app/models/inhouse-users.model';
+import { ToastrService } from 'ngx-toastr';
 
 declare let swal: any;
 declare const google;
@@ -43,7 +44,8 @@ export class AddAclComponent implements OnInit {
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
     private router: Router,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private toastr: ToastrService
   ) {
     this.admin.countryData$.subscribe(success => {
       this.parameter.allCountry = success;
@@ -767,6 +769,8 @@ export class AddAclComponent implements OnInit {
         }
       ];
     }
+
+    this.toastr.warning(this.translate.instant('message.error.thisUserHasLeadsAssignedPleaseDeleteTheDependenciesFirst'), this.translate.instant('swal.warning'))
   }
 
   setPredefinedUsers(item, value, i: number) {

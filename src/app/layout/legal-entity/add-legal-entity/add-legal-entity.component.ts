@@ -154,6 +154,7 @@ export class AddLegalEntityComponent implements OnInit {
         legal_rep_banks: this.fb.array([]),
         building_ids: [''],
         sales_commission: [''],
+        login_website: [0],
         //developer_id: ['']
       //  addThisInformationAsAUser:[false]
       })
@@ -694,6 +695,10 @@ export class AddLegalEntityComponent implements OnInit {
       });
       this.model.tax_neighbourhoods = this.model.neighbourhoods;
     }
+  }
+
+  loginWebsite(value){
+      this.addDataForm.get('legal_rep').value.login_website = value.target.checked? 1 : 0;
   }
 
 }
