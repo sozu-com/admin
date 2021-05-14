@@ -1609,6 +1609,7 @@
     "linkAgents": "link Agent"
   },
   "propertyDetail": {
+    "ps":"pesos M.N.",
     "FloorPlan": "Floor Plan",
     "Gallery": "Gallery",
     "View_Photos": "View Photos",
