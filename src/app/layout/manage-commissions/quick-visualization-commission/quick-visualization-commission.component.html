@@ -583,12 +583,14 @@
               </thead>
               <tbody *ngFor="let pur of purchase_payments; let s=index">
                 <td>Commission&nbsp;{{s+1}}</td>
-                <td style="color: black;">
-                  {{pur?((pur?.amount + (pur?.iva_amount)) | currency) : ''}}</td>
+                <!-- <td style="color: black;">
+                  {{pur?((pur?.amount + (pur?.iva_amount)) | currency) : ''}}</td> -->
+                  <td style="color: black;">
+                    {{pur?((pur?.amount) | currency) : ''}}</td>
                 <td style="color: black;">
                   {{pur ? (pur?.payment_date | date:'dd/MMM/yyyy') : ''}}</td>
                 <td>
-                  <a class="green-color fontW500" *ngIf="collectionCommission[i]?.purchase_payment" target="_blank"
+                  <a class="green-color fontW500" *ngIf="pur?.receipt" target="_blank"
                     href="{{pur?.receipt}}">
                     {{'quickVisualization.view' | translate}}
                   </a>
@@ -636,12 +638,14 @@
               </thead>
               <tbody *ngFor="let pur of collection_payments; let s=index">
                 <td>Commission&nbsp;{{s+1}}</td>
-                <td style="color: black;">
-                  {{pur?((pur?.amount + (pur?.iva_amount || 0)) | currency) : ''}}</td>
+                <!-- <td style="color: black;">
+                  {{pur?((pur?.amount + (pur?.iva_amount || 0)) | currency) : ''}}</td> -->
+                  <td style="color: black;">
+                    {{pur?((pur?.amount) | currency) : ''}}</td>
                 <td style="color: black;">
                   {{pur ? (pur?.payment_date | date:'dd/MMM/yyyy') : ''}}</td>
                 <td>
-                  <a class="green-color fontW500" *ngIf="collectionCommission[i]?.payment" target="_blank"
+                  <a class="green-color fontW500" *ngIf="pur?.receipt" target="_blank"
                     href="{{pur?.receipt}}">
                     {{'quickVisualization.view' | translate}}
                   </a>
@@ -689,12 +693,14 @@
               </thead>
               <tbody *ngFor="let pur of agent_payments; let s=index">
                 <td>Commission&nbsp;{{s+1}}</td>
-                <td style="color: black;">
-                  {{pur?((pur?.amount + (pur?.iva_amount || 0)) | currency) : ''}}</td>
+                <!-- <td style="color: black;">
+                  {{pur?((pur?.amount + (pur?.iva_amount || 0)) | currency) : ''}}</td> -->
+                  <td style="color: black;">
+                    {{pur?((pur?.amount) | currency) : ''}}</td>
                 <td style="color: black;">
                   {{pur ? (pur?.payment_date | date:'dd/MMM/yyyy') : ''}}</td>
                 <td>
-                  <a class="green-color fontW500" *ngIf="collectionCommission[i]?.purchase_payment" target="_blank"
+                  <a class="green-color fontW500" *ngIf="pur?.receipt" target="_blank"
                     href="{{pur?.receipt}}">
                     {{'quickVisualization.view' | translate}}
                   </a>
