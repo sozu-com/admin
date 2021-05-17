@@ -118,6 +118,8 @@
   }
   },
   "addForm": {
+    "addManualLead":"Add Manual Lead",
+    "editManualLead":"Edit Manual Lead",
     "parking-spaces":"Total parking spaces",
     "spaces-available":"Parking spaces to assign",
     "spaces-type":"Parking space type",
@@ -647,7 +649,11 @@
       "chooseDate": "Choose Date",
       "parkingLotSpacesEn": "Parking lot spaces name (English)",
       "parkingLotSpacesEs": "Parking lot spaces name (Spanish)",
-      "manageCommissions": "Manage Commissions"
+      "manageCommissions": "Manage Commissions",
+      "leadType": "Lead type",
+      "buyer": "Buyer",
+      "seller": "Seller",
+      "credit": "Credit"
     }
   },
   "charts": {
@@ -886,6 +892,10 @@
       "leastPrice": "List price",
       "commission": "Commission",
       "iva": "IVA",
+      "leadType": "Lead type",
+      "buyer": "Buyer",
+      "seller": "Seller",
+      "credit": "Credit",
       "actions": {
         "label": "Actions",
         "all": "All",
@@ -1555,7 +1565,8 @@
     "noManagerLinked": "No Manager linked to this Company"
   },
   "viewManualLeads": {
-    "label": "Manage Manual Leads"
+    "label": "Manage Manual Leads",
+    "addManualLead": "Add Manual Lead"
   },
   "viewNotifications": {
     "label": "Notifications"

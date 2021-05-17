@@ -118,6 +118,8 @@
     }
   },
   "addForm": {
+    "addManualLead":"Agregar cliente potencial manual",
+    "editManualLead":"Editar cliente potencial manual",
     "parking-spaces":"Total de plazas de aparcamiento",
     "spaces-available":"Plazas de aparcamiento a asignar",
     "spaces-type":"Tipo de estacionamientos",
@@ -646,7 +648,11 @@
       "chooseDate": "Elegir fecha",
       "parkingLotSpacesEn": "Nombre del tipos de estacionamientos (Inglés)",
       "parkingLotSpacesEs": "Nombre del tipos de estacionamientos (Español)",
-      "manageCommissions": "Administrar Comisiones"
+      "manageCommissions": "Administrar Comisiones",
+      "leadType": "Tipo de cliente potencial",
+      "buyer": "Comprador",
+      "seller": "Vendedor",
+      "credit": "crédito"
     }
   },
   "charts": {
@@ -887,6 +893,10 @@
       "leastPrice": "Precio de lista",
       "commission": "Comisión",
       "iva": "IVA",
+      "leadType": "Tipo de cliente potencial",
+      "buyer": "Comprador",
+      "seller": "Vendedor",
+      "credit": "crédito",
       "actions": {
         "label": "Acciones",
         "all": "Todo",
@@ -1556,7 +1566,8 @@
     "noManagerLinked": "Ningún gerente vinculado a esta empresa"
   },
   "viewManualLeads": {
-    "label": "Administrar Leads manualmente"
+    "label": "Administrar Leads manualmente",
+    "addManualLead": "Agregar cliente potencial manual"
   },
   "viewNotifications": {
     "label": "Notificaciones"
