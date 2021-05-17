@@ -650,7 +650,8 @@
       "manageCommissions": "Manage Commissions",
       "leadType": "Lead type",
       "buyer": "Buyer",
-      "seller": "Seller"
+      "seller": "Seller",
+      "credit": "Credit"
     }
   },
   "charts": {
