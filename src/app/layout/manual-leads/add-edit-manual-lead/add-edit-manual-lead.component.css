@@ -1,0 +1,19 @@
+.form-group-2 .cust-radio {
+    float: left;
+    display: block;
+    font-size: 18px;
+    margin-right: 10px;
+    font-family: 'sf_ui_textregular';
+}
+.cust-radio {
+    display: block;
+    position: relative;
+    padding-left: 0;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 18px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

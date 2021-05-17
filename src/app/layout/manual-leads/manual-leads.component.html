@@ -3,12 +3,17 @@
 <div class="container-fluid">
 
     <div class="row">
-        <div class="col-12">
+        <div class="col-md-6 col-6">
         <div class="title-group">
             <h5>{{'viewManualLeads.label' | translate}}</h5>
             <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}} {{parameter.total}}</p>
         </div>
         </div>
+        <div class="col-md-6 col-6">
+            <div class="btn-cont text-right">
+                <a class="btn btn-primary" href="javascript://" routerLink="/dashboard/manual-leads/add-manual-lead/0">{{'table.addNewBtn' | translate}}</a>
+            </div>
+          </div>
     </div>
 
     <div class="white-bg">
@@ -19,7 +24,7 @@
                     <th style="width:10%">
                         <div class="table-search"></div>
                     </th>
-                    <th style="width:20%">
+                    <th style="width:10%">
                         <div class="table-search">
                             <label>{{'table.th.name' | translate}}</label>
                             <div class="searh-3">
@@ -28,7 +33,25 @@
                             </div>
                         </div>
                     </th>
-                    <th style="width:20%; text-align:left;">
+                    <th style="width:10%">
+                        <div class="table-search">
+                            <label>{{'table.th.firstSurname' | translate}}</label>
+                            <div class="searh-3">
+                                <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="changeFilter('name',$event.target.value)" name="" autocomplete="address-level4" >
+                                <button *ngIf="parameter.name" (click)="changeFilter('name', parameter.name)"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </th>
+                    <th style="width:10%">
+                        <div class="table-search">
+                            <label>{{'table.th.secondSurname' | translate}}</label>
+                            <div class="searh-3">
+                                <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="changeFilter('name',$event.target.value)" name="" autocomplete="address-level4" >
+                                <button *ngIf="parameter.name" (click)="changeFilter('name', parameter.name)"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </th>
+                    <th style="width:10%; text-align:left;">
                         <div class="table-search">
                             <label>{{'table.th.contactNumber' | translate}}</label>
                             <div class="searh-3">
@@ -39,21 +62,29 @@
                     </th>
                     <th style="width:20%">
                         <div class="table-search">
-                            <label>{{'table.th.emailAddress' | translate}}</label>
+                            <label>{{'table.th.emailId' | translate}}</label>
                             <div class="searh-3">
                                 <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="changeFilter('email',$event.target.value)" name="" autocomplete="address-level4" >
                                 <button *ngIf="parameter.email" (click)="changeFilter('email', parameter.email)"><i class="fa fa-search"></i></button>
                             </div>
                         </div>
                     </th>
-                    <th style="width:15%">
+                    <th style="width:10%">
                         <div class="table-search">
-                            <label>{{'table.th.status' | translate}}</label>
+                            <label>{{'table.th.leadType' | translate}}</label>
+                            <div class="searh-3">
+                                <select class="width100px" name="sold_filter">
+                                <option value="0">{{'table.th.all' | translate}}</option>
+                                <option value="1">{{'table.th.buyer' | translate}}</option>
+                                <option value="2">{{'table.th.seller' | translate}}</option>
+                                <option value="2">{{'table.th.credit' | translate}}</option>
+                             </select>
+                            </div>
                         </div>
                     </th>
-                    <th style="width:15%">
+                    <th style="width:20%">
                         <div class="table-search">
-                            <label>{{'table.th.type' | translate}}</label>
+                            <label>{{'table.th.actions.label' | translate}}</label>
                         </div>
                     </th>
                     <!-- <th></th> -->

@@ -426,9 +426,9 @@
                             <td class="text-left" *ngIf="item.sale_rent >= 0">{{item.sale_rent==1 ? ('leadDetails.buy' |
                                 translate) : ('table.tr.td.rent' | translate)}}</td>
 
-                            <td class="text-left green-color cursor-pointer" (click)="openModel('CSR')"> <span>Assign CSR Agent</span> </td>
+                            <td class="text-left green-color cursor-pointer" (click)="openModel('CSR', item)"> <span>Assign CSR Agent</span> </td>
                             <td class="text-left green-color cursor-pointer" (click)="openAddChangeStatusModel(true)"> <span>text</span> </td>
-                            <td class="text-left green-color cursor-pointer" (click)="openModel('')"> <span>Assign Agent</span> </td>
+                            <td class="text-left green-color cursor-pointer" (click)="openModel('', item)"> <span>Assign Agent</span> </td>
                             <td class="text-left green-color cursor-pointer" (click)="openAddChangeStatusModel(false)"> <span>text</span> </td>
                         </tr>
                     </table>

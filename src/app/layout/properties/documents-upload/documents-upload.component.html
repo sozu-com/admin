@@ -25,7 +25,7 @@
                         <div class="row">
                               <div class="col-md-8">
                                     <input class="input-field" type="text"
-                                          [(ngModel)]="this.language_code == 'en' ? bankAccount.property_document.name_en : bankAccount.property_document.name_es "
+                                          [(ngModel)]="this.language_code == 'en' ? bankAccount.property_document?.name_en : bankAccount?.property_document.name_es "
                                           name="this.language_code == 'en' ? name_en{{ i }} : name_es{{ i }} "
                                           disabled />
 

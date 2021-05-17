@@ -369,8 +369,13 @@ export class CsrBuyerComponent implements OnInit {
     this.router.navigate(['/dashboard/leads/csr-buyers', lead_id]);
   }
 
-  openModel(openFor) {
+  openModel(openFor, selected) {
     this.openFor = openFor;
+    this.items.filter(item=>{
+      if(item.id == selected.id){
+        item.selected = true;
+      }
+    })
     this.getAssignListing();
     this.openNewAssignModel.nativeElement.click();
   }

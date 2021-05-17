@@ -396,6 +396,8 @@ export class DataCollectorComponent implements OnInit {
       success => {
         this.spinner.hide();
         this.assign.items = success.data;
+      },error=>{
+        this.spinner.hide();
       });
   }
 
