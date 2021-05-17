@@ -118,6 +118,8 @@
   }
   },
   "addForm": {
+    "addManualLead":"Add Manual Lead",
+    "editManualLead":"Edit Manual Lead",
     "parking-spaces":"Total parking spaces",
     "spaces-available":"Parking spaces to assign",
     "spaces-type":"Parking space type",
@@ -800,6 +802,7 @@
       "managerType":"Manager type",
       "status": "Status",
       "type": "Type",
+      "leadType":"Lead Type",
       "title": "Title",
       "publishDate": "Publish Date",
       "nameEn": "Name (English)",
@@ -1555,7 +1558,7 @@
     "noManagerLinked": "No Manager linked to this Company"
   },
   "viewManualLeads": {
-    "label": "Manage Manual Leads"
+    "label": "Manual Leads"
   },
   "viewNotifications": {
     "label": "Notifications"

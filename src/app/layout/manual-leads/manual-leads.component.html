@@ -1,13 +1,24 @@
 
-
 <div class="container-fluid">
 
     <div class="row">
-        <div class="col-12">
-        <div class="title-group">
+        <div class="col-md-10 col-4">
+          <div class="title-group">
             <h5>{{'viewManualLeads.label' | translate}}</h5>
-            <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}} {{parameter.total}}</p>
+            <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}} {{parameter?.total}}</p>
+          </div>
         </div>
+        <!-- <div class="col-md-2 col-4">
+          <div class="btn-cont text-right">
+              <a *ngIf="admin?.admin_acl['Developers Management']?.can_create==1" class="btn btn-primary" 
+              href="javascript://" (click)="getExportlisting()">{{'table.exportDataBtn' | translate}}</a>
+          </div>
+        </div> -->
+        <div class="col-md-2 col-4">
+          <div class="btn-cont text-right"> 
+              <a *ngIf="admin?.admin_acl['Manual Leads']?.can_create == 1" class="btn btn-primary" 
+              href="javascript://" routerLink="/dashboard/manual-leads/add-manual-lead">{{'table.addNewBtn' | translate}}</a>
+          </div>
         </div>
     </div>
 
@@ -19,21 +30,39 @@
                     <th style="width:10%">
                         <div class="table-search"></div>
                     </th>
-                    <th style="width:20%">
+                    <th style="width:15%">
                         <div class="table-search">
                             <label>{{'table.th.name' | translate}}</label>
                             <div class="searh-3">
-                                <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="changeFilter('name',$event.target.value)" name="" autocomplete="address-level4" >
-                                <button *ngIf="parameter.name" (click)="changeFilter('name', parameter.name)"><i class="fa fa-search"></i></button>
+                                <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getListing()" name="name" autocomplete="address-level4" >
+                                <button *ngIf="parameter.name" (click)="getListing()"><i class="fa fa-search"></i></button>
                             </div>
                         </div>
                     </th>
+                    <th style="width:15%">
+                        <div class="table-search">
+                            <label>{{'table.th.firstSurname' | translate}}</label>
+                            <div class="searh-3">
+                              <input type="text" [(ngModel)]="parameter.first_surname" (keyup.enter)="getListing()" name="first_surname" autocomplete="address-level4">
+                              <button *ngIf="parameter.first_surname" (click)="getListing()"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                      </th>
+                      <th style="width:15%">
+                        <div class="table-search">
+                            <label>{{'table.th.secondSurname' | translate}}</label>
+                            <div class="searh-3">
+                              <input type="text" [(ngModel)]="parameter.second_surname" (keyup.enter)="getListing()" name="second_surname" autocomplete="address-level4">
+                              <button *ngIf="parameter.second_surname" (click)="getListing()"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                      </th>
                     <th style="width:20%; text-align:left;">
                         <div class="table-search">
                             <label>{{'table.th.contactNumber' | translate}}</label>
                             <div class="searh-3">
-                                <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="changeFilter('phone',$event.target.value)" name="" autocomplete="address-level4" >
-                                <button *ngIf="parameter.phone" (click)="changeFilter('phone', parameter.phone)"><i class="fa fa-search"></i></button>
+                                <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="getListing()" name="phone" autocomplete="address-level4" >
+                                <button *ngIf="parameter.phone" (click)="getListing()"><i class="fa fa-search"></i></button>
                             </div>
                         </div>
                     </th>
@@ -41,24 +70,32 @@
                         <div class="table-search">
                             <label>{{'table.th.emailAddress' | translate}}</label>
                             <div class="searh-3">
-                                <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="changeFilter('email',$event.target.value)" name="" autocomplete="address-level4" >
-                                <button *ngIf="parameter.email" (click)="changeFilter('email', parameter.email)"><i class="fa fa-search"></i></button>
+                                <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="getListing()" name="email" autocomplete="address-level4" >
+                                <button *ngIf="parameter.email" (click)="getListing()"><i class="fa fa-search"></i></button>
                             </div>
                         </div>
                     </th>
                     <th style="width:15%">
                         <div class="table-search">
-                            <label>{{'table.th.status' | translate}}</label>
+                            <label>{{'table.th.leadType' | translate}}</label>
+                            <select [(ngModel)]="parameter.action_filter" (change)="getListing()">
+                                <option value="0">{{'table.th.actions.all' | translate}}</option>
+                                <option value="3">{{'table.th.actions.approved' | translate}}</option>
+                                <option value="4">{{'table.th.actions.unapproved' | translate}}</option>
+                                <option value="1">{{'table.th.actions.blocked' | translate}}</option>
+                                <option value="2">{{'table.th.actions.unblocked' | translate}}</option>
+                              </select>
                         </div>
                     </th>
                     <th style="width:15%">
                         <div class="table-search">
-                            <label>{{'table.th.type' | translate}}</label>
+                            <label>{{'table.th.actions.label' | translate}}</label>
                         </div>
                     </th>
-                    <!-- <th></th> -->
                 </tr>
-                <tr class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}" *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }" routerLink="/dashboard/manual-leads/view-details/{{item.id}}">
+                <tr class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}" 
+                *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }" 
+                routerLink="/dashboard/manual-leads/view-details/{{item.id}}">
                     <td><img [src]="item.image" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img"></td>
                     <td class="text-left">
                         <span *ngIf="item.name"class="name">{{item.name | titlecase}}</span>
@@ -81,6 +118,8 @@
                     </td> -->
                 </tr>
                 </table>
+
+
             </div>
         </div>
 
@@ -89,7 +128,7 @@
         </div>
     </div>         
 
-    <div class="btn-cont text-right marginT15" *ngIf="parameter.total">
+    <div class="btn-cont text-right marginT15" *ngIf="parameter?.total">
         <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
     </div>
 </div>

@@ -14,6 +14,7 @@ import { ManualLeadDetailsComponent } from './manual-lead-details/manual-lead-de
 import { SharedModule } from '../../modules/shared.module';
 import { AclUserGuard } from '../../guards/acl-user.guard';
 import { TranslateModule } from '@ngx-translate/core';
+import { AddEditManualLeadComponent } from './add-edit-manual-lead/add-edit-manual-lead.component';
 
 const routes: Routes = [
   // { path: '', component: ManualLeadsComponent }
@@ -23,6 +24,14 @@ const routes: Routes = [
   },
   {
     path: 'view-details/:id', component: ManualLeadDetailsComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Manual Leads', 'can_read', ''] }
+  },
+  {
+    path: 'add-manual-lead', component: AddEditManualLeadComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Manual Leads', 'can_read', ''] }
+  },
+  {
+    path: 'edit-manual-lead/:id', component: AddEditManualLeadComponent,
     canActivate: [AclUserGuard], data: { roles: ['Manual Leads', 'can_read', ''] }
   }
 ];
@@ -42,7 +51,8 @@ const routes: Routes = [
   ],
   declarations: [
     ManualLeadsComponent,
-    ManualLeadDetailsComponent
+    ManualLeadDetailsComponent,
+    AddEditManualLeadComponent
   ]
 })
 

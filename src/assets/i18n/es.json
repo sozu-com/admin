@@ -118,6 +118,8 @@
     }
   },
   "addForm": {
+    "addManualLead":"Agregar cliente potencial manual",
+    "editManualLead":"Editar cliente potencial manual",
     "parking-spaces":"Total de plazas de aparcamiento",
     "spaces-available":"Plazas de aparcamiento a asignar",
     "spaces-type":"Tipo de estacionamientos",
@@ -798,6 +800,7 @@
       "managerType":"Tipo de administrador",
       "status": "Estatus",
       "type": "Tipo",
+      "leadType":"Tipo de cliente potencial",
       "title": "Título",
       "publishDate": "Fecha de publicación",
       "nameEn": "Nombre (Inglés)",
@@ -1556,7 +1559,7 @@
     "noManagerLinked": "Ningún gerente vinculado a esta empresa"
   },
   "viewManualLeads": {
-    "label": "Administrar Leads manualmente"
+    "label": "Leads Manuales"
   },
   "viewNotifications": {
     "label": "Notificaciones"
