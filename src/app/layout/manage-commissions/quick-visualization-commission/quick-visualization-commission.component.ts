@@ -198,6 +198,7 @@ export class QuickVisualizationCommissionComponent implements OnInit {
         success => {
           this.spinner.hide();
           this.model = success['data'];
+          
           this.getParkingSpaceLots(((success.data || {}).property || {}).building_id);
           this.data2 = success['data2'];
           if (self.model.seller_type === 1) {
@@ -243,8 +244,9 @@ export class QuickVisualizationCommissionComponent implements OnInit {
                 {
                   return a + b;
                 });
-                r.pay_minus = sum;
-                console.log(sum,"purchase_sum");
+                const calculated_iva = this.model.iva_percent*sum/100;
+                const calculated_sum =  sum + calculated_iva  ;
+                r.pay_minus = calculated_sum;
             }
             }else if(self.commission_type == 2){
               for (let i = 0; i < (r.agent_payment || []).length; i++) {
@@ -252,7 +254,9 @@ export class QuickVisualizationCommissionComponent implements OnInit {
                   {
                     return a + b;
                   });
-                  r.agent_minus = sum1;
+                  const calculated_iva_agent = this.model.iva_percent*sum1/100;
+                  const calculated_sum1 =  sum1 + calculated_iva_agent  ;
+                  r.agent_minus = calculated_sum1;
               }
             }else {
               for (let i = 0; i < (r.payment || []).length; i++) {
@@ -260,8 +264,9 @@ export class QuickVisualizationCommissionComponent implements OnInit {
                 {
                   return a + b;
                 });
-                r.collection_minus = sum2
-                console.log(this.collection_minus,"payment_sum");
+                const calculated_iva_pay = this.model.iva_percent*sum2/100;
+                const calculated_sum2 =  sum2 + calculated_iva_pay  ;
+                r.collection_minus = calculated_sum2;
             }
             }
            

@@ -6,6 +6,7 @@ export class Collection {
     id: string;
     property_id: any;
     step: number;
+    iva_percent: any;
     building_id: string;
     building_towers_id: string;
     property_offer_payment_id: string;
