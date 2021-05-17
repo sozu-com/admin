@@ -17,7 +17,7 @@ export class ManualLeadsComponent implements OnInit {
   public items: any[] = [];
 
   constructor(
-    private admin: AdminService,
+    public admin: AdminService,
     private constant: Constant,
     private spinner: NgxSpinnerService
   ) { }
@@ -43,6 +43,10 @@ export class ManualLeadsComponent implements OnInit {
     }, (error) => {
       this.spinner.hide();
     });
+  }
+
+  changeFilter(value, data){
+
   }
 
 }
