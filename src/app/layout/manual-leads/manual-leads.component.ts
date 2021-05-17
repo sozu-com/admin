@@ -14,7 +14,7 @@ declare let swal: any;
 export class ManualLeadsComponent implements OnInit {
 
   public parameter: IProperty = {};
-  items = [];
+  public items: any[] = [];
 
   constructor(
     private admin: AdminService,
@@ -22,38 +22,27 @@ export class ManualLeadsComponent implements OnInit {
     private spinner: NgxSpinnerService
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.getListing();
   }
 
-  changeFlag(flag) {
-    this.parameter.flag = flag;
+  getPage = (pageNumber: number): void => {
+    this.parameter.page = pageNumber;
     this.getListing();
   }
 
-  changeFilter(key, value) {
-    this.parameter[key] = value;
-    this.getListing();
-  }
-
-  getPage(page) {
-    this.parameter.page = page;
-    this.getListing();
-  }
-
-  getListing() {
+  getListing = (): void => {
     this.parameter.url = 'getManualLeads';
     this.spinner.show();
-    this.admin.postDataApi(this.parameter.url, this.parameter)
-      .subscribe(
-        success => {
-          this.spinner.hide();
-          this.items = success.data;
-          this.parameter.total = success.total_count;
-        }, error => {
-          this.spinner.hide();
-        });
+    this.admin.postDataApi(this.parameter.url, this.parameter).subscribe((success) => {
+      this.spinner.hide();
+      this.items = success.data;
+      this.parameter.total = success.total_count;
+    }, (error) => {
+      this.spinner.hide();
+    });
   }
+
 }

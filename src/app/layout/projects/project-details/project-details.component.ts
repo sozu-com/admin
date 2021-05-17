@@ -252,10 +252,10 @@ this.base64address = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAs
       if (this.project.configurations.length < 1) {
         this.carpet_area_string = 'Not Available';
       } else if (this.project.configurations.length === 1) {
-        this.carpet_area_string = this.commasPipe.transform(this.project.min_carpet_area) + ' mts2';
+        this.carpet_area_string = this.commasPipe.transform(this.project.min_carpet_area || 0) + ' mts2';
       } else {
-        this.carpet_area_string = this.commasPipe.transform(this.project.min_carpet_area) + ' mts2 - ' +
-        this.commasPipe.transform(this.project.max_carpet_area) + ' mts2';
+        this.carpet_area_string = this.commasPipe.transform(this.project.min_carpet_area || 0) + ' mts2 - ' +
+        this.commasPipe.transform(this.project.max_carpet_area || 0) + ' mts2';
       }
 
       const config_prices = this.project.configurations.map(r => {

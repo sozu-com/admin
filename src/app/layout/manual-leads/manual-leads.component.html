@@ -1,13 +1,24 @@
 
-
 <div class="container-fluid">
 
     <div class="row">
         <div class="col-md-6 col-6">
         <div class="title-group">
             <h5>{{'viewManualLeads.label' | translate}}</h5>
-            <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}} {{parameter.total}}</p>
+            <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}} {{parameter?.total}}</p>
+          </div>
         </div>
+        <!-- <div class="col-md-2 col-4">
+          <div class="btn-cont text-right">
+              <a *ngIf="admin?.admin_acl['Developers Management']?.can_create==1" class="btn btn-primary" 
+              href="javascript://" (click)="getExportlisting()">{{'table.exportDataBtn' | translate}}</a>
+          </div>
+        </div> -->
+        <div class="col-md-2 col-4">
+          <div class="btn-cont text-right"> 
+              <a *ngIf="admin?.admin_acl['Manual Leads']?.can_create == 1" class="btn btn-primary" 
+              href="javascript://" routerLink="/dashboard/manual-leads/add-manual-lead">{{'table.addNewBtn' | translate}}</a>
+          </div>
         </div>
         <div class="col-md-6 col-6">
             <div class="btn-cont text-right">
@@ -28,8 +39,8 @@
                         <div class="table-search">
                             <label>{{'table.th.name' | translate}}</label>
                             <div class="searh-3">
-                                <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="changeFilter('name',$event.target.value)" name="" autocomplete="address-level4" >
-                                <button *ngIf="parameter.name" (click)="changeFilter('name', parameter.name)"><i class="fa fa-search"></i></button>
+                                <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getListing()" name="name" autocomplete="address-level4" >
+                                <button *ngIf="parameter.name" (click)="getListing()"><i class="fa fa-search"></i></button>
                             </div>
                         </div>
                     </th>
@@ -55,8 +66,8 @@
                         <div class="table-search">
                             <label>{{'table.th.contactNumber' | translate}}</label>
                             <div class="searh-3">
-                                <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="changeFilter('phone',$event.target.value)" name="" autocomplete="address-level4" >
-                                <button *ngIf="parameter.phone" (click)="changeFilter('phone', parameter.phone)"><i class="fa fa-search"></i></button>
+                                <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="getListing()" name="phone" autocomplete="address-level4" >
+                                <button *ngIf="parameter.phone" (click)="getListing()"><i class="fa fa-search"></i></button>
                             </div>
                         </div>
                     </th>
@@ -64,8 +75,8 @@
                         <div class="table-search">
                             <label>{{'table.th.emailId' | translate}}</label>
                             <div class="searh-3">
-                                <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="changeFilter('email',$event.target.value)" name="" autocomplete="address-level4" >
-                                <button *ngIf="parameter.email" (click)="changeFilter('email', parameter.email)"><i class="fa fa-search"></i></button>
+                                <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="getListing()" name="email" autocomplete="address-level4" >
+                                <button *ngIf="parameter.email" (click)="getListing()"><i class="fa fa-search"></i></button>
                             </div>
                         </div>
                     </th>
@@ -87,9 +98,10 @@
                             <label>{{'table.th.actions.label' | translate}}</label>
                         </div>
                     </th>
-                    <!-- <th></th> -->
                 </tr>
-                <tr class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}" *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }" routerLink="/dashboard/manual-leads/view-details/{{item.id}}">
+                <tr class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}" 
+                *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }" 
+                routerLink="/dashboard/manual-leads/view-details/{{item.id}}">
                     <td><img [src]="item.image" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img"></td>
                     <td class="text-left">
                         <span *ngIf="item.name"class="name">{{item.name | titlecase}}</span>
@@ -112,6 +124,8 @@
                     </td> -->
                 </tr>
                 </table>
+
+
             </div>
         </div>
 
@@ -120,7 +134,7 @@
         </div>
     </div>         
 
-    <div class="btn-cont text-right marginT15" *ngIf="parameter.total">
+    <div class="btn-cont text-right marginT15" *ngIf="parameter?.total">
         <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
     </div>
 </div>
