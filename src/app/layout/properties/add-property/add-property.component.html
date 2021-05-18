@@ -461,17 +461,18 @@
     </div>
     <div class="padding40">
       <div class="form-group-3">
-        <label class="p16-two">{{'addForm.addImagesofYourProperty' | translate}} <span class="color-red">*</span></label>
+        <label class="p16-two">{{'addForm.addImagesofYourProperty' | translate}}</label>
+        <!-- <span class="color-red">*</span> -->
         <div class="row">
           <div class="col-md-7 col-sm-12 col-12">
             <!-- <div class="upload-cover-img" [style.background-image]="image1"> -->
             <div class="upload-cover-img">
 
               <img [src]="model.cover_image" onerror="this.src='assets/img/placeholder.png'" class="floor-plan">
-              <div *ngIf="!model.cover_image" class="upload-caption">
+              <!-- <div *ngIf="!model.cover_image" class="upload-caption">
                 <p class="green-color marginT30">{{'addForm.uploadCoverImageForProperty' | translate}}</p>
                 <p>{{'addForm.imageSizeForCover' | translate}}</p>
-              </div>
+              </div> -->
               <input type="file" name="" accept="image/*" (change)="onSelectFile('cover_image', $event)">
             </div>
           </div>
@@ -1034,8 +1035,6 @@
             <button type="button" class="btn btn-primary" (click)="setTab(1)">{{'addForm.previous' | translate}}</button>
             <button type="submit" class="btn btn-primary marginL15" [disabled]="
           additionalInfo.invalid
-          || !model.cover_image
-          || !model.floor_plan
           || !model.description">{{'addForm.next' | translate}}</button>
           </div>
         </div>

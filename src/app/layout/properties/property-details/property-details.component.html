@@ -80,7 +80,7 @@
             <p class="p12 marginB0">{{'propertyDetail.building' | translate}}</p>
           </div>
           <div *ngIf="property?.building" class="float-right"><a
-            href="javascript://"><i class="far fa-building" style="color: #434b52;font-size: 30px;"></i></a></div>
+            href="javascript://"><i class="fa fa-building" style="color: #434b52;font-size: 30px;"></i></a></div>
           <div class="clearfix"></div>
         </div>
         <h4>{{'propertyDetail.description' | translate}}</h4>
@@ -224,9 +224,8 @@
           <!-- (click)="viewProjectPhotos(property.images, property.images360, property.videos)" -->
           <div *ngIf="isShow">
           <h4>{{'propertyDetail.Gallery' | translate}}
-            <span style="float:right;    font-size: 14px;"><a
-              
-              href="javascript://">{{'propertyDetail.View_Photos' | translate}}</a></span>
+            <!-- <span style="float:right;    font-size: 14px;"><a
+              href="javascript://">{{'propertyDetail.View_Photos' | translate}}</a></span> -->
           </h4>
           <div class="fig-block text-center">
             <div class="project-gallery marginB15" *ngIf="property?.images360.length>0">

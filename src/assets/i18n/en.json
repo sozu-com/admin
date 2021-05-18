@@ -1373,6 +1373,7 @@
       "areYouSureYouWantToRemoveTheUser": "Are you sure you want to remove the user?",
       "pleaseEnterNewCommission": "Please enter new commision (in %)",
       "movingBackCanResetInformationEnteredOnCurrentTab": "Moving back can reset information entered on current tab.",
+      "toggleMove": "Images uploaded manually are going to be deleted",
       "wantToLogout": "You want to logout?",
       "logoutBtn": "Logout!",
       "wantToRemoveProperty": "You want to remove this property?",

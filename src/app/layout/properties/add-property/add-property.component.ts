@@ -1006,10 +1006,10 @@ export class AddPropertyComponent implements OnInit {
     }
     this.model.floor = 0; // now static
     this.model.marital_status = [];
-    if (this.model.videoLoader) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.uploadingVideo'), 'error');
-      return;
-    }
+    // if (this.model.videoLoader) {
+    //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.uploadingVideo'), 'error');
+    //   return;
+    // }
     for (let index = 0; index < this.testMarital.length; index++) {
       if (this.testMarital[index].checked === true) {
         this.model.marital_status.push(this.testMarital[index].id);
@@ -1024,11 +1024,7 @@ export class AddPropertyComponent implements OnInit {
     this.model.price = this.newcarpet_area.price;
     if (this.model.carpet_areas.length < 1 && this.tab == 1) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseAddCarpetArea'), 'error');
-    } else if ((this.model.cover_image === null || this.model.cover_image === undefined) && (this.model.step == 2)) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseCoverImage'), 'error');
-    } else if ((this.model.floor_plan === null || this.model.floor_plan === undefined) && (this.model.step == 2)) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseFloorPlan'), 'error');
-    }
+    } 
     // else if ((this.model.amenities.length === 0) && (this.model.step == 2)) {
     //   swal(this.translate.instant('swal.error'), 'Please choose amenity.', 'error');
     // }
@@ -1118,6 +1114,9 @@ export class AddPropertyComponent implements OnInit {
         }
         // added building_id and step cuz need to update sttaus and step
         input.append('building_id', this.model.building_id);
+        input.append('building_configuration_id', this.model.building_configuration_id);
+        input.append('configuration_id', this.model.configuration_id);
+        input.append('step', this.model.step.toString());
         input.append('step', this.model.step.toString());
         input.append('images', JSON.stringify(imagesString));
         input.append('images360', JSON.stringify(imagesString360));
@@ -1208,9 +1207,9 @@ export class AddPropertyComponent implements OnInit {
             });
             this.tempParking_area1 = JSON.parse(JSON.stringify(((success || {}).data || {}).property_parking_space || []));
             this.tab = tab;
-            if(this.model.step == 1){
-            this.changeConfigurationToggle();
-            }
+            // if(this.model.step == 1){
+            // this.changeConfigurationToggle();
+            // }
           }, error => {
             this.spinner.hide();
           }
@@ -1809,12 +1808,26 @@ export class AddPropertyComponent implements OnInit {
 
   changeConfigurationToggle(){
     if(this.model.configuration_toggle && this.model.building_configuration_id){
-      this.model.floor_plan = (this.propertyData || {}).floor_plan;
-      //this.model.cover_image = data.image;
-      this.model.cover_image = ((this.propertyData || {}).building_configuration || {}).cover_profile;
-      this.model.images = (this.propertyData || {}).images;
-      this.model.images360 = (this.propertyData || {}).images360;
-      this.model.videos = (this.propertyData || {}).videos;
+      swal({
+        html: this.translate.instant('message.error.areYouSure') + '<br>' +
+          this.translate.instant('message.error.toggleMove'),
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: this.constant.confirmButtonColor,
+        cancelButtonColor: this.constant.cancelButtonColor,
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          this.model.floor_plan = (this.propertyData || {}).floor_plan;
+          //this.model.cover_image = data.image;
+          this.model.cover_image = ((this.propertyData || {}).building_configuration || {}).cover_profile;
+          this.model.images = (this.propertyData || {}).images;
+          this.model.images360 = (this.propertyData || {}).images360;
+          this.model.videos = (this.propertyData || {}).videos;
+        }
+      });
+     
+
     }else{
       this.model.floor_plan = null;
       //this.model.cover_image = data.image;

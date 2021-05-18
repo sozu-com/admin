@@ -1374,6 +1374,7 @@
       "areYouSureYouWantToRemoveTheUser": "¿Estás seguro de que quieres eliminar al usuario?",
       "pleaseEnterNewCommission": "Ingresa nueva comisión (en %)",
       "movingBackCanResetInformationEnteredOnCurrentTab": "Retrocediendo puede restablecer la información ingresada en la pestaña actual.",
+      "toggleMove": "Las imágenes subidas manualmente se eliminarán",
       "wantToLogout": "¿Quieres cerrar sesión?",
       "logoutBtn": "¡Cerrar sesión!",
       "wantToRemoveProperty": "¿Quieres eliminar esta propiedad?",
