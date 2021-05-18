@@ -569,6 +569,8 @@
     "enterTitle": "Ingresas título",
     "enterMetaTitle": "Ingresa meta título",
     "enterMetaDescr": "Enter meta descripción",
+    "leadType": "Tipo de cliente potencial",
+    "renter": "Renter",
     "placeholder": {
       "searchForAddress": "Buscar dirección",
       "searchForBranch": "Buscar sucursal",
@@ -648,11 +650,7 @@
       "chooseDate": "Elegir fecha",
       "parkingLotSpacesEn": "Nombre del tipos de estacionamientos (Inglés)",
       "parkingLotSpacesEs": "Nombre del tipos de estacionamientos (Español)",
-      "manageCommissions": "Administrar Comisiones",
-      "leadType": "Tipo de cliente potencial",
-      "buyer": "Comprador",
-      "seller": "Vendedor",
-      "credit": "crédito"
+      "manageCommissions": "Administrar Comisiones"
     }
   },
   "charts": {
@@ -897,6 +895,8 @@
       "buyer": "Comprador",
       "seller": "Vendedor",
       "credit": "crédito",
+      "renter": "Renter",
+      "project": "proyecto",
       "actions": {
         "label": "Acciones",
         "all": "Todo",

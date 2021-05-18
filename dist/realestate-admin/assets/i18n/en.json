@@ -570,6 +570,8 @@
     "enterTitle": "Enter Title",
     "enterMetaTitle": "Enter meta title",
     "enterMetaDescr": "Enter meta description",
+    "leadType": "Lead type",
+    "renter": "Renter",
     "placeholder": {
       "searchForAddress": "Search for address",
       "searchForBranch": "Search for Branch Office",
@@ -649,11 +651,7 @@
       "chooseDate": "Choose Date",
       "parkingLotSpacesEn": "Parking lot spaces name (English)",
       "parkingLotSpacesEs": "Parking lot spaces name (Spanish)",
-      "manageCommissions": "Manage Commissions",
-      "leadType": "Lead type",
-      "buyer": "Buyer",
-      "seller": "Seller",
-      "credit": "Credit"
+      "manageCommissions": "Manage Commissions" 
     }
   },
   "charts": {
@@ -896,6 +894,8 @@
       "buyer": "Buyer",
       "seller": "Seller",
       "credit": "Credit",
+      "renter": "Renter",
+      "project": "Project",
       "actions": {
         "label": "Actions",
         "all": "All",
