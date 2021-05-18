@@ -340,19 +340,19 @@
                             </th>
                             <th style="width:24%">
                                 <div class="table-search">
-                                    <label>{{'table.th.interestedIn' | translate}}</label>
+                                    <label>{{'table.th.project' | translate}}</label>
                                 </div>
                             </th>
                             <th style="width:10%">
                                 <div class="table-search">
-                                    <label>{{'table.th.assignee' | translate}}</label>
+                                    <label>{{'table.th.property' | translate}}</label>
                                 </div>
                             </th>
-                            <th style="width:6%">
+                            <!-- <th style="width:6%">
                                 <div class="table-search">
                                     <label>{{'table.th.propertyFor' | translate}}</label>
                                 </div>
-                            </th>
+                            </th> -->
                             <th style="width:24%">
                                 <div class="table-search">
                                     <label>{{'table.th.csrAssignation' | translate}}</label>
@@ -414,21 +414,14 @@
                             <td class="text-left" *ngIf="item.email">{{item?.user?.email ? item?.user?.email :
                                 item.email}}</td>
                             <td class="text-left" *ngIf="!item.email">{{'table.tr.td.NA' | translate}}</td>
-                            <td>
-                                <span *ngFor="let conf of item.configuration; let ii=index">
-                                    <app-property-configuration [configuration]="conf"></app-property-configuration>
-                                    <span *ngIf="ii<item?.configuration?.length-1"> | </span> <br>
-                                </span>
-                                <span *ngIf="item.configuration?.length==0">{{'table.tr.td.NA' | translate}}</span>
-                            </td>
-                            <td class="text-left" title="{{'table.title.CSRBuyer' | translate}}">{{item?.admin?.name ?
-                                item?.admin?.name : ('table.tr.td.NA' | translate)}}</td>
-                            <td class="text-left" *ngIf="item.sale_rent >= 0">{{item.sale_rent==1 ? ('leadDetails.buy' |
-                                translate) : ('table.tr.td.rent' | translate)}}</td>
+                            <td class="text-left">{{item?.building?.name ? item?.building?.name : ('table.tr.td.NA' | translate)}}</td>
+                            <!-- <td class="text-left" title="{{'table.title.CSRBuyer' | translate}}">{{item?.admin?.name ?
+                                item?.admin?.name : ('table.tr.td.NA' | translate)}}</td> -->
+                            <td class="text-left">{{item?.property?.name ? item?.property?.name : ('table.tr.td.NA' | translate)}}</td>
 
-                            <td class="text-left green-color cursor-pointer" (click)="openModel('CSR', item)"> <span>Assign CSR Agent</span> </td>
+                            <td class="text-left green-color cursor-pointer" (click)="openModel('CSR', item)"> <span>{{item?.admin?.name? item?.admin?.name : 'Link CSR'}}</span> </td>
                             <td class="text-left green-color cursor-pointer" (click)="openAddChangeStatusModel(true)"> <span>text</span> </td>
-                            <td class="text-left green-color cursor-pointer" (click)="openModel('', item)"> <span>Assign Agent</span> </td>
+                            <td class="text-left green-color cursor-pointer" (click)="openModel('', item)"> <span>Link Agent</span> </td>
                             <td class="text-left green-color cursor-pointer" (click)="openAddChangeStatusModel(false)"> <span>text</span> </td>
                         </tr>
                     </table>

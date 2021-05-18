@@ -333,6 +333,7 @@ export class CsrBuyerComponent implements OnInit {
     const input = {
       keyword: this.assign.keyword
     };
+    this.assign.items = [];
     this.spinner.show();
     this.admin.postDataApi('getCsrBuyers', input).subscribe(
       success => {
@@ -341,25 +342,46 @@ export class CsrBuyerComponent implements OnInit {
       });
   }
 
+  getInhouseAgentListing() {
+    const input = {
+      keyword: this.assign.keyword
+    };
+    this.spinner.show();
+    this.assign.items = [];
+    this.admin.postDataApi('getInhouseBroker', input).subscribe(
+      success => {
+        this.spinner.hide();
+        this.assign.items = success.data;
+      });
+  }
+
+
   assignNow() {
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     const users_ids = this.items.filter(x => x.selected).map(y => y.admin.id);
-    const input = {
+    const inputCSR = {
       csr_buyer_id: this.assignItem.id,
       leads: leads_ids,
       users: users_ids
     };
+
+    const input = {
+      broker_id: this.assignItem.id,
+      leads: leads_ids
+    };
+
     this.spinner.show();
-    this.admin.postDataApi('leads/bulkAssignBuyer', input).subscribe(r => {
+    let url = this.openFor == 'CSR' ? 'leads/bulkAssignBuyer' : 'leads/bulkAssignBroker';
+    this.admin.postDataApi(url, this.openFor == 'CSR' ? inputCSR : input).subscribe(r => {
       this.spinner.hide();
+      this.closeNewAssignModel.nativeElement.click();
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.assignedSuccessfully'), 'success');
-      this.closeAssignModel.nativeElement.click();
       this.getListing();
       this.allSelected = false;
     },
       error => {
         this.spinner.hide();
-        this.closeAssignModel.nativeElement.click();
+        //this.closeAssignModel.nativeElement.click();
         swal(this.translate.instant('swal.error'), error.error.message, 'error');
       });
   }
@@ -376,7 +398,7 @@ export class CsrBuyerComponent implements OnInit {
         item.selected = true;
       }
     })
-    this.getAssignListing();
+    openFor == 'CSR' ? this.getAssignListing() : this.getInhouseAgentListing();
     this.openNewAssignModel.nativeElement.click();
   }
 

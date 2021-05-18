@@ -1,11 +1,17 @@
 
 <div class="container-fluid">
   <div class="row">
-      <div class="col-12">
+      <div class="col-11">
         <div class="title-group">
             <h5>{{'viewManualLeads.addManualLead' | translate}}</h5>
             <div class="spacer30"></div>
         </div>
+      </div>
+      <div class="col-lg-1 col-md-1 col-6">
+        <div class="btn-cont text-right title-group">
+          <a href="javascript://" 
+            class="btn-sm btn-primary-new" href="javascript://" routerLink="/dashboard/manual-leads/view-all">{{'quickVisualization.back' | translate}}</a>
+          </div>
       </div>
   </div>
   <div class="white-bg padding40">
@@ -20,7 +26,7 @@
                       <label *ngIf="model?.image">
                         <input accept="image/*" name="image" class="image" type="file">
                       </label> -->
-                      <label>{{'addForm.image' | translate}}</label>
+                      <label style="left:19px !important;top:17px !important;">{{'addForm.image' | translate}}</label>
                        <input accept="image/*" name="image" class="image" type="file">
                       <!-- <div *ngIf="model.img_loader" class="loaderr"></div> -->
                   </div>
@@ -77,7 +83,8 @@
                   <select class="form-control" required name="user_type">
                     <option value="1">{{'addForm.buyer' | translate}}</option>
                     <option value="2">{{'addForm.seller' | translate}}</option>
-                    <option value="2">{{'addForm.credit' | translate}}</option>
+                    <option value="3">{{'addForm.credit' | translate}}</option>
+                    <option value="4">{{'addForm.renter' | translate}}</option>
                   </select>
                 </div>
               </div>
