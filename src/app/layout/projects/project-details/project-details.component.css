@@ -19,6 +19,11 @@
     object-fit: cover;
 }
 
+.white-bg {
+    background-color: #fff;
+    border-radius: 2px;
+    height: 100%;
+}
 .tower-block{
     padding: 20px;
     background: #fff;

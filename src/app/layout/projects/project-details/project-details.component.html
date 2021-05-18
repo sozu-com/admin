@@ -264,11 +264,12 @@
          <div class="col-md-6 col-12">
            <div class="header-details-right text-right">
              <p class="p18">
+            
                <span>{{'addForm.basePrice' | translate}}:</span>
-               {{project?.mprice | currency:'USD':'symbol':'.0'}}
+               {{project?.mprice ? (project?.mprice | currency:'USD':'symbol':'.0'): 'N/A'}}
                
                <b *ngIf="project?.max_price">-</b>
-               <b *ngIf="project?.max_price">{{project?.max_price | currency:'USD':'symbol':'.0'}}</b>
+               <b *ngIf="project?.max_price">{{project?.max_price ? (project?.max_price | currency:'USD':'symbol':'.0'): 'N/A'}}</b>
                
              </p>
              <p class="p16">{{'addForm.Price_on_Request' | translate}}</p>
@@ -295,9 +296,9 @@
          </div>
        </div>
  
-       <a *ngIf="project.images && project.images.length > 2"
+       <!-- <a *ngIf="project.images && project.images.length > 2"
            class="btn view-photos"
-          href="javascript://">{{'addForm.View_Photos'  | translate}}</a>
+          href="javascript://">{{'addForm.View_Photos'  | translate}}</a> -->
           <!--(click)="viewProjectPhotos(project.images, project.images360, project.videos)"-->
      </div>
      <div class="img-des">
@@ -449,8 +450,8 @@
  
                  <div class="spacer30"></div>
                  <p class="p14">{{'addForm.Gallery'  | translate}}
-                   <span style="float:right;"><a                     
-                     href="javascript://">{{'addForm.View_Photos'  | translate}}</a></span>
+                   <!-- <span style="float:right;"><a                     
+                     href="javascript://">{{'addForm.View_Photos'  | translate}}</a></span> -->
                      <!--(click)="viewProjectPhotos(project.images, project.images360, project.videos)"-->
                  </p>
                  <div class="project-gallery marginB15" *ngIf="project?.images360 && project?.images360.length>0">
@@ -504,7 +505,7 @@
                        </div>
                        <div class="col-md-6 col-xs-6 text-right">
                          <p class="p12 bold marginB0">{{'addForm.possession_Status'  | translate}}:
-                           {{item?.possession_status?.name_en }}</p>
+                           {{item?.possession_status?.name_en ? (item?.possession_status?.name_en): 'N/A'}}</p>
                          
                        </div>
                      </div>
@@ -593,7 +594,6 @@
                            <table style="width:100%;">
                              <tbody>
                              <tr>
-                             
                                <td>{{config.carpet_area ? (config.carpet_area | numberWithCommas): 'N/A'}} {{config.carpet_area ? ('addForm.mts2'  | translate): ''}}</td>
                              </tr>
  
@@ -675,8 +675,8 @@
  
                <div *ngIf="tab==5">
                  <p class="p14">{{'addForm.Gallery'  | translate}}
-                   <span style="float:right;"><a                     
-                     href="javascript://">{{'addForm.View_Photos'  | translate}}</a></span>
+                   <!-- <span style="float:right;"><a                     
+                     href="javascript://">{{'addForm.View_Photos'  | translate}}</a></span> -->
                      <!--(click)="viewProjectPhotos(project.images, project.images360, project.videos)"-->
                  </p>
  
