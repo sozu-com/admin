@@ -43,6 +43,10 @@ export class Leads {
     configuration: Array<Configuration>;
     selected_properties: Array<SelectedProperties>;
     appointments: Array<AddAppointment>;
+    lead_type: number;
+    image: string;
+    first_surname: string;
+    second_surname: string;
 }
 
 export class PaymentModes {

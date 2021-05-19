@@ -16,6 +16,7 @@ export class ManualLeadsComponent implements OnInit {
 
   public parameter: IProperty = {};
   public items: any[] = [];
+  lead_type: any;
 
   constructor(
     public admin: AdminService,
@@ -47,11 +48,12 @@ export class ManualLeadsComponent implements OnInit {
     });
   }
 
-  changeFilter(value, data){
-
+  changeFilter = (key: string, value: any): void => {
+    this.parameter[key] = value;
+    this.getListing();
   }
 
-  deletePopup(item: any, index: number) {
+  deletePopup(item: any) {
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' +
         this.translate.instant('message.error.wantToDeleteLead'),
@@ -62,10 +64,24 @@ export class ManualLeadsComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        //this.deleteUser(item, index);
+        this.deleteManualLead(item);
       }
     });
   }
 
+  deleteManualLead(item){
+    this.spinner.show();
+    let index = this.items.findIndex(x=> x.id == item.id)
+    this.admin.postDataApi('deleteManualLead',{ id: item.id }).subscribe(r => {
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
+      this.items.splice(index, 1);
+      this.parameter.total = this.items.length;
+      this.spinner.hide();
+    },
+      error => {
+        this.spinner.hide();
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
+      });
+  }
 
 }

@@ -310,7 +310,8 @@ export class AddProjectComponent implements OnInit {
           this.model.custom_attributes = this.model.custom_values;
           this.file5.image = this.model.developer.image;
           this.file6.image = this.model.developer.developer_image;
-          this.admin.postDataApi('getAmenities', { hide_blocked: 1 }).subscribe(res => {
+          let lang = localStorage.getItem('language_code');
+          this.admin.postDataApi('getAmenities', { hide_blocked: 1, language: lang == 'en'? 1 : 2}).subscribe(res => {
             this.all_amenities = res.data.map(item => {
               item.selected = false;
               item.images = [];
@@ -406,7 +407,8 @@ export class AddProjectComponent implements OnInit {
           this.model.custom_attributes = this.model.custom_values;
           this.file5.image = this.model.developer.image;
           this.file6.image = this.model.developer.developer_image;
-          this.admin.postDataApi('getAmenities', { hide_blocked: 1 }).subscribe(res => {
+          let lang = localStorage.getItem('language_code');
+          this.admin.postDataApi('getAmenities', { hide_blocked: 1, language: lang == 'en'? 1 : 2 }).subscribe(res => {
             this.all_amenities = res.data.map(item => {
               item.selected = false;
               item.images = [];
@@ -471,7 +473,8 @@ export class AddProjectComponent implements OnInit {
         this.model.building_tower_edit_index = '-1';
         this.canEditdeveloperInfo = true;
         this.canEditContributionInfo = true;
-        this.admin.postDataApi('getAmenities', { hide_blocked: 1 }).subscribe(res => {
+        let lang = localStorage.getItem('language_code');
+        this.admin.postDataApi('getAmenities', { hide_blocked: 1, language: lang == 'en'? 1 : 2 }).subscribe(res => {
           this.all_amenities = res.data.map(item => {
             item.selected = false;
             item.images = [];
@@ -600,7 +603,8 @@ export class AddProjectComponent implements OnInit {
 
   searchAmenity(index: number) {
     this.spinner.show();
-    const input = { keyword: '', hide_blocked: 1 };
+    let lang = localStorage.getItem('language_code');
+    const input = { keyword: '', hide_blocked: 1, language: lang == 'en'? 1 : 2 };
     input.keyword = this.amenitiesKeyword;
     this.admin.postDataApi('getAmenities', input).subscribe(res => {
       // this.all_amenities = res.data.map(item => { item.selected = false; item.images = []; return item; });
@@ -1533,8 +1537,8 @@ export class AddProjectComponent implements OnInit {
     if (data['locality']) {
       this.setCountryToLocality(data['locality']);
     }
-
-    this.admin.postDataApi('getAmenities', { hide_blocked: 1 }).subscribe(res => {
+    let lang = localStorage.getItem('language_code');
+    this.admin.postDataApi('getAmenities', { hide_blocked: 1, language: lang == 'en'? 1 : 2 }).subscribe(res => {
       this.all_amenities = res.data.map(item => {
         item.selected = false;
         item.images = [];

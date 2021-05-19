@@ -15,6 +15,7 @@ import { SharedModule } from '../../modules/shared.module';
 import { AclUserGuard } from '../../guards/acl-user.guard';
 import { TranslateModule } from '@ngx-translate/core';
 import { AddEditManualLeadComponent } from './add-edit-manual-lead/add-edit-manual-lead.component';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 const routes: Routes = [
   // { path: '', component: ManualLeadsComponent }
@@ -28,6 +29,10 @@ const routes: Routes = [
   },
   {
     path: 'add-manual-lead/:id', component: AddEditManualLeadComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Manual Leads', 'can_read', ''] }
+  },
+  {
+    path: 'update-manual-lead/:id', component: AddEditManualLeadComponent,
     canActivate: [AclUserGuard], data: { roles: ['Manual Leads', 'can_read', ''] }
   }
 ];
@@ -43,7 +48,8 @@ const routes: Routes = [
     Ng2TelInputModule,
     MalihuScrollbarModule.forRoot(),
     SharedModule,
-    TranslateModule
+    TranslateModule,
+    LazyLoadImageModule
   ],
   declarations: [
     ManualLeadsComponent,

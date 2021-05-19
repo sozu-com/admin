@@ -9,6 +9,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { CSRBuyerLeads } from 'src/app/models/leads.model';
 import { LeadsService } from 'src/app/services/leads.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 // import { TranslateService } from 'src/app/lang/translate.service';
 declare let swal: any;
 
@@ -52,6 +53,7 @@ export class CsrBuyerComponent implements OnInit {
   selectedAddChangeStatus: any;
 
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
+  selected_lead: any;
   constructor(
     public admin: AdminService,
     private constant: Constant,
@@ -59,7 +61,8 @@ export class CsrBuyerComponent implements OnInit {
     private spinner: NgxSpinnerService,
     public leadsService: LeadsService,
     private router: Router,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -357,12 +360,15 @@ export class CsrBuyerComponent implements OnInit {
 
 
   assignNow() {
+    let users_ids;
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
-    const users_ids = this.items.filter(x => x.selected).map(y => y.admin.id);
+    if(this.openFor == 'CSR'){
+    //users_ids = this.items.filter(x => x.selected).map(y => y.admin.id);
+    }
     const inputCSR = {
       csr_buyer_id: this.assignItem.id,
       leads: leads_ids,
-      users: users_ids
+      //users: users_ids
     };
 
     const input = {
@@ -377,7 +383,11 @@ export class CsrBuyerComponent implements OnInit {
       this.closeNewAssignModel.nativeElement.click();
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.assignedSuccessfully'), 'success');
       this.getListing();
-      this.allSelected = false;
+      this.items.filter(item=>{
+        if(item.selected){
+          item.selected = false;
+        }
+      });
     },
       error => {
         this.spinner.hide();
@@ -397,25 +407,57 @@ export class CsrBuyerComponent implements OnInit {
       if(item.id == selected.id){
         item.selected = true;
       }
-    })
+      else{
+        item.selected = false;
+      }
+    });
+    if(openFor != 'CSR' && !selected.user_id){
+      this.toastr.warning(this.translate.instant('message.error.userNotRegisterInWebsite'), this.translate.instant('swal.warning'));
+      return;
+    }
     openFor == 'CSR' ? this.getAssignListing() : this.getInhouseAgentListing();
     this.openNewAssignModel.nativeElement.click();
   }
 
-  openAddChangeStatusModel = (status: boolean): void => {
-    if (status) {
-      this.addChangeStatusNames = ['Mailbox', 'Call later', 'Not interested', 'Schduled appointetment', 'Incorrect data', 'Real estate advisory', 'Lead lost', 'N/A'];
-    } else {
-      this.addChangeStatusNames = ['Schduled appointetment', 'In decision', 'Deal agreement', 'Layaway received', 'Contact and downpayment', 'Lead lost', 'Cancelled', 'N/A'];
-    }
-    this.addChangeStatusModelOpen.nativeElement.click();
+  openAddChangeStatusModel(item){ 
+    this.selected_lead = item;
+    this.selectedAddChangeStatus = item.status ? item.status.status_id : 0;
+    this.spinner.show();
+    //this.addChangeStatusNames = ['Mailbox', 'Call later', 'Not interested', 'Scheduled appointment', 'Incorrect data', 'Real estate advisory', 'Lead lost', 'N/A'];
+    this.admin.getApi("leads/all-csr-buyer-statuses" ).subscribe(r => {
+      this.addChangeStatusNames = r.data;
+      this.spinner.hide();
+      this.addChangeStatusModelOpen.nativeElement.click();
+    },
+      error => {
+        this.spinner.hide();
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
+      });
   }
 
   closeAddChangeStatusModel = (): void => {
     this.addChangeStatusModelClose.nativeElement.click();
   }
 
-  onClickAddStatus= (): void => {
-    console.log(this.selectedAddChangeStatus);
+  onClickAddStatus() {
+    let input={
+      lead_id: this.selected_lead.id,
+      admin_id: this.selected_lead.admin.id,
+      status_id: this.selectedAddChangeStatus
+    }
+    this.admin.postDataApi("leads/csr-buyer-status", input).subscribe(r => {
+      this.getListing();
+      this.spinner.hide();
+      this.addChangeStatusModelClose.nativeElement.click();
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.statusChangedSuccessfully'), 'success');
+    },
+      error => {
+        this.spinner.hide();
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
+      });
+  }
+
+  isChecked(tempStatusName) {
+    return tempStatusName.id == this.selectedAddChangeStatus ? true : false;
   }
 }

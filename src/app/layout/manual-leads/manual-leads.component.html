@@ -32,8 +32,8 @@
             <div class="table-responsive">
                 <table class="table table-striped table-align-left vertical-align-top">
                 <tr>
-                    <th style="width:10%">
-                        <div class="table-search"></div>
+                    <th style="width:6%">
+                        <div class="table-search"><label>{{'table.th.image' | translate}}</label></div>
                     </th>
                     <th style="width:10%">
                         <div class="table-search">
@@ -48,8 +48,8 @@
                         <div class="table-search">
                             <label>{{'table.th.firstSurname' | translate}}</label>
                             <div class="searh-3">
-                                <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="changeFilter('name',$event.target.value)" name="" autocomplete="address-level4" >
-                                <button *ngIf="parameter.name" (click)="changeFilter('name', parameter.name)"><i class="fa fa-search"></i></button>
+                                <input type="text" [(ngModel)]="parameter.first_surname" (keyup.enter)="changeFilter('first_surname',$event.target.value)" name="" autocomplete="address-level4" >
+                                <button *ngIf="parameter.first_surname" (click)="changeFilter('first_surname', parameter.first_surname)"><i class="fa fa-search"></i></button>
                             </div>
                         </div>
                     </th>
@@ -57,8 +57,8 @@
                         <div class="table-search">
                             <label>{{'table.th.secondSurname' | translate}}</label>
                             <div class="searh-3">
-                                <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="changeFilter('name',$event.target.value)" name="" autocomplete="address-level4" >
-                                <button *ngIf="parameter.name" (click)="changeFilter('name', parameter.name)"><i class="fa fa-search"></i></button>
+                                <input type="text" [(ngModel)]="parameter.second_surname" (keyup.enter)="changeFilter('second_surname',$event.target.value)" name="" autocomplete="address-level4" >
+                                <button *ngIf="parameter.second_surname" (click)="changeFilter('second_surname', parameter.second_surname)"><i class="fa fa-search"></i></button>
                             </div>
                         </div>
                     </th>
@@ -67,7 +67,7 @@
                             <label>{{'table.th.contactNumber' | translate}}</label>
                             <div class="searh-3">
                                 <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="getListing()" name="phone" autocomplete="address-level4" >
-                                <button *ngIf="parameter.phone" (click)="getListing()"><i class="fa fa-search"></i></button>
+                                <button *ngIf="parameter.phone" (click)="changeFilter('phone', parameter.phone)"><i class="fa fa-search"></i></button>
                             </div>
                         </div>
                     </th>
@@ -76,7 +76,7 @@
                             <label>{{'table.th.emailId' | translate}}</label>
                             <div class="searh-3">
                                 <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="getListing()" name="email" autocomplete="address-level4" >
-                                <button *ngIf="parameter.email" (click)="getListing()"><i class="fa fa-search"></i></button>
+                                <button *ngIf="parameter.email" (click)="changeFilter('email', parameter.email)"><i class="fa fa-search"></i></button>
                             </div>
                         </div>
                     </th>
@@ -84,7 +84,7 @@
                         <div class="table-search">
                             <label>{{'table.th.leadType' | translate}}</label>
                             <div class="searh-3">
-                                <select class="width100px" name="sold_filter">
+                                <select class="width100px" name="sold_filter" (change)="changeFilter('lead_type', lead_type)" [(ngModel)]="lead_type" >
                                 <option value="0">{{'table.th.all' | translate}}</option>
                                 <option value="1">{{'table.th.buyer' | translate}}</option>
                                 <option value="2">{{'table.th.seller' | translate}}</option>
@@ -108,18 +108,33 @@
                         <span *ngIf="item.name"class="name">{{item.name | titlecase}}</span>
                         <span class="name" *ngIf="!item.name">{{'table.tr.td.NA' | translate}}</span>
                     </td>
+                    <td class="text-left">
+                        <span *ngIf="item.first_surname"class="name">{{item.first_surname | titlecase}}</span>
+                        <span class="name" *ngIf="!item.first_surname">{{'table.tr.td.NA' | translate}}</span>
+                    </td>
+                    <td class="text-left">
+                        <span *ngIf="item.second_surname"class="name">{{item.second_surname | titlecase}}</span>
+                        <span class="name" *ngIf="!item.second_surname">{{'table.tr.td.NA' | translate}}</span>
+                    </td>
                     <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
                     <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
                     <td class="text-left" *ngIf="item.email">{{item.email}}</td>
                     <td class="text-left" *ngIf="!item.email">{{'table.tr.td.NA' | translate}}</td>
                     <td class="text-left">
-                            <!-- background: #939292;
-                            padding: 4px 8px;
-                            color: #fff;
-                            border-radius: 12px; -->
-                        <span [style.color]="item?.status?.hex_code">{{item?.status?.name}}</span>
+                        <span >{{item?.lead_type == 1 ? ('table.th.buyer' | translate): item?.lead_type == 2 ? ('table.th.seller' | translate) : item?.lead_type == 3 ? 
+                            ('table.th.credit' | translate) : item?.lead_type == 4 ? ('table.th.renter' | translate) : ('table.tr.td.NA' | translate)}}</span>
                     </td>
-                    <td class="text-left" [style.color]="item?.type?.hex_code">{{item?.type?.name}}</td>
+                    <td class="text-left" (click)="$event.stopPropagation()">
+                        <button [disabled]="admin?.admin_acl['Manual Leads']?.can_update==0"
+                        routerLink="/dashboard/manual-leads/update-manual-lead/{{item.id}}"
+                        title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
+                        src="assets/img/edit.png" alt="img"></button>
+
+                        <button [disabled]="admin?.admin_acl['Manual Leads']?.can_delete==0"
+                        (click)="deletePopup(item)" class="action-icon"
+                        title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png"
+                        alt="img"></button>
+                    </td>
                     <!-- <td>
                         <button title="View Details" routerLink="/dashboard/manual-leads/view-details/{{item.id}}" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                     </td> -->

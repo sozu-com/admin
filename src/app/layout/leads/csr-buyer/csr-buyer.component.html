@@ -368,11 +368,6 @@
                                     <label>{{'table.th.AgentAsignation' | translate}}</label>
                                 </div>
                             </th>
-                            <th style="width:10%">
-                                <div class="table-search">
-                                    <label>{{'table.th.status' | translate}}</label>
-                                </div>
-                            </th>
                         </tr>
                         <tr class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
                             *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }">
@@ -420,9 +415,8 @@
                             <td class="text-left">{{item?.property?.name ? item?.property?.name : ('table.tr.td.NA' | translate)}}</td>
 
                             <td class="text-left green-color cursor-pointer" (click)="openModel('CSR', item)"> <span>{{item?.admin?.name? item?.admin?.name : 'Link CSR'}}</span> </td>
-                            <td class="text-left green-color cursor-pointer" (click)="openAddChangeStatusModel(true)"> <span>text</span> </td>
+                            <td class="text-left green-color cursor-pointer" (click)="openAddChangeStatusModel(item)"> <span>{{item?.status? ('table.tr.td.change' | translate) : ('table.tr.td.add' | translate)}}</span> </td>
                             <td class="text-left green-color cursor-pointer" (click)="openModel('', item)"> <span>Link Agent</span> </td>
-                            <td class="text-left green-color cursor-pointer" (click)="openAddChangeStatusModel(false)"> <span>text</span> </td>
                         </tr>
                     </table>
                     <div class="padding20 center" *ngIf="parameter.noResultFound">
@@ -591,8 +585,9 @@
                 </div>
                 <div style="padding-left: inherit;" *ngFor="let tempStatusName of addChangeStatusNames">
                     <div class="col-md-12 col-6">
-                        <span><input type="radio" id="status" name="status" [(ngModel)]="this.selectedAddChangeStatus" value="{{tempStatusName}}"></span>
-                        <label style="font-weight: bold; padding: inherit;font-size: medium;">{{tempStatusName}}</label>
+                        <span><input type="radio" id="status" name="status" [(ngModel)]="this.selectedAddChangeStatus" value="{{tempStatusName.id}}" 
+                            [checked]= "isChecked(tempStatusName)"></span>
+                        <label style="font-weight: bold; padding: inherit;font-size: medium;">{{tempStatusName.name}}</label>
                     </div>
                 </div>
                 <div class="row">
@@ -602,7 +597,7 @@
                     </div>
                     <div class="col-md-6 col-5 btn-cont">
                         <a class="btn btn-primary pull-right" style="width: 180px;padding: 12px 15px;"
-                            href="javascript://" (click)="this.onClickAddStatus()">{{'leads.addStatus' | translate}}</a>
+                            href="javascript://" (click)="onClickAddStatus()">{{'leads.addStatus' | translate}}</a>
                     </div>
                 </div>
             </div>

@@ -20,6 +20,8 @@ export class InhouseBrokerComponent implements OnInit {
   public scrollbarOptions = { axis: 'y', theme: 'dark'};
   @ViewChild('openAssignModel') openAssignModel: ElementRef;
   @ViewChild('closeAssignModel') closeAssignModel: ElementRef;
+  @ViewChild('addChangeStatusModelOpen') addChangeStatusModelOpen: ElementRef;
+  @ViewChild('addChangeStatusModelClose') addChangeStatusModelClose: ElementRef;
 
   public parameter: IProperty = {};
   public location: IProperty = {};
@@ -39,6 +41,9 @@ export class InhouseBrokerComponent implements OnInit {
     lead_closed: 0
   };
   chartView: any = [];
+  addChangeStatusNames: string[] = [];
+  selectedAddChangeStatus: any;
+  selected_lead: any;
 
   constructor(
     public admin: AdminService,
@@ -401,5 +406,43 @@ export class InhouseBrokerComponent implements OnInit {
 
   }
 
+  openAddChangeStatusModel(item){
+    //this.addChangeStatusNames = ['Scheduled appointment', 'In decision', 'Deal agreement', 'Layaway received', 'Contact and downpayment', 'Lead lost', 'Cancelled', 'N/A'];
+    this.selected_lead = item;
+    this.selectedAddChangeStatus = item.broker_status ? item.broker_status.status_id : 0;
+    this.spinner.show();
+    this.admin.getApi("leads/all-in-house-broker-statuses" ).subscribe(r => {
+      this.addChangeStatusNames = r.data;
+      this.spinner.hide();
+      this.addChangeStatusModelOpen.nativeElement.click();
+    },
+      error => {
+        this.spinner.hide();
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
+      });
+  }
+
+  onClickAddStatus= (): void => {
+    let input={
+      lead_id: this.selected_lead.id,
+      broker_id: this.selected_lead.broker.id,
+      status_id: this.selectedAddChangeStatus
+    }
+    this.spinner.show();
+    this.admin.postDataApi("leads/in-house-broker-status", input).subscribe(r => {
+      this.getListing();
+      this.spinner.hide();
+      this.addChangeStatusModelClose.nativeElement.click();
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.statusChangedSuccessfully'), 'success');
+    },
+      error => {
+        this.spinner.hide();
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
+      });
+  }
+
+  isChecked(tempStatusName) {
+    return tempStatusName.id == this.selectedAddChangeStatus ? true : false;
+  }
 
 }

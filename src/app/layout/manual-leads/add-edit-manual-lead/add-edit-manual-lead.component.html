@@ -3,7 +3,7 @@
   <div class="row">
       <div class="col-11">
         <div class="title-group">
-            <h5>{{'viewManualLeads.addManualLead' | translate}}</h5>
+            <h5>{{model.id? ('viewManualLeads.updateManualLead' | translate) : ('viewManualLeads.addManualLead' | translate)}}</h5>
             <div class="spacer30"></div>
         </div>
       </div>
@@ -22,19 +22,19 @@
             <div class="row">
               <div class="col-6">
                   <div class="add-img" style="display:flex;">
-                      <!-- <img *ngIf="model?.image" [src]="model?.image" [defaultImage]="model?.image| img:'thumb'" [lazyLoad]="model?.image" style="object-fit: cover; width: 100%;">
+                       <img *ngIf="model?.image" [src]="model?.image" [defaultImage]="model?.image| img:'thumb'" [lazyLoad]="model?.image" style="object-fit: cover; width: 100%;">
                       <label *ngIf="model?.image">
                         <input accept="image/*" name="image" class="image" type="file">
-                      </label> -->
-                      <label style="left:19px !important;top:17px !important;">{{'addForm.image' | translate}}</label>
-                       <input accept="image/*" name="image" class="image" type="file">
+                      </label>
+                      <label style="left:19px !important;top:17px !important;" *ngIf="!model?.image">{{'addForm.image' | translate}}</label>
+                       <input *ngIf="!model?.image" accept="image/*" name="image" class="image" type="file" (change)="changeListner($event, 'img_loader', 'image')">
                       <!-- <div *ngIf="model.img_loader" class="loaderr"></div> -->
                   </div>
               </div>
               <div class="col-6">
                   <div class="btn-cont text-right">
-                      <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">{{'addForm.addBtn' | translate}}</button>
-                      <!-- <button *ngIf="model.id!=''" type="submit" class="btn btn-primary">{{'addForm.updateBtn' | translate}}</button> -->
+                      <button *ngIf="!model.id" type="submit" [disabled]="!addForm.valid" class="btn btn-primary" >{{'addForm.addBtn' | translate}}</button>
+                       <button *ngIf="model.id" type="submit" class="btn btn-primary">{{'addForm.updateBtn' | translate}}</button>
                   </div>
               </div>
               <div class="col-12">
@@ -43,32 +43,32 @@
               <div class="col-12">
                   <div class="form-group-2">
                     <label>{{'addForm.names' | translate}} <span class="color-red">*</span></label>
-                    <input [pattern]="constant.onlyWhiteSpaces" autocomplete="off" maxlength="50" required type="text" class="form-control" name="name">
+                    <input [pattern]="constant.onlyWhiteSpaces" autocomplete="off" maxlength="50" required type="text" class="form-control" name="name" [(ngModel)]="model.name">
                   </div>
               </div>
               <div class="col-12">
                   <div class="form-group-2">
                     <label>{{'addForm.firstSurname' | translate}} <span class="color-red">*</span></label>
-                    <input [pattern]="constant.onlyWhiteSpaces" autocomplete="off" maxlength="30" required type="text" class="form-control" name="first_surname">
+                    <input [pattern]="constant.onlyWhiteSpaces" autocomplete="off" maxlength="30" required type="text" class="form-control" name="first_surname" [(ngModel)]="model.first_surname">
                   </div>
               </div>
               <div class="col-12">
                   <div class="form-group-2">
                     <label>{{'addForm.secondSurname' | translate}} </label>
-                    <input [pattern]="constant.onlyWhiteSpaces" autocomplete="off" maxlength="30" type="text" class="form-control" name="second_surname">
+                    <input [pattern]="constant.onlyWhiteSpaces" autocomplete="off" maxlength="30" type="text" class="form-control" name="second_surname" [(ngModel)]="model.second_surname">
                   </div>
               </div>
               <div class="col-12">
                   <div class="form-group-2">
                     <label>{{'addForm.contactNumber' | translate}} <span class="color-red">*</span></label>
                     <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="constant.phonePattern" class="form-control" id="phone" required minlength="1" name="phone"
-                          ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
+                    [(ngModel)]="model.phone" ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
                   </div>
               </div>
               <div class="col-12">
                   <div class="form-group-2">
                     <label>{{'addForm.emailId' | translate}} <span class="color-red">*</span></label>
-                    <input (keydown.space)="$event.preventDefault();" autocomplete="off" required [pattern]="constant.emailPattern" type="email" class="form-control" name="email">
+                    <input (keydown.space)="$event.preventDefault();" autocomplete="off" required [pattern]="constant.emailPattern" type="email" class="form-control" name="email" [(ngModel)]="model.email">
                   </div>
               </div>
             </div>
@@ -80,7 +80,7 @@
               <div class="form-group-2">
                  <label>{{'addForm.leadType' | translate}}<span class="color-red">*</span></label>
                  <div class="form-group">
-                  <select class="form-control" required name="user_type">
+                  <select class="form-control" required name="lead_type"  [(ngModel)]="model.lead_type">
                     <option value="1">{{'addForm.buyer' | translate}}</option>
                     <option value="2">{{'addForm.seller' | translate}}</option>
                     <option value="3">{{'addForm.credit' | translate}}</option>
