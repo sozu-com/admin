@@ -1084,7 +1084,8 @@
       "propertyBlockedSuccessfully": "Propiedad bloqueada exitosamente",
       "propertyUnblockedSuccessfully": "Propiedad desbloqueada exitosamente",
       "collectionStatusChanged": "Estado de colección cambiado",
-      "wantToReminderNote": "¿Quieres agregar un recordatorio?"
+      "wantToReminderNote": "¿Quieres agregar un recordatorio?",
+      "statusChangedSuccessfully": "El estado cambió con éxito."
     },
     "error": {
       "pleaseSelectEitherInhouseOrOutsideAgent": "Por favor elija una de las Agentes Internas y Externas",
@@ -1409,7 +1410,9 @@
       "SorryYouDoNotHaveThePermissionToGoThere":"Lo lamento, no tienes los permisos para realizar esta acción",
       "whenFinalPriceIsGeneratedCommissionSetAccordingToPercentageEnter": "Cuando se genera el precio final, la comisión se establece según el porcentaje ingrese.",
       "dealWillNotSameAsCommercialOffer": "La oferta no será la misma que la oferta comercial",
-      "thisUserHasLeadsAssignedPleaseDeleteTheDependenciesFirst": "Este usuario tiene leads asignados, por favor reasígnalos"
+      "thisUserHasLeadsAssignedPleaseDeleteTheDependenciesFirst": "Este usuario tiene leads asignados, por favor reasígnalos.",
+      "userNotRegisterInWebsite": "El usuario no se registra en el sitio web."
+
     }
   },
   "inhouseUsers": {
@@ -1568,7 +1571,8 @@
   },
   "viewManualLeads": {
     "label": "Administrar Leads manualmente",
-    "addManualLead": "Agregar cliente potencial manual"
+    "addManualLead": "Agregar cliente potencial manual",
+    "updateManualLead": "Actualizar cliente potencial manual"
   },
   "viewNotifications": {
     "label": "Notificaciones"

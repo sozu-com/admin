@@ -1083,7 +1083,8 @@
       "propertyBlockedSuccessfully": "Property blocked successfully",
       "propertyUnblockedSuccessfully": "Property unblocked successfully",
       "collectionStatusChanged": "Collection Status Changed",
-      "wantToReminderNote": "Do you want to add reminder?"
+      "wantToReminderNote": "Do you want to add reminder?",
+      "statusChangedSuccessfully": "Status changed successfully."
     },
     "error": {
       "pleaseSelectEitherInhouseOrOutsideAgent": "Please choose one of Inhouse and Outside Agents",
@@ -1408,7 +1409,8 @@
       "SorryYouDoNotHaveThePermissionToGoThere":"Sorry you do not have the permission to go there",
       "whenFinalPriceIsGeneratedCommissionSetAccordingToPercentageEnter": "When final price is generated commission set according to percentage enter.",
       "dealWillNotSameAsCommercialOffer": "Deal will not same as commercial offer",
-      "thisUserHasLeadsAssignedPleaseDeleteTheDependenciesFirst": "This user has leads assigned, please delete the dependencies first"
+      "thisUserHasLeadsAssignedPleaseDeleteTheDependenciesFirst": "This user has leads assigned, please delete the dependencies first.",
+      "userNotRegisterInWebsite": "User not register in website."
     } 
   },
   "inhouseUsers": {
@@ -1567,7 +1569,8 @@
   },
   "viewManualLeads": {
     "label": "Manage Manual Leads",
-    "addManualLead": "Add Manual Lead"
+    "addManualLead": "Add Manual Lead",
+    "updateManualLead": "Update Manual Lead"
   },
   "viewNotifications": {
     "label": "Notifications"
