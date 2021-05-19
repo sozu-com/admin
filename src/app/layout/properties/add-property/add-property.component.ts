@@ -404,6 +404,7 @@ export class AddPropertyComponent implements OnInit {
       this.model.floor_plan = data.floor_plan;
       //this.model.model.image = data.image;
       this.model.image = (this.propertyData || {}).image;
+      this.model.cover_Image = ((this.propertyData || {}).building_configuration || {}).cover_profile;
      // this.model.image = (data.building_configuration || {}).cover_profile;
       this.model.images = data.images;
       this.model.images360 = data.images360;
@@ -1042,6 +1043,7 @@ export class AddPropertyComponent implements OnInit {
         input.append('seller_id', this.parameter.seller_id);
       }
       input.append('step', this.model.step.toString());
+      input.append('cover_profile', this.model.cover_Image);
       if (this.model.step === 1) {
         input.append('name', this.model.name);
         // input.append('for_sale', this.model.for_sale === true ? '1' : '0');
@@ -1125,6 +1127,7 @@ export class AddPropertyComponent implements OnInit {
         input.append('images360', JSON.stringify(imagesString360));
         input.append('videos', JSON.stringify(this.model.videos));
         input.append('image', this.model.image);
+        input.append('cover_profile', this.model.cover_Image);
         input.append('floor_plan', this.model.floor_plan);
         input.append('bedroom', this.model.bedroom ? this.model.bedroom.toString() : null);
         input.append('bathroom', this.model.bathroom ? this.model.bathroom.toString() : null);
@@ -1190,11 +1193,11 @@ export class AddPropertyComponent implements OnInit {
             this.spinner.hide();
             this.propertyData = success['data'];
             this.spinner.hide();
+            this.model.cover_Image = ((this.propertyData || {}).building_configuration || {}).cover_profile;
              // this.getPropertyById(this.parameter.property_id);
              if(this.model.configuration_toggle && this.model.building_configuration_id){
              this.model.floor_plan = (this.propertyData || {}).floor_plan;
              this.model.image = (this.propertyData || {}).image;
-            //this.model.image = ((this.propertyData || {}).building_configuration || {}).cover_profile;
             this.model.images = (this.propertyData || {}).images;
             this.model.images360 = (this.propertyData || {}).images360;
             this.model.videos = (this.propertyData || {}).videos;
