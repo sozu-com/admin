@@ -403,7 +403,8 @@ export class AddPropertyComponent implements OnInit {
     if(this.model.configuration_toggle){
       this.model.floor_plan = data.floor_plan;
       //this.model.model.image = data.image;
-      this.model.image = (data.building_configuration || {}).cover_profile;
+      this.model.image = (this.propertyData || {}).image;
+     // this.model.image = (data.building_configuration || {}).cover_profile;
       this.model.images = data.images;
       this.model.images360 = data.images360;
       this.model.videos = data.videos;
@@ -1192,7 +1193,8 @@ export class AddPropertyComponent implements OnInit {
              // this.getPropertyById(this.parameter.property_id);
              if(this.model.configuration_toggle && this.model.building_configuration_id){
              this.model.floor_plan = (this.propertyData || {}).floor_plan;
-            this.model.image = ((this.propertyData || {}).building_configuration || {}).cover_profile;
+             this.model.image = (this.propertyData || {}).image;
+            //this.model.image = ((this.propertyData || {}).building_configuration || {}).cover_profile;
             this.model.images = (this.propertyData || {}).images;
             this.model.images360 = (this.propertyData || {}).images360;
             this.model.videos = (this.propertyData || {}).videos;
