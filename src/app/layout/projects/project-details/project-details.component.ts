@@ -183,6 +183,10 @@ export class ProjectDetailsComponent implements OnInit {
   loadingListing= true;
   public language_code: string;
   public base64address:any;
+  main_image:any;
+  galleryImageOne:any;
+  galleryImagetwo:any;
+  floor_map_image:any;
   constructor(
     private loader: MapsAPILoader,
     // private us: UserService,
@@ -229,6 +233,46 @@ this.base64address = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAs
     this.loadingListing = true;
     this.admin.postDataApi('getProjectDetails', { project_id: this.id }).subscribe(r => {
       this.project = r['data'].building;
+       //coverImage
+       if ((this.project || {}).main_image) {
+        this.admin
+          .postDataApi('getCoverImage', {
+            image: (this.project || {}).main_image,
+          })
+          .subscribe((response: any) => {
+            this.main_image = 'data:image/jpeg;base64,' + response.data
+          })
+      }
+      //images1
+      if ((this.project || {}).images) {
+        this.admin
+        .postDataApi('getCoverImage', {
+          image: (this.project || {}).images[0].image,
+        })
+        .subscribe((response: any) => {
+          this.galleryImageOne = 'data:image/jpeg;base64,' + response.data
+        })
+      }
+      //images1
+      if ((this.project || {}).images) {
+        this.admin
+        .postDataApi('getCoverImage', {
+          image: (this.project || {}).images[1].image,
+        })
+        .subscribe((response: any) => {
+          this.galleryImagetwo = 'data:image/jpeg;base64,' + response.data
+        })
+      }
+      //configuration
+      // if ((this.project || {}).configurations) {
+      //   this.admin
+      //   .postDataApi('getCoverImage', {
+      //     image: (this.project || {}).configurations.floor_map_image,
+      //   })
+      //   .subscribe((response: any) => {
+      //     this.floor_map_image = 'data:image/jpeg;base64,' + response.data
+      //   })
+      // }
       this.loadingListing = false;
       this.project.total_rent = 0;
       this.project.total_sale = 0;

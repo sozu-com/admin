@@ -62,6 +62,7 @@ export class Building {
   min_carpet_area?: number;
   max_carpet_area?: number;
   images360?: any[] = [];
+  images?: any[] = [];
 }
 
 export class Locality {

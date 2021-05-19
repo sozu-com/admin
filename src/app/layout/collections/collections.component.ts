@@ -40,6 +40,11 @@ declare var $: any;
 
 export class CollectionsComponent implements OnInit, OnDestroy {
   mode: string;
+  test_pay: any;
+  test_agent: any;
+  test_Collection: any;
+  sameAmount:any;
+  sumData:any;
   // input: CollectionReport;
   public parameter: IProperty = {};
   public location: IProperty = {};
@@ -215,9 +220,12 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   legal_name: any;
   parkingSpaceLotsArray: any[] = [];
   property_offer_id: any;
- paid_purchase_commision_amount : number;
+  paid_purchase_commision_amount : number;
   paid_agent_commision_amount : number;
   paid_collection_commision_amount : number;
+  purchase__amount: any;
+  agent_amount: any;
+  collection_amount: any;
   constructor(
     public constant: Constant,
     public apiConstants: ApiConstants,
@@ -1315,6 +1323,31 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   }
 
   setPaymentAmount(item: any) {
+    if (this.commission_type == 1) {
+      for (let i = 0; i < (item.purchase_payment || []).length; i++) {
+        let sum: number = item.purchase_payment.map(a => a.amount).reduce(function(a, b)
+        {
+          return a + b;
+        });
+        this.purchase__amount = sum;
+    }
+  } else if (this.commission_type == 3){
+    for (let i = 0; i < (item.agent_payment || []).length; i++) {
+      let sum1: number = item.agent_payment.map(a => a.amount).reduce(function(a, b)
+      {
+        return a + b;
+      });
+      this.agent_amount = sum1;
+  }
+  } else { 
+    for (let i = 0; i < (item.payment || []).length; i++) {
+      let sum2: number = item.payment.map(a => a.amount).reduce(function(a, b)
+      {
+        return a + b;
+      });
+      this.collection_amount = sum2;
+  }
+  }
     if (this.typeOfPayment === 'commission-popup') {
       if (this.commission_type == 1 && item.add_purchase_commission == 0) {
         this.toastr.clear();
@@ -1336,23 +1369,29 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       }
       this.ivaAmount = 0;
       if (this.commission_type == 1) {
-        this.paymentAmount = item.purchase_comm_amount || 0;
+        this.paymentAmount = (item.purchase_comm_amount || 0);
+        this.test_pay = item.purchase_comm_amount || 0;
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_pc)) {
           this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
-          this.paymentAmount = this.paymentAmount + this.ivaAmount;
+          this.paymentAmount = this.paymentAmount + this.ivaAmount - (this.purchase__amount || 0);
         }
+        this.getValue(this.commission_type,item)
       } else if (this.commission_type == 3) {
-        this.paymentAmount = item.agent_comm_amount || 0;
+        this.paymentAmount = (item.agent_comm_amount  || 0);
+        this.test_agent = item.agent_comm_amount || 0;
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_ac)) {
           this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
-          this.paymentAmount = this.paymentAmount + this.ivaAmount;
+          this.paymentAmount = this.paymentAmount + this.ivaAmount - (this.agent_amount || 0) ;
         }
+        this.getValue(this.commission_type,item);
       } else {
-        this.paymentAmount = item.amount || 0;
+        this.paymentAmount = (item.amount || 0);
+        this.test_Collection = item.amount || 0;
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_cc)) {
           this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
-          this.paymentAmount = this.paymentAmount + this.ivaAmount;
+          this.paymentAmount = this.paymentAmount + this.ivaAmount - (this.collection_amount || 0);
         }
+        this.getValue(this.commission_type,item);
       }
       this.selectedCollectionCommission = item;
     } else {
@@ -1419,7 +1458,16 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   onSelectInvoiceDate(e) {
     this.invoice_date = moment.utc(e).toDate();
   }
-
+  getValue(commission_type,item){
+    this.admin.postDataApi('addCollectionCommissionAmount', { id: item.id , commission_type:commission_type })
+    .subscribe(
+    success => {
+    this.sumData = success['data'];
+    const expected = this.sumData.iva_percent*this.sumData.ecpected/100;
+    const total_expect = this.sumData.ecpected + expected;
+    this.paid_amount = total_expect - this.sumData.paid_amount;
+    })
+      }
   // apply payment, comision payment or supermoney payment function
 
   applyCollectionPayment() {
@@ -1551,7 +1599,13 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       payment_date: this.paymentDate,
       full_amount: this.paymentAmount, // sending real amount entered by user
     };
-   
+    if (this.commission_type == 1) {
+      input['total_amount'] = this.test_pay
+      } else if (this.commission_type == 3) {
+      input['total_amount'] = this.test_agent
+      } else {
+      input['total_amount'] = this.test_Collection
+       }
     // send commission_type, collection_commission_id, percent incase of applying commission
     if (this.typeOfPayment === 'commission-popup') {
 
