@@ -468,12 +468,12 @@
             <!-- <div class="upload-cover-img" [style.background-image]="image1"> -->
             <div class="upload-cover-img">
 
-              <img [src]="model.cover_image" onerror="this.src='assets/img/placeholder.png'" class="floor-plan">
+              <img [src]="model.image" onerror="this.src='assets/img/placeholder.png'" class="floor-plan">
               <!-- <div *ngIf="!model.cover_image" class="upload-caption">
                 <p class="green-color marginT30">{{'addForm.uploadCoverImageForProperty' | translate}}</p>
                 <p>{{'addForm.imageSizeForCover' | translate}}</p>
               </div> -->
-              <input type="file" name="" accept="image/*" (change)="onSelectFile('cover_image', $event)">
+              <input type="file" name="" accept="image/*" (change)="onSelectFile('image', $event)">
             </div>
           </div>
           <div class="col-md-5 col-sm-12 col-12">

@@ -35,7 +35,7 @@ export class AddPropertyModel {
     // ];
     carpet_areas: any = [];
     property_id = '';
-    cover_image: File;
+    image: File;
     images: any = [];
     images360: any = [];
     videos: any = [];

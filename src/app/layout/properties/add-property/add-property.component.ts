@@ -314,7 +314,7 @@ export class AddPropertyComponent implements OnInit {
             };
             this.model.carpet_areas.push(obj);
           });
-          // this.model.cover_image = this.buildingData.main_image;
+          // this.model.model.image = this.buildingData.main_image;
           if (success['data'].locality.id) {
             // this.getStates(success['data'].locality.city.state.country.id, '');
             // this.getCities(success['data'].locality.city.state.id, '');
@@ -402,22 +402,22 @@ export class AddPropertyComponent implements OnInit {
     // images
     if(this.model.configuration_toggle){
       this.model.floor_plan = data.floor_plan;
-      //this.model.cover_image = data.image;
-      this.model.cover_image = (data.building_configuration || {}).cover_profile;
+      //this.model.model.image = data.image;
+      this.model.image = (data.building_configuration || {}).cover_profile;
       this.model.images = data.images;
       this.model.images360 = data.images360;
       this.model.videos = data.videos;
     }else{
       this.model.floor_plan =null;
-      //this.model.cover_image = data.image;
-      this.model.cover_image = null;
+      //this.model.model.image = data.image;
+      this.model.image = null;
       this.model.images = [];
       this.model.images360 = [];
       this.model.videos = []
     }
     // this.model.floor_plan = data.floor_plan;
-    // //this.model.cover_image = data.image;
-    // this.model.cover_image = (data.building_configuration || {}).cover_profile;
+    // //this.model.model.image = data.image;
+    // this.model.model.image = (data.building_configuration || {}).cover_profile;
     // this.model.images = data.images;
     // this.model.images360 = data.images360;
     
@@ -1123,7 +1123,7 @@ export class AddPropertyComponent implements OnInit {
         input.append('images', JSON.stringify(imagesString));
         input.append('images360', JSON.stringify(imagesString360));
         input.append('videos', JSON.stringify(this.model.videos));
-        input.append('cover_image', this.model.cover_image);
+        input.append('image', this.model.image);
         input.append('floor_plan', this.model.floor_plan);
         input.append('bedroom', this.model.bedroom ? this.model.bedroom.toString() : null);
         input.append('bathroom', this.model.bathroom ? this.model.bathroom.toString() : null);
@@ -1190,12 +1190,19 @@ export class AddPropertyComponent implements OnInit {
             this.propertyData = success['data'];
             this.spinner.hide();
              // this.getPropertyById(this.parameter.property_id);
-          this.model.floor_plan = (this.propertyData || {}).floor_plan;
-          //  this.model.image = (this.propertyData || {}).image;
-            this.model.cover_image = ((this.propertyData || {}).building_configuration || {}).cover_profile;
+             if(this.model.configuration_toggle && this.model.building_configuration_id){
+             this.model.floor_plan = (this.propertyData || {}).floor_plan;
+            this.model.image = ((this.propertyData || {}).building_configuration || {}).cover_profile;
             this.model.images = (this.propertyData || {}).images;
             this.model.images360 = (this.propertyData || {}).images360;
             this.model.videos = (this.propertyData || {}).videos;
+             }else{
+              this.model.floor_plan = null;
+              this.model.image = null;
+              this.model.images = [];
+              this.model.images360 = [];
+              this.model.videos = [];
+             }
             if (this.model.step.toString() === '4') {
               const successText = this.parameter.bulk_approve_property ? '' :
                 this.translate.instant('message.error.notifiedWhenAdminReview');
@@ -1831,11 +1838,9 @@ export class AddPropertyComponent implements OnInit {
         
         }
       });
-     
-
     }else{
       this.model.floor_plan = null;
-      this.model.cover_image = null;
+      this.model.image = null;
       this.model.images = [];
       this.model.images360 = [];
       this.model.videos = [];
