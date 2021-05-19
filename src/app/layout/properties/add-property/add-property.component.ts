@@ -20,6 +20,7 @@ import { ToastrService } from 'ngx-toastr';
 import { forkJoin } from 'rxjs';
 import { runInThisContext } from 'vm';
 import { FormBuilder } from '@angular/forms';
+import { value } from 'numeral';
 
 declare const google;
 declare let swal: any;
@@ -54,7 +55,7 @@ export class AddPropertyComponent implements OnInit {
   public longitude: number;
   public searchControl: FormControl;
   public zoom: number;
-
+  formdata:any;
   propertyData:any;
   name: string;
 
@@ -997,6 +998,7 @@ export class AddPropertyComponent implements OnInit {
   }
 
   addProperty(formdata: NgForm, tab) {
+    console.log(formdata,"formdata")
     // return;
     if (this.model.parking_for_sale && this.model.parking_count) {
       if (this.model.parking_for_sale > this.model.parking_count) {
@@ -1187,6 +1189,13 @@ export class AddPropertyComponent implements OnInit {
             this.spinner.hide();
             this.propertyData = success['data'];
             this.spinner.hide();
+             // this.getPropertyById(this.parameter.property_id);
+          this.model.floor_plan = (this.propertyData || {}).floor_plan;
+          //  this.model.image = (this.propertyData || {}).image;
+            this.model.cover_image = ((this.propertyData || {}).building_configuration || {}).cover_profile;
+            this.model.images = (this.propertyData || {}).images;
+            this.model.images360 = (this.propertyData || {}).images360;
+            this.model.videos = (this.propertyData || {}).videos;
             if (this.model.step.toString() === '4') {
               const successText = this.parameter.bulk_approve_property ? '' :
                 this.translate.instant('message.error.notifiedWhenAdminReview');
@@ -1818,19 +1827,14 @@ export class AddPropertyComponent implements OnInit {
         confirmButtonText: 'Yes'
       }).then((result) => {
         if (result.value) {
-          this.model.floor_plan = (this.propertyData || {}).floor_plan;
-          //this.model.cover_image = data.image;
-          this.model.cover_image = ((this.propertyData || {}).building_configuration || {}).cover_profile;
-          this.model.images = (this.propertyData || {}).images;
-          this.model.images360 = (this.propertyData || {}).images360;
-          this.model.videos = (this.propertyData || {}).videos;
+          this.addProperty(this.formdata,this.tab)
+        
         }
       });
      
 
     }else{
       this.model.floor_plan = null;
-      //this.model.cover_image = data.image;
       this.model.cover_image = null;
       this.model.images = [];
       this.model.images360 = [];
