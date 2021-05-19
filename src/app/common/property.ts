@@ -225,6 +225,7 @@ export interface IProperty {
   broker_id?: any;
   commission_type?:string;
   project?: string; 
+  property?: string;
 }
 export class Docs {
   id: string;
