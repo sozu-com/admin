@@ -1201,11 +1201,16 @@ export class AddPropertyComponent implements OnInit {
             this.model.images360 = (this.propertyData || {}).images360;
             this.model.videos = (this.propertyData || {}).videos;
              }else{
-              this.model.floor_plan = null;
-              this.model.image = null;
-              this.model.images = [];
-              this.model.images360 = [];
-              this.model.videos = [];
+              this.model.floor_plan = (this.propertyData || {}).floor_plan;
+              this.model.image =  (this.propertyData.building_configuration || {}).cover_profile
+             this.model.images = (this.propertyData || {}).images;
+             this.model.images360 = (this.propertyData || {}).images360;
+             this.model.videos = (this.propertyData || {}).videos;
+              // this.model.floor_plan = null;
+              // this.model.image = null;
+              // this.model.images = [];
+              // this.model.images360 = [];
+              // this.model.videos = [];
              }
             if (this.model.step.toString() === '4') {
               const successText = this.parameter.bulk_approve_property ? '' :
