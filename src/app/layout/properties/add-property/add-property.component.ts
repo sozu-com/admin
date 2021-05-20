@@ -553,27 +553,6 @@ export class AddPropertyComponent implements OnInit {
       if (result.value) {
         this.tab = tab;
         if (this.tab == 2) {
-          // if(this.model.configuration_toggle && this.model.building_configuration_id){
-          //   this.model.floor_plan = (this.propertyData || {}).floor_plan;
-          //   this.model.image =  (this.propertyData.building_configuration || {}).cover_profile
-          //   this.model.images = (this.propertyData || {}).images;
-          //   this.model.images360 = (this.propertyData || {}).images360;
-          //   this.model.videos = (this.propertyData || {}).videos;
-          //   }else{
-          //    if((this.propertyData || {}).static_data){
-          //    this.model.floor_plan = (this.propertyData || {}).floor_plan;
-          //    this.model.image =  (this.propertyData || {}).image;
-          //    this.model.images = (this.propertyData || {}).images;
-          //    this.model.images360 = (this.propertyData || {}).images360;
-          //    this.model.videos = (this.propertyData || {}).videos;
-          //    }else{
-          //      this.model.floor_plan = null;
-          //      this.model.image = null;
-          //      this.model.images = [];
-          //      this.model.images360 = [];
-          //      this.model.videos = [];
-          //    }
-          //   }
           this.getParkingSpaceLotsAndparkingSpaceRent();
         }
       }
