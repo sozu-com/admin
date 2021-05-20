@@ -35,12 +35,12 @@ export class AddPropertyModel {
     // ];
     carpet_areas: any = [];
     property_id = '';
-    image: File;
+    image: any;
     cover_Image: File;
     images: any = [];
     images360: any = [];
     videos: any = [];
-    floor_plan: File;
+    floor_plan: any;
     bedroom = 1;
     bathroom = 1;
     half_bathroom = 1;
