@@ -468,6 +468,7 @@ export class CsrBuyerComponent implements OnInit {
   }
 
   deletePopup(item){
+    if(!item.admin){
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' +
         this.translate.instant('message.error.wantToDeleteLead'),
@@ -479,8 +480,27 @@ export class CsrBuyerComponent implements OnInit {
       cancelButtonText: this.translate.instant('deleteSwal.cancel')
     }).then((result) => {
       if (result.value) {
-        //this.deleteManualLead(item);
+        this.deleteCSRBuyerLead(item);
       }
     });
+  }
+  else{
+    this.toastr.warning(this.translate.instant('message.error.leadCannotDeleteCSRBuyerAssigned'), this.translate.instant('swal.warning'))
+  }
+  }
+
+  deleteCSRBuyerLead(item){
+    this.spinner.show();
+    let index = this.items.findIndex(x=> x.id == item.id)
+    this.admin.postDataApi('deleteCsrBuyer',{ id: item.id }).subscribe(r => {
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
+      this.items.splice(index, 1);
+      this.parameter.total = this.items.length;
+      this.spinner.hide();
+    },
+      error => {
+        this.spinner.hide();
+        swal(this.translate.instant('swal.error'), error.message, 'error');
+      });
   }
 }
