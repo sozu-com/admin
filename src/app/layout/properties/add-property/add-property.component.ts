@@ -403,7 +403,7 @@ export class AddPropertyComponent implements OnInit {
     if(this.model.configuration_toggle){
       this.model.floor_plan = data.floor_plan;
       //this.model.model.image = data.image;
-      this.model.image = (this.propertyData || {}).image;
+      this.model.image =  (data.building_configuration || {}).cover_profile;
       this.model.cover_Image = ((this.propertyData || {}).building_configuration || {}).cover_profile;
      // this.model.image = (data.building_configuration || {}).cover_profile;
       this.model.images = data.images;
@@ -1000,7 +1000,7 @@ export class AddPropertyComponent implements OnInit {
   }
 
   addProperty(formdata: NgForm, tab) {
-    console.log(formdata,"formdata")
+
     // return;
     if (this.model.parking_for_sale && this.model.parking_count) {
       if (this.model.parking_for_sale > this.model.parking_count) {
@@ -1067,7 +1067,6 @@ export class AddPropertyComponent implements OnInit {
         input.append('floor_num', this.model.floor_num);
         input.append('price', this.model.price);
       }
-
       if (this.model.step === 2) {
         const imagesString = this.model.images ? this.model.images.map(r => r.image) : [];
         const imagesString360 = this.model.images360 ? this.model.images360.map(r => r.image) : [];
@@ -1197,7 +1196,7 @@ export class AddPropertyComponent implements OnInit {
              // this.getPropertyById(this.parameter.property_id);
              if(this.model.configuration_toggle && this.model.building_configuration_id){
              this.model.floor_plan = (this.propertyData || {}).floor_plan;
-             this.model.image = (this.propertyData || {}).image;
+             this.model.image =  (this.propertyData.building_configuration || {}).cover_profile
             this.model.images = (this.propertyData || {}).images;
             this.model.images360 = (this.propertyData || {}).images360;
             this.model.videos = (this.propertyData || {}).videos;
@@ -1227,7 +1226,7 @@ export class AddPropertyComponent implements OnInit {
               this.getParkingLotFormArray.push(this.formBuilder.group({ parking_count: [item.parking_count], parking_type: [item.parking_type] }));
             });
             this.tempParking_area1 = JSON.parse(JSON.stringify(((success || {}).data || {}).property_parking_space || []));
-            this.tab = tab;
+            this.tab = !formdata && tab ==3 ? tab-1 : tab;
             // if(this.model.step == 1){
             // this.changeConfigurationToggle();
             // }
@@ -1839,8 +1838,7 @@ export class AddPropertyComponent implements OnInit {
         confirmButtonText: 'Yes'
       }).then((result) => {
         if (result.value) {
-          this.addProperty(this.formdata,this.tab)
-        
+          this.addProperty(this.formdata,3);
         }
       });
     }else{
