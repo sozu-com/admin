@@ -263,25 +263,17 @@ export class AddPropertyComponent implements OnInit {
           this.getParkingSpaceLotsAndparkingSpaceRent();
           this.propertyData = success['data'];
           if(this.model.configuration_toggle && this.model.building_configuration_id){
-            this.model.floor_plan = (this.propertyData || {}).floor_plan;
-            this.model.image =  (this.propertyData.building_configuration || {}).cover_profile
-            this.model.images = (this.propertyData || {}).images;
-            this.model.images360 = (this.propertyData || {}).images360;
-            this.model.videos = (this.propertyData || {}).videos;
+            this.model.floor_plan = (this.propertyData.building_configuration || {}).floor_plan;
+            this.model.image  =  (this.propertyData.building_configuration || {}).cover_profile;
+            this.model.images = (this.propertyData.building_configuration || {}).images;
+            this.model.images360 = (this.propertyData.building_configuration || {}).images360;
+            this.model.videos = (this.propertyData.building_configuration || {}).videos;
             }else{
-             if((this.propertyData || {}).static_data){
              this.model.floor_plan = (this.propertyData || {}).floor_plan;
              this.model.image =  (this.propertyData || {}).image;
              this.model.images = (this.propertyData || {}).images;
              this.model.images360 = (this.propertyData || {}).images360;
              this.model.videos = (this.propertyData || {}).videos;
-             }else{
-               this.model.floor_plan = null;
-               this.model.image = null;
-               this.model.images = [];
-               this.model.images360 = [];
-               this.model.videos = [];
-             }
             }
           this.setModelData(success['data']);
           if (this.parameter.propertyDetails.step < 5) {
@@ -561,27 +553,27 @@ export class AddPropertyComponent implements OnInit {
       if (result.value) {
         this.tab = tab;
         if (this.tab == 2) {
-          if(this.model.configuration_toggle && this.model.building_configuration_id){
-            this.model.floor_plan = (this.propertyData || {}).floor_plan;
-            this.model.image =  (this.propertyData.building_configuration || {}).cover_profile
-            this.model.images = (this.propertyData || {}).images;
-            this.model.images360 = (this.propertyData || {}).images360;
-            this.model.videos = (this.propertyData || {}).videos;
-            }else{
-             if((this.propertyData || {}).static_data){
-             this.model.floor_plan = (this.propertyData || {}).floor_plan;
-             this.model.image =  (this.propertyData || {}).image;
-             this.model.images = (this.propertyData || {}).images;
-             this.model.images360 = (this.propertyData || {}).images360;
-             this.model.videos = (this.propertyData || {}).videos;
-             }else{
-               this.model.floor_plan = null;
-               this.model.image = null;
-               this.model.images = [];
-               this.model.images360 = [];
-               this.model.videos = [];
-             }
-            }
+          // if(this.model.configuration_toggle && this.model.building_configuration_id){
+          //   this.model.floor_plan = (this.propertyData || {}).floor_plan;
+          //   this.model.image =  (this.propertyData.building_configuration || {}).cover_profile
+          //   this.model.images = (this.propertyData || {}).images;
+          //   this.model.images360 = (this.propertyData || {}).images360;
+          //   this.model.videos = (this.propertyData || {}).videos;
+          //   }else{
+          //    if((this.propertyData || {}).static_data){
+          //    this.model.floor_plan = (this.propertyData || {}).floor_plan;
+          //    this.model.image =  (this.propertyData || {}).image;
+          //    this.model.images = (this.propertyData || {}).images;
+          //    this.model.images360 = (this.propertyData || {}).images360;
+          //    this.model.videos = (this.propertyData || {}).videos;
+          //    }else{
+          //      this.model.floor_plan = null;
+          //      this.model.image = null;
+          //      this.model.images = [];
+          //      this.model.images360 = [];
+          //      this.model.videos = [];
+          //    }
+          //   }
           this.getParkingSpaceLotsAndparkingSpaceRent();
         }
       }
@@ -1240,28 +1232,18 @@ export class AddPropertyComponent implements OnInit {
             this.spinner.hide();
             this.propertyData = success['data'];
             this.spinner.hide();
-            this.model.cover_Image = ((this.propertyData || {}).building_configuration || {}).cover_profile;
-             // this.getPropertyById(this.parameter.property_id);
              if(this.model.configuration_toggle && this.model.building_configuration_id){
-             this.model.floor_plan = (this.propertyData || {}).floor_plan;
-             this.model.image =  (this.propertyData.building_configuration || {}).cover_profile
-             this.model.images = (this.propertyData.images || []);
-             this.model.images360 = (this.propertyData || {}).images360;
-             this.model.videos = (this.propertyData || {}).videos;
+             this.model.floor_plan = (this.propertyData.building_configuration || {}).floor_plan;
+             this.model.image  =  (this.propertyData.building_configuration || {}).cover_profile;
+             this.model.images = (this.propertyData.building_configuration || {}).images;
+             this.model.images360 = (this.propertyData.building_configuration || {}).images360;
+             this.model.videos = (this.propertyData.building_configuration || {}).videos;
              }else{
-              if((this.propertyData || {}).static_data){
               this.model.floor_plan = (this.propertyData || {}).floor_plan;
               this.model.image =  (this.propertyData || {}).image;
               this.model.images = (this.propertyData || {}).images;
               this.model.images360 = (this.propertyData || {}).images360;
               this.model.videos = (this.propertyData || {}).videos;
-              }else{
-                this.model.floor_plan = null;
-                this.model.image = null;
-                this.model.images = [];
-                this.model.images360 = [];
-                this.model.videos = [];
-              }
              }
             if (this.model.step.toString() === '4') {
               const successText = this.parameter.bulk_approve_property ? '' :
@@ -1895,35 +1877,27 @@ export class AddPropertyComponent implements OnInit {
         confirmButtonText: 'Yes'
       }).then((result) => {
         if (result.value) {
-          this.model.static_data = 0;
-          // this.addProperty(this.formdata,3);
-          this.model.floor_plan = (this.propertyData || {}).floor_plan;
-          this.model.image =  (this.propertyData.building_configuration || {}).cover_profile
-          this.model.images = (this.propertyData || {}).images;
-          this.model.images360 = (this.propertyData || {}).images360;
-          this.model.videos = (this.propertyData || {}).videos;
+            this.model.floor_plan = (this.propertyData.building_configuration || {}).floor_plan;
+            this.model.image  =  (this.propertyData.building_configuration || {}).cover_profile;
+            this.model.images = (this.propertyData.building_configuration || {}).images;
+            this.model.images360 = (this.propertyData.building_configuration || {}).images360;
+            this.model.videos = (this.propertyData.building_configuration || {}).videos;
         }
       });
     }else{
-      if((this.propertyData || {}).static_data){
+      //if((this.propertyData || {}).static_data){
         this.model.floor_plan = (this.propertyData || {}).floor_plan;
         this.model.image =  (this.propertyData || {}).image;
         this.model.images = (this.propertyData || {}).images;
         this.model.images360 = (this.propertyData || {}).images360;
         this.model.videos = (this.propertyData || {}).videos;
-        }else{
-          this.model.floor_plan = null;
-          this.model.image = null;
-          this.model.images = [];
-          this.model.images360 = [];
-          this.model.videos = [];
-        }
-      // this.model.static_data  == 0;
-      // this.model.floor_plan = null;
-      // this.model.image = null;
-      // this.model.images = [];
-      // this.model.images360 = [];
-      // this.model.videos = [];
+        // }else{
+        //   this.model.floor_plan = null;
+        //   this.model.image = null;
+        //   this.model.images = [];
+        //   this.model.images360 = [];
+        //   this.model.videos = [];
+        // }
     }
   }
 
