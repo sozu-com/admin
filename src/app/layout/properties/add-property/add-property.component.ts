@@ -1245,7 +1245,7 @@ export class AddPropertyComponent implements OnInit {
              if(this.model.configuration_toggle && this.model.building_configuration_id){
              this.model.floor_plan = (this.propertyData || {}).floor_plan;
              this.model.image =  (this.propertyData.building_configuration || {}).cover_profile
-             this.model.images = (this.propertyData || {}).images;
+             this.model.images = (this.propertyData.images || []);
              this.model.images360 = (this.propertyData || {}).images360;
              this.model.videos = (this.propertyData || {}).videos;
              }else{
@@ -1895,6 +1895,7 @@ export class AddPropertyComponent implements OnInit {
         confirmButtonText: 'Yes'
       }).then((result) => {
         if (result.value) {
+          this.model.static_data = 0;
           // this.addProperty(this.formdata,3);
           this.model.floor_plan = (this.propertyData || {}).floor_plan;
           this.model.image =  (this.propertyData.building_configuration || {}).cover_profile
