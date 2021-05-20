@@ -263,7 +263,7 @@ export class AddPropertyComponent implements OnInit {
           this.getParkingSpaceLotsAndparkingSpaceRent();
           this.propertyData = success['data'];
           if(this.model.configuration_toggle && this.model.building_configuration_id){
-            this.model.floor_plan = (this.propertyData.building_configuration || {}).floor_plan;
+            this.model.floor_plan = (this.propertyData.building_configuration || {}).floor_map_image;
             this.model.image  =  (this.propertyData.building_configuration || {}).cover_profile;
             this.model.images = (this.propertyData.building_configuration || {}).images;
             this.model.images360 = (this.propertyData.building_configuration || {}).images360;
@@ -1212,7 +1212,7 @@ export class AddPropertyComponent implements OnInit {
             this.propertyData = success['data'];
             this.spinner.hide();
              if(this.model.configuration_toggle && this.model.building_configuration_id){
-             this.model.floor_plan = (this.propertyData.building_configuration || {}).floor_plan;
+             this.model.floor_plan = (this.propertyData.building_configuration || {}).floor_map_image;
              this.model.image  =  (this.propertyData.building_configuration || {}).cover_profile;
              this.model.images = (this.propertyData.building_configuration || {}).images;
              this.model.images360 = (this.propertyData.building_configuration || {}).images360;
@@ -1854,7 +1854,7 @@ export class AddPropertyComponent implements OnInit {
         confirmButtonText: 'Yes'
       }).then((result) => {
         if (result.value) {
-            this.model.floor_plan = (this.propertyData.building_configuration || {}).floor_plan;
+            this.model.floor_plan = (this.propertyData.building_configuration || {}).floor_map_image;
             this.model.image  =  (this.propertyData.building_configuration || {}).cover_profile;
             this.model.images = (this.propertyData.building_configuration || {}).images;
             this.model.images360 = (this.propertyData.building_configuration || {}).images360;
