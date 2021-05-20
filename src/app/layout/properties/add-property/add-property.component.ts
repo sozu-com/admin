@@ -910,7 +910,7 @@ export class AddPropertyComponent implements OnInit {
       this.us.postDataApi('saveImage', input).subscribe(
         success => {
           this.model[param] = success['data'].image;
-          this.model.static_data = 1;
+          //this.model.static_data = 1;
         });
 
     }
@@ -977,7 +977,7 @@ export class AddPropertyComponent implements OnInit {
       return false;
     }
     this.file2.onSelectFile($event);
-    this.model.static_data = 1;
+    //this.model.static_data = 1;
   }
 
   file360Select($event) {
@@ -987,7 +987,7 @@ export class AddPropertyComponent implements OnInit {
       return false;
     }
     this.file360.onSelectFile($event);
-    this.model.static_data = 1;
+   // this.model.static_data = 1;
   }
 
   onSelectFile3(event) { // called each time file input changes
@@ -1185,7 +1185,7 @@ export class AddPropertyComponent implements OnInit {
         }
         input.append('parking_area', JSON.stringify(this.getParkingLotFormArray.getRawValue()));
         input.append('configuration_toggle', (this.model.configuration_toggle ? 1 : 0).toString());
-        input.append('static_data', (this.model.static_data ? 1 : 0).toString());
+       // input.append('static_data', (this.model.static_data ? 1 : 0).toString());
       }
       if (this.model.step === 3) {
         // added building_id and step cuz need to update sttaus and step
@@ -1230,9 +1230,7 @@ export class AddPropertyComponent implements OnInit {
               swal({
                 html: this.translate.instant('message.success.submittedSccessfully') + '<br>' + successText, type: 'success'
               });
-              // swal('Submitted successfully.',
-              //   'You will be notified once your property will be reviewed by them, you can view status in your properties.',
-              //   'success');
+         
               if (this.router.url.indexOf('/dashboard/properties/edit-property') === -1) {
                 this.router.navigate(['/dashboard/properties/view-properties']);
               }

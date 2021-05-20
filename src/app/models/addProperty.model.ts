@@ -27,12 +27,6 @@ export class AddPropertyModel {
     building_configuration_id = '';
     configuration_id = '';
     property_type_id = '';
-    // carpet_areas: any = [
-    //     {
-    //         area: '',
-    //         price: ''
-    //     }
-    // ];
     carpet_areas: any = [];
     property_id = '';
     image: any;
@@ -78,7 +72,6 @@ export class AddPropertyModel {
     parking_area: Array<any> = [];
     final_price: any;
     configuration_toggle:any=false;
-    static_data:any=false;
 }
 export class Docs {
     id: string;
