@@ -1202,7 +1202,7 @@ export class AddPropertyComponent implements OnInit {
             this.model.videos = (this.propertyData || {}).videos;
              }else{
               this.model.floor_plan = (this.propertyData || {}).floor_plan;
-              this.model.image =  (this.propertyData.building_configuration || {}).cover_profile
+              this.model.image =  (this.propertyData || {}).image;
              this.model.images = (this.propertyData || {}).images;
              this.model.images360 = (this.propertyData || {}).images360;
              this.model.videos = (this.propertyData || {}).videos;
