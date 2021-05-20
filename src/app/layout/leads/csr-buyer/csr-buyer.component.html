@@ -368,6 +368,11 @@
                                     <label>{{'table.th.AgentAsignation' | translate}}</label>
                                 </div>
                             </th>
+                            <th style="width:10%">
+                                <div class="table-search">
+                                    <label>{{'table.th.actions.label' | translate}}</label>
+                                </div>
+                            </th>
                         </tr>
                         <tr class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
                             *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }">
@@ -414,9 +419,15 @@
                                 item?.admin?.name : ('table.tr.td.NA' | translate)}}</td> -->
                             <td class="text-left">{{item?.property?.name ? item?.property?.name : ('table.tr.td.NA' | translate)}}</td>
 
-                            <td class="text-left green-color cursor-pointer" (click)="openModel('CSR', item)"> <span>{{item?.admin?.name? item?.admin?.name : 'Link CSR'}}</span> </td>
-                            <td class="text-left green-color cursor-pointer" (click)="openAddChangeStatusModel(item)"> <span>{{item?.status? ('table.tr.td.change' | translate) : ('table.tr.td.add' | translate)}}</span> </td>
-                            <td class="text-left green-color cursor-pointer" (click)="openModel('', item)"> <span>Link Agent</span> </td>
+                            <td class="text-left green-color cursor-pointer" (click)="openModel('CSR', item)"> <span>{{item?.admin ? item?.admin?.name : ('leads.linkCSRBuyer' | translate)}}</span> </td>
+                            <td class="text-left green-color cursor-pointer" (click)="openAddChangeStatusModel(item)"> <span>{{item?.status ? ('table.tr.td.change' | translate) : ('table.tr.td.add' | translate)}}</span> </td>
+                            <td class="text-left green-color cursor-pointer" (click)="openModel('', item)"> <span>{{item?.broker ? item?.broker?.name : ('leads.linkAgent' | translate)}}</span> </td>
+                            <td class="text-left" (click)="$event.stopPropagation()">
+                                <button [disabled]="admin?.admin_acl['Manual Leads']?.can_delete==0"
+                                (click)="deletePopup(item)" class="action-icon"
+                                title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png"
+                                alt="img"></button>
+                            </td>
                         </tr>
                     </table>
                     <div class="padding20 center" *ngIf="parameter.noResultFound">
@@ -507,7 +518,7 @@
     <div class="modal-dialog ">
         <div class="modal-content notary-avail">
             <div class="modal-header popup-header">
-                <h4 class="modal-title">{{openFor == 'CSR'? ('leads.linkCSRAgent'| translate) : ('leads.linkAgent' |
+                <h4 class="modal-title">{{openFor == 'CSR'? ('leads.linkCSRBuyer'| translate) : ('leads.linkAgent' |
                     translate)}}</h4>
                 <!-- <button type="button" class="close" data-dismiss="modal" #closeNewAssignModel>&times;</button> -->
             </div>
@@ -561,7 +572,7 @@
                     <div class="col-md-6 col-5 btn-cont">
                         <a class="btn btn-primary pull-right"
                             style="width: 180px;background-color: #fe0002;padding: 12px 15px;" href="javascript://"
-                            data-dismiss="modal" #closeNewAssignModel>{{'advanceSearch.cancel' | translate}}</a>
+                            data-dismiss="modal" #closeNewAssignModel (click)="closeModal()">{{'advanceSearch.cancel' | translate}}</a>
                     </div>
                 </div>
             </div>

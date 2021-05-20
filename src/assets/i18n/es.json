@@ -1625,7 +1625,8 @@
     "selectStatus":"Seleccionar estado",
     "linkAgent": "Agente de enlace",
     "linkCSRAgent": "Agente de enlace CSR",
-    "linkAgents": "link Agent"
+    "linkAgents": "link Agent",
+    "linkCSRBuyer": "Comprador de enlace CSR"
   },
   "propertyDetail": {
     "FloorPlan": "Piso",
@@ -2789,5 +2790,9 @@
   },
   "viewCommission":{
     "label": "Administrar Comisiones"
+  },
+  "deleteSwal":{
+    "yes":"Si",
+    "cancel":"Cancelar"
   }
 }

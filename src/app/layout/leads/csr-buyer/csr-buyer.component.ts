@@ -460,4 +460,27 @@ export class CsrBuyerComponent implements OnInit {
   isChecked(tempStatusName) {
     return tempStatusName.id == this.selectedAddChangeStatus ? true : false;
   }
+
+  closeModal(){
+    this.items.filter(item=>{
+     item.selected = false;
+    });
+  }
+
+  deletePopup(item){
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+        this.translate.instant('message.error.wantToDeleteLead'),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: this.translate.instant('deleteSwal.yes'),
+      cancelButtonText: this.translate.instant('deleteSwal.cancel')
+    }).then((result) => {
+      if (result.value) {
+        //this.deleteManualLead(item);
+      }
+    });
+  }
 }

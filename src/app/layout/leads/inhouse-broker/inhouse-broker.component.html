@@ -384,6 +384,11 @@
                                     <label>{{'table.th.status' | translate}}</label>
                                 </div>
                             </th>
+                            <th style="width:10%">
+                                <div class="table-search">
+                                    <label>{{'table.th.actions.label' | translate}}</label>
+                                </div>
+                            </th>
                             <!-- <th style="width:4%"></th> -->
                         </tr>
                         <tr class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
@@ -449,6 +454,12 @@
                             </td>
                             <td class="text-left" (click)="$event.stopPropagation()">
                                 <span class="green-color cursor-pointer" (click)="openAddChangeStatusModel(item)"><span>{{item?.broker_status? ('table.tr.td.change' | translate) : ('table.tr.td.add' | translate)}}</span></span> 
+                            </td>
+                            <td class="text-left" (click)="$event.stopPropagation()">
+                                <button [disabled]="admin?.admin_acl['Manual Leads']?.can_delete==0"
+                                (click)="deletePopup(item)" class="action-icon"
+                                title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png"
+                                alt="img"></button>
                             </td>
                             <!-- <td>
                             <a href="javascript://" title="View Details" routerLink="/dashboard/leads/inhouse-broker/{{item.id}}" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
