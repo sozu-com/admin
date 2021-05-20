@@ -61,7 +61,8 @@ export class ManualLeadsComponent implements OnInit {
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
       cancelButtonColor: this.constant.cancelButtonColor,
-      confirmButtonText: 'Yes'
+      confirmButtonText: this.translate.instant('deleteSwal.yes'),
+      cancelButtonText: this.translate.instant('deleteSwal.cancel')
     }).then((result) => {
       if (result.value) {
         this.deleteManualLead(item);

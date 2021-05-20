@@ -1623,7 +1623,8 @@
     "addChangeStatus": "Add/Change Status",
     "addStatus": "Add status",
     "selectStatus": "Select status",
-    "linkAgents": "link Agent"
+    "linkAgents": "link Agent",
+    "linkCSRBuyer": "Link CSR Buyer"
   },
   "propertyDetail": {
     "ps":"pesos M.N.",
@@ -2791,5 +2792,9 @@
   },
   "viewCommission":{
     "label": "Manage Commission"
+  },
+  "deleteSwal":{
+    "yes":"Yes",
+    "cancel":"Cancel"
   }
 }
