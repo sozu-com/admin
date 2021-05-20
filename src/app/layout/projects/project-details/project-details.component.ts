@@ -187,6 +187,8 @@ export class ProjectDetailsComponent implements OnInit {
   galleryImageOne:any;
   galleryImagetwo:any;
   floor_map_image:any;
+  projectImage360:any;
+  amenities_icon?:any =[] ;
   constructor(
     private loader: MapsAPILoader,
     // private us: UserService,
@@ -247,7 +249,7 @@ this.base64address = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAs
       if ((this.project || {}).images) {
         this.admin
         .postDataApi('getCoverImage', {
-          image: (this.project || {}).images[0].image,
+          image: this.project.images[0] ? this.project.images[0].image : []
         })
         .subscribe((response: any) => {
           this.galleryImageOne = 'data:image/jpeg;base64,' + response.data
@@ -257,22 +259,42 @@ this.base64address = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAs
       if ((this.project || {}).images) {
         this.admin
         .postDataApi('getCoverImage', {
-          image: (this.project || {}).images[1].image,
+          image: this.project.images[1] ? this.project.images[1].image : [],
         })
         .subscribe((response: any) => {
           this.galleryImagetwo = 'data:image/jpeg;base64,' + response.data
         })
       }
       //configuration
-      // if ((this.project || {}).configurations) {
-      //   this.admin
-      //   .postDataApi('getCoverImage', {
-      //     image: (this.project || {}).configurations.floor_map_image,
-      //   })
-      //   .subscribe((response: any) => {
-      //     this.floor_map_image = 'data:image/jpeg;base64,' + response.data
-      //   })
-      // }
+      if ((this.project || {}).configurations) {
+        (this.project || {}).configurations.forEach(x => {
+             this.admin.postDataApi('getCoverImage', {image: x.floor_map_image })
+             .subscribe(success => {
+               this.floor_map_image = 'data:image/jpeg;base64,' + success.data;
+             },error => {
+             });
+            });
+      }
+      //images 360
+      if ((this.project || {}).images360) {
+        this.admin
+        .postDataApi('getCoverImage', {
+          image: this.project.images360[0] ? this.project.images360[0].image : []
+        })
+        .subscribe((response: any) => {
+          this.projectImage360 = 'data:image/jpeg;base64,' + response.data
+        })
+      }
+       //amenities
+       if ((this.project || {}).amenities) {
+        (this.project || {}).amenities.forEach(r => {
+             this.admin.postDataApi('getCoverImage', {image: r.icon })
+             .subscribe(success => {
+              const mails = 'data:image/jpeg;base64,' + success.data;
+              r['iconBase'] = mails;
+             },error => {});
+        });
+      }
       this.loadingListing = false;
       this.project.total_rent = 0;
       this.project.total_sale = 0;
@@ -565,7 +587,7 @@ this.base64address = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAs
         if you can find an official number from jsPDF, use them.
         */
         var imgWidth = 210; 
-        var pageHeight = 260; //295;  
+        var pageHeight = 295; //295;  
         var imgHeight = canvas.height * imgWidth / canvas.width;
         var heightLeft = imgHeight;
   

@@ -443,7 +443,7 @@
                     </table>
                   </div>
                   <div class="fig-block padding40 text-center">
-                    <img class="img-fluid" [src]="config.floor_map_image| img:'small'" alt="img">
+                    <img class="img-fluid" [src]="floor_map_image| img:'small'" alt="img">
                   </div>
                 </div>
 
@@ -454,23 +454,22 @@
                     <!--(click)="viewProjectPhotos(project.images, project.images360, project.videos)"-->
                 </p>
                 <div class="project-gallery marginB15" *ngIf="project?.images360 && project?.images360.length>0">
-                  <img [lazyLoad]="project.images360[0].image"
-                       [defaultImage]="project.images360[0].image|img:'thumb'"
-                        onerror='this.src="assets/img/placeholder.png"'
-                       alt="img">
+                  <img [lazyLoad]="projectImage360"
+                       [defaultImage]="projectImage360|img:'thumb'"
+                        onerror='this.src="assets/img/placeholder.png"'>
                        <!--(click)="view360Img(project.images360[0].image)"-->
                        <!--(click)="view360Img(project.images360[0].image)"-->
                   <div class="upload-caption" >
                     <p class="number ng-star-inserted">
-                      <img src="assets/img/ic_360img.png" alt="360 img">
+                      <img src="assets/img/ic_360img.png">
                     </p>
                   </div>
                 </div>
                 <div *ngIf="(project?.images && project?.images.length>0) || (project?.videos && project?.videos.length>0)" class="gallery-bottom">
                   <div *ngIf="project?.images.length>0" class="images-wrapper">
-                    <a [href]="project.images[0].image" data-lightbox="image">
-                      <img [lazyLoad]="project.images[0].image"
-                           [defaultImage]="project.images[0].image|img:'thumb'"
+                    <a [href]="galleryImageOne" data-lightbox="image">
+                      <img [lazyLoad]="galleryImageOne"
+                           [defaultImage]="galleryImageOne|img:'thumb'"
                            onerror='this.src="assets/img/placeholder.png"'
                            alt="img">
                     </a>
@@ -528,7 +527,7 @@
                 <div class="icons-group">
                   <div *ngFor="let am of project.amenities" class="icons-control">
                     <div class="fig-block">  <!-- (click)="viewAmenities(am)"-->
-                      <img class="icon" [src]="am.icon" onerror='src="assets/img/placeholder.png"' alt="img">
+                      <img class="icon" [src]="am.iconBase" onerror='src="assets/img/placeholder.png"'>
                     </div>
                     <p class="p13">{{language_code
                       == 'en'? am.name_en : am.name_es}}</p>
@@ -616,7 +615,7 @@
                     </table>
                   </div>
                   <div class="fig-block padding40 text-center">
-                    <img class="img-fluid" [src]="config.floor_map_image | img:'medium'" alt="img">
+                    <img class="img-fluid" [src]="floor_map_image | img:'medium'" alt="img">
                   </div>
                 </div>
 
@@ -625,8 +624,9 @@
                 <p class="p14">{{'addForm.Amenities'  | translate}}</p>
                 <div class="icons-group">
                   <div *ngFor="let am of project.amenities" class="icons-control">
-                    <div class="fig-block" (click)="viewAmenities(am)">
-                      <img class="icon" [src]="am.icon" onerror='src="assets/img/placeholder.png"' alt="img">
+                    <div class="fig-block" >
+                      <!-- (click)="viewAmenities(am)" -->
+                      <img class="icon" [src]="am.iconBase" onerror='src="assets/img/placeholder.png"' alt="img">
                     </div>
                     <p class="p13">{{language_code
                       == 'en'? am.name_en : am.name_es}}</p>
@@ -681,8 +681,8 @@
 
 
                 <div class="project-gallery marginB15" *ngIf="project?.images360.length>0">
-                  <img [lazyLoad]="project.images360[0].image"
-                       [defaultImage]="project.images360[0].image|img:'thumb'"
+                  <img [lazyLoad]="projectImage360"
+                       [defaultImage]="projectImage360|img:'thumb'"
                         onerror='this.src="assets/img/placeholder.png"'
                        alt="img">
                        <!--(click)="view360Img(project.images360[0].image)"-->
@@ -695,9 +695,9 @@
                 </div>
                 <div *ngIf="project?.images.length>0 || project?.videos.length>0" class="gallery-bottom">
                   <div *ngIf="project?.images.length>0" class="images-wrapper">
-                    <a [href]="project.images[0].image" data-lightbox="image">
-                      <img [lazyLoad]="project.images[0].image"
-                           [defaultImage]="project.images[0].image|img:'thumb'"
+                    <a [href]="galleryImageOne" data-lightbox="image">
+                      <img [lazyLoad]="galleryImageOne"
+                           [defaultImage]="galleryImageOne|img:'thumb'"
                            onerror='this.src="assets/img/placeholder.png"'
                            alt="img">
                     </a>

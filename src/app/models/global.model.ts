@@ -42,6 +42,7 @@ export class Building {
   admin_id?: any;
   city_id?: any;
   configurations?: any;
+  amenities?: any;
   created_by?: any;
   developer?: Developer;
   id?: any;
@@ -63,8 +64,15 @@ export class Building {
   max_carpet_area?: number;
   images360?: any[] = [];
   images?: any[] = [];
+  amliy?: test;
 }
-
+export class test {;
+  id?: any;
+  name?: any;
+  name_en?: any;
+  name_es?: any;
+  icon?: any;
+}
 export class Locality {
   city_id?: any;
   active?: any;
