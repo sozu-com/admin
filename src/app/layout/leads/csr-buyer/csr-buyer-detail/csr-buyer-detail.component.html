@@ -123,7 +123,8 @@
                                 <td colspan="2">
                                     <p style="display:none;" class="date" #modalOpen data-toggle="modal"
                                         data-target="#set_appointment">{{'leadDetails.clickToSchedule' | translate}}</p>
-                                    <p class="date cursor-pointer" (click)="openModal()">{{'leadDetails.clickToSchedule' | translate}}</p>
+                                    <!-- <p class="date cursor-pointer" (click)="openModal()">{{'leadDetails.clickToSchedule' | translate}}</p> -->
+                                    <p class="date cursor-pointer" style="color: gray !important;">{{'leadDetails.clickToSchedule' | translate}}</p>
                                     <p *ngFor="let na of data; let m=index" class="date">
                                         <span *ngIf="m<2">{{na.appointment_date | moment}}</span>
                                     </p>
