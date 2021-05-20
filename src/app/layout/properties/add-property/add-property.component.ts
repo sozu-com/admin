@@ -123,6 +123,7 @@ export class AddPropertyComponent implements OnInit {
   property_names: Array<any>;
   amenity_index: number;
   amenity_obj: any;
+  
   // @ViewChild('scrollToTower') scrollToTower: ElementRef;
   public parkingSpaceLotsArray: any[] = [];
   private parkingSpaceLotsArray1: any[] = [];
@@ -261,6 +262,27 @@ export class AddPropertyComponent implements OnInit {
           this.parameter.propertyDetails = success['data'];
           this.getParkingSpaceLotsAndparkingSpaceRent();
           this.propertyData = success['data'];
+          if(this.model.configuration_toggle && this.model.building_configuration_id){
+            this.model.floor_plan = (this.propertyData || {}).floor_plan;
+            this.model.image =  (this.propertyData.building_configuration || {}).cover_profile
+            this.model.images = (this.propertyData || {}).images;
+            this.model.images360 = (this.propertyData || {}).images360;
+            this.model.videos = (this.propertyData || {}).videos;
+            }else{
+             if((this.propertyData || {}).static_data){
+             this.model.floor_plan = (this.propertyData || {}).floor_plan;
+             this.model.image =  (this.propertyData || {}).image;
+             this.model.images = (this.propertyData || {}).images;
+             this.model.images360 = (this.propertyData || {}).images360;
+             this.model.videos = (this.propertyData || {}).videos;
+             }else{
+               this.model.floor_plan = null;
+               this.model.image = null;
+               this.model.images = [];
+               this.model.images360 = [];
+               this.model.videos = [];
+             }
+            }
           this.setModelData(success['data']);
           if (this.parameter.propertyDetails.step < 5) {
             this.tab = this.parameter.propertyDetails.step;
@@ -883,6 +905,7 @@ export class AddPropertyComponent implements OnInit {
   onSelectFile(param, event) {
     //  const dd = this.uploader.onSelectFile(event);
     if (event.target.files && event.target.files[0]) {
+
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.url = e.target.result;
@@ -895,6 +918,7 @@ export class AddPropertyComponent implements OnInit {
       this.us.postDataApi('saveImage', input).subscribe(
         success => {
           this.model[param] = success['data'].image;
+          this.model.static_data = 1;
         });
 
     }
@@ -961,6 +985,7 @@ export class AddPropertyComponent implements OnInit {
       return false;
     }
     this.file2.onSelectFile($event);
+    this.model.static_data = 1;
   }
 
   file360Select($event) {
@@ -970,6 +995,7 @@ export class AddPropertyComponent implements OnInit {
       return false;
     }
     this.file360.onSelectFile($event);
+    this.model.static_data = 1;
   }
 
   onSelectFile3(event) { // called each time file input changes
@@ -1167,6 +1193,7 @@ export class AddPropertyComponent implements OnInit {
         }
         input.append('parking_area', JSON.stringify(this.getParkingLotFormArray.getRawValue()));
         input.append('configuration_toggle', (this.model.configuration_toggle ? 1 : 0).toString());
+        input.append('static_data', (this.model.static_data ? 1 : 0).toString());
       }
       if (this.model.step === 3) {
         // added building_id and step cuz need to update sttaus and step
@@ -1197,20 +1224,23 @@ export class AddPropertyComponent implements OnInit {
              if(this.model.configuration_toggle && this.model.building_configuration_id){
              this.model.floor_plan = (this.propertyData || {}).floor_plan;
              this.model.image =  (this.propertyData.building_configuration || {}).cover_profile
-            this.model.images = (this.propertyData || {}).images;
-            this.model.images360 = (this.propertyData || {}).images360;
-            this.model.videos = (this.propertyData || {}).videos;
-             }else{
-              this.model.floor_plan = (this.propertyData || {}).floor_plan;
-              this.model.image =  (this.propertyData || {}).image;
              this.model.images = (this.propertyData || {}).images;
              this.model.images360 = (this.propertyData || {}).images360;
              this.model.videos = (this.propertyData || {}).videos;
-              // this.model.floor_plan = null;
-              // this.model.image = null;
-              // this.model.images = [];
-              // this.model.images360 = [];
-              // this.model.videos = [];
+             }else{
+              if((this.propertyData || {}).static_data){
+              this.model.floor_plan = (this.propertyData || {}).floor_plan;
+              this.model.image =  (this.propertyData || {}).image;
+              this.model.images = (this.propertyData || {}).images;
+              this.model.images360 = (this.propertyData || {}).images360;
+              this.model.videos = (this.propertyData || {}).videos;
+              }else{
+                this.model.floor_plan = null;
+                this.model.image = null;
+                this.model.images = [];
+                this.model.images360 = [];
+                this.model.videos = [];
+              }
              }
             if (this.model.step.toString() === '4') {
               const successText = this.parameter.bulk_approve_property ? '' :
@@ -1231,7 +1261,8 @@ export class AddPropertyComponent implements OnInit {
               this.getParkingLotFormArray.push(this.formBuilder.group({ parking_count: [item.parking_count], parking_type: [item.parking_type] }));
             });
             this.tempParking_area1 = JSON.parse(JSON.stringify(((success || {}).data || {}).property_parking_space || []));
-            this.tab = !formdata && tab ==3 ? tab-1 : tab;
+            this.tab = tab;
+            //this.tab = !formdata && tab ==3 ? tab-1 : tab;
             // if(this.model.step == 1){
             // this.changeConfigurationToggle();
             // }
@@ -1843,10 +1874,16 @@ export class AddPropertyComponent implements OnInit {
         confirmButtonText: 'Yes'
       }).then((result) => {
         if (result.value) {
-          this.addProperty(this.formdata,3);
+          // this.addProperty(this.formdata,3);
+          this.model.floor_plan = (this.propertyData || {}).floor_plan;
+          this.model.image =  (this.propertyData.building_configuration || {}).cover_profile
+          this.model.images = (this.propertyData || {}).images;
+          this.model.images360 = (this.propertyData || {}).images360;
+          this.model.videos = (this.propertyData || {}).videos;
         }
       });
     }else{
+      this.model.static_data  == 0;
       this.model.floor_plan = null;
       this.model.image = null;
       this.model.images = [];
