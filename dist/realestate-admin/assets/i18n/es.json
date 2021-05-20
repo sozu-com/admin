@@ -1411,7 +1411,8 @@
       "whenFinalPriceIsGeneratedCommissionSetAccordingToPercentageEnter": "Cuando se genera el precio final, la comisión se establece según el porcentaje ingrese.",
       "dealWillNotSameAsCommercialOffer": "La oferta no será la misma que la oferta comercial",
       "thisUserHasLeadsAssignedPleaseDeleteTheDependenciesFirst": "Este usuario tiene leads asignados, por favor reasígnalos.",
-      "userNotRegisterInWebsite": "El usuario no se registra en el sitio web."
+      "userNotRegisterInWebsite": "El usuario no se registra en el sitio web.",
+      "leadCannotDeleteCSRBuyerAssigned": "El cliente potencial no puede eliminar el comprador de CSR asignado."
 
     }
   },
