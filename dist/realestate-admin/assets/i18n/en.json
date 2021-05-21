@@ -761,7 +761,7 @@
       "interestedIn": "Interested In",
       "registeredSozu": "Registered in sozu",
       "csrAssignation": "CSR Assignation",
-      "AgentAsignation": "Agent Asignation",
+      "AgentAsignation": "Agent Assignation",
       "sellerTabOn": "Seller tab on",
       "developer": "Developer",
       "managedBy": "Managed By Company/Manager",
@@ -1410,7 +1410,8 @@
       "whenFinalPriceIsGeneratedCommissionSetAccordingToPercentageEnter": "When final price is generated commission set according to percentage enter.",
       "dealWillNotSameAsCommercialOffer": "Deal will not same as commercial offer",
       "thisUserHasLeadsAssignedPleaseDeleteTheDependenciesFirst": "This user has leads assigned, please delete the dependencies first.",
-      "userNotRegisterInWebsite": "User not register in website."
+      "userNotRegisterInWebsite": "User not register in website.",
+      "leadCannotDeleteCSRBuyerAssigned": "Lead cannot delete CSR buyer assigned."
     } 
   },
   "inhouseUsers": {

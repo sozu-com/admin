@@ -201,7 +201,7 @@ export class ProjectDetailsComponent implements OnInit {
     private modalService: BsModalService,
     private commasPipe: NumberWithCommasPipe,
     public project: Building,
-    private admin: AdminService,
+    private admin: AdminService,private spinner: NgxSpinnerService,
   ) { }
 
   ngOnInit() {
@@ -565,30 +565,15 @@ this.base64address = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAs
   // }
 
     downloadPDF(){
+      this.spinner.show();
     var data = document.getElementById('contentToConvert');  //Id of the table
       html2canvas(data).then(canvas => {  
-        // Few necessary setting options  
-        // let imgWidth = 208;   
-        // let pageHeight = 5000;    
-        // let imgHeight = canvas.height * imgWidth / canvas.width;  
-        // let heightLeft = imgHeight;  
-  
-        // const contentDataURL = canvas.toDataURL('image/png')  
-        // let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF  
-        // let position = 0;  
-        // pdf.addImage(contentDataURL + contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)  
-        // pdf.save('project-details.pdf'); // Generated PDF 
-        
         var imgData = canvas.toDataURL('image/png');
-
-        /*
-        Here are the numbers (paper width and height) that I found to work. 
-        It still creates a little overlap part between the pages, but good enough for me.
-        if you can find an official number from jsPDF, use them.
-        */
         var imgWidth = 210; 
-        var pageHeight = 295; //295;  
+        var pageHeight = 295; //295;
+        var margin = 5;  
         var imgHeight = canvas.height * imgWidth / canvas.width;
+        console.log(imgHeight,"imgHeight")
         var heightLeft = imgHeight;
   
         var doc = new jspdf('p', 'mm');
@@ -604,6 +589,7 @@ this.base64address = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAs
           heightLeft -= pageHeight;
         }
         doc.save('project-details.pdf'); // Generated PDF 
+        this.spinner.hide();
       });
   }
 }
