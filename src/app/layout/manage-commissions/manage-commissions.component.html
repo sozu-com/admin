@@ -467,15 +467,15 @@
                       | translate)}}</span>
                   </td>
                   <td><span>
-                    {{(p?.expected_payment_commission || 0) | currency}}
+                    {{ ((p?.expected_payment_commission || 0)+(p?.iva_calculate || 0)) |
+                      currency}}
                   </span></td>
                   <td>
                     <input name="add_iva_to_cc{{i}}" disabled class="form-control checkbox_size" type="checkbox"
                       [checked]="p?.add_iva_to_cc ? 'checked' : ''" readonly>
                   </td>
                   <!-- <td>{{p?.iva_payment_commission}}</td> -->
-                  <td><span> {{ ((p?.expected_payment_commission || 0)+(p?.iva_calculate || 0)) |
-                    currency}}</span></td>
+                  <td><span>{{(p?.expected_payment_commission || 0) | currency}}</span></td>
                   <td><span>{{(p?.payment_commission || 0) | currency}}</span></td>
                   <td><span>{{getRemainingAmt(p) | currency}}</span></td>
 
@@ -491,7 +491,7 @@
                   </td>
                   <td>
                     <div class="table-actions">
-                      <button (click)="all(p)"
+                      <button 
                        title="{{'table.title.quickVisuaization' | translate}}"
                         class="action-icon"><img src="assets/img/eye-icon.png" alt="img"></button> 
                         <!-- (click)="all(p)" -->
