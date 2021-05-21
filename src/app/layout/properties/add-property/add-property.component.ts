@@ -21,6 +21,7 @@ import { forkJoin } from 'rxjs';
 import { runInThisContext } from 'vm';
 import { FormBuilder } from '@angular/forms';
 import { value } from 'numeral';
+import { E } from '@angular/core/src/render3';
 
 declare const google;
 declare let swal: any;
@@ -55,8 +56,8 @@ export class AddPropertyComponent implements OnInit {
   public longitude: number;
   public searchControl: FormControl;
   public zoom: number;
-  formdata:any;
-  propertyData:any;
+  formdata: any;
+  propertyData: any;
   name: string;
 
   url: File;
@@ -123,7 +124,7 @@ export class AddPropertyComponent implements OnInit {
   property_names: Array<any>;
   amenity_index: number;
   amenity_obj: any;
-  
+
   // @ViewChild('scrollToTower') scrollToTower: ElementRef;
   public parkingSpaceLotsArray: any[] = [];
   private parkingSpaceLotsArray1: any[] = [];
@@ -262,19 +263,19 @@ export class AddPropertyComponent implements OnInit {
           this.parameter.propertyDetails = success['data'];
           this.getParkingSpaceLotsAndparkingSpaceRent();
           this.propertyData = success['data'];
-          if(this.model.configuration_toggle && this.model.building_configuration_id){
+          if (this.model.configuration_toggle && this.model.building_configuration_id) {
             this.model.floor_plan = (this.propertyData.building_configuration || {}).floor_map_image;
-            this.model.image  =  (this.propertyData.building_configuration || {}).cover_profile;
+            this.model.image = (this.propertyData.building_configuration || {}).cover_profile;
             this.model.images = (this.propertyData.building_configuration || {}).images;
             this.model.images360 = (this.propertyData.building_configuration || {}).images360;
             this.model.videos = (this.propertyData.building_configuration || {}).videos;
-            }else{
-             this.model.floor_plan = (this.propertyData || {}).floor_plan;
-             this.model.image =  (this.propertyData || {}).image;
-             this.model.images = (this.propertyData || {}).images;
-             this.model.images360 = (this.propertyData || {}).images360;
-             this.model.videos = (this.propertyData || {}).videos;
-            }
+          } else {
+            this.model.floor_plan = (this.propertyData || {}).floor_plan;
+            this.model.image = (this.propertyData || {}).image;
+            this.model.images = (this.propertyData || {}).images;
+            this.model.images360 = (this.propertyData || {}).images360;
+            this.model.videos = (this.propertyData || {}).videos;
+          }
           this.setModelData(success['data']);
           if (this.parameter.propertyDetails.step < 5) {
             this.tab = this.parameter.propertyDetails.step;
@@ -404,27 +405,27 @@ export class AddPropertyComponent implements OnInit {
     // this.getCities(data.locality.city.state.id, '');
     // this.getLocalities(data.locality.city.id, '');
 
-    this.model.locality_id =  (data.locality || {}).id || '';
-    this.model.city_id =  ((data.locality || {}).city || {}).id || '';
-    this.model.state_id =  (((data.locality || {}).city || {}).state || {}).id || '';
-    this.model.country_id =  ((((data.locality || {}).city || {}).state || {}).country || {}).id || '';
+    this.model.locality_id = (data.locality || {}).id || '';
+    this.model.city_id = ((data.locality || {}).city || {}).id || '';
+    this.model.state_id = (((data.locality || {}).city || {}).state || {}).id || '';
+    this.model.country_id = ((((data.locality || {}).city || {}).state || {}).country || {}).id || '';
 
     this.model.configuration_id = data.configuration ? data.configuration.id : '';
     this.model.building_configuration_id = data.building_configuration_id ? data.building_configuration_id : '';
     this.model.property_type_id = data.property_type ? data.property_type.id : '';
 
     // images
-    if(this.model.configuration_toggle){
+    if (this.model.configuration_toggle) {
       this.model.floor_plan = data.floor_plan;
       //this.model.model.image = data.image;
-      this.model.image =  (data.building_configuration || {}).cover_profile;
+      this.model.image = (data.building_configuration || {}).cover_profile;
       this.model.cover_Image = ((this.propertyData || {}).building_configuration || {}).cover_profile;
-     // this.model.image = (data.building_configuration || {}).cover_profile;
+      // this.model.image = (data.building_configuration || {}).cover_profile;
       this.model.images = data.images;
       this.model.images360 = data.images360;
       this.model.videos = data.videos;
-    }else{
-      this.model.floor_plan =null;
+    } else {
+      this.model.floor_plan = null;
       //this.model.model.image = data.image;
       this.model.image = null;
       this.model.images = [];
@@ -436,7 +437,7 @@ export class AddPropertyComponent implements OnInit {
     // this.model.model.image = (data.building_configuration || {}).cover_profile;
     // this.model.images = data.images;
     // this.model.images360 = data.images360;
-    
+
 
     this.model.description = data.description;
     this.model.property_key = data.property_key;
@@ -553,6 +554,19 @@ export class AddPropertyComponent implements OnInit {
       if (result.value) {
         this.tab = tab;
         if (this.tab == 2) {
+          if (this.model.configuration_toggle && this.model.building_configuration_id) {
+            this.model.floor_plan = (this.propertyData.building_configuration || {}).floor_map_image;
+            this.model.image = (this.propertyData.building_configuration || {}).cover_profile;
+            this.model.images = (this.propertyData.building_configuration || {}).images;
+            this.model.images360 = (this.propertyData.building_configuration || {}).images360;
+            this.model.videos = (this.propertyData.building_configuration || {}).videos;
+          } else {
+            this.model.floor_plan = (this.propertyData || {}).floor_plan ? (this.propertyData || {}).floor_plan : null;
+            this.model.image = (this.propertyData || {}).image ? (this.propertyData || {}).image : null;
+            this.model.images = (this.propertyData || {}).images ? (this.propertyData || {}).images : [];
+            this.model.images360 = (this.propertyData || {}).images360 ? (this.propertyData || {}).images360 : [];
+            this.model.videos = (this.propertyData || {}).videos ? (this.propertyData || {}).videos : [];
+          }
           this.getParkingSpaceLotsAndparkingSpaceRent();
         }
       }
@@ -987,7 +1001,7 @@ export class AddPropertyComponent implements OnInit {
       return false;
     }
     this.file360.onSelectFile($event);
-   // this.model.static_data = 1;
+    // this.model.static_data = 1;
   }
 
   onSelectFile3(event) { // called each time file input changes
@@ -1046,7 +1060,7 @@ export class AddPropertyComponent implements OnInit {
     this.model.price = this.newcarpet_area.price;
     if (this.model.carpet_areas.length < 1 && this.tab == 1) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseAddCarpetArea'), 'error');
-    } 
+    }
     // else if ((this.model.amenities.length === 0) && (this.model.step == 2)) {
     //   swal(this.translate.instant('swal.error'), 'Please choose amenity.', 'error');
     // }
@@ -1185,7 +1199,7 @@ export class AddPropertyComponent implements OnInit {
         }
         input.append('parking_area', JSON.stringify(this.getParkingLotFormArray.getRawValue()));
         input.append('configuration_toggle', (this.model.configuration_toggle ? 1 : 0).toString());
-       // input.append('static_data', (this.model.static_data ? 1 : 0).toString());
+        // input.append('static_data', (this.model.static_data ? 1 : 0).toString());
       }
       if (this.model.step === 3) {
         // added building_id and step cuz need to update sttaus and step
@@ -1211,26 +1225,26 @@ export class AddPropertyComponent implements OnInit {
             this.spinner.hide();
             this.propertyData = success['data'];
             this.spinner.hide();
-             if(this.model.configuration_toggle && this.model.building_configuration_id){
-             this.model.floor_plan = (this.propertyData.building_configuration || {}).floor_map_image;
-             this.model.image  =  (this.propertyData.building_configuration || {}).cover_profile;
-             this.model.images = (this.propertyData.building_configuration || {}).images;
-             this.model.images360 = (this.propertyData.building_configuration || {}).images360;
-             this.model.videos = (this.propertyData.building_configuration || {}).videos;
-             }else{
+            if (this.model.configuration_toggle && this.model.building_configuration_id) {
+              this.model.floor_plan = (this.propertyData.building_configuration || {}).floor_map_image;
+              this.model.image = (this.propertyData.building_configuration || {}).cover_profile;
+              this.model.images = (this.propertyData.building_configuration || {}).images;
+              this.model.images360 = (this.propertyData.building_configuration || {}).images360;
+              this.model.videos = (this.propertyData.building_configuration || {}).videos;
+            } else {
               this.model.floor_plan = (this.propertyData || {}).floor_plan ? (this.propertyData || {}).floor_plan : null;
-              this.model.image =  (this.propertyData || {}).image  ? (this.propertyData || {}).image : null;
+              this.model.image = (this.propertyData || {}).image ? (this.propertyData || {}).image : null;
               this.model.images = (this.propertyData || {}).images ? (this.propertyData || {}).images : [];
               this.model.images360 = (this.propertyData || {}).images360 ? (this.propertyData || {}).images360 : [];
               this.model.videos = (this.propertyData || {}).videos ? (this.propertyData || {}).videos : [];
-             }
+            }
             if (this.model.step.toString() === '4') {
               const successText = this.parameter.bulk_approve_property ? '' :
                 this.translate.instant('message.error.notifiedWhenAdminReview');
               swal({
                 html: this.translate.instant('message.success.submittedSccessfully') + '<br>' + successText, type: 'success'
               });
-         
+
               if (this.router.url.indexOf('/dashboard/properties/edit-property') === -1) {
                 this.router.navigate(['/dashboard/properties/view-properties']);
               }
@@ -1842,8 +1856,8 @@ export class AddPropertyComponent implements OnInit {
     return data ? true : false;
   }
 
-  changeConfigurationToggle(){
-    if(this.model.configuration_toggle && this.model.building_configuration_id){
+  changeConfigurationToggle() {
+    if (this.model.configuration_toggle && this.model.building_configuration_id) {
       swal({
         html: this.translate.instant('message.error.areYouSure') + '<br>' +
           this.translate.instant('message.error.toggleMove'),
@@ -1854,33 +1868,66 @@ export class AddPropertyComponent implements OnInit {
         confirmButtonText: 'Yes'
       }).then((result) => {
         if (result.value) {
-            this.model.floor_plan = (this.propertyData.building_configuration || {}).floor_map_image;
-            this.model.image  =  (this.propertyData.building_configuration || {}).cover_profile;
-            this.model.images = (this.propertyData.building_configuration || {}).images;
-            this.model.images360 = (this.propertyData.building_configuration || {}).images360;
-            this.model.videos = (this.propertyData.building_configuration || {}).videos;
+              this.model.floor_plan = (this.propertyData.building_configuration || {}).floor_map_image;
+              this.model.image = (this.propertyData.building_configuration || {}).cover_profile;
+              this.model.images = (this.propertyData.building_configuration || {}).images;
+              this.model.images360 = (this.propertyData.building_configuration || {}).images360;
+              this.model.videos = (this.propertyData.building_configuration || {}).videos;
+        } else {
+          this.model.configuration_toggle = false;
+          if(this.model.floor_plan && this.model.image &&  this.model.images && this.model.images360){
+            this.model.floor_plan = (this.propertyData || {}).floor_plan ? (this.propertyData || {}).floor_plan : null;
+            this.model.image = (this.propertyData || {}).image ? (this.propertyData || {}).image : null;
+            this.model.images = (this.propertyData || {}).images ? (this.propertyData || {}).images : [];
+            this.model.images360 = (this.propertyData || {}).images360 ? (this.propertyData || {}).images360 : [];
+            this.model.videos = (this.propertyData || {}).videos ? (this.propertyData || {}).videos : [];
+          }else{
+            this.model.floor_plan = null;
+            this.model.image = null;
+            this.model.images = [];
+            this.model.images360 = [];
+            this.model.videos = [];
+          }
         }
       });
-    }else{
-         this.model.floor_plan = null;
-          this.model.image = null;
-          this.model.images = [];
-          this.model.images360 = [];
-          this.model.videos = [];
-      //if((this.propertyData || {}).static_data){
-        // this.model.floor_plan = (this.propertyData || {}).floor_plan;
-        // this.model.image =  (this.propertyData || {}).image;
-        // this.model.images = (this.propertyData || {}).images;
-        // this.model.images360 = (this.propertyData || {}).images360;
-        // this.model.videos = (this.propertyData || {}).videos;
-        // }else{
-        //   this.model.floor_plan = null;
-        //   this.model.image = null;
-        //   this.model.images = [];
-        //   this.model.images360 = [];
-        //   this.model.videos = [];
-        // }
+    
+    } else {
+      this.model.floor_plan = null;
+      this.model.image = null;
+      this.model.images = [];
+      this.model.images360 = [];
+      this.model.videos = [];
     }
-  }
+  } 
 
 }
+
+
+    //   .then((result) => {
+    //     if (result.value) {
+    //       this.model.floor_plan = (this.propertyData.building_configuration || {}).floor_map_image;
+    //       this.model.image = (this.propertyData.building_configuration || {}).cover_profile;
+    //       this.model.images = (this.propertyData.building_configuration || {}).images;
+    //       this.model.images360 = (this.propertyData.building_configuration || {}).images360;
+    //       this.model.videos = (this.propertyData.building_configuration || {}).videos;
+    //     }
+    //   });
+    // } else {
+    //   this.model.floor_plan = null;
+    //   this.model.image = null;
+    //   this.model.images = [];
+    //   this.model.images360 = [];
+    //   this.model.videos = [];
+      //if((this.propertyData || {}).static_data){
+      // this.model.floor_plan = (this.propertyData || {}).floor_plan;
+      // this.model.image =  (this.propertyData || {}).image;
+      // this.model.images = (this.propertyData || {}).images;
+      // this.model.images360 = (this.propertyData || {}).images360;
+      // this.model.videos = (this.propertyData || {}).videos;
+      // }else{
+      //   this.model.floor_plan = null;
+      //   this.model.image = null;
+      //   this.model.images = [];
+      //   this.model.images360 = [];
+      //   this.model.videos = [];
+      // }
