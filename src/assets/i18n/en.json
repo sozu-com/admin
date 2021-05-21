@@ -1571,7 +1571,9 @@
   "viewManualLeads": {
     "label": "Manage Manual Leads",
     "addManualLead": "Add Manual Lead",
-    "updateManualLead": "Update Manual Lead"
+    "updateManualLead": "Update Manual Lead",
+    "addNewBtn": "Add New",
+    "back": "Back"
   },
   "viewNotifications": {
     "label": "Notifications"
