@@ -189,9 +189,15 @@
     <!-- viewed property end -->
 
     <!-- viewed projects start -->
+    <app-interested-project *ngIf="parameter?.lead_id || parameter?.user_id" [user_id]="leadData?.user_id" [viewed_projects]="parameter.viewed_projects">
+    </app-interested-project>
+    <!-- viewed projects end -->
+
+    <!-- viewed projects start -->
     <app-viewed-projects *ngIf="parameter?.lead_id || parameter?.user_id" [user_id]="leadData?.user_id" [viewed_projects]="parameter.viewed_projects">
     </app-viewed-projects>
     <!-- viewed projects end -->
+    
 </div>
 
 

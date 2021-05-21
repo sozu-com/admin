@@ -3212,6 +3212,7 @@ export class AddEditCollectionComponent implements OnInit {
     ]).subscribe((response: any[]) => {
       this.spinner.hide();
       this.parkingSpaceRentArray = response[0].data || [];
+      this.parkingLotSaleDetails = undefined;
       this.ForPakingSale(this.parking_area);
       // this.parkingSpaceRentArray = response[1].data;
     });

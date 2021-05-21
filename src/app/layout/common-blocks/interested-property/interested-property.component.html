@@ -38,6 +38,7 @@
         <img [src]="data.property.image| img:'thumb'" onerror='src="assets/img/placeholder-img.png"' alt="img">
       </div>
       <div class="project-des-content">
+          <small>{{data?.created_at | date}}</small><br>
           <small title="Apartment">{{data?.property?.name}}</small>
         <!-- <small>{{data?.property?.building?.developer?.name | titlecase}}</small> -->
         <a title="Building" routerLink="/dashboard/properties/details/{{data.property.id}}">
@@ -287,6 +288,7 @@
                   <img [src]="x.property.image| img:'thumb'" onerror='src="assets/img/bank.png"' alt="img">
                 </div>
                 <div class="project-des-content">
+                  <small>{{x?.created_at | date}}</small><br>
                     <small title="Apartment">{{x.property?.name}}</small>
                   <!-- <small>{{x.property?.building?.developer?.name | titlecase}}</small> -->
                   <a title="Building" routerLink="/dashboard/properties/details/{{x.property.id}}">
