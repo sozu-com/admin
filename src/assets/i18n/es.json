@@ -1573,7 +1573,9 @@
   "viewManualLeads": {
     "label": "Administrar Leads manualmente",
     "addManualLead": "Agregar cliente potencial manual",
-    "updateManualLead": "Actualizar cliente potencial manual"
+    "updateManualLead": "Actualizar cliente potencial manual",
+    "addNewBtn": "Agregar",
+    "back": "atrás"
   },
   "viewNotifications": {
     "label": "Notificaciones"
