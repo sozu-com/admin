@@ -409,44 +409,7 @@ export class AddAclComponent implements OnInit {
   }
 
 
-  // add(formData: NgForm) {
-  //   if (this.model.img_loader) {
-  //     swal(this.translate.instant('swal.error'), this.translate.instant('message.error.uploadingImage'), 'error');
-  //     return;
-  //   }
-  //   console.log(this.model);
-  //   this.spinner.show();
-  //   this.admin.postDataApi('addAclUser', this.model)
-  //     .subscribe(
-  //       success => {
-  //         this.spinner.hide();
-  //         if (success.success === '0') {
-  //           swal(this.translate.instant('swal.error'), success.message, 'error');
-  //         } else {
-  //           const text = this.model.id === '' ?
-  //                   this.translate.instant('message.success.addedSuccessfully') :
-  //                   this.translate.instant('message.success.updatedSuccessfully');
-  //           swal(this.translate.instant('swal.success'), text, 'success');
-  //           if (this.model.id === '') {
-  //             // this.model.image = '';
-  //             // formData.reset();
-  //             // this.getAclList();
-  //             this.router.navigate(['/dashboard/access-control-mgt']);
-  //           } else {
-  //             if (this.parameter.admin_id === this.model.id) {
-  //               this.admin.login.next(success.data);
-  //               this.admin.permissions = success.data.permissions ? success.data.permissions : {};
-  //               const dd = success.data.m.map((obj, index) => {
-  //                 const key =  Object.keys(obj)[0];
-  //                 this.admin.admin_acl[key] =  obj[key];
-  //               });
-  //             }
-  //           }
-  //         }
-  //       }, error => {
-  //         this.spinner.hide();
-  //       });
-  // }
+  
 
   removeAddressObj(index) {
     this.model.address.splice(index, 1);
@@ -775,12 +738,8 @@ export class AddAclComponent implements OnInit {
   }
 
   setPredefinedUsers(item, value, i: number) {
-    //console.log(item.key, this.model[item.key]);
-    //console.log(item, value);
     this.model[item.key] = value;
     this.predefinedUsers[i].value = value;
-   // console.log(item, value);
-   // console.log(item.key, this.model[item.key]);
   }
   
   setIsCompany(is_company: string) {

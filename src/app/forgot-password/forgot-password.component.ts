@@ -33,20 +33,17 @@ export class ForgotPasswordComponent implements OnInit {
   ngOnInit() {}
 
   forgotPassword(formData: NgForm) {
-    console.log(formData.value.email);
     this.spinner.show();
     const input = new FormData();
     input.append('email', formData.value.email);
     this.admin.postDataApi('forgotPassword', input)
       .subscribe(
         success => {
-          console.log(success);
           this.spinner.hide();
           swal(this.translate.instant('swal.success'), success.message, 'success');
           formData.reset();
           this.router.navigate(['']);
         }, error => {
-          console.log(error);
         });
   }
 }

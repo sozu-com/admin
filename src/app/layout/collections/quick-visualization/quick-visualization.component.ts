@@ -450,7 +450,6 @@ export class QuickVisualizationComponent implements OnInit {
         for (let i = 0; i < (r.purchase_payment || []).length; i++) {
           const paymnts = r.purchase_payment[i];
           this.purchase_payments.push(paymnts);
-          console.log(this.purchase_payments,"this.purchase_payments")
         }
       }
     });
@@ -559,7 +558,6 @@ export class QuickVisualizationComponent implements OnInit {
   }
 
   showDescription(description: string, title: any) {
-    console.log('aaaa')
     if (description) {
       this.title = title;
       this.description = description;
@@ -768,7 +766,6 @@ export class QuickVisualizationComponent implements OnInit {
       if (m.collection_paymentss && m.collection_paymentss.length > 0) {
         for (let i = 0; i < m.collection_paymentss.length; i++) {
           const paymnts = m.collection_paymentss[i];
-          console.log(paymnts);
           if (paymnts.payment_method_id == this.apiConstants.payment_method_id) {
             this.cashSum = parseFloat(this.cashSum) + parseFloat(paymnts.amount);
           }
@@ -833,7 +830,6 @@ export class QuickVisualizationComponent implements OnInit {
 
     // check for type 2 abd 2, user cannot pay more than sum of remaining MI
     if (this.payment_type == '2' || this.payment_type == '3') {
-      console.log('---');
       let a: any = 0;
       // this.paymentConcepts.map(v => {
       for (let index = 0; index < this.paymentConcepts.length; index++) {
@@ -842,7 +838,6 @@ export class QuickVisualizationComponent implements OnInit {
           // calculating total amt to be paid
           const remaining_amt = parseFloat(v['amount']) - parseFloat(v['calc_payment_amount']);
           a = parseFloat(a) + remaining_amt + (v['penalty'] ? parseFloat(v['penalty']['amount']) : 0);
-          console.log(a);
           a = a.toFixed(2);
 
           // checking if any pending monthly installment exist
@@ -851,7 +846,6 @@ export class QuickVisualizationComponent implements OnInit {
           if (l > 0) {
             const last_payment = paymnets[l - 1];
             if (last_payment['payment_type'] != 2) {
-              console.log('complete first');
               this.toastr.clear();
               this.toastr.error(this.translate.instant('message.error.paytoRemainingPendingCheck'), this.translate.instant('swal.error'));
               return false;
@@ -860,7 +854,6 @@ export class QuickVisualizationComponent implements OnInit {
         }
       }
       if (this.paymentAmount > a) {
-        console.log('complete first');
         this.toastr.clear();
         this.toastr.error(this.translate.instant('message.error.payToRemainingcheck'), this.translate.instant('swal.error'));
         return false;
@@ -881,13 +874,11 @@ export class QuickVisualizationComponent implements OnInit {
         }
         // using a1 and not this.paymentAmount because, need to check for both direct type 3 and type 3 in surplus popup
 
-        console.log(a1, a);
         if (a1 > a) {
           continue;
         } else if (a1 == a) {
           break;
         } else if (this.paymentAmount < a) {
-          console.log(a1, a);
           this.toastr.clear();
           this.toastr.error(this.translate.instant('message.error.payToRemainingReduceTimecheck'), this.translate.instant('swal.error'));
           this.surplus_payment_type == '3'

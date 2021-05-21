@@ -37,13 +37,16 @@ export class CommissionIncomeComponent implements OnInit {
   locale: any;
   today = new Date();
   reportData: any;
+  reportData3: any;
   avgValue: number;
   reportType: number;
   items: Array<any>;
   commissionss: Array<any>;
+  commissionsss: Array<any>;
   expectedActual: Array<any>;
   expectedTotal:  any;
   actualTotal: any;
+  comn_type: any;
   commissions = [];
   already_index: any;
   commission_sum: any = 0 ;
@@ -159,6 +162,7 @@ export class CommissionIncomeComponent implements OnInit {
         }
       );
   }
+
   searchBuilding() {
     this.spinner.show();
     this.admin.postDataApi('getProjectsForCollections', {})
@@ -185,13 +189,6 @@ export class CommissionIncomeComponent implements OnInit {
     const input: any = JSON.parse(JSON.stringify(this.input));
     input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
     input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
-
-    // input.start_date = moment(this.input.start_date).format('YYYY-MM');
-    // input.end_date = moment(this.input.end_date).format('YYYY-MM');
-
-    // input.start_date = input.start_date + '-01';
-    // input.end_date = input.end_date + '-31';
-
     if (this.selctedProjects) {
       const d = this.selctedProjects.map(o => o.id);
       input.building_id = d;
@@ -353,6 +350,34 @@ export class CommissionIncomeComponent implements OnInit {
     }
   }
   
+  plotData3() {
+    const chart = new CanvasJS.Chart('chartContainer3', {
+      animationEnabled: true,
+      exportFileName: 'commission-report',
+      exportEnabled: true,
+      theme: 'light2',
+      dataPointWidth: 30,
+      title: {
+        // text: "Top Oil Reserves"
+      },
+      axisY: {
+        gridColor: '#222222ab',
+        tickColor: '#222222ab'
+      },
+      toolTip: {
+        shared: true
+      },
+      data: [{
+        type: 'stackedColumn',
+        showInLegend: true,
+        name: 'Cancellation Commission',
+        color: '#4a85ff',
+        dataPoints: this.reportData3['cancellation_commission']
+      }]
+    });
+    chart.render();
+  }
+
   getReportData() {
     this.reportType = 1;
     this.getReportData1();
@@ -360,6 +385,9 @@ export class CommissionIncomeComponent implements OnInit {
   }
 
   getReportData2 () {
+    const d = this.selectedCommissions.map(o => o.id);
+     this.comn_type = d[0];
+    
     const input: any = JSON.parse(JSON.stringify(this.input));
     input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
     input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
@@ -381,22 +409,40 @@ export class CommissionIncomeComponent implements OnInit {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectCommissionType'), 'error');
       return false;
     }
-    
-    this.spinner.show();
-    this.admin.postDataApi('graphs/get-commission-amount', input).subscribe(r => {
-      this.spinner.hide();
-      this.reportData = r['data'];
-      this.commissionss = [];
-      for (let index = 0; index < this.reportData['expected'].length; index++) {
-        const element = this.reportData['expected'][index];
-        const obj = {label: element.label, expected: element.y, actual: this.reportData['actual'][index].y};
-        this.commissionss.push(obj);
-      }
-      this.plotData2();
-    }, error => {
-      this.spinner.hide();
-    });
+    if (this.comn_type == 4) {
+      this.spinner.show();
+      this.admin.postDataApi('graphs/get-commission-amount', input).subscribe(r => {
+        this.spinner.hide();
+        this.reportData3 = r['data'];
+        this.commissionsss = [];
+        for (let index = 0; index < this.reportData3['cancellation_commission'].length; index++) {
+          const element = this.reportData3['cancellation_commission'][index];
+          const obj = {label: element.label, expected: element.y};
+          this.commissionsss.push(obj);
+        }
+        this.plotData3();
+      }, error => {
+        this.spinner.hide();
+      });
+    } else {
+      this.spinner.show();
+      this.admin.postDataApi('graphs/get-commission-amount', input).subscribe(r => {
+        this.spinner.hide();
+        this.reportData = r['data'];
+        this.commissionss = [];
+        for (let index = 0; index < this.reportData['expected'].length; index++) {
+          const element = this.reportData['expected'][index];
+          const obj = {label: element.label, expected: element.y, actual: this.reportData['actual'][index].y};
+          this.commissionss.push(obj);
+        }
+        this.plotData2();
+      }, error => {
+        this.spinner.hide();
+      });
+    }
+   
   }
+
 
   getCashFlowInfo(item, index) {
     if(index != this.already_index){
@@ -427,6 +473,7 @@ export class CommissionIncomeComponent implements OnInit {
     this.selctedProjects = [];
     this.selectedCommissions = [];
   }
+
   exportData() {
     if (this.items) {
       const finalData = [];
@@ -490,6 +537,7 @@ export class CommissionIncomeComponent implements OnInit {
       this.admin.postDataApi('graphs/sozu-get-commission', param)
         .subscribe(
           success => {
+            this.spinner.show();
             this.commissions = success.data;
             this.spinner.hide();
           }, error => {

@@ -283,16 +283,11 @@ export class ArrearReportComponent implements OnInit {
           self.data[element].forEach((r, index) => {
             //let t = 0;
             self.data[element][index]['showInfo'] = true;
-            // console.log(r, "user_document")
             tempTotalAmount = tempTotalAmount + (((r['amount'] || 0) + (r['penelty'] || 0)) - (r.calc_payment_amount || 0));
             // self.data[element][index]['total_amount'] = t;
           });
 
           self.data[element].forEach((r, index) => {
-            //let t = 0;
-            // self.data[element][index]['showInfo'] = true;
-            // console.log(r, "user_document")
-            // t = t + (r['amount'] || 0) + (r['penelty'] || 0);
             if (index == 0) {
               self.data[element][index]['total_amount'] = tempTotalAmount;
             } else {
@@ -308,20 +303,17 @@ export class ArrearReportComponent implements OnInit {
           // self.data[element][0]['total_amount'] = t;
           // self.finalData = [...self.finalData, ...self.data[element]];
         }
-        console.log(self.finalData, "model")
         let grand_amount = 0; let grand_penalty = 0; let grand_total_amount = 0;
         for (let index = 0; index < self.finalData.length; index++) {
           const element = self.finalData[index];
           grand_amount = grand_amount + (element['amount'] || 0) - (element['calc_payment_amount'] || 0);
-          console.log(grand_amount, "grand_amount")
           grand_penalty = grand_penalty + (element['penelty'] || 0);
           // grand_total = grand_total + (element['amount'] || 0) + (element['penalty'] || 0)
           grand_total_amount = grand_total_amount + (element['total_amount'] || 0);
 
         }
         this.finalData.push({ id: 'Total', key: 1, symbol: '$', amount: grand_amount - grand_penalty, penelty: grand_penalty, total_amount: grand_total_amount });
-        console.log('finalData', this.finalData, 'response', success['data']);
-        console.log(this.finalData, "last result");
+        
         this.finalDataSum = grand_total_amount
         for (let index = 0; index < this.paymentChoices.length; index++) {
           const element = this.paymentChoices[index];
