@@ -386,7 +386,7 @@
                                 <!-- <i class="fa" [ngClass]="item.selected?'fa-check-square-o':'fa-square-o'" (click)="item.selected = !item.selected" aria-hidden="true"></i> -->
                             </td>
                             <td>
-                                <span class="name" *ngIf="item.created_at">{{item.created_at | date}}</span>
+                                <span class="name" *ngIf="item.updated_at">{{item.updated_at | date}}</span>
                             </td>
                             <td class="text-left" (click)="viewLeadDetails(item.id, item)">
                                 <img [src]="item?.user?.image ? item?.user?.image : item?.image| img:'small'"
@@ -528,7 +528,7 @@
                         <label style="font-weight: bold;font-size: 15px;">Search Name</label>
                         <input title="{{'table.title.clickEnterForSearch' | translate}}"
                             style="max-width: 264px;height: 55px;" list="amenities" [(ngModel)]="assign.keyword"
-                            (keyup.enter)="getAssignListing()" class="form-control" type="text" name="keyword"
+                            (keyup.enter)="getSearchAssign()" class="form-control" type="text" name="keyword"
                             placeholder="{{'addForm.placeholder.search' | translate}}">
                     </div>
                 </div>
@@ -585,8 +585,15 @@
     <div class="modal-dialog">
         <div class="modal-content notary-avail">
             <div class="modal-header popup-header">
+                <div class="row" style="width: 100%;">
+                <div class="col-12" style="display: contents;">
                 <h4 class="modal-title">{{'leads.addChangeStatus' | translate}}</h4>
                 <button type="button" class="close" data-dismiss="modal" #addChangeStatusModelClose>&times;</button>
+              </div>
+                <div class="col-12">
+                <span *ngIf="selected_lead?.status" style="font-weight: bold;white-space: pre-line">{{'leads.status' | translate}} - {{selected_lead?.status?.status_details?.name}}</span>
+                </div>
+            </div>
             </div>
             <div class="modal-body">
                 <div class="row">

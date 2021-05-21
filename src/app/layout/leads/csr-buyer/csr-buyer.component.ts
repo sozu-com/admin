@@ -411,12 +411,17 @@ export class CsrBuyerComponent implements OnInit {
         item.selected = false;
       }
     });
-    if(openFor != 'CSR' && !selected.user_id){
-      this.toastr.warning(this.translate.instant('message.error.userNotRegisterInWebsite'), this.translate.instant('swal.warning'));
+    if(openFor != 'CSR' && !selected.admin){
+      this.toastr.warning(this.translate.instant('message.error.firstAssignCSRBuyer'), this.translate.instant('swal.warning'));
       return;
     }
+    this.assign.keyword=null;
     openFor == 'CSR' ? this.getAssignListing() : this.getInhouseAgentListing();
     this.openNewAssignModel.nativeElement.click();
+  }
+
+  getSearchAssign(){
+    this.openFor == 'CSR' ? this.getAssignListing() : this.getInhouseAgentListing();
   }
 
   openAddChangeStatusModel(item){ 

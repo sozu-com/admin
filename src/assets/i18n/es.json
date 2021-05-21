@@ -1412,7 +1412,8 @@
       "dealWillNotSameAsCommercialOffer": "La oferta no será la misma que la oferta comercial",
       "thisUserHasLeadsAssignedPleaseDeleteTheDependenciesFirst": "Este usuario tiene leads asignados, por favor reasígnalos.",
       "userNotRegisterInWebsite": "El usuario no se registra en el sitio web.",
-      "leadCannotDeleteCSRBuyerAssigned": "El cliente potencial no puede eliminar el comprador de CSR asignado."
+      "leadCannotDeleteCSRBuyerAssigned": "El cliente potencial no puede eliminar el comprador de CSR asignado.",
+      "firstAssignCSRBuyer": "Primero, asigne un comprador de CSR."
 
     }
   },
@@ -1629,7 +1630,8 @@
     "linkAgent": "Agente de enlace",
     "linkCSRAgent": "Agente de enlace CSR",
     "linkAgents": "link Agent",
-    "linkCSRBuyer": "Comprador de enlace CSR"
+    "linkCSRBuyer": "Comprador de enlace CSR",
+    "status": "Estado"
   },
   "propertyDetail": {
     "FloorPlan": "Piso",
@@ -1956,7 +1958,8 @@
     "sellerDocumentation": "Documentación del vendedor",
     "propertyDocumentation": "Documentación de propiedad",
     "beneficiaryDocumentation": "Documentación del beneficiario",
-    "tutorDocumentation": "Documentación del tutor"
+    "tutorDocumentation": "Documentación del tutor",
+    "interestedProjects": "Proyectos de interés"
   },
   "viewCollections": {
     "choose": "Escoger",

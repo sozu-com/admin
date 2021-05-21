@@ -37,6 +37,7 @@ import { OnlyNumberDirective } from '../directives/only-number.directive';
 import { OnlyDecimalDirective } from '../directives/only-decimal.directive';
 import { OfferBlockComponent } from '../layout/common-blocks/offer-block/offer-block.component';
 import { CustomPricePipe } from '../pipes/custom-price.pipe';
+import { InterestedProjectComponent } from '../layout/common-blocks/interested-project/interested-project.component';
 
 @NgModule({
   imports: [
@@ -57,6 +58,7 @@ import { CustomPricePipe } from '../pipes/custom-price.pipe';
     InterestedPropertyComponent,
     ViewedPropertyComponent,
     ViewedProjectsComponent,
+    InterestedProjectComponent,
     FillInformationComponent,
   //  PropertyDetailsComponent,
     ChatComponent,
@@ -89,6 +91,7 @@ import { CustomPricePipe } from '../pipes/custom-price.pipe';
     InterestedPropertyComponent,
     ViewedPropertyComponent,
     ViewedProjectsComponent,
+    InterestedProjectComponent,
     FillInformationComponent,
     ChatComponent,
     ChatTabsComponent,

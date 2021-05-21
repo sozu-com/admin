@@ -548,8 +548,16 @@
     <div class="modal-dialog">
         <div class="modal-content notary-avail">
             <div class="modal-header popup-header">
+                <div class="row" style="width: 100%;">
+                <div class="col-12" style="display: contents;">
                 <h4 class="modal-title">{{'leads.addChangeStatus' | translate}}</h4>
-                <button type="button" class="close" data-dismiss="modal" #addChangeStatusModelClose>&times;</button>
+                <button type="button" class="close" data-dismiss="modal" #addChangeStatusModelClose>&times;</button><br>
+                <span *ngIf="selected_lead?.status" style="font-weight: bold;">{{'leads.status' | translate}} - {{selected_lead?.status?.status_details?.name}}</span>
+            </div>
+            <div class="col-12">
+            <span *ngIf="selected_lead?.status" style="font-weight: bold;white-space: pre-line">{{'leads.status' | translate}} - {{selected_lead?.status?.status_details?.name}}</span>
+            </div>
+        </div>
             </div>
             <div class="modal-body">
                 <div class="row">

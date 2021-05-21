@@ -15,7 +15,7 @@
       <li class="cursor-pointer" *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }" (click)="redirect(item)">
         <h5>{{item.notification_text}}</h5>
         <p>{{item.notification_desc}}
-          <span class="pull-right">{{item.updated_at|moment}}</span>
+          <span class="pull-right">{{item.created_at|moment}}</span>
         </p>
       </li>
     </ul>
