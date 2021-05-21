@@ -1,7 +1,4 @@
-.fig-block img.icon{
-    width:50px;
-    /* height:25px; */
-}
+
 #viewer-wrapper{
     height:300px;
     width:100%;
@@ -50,3 +47,22 @@
 /* a{
     text-transform: uppercase;
 } */
+
+.icons-group {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.icons-control {
+    width: 20%;
+    text-align: center;
+    margin-bottom: 35px;
+    cursor: pointer;
+}
+.fig-block img {
+    max-width: 100%;
+}
+.fig-block img.icon {
+    width: 50px;
+    height: 50px;
+}
