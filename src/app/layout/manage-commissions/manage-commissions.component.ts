@@ -179,7 +179,7 @@ export class ManageCommissionsComponent implements OnInit ,OnDestroy{
   ngOnInit() {
     this.parameter.page = this.constant.p;
     this.parameter.dash_flag = this.constant.dash_flag;
-    this.parameter.itemsPerPage = 25;
+    this.parameter.itemsPerPage = 10;
     this.parameter.flag = 1;
     this.parameter.commission_type = '1';
     this.today = new Date();
@@ -423,73 +423,11 @@ export class ManageCommissionsComponent implements OnInit ,OnDestroy{
           } else if ((dif >= 5 && currency_id == 78) || (dif >= 0.5 && currency_id == 124)) {
             element.payment_status = 6;
           } else if (element.next_payment && element.next_payment.date) {
-            // const diff: any = moment().diff(moment(element.next_payment.date, 'YYYY-MM-DD'), 'days', true);
-            // if (diff > 0 && diff <= 5) {
-            //   element.payment_status = 2;
-            // } else if (diff > 5) {
-            //   element.payment_status = 3;
-            // } else if (diff <= 0) {
-            //   element.payment_status = 1;
-            // }
+            
             element.payment_status = element.collection_status;
           } else {
             element.payment_status = 5;
           }
-
-          // // fetching commissions %
-          // let cc_percent = 0, cc_received = 0, cc_receipt = 0, cc_invoice = 0, cc_active = 0;
-          // let pc_received = 0, pc_receipt = 0, pc_invoice = 0, pc_active = 0;
-          // let ac_receipt = 0, ac_invoice = 0, ac_active = 0;
-          // for (let i = 0; i < element.collection_commissions.length; i++) {
-          //   const ele = element.collection_commissions[i];
-          //   cc_percent = cc_percent + (ele.add_collection_commission ? ele.percent : 0);
-          //   cc_received = cc_received + (ele.add_collection_commission ? ele.amount : 0);
-          //   pc_received = pc_received + (ele.add_purchase_commission ? ele.purchase_comm_amount : 0);
-          //   // console.log('aaaaa', pc_received, ele.purchase_comm_amount)
-          //   if (ele.add_collection_commission) {
-          //     cc_active++;
-          //   }
-          //   if (ele.payment) {
-          //     cc_receipt++;
-          //     if (ele.payment.invoice_id) {
-          //       cc_invoice++;
-          //     }
-          //   }
-
-          //   if (ele.add_purchase_commission) {
-          //     pc_active++;
-          //   }
-          //   if (ele.purchase_payment) {
-          //     pc_receipt++;
-          //     if (ele.purchase_payment.invoice_id && ele.purchase_payment.pdf_url && ele.purchase_payment.xml_url) {
-          //       pc_invoice++;
-          //     }
-          //   }
-
-          //   if (ele.add_agent_commission) {
-          //     ac_active++;
-          //   }
-          //   if (ele.agent_payment) {
-          //     ac_receipt++;
-          //     if (ele.agent_payment.invoice_id) {
-          //       ac_invoice++;
-          //     }
-          //   }
-          // }
-          // // console.log('pc_received', pc_received)
-          // element['sum_pc'] = pc_received;
-          // element['cc_percent'] = this.numberUptoNDecimal((cc_percent / cc_active), 3);
-          // element['cc_received'] = element.iva_percent && element.add_iva_to_cc ?
-          //   (cc_received + (cc_received * element.iva_percent) / 100) : cc_received;
-          // element['cc_receipt'] = cc_receipt == cc_active && cc_receipt != 0 ? 1 : 0;
-          // element['cc_invoice'] = cc_invoice == cc_active && cc_invoice != 0 ? 1 : 0;
-          // element['pc_received'] = element.iva_percent && element.add_iva_to_pc ?
-          //   (pc_received + (pc_received * element.iva_percent) / 100) : pc_received;
-          // element['pc_receipt'] = pc_receipt == pc_active && pc_receipt != 0 ? 1 : 0;
-          // element['pc_invoice'] = pc_invoice == pc_active && pc_invoice != 0 ? 1 : 0;
-
-          // element['ac_receipt'] = ac_receipt == ac_active && ac_receipt != 0 ? 1 : 0;
-          // element['ac_invoice'] = ac_invoice == ac_active && ac_invoice != 0 ? 1 : 0;
         }
 
         this.spinner.hide();

@@ -2011,6 +2011,7 @@
     "purchaseCommission": "Purchase Commission",
     "collectionCommission": "Collection Commission",
     "agentCommission": "Agent Commission",
+    "cancellation": "Cancellation",
     "programmedDate": "Programmed Date",
     "choosePaymentType": "Choose Payment Type",
     "payToRemainingReducePayment": "Pay to Remaining (Reduce Payment)",

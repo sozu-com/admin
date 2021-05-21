@@ -2011,6 +2011,7 @@
     "purchaseCommission": "Comisión de compra",
     "collectionCommission": "Comisión de cobro",
     "agentCommission": "Agente de comisión",
+    "cancellation": "cancelación",
     "programmedDate": "Fecha programada",
     "choosePaymentType": "Elegir tipo de pago",
     "payToRemainingReducePayment": "Pagar al resto (reducir el pago)",

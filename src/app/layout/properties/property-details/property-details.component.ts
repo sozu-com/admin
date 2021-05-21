@@ -68,10 +68,9 @@ export class PropertyDetailsComponent implements OnInit {
   constructor(
     public admin: AdminService,
     private route: ActivatedRoute,
-    private spinner: NgxSpinnerService,
     public constant: Constant,
     private propertyService: PropertyService,
-    private router: Router,
+    private router: Router,private spinner: NgxSpinnerService,
   ) {}
 
   ngOnInit() {
@@ -89,12 +88,12 @@ export class PropertyDetailsComponent implements OnInit {
   // }
   getPropertyDetails(property_id: string) {
     let self = this
-    // this.spinner.show();
+    this.spinner.show();
     this.admin
       .postDataApi('getPropertyById', { property_id: property_id })
       .subscribe(
         (success) => {
-          this.spinner.hide()
+          this.spinner.show();
           this.property = success.data
           //coverImage
           if ((this.property || {}).image) {
