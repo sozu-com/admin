@@ -1411,7 +1411,8 @@
       "dealWillNotSameAsCommercialOffer": "Deal will not same as commercial offer",
       "thisUserHasLeadsAssignedPleaseDeleteTheDependenciesFirst": "This user has leads assigned, please delete the dependencies first.",
       "userNotRegisterInWebsite": "User not register in website.",
-      "leadCannotDeleteCSRBuyerAssigned": "Lead cannot delete CSR buyer assigned."
+      "leadCannotDeleteCSRBuyerAssigned": "Lead cannot delete CSR buyer assigned.",
+      "firstAssignCSRBuyer": "First assign CSR buyer."
     } 
   },
   "inhouseUsers": {
@@ -1571,7 +1572,9 @@
   "viewManualLeads": {
     "label": "Manage Manual Leads",
     "addManualLead": "Add Manual Lead",
-    "updateManualLead": "Update Manual Lead"
+    "updateManualLead": "Update Manual Lead",
+    "addNewBtn": "Add New",
+    "back": "Back"
   },
   "viewNotifications": {
     "label": "Notifications"
@@ -1625,7 +1628,8 @@
     "addStatus": "Add status",
     "selectStatus": "Select status",
     "linkAgents": "link Agent",
-    "linkCSRBuyer": "Link CSR Buyer"
+    "linkCSRBuyer": "Link CSR Buyer",
+    "status": "Status"
   },
   "propertyDetail": {
     "ps":"pesos M.N.",
@@ -1954,7 +1958,8 @@
     "sellerDocumentation": "Seller documentation",
     "propertyDocumentation": "Property documentation",
     "beneficiaryDocumentation": "Beneficiary documentation",
-    "tutorDocumentation": "Tutor documentation"
+    "tutorDocumentation": "Tutor documentation",
+    "interestedProjects": "Interested Projects"
   },
   "viewCollections": {
     "choose": "Choose",
@@ -2006,6 +2011,7 @@
     "purchaseCommission": "Purchase Commission",
     "collectionCommission": "Collection Commission",
     "agentCommission": "Agent Commission",
+    "cancellation": "Cancellation",
     "programmedDate": "Programmed Date",
     "choosePaymentType": "Choose Payment Type",
     "payToRemainingReducePayment": "Pay to Remaining (Reduce Payment)",
