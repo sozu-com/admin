@@ -569,23 +569,23 @@ this.base64address = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAs
     var data = document.getElementById('contentToConvert');  //Id of the table
       html2canvas(data).then(canvas => {  
         var imgData = canvas.toDataURL('image/png');
+        var margin = 5; 
         var imgWidth = 210; 
-        var pageHeight = 295; //295;
-        var margin = 5;  
+        var pageHeight = 287; //295; 
         var imgHeight = canvas.height * imgWidth / canvas.width;
         console.log(imgHeight,"imgHeight")
         var heightLeft = imgHeight;
   
         var doc = new jspdf('p', 'mm');
-        var position = 0;
+        var position = 5;
   
-        doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
         heightLeft -= pageHeight;
   
         while (heightLeft >= 0) {
           position = heightLeft - imgHeight;
           doc.addPage();
-          doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+          doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
           heightLeft -= pageHeight;
         }
         doc.save('project-details.pdf'); // Generated PDF 
