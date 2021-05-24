@@ -622,7 +622,7 @@
 
       </div>
 
-      <div class="row">
+      <div class="row" *ngIf = "external_outside_agent == {}">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           
         </div>
@@ -635,7 +635,8 @@
           <div class="input-group form-group-3">
             <input autocomplete="off" class="form-control" type="number" appUptoThreeDecimal
               (input)="getOutSideAgentAmount($event.target.value)" step="0.001" min="0" max="100" name="outside_percentage_commission"
-              [(ngModel)]="model.outside_percentage_commission" (ngModelChange)="changeOutSideCommissionAmt(false)">
+              [(ngModel)]="model.outside_percentage_commission" (ngModelChange)="changeOutSideCommissionAmt(false)"
+              >
             <div class="input-group-append">
               <span class="input-group-text" id="basic-addon1">%</span>
             </div>
@@ -649,7 +650,8 @@
             </div>
             <input autocomplete="off" class="form-control" type="number" appUptoTwoDigitDecimalNumber
               step="0.01" min="0"  name="outside_agent_commission"
-              [(ngModel)]="model.outside_agent_commission" (ngModelChange)="changeOutSideCommissionPer(false)">
+              [(ngModel)]="model.outside_agent_commission" (ngModelChange)="changeOutSideCommissionPer(false)"
+              >
           </div>
         </div>
 
