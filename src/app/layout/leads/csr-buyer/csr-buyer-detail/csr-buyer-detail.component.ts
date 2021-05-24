@@ -108,6 +108,7 @@ export class CsrBuyerDetailComponent implements OnInit {
           this.is_deal_finalised = this.leadData.selected_properties.length !== 0 ? true : false;
           this.parameter.viewed_properties = r.data.viewed_properties;
           this.parameter.viewed_projects = r.data.viewed_projects;
+          this.parameter.interested_projects = r.data.interested_projects;
           this.parameter.user_id = this.leadData.user ? this.leadData.user.id : 0;
         }
         else{

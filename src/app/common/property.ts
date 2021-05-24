@@ -226,6 +226,7 @@ export interface IProperty {
   commission_type?:string;
   project?: string; 
   property?: string;
+  interested_projects?: any;
 }
 export class Docs {
   id: string;

@@ -13,6 +13,7 @@ export class InterestedProjectComponent implements OnInit {
 
   @Input('viewed_projects') viewed_projects;
   @Input('user_id') user_id;
+  @Input('lead_id') lead_id;
   @ViewChild('showProjectModal') showProjectModal: ElementRef;
 
   public parameter: IProperty = {};
@@ -31,16 +32,16 @@ export class InterestedProjectComponent implements OnInit {
   }
 
   viewProjects(data, page, user_id) {
-    this.spinner.show();
-    this.admin.postDataApi('leads/viewedProjects', {user_id: user_id, page: page}).subscribe(r => {
-      this.spinner.hide();
-      this.parameter.total = r.total;
-      this.parameter.viewed_projects = r.data;
-      if (this.parameter.page === 1) {
-        this.showProjectModal.nativeElement.click();
-      }
-    }, error => {
-      this.spinner.hide();
-    });
+    // this.spinner.show();
+    // this.admin.postDataApi('leads/viewedProjects', {lead_id: user_id, page: page}).subscribe(r => {
+    //   this.spinner.hide();
+    //   this.parameter.total = r.total;
+    //   this.parameter.viewed_projects = r.data;
+    //   if (this.parameter.page === 1) {
+    //     this.showProjectModal.nativeElement.click();
+    //   }
+    // }, error => {
+    //   this.spinner.hide();
+    // });
   }
 }

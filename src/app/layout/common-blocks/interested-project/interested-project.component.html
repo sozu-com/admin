@@ -20,24 +20,25 @@
     <div *ngIf="data && in<2" class="project-des-bx white-bg">
       <!-- <div class="price">{{data.starting_price|thousand}}+</div> -->
       <div class="fig-block">
-        <img [src]="data.main_image| img:'thumb'" onerror='src="assets/img/placeholder-img.png"' alt="img">
+        <img [src]="data.building.main_image| img:'thumb'" onerror='src="assets/img/placeholder-img.png"' alt="img">
       </div>
       <div class="project-des-content">
-        <small title="Developer">{{data?.developer?.name ? data?.developer?.name : ('commonBlock.NA' | translate)}}</small>
-        <a title="Building Name" routerLink="/dashboard/projects/details/{{data.id}}">
-          <h5>{{data.name.slice(0, 35)}}</h5>
+        <small>{{data?.created_at | date}}</small><br>
+        <small title="Developer">{{data?.building?.developer?.name ? data?.building?.developer?.name : ('commonBlock.NA' | translate)}}</small>
+        <a title="Building Name" routerLink="/dashboard/projects/details/{{data.building.id}}">
+          <h5>{{data.building.name.slice(0, 35)}}</h5>
         </a>
-        <p class="p12">{{data.address.slice(0, 90)}}</p>
+        <p class="p12">{{data.building.address.slice(0, 90)}}</p>
 
         <p class="p13" title="Configurations">
-          <span *ngFor="let conf1 of data.configurations; let k=index">
+          <span *ngFor="let conf1 of data.building.configurations; let k=index">
             <!-- {{conf1.config.name}} -->
             {{conf1?.name ? conf1?.name : conf1?.config?.name}}
-            <span *ngIf="k<data?.configurations?.length-1">,</span>
+            <span *ngIf="k<data?.building?.configurations?.length-1">,</span>
           </span>
-          <span *ngIf="data.configurations?.length==0">NA</span>
+          <span *ngIf="data.building.configurations?.length==0">NA</span>
         </p>
-        <p class="p13"><strong>{{data.starting_price|price}}</strong></p>
+        <p class="p13"><strong>{{data.building.starting_price|price}}</strong></p>
       </div>
     </div>
 

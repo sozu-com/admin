@@ -1697,7 +1697,11 @@
     "noExternalAgentFound": "No se encontró agente externo.",
     "addReason": "Agregar razón",
     "add": "Agregar",
-    "addReasonForRejection": "Añadir motivo de rechazo"
+    "addReasonForRejection": "Añadir motivo de rechazo",
+    "linkInHouseAgent": "Agente interno de enlace",
+    "linkOutsideAgent": "Vincular agente externo",
+    "changeInHouseAgent": "Cambio de agente interno",
+    "changeOutsideAgent": "Cambiar agente externo"
   },
   "reports": {
     "label": "Reporte",
@@ -2408,7 +2412,7 @@
     "inhouseAgent": "Agente interno",
     "outsideAgent": "Agente externo",
     "refresh": "Actualizar",
-    "back": "Espalda",
+    "back": "atrás",
     "name": "Nombre",
     "lastCommit": "Último compromiso",
     "size": "Talla",

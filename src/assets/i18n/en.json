@@ -740,6 +740,8 @@
       "changeSeller": "Change Seller",
       "changeBuyer": "Change Buyer",
       "linkUnlinkAgent": "Link/Unlink Agent",
+      "linkUnlinkInHouseAgent": "Link/Unlink Inhouse Agent",
+      "linkUnlinkOutsideAgent": "Link/Unlink Outside Agent",
       "linkUnlinkSeller": "Link/Unlink Seller",
       "linkUnlinkBuyer": "Link/Unlink Buyer",
       "currentlyLinkedToSeller": "Currently linked to Seller",
@@ -1696,7 +1698,11 @@
     "noExternalAgentFound": "No external agent found.",
     "addReason": "Add Reason",
     "add": "Add",
-    "addReasonForRejection": "Add Reason for Rejection"
+    "addReasonForRejection": "Add Reason for Rejection",
+    "linkInHouseAgent": "Link Inhouse Agent",
+    "linkOutsideAgent": "Link Outside Agent",
+    "changeInHouseAgent": "Change Inhouse Agent",
+    "changeOutsideAgent": "Change Outside Agent"
   },
   "reports": {
     "label": "Report",

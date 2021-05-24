@@ -148,15 +148,15 @@
 
         </div>
         <div class="col-lg-6 col-md-12 col-sm-12 col-12">
-            <div *ngIf="!leadData?.user" class="white-bg padding20">
+            <!-- <div *ngIf="!leadData?.user" class="white-bg padding20">
                     {{'leadDetails.userIsNotRegistered' | translate}}
-            </div>
+            </div> -->
 
             <!-- chat start -->
-            <div *ngIf="leadData?.user">
+            <!-- <div *ngIf="leadData?.user"> -->
                 <!-- <app-chat [lead_id]="parameter.lead_id" [sent_as]="parameter.sent_as" [user_id]="parameter.user_id"
                     [admin_id]="parameter.admin_id"></app-chat> -->
-                <div class="white-bg move-below">
+                <!-- <div class="white-bg move-below">
                     <div class="page-title-3 marginB0">
                         <h4><i><img src="assets/img/chat-icon.png" alt="img"></i> {{'leadDetails.chat' | translate}}</h4>
                     </div>
@@ -167,7 +167,7 @@
                         </app-chat-tabs>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <!-- chat end -->
 
             <!-- notes start -->
@@ -189,12 +189,12 @@
     <!-- viewed property end -->
 
     <!-- viewed projects start -->
-    <app-interested-project *ngIf="parameter?.lead_id || parameter?.user_id" [user_id]="leadData?.user_id" [viewed_projects]="parameter.viewed_projects">
+    <app-interested-project *ngIf="parameter?.lead_id || parameter?.user_id" [lead_id]="parameter.lead_id" [user_id]="leadData?.user_id" [viewed_projects]="parameter.interested_projects">
     </app-interested-project>
     <!-- viewed projects end -->
 
     <!-- viewed projects start -->
-    <app-viewed-projects *ngIf="parameter?.lead_id || parameter?.user_id" [user_id]="leadData?.user_id" [viewed_projects]="parameter.viewed_projects">
+    <app-viewed-projects *ngIf="parameter?.lead_id || parameter?.user_id" [user_id]="parameter?.user_id" [viewed_projects]="parameter.viewed_projects">
     </app-viewed-projects>
     <!-- viewed projects end -->
     
