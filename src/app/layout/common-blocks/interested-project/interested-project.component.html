@@ -66,25 +66,25 @@
         <div class="scrollbox fav-prop" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
           <div class="row">
             <div class="col-lg-6 col-md-12 col-sm-12 col-12"
-              *ngFor="let x of parameter.viewed_projects| paginate: {id:'v-projects-1', itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let in=index">
+              *ngFor="let x of parameter.interested_projects| paginate: {id:'v-projects-1', itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let in=index">
               <div class="project-des-bx white-bg-2">
                 <!-- <div class="price">{{x.starting_price|thousand}}+</div> -->
                 <div class="fig-block">
-                  <img [src]="x.main_image| img:'thumb'" onerror='src="assets/img/bank.png"' alt="img">
+                  <img [src]="x?.building?.main_image| img:'thumb'" onerror='src="assets/img/bank.png"' alt="img">
                 </div>
                 <div class="project-des-content">
-                  <small title="Developer">{{x?.developer?.name ? x?.developer?.name : ('commonBlock.NA' | translate)}}</small>
+                  <small title="Developer">{{x?.building?.developer?.name ? x?.building?.developer?.name.slice(0, 15) : ('commonBlock.NA' | translate)}}</small>
                   <a title="Building Name" routerLink="/dashboard/projects/details/{{x.id}}">
-                    <h5>{{x.name.slice(0, 15)}}</h5>
+                    <h5>{{x?.building?.name.slice(0, 15)}}</h5>
                   </a>
-                  <p class="p12">{{x.address.slice(0, 45)}}</p>
+                  <p class="p12">{{x?.building?.address.slice(0, 35)}}</p>
                   <p class="p13">
-                    <span *ngFor="let conf of x.configurations; let ii=index">
-                      {{conf.name ? conf.name : conf.config.name}}<span *ngIf="ii<x?.configurations?.length-1">,</span>
+                    <span *ngFor="let conf of x?.building?.configurations; let ii=index">
+                      {{conf.name ? conf.name : conf.config.name}}<span *ngIf="ii<x?.building?.configurations?.length-1">,</span>
                     </span>
-                    <span *ngIf="x.configurations?.length==0">{{'commonBlock.NA' | translate}}</span>
+                    <span *ngIf="x?.building?.configurations?.length==0">{{'commonBlock.NA' | translate}}</span>
                   </p>
-                  <p class="p13">{{x.starting_price|price}}</p>
+                  <p class="p13">{{x?.building?.starting_price|price}}</p>
                 </div>
               </div>
             </div>
