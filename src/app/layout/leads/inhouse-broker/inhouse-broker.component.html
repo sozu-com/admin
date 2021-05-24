@@ -552,7 +552,7 @@
                 <div class="col-12" style="display: contents;">
                 <h4 class="modal-title">{{'leads.addChangeStatus' | translate}}</h4>
                 <button type="button" class="close" data-dismiss="modal" #addChangeStatusModelClose>&times;</button><br>
-                <span *ngIf="selected_lead?.status" style="font-weight: bold;">{{'leads.status' | translate}} - {{selected_lead?.status?.status_details?.name}}</span>
+                <span *ngIf="selected_lead?.broker_status" style="font-weight: bold;">{{'leads.broker_status' | translate}} - {{selected_lead?.broker_status?.status_details?.name}}</span>
             </div>
             <div class="col-12">
             <span *ngIf="selected_lead?.status" style="font-weight: bold;white-space: pre-line">{{'leads.status' | translate}} - {{selected_lead?.status?.status_details?.name}}</span>

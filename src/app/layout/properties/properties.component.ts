@@ -124,6 +124,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   @ViewChild('closeExtBrokerModal') closeExtBrokerModal: ElementRef;
   @ViewChild('openInstallmentModal') openInstallmentModal: ElementRef;
   @ViewChild('closeInstallmentModal') closeInstallmentModal: ElementRef;
+  @ViewChild('linkOutsideBrokerModal') linkOutsideBrokerModal: ElementRef;
+  @ViewChild('closeOutsideBrokerModal') closeOutsideBrokerModal: ElementRef;
   local_storage_parameter: any;
   @ViewChild('notesadddModalOpen') notesadddModalOpen: ElementRef;
   @ViewChild('notesadddModalClose') notesadddModalClose: ElementRef;
@@ -1070,16 +1072,16 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         });
   }
 
-  getBothBroker(property: any, keyword: string) {
+  getBothBroker(property: any, keyword: string, inhouse) {
     this.spinner.show();
     if (property) { this.property = property; }
-    const input = { keyword: '' };
+    const input = { keyword: '', type: inhouse ? 1 : 2 };
     input.keyword = keyword;
     this.admin.postDataApi('getBothBroker', input).subscribe(r => {
       this.spinner.hide();
       if (property) {
         this.keyword = '';
-        this.linkExtBrokerModal.nativeElement.click();
+        inhouse? this.linkExtBrokerModal.nativeElement.click() : this.linkOutsideBrokerModal.nativeElement.click();
       }
       this.allExtBrokers = r['data'];
     }, error => {
@@ -1088,7 +1090,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     });
   }
 
-  agentTab(details: any) {
+  agentTab(details: any, inhouse) {
     let route = '';
     if (details.is_external_agent) {
       route = `${'/dashboard/view-inhouse-users/outside-broker/'}${details.id}`;
@@ -1096,11 +1098,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       route = `${'/dashboard/view-inhouse-users/inhouse-broker/'}${details.id}`;
     }
     this.keyword = '';
-    this.closeExtBrokerModal.nativeElement.click();
+    inhouse? this.closeExtBrokerModal.nativeElement.click() : this.closeOutsideBrokerModal.nativeElement.click();
     this.router.navigate([route]);
   }
 
-  attachExternalBrokerPopUp(broker: any, flag: number) {
+  attachExternalBrokerPopUp(broker: any, flag: number, inhouse) {
 
     this.parameter.text = flag === 1 ? this.translate.instant('message.error.wantToLinkAgent') :
       this.translate.instant('message.error.wantToUnLinkAgent');
@@ -1113,7 +1115,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.attachExternalBroker(broker, flag);
+        inhouse ? this.attachExternalBroker(broker, flag) : this.attachOutsideBroker(broker, flag);
       }
     });
   }
@@ -1125,6 +1127,22 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     }).subscribe(r => {
       this.closeExtBrokerModal.nativeElement.click();
       this.property.external_broker = flag === 1 ? broker : null;
+      const text = flag === 1 ? this.translate.instant('message.success.linkedSuccessfully') :
+        this.translate.instant('message.success.unlinkedSuccessfully');
+      swal(this.translate.instant('swal.success'), text, 'success');
+    },
+      error => {
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
+      });
+  }
+
+  attachOutsideBroker(broker: any, flag: number) {
+    this.admin.postDataApi('attachOutsideAgent', {
+      property_id : this.property.id,
+      outside_agent_id: broker.id  
+    }).subscribe(r => {
+      this.closeOutsideBrokerModal.nativeElement.click();
+      this.property.external_outside_agent = flag === 1 ? broker : null;
       const text = flag === 1 ? this.translate.instant('message.success.linkedSuccessfully') :
         this.translate.instant('message.success.unlinkedSuccessfully');
       swal(this.translate.instant('swal.success'), text, 'success');
