@@ -32,16 +32,16 @@ export class InterestedProjectComponent implements OnInit {
   }
 
   viewProjects(data, page, user_id) {
-    // this.spinner.show();
-    // this.admin.postDataApi('leads/viewedProjects', {lead_id: user_id, page: page}).subscribe(r => {
-    //   this.spinner.hide();
-    //   this.parameter.total = r.total;
-    //   this.parameter.viewed_projects = r.data;
-    //   if (this.parameter.page === 1) {
-    //     this.showProjectModal.nativeElement.click();
-    //   }
-    // }, error => {
-    //   this.spinner.hide();
-    // });
+    this.spinner.show();
+    this.admin.postDataApi('leads/getLeadInterestedProjects', {lead_id: this.lead_id, page: page}).subscribe(r => {
+      this.spinner.hide();
+      this.parameter.total = r.total;
+      this.parameter.interested_projects = r.data;
+      if (this.parameter.page === 1) {
+        this.showProjectModal.nativeElement.click();
+      }
+    }, error => {
+      this.spinner.hide();
+    });
   }
 }
