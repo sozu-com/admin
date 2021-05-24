@@ -475,19 +475,35 @@ export class CommissionIncomeComponent implements OnInit {
   }
 
   exportData() {
-    if (this.items) {
-      const finalData = [];
-      for (let index = 0; index < this.items.length; index++) {
-        const p = this.items[index];
+    if (this.comn_type == 4) {
+      const finalData1 = [];
+      for (let index = 0; index < this.commissionsss.length; index++) {
+        const p = this.commissionsss[index];
 
-        finalData.push({
+        finalData1.push({
           'Month': p.label || '',
-          'Commission Amount': p.commission || 0,
-          'IVA Amount': p.iva_amount || 0
+          'Cancelation Amount': p.expected || 0,
+          //'IVA Amount': p.iva_amount || 0
         });
       }
-      this.exportAsExcelFile(finalData, 'commissionReport-');
+      this.exportAsExcelFile(finalData1, 'commissionReport-');
+    
+    } else {
+      if (this.items) {
+        const finalData = [];
+        for (let index = 0; index < this.items.length; index++) {
+          const p = this.items[index];
+  
+          finalData.push({
+            'Month': p.label || '',
+            'Commission Amount': p.commission || 0,
+            'IVA Amount': p.iva_amount || 0
+          });
+        }
+        this.exportAsExcelFile(finalData, 'commissionReport-');
+      }
     }
+   
   }
   // will be used in case of excel
   public exportAsExcelFile(json: any[], excelFileName: string): void {
