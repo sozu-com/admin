@@ -64,11 +64,13 @@ export class AddPropertyModel {
     configuration: Configuration;
     creator: User;
     broker_commision = 0;
+    outside_percentage_commission = 0;
     total_commission = 0;
     price: string = null;
     property_linked_documents?: Array<Docs>;
     comm_total_commission_amount?: number;
     comm_shared_commission_amount?: number;
+    outside_agent_commission?: number;
     parking_area: Array<any> = [];
     final_price: any;
     configuration_toggle:any=false;

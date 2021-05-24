@@ -1787,7 +1787,16 @@ export class AddPropertyComponent implements OnInit {
     const amount = this.numberUptoNDecimal((percent * price) / 100, 2);
     this.model.comm_shared_commission_amount = amount;
   }
-
+  getOutSideAgentAmount(percent: number) {
+    const price = parseFloat(this.model.final_price || 0);
+    if (!price || price == 0) {
+      this.toastr.clear();
+      this.toastr.info(this.translate.instant('message.error.whenFinalPriceIsGeneratedCommissionSetAccordingToPercentageEnter'), this.translate.instant('swal.error'));
+      return;
+    }
+    const amount = this.numberUptoNDecimal((percent * price) / 100, 2);
+    this.model.outside_agent_commission = amount;
+  }
   numberUptoNDecimal(num: any, n: number) {
     return num ? num.toFixed(n) : 0;
   }
@@ -1800,7 +1809,14 @@ export class AddPropertyComponent implements OnInit {
       this.model.broker_commision = this.numberUptoNDecimal((this.model.comm_shared_commission_amount * 100) / Number(this.model.final_price || 0), 2);
     }
   }
-
+  changeOutSideCommissionPer(value) {
+    if (value) {
+      this.model.total_commission = this.numberUptoNDecimal((this.model.comm_total_commission_amount * 100) / Number(this.model.final_price || 0), 2);
+    }
+    else {
+      this.model.outside_percentage_commission = this.numberUptoNDecimal((this.model.outside_agent_commission * 100) / Number(this.model.final_price || 0), 2);
+    }
+  }
   changeCommissionAmt(value) {
     if (value) {
       this.model.comm_total_commission_amount = this.numberUptoNDecimal((this.model.total_commission * Number(this.model.final_price || 0)) / 100, 2)
@@ -1809,7 +1825,14 @@ export class AddPropertyComponent implements OnInit {
       this.model.comm_shared_commission_amount = this.numberUptoNDecimal((this.model.broker_commision * Number(this.model.final_price || 0)) / 100, 2)
     }
   }
-
+  changeOutSideCommissionAmt(value) {
+    if (value) {
+      this.model.comm_total_commission_amount = this.numberUptoNDecimal((this.model.total_commission * Number(this.model.final_price || 0)) / 100, 2)
+    }
+    else {
+      this.model.outside_agent_commission = this.numberUptoNDecimal((this.model.outside_percentage_commission * Number(this.model.final_price || 0)) / 100, 2)
+    }
+  }
   getParkingSpaceLotsAndparkingSpaceRent = (): void => {
     this.spinner.show();
     forkJoin([
