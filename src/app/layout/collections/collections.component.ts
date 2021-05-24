@@ -45,6 +45,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   test_Collection: any;
   sameAmount: any;
   sumData: any;
+  pay_id: any = [];
   // input: CollectionReport;
   public parameter: IProperty = {};
   public location: IProperty = {};
@@ -55,7 +56,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   noteDesc: string;
   noteDate: any;
   noteIndex: number;
+  select_payment_method:any;
   noteEmails: any;
+  editPC_Sum: any;
   oldEmails: any;
   colbarations: any = [];
   folderName: string;
@@ -80,9 +83,11 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   docFile: string;
   payment_date: any = new Date();
   collection_commission_id: number;
+  collection_commission:any;
   payment_choice_id: any;
   surplus_payment_choice_id: any;
   payment_method_id: any;
+  selectedLevel: any;
   bank_id: number;
   description: string;
   typeOfPayment: string;
@@ -227,6 +232,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   purchase__amount: any;
   agent_amount: any;
   collection_amount: any;
+  purchase_payment: any;
   constructor(
     public constant: Constant,
     public apiConstants: ApiConstants,
@@ -1414,7 +1420,10 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       }
     }
   }
-
+  setPaymentmethod(item:any){
+    let data = this.collection_commission.find(value=> value.payment_method_id == item);
+    this.pay_id = data;
+  }
   closePaymentModal() {
     this.paymentModalClose.nativeElement.click();
   }
@@ -2088,6 +2097,13 @@ export class CollectionsComponent implements OnInit, OnDestroy {
 
 
   editCollectionCommReceipt(item: any) {
+    
+    this.collection_commission = item;
+    this.closeEditPaymentModal();
+    this.editCollectionReceiptOpen.nativeElement.click();
+  }
+
+  setPayAmount(item: any){
     this.payment_id = item.id;
     this.payment_method_id = (item.payment_method || {}).id;
     this.description = item.description;
@@ -2100,9 +2116,6 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     this.pdf_url = item.pdf_url;
     this.xml_url = item.xml_url;
     this.invoice_id = item.invoice_id;
-
-    this.closeEditPaymentModal();
-    this.editCollectionReceiptOpen.nativeElement.click();
   }
 
   deleteCollectionCommReceipt(item: any) {
