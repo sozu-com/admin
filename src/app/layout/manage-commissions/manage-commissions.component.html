@@ -350,7 +350,7 @@
                       <label>{{'table.th.remaniningAmount' | translate}}</label>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 100px;">
+                  <!-- <th style="text-align:left; width: 100px;">
                     <div class="table-search">
                       <label>{{'table.th.statusAccount' | translate}}</label>
                       <select [(ngModel)]="parameter.collection_status" (change)="parameter.page=1;getListing()" style="width: 100px;">
@@ -358,7 +358,7 @@
                         <option *ngFor="let c of collectionStatusFilter" value="{{c.value}}">{{c.name}}</option>
                       </select>
                     </div>
-                  </th>
+                  </th> -->
                   <th style="width: 100px;" *ngIf="parameter.flag!=5">
                     <div class="table-search">
                       <label>{{'table.th.actions.label' | translate}}</label>
@@ -479,7 +479,7 @@
                   <td><span>{{(p?.payment_commission || 0) | currency}}</span></td>
                   <td><span>{{getRemainingAmt(p) | currency}}</span></td>
 
-                  <td>
+                  <!-- <td>
                    
                     <div *ngIf="p?.is_cancelled==0 && p?.is_commission_sale_enabled==0 && p?.payment_status==1"
                       class="status green" title="Up to Date"></div>
@@ -488,7 +488,7 @@
                     <div *ngIf="p?.is_cancelled==0 && p?.is_commission_sale_enabled==0 && p?.payment_status==3"
                       class="status red" title="Overdue Payment"></div>
                    
-                  </td>
+                  </td> -->
                   <td>
                     <div class="table-actions">
                       <button  (click)="all(p)"

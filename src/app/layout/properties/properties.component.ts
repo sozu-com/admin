@@ -1139,7 +1139,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   attachOutsideBroker(broker: any, flag: number) {
     this.admin.postDataApi('attachOutsideAgent', {
       property_id : this.property.id,
-      outside_agent_id: broker.id  
+      outside_agent_id: broker.id  ,
+      flag: flag,name: broker.name
     }).subscribe(r => {
       this.closeOutsideBrokerModal.nativeElement.click();
       this.property.external_outside_agent = flag === 1 ? broker : null;
