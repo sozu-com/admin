@@ -567,8 +567,8 @@
                 </div>
                 <div style="padding-left: inherit;" *ngFor="let tempStatusName of addChangeStatusNames">
                     <div class="col-md-12 col-6">
-                        <span><input type="radio" id="status" name="status" [(ngModel)]="this.selectedAddChangeStatus"
-                                value="{{tempStatusName.id}}" [checked]= "isChecked(tempStatusName)"></span>
+                        <span><input type="radio" id="status" name="status" value="{{tempStatusName.id}}" 
+                            [checked]= "tempStatusName.id == selectedAddChangeStatus" (change)="isChecked(tempStatusName)"></span>
                         <label style="font-weight: bold; padding: inherit;font-size: medium;">{{tempStatusName.name}}</label>
                     </div>
                 </div>

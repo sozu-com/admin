@@ -442,7 +442,7 @@ export class InhouseBrokerComponent implements OnInit {
   }
 
   isChecked(tempStatusName) {
-    return tempStatusName.id == this.selectedAddChangeStatus ? true : false;
+    this.selectedAddChangeStatus = tempStatusName.id;
   }
 
   deletePopup(item){

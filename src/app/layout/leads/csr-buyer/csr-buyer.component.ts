@@ -51,6 +51,7 @@ export class CsrBuyerComponent implements OnInit {
   allSelected: boolean = false;
   addChangeStatusNames: string[] = [];
   selectedAddChangeStatus: any;
+  selected_array = [];
 
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
   selected_lead: any;
@@ -463,7 +464,7 @@ export class CsrBuyerComponent implements OnInit {
   }
 
   isChecked(tempStatusName) {
-    return tempStatusName.id == this.selectedAddChangeStatus ? true : false;
+    this.selectedAddChangeStatus = tempStatusName.id;
   }
 
   closeModal(){
