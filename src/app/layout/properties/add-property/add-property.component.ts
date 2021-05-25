@@ -226,7 +226,6 @@ export class AddPropertyComponent implements OnInit {
     this.setCurrentPosition();
   }
   uploadDoc(userdata) {
-    //console.log(userdata, "user id")
     this.router.navigate(['/dashboard/properties/documents-upload', userdata.id]);
   }
   setAvailableStatus(aindex: number) {
@@ -1110,7 +1109,6 @@ export class AddPropertyComponent implements OnInit {
         }
 
         // amenities images
-        //console.log(this.parameter.amenities);
         if (this.parameter.amenities && this.parameter.amenities.length > 0) {
           this.parameter.amenities.forEach(element => {
             const img = [];
@@ -1479,7 +1477,6 @@ export class AddPropertyComponent implements OnInit {
   }
 
   clickOnSale() {
-    // console.log(this.model.for_sale);
   }
 
   onSelectVideo(event) {
@@ -1534,7 +1531,6 @@ export class AddPropertyComponent implements OnInit {
         videoObj.thumb = success['data'].thumb;
         this.model.videos = [videoObj];
       }, error => {
-        // console.log(error);
       }
     );
   }
