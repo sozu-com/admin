@@ -1,237 +1,3 @@
-<!-- 
-<div *ngIf="!project" style="margin-top:120px;" class="container" >
-  <img style="width:100%" src="assets/img/loading_content.gif">
-</div>
-<div class="inner-page-wrapper details-page gray-bg-1" *ngIf="project" id="contentToConvert">
- <div class="container">
-
-    <div class="clearfix"></div>
-    <div class="details-header marginB30">
-       <div class="row">
-          <div class="col-md-8 col-12">
-             
-             <h4>
-                <a (click)="goBack()" href="javascript://">
-               <i class="fa fa-angle-double-left"></i> </a>&nbsp;
-               {{project.name}} <span *ngIf="project.building_type" class="new-project">{{project.building_type.name}}</span></h4>
-             <p class="p14" *ngIf="project.developer">{{'addForm.by' | translate}} {{project.developer.name}}</p>
-             <p class="p18">{{project.address}}</p>
-          </div>
-          {{fixed}}
-          <div class="col-md-2">
-            <div class="btn-cont text-right">
-              <button   (click)="downloadPDF()" class="btn btn-primary">{{'propertyDetail.DownloadPDF' | translate}}</button>
-            </div>
-            </div>
-          <div class="col-md-2">
-                  <div class="btn-cont text-right">
-                    <button   routerLink="/dashboard/projects/view-projects"
-                      class="btn btn-primary">{{'quickVisualization.back' | translate}}</button>
-                  </div>
-          </div>
-       </div>
-    </div>
-    <div class="details-photos">
-       <div class="row cust-row">
-          <div class="col-md-8 cust-col">
-             <img class="main-photo img-fluid" onerror='this.src="assets/img/placeholder.png"' [defaultImage]="project?.main_image| img:'thumb'" [lazyLoad]="project?.main_image">
-          </div>
-          <div class="col-md-4 cust-col" *ngIf="project.images">
-              <img *ngIf="project.images[0]" class="secondary-photo img-fluid" onerror='this.src="assets/img/placeholder.png"' [defaultImage]="project.images[0].image| img:'thumb'" [lazyLoad]="project.images[0].image">
-              <img *ngIf="project.images[1]" class="secondary-photo img-fluid" onerror='this.src="assets/img/placeholder.png"' [defaultImage]="project.images[1].image| img:'thumb'" [lazyLoad]="project.images[1].image">
-            
-          </div>
-       </div>
-
-       
-    </div>
-    <div class="img-des">
-       <div class="row">
-          <div class="col-md-3 col-sm-6 col-12 img-c">
-             <div class="block">
-               <p class="p18">{{project?.building_towers?.length}} {{'addForm.tower.tower' | translate}} - 
-                  {{project?.units}} {{('addForm.units' | translate)}}</p>
-                <p class="p13">{{'addForm.projectSize' | translate}}</p>
-            
-             </div>
-          </div>
-          <div class="col-md-3 col-sm-6 col-12 img-c">
-             <div class="block">
-                <p class="p18">{{project?.base_min_price | customPrice}} / {{'addForm.mts2' | translate}}</p>
-                <p class="p13">{{'addForm.AveragePricePerMts2' | translate}}</p>
-             </div>
-          </div>
-          <div class="col-md-3 col-sm-6 col-12 img-c">
-             <div class="block">
-                <p class="p18">{{config_string}}</p>
-                <p class="p13">{{'addForm.configuration' | translate}}</p>
-             </div>
-          </div>
-          <div class="col-md-3 col-sm-6 col-12 img-c">
-             <div class="block">
-                <p *ngIf="project.launch_date"class="p18">{{project.launch_date| date:"d MMM, y"}}</p>
-                <p *ngIf="!project.launch_date" class="p18">{{'addForm.notAvailable' | translate}}</p>
-                <p class="p13">{{'addForm.possessionDate' | translate}}</p>
-             </div>
-          </div>
-         
-       </div>
-    </div>
- </div>
- <div class="cust-tabs full-width-tabs marginT20">
-    <hr id="bottomDetails">
-    <div class="container">
-       <ul class="nav nav-pills">
-          <li class="nav-item {{active}}">
-             <a class="nav-link" data-toggle="pill" href="#one">{{'addForm.overview' | translate}}</a>
-          </li>
-          <li class="nav-item">
-             <a class="nav-link" data-toggle="pill" (click)="active=''" href="#two">{{'addForm.configs' | translate}}</a>
-          </li>
-          <li class="nav-item">
-             <a class="nav-link" data-toggle="pill" (click)="active=''" href="#three">{{'addForm.amenities' | translate}}</a>
-          </li>
-          <li class="nav-item">
-             <a class="nav-link" data-toggle="pill" (click)="active=''" href="#four">{{'addForm.developer.developer' | translate}}</a>
-          </li>
-
-       </ul>
-    </div>
-    <hr>
-    <div class="spacer30"></div>
-    <div class="container">
-       <div class="row">
-          <div class="col-lg-7 col-md-12 col-sm-12 col-12">
-             <div class="white-bg padding40">
-                <div class="tab-content">
-                   <div class="tab-pane active" id="one">
-                      <p class="p14">{{'addForm.overview' | translate}}</p>
-                      <p class="newline">{{project.description}}</p>
-
-                      <div class="row">
-                        <div *ngIf="project.custom_values" class="overview-table marginT15 col-6">
-                          <table style="width: 100%">
-                            <tbody>
-                               <tr *ngFor="let item of project.custom_values">
-                                  <td><label>{{item.name}}:</label></td>
-                                  <td><label>{{item.value}}</label></td>
-                               </tr>
-                            </tbody>
-                         </table>
-                        </div>
-                      </div>
-
-                      <div class="map-3 marginT30">
-                         <div style="height:200px;" #mapListing>
-                         </div>
-                      </div>
-                   </div>
-                   <div class="tab-pane" id="two">
-
-                     <p class="p14">{{'addForm.configs' | translate}}</p>
-                     <div *ngFor="let config of project.configurations">
-                       <div class="config-table">
-                          <table style="width:100%;">
-                             <tbody>
-                                <tr>
-                                   <th>{{'addForm.configurationType' | translate}}</th>
-                                   <th>{{'addForm.carpetArea' | translate}}</th>
-                                   <th>{{'addForm.basePrice' | translate}}</th>
-                                </tr>
-                                <tr>
-                                   <td>
-                                      <p class="p14 marginB0">{{config?.name ? config?.name : config.config.name}}</p>
-
-                                   </td>
-                                   <td>
-                                      <table style="width:100%;">
-                                         <tbody>
-                                            <tr>
-                                               <td>{{config.carpet_area}} {{'addForm.sqmt' | translate}}</td>
-                                            </tr>
-
-                                         </tbody>
-                                      </table>
-                                   </td>
-                                   <td>
-                                      <table style="width:100%;">
-                                         <tbody>
-                                            <tr>
-                                               <td>{{config.base_price|price}}</td>
-                                            </tr>
-
-                                         </tbody>
-                                      </table>
-                                   </td>
-                                </tr>
-                             </tbody>
-                          </table>
-                       </div>
-                       <div class="fig-block padding40 text-center">
-                          <img class="img-fluid" onerror='this.src="assets/img/placeholder.png"' [defaultImage]="config.floor_map_image| img:'thumb'" [lazyLoad]="config.floor_map_image">
-                          
-                       </div>
-                     </div>
-
-                   </div>
-                   <div class="tab-pane" id="three">
-                     <p class="p14">{{'addForm.amenities' | translate}}</p>
-                     <div class="icons-group">
-                        <div *ngFor="let am of project.amenities" class="icons-control">
-                           <div class="fig-block">
-                              <img class="icon" [src]="am.icon" onerror='src="http://via.placeholder.com/24x24"' alt="img">
-                           </div>
-                           <p class="p13">{{am.name}}</p>
-                        </div>
-                    </div>
-                   </div>
-                   <div class="tab-pane" id="four">
-                     <p class="p14">{{'addForm.contactDeveloper' | translate}}</p>
-                     <div class="contact-developer white-bg">
-                        <table class="table">
-                           <tr>
-                              <td style="width:10%">
-                                 <div class="fig-block">
-                                    <img class="img-fluid" [src]="project?.developer?.developer_image" onerror='src="assets/img/default_img.png"' alt="img">
-                                 </div>
-                              </td>
-                              <td style="width:60%">
-                                 <p class="p11">{{'addForm.developer.developer' | translate}}</p>
-                                 <p class="p16">{{project?.developer?.name ? project?.developer?.name : ('table.tr.td.NA' | translate)}}</p>
-                                 <p class="p13">{{project?.developer?.developer_title ? project?.developer?.developer_title : ('table.tr.td.NA' | translate)}}</p>
-                              </td>
-                              <td style="width:30%;">
-                                 <p class="p16">1</p>
-                                 <p class="p13">{{'addForm.projects' | translate}}</p>
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 &nbsp;
-                              </td>
-                              <td>
-                                 <p class="p12">{{'addForm.contactDeveloper' | translate}}</p>
-                                 <p *ngIf="project?.developer?.country_code">{{project?.developer?.country_code}} {{project.developer.phone | numberex:2}}</p>
-                              </td>
-                              <td>
-                                 &nbsp;
-                              </td>
-                           </tr>
-                        </table>
-                     </div>
-                   </div>
-                   <div class="tab-pane" id="five">
-
-                   </div>
-                </div>
-             </div>
-          </div>
-       </div>
-    </div>
- </div>
-  <div class="spacer60"></div>
-</div> -->
-
 
 <div *ngIf="loadingListing" style="margin-top:120px;" class="container">
   <img style="width:100%" src="assets/img/loading_content.gif">
@@ -240,17 +6,6 @@
   <div class="container">
     <!-- <app-schema [schema]="schema"></app-schema> -->
     <div class="clearfix"></div>
-    <!-- <div class="row">
-      <div class="col-12">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="javascript://" (click)="gotoHome()">{{ts.lang.Home}}</a></li>
-          <li class="breadcrumb-item" *ngIf="project.city"><a href="javascript://">{{project.city.name}}</a></li>
-          <li class="breadcrumb-item" *ngIf="project.locality"><a
-            href="javascript://">{{project.locality.name}}</a></li>
-          <li class="breadcrumb-item active"><a href="javascript://">{{project.name}}</a></li>
-        </ol>
-      </div>
-    </div> -->
     <div class="details-header marginB30">
       <div class="row">
         <div class="col-md-6 col-12">
@@ -443,7 +198,7 @@
                     </table>
                   </div>
                   <div class="fig-block padding40 text-center">
-                    <img class="img-fluid" [src]="floor_map_image| img:'small'" alt="img">
+                    <img class="img-fluid" [src]="config.configBase" alt="img">
                   </div>
                 </div>
 
@@ -454,29 +209,31 @@
                     <!--(click)="viewProjectPhotos(project.images, project.images360, project.videos)"-->
                 </p>
                 <div class="project-gallery marginB15" *ngIf="project?.images360 && project?.images360.length>0">
-                  <img [lazyLoad]="projectImage360"
-                       [defaultImage]="projectImage360|img:'thumb'"
-                        onerror='this.src="assets/img/placeholder.png"'>
+                  <img [lazyLoad]="image_360"
+                           [defaultImage]="image_360|img:'thumb'"
+                           onerror='this.src="assets/img/placeholder.png"'>
+                  <!-- <img [lazyLoad]="image_360"
+                       [defaultImage]="image_360"
+                        onerror='this.src="assets/img/placeholder.png"'> -->
                        <!--(click)="view360Img(project.images360[0].image)"-->
                        <!--(click)="view360Img(project.images360[0].image)"-->
-                  <div class="upload-caption" >
+                  <!-- <div class="upload-caption" >
                     <p class="number ng-star-inserted">
                       <img src="assets/img/ic_360img.png">
                     </p>
-                  </div>
+                  </div> -->
                 </div>
                 <div *ngIf="(project?.images && project?.images.length>0) || (project?.videos && project?.videos.length>0)" class="gallery-bottom">
                   <div *ngIf="project?.images.length>0" class="images-wrapper">
                     <a [href]="galleryImageOne" data-lightbox="image">
                       <img [lazyLoad]="galleryImageOne"
                            [defaultImage]="galleryImageOne|img:'thumb'"
-                           onerror='this.src="assets/img/placeholder.png"'
-                           alt="img">
+                           onerror='this.src="assets/img/placeholder.png"'>
                     </a>
                   </div>
                   <div *ngIf="project?.videos && project?.videos.length>0" class="video-wrapper">
-                    <img [lazyLoad]="project.videos[0].thumb"
-                         [defaultImage]="project.videos[0].thumb|img:'thumb'"
+                    <img [lazyLoad]="video_thumb"
+                         [defaultImage]="video_thumb|img:'thumb'"
                          onerror='this.src="assets/img/placeholder.png"'
                          alt="img">
                          <!--(click)="viewVideo(project.videos[0].video)" -->
@@ -615,7 +372,7 @@
                     </table>
                   </div>
                   <div class="fig-block padding40 text-center">
-                    <img class="img-fluid" [src]="floor_map_image | img:'medium'" alt="img">
+                    <img class="img-fluid" [src]="config.configBase" alt="img">
                   </div>
                 </div>
 
@@ -681,30 +438,27 @@
 
 
                 <div class="project-gallery marginB15" *ngIf="project?.images360.length>0">
-                  <img [lazyLoad]="projectImage360"
-                       [defaultImage]="projectImage360|img:'thumb'"
-                        onerror='this.src="assets/img/placeholder.png"'
-                       alt="img">
+                  <img [lazyLoad]="image_360"
+                  [defaultImage]="image_360|img:'thumb'"
+                  onerror='this.src="assets/img/placeholder.png"'>
                        <!--(click)="view360Img(project.images360[0].image)"-->
-                       <!--(click)="view360Img(project.images360[0].image)"-->
-                  <div class="upload-caption" >
+                  <!-- <div class="upload-caption" >
                     <p class="number ng-star-inserted">
                       <img src="assets/img/ic_360img.png" alt="360 img">
                     </p>
-                  </div>
+                  </div> -->
                 </div>
                 <div *ngIf="project?.images.length>0 || project?.videos.length>0" class="gallery-bottom">
                   <div *ngIf="project?.images.length>0" class="images-wrapper">
                     <a [href]="galleryImageOne" data-lightbox="image">
                       <img [lazyLoad]="galleryImageOne"
                            [defaultImage]="galleryImageOne|img:'thumb'"
-                           onerror='this.src="assets/img/placeholder.png"'
-                           alt="img">
+                           onerror='this.src="assets/img/placeholder.png"'>
                     </a>
                   </div>
                   <div *ngIf="project?.videos.length>0" class="video-wrapper">
-                    <img [lazyLoad]="project.videos[0].thumb"
-                         [defaultImage]="project.videos[0].thumb|img:'thumb'"
+                    <img [lazyLoad]="video_thumb"
+                         [defaultImage]="video_thumb|img:'thumb'"
                          onerror='this.src="assets/img/placeholder.png"'
                          alt="img">
                          <!--(click)="viewVideo(project.videos[0].video)" -->

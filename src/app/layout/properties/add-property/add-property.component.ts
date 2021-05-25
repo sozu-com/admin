@@ -263,6 +263,7 @@ export class AddPropertyComponent implements OnInit {
           this.parameter.propertyDetails = success['data'];
           this.getParkingSpaceLotsAndparkingSpaceRent();
           this.propertyData = success['data'];
+          this.model.external_outside_agent = this.propertyData.external_outside_agent || {};
           if (this.model.configuration_toggle && this.model.building_configuration_id) {
             this.model.floor_plan = (this.propertyData.building_configuration || {}).floor_map_image;
             this.model.image = (this.propertyData.building_configuration || {}).cover_profile;

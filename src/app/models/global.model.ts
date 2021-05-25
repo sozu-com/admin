@@ -64,6 +64,7 @@ export class Building {
   max_carpet_area?: number;
   images360?: any[] = [];
   images?: any[] = [];
+  videos?: any[] = [];
   amliy?: test;
 }
 export class test {;

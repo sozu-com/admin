@@ -74,6 +74,7 @@ export class AddPropertyModel {
     parking_area: Array<any> = [];
     final_price: any;
     configuration_toggle:any=false;
+    external_outside_agent:any;
 }
 export class Docs {
     id: string;

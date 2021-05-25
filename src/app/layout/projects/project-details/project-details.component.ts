@@ -186,8 +186,8 @@ export class ProjectDetailsComponent implements OnInit {
   main_image:any;
   galleryImageOne:any;
   galleryImagetwo:any;
-  floor_map_image:any;
-  projectImage360:any;
+  image_360:any;
+  video_thumb:any;
   amenities_icon?:any =[] ;
   constructor(
     private loader: MapsAPILoader,
@@ -233,8 +233,10 @@ this.base64address = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAs
 
   getListing() {
     this.loadingListing = true;
+    this.spinner.show();
     this.admin.postDataApi('getProjectDetails', { project_id: this.id }).subscribe(r => {
       this.project = r['data'].building;
+      this.loadingListing = false;
        //coverImage
        if ((this.project || {}).main_image) {
         this.admin
@@ -265,25 +267,31 @@ this.base64address = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAs
           this.galleryImagetwo = 'data:image/jpeg;base64,' + response.data
         })
       }
+      //images 360
+      if ((this.project.images360 || [])) {
+        // const input = this.project.images360[0].image ? this.project.images360[0].image : []
+        this.admin.postDataApi('getCoverImage', { image: this.project.images360[0].image })
+        .subscribe((abc: any) => {
+          this.image_360 = 'data:image/jpeg;base64,' + abc.data;
+        })
+      }
+      //video
+      if ((this.project.videos || [])) {
+        // const input = this.project.images360[0].image ? this.project.images360[0].image : []
+        this.admin.postDataApi('getCoverImage', { image: this.project.videos[0].thumb })
+        .subscribe((abc: any) => {
+          this.video_thumb = 'data:image/jpeg;base64,' + abc.data;
+        })
+      }
       //configuration
       if ((this.project || {}).configurations) {
         (this.project || {}).configurations.forEach(x => {
              this.admin.postDataApi('getCoverImage', {image: x.floor_map_image })
              .subscribe(success => {
-               this.floor_map_image = 'data:image/jpeg;base64,' + success.data;
-             },error => {
-             });
+              const con = 'data:image/jpeg;base64,' + success.data;
+              x['configBase'] = con;
+             },error => {});
             });
-      }
-      //images 360
-      if ((this.project || {}).images360) {
-        this.admin
-        .postDataApi('getCoverImage', {
-          image: this.project.images360[0] ? this.project.images360[0].image : []
-        })
-        .subscribe((response: any) => {
-          this.projectImage360 = 'data:image/jpeg;base64,' + response.data
-        })
       }
        //amenities
        if ((this.project || {}).amenities) {
@@ -295,7 +303,7 @@ this.base64address = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAs
              },error => {});
         });
       }
-      this.loadingListing = false;
+      this.spinner.hide();
       this.project.total_rent = 0;
       this.project.total_sale = 0;
       this.project.units = 0;
