@@ -23,7 +23,7 @@
           </div>
         </div> -->
         
-        <div class="col-lg-2 col-md-4 col-4">
+        <div class="col-lg-2 col-md-4 col-4" *ngIf="parameter.userType=='inhouse-broker'">
           <div class="btn-cont text-right">
               <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#addInhouseUser" #inhouseUserModalOpen>{{'table.addNewBtn' | translate}}</a>
               <a *ngIf="admin?.admin_acl['Data Collector Management']?.can_create==1 && parameter.userType=='data-collectors' ||
@@ -38,6 +38,14 @@
                 admin?.admin_acl['Alliance Agent Management']?.can_create == 1 && parameter.userType=='alliance-agents' || 
                 admin?.admin_acl['Cordinator Agent Management']?.can_create == 1 && parameter.userType=='cordinator-agents'" 
                 class="btn btn-primary-new width100P" href="javascript://" (click)="showAclAddPage()">{{'table.addNewBtn' | translate}}</a>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-4" *ngIf="parameter.userType=='outside-broker'">
+          <div class="btn-cont text-right">
+            <a class="btn btn-primary-new width100P" href="javascript://"  data-toggle="modal" data-target="#addouthouseUser"
+            #outhouseUserModalOpen>{{'table.addNewBtn' | translate}}</a>
+              <!-- <a class="btn btn-primary-new width100P" 
+              href="javascript://" (click)="testRoute()">{{'table.addNewBtn' | translate}}</a> -->
           </div>
         </div>
     </div>
@@ -181,7 +189,7 @@
               </div>
             </th>
             <th style="width:20%">
-              &nbsp;
+              <label>{{'table.th.actions.label' | translate}}</label>
             </th>
           </tr>
 
@@ -311,6 +319,134 @@
   </div>
 </div>
 
+<div class="modal animated" id="addouthouseUser">
+  <div class="modal-dialog fadeIndown modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p style="margin-left: 12px; font-family: 'sf_ui_textbold';
+        margin-top: 12px;"><a href="javascript://" (click)="goBack(true)">
+        <i class="fa fa-angle-double-left"></i> 
+       </a> &nbsp;&nbsp;{{'viewManualLeads.outSide' | translate}}</p>
+        <button type="button" style="display: none;" class="close" data-dismiss="modal" #modalClose>&times;</button>
+        <button type="button" class="close" (click)="closeModal(); addForm.reset()">&times;</button>
+      </div>
+
+      <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm"
+        (ngSubmit)="addNewUser(addForm)">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+              <div class="add-img" style="display:flex;">
+                <img *ngIf="image" [src]="image" [defaultImage]="image| img:'thumb'" [lazyLoad]="image"
+                  style="object-fit: cover; width: 100%;">
+                <label *ngIf="model.image">
+                  <input accept="image/*" name="image" class="image"
+                    (change)="onFileChange($event, 'img_loader', 'image')" type="file">
+                </label>
+                <label *ngIf="!image">{{'addForm.image' | translate}}</label>
+                <input *ngIf="!image" accept="image/*" name="image" class="image"
+                  (change)="onFileChange($event, 'img_loader', 'image')" type="file">
+                <div *ngIf="model.img_loader" class="loaderr"></div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+              <div class="btn-cont text-right">
+                <button *ngIf="!model.id" type="submit" [disabled]="!model.name || !model.phone"
+                  class="btn btn-primary">{{'viewManualLeads.addNewBtn' | translate}}</button>
+                <button *ngIf="model.id" type="submit" 
+                  class="btn btn-primary">{{'addForm.updateBtn' | translate}}</button>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="spacer40"></div>
+            </div>
+            <div class="col-lg-12 col-md-6 col-sm-12 col-12">
+              <div class="form-group-2">
+                <label>{{'addForm.names' | translate}}</label>
+                <div class="form-group">
+                  <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" maxlength="50" type="text"
+                    class="form-control" required [(ngModel)]="model.name" name="name">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12 col-md-6 col-sm-12 col-12">
+              <div class="form-group-2">
+                <label>{{'addForm.firstSurname' | translate}}</label>
+                <div class="form-group">
+                  <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" type="text" class="form-control"
+                     maxlength="30" [(ngModel)]="model.first_surname" name="first_surname">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12 col-md-6 col-sm-12 col-12">
+              <div class="form-group-2">
+                <label>{{'addForm.secondSurname' | translate}}</label>
+                <div class="form-group">
+                  <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" type="text" class="form-control"
+                    maxlength="30" [(ngModel)]="model.second_surname" name="second_surname">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12 col-md-6 col-sm-12 col-12">
+              <div class="form-group-2">
+                <label>{{'addForm.contactNumber' | translate}}
+                  <span class="color-red">*</span>
+                </label>
+                <div class="form-group">
+                  <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="constant.phonePattern"
+                    class="form-control" id="phone" minlength="1" [(ngModel)]="model.phone" name="phone" ng2TelInput
+                    #phonetest (intlTelInputObject)="telInputObject($event)" required
+                    (countryChange)="onCountryChange($event)" />
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12 col-md-6 col-sm-12 col-12">
+              <div class="form-group-2">
+                <label>{{'addForm.emailId' | translate}}
+                  <!-- <span class="color-red">*</span> -->
+                </label>
+                <div class="form-group">
+                  <input (keydown.space)="$event.preventDefault();" autocomplete="off" [pattern]="constant.emailPattern"
+                    type="email" class="form-control"  [(ngModel)]="model.email" name="email">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12 col-md-6 col-sm-12 col-12">
+              <div class="form-group-2">
+                <label>{{'addForm.freeLancerOrComapny' | translate}} 
+                  <!-- <span class="color-red">*</span> -->
+                </label>
+                <div class="form-group">
+                  <select class="form-control"  (change)="setIsCompany($event.target.value)"
+                    [(ngModel)]="model.is_company" name="is_company">
+                    <option value="true">{{'addForm.company' | translate}}</option>
+                    <option value="false">{{'addForm.freelancer' | translate}}</option>
+                  </select>
+                   <!-- required -->
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                <label>{{'viewManualLeads.agncyNAme' | translate}}</label>
+                <select name="company" class="form-control">
+                  <option value="1">Agentes SA</option>
+                  <option value="2">Agentes Sa</option>
+                  <option value="3">Agentes Sa</option>
+                  <!-- <option *ngFor="let company of companies" value="{{company.id}}"
+                    [selected]="model?.company?.id == company.id">{{company.name}}</option> -->
+                </select>
+                <!-- required -->
+              </div>
+            </div>
+          </div>
+
+        </div>
+       
+      </form>
+    </div>
+  </div>
+</div>
 
 <div class="modal animated" id="addInhouseUser">
     <div class="modal-dialog fadeIndown modal-lg">

@@ -25,6 +25,7 @@ declare const google;
 export class InhouseUsersComponent implements OnInit {
 
   @ViewChild('search1') searchElementRef: ElementRef;
+  @ViewChild('outhouseUserModalOpen') outhouseUserModalOpen: ElementRef;
   @ViewChild('inhouseUserModalOpen') inhouseUserModalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('viewModalOpen') viewModalOpen: ElementRef;
@@ -154,7 +155,10 @@ export class InhouseUsersComponent implements OnInit {
   showAclAddPage() {
     this.router.navigate(['/dashboard/access-control-mgt/add-acl-user', 0]);
   }
-
+  testRoute(){
+    const path = this.parameter.userType === 'outside-broker'
+    this.router.navigate(['/dashboard/view-inhouse-users/outside-broker/out-side-add',0]);
+  }
   openAddModal() {
     this.model.address = [];
     this.model.img_loader = false;
@@ -239,7 +243,11 @@ export class InhouseUsersComponent implements OnInit {
     this.model.agency = new Agency();
     this.model.agency.id = id;
   }
-
+  addManagerNote() {
+  
+      this.outhouseUserModalOpen.nativeElement.click();
+   
+  }
   // onSelectFile1(event: any, paramUrl: string, paramFile: string) {
   //   if (event.target.files && event.target.files[0]) {
   //     const reader = new FileReader();

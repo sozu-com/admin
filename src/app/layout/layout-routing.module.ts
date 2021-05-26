@@ -7,6 +7,7 @@ import { AuthGuard } from './../guards/auth.guard';
 import { InhouseUsersComponent } from './inhouse-users/inhouse-users.component';
 import { GenerateThumbComponent } from './generate-thumb/generate-thumb.component';
 import { AclUserGuard } from '../guards/acl-user.guard';
+import { OutSideAddComponent } from './inhouse-users/out-side-add/out-side-add.component';
 
 
 const routes: Routes = [
@@ -21,6 +22,12 @@ const routes: Routes = [
       {
         path: 'view-inhouse-users/:userType',
         component: InhouseUsersComponent,
+        canActivate: [AclUserGuard],
+        data: { roles: ['', '', ''] }
+      },
+      {
+        path: 'out-side-add',
+        component: OutSideAddComponent,
         canActivate: [AclUserGuard],
         data: { roles: ['', '', ''] }
       },
