@@ -1576,7 +1576,9 @@
     "addManualLead": "Agregar cliente potencial manual",
     "updateManualLead": "Actualizar cliente potencial manual",
     "addNewBtn": "Agregar",
-    "back": "atrás"
+    "back": "atrás",
+    "outSide":"Agregar Agente Externo",
+    "agncyNAme":"Nombre de la empresa"
   },
   "viewNotifications": {
     "label": "Notificaciones"

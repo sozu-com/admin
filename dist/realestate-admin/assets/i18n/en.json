@@ -1576,6 +1576,8 @@
     "addManualLead": "Add Manual Lead",
     "updateManualLead": "Update Manual Lead",
     "addNewBtn": "Add New",
+    "agncyNAme":"Agency Name",
+    "outSide":"Add Outside Agent",
     "back": "Back"
   },
   "viewNotifications": {

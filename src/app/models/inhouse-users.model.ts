@@ -15,6 +15,8 @@ export class InhouseUsers {
     public userModel = {
         id: '',
         name: '',
+        first_surname: '',
+    second_surname: '',
         country_code: 'mx',
         dial_code: '+52',
         phone: '',
@@ -32,6 +34,8 @@ export class InhouseUsers {
 export class UserModel {
     id: string;
     name: string;
+    first_surname?: string;
+    second_surname?: string;
     country_code: string;
     dial_code: string;
     phone: string;
@@ -75,6 +79,8 @@ export class Branches {
 
 export class User {
     name: '';
+    first_surname?: string;
+    second_surname?: string;
     country_code: 'mx';
     dial_code: '+52';
     phone: '';

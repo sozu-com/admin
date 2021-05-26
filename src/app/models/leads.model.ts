@@ -292,6 +292,8 @@ export class CSRBuyerLeads {
     broker_id: number;
     closer_id: number;
     building_id: number;
+    first_surname?: string;
+    second_surname?: string;
     sale_rent: number;
     is_blocked: number;
     is_finalized: number;
