@@ -23,7 +23,7 @@
           </div>
         </div> -->
         
-        <div class="col-lg-2 col-md-4 col-4" *ngIf="parameter.userType=='inhouse-broker'">
+        <div class="col-lg-2 col-md-4 col-4">
           <div class="btn-cont text-right">
               <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#addInhouseUser" #inhouseUserModalOpen>{{'table.addNewBtn' | translate}}</a>
               <a *ngIf="admin?.admin_acl['Data Collector Management']?.can_create==1 && parameter.userType=='data-collectors' ||
@@ -40,14 +40,12 @@
                 class="btn btn-primary-new width100P" href="javascript://" (click)="showAclAddPage()">{{'table.addNewBtn' | translate}}</a>
           </div>
         </div>
-        <div class="col-lg-2 col-md-4 col-4" *ngIf="parameter.userType=='outside-broker'">
+        <!-- <div class="col-lg-2 col-md-4 col-4" *ngIf="parameter.userType=='outside-broker'">
           <div class="btn-cont text-right">
             <a class="btn btn-primary-new width100P" href="javascript://"  data-toggle="modal" data-target="#addouthouseUser"
             #outhouseUserModalOpen>{{'table.addNewBtn' | translate}}</a>
-              <!-- <a class="btn btn-primary-new width100P" 
-              href="javascript://" (click)="testRoute()">{{'table.addNewBtn' | translate}}</a> -->
           </div>
-        </div>
+        </div> -->
     </div>
   
     <div class="row">
