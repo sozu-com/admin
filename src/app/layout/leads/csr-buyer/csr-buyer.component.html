@@ -609,7 +609,7 @@
                 <div class="row">
                     <div class="col-md-6 col-5 btn-cont">
                         <a class="btn btn-primary pull-right" style="width: 180px;padding: 12px 15px;"
-                            href="javascript://" (click)="assignBuyerAgent()">{{'leads.assign' | translate}}</a>
+                            href="javascript://" (click)="assignBuyerAgent(null)">{{'leads.assign' | translate}}</a>
                     </div>
                     <div class="col-md-6 col-5 btn-cont">
                         <a class="btn btn-primary pull-right"
@@ -682,7 +682,7 @@
                            <img src="assets/img/ic_disapprove.png" alt="img"></button>
                      </td>
                   </tr>
-                  <tr *ngIf="allExtBrokers?.length==0">
+                  <tr *ngIf="assign.items?.length==0">
                      <p class="show-not-found">{{'leads.noInhouseAgent' | translate}}</p>
                   </tr>
                </table>
