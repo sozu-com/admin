@@ -529,11 +529,13 @@ export class AddPropertyComponent implements OnInit {
     }
 
     this.model.broker_commision = data.broker_commision || 0;
+    this.model.outside_percentage_commission = data.outside_percentage_commission || 0;
     this.model.total_commission = data.total_commission || 0;
     //this.model.comm_total_commission_amount = data.comm_total_commission_amount || 0;
     //this.model.comm_shared_commission_amount = data.comm_shared_commission_amount || 0;
     this.model.comm_total_commission_amount = this.numberUptoNDecimal((data.total_commission * Number(data.final_price || 0)) / 100, 2)
     this.model.comm_shared_commission_amount = this.numberUptoNDecimal((data.broker_commision * Number(data.final_price || 0)) / 100, 2)
+    this.model.outside_agent_commission = this.numberUptoNDecimal((data.outside_percentage_commission * Number(data.final_price || 0)) / 100, 2)
     this.getParkingLotFormArray.controls = [];
     ((data || {}).property_parking_space || []).forEach((item) => {
       this.getParkingLotFormArray.push(this.formBuilder.group({ parking_count: [item.parking_count], parking_type: [item.parking_type] }));
@@ -1164,6 +1166,7 @@ export class AddPropertyComponent implements OnInit {
         input.append('half_bathroom', this.model.half_bathroom ? this.model.half_bathroom.toString() : '0');
         input.append('floor', this.model.floor ? this.model.floor.toString() : null);
         input.append('broker_commision', this.model.broker_commision ? this.model.broker_commision.toString() : null);
+        input.append('outside_percentage_commission', this.model.outside_percentage_commission ? this.model.outside_percentage_commission.toString() : null);
         input.append('property_key', this.model.property_key ? this.model.property_key.toString() : '0');
         input.append('total_commission', this.model.total_commission ? this.model.total_commission.toString() : null);
         input.append('property_price', this.model.property_price ? this.model.property_price.toString() : '0');
@@ -1179,6 +1182,7 @@ export class AddPropertyComponent implements OnInit {
           JSON.stringify(this.model.property_quantity_details ? this.model.property_quantity_details : []));
         input.append('comm_total_commission_amount', this.model.comm_total_commission_amount ? this.model.comm_total_commission_amount.toString() : null);
         input.append('comm_shared_commission_amount', this.model.comm_shared_commission_amount ? this.model.comm_shared_commission_amount.toString() : null);
+        input.append('outside_agent_commission', this.model.outside_agent_commission ? this.model.outside_agent_commission.toString() : null);
         let isValid = false;
         (this.getParkingLotFormArray.controls || []).forEach((outerItem: FormGroup) => {
           const data = this.parkingSpaceLotsArray1.find((innerItem) => parseInt(innerItem.space_type) == outerItem.get('parking_type').value);

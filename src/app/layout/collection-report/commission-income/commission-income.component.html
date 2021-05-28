@@ -139,17 +139,44 @@
                         <thead>
                               <th>{{'collectionReport.month' | translate}}</th>
                               <th>{{'viewCollections.cancellation' | translate}}</th>
-                              <!-- <th>{{'collectionReport.IVAAmount' | translate}}</th> -->
+                              <th>{{'collectionReport.IVAAmount' | translate}}</th>
                         </thead>
                         <tbody *ngFor="let item of commissionsss; let i=index">
                               <tr>
                                     <td>{{item.label}}</td>
+                                    <td (click)="getCommission(item, i)"><a class="color-changed" 
+                                          data-toggle="collapse" data-target="#collapsetwo{{i}}" 
+                                          data-parent="#accordion" 
+                                          aria-expanded="true" aria-controls="collapsetwo" 
+                                          href="#collapsetwo{{i}}">
+                                          <span><i class="fa fa-plus"></i> </span>&nbsp;&nbsp;{{(item.expected || 0) | currency}}
+                                      </a></td>
                                     <td>
-                                          {{(item.expected || 0) | currency}}
-                                    </td>
-                                    <!-- <td>
                                           {{(item.iva_amount || 0) | currency}}
-                                    </td> -->
+                                    </td>
+                              </tr>
+                              <tr id="collapsetwo{{i}}" class="collapse" data-parent="#accordion">
+                                    <td colspan="10">
+                                       <table [style.width]="'100%'">
+                                             <thead>
+                                                <th>{{'collectionReport.collection_id' | translate}}</th>
+                                                <th>{{'collectionReport.property_name' | translate}}</th>
+                                                <th>{{'collectionReport.buyername' | translate}}</th>
+                                                <th>{{'collectionReport.datee' | translate}}</th>
+                                                <th>{{'collectionReport.CommisionPaid' | translate}}</th>
+                                             </thead>
+                                             <tbody *ngFor="let x of comm; let i=index">
+                                             <td>{{x.id}}</td>
+                                             <td><span>{{x.name}}</span></td>
+                                             <td><span>{{x.buyer_name}}</span></td>
+                                             <td><span>{{x.payment_date}}</span></td>
+                                             <td><span>{{(x.payment_amount || 0) | currency}}</span></td>
+                                          </tbody>
+                                       </table>
+                                       <div class="padding20 center" *ngIf="commissionsss?.length == 0">
+                                          <img src="assets/img/404-error.png">
+                                    </div>
+                                    </td>
                               </tr>
                         </tbody>
                   </table>

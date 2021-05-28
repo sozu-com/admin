@@ -32,7 +32,8 @@ export class InhouseUsersComponent implements OnInit {
   @ViewChild('viewModalClose') viewModalClose: ElementRef;
   @ViewChild('moreImgModalOpen') moreImgModalOpen: ElementRef;
   @ViewChild('moreImgModalClose') moreImgModalClose: ElementRef;
-
+  @ViewChild('notesModalOpen') notesModalOpen: ElementRef;
+  @ViewChild('notesModalClose') notesModalClose: ElementRef;
   obj: any;
   public parameter: IProperty = {};
   lead_sort = 2;
@@ -430,7 +431,6 @@ export class InhouseUsersComponent implements OnInit {
   }
 
   setIsCompany(is_company: string) {
-    console.log(is_company);
     this.model.is_company = is_company;
   }
 
@@ -1029,5 +1029,17 @@ export class InhouseUsersComponent implements OnInit {
       url = '/dashboard/leads/csr-closers-leads';
     }
     this.router.navigate([url, id]);
+  }
+  getNotes(item) {
+    // this.parameter.id = item.id;
+    // const input = { property_collection_id: item.id };
+    // this.admin.postDataApi('getCollectionNote', input).subscribe(r => {
+    //   this.parameter.items = r.data;
+      this.notesModalOpen.nativeElement.click();
+   // });
+  }
+
+  closeNotesModal() {
+    this.notesModalClose.nativeElement.click();
   }
 }

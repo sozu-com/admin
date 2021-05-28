@@ -1799,7 +1799,7 @@
                 </div>
               </div>
             </div>
-              <div class="col-6" *ngIf="payment_method_id == 1">
+              <!-- <div class="col-6" *ngIf="payment_method_id == 1">
                 <div class="form-group-2">
                   <label>{{'viewCollections.choosePaymentReceipt' | translate}}</label>
                   <div class="form-group">
@@ -1808,8 +1808,8 @@
                       (change)="onSelectFile($event.target.files, 'docFile')">
                   </div>
                 </div>
-              </div>
-              <div class="col-6" *ngIf=" commission_type ==4">
+              </div> -->
+              <div class="col-6" *ngIf="payment_method_id == 1 && commission_type == 4">
                 <div class="form-group-2">
                   <label>{{'viewCollections.choosePaymentReceipt' | translate}}</label>
                   <div class="form-group">
@@ -1952,11 +1952,26 @@
               <div class="form-group-2">
               <label>{{'viewCollections.partialpayments' | translate}}</label>
               <div class="form-group">
-                <select required  class="form-control" (ngModelChange)="setPayAmount($event)" 
+                <select  class="form-control" (ngModelChange)="setPayAmount($event)" 
                [(ngModel)]="selectedLevel" name="selectedLevel">
               <option value="">{{'viewCollections.choosePartialPayment' | translate}}</option>
-              <option *ngFor="let p of collection_commission" [ngValue]="p"> {{ ((p?.amount || 0) + (p?.iva_amount || 0)) |
+              <option *ngFor="let p of collection_commission;let x = index"  [ngValue]="p"> 
+                {{ ((p?.amount || 0) + (p?.iva_amount || 0)) |
               currency}}</option>
+              </select>
+               </div>
+              </div> 
+            </div>
+            <div class="col-6" *ngIf = "!pay_id">
+              <div class="form-group-2">
+              <label>{{'viewCollections.partialpayments' | translate}}</label>
+              <div class="form-group">
+                <select disabled class="form-control"  name="tested" style="background-color: #E3E3E3;">
+              <option value="">{{'viewCollections.choosePartialPayment1' | translate}}</option>
+              <option value="1">{{'viewCollections.payToFollowing' | translate}}</option>
+              <option value="2">{{'viewCollections.payToRemainingReducePayment' | translate}}</option>
+              <option value="3">{{'viewCollections.payToRemainingPayment' | translate}}</option>
+              <option value="4">{{'viewCollections.payToSpecific' | translate}}</option>
               </select>
                </div>
               </div> 
