@@ -270,15 +270,15 @@ this.base64address = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAs
       //images 360
       if ((this.project.images360 || [])) {
         // const input = this.project.images360[0].image ? this.project.images360[0].image : []
-        this.admin.postDataApi('getCoverImage', { image: this.project.images360[0].image })
+        this.admin.postDataApi('getCoverImage', { image: this.project.images360[0] ? this.project.images360[0].image : [] })
         .subscribe((abc: any) => {
           this.image_360 = 'data:image/jpeg;base64,' + abc.data;
         })
       }
       //video
       if ((this.project.videos || [])) {
-        // const input = this.project.images360[0].image ? this.project.images360[0].image : []
-        this.admin.postDataApi('getCoverImage', { image: this.project.videos[0].thumb })
+        // const input = this.project.images360[0].image ? this.project.images360[0].image : [] this.project.videos[0].thumb
+        this.admin.postDataApi('getCoverImage', { image:  this.project.videos[0] ? this.project.videos[0].thumb : []})
         .subscribe((abc: any) => {
           this.video_thumb = 'data:image/jpeg;base64,' + abc.data;
         })
