@@ -449,7 +449,7 @@
                             <td class="text-left">{{item?.building?.name ? item?.building?.name : ('table.tr.td.NA' | translate)}}</td>
                             <td class="text-left">{{item?.property?.name ? item?.property?.name : ('table.tr.td.NA' | translate)}}</td>
                             <td class="text-left" title="{{'table.title.inhouseAgent' | translate}}"
-                                *ngIf="item?.admin?.name">{{item.broker.name | titlecase}}</td>
+                                *ngIf="item?.admin?.name">{{item?.broker?.name | titlecase}}</td>
                             <td class="text-left" *ngIf="!item?.admin?.name">{{'table.tr.td.notAssigned' | translate}}
                             </td>
                             <td class="text-left" (click)="$event.stopPropagation()">

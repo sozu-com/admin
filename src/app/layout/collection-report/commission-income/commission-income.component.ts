@@ -48,6 +48,7 @@ export class CommissionIncomeComponent implements OnInit {
   actualTotal: any;
   comn_type: any;
   commissions = [];
+  comm= [];
   already_index: any;
   commission_sum: any = 0 ;
   iva_amountt: any = 0 ;
@@ -539,28 +540,54 @@ export class CommissionIncomeComponent implements OnInit {
   }
 
   getCommission(item, index) {
-    if(item && (this.reportData.commission || []).length > 0){
-      if(index != this.already_index){
-        this.already_index = index;
-        this.commissions = [];
-      let data = this.reportData.commission.find(value=> value.label == item.label);
-      let  id = data.id.split(',');
-      let param ={
-        commission_type: this.selectedCommissions[0].id,
-        id: id
-      }
-      this.spinner.show();
-      this.admin.postDataApi('graphs/sozu-get-commission', param)
-        .subscribe(
-          success => {
-            this.spinner.show();
-            this.commissions = success.data;
-            this.spinner.hide();
-          }, error => {
-            this.spinner.hide();
-          });
+    if (this.comn_type == 4) {
+      if(item && (this.reportData3.cancellation_commission || []).length > 0){
+        if(index != this.already_index){
+          this.already_index = index;
+          this.comm = [];
+        let data = this.reportData3.cancellation_commission.find(value=> value.label == item.label);
+        let  id = data.id.split(',');
+        let param ={
+          commission_type: this.selectedCommissions[0].id,
+          id: id
         }
+        this.spinner.show();
+        this.admin.postDataApi('graphs/sozu-get-commission', param)
+          .subscribe(
+            success => {
+              this.spinner.show();
+              this.comm = success.data;
+              this.spinner.hide();
+            }, error => {
+              this.spinner.hide();
+            });
+          }
+      }
+    } else {
+      if(item && (this.reportData.commission || []).length > 0){
+        if(index != this.already_index){
+          this.already_index = index;
+          this.commissions = [];
+        let data = this.reportData.commission.find(value=> value.label == item.label);
+        let  id = data.id.split(',');
+        let param ={
+          commission_type: this.selectedCommissions[0].id,
+          id: id
+        }
+        this.spinner.show();
+        this.admin.postDataApi('graphs/sozu-get-commission', param)
+          .subscribe(
+            success => {
+              this.spinner.show();
+              this.commissions = success.data;
+              this.spinner.hide();
+            }, error => {
+              this.spinner.hide();
+            });
+          }
+      }
     }
+   
    
   }
 }
