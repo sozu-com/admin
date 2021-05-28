@@ -28,6 +28,9 @@ export class CsrBuyerComponent implements OnInit {
   @ViewChild('addChangeStatusModelOpen') addChangeStatusModelOpen: ElementRef;
   @ViewChild('addChangeStatusModelClose') addChangeStatusModelClose: ElementRef;
 
+  @ViewChild('linkBrokerModal') linkBrokerModal: ElementRef;
+  @ViewChild('closeBrokerModal') closeBrokerModal: ElementRef;
+
   public parameter: IProperty = {};
   public location: IProperty = {};
   public assign: IProperty = {};
@@ -97,6 +100,7 @@ export class CsrBuyerComponent implements OnInit {
     this.getListing();
     this.getCSRDashBoardData();
     Object.assign(this, this.chartView);
+    this.openAddChangeStatusModel(undefined)
 
   }
 
@@ -343,6 +347,7 @@ export class CsrBuyerComponent implements OnInit {
       success => {
         this.spinner.hide();
         this.assign.items = success.data;
+        this.assignItem = this.assign.items.find(x=> x.id ==  this.selected_lead.admin_id);
       });
   }
 
@@ -356,33 +361,66 @@ export class CsrBuyerComponent implements OnInit {
       success => {
         this.spinner.hide();
         this.assign.items = success.data;
+        this.assignItem = this.assign.items.find(x=> x.id ==  this.selected_lead.broker_id);
       });
   }
 
+  assignBuyerAgent(item){
+    if(this.openFor == 'CSR'){
+      //users_ids = this.items.filter(x => x.selected).map(y => y.admin.id);
+      this.assignNow(item);
+      }
+      else{
+        this.assignItem = item;
+        let text = this.selected_lead.broker_id ? this.translate.instant('swalText.assignInhouseAgent') : this.translate.instant('swalText.unassignInhouseAgent');
+        swal({
+          html: this.translate.instant('message.error.areYouSure') + '<br>' +  text,
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: this.constant.confirmButtonColor,
+          cancelButtonColor: this.constant.cancelButtonColor,
+          confirmButtonText: this.translate.instant('deleteSwal.yes'),
+          cancelButtonText: this.translate.instant('deleteSwal.cancel')
+        }).then((result) => {
+          if (result.value) {
+            this.assignNow(item)
+          }
+        });
+      }
+  }
 
-  assignNow() {
-    let users_ids;
+
+  assignNow(item) {
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     if(this.openFor == 'CSR'){
     //users_ids = this.items.filter(x => x.selected).map(y => y.admin.id);
     }
+    else{
+      this.assignItem = item;
+    }
     const inputCSR = {
       csr_buyer_id: this.assignItem.id,
       leads: leads_ids,
+      //type: this.selected_lead.admin_id ? 2 : 1
       //users: users_ids
     };
 
     const input = {
       broker_id: this.assignItem.id,
-      leads: leads_ids
+      leads: leads_ids,
+      type: this.selected_lead.broker_id &&  item.broker_id != this.selected_lead.broker_id? 2 : 1
     };
-
     this.spinner.show();
     let url = this.openFor == 'CSR' ? 'leads/bulkAssignBuyer' : 'leads/bulkAssignBroker';
     this.admin.postDataApi(url, this.openFor == 'CSR' ? inputCSR : input).subscribe(r => {
       this.spinner.hide();
       this.closeNewAssignModel.nativeElement.click();
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.assignedSuccessfully'), 'success');
+      swal(this.translate.instant('swal.success'), input.type == 1 ? this.translate.instant('message.success.assignedSuccessfully') : this.translate.instant('message.success.unassignedSuccessfully'), 'success');
+     if(input.type == 2){
+       this.selected_lead.broker_id = undefined;
+       this.selected_lead.broker = undefined;
+     }
+     this.openFor != 'CSR'? this.closeBrokerModal.nativeElement.click() : undefined; 
       this.getListing();
       this.items.filter(item=>{
         if(item.selected){
@@ -404,6 +442,7 @@ export class CsrBuyerComponent implements OnInit {
 
   openModel(openFor, selected) {
     this.openFor = openFor;
+    this.selected_lead = selected;
     this.items.filter(item=>{
       if(item.id == selected.id){
         item.selected = true;
@@ -418,7 +457,7 @@ export class CsrBuyerComponent implements OnInit {
     }
     this.assign.keyword=null;
     openFor == 'CSR' ? this.getAssignListing() : this.getInhouseAgentListing();
-    this.openNewAssignModel.nativeElement.click();
+    this.openFor == 'CSR'? this.openNewAssignModel.nativeElement.click() : this.linkBrokerModal.nativeElement.click();
   }
 
   getSearchAssign(){
@@ -427,13 +466,15 @@ export class CsrBuyerComponent implements OnInit {
 
   openAddChangeStatusModel(item){ 
     this.selected_lead = item;
-    this.selectedAddChangeStatus = item.status ? item.status.status_id : 0;
+    this.selectedAddChangeStatus = item && item.status ? item.status.status_id : 0;
     this.spinner.show();
     //this.addChangeStatusNames = ['Mailbox', 'Call later', 'Not interested', 'Scheduled appointment', 'Incorrect data', 'Real estate advisory', 'Lead lost', 'N/A'];
     this.admin.getApi("leads/all-csr-buyer-statuses" ).subscribe(r => {
       this.addChangeStatusNames = r.data;
       this.spinner.hide();
+      if(item){
       this.addChangeStatusModelOpen.nativeElement.click();
+      }
     },
       error => {
         this.spinner.hide();

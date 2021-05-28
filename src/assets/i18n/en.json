@@ -2815,5 +2815,9 @@
   "deleteSwal":{
     "yes":"Yes",
     "cancel":"Cancel"
+  },
+  "swalText": {
+    "assignInhouseAgent": "Assign Inhouse agent",
+    "unassignInhouseAgent": "Unassign Inhouse agent"
   }
 }

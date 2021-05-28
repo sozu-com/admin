@@ -85,6 +85,7 @@ export class InhouseBrokerComponent implements OnInit {
     this.getListing();
     this.getCSRDashBoardData();
     Object.assign(this, this.chartView);
+    this.openAddChangeStatusModel(undefined);
   }
 
   getCountries() {
@@ -409,12 +410,14 @@ export class InhouseBrokerComponent implements OnInit {
   openAddChangeStatusModel(item){
     //this.addChangeStatusNames = ['Scheduled appointment', 'In decision', 'Deal agreement', 'Layaway received', 'Contact and downpayment', 'Lead lost', 'Cancelled', 'N/A'];
     this.selected_lead = item;
-    this.selectedAddChangeStatus = item.broker_status ? item.broker_status.status_id : 0;
+    this.selectedAddChangeStatus = item && item.broker_status ? item.broker_status.status_id : 0;
     this.spinner.show();
     this.admin.getApi("leads/all-in-house-broker-statuses" ).subscribe(r => {
       this.addChangeStatusNames = r.data;
       this.spinner.hide();
+      if(item){
       this.addChangeStatusModelOpen.nativeElement.click();
+      }
     },
       error => {
         this.spinner.hide();

@@ -227,6 +227,12 @@ export interface IProperty {
   project?: string; 
   property?: string;
   interested_projects?: any;
+  project_text?: any;
+  property_text?: any;
+  csr_buyer_text?: any;
+  status_id?: any;
+  agent_text?: any;
+  broker_text?:any;
 }
 export class Docs {
   id: string;

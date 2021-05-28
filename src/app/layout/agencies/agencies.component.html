@@ -100,7 +100,7 @@
               <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
               <td class="text-left">{{item.email}}</td>
               <td class="text-left">
-                <a class="cursor-pointer" *ngIf="item.agents_count; else noAgentsLinked" (click)="getAgencyAgents(item.id)">
+                <a class="cursor-pointer" *ngIf="item.agents_count; else noAgentsLinked" routerLink="/dashboard/properties/view-properties-by-agency/{{item.id}}/agency">
                   <span class="green-color">{{item.agents_count | numberWithCommas}}</span>
                 </a>
                 <ng-template #noAgentsLinked>
@@ -108,7 +108,7 @@
                 </ng-template>
               </td>
               <td class="text-left">
-                <a *ngIf="item.property_count; else noPropertyLinked" routerLink="/dashboard/properties/view-properties/{{item.id}}/agency">
+                <a *ngIf="item.property_count; else noPropertyLinked" routerLink="/dashboard/properties/view-properties-by-agency/{{item.id}}/agency">
                   <span class="green-color">{{item.property_count | numberWithCommas}}</span>
                 </a>
                 <ng-template #noPropertyLinked>

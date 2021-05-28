@@ -65,6 +65,10 @@ const routes: Routes = [
     canActivate: [AclUserGuard], data: { roles: ['Property Management', 'can_read', ''] }
   },
   {
+    path: 'view-properties-by-agency/:id/:type', component: PropertiesComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Property Management', 'can_read', ''] }
+  },
+  {
     path: 'documents-upload/:id', component: DocumentsUploadComponent,
     canActivate: [AclUserGuard], data: { roles: ['Property Management', 'can_read', ''] }
   }

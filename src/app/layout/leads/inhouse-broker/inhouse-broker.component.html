@@ -377,11 +377,26 @@
                             <th style="width:10%">
                                 <div class="table-search">
                                     <label>{{'table.th.assignee' | translate}}</label>
+                                    <div class="searh-3">
+                                        <input autocomplete="address-level4" type="text" [(ngModel)]="parameter.broker_text"
+                                            (keyup.enter)="changeFilter('broker_text',$event.target.value)" name="broker_text">
+                                        <button *ngIf="parameter.agent_text"
+                                            (click)="changeFilter('broker_text', parameter.broker_text)"><i
+                                                class="fa fa-search"></i></button>
+                                    </div>
                                 </div>
                             </th>
                             <th style="width:10%">
                                 <div class="table-search">
                                     <label>{{'table.th.status' | translate}}</label>
+                                    <div class="searh-3">
+                                        <select [(ngModel)]="parameter.status_id" (change)="changeFilter('status_id', parameter.status_id)" name="status_id">
+                                            <option value="">{{'table.th.all' | translate}}</option>
+                                            <option *ngFor="let tempStatusName of addChangeStatusNames" value="{{tempStatusName.id}}">
+                                               {{translate.defaultLang == 'en'? tempStatusName.name : tempStatusName.name_es}}
+                                            </option>
+                                         </select>
+                                    </div>
                                 </div>
                             </th>
                             <!-- <th style="width:10%">
@@ -449,11 +464,17 @@
                             <td class="text-left">{{item?.building?.name ? item?.building?.name : ('table.tr.td.NA' | translate)}}</td>
                             <td class="text-left">{{item?.property?.name ? item?.property?.name : ('table.tr.td.NA' | translate)}}</td>
                             <td class="text-left" title="{{'table.title.inhouseAgent' | translate}}"
-                                *ngIf="item?.admin?.name">{{item.broker.name | titlecase}}</td>
-                            <td class="text-left" *ngIf="!item?.admin?.name">{{'table.tr.td.notAssigned' | translate}}
+                                *ngIf="item?.broker?.name">{{item?.broker?.name | titlecase}}</td>
+                            <td class="text-left" *ngIf="!item?.broker?.name">{{'table.tr.td.notAssigned' | translate}}
                             </td>
                             <td class="text-left" (click)="$event.stopPropagation()">
-                                <span class="green-color cursor-pointer" (click)="openAddChangeStatusModel(item)"><span>{{item?.broker_status? ('table.tr.td.change' | translate) : ('table.tr.td.add' | translate)}}</span></span> 
+                                <span class="green-color cursor-pointer" (click)="openAddChangeStatusModel(item)">
+                                    <span>
+                                        {{item?.broker_status && translate.defaultLang == 'en' ? item.broker_status.status_details.name.slice(0, 10) :
+                                        item?.broker_status && translate.defaultLang != 'en'? item.broker_status.status_details.name_es.slice(0, 10) :
+                                        ('table.tr.td.add' | translate)}}
+                                    </span>
+                                </span>
                             </td>
                             <!-- <td class="text-left" (click)="$event.stopPropagation()">
                                 <button [disabled]="admin?.admin_acl['Manual Leads']?.can_delete==0"
@@ -569,7 +590,7 @@
                     <div class="col-md-12 col-6">
                         <span><input type="radio" id="status" name="status" value="{{tempStatusName.id}}" 
                             [checked]= "tempStatusName.id == selectedAddChangeStatus" (change)="isChecked(tempStatusName)"></span>
-                        <label style="font-weight: bold; padding: inherit;font-size: medium;">{{tempStatusName.name}}</label>
+                        <label style="font-weight: bold; padding: inherit;font-size: medium;">{{translate.defaultLang == 'en'? tempStatusName.name : tempStatusName.name_es}}</label>
                     </div>
                 </div>
                 <div class="row">

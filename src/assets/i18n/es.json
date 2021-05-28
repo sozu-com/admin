@@ -2811,5 +2811,9 @@
   "deleteSwal":{
     "yes":"Si",
     "cancel":"Cancelar"
+  },
+  "swalText": {
+    "assignInhouseAgent": "Asignar agente interno",
+    "unassignInhouseAgent": "Anular asignación de agente interno"
   }
 }
