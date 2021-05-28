@@ -255,6 +255,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    
     this.language_code = localStorage.getItem('language_code');
     this.admin.globalSettings$.subscribe(success => {
       this.cashLimit = success['cash_limit'];
@@ -1419,8 +1420,36 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   }
 
   setPaymentmethod(item:any){
-let data = this.collection_commission.find(value=> value.payment_method_id == item);
+     let data = this.collection_commission.find(value=> value.payment_method_id == item);
      this.pay_id = data;
+     if(!this.pay_id){
+      this.payment_id = this.collection_commission ? this.collection_commission.id : [];
+      this.payment_method_id = this.collection_commission ? (this.collection_commission.payment_method || {}).id : [];
+      this.description = this.collection_commission ? this.collection_commission.description : [];
+       this.docFile = this.collection_commission ? this.collection_commission.receipt : [];
+      this.amount = this.collection_commission ? this.collection_commission.amount : [];
+      this.commission_type = this.collection_commission ? this.collection_commission.commission_type : [];
+      this.collection_commission_id = this.collection_commission ? this.collection_commission.collection_commission_id : [];
+      this.payment_date = this.collection_commission ?  this.collection_commission.payment_date : [];
+      this.invoice_date = this.collection_commission ? this.collection_commission.invoice_date : [];
+      this.pdf_url = this.collection_commission ? this.collection_commission.pdf_url : [];
+      this.xml_url = this.collection_commission ? this.collection_commission.xml_url : [];
+      this.invoice_id = this.collection_commission ? this.collection_commission.invoice_id : [];
+     }else{
+      this.selectedLevel = this.collection_commission[0];
+      this.payment_id = this.collection_commission[0] ? this.collection_commission[0].id : [];
+      this.payment_method_id = this.collection_commission[0] ? (this.collection_commission[0].payment_method || {}).id : [];
+      this.description = this.collection_commission[0] ? this.collection_commission[0].description : [];
+       this.docFile = this.collection_commission[0] ? this.collection_commission[0].receipt : [];
+      this.amount = this.collection_commission[0] ? this.collection_commission[0].amount : [];
+      this.commission_type = this.collection_commission[0] ? this.collection_commission[0].commission_type : [];
+      this.collection_commission_id = this.collection_commission[0] ? this.collection_commission[0].collection_commission_id : [];
+      this.payment_date = this.collection_commission[0] ?  this.getDateWRTTimezone(this.collection_commission[0].payment_date, 'DD/MMM/YYYY')  : [];
+      this.invoice_date = this.collection_commission[0] ? this.getDateWRTTimezone(this.collection_commission[0].invoice_date, 'DD/MMM/YYYY')  : [];
+      this.pdf_url = this.collection_commission[0] ? this.collection_commission[0].pdf_url : [];
+      this.xml_url = this.collection_commission[0] ? this.collection_commission[0].xml_url : [];
+      this.invoice_id = this.collection_commission[0] ? this.collection_commission[0].invoice_id : [];
+     }
   }
 
   closePaymentModal() {
@@ -2101,6 +2130,19 @@ let data = this.collection_commission.find(value=> value.payment_method_id == it
 
   editCollectionCommReceipt(item: any) {
     this.collection_commission = item;
+    this.selectedLevel = this.collection_commission[0];
+    this.payment_id = this.collection_commission[0] ? this.collection_commission[0].id : [];
+    this.payment_method_id = this.collection_commission[0] ? (this.collection_commission[0].payment_method || {}).id : [];
+    this.description = this.collection_commission[0] ? this.collection_commission[0].description : [];
+     this.docFile = this.collection_commission[0] ? this.collection_commission[0].receipt : [];
+    this.amount = this.collection_commission[0] ? this.collection_commission[0].amount : [];
+    this.commission_type = this.collection_commission[0] ? this.collection_commission[0].commission_type : [];
+    this.collection_commission_id = this.collection_commission[0] ? this.collection_commission[0].collection_commission_id : [];
+    this.payment_date = this.collection_commission[0] ?  this.getDateWRTTimezone(this.collection_commission[0].payment_date, 'DD/MMM/YYYY')  : [];
+    this.invoice_date = this.collection_commission[0] ? this.getDateWRTTimezone(this.collection_commission[0].invoice_date, 'DD/MMM/YYYY')  : [];
+    this.pdf_url = this.collection_commission[0] ? this.collection_commission[0].pdf_url : [];
+    this.xml_url = this.collection_commission[0] ? this.collection_commission[0].xml_url : [];
+    this.invoice_id = this.collection_commission[0] ? this.collection_commission[0].invoice_id : [];
     this.closeEditPaymentModal();
     this.editCollectionReceiptOpen.nativeElement.click();
   }
