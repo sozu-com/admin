@@ -2004,6 +2004,7 @@
     "applyPayment": "Aplicar pago",
     "choosePaymentMethod": "Elige el método de pago",
     "choosePartialPayment": "Elija pago parcial",
+    "choosePartialPayment1": "Este banco no tiene pago parcial",
     "chooseBank": "Elija Banco",
     "pendingExtraAmt": "Cantidad pendiente / extra",
     "penaltyAmount": "Importe de la pena",
@@ -2811,5 +2812,9 @@
   "deleteSwal":{
     "yes":"Si",
     "cancel":"Cancelar"
+  },
+  "swalText": {
+    "assignInhouseAgent": "Asignar agente interno",
+    "unassignInhouseAgent": "Anular asignación de agente interno"
   }
 }
