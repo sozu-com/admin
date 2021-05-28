@@ -234,6 +234,9 @@
               </td>
               <td>
                 <div class="table-actions">
+                  <button *ngIf="parameter.userType=='outside-broker'" [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0 " (click)="getNotes(p)"
+                  title="Outside Agent Notes" class="action-icon"><img
+                    src="assets/img/chat-icon.png" alt="img"></button>
                   <a *ngIf="(admin?.admin_acl['Project Management']?.can_read==1 || admin?.permissions?.can_data_collector==1)&& 
                   parameter.userType == 'data-collectors'" title="{{'table.title.viewProjects' | translate}}" href="javascript://" routerLink="/dashboard/projects/view-projects/data-collector/{{item.id}}" class="icon-block edit-icon">
                     <img src="assets/img/ic_projects_manage.png" alt="img">
@@ -823,6 +826,87 @@
         <button type="button" (click)="saveImages()" class="btn btn-primary">{{'addForm.moreImages.submitBtn' | translate}}</button>
       </div>
 
+    </div>
+  </div>
+</div>
+
+<a href="javascript://" data-toggle="modal" data-target="#collection-notes" #notesModalOpen></a>
+<div class="modal animated" id="collection-notes">
+  <div class="modal-dialog fadeIndown" style="max-width: 54%; margin-top: 11%;">
+    <div class="modal-content notary-avail">
+      <div class="modal-header popup-header">
+        <h4>Notes</h4>
+        <button style="display: none;" type="button" class="close" data-dismiss="modal"
+          #notesModalClose>&times;</button>
+        <button type="button" class="close" (click)="closeNotesModal()">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="white-bg">
+          <div class="row">
+          </div>
+        </div>
+        <div class="form-group-2">
+          <div class="form-group">
+            <label>{{'addCollection.title' | translate}}</label>
+            <input type="text" required class="form-control title" name="title">
+          </div>
+        </div>
+        <div class="form-group-2">
+          <div class="form-group">
+            <label>{{'addCollection.note' | translate}}</label>
+            <textarea rows="3" required class="form-control note" name="note"></textarea>
+          </div>
+        </div>
+        <!-- <div *ngIf="parameter.items?.length!=0" [ngStyle]="{'max-height':sent_as === 1 ? '250px' : '' }"
+          class="write-note white-bg" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+          <div class="wn-block" *ngFor="let item of parameter.items; let i=index">
+            <div class="circle">
+              <span></span>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <pre class="p13">{{item.title.slice(0, 90)}}</pre>
+                <pre class="p13" *ngIf="item.show">{{item.title}}</pre>
+              </div>
+              <div class="col-md-4">
+                <p><i class="fa fa-bell" aria-hidden="true"></i>&nbsp;{{item?.reminder_date | date:'MMM d, y, h:mm'}}
+                </p>
+              </div>
+              <div class="col-md-2">
+                <button class="delete" href="javascript://" (click)="deleteLeadPopup(item.id, i)">
+                  <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </button>
+              </div>
+              <div class="col-md-2"> <button class="editt" href="javascript://"
+                  (click)="editLeadPopup('edit',item.id, item,i)">
+                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                </button></div>
+            </div>
+
+            <ng-template #noDeletePermissiom>
+              <a class="delete" href="javascript://">{{'commonBlock.delete' | translate}}</a>
+            </ng-template>
+
+
+          </div>
+        </div>
+        <div *ngIf="parameter.items?.length==0" class="write-note white-bg"
+          [ngStyle]="{'height':sent_as === 1 ? '230px' : '245px' }">
+          <p class="show-not-found">
+            {{'message.error.noNoteFound' | translate}}
+          </p>
+        </div> -->
+        <p class="show-not-found">
+          {{'message.error.noNoteFound' | translate}}
+        </p>
+        <div class="col-12">
+          <div class="btn-cont text-right">
+            <button type="submit" class="btn btn-primary">{{'leadDetails.note.addNote' |
+              translate}}</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
