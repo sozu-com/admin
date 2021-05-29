@@ -9,6 +9,7 @@ export interface IProperty {
   text?: string;
   items?: any[];
   notes?: any[];
+  records?: any[];
   sub?: any;
   isBlocked?: boolean;
   isDeleted?: boolean;

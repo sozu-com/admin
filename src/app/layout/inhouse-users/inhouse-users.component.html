@@ -114,211 +114,416 @@
 
     
     <div class="white-bg">
-      <div class="tabel-section">
-        <div class="table-responsive">
-
-        <table class="table table-striped">
-          <tr>
-            <th style="width:6%">&nbsp;
-              <div class="searh-3" *ngIf="parameter.userType == 'outside-broker'">
-                <select [(ngModel)]="parameter.is_freelancer" name="is_freelancer" (change)="setIsFreelancer(parameter.is_freelancer)">
-                  <option value="0">All</option>
-                  <option value="1">Freelancer</option>
-                  <option value="2">Company</option>
-                </select>
-              </div>
-            </th>
-            <th style="width:15%" *ngIf="parameter.userType == 'outside-broker'">
-              <div class="table-search">
-                  <label>{{'table.th.agencyCommercialName' | translate}}</label>
-                  <div class="searh-3">
-                    <input class="width120px" type="text" [(ngModel)]="parameter.company_name" (keyup.enter)="searchUserByCompanyName(parameter.company_name)" name="" autocomplete="address-level4" >
-                    <button type="button" *ngIf="parameter.company_name" (click)="searchUserByCompanyName(parameter.company_name)"><i class="fa fa-search"></i></button>
-                  </div>
-              </div>
-            </th>
-            <th style="width:15%">
-              <div class="table-search">
-                  <label>{{'table.th.name' | translate}}</label>
-                  <div class="searh-3">
-                    <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="searchUserByName(parameter.name)" name="" autocomplete="address-level4" >
-                    <button type="button" *ngIf="parameter.name" (click)="searchUserByName(parameter.name)"><i class="fa fa-search"></i></button>
-                  </div>
-              </div>
-            </th>
-            <th style="width:15%; text-align:left;">
-              <div class="table-search">
-                  <label>{{'table.th.contactNumber' | translate}}</label>
-                  <div class="searh-3">
-                    <input class="width100px" type="text" [(ngModel)]="parameter.phone" (keyup.enter)="searchUserByPhone(parameter.phone)" name="" autocomplete="address-level4" >
-                    <button type="button" *ngIf="parameter.phone" (click)="searchUserByPhone(parameter.phone)"><i class="fa fa-search"></i></button>
-                  </div>
-              </div>
-            </th>
-            <th style="width:20%">
-              <div class="table-search">
-                  <label>{{'table.th.emailAddress' | translate}}</label>
-                  <div class="searh-3">
-                    <input (keydown.space)="$event.preventDefault();" type="text" [(ngModel)]="parameter.email" (keyup.enter)="searchUserByEmail(parameter.email)" name="" autocomplete="address-level4" >
-                    <button type="button" *ngIf="parameter.email" (click)="searchUserByEmail(parameter.email)"><i class="fa fa-search"></i></button>
-                  </div>
-              </div>
-            </th>
-            <th *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'outside-broker' || parameter.userType == 'csr-closers' ||
-            parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers' || parameter.userType=='credit-agents'" style="width:5%; vertical-align: top;">
-              <div class="d-flex table-search">
-                <label>{{'table.th.leads' | translate}}<a (click)="setLeadSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.lead_sort==2}" src="assets/img/top-arrow.png" alt="img"></a></label>
-              </div>
-            </th>
-            <th *ngIf="parameter.userType == 'alliance-agents' " style="width:10%; vertical-align: top;">
-              <div class="d-flex table-search">
-                <label>{{'table.th.managersLinked' | translate}}<a (click)="setLeadSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.lead_sort==2}" src="assets/img/top-arrow.png" alt="img"></a></label>
-              </div>
-            </th>
-            <th *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'outside-broker'" style="width:5%; vertical-align: top;">
-              <div class="d-flex table-search">
-                <label style="display: flex;">{{'table.th.linkedProperties' | translate}}<a (click)="setPropertiesSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.property_sort==2}" src="assets/img/top-arrow.png" alt="img"></a></label>
-              </div>
-            </th>
-            <th *ngIf="parameter.userType == 'data-collectors'" style="width:15%; vertical-align: top;">
-                {{'table.th.building' | translate}}<a (click)="setLeadSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.lead_sort==2}" [ngClass]="{'upsidedown':this.price_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
-            </th>
-            <th *ngIf="parameter.userType == 'cordinator-agents' " style="width:10%; vertical-align: top;">
-              <div class="d-flex table-search">
-                <label>{{'table.th.leadsLinked' | translate}}<a (click)="setLeadSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.lead_sort==2}" src="assets/img/top-arrow.png" alt="img"></a></label>
-              </div>
-            </th>
-            <th style="width:20%">
-              <label>{{'table.th.actions.label' | translate}}</label>
-            </th>
-          </tr>
-
-            <tr *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }; let i = index">
-              <td> 
-                  <img [src]="item?.image" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
-                <!-- <img [src]="item.image| img:'small'" class="rounded-circle" onerror='src="constant.userPlaceholder"' alt="img"> -->
-              </td>
-              <td class="text-left" *ngIf="parameter.userType == 'outside-broker'">
-                <span class="name">{{item?.agency?.name ? item?.agency?.name : ('table.tr.td.NA' | translate)}}</span>
-              </td>
-              <td class="text-left text-ellipsis120">
-                <span class="name">
-                  {{item?.name | titlecase}}
-                  {{item?.first_surname | titlecase}}
-                  {{item?.second_surname | titlecase}}
-                </span>
-              </td>
-              <td class="text-left" *ngIf="item?.phone">{{item?.dial_code && item?.dial_code!=undefined ? item?.dial_code : constant.dial_code}}-
-                {{item?.phone?item.phone:''}}</td>
-              <td class="text-left" *ngIf="!item?.phone">{{'table.tr.td.NA' | translate}}</td>
-              <td class="text-left">{{item?.email}}</td>
-              <td class="text-left" (click)="showLeads(item.id)" *ngIf="parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers' ||
-                    parameter.userType == 'inhouse-broker' || parameter.userType=='credit-agents' || parameter.userType == 'outside-broker' || parameter.userType == 'csr-closers'; else showBuildings">
-                <span class="green-color cursor-pointer">{{item?.lead_count?item.lead_count:'0'}}</span>
-              </td>
-              <td class="text-left" *ngIf="parameter.userType == 'alliance-agents'">
-                <!-- <span class="green-color cursor-pointer">{{item?.linked_manger?.length > 0 ? item?.linked_manger?.length : 0 }}</span> -->
-                <span >{{item?.linked_manger?.length > 0 ? item?.linked_manger?.length : 0 }}</span>
-              </td>
-              <td class="text-left" *ngIf="parameter.userType == 'cordinator-agents'">
-                <!-- <span class="green-color cursor-pointer">{{item?.linked_manger?.length > 0 ? item?.linked_manger?.length : 0 }}</span> -->
-                <span >0</span>
-              </td>
-              <td class="text-left" *ngIf="parameter.userType == 'data-collectors'" >{{item?.added_buildings_count?item.added_buildings_count:'0'}}</td>
-              <td class="text-left" *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'outside-broker'">
-                <a *ngIf="item?.properties_linked; else noPropertyLinked" routerLink="/dashboard/properties/view-properties/{{item.id}}/agent">
-                  <span class="green-color">{{item?.properties_linked?item.properties_linked:'0'}}</span>
-                </a>
-                <ng-template #noPropertyLinked>
-                  {{item?.properties_linked?item.properties_linked:'0'}}
-                </ng-template>
-              </td>
-              <td>
-                <div class="table-actions">
-                  <button *ngIf="parameter.userType=='outside-broker'" [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0 " 
-                  (click)="getNotes(item)"
-                  title="Outside Agent Notes" class="action-icon"><img
-                    src="assets/img/chat-icon.png" alt="img"></button>
-                  <a *ngIf="(admin?.admin_acl['Project Management']?.can_read==1 || admin?.permissions?.can_data_collector==1)&& 
-                  parameter.userType == 'data-collectors'" title="{{'table.title.viewProjects' | translate}}" href="javascript://" routerLink="/dashboard/projects/view-projects/data-collector/{{item?.id}}" class="icon-block edit-icon">
-                    <img src="assets/img/ic_projects_manage.png" alt="img">
-                  </a>
-                  <a *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 && parameter.userType == 'csr-sellers'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/csr-sellers-leads/{{item?.id}}" class="icon-block edit-icon">
-                    <img src="assets/img/ic_leads.png" alt="img">
-                  </a>
-                  <a *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_read==1 && parameter.userType == 'csr-buyers'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/csr-buyers-leads/{{item?.id}}" class="icon-block edit-icon">
-                    <img src="assets/img/ic_leads.png" alt="img">
-                  </a>
-                  <a *ngIf="admin?.admin_acl['Inhouse Agent Lead Management']?.can_read==1 && parameter.userType == 'inhouse-broker'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/inhouse-broker-leads/{{item?.id}}" class="icon-block edit-icon">
-                    <img src="assets/img/ic_leads.png" alt="img">
-                  </a>
-                  <a *ngIf="admin?.admin_acl['Outside Agent Lead Management']?.can_read==1 && parameter.userType == 'outside-broker'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/outside-broker-leads/{{item?.id}}" class="icon-block edit-icon">
-                    <img src="assets/img/ic_leads.png" alt="img">
-                  </a>
-                  <a *ngIf="admin?.admin_acl['Closer Lead Management']?.can_read==1 && parameter.userType == 'csr-closers'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/csr-closers-leads/{{item?.id}}" class="icon-block edit-icon">
-                    <img src="assets/img/ic_leads.png" alt="img">
-                  </a>
-                  <!-- <a *ngIf="admin?.admin_acl['Credit Agent Lead Management']?.can_read==1 && parameter.userType == 'credit-agents'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/credit-agents-leads/{{item.id}}" class="icon-block edit-icon">
-                    <img src="assets/img/ic_leads.png" alt="img">
-                  </a> -->
-                  
-                  <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#view" #viewModalOpen></a>
-                  <a title="{{'table.title.viewRoles' | translate}}" href="javascript://" (click)="viewDetails(item, i)" class="icon-block edit-icon"><img src="assets/img/eye-icon.png" alt="img"></a>
+      <div class="cust-tabs">
+        <div class="row flex-wrap-reverse">
   
-                  <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Data Collector Management']?.can_update==0 && parameter.userType=='data-collectors' ||
-                    admin?.admin_acl['Seller Management']?.can_update==0 && parameter.userType=='csr-sellers' ||
-                    admin?.admin_acl['Buyer Management']?.can_update==0 && parameter.userType=='csr-buyers' ||
-                    admin?.admin_acl['Inhouse Agent Management']?.can_update==0 && parameter.userType=='inhouse-broker' ||
-                    admin?.admin_acl['Closer Management']?.can_update==0 && parameter.userType=='csr-closers' ||
-                    admin?.admin_acl['Credit Agent Management']?.can_update==0 && parameter.userType=='credit-agents' ||
-                    admin?.admin_acl['Collection Agent Management']?.can_update==0 && parameter.userType=='collection-agents' ||
-                    admin?.admin_acl['Renter Management']?.can_update==0 && parameter.userType=='csr-renters' ||
-                    admin?.admin_acl['Outside Agent Management']?.can_update==0 && parameter.userType=='outside-broker' || 
-                    admin?.admin_acl['Alliance Agent Management']?.can_update == 0 && parameter.userType=='alliance-agents' || 
-                    admin?.admin_acl['Cordinator Agent Management']?.can_update == 0 && parameter.userType=='cordinator-agents'"
-                  (click)="getACLById(item.id)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
-                  <button *ngIf="parameter.userType=='outside-broker'" [disabled]="admin?.admin_acl['Managers Management']?.can_update==0"
-                  title="{{'table.title.editDetails' | translate}}" (click)="editoutsideUser(item, i)" class="action-icon"><img
-                    src="assets/img/edit.png" alt="img"></button>
-                  <button [disabled]="admin?.admin_acl['Data Collector Management']?.can_delete==0 && parameter.userType=='data-collectors' ||
-                    admin?.admin_acl['Seller Management']?.can_delete==0 && parameter.userType=='csr-sellers' ||
-                    admin?.admin_acl['Buyer Management']?.can_delete==0 && parameter.userType=='csr-buyers' ||
-                    admin?.admin_acl['Inhouse Agent Management']?.can_delete==0 && parameter.userType=='inhouse-broker' ||
-                    admin?.admin_acl['Closer Management']?.can_delete==0 && parameter.userType=='csr-closers' ||
-                    admin?.admin_acl['Credit Agent Management']?.can_delete==0 && parameter.userType=='credit-agents' ||
-                    admin?.admin_acl['Collection Agent Management']?.can_delete==0 && parameter.userType=='collection-agents' ||
-                    admin?.admin_acl['Renter Management']?.can_delete==0 && parameter.userType=='csr-renters' ||
-                    admin?.admin_acl['Outside Agent Management']?.can_delete==0 && parameter.userType=='outside-broker' || 
-                    admin?.admin_acl['Alliance Agent Management']?.can_delete == 0 && parameter.userType=='alliance-agents' || 
-                    admin?.admin_acl['Cordinator Agent Management']?.can_delete == 0 && parameter.userType=='cordinator-agents'"
-                  (click)="blockUnblockPopup(i, item?.id, item?.is_blocked==1?0:1, parameter.type)" 
-                  title="{{item?.is_blocked==1 ? ('table.title.unblock' | translate) : ('table.title.block' | translate)}}" 
-                  [ngClass]="{'unblock-bg':item?.is_blocked==1}"
-                  class="action-icon">
-                  <img src="assets/img/block.png" alt="img">
-                </button>
-                <button [disabled]="admin?.admin_acl['Data Collector Management']?.can_purge==0 && parameter.userType=='data-collectors' ||
-                  admin?.admin_acl['Seller Management']?.can_purge==0 && parameter.userType=='csr-sellers' ||
-                  admin?.admin_acl['Buyer Management']?.can_purge==0 && parameter.userType=='csr-buyers' ||
-                  admin?.admin_acl['Inhouse Agent Management']?.can_purge==0 && parameter.userType=='inhouse-broker' ||
-                  admin?.admin_acl['Closer Management']?.can_purge==0 && parameter.userType=='csr-closers' ||
-                  admin?.admin_acl['Credit Agent Management']?.can_purge==0 && parameter.userType=='credit-agents' ||
-                  admin?.admin_acl['Collection Agent Management']?.can_purge==0 && parameter.userType=='collection-agents' ||
-                  admin?.admin_acl['Renter Management']?.can_purge==0 && parameter.userType=='csr-renters' ||
-                  admin?.admin_acl['Outside Agent Management']?.can_purge==0 && parameter.userType=='outside-broker' || 
-                  admin?.admin_acl['Alliance Agent Management']?.can_purge ==0 && parameter.userType=='alliance-agents' || 
-                  admin?.admin_acl['Cordinator Agent Management']?.can_purge ==0 && parameter.userType=='cordinator-agents'" 
-                (click)="deletePopup(item, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png" alt="img"></button>
-                </div>
-              </td>
-            </tr>
-          </table>
+           <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12" *ngIf="parameter.userType=='outside-broker'">
+              <ul class="nav nav-tabs">
+                 <li class="nav-item">
+                    <a [ngClass]="{'current': tab == 0}" (click)="setTab(0)"
+                       class="nav-link cursor-pointer">{{'filters.flag.oldOutside' | translate}}</a>
+                 </li>
+                 <li class="nav-item">
+                    <a [ngClass]="{'current': tab == 1}" (click)="setTab(1)"
+                       class="nav-link cursor-pointer">{{'filters.flag.newOutside' | translate}}</a>
+                 </li>
+              </ul>
+           </div>
         </div>
-      </div>
+        <div class="tab-content white-bg">
+           <div class="tab-pane active">
+              <div class="tabel-section">
+                 <div class="table-responsive">
+                    <table class="table table-striped table-align-left"  *ngIf="tab==0">
+                      <tr>
+                          <th style="width:6%">&nbsp;
+                            <div class="searh-3" *ngIf="parameter.userType == 'outside-broker'">
+                              <select [(ngModel)]="parameter.is_freelancer" name="is_freelancer" (change)="setIsFreelancer(parameter.is_freelancer)">
+                                <option value="0">All</option>
+                                <option value="1">Freelancer</option>
+                                <option value="2">Company</option>
+                              </select>
+                            </div>
+                          </th>
+                          <th style="width:15%" *ngIf="parameter.userType == 'outside-broker'">
+                            <div class="table-search">
+                                <label>{{'table.th.agencyCommercialName' | translate}}</label>
+                                <div class="searh-3">
+                                  <input class="width120px" type="text" [(ngModel)]="parameter.company_name" (keyup.enter)="searchUserByCompanyName(parameter.company_name)" name="" autocomplete="address-level4" >
+                                  <button type="button" *ngIf="parameter.company_name" (click)="searchUserByCompanyName(parameter.company_name)"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                          </th>
+                          <th style="width:15%">
+                            <div class="table-search">
+                                <label>{{'table.th.name' | translate}}</label>
+                                <div class="searh-3">
+                                  <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="searchUserByName(parameter.name)" name="" autocomplete="address-level4" >
+                                  <button type="button" *ngIf="parameter.name" (click)="searchUserByName(parameter.name)"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                          </th>
+                          <th style="width:15%; text-align:left;">
+                            <div class="table-search">
+                                <label>{{'table.th.contactNumber' | translate}}</label>
+                                <div class="searh-3">
+                                  <input class="width100px" type="text" [(ngModel)]="parameter.phone" (keyup.enter)="searchUserByPhone(parameter.phone)" name="" autocomplete="address-level4" >
+                                  <button type="button" *ngIf="parameter.phone" (click)="searchUserByPhone(parameter.phone)"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                          </th>
+                          <th style="width:20%">
+                            <div class="table-search">
+                                <label>{{'table.th.emailAddress' | translate}}</label>
+                                <div class="searh-3">
+                                  <input (keydown.space)="$event.preventDefault();" type="text" [(ngModel)]="parameter.email" (keyup.enter)="searchUserByEmail(parameter.email)" name="" autocomplete="address-level4" >
+                                  <button type="button" *ngIf="parameter.email" (click)="searchUserByEmail(parameter.email)"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                          </th>
+                          <th *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'outside-broker' || parameter.userType == 'csr-closers' ||
+                          parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers' || parameter.userType=='credit-agents'" style="width:5%; vertical-align: top;">
+                            <div class="d-flex table-search">
+                              <label>{{'table.th.leads' | translate}}<a (click)="setLeadSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.lead_sort==2}" src="assets/img/top-arrow.png" alt="img"></a></label>
+                            </div>
+                          </th>
+                          <th *ngIf="parameter.userType == 'alliance-agents' " style="width:10%; vertical-align: top;">
+                            <div class="d-flex table-search">
+                              <label>{{'table.th.managersLinked' | translate}}<a (click)="setLeadSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.lead_sort==2}" src="assets/img/top-arrow.png" alt="img"></a></label>
+                            </div>
+                          </th>
+                          <th *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'outside-broker'" style="width:5%; vertical-align: top;">
+                            <div class="d-flex table-search">
+                              <label style="display: flex;">{{'table.th.linkedProperties' | translate}}<a (click)="setPropertiesSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.property_sort==2}" src="assets/img/top-arrow.png" alt="img"></a></label>
+                            </div>
+                          </th>
+                          <th *ngIf="parameter.userType == 'data-collectors'" style="width:15%; vertical-align: top;">
+                              {{'table.th.building' | translate}}<a (click)="setLeadSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.lead_sort==2}" [ngClass]="{'upsidedown':this.price_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
+                          </th>
+                          <th *ngIf="parameter.userType == 'cordinator-agents' " style="width:10%; vertical-align: top;">
+                            <div class="d-flex table-search">
+                              <label>{{'table.th.leadsLinked' | translate}}<a (click)="setLeadSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.lead_sort==2}" src="assets/img/top-arrow.png" alt="img"></a></label>
+                            </div>
+                          </th>
+                          <th style="width:20%">
+                            <label>{{'table.th.actions.label' | translate}}</label>
+                          </th>
+                        </tr>
+  
+                        <tr  *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }; let i = index">
+                          <td> 
+                              <img [src]="item?.image" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
+                            <!-- <img [src]="item.image| img:'small'" class="rounded-circle" onerror='src="constant.userPlaceholder"' alt="img"> -->
+                          </td>
+                          <td class="text-left" *ngIf="parameter.userType == 'outside-broker'">
+                            <span class="name">{{item?.agency?.name ? item?.agency?.name : ('table.tr.td.NA' | translate)}}</span>
+                          </td>
+                          <td class="text-left text-ellipsis120">
+                            <span class="name">
+                              {{item?.name | titlecase}}
+                              {{item?.first_surname | titlecase}}
+                              {{item?.second_surname | titlecase}}
+                            </span>
+                          </td>
+                          <td class="text-left" *ngIf="item?.phone">{{item?.dial_code && item?.dial_code!=undefined ? item?.dial_code : constant.dial_code}}-
+                            {{item?.phone?item.phone:''}}</td>
+                          <td class="text-left" *ngIf="!item?.phone">{{'table.tr.td.NA' | translate}}</td>
+                          <td class="text-left">{{item?.email}}</td>
+                          <td class="text-left" (click)="showLeads(item.id)" *ngIf="parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers' ||
+                                parameter.userType == 'inhouse-broker' || parameter.userType=='credit-agents' || parameter.userType == 'outside-broker' || parameter.userType == 'csr-closers'; else showBuildings">
+                            <span class="green-color cursor-pointer">{{item?.lead_count?item.lead_count:'0'}}</span>
+                          </td>
+                          <td class="text-left" *ngIf="parameter.userType == 'alliance-agents'">
+                            <!-- <span class="green-color cursor-pointer">{{item?.linked_manger?.length > 0 ? item?.linked_manger?.length : 0 }}</span> -->
+                            <span >{{item?.linked_manger?.length > 0 ? item?.linked_manger?.length : 0 }}</span>
+                          </td>
+                          <td class="text-left" *ngIf="parameter.userType == 'cordinator-agents'">
+                            <!-- <span class="green-color cursor-pointer">{{item?.linked_manger?.length > 0 ? item?.linked_manger?.length : 0 }}</span> -->
+                            <span >0</span>
+                          </td>
+                          <td class="text-left" *ngIf="parameter.userType == 'data-collectors'" >{{item?.added_buildings_count?item.added_buildings_count:'0'}}</td>
+                          <td class="text-left" *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'outside-broker'">
+                            <a *ngIf="item?.properties_linked; else noPropertyLinked" routerLink="/dashboard/properties/view-properties/{{item.id}}/agent">
+                              <span class="green-color">{{item?.properties_linked?item.properties_linked:'0'}}</span>
+                            </a>
+                            <ng-template #noPropertyLinked>
+                              {{item?.properties_linked?item.properties_linked:'0'}}
+                            </ng-template>
+                          </td>
+                          <td>
+                            <div class="table-actions">
+                              <button *ngIf="parameter.userType=='outside-broker'" [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0 " 
+                              (click)="getNotes(item)"
+                              title="Outside Agent Notes" class="action-icon"><img
+                                src="assets/img/chat-icon.png" alt="img"></button>
+                              <a *ngIf="(admin?.admin_acl['Project Management']?.can_read==1 || admin?.permissions?.can_data_collector==1)&& 
+                              parameter.userType == 'data-collectors'" title="{{'table.title.viewProjects' | translate}}" href="javascript://" routerLink="/dashboard/projects/view-projects/data-collector/{{item?.id}}" class="icon-block edit-icon">
+                                <img src="assets/img/ic_projects_manage.png" alt="img">
+                              </a>
+                              <a *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 && parameter.userType == 'csr-sellers'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/csr-sellers-leads/{{item?.id}}" class="icon-block edit-icon">
+                                <img src="assets/img/ic_leads.png" alt="img">
+                              </a>
+                              <a *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_read==1 && parameter.userType == 'csr-buyers'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/csr-buyers-leads/{{item?.id}}" class="icon-block edit-icon">
+                                <img src="assets/img/ic_leads.png" alt="img">
+                              </a>
+                              <a *ngIf="admin?.admin_acl['Inhouse Agent Lead Management']?.can_read==1 && parameter.userType == 'inhouse-broker'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/inhouse-broker-leads/{{item?.id}}" class="icon-block edit-icon">
+                                <img src="assets/img/ic_leads.png" alt="img">
+                              </a>
+                              <a *ngIf="admin?.admin_acl['Outside Agent Lead Management']?.can_read==1 && parameter.userType == 'outside-broker'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/outside-broker-leads/{{item?.id}}" class="icon-block edit-icon">
+                                <img src="assets/img/ic_leads.png" alt="img">
+                              </a>
+                              <a *ngIf="admin?.admin_acl['Closer Lead Management']?.can_read==1 && parameter.userType == 'csr-closers'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/csr-closers-leads/{{item?.id}}" class="icon-block edit-icon">
+                                <img src="assets/img/ic_leads.png" alt="img">
+                              </a>
+                              <!-- <a *ngIf="admin?.admin_acl['Credit Agent Lead Management']?.can_read==1 && parameter.userType == 'credit-agents'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/credit-agents-leads/{{item.id}}" class="icon-block edit-icon">
+                                <img src="assets/img/ic_leads.png" alt="img">
+                              </a> -->
+                              
+                              <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#view" #viewModalOpen></a>
+                              <a title="{{'table.title.viewRoles' | translate}}" href="javascript://" (click)="viewDetails(item, i)" class="icon-block edit-icon"><img src="assets/img/eye-icon.png" alt="img"></a>
+              
+                              <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Data Collector Management']?.can_update==0 && parameter.userType=='data-collectors' ||
+                                admin?.admin_acl['Seller Management']?.can_update==0 && parameter.userType=='csr-sellers' ||
+                                admin?.admin_acl['Buyer Management']?.can_update==0 && parameter.userType=='csr-buyers' ||
+                                admin?.admin_acl['Inhouse Agent Management']?.can_update==0 && parameter.userType=='inhouse-broker' ||
+                                admin?.admin_acl['Closer Management']?.can_update==0 && parameter.userType=='csr-closers' ||
+                                admin?.admin_acl['Credit Agent Management']?.can_update==0 && parameter.userType=='credit-agents' ||
+                                admin?.admin_acl['Collection Agent Management']?.can_update==0 && parameter.userType=='collection-agents' ||
+                                admin?.admin_acl['Renter Management']?.can_update==0 && parameter.userType=='csr-renters' ||
+                                admin?.admin_acl['Outside Agent Management']?.can_update==0 && parameter.userType=='outside-broker' || 
+                                admin?.admin_acl['Alliance Agent Management']?.can_update == 0 && parameter.userType=='alliance-agents' || 
+                                admin?.admin_acl['Cordinator Agent Management']?.can_update == 0 && parameter.userType=='cordinator-agents'"
+                              (click)="getACLById(item.id)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                             
+                              <button [disabled]="admin?.admin_acl['Data Collector Management']?.can_delete==0 && parameter.userType=='data-collectors' ||
+                                admin?.admin_acl['Seller Management']?.can_delete==0 && parameter.userType=='csr-sellers' ||
+                                admin?.admin_acl['Buyer Management']?.can_delete==0 && parameter.userType=='csr-buyers' ||
+                                admin?.admin_acl['Inhouse Agent Management']?.can_delete==0 && parameter.userType=='inhouse-broker' ||
+                                admin?.admin_acl['Closer Management']?.can_delete==0 && parameter.userType=='csr-closers' ||
+                                admin?.admin_acl['Credit Agent Management']?.can_delete==0 && parameter.userType=='credit-agents' ||
+                                admin?.admin_acl['Collection Agent Management']?.can_delete==0 && parameter.userType=='collection-agents' ||
+                                admin?.admin_acl['Renter Management']?.can_delete==0 && parameter.userType=='csr-renters' ||
+                                admin?.admin_acl['Outside Agent Management']?.can_delete==0 && parameter.userType=='outside-broker' || 
+                                admin?.admin_acl['Alliance Agent Management']?.can_delete == 0 && parameter.userType=='alliance-agents' || 
+                                admin?.admin_acl['Cordinator Agent Management']?.can_delete == 0 && parameter.userType=='cordinator-agents'"
+                              (click)="blockUnblockPopup(i, item?.id, item?.is_blocked==1?0:1, parameter.type)" 
+                              title="{{item?.is_blocked==1 ? ('table.title.unblock' | translate) : ('table.title.block' | translate)}}" 
+                              [ngClass]="{'unblock-bg':item?.is_blocked==1}"
+                              class="action-icon">
+                              <img src="assets/img/block.png" alt="img">
+                            </button>
+                            <button [disabled]="admin?.admin_acl['Data Collector Management']?.can_purge==0 && parameter.userType=='data-collectors' ||
+                              admin?.admin_acl['Seller Management']?.can_purge==0 && parameter.userType=='csr-sellers' ||
+                              admin?.admin_acl['Buyer Management']?.can_purge==0 && parameter.userType=='csr-buyers' ||
+                              admin?.admin_acl['Inhouse Agent Management']?.can_purge==0 && parameter.userType=='inhouse-broker' ||
+                              admin?.admin_acl['Closer Management']?.can_purge==0 && parameter.userType=='csr-closers' ||
+                              admin?.admin_acl['Credit Agent Management']?.can_purge==0 && parameter.userType=='credit-agents' ||
+                              admin?.admin_acl['Collection Agent Management']?.can_purge==0 && parameter.userType=='collection-agents' ||
+                              admin?.admin_acl['Renter Management']?.can_purge==0 && parameter.userType=='csr-renters' ||
+                              admin?.admin_acl['Outside Agent Management']?.can_purge==0 && parameter.userType=='outside-broker' || 
+                              admin?.admin_acl['Alliance Agent Management']?.can_purge ==0 && parameter.userType=='alliance-agents' || 
+                              admin?.admin_acl['Cordinator Agent Management']?.can_purge ==0 && parameter.userType=='cordinator-agents'" 
+                            (click)="deletePopup(item, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png" alt="img"></button>
+                            </div>
+                          </td>
+                        </tr>
+                    </table>
+                    <table class="table table-striped table-align-left" *ngIf="parameter.userType=='outside-broker' && tab==1">
+                      <tr>
+                          <th style="width:6%">&nbsp;
+                            <div class="searh-3" *ngIf="parameter.userType == 'outside-broker'">
+                              <select [(ngModel)]="parameter.is_freelancer" name="is_freelancer" (change)="setIsFreelancer(parameter.is_freelancer)">
+                                <option value="0">All</option>
+                                <option value="1">Freelancer</option>
+                                <option value="2">Company</option>
+                              </select>
+                            </div>
+                          </th>
+                          <th style="width:15%" *ngIf="parameter.userType == 'outside-broker'">
+                            <div class="table-search">
+                                <label>{{'table.th.agencyCommercialName' | translate}}</label>
+                                <div class="searh-3">
+                                  <input class="width120px" type="text" [(ngModel)]="parameter.company_name" (keyup.enter)="searchUserByCompanyName(parameter.company_name)" name="" autocomplete="address-level4" >
+                                  <button type="button" *ngIf="parameter.company_name" (click)="searchUserByCompanyName(parameter.company_name)"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                          </th>
+                          <th style="width:15%">
+                            <div class="table-search">
+                                <label>{{'table.th.name' | translate}}</label>
+                                <div class="searh-3">
+                                  <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="searchUserByName(parameter.name)" name="" autocomplete="address-level4" >
+                                  <button type="button" *ngIf="parameter.name" (click)="searchUserByName(parameter.name)"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                          </th>
+                          <th style="width:15%; text-align:left;">
+                            <div class="table-search">
+                                <label>{{'table.th.contactNumber' | translate}}</label>
+                                <div class="searh-3">
+                                  <input class="width100px" type="text" [(ngModel)]="parameter.phone" (keyup.enter)="searchUserByPhone(parameter.phone)" name="" autocomplete="address-level4" >
+                                  <button type="button" *ngIf="parameter.phone" (click)="searchUserByPhone(parameter.phone)"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                          </th>
+                          <th style="width:20%">
+                            <div class="table-search">
+                                <label>{{'table.th.emailAddress' | translate}}</label>
+                                <div class="searh-3">
+                                  <input (keydown.space)="$event.preventDefault();" type="text" [(ngModel)]="parameter.email" (keyup.enter)="searchUserByEmail(parameter.email)" name="" autocomplete="address-level4" >
+                                  <button type="button" *ngIf="parameter.email" (click)="searchUserByEmail(parameter.email)"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                          </th>
+                          <th *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'outside-broker' || parameter.userType == 'csr-closers' ||
+                          parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers' || parameter.userType=='credit-agents'" style="width:5%; vertical-align: top;">
+                            <div class="d-flex table-search">
+                              <label>{{'table.th.leads' | translate}}<a (click)="setLeadSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.lead_sort==2}" src="assets/img/top-arrow.png" alt="img"></a></label>
+                            </div>
+                          </th>
+                          <th *ngIf="parameter.userType == 'alliance-agents' " style="width:10%; vertical-align: top;">
+                            <div class="d-flex table-search">
+                              <label>{{'table.th.managersLinked' | translate}}<a (click)="setLeadSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.lead_sort==2}" src="assets/img/top-arrow.png" alt="img"></a></label>
+                            </div>
+                          </th>
+                          <th *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'outside-broker'" style="width:5%; vertical-align: top;">
+                            <div class="d-flex table-search">
+                              <label style="display: flex;">{{'table.th.linkedProperties' | translate}}<a (click)="setPropertiesSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.property_sort==2}" src="assets/img/top-arrow.png" alt="img"></a></label>
+                            </div>
+                          </th>
+                          <th *ngIf="parameter.userType == 'data-collectors'" style="width:15%; vertical-align: top;">
+                              {{'table.th.building' | translate}}<a (click)="setLeadSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.lead_sort==2}" [ngClass]="{'upsidedown':this.price_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
+                          </th>
+                          <th *ngIf="parameter.userType == 'cordinator-agents' " style="width:10%; vertical-align: top;">
+                            <div class="d-flex table-search">
+                              <label>{{'table.th.leadsLinked' | translate}}<a (click)="setLeadSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.lead_sort==2}" src="assets/img/top-arrow.png" alt="img"></a></label>
+                            </div>
+                          </th>
+                          <th style="width:20%">
+                            <label>{{'table.th.actions.label' | translate}}</label>
+                          </th>
+                      </tr>
+  
+                        <tr  *ngFor="let item of parameter.records| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }; let i = index">
+                          <td> 
+                              <img [src]="item?.image" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
+                            <!-- <img [src]="item.image| img:'small'" class="rounded-circle" onerror='src="constant.userPlaceholder"' alt="img"> -->
+                          </td>
+                          <td class="text-left" *ngIf="parameter.userType == 'outside-broker'">
+                            <span class="name">{{item?.agency?.name ? item?.agency?.name : ('table.th.freelancer' |
+                              translate)}}</span>
+                          </td>
+                          <td class="text-left text-ellipsis120">
+                            <span class="name">
+                              {{item?.name | titlecase}}
+                              {{item?.first_surname | titlecase}}
+                              {{item?.second_surname | titlecase}}
+                            </span>
+                          </td>
+                          <td class="text-left" *ngIf="item?.phone">{{item?.dial_code && item?.dial_code!=undefined ? item?.dial_code : constant.dial_code}}-
+                            {{item?.phone?item.phone:''}}</td>
+                          <td class="text-left" *ngIf="!item?.phone">{{'table.tr.td.NA' | translate}}</td>
+                          <td class="text-left">{{item?.email}}</td>
+                          <td class="text-left" (click)="showLeads(item.id)" *ngIf="parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers' ||
+                                parameter.userType == 'inhouse-broker' || parameter.userType=='credit-agents' || parameter.userType == 'outside-broker' || parameter.userType == 'csr-closers'; else showBuildings">
+                            <span class="green-color cursor-pointer">{{item?.lead_count?item.lead_count:'0'}}</span>
+                          </td>
+                          <td class="text-left" *ngIf="parameter.userType == 'alliance-agents'">
+                            <!-- <span class="green-color cursor-pointer">{{item?.linked_manger?.length > 0 ? item?.linked_manger?.length : 0 }}</span> -->
+                            <span >{{item?.linked_manger?.length > 0 ? item?.linked_manger?.length : 0 }}</span>
+                          </td>
+                          <td class="text-left" *ngIf="parameter.userType == 'cordinator-agents'">
+                            <!-- <span class="green-color cursor-pointer">{{item?.linked_manger?.length > 0 ? item?.linked_manger?.length : 0 }}</span> -->
+                            <span >0</span>
+                          </td>
+                          <td class="text-left" *ngIf="parameter.userType == 'data-collectors'" >{{item?.added_buildings_count?item.added_buildings_count:'0'}}</td>
+                          <td class="text-left" *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'outside-broker'">
+                            <a *ngIf="item?.properties_linked; else noPropertyLinked" routerLink="/dashboard/properties/view-properties/{{item.id}}/agent">
+                              <span class="green-color">{{item?.properties_linked?item.properties_linked:'0'}}</span>
+                            </a>
+                            <ng-template #noPropertyLinked>
+                              {{item?.properties_linked?item.properties_linked:'0'}}
+                            </ng-template>
+                          </td>
+                          <td>
+                            <div class="table-actions">
+                              <button *ngIf="parameter.userType=='outside-broker'" [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0 " 
+                              (click)="getNotes(item)"
+                              title="Outside Agent Notes" class="action-icon"><img
+                                src="assets/img/chat-icon.png" alt="img"></button>
+                              <a *ngIf="(admin?.admin_acl['Project Management']?.can_read==1 || admin?.permissions?.can_data_collector==1)&& 
+                              parameter.userType == 'data-collectors'" title="{{'table.title.viewProjects' | translate}}" href="javascript://" routerLink="/dashboard/projects/view-projects/data-collector/{{item?.id}}" class="icon-block edit-icon">
+                                <img src="assets/img/ic_projects_manage.png" alt="img">
+                              </a>
+                              <a *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 && parameter.userType == 'csr-sellers'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/csr-sellers-leads/{{item?.id}}" class="icon-block edit-icon">
+                                <img src="assets/img/ic_leads.png" alt="img">
+                              </a>
+                              <a *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_read==1 && parameter.userType == 'csr-buyers'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/csr-buyers-leads/{{item?.id}}" class="icon-block edit-icon">
+                                <img src="assets/img/ic_leads.png" alt="img">
+                              </a>
+                              <a *ngIf="admin?.admin_acl['Inhouse Agent Lead Management']?.can_read==1 && parameter.userType == 'inhouse-broker'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/inhouse-broker-leads/{{item?.id}}" class="icon-block edit-icon">
+                                <img src="assets/img/ic_leads.png" alt="img">
+                              </a>
+                              <a *ngIf="admin?.admin_acl['Outside Agent Lead Management']?.can_read==1 && parameter.userType == 'outside-broker'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/outside-broker-leads/{{item?.id}}" class="icon-block edit-icon">
+                                <img src="assets/img/ic_leads.png" alt="img">
+                              </a>
+                              <a *ngIf="admin?.admin_acl['Closer Lead Management']?.can_read==1 && parameter.userType == 'csr-closers'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/csr-closers-leads/{{item?.id}}" class="icon-block edit-icon">
+                                <img src="assets/img/ic_leads.png" alt="img">
+                              </a>
+                              <!-- <a *ngIf="admin?.admin_acl['Credit Agent Lead Management']?.can_read==1 && parameter.userType == 'credit-agents'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/credit-agents-leads/{{item.id}}" class="icon-block edit-icon">
+                                <img src="assets/img/ic_leads.png" alt="img">
+                              </a> -->
+                              
+                              <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#view" #viewModalOpen></a>
+                              <a title="{{'table.title.viewRoles' | translate}}" href="javascript://" (click)="viewDetails(item, i)" class="icon-block edit-icon"><img src="assets/img/eye-icon.png" alt="img"></a>
+              
+                            
+                              <button *ngIf="parameter.userType=='outside-broker'" [disabled]="admin?.admin_acl['Managers Management']?.can_update==0"
+                              title="{{'table.title.editDetails' | translate}}" (click)="getOutsideAgentById(item, i)" class="action-icon"><img
+                                src="assets/img/edit.png" alt="img"></button>
 
-      <div class="center" *ngIf="parameter.total == 0">
-        <img src="assets/img/404-error.png">
-      </div>
+                              <button [disabled]="admin?.admin_acl['Data Collector Management']?.can_delete==0 && parameter.userType=='data-collectors' ||
+                                admin?.admin_acl['Seller Management']?.can_delete==0 && parameter.userType=='csr-sellers' ||
+                                admin?.admin_acl['Buyer Management']?.can_delete==0 && parameter.userType=='csr-buyers' ||
+                                admin?.admin_acl['Inhouse Agent Management']?.can_delete==0 && parameter.userType=='inhouse-broker' ||
+                                admin?.admin_acl['Closer Management']?.can_delete==0 && parameter.userType=='csr-closers' ||
+                                admin?.admin_acl['Credit Agent Management']?.can_delete==0 && parameter.userType=='credit-agents' ||
+                                admin?.admin_acl['Collection Agent Management']?.can_delete==0 && parameter.userType=='collection-agents' ||
+                                admin?.admin_acl['Renter Management']?.can_delete==0 && parameter.userType=='csr-renters' ||
+                                admin?.admin_acl['Outside Agent Management']?.can_delete==0 && parameter.userType=='outside-broker' || 
+                                admin?.admin_acl['Alliance Agent Management']?.can_delete == 0 && parameter.userType=='alliance-agents' || 
+                                admin?.admin_acl['Cordinator Agent Management']?.can_delete == 0 && parameter.userType=='cordinator-agents'"
+                              (click)="blockUnblockPopup(i, item?.id, item?.is_blocked==1?0:1, parameter.type)" 
+                              title="{{item?.is_blocked==1 ? ('table.title.unblock' | translate) : ('table.title.block' | translate)}}" 
+                              [ngClass]="{'unblock-bg':item?.is_blocked==1}"
+                              class="action-icon">
+                              <img src="assets/img/block.png" alt="img">
+                            </button>
+                            <button [disabled]="admin?.admin_acl['Data Collector Management']?.can_purge==0 && parameter.userType=='data-collectors' ||
+                              admin?.admin_acl['Seller Management']?.can_purge==0 && parameter.userType=='csr-sellers' ||
+                              admin?.admin_acl['Buyer Management']?.can_purge==0 && parameter.userType=='csr-buyers' ||
+                              admin?.admin_acl['Inhouse Agent Management']?.can_purge==0 && parameter.userType=='inhouse-broker' ||
+                              admin?.admin_acl['Closer Management']?.can_purge==0 && parameter.userType=='csr-closers' ||
+                              admin?.admin_acl['Credit Agent Management']?.can_purge==0 && parameter.userType=='credit-agents' ||
+                              admin?.admin_acl['Collection Agent Management']?.can_purge==0 && parameter.userType=='collection-agents' ||
+                              admin?.admin_acl['Renter Management']?.can_purge==0 && parameter.userType=='csr-renters' ||
+                              admin?.admin_acl['Outside Agent Management']?.can_purge==0 && parameter.userType=='outside-broker' || 
+                              admin?.admin_acl['Alliance Agent Management']?.can_purge ==0 && parameter.userType=='alliance-agents' || 
+                              admin?.admin_acl['Cordinator Agent Management']?.can_purge ==0 && parameter.userType=='cordinator-agents'" 
+                            (click)="deletePopup(item, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png" alt="img"></button>
+                            </div>
+                          </td>
+                        </tr>
+                    </table>
+                    <div class="center" *ngIf="parameter.total == 0">
+                      <img src="assets/img/404-error.png">
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="tab-pane container fade" id="seller">{{'table.th.sellerTabOn' | translate}}</div>
+        </div>
+     </div>
 
   </div>
   <div class="btn-cont text-right marginT15">
@@ -361,7 +566,7 @@
                 <button *ngIf="!model.id" type="submit" [disabled]="!model.name || !model.phone"
                   class="btn btn-primary">{{'viewManualLeads.addNewBtn' | translate}}</button>
                 <button *ngIf="model.id" type="submit" 
-                  class="btn btn-primary">{{'addForm.updateBtn' | translate}}</button>
+                  class="btn btn-primary">{{'commonBlock.updateBtn' | translate}}</button>
               </div>
             </div>
             <div class="col-12">
@@ -409,9 +614,7 @@
             </div>
             <div class="col-lg-12 col-md-6 col-sm-12 col-12">
               <div class="form-group-2">
-                <label>{{'addForm.emailId' | translate}}
-                  <!-- <span class="color-red">*</span> -->
-                </label>
+                <label>{{'addForm.emailId' | translate}}</label>
                 <div class="form-group">
                   <input (keydown.space)="$event.preventDefault();" autocomplete="off" [pattern]="constant.emailPattern"
                     type="email" class="form-control"  [(ngModel)]="model.email" name="email">
@@ -420,28 +623,25 @@
             </div>
             <div class="col-lg-12 col-md-6 col-sm-12 col-12">
               <div class="form-group-2">
-                <label>{{'addForm.freeLancerOrComapny' | translate}} 
-                  <!-- <span class="color-red">*</span> -->
-                </label>
+                <label>{{'addForm.freeLancerOrComapny' | translate}} </label>
                 <div class="form-group">
                   <select class="form-control"  (change)="setIsCompany($event.target.value)"
                     [(ngModel)]="model.is_company" name="is_company">
                     <option value="true">{{'addForm.company' | translate}}</option>
                     <option value="false">{{'addForm.freelancer' | translate}}</option>
                   </select>
-                   <!-- required -->
                 </div>
               </div>
             </div>
             <div class="col-12" *ngIf="model.is_company=='true'">
               <div class="form-group-2">
-                <label>{{'addForm.companyName' | translate}}</label>
-                <select name="company" class="form-control"  (change)="setCompany($event.target.value)">
-                  <option value="">{{'addForm.selectCompany' | translate}}</option>
-                  <option *ngFor="let company of agencies" value="{{company.id}}"
-                    [selected]="model?.company?.id == company.id">{{company.name}}</option>
-                </select>
-                <!-- required -->
+                <label>{{'addForm.agencyCommercialName' | translate}}</label>
+                <div class="form-group marginB0">
+                  <select required title="{{'table.title.chooseAgency' | translate}}" name="agency" class="form-control" (change)="setAgency($event.target.value)">
+                    <option value="">{{'addForm.selectAgency' | translate}}</option>
+                    <option *ngFor="let agency of agencies" value="{{agency.id}}" [selected]="model?.agency?.id == agency.id">{{agency.name}}</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
@@ -463,10 +663,9 @@
                   <!-- <span class="color-red">*</span> -->
                 </label>
                 <div class="form-group">
-                  <input placeholder="Search for address" autocorrect="off" autocapitalize="off" spellcheck="off"
-                    type="text" class="form-control" #search1
-                    (input)="loadPlaces('addresss', 'lat', 'lng', 'searchElementRef')" name="addresss"
-                    [(ngModel)]="model.addresss" autocomplete="off">
+                  <input placeholder="Search for address" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" 
+                  class="form-control" #search1 (input)="loadPlaces('address', 'lat', 'lng', 'searchElementRef')" 
+                  name="address" [(ngModel)]="model.address" autocomplete="off">
                 </div>
               </div>
             </div>

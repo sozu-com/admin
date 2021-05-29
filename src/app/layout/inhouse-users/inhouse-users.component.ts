@@ -13,6 +13,7 @@ import { AdminService } from 'src/app/services/admin.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { E } from '@angular/core/src/render3';
 declare let swal: any;
 declare const google;
 
@@ -47,6 +48,7 @@ export class InhouseUsersComponent implements OnInit {
   company_logo: any;
   logo: any;
   title: string;
+  tab: number;
   // disabledLocalities = [];
   disabledBuildings = [];
   seenDuplicate = false;
@@ -55,6 +57,7 @@ export class InhouseUsersComponent implements OnInit {
   agencies: Array<Agency>;
   language_code: string;
   items: Array<UserModel>;
+  records: Array<UserModel>;
   constructor(public constant: Constant, private cs: CommonService,
     public model: UserModel, private route: ActivatedRoute,public noted: Notes,
     private spinner: NgxSpinnerService,
@@ -68,6 +71,7 @@ export class InhouseUsersComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.tab = 0;
     this.language_code = localStorage.getItem('language_code');
     this.file1 = new FileUpload(false, this.admin);
     this.model.country_code = this.constant.country_code;
@@ -88,8 +92,10 @@ export class InhouseUsersComponent implements OnInit {
       }
       this.parameter.name = ''; this.parameter.phone = ''; this.parameter.email = '';
       this.parameter.items = []; this.parameter.total = 0;
+      this.parameter.records = []; this.parameter.total = 0;
       this.getCountries();
       this.getInhouseUsers();
+      this.getOuthouseUsers();
       if (this.parameter.userType === 'inhouse-broker' || this.parameter.userType === 'outside-broker') {
         this.property_sort = null;
         this.getAllAgencies();
@@ -101,6 +107,7 @@ export class InhouseUsersComponent implements OnInit {
   getPage(page: any) {
     this.parameter.p = page;
     this.getInhouseUsers();
+    this.getOuthouseUsers();
   }
 
   closeModal() {
@@ -249,27 +256,9 @@ export class InhouseUsersComponent implements OnInit {
     this.model.agency.id = id;
   }
   addManagerNote() {
-  
       this.outhouseUserModalOpen.nativeElement.click();
-   
   }
-  // onSelectFile1(event: any, paramUrl: string, paramFile: string) {
-  //   if (event.target.files && event.target.files[0]) {
-  //     const reader = new FileReader();
-  //     // this.parameter.image = event.target.files[0];
-  //     reader.onload = (e: any) => {
-  //       this[paramUrl] = e.target.result;
-  //       this[paramFile] = this.sanitization.bypassSecurityTrustStyle(`url(${this[paramUrl]})`);
-  //       this.cs.saveImage(event.target.files[0]).subscribe(
-  //         success => {
-  //           this.model[paramFile] = success['data'].image;
-  //         }
-  //       );
-  //     };
-  //     reader.readAsDataURL(event.target.files[0]);
-  //   }
-  // }
-
+  
   changeListner(event: any, paramLoader: string, param: any) {
     if (event.target.files[0].size > this.constant.fileSizeLimit) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.fileSizeExceeds'), 'error');
@@ -290,14 +279,6 @@ export class InhouseUsersComponent implements OnInit {
   }
 
   addNewUser(formdata: NgForm) {
-    // if (this.model.adr && this.model.adr.trim() && !this.model.lat && !this.model.lng) {
-    //   swal(this.translate.instant('swal.error'), 'Please choose address from dropdown.', 'error');
-    //   return;
-    // }
-    // if (this.model.branch_office && this.model.branch_office.trim() && !this.model.branch_lat && !this.model.branch_lng) {
-    //   swal(this.translate.instant('swal.error'), 'Please choose branch address from dropdown.', 'error');
-    //   return;
-    // }
     if (this.model.img_loader) {
       swal(this.translate.instant('swal.error'), 'Uploading image.', 'error');
       return false;
@@ -326,34 +307,14 @@ export class InhouseUsersComponent implements OnInit {
 
     if ((this.parameter.userType == 'outside-broker' || this.model.is_external_agent) && (this.model.is_company == 'false')) {
       input.append('adr', this.model.adr || '');
-      input.append('lat', this.model.lat || null);
-      input.append('lng', this.model.lng || null);
+      input.append('lat', this.model.lat);
+      input.append('lng', this.model.lng);
       input.append('rfc_legal_id', this.model.rfc_legal_id || '');
       input.append('description', this.model.description || '');
     }
 
     if (this.model.is_external_agent) {
       input.append('agency_id', this.model.agency.id);
-      // input.append('company_name', this.model.company_name);
-      // input.append('company_logo', this.model.company_logo);
-      // input.append('description', this.model.description);
-      // input.append('adr', this.model.adr);
-      // input.append('lat', this.model.lat);
-      // input.append('lat', this.model.lat);
-      // // if branch address
-      // if (this.model.branch_office && this.model.branch_office.trim()) {
-      //   this.model.branches = [];
-      //   this.model.branches = [
-      //     {'address': this.model.branch_office,
-      //     'lat': this.model.branch_lat,
-      //     'lng': this.model.branch_lng}
-      //     ];
-      //     input.append('branches', JSON.stringify(this.model.branches));
-      // }
-
-      // // images videos
-      // input.append('company_images', JSON.stringify([]));
-      // input.append('company_videos', JSON.stringify([]));
     } else {
       // input.append('is_broker', '1');
       input.append('company_name', '');
@@ -541,6 +502,7 @@ export class InhouseUsersComponent implements OnInit {
     this.parameter.p = this.constant.p;
     this.parameter.total = 0;
     this.getInhouseUsers();
+    this.getOuthouseUsers();
   }
 
   getCountries() {
@@ -616,37 +578,45 @@ export class InhouseUsersComponent implements OnInit {
   searchUserByName(name: string) {
     this.parameter.name = name;
     this.getInhouseUsers();
+    this.getOuthouseUsers();
   }
   searchUserByCompanyName(company_name: string) {
     this.parameter.company_name = company_name;
     this.getInhouseUsers();
+    this.getOuthouseUsers();
   }
   searchUserByEmail(email: string) {
     this.parameter.email = email;
     this.getInhouseUsers();
+    this.getOuthouseUsers();
   }
   searchUserByPhone(phone: string) {
     this.parameter.phone = phone;
     this.getInhouseUsers();
+    this.getOuthouseUsers();
   }
   setIsFreelancer(is_freelancer: string) {
     this.parameter.is_freelancer = is_freelancer;
     this.getInhouseUsers();
+    this.getOuthouseUsers();
   }
 
   setLeadSort() {
     this.lead_sort = this.lead_sort === 2 ? 1 : 2;
     this.property_sort = null;
     this.getInhouseUsers();
+    this.getOuthouseUsers();
   }
   setPropertiesSort() {
     this.property_sort = this.property_sort === 2 ? 1 : 2;
     this.lead_sort = null;
     this.getInhouseUsers();
+    this.getOuthouseUsers();
   }
   setBrokerType(is_external_agent: string) {
     this.model.is_external_agent = is_external_agent === '1' ? true : false;
     this.getInhouseUsers();
+    this.getOuthouseUsers();
   }
   setBrokerForModel(is_external_agent: string) {
     this.model.is_external_agent = is_external_agent === '1' ? true : false;
@@ -780,10 +750,45 @@ export class InhouseUsersComponent implements OnInit {
         });
   }
 
-  setCompany(id: number) {
-    this.model.company.id = id;
+  getOuthouseUsers(){
+    const input = new FormData();
+    input.append('page', this.parameter.p.toString());
+    if (this.lead_sort) { input.append('lead_sort', this.lead_sort.toString()); }
+    if (this.property_sort) { input.append('property_sort', this.property_sort.toString()); }
+    if (this.parameter.name) { input.append('name', this.parameter.name); }
+    if (this.parameter.email) { input.append('email', this.parameter.email); }
+    if (this.parameter.phone) { input.append('phone', this.parameter.phone); }
+    if (this.parameter.company_name) { input.append('company_name', this.parameter.company_name); }
+    if (this.parameter.is_freelancer) { input.append('is_freelancer', this.parameter.is_freelancer); }
+    if (this.parameter.country_id && this.parameter.country_id !== '-1') {
+      input.append('countries', JSON.stringify([this.parameter.country_id]));
+    }
+    if (this.parameter.state_id && this.parameter.state_id !== '-1') {
+      input.append('states', JSON.stringify([this.parameter.state_id]));
+    }
+    if (this.parameter.city_id && this.parameter.city_id !== '-1') {
+      input.append('cities', JSON.stringify([this.parameter.city_id]));
+    }
+    if (this.parameter.locality_id && this.parameter.locality_id !== '-1') {
+      input.append('localities', JSON.stringify([this.parameter.locality_id]));
+    }
+    if (this.parameter.building_id && this.parameter.building_id !== '-1') {
+      input.append('buildings', JSON.stringify([this.parameter.building_id]));
+    }
+    input.append('is_external_agent', this.model.is_external_agent === true ? '1' : '0');
+    if (this.parameter.id) { input.append('id', this.parameter.id); }
+    this.admin.postDataApi('getOutsideAgent',input)
+    .subscribe(
+      success => {
+        this.spinner.hide();
+        this.parameter.records = success.data;
+        this.parameter.total = success.total;
+      }, error => {
+        this.spinner.hide();
+      });
   }
 
+ 
   onFileChange(event: any, paramLoader: string, paramFile: string) {
     if (event.target.files && event.target.files[0]) {
       this.model[paramLoader] = true;
@@ -823,31 +828,22 @@ export class InhouseUsersComponent implements OnInit {
     if (this.model.email) {
       input.append('email', this.model.email);
     }
-
-    if (this.model.company.id) {
-      input.append('agency_id', this.model.company.id.toString());
-    }
-
-    if (this.model.image) { input.append('image', this.model.image); }
-    if (this.model.logo) { input.append('logo', this.model.logo); }
-
-    if (this.model.is_company == 'false') {
-      // if(!this.model.address || !this.model.lat || !this.model.lng || !this.model.rfc_legal_id){
-      //  swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterDetail'), 'error');
-      //          return false;
-      // }
-      input.append('address', this.model.addresss);
+    if (this.model.is_company == 'true') {
+      input.append('agency_id', this.model.agency.id.toString());
+    
+  } else {
+    input.append('address', this.model.addresss || '');
       input.append('lat', this.model.lat);
       input.append('lng', this.model.lng);
       input.append('rfc_legal_id', this.model.rfc_legal_id);
       input.append('description', this.model.description || '');
-    }
-    // if (this.model.is_company == 'true') {
-    //       if(!this.model.company.id){
-    //          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.selectCompany'), 'error');
-    //          return false;
-    //    }
-    // }
+  }
+
+    if (this.model.image) { input.append('image', this.model.image); }
+    if (this.model.logo) { input.append('logo', this.model.logo); }
+
+  
+   
     this.spinner.show();
     this.admin.postDataApi('addOutsideAgent', input)
       .subscribe(
@@ -862,7 +858,7 @@ export class InhouseUsersComponent implements OnInit {
               this.translate.instant('message.success.addedSuccessfully');
             swal(this.translate.instant('swal.success'), text, 'success');
             if (this.model.id) {
-              this.items[this.parameter.index] = success.data;
+              this.records[this.parameter.index] = success.data;
             } else {
               this.modalClose.nativeElement.click();
               const text = this.model.id ?
@@ -870,10 +866,9 @@ export class InhouseUsersComponent implements OnInit {
                 this.translate.instant('message.success.addedSuccessfully');
               swal(this.translate.instant('swal.success'), text, 'success');
               if (this.model.id) {
-                this.items[this.parameter.index] = success.data;
-                // console.log(this.items, "edit resp")
+                this.records[this.parameter.index] = success.data;
               } else {
-                this.parameter.items.push(success.data);
+                this.parameter.records.push(success.data);
                 this.parameter.total++;
               }
               formdata.reset();
@@ -887,26 +882,28 @@ export class InhouseUsersComponent implements OnInit {
         });
   }
 
-  editoutsideUser(userdata: UserModel, index: any) {
+  getOutsideAgentById(userdata: UserModel, index: any) {
     this.parameter.index = index;
     this.model = userdata;
     this.model.company = userdata.company ? userdata.company : new Company();
     this.image = userdata.image;
     this.logo = userdata.logo;
-    if (userdata.company_id != null && userdata.company_id != 0) {
+    if (userdata.agency_id != null && userdata.agency_id != 0) {
       this.model.is_company = 'true';
     } else {
       this.model.is_company = 'false';
     }
+   
     this.model.rfc_legal_id = userdata.rfc_legal_id && userdata.rfc_legal_id != 'null' ? userdata.rfc_legal_id : '';
-    this.model.addresss = userdata.address && userdata.addresss != 'null' ? userdata.addresss : '';
+    this.model.address = userdata.address;
+    this.model.lat = userdata.lat;
+    this.model.lng = userdata.lng;
     this.model.img_loader = false; this.model.logo_loader = false;
     if (this.obj) {
       this.obj.intlTelInput('setCountry', this.model.country_code ? this.model.country_code : this.constant.country_code);
     }
-    this.inhouseUserModalOpen.nativeElement.click();
+    this.outhouseUserModalOpen.nativeElement.click();
   }
-
 
   addRow() {
     const obj = {
@@ -1161,6 +1158,7 @@ export class InhouseUsersComponent implements OnInit {
     }
     this.router.navigate([url, id]);
   }
+
   getNotes(item) {
      this.noted.agent_id = item.id;
     const input = { agent_id: item.id };
@@ -1169,6 +1167,7 @@ export class InhouseUsersComponent implements OnInit {
       this.notesModalOpen.nativeElement.click();
     });
   }
+  
   addNote() {
         this.spinner.show();
         this.admin.postDataApi('addOutsideAgentNote', { note: this.noted.note, title: this.noted.title,
@@ -1185,5 +1184,8 @@ export class InhouseUsersComponent implements OnInit {
 
   closeNotesModal() {
     this.notesModalClose.nativeElement.click();
+  }
+  setTab(tab: any) {
+    this.tab = tab;
   }
 }

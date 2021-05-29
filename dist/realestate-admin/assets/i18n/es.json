@@ -100,6 +100,8 @@
     "flag": {
       "approved": "Aprobado",
       "unapproved": "No aprobado",
+      "oldOutside": "Agentes externas",
+      "newOutside": "Nuevas agentes externas",
       "pendingReview": "Revisión pendiente",
       "inDraft": "En borrador",
       "sellerRequest": "Solicitud del vendedor"
