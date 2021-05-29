@@ -182,12 +182,12 @@
                     <table class="table">
                         <tr *ngFor="let item of parameter.items">
                             <td *ngIf="item.is_blocked!=1">
-                                <div class="n-avail-profile">
+                                <div class="n-avail-profile cursor-pointer" (click)="changeRoute(item)">
                                     <img [src]="item.image| img:'small'" onerror='src="assets/img/default_img.png"'
                                         alt="img">
                                     <div class="n-avail-info">
-                                        <p class="p12">{{item.name | titlecase}}</p>
-                                        <p class="p10">{{'leads.phone' | translate}} :
+                                        <p class="p12 green-color">{{item.name | titlecase}}</p>
+                                        <p class="p10 green-color">{{'leads.phone' | translate}} :
                                             {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone.trim()}}
                                         </p>
                                     </div>

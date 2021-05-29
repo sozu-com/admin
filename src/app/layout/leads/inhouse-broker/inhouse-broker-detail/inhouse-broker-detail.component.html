@@ -38,7 +38,7 @@
           </ul>
           </div>
       </div>
-      
+
 
       <!-- <div class="col-lg-4 col-md-12 col-sm-12 col-12">
             <div class="row">
@@ -50,7 +50,7 @@
                 </div>
             </div>
         </div> -->
-    
+
 
     <div class="col-lg-2 col-md-12 col-sm-12 col-12">
         <div class="row">
@@ -88,15 +88,15 @@
              <table class="table">
                 <tbody><tr>
                    <td style="padding-left:0"><label>{{'leadDetails.fullName' | translate}}</label></td>
-                   <td *ngIf="leadData?.name">{{leadData.user.name | titlecase}}</td>
+                   <td *ngIf="leadData?.name">{{leadData?.user?.name | titlecase}}</td>
                 </tr>
                 <tr>
                    <td style="padding-left:0"><label>{{'leadDetails.contactNumber' | translate}}</label></td>
-                   <td *ngIf="leadData?.phone">{{leadData.user.dial_code ? leadData.user.dial_code : constant.dial_code}}-{{leadData.phone}}</td>
+                   <td *ngIf="leadData?.phone">{{leadData?.user?.dial_code ? leadData.user.dial_code : constant.dial_code}}-{{leadData.phone}}</td>
                 </tr>
                 <tr>
                    <td style="padding-left:0"><label>{{'leadDetails.emailAddress' | translate}}</label></td>
-                   <td *ngIf="leadData?.email">{{leadData.user.email}}</td>
+                   <td *ngIf="leadData?.email">{{leadData?.user?.email}}</td>
                 </tr>
                 <tr>
                    <td style="padding-left:0"><label>{{'leadDetails.interestedIn' | translate}}</label></td>
@@ -110,7 +110,7 @@
                 </tr>
                 <tr>
                    <td style="padding-left:0"><label>{{'leadDetails.favoriteProperties' | translate}}</label></td>
-                   <td>{{parameter.fav_properties_count}} 
+                   <td>{{parameter.fav_properties_count}}
                       <a style="display: none;" data-toggle="modal" #showPropertyModal data-target="#view-fav-property" class="view-all" href="javascript://">View All</a>
                       <a *ngIf="parameter.fav_properties_count" class="view-all" href="javascript://" (click)="viewFavProperties()">{{'leadDetails.viewAll' | translate}}</a>
                     </td>
@@ -145,7 +145,7 @@
         </div>
 
         <div class="spacer30"></div>
-        <div>
+        <!-- <div>
             <div class="white-bg move-below">
                 <div class="page-title-3 marginB0">
                     <h4><i><img src="assets/img/chat-icon.png" alt="img"></i> {{'leadDetails.chat' | translate}}</h4>
@@ -156,28 +156,28 @@
                     </app-chat-tabs>
                 </div>
             </div>
-        </div>
+        </div> -->
 
      </div>
      <div class="col-lg-6 col-md-12 col-sm-12 col-12">
         <!-- chat with developer -->
-        <div class="white-bg chat-with-developer padding15">
+        <!-- <div class="white-bg chat-with-developer padding15">
            <i class="float-left marginR15"><img src="assets/img/chat-icon.png" alt="img"></i>
            <a href="javascript://" routerLink="/dashboard/leads/chat-list/1/{{parameter.lead_id}}">{{'leadDetails.chatWithSeller' | translate}} <i class="fa fa-angle-right"></i></a>
-        </div>
+        </div> -->
 
         <!-- chat with csr seller -->
-        <div class="white-bg chat-with-developer padding15">
+        <!-- <div class="white-bg chat-with-developer padding15">
             <i class="float-left marginR15"><img src="assets/img/chat-icon.png" alt="img"></i>
             <a href="javascript://" routerLink="/dashboard/leads/chat-list/2/{{parameter.lead_id}}">{{'leadDetails.chatWithCSRSeller' | translate}}<i class="fa fa-angle-right"></i></a>
-        </div>
-        
+        </div> -->
+
         <!-- <app-fill-information [sent_as]="parameter.sent_as" [fillInfo]="fillInfo" [lead_id]="parameter.lead_id"></app-fill-information> -->
         <app-fill-information [sent_as]="parameter.sent_as" [leadData]="leadData"
                 [selectedAmenities]="selectedAmenities" [allAmenities]="allAmenities"
                 [lead_id]="parameter.lead_id" [showOtherTextBox]="showOtherTextBox">
         </app-fill-information>
-        
+
         <app-notes [sent_as]="parameter.sent_as" [lead_id]="parameter.lead_id"></app-notes>
 
         <!-- <div class="spacer30"></div>
@@ -217,7 +217,7 @@
             <h3>{{'leadDetails.favoriteProperties' | translate}}</h3>
             <hr>
             <pagination-controls id="page2" class="my-pagination" (pageChange)="getPage2($event)"></pagination-controls>
-    
+
             <div class="scrollbox fav-prop" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
             <div class="row">
                 <div class="col-lg-6 col-md-12 col-sm-12 col-12"
@@ -262,7 +262,7 @@
                 <button type="button" style="display: none;" class="close" data-dismiss="modal" #modalClose>&times;</button>
                 <button type="button" class="close" (click)="closeModal()">&times;</button>
             </div>
-    
+
             <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="add()">
             <div class="modal-body modal-body-new">
                 <div class="row">
@@ -288,7 +288,7 @@
                     <button type="button" style="display: none;" class="close" data-dismiss="modal" #modalClose>&times;</button>
                     <button type="button" class="close" (click)="closeModal()">&times;</button>
                 </div>
-        
+
                 <form class="form-horizontal form-model0P" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="add()">
                 <div class="modal-body padding0">
                     <div class="row">
@@ -333,7 +333,7 @@
                     </div>
                 </div>
                 </form>
-        
+
             </div>
         </div>
     </div>
@@ -348,7 +348,7 @@
                 <button type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
                 <!-- <button type="button" class="close" (click)="closeModal()">&times;</button> -->
             </div>
-    
+
             <div class="modal-body modal-body-new">
                 <div class="row">
                     <div class="col-6" *ngFor="let d of data; let j=index">
