@@ -44,6 +44,7 @@ export class UserModel {
     is_company?: string;
     company_id?: number;
     selected?: any;
+    agency_id?: any;
     name: string;
     first_surname?: string;
     second_surname?: string;

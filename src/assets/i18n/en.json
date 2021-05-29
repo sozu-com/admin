@@ -100,6 +100,8 @@
     "flag": {
       "approved": "Approved",
       "unapproved": "Unapproved",
+      "oldOutside": "Outside Agents",
+      "newOutside": "New Outside Agents",
       "pendingReview": "Pending Review",
       "inDraft": "In Draft",
       "sellerRequest": "Seller's Request"
