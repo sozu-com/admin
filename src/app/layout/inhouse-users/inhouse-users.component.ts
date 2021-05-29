@@ -5,7 +5,7 @@ import { MapsAPILoader } from '@agm/core';
 import { FileUpload } from 'src/app/common/fileUpload';
 import { Agency } from 'src/app/models/agency.model';
 import { Constant } from 'src/app/common/constants';
-import { User, Address, UserModel, Notes } from 'src/app/models/inhouse-users.model';
+import { User, Address, UserModel, Notes,Company } from 'src/app/models/inhouse-users.model';
 import { IProperty } from 'src/app/common/property';
 import { CommonService } from 'src/app/services/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -20,7 +20,7 @@ declare const google;
   selector: 'app-inhouse-users',
   templateUrl: './inhouse-users.component.html',
   styleUrls: ['./inhouse-users.component.css'],
-  providers: [Constant, User, Address, UserModel,Notes]
+  providers: [Constant, User, Address, UserModel,Notes,Company]
 })
 
 export class InhouseUsersComponent implements OnInit {
@@ -45,6 +45,7 @@ export class InhouseUsersComponent implements OnInit {
   url: any[];
   image: any;
   company_logo: any;
+  logo: any;
   title: string;
   // disabledLocalities = [];
   disabledBuildings = [];
@@ -53,6 +54,7 @@ export class InhouseUsersComponent implements OnInit {
   file1: FileUpload;
   agencies: Array<Agency>;
   language_code: string;
+  items: Array<UserModel>;
   constructor(public constant: Constant, private cs: CommonService,
     public model: UserModel, private route: ActivatedRoute,public noted: Notes,
     private spinner: NgxSpinnerService,
@@ -71,6 +73,7 @@ export class InhouseUsersComponent implements OnInit {
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
     this.model.agency = new Agency();
+    this.model.company = new Company();
     this.model.is_company = 'true';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
@@ -775,6 +778,133 @@ export class InhouseUsersComponent implements OnInit {
         success => {
           this.agencies = success.data;
         });
+  }
+
+  setCompany(id: number) {
+    this.model.company.id = id;
+  }
+
+  onFileChange(event: any, paramLoader: string, paramFile: string) {
+    if (event.target.files && event.target.files[0]) {
+      this.model[paramLoader] = true;
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this[paramFile] = e.target.result;
+        this.cs.saveImage(event.target.files[0]).subscribe(
+          success => {
+            this.model[paramLoader] = false;
+            this.model[paramFile] = success['data'].image;
+          }
+        );
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }
+
+
+  addNewOutsideUser(formdata: NgForm) {
+
+    if (this.model.img_loader || this.model.logo_loader) {
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.uploadingImage'), 'error');
+      return false;
+    }
+    const input = new FormData();
+    if (this.model.id) { input.append('id', this.model.id.toString()); }
+
+    input.append('name', this.model.name);
+    input.append('first_surname', this.model.first_surname || '');
+    input.append('second_surname', this.model.second_surname || '');
+
+    if (this.model.phone) {
+      input.append('country_code', this.model.country_code ? this.model.country_code : this.constant.dial_code);
+      input.append('dial_code', this.model.dial_code ? this.model.dial_code : this.constant.dial_code);
+      input.append('phone', this.model.phone);
+    }
+    if (this.model.email) {
+      input.append('email', this.model.email);
+    }
+
+    if (this.model.company.id) {
+      input.append('agency_id', this.model.company.id.toString());
+    }
+
+    if (this.model.image) { input.append('image', this.model.image); }
+    if (this.model.logo) { input.append('logo', this.model.logo); }
+
+    if (this.model.is_company == 'false') {
+      // if(!this.model.address || !this.model.lat || !this.model.lng || !this.model.rfc_legal_id){
+      //  swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterDetail'), 'error');
+      //          return false;
+      // }
+      input.append('address', this.model.addresss);
+      input.append('lat', this.model.lat);
+      input.append('lng', this.model.lng);
+      input.append('rfc_legal_id', this.model.rfc_legal_id);
+      input.append('description', this.model.description || '');
+    }
+    // if (this.model.is_company == 'true') {
+    //       if(!this.model.company.id){
+    //          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.selectCompany'), 'error');
+    //          return false;
+    //    }
+    // }
+    this.spinner.show();
+    this.admin.postDataApi('addOutsideAgent', input)
+      .subscribe(
+        success => {
+          this.spinner.hide();
+          if (success.success === '0') {
+            swal(this.translate.instant('swal.error'), success.message, 'error');
+          } else {
+            this.modalClose.nativeElement.click();
+            const text = this.model.id ?
+              this.translate.instant('message.success.updatedSuccessfully') :
+              this.translate.instant('message.success.addedSuccessfully');
+            swal(this.translate.instant('swal.success'), text, 'success');
+            if (this.model.id) {
+              this.items[this.parameter.index] = success.data;
+            } else {
+              this.modalClose.nativeElement.click();
+              const text = this.model.id ?
+                this.translate.instant('message.success.updatedSuccessfully') :
+                this.translate.instant('message.success.addedSuccessfully');
+              swal(this.translate.instant('swal.success'), text, 'success');
+              if (this.model.id) {
+                this.items[this.parameter.index] = success.data;
+                // console.log(this.items, "edit resp")
+              } else {
+                this.parameter.items.push(success.data);
+                this.parameter.total++;
+              }
+              formdata.reset();
+              this.emptyModel();
+            }
+            formdata.reset();
+            this.emptyModel();
+          }
+        }, error => {
+          this.spinner.hide();
+        });
+  }
+
+  editoutsideUser(userdata: UserModel, index: any) {
+    this.parameter.index = index;
+    this.model = userdata;
+    this.model.company = userdata.company ? userdata.company : new Company();
+    this.image = userdata.image;
+    this.logo = userdata.logo;
+    if (userdata.company_id != null && userdata.company_id != 0) {
+      this.model.is_company = 'true';
+    } else {
+      this.model.is_company = 'false';
+    }
+    this.model.rfc_legal_id = userdata.rfc_legal_id && userdata.rfc_legal_id != 'null' ? userdata.rfc_legal_id : '';
+    this.model.addresss = userdata.address && userdata.addresss != 'null' ? userdata.addresss : '';
+    this.model.img_loader = false; this.model.logo_loader = false;
+    if (this.obj) {
+      this.obj.intlTelInput('setCountry', this.model.country_code ? this.model.country_code : this.constant.country_code);
+    }
+    this.inhouseUserModalOpen.nativeElement.click();
   }
 
 

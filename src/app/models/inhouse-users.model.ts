@@ -1,5 +1,5 @@
 import { Agency } from './agency.model';
-
+import { LegalRepresentative } from './legalEntity.model';
 export class InhouseUsers {
 
     public address = [
@@ -33,7 +33,17 @@ export class InhouseUsers {
 
 export class UserModel {
     id: string;
-  
+    img_loader: boolean;
+    logo_loader: boolean;
+    logo: any;
+    description?: string;
+    addresss?: string;   // address string
+    lat?: any;
+    lng?: any;
+    rfc_legal_id?: string;
+    is_company?: string;
+    company_id?: number;
+    selected?: any;
     name: string;
     first_surname?: string;
     second_surname?: string;
@@ -41,7 +51,6 @@ export class UserModel {
     dial_code: string;
     phone: string;
     image: string;
-    img_loader: boolean;
     email: string;
     address: Array<NewAddress>;
     is_broker_seller_dev: boolean;
@@ -55,21 +64,51 @@ export class UserModel {
     // keys added for external broker
     is_external_agent?: boolean;
     agency?: Agency;
+    company?:Company;
     is_inhouse_agent?: boolean; // for frontend use only
     // company_name?: string;
     // company_logo?: string;
-    description?: string;
+    //description?: string;
     adr?: string;   // address string
-    lat?: any;
-    lng?: any;
+   // lat?: any;
+  //  lng?: any;
     // branches?: Array<Branches>;
     // branch_office?: string;
     // branch_lat?: any;
     // branch_lng?: any;
     // company_images?: Array<any>;
     // company_videos?: Array<any>;
-    rfc_legal_id?: string;
-    is_company?: string;
+    // rfc_legal_id?: string;
+    // is_company?: string;
+}
+
+export class Company {
+    id: any;
+    person_in_charge: string;   // incharge of company
+    rfc: string;    // legal id => unique company id
+    razon_social: string;   // legal company name
+    name: string;
+    country_code: string;
+    dial_code: string;
+    phone: string;
+    image: any;
+    logo: any;
+    img_loader: boolean;
+    logo_loader: boolean;
+    email: string;
+    address: string;
+    lat?: any;
+    lng?: any;
+    branch?: string;
+    branch_lat?: any;
+    branch_lng?: any;
+    page?: number;
+    description?: string;
+    managers_count?: number;
+    project_count?: number;
+    sort_manager?: number;
+    project_sort?: number;
+    legal_representative?: LegalRepresentative;
 }
 
 export class Branches {
