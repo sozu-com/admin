@@ -1421,32 +1421,32 @@
                         src="assets/img/ic_delete.png" alt="img"></button>
                   </td>
                   <td>
-                    <button *ngIf="p.commission && p.commission.payment"
+                    <button *ngIf="p?.commission?.payment && p?.commission?.payment.length>0"
                       (click)="editCollectionCommReceipt(p.commission.payment)"
                       title="{{'table.title.editCCPayment' | translate}}" class="action-icon"><img
                         src="assets/img/ic_commission.png" alt="img"></button>
 
-                    <button *ngIf="p.commission && p.commission.payment"
+                    <button *ngIf="p?.commission?.payment && p?.commission?.payment.length>0"
                       (click)="deleteCollectionCommReceipt(p.commission.payment)"
                       title="{{'table.title.deleteCCPayment' | translate}}" class="action-icon"><img
                         src="assets/img/ic_delete.png" alt="img"></button>
                     <br>
-                    <button *ngIf="p.commission && p.commission.purchase_payment"
+                    <button *ngIf="p?.commission?.purchase_payment && p?.commission?.purchase_payment.length>0"
                       (click)="editCollectionCommReceipt(p.commission.purchase_payment)"
                       title="{{'table.title.editPCPayment' | translate}}" class="action-icon"><img
                         src="assets/img/ic_commission.png" alt="img"></button>
 
-                    <button *ngIf="p.commission && p.commission.purchase_payment"
+                    <button *ngIf="p?.commission?.purchase_payment && p?.commission?.purchase_payment.length>0"
                       (click)="deleteCollectionCommReceipt(p.commission.purchase_payment)"
                       title="{{'table.title.deletePCPayment' | translate}}" class="action-icon"><img
                         src="assets/img/ic_delete.png" alt="img"></button>
                     <br>
-                    <button *ngIf="p.commission && p.commission.agent_payment"
+                    <button *ngIf="p?.commission?.agent_payment && p?.commission?.agent_payment.length>0"
                       (click)="editCollectionCommReceipt(p.commission.agent_payment)"
                       title="{{'table.title.editACPayment' | translate}}" class="action-icon"><img
                         src="assets/img/ic_commission.png" alt="img"></button>
 
-                    <button *ngIf="p.commission && p.commission.agent_payment"
+                    <button *ngIf="p?.commission?.agent_payment && p?.commission?.agent_payment.length>0"
                       (click)="deleteCollectionCommReceipt(p.commission.agent_payment)"
                       title="{{'table.title.deleteACPayment' | translate}}" class="action-icon"><img
                         src="assets/img/ic_delete.png" alt="img"></button>
@@ -1936,18 +1936,6 @@
             <div class="col-12">
               <div class="spacer40"></div>
             </div>
-            <div class="col-6">
-              <div class="form-group-2">
-                <label>{{'viewCollections.choosePaymentMethod' | translate}} <span class="color-red">*</span></label>
-                <div class="form-group">
-                  <select name="payment_method" required #applyPaymentMethodId1 class="form-control"
-                    [(ngModel)]="payment_method_id" (ngModelChange)="setPaymentmethod($event)">
-                    <option value="">{{'viewCollections.choosePaymentMethod' | translate}}</option>
-                    <option *ngFor="let bt of paymentMethods" [value]="bt.id"> {{bt?.name}}</option>
-                  </select>
-                </div>
-              </div>
-            </div>
             <div class="col-6" *ngIf = "pay_id">
               <div class="form-group-2">
               <label>{{'viewCollections.partialpayments' | translate}}</label>
@@ -1976,6 +1964,19 @@
                </div>
               </div> 
             </div>
+            <div class="col-6">
+              <div class="form-group-2">
+                <label>{{'viewCollections.choosePaymentMethod' | translate}} <span class="color-red">*</span></label>
+                <div class="form-group">
+                  <select name="payment_method" required #applyPaymentMethodId1 class="form-control"
+                    [(ngModel)]="payment_method_id" (ngModelChange)="setPaymentmethod($event)">
+                    <option value="">{{'viewCollections.choosePaymentMethod' | translate}}</option>
+                    <option *ngFor="let bt of paymentMethods" [value]="bt.id"> {{bt?.name}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+           
             <div class="col-6">
               <div class="form-group-2">
                 <label>{{'viewCollections.choosePaymentReceipt' | translate}} <span class="color-red">*</span></label>
