@@ -5,13 +5,14 @@ import { MapsAPILoader } from '@agm/core';
 import { FileUpload } from 'src/app/common/fileUpload';
 import { Agency } from 'src/app/models/agency.model';
 import { Constant } from 'src/app/common/constants';
-import { User, Address, UserModel } from 'src/app/models/inhouse-users.model';
+import { User, Address, UserModel, Notes } from 'src/app/models/inhouse-users.model';
 import { IProperty } from 'src/app/common/property';
 import { CommonService } from 'src/app/services/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdminService } from 'src/app/services/admin.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 declare let swal: any;
 declare const google;
 
@@ -19,7 +20,7 @@ declare const google;
   selector: 'app-inhouse-users',
   templateUrl: './inhouse-users.component.html',
   styleUrls: ['./inhouse-users.component.css'],
-  providers: [Constant, User, Address, UserModel]
+  providers: [Constant, User, Address, UserModel,Notes]
 })
 
 export class InhouseUsersComponent implements OnInit {
@@ -53,11 +54,11 @@ export class InhouseUsersComponent implements OnInit {
   agencies: Array<Agency>;
   language_code: string;
   constructor(public constant: Constant, private cs: CommonService,
-    public model: UserModel, private route: ActivatedRoute,
+    public model: UserModel, private route: ActivatedRoute,public noted: Notes,
     private spinner: NgxSpinnerService,
     public admin: AdminService, private router: Router,
     private ngZone: NgZone,
-    private mapsAPILoader: MapsAPILoader,
+    private mapsAPILoader: MapsAPILoader,private toastr: ToastrService,
     private translate: TranslateService) {
     this.admin.countryData$.subscribe(success => {
       this.parameter.allCountry = success;
@@ -1031,12 +1032,25 @@ export class InhouseUsersComponent implements OnInit {
     this.router.navigate([url, id]);
   }
   getNotes(item) {
-    // this.parameter.id = item.id;
-    // const input = { property_collection_id: item.id };
-    // this.admin.postDataApi('getCollectionNote', input).subscribe(r => {
-    //   this.parameter.items = r.data;
+     this.noted.agent_id = item.id;
+    const input = { agent_id: item.id };
+    this.admin.postDataApi('viewAgentNotes', input).subscribe(r => {
+      this.parameter.notes = r.data;
       this.notesModalOpen.nativeElement.click();
-   // });
+    });
+  }
+  addNote() {
+        this.spinner.show();
+        this.admin.postDataApi('addOutsideAgentNote', { note: this.noted.note, title: this.noted.title,
+           agent_id: this.noted.agent_id
+        }).subscribe(r => {
+          this.spinner.hide();
+          this.noted = new Notes();
+          this.parameter.notes.push(r.data);
+          this.toastr.clear();
+          this.toastr.success(this.translate.instant('message.success.addedSuccessfully'), this.translate.instant('swal.success'));
+          this.closeNotesModal();
+        }); 
   }
 
   closeNotesModal() {

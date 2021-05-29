@@ -195,7 +195,7 @@
 
             <tr *ngFor="let item of parameter.items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.p, totalItems: parameter.total }; let i = index">
               <td> 
-                  <img [src]="item.image" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
+                  <img [src]="item?.image" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
                 <!-- <img [src]="item.image| img:'small'" class="rounded-circle" onerror='src="constant.userPlaceholder"' alt="img"> -->
               </td>
               <td class="text-left" *ngIf="parameter.userType == 'outside-broker'">
@@ -203,17 +203,18 @@
               </td>
               <td class="text-left text-ellipsis120">
                 <span class="name">
-                  {{item.name | titlecase}}
-                  {{item.first_surname | titlecase}}
-                  {{item.second_surname | titlecase}}
+                  {{item?.name | titlecase}}
+                  {{item?.first_surname | titlecase}}
+                  {{item?.second_surname | titlecase}}
                 </span>
               </td>
-              <td class="text-left" *ngIf="item.phone">{{item.dial_code && item.dial_code!=undefined ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
-              <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
-              <td class="text-left">{{item.email}}</td>
+              <td class="text-left" *ngIf="item?.phone">{{item?.dial_code && item?.dial_code!=undefined ? item?.dial_code : constant.dial_code}}-
+                {{item?.phone?item.phone:''}}</td>
+              <td class="text-left" *ngIf="!item?.phone">{{'table.tr.td.NA' | translate}}</td>
+              <td class="text-left">{{item?.email}}</td>
               <td class="text-left" (click)="showLeads(item.id)" *ngIf="parameter.userType == 'csr-sellers' || parameter.userType == 'csr-buyers' ||
                     parameter.userType == 'inhouse-broker' || parameter.userType=='credit-agents' || parameter.userType == 'outside-broker' || parameter.userType == 'csr-closers'; else showBuildings">
-                <span class="green-color cursor-pointer">{{item.lead_count?item.lead_count:'0'}}</span>
+                <span class="green-color cursor-pointer">{{item?.lead_count?item.lead_count:'0'}}</span>
               </td>
               <td class="text-left" *ngIf="parameter.userType == 'alliance-agents'">
                 <!-- <span class="green-color cursor-pointer">{{item?.linked_manger?.length > 0 ? item?.linked_manger?.length : 0 }}</span> -->
@@ -223,37 +224,38 @@
                 <!-- <span class="green-color cursor-pointer">{{item?.linked_manger?.length > 0 ? item?.linked_manger?.length : 0 }}</span> -->
                 <span >0</span>
               </td>
-              <td class="text-left" *ngIf="parameter.userType == 'data-collectors'" >{{item.added_buildings_count?item.added_buildings_count:'0'}}</td>
+              <td class="text-left" *ngIf="parameter.userType == 'data-collectors'" >{{item?.added_buildings_count?item.added_buildings_count:'0'}}</td>
               <td class="text-left" *ngIf="parameter.userType == 'inhouse-broker' || parameter.userType == 'outside-broker'">
-                <a *ngIf="item.properties_linked; else noPropertyLinked" routerLink="/dashboard/properties/view-properties/{{item.id}}/agent">
-                  <span class="green-color">{{item.properties_linked?item.properties_linked:'0'}}</span>
+                <a *ngIf="item?.properties_linked; else noPropertyLinked" routerLink="/dashboard/properties/view-properties/{{item.id}}/agent">
+                  <span class="green-color">{{item?.properties_linked?item.properties_linked:'0'}}</span>
                 </a>
                 <ng-template #noPropertyLinked>
-                  {{item.properties_linked?item.properties_linked:'0'}}
+                  {{item?.properties_linked?item.properties_linked:'0'}}
                 </ng-template>
               </td>
               <td>
                 <div class="table-actions">
-                  <button *ngIf="parameter.userType=='outside-broker'" [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0 " (click)="getNotes(p)"
+                  <button *ngIf="parameter.userType=='outside-broker'" [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0 " 
+                  (click)="getNotes(item)"
                   title="Outside Agent Notes" class="action-icon"><img
                     src="assets/img/chat-icon.png" alt="img"></button>
                   <a *ngIf="(admin?.admin_acl['Project Management']?.can_read==1 || admin?.permissions?.can_data_collector==1)&& 
-                  parameter.userType == 'data-collectors'" title="{{'table.title.viewProjects' | translate}}" href="javascript://" routerLink="/dashboard/projects/view-projects/data-collector/{{item.id}}" class="icon-block edit-icon">
+                  parameter.userType == 'data-collectors'" title="{{'table.title.viewProjects' | translate}}" href="javascript://" routerLink="/dashboard/projects/view-projects/data-collector/{{item?.id}}" class="icon-block edit-icon">
                     <img src="assets/img/ic_projects_manage.png" alt="img">
                   </a>
-                  <a *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 && parameter.userType == 'csr-sellers'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/csr-sellers-leads/{{item.id}}" class="icon-block edit-icon">
+                  <a *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 && parameter.userType == 'csr-sellers'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/csr-sellers-leads/{{item?.id}}" class="icon-block edit-icon">
                     <img src="assets/img/ic_leads.png" alt="img">
                   </a>
-                  <a *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_read==1 && parameter.userType == 'csr-buyers'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/csr-buyers-leads/{{item.id}}" class="icon-block edit-icon">
+                  <a *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_read==1 && parameter.userType == 'csr-buyers'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/csr-buyers-leads/{{item?.id}}" class="icon-block edit-icon">
                     <img src="assets/img/ic_leads.png" alt="img">
                   </a>
-                  <a *ngIf="admin?.admin_acl['Inhouse Agent Lead Management']?.can_read==1 && parameter.userType == 'inhouse-broker'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/inhouse-broker-leads/{{item.id}}" class="icon-block edit-icon">
+                  <a *ngIf="admin?.admin_acl['Inhouse Agent Lead Management']?.can_read==1 && parameter.userType == 'inhouse-broker'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/inhouse-broker-leads/{{item?.id}}" class="icon-block edit-icon">
                     <img src="assets/img/ic_leads.png" alt="img">
                   </a>
-                  <a *ngIf="admin?.admin_acl['Outside Agent Lead Management']?.can_read==1 && parameter.userType == 'outside-broker'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/outside-broker-leads/{{item.id}}" class="icon-block edit-icon">
+                  <a *ngIf="admin?.admin_acl['Outside Agent Lead Management']?.can_read==1 && parameter.userType == 'outside-broker'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/outside-broker-leads/{{item?.id}}" class="icon-block edit-icon">
                     <img src="assets/img/ic_leads.png" alt="img">
                   </a>
-                  <a *ngIf="admin?.admin_acl['Closer Lead Management']?.can_read==1 && parameter.userType == 'csr-closers'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/csr-closers-leads/{{item.id}}" class="icon-block edit-icon">
+                  <a *ngIf="admin?.admin_acl['Closer Lead Management']?.can_read==1 && parameter.userType == 'csr-closers'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/csr-closers-leads/{{item?.id}}" class="icon-block edit-icon">
                     <img src="assets/img/ic_leads.png" alt="img">
                   </a>
                   <!-- <a *ngIf="admin?.admin_acl['Credit Agent Lead Management']?.can_read==1 && parameter.userType == 'credit-agents'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/credit-agents-leads/{{item.id}}" class="icon-block edit-icon">
@@ -287,9 +289,9 @@
                     admin?.admin_acl['Outside Agent Management']?.can_delete==0 && parameter.userType=='outside-broker' || 
                     admin?.admin_acl['Alliance Agent Management']?.can_delete == 0 && parameter.userType=='alliance-agents' || 
                     admin?.admin_acl['Cordinator Agent Management']?.can_delete == 0 && parameter.userType=='cordinator-agents'"
-                  (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1, parameter.type)" 
-                  title="{{item.is_blocked==1 ? ('table.title.unblock' | translate) : ('table.title.block' | translate)}}" 
-                  [ngClass]="{'unblock-bg':item.is_blocked==1}"
+                  (click)="blockUnblockPopup(i, item?.id, item?.is_blocked==1?0:1, parameter.type)" 
+                  title="{{item?.is_blocked==1 ? ('table.title.unblock' | translate) : ('table.title.block' | translate)}}" 
+                  [ngClass]="{'unblock-bg':item?.is_blocked==1}"
                   class="action-icon">
                   <img src="assets/img/block.png" alt="img">
                 </button>
@@ -849,60 +851,57 @@
         <div class="form-group-2">
           <div class="form-group">
             <label>{{'addCollection.title' | translate}}</label>
-            <input type="text" required class="form-control title" name="title">
+            <input type="text" required class="form-control title" name="title" [(ngModel)]="noted.title">
           </div>
         </div>
         <div class="form-group-2">
           <div class="form-group">
             <label>{{'addCollection.note' | translate}}</label>
-            <textarea rows="3" required class="form-control note" name="note"></textarea>
+            <textarea rows="3" required class="form-control note" name="note" [(ngModel)]="noted.note"></textarea>
           </div>
         </div>
-        <!-- <div *ngIf="parameter.items?.length!=0" [ngStyle]="{'max-height':sent_as === 1 ? '250px' : '' }"
+        <div *ngIf="parameter.notes?.length!=0" [ngStyle]="{'max-height':sent_as === 1 ? '250px' : '' }"
           class="write-note white-bg" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
-          <div class="wn-block" *ngFor="let item of parameter.items; let i=index">
+          <div class="wn-block" *ngFor="let item of parameter.notes; let i=index">
             <div class="circle">
               <span></span>
             </div>
             <div class="row">
               <div class="col-md-4">
-                <pre class="p13">{{item.title.slice(0, 90)}}</pre>
-                <pre class="p13" *ngIf="item.show">{{item.title}}</pre>
+                <!-- <pre class="p13">{{item.title.slice(0, 90)}}</pre> -->
+                <pre class="p13">{{item?.title}}</pre>
               </div>
               <div class="col-md-4">
-                <p><i class="fa fa-bell" aria-hidden="true"></i>&nbsp;{{item?.reminder_date | date:'MMM d, y, h:mm'}}
-                </p>
+                <p>{{item?.note}}</p>
               </div>
-              <div class="col-md-2">
+              <!-- <div class="col-md-2">
                 <button class="delete" href="javascript://" (click)="deleteLeadPopup(item.id, i)">
                   <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </button>
-              </div>
-              <div class="col-md-2"> <button class="editt" href="javascript://"
+              </div> -->
+              <!-- <div class="col-md-2"> <button class="editt" href="javascript://"
                   (click)="editLeadPopup('edit',item.id, item,i)">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
-                </button></div>
+                </button></div> -->
             </div>
 
-            <ng-template #noDeletePermissiom>
+            <!-- <ng-template #noDeletePermissiom>
               <a class="delete" href="javascript://">{{'commonBlock.delete' | translate}}</a>
-            </ng-template>
+            </ng-template> -->
 
 
           </div>
         </div>
-        <div *ngIf="parameter.items?.length==0" class="write-note white-bg"
+        <div *ngIf="parameter.notes?.length==0" class="write-note white-bg"
           [ngStyle]="{'height':sent_as === 1 ? '230px' : '245px' }">
           <p class="show-not-found">
             {{'message.error.noNoteFound' | translate}}
           </p>
-        </div> -->
-        <p class="show-not-found">
-          {{'message.error.noNoteFound' | translate}}
-        </p>
+        </div>
+        
         <div class="col-12">
           <div class="btn-cont text-right">
-            <button type="submit" class="btn btn-primary">{{'leadDetails.note.addNote' |
+            <button type="submit" class="btn btn-primary" (click)="addNote()">{{'leadDetails.note.addNote' |
               translate}}</button>
           </div>
         </div>

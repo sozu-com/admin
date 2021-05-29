@@ -33,6 +33,7 @@ export class InhouseUsers {
 
 export class UserModel {
     id: string;
+  
     name: string;
     first_surname?: string;
     second_surname?: string;
@@ -76,6 +77,12 @@ export class Branches {
     lat: string;
     lng: string;
 }
+export class Notes {
+    note: string;
+    title : string;
+    agent_id : any;
+}
+
 
 export class User {
     name: '';
