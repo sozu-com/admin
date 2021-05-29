@@ -621,33 +621,35 @@ export class AddLegalEntityComponent implements OnInit {
     if (isTaxAddress ? ((this.addDataForm.get('tax_zipcode').value || '0').toString()).length >= 5 :
       ((this.addDataForm.get('zipcode').value || '0').toString()).length >= 5) {
       this.spinner.show();
-      this.admin.postDataApi('getCounrtyByZipcode', { zip_code: isTaxAddress ? this.addDataForm.get('tax_zipcode').value : this.addDataForm.get('zipcode').value }).
+      this.admin.postDataApi('getZipcodeinfo', { zip_code: isTaxAddress ? this.addDataForm.get('tax_zipcode').value : this.addDataForm.get('zipcode').value }).
         subscribe((success) => {
           this.spinner.hide();
+          let data = success.data.trim();
+          success.data = JSON.parse(data);
           if (isTaxAddress) {
             const tempNeighbourhoods = [];
             if (!(success.data || {}).error) {
-              (success.data || []).forEach((data) => { tempNeighbourhoods.push(data.response.asentamiento); });
+              (success.data || []).forEach((data) => { tempNeighbourhoods.push(data.Colonia); });
             }
             this.model.tax_neighbourhoods = tempNeighbourhoods;//((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
             this.addDataForm.patchValue({
-              tax_municipality: (((success.data || [])[0] || {}).response || {}).municipio || '', // Municipality
-              tax_state: (((success.data || [])[0] || {}).response || {}).estado || '', // State
-              tax_city: (((success.data || [])[0] || {}).response || {}).ciudad || '', // city
-              tax_country: (((success.data || [])[0] || {}).response || {}).pais || '', // Country
+              tax_municipality: ((success.data || [])[0] || {}).Municipio || '', // Municipality
+              tax_state: ((success.data || [])[0] || {}).Entidad || '', // State
+              tax_city: ((success.data || [])[0] || {}).Ciudad || '', // city
+              tax_country:  ((success.data || [])[0] || {}).Municipio || ((success.data || [])[0] || {}).Entidad || ((success.data || [])[0] || {}).Ciudad ? 'Mexico' : '', // Country
               tax_neighbourhood: (this.model.tax_neighbourhoods || [])[0] || ''
             });
           } else {
             const tempNeighbourhoods = [];
             if (!(success.data || {}).error) {
-              (success.data || []).forEach((data) => { tempNeighbourhoods.push(data.response.asentamiento); });
+              (success.data || []).forEach((data) => { tempNeighbourhoods.push(data.Colonia); });
             }
             this.model.neighbourhoods = tempNeighbourhoods; //((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
             this.addDataForm.patchValue({
-              municipality: (((success.data || [])[0] || {}).response || {}).municipio || '', // Municipality
-              state: (((success.data || [])[0] || {}).response || {}).estado || '', // State
-              city: (((success.data || [])[0] || {}).response || {}).ciudad || '', // city
-              country: (((success.data || [])[0] || {}).response || {}).pais || '', // Country
+              tax_municipality: ((success.data || [])[0] || {}).Municipio || '', // Municipality
+              tax_state: ((success.data || [])[0] || {}).Entidad || '', // State
+              tax_city: ((success.data || [])[0] || {}).Ciudad || '', // city
+              tax_country:  ((success.data || [])[0] || {}).Municipio || ((success.data || [])[0] || {}).Entidad || ((success.data || [])[0] || {}).Ciudad ? 'Mexico' : '', // Country
               neighbourhood: (this.model.neighbourhoods || [])[0] || ''
             });
             this.onClickUseUserSameAddress();

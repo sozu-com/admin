@@ -70,7 +70,7 @@ export class CsrBuyerComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
+    this.users = JSON.parse(localStorage.getItem('all'));
     this.locale = {
       firstDayOfWeek: 0,
       dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
@@ -441,6 +441,9 @@ export class CsrBuyerComponent implements OnInit {
   }
 
   openModel(openFor, selected) {
+    if(this.users.permissions.all_geo_access == 1 || this.users.permissions.can_csr_buyer == 1 || this.users.permissions.can_csr_seller == 1 || this.users.permissions.can_csr_closer == 1
+      || this.users.permissions.can_csr_renter == 1 || this.users.permissions.can_credit_agent == 1 || this.users.permissions.can_in_house_broker == 1 || 
+      this.users.permissions.can_cordinator == 1){
     this.openFor = openFor;
     this.selected_lead = selected;
     this.items.filter(item=>{
@@ -459,6 +462,10 @@ export class CsrBuyerComponent implements OnInit {
     openFor == 'CSR' ? this.getAssignListing() : this.getInhouseAgentListing();
     this.openFor == 'CSR'? this.openNewAssignModel.nativeElement.click() : this.linkBrokerModal.nativeElement.click();
   }
+  else{
+    this.toastr.warning(this.translate.instant('message.error.SorryYouDoNotHaveThePermissionToGoThere'), this.translate.instant('swal.warning'))
+  }
+  }
 
   getSearchAssign(){
     this.openFor == 'CSR' ? this.getAssignListing() : this.getInhouseAgentListing();
@@ -472,8 +479,15 @@ export class CsrBuyerComponent implements OnInit {
     this.admin.getApi("leads/all-csr-buyer-statuses" ).subscribe(r => {
       this.addChangeStatusNames = r.data;
       this.spinner.hide();
-      if(item){
+      if(item && (this.users.data.permissions.all_geo_access == 1 || this.users.data.permissions.can_csr_buyer == 1 || this.users.data.permissions.can_csr_seller == 1 || this.users.data.permissions.can_csr_closer == 1
+        || this.users.data.permissions.can_csr_renter == 1 || this.users.data.permissions.can_credit_agent == 1 || this.users.data.permissions.can_in_house_broker == 1 || 
+        this.users.permissions.can_cordinator == 1)){
       this.addChangeStatusModelOpen.nativeElement.click();
+      }
+      else{
+        if(item){
+        this.toastr.warning(this.translate.instant('message.error.SorryYouDoNotHaveThePermissionToGoThere'), this.translate.instant('swal.warning'));
+        }
       }
     },
       error => {

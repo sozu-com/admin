@@ -1133,30 +1133,32 @@ export class CreditAddEditComponent implements OnInit {
     }
     if (((zipcode || '0').toString()).length >= 5) {
       this.spinnerService.show();
-      this.adminService.postDataApi('getCounrtyByZipcode', { zip_code: zipcode }).
+      this.adminService.postDataApi('getZipcodeinfo', { zip_code: zipcode }).
         subscribe((success) => {
           this.spinnerService.hide();
+          let data = success.data.trim();
+          success.data = JSON.parse(data);
           switch (index) {
             case 1:
-              this.creditModel.solidarity_liabilities.municipality = (((success.data || [])[0] || {}).response || {}).municipio || ''; // Municipality
-              this.creditModel.solidarity_liabilities.state = (((success.data || [])[0] || {}).response || {}).estado || ''; // State
-              this.creditModel.solidarity_liabilities.city = (((success.data || [])[0] || {}).response || {}).ciudad || ''; // city
-              this.creditModel.solidarity_liabilities.country = (((success.data || [])[0] || {}).response || {}).pais || ''; // Country
+              this.creditModel.solidarity_liabilities.municipality = ((success.data || [])[0] || {}).Municipio || ''; // Municipality
+              this.creditModel.solidarity_liabilities.state = ((success.data || [])[0] || {}).Entidad || ''; // State
+              this.creditModel.solidarity_liabilities.city = ((success.data || [])[0] || {}).Ciudad || ''; // city
+              this.creditModel.solidarity_liabilities.country = this.creditModel.solidarity_liabilities.municipality || this.creditModel.solidarity_liabilities.state || this.creditModel.solidarity_liabilities.city ? 'Mexico' : ''; // Country
               const tempNeighbourhoods1 = [];
               if (!(success.data || {}).error) {
-                (success.data || []).forEach((data) => { tempNeighbourhoods1.push(data.response.asentamiento); });
+                (success.data || []).forEach((data) => { tempNeighbourhoods1.push(data.Colonia); });
               }
               this.creditModel.solidarity_liabilities.neighbourhoods = tempNeighbourhoods1;//((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
               this.creditModel.solidarity_liabilities.neighbourhood = (this.creditModel.solidarity_liabilities.neighbourhoods || [])[0] || '';
               break;
             case 2:
-              this.creditModel.incomes.municipality = (((success.data || [])[0] || {}).response || {}).municipio || ''; // Municipality
-              this.creditModel.incomes.state = (((success.data || [])[0] || {}).response || {}).estado || ''; // State
-              this.creditModel.incomes.city = (((success.data || [])[0] || {}).response || {}).ciudad || ''; // city
-              this.creditModel.incomes.country = (((success.data || [])[0] || {}).response || {}).pais || ''; // Country
+              this.creditModel.solidarity_liabilities.municipality = ((success.data || [])[0] || {}).Municipio || ''; // Municipality
+              this.creditModel.solidarity_liabilities.state = ((success.data || [])[0] || {}).Entidad || ''; // State
+              this.creditModel.solidarity_liabilities.city = ((success.data || [])[0] || {}).Ciudad || ''; // city
+              this.creditModel.solidarity_liabilities.country = this.creditModel.solidarity_liabilities.municipality || this.creditModel.solidarity_liabilities.state || this.creditModel.solidarity_liabilities.city ? 'Mexico' : ''; // Country
               const tempNeighbourhoods2 = [];
               if (!(success.data || {}).error) {
-                (success.data || []).forEach((data) => { tempNeighbourhoods2.push(data.response.asentamiento); });
+                (success.data || []).forEach((data) => { tempNeighbourhoods2.push(data.Colonia); });
               }
               this.creditModel.incomes.neighbourhoods = tempNeighbourhoods2;//((success.data || {}).response || {}).asentamiento || []; // settlement or neighbourhoods
               this.creditModel.incomes.colony = (this.creditModel.incomes.neighbourhoods || [])[0] || '';

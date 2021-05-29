@@ -38,6 +38,7 @@ export class AddAclComponent implements OnInit {
   testObject = [];
   agencies: Array<Agency>;
   predefinedUsers: Array<any>;
+  user_type: any;
   constructor(public constant: Constant, private cs: CommonService,
     private admin: AdminService, private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
@@ -318,6 +319,7 @@ export class AddAclComponent implements OnInit {
         const element = userdata.admin_acls[index];
         element['acl'] = {name: element.name, id: element.acl_id};
       }
+      this.user_type = userdata.user_type;
       this.model.address = [];
       this.model.id = userdata.id;
       this.model.name = userdata.name;
@@ -394,7 +396,7 @@ export class AddAclComponent implements OnInit {
         element.can_crud = element.can_crud || 0,
         element.can_purge = element.can_purge || 0;
       }
-      this.setUserType(userdata.user_type, false);
+      this.setUserType(userdata.user_type);
     }, erorr => {
       this.spinner.hide();
     });
@@ -662,7 +664,33 @@ export class AddAclComponent implements OnInit {
     }
   }
 
-  setUserType(user_type: number, check) {
+  checkPer(user_type: number){
+    if(this.model.id){
+      let input = {
+        all: 1,
+        admin_id: this.model.id,
+        can_csr_buyer: 1,
+        can_csr_seller: 1,
+        can_in_house_broker:1,
+        can_credit_agent:1,
+      }
+      this.spinner.show();
+      this.admin.postDataApi('checkLeadAssign', input).subscribe(r => {
+        if(r.success != '1'){
+          this.model.user_type = this.user_type;
+      this.toastr.warning(this.translate.instant('message.error.thisUserHasLeadsAssignedPleaseDeleteTheDependenciesFirst'), this.translate.instant('swal.warning'));
+        }
+        else{
+          this.setUserType(user_type);
+        }
+        this.spinner.hide();
+      },error=>{
+        this.spinner.hide();
+      });
+    }
+  }
+
+  setUserType(user_type: number,) {
     this.model.user_type = user_type;
     if (user_type == 2) {
       this.predefinedUsers = [
@@ -732,14 +760,38 @@ export class AddAclComponent implements OnInit {
         }
       ];
     }
-    if(check){
-    this.toastr.warning(this.translate.instant('message.error.thisUserHasLeadsAssignedPleaseDeleteTheDependenciesFirst'), this.translate.instant('swal.warning'));
-    }
   }
 
   setPredefinedUsers(item, value, i: number) {
-    this.model[item.key] = value;
-    this.predefinedUsers[i].value = value;
+    if(this.model.id && !value && (item.title == 'CSR Buyer' || item.title == 'CSR Seller' || item.title == 'Inhouse Agent' ||  item.title == 'Outside Agent')){
+      let input = {
+        all: 0,
+        admin_id: this.model.id,
+        can_csr_buyer: item.title == 'CSR Buyer' ? 1 : 0,
+        can_csr_seller: item.title == 'CSR Seller' ? 1 : 0,
+        can_in_house_broker: item.title == 'Inhouse Agent' ? 1 : 0,
+        can_credit_agent: item.title == 'Outside Agent' ? 1 : 0,
+      }
+      this.spinner.show();
+      this.admin.postDataApi('checkLeadAssign', input).subscribe(r => {
+        if(r.success != '1'){
+          this.predefinedUsers[i].value = true;
+          this.toastr.warning(this.translate.instant('message.error.thisUserHasLeadsAssignedPleaseDeleteTheDependenciesFirst'), this.translate.instant('swal.warning'));
+        }
+        else{
+      this.model[item.key] = value;
+      this.predefinedUsers[i].value = value;
+        }
+        this.spinner.hide();
+      },error=>{
+        this.predefinedUsers[i].value = true;
+        this.spinner.hide();
+      });
+    }
+    else{
+      this.model[item.key] = value;
+      this.predefinedUsers[i].value = value;
+    }
   }
   
   setIsCompany(is_company: string) {

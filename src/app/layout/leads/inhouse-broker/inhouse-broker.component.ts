@@ -8,6 +8,7 @@ import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 import { LeadsService } from 'src/app/services/leads.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 declare let swal: any;
 
 @Component({
@@ -44,6 +45,7 @@ export class InhouseBrokerComponent implements OnInit {
   addChangeStatusNames: string[] = [];
   selectedAddChangeStatus: any;
   selected_lead: any;
+  user: any;
 
   constructor(
     public admin: AdminService,
@@ -51,11 +53,12 @@ export class InhouseBrokerComponent implements OnInit {
     private constant: Constant,
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
-
+    this.user = JSON.parse(localStorage.getItem('all'));
     this.locale = {
       firstDayOfWeek: 0,
       dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
@@ -408,15 +411,19 @@ export class InhouseBrokerComponent implements OnInit {
   }
 
   openAddChangeStatusModel(item){
-    //this.addChangeStatusNames = ['Scheduled appointment', 'In decision', 'Deal agreement', 'Layaway received', 'Contact and downpayment', 'Lead lost', 'Cancelled', 'N/A'];
     this.selected_lead = item;
     this.selectedAddChangeStatus = item && item.broker_status ? item.broker_status.status_id : 0;
     this.spinner.show();
     this.admin.getApi("leads/all-in-house-broker-statuses" ).subscribe(r => {
       this.addChangeStatusNames = r.data;
       this.spinner.hide();
-      if(item){
+      if(item && (this.user.data.permissions.all_geo_access == 1 || this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_csr_seller == 1 || this.user.data.permissions.can_csr_closer == 1
+        || this.user.data.permissions.can_csr_renter == 1 || this.user.data.permissions.can_credit_agent == 1 || this.user.data.permissions.can_in_house_broker == 1 || 
+        this.users.permissions.can_cordinator == 1)){
       this.addChangeStatusModelOpen.nativeElement.click();
+      }
+      else{
+        this.toastr.warning(this.translate.instant('message.error.SorryYouDoNotHaveThePermissionToGoThere'), this.translate.instant('swal.warning'))
       }
     },
       error => {

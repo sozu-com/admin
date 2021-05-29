@@ -239,4 +239,8 @@ export class AgenciesComponent implements OnInit {
       new ExcelDownload().exportAsExcelFile(exportfinalData, 'Agencies');
     }
   }
+
+  changeRoute(item){
+    item.is_external_agent != 1 ? this.router.navigate(['/dashboard/view-inhouse-users/inhouse-broker', item.id]) : this.router.navigate(['/dashboard/view-inhouse-users/outside-broker', item.id]);
+  }
 }
