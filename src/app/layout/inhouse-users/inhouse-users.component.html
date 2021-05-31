@@ -1085,7 +1085,7 @@
   <div class="modal-dialog fadeIndown" style="max-width: 54%; margin-top: 11%;">
     <div class="modal-content notary-avail">
       <div class="modal-header popup-header">
-        <h4>Notes</h4>
+        <h4>{{'addCollection.Notes' | translate}}</h4>
         <button style="display: none;" type="button" class="close" data-dismiss="modal"
           #notesModalClose>&times;</button>
         <button type="button" class="close" (click)="closeNotesModal()">&times;</button>
@@ -1115,9 +1115,14 @@
               <span></span>
             </div>
             <div class="row">
+              <div class="col-md-2">
+                <pre class="p13">{{item?.create_date}}</pre>
+              </div>
+              <div class="col-md-2">
+                <p>{{item?.userinfo?.name}}</p>
+              </div>
               <div class="col-md-4">
-                <!-- <pre class="p13">{{item.title.slice(0, 90)}}</pre> -->
-                <pre class="p13">{{item?.title}}</pre>
+                <p>{{item?.title}}</p>
               </div>
               <div class="col-md-4">
                 <p>{{item?.note}}</p>

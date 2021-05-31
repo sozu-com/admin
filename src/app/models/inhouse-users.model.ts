@@ -121,6 +121,7 @@ export class Notes {
     note: string;
     title : string;
     agent_id : any;
+    userinfo?:User;
 }
 
 
