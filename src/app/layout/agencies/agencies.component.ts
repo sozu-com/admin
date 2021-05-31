@@ -17,6 +17,7 @@ declare let swal: any;
 export class AgenciesComponent implements OnInit {
 
   @ViewChild('viewAgentsModel') viewAgentsModel: ElementRef;
+  @ViewChild('closeViewAgentsModel') closeViewAgentsModel: ElementRef;
   @ViewChild('fileInput') fileInput: ElementRef;
   public parameter: IProperty = {};
   model: Agency;
@@ -242,5 +243,7 @@ export class AgenciesComponent implements OnInit {
 
   changeRoute(item){
     item.is_external_agent != 1 ? this.router.navigate(['/dashboard/view-inhouse-users/inhouse-broker', item.id]) : this.router.navigate(['/dashboard/view-inhouse-users/outside-broker', item.id]);
+    this.closeViewAgentsModel.nativeElement.click();
+  
   }
 }
