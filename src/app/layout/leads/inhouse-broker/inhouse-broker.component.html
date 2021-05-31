@@ -362,7 +362,7 @@
                                     <label>{{'table.th.property' | translate}}</label>
                                     <div class="searh-3">
                                         <input autocomplete="address-level4" type="text" [(ngModel)]="parameter.property"
-                                            (keyup.enter)="changeFilter('property',$event.target.value)" name="">
+                                            (keyup.enter)="changeFilter('property',$event.target.value)" name="" style="width:60px;">
                                         <button *ngIf="parameter.property"
                                             (click)="changeFilter('property', parameter.property)"><i
                                                 class="fa fa-search"></i></button>
