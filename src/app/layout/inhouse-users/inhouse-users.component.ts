@@ -58,8 +58,6 @@ export class InhouseUsersComponent implements OnInit {
   language_code: string;
   items: Array<UserModel>;
   records: Array<UserModel>;
-  predefinedUsers: Array<any>;
-  user_type: any;
   constructor(public constant: Constant, private cs: CommonService,
     public model: UserModel, private route: ActivatedRoute,public noted: Notes,
     private spinner: NgxSpinnerService,
@@ -97,7 +95,7 @@ export class InhouseUsersComponent implements OnInit {
       this.parameter.records = []; this.parameter.total = 0;
       this.getCountries();
       this.getInhouseUsers();
-      this.getOuthouseUsers();
+     // this.getOuthouseUsers();
       if (this.parameter.userType === 'inhouse-broker' || this.parameter.userType === 'outside-broker') {
         this.property_sort = null;
         this.getAllAgencies();
@@ -106,139 +104,10 @@ export class InhouseUsersComponent implements OnInit {
     });
   }
 
-  checkPer(user_type: number){
-     if(this.model.id){
-      let input = {
-        all: 1,
-        admin_id: this.model.id,
-        can_csr_buyer: 1,
-        can_csr_seller: 1,
-        can_in_house_broker:1,
-        can_credit_agent:1,
-      }
-      this.spinner.show();
-      this.admin.postDataApi('checkLeadAssign', input).subscribe(r => {
-        if(r.success != '1'){
-          this.model.user_type = this.user_type;
-      this.toastr.warning(this.translate.instant('message.error.thisUserHasLeadsAssignedPleaseDeleteTheDependenciesFirst'), this.translate.instant('swal.warning'));
-        }
-        else{
-          this.setUserType(user_type);
-        }
-        this.spinner.hide();
-      },error=>{
-        this.spinner.hide();
-      });
-    }
-  }
-
-  setPredefinedUsers(item, value, i: number) {
-    if(this.model.id && !value && (item.title == 'CSR Buyer' || item.title == 'CSR Seller' || item.title == 'Inhouse Agent' ||  item.title == 'Outside Agent')){
-      let input = {
-        all: 0,
-        admin_id: this.model.id,
-        can_csr_buyer: item.title == 'CSR Buyer' ? 1 : 0,
-        can_csr_seller: item.title == 'CSR Seller' ? 1 : 0,
-        can_in_house_broker: item.title == 'Inhouse Agent' ? 1 : 0,
-        can_credit_agent: item.title == 'Outside Agent' ? 1 : 0,
-      }
-      this.spinner.show();
-      this.admin.postDataApi('checkLeadAssign', input).subscribe(r => {
-        if(r.success != '1'){
-          this.predefinedUsers[i].value = true;
-          this.toastr.warning(this.translate.instant('message.error.thisUserHasLeadsAssignedPleaseDeleteTheDependenciesFirst'), this.translate.instant('swal.warning'));
-        }
-        else{
-      this.model[item.key] = value;
-      this.predefinedUsers[i].value = value;
-        }
-        this.spinner.hide();
-      },error=>{
-        this.predefinedUsers[i].value = true;
-        this.spinner.hide();
-      });
-    }
-    else{
-      this.model[item.key] = value;
-      this.predefinedUsers[i].value = value;
-    }
-  }
-
-  setUserType(user_type: number,) {
-    this.model.user_type = user_type;
-    if (user_type == 2) {
-      this.predefinedUsers = [
-        {
-          title: this.translate.instant('addForm.CSRBuyer'),
-          key: 'is_buyer_renter',
-          value: this.model.is_buyer_renter
-        }, {
-          title: this.translate.instant('addForm.CSRRenter'),
-          key: 'is_csr_renter',
-          value: this.model.is_csr_renter
-        }, {
-          title: this.translate.instant('addForm.inhouseAgent'),
-          key: 'is_broker',
-          value: this.model.is_broker
-        },
-        {
-          title: this.translate.instant('addForm.outSideAgent'),
-          key: 'is_external_agent',
-          value: this.model.is_external_agent
-        }, {
-          title: this.translate.instant('addForm.CSRSeller'),
-          key: 'is_broker_seller_dev',
-          value: this.model.is_broker_seller_dev
-        }, {
-          title: this.translate.instant('addForm.dataCollector'),
-          key: 'is_data_collector',
-          value: this.model.is_data_collector
-        }, {
-          title: this.translate.instant('addForm.CSRClosure'),
-          key: 'is_csr_closer',
-          value: this.model.is_csr_closer
-        }, {
-          title: this.translate.instant('addForm.collectionAgent'),
-          key: 'is_collection_agent',
-          value: this.model.is_collection_agent
-        }, {
-          title: this.translate.instant('addForm.creditAgent'),
-          key: 'is_credit_agent',
-          value: this.model.is_credit_agent
-        },{
-          title: this.translate.instant('addForm.allianceAgent'),
-          key: 'is_alliance_agent',
-          value: this.model.is_alliance_agent
-        }, {
-          title: this.translate.instant('addForm.cordinatorAgent'),
-          key: 'is_cordinator',
-          value: this.model.is_cordinator
-        }, {
-          title: this.translate.instant('addForm.manageCommissions'),
-          key: 'can_manage_commission',
-          value: this.model.is_cordinator
-        }
-
-        // {
-        //   title: this.translate.instant('addForm.developerName'),
-        //   key: 'is_developer',
-        //   value: this.model.is_developer || false
-        // }
-      ];
-    } else {  
-      this.predefinedUsers = [
-        {
-          title: this.translate.instant('addForm.acl'),
-          key: 'is_acl',
-          value: this.model.is_acl
-        }
-      ];
-    }
-  }
   getPage(page: any) {
     this.parameter.p = page;
     this.getInhouseUsers();
-    this.getOuthouseUsers();
+  //  this.getOuthouseUsers();
   }
 
   closeModal() {
@@ -633,7 +502,7 @@ export class InhouseUsersComponent implements OnInit {
     this.parameter.p = this.constant.p;
     this.parameter.total = 0;
     this.getInhouseUsers();
-    this.getOuthouseUsers();
+    //this.getOuthouseUsers();
   }
 
   getCountries() {
@@ -709,45 +578,45 @@ export class InhouseUsersComponent implements OnInit {
   searchUserByName(name: string) {
     this.parameter.name = name;
     this.getInhouseUsers();
-    this.getOuthouseUsers();
+    //this.getOuthouseUsers();
   }
   searchUserByCompanyName(company_name: string) {
     this.parameter.company_name = company_name;
     this.getInhouseUsers();
-    this.getOuthouseUsers();
+    //this.getOuthouseUsers();
   }
   searchUserByEmail(email: string) {
     this.parameter.email = email;
     this.getInhouseUsers();
-    this.getOuthouseUsers();
+   // this.getOuthouseUsers();
   }
   searchUserByPhone(phone: string) {
     this.parameter.phone = phone;
     this.getInhouseUsers();
-    this.getOuthouseUsers();
+    //this.getOuthouseUsers();
   }
   setIsFreelancer(is_freelancer: string) {
     this.parameter.is_freelancer = is_freelancer;
     this.getInhouseUsers();
-    this.getOuthouseUsers();
+    //this.getOuthouseUsers();
   }
 
   setLeadSort() {
     this.lead_sort = this.lead_sort === 2 ? 1 : 2;
     this.property_sort = null;
     this.getInhouseUsers();
-    this.getOuthouseUsers();
+   // this.getOuthouseUsers();
   }
   setPropertiesSort() {
     this.property_sort = this.property_sort === 2 ? 1 : 2;
     this.lead_sort = null;
     this.getInhouseUsers();
-    this.getOuthouseUsers();
+    //this.getOuthouseUsers();
   }
   setBrokerType(is_external_agent: string) {
     this.model.is_external_agent = is_external_agent === '1' ? true : false;
     this.getInhouseUsers();
-    this.getOuthouseUsers();
+  //  this.getOuthouseUsers();
   }
   setBrokerForModel(is_external_agent: string) {
     this.model.is_external_agent = is_external_agent === '1' ? true : false;
@@ -946,7 +815,7 @@ export class InhouseUsersComponent implements OnInit {
     }
     const input = new FormData();
     if (this.model.id) { input.append('id', this.model.id.toString()); }
-    input.append('user_type', this.model.user_type);
+
     input.append('name', this.model.name);
     input.append('first_surname', this.model.first_surname || '');
     input.append('second_surname', this.model.second_surname || '');
@@ -1024,7 +893,7 @@ export class InhouseUsersComponent implements OnInit {
     } else {
       this.model.is_company = 'false';
     }
-    this.user_type = userdata.user_type;
+   
     this.model.rfc_legal_id = userdata.rfc_legal_id && userdata.rfc_legal_id != 'null' ? userdata.rfc_legal_id : '';
     this.model.address = userdata.address;
     this.model.lat = userdata.lat;
