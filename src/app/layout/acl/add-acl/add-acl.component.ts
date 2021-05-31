@@ -688,6 +688,9 @@ export class AddAclComponent implements OnInit {
         this.spinner.hide();
       });
     }
+    else{
+      this.setUserType(user_type);
+    }
   }
 
   setUserType(user_type: number,) {
