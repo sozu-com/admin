@@ -95,7 +95,7 @@ export class InhouseUsersComponent implements OnInit {
       this.parameter.records = []; this.parameter.total = 0;
       this.getCountries();
       this.getInhouseUsers();
-     // this.getOuthouseUsers();
+      this.getOuthouseUsers();
       if (this.parameter.userType === 'inhouse-broker' || this.parameter.userType === 'outside-broker') {
         this.property_sort = null;
         this.getAllAgencies();
@@ -107,7 +107,7 @@ export class InhouseUsersComponent implements OnInit {
   getPage(page: any) {
     this.parameter.p = page;
     this.getInhouseUsers();
-  //  this.getOuthouseUsers();
+    this.getOuthouseUsers();
   }
 
   closeModal() {
@@ -502,7 +502,7 @@ export class InhouseUsersComponent implements OnInit {
     this.parameter.p = this.constant.p;
     this.parameter.total = 0;
     this.getInhouseUsers();
-    //this.getOuthouseUsers();
+    this.getOuthouseUsers();
   }
 
   getCountries() {
@@ -578,45 +578,45 @@ export class InhouseUsersComponent implements OnInit {
   searchUserByName(name: string) {
     this.parameter.name = name;
     this.getInhouseUsers();
-    //this.getOuthouseUsers();
+    this.getOuthouseUsers();
   }
   searchUserByCompanyName(company_name: string) {
     this.parameter.company_name = company_name;
     this.getInhouseUsers();
-    //this.getOuthouseUsers();
+    this.getOuthouseUsers();
   }
   searchUserByEmail(email: string) {
     this.parameter.email = email;
     this.getInhouseUsers();
-   // this.getOuthouseUsers();
+    this.getOuthouseUsers();
   }
   searchUserByPhone(phone: string) {
     this.parameter.phone = phone;
     this.getInhouseUsers();
-    //this.getOuthouseUsers();
+    this.getOuthouseUsers();
   }
   setIsFreelancer(is_freelancer: string) {
     this.parameter.is_freelancer = is_freelancer;
     this.getInhouseUsers();
-    //this.getOuthouseUsers();
+    this.getOuthouseUsers();
   }
 
   setLeadSort() {
     this.lead_sort = this.lead_sort === 2 ? 1 : 2;
     this.property_sort = null;
     this.getInhouseUsers();
-   // this.getOuthouseUsers();
+    this.getOuthouseUsers();
   }
   setPropertiesSort() {
     this.property_sort = this.property_sort === 2 ? 1 : 2;
     this.lead_sort = null;
     this.getInhouseUsers();
-    //this.getOuthouseUsers();
+    this.getOuthouseUsers();
   }
   setBrokerType(is_external_agent: string) {
     this.model.is_external_agent = is_external_agent === '1' ? true : false;
     this.getInhouseUsers();
-  //  this.getOuthouseUsers();
+    this.getOuthouseUsers();
   }
   setBrokerForModel(is_external_agent: string) {
     this.model.is_external_agent = is_external_agent === '1' ? true : false;
