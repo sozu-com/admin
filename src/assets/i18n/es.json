@@ -740,6 +740,8 @@
       "changeSeller": "Cambiar vendedor",
       "changeBuyer": "Cambiar comprador",
       "linkUnlinkAgent": "Vincular / Desvincular Agente",
+      "linkUnlinkInHouseAgent": "Vincular / desvincular agente interna",
+      "linkUnlinkOutsideAgent": "Vincular / desvincular agente externo",
       "linkUnlinkSeller": "Vincular / Desvincular Vendedor",
       "linkUnlinkBuyer": "Compradora de enlace / desvinculación",
       "currentlyLinkedToSeller": "Actualmente vinculado al vendedor",
