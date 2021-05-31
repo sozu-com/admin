@@ -1,11 +1,17 @@
 
 <div class="container-fluid">
   <div class="row">
-      <div class="col-12">
+      <div class="col-11">
         <div class="title-group">
             <h5>{{model.id!='' ? ('viewACL.editACLUser' | translate) : ('viewACL.addACLUser' | translate)}}</h5>
             <div class="spacer30"></div>
         </div>
+      </div>
+      <div class="col-lg-1 col-md-1 col-6">
+        <div class="btn-cont text-right title-group">
+          <a href="javascript://" (click)="goBack()"
+            class="btn-sm btn-primary-new" href="javascript://">{{'quickVisualization.back' | translate}}</a>
+          </div>
       </div>
   </div>
   <div class="white-bg padding40">

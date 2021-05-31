@@ -805,4 +805,8 @@ export class AddAclComponent implements OnInit {
     this.model.agency = new Agency();
     this.model.agency.id = id;
   }
+
+  goBack() {
+    this.router.navigate(['/dashboard/access-control-mgt'])
+  }
 }

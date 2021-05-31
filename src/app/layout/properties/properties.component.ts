@@ -972,6 +972,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
           this.items[this.parameter.index].selected_buyer = null;
         }
       }
+      this.parameter.property_id = undefined;
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.doneSuccessfully'), 'success');
       // accept => then close listing modal
       // if (this.parameter.status === 1) {
