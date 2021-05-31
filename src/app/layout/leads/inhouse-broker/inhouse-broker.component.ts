@@ -423,7 +423,9 @@ export class InhouseBrokerComponent implements OnInit {
       this.addChangeStatusModelOpen.nativeElement.click();
       }
       else{
-        this.toastr.warning(this.translate.instant('message.error.SorryYouDoNotHaveThePermissionToGoThere'), this.translate.instant('swal.warning'))
+        if(item){
+        this.toastr.warning(this.translate.instant('message.error.SorryYouDoNotHaveThePermissionToGoThere'), this.translate.instant('swal.warning'));
+        }
       }
     },
       error => {

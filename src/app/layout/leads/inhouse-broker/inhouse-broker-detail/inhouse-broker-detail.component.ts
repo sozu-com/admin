@@ -104,7 +104,7 @@ export class InhouseBrokerDetailComponent implements OnInit {
         this.is_deal_finalised = this.leadData.selected_properties.length !== 0 ? true : false;
         this.parameter.viewed_properties = r.data.viewed_properties;
         this.parameter.viewed_projects = r.data.viewed_projects;
-        this.parameter.user_id = this.leadData.user.id;
+        this.parameter.user_id = this.leadData.user ? this.leadData.user.id : undefined;
       }, error => {
         this.spinner.hide();
       });

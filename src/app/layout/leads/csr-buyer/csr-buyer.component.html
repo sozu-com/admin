@@ -350,7 +350,7 @@
                                     </div>
                                 </div>
                             </th>
-                            <th style="width:10%">
+                            <th style="width:15%">
                                 <div class="table-search">
                                     <label>{{'table.th.property' | translate}}</label>
                                     <div class="searh-3">
@@ -430,17 +430,15 @@
                             </td>
                             <td class="text-left">
                                 <span *ngIf="item.name" class="name"
-                                    (click)="viewLeadDetails(item.id, item)">{{item?.user?.name ? item?.user?.name :
-                                    item?.name
-                                    | titlecase}}</span>
+                                    (click)="viewLeadDetails(item.id, item)">{{item?.user ? (item?.user?.name | titlecase) : (item?.name | titlecase)}}</span>
                                 <span class="name" *ngIf="!item.name">{{'table.tr.td.NA' | translate}}</span>
                             </td>
                             <td class="text-left" (click)="viewLeadDetails(item.id, item)">
-                                <span class="name">{{item?.first_surname? (item?.first_surname |
-                                    titlecase):('table.tr.td.NA' | translate)}}</span>
+                                <span class="name">{{item?.user ? item?.user?.first_surname : (item?.first_surname ) ? (item?.first_surname |
+                                    titlecase) : ('table.tr.td.NA' | translate)}}</span>
                             </td>
                             <td class="text-left" (click)="viewLeadDetails(item.id, item)">
-                                <span class="name">{{item?.second_surname? (item?.second_surname |
+                                <span class="name">{{item?.user ? item?.user?.second_surname : item?.second_surname? (item?.second_surname |
                                     titlecase):('table.tr.td.NA' | translate)}}</span>
                             </td>
                             <td class="text-left" *ngIf="item?.phone">
@@ -458,8 +456,8 @@
                             <td class="text-left green-color cursor-pointer" (click)="openModel('CSR', item)"> <span>{{item?.admin ? item?.admin?.name : ('leads.linkCSRBuyer' | translate)}}</span> </td>
                             <td class="text-left green-color cursor-pointer" (click)="openAddChangeStatusModel(item)">
                                 <span>
-                                    {{item?.status && translate.defaultLang == 'en' ? item.status.status_details.name.slice(0, 10) :
-                                    item?.status && translate.defaultLang != 'en' ? item.status.status_details.name_es.slice(0, 10) :
+                                    {{item?.status && translate.defaultLang == 'en' ? item.status.status_details.name.slice(0, 11) :
+                                    item?.status && translate.defaultLang != 'en' ? item.status.status_details.name_es.slice(0, 11) :
                                     ('table.tr.td.add' | translate)}}
                                 </span>
                             </td>

@@ -58,6 +58,7 @@ export class CsrBuyerComponent implements OnInit {
 
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
   selected_lead: any;
+  user: any;
   constructor(
     public admin: AdminService,
     private constant: Constant,
@@ -70,7 +71,7 @@ export class CsrBuyerComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.users = JSON.parse(localStorage.getItem('all'));
+    this.user = JSON.parse(localStorage.getItem('all'));
     this.locale = {
       firstDayOfWeek: 0,
       dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
@@ -372,7 +373,7 @@ export class CsrBuyerComponent implements OnInit {
       }
       else{
         this.assignItem = item;
-        let text = this.selected_lead.broker_id ? this.translate.instant('swalText.assignInhouseAgent') : this.translate.instant('swalText.unassignInhouseAgent');
+        let text = !this.selected_lead.broker_id ? this.translate.instant('swalText.assignInhouseAgent') : this.translate.instant('swalText.unassignInhouseAgent');
         swal({
           html: this.translate.instant('message.error.areYouSure') + '<br>' +  text,
           type: 'warning',
@@ -415,7 +416,8 @@ export class CsrBuyerComponent implements OnInit {
     this.admin.postDataApi(url, this.openFor == 'CSR' ? inputCSR : input).subscribe(r => {
       this.spinner.hide();
       this.closeNewAssignModel.nativeElement.click();
-      swal(this.translate.instant('swal.success'), input.type == 1 ? this.translate.instant('message.success.assignedSuccessfully') : this.translate.instant('message.success.unassignedSuccessfully'), 'success');
+      let test = input.type == 1 ? this.translate.instant('message.success.assignedSuccessfully') : this.translate.instant('message.success.unassignedSuccessfully')
+      swal(this.translate.instant('swal.success'), test, 'success');
      if(input.type == 2){
        this.selected_lead.broker_id = undefined;
        this.selected_lead.broker = undefined;
@@ -441,9 +443,9 @@ export class CsrBuyerComponent implements OnInit {
   }
 
   openModel(openFor, selected) {
-    if(this.users.permissions.all_geo_access == 1 || this.users.permissions.can_csr_buyer == 1 || this.users.permissions.can_csr_seller == 1 || this.users.permissions.can_csr_closer == 1
-      || this.users.permissions.can_csr_renter == 1 || this.users.permissions.can_credit_agent == 1 || this.users.permissions.can_in_house_broker == 1 || 
-      this.users.permissions.can_cordinator == 1){
+    if(this.user.data.permissions.all_geo_access == 1 || this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_csr_seller == 1 || this.user.data.permissions.can_csr_closer == 1
+      || this.user.data.permissions.can_csr_renter == 1 || this.user.data.permissions.can_credit_agent == 1 || this.user.data.permissions.can_in_house_broker == 1 || 
+      this.user.data.permissions.can_cordinator == 1){
     this.openFor = openFor;
     this.selected_lead = selected;
     this.items.filter(item=>{
@@ -479,9 +481,9 @@ export class CsrBuyerComponent implements OnInit {
     this.admin.getApi("leads/all-csr-buyer-statuses" ).subscribe(r => {
       this.addChangeStatusNames = r.data;
       this.spinner.hide();
-      if(item && (this.users.data.permissions.all_geo_access == 1 || this.users.data.permissions.can_csr_buyer == 1 || this.users.data.permissions.can_csr_seller == 1 || this.users.data.permissions.can_csr_closer == 1
-        || this.users.data.permissions.can_csr_renter == 1 || this.users.data.permissions.can_credit_agent == 1 || this.users.data.permissions.can_in_house_broker == 1 || 
-        this.users.permissions.can_cordinator == 1)){
+      if(item && (this.user.data.permissions.all_geo_access == 1 || this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_csr_seller == 1 || this.user.data.permissions.can_csr_closer == 1
+        || this.user.data.permissions.can_csr_renter == 1 || this.user.data.permissions.can_credit_agent == 1 || this.user.data.permissions.can_in_house_broker == 1 || 
+        this.user.permissions.can_cordinator == 1)){
       this.addChangeStatusModelOpen.nativeElement.click();
       }
       else{

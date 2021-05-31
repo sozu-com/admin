@@ -470,8 +470,8 @@
                             <td class="text-left" (click)="$event.stopPropagation()">
                                 <span class="green-color cursor-pointer" (click)="openAddChangeStatusModel(item)">
                                     <span>
-                                        {{item?.broker_status && translate.defaultLang == 'en' ? item.broker_status.status_details.name.slice(0, 10) :
-                                        item?.broker_status && translate.defaultLang != 'en'? item.broker_status.status_details.name_es.slice(0, 10) :
+                                        {{item?.broker_status && translate.defaultLang == 'en' ? item.broker_status.status_details.name.slice(0, 11) :
+                                        item?.broker_status && translate.defaultLang != 'en'? item.broker_status.status_details.name_es.slice(0, 11) :
                                         ('table.tr.td.add' | translate)}}
                                     </span>
                                 </span>
