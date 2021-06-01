@@ -418,6 +418,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             //   element.payment_status = 1;
             // }
             element.payment_status = element.collection_status;
+            element['remaining'] = (((parseFloat(element.final_price) || 0) + (parseFloat(element.penalty) || 0)) - (parseFloat(element.total_payment_recieved) || 0));
           } else {
             element.payment_status = 5;
           }
@@ -2952,7 +2953,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             self.monthly_installment_amunts = element.category_name.includes('Monthly Installment') ? self.monthly_installment_amunts + element.amount : self.monthly_installment_amunts + 0;
 
             if (element.category_name == 'Layaway Payment') {
-              let layaway_payments_per = Number((parseFloat(self.collection_data.final_pric) ? element.amount * 100 / self.collection_data.final_price : 0)).toFixed(3) + '%';
+              let layaway_payments_per = Number((parseFloat(self.collection_data.final_price) ? element.amount * 100 / self.collection_data.final_price : 0)).toFixed(3) + '%';
               layaway_payments_per = layaway_payments_per.includes('.000') ? layaway_payments_per.replace('.000', '') : layaway_payments_per;
               self.layaway_payments.push([
                 { text: self.translate.instant('generatePDF.layaway') + ' ' + (count == 0 ? '' : count) + ':', border: [false, false, false, false], color: '#858291' },

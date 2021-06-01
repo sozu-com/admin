@@ -645,7 +645,7 @@
                   <td><span>{{(p?.final_price || 0) | currency}}</span></td>
                   <td><span>{{(p?.penalty || 0) | currency}}</span></td>
                   <td><span>{{(p?.total_payment_recieved || 0) | currency}}</span></td>
-                  <td><span>{{getRemainingAmt(p) | currency}}</span></td>
+                  <td><span>{{p?.remaining | currency}}</span></td>
 
                   <td>
                     <div *ngIf="p?.is_cancelled==1" class="status grey" title="Cancelled"></div>
