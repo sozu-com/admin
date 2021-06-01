@@ -16,7 +16,68 @@ export class AddressComponent implements OnInit {
   @Input('status') status;
   @Input('disabledBuildings') disabledBuildings;
 
-  @Input('countries') countries;
+  // @Input('countries') countries;
+  // @Input('states') states;
+  // @Input('cities') cities;
+  // @Input('localities') localities;
+  // @Input('buildings') buildings;
+
+  _countries;
+   get countries(): any {
+    return this._countries;
+}
+@Input() set countries(value: any) {
+    this._countries = value;
+    this.address.countries = this._countries && this._countries.length > 0 ? (this._countries[0] || {}).id : 0;
+    if(this._countries && this._countries.length > 0 && this._countries[0]){
+      this.getStatesNew1(this._countries[0].id, 0);
+      }
+}
+
+_states;
+get states(): any {
+    return this._states;
+}
+@Input() set states(value: any) {
+    this._states = value;
+    this.address.states = this._states  && this._states.length > 0 ? (this._states[0] || {}).id : 0;
+    if(this.states && this.states.length > 0 && this.states[0]){
+      this.getCitiesNew1(this.states[0].id, 0);
+    }
+}
+
+_cities;
+get cities(): any {
+    return this._cities;
+}
+@Input() set cities(value: any) {
+    this._cities = value;
+    this.address.cities = this._cities && this._cities.length > 0 ? (this._cities[0] || {}) .id : 0;
+    if(this.cities && this.cities.length > 0 && this.cities[0]){
+      this.getLocalitiesNew1(this.cities[0].id, 0);
+      }
+}
+
+_localities;
+get localities(): any {
+    return this._localities;
+}
+@Input() set localities(value: any) {
+    this._localities = value;
+    this.address.localities = this._localities  && this._localities.length ? (this._localities[0] || {}).id : 0;
+    if(this.localities && this.localities.length > 0 && this.localities[0]){
+      this.getLocalityBuildings(this.localities[0].id, 0);
+      }
+}
+
+_buildings;
+get buildings(): any {
+    return this._buildings;
+}
+@Input() set buildings(value: any) {
+    this._buildings = value;
+    this.address.buildings = this._buildings  && this._buildings.length ? (this._buildings[0] || {}).id : 0;
+}
   @Output() removeAddress = new EventEmitter();
   @Output() disabledBuilding = new EventEmitter();
 
@@ -31,6 +92,16 @@ export class AddressComponent implements OnInit {
       this.getLocalitiesNew(this.address.cities, 0);
       this.getLocalityBuildings(this.address.localities, 0);
     }
+    // else{
+    //   this.address.countries = this.countries[0].id;
+    //   this.address.states = this.states[0].id;
+    //   this.address.cities = this.cities[0].id;
+    //   this.address.localities = this.localities[0].id;
+    //   this.getStatesNew(this.countries[0].id, 0);
+    //   this.getCitiesNew(this.states[0].id, 0);
+    //   this.getLocalitiesNew(this.cities[0].id, 0);
+    //   this.getLocalityBuildings(this.localities[0].id, 0);
+    // }
   }
 
   removeRow() {
@@ -85,9 +156,9 @@ export class AddressComponent implements OnInit {
       return false;
     } else {
       this.parameter.country_id = country_id;
-      if (this.countries) {
-        const selectedCountry = this.countries.filter(x => x.id.toString() === country_id.toString());
-        this.parameter.statesAdd = selectedCountry[0].states;
+      if (this._countries) {
+        const selectedCountry = this._countries.filter(x => x.id.toString() === country_id.toString());
+        this.parameter.statesAdd = selectedCountry[0].states || [];
       }
     }
   }
