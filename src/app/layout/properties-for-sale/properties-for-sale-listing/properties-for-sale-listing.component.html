@@ -256,10 +256,15 @@
                        </th>
                        <th *ngIf="parameter.flag!=5" style="width:6%;vertical-align:top;">
                           <div class="table-search">
-                             <label>{{'table.th.linkUnlinkAgent' | translate}}</label>
+                             <label>{{'table.th.linkUnlinkOutsideAgent' | translate}}</label>
                             
                           </div>
                        </th>
+                       <th *ngIf="parameter.flag!=5" style="width:6%;vertical-align:top;">
+                        <div class="table-search">
+                           <label>{{'table.th.LinkAgency' | translate}}</label>
+                        </div>
+                     </th>
                     </tr>
 
                     <tr
@@ -324,13 +329,22 @@
                           </span>
                        </td>
 
-                       <td *ngIf="parameter.flag!=5" class="cursor-pointer" (click)="getBothBroker(p, '')">
-                          <span class="green-color">
-                             <span
-                                title="{{p?.external_broker?.id ? ('table.title.clickToChange' | translate) : ('table.title.clickToAssign' | translate) }}">{{p?.external_broker?.id
-                                ? ('table.tr.td.change' | translate) : ('table.tr.td.link' | translate)}}</span>
-                          </span>
-                       </td>
+                       <td *ngIf="parameter.flag!=5" class="cursor-pointer" (click)="getBothBroker(p, '', false)">
+                           <span class="green-color">
+                              <span
+                                 title="{{p?.external_outside_agent?.id ? ('table.title.clickToChange' | translate) : ('table.title.clickToAssign' | translate) }}">
+                                 {{p?.external_outside_agent?.id
+                                 ? ('table.tr.td.change' | translate) : ('table.tr.td.link' | translate)}}</span>
+                           </span>
+                        </td>
+                        <td *ngIf="parameter.flag!=5" class="cursor-pointer" (click)="getAgency(p, '',i)">
+                           <span class="green-color">
+                              <span
+                                 title="{{p?.get_agency?.id ? ('table.title.clickToChange' | translate) : ('table.title.clickToAssign' | translate) }}">
+                                 {{p?.get_agency?.id
+                                 ? ('table.tr.td.change' | translate) : ('table.tr.td.link' | translate)}}</span>
+                           </span>
+                        </td>
                     </tr>
                    
                  </table>
@@ -801,4 +815,74 @@ margin-left: -63%;">
         </form>
      </div>
   </div>
+</div>
+
+<!-- Link Agency -->
+<a data-toggle="modal" data-target="#link-agency-model" #openLinkAgencyModal style="display: none;"></a>
+<div class="modal" id="link-agency-model">
+   <div class="modal-dialog ">
+      <div class="modal-content notary-avail">
+         <div class="modal-header popup-header">
+            <h4 class="modal-title">{{property?.get_agency?.id ? ('viewProperty.changeAgency' | translate) :
+               ('viewProperty.linkAgency' | translate)}}</h4>
+            <button type="button" class="close" #closeLinkAgencyModal data-dismiss="modal">&times;</button>
+         </div>
+         <div class="modal-body">
+
+            <p class="modal-title" *ngIf="property?.get_agency?.id"
+            [ngClass]="{'green-color cursor-pointer': property?.get_agency?.name}" (click)="gotoAgencyTab(property?.get_agency)">
+                  {{'viewProperty.currentlyLinkedToAgency' | translate}} - 
+                  <b>{{property?.get_agency?.name}}&nbsp;</b></p>
+          <br/>
+            <div class="row">
+               <div class="col-md-8 col-6">
+                  <input style="max-width:200px" (keyup.enter)="getAgency('', keyword)" [(ngModel)]="keyword"
+                     class="form-control" type="text" name="keyword"
+                     placeholder="{{'addForm.placeholder.search' | translate}}">
+               </div>
+               <div class="col-md-4 col-5 btn-cont">
+                  <a class="btn btn-primary pull-right" href="javascript://"
+                     (click)="getAgency('', keyword)">{{'viewProperty.search' | translate}}</a>
+               </div>
+            </div>
+
+            <div class="spacer40"></div>
+            <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+               <table class="table">
+                  <tr *ngFor="let item of agency_list">
+                     <td>
+                        <div class="n-avail-profile">
+                           <img *ngIf="item?.image" onerror='src="assets/img/default_img.png"' alt="img"
+                              [defaultImage]="item?.image| img:'thumb'" [lazyLoad]="item?.image">
+                           <img *ngIf="!item?.image" src="assets/img/default_img.png" alt="img">
+
+                           <div class="n-avail-info">
+                              <p class="p12">{{item?.name | titlecase}}</p>
+                              <!-- <p class="p10 marginB0">{{item?.is_external_agent ? 'OUTSIDE AGENT' : 'IN-HOUSE AGENT'}}
+                              </p> -->
+                              <p class="p10">{{'viewProperty.phone' | translate}} : {{item?.dial_code ? item?.dial_code
+                                 : constant.dial_code}}-{{item?.phone}}</p>
+                           </div>
+                        </div>
+                     </td>
+                     <td>
+                        <button *ngIf="property?.get_agency?.id!=item.id"
+                           (click)="attachAgencyPopUp(item, false)" class="action-icon"
+                           title="{{'table.title.linkAgency' | translate}}">
+                           <img src="assets/img/green-icon.png" alt="img"></button>
+
+                        <button *ngIf="property?.get_agency?.id==item.id"
+                           (click)="attachAgencyPopUp(item, true)" class="action-icon"
+                           title="{{'table.title.unlinkAgency' | translate}}">
+                           <img src="assets/img/ic_disapprove.png" alt="img"></button>
+                     </td>
+                  </tr>
+                  <tr *ngIf="agency_list?.length==0">
+                     <p class="show-not-found">{{'table.th.noAgencyFound' | translate}}</p>
+                  </tr>
+               </table>
+            </div>
+         </div>
+      </div>
+   </div>
 </div>
