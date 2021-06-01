@@ -962,11 +962,16 @@
               <div class="col-md-2">
                 <p>{{item?.userinfo?.name}}</p>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-2">
                 <p>{{item?.title}}</p>
               </div>
               <div class="col-md-4">
                 <p>{{item?.note}}</p>
+              </div>
+              <div class="col-md-2">
+                <button class="delete" href="javascript://" (click)="deleteNote(item.id, i)">
+                  <i class="fa fa-trash-o" aria-hidden="true" style="margin-left: -18px;"></i>
+                </button>
               </div>
               <!-- <div class="col-md-2">
                 <button class="delete" href="javascript://" (click)="deleteLeadPopup(item.id, i)">

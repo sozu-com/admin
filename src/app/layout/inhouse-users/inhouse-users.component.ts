@@ -1338,4 +1338,29 @@ export class InhouseUsersComponent implements OnInit {
   setTab(tab: any) {
     this.tab = tab;
   }
+  deleteNote(note_id, index) {
+    this.parameter.text = this.translate.instant('message.error.wantToDeleteNote');
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Delete!'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteLeadNote(note_id, index);
+      }
+    });
+  }
+
+
+  deleteLeadNote(note_id, index) {
+    this.admin.postDataApi('deleteOutsideNotes', { id: note_id }).subscribe(r => {
+      this.parameter.items.splice(index, 1);
+      this.toastr.clear();
+      this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+      this.closeNotesModal();
+    });
+  }
 }
