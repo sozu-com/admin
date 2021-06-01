@@ -97,7 +97,6 @@ export class InhouseUsersComponent implements OnInit {
       this.parameter.records = []; this.parameter.total = 0;
       this.getCountries();
       this.getInhouseUsers();
-      this.getOuthouseUsers();
       if (this.parameter.userType === 'inhouse-broker' || this.parameter.userType === 'outside-broker') {
         this.property_sort = null;
         this.getAllAgencies();
@@ -238,7 +237,6 @@ export class InhouseUsersComponent implements OnInit {
   getPage(page: any) {
     this.parameter.p = page;
     this.getInhouseUsers();
-    this.getOuthouseUsers();
   }
 
   closeModal() {
@@ -502,6 +500,7 @@ export class InhouseUsersComponent implements OnInit {
                 // edit -- replace
                 this.parameter.items[this.parameter.index] = success.data;
                 formdata.reset();
+                this.getInhouseUsers();
               } else {
                 // add - push
                 if ((formdata.value.is_broker_seller_dev === true && this.parameter.userType === 'csr-sellers') ||
@@ -519,6 +518,7 @@ export class InhouseUsersComponent implements OnInit {
                 formdata.reset();
               }
               this.emptyModel();
+              this.getInhouseUsers();
             }
           }, error => {
             this.spinner.hide();
@@ -633,7 +633,6 @@ export class InhouseUsersComponent implements OnInit {
     this.parameter.p = this.constant.p;
     this.parameter.total = 0;
     this.getInhouseUsers();
-    this.getOuthouseUsers();
   }
 
   getCountries() {
@@ -709,45 +708,37 @@ export class InhouseUsersComponent implements OnInit {
   searchUserByName(name: string) {
     this.parameter.name = name;
     this.getInhouseUsers();
-    this.getOuthouseUsers();
   }
   searchUserByCompanyName(company_name: string) {
     this.parameter.company_name = company_name;
     this.getInhouseUsers();
-    this.getOuthouseUsers();
   }
   searchUserByEmail(email: string) {
     this.parameter.email = email;
     this.getInhouseUsers();
-    this.getOuthouseUsers();
   }
   searchUserByPhone(phone: string) {
     this.parameter.phone = phone;
     this.getInhouseUsers();
-    this.getOuthouseUsers();
   }
   setIsFreelancer(is_freelancer: string) {
     this.parameter.is_freelancer = is_freelancer;
     this.getInhouseUsers();
-    this.getOuthouseUsers();
   }
 
   setLeadSort() {
     this.lead_sort = this.lead_sort === 2 ? 1 : 2;
     this.property_sort = null;
     this.getInhouseUsers();
-    this.getOuthouseUsers();
   }
   setPropertiesSort() {
     this.property_sort = this.property_sort === 2 ? 1 : 2;
     this.lead_sort = null;
     this.getInhouseUsers();
-    this.getOuthouseUsers();
   }
   setBrokerType(is_external_agent: string) {
     this.model.is_external_agent = is_external_agent === '1' ? true : false;
     this.getInhouseUsers();
-    this.getOuthouseUsers();
   }
   setBrokerForModel(is_external_agent: string) {
     this.model.is_external_agent = is_external_agent === '1' ? true : false;
@@ -939,14 +930,20 @@ export class InhouseUsersComponent implements OnInit {
 
 
   addNewOutsideUser(formdata: NgForm) {
-
+    const outside_agent = 1;
+    const predefinedRole = 2;
+    const is_external_agent = 1;
     if (this.model.img_loader || this.model.logo_loader) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.uploadingImage'), 'error');
       return false;
     }
     const input = new FormData();
-    if (this.model.id) { input.append('id', this.model.id.toString()); }
-    input.append('user_type', this.model.user_type);
+    this.parameter.url = this.model.id ? 'updateAclUser' : 'addAclUser';
+    this.seenDuplicate = false;
+    if (this.model.id !== '') { input.append('id', this.model.id); }
+    input.append('outside_agent', outside_agent.toString());
+    input.append('user_type', predefinedRole.toString());
+    input.append('is_external_agent', is_external_agent.toString());
     input.append('name', this.model.name);
     input.append('first_surname', this.model.first_surname || '');
     input.append('second_surname', this.model.second_surname || '');
@@ -976,7 +973,7 @@ export class InhouseUsersComponent implements OnInit {
   
    
     this.spinner.show();
-    this.admin.postDataApi('addOutsideAgent', input)
+    this.admin.postDataApi(this.parameter.url, input)
       .subscribe(
         success => {
           this.spinner.hide();
@@ -990,6 +987,7 @@ export class InhouseUsersComponent implements OnInit {
             swal(this.translate.instant('swal.success'), text, 'success');
             if (this.model.id) {
               this.records[this.parameter.index] = success.data;
+              this.getInhouseUsers();
             } else {
               this.modalClose.nativeElement.click();
               const text = this.model.id ?
@@ -1004,9 +1002,11 @@ export class InhouseUsersComponent implements OnInit {
               }
               formdata.reset();
               this.emptyModel();
+              this.getInhouseUsers();
             }
             formdata.reset();
             this.emptyModel();
+            this.getInhouseUsers();
           }
         }, error => {
           this.spinner.hide();
@@ -1289,7 +1289,15 @@ export class InhouseUsersComponent implements OnInit {
     }
     this.router.navigate([url, id]);
   }
-
+  haveAccess(id: string){
+    this.admin.postDataApi('updateOutsideAgentaccess', {id:id}).subscribe(r => {
+      this.toastr.clear();
+      this.toastr.success(this.translate.instant('message.success.access'), this.translate.instant('swal.success'));
+      // this.parameter.accessess = r.data;
+      // this.notesModalOpen.nativeElement.click();
+    });
+  }
+  
   getNotes(item) {
      this.noted.agent_id = item.id;
     const input = { agent_id: item.id };

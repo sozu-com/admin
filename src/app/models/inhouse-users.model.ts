@@ -63,6 +63,7 @@ export class UserModel {
     is_collection_agent: boolean;
     is_credit_agent: boolean;
     user_type?: any;
+    outside_agent?: number;
     is_cordinator?:any;
     is_alliance_agent?: boolean;
     is_acl?: boolean;
