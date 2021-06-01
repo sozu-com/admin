@@ -665,7 +665,7 @@ export class AddAclComponent implements OnInit {
   }
 
   checkPer(user_type: number){
-    if(this.model.id){
+    if(this.model.id && user_type == 1){
       let input = {
         all: 1,
         admin_id: this.model.id,
