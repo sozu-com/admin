@@ -2464,8 +2464,12 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   }
 
   getRemainingAmt(p: any) {
-    const v = (((p.final_price || 0) + (p.penalty || 0)) - (p.total_payment_recieved || 0));
+  
+    const diff = ((parseInt(p.final_price || 0) + parseInt(p.penalty || 0)) );
+    const v = diff - parseInt(p.total_payment_recieved || 0);
     return v > 0 ? v : 0;
+     
+   // return v > 0 ? v : 0;
   }
 
   showDescription(description: string, title: any) {
@@ -2790,7 +2794,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           'final Price': parseInt(p.deal_price || 0),
           'Penalty': parseInt(p.penalty || 0),
           'Amount Paid': parseInt(p.total_payment_recieved || 0),
-          'Remanining Amount': (this.getRemainingAmt(p) || 0),
+          //'Remanining Amount': (this.getRemainingAmt(p) || 0),
           // 'Status Account': ''
         });
 
