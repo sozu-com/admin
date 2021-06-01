@@ -197,7 +197,7 @@
                             <label style="display: flex;">{{'table.th.linkedProperties' | translate}}<a (click)="setPropertiesSort()" href="javascript://"><img [ngClass]="{'upsidedown':this.property_sort==2}" src="assets/img/top-arrow.png" alt="img"></a></label>
                           </div>
                         </th>
-                        <th style="width:7%; text-align:left;">
+                        <th style="width:7%; text-align:left;" *ngIf="parameter.userType=='outside-broker'">
                           <div class="table-search">
                               <label>{{'table.th.systemDashboardAccess' | translate}}</label>
                           </div>
@@ -221,7 +221,8 @@
                           <!-- <img [src]="item.image| img:'small'" class="rounded-circle" onerror='src="constant.userPlaceholder"' alt="img"> -->
                         </td>
                         <td class="text-left" *ngIf="parameter.userType == 'outside-broker'">
-                          <span class="name">{{item?.agency?.name ? item?.agency?.name : ('table.tr.td.NA' | translate)}}</span>
+                          <span class="name">{{item?.agency?.name ? item?.agency?.name : ('table.th.freelancer' |
+                            translate)}}</span>
                         </td>
                         <td class="text-left text-ellipsis120">
                           <span class="name">
@@ -255,7 +256,11 @@
                             {{item?.properties_linked?item.properties_linked:'0'}}
                           </ng-template>
                         </td>
-                        <td><input name="have_dev_panel_access{{i}}" disabled class="form-control checkbox_size" type="checkbox" [checked]="item?.developer_access_status ? 'checked' : ''" readonly> </td>
+                        <td (click)="haveAccess(item.id)" *ngIf="parameter.userType=='outside-broker'">
+                          <input name="have_dev_panel_access{{i}}"  class="form-control checkbox_size"
+                             type="checkbox" [checked]="item?.have_access ? 'checked' : ''" >
+                        </td>
+                        
                         <td>
                           <div class="table-actions">
                             <button *ngIf="parameter.userType=='outside-broker'" [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0 " 
@@ -288,7 +293,8 @@
                             <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#view" #viewModalOpen></a>
                             <a title="{{'table.title.viewRoles' | translate}}" href="javascript://" (click)="viewDetails(item, i)" class="icon-block edit-icon"><img src="assets/img/eye-icon.png" alt="img"></a>
             
-                            <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Data Collector Management']?.can_update==0 && parameter.userType=='data-collectors' ||
+                            <button title="{{'table.title.editDetails' | translate}}" *ngIf="parameter.userType=='inhouse-broker'"
+                            [disabled]="admin?.admin_acl['Data Collector Management']?.can_update==0 && parameter.userType=='data-collectors' ||
                               admin?.admin_acl['Seller Management']?.can_update==0 && parameter.userType=='csr-sellers' ||
                               admin?.admin_acl['Buyer Management']?.can_update==0 && parameter.userType=='csr-buyers' ||
                               admin?.admin_acl['Inhouse Agent Management']?.can_update==0 && parameter.userType=='inhouse-broker' ||
@@ -301,6 +307,20 @@
                               admin?.admin_acl['Cordinator Agent Management']?.can_update == 0 && parameter.userType=='cordinator-agents'"
                             (click)="getACLById(item.id)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                            
+                            <button title="{{'table.title.editDetails' | translate}}" *ngIf="parameter.userType=='outside-broker'"
+                            [disabled]="admin?.admin_acl['Data Collector Management']?.can_update==0 && parameter.userType=='data-collectors' ||
+                              admin?.admin_acl['Seller Management']?.can_update==0 && parameter.userType=='csr-sellers' ||
+                              admin?.admin_acl['Buyer Management']?.can_update==0 && parameter.userType=='csr-buyers' ||
+                              admin?.admin_acl['Inhouse Agent Management']?.can_update==0 && parameter.userType=='inhouse-broker' ||
+                              admin?.admin_acl['Closer Management']?.can_update==0 && parameter.userType=='csr-closers' ||
+                              admin?.admin_acl['Credit Agent Management']?.can_update==0 && parameter.userType=='credit-agents' ||
+                              admin?.admin_acl['Collection Agent Management']?.can_update==0 && parameter.userType=='collection-agents' ||
+                              admin?.admin_acl['Renter Management']?.can_update==0 && parameter.userType=='csr-renters' ||
+                              admin?.admin_acl['Outside Agent Management']?.can_update==0 && parameter.userType=='outside-broker' || 
+                              admin?.admin_acl['Alliance Agent Management']?.can_update == 0 && parameter.userType=='alliance-agents' || 
+                              admin?.admin_acl['Cordinator Agent Management']?.can_update == 0 && parameter.userType=='cordinator-agents'"
+                            (click)="getOutsideAgentById(item)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+
                             <button [disabled]="admin?.admin_acl['Data Collector Management']?.can_delete==0 && parameter.userType=='data-collectors' ||
                               admin?.admin_acl['Seller Management']?.can_delete==0 && parameter.userType=='csr-sellers' ||
                               admin?.admin_acl['Buyer Management']?.can_delete==0 && parameter.userType=='csr-buyers' ||
@@ -441,33 +461,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-12 col-md-6 col-sm-12 col-12">
-            <div class="form-group-2">
-               <label>{{'addForm.chooseUserType' | translate}}<span class="color-red">*</span></label>
-               <div class="form-group">
-                <select class="form-control" required (change)="checkPer($event.target.value)" [(ngModel)]="model.user_type" name="user_type">
-                  <option value="">{{'addForm.chooseUserType' | translate}}</option>
-                  <option value="1">{{'addForm.customisedRole' | translate}}</option>
-                  <option value="2">{{'addForm.predefinedRole' | translate}}</option>
-                </select>
-              </div>
-            </div>
-         </div>
-         <div class="col-lg-12 col-md-6 col-sm-12 col-12" *ngIf="model.user_type">
-            <div class="form-group-2">
-               <label>{{'addForm.chooseUserRoles' | translate}} <span class="color-red">*</span></label>
-                <div class="clearfix"></div>
-                <div>
-                <label class="cust-radio" *ngFor="let user of predefinedUsers; let ii=index">
-                  <input type="checkbox" (change)="setPredefinedUsers(user, !user.value, ii)"
-                    [value]="user.value" [checked]="user.value ? 'checked' : ''"
-                    name="user_id">
-                  <span class="checkmark">{{user.title}}</span>
-                </label>       
-              </div>
-                <div class="clearfix"></div>
-            </div>
-         </div>
+        
           <div class="col-lg-12 col-md-6 col-sm-12 col-12">
             <div class="form-group-2">
               <label>{{'addForm.freeLancerOrComapny' | translate}} </label>

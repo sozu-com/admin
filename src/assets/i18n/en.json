@@ -1112,7 +1112,8 @@
       "propertyUnblockedSuccessfully": "Property unblocked successfully",
       "collectionStatusChanged": "Collection Status Changed",
       "wantToReminderNote": "Do you want to add reminder?",
-      "statusChangedSuccessfully": "Status changed successfully."
+      "statusChangedSuccessfully": "Status changed successfully.",
+      "access": "System access successfully set."
     },
     "error": {
       "pleaseSelectEitherInhouseOrOutsideAgent": "Please choose one of Inhouse and Outside Agents",

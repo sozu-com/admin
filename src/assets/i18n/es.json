@@ -1113,7 +1113,8 @@
       "propertyUnblockedSuccessfully": "Propiedad desbloqueada exitosamente",
       "collectionStatusChanged": "Estado de colección cambiado",
       "wantToReminderNote": "¿Quieres agregar un recordatorio?",
-      "statusChangedSuccessfully": "El estado cambió con éxito."
+      "statusChangedSuccessfully": "El estado cambió con éxito.",
+      "access": "El acceso al sistema se estableció correctamente."
     },
     "error": {
       "pleaseSelectEitherInhouseOrOutsideAgent": "Por favor elija una de las Agentes Internas y Externas",
