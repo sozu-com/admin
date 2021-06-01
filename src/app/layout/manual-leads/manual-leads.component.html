@@ -33,11 +33,13 @@
                 <table class="table table-striped table-align-left vertical-align-top">
                 <tr>
                     <th style="width:6%">
-                        <div class="table-search"><label>{{'table.th.image' | translate}}</label></div>
+                        <div class="table-search">
+                            <!-- <label>{{'table.th.image' | translate}}</label> -->
+                        </div>
                     </th>
                     <th style="width:10%">
                         <div class="table-search">
-                            <label>{{'table.th.name' | translate}}</label>
+                            <label>{{'table.th.manualLead.name' | translate}}</label>
                             <div class="searh-3">
                                 <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getListing()" name="name" autocomplete="address-level4" >
                                 <button *ngIf="parameter.name" (click)="getListing()"><i class="fa fa-search"></i></button>
@@ -46,7 +48,7 @@
                     </th>
                     <th style="width:10%">
                         <div class="table-search">
-                            <label>{{'table.th.firstSurname' | translate}}</label>
+                            <label>{{'table.th.manualLead.firstSurname' | translate}}</label>
                             <div class="searh-3">
                                 <input type="text" [(ngModel)]="parameter.first_surname" (keyup.enter)="changeFilter('first_surname',$event.target.value)" name="" autocomplete="address-level4" >
                                 <button *ngIf="parameter.first_surname" (click)="changeFilter('first_surname', parameter.first_surname)"><i class="fa fa-search"></i></button>
@@ -55,7 +57,7 @@
                     </th>
                     <th style="width:10%">
                         <div class="table-search">
-                            <label>{{'table.th.secondSurname' | translate}}</label>
+                            <label>{{'table.th.manualLead.secondSurname' | translate}}</label>
                             <div class="searh-3">
                                 <input type="text" [(ngModel)]="parameter.second_surname" (keyup.enter)="changeFilter('second_surname',$event.target.value)" name="" autocomplete="address-level4" >
                                 <button *ngIf="parameter.second_surname" (click)="changeFilter('second_surname', parameter.second_surname)"><i class="fa fa-search"></i></button>
@@ -64,7 +66,7 @@
                     </th>
                     <th style="width:10%; text-align:left;">
                         <div class="table-search">
-                            <label>{{'table.th.contactNumber' | translate}}</label>
+                            <label>{{'table.th.manualLead.contactNumber' | translate}}</label>
                             <div class="searh-3">
                                 <input type="text" [(ngModel)]="parameter.phone" (keyup.enter)="getListing()" name="phone" autocomplete="address-level4" >
                                 <button *ngIf="parameter.phone" (click)="changeFilter('phone', parameter.phone)"><i class="fa fa-search"></i></button>
@@ -73,7 +75,7 @@
                     </th>
                     <th style="width:20%">
                         <div class="table-search">
-                            <label>{{'table.th.emailId' | translate}}</label>
+                            <label>{{'table.th.manualLead.emailId' | translate}}</label>
                             <div class="searh-3">
                                 <input type="text" [(ngModel)]="parameter.email" (keyup.enter)="getListing()" name="email" autocomplete="address-level4" >
                                 <button *ngIf="parameter.email" (click)="changeFilter('email', parameter.email)"><i class="fa fa-search"></i></button>
@@ -82,14 +84,14 @@
                     </th>
                     <th style="width:10%">
                         <div class="table-search">
-                            <label>{{'table.th.leadType' | translate}}</label>
+                            <label>{{'table.th.manualLead.leadType' | translate}}</label>
                             <div class="searh-3">
                                 <select class="width100px" name="sold_filter" (change)="changeFilter('lead_type', lead_type)" [(ngModel)]="lead_type" >
                                 <option value="0">{{'table.th.all' | translate}}</option>
-                                <option value="1">{{'table.th.buyer' | translate}}</option>
-                                <option value="2">{{'table.th.seller' | translate}}</option>
-                                <option value="3">{{'table.th.credit' | translate}}</option>
-                                <option value="4">{{'table.th.renter' | translate}}</option>
+                                <option value="1">{{'table.th.manualLead.buyer' | translate}}</option>
+                                <option value="2">{{'table.th.manualLead.seller' | translate}}</option>
+                                <option value="3">{{'table.th.manualLead.credit' | translate}}</option>
+                                <option value="4">{{'table.th.manualLead.renter' | translate}}</option>
                              </select>
                             </div>
                         </div>
