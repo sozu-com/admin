@@ -689,6 +689,7 @@
       "all": "All",
       "currency": "Currency",
       "systemDashboardAccess": "System Dashboard",
+      "adminAccess": "Admin Access",
       "agencyCommercialName": "Agency (Commercial Name)",
       "name": "Name",
       "names": "Name (s)",

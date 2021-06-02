@@ -688,6 +688,7 @@
       "all": "All",
       "currency": "Moneda",
       "systemDashboardAccess": "Tablero del sistema",
+      "adminAccess": "Acceso de administrador",
       "agencyCommercialName": "Agencia (Nombre comercial)",
       "name": "Nombre",
       "names": "Nombre (s)",
