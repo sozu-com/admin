@@ -206,6 +206,10 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       this.notesadddModalOpen.nativeElement.click();
     });
   }
+  goWay(item){
+    localStorage.setItem('project_id',item.id);
+    this.router.navigate(['/dashboard/properties/view-properties/', item.name, '0']);
+  }
   getCountries() {
     this.spinner.show();
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
