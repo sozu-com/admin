@@ -410,7 +410,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           this.paid_collection_commision_amount = element.paid_collection_commision_amount;
           const dif = (element.property.final_price || 0).toFixed(2) - (element.total_deals_sum || 0).toFixed(2);
           const currency_id = element.currency_id;
-
+          element['remaining'] = (((parseFloat(element.final_price) || 0) + (parseFloat(element.penalty) || 0)) - (parseFloat(element.total_payment_recieved) || 0));
           if (!element.total_deals_sum) {
             element.payment_status = 6;
           } else if ((dif >= 5 && currency_id == 78) || (dif >= 0.5 && currency_id == 124)) {
