@@ -1602,8 +1602,8 @@
   },
   "viewManualLeads": {
     "label": "Leads Manuales",
-    "addManualLead": "Agregar cliente potencial manual",
-    "updateManualLead": "Actualizar cliente potencial manual",
+    "addManualLead": "Agregar Lead Manual",
+    "updateManualLead": "Actualizar Lead Manual",
     "addNewBtn": "Agregar",
     "back": "atrás",
     "outSide":"Agregar Agente Externo",

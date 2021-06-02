@@ -23,6 +23,7 @@ export class AuthGuard implements CanActivate {
           this.admin.postDataApi('get-details', {})
           .subscribe(
             success1 => {
+              localStorage.setItem('all', JSON.stringify(success1));
               localStorage.setItem('user-id', JSON.stringify(((success1 || {}).data || {}).id));
               this.interceptor.loader.next({value: true});
               this.admin.login.next(success1.data);

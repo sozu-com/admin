@@ -439,7 +439,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
       input.flag = 3;
       input.property_id = this.parameter.property_id
     }
-    this.admin.postDataApi('propertyHome', input).subscribe(
+    this.admin.postDataApi('propertyForSale', input).subscribe(
       success => {
         // localStorage.setItem('parametersForProperty', JSON.stringify(this.parameter));
         this.items = success.data;

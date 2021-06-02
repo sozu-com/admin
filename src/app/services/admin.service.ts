@@ -254,6 +254,7 @@ export class AdminService {
         .map((response: Response) => {
           this.http.loader.next({value: false});
           const r = response.json();
+          localStorage.setItem('all', JSON.stringify(r));
           localStorage.setItem('user-id', JSON.stringify(((r || {}).data || {}).id));
           this.login.next(r.data);
           this.globalSettings.next(r.data.global_settings);

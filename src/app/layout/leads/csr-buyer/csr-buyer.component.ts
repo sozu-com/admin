@@ -71,7 +71,17 @@ export class CsrBuyerComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.user = JSON.parse(localStorage.getItem('all'));
+    this.user = localStorage.getItem('all') ? JSON.parse(localStorage.getItem('all')) : undefined;
+    // if(!this.user || this.user == ''){
+    //   this.admin.postDataApi('get-details', {})
+    //       .subscribe(
+    //         success1 => {
+    //           localStorage.setItem('all', success1);
+    //           this.user = JSON.parse(localStorage.getItem('all'));
+    //         })
+    // }else{
+    //   this.user = JSON.parse(this.user);
+    // }
     this.locale = {
       firstDayOfWeek: 0,
       dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
@@ -443,6 +453,7 @@ export class CsrBuyerComponent implements OnInit {
   }
 
   openModel(openFor, selected) {
+    this.user = JSON.parse(localStorage.getItem('all'));
     if(this.user.data.permissions.all_geo_access == 1 || this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_csr_seller == 1 || this.user.data.permissions.can_csr_closer == 1
       || this.user.data.permissions.can_csr_renter == 1 || this.user.data.permissions.can_credit_agent == 1 || this.user.data.permissions.can_in_house_broker == 1 || 
       this.user.data.permissions.can_cordinator == 1){
@@ -474,6 +485,7 @@ export class CsrBuyerComponent implements OnInit {
   }
 
   openAddChangeStatusModel(item){ 
+    this.user = JSON.parse(localStorage.getItem('all'));
     this.selected_lead = item;
     this.selectedAddChangeStatus = item && item.status ? item.status.status_id : 0;
     this.spinner.show();
