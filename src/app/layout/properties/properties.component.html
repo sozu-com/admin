@@ -412,12 +412,14 @@
                                     src="assets/img/top-arrow.png" alt="img"></a>
                            </div>
                         </th>
+                        <th style="width:10%;vertical-align:top;">
+                           <div (click)="sort_by(1)" class="d-flex table-search">
+                              <label>{{'table.th.avergagePrice' | translate}}</label>
+                           </div>
+                        </th>
                         <th style="width:10%;vertical-align:top;"  *ngIf="selectedPropertyColumnsToShow?.commercial_offers">
                            <div (click)="sort_by(1)" class="d-flex table-search">
                               <label>{{'table.th.Commercialoffers' | translate}}</label>
-                              <!-- <a href="javascript://"><img
-                                    [ngClass]="{'upsidedown':parameter.sort_by==1 && parameter.sort_by_order==0}"
-                                    src="assets/img/top-arrow.png" alt="img"></a> -->
                            </div>
                         </th>
                         <th style="width:8%;vertical-align:top;"  *ngIf="selectedPropertyColumnsToShow?.carpet_area">
@@ -607,6 +609,9 @@
                         </span></td>
                         <td *ngIf="selectedPropertyColumnsToShow?.list_price"><span>{{p.min_price | price}}</span></td>
                         <td *ngIf="selectedPropertyColumnsToShow?.final_price"><span>{{p.final_price ? (p.final_price | price) : ('table.tr.td.NA' | translate)}}</span></td>
+                        <td>
+                           <span>{{p?.avgg_price | currency}}</span>
+                        </td>
                         <td *ngIf="selectedPropertyColumnsToShow?.commercial_offers">
                            <span  *ngIf="p?.offer_count">
                               <a class="add1" href="javascript://" (click)="openOfferModel(p, i)" style="color: #00B96F;">
@@ -617,6 +622,7 @@
                               <b>{{'table.tr.td.NA' | translate}}</b>
                            </span>
                         </td>
+                       
                         <!-- <td><span>{{p?.carpet_areas && p?.carpet_areas?.length>0 ? (p?.carpet_areas[0]?.area| number : '1.2-2') : 0.00}}</span></td> -->
                         <td *ngIf="selectedPropertyColumnsToShow?.carpet_area"><span>{{p?.max_area ? p.max_area : 0.00}}</span></td>
                         <td *ngIf="selectedPropertyColumnsToShow?.commercialized_sozu"><span>{{p?.is_commercialized ? ( 'table.th.yes' | translate ): ( 'table.th.no' | translate )

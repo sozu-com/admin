@@ -111,7 +111,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   property_offer_payment: any;
   paymentBanks: Array<any>;
   isPreview: boolean = false;
-
+  avg_price: any;
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('rejectModalOpen') rejectModalOpen: ElementRef;
@@ -253,8 +253,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       dateFormat: 'mm/dd/yy',
       weekHeader: 'Wk'
     };
-    this.project_id = JSON.parse(localStorage.getItem('project_id'));
+    
     this.route.params.subscribe(params => {
+      this.project_id = JSON.parse(localStorage.getItem('project_id'));
       this.parameter.project_id = this.project_id;
       this.parameter.property_id = params.property_id || '';
       this.parameter.keyword = params.name;
@@ -313,6 +314,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       this.fullName = success['name'] + ' ' + success['first_surname'] + ' ' + success['second_surname'];
     });
     this.getParametersForProperty();
+    localStorage.removeItem(this.project_id);
+    
   }
 
   getParametersForProperty = (): void => {
@@ -451,6 +454,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       success => {
         // localStorage.setItem('parametersForProperty', JSON.stringify(this.parameter));
         this.items = success.data;
+        this.items.forEach(function (element) {
+          if(element.id ==  (element.collection || {}).property_id){
+            element['avgg_price'] = (((parseFloat(element.final_price) || 0) / (parseFloat(element.max_area) || 0)));
+          }else{
+            element['avgg_price'] = (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
+          }
+        });
         this.total = success.total_count;
         this.spinner.hide();
       },
