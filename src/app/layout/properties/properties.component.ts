@@ -156,7 +156,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   select_columns_list: any[] = [];
   public selectedPropertyColumnsToShow: any = {};
   public isSelectAllColumns: boolean = false;
-
+  project_id:any;
   constructor(
     public constant: Constant,
     public apiConstant: ApiConstants,
@@ -253,8 +253,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       dateFormat: 'mm/dd/yy',
       weekHeader: 'Wk'
     };
+    this.project_id = JSON.parse(localStorage.getItem('project_id'));
     this.route.params.subscribe(params => {
-      this.parameter.project_id = params.project_id;
+      this.parameter.project_id = this.project_id;
       this.parameter.property_id = params.property_id || '';
       this.parameter.keyword = params.name;
       if (params.availability_filter) {

@@ -463,8 +463,7 @@
                  
                 </td>
                 <td>
-                  <a title="{{'table.title.clickToViewProperties' | translate}}"
-                    routerLink="/dashboard/properties/view-properties/{{p.name}}/0"><span
+                  <a title="{{'table.title.clickToViewProperties' | translate}}" (click)="goWay(p)"><span
                       class="green-color">{{p?.properties_count_all | numberWithCommas}}</span></a>
                 </td>
                 <td>
