@@ -725,6 +725,7 @@
       "listPrice": "Precio de lista",
       "finalPrice": "Precio final",
       "Commercialoffers": "Ofertas comerciales",
+      "avergagePrice": "Precio promedio",
       "Commercialofferslist": "Lista de ofertas comerciales",
       "offerID": "Folio",
       "agent": "Agente",
@@ -1603,8 +1604,8 @@
   },
   "viewManualLeads": {
     "label": "Leads Manuales",
-    "addManualLead": "Agregar cliente potencial manual",
-    "updateManualLead": "Actualizar cliente potencial manual",
+    "addManualLead": "Agregar Lead Manual",
+    "updateManualLead": "Actualizar Lead Manual",
     "addNewBtn": "Agregar",
     "back": "atrás",
     "outSide":"Agregar Agente Externo",
