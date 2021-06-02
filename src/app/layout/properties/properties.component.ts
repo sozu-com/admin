@@ -314,7 +314,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       this.fullName = success['name'] + ' ' + success['first_surname'] + ' ' + success['second_surname'];
     });
     this.getParametersForProperty();
-    localStorage.removeItem(this.project_id);
+    localStorage.removeItem('project_id');
     
   }
 
