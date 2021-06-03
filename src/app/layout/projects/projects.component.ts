@@ -179,6 +179,9 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       success => {
         //localStorage.setItem('parametersForProject', JSON.stringify(this.parameter));
         this.items = success.data;
+        this.items.forEach(function (element) {
+            element['avgg_price'] = (((parseFloat(element.avg_price) || 0) / (parseFloat(element.avg_carpet_area) || 0)));
+        });
         this.total = success.total_count;
         this.spinner.hide();
       },
