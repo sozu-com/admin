@@ -725,7 +725,7 @@
       "listPrice": "Precio de lista",
       "finalPrice": "Precio final",
       "Commercialoffers": "Ofertas comerciales",
-      "avergagePrice": "Precio promedio",
+      "avergagePrice": "Precio medio por m2",
       "Commercialofferslist": "Lista de ofertas comerciales",
       "offerID": "Folio",
       "agent": "Agente",
@@ -1074,6 +1074,8 @@
     "success": {
       "projectApprovedSuccessfully": "Proyecto aprobado con éxito.",
       "projectUnapprovedSuccessfully": "Proyecto no aprobado",
+      "cancellationSuccessfully": "Aplicando la comisión de cancelación con éxito.",
+      "outsideSuccessfully": "dando acceso al exterior para el panel.",
       "unblockedSuccessfully": "Desbloqueado exitosamente.",
       "blockedSuccessfully": "Bloqueado exitosamente.",
       "Reminder": "Enviar recordatorio con éxito.",
@@ -1116,7 +1118,7 @@
       "collectionStatusChanged": "Estado de colección cambiado",
       "wantToReminderNote": "¿Quieres agregar un recordatorio?",
       "statusChangedSuccessfully": "El estado cambió con éxito.",
-      "access": "El acceso al sistema se estableció correctamente."
+      "access": "El acceso al panel se estableció correctamente."
     },
     "error": {
       "pleaseSelectEitherInhouseOrOutsideAgent": "Por favor elija una de las Agentes Internas y Externas",
