@@ -1527,7 +1527,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       this.admin.postDataApi('addCancellationCommission',input).subscribe(r => {
         this.isApplyBtnClicked = false;
         this.closeCollReceiptModal();
-        swal(this.translate.instant('swal.success'), this.parameter.successText, 'success');
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.cancellationSuccessfully'), 'success');
         //this.spinner.hide();
         //this.all_developers = r.data;
       });

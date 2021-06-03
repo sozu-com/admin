@@ -1073,6 +1073,8 @@
     "success": {
       "projectApprovedSuccessfully": "Project approved successfully.",
       "projectUnapprovedSuccessfully": "Project unapproved successfully.",
+      "cancellationSuccessfully": "Applying cancellation commission successfully.",
+      "outsideSuccessfully": "Giving access to outside for panel.",
       "unblockedSuccessfully": "Unblocked Successfully.",
       "blockedSuccessfully": "Blocked Successfully.",
       "Reminder": "Successfully Send Reminder.",
@@ -1115,7 +1117,7 @@
       "collectionStatusChanged": "Collection Status Changed",
       "wantToReminderNote": "Do you want to add reminder?",
       "statusChangedSuccessfully": "Status changed successfully.",
-      "access": "System access successfully set."
+      "access": "Panel access successfully set."
     },
     "error": {
       "pleaseSelectEitherInhouseOrOutsideAgent": "Please choose one of Inhouse and Outside Agents",
