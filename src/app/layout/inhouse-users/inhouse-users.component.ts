@@ -1304,8 +1304,7 @@ export class InhouseUsersComponent implements OnInit {
     this.admin.postDataApi('updateOutsideAgentaccess', {id:id}).subscribe(r => {
       this.toastr.clear();
       this.toastr.success(this.translate.instant('message.success.access'), this.translate.instant('swal.success'));
-      // this.parameter.accessess = r.data;
-      // this.notesModalOpen.nativeElement.click();
+      swal(this.translate.instant('swal.success'), this.parameter.successText, 'success');
     });
   }
   
