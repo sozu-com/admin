@@ -5,6 +5,7 @@ import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 import { Constant } from 'src/app/common/constants';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 declare let swal: any;
 
 @Component({
@@ -24,11 +25,14 @@ export class NotesComponent implements OnInit {
   @Input() user_id: number;
   public parameter: IProperty = {};
   public scrollbarOptions = { axis: 'y', theme: 'dark'};
+  user: any;
 
   constructor(public admin: AdminService, public model: Notes, public constant: Constant,
-    private translate: TranslateService) { }
+    private translate: TranslateService, private toastr: ToastrService
+    ) { }
 
   ngOnInit() {
+    this.user = JSON.parse(localStorage.getItem('all'));
     this.model.id = 0;
     this.getLeadNotes();
   }
@@ -38,6 +42,9 @@ export class NotesComponent implements OnInit {
   }
 
   addLeadNote(formdata: NgForm, sent_as) {
+    if(((this.user.data.permissions.all_geo_access == 1 || this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_csr_seller == 1 || this.user.data.permissions.can_csr_closer == 1
+      || this.user.data.permissions.can_csr_renter == 1 || this.user.data.permissions.can_credit_agent == 1 || this.user.data.permissions.can_in_house_broker == 1 || 
+      this.user.permissions.can_cordinator == 1) && this.user.user_type == 2)){
     let param ={ 
       lead_id: this.lead_id,
       user_id: this.user_id,
@@ -56,6 +63,10 @@ export class NotesComponent implements OnInit {
       this.parameter.items = r.data;
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
     });
+  }
+  else{
+    this.toastr.warning(this.translate.instant('message.error.SorryYouDoNotHaveThePermissionToGoThere'), this.translate.instant('swal.warning'));
+  }
   }
 
   deleteLeadPopup(note_id, index) {

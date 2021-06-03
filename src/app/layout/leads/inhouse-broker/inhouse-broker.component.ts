@@ -365,6 +365,9 @@ export class InhouseBrokerComponent implements OnInit {
 
   bulkAssign() {
     // this.assign.keyword = '';
+    if(((this.user.data.permissions.all_geo_access == 1 || this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_csr_seller == 1 || this.user.data.permissions.can_csr_closer == 1
+      || this.user.data.permissions.can_csr_renter == 1 || this.user.data.permissions.can_credit_agent == 1 || this.user.data.permissions.can_in_house_broker == 1 || 
+      this.user.permissions.can_cordinator == 1) && this.user.user_type == 2)){
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     if (leads_ids.length === 0) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAtleast1Lead'), 'error');
@@ -374,6 +377,10 @@ export class InhouseBrokerComponent implements OnInit {
       this.getAssignListing();
     }
     this.openAssignModel.nativeElement.click();
+  }
+  else{
+    this.toastr.warning(this.translate.instant('message.error.SorryYouDoNotHaveThePermissionToGoThere'), this.translate.instant('swal.warning'));
+  }
   }
 
   getAssignListing() {
@@ -417,9 +424,9 @@ export class InhouseBrokerComponent implements OnInit {
     this.admin.getApi("leads/all-in-house-broker-statuses" ).subscribe(r => {
       this.addChangeStatusNames = r.data;
       this.spinner.hide();
-      if(item && (this.user.data.permissions.all_geo_access == 1 || this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_csr_seller == 1 || this.user.data.permissions.can_csr_closer == 1
+      if(item && ((this.user.data.permissions.all_geo_access == 1 || this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_csr_seller == 1 || this.user.data.permissions.can_csr_closer == 1
         || this.user.data.permissions.can_csr_renter == 1 || this.user.data.permissions.can_credit_agent == 1 || this.user.data.permissions.can_in_house_broker == 1 || 
-        this.users.permissions.can_cordinator == 1)){
+        this.users.permissions.can_cordinator == 1) && this.user.user_type == 2)){
       this.addChangeStatusModelOpen.nativeElement.click();
       }
       else{

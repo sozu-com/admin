@@ -15,14 +15,17 @@ export class ViewedProjectsComponent implements OnInit {
   @Input('user_id') user_id;
   @ViewChild('showProjectModal') showProjectModal: ElementRef;
 
+
   public parameter: IProperty = {};
   public scrollbarOptions = { axis: 'y', theme: 'dark', scrollbarPosition: 'inside'};
+  projects: any[] = [];
   constructor(public constant: Constant, private admin: AdminService,
     private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.parameter.page = this.constant.p;
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
+    this.parameter.viewed_projects = [];
   }
 
   getPage(page) {
@@ -35,7 +38,7 @@ export class ViewedProjectsComponent implements OnInit {
     this.admin.postDataApi('leads/viewedProjects', {user_id: user_id, page: page}).subscribe(r => {
       this.spinner.hide();
       this.parameter.total = r.total;
-      this.parameter.viewed_projects = r.data;
+      this.projects = r.data;
       if (this.parameter.page === 1) {
         this.showProjectModal.nativeElement.click();
       }
