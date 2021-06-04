@@ -399,6 +399,11 @@
                                     </div>
                                 </div>
                             </th>
+                            <th style="width:10%">
+                                <div class="table-search">
+                                    <label>{{'table.th.statusHistory' | translate}}</label>
+                                </div>
+                            </th>
                             <!-- <th style="width:10%">
                                 <div class="table-search">
                                     <label>{{'table.th.actions.label' | translate}}</label>
@@ -425,13 +430,16 @@
                                     class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img">
                             </td>
                             <td class="text-left">
-                                <span class="name">{{item.name | titlecase}}</span>
+                                <span class="name" *ngIf="item.name">{{item.name | titlecase}}</span>
+                                <span class="name" *ngIf="!item.name">{{'table.tr.td.NA' | translate}}</span>
                             </td>
                             <td class="text-left">
-                                <span class="first_surname">{{item.first_surname | titlecase}}</span>
+                                <span class="first_surname" *ngIf="item.first_surname">{{item.first_surname | titlecase}}</span>
+                                <span class="name" *ngIf="!item.first_surname">{{'table.tr.td.NA' | translate}}</span>
                             </td>
                             <td class="text-left">
-                                <span class="second_surname">{{item.second_surname | titlecase}}</span>
+                                <span class="second_surname" *ngIf="item.second_surname">{{item.second_surname | titlecase}}</span>
+                                <span class="name" *ngIf="!item.second_surname">{{'table.tr.td.NA' | translate}}</span>
                             </td>
                             <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code :
                                 constant.dial_code}}-{{item.phone}}</td>
@@ -476,6 +484,7 @@
                                     </span>
                                 </span>
                             </td>
+                            <td class="text-left green-color cursor-pointer" (click)="$event.stopPropagation()"> <span (click)="openStatusHistoryModel(item)">{{item.broker_status ? ('table.tr.td.view' | translate) : ('table.tr.td.NA' | translate)}}</span> </td>
                             <!-- <td class="text-left" (click)="$event.stopPropagation()">
                                 <button [disabled]="admin?.admin_acl['Manual Leads']?.can_delete==0"
                                 (click)="deletePopup(item)" class="action-icon"
@@ -604,6 +613,37 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<a #viewStatuHistoryModelOpen class="btn-third btn btn-block" data-target="#view-status-history" data-toggle="modal"></a>
+<div class="modal" id="view-status-history">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" #viewStatuHistoryModelClose>&times;</button>
+        </div>
+        <div class="modal-body">
+            <h3>{{'leadDetails.leadStatusHistory' | translate}}</h3>
+            <hr>
+            <div class="scrollbox fav-prop" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12 col-12 wn-block"
+                *ngFor="let item of history; let in=index">
+                <div class="circle">
+                    <span></span>
+                  </div>
+                    <p class="time">{{item.user.name}} {{item.user.first_surname || ''}} {{item.user.second_surname || ''}}</p>
+                    <pre class="p13" style="margin-bottom: 0px;color: rgba(0,0,0,0.5);font-size: 12px;">{{item.created_at  | chatTime: 'YYYY-MM-DD H:m:s': 2}}</pre>
+                    <pre class="p13">{{lang == 'en' ? item.status_details.name : item.status_details.name_es}}</pre>
+                </div>
+                <div class="col-12" style="font-size: 18px;text-align: center;margin-top: 33%;" *ngIf="!history || history.length == 0">
+                    <pre>{{'leadDetails.noLeadStatusHistoryAavailable' | translate}}</pre>
+                </div>
+            </div>
+            </div>
+        </div>
         </div>
     </div>
 </div>

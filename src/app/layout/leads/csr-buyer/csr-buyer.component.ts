@@ -31,6 +31,9 @@ export class CsrBuyerComponent implements OnInit {
   @ViewChild('linkBrokerModal') linkBrokerModal: ElementRef;
   @ViewChild('closeBrokerModal') closeBrokerModal: ElementRef;
 
+  @ViewChild('viewStatuHistoryModelOpen') viewStatuHistoryModelOpen: ElementRef;
+  @ViewChild('viewStatuHistoryModelClose') viewStatuHistoryModelClose: ElementRef;
+
   public parameter: IProperty = {};
   public location: IProperty = {};
   public assign: IProperty = {};
@@ -59,6 +62,8 @@ export class CsrBuyerComponent implements OnInit {
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
   selected_lead: any;
   user: any;
+  history: any;
+  lang: string;
   constructor(
     public admin: AdminService,
     private constant: Constant,
@@ -72,6 +77,7 @@ export class CsrBuyerComponent implements OnInit {
 
   ngOnInit() {
     this.user = localStorage.getItem('all') ? JSON.parse(localStorage.getItem('all')) : undefined;
+    this.lang = localStorage.getItem('language_code');
     // if(!this.user || this.user == ''){
     //   this.admin.postDataApi('get-details', {})
     //       .subscribe(
@@ -496,13 +502,18 @@ export class CsrBuyerComponent implements OnInit {
     this.admin.getApi("leads/all-csr-buyer-statuses" ).subscribe(r => {
       this.addChangeStatusNames = r.data;
       this.spinner.hide();
-      if(item && (this.user.data.permissions.all_geo_access == 1 || this.user.data.permissions.can_csr_buyer == 1 || this.user.permissions.can_cordinator == 1)){
+      if(item && item.admin && (this.user.data.permissions.all_geo_access == 1 || this.user.data.permissions.can_csr_buyer == 1 || this.user.permissions.can_cordinator == 1)){
       this.addChangeStatusModelOpen.nativeElement.click();
       }
       else{
         if(item){
+          if(!item.admin){
+            this.toastr.warning(this.translate.instant('message.error.firstAssignCSRBuyer'), this.translate.instant('swal.warning'));
+            return;
+          }
         this.toastr.warning(this.translate.instant('message.error.SorryYouDoNotHaveThePermissionToGoThere'), this.translate.instant('swal.warning'));
         }
+        
       }
     },
       error => {
@@ -577,6 +588,21 @@ export class CsrBuyerComponent implements OnInit {
       error => {
         this.spinner.hide();
         swal(this.translate.instant('swal.error'), error.message, 'error');
+      });
+  }
+
+  openStatusHistoryModel(item){
+    let input = {
+      lead_id: item.id
+    }
+    this.spinner.show();
+    this.admin.postDataApi('leads/csr-buyer-lead-statuses', input).subscribe(
+      success => {
+        this.history = success.data;
+        this.viewStatuHistoryModelOpen.nativeElement.click();
+        this.spinner.hide();
+      },error=>{
+        this.spinner.hide();
       });
   }
 }

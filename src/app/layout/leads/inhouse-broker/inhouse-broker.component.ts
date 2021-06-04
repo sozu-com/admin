@@ -23,6 +23,9 @@ export class InhouseBrokerComponent implements OnInit {
   @ViewChild('closeAssignModel') closeAssignModel: ElementRef;
   @ViewChild('addChangeStatusModelOpen') addChangeStatusModelOpen: ElementRef;
   @ViewChild('addChangeStatusModelClose') addChangeStatusModelClose: ElementRef;
+  
+  @ViewChild('viewStatuHistoryModelOpen') viewStatuHistoryModelOpen: ElementRef;
+  @ViewChild('viewStatuHistoryModelClose') viewStatuHistoryModelClose: ElementRef;
 
   public parameter: IProperty = {};
   public location: IProperty = {};
@@ -46,6 +49,8 @@ export class InhouseBrokerComponent implements OnInit {
   selectedAddChangeStatus: any;
   selected_lead: any;
   user: any;
+  lang: string;
+  history: any;
 
   constructor(
     public admin: AdminService,
@@ -59,6 +64,7 @@ export class InhouseBrokerComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('all'));
+    this.lang = localStorage.getItem('language_code');
     this.locale = {
       firstDayOfWeek: 0,
       dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
@@ -475,6 +481,21 @@ export class InhouseBrokerComponent implements OnInit {
         //this.deleteManualLead(item);
       }
     });
+  }
+
+  openStatusHistoryModel(item){
+    let input = {
+      lead_id: item.id
+    }
+    this.spinner.show();
+    this.admin.postDataApi('leads/in-house-broker-lead-statuses', input).subscribe(
+      success => {
+        this.history = success.data;
+        this.viewStatuHistoryModelOpen.nativeElement.click();
+        this.spinner.hide();
+      },error=>{
+        this.spinner.hide();
+      });
   }
 
 }
