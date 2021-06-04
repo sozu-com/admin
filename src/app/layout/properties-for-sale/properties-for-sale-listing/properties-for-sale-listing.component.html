@@ -241,7 +241,19 @@
                           </div>
                        </th>
                     
-                   
+                       <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
+                        <div class="table-search">
+                           <label>{{'table.th.possession_status' | translate}}</label>
+                           <select [(ngModel)]="parameter.possession_status_id" (change)="getListing()">
+                              <option value="0">{{'table.th.possesion.all' | translate}}</option>
+                              <option value="{{apiConstant.possessionStatus.sale}}">{{'table.th.possesion.sale' |
+                                 translate}}
+                              </option>
+                              <option value="{{apiConstant.possessionStatus.preSale}}">
+                                 {{'table.th.possesion.presale' | translate}}</option>
+                           </select>
+                        </div>
+                     </th>
                        
                        <th *ngIf="parameter.flag!=5" style="width:5%;vertical-align:top;">
                           <div class="table-search">
@@ -308,41 +320,30 @@
 
                      
                        <td><span>{{p?.max_area ? p.max_area : 0.00}}</span></td>
-                       <td><span>{{p?.is_commercialized ? ( 'table.th.yes' | translate ): ( 'table.th.no' | translate )
-                             }}</span></td>
-                     
-                     
+                       <td><span>{{p?.is_commercialized ? ( 'table.th.yes' | translate ): ( 'table.th.no' | translate )}}</span></td>
+                      <td><span>{{p?.building_towers?.possession_status_id == apiConstant.possessionStatus.sale ?
+                        ('table.tr.td.sale' | translate) : ('table.tr.td.presale' | translate)}}</span></td>
+                  
 
-                       <td *ngIf="parameter.flag==5" class="cursor-pointer"
-                          title="{{'table.title.viewSellerRequest' | translate}}" (click)="showAllSellers(p?.id, i)">
-                          <span class="green-color"><span>{{'table.tr.td.view' | translate}}</span></span>
-                       </td>
-
-                       <td *ngIf="parameter.flag!=5" class="cursor-pointer"
-                          title="{{p?.selected_seller?.user?.name ? ('table.title.clickToChangeSeller' | translate) : ('table.title.clickToAddSeller' | translate)}}"
-                          (click)="getAllSellers(p, '1', i, 'seller', 1)">
-                          <span *ngIf="p?.selected_seller?.user?.legal_entity" class="green-color">
-                             {{p?.selected_seller?.user?.legal_entity?.comm_name || ('table.tr.td.add' | translate)}}
+                       <td title="{{p?.selected_seller?.user?.name ? ('table.title.clickToChangeSeller' | translate) : ('table.title.clickToAddSeller' | translate)}}">
+                          <span *ngIf="p?.selected_seller?.user?.legal_entity">
+                             {{p?.selected_seller?.user?.legal_entity?.comm_name || ('table.tr.td.NA' | translate)}}
                           </span>
-                          <span *ngIf="!p?.selected_seller?.user?.legal_entity" class="green-color">
-                             {{p?.selected_seller?.user?.name || ('table.tr.td.add' | translate)}}
+                          <span *ngIf="!p?.selected_seller?.user?.legal_entity">
+                             {{p?.selected_seller?.user?.name || ('table.tr.td.NA' | translate)}}
                           </span>
                        </td>
 
-                       <td *ngIf="parameter.flag!=5" class="cursor-pointer" (click)="getBothBroker(p, '', false)">
-                           <span class="green-color">
-                              <span
-                                 title="{{p?.external_outside_agent?.id ? ('table.title.clickToChange' | translate) : ('table.title.clickToAssign' | translate) }}">
-                                 {{p?.external_outside_agent?.id
-                                 ? ('table.tr.td.change' | translate) : ('table.tr.td.link' | translate)}}</span>
+                       <td *ngIf="parameter.flag!=5">
+                           <span>
+                              <span title="{{p?.external_outside_agent?.id ? ('table.title.clickToChange' | translate) : ('table.title.clickToAssign' | translate) }}">
+                                 {{p?.external_outside_agent?.id ? p?.external_outside_agent?.name : ('table.tr.td.NA' | translate)}}</span>
                            </span>
                         </td>
-                        <td *ngIf="parameter.flag!=5" class="cursor-pointer" (click)="getAgency(p, '',i)">
-                           <span class="green-color">
-                              <span
-                                 title="{{p?.get_agency?.id ? ('table.title.clickToChange' | translate) : ('table.title.clickToAssign' | translate) }}">
-                                 {{p?.get_agency?.id
-                                 ? ('table.tr.td.change' | translate) : ('table.tr.td.link' | translate)}}</span>
+                        <td *ngIf="parameter.flag!=5" (click)="getAgency(p, '',i)">
+                           <span>
+                              <span title="{{p?.get_agency?.id ? ('table.title.clickToChange' | translate) : ('table.title.clickToAssign' | translate) }}">
+                                 {{p?.get_agency?.id ? p?.get_agency?.name : ('table.tr.td.NA' | translate)}}</span>
                            </span>
                         </td>
                     </tr>

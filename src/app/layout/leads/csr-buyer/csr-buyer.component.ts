@@ -335,9 +335,7 @@ export class CsrBuyerComponent implements OnInit {
   }
 
   bulkAssign() {
-    if(((this.user.data.permissions.all_geo_access == 1 || this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_csr_seller == 1 || this.user.data.permissions.can_csr_closer == 1
-      || this.user.data.permissions.can_csr_renter == 1 || this.user.data.permissions.can_credit_agent == 1 || this.user.data.permissions.can_in_house_broker == 1 || 
-      this.users.permissions.can_cordinator == 1) && this.user.user_type == 2)){
+    if(this.user.data.permissions.all_geo_access == 1 || this.user.data.permissions.can_csr_buyer == 1 || this.users.permissions.can_cordinator == 1){
     this.showSearchText = false;
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     if (leads_ids.length === 0) {
@@ -461,9 +459,7 @@ export class CsrBuyerComponent implements OnInit {
 
   openModel(openFor, selected) {
     this.user = JSON.parse(localStorage.getItem('all'));
-    if((this.user.data.permissions.all_geo_access == 1 || this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_csr_seller == 1 || this.user.data.permissions.can_csr_closer == 1
-      || this.user.data.permissions.can_csr_renter == 1 || this.user.data.permissions.can_credit_agent == 1 || this.user.data.permissions.can_in_house_broker == 1 || 
-      this.user.data.permissions.can_cordinator == 1) && this.user.user_type == 2){
+    if(this.user.data.permissions.all_geo_access == 1 || this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_cordinator == 1){
     this.openFor = openFor;
     this.selected_lead = selected;
     this.items.filter(item=>{
@@ -500,9 +496,7 @@ export class CsrBuyerComponent implements OnInit {
     this.admin.getApi("leads/all-csr-buyer-statuses" ).subscribe(r => {
       this.addChangeStatusNames = r.data;
       this.spinner.hide();
-      if(item && ((this.user.data.permissions.all_geo_access == 1 || this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_csr_seller == 1 || this.user.data.permissions.can_csr_closer == 1
-        || this.user.data.permissions.can_csr_renter == 1 || this.user.data.permissions.can_credit_agent == 1 || this.user.data.permissions.can_in_house_broker == 1 || 
-        this.user.permissions.can_cordinator == 1) && this.user.user_type == 2)){
+      if(item && (this.user.data.permissions.all_geo_access == 1 || this.user.data.permissions.can_csr_buyer == 1 || this.user.permissions.can_cordinator == 1)){
       this.addChangeStatusModelOpen.nativeElement.click();
       }
       else{

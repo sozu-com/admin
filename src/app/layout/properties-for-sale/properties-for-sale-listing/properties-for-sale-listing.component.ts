@@ -1091,7 +1091,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     delete input.seller_id;
     delete input.buyer_id;
 
-    this.admin.postDataApi('propertyHome', input).subscribe(
+    this.admin.postDataApi('propertyForSale', input).subscribe(
       success => {
         this.exportfinalData = success['data'];
         this.exportData();
@@ -1118,16 +1118,12 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
           'Configuration Bath': p.configuration ? p.configuration.bathroom + ' Bath' : '0 Bath',
           'Configuration Half Bath': p.configuration ? p.configuration.half_bathroom + ' Half Bath' : '0 Half Bath',
           'List Price': parseInt(p.min_price) || 0,
-          'Final Price': parseInt(p.final_price) || 0,
           'Carpet Area': parseInt(p.max_area) || 0,
-          'Agent Commission (in %)': parseInt(p.broker_commision) || 0,
           'Commercialized by SOZU': p.is_commercialized ? 'yes' : 'no',
-          'Total Commission (in %)': parseInt(p.total_commission) || 0,
-          'Leads': parseInt(p.lead_properties_count) || 0,
-          'Buyer': ((p.selected_buyer || {}).user || {}).name || '',
-          'Seller': ((p.selected_seller || {}).user || {}).name || '',
-          'Is Property Sold': p.is_property_sold ? 'yes' : 'no',
-          'Linked Collection': p.collection ? 'yes' : 'no',
+          'Possession Status': p.building_towers.possession_status_id == this.apiConstant.possessionStatus.sale ? 'Sale' : 'Presale',
+          'Seller': ((p.selected_seller || {}).user || {}).name || 'N/A',
+          'Outside Agent': p.external_outside_agent ? p.external_outside_agent.name : 'N/A',
+          'Agency': p.get_agency ? p.get_agency.name : 'N/A',
         });
       }
       new ExcelDownload().exportAsExcelFile(exportfinalData, 'properties_for_sale');
