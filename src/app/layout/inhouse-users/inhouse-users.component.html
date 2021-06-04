@@ -380,9 +380,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <p style="margin-left: 12px; font-family: 'sf_ui_textbold';
-      margin-top: 12px;"><a href="javascript://">
-      <i class="fa fa-angle-double-left"></i> 
-     </a> &nbsp;&nbsp;{{'viewManualLeads.outSide' | translate}}</p>
+      margin-top: 12px;"> &nbsp;&nbsp;{{'viewManualLeads.outSide' | translate}}</p>
       <button type="button" style="display: none;" class="close" data-dismiss="modal" #modalClose>&times;</button>
       <button type="button" class="close" (click)="closeModal(); addForm.reset()">&times;</button>
     </div>
@@ -540,11 +538,11 @@
           </div>
         </div>
         <div class="row">
-        <div class="col-lg-3 col-md-6 col-sm-12 col-12" style="margin-top: 14px;">
+        <div class="col-lg-3 col-md-6 col-sm-12 col-12">
             <input type="checkbox" class="form-control" [(ngModel)]="model.have_access" name="have_access">
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12 col-12">
-            <p style="font-weight:bold;color: #000000b0;">{{'addForm.accesspanel' | translate}}</p>
+            <p style="font-weight:bold;color: #000000b0;margin-top: 0px;">{{'addForm.accesspanel' | translate}}</p>
         </div>
       </div>
       </div>
