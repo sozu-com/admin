@@ -1118,7 +1118,8 @@
       "collectionStatusChanged": "Collection Status Changed",
       "wantToReminderNote": "Do you want to add reminder?",
       "statusChangedSuccessfully": "Status changed successfully.",
-      "access": "Panel access successfully set."
+      "access": "Access given successfully",
+      "revoked": "Access revoked successfully"
     },
     "error": {
       "pleaseSelectEitherInhouseOrOutsideAgent": "Please choose one of Inhouse and Outside Agents",
@@ -1328,6 +1329,8 @@
       "wantToBlockProject": "¿Quieres bloquear este proyecto?",
       "wantToUnBlockProject": "¿Quieres desbloquear este proyecto?",
       "wantToDeleteProject": "You want to delete this project?",
+      "wantToDeleteAcess": "You want to give access of panel?",
+      "wantToDeleteRvoke": "You want to revoke the access to panel?",
       "wantToUnapproveProject": "You want to disapprove this project?",
       "wantToDeleteEconomicDependent": "You want to delete this economic dependent?",
       "wantToDeleteBeneficiary": "You want to delete this Beneficiary Detail?",

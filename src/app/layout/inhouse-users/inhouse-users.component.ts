@@ -36,6 +36,7 @@ export class InhouseUsersComponent implements OnInit {
   @ViewChild('moreImgModalClose') moreImgModalClose: ElementRef;
   @ViewChild('notesModalOpen') notesModalOpen: ElementRef;
   @ViewChild('notesModalClose') notesModalClose: ElementRef;
+  isShown: boolean = false;
   obj: any;
   public parameter: IProperty = {};
   lead_sort = 2;
@@ -1300,14 +1301,65 @@ export class InhouseUsersComponent implements OnInit {
     }
     this.router.navigate([url, id]);
   }
-  haveAccess(id: string){
-    this.admin.postDataApi('updateOutsideAgentaccess', {id:id}).subscribe(r => {
-      this.toastr.clear();
-      this.toastr.success(this.translate.instant('message.success.access'), this.translate.instant('swal.success'));
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.outsideSuccessfully'), 'success');
+
+  toggleShow(value,id) {
+    this.isShown = value.target.checked ? true : false;
+    if(this.isShown == false){
+      this.parameter.text = this.translate.instant('message.error.wantToDeleteRvoke');
+
+      swal({
+        html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: this.constant.confirmButtonColor,
+        cancelButtonColor: this.constant.cancelButtonColor,
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          this.revokeProject(id);
+        }
+      });
+    }else{
+      this.parameter.text = this.translate.instant('message.error.wantToDeleteAcess');
+
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteProject(id);
+      }
     });
+    }
+    
   }
-  
+
+  deleteProject(id) {
+    this.admin.postDataApi('updateOutsideAgentaccess',
+    {id:id}).subscribe(r => {
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.access'), 'success');
+        // this.items.splice(index, 1);
+        // this.total--;
+      },
+        error => {
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
+        });
+  }
+
+  revokeProject(id) {
+    this.admin.postDataApi('updateOutsideAgentaccess',
+    {id:id}).subscribe(r => {
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.revoked'), 'success');
+      },
+        error => {
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
+        });
+  }
+
   getNotes(item) {
      this.noted.agent_id = item.id;
     const input = { agent_id: item.id };
