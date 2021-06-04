@@ -256,11 +256,15 @@
                             {{item?.properties_linked?item.properties_linked:'0'}}
                           </ng-template>
                         </td>
-                        <td (click)="haveAccess(item.id)" *ngIf="parameter.userType=='outside-broker'">
-                          <input name="have_dev_panel_access{{i}}"  class="form-control checkbox_size"
-                             type="checkbox" [checked]="item?.have_access ? 'checked' : ''" >
+                        <td *ngIf="parameter.userType=='outside-broker'">
+                          <input name="have_dev_panel_access{{i}}" disabled class="form-control checkbox_size" type="checkbox" 
+                          [checked]="item?.have_access ? 'checked' : ''" readonly> 
                         </td>
-                        
+                        <!-- <td  *ngIf="parameter.userType=='outside-broker'">
+                          <input name="have_access"  class="form-control checkbox_size"
+                             type="checkbox" [checked]="item?.have_access ? 'checked' : ''" (click)="toggleShow($event,item.id)">
+                        </td> -->
+                        <!-- [checked]="item?.have_access ? 'checked' : ''"  -->
                         <td>
                           <div class="table-actions">
                             <button *ngIf="parameter.userType=='outside-broker'" [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0 " 
@@ -537,7 +541,7 @@
         </div>
         <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-12 col-12" style="margin-top: 14px;">
-            <input type="checkbox" class="form-control" formControlName="is_send_email">
+            <input type="checkbox" class="form-control" [(ngModel)]="model.have_access" name="have_access">
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12 col-12">
             <p style="font-weight:bold;color: #000000b0;">{{'addForm.accesspanel' | translate}}</p>
