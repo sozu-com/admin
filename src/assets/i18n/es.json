@@ -786,6 +786,7 @@
       "companyCommercialName": "Nombre de la compañía (Nombre comercial)",
       "selectContributor": "Seleccionar colaborador",
       "contributor": "colaborador",
+      "statusHistory": "Historial de estado",
       "possesion": {
         "label": "Fecha de entrega",
         "park":"Estacionamientos",
@@ -1563,7 +1564,9 @@
     "addNewProperty": "+Agregar nuevo departamento",
     "invoice": "Factura",
     "chatWithSeller": "Chatear con el vendedor",
-    "chatWithCSRSeller": "Chatear con el vendedor CSR"
+    "chatWithCSRSeller": "Chatear con el vendedor CSR",
+    "leadStatusHistory": "Historial de estado del cliente potencial",
+    "noLeadStatusHistoryAavailable" : "No hay historial de estado de clientes potenciales disponible"
   },
   "viewACL": {
     "label": "Access Control Mgt.",

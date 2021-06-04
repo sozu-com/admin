@@ -788,6 +788,7 @@
       "companyCommercialName": "Company Name (Commercial Name)",
       "selectContributor": "Select Contributor",
       "contributor": "Contributor",
+      "statusHistory": "Status History",
       "possesion": {
         "label": "Possesion",
         "park":"Parking Lots",
@@ -1561,7 +1562,9 @@
     "addNewProperty": "+Add New Property",
     "invoice": "Invoice",
     "chatWithSeller": "Chat With Seller",
-    "chatWithCSRSeller": "Chat with CSR Seller"
+    "chatWithCSRSeller": "Chat with CSR Seller",
+    "leadStatusHistory": "Lead Status History",
+    "noLeadStatusHistoryAavailable" : "No lead status history available"
   },
   "viewACL": {
     "label": "Access Control Mgt.",
