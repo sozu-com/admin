@@ -54,6 +54,7 @@ export class UserModel {
     image: string;
     email: string;
     address: Array<NewAddress>;
+    have_access:any;
     is_broker_seller_dev: boolean;
     is_buyer_renter: boolean;
     is_broker: boolean;
