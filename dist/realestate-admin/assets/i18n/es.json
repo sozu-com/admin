@@ -786,6 +786,7 @@
       "companyCommercialName": "Nombre de la compañía (Nombre comercial)",
       "selectContributor": "Seleccionar colaborador",
       "contributor": "colaborador",
+      "statusHistory": "Historial de estado",
       "possesion": {
         "label": "Fecha de entrega",
         "park":"Estacionamientos",
@@ -1119,7 +1120,8 @@
       "collectionStatusChanged": "Estado de colección cambiado",
       "wantToReminderNote": "¿Quieres agregar un recordatorio?",
       "statusChangedSuccessfully": "El estado cambió con éxito.",
-      "access": "El acceso al panel se estableció correctamente."
+      "access": "Acceso dado con éxito",
+      "revoked": "Acceso revocado con éxito"
     },
     "error": {
       "pleaseSelectEitherInhouseOrOutsideAgent": "Por favor elija una de las Agentes Internas y Externas",
@@ -1329,6 +1331,8 @@
       "wantToBlockProject": "¿Quieres bloquear este proyecto?",
       "wantToUnBlockProject": "¿Quieres desbloquear este proyecto?",
       "wantToDeleteProject": "¿Quieres eliminar este proyecto?",
+      "wantToDeleteAcess": "¿Quieres dar acceso al panel?",
+      "wantToDeleteRvoke": "¿Quieres revocar el acceso al panel?",
       "wantToUnapproveProject": "¿Quieres desaprobar este proyecto?",
       "wantToDeleteEconomicDependent": "¿Quiere eliminar este dependiente económico?",
       "wantToDeleteBeneficiary": "¿Quiere eliminar este detalle del beneficiario?",
@@ -1560,7 +1564,9 @@
     "addNewProperty": "+Agregar nuevo departamento",
     "invoice": "Factura",
     "chatWithSeller": "Chatear con el vendedor",
-    "chatWithCSRSeller": "Chatear con el vendedor CSR"
+    "chatWithCSRSeller": "Chatear con el vendedor CSR",
+    "leadStatusHistory": "Historial de estado del cliente potencial",
+    "noLeadStatusHistoryAavailable" : "No hay historial de estado de clientes potenciales disponible"
   },
   "viewACL": {
     "label": "Access Control Mgt.",
