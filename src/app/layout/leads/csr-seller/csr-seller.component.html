@@ -450,8 +450,9 @@
                                 <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}" class="text-left">
                                     {{item.email}}
                                 </td>
-                                <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}" class="text-left">
-                                    {{item?.admin?.name? item?.admin?.name:('table.tr.td.NA' | translate)}}</td>
+                                <td class="text-left" (click)="openModel(item)">
+                                   <a class="green-color fontW500" href="javascript://"> {{item?.admin?.name? item?.admin?.name : ('leads.linkCSRSeller' | translate)}}</a>
+                                </td>
                                 <td class="text-left"
                                     (click)="getCSRSellerChat($event, 1, item.assigned_csr_seller_id, item.id)">
                                     <a class="green-color fontW500" href="javascript://">{{'table.th.chatWithSeller' |

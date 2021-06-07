@@ -217,6 +217,7 @@ export class AddAclComponent implements OnInit {
     input.append('is_csr_renter', this.model.is_csr_renter ? '1' : '0');
     input.append('is_alliance_agent', this.model.is_alliance_agent ? '1' : '0');
     input.append('is_cordinator', this.model.is_cordinator ? '1' : '0');
+    input.append('have_access', '1');
 
     if (this.model.is_external_agent && this.model.is_company == 'false') {
       input.append('adr', this.model.adr || '');
