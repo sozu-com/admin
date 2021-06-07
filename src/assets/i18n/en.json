@@ -727,6 +727,7 @@
       "price": "Price",
       "listPrice": "List price",
       "finalPrice": "Final price",
+      "finalPrice_per": "Final price per meter square",
       "Commercialoffers": "Commercial offers",
       "avergagePrice": "Price per m2",
       "Commercialofferslist": "Commercial offers list",
@@ -2464,7 +2465,8 @@
     "lastCommit": "Last Commit",
     "size": "Size",
     "docsCount": "Docs",
-    "finalprice":"Final Price"
+    "finalprice":"Final Price",
+    "finalpricesquare":"Final price per square meter"
   },
   "addCollectionValidations": {
     "thisIsRequired": "This is required",

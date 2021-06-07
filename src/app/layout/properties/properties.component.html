@@ -415,6 +415,9 @@
                         <th style="width:10%;vertical-align:top;">
                            <div (click)="sort_by(1)" class="d-flex table-search">
                               <label>{{'table.th.avergagePrice' | translate}}</label>
+                              <a href="javascript://"><img
+                                 [ngClass]="{'upsidedown':parameter.sort_by==6 && parameter.sort_by_order==0}"
+                                 src="assets/img/top-arrow.png" alt="img"></a>
                            </div>
                         </th>
                         <th style="width:10%;vertical-align:top;"  *ngIf="selectedPropertyColumnsToShow?.commercial_offers">
