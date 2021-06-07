@@ -139,6 +139,7 @@ export interface IProperty {
   address?: any;
   property_for?: any;
   dash_flag?: any;
+  price_sort?: any;
   sort_by?: any;
   sort_by_order?: any;
   sort_by_flag?: any;
