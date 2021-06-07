@@ -96,7 +96,7 @@ export class PropertyDetailsComponent implements OnInit {
           this.spinner.show();
           this.property = success.data
           //coverImage
-          if ((this.property || {}).image) {
+          if (this.property.configuration_toggle == 0) {
             this.admin
               .postDataApi('getCoverImage', {
                 image: (this.property || {}).image,
@@ -105,9 +105,18 @@ export class PropertyDetailsComponent implements OnInit {
                 this.spinner.hide()
                 this.coverImage = 'data:image/jpeg;base64,' + response.data
               })
+          }else{
+            this.admin
+            .postDataApi('getCoverImage', {
+              image: (this.property.building_configuration || {}).cover_profile,
+            })
+            .subscribe((response: any) => {
+              this.spinner.hide()
+              this.coverImage = 'data:image/jpeg;base64,' + response.data
+            })
           }
           //floorplan image
-          if ((this.property || {}).floor_plan) {
+          if (this.property.configuration_toggle == 0) {
             this.admin
               .postDataApi('getCoverImage', {
                 image: (this.property || {}).floor_plan,
@@ -116,21 +125,37 @@ export class PropertyDetailsComponent implements OnInit {
                 this.spinner.hide()
                 this.floorPlanImage = 'data:image/jpeg;base64,' + response.data
               })
-          }
-          //images
-          if ((this.property || {}).images) {
+          }else{
             this.admin
             .postDataApi('getCoverImage', {
-              image: (this.property || {}).images[0].image,
+              image: (this.property.building_configuration || {}).floor_map_image,
             })
             .subscribe((response: any) => {
               this.spinner.hide()
-              this.galleryImage = 'data:image/jpeg;base64,' + response.data
+              this.floorPlanImage = 'data:image/jpeg;base64,' + response.data
             })
+          }
+          //images
+          if (this.property.configuration_toggle == 0) {
+            (this.property || {}).images.forEach(x => {
+              this.admin.postDataApi('getCoverImage', {image: x.image })
+              .subscribe(success => {
+               const con = 'data:image/jpeg;base64,' + success.data;
+               x['image'] = con;
+              },error => {});
+             });
+          }else{
+            (this.property.building_configuration || {}).images.forEach(x => {
+              this.admin.postDataApi('getCoverImage', {image: x.image })
+              .subscribe(success => {
+               const con = 'data:image/jpeg;base64,' + success.data;
+               x['image'] = con;
+              },error => {});
+             });
           }
 
           //images 360
-          if ((this.property || {}).images360) {
+          if (this.property.configuration_toggle == 0) {
             this.admin
             .postDataApi('getCoverImage', {
               image: (this.property || {}).images360[0].image,
@@ -139,7 +164,17 @@ export class PropertyDetailsComponent implements OnInit {
               this.spinner.hide()
               this.image360 = 'data:image/jpeg;base64,' + response.data
             })
+          }else {
+            this.admin
+            .postDataApi('getCoverImage', {
+              image: (this.property.building_configuration || {}).images360[0].image,
+            })
+            .subscribe((response: any) => {
+              this.spinner.hide()
+              this.image360 = 'data:image/jpeg;base64,' + response.data
+            })
           }
+
           if (
             this.property.property_parking_space &&
             this.property.property_parking_space.length > 0
