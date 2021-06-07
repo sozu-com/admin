@@ -182,6 +182,7 @@ export class QuickVisualizationComponent implements OnInit {
         success => {
           this.spinner.hide();
           this.model = success['data'];
+          
           this.getParkingSpaceLots(((success.data || {}).property || {}).building_id);
           this.data2 = success['data2'];
           if (this.model.seller_type === 1) {

@@ -653,7 +653,7 @@
                     <span>{{('table.tr.td.NA' | translate)}}</span>
                   </td>
                   <td><span>{{(p?.final_price || 0) | currency}}</span></td>
-                  <td><span>{{(p?.final_price_per_m2 || 0) | currency}}</span></td>
+                  <td><span>{{(p?.avgg_price_per || 0) | currency}}</span></td>
                   <td><span>{{(p?.penalty || 0) | currency}}</span></td>
                   <td><span>{{(p?.total_payment_recieved || 0) | currency}}</span></td>
                   <td><span>{{p?.remaining | currency}}</span></td>
