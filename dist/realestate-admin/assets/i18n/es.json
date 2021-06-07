@@ -725,6 +725,7 @@
       "price": "Precio",
       "listPrice": "Precio de lista",
       "finalPrice": "Precio final",
+      "finalPrice_per": "Precio final por metros cuadrados",
       "Commercialoffers": "Ofertas comerciales",
       "avergagePrice": "Precio por m2",
       "Commercialofferslist": "Lista de ofertas comerciales",
@@ -1152,7 +1153,8 @@
       "noProjectAmenityFound": "¡Amenidad no encontrada!",
       "noUserFound": "¡Usuario no encontrado!",
       "noInterstedPropertyFound": "¡Ningún interés agregado por el usuario!",
-      "noViewedPropertyFound": "Ninguna departamento o proyecto visto por usted.",
+      "noViewedPropertyFound": "Ninguna propiedad vista por el usuario..",
+      "noViewedProjectFound": "Ningún proyecto visto por el usuario.",
       "noNoteFound": "No hay notas para mostrar.",
       "noRecordFound": "Ningún registro encontrado",
       "noApprovedCollectionFound": "No se encontró una colección aprobada.",
@@ -1672,7 +1674,8 @@
     "linkAgent": "Agente de enlace",
     "linkCSRAgent": "Agente de enlace CSR",
     "linkAgents": "link Agent",
-    "linkCSRBuyer": "Comprador de enlace CSR",
+    "linkCSRBuyer": "vendedor de enlace CSR",
+    "linkCSRSeller": "Agente de enlace CSR",
     "status": "Estado"
   },
   "propertyDetail": {
@@ -2461,7 +2464,8 @@
     "lastCommit": "Último compromiso",
     "size": "Talla",
     "docsCount": "Docs",
-    "finalPrice":"Precio final"
+    "finalPrice":"Precio final",
+    "finalpricesquare":"Precio final por metro cuadrado"
   },
   "addCollectionValidations": {
     "thisIsRequired": "Esto es requerido",
