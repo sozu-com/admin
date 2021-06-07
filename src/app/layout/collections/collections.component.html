@@ -435,6 +435,11 @@
                       <label>{{'table.th.finalPrice' | translate}}</label>
                     </div>
                   </th>
+                  <th style="text-align:left; width: 120px;">
+                    <div class="table-search">
+                      <label>{{'table.th.finalPrice_per' | translate}}</label>
+                    </div>
+                  </th>
                   <th style="text-align:left; width: 100px;">
                     <div class="table-search">
                       <label>{{'table.th.penalty' | translate}}</label>
@@ -648,6 +653,7 @@
                     <span>{{('table.tr.td.NA' | translate)}}</span>
                   </td>
                   <td><span>{{(p?.final_price || 0) | currency}}</span></td>
+                  <td><span>{{(p?.final_price_per_m2 || 0) | currency}}</span></td>
                   <td><span>{{(p?.penalty || 0) | currency}}</span></td>
                   <td><span>{{(p?.total_payment_recieved || 0) | currency}}</span></td>
                   <td><span>{{p?.remaining | currency}}</span></td>

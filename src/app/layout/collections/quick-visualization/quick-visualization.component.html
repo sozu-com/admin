@@ -420,6 +420,10 @@
               <th>{{'quickVisualization.finalprice' | translate}}:</th>
               <td>{{(model?.property?.final_price || 0) | currency}}</td>
             </tr>
+            <tr>
+              <th>{{'quickVisualization.finalpricesquare' | translate}}:</th>
+              <td>{{(model?.property?.final_price_per_m2 || 0) | currency}}</td>
+            </tr>
           </tbody>
         </table>
       </div>
