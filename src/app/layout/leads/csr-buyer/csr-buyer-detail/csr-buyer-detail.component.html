@@ -204,10 +204,10 @@
     </app-viewed-property>
     <!-- viewed property end -->
 
-    <!-- viewed projects start -->
+    <!-- Interested projects start -->
     <app-interested-project *ngIf="parameter?.lead_id || parameter?.user_id" [lead_id]="parameter.lead_id" [user_id]="leadData?.user_id" [viewed_projects]="parameter.interested_projects">
     </app-interested-project>
-    <!-- viewed projects end -->
+    <!-- Interested projects end -->
 
     <!-- viewed projects start -->
     <app-viewed-projects *ngIf="parameter?.lead_id || parameter?.user_id" [user_id]="parameter?.user_id" [viewed_projects]="parameter.viewed_projects">

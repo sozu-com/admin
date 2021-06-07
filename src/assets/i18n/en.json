@@ -1152,7 +1152,8 @@
       "noProjectAmenityFound": "No amenity found!",
       "noUserFound": "No user found!",
       "noInterstedPropertyFound": "No interests added by user.",
-      "noViewedPropertyFound": "No property or project viewed by you.",
+      "noViewedPropertyFound": "No property viewed by user.",
+      "noViewedProjectFound": "No project viewed by user.",
       "noNoteFound": "No notes to show.",
       "noRecordFound": "No record found",
       "noApprovedCollectionFound": "No approved collection found",
@@ -1672,6 +1673,7 @@
     "selectStatus": "Select status",
     "linkAgents": "link Agent",
     "linkCSRBuyer": "Link CSR Buyer",
+    "linkCSRSeller": "Link CSR Seller",
     "status": "Status"
   },
   "propertyDetail": {

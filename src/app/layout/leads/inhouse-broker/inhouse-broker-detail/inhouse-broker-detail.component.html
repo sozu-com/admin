@@ -197,8 +197,13 @@
   <!-- Interested Properties end -->
 
   <!-- viewed property or projects start -->
-  <app-viewed-property [user_id]="leadData?.user_id" [viewed_properties]="parameter.viewed_properties"></app-viewed-property>
+  <app-viewed-property [user_id]="parameter?.lead_id" [viewed_properties]="parameter.viewed_properties"></app-viewed-property>
   <!-- viewed property or projects end -->
+
+  <!-- Interested projects start -->
+  <app-interested-project *ngIf="parameter?.lead_id || parameter?.user_id" [lead_id]="parameter.lead_id" [user_id]="parameter?.user_id" [viewed_projects]="parameter.interested_projects">
+</app-interested-project>
+<!-- Interested projects end -->
 
   <!-- viewed projects start -->
   <app-viewed-projects [user_id]="leadData?.user_id" [viewed_projects]="parameter.viewed_projects"></app-viewed-projects>

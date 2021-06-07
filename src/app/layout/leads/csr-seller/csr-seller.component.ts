@@ -8,6 +8,7 @@ import { Users } from 'src/app/models/users.model';
 import { AdminService } from 'src/app/services/admin.service';
 import { LeadsService } from 'src/app/services/leads.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 declare let swal: any;
 
 @Component({
@@ -42,6 +43,8 @@ export class CsrSellerComponent implements OnInit {
 
   chartView: any = [];
   locale: any;
+  user: any;
+  selected_lead: any;
   constructor(
     public admin: AdminService,
     public leadsService: LeadsService,
@@ -49,11 +52,13 @@ export class CsrSellerComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private spinner: NgxSpinnerService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private toastr: ToastrService
+
   ) { }
 
   ngOnInit() {
-
+    this.user = localStorage.getItem('all') ? JSON.parse(localStorage.getItem('all')) : undefined;
     this.locale = {
       firstDayOfWeek: 0,
       dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
@@ -355,11 +360,11 @@ export class CsrSellerComponent implements OnInit {
 
   assignNow() {
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
-    const users_ids = this.items.filter(x => x.selected).map(y => y.admin.id);
+    //const users_ids = this.items.filter(x => x.selected).map(y => y.admin.id);
     const input = {
       csr_seller_id: this.assignItem.id,
       leads: leads_ids,
-      users: users_ids
+      //users: users_ids
     };
     this.spinner.show();
     this.admin.postDataApi('leads/bulkAssignSeller', input).subscribe(r => {
@@ -368,6 +373,11 @@ export class CsrSellerComponent implements OnInit {
       this.closeAssignModel.nativeElement.click();
       this.getListing();
       this.allSelected = false;
+      this.items.filter(item=>{
+        if(item.selected){
+          item.selected = false;
+        }
+      });
     },
       error => {
         this.spinner.hide();
@@ -383,5 +393,26 @@ export class CsrSellerComponent implements OnInit {
     } else {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.noCSRSellerAssigned'), 'error');
     }
+  }
+
+  openModel(selected) {
+    this.user = JSON.parse(localStorage.getItem('all'));
+    if(this.user.data.permissions.all_geo_access == 1 || this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_cordinator == 1){
+    this.selected_lead = selected;
+    this.items.filter(item=>{
+      if(item.id == selected.id){
+        item.selected = true;
+      }
+      else{
+        item.selected = false;
+      }
+    });
+    this.assign.keyword=null;
+    this.getAssignListing();
+    this.openAssignModel.nativeElement.click();
+  }
+  else{
+    this.toastr.warning(this.translate.instant('message.error.SorryYouDoNotHaveThePermissionToGoThere'), this.translate.instant('swal.warning'))
+  }
   }
 }
