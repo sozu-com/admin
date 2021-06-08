@@ -968,7 +968,7 @@ export class AddProjectComponent implements OnInit {
     this.file4.reset();
   }
 
-  openConfigPopupFun(config) {
+  openConfigPopupFun() {
     this.openConfigPopup.nativeElement.click();
     this.addConfig.nativeElement.reset();
     this.new_config = new Configuration;
