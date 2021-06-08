@@ -311,7 +311,7 @@
                               admin?.admin_acl['Cordinator Agent Management']?.can_update == 0 && parameter.userType=='cordinator-agents'"
                             (click)="getACLById(item.id)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                            
-                            <button title="{{'table.title.editDetails' | translate}}" *ngIf="parameter.userType=='outside-broker'"
+                            <button class="edit" title="{{'table.title.editDetails' | translate}}" *ngIf="parameter.userType=='outside-broker'"
                             [disabled]="admin?.admin_acl['Data Collector Management']?.can_update==0 && parameter.userType=='data-collectors' ||
                               admin?.admin_acl['Seller Management']?.can_update==0 && parameter.userType=='csr-sellers' ||
                               admin?.admin_acl['Buyer Management']?.can_update==0 && parameter.userType=='csr-buyers' ||
@@ -323,7 +323,8 @@
                               admin?.admin_acl['Outside Agent Management']?.can_update==0 && parameter.userType=='outside-broker' || 
                               admin?.admin_acl['Alliance Agent Management']?.can_update == 0 && parameter.userType=='alliance-agents' || 
                               admin?.admin_acl['Cordinator Agent Management']?.can_update == 0 && parameter.userType=='cordinator-agents'"
-                            (click)="getOutsideAgentById(item)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                            (click)="getOutsideAgentById(item)" class="action-icon" [disabled]="item?.have_access==1">
+                            <img src="assets/img/edit.png" alt="img"></button>
 
                             <button [disabled]="admin?.admin_acl['Data Collector Management']?.can_delete==0 && parameter.userType=='data-collectors' ||
                               admin?.admin_acl['Seller Management']?.can_delete==0 && parameter.userType=='csr-sellers' ||

@@ -256,7 +256,6 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    
     this.language_code = localStorage.getItem('language_code');
     this.admin.globalSettings$.subscribe(success => {
       this.cashLimit = success['cash_limit'];
@@ -404,14 +403,12 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         this.total = success.total_count;
 
         this.items.forEach(function (element) {
-            element['avgg_price_per'] = (((parseFloat(element.final_price) || 0) / (parseFloat(element.final_price_per_m2) || 0)));
+          element['avgg_price_per'] = (((parseFloat(element.final_price) || 0) / (parseFloat(element.final_price_per_m2) || 0)));
         });
         
         // fetching payment status
         for (let index = 0; index < this.items.length; index++) {
           const element = this.items[index];
-          console.log(element.cancellation_commission_status,"status");
-          this.cancel_commission_status = element.cancellation_commission_status;
           this.paid_purchase_commision_amount = element.paid_purchase_commision_amount;
           this.paid_agent_commision_amount = element.paid_agent_commision_amount;
           this.paid_collection_commision_amount = element.paid_collection_commision_amount;
@@ -2122,6 +2119,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
 
   showCollectionCommReceipt(item: any, i: number, type: string) {
     this.property_collection_id = item.id;
+    this.cancel_commission_status = item.cancellation_commission_status;
     this.selectedItem = item;
     this.collectionIndex = i;
     this.paymentConcepts = item.collection_commissions;
