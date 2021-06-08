@@ -22,6 +22,7 @@ export class Collection {
     buyer: Seller;
     final_price: string;
     final_price_per_m2: string;
+    cancellation_commission:any;
     availabilityStatusId: string;
     is_property_sold: boolean;
     deal_price: number;
