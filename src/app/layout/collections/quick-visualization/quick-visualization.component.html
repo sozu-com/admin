@@ -3,24 +3,27 @@
     <div class="col-lg-9 col-md-11 col-6">
       <div class="title-group">
         <h5><a routerLink="/dashboard/collections/view-collections/{{property_collection_id}}" href="javascript://"><i
-              class="fa fa-angle-double-left" style="font-size: 1.5em;"></i> </a> &nbsp;&nbsp;{{'quickVisualization.label' | translate}}</h5>
+              class="fa fa-angle-double-left" style="font-size: 1.5em;"></i> </a>
+          &nbsp;&nbsp;{{'quickVisualization.label' | translate}}</h5>
       </div>
     </div>
-     
+
     <div class="col-lg-2 col-md-2 col-6">
       <div class="btn-cont text-right">
-          <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#addInhouseUser" #inhouseUserModalOpen>{{'table.addNewBtn' | translate}}</a>
-          <button class="btn btn-primary-new" href="javascript://" (click)="showApplyPaymentPopup()" [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0">
-            {{'table.title.applyPayment' | translate}}
-          </button>
-        </div>
+        <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#addInhouseUser"
+          #inhouseUserModalOpen>{{'table.addNewBtn' | translate}}</a>
+        <button class="btn btn-primary-new" href="javascript://" (click)="showApplyPaymentPopup()"
+          [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0">
+          {{'table.title.applyPayment' | translate}}
+        </button>
+      </div>
     </div>
 
     <div class="col-lg-1 col-md-1 col-6">
       <div class="btn-cont text-right">
-          <a routerLink="/dashboard/collections/view-collections" 
-          class="btn btn-primary-new" href="javascript://">{{'quickVisualization.back' | translate}}</a>
-        </div>
+        <a routerLink="/dashboard/collections/view-collections" class="btn btn-primary-new"
+          href="javascript://">{{'quickVisualization.back' | translate}}</a>
+      </div>
     </div>
   </div>
 
@@ -30,499 +33,612 @@
   <div class="row cust-tabs">
     <div class="col-md-4">
 
-        <div class="table-responsive">
-          <table class="table table-bordered white-bg">
-            <tbody id="accordion">
+      <div class="table-responsive">
+        <table class="table table-bordered white-bg">
+          <tbody id="accordion">
+            <tr>
+              <th rowspan="3">{{'quickVisualization.buyer' | translate}}:</th>
+              <td *ngIf="model?.buyer_type==2">
+                {{model?.buyer_legal_entity?.comm_name || ('table.tr.td.NA' | translate)}}
+              </td>
+              <td *ngIf="model?.buyer_type!=2">
+                {{model?.buyer?.name ? (model?.buyer?.name + ' ' + model?.buyer?.first_surname + ' ' +
+                model?.buyer?.second_surname) : ('table.tr.td.NA' | translate)}}
+              </td>
+            </tr>
+            <tr>
+              <td *ngIf="model?.buyer_type==2">{{model?.buyer_legal_entity?.email || ('table.tr.td.NA' | translate)}}
+              </td>
+              <td *ngIf="model?.buyer_type!=2">{{model?.buyer?.email || ('table.tr.td.NA' | translate)}}</td>
+            </tr>
+            <tr>
+              <td *ngIf="model?.buyer_type==2">{{model?.buyer_legal_entity?.phone ? model?.buyer_legal_entity?.dial_code
+                + ' ' + model?.buyer_legal_entity?.phone : ('table.tr.td.NA' | translate)}}</td>
+              <td *ngIf="model?.buyer_type!=2">{{model?.buyer?.phone ? model?.buyer?.dial_code + ' ' +
+                model?.buyer?.phone : ('table.tr.td.NA' | translate)}}</td>
+            </tr>
+            <ng-container *ngFor="let buyer_bank of buyerBanks; let sb=index">
               <tr>
-                <th rowspan="3">{{'quickVisualization.buyer' | translate}}:</th>
-                <td *ngIf="model?.buyer_type==2">
-                  {{model?.buyer_legal_entity?.comm_name || ('table.tr.td.NA' | translate)}}
+                <td></td>
+                <td>
+                  <a class="black" data-toggle="collapse" data-parent="#accordion" href="#collapseBB{{sb}}">
+                    <b>Bank {{sb+1}}</b>
+                  </a>
                 </td>
-                <td *ngIf="model?.buyer_type!=2">
-                  {{model?.buyer?.name ? (model?.buyer?.name + ' ' + model?.buyer?.first_surname + ' ' + model?.buyer?.second_surname) : ('table.tr.td.NA' | translate)}}
+              </tr>
+              <tr id="collapseBB{{sb}}" class="panel-collapse collapse">
+                <td></td>
+                <table [style.width]="'100%'">
+                  <tbody>
+                    <tr>
+                      <th>{{'quickVisualization.bankName' | translate}}</th>
+                    </tr>
+                    <tr>
+                      <td>{{buyer_bank?.bank_name || 'NA'}}</td>
+                    </tr>
+                    <tr>
+                      <th>{{'quickVisualization.accountNumber' | translate}}</th>
+                    </tr>
+                    <tr>
+                      <td>{{buyer_bank?.account_number || 'NA'}}</td>
+                    </tr>
+                    <tr>
+                      <th>{{'quickVisualization.clabeSwift' | translate}}</th>
+                    </tr>
+                    <tr>
+                      <td>{{buyer_bank?.swift || 'NA'}}</td>
+                    </tr>
+                    <tr>
+                      <th>{{'quickVisualization.currency' | translate}}</th>
+                    </tr>
+                    <tr>
+                      <td>{{buyer_bank?.currency?.code || 'NA'}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-bordered white-bg">
+          <tbody>
+            <tr>
+              <th rowspan="3">{{'quickVisualization.seller' | translate}}:</th>
+              <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.comm_name || ('table.tr.td.NA' |
+                translate)}}</td>
+              <td *ngIf="model?.seller_type!=2">
+                {{model?.seller?.name ? (model?.seller?.name + ' ' + model?.seller?.first_surname + ' ' +
+                model?.seller?.second_surname) : ('table.tr.td.NA' | translate)}}
+              </td>
+            </tr>
+            <tr>
+              <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.email || ('table.tr.td.NA' | translate)}}
+              </td>
+              <td *ngIf="model?.seller_type!=2">{{model?.seller?.email || ('table.tr.td.NA' | translate)}}</td>
+            </tr>
+            <tr>
+              <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.phone ?
+                model?.seller_legal_entity?.dial_code + ' ' + model?.seller_legal_entity?.phone : ('table.tr.td.NA' |
+                translate)}}</td>
+              <td *ngIf="model?.seller_type!=2">{{model?.seller?.phone ? model?.seller?.dial_code + ' ' +
+                model?.seller?.phone : ('table.tr.td.NA' | translate)}}</td>
+            </tr>
+            <ng-container *ngFor="let seller_bank of sellerBanks; let sb=index">
+              <tr>
+                <td></td>
+                <td>
+                  <a class="black" data-toggle="collapse" data-parent="#accordion" href="#collapseSB{{sb}}">
+                    <b>Bank {{sb+1}}</b>
+                  </a>
                 </td>
               </tr>
-              <tr>
-                <td *ngIf="model?.buyer_type==2">{{model?.buyer_legal_entity?.email || ('table.tr.td.NA' | translate)}}</td>
-                <td *ngIf="model?.buyer_type!=2">{{model?.buyer?.email || ('table.tr.td.NA' | translate)}}</td>
+              <tr id="collapseSB{{sb}}" class="panel-collapse collapse">
+                <td></td>
+                <table [style.width]="'100%'">
+                  <tbody>
+                    <tr>
+                      <th>{{'quickVisualization.bankName' | translate}}</th>
+                    </tr>
+                    <tr>
+                      <td>{{seller_bank?.bank_name || 'NA'}}</td>
+                    </tr>
+                    <tr>
+                      <th>{{'quickVisualization.accountNumber' | translate}}</th>
+                    </tr>
+                    <tr>
+                      <td>{{seller_bank?.account_number || 'NA'}}</td>
+                    </tr>
+                    <tr>
+                      <th>{{'quickVisualization.clabeSwift' | translate}}</th>
+                    </tr>
+                    <tr>
+                      <td>{{seller_bank?.swift || 'NA'}}</td>
+                    </tr>
+                    <tr>
+                      <th>{{'quickVisualization.currency' | translate}}</th>
+                    </tr>
+                    <tr>
+                      <td>{{seller_bank?.currency?.code || 'NA'}}</td>
+                    </tr>
+                  </tbody>
+                </table>
               </tr>
-              <tr>
-                <td *ngIf="model?.buyer_type==2">{{model?.buyer_legal_entity?.phone ? model?.buyer_legal_entity?.dial_code + ' ' + model?.buyer_legal_entity?.phone : ('table.tr.td.NA' | translate)}}</td>
-                <td *ngIf="model?.buyer_type!=2">{{model?.buyer?.phone ? model?.buyer?.dial_code + ' ' + model?.buyer?.phone : ('table.tr.td.NA' | translate)}}</td>
-              </tr>
-              <ng-container *ngFor="let buyer_bank of buyerBanks; let sb=index">
-                <tr>
-                  <td></td>
-                  <td>
-                   <a class="black" data-toggle="collapse" data-parent="#accordion" href="#collapseBB{{sb}}">
-                     <b>Bank {{sb+1}}</b>
-                    </a>
-                  </td>
-                </tr>
-                <tr id="collapseBB{{sb}}" class="panel-collapse collapse">
-                  <td></td>
-                  <table [style.width]="'100%'">
-                    <tbody>
-                      <tr><th>{{'quickVisualization.bankName' | translate}}</th></tr>
-                      <tr><td>{{buyer_bank?.bank_name || 'NA'}}</td></tr>
-                      <tr><th>{{'quickVisualization.accountNumber' | translate}}</th></tr>
-                      <tr><td>{{buyer_bank?.account_number || 'NA'}}</td></tr>
-                      <tr><th>{{'quickVisualization.clabeSwift' | translate}}</th></tr>
-                      <tr><td>{{buyer_bank?.swift || 'NA'}}</td></tr>
-                      <tr><th>{{'quickVisualization.currency' | translate}}</th></tr>
-                      <tr><td>{{buyer_bank?.currency?.code || 'NA'}}</td></tr>
-                    </tbody>
-                    </table>
-                </tr>
-              </ng-container>
-            </tbody>
-          </table>
-        </div>
-          <div class="table-responsive">
-            <table class="table table-bordered white-bg">
-              <tbody>
-                <tr>
-                  <th rowspan="3">{{'quickVisualization.seller' | translate}}:</th>
-                  <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.comm_name || ('table.tr.td.NA' | translate)}}</td>
-                  <td *ngIf="model?.seller_type!=2">
-                    {{model?.seller?.name ? (model?.seller?.name + ' ' + model?.seller?.first_surname + ' ' + model?.seller?.second_surname) : ('table.tr.td.NA' | translate)}}
-                  </td>
-                </tr>
-                <tr>
-                  <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.email || ('table.tr.td.NA' | translate)}}</td>
-                  <td *ngIf="model?.seller_type!=2">{{model?.seller?.email || ('table.tr.td.NA' | translate)}}</td>
-                </tr>
-                <tr>
-                  <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.phone ? model?.seller_legal_entity?.dial_code + ' ' + model?.seller_legal_entity?.phone : ('table.tr.td.NA' | translate)}}</td>
-                  <td *ngIf="model?.seller_type!=2">{{model?.seller?.phone ? model?.seller?.dial_code + ' ' + model?.seller?.phone : ('table.tr.td.NA' | translate)}}</td>
-                </tr>
-                <ng-container *ngFor="let seller_bank of sellerBanks; let sb=index">
-                  <tr>
-                    <td></td>
-                    <td>
-                     <a class="black" data-toggle="collapse" data-parent="#accordion" href="#collapseSB{{sb}}">
-                       <b>Bank {{sb+1}}</b>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr id="collapseSB{{sb}}" class="panel-collapse collapse">
-                    <td></td>
-                    <table [style.width]="'100%'">
-                      <tbody>
-                        <tr><th>{{'quickVisualization.bankName' | translate}}</th></tr>
-                        <tr><td>{{seller_bank?.bank_name || 'NA'}}</td></tr>
-                        <tr><th>{{'quickVisualization.accountNumber' | translate}}</th></tr>
-                        <tr><td>{{seller_bank?.account_number || 'NA'}}</td></tr>
-                        <tr><th>{{'quickVisualization.clabeSwift' | translate}}</th></tr>
-                        <tr><td>{{seller_bank?.swift || 'NA'}}</td></tr>
-                        <tr><th>{{'quickVisualization.currency' | translate}}</th></tr>
-                        <tr><td>{{seller_bank?.currency?.code || 'NA'}}</td></tr>
-                      </tbody>
-                      </table>
-                  </tr>
-                </ng-container>
-              </tbody>
-            </table>
-          </div>
-          <div class="table-responsive">
-            <table class="table table-bordered white-bg">
-              <tbody>
-                <tr>
-                  <th rowspan="3">
-                    {{model?.deal_commission_agents?.length>0 && model?.deal_commission_agents[0]?.broker?.is_external_agent==1 ? ('quickVisualization.outsideAgent' | translate) : ('quickVisualization.inhouseAgent' | translate)}}:
-                  </th>
-                  <td>
-                    {{model?.deal_commission_agents?.length>0 ? 
-                      (model?.deal_commission_agents[0]?.broker?.name + ' ' + model?.deal_commission_agents[0]?.broker?.first_surname + ' ' +model?.deal_commission_agents[0]?.broker?.second_surname) : 
-                      ('table.tr.td.NA' | translate)}}</td>
-                </tr>
-                <tr>
-                  <td>{{model?.deal_commission_agents?.length>0 ? model?.deal_commission_agents[0]?.broker?.email : ('table.tr.td.NA' | translate)}}</td>
-                </tr>
-                <tr>
-                  <td>{{model?.deal_commission_agents?.length>0 ? model?.deal_commission_agents[0]?.broker?.dial_code + ' ' +model?.deal_commission_agents[0]?.broker?.phone : ('table.tr.td.NA' | translate)}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-bordered white-bg">
+          <tbody>
+            <tr>
+              <th rowspan="3">
+                {{model?.deal_commission_agents?.length>0 &&
+                model?.deal_commission_agents[0]?.broker?.is_external_agent==1 ? ('quickVisualization.outsideAgent' |
+                translate) : ('quickVisualization.inhouseAgent' | translate)}}:
+              </th>
+              <td>
+                {{model?.deal_commission_agents?.length>0 ?
+                (model?.deal_commission_agents[0]?.broker?.name + ' ' +
+                model?.deal_commission_agents[0]?.broker?.first_surname + ' '
+                +model?.deal_commission_agents[0]?.broker?.second_surname) :
+                ('table.tr.td.NA' | translate)}}</td>
+            </tr>
+            <tr>
+              <td>{{model?.deal_commission_agents?.length>0 ? model?.deal_commission_agents[0]?.broker?.email :
+                ('table.tr.td.NA' | translate)}}</td>
+            </tr>
+            <tr>
+              <td>{{model?.deal_commission_agents?.length>0 ? model?.deal_commission_agents[0]?.broker?.dial_code + ' '
+                +model?.deal_commission_agents[0]?.broker?.phone : ('table.tr.td.NA' | translate)}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <div class="col-md-1"></div>
 
     <div class="col-md-4">
 
-          <div class="table-responsive">
-            <table class="table table-bordered white-bg">
-              <tbody>
-                <tr>
-                  <th rowspan="3">{{'quickVisualization.buyerLegal' | translate}} <br> {{'quickVisualization.representativeContact' | translate}}:</th>
-                    <td *ngIf="model?.buyer_type==1">
-                      {{model?.buyer?.legal_representative?.name ? (model?.buyer?.legal_representative?.name + ' ' + model?.buyer?.legal_representative?.first_surname + ' ' + model?.buyer?.legal_representative?.second_surname) : ('table.tr.td.NA' | translate)}}
-                    </td>
-                    <td *ngIf="model?.buyer_type==2">
-                      {{model?.buyer_legal_entity?.legal_reps?.name ? (model?.buyer_legal_entity?.legal_reps?.name + ' ' +model?.buyer_legal_entity?.legal_reps?.first_surname + ' ' + model?.buyer_legal_entity?.legal_reps?.second_surname) : ('table.tr.td.NA' | translate)}}
-                    </td>
-                    <td *ngIf="model?.buyer_type==3">
-                      {{model?.buyer?.legal_representative?.name ? (model?.buyer?.legal_representative?.name + ' ' + model?.buyer?.legal_representative?.first_surname + ' ' + model?.buyer?.legal_representative?.second_surname) : ('table.tr.td.NA' | translate)}}
-                    </td>
-                 </tr>
-                <tr>
-                  <td *ngIf="model?.buyer_type==1">{{model?.buyer_leg_rep_email || ('table.tr.td.NA' | translate)}}</td>
-                  <td *ngIf="model?.buyer_type==2">{{model?.buyer_legal_entity?.legal_reps?.email || ('table.tr.td.NA' | translate)}}</td>
-                  <td *ngIf="model?.buyer_type==3">{{model?.buyer?.legal_representative?.email || ('table.tr.td.NA' | translate)}}</td>
-                 </tr>
-                <tr>
-                  <td *ngIf="model?.buyer_type==1">{{model?.buyer_leg_rep_phone ? model?.buyer?.dial_code + ' '+ model?.buyer_leg_rep_phone : ('table.tr.td.NA' | translate)}}</td>
-                  <td *ngIf="model?.buyer_type==2">{{model?.buyer_legal_entity?.legal_reps?.phone ? model?.buyer_legal_entity?.legal_reps?.dial_code + ' '+ model?.buyer_legal_entity?.legal_reps?.phone : ('table.tr.td.NA' | translate)}}</td>
-                  <td *ngIf="model?.buyer_type==3">{{model?.buyer?.legal_representative?.phone ? model?.buyer?.dial_code + ' ' + model?.buyer?.legal_representative?.phone : ('table.tr.td.NA' | translate)}}</td>
-                </tr>
-                <ng-container *ngFor="let buyer_rep_banks of buyerRepBanks; let sb=index">
-                  <tr>
-                    <td></td>
-                    <td>
-                     <a class="black" data-toggle="collapse" data-parent="#accordion" href="#collapseBRB{{sb}}">
-                       <b>Bank {{sb+1}}</b>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr id="collapseBRB{{sb}}" class="panel-collapse collapse">
-                    <td></td>
-                    <table [style.width]="'100%'">
-                      <tbody>
-                        <tr><th>{{'quickVisualization.bankName' | translate}}</th></tr>
-                        <tr><td>{{buyer_rep_banks?.bank_name || 'NA'}}</td></tr>
-                        <tr><th>{{'quickVisualization.accountNumber' | translate}}</th></tr>
-                        <tr><td>{{buyer_rep_banks?.account_number || 'NA'}}</td></tr>
-                        <tr><th>{{'quickVisualization.clabeSwift' | translate}}</th></tr>
-                        <tr><td>{{buyer_rep_banks?.swift || 'NA'}}</td></tr>
-                        <tr><th>{{'quickVisualization.currency' | translate}}</th></tr>
-                        <tr><td>{{buyer_rep_banks?.currency?.code || 'NA'}}</td></tr>
-                      </tbody>
-                      </table>
-                  </tr>
-                </ng-container>
-              </tbody>
-            </table>
-          </div>
-            <div class="table-responsive">
-              <table class="table table-bordered white-bg">
-                <tbody>
-                  <tr>
-                    <th rowspan="3">{{'quickVisualization.sellerLegal' | translate}} <br> {{'quickVisualization.representativeContact' | translate}}:</th>
-                    <td *ngIf="model?.seller_type==1">
-                      {{model?.seller?.legal_representative?.name ? (model?.seller?.legal_representative?.name + ' ' + model?.seller?.legal_representative?.first_surname + ' ' + model?.seller?.legal_representative?.second_surname) : ('table.tr.td.NA' | translate)}}
-                    </td>
-                    <td *ngIf="model?.seller_type==2">
-                      {{model?.seller_legal_entity?.legal_reps?.name ? (model?.seller_legal_entity?.legal_reps?.name + ' ' +model?.seller_legal_entity?.legal_reps?.first_surname + ' ' + model?.seller_legal_entity?.legal_reps?.second_surname) : ('table.tr.td.NA' | translate)}}
-                    </td>
-                    <td *ngIf="model?.seller_type==3">
-                      {{model?.seller?.legal_representative?.name ? (model?.seller?.legal_representative?.name + ' ' + model?.seller?.legal_representative?.first_surname + ' ' + model?.seller?.legal_representative?.second_surname) : ('table.tr.td.NA' | translate)}}
-                    </td>
-                 </tr>
-                <tr>
-                  <td *ngIf="model?.seller_type==1">{{model?.seller_leg_rep_email || ('table.tr.td.NA' | translate)}}</td>
-                  <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.legal_reps?.email || ('table.tr.td.NA' | translate)}}</td>
-                  <td *ngIf="model?.seller_type==3">{{model?.seller?.legal_representative?.email || ('table.tr.td.NA' | translate)}}</td>
-                 </tr>
-                 <tr>
-                   <td *ngIf="model?.seller_type==1">{{model?.seller_leg_rep_phone ? model?.seller?.dial_code + ' '+ model?.seller_leg_rep_phone : ('table.tr.td.NA' | translate)}}</td>
-                   <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.legal_reps?.phone ? model?.seller_legal_entity?.legal_reps?.dial_code + ' '+ model?.seller_legal_entity?.legal_reps?.phone : ('table.tr.td.NA' | translate)}}</td>
-                   <td *ngIf="model?.seller_type==3">{{model?.seller?.legal_representative?.phone ? model?.seller?.dial_code + ' ' + model?.seller?.legal_representative?.phone : ('table.tr.td.NA' | translate)}}</td>
-                 </tr>
-                 <ng-container *ngFor="let seller_rep_banks of sellerRepBanks; let sb=index">
-                   <tr>
-                     <td></td>
-                     <td>
-                      <a class="black" data-toggle="collapse" data-parent="#accordion" href="#collapseSRB{{sb}}">
-                        <b>Bank {{sb+1}}</b>
-                       </a>
-                     </td>
-                   </tr>
-                   <tr id="collapseSRB{{sb}}" class="panel-collapse collapse">
-                     <td></td>
-                     <table [style.width]="'100%'">
-                       <tbody>
-                         <tr><th>{{'quickVisualization.bankName' | translate}}</th></tr>
-                         <tr><td>{{seller_rep_banks?.bank_name || 'NA'}}</td></tr>
-                         <tr><th>{{'quickVisualization.accountNumber' | translate}}</th></tr>
-                         <tr><td>{{seller_rep_banks?.account_number || 'NA'}}</td></tr>
-                         <tr><th>{{'quickVisualization.clabeSwift' | translate}}</th></tr>
-                         <tr><td>{{seller_rep_banks?.swift || 'NA'}}</td></tr>
-                         <tr><th>{{'quickVisualization.currency' | translate}}</th></tr>
-                         <tr><td>{{seller_rep_banks?.currency?.code || 'NA'}}</td></tr>
-                       </tbody>
-                       </table>
-                   </tr>
-                 </ng-container>
-                </tbody>
-              </table>
-            </div>
+      <div class="table-responsive">
+        <table class="table table-bordered white-bg">
+          <tbody>
+            <tr>
+              <th rowspan="3">{{'quickVisualization.buyerLegal' | translate}} <br>
+                {{'quickVisualization.representativeContact' | translate}}:</th>
+              <td *ngIf="model?.buyer_type==1">
+                {{model?.buyer?.legal_representative?.name ? (model?.buyer?.legal_representative?.name + ' ' +
+                model?.buyer?.legal_representative?.first_surname + ' ' +
+                model?.buyer?.legal_representative?.second_surname) : ('table.tr.td.NA' | translate)}}
+              </td>
+              <td *ngIf="model?.buyer_type==2">
+                {{model?.buyer_legal_entity?.legal_reps?.name ? (model?.buyer_legal_entity?.legal_reps?.name + ' '
+                +model?.buyer_legal_entity?.legal_reps?.first_surname + ' ' +
+                model?.buyer_legal_entity?.legal_reps?.second_surname) : ('table.tr.td.NA' | translate)}}
+              </td>
+              <td *ngIf="model?.buyer_type==3">
+                {{model?.buyer?.legal_representative?.name ? (model?.buyer?.legal_representative?.name + ' ' +
+                model?.buyer?.legal_representative?.first_surname + ' ' +
+                model?.buyer?.legal_representative?.second_surname) : ('table.tr.td.NA' | translate)}}
+              </td>
+            </tr>
+            <tr>
+              <td *ngIf="model?.buyer_type==1">{{model?.buyer_leg_rep_email || ('table.tr.td.NA' | translate)}}</td>
+              <td *ngIf="model?.buyer_type==2">{{model?.buyer_legal_entity?.legal_reps?.email || ('table.tr.td.NA' |
+                translate)}}</td>
+              <td *ngIf="model?.buyer_type==3">{{model?.buyer?.legal_representative?.email || ('table.tr.td.NA' |
+                translate)}}</td>
+            </tr>
+            <tr>
+              <td *ngIf="model?.buyer_type==1">{{model?.buyer_leg_rep_phone ? model?.buyer?.dial_code + ' '+
+                model?.buyer_leg_rep_phone : ('table.tr.td.NA' | translate)}}</td>
+              <td *ngIf="model?.buyer_type==2">{{model?.buyer_legal_entity?.legal_reps?.phone ?
+                model?.buyer_legal_entity?.legal_reps?.dial_code + ' '+ model?.buyer_legal_entity?.legal_reps?.phone :
+                ('table.tr.td.NA' | translate)}}</td>
+              <td *ngIf="model?.buyer_type==3">{{model?.buyer?.legal_representative?.phone ? model?.buyer?.dial_code + '
+                ' + model?.buyer?.legal_representative?.phone : ('table.tr.td.NA' | translate)}}</td>
+            </tr>
+            <ng-container *ngFor="let buyer_rep_banks of buyerRepBanks; let sb=index">
+              <tr>
+                <td></td>
+                <td>
+                  <a class="black" data-toggle="collapse" data-parent="#accordion" href="#collapseBRB{{sb}}">
+                    <b>Bank {{sb+1}}</b>
+                  </a>
+                </td>
+              </tr>
+              <tr id="collapseBRB{{sb}}" class="panel-collapse collapse">
+                <td></td>
+                <table [style.width]="'100%'">
+                  <tbody>
+                    <tr>
+                      <th>{{'quickVisualization.bankName' | translate}}</th>
+                    </tr>
+                    <tr>
+                      <td>{{buyer_rep_banks?.bank_name || 'NA'}}</td>
+                    </tr>
+                    <tr>
+                      <th>{{'quickVisualization.accountNumber' | translate}}</th>
+                    </tr>
+                    <tr>
+                      <td>{{buyer_rep_banks?.account_number || 'NA'}}</td>
+                    </tr>
+                    <tr>
+                      <th>{{'quickVisualization.clabeSwift' | translate}}</th>
+                    </tr>
+                    <tr>
+                      <td>{{buyer_rep_banks?.swift || 'NA'}}</td>
+                    </tr>
+                    <tr>
+                      <th>{{'quickVisualization.currency' | translate}}</th>
+                    </tr>
+                    <tr>
+                      <td>{{buyer_rep_banks?.currency?.code || 'NA'}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
       </div>
+      <div class="table-responsive">
+        <table class="table table-bordered white-bg">
+          <tbody>
+            <tr>
+              <th rowspan="3">{{'quickVisualization.sellerLegal' | translate}} <br>
+                {{'quickVisualization.representativeContact' | translate}}:</th>
+              <td *ngIf="model?.seller_type==1">
+                {{model?.seller?.legal_representative?.name ? (model?.seller?.legal_representative?.name + ' ' +
+                model?.seller?.legal_representative?.first_surname + ' ' +
+                model?.seller?.legal_representative?.second_surname) : ('table.tr.td.NA' | translate)}}
+              </td>
+              <td *ngIf="model?.seller_type==2">
+                {{model?.seller_legal_entity?.legal_reps?.name ? (model?.seller_legal_entity?.legal_reps?.name + ' '
+                +model?.seller_legal_entity?.legal_reps?.first_surname + ' ' +
+                model?.seller_legal_entity?.legal_reps?.second_surname) : ('table.tr.td.NA' | translate)}}
+              </td>
+              <td *ngIf="model?.seller_type==3">
+                {{model?.seller?.legal_representative?.name ? (model?.seller?.legal_representative?.name + ' ' +
+                model?.seller?.legal_representative?.first_surname + ' ' +
+                model?.seller?.legal_representative?.second_surname) : ('table.tr.td.NA' | translate)}}
+              </td>
+            </tr>
+            <tr>
+              <td *ngIf="model?.seller_type==1">{{model?.seller_leg_rep_email || ('table.tr.td.NA' | translate)}}</td>
+              <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.legal_reps?.email || ('table.tr.td.NA' |
+                translate)}}</td>
+              <td *ngIf="model?.seller_type==3">{{model?.seller?.legal_representative?.email || ('table.tr.td.NA' |
+                translate)}}</td>
+            </tr>
+            <tr>
+              <td *ngIf="model?.seller_type==1">{{model?.seller_leg_rep_phone ? model?.seller?.dial_code + ' '+
+                model?.seller_leg_rep_phone : ('table.tr.td.NA' | translate)}}</td>
+              <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.legal_reps?.phone ?
+                model?.seller_legal_entity?.legal_reps?.dial_code + ' '+ model?.seller_legal_entity?.legal_reps?.phone :
+                ('table.tr.td.NA' | translate)}}</td>
+              <td *ngIf="model?.seller_type==3">{{model?.seller?.legal_representative?.phone ? model?.seller?.dial_code
+                + ' ' + model?.seller?.legal_representative?.phone : ('table.tr.td.NA' | translate)}}</td>
+            </tr>
+            <ng-container *ngFor="let seller_rep_banks of sellerRepBanks; let sb=index">
+              <tr>
+                <td></td>
+                <td>
+                  <a class="black" data-toggle="collapse" data-parent="#accordion" href="#collapseSRB{{sb}}">
+                    <b>Bank {{sb+1}}</b>
+                  </a>
+                </td>
+              </tr>
+              <tr id="collapseSRB{{sb}}" class="panel-collapse collapse">
+                <td></td>
+                <table [style.width]="'100%'">
+                  <tbody>
+                    <tr>
+                      <th>{{'quickVisualization.bankName' | translate}}</th>
+                    </tr>
+                    <tr>
+                      <td>{{seller_rep_banks?.bank_name || 'NA'}}</td>
+                    </tr>
+                    <tr>
+                      <th>{{'quickVisualization.accountNumber' | translate}}</th>
+                    </tr>
+                    <tr>
+                      <td>{{seller_rep_banks?.account_number || 'NA'}}</td>
+                    </tr>
+                    <tr>
+                      <th>{{'quickVisualization.clabeSwift' | translate}}</th>
+                    </tr>
+                    <tr>
+                      <td>{{seller_rep_banks?.swift || 'NA'}}</td>
+                    </tr>
+                    <tr>
+                      <th>{{'quickVisualization.currency' | translate}}</th>
+                    </tr>
+                    <tr>
+                      <td>{{seller_rep_banks?.currency?.code || 'NA'}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 
 
-    <h5>{{'quickVisualization.generalPropertyInformation' | translate}}</h5>
-    <div class="row">
+  <h5>{{'quickVisualization.generalPropertyInformation' | translate}}</h5>
+  <div class="row">
     <div class="col-md-4">
 
-          <div class="table-responsive">
-            <table class="table table-bordered white-bg">
-              <tbody>
-                  <tr>
-                      <th>{{'quickVisualization.project' | translate}}:</th>
-                      <td>{{model?.property?.building?.name || ('table.tr.td.NA' | translate)}}</td>
-                    </tr>
-                    <tr>
-                      <th>{{'quickVisualization.tower' | translate}}:</th>
-                      <td>{{model?.property?.building_towers?.tower_name || ('table.tr.td.NA' | translate)}}</td>
-                    </tr>
-                    <tr>
-                      <th>{{'quickVisualization.floor' | translate}}:</th>
-                      <td>
-                          {{model?.property?.floor_num ? (model?.property?.floor_num == 0 ? ('addCollection.groundFloor' | translate) : ('addCollection.floor' | translate) + ' ' + model?.property?.floor_num) : ('table.tr.td.NA' | translate)}}
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>{{'quickVisualization.model' | translate}}:</th>
-                      <td>{{model?.property?.building_configuration?.name || ('table.tr.td.NA' | translate)}}</td>
-                    </tr>
-                    <!-- <tr>
+      <div class="table-responsive">
+        <table class="table table-bordered white-bg">
+          <tbody>
+            <tr>
+              <th>{{'quickVisualization.project' | translate}}:</th>
+              <td>{{model?.property?.building?.name || ('table.tr.td.NA' | translate)}}</td>
+            </tr>
+            <tr>
+              <th>{{'quickVisualization.tower' | translate}}:</th>
+              <td>{{model?.property?.building_towers?.tower_name || ('table.tr.td.NA' | translate)}}</td>
+            </tr>
+            <tr>
+              <th>{{'quickVisualization.floor' | translate}}:</th>
+              <td>
+                {{model?.property?.floor_num ? (model?.property?.floor_num == 0 ? ('addCollection.groundFloor' |
+                translate) : ('addCollection.floor' | translate) + ' ' + model?.property?.floor_num) : ('table.tr.td.NA'
+                | translate)}}
+              </td>
+            </tr>
+            <tr>
+              <th>{{'quickVisualization.model' | translate}}:</th>
+              <td>{{model?.property?.building_configuration?.name || ('table.tr.td.NA' | translate)}}</td>
+            </tr>
+            <!-- <tr>
                       <th>{{'quickVisualization.Parkinglotincluded' | translate}}:</th>
                       <td *ngFor="let item of this.model.property.property_parking_space; let i=index">{{item.parking_type && item.parking_count ? (this.getParkingLotIncludedText(item.parking_type) + ':' + item.parking_count) : ('table.tr.td.NA' | translate)}}</td>
                     </tr> -->
-                    <tr *ngFor="let item of this.model?.property?.property_parking_space; let i=index">
-                      <th [attr.rowspan]="this.model?.property?.property_parking_space?.length" *ngIf="i == 0 ">{{'quickVisualization.Parkinglotincluded' | translate}}:</th>
-                      <td >{{item.parking_type && item.parking_count ? (this.getParkingLotIncludedText(item.parking_type) + ':' + item.parking_count) : ('table.tr.td.NA' | translate)}}</td>
-                    </tr>
-                    <tr>
-                      <th>{{'quickVisualization.Parkinglotsale' | translate}}:</th>
-                      <!-- <td>{{parkingLotSaleDetails || ('table.tr.td.NA' | translate)}}</td> -->
-                      <td>{{'table.tr.td.NA' | translate}}</td>
-                    </tr>
-                    <tr>
-                      <th>{{'quickVisualization.propertyName' | translate}}:</th>
-                      <td>{{model?.property?.name || ('table.tr.td.NA' | translate)}}</td>
-                    </tr>
-                    <tr>
-                      <th>{{'quickVisualization.finalprice' | translate}}:</th>
-                      <td>{{(model?.property?.final_price || 0) | currency}}</td>
-                    </tr>
-                    <tr>
-                      <th>{{'quickVisualization.finalpricesquare' | translate}}:</th>
-                      <td>{{((model?.final_price || 0) / (model?.final_price_per_m2 || 0)) | currency}}</td>
-                    </tr>
-              </tbody>
-            </table>
-          </div>
+            <tr *ngFor="let item of this.model?.property?.property_parking_space; let i=index">
+              <th [attr.rowspan]="this.model?.property?.property_parking_space?.length" *ngIf="i == 0 ">
+                {{'quickVisualization.Parkinglotincluded' | translate}}:</th>
+              <td>{{item.parking_type && item.parking_count ? (this.getParkingLotIncludedText(item.parking_type) + ':' +
+                item.parking_count) : ('table.tr.td.NA' | translate)}}</td>
+            </tr>
+            <tr>
+              <th>{{'quickVisualization.Parkinglotsale' | translate}}:</th>
+              <!-- <td>{{parkingLotSaleDetails || ('table.tr.td.NA' | translate)}}</td> -->
+              <td>{{'table.tr.td.NA' | translate}}</td>
+            </tr>
+            <tr>
+              <th>{{'quickVisualization.propertyName' | translate}}:</th>
+              <td>{{model?.property?.name || ('table.tr.td.NA' | translate)}}</td>
+            </tr>
+            <tr>
+              <th>{{'quickVisualization.finalprice' | translate}}:</th>
+              <td>{{(model?.property?.final_price || 0) | currency}}</td>
+            </tr>
+            <tr>
+              <th>{{'quickVisualization.finalpricesquare' | translate}}:</th>
+              <td>{{((model?.final_price || 0) / (model?.final_price_per_m2 || 0)) | currency}}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-  
-      <div class="col-md-1"></div>
-  
-      <div class="col-md-4">  
-            <div class="table-responsive">
-              <table class="table table-bordered white-bg">
+    </div>
+
+    <div class="col-md-1"></div>
+
+    <div class="col-md-4">
+      <div class="table-responsive">
+        <table class="table table-bordered white-bg">
+          <tbody>
+            <tr>
+              <th>{{'quickVisualization.purchaseDate' | translate}}:</th>
+              <td>{{model?.deal_purchase_date ? (model?.deal_purchase_date | date:'dd/MMM/yyyy') : ('table.tr.td.NA' |
+                translate)}}</td>
+            </tr>
+            <tr>
+              <th>{{'quickVisualization.currency' | translate}}:</th>
+              <td>{{model?.currency?.code || ('table.tr.td.NA' | translate)}}</td>
+            </tr>
+            <tr>
+              <th>{{'quickVisualization.deliveryDate' | translate}}:</th>
+              <td>{{model?.delivery_date ? (model?.delivery_date | date:'dd/MMM/yyyy') : ('table.tr.td.NA' |
+                translate)}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-bordered white-bg">
+          <tbody>
+            <tr>
+              <th>
+                <a data-toggle="collapse" data-parent="#accordion" href="#coll">
+                  {{'quickVisualization.paid' | translate}}:
+                </a>
+              </th>
+              <td>{{(model?.total_payment_recieved || 0) | currency}}</td>
+            </tr>
+            <tr id="coll" class="panel-collapse collapse">
+              <td colspan="2">
+                <table>
                   <tbody>
-                      <tr>
-                          <th>{{'quickVisualization.purchaseDate' | translate}}:</th>
-                          <td>{{model?.deal_purchase_date ? (model?.deal_purchase_date | date:'dd/MMM/yyyy') : ('table.tr.td.NA' | translate)}}</td>
-                        </tr>
-                        <tr>
-                          <th>{{'quickVisualization.currency' | translate}}:</th>
-                          <td>{{model?.currency?.code || ('table.tr.td.NA' | translate)}}</td>
-                        </tr>
-                        <tr>
-                          <th>{{'quickVisualization.deliveryDate' | translate}}:</th>
-                          <td >{{model?.delivery_date ? (model?.delivery_date | date:'dd/MMM/yyyy') : ('table.tr.td.NA' | translate)}}</td>
-                        </tr>
+                    <tr *ngFor="let d of data2">
+                      <th>{{language_code == 'en' ? d?.name_en : d?.name_es}}</th>
+                      <td>{{(d?.total_amount || 0) | currency}}</td>
+                    </tr>
                   </tbody>
-              </table>
-            </div>
-              <div class="table-responsive">
-                <table class="table table-bordered white-bg">
-                    <tbody>
-                          <tr>
-                              <th>
-                                <a data-toggle="collapse" data-parent="#accordion" href="#coll">
-                                  {{'quickVisualization.paid' | translate}}:
-                                </a>
-                              </th>
-                              <td>{{(model?.total_payment_recieved || 0) | currency}}</td>
-                          </tr>
-                          <tr id="coll" class="panel-collapse collapse">
-                            <td colspan="2">
-                              <table>
-                                <tbody>
-                                  <tr *ngFor="let d of data2">
-                                    <th>{{language_code == 'en' ? d?.name_en : d?.name_es}}</th>
-                                    <td>{{(d?.total_amount || 0) | currency}}</td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th>{{'quickVisualization.remaining' | translate}}:</th>
-                            <!-- <td>{{((model?.total || 0) - (model?.paid || 0)) | currency}}</td> -->
-                            <td>{{remainingAmt > 0 ? (remainingAmt | currency) : ( 0 | currency)}}</td>
-                           <!-- <td>{{(totalOutstanding || 0) | currency}}</td> -->
-                          </tr>
-                          <tr>
-                            <th>{{'quickVisualization.totalPenalty' | translate}}:</th>
-                            <td>{{(model?.penalty || 0) | currency}}</td>
-                          </tr>
-                    </tbody>
                 </table>
-              </div>
-        </div>
+              </td>
+            </tr>
+            <tr>
+              <th>{{'quickVisualization.remaining' | translate}}:</th>
+              <!-- <td>{{((model?.total || 0) - (model?.paid || 0)) | currency}}</td> -->
+              <td>{{remainingAmt > 0 ? (remainingAmt | currency) : ( 0 | currency)}}</td>
+              <!-- <td>{{(totalOutstanding || 0) | currency}}</td> -->
+            </tr>
+            <tr>
+              <th>{{'quickVisualization.totalPenalty' | translate}}:</th>
+              <td>{{(model?.penalty || 0) | currency}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
   </div>
 
-<h5>{{'quickVisualization.paymentInformation' | translate}}</h5>
-      <div id="accordion" class="table-responsive main-table">
-        <table class="table table-bordered table-striped table-align-center quick-table" >
-          <thead class="header" id="myHeader" >  
-            <tr>
-              <th [style.width]="'200px'" [style.z-index]="100">
-                <b>{{'quickVisualization.concept' | translate}}</b>
-              </th>
-              <th [style.width]="'140px'">
-                <b>{{'quickVisualization.month' | translate}}</b>
-              </th>
-              <!-- <th [style.width]="'140px'">
+  <h5>{{'quickVisualization.paymentInformation' | translate}}</h5>
+  <div id="accordion" class="table-responsive main-table">
+    <table class="table table-bordered table-striped table-align-center quick-table">
+      <thead class="header" id="myHeader">
+        <tr>
+          <th [style.width]="'200px'" [style.z-index]="100">
+            <b>{{'quickVisualization.concept' | translate}}</b>
+          </th>
+          <th [style.width]="'140px'">
+            <b>{{'quickVisualization.month' | translate}}</b>
+          </th>
+          <!-- <th [style.width]="'140px'">
                 <b>{{'quickVisualization.paymentDate' | translate}}</b>
               </th> -->
-              <th [style.width]="'120px'">
-                  <b>{{'quickVisualization.paid' | translate}}</b>
-              </th>
-              <!-- <th [style.width]="'150px'">
+          <th [style.width]="'120px'">
+            <b>{{'quickVisualization.paid' | translate}}</b>
+          </th>
+          <!-- <th [style.width]="'150px'">
                 <b>{{'quickVisualization.paymentMethods' | translate}}</b>
               </th> -->
-              <th [style.width]="'120px'">
-                  <b>{{'quickVisualization.outstandingPayment' | translate}}</b>
-              </th>
-              <!-- <th [style.width]="'120px'">
+          <th [style.width]="'120px'">
+            <b>{{'quickVisualization.outstandingPayment' | translate}}</b>
+          </th>
+          <!-- <th [style.width]="'120px'">
                   <b>{{'quickVisualization.paidByUser' | translate}}</b>
               </th> -->
-              <th [style.width]="'120px'">
-                  <b>{{'quickVisualization.toBePaidByUser' | translate}}</b>
-              </th>
-              <!-- <th>
+          <th [style.width]="'120px'">
+            <b>{{'quickVisualization.toBePaidByUser' | translate}}</b>
+          </th>
+          <!-- <th>
                   <b>{{'quickVisualization.paymentAttachment' | translate}}</b>
               </th>
               <th>
                   <b>{{'quickVisualization.paymentDescription' | translate}}</b>
               </th> -->
-              <th [style.width]="'120px'">
-                  <b>{{'quickVisualization.penaltyFLP' | translate}}</b>
-              </th>
-              <th>
-                  <b>{{'quickVisualization.penaltyDescription' | translate}}</b>
-              </th>
-              <th [style.width]="'120px'">
-                  <b>{{'quickVisualization.purchasedCommission' | translate}}</b>
-              </th>
-              <th [style.width]="'150px'">
-                  <b>{{'quickVisualization.dateOfPC' | translate}}</b>
-              </th>
-              <th>
-                  <b>{{'quickVisualization.PCAttachment' | translate}}</b>
-              </th>
-              <th>
-                  <b>{{'quickVisualization.PCDescription' | translate}}</b>
-              </th>
-              <th>
-                  <b>{{'quickVisualization.invoiceDate' | translate}}</b>
-              </th>
-              <th>
-                  <b>{{'quickVisualization.invoiceID' | translate}}</b>
-              </th>
-              <th>
-                  <b>{{'quickVisualization.pdfDoc' | translate}}</b>
-              </th>
-              <th>
-                  <b>{{'quickVisualization.xmlDoc' | translate}}</b>
-              </th>
-              <th [style.width]="'120px'">
-                  <b>{{'quickVisualization.collectionCommission' | translate}}</b>
-              </th>
-              <th [style.width]="'150px'">
-                  <b>{{'quickVisualization.dateOfCC' | translate}}</b>
-              </th>
-              <th>
-                  <b>{{'quickVisualization.CCAttachment' | translate}}</b>
-              </th>
-              <th>
-                  <b>{{'quickVisualization.CCDescription' | translate}}</b>
-              </th>
-              <th>
-                  <b>{{'quickVisualization.invoiceDate' | translate}}</b>
-              </th>
-              <th>
-                  <b>{{'quickVisualization.invoiceID' | translate}}</b>
-              </th>
-              <th>
-                  <b>{{'quickVisualization.pdfDoc' | translate}}</b>
-              </th>
-              <th>
-                  <b>{{'quickVisualization.xmlDoc' | translate}}</b>
-              </th>
-              <th [style.width]="'120px'">
-                  <b>{{'quickVisualization.agentCommission' | translate}}</b>
-              </th>
-              <th [style.width]="'150px'">
-                  <b>{{'quickVisualization.dateOfAC' | translate}}</b>
-              </th>
-              <th>
-                  <b>{{'quickVisualization.ACAttachment' | translate}}</b>
-              </th>
-              <th>
-                  <b>{{'quickVisualization.ACDescription' | translate}}</b>
-              </th>
-              <th>
-                  <b>{{'quickVisualization.invoiceDate' | translate}}</b>
-              </th>
-              <th>
-                  <b>{{'quickVisualization.invoiceID' | translate}}</b>
-              </th>
-              <th>
-                  <b>{{'quickVisualization.pdfDoc' | translate}}</b>
-              </th>
-              <th>
-                  <b>{{'quickVisualization.xmlDoc' | translate}}</b>
-              </th>
-            </tr>
-          </thead>
-          <tbody *ngFor="let p of allPaymentConcepts; let i=index">
-            <tr [ngClass]="{'remaining_amt': p.key == 'remaining_amt'}">
-              <td>
-                <a style="color: #fff;" class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{i}}">
-                    {{p?.name}}
-                </a>
-              </td>
-              <td>{{p?.date | date:'dd/MMM/yyyy'}}</td>
-              <!-- <td>{{p?.payment_date || ''}}</td> -->
-              <td>
-                <!-- {{p?.paid_amount}}<br> -->
-                {{p?.paid_amount && p?.paid_amount>'0.1' ? (p?.paid_amount | currency) : ''}}<br>
-                <!-- {{p?.new_paid_amt ? (p?.new_paid_amt | currency) : ''}}  -->
-                <!-- {{p?.is_paid_calculated == 1 ? p?.amount : (p?.collection_payment ? (p?.collection_payment?.amount | currency) : '')}} -->
-              </td>
-              <!-- <td>{{p?.collection_payment?.payment_method?.name || ''}}</td> -->
-              <td>
-                <span [ngClass]="{'red-color':p?.is_pending}">
-                  {{p?.outstanding_amount && p?.outstanding_amount > 0 ? (p?.outstanding_amount | currency) : ''}}
-                </span>
-                <!-- <span [ngClass]="{'red-color':(p?.amount != p?.collection_payment?.amount) && p?.collection_payment?.amount}">
+          <th [style.width]="'120px'">
+            <b>{{'quickVisualization.penaltyFLP' | translate}}</b>
+          </th>
+          <th>
+            <b>{{'quickVisualization.penaltyDescription' | translate}}</b>
+          </th>
+          <th [style.width]="'120px'">
+            <b>{{'quickVisualization.purchasedCommission' | translate}}</b>
+          </th>
+          <th [style.width]="'150px'">
+            <b>{{'quickVisualization.dateOfPC' | translate}}</b>
+          </th>
+          <th>
+            <b>{{'quickVisualization.PCAttachment' | translate}}</b>
+          </th>
+          <th>
+            <b>{{'quickVisualization.PCDescription' | translate}}</b>
+          </th>
+          <th>
+            <b>{{'quickVisualization.invoiceDate' | translate}}</b>
+          </th>
+          <th>
+            <b>{{'quickVisualization.invoiceID' | translate}}</b>
+          </th>
+          <th>
+            <b>{{'quickVisualization.pdfDoc' | translate}}</b>
+          </th>
+          <th>
+            <b>{{'quickVisualization.xmlDoc' | translate}}</b>
+          </th>
+          <th [style.width]="'120px'">
+            <b>{{'quickVisualization.collectionCommission' | translate}}</b>
+          </th>
+          <th [style.width]="'150px'">
+            <b>{{'quickVisualization.dateOfCC' | translate}}</b>
+          </th>
+          <th>
+            <b>{{'quickVisualization.CCAttachment' | translate}}</b>
+          </th>
+          <th>
+            <b>{{'quickVisualization.CCDescription' | translate}}</b>
+          </th>
+          <th>
+            <b>{{'quickVisualization.invoiceDate' | translate}}</b>
+          </th>
+          <th>
+            <b>{{'quickVisualization.invoiceID' | translate}}</b>
+          </th>
+          <th>
+            <b>{{'quickVisualization.pdfDoc' | translate}}</b>
+          </th>
+          <th>
+            <b>{{'quickVisualization.xmlDoc' | translate}}</b>
+          </th>
+          <th [style.width]="'120px'">
+            <b>{{'quickVisualization.agentCommission' | translate}}</b>
+          </th>
+          <th [style.width]="'150px'">
+            <b>{{'quickVisualization.dateOfAC' | translate}}</b>
+          </th>
+          <th>
+            <b>{{'quickVisualization.ACAttachment' | translate}}</b>
+          </th>
+          <th>
+            <b>{{'quickVisualization.ACDescription' | translate}}</b>
+          </th>
+          <th>
+            <b>{{'quickVisualization.invoiceDate' | translate}}</b>
+          </th>
+          <th>
+            <b>{{'quickVisualization.invoiceID' | translate}}</b>
+          </th>
+          <th>
+            <b>{{'quickVisualization.pdfDoc' | translate}}</b>
+          </th>
+          <th>
+            <b>{{'quickVisualization.xmlDoc' | translate}}</b>
+          </th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let p of allPaymentConcepts; let i=index">
+        <tr [ngClass]="{'remaining_amt': p.key == 'remaining_amt'}">
+          <td>
+            <a style="color: #fff;" class="color-changed" data-toggle="collapse" data-parent="#accordion"
+              href="#collapse{{i}}">
+              {{p?.name}}
+            </a>
+          </td>
+          <td>{{p?.date | date:'dd/MMM/yyyy'}}</td>
+          <!-- <td>{{p?.payment_date || ''}}</td> -->
+          <td>
+            <!-- {{p?.paid_amount}}<br> -->
+            {{p?.paid_amount && p?.paid_amount>'0.1' ? (p?.paid_amount | currency) : ''}}<br>
+            <!-- {{p?.new_paid_amt ? (p?.new_paid_amt | currency) : ''}}  -->
+            <!-- {{p?.is_paid_calculated == 1 ? p?.amount : (p?.collection_payment ? (p?.collection_payment?.amount | currency) : '')}} -->
+          </td>
+          <!-- <td>{{p?.collection_payment?.payment_method?.name || ''}}</td> -->
+          <td>
+            <span [ngClass]="{'red-color':p?.is_pending}">
+              {{p?.outstanding_amount && p?.outstanding_amount > 0 ? (p?.outstanding_amount | currency) : ''}}
+            </span>
+            <!-- <span [ngClass]="{'red-color':(p?.amount != p?.collection_payment?.amount) && p?.collection_payment?.amount}">
                   {{p?.is_paid_calculated!=1 && p?.amount ? ((p?.amount || 0) | currency) : ''}}
                 </span> -->
-              </td>
-              <!-- <td>
+          </td>
+          <!-- <td>
                 {{p?.collection_payment ? (p?.collection_payment?.amount | currency) : ''}}
               </td> -->
-              <td>
-                  {{p?.amount ? ((p?.amount || 0) | currency) : ''}}
-              </td>
-              <!-- <td>
+          <td>
+            {{p?.amount ? ((p?.amount || 0) | currency) : ''}}
+          </td>
+          <!-- <td>
                 <a class="green-color fontW500" *ngIf="p?.collection_payment && p?.key!='total'" target="_blank" href="{{p?.collection_payment?.receipt}}">
                   {{'quickVisualization.view' | translate}}
                 </a>
@@ -532,515 +648,845 @@
                     <img src="assets/img/eye-icon.png" alt="img">
                 </button>
               </td> -->
-              <td>
-                {{p?.penalty ? ((p?.penalty?.amount || 0) | currency) : ''}}
-              </td>
-              <td>
-                  <button class="action-icon" *ngIf="p?.penalty?.description" (click)="showDescription(p?.penalty?.description, 2)">
-                      <img src="assets/img/eye-icon.png" alt="img">
-                  </button>
-              </td>
-             
-              <td>
+          <td>
+            {{p?.penalty ? ((p?.penalty?.amount || 0) | currency) : ''}}
+          </td>
+          <td>
+            <button class="action-icon" *ngIf="p?.penalty?.description"
+              (click)="showDescription(p?.penalty?.description, 2)">
+              <img src="assets/img/eye-icon.png" alt="img">
+            </button>
+          </td>
+          <td (click)="getInfo(p?.id)"> <a class="color-changed" data-toggle="collapse" data-target="#collapseOne{{i}}"
+              data-parent="#accordion" aria-expanded="true" aria-controls="collapseOne" href="#collapseOne{{i}}"
+              style="color: #00B96F;">
+              {{p.key == 'total' ? (p.purchase_comm_amount | currency) : collectionCommission[i] ?
+              (collectionCommission[i]?.pay_minus | currency) : ''}}
+              <span *ngIf="collectionCommission[i]?.pay_minus"><i class="fa fa-angle-down"
+                  aria-hidden="true"></i></span>
+            </a></td>
+          <!-- <td>
                   {{collectionCommission[i]?.purchase_payment ? 
                     ((collectionCommission[i]['purchase_payment']?.amount + (collectionCommission[i]['purchase_payment']?.iva_amount || 0)) | currency) : ''}}
+                </td> -->
+          <td>
+            {{collectionCommission[i]?.purchase_payment ? (collectionCommission[i]['purchase_payment']?.payment_date |
+            date:'dd/MMM/yyyy') : ''}}</td>
+          <td>
+            <a class="green-color fontW500" *ngIf="collectionCommission[i]?.purchase_payment?.receipt" target="_blank"
+              href="{{collectionCommission[i]?.purchase_payment?.receipt}}">
+              {{'quickVisualization.view' | translate}}
+            </a>
+          </td>
+          <td>
+            <button class="action-icon" *ngIf="collectionCommission[i]?.purchase_payment?.description"
+              (click)="showDescription(collectionCommission[i]?.purchase_payment?.description, 3)">
+              <img src="assets/img/eye-icon.png" alt="img">
+            </button>
+          </td>
+          <td>{{collectionCommission[i]?.purchase_payment ?
+            (collectionCommission[i]['purchase_payment']?.invoice_date | date:'dd/MMM/yyyy') : ''}}</td>
+          <td>{{collectionCommission[i]?.purchase_payment ?
+            (collectionCommission[i]['purchase_payment']?.invoice_id) : ''}}</td>
+          <td>
+            <a class="green-color fontW500"
+              *ngIf="collectionCommission[i]?.purchase_payment && collectionCommission[i]?.purchase_payment?.pdf_url"
+              target="_blank" href="{{collectionCommission[i]?.purchase_payment?.pdf_url}}">
+              {{'quickVisualization.view' | translate}}
+            </a>
+          </td>
+          <td>
+            <a class="green-color fontW500"
+              *ngIf="collectionCommission[i]?.purchase_payment && collectionCommission[i]?.purchase_payment?.xml_url"
+              target="_blank" href="{{collectionCommission[i]?.purchase_payment?.xml_url}}">
+              {{'quickVisualization.view' | translate}}
+            </a>
+          </td>
+          <td (click)="getCollectionInfo(p?.id)"> <a class="color-changed" data-toggle="collapse"
+              data-target="#collapsetwo{{i}}" data-parent="#accordion" aria-expanded="true" aria-controls="collapsetwo"
+              href="#collapsetwo{{i}}" style="color: #00B96F;">
+              {{p.key == 'total' ? (p.amount | currency) : collectionCommission[i] ?
+              (collectionCommission[i]?.collection_minus | currency) : 0}}
+              <span *ngIf="collectionCommission[i]?.collection_minus"><i class="fa fa-angle-down"
+                  aria-hidden="true"></i></span>
+            </a>
+          </td>
+          <!-- <td> {{collectionCommission[i]?.payment ? 
+                ((collectionCommission[i]['payment']?.amount + (collectionCommission[i]['payment']?.iva_amount || 0)) | currency) : ''}}
+              </td> -->
+          <td>
+            {{collectionCommission[i]?.payment ? (collectionCommission[i]['payment']?.payment_date | date:'dd/MMM/yyyy')
+            : ''}}</td>
+          <td>
+            <a class="green-color fontW500" *ngIf="collectionCommission[i]?.payment?.receipt" target="_blank"
+              href="{{collectionCommission[i]?.payment?.receipt}}">
+              {{'quickVisualization.view' | translate}}
+            </a>
+          </td>
+          <td>
+            <button class="action-icon" *ngIf="collectionCommission[i]?.payment?.description"
+              (click)="showDescription(collectionCommission[i]?.payment?.description, 4)">
+              <img src="assets/img/eye-icon.png" alt="img">
+            </button>
+          </td>
+          <td>{{collectionCommission[i]?.payment ? (collectionCommission[i]['payment']?.invoice_date |
+            date:'dd/MMM/yyyy') : ''}}</td>
+          <td>{{collectionCommission[i]?.payment ? (collectionCommission[i]['payment']?.invoice_id) : ''}}</td>
+          <td>
+            <a class="green-color fontW500"
+              *ngIf="collectionCommission[i]?.payment && collectionCommission[i]?.payment?.pdf_url" target="_blank"
+              href="{{collectionCommission[i]?.payment?.pdf_url}}">
+              {{'quickVisualization.view' | translate}}
+            </a>
+          </td>
+          <td>
+            <a class="green-color fontW500"
+              *ngIf="collectionCommission[i]?.payment && collectionCommission[i]?.payment?.xml_url" target="_blank"
+              href="{{collectionCommission[i]?.payment?.xml_url}}">
+              {{'quickVisualization.view' | translate}}
+            </a>
+          </td>
+
+          <td (click)="getAgentInfo(p?.id)"> 
+            <a class="color-changed" data-toggle="collapse" data-target="#collapsethree{{i}}" 
+            data-parent="#accordion" aria-expanded="true" aria-controls="collapsethree" 
+            href="#collapsethree{{i}}" style="color: #00B96F;">
+              {{p.key == 'total' ? (p.agent_comm_amount | currency) : collectionCommission[i] ?
+              (collectionCommission[i]?.agent_minus | currency) : ''}}
+              <span *ngIf="collectionCommission[i]?.agent_minus">
+                <i class="fa fa-angle-down" aria-hidden="true"></i>
+              </span>
+            </a>
+          </td>
+          <td>
+          {{collectionCommission[i]?.agent_payment ? (collectionCommission[i]['agent_payment']?.payment_date |
+          date:'dd/MMM/yyyy') : ''}}
+        </td>
+          <td>
+            <a class="green-color fontW500" *ngIf="collectionCommission[i]?.agent_payment?.receipt" target="_blank"
+              href="{{collectionCommission[i]?.agent_payment?.receipt}}">
+              {{'quickVisualization.view' | translate}}
+            </a>
+          </td>
+          <td>
+            <button class="action-icon" *ngIf="collectionCommission[i]?.agent_payment?.description"
+              (click)="showDescription(collectionCommission[i]?.agent_payment?.description, 5)">
+              <img src="assets/img/eye-icon.png" alt="img">
+            </button>
+          </td>
+          <td>{{collectionCommission[i]?.agent_payment ?
+            (collectionCommission[i]['agent_payment']?.invoice_date | date:'dd/MMM/yyyy') : ''}}</td>
+          <td>{{collectionCommission[i]?.agent_payment ?
+            (collectionCommission[i]['agent_payment']?.invoice_id) : ''}}</td>
+          <td>
+            <a class="green-color fontW500"
+              *ngIf="collectionCommission[i]?.agent_payment && collectionCommission[i]?.agent_payment?.pdf_url"
+              target="_blank" href="{{collectionCommission[i]?.agent_payment?.pdf_url}}">
+              {{'quickVisualization.view' | translate}}
+            </a>
+          </td>
+          <td>
+            <a class="green-color fontW500"
+              *ngIf="collectionCommission[i]?.agent_payment && collectionCommission[i]?.agent_payment?.xml_url"
+              target="_blank" href="{{collectionCommission[i]?.agent_payment?.xml_url}}">
+              {{'quickVisualization.view' | translate}}
+            </a>
+          </td>
+        </tr>
+        <tr id="collapse{{i}}" class="panel-collapse collapse">
+          <td colspan="8" style="background: #fff;">
+            <table>
+              <thead style="background: #00B96F; color: #fff;">
+                <th [style.width]="'240px'" [style.color]="'#fff'">{{'quickVisualization.concept' | translate}}</th>
+                <th [style.width]="'300px'" [style.color]="'#fff'">{{'quickVisualization.paymentDate' | translate}}</th>
+                <th [style.width]="'300px'" [style.color]="'#fff'">{{'quickVisualization.paidByUser' | translate}}</th>
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.paymentMethods' | translate}}
+                </th>
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.bankDetails' | translate}}</th>
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.paymentAttachment' |
+                  translate}}</th>
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.paymentDescription' |
+                  translate}}</th>
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.action' | translate}}</th>
+              </thead>
+              <tbody *ngIf="p?.collection_paymentss?.length>0">
+                <ng-container *ngFor="let stats of p?.collection_paymentss; let s=index">
+                  <tr
+                    *ngIf="stats.payment_type==1 || stats.payment_type==3 || stats.payment_type==4 || stats.payment_type==5">
+                    <td [style.backgroundColor]="'#fff'" [style.color]="'#222'">
+                      {{p?.name || 'NA'}}
+                    </td>
+                    <td>
+                      {{stats.payment_date ? (stats.payment_date | date:'dd/MMM/yyyy') : 'NA'}}
+                    </td>
+                    <td>
+                      <span> {{stats?.amount ? (stats?.amount | currency) : ''}}</span>
+                    </td>
+                    <td>
+                      <span> {{stats?.payment_method?.name || 'NA'}}</span>
+                    </td>
+                    <td>
+                      <a class="green-color cursor-pointer fontW500" *ngIf="stats?.payment_bank"
+                        (click)="showBank(stats?.payment_bank)">
+                        {{'quickVisualization.view' | translate}}
+                      </a>
+                    </td>
+                    <td>
+                      <a class="green-color fontW500" *ngIf="stats?.key!='total'" target="_blank"
+                        href="{{stats?.receipt}}">
+                        {{'quickVisualization.view' | translate}}
+                      </a>
+                    </td>
+                    <td>
+                      <button class="action-icon" *ngIf="stats?.description"
+                        (click)="showDescription(stats?.description, 1)">
+                        <img src="assets/img/eye-icon.png" alt="img">
+                      </button>
+                    </td>
+                    <td>
+                      <button class="action-icon" (click)="showUpdatePaymentPopup(stats, i, s)">
+                        <img src="assets/img/edit.png" alt="img">
+                      </button>
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <!-- purchaseCommission -->
+        <tr id="collapseOne{{i}}" class="collapse" data-parent="#accordion">
+          <td colspan="10" style="background: #fff; border-color: white;">
+            <table [style.width]="'100%'">
+              <thead style="background: #00B96F; color: #fff;">
+                <th [style.width]="'240px'" [style.color]="'#fff'">{{'quickVisualization.concept' | translate}}</th>
+                <th [style.width]="'300px'" [style.color]="'#fff'">{{'quickVisualization.month' | translate}}</th>
+                <th [style.width]="'300px'" [style.color]="'#fff'">{{'quickVisualization.paid' | translate}}</th>
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.outstandingPayment' |
+                  translate}}</th>
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.toBePaidByUser' | translate}}
+                </th>
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.penaltyFLP' | translate}}</th>
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.penaltyDescription' |
+                  translate}}</th>
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.purchasedCommission' |
+                  translate}}</th>
+                <th [style.width]="'217px'" [style.color]="'#fff'">{{'quickVisualization.dateOfPC' | translate}}</th>
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.PCAttachment' | translate}}
+                </th>
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.PCDescription' | translate}}
+                </th>
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.invoiceDate' | translate}}</th>
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.invoiceID' | translate}}</th>
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.pdfDoc' | translate}}</th>
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.xmlDoc' | translate}}</th>
+              </thead>
+              <tbody *ngFor="let pur of purchase_payments; let s=index">
+                <td>Commission&nbsp;{{s+0}}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="color: black;">
+                  {{pur?((pur?.amount) | currency) : ''}}</td>
+                <td style="color: red;">
+                  {{pur ? (pur?.payment_date | date:'dd/MMM/yyyy') : ''}}</td>
+                <td>
+                  <a class="green-color fontW500" *ngIf="collectionCommission[i]?.purchase_payment" target="_blank"
+                    href="{{pur?.receipt}}">
+                    {{'quickVisualization.view' | translate}}
+                  </a>
                 </td>
-              <td>
-                {{collectionCommission[i]?.purchase_payment ? (collectionCommission[i]['purchase_payment']?.payment_date | date:'dd/MMM/yyyy') : ''}}</td>
-              <td>
-                <a class="green-color fontW500" *ngIf="collectionCommission[i]?.purchase_payment" target="_blank" href="{{collectionCommission[i]?.purchase_payment?.receipt}}">
-                  {{'quickVisualization.view' | translate}}
-                </a>
-              </td>
-              <td>
-                  <button class="action-icon" *ngIf="collectionCommission[i]?.purchase_payment?.description" (click)="showDescription(collectionCommission[i]?.purchase_payment?.description, 3)">
-                      <img src="assets/img/eye-icon.png" alt="img">
+                <td *ngIf="collectionCommission[i]?.purchase_payment">
+                  <button class="action-icon" *ngIf="pur?.description" (click)="showDescription(pur?.description, 3)">
+                    <img src="assets/img/eye-icon.png" alt="img">
                   </button>
-              </td>
-              <td>{{collectionCommission[i]?.purchase_payment ?
-                (collectionCommission[i]['purchase_payment']?.invoice_date | date:'dd/MMM/yyyy') : ''}}</td>
-              <td>{{collectionCommission[i]?.purchase_payment ?
-                (collectionCommission[i]['purchase_payment']?.invoice_id) : ''}}</td>
-              <td>
-                <a class="green-color fontW500" *ngIf="collectionCommission[i]?.purchase_payment && collectionCommission[i]?.purchase_payment?.pdf_url" target="_blank" href="{{collectionCommission[i]?.purchase_payment?.pdf_url}}">
-                  {{'quickVisualization.view' | translate}}
-                </a>
-              </td>
-              <td>
-                <a class="green-color fontW500" *ngIf="collectionCommission[i]?.purchase_payment && collectionCommission[i]?.purchase_payment?.xml_url" target="_blank" href="{{collectionCommission[i]?.purchase_payment?.xml_url}}">
-                  {{'quickVisualization.view' | translate}}
-                </a>
-              </td>
-              
-              <td> {{collectionCommission[i]?.payment ? 
-                ((collectionCommission[i]['payment']?.amount + (collectionCommission[i]['payment']?.iva_amount || 0)) | currency) : ''}}</td>
-              <td>
-                {{collectionCommission[i]?.payment ? (collectionCommission[i]['payment']?.payment_date | date:'dd/MMM/yyyy') : ''}}</td>
-              <td>
-                <a class="green-color fontW500" *ngIf="collectionCommission[i]?.payment" target="_blank" href="{{collectionCommission[i]?.payment?.receipt}}">
-                  {{'quickVisualization.view' | translate}}
-                </a>
-              </td>
-              <td>
-                  <button class="action-icon" *ngIf="collectionCommission[i]?.payment?.description" (click)="showDescription(collectionCommission[i]?.payment?.description, 4)">
-                      <img src="assets/img/eye-icon.png" alt="img">
-                  </button>
-              </td>   
-              <td>{{collectionCommission[i]?.payment ? (collectionCommission[i]['payment']?.invoice_date | date:'dd/MMM/yyyy') : ''}}</td>
-              <td>{{collectionCommission[i]?.payment ? (collectionCommission[i]['payment']?.invoice_id) : ''}}</td>
-              <td>
-                <a class="green-color fontW500" *ngIf="collectionCommission[i]?.payment && collectionCommission[i]?.payment?.pdf_url" target="_blank" href="{{collectionCommission[i]?.payment?.pdf_url}}">
-                  {{'quickVisualization.view' | translate}}
-                </a>
-              </td>
-              <td>
-                <a class="green-color fontW500" *ngIf="collectionCommission[i]?.payment && collectionCommission[i]?.payment?.xml_url" target="_blank" href="{{collectionCommission[i]?.payment?.xml_url}}">
-                  {{'quickVisualization.view' | translate}}
-                </a>
-              </td>   
-             
-              <td>
-                {{collectionCommission[i]?.agent_payment ? 
-                  ((collectionCommission[i]['agent_payment']?.amount + (collectionCommission[i]['agent_payment']?.iva_amount || 0)) | currency) : ''}}</td>
-              <td>
-                {{collectionCommission[i]?.agent_payment ? (collectionCommission[i]['agent_payment']?.payment_date | date:'dd/MMM/yyyy') : ''}}</td>
-              <td>
-                <a class="green-color fontW500" *ngIf="collectionCommission[i]?.agent_payment" target="_blank" href="{{collectionCommission[i]?.agent_payment?.receipt}}">
-                  {{'quickVisualization.view' | translate}}
-                </a>
-              </td>
-              <td>
-                  <button class="action-icon" *ngIf="collectionCommission[i]?.agent_payment?.description" (click)="showDescription(collectionCommission[i]?.agent_payment?.description, 5)">
-                      <img src="assets/img/eye-icon.png" alt="img">
-                  </button>
-              </td>
-              <td>{{collectionCommission[i]?.agent_payment ?
-                (collectionCommission[i]['agent_payment']?.invoice_date | date:'dd/MMM/yyyy') : ''}}</td>
-              <td>{{collectionCommission[i]?.agent_payment ?
-                (collectionCommission[i]['agent_payment']?.invoice_id) : ''}}</td>
-              <td>
-                <a class="green-color fontW500" *ngIf="collectionCommission[i]?.agent_payment && collectionCommission[i]?.agent_payment?.pdf_url" target="_blank" href="{{collectionCommission[i]?.agent_payment?.pdf_url}}">
-                  {{'quickVisualization.view' | translate}}
-                </a>
-              </td>
-              <td>
-                <a class="green-color fontW500" *ngIf="collectionCommission[i]?.agent_payment && collectionCommission[i]?.agent_payment?.xml_url" target="_blank" href="{{collectionCommission[i]?.agent_payment?.xml_url}}">
-                  {{'quickVisualization.view' | translate}}
-                </a>
-              </td>        
-              </tr>
-            
-            
-              <tr id="collapse{{i}}" class="panel-collapse collapse">
-                  <td colspan="8" style="background: #fff;">
-                  <table>
-                    <thead style="background: #00B96F; color: #fff;">
-                      <th [style.width]="'240px'" [style.color]="'#fff'">{{'quickVisualization.concept' | translate}}</th>
-                      <th [style.width]="'300px'" [style.color]="'#fff'">{{'quickVisualization.paymentDate' | translate}}</th>
-                      <th [style.width]="'300px'" [style.color]="'#fff'">{{'quickVisualization.paidByUser' | translate}}</th>
-                      <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.paymentMethods' | translate}}</th>
-                      <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.bankDetails' | translate}}</th>
-                      <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.paymentAttachment' | translate}}</th>
-                      <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.paymentDescription' | translate}}</th>
-                      <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.action' | translate}}</th>
-                    </thead>
-                    <tbody *ngIf="p?.collection_paymentss?.length>0">
-                      <ng-container *ngFor="let stats of p?.collection_paymentss; let s=index">
-                      <tr *ngIf="stats.payment_type==1 || stats.payment_type==3 || stats.payment_type==4 || stats.payment_type==5">
-                        <td [style.backgroundColor]="'#fff'" [style.color]="'#222'">
-                          {{p?.name || 'NA'}}
-                        </td>
-                        <td>
-                          {{stats.payment_date ? (stats.payment_date | date:'dd/MMM/yyyy') : 'NA'}}
-                        </td>
-                        <td>
-                          <span> {{stats?.amount ? (stats?.amount | currency) : ''}}</span> 
-                        </td>
-                        <td>
-                          <span> {{stats?.payment_method?.name || 'NA'}}</span> 
-                        </td>
-                        <td>
-                          <a class="green-color cursor-pointer fontW500" *ngIf="stats?.payment_bank" (click)="showBank(stats?.payment_bank)">
-                            {{'quickVisualization.view' | translate}}
-                          </a>
-                        </td>
-                        <td>
-                          <a class="green-color fontW500" *ngIf="stats?.key!='total'" target="_blank" href="{{stats?.receipt}}">
-                            {{'quickVisualization.view' | translate}}
-                          </a>
-                        </td>
-                        <td>
-                          <button class="action-icon" *ngIf="stats?.description" (click)="showDescription(stats?.description, 1)">
-                              <img src="assets/img/eye-icon.png" alt="img">
-                          </button>
-                        </td>
-                        <td>
-                          <button class="action-icon" (click)="showUpdatePaymentPopup(stats, i, s)">
-                            <img src="assets/img/edit.png" alt="img">
-                          </button>
-                        </td>
-                      </tr>
-                    </ng-container>
-                    </tbody>
-                  </table>
                 </td>
-                </tr>
-          </tbody>
-        </table>
-      </div>
+                <td *ngIf="collectionCommission[i]?.purchase_payment">{{pur ?
+                  (pur?.invoice_date | date:'dd/MMM/yyyy') : ''}}</td>
+                <td *ngIf="collectionCommission[i]?.purchase_payment">{{pur ?
+                  (pur?.invoice_id) : ''}}</td>
+                <td *ngIf="collectionCommission[i]?.purchase_payment">
+                  <a class="green-color fontW500" *ngIf="collectionCommission[i]?.purchase_payment && pur?.pdf_url"
+                    target="_blank" href="{{pur?.pdf_url}}">
+                    {{'quickVisualization.view' | translate}}
+                  </a>
+                </td>
+                <td *ngIf="collectionCommission[i]?.purchase_payment">
+                  <a class="green-color fontW500" *ngIf="collectionCommission[i]?.purchase_payment && pur?.xml_url"
+                    target="_blank" href="{{pur?.xml_url}}">
+                    {{'quickVisualization.view' | translate}}
+                  </a>
+                </td>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <!-- collection_commission -->
+        <tr id="collapsetwo{{i}}" class="collapse" data-parent="#accordion">
+          <td colspan="10" style="background: #fff; border-color: white;">
+            <table [style.width]="'100%'">
+              <thead style="background: #00B96F; color: #fff;">
+                <th [style.width]="'240px'" [style.color]="'#fff'">{{'quickVisualization.concept' | translate}}</th>
+                <th [style.width]="'300px'" [style.color]="'#fff'">{{'quickVisualization.month' | translate}}</th>
+                <th [style.width]="'300px'" [style.color]="'#fff'">{{'quickVisualization.paid' | translate}}</th>
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.outstandingPayment' |
+                  translate}}</th>
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.toBePaidByUser' | translate}}
+                </th>
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.penaltyFLP' | translate}}</th>
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.penaltyDescription' |
+                  translate}}</th>
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.collectionCommission' |
+                  translate}}</th>
+                <th [style.width]="'220px'" [style.color]="'#fff'">{{'quickVisualization.dateOfCC' | translate}}</th>
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.CCAttachment' | translate}}
+                </th>
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.CCDescription' | translate}}
+                </th>
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.invoiceDate' | translate}}</th>
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.invoiceID' | translate}}</th>
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.pdfDoc' | translate}}</th>
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.xmlDoc' | translate}}</th>
+              </thead>
+              <tbody *ngFor="let pur of collection_payments; let s=index">
+                <td>Commission&nbsp;{{s+0}}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="color: black;">
+                  {{pur?((pur?.amount) | currency) : ''}}</td>
+                <td style="color: red;">
+                  {{pur ? (pur?.payment_date | date:'dd/MMM/yyyy') : ''}}</td>
+                <td>
+                  <a class="green-color fontW500" *ngIf="collectionCommission[i]?.payment" target="_blank"
+                    href="{{pur?.receipt}}">
+                    {{'quickVisualization.view' | translate}}
+                  </a>
+                </td>
+                <td *ngIf="collectionCommission[i]?.payment">
+                  <button class="action-icon" *ngIf="pur?.description" (click)="showDescription(pur?.description, 3)">
+                    <img src="assets/img/eye-icon.png" alt="img">
+                  </button>
+                </td>
+                <td *ngIf="collectionCommission[i]?.payment">{{pur ?
+                  (pur?.invoice_date | date:'dd/MMM/yyyy') : ''}}</td>
+                <td *ngIf="collectionCommission[i]?.payment">{{pur ?
+                  (pur?.invoice_id) : ''}}</td>
+                <td *ngIf="collectionCommission[i]?.payment">
+                  <a class="green-color fontW500" *ngIf="collectionCommission[i]?.payment && pur?.pdf_url"
+                    target="_blank" href="{{pur?.pdf_url}}">
+                    {{'quickVisualization.view' | translate}}
+                  </a>
+                </td>
+                <td *ngIf="collectionCommission[i]?.payment">
+                  <a class="green-color fontW500" *ngIf="collectionCommission[i]?.payment && pur?.xml_url"
+                    target="_blank" href="{{pur?.xml_url}}">
+                    {{'quickVisualization.view' | translate}}
+                  </a>
+                </td>
+               
+              </tbody>
+
+            </table>
+
+          </td>
+
+        </tr>
+        <!-- collection_agent -->
+        <tr id="collapsethree{{i}}" class="collapse" data-parent="#accordion">
+
+          <td colspan="10" style="background: #fff; border-color: white;">
+            <table [style.width]="'100%'">
+              <thead style="background: #00B96F; color: #fff;">
+
+                <th [style.width]="'240px'" [style.color]="'#fff'">{{'quickVisualization.concept' | translate}}</th>
+
+                <th [style.width]="'300px'" [style.color]="'#fff'">{{'quickVisualization.month' | translate}}</th>
+
+                <th [style.width]="'300px'" [style.color]="'#fff'">{{'quickVisualization.paid' | translate}}</th>
+
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.outstandingPayment' |
+                  translate}}</th>
+
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.toBePaidByUser' | translate}}
+                </th>
+
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.penaltyFLP' | translate}}</th>
+
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.penaltyDescription' |
+                  translate}}</th>
+
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.agentCommission' | translate}}
+                </th>
+
+                <th [style.width]="'217px'" [style.color]="'#fff'">{{'quickVisualization.dateOfAC' | translate}}</th>
+
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.ACAttachment' | translate}}
+                </th>
+
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.ACDescription' | translate}}
+                </th>
+
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.invoiceDate' | translate}}</th>
+
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.invoiceID' | translate}}</th>
+
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.pdfDoc' | translate}}</th>
+
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.xmlDoc' | translate}}</th>
+
+              </thead>
+
+              <tbody *ngFor="let pur of agent_payments; let s=index">
+                <td>Commission&nbsp;{{s+0}}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="color: black;">
+                  {{pur?((pur?.amount) | currency) : ''}}</td>
+
+                <td style="color: red;">
+                  {{pur ? (pur?.payment_date | date:'dd/MMM/yyyy') : ''}}
+                </td>
+
+                <td>
+                  <a class="green-color fontW500" *ngIf="collectionCommission[i]?.purchase_payment" target="_blank"
+                    href="{{pur?.receipt}}">
+                    {{'quickVisualization.view' | translate}}
+                  </a>
+                </td>
+
+                <td *ngIf="collectionCommission[i]?.agent_payment">
+                  <button class="action-icon" *ngIf="pur?.description" (click)="showDescription(pur?.description, 3)">
+                    <img src="assets/img/eye-icon.png" alt="img">
+                  </button>
+                </td>
+
+                <td *ngIf="collectionCommission[i]?.agent_payment">{{pur ? (pur?.invoice_date | date:'dd/MMM/yyyy') : ''}}</td>
+
+                <td *ngIf="collectionCommission[i]?.agent_payment">{{pur ? (pur?.invoice_id) : ''}}</td>
+
+                <td *ngIf="collectionCommission[i]?.agent_payment">
+                  <a class="green-color fontW500" *ngIf="collectionCommission[i]?.agent_payment && pur?.pdf_url"
+                    target="_blank" href="{{pur?.pdf_url}}">
+                    {{'quickVisualization.view' | translate}}</a>
+                </td>
+
+                <td *ngIf="collectionCommission[i]?.agent_payment">
+                  <a class="green-color fontW500" *ngIf="collectionCommission[i]?.agent_payment && pur?.xml_url"
+                    target="_blank" href="{{pur?.xml_url}}">{{'quickVisualization.view' | translate}}
+                  </a>
+                </td>
+
+              </tbody>
+
+            </table>
+
+          </td>
+
+        </tr>
+  </tbody>
+  </table>
+</div>
 </div>
 
 
 
 <a href="javascript://" data-toggle="modal" data-target="#bank-modal" #viewBankDetailsModal></a>
 <div class="modal animated" id="bank-modal">
-      <div class="modal-dialog fadeIndown">
-            <div class="modal-content notary-avail">
-                  <div class="modal-header popup-header">
-                        <h4>{{'quickVisualization.bankDetails' | translate}}</h4>
-                        <button style="display: none;" type="button" class="close" data-dismiss="modal" #closeBankDetailsModal>&times;</button>
-                        <button type="button" class="close" (click)="closeBankModal()">&times;</button>
-                  </div>
-
-                  <div class="modal-body">
-                    <table [style.width]="'100%'">
-                      <tbody>
-                        <tr><th>{{'quickVisualization.bankName' | translate}}</th></tr>
-                        <tr><td>{{paymentBank?.bank_name || 'NA'}}</td></tr>
-                        <tr><th>{{'quickVisualization.accountNumber' | translate}}</th></tr>
-                        <tr><td>{{paymentBank?.account_number || 'NA'}}</td></tr>
-                        <tr><th>{{'quickVisualization.clabeSwift' | translate}}</th></tr>
-                        <tr><td>{{paymentBank?.swift || 'NA'}}</td></tr>
-                        <tr><th>{{'quickVisualization.currency' | translate}}</th></tr>
-                        <tr><td>{{paymentBank?.currency?.code || 'NA'}}</td></tr>
-                      </tbody>
-                    </table>
-                  </div>
-            </div>
+  <div class="modal-dialog fadeIndown">
+    <div class="modal-content notary-avail">
+      <div class="modal-header popup-header">
+        <h4>{{'quickVisualization.bankDetails' | translate}}</h4>
+        <button style="display: none;" type="button" class="close" data-dismiss="modal"
+          #closeBankDetailsModal>&times;</button>
+        <button type="button" class="close" (click)="closeBankModal()">&times;</button>
       </div>
+
+      <div class="modal-body">
+        <table [style.width]="'100%'">
+          <tbody>
+            <tr>
+              <th>{{'quickVisualization.bankName' | translate}}</th>
+            </tr>
+            <tr>
+              <td>{{paymentBank?.bank_name || 'NA'}}</td>
+            </tr>
+            <tr>
+              <th>{{'quickVisualization.accountNumber' | translate}}</th>
+            </tr>
+            <tr>
+              <td>{{paymentBank?.account_number || 'NA'}}</td>
+            </tr>
+            <tr>
+              <th>{{'quickVisualization.clabeSwift' | translate}}</th>
+            </tr>
+            <tr>
+              <td>{{paymentBank?.swift || 'NA'}}</td>
+            </tr>
+            <tr>
+              <th>{{'quickVisualization.currency' | translate}}</th>
+            </tr>
+            <tr>
+              <td>{{paymentBank?.currency?.code || 'NA'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
 
 
 <a href="javascript://" data-toggle="modal" data-target="#des-modal" #viewDesModal></a>
 <div class="modal animated" id="des-modal">
-      <div class="modal-dialog fadeIndown">
-            <div class="modal-content notary-avail">
-                  <div class="modal-header popup-header">
-                        <h4 *ngIf="title==1">{{'quickVisualization.paymentDescription' | translate}}</h4>
-                        <h4 *ngIf="title==2">{{'quickVisualization.penaltyDescription' | translate}}</h4>
-                        <h4 *ngIf="title==3">{{'quickVisualization.PCDescription' | translate}}</h4>
-                        <h4 *ngIf="title==4">{{'quickVisualization.CCDescription' | translate}}</h4>
-                        <h4 *ngIf="title==5">{{'quickVisualization.ACDescription' | translate}}</h4>
-                        <button style="display: none;" type="button" class="close" data-dismiss="modal" #viewDesModalClose>&times;</button>
-                        <button type="button" class="close" (click)="closeDescModal()">&times;</button>
-                  </div>
-
-                  <div class="modal-body">
-                        <div class="form-group-2">
-                              <div class="form-group">
-                                    <textarea rows="4" readonly required class="form-control note" name="description" [(ngModel)]="description"></textarea>
-                              </div>
-                        </div>
-                  </div>
-            </div>
+  <div class="modal-dialog fadeIndown">
+    <div class="modal-content notary-avail">
+      <div class="modal-header popup-header">
+        <h4 *ngIf="title==1">{{'quickVisualization.paymentDescription' | translate}}</h4>
+        <h4 *ngIf="title==2">{{'quickVisualization.penaltyDescription' | translate}}</h4>
+        <h4 *ngIf="title==3">{{'quickVisualization.PCDescription' | translate}}</h4>
+        <h4 *ngIf="title==4">{{'quickVisualization.CCDescription' | translate}}</h4>
+        <h4 *ngIf="title==5">{{'quickVisualization.ACDescription' | translate}}</h4>
+        <button style="display: none;" type="button" class="close" data-dismiss="modal"
+          #viewDesModalClose>&times;</button>
+        <button type="button" class="close" (click)="closeDescModal()">&times;</button>
       </div>
+
+      <div class="modal-body">
+        <div class="form-group-2">
+          <div class="form-group">
+            <textarea rows="4" readonly required class="form-control note" name="description"
+              [(ngModel)]="description"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 
 <a href="javascript://" data-toggle="modal" data-target="#updatePyamentModal" #updatePaymentModalOpen></a>
 <div class="modal animated" id="updatePyamentModal">
-    <div class="modal-dialog fadeIndown modal-lg">
-        <div class="modal-content notary-avail">
-              <div class="modal-header popup-header">
-          <h4>{{'quickVisualization.editPaymentDetails' | translate}}</h4>
-            <button style="display: none;" type="button" class="close" data-dismiss="modal" #updatePaymentModalClose>&times;</button>
-            <button type="button" class="close" (click)="closeUpdatePaymentModal(); addForm.reset()">&times;</button>
-        </div>
-  
-        <form autocomplete="off" class="form-horizontal padding0" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="updateCollectionPayment()">
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-12">
-                <div class="spacer40"></div>
-              </div>
-              <div class="col-6">
-                <div class="form-group-2">
-                    <label>{{'viewCollections.choosePaymentMethod' | translate}} <span class="color-red">*</span></label>
-                    <div class="form-group">
-                        <select name="payment_method" required class="form-control" [(ngModel)]="payment_method_id">
-                              <option value="">{{'viewCollections.choosePaymentMethod' | translate}}</option>
-                              <option *ngFor="let bt of paymentMethods" [value]="bt.id"> {{bt?.name}}</option>
-                        </select>
-                  </div>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="form-group-2">
-                    <label>{{'viewCollections.choosePaymentReceipt' | translate}} <span class="color-red">*</span></label>
-                    <div class="form-group">
-                      <p *ngIf="docFile">
-                        <span>
-                          <a target="_blank" href="{{docFile}}">{{'quickVisualization.clickToViewReceipt' | translate}}</a>
-                        </span>
-                        <span>
-                          <a class="remove" (click)="docFile=''"><img src="assets/img/remove-icon.png" alt="img"></a>
-                        </span>
-                      </p>
-                        <input *ngIf="!docFile" type="file" name="docFile" #docsFile1
-                        accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/x-png,image/jpg,image/jpeg"
-                        (change)="onSelectFile($event.target.files)">
-                    </div>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="form-group-2">
-                    <label>{{'viewCollections.paymentDate' | translate}}</label><span class="color-red">*</span>
-                    <div class="form-group">
-                      <div class="clearfix"></div>
-                      <p-calendar dateFormat="dd/M/yy" class="form-control" autocomplete="off" [(ngModel)]="payment_date" 
-                        [style]="{'width':'100%'}" name="payment_date" class="sz-calendar" [locale]="locale" showIcon="true" 
-                        (onSelect)="onSelect($event)" [maxDate]="today1"
-                        showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
-                    </div>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group-2">
-                    <label>{{'viewCollections.description' | translate}}</label>
-                    <div class="form-group">
-                          <textarea rows="3" [(ngModel)]="description" name="description" class="form-control"></textarea>
-                 </div>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="btn-cont text-right">
-                    <button type="submit" class="btn btn-primary-new">
-                        <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
-                        {{'addForm.updateBtn' | translate}}</button>
+  <div class="modal-dialog fadeIndown modal-lg">
+    <div class="modal-content notary-avail">
+      <div class="modal-header popup-header">
+        <h4>{{'quickVisualization.editPaymentDetails' | translate}}</h4>
+        <button style="display: none;" type="button" class="close" data-dismiss="modal"
+          #updatePaymentModalClose>&times;</button>
+        <button type="button" class="close" (click)="closeUpdatePaymentModal(); addForm.reset()">&times;</button>
+      </div>
+
+      <form autocomplete="off" class="form-horizontal padding0" role="form" ngNativeValidate #addForm="ngForm"
+        (ngSubmit)="updateCollectionPayment()">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12">
+              <div class="spacer40"></div>
+            </div>
+            <div class="col-6">
+              <div class="form-group-2">
+                <label>{{'viewCollections.choosePaymentMethod' | translate}} <span class="color-red">*</span></label>
+                <div class="form-group">
+                  <select name="payment_method" required class="form-control" [(ngModel)]="payment_method_id">
+                    <option value="">{{'viewCollections.choosePaymentMethod' | translate}}</option>
+                    <option *ngFor="let bt of paymentMethods" [value]="bt.id"> {{bt?.name}}</option>
+                  </select>
                 </div>
               </div>
             </div>
+            <div class="col-6">
+              <div class="form-group-2">
+                <label>{{'viewCollections.choosePaymentReceipt' | translate}} <span class="color-red">*</span></label>
+                <div class="form-group">
+                  <p *ngIf="docFile">
+                    <span>
+                      <a target="_blank" href="{{docFile}}">{{'quickVisualization.clickToViewReceipt' | translate}}</a>
+                    </span>
+                    <span>
+                      <a class="remove" (click)="docFile=''"><img src="assets/img/remove-icon.png" alt="img"></a>
+                    </span>
+                  </p>
+                  <input *ngIf="!docFile" type="file" name="docFile" #docsFile1
+                    accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/x-png,image/jpg,image/jpeg"
+                    (change)="onSelectFile($event.target.files)">
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group-2">
+                <label>{{'viewCollections.paymentDate' | translate}}</label><span class="color-red">*</span>
+                <div class="form-group">
+                  <div class="clearfix"></div>
+                  <p-calendar dateFormat="dd/M/yy" class="form-control" autocomplete="off" [(ngModel)]="payment_date"
+                    [style]="{'width':'100%'}" name="payment_date" class="sz-calendar" [locale]="locale" showIcon="true"
+                    (onSelect)="onSelect($event)" [maxDate]="today1" showButtonBar="true" [monthNavigator]="true"
+                    [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                <label>{{'viewCollections.description' | translate}}</label>
+                <div class="form-group">
+                  <textarea rows="3" [(ngModel)]="description" name="description" class="form-control"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="btn-cont text-right">
+                <button type="submit" class="btn btn-primary-new">
+                  <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
+                  {{'addForm.updateBtn' | translate}}</button>
+              </div>
+            </div>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   </div>
-  
+</div>
+
 
 
 <a href="javascript://" data-toggle="modal" data-target="#entityModal" #paymentModalOpen></a>
 <div class="modal animated" id="entityModal">
-    <div class="modal-dialog fadeIndown modal-lg">
-        <div class="modal-content notary-avail">
-              <div class="modal-header popup-header">
-          <h4>{{'viewCollections.applyPayment' | translate}}</h4>
-            <button style="display: none;" type="button" class="close" data-dismiss="modal" #paymentModalClose>&times;</button>
-            <button type="button" class="close" (click)="closePaymentModal(); addForm.reset()">&times;</button>
-        </div>
-  
-        <form autocomplete="off" class="form-horizontal padding0" role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="applyCollectionPayment()">
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-12">
-                <div class="spacer40"></div>
-              </div>
-              <div class="col-12">
-                <div class="form-group-2">
-                    <label>{{'viewCollections.choosePaymentType' | translate}} <span class="color-red">*</span></label>
-                    <div class="form-group">
-                        <select name="payment_type" required class="form-control" [(ngModel)]="payment_type" (change)="setPayMentType($event.target.value)">
-                          <option value="">{{'viewCollections.choose' | translate}}</option>      
-                          <option value="1">{{'viewCollections.payToFollowing' | translate}}</option>
-                          <option value="2" [disabled]="disablePayToRemaining">{{'viewCollections.payToRemainingReducePayment' | translate}}</option>
-                          <option value="3" [disabled]="disablePayToRemaining">{{'viewCollections.payToRemainingPayment' | translate}}</option>
-                          <option value="4">{{'viewCollections.payToSpecific' | translate}}</option>
-                          <option value="5">{{'viewCollections.totalPayment' | translate}}</option>
-                        </select>
-                  </div>
-                </div>
-              </div>
-              <div class="col-6" *ngIf="payment_type!=2 && payment_type !=3 && payment_type != 5">
-                <div class="form-group-2">
-                    <label>{{'viewCollections.choosePaymentConcept' | translate}} <span class="color-red">*</span></label>
-                    <div class="form-group">
-                        <select name="payment_choice" #applyPaymentChoiceId required class="form-control" [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
-                              <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
-                               <option *ngFor="let bt of paymentConcepts" [disabled]="bt?.is_paid_calculated || (bt?.is_disabled && payment_type==1)" [ngValue]="bt"> 
-                                 {{bt?.name}}
-                                 <span *ngIf="bt?.is_paid_calculated"> | Paid</span>
-                                </option>
-                        </select>
-                  </div>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="form-group-2">
-                    <label>{{'viewCollections.choosePaymentMethod' | translate}} <span class="color-red">*</span></label>
-                    <div class="form-group">
-                        <select name="payment_method" #applyPaymentMethodId required class="form-control" [(ngModel)]="payment_method_id">
-                              <option value="">{{'viewCollections.choosePaymentMethod' | translate}}</option>
-                              <option *ngFor="let bt of paymentMethods" [value]="bt.id"> {{bt?.name}}</option>
-                        </select>
-                  </div>
-                </div>
-              </div>
+  <div class="modal-dialog fadeIndown modal-lg">
+    <div class="modal-content notary-avail">
+      <div class="modal-header popup-header">
+        <h4>{{'viewCollections.applyPayment' | translate}}</h4>
+        <button style="display: none;" type="button" class="close" data-dismiss="modal"
+          #paymentModalClose>&times;</button>
+        <button type="button" class="close" (click)="closePaymentModal(); addForm.reset()">&times;</button>
+      </div>
 
-              <div class="col-6">
-                <div class="form-group-2">
-                    <label>{{'viewCollections.chooseBank' | translate}} <span class="color-red">*</span></label>
-                    <div class="form-group">
-                        <select name="payment_bank" class="form-control" [(ngModel)]="payment_bank">
-                              <option value="">{{'viewCollections.chooseBank' | translate}}</option>
-                              <option *ngFor="let bt of paymentBanks" [ngValue]="bt"> {{bt?.name}} | {{bt?.account_number}} | {{bt?.currency?.code}}</option>
-                        </select>
-                  </div>
+      <form autocomplete="off" class="form-horizontal padding0" role="form" ngNativeValidate #addForm="ngForm"
+        (ngSubmit)="applyCollectionPayment()">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12">
+              <div class="spacer40"></div>
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                <label>{{'viewCollections.choosePaymentType' | translate}} <span class="color-red">*</span></label>
+                <div class="form-group">
+                  <select name="payment_type" required class="form-control" [(ngModel)]="payment_type"
+                    (change)="setPayMentType($event.target.value)">
+                    <option value="">{{'viewCollections.choose' | translate}}</option>
+                    <option value="1">{{'viewCollections.payToFollowing' | translate}}</option>
+                    <option value="2" [disabled]="disablePayToRemaining">{{'viewCollections.payToRemainingReducePayment'
+                      | translate}}</option>
+                    <option value="3" [disabled]="disablePayToRemaining">{{'viewCollections.payToRemainingPayment' |
+                      translate}}</option>
+                    <option value="4">{{'viewCollections.payToSpecific' | translate}}</option>
+                    <option value="5">{{'viewCollections.totalPayment' | translate}}</option>
+                  </select>
                 </div>
               </div>
-              <ng-container  *ngIf="payment_type!=2 && payment_type !=3 && payment_type != 5">
+            </div>
+            <div class="col-6" *ngIf="payment_type!=2 && payment_type !=3 && payment_type != 5">
+              <div class="form-group-2">
+                <label>{{'viewCollections.choosePaymentConcept' | translate}} <span class="color-red">*</span></label>
+                <div class="form-group">
+                  <select name="payment_choice" #applyPaymentChoiceId required class="form-control"
+                    [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
+                    <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
+                    <option *ngFor="let bt of paymentConcepts"
+                      [disabled]="bt?.is_paid_calculated || (bt?.is_disabled && payment_type==1)" [ngValue]="bt">
+                      {{bt?.name}}
+                      <span *ngIf="bt?.is_paid_calculated"> | Paid</span>
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group-2">
+                <label>{{'viewCollections.choosePaymentMethod' | translate}} <span class="color-red">*</span></label>
+                <div class="form-group">
+                  <select name="payment_method" #applyPaymentMethodId required class="form-control"
+                    [(ngModel)]="payment_method_id">
+                    <option value="">{{'viewCollections.choosePaymentMethod' | translate}}</option>
+                    <option *ngFor="let bt of paymentMethods" [value]="bt.id"> {{bt?.name}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="form-group-2">
+                <label>{{'viewCollections.chooseBank' | translate}} <span class="color-red">*</span></label>
+                <div class="form-group">
+                  <select name="payment_bank" class="form-control" [(ngModel)]="payment_bank">
+                    <option value="">{{'viewCollections.chooseBank' | translate}}</option>
+                    <option *ngFor="let bt of paymentBanks" [ngValue]="bt"> {{bt?.name}} | {{bt?.account_number}} |
+                      {{bt?.currency?.code}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <ng-container *ngIf="payment_type!=2 && payment_type !=3 && payment_type != 5">
               <div class="col-6" *ngIf="selectedPaymentConcept">
                 <div class="form-group-2">
-                    <label>{{'viewCollections.programmedDate' | translate}}<span class="color-red">*</span></label>
-                    <div class="form-group">
-                    <input readonly class="form-control" value="{{selectedPaymentConcept?.date | date:'dd/MMM/yyyy'}}" name="pendingPayment">
+                  <label>{{'viewCollections.programmedDate' | translate}}<span class="color-red">*</span></label>
+                  <div class="form-group">
+                    <input readonly class="form-control" value="{{selectedPaymentConcept?.date | date:'dd/MMM/yyyy'}}"
+                      name="pendingPayment">
                   </div>
                 </div>
               </div>
               <div class="col-6">
                 <div class="form-group-2">
-                    <label>{{'viewCollections.pendingExtraAmt' | translate}}<span class="color-red">*</span></label>
-                    <div class="form-group">
+                  <label>{{'viewCollections.pendingExtraAmt' | translate}}<span class="color-red">*</span></label>
+                  <div class="form-group">
                     <input readonly class="form-control" value="{{pendingPayment}}" name="pendingPayment">
                   </div>
                 </div>
               </div>
               <div class="col-6">
                 <div class="form-group-2">
-                    <label>{{'viewCollections.penaltyAmount' | translate}}<span class="color-red">*</span></label>
-                    <div class="form-group">
+                  <label>{{'viewCollections.penaltyAmount' | translate}}<span class="color-red">*</span></label>
+                  <div class="form-group">
                     <input readonly class="form-control" value="{{penaltyAmount}}" name="penaltyAmount">
                   </div>
                 </div>
               </div>
               <div class="col-6">
                 <div class="form-group-2">
-                    <label>{{'viewCollections.currentAmtTobePaid' | translate}}<span class="color-red">*</span></label>
-                    <div class="form-group">
-                    <input autocomplete="off" readonly required type="number" step="0.01" min="0" class="form-control" [(ngModel)]="currentAmount" 
-                        name="currentAmount">
+                  <label>{{'viewCollections.currentAmtTobePaid' | translate}}<span class="color-red">*</span></label>
+                  <div class="form-group">
+                    <input autocomplete="off" readonly required type="number" step="0.01" min="0" class="form-control"
+                      [(ngModel)]="currentAmount" name="currentAmount">
                   </div>
                 </div>
               </div>
             </ng-container>
-              <div class="col-6">
-                <div class="form-group-2">
-                    <label>{{'viewCollections.totalAmtToBePaid' | translate}}<span class="color-red">*</span></label>
-                    <div class="form-group">
-                    <input autocomplete="off" required type="number" step="0.01" min="0" class="form-control" [(ngModel)]="paymentAmount" 
-                        name="paymentAmount">
-                  </div>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="form-group-2">
-                    <label>{{'viewCollections.choosePaymentReceipt' | translate}} <span class="color-red">*</span></label>
-                    <div class="form-group">
-                        <input type="file" name="docFile" #docsFile1
-                        accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/x-png,image/jpg,image/jpeg"
-                        (change)="onSelectFile($event.target.files)">
-                    </div>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="form-group-2">
-                    <label>{{'viewCollections.paymentDate' | translate}}</label><span class="color-red">*</span>
-                    <div class="form-group">
-                      <div class="clearfix"></div>
-                      <p-calendar dateFormat="dd/M/yy" class="form-control" [(ngModel)]="paymentDate" autocomplete="off" [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" showIcon="true" 
-                        (onSelect)="onSelect($event)" [maxDate]="today1"
-                        showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
-                    </div>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group-2">
-                    <label>{{'viewCollections.description' | translate}}</label>
-                    <div class="form-group">
-                          <textarea rows="3" [(ngModel)]="description" name="description" class="form-control"></textarea>
-                 </div>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="btn-cont text-right">
-                    <button [disabled]="isApplyBtnClicked"
-                      type="submit" class="btn btn-primary-new">
-                        <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
-                        {{'addForm.addBtn' | translate}}
-                      </button>
+            <div class="col-6">
+              <div class="form-group-2">
+                <label>{{'viewCollections.totalAmtToBePaid' | translate}}<span class="color-red">*</span></label>
+                <div class="form-group">
+                  <input autocomplete="off" required type="number" step="0.01" min="0" class="form-control"
+                    [(ngModel)]="paymentAmount" name="paymentAmount">
                 </div>
               </div>
             </div>
+            <div class="col-6">
+              <div class="form-group-2">
+                <label>{{'viewCollections.choosePaymentReceipt' | translate}} <span class="color-red">*</span></label>
+                <div class="form-group">
+                  <input type="file" name="docFile" #docsFile1
+                    accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/x-png,image/jpg,image/jpeg"
+                    (change)="onSelectFile($event.target.files)">
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group-2">
+                <label>{{'viewCollections.paymentDate' | translate}}</label><span class="color-red">*</span>
+                <div class="form-group">
+                  <div class="clearfix"></div>
+                  <p-calendar dateFormat="dd/M/yy" class="form-control" [(ngModel)]="paymentDate" autocomplete="off"
+                    [style]="{'width':'100%'}" name="date" class="sz-calendar" [locale]="locale" showIcon="true"
+                    (onSelect)="onSelect($event)" [maxDate]="today1" showButtonBar="true" [monthNavigator]="true"
+                    [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                <label>{{'viewCollections.description' | translate}}</label>
+                <div class="form-group">
+                  <textarea rows="3" [(ngModel)]="description" name="description" class="form-control"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="btn-cont text-right">
+                <button [disabled]="isApplyBtnClicked" type="submit" class="btn btn-primary-new">
+                  <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
+                  {{'addForm.addBtn' | translate}}
+                </button>
+              </div>
+            </div>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   </div>
+</div>
 
 
-  <a href="javascript://" data-toggle="modal" data-target="#surplusMoneyModal" #surplusMoneyModalOpen></a>
-  <div class="modal animated" id="surplusMoneyModal">
-      <div class="modal-dialog fadeIndown">
-          <div class="modal-content notary-avail">
-                <div class="modal-header popup-header">
-            <h4>{{'viewCollections.surplusMoney' | translate}}</h4>
-              <button style="display: none;" type="button" class="close" data-dismiss="modal" #surplusMoneyModalClose>&times;</button>
-              <button type="button" class="close" (click)="closeSurplusMoney()">&times;</button>
-          </div>
-    
-          <form autocomplete="off" class="form-horizontal padding0" role="form" ngNativeValidate #addSurplusForm="ngForm" >
-            <div class="modal-body">
-              <div class="row">
-                <div class="col-12">
-                  <div class="spacer40"></div>
-                </div>
-                <div class="col-12">
-                  <div class="form-group-2">
-                      <label>{{('viewCollections.chooseWhichPaymentTypeYouwantToApplyForSurplusMoney' | translate) +' '+ (paymentAmount-calculatedPayAmount | currency) }} <span class="color-red">*</span></label>
-                      <div class="form-group">
-                          <select name="surplus_payment_type" required class="form-control" [(ngModel)]="surplus_payment_type" (change)="setPayMentTypeSurplus($event.target.value)">
-                            <option value="">{{'viewCollections.choose' | translate}}</option>    
-                            <option value="1">{{'viewCollections.payToFollowing' | translate}}</option>
-                            <option value="2">{{'viewCollections.payToRemainingReducePayment' | translate}}</option>
-                            <option value="3">{{'viewCollections.payToRemainingPayment' | translate}}</option>
-                            <option value="4">{{'viewCollections.payToSpecific' | translate}}</option>
-                          </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12" *ngIf="surplus_payment_type=='4'">
-                  <div class="form-group-2">
-                      <label>{{'viewCollections.choosePaymentConcept' | translate}} <span class="color-red">*</span></label>
-                      <div class="form-group">
-                          <select name="payment_choice13" required [(ngModel)]="surplus_payment_choice_id" class="form-control" (ngModelChange)="setPaymentSurplusAmount($event)">
-                                <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
-                                 <option *ngFor="let bt of paymentConcepts" [disabled]="bt?.is_paid_calculated || bt?.is_disabled" [ngValue]="bt"> 
-                                   {{bt?.name}}
-                                   <span *ngIf="bt?.is_paid_calculated"> | Paid</span>
-                                  </option>
-                          </select>
-                      </div>
-                      <p>{{'viewCollections.amountToBePaid' | translate}} : {{surplus_amt}}</p>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="btn-cont text-right">
-                      <button type="button" (click)="closeSurplusMoney(); applyCollectionPayment()" class="btn btn-primary-new">
-                          <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
-                          {{'addForm.saveBtn' | translate}}</button>
-                  </div>
+<a href="javascript://" data-toggle="modal" data-target="#surplusMoneyModal" #surplusMoneyModalOpen></a>
+<div class="modal animated" id="surplusMoneyModal">
+  <div class="modal-dialog fadeIndown">
+    <div class="modal-content notary-avail">
+      <div class="modal-header popup-header">
+        <h4>{{'viewCollections.surplusMoney' | translate}}</h4>
+        <button style="display: none;" type="button" class="close" data-dismiss="modal"
+          #surplusMoneyModalClose>&times;</button>
+        <button type="button" class="close" (click)="closeSurplusMoney()">&times;</button>
+      </div>
+
+      <form autocomplete="off" class="form-horizontal padding0" role="form" ngNativeValidate #addSurplusForm="ngForm">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12">
+              <div class="spacer40"></div>
+            </div>
+            <div class="col-12">
+              <div class="form-group-2">
+                <label>{{('viewCollections.chooseWhichPaymentTypeYouwantToApplyForSurplusMoney' | translate) +' '+
+                  (paymentAmount-calculatedPayAmount | currency) }} <span class="color-red">*</span></label>
+                <div class="form-group">
+                  <select name="surplus_payment_type" required class="form-control" [(ngModel)]="surplus_payment_type"
+                    (change)="setPayMentTypeSurplus($event.target.value)">
+                    <option value="">{{'viewCollections.choose' | translate}}</option>
+                    <option value="1">{{'viewCollections.payToFollowing' | translate}}</option>
+                    <option value="2">{{'viewCollections.payToRemainingReducePayment' | translate}}</option>
+                    <option value="3">{{'viewCollections.payToRemainingPayment' | translate}}</option>
+                    <option value="4">{{'viewCollections.payToSpecific' | translate}}</option>
+                  </select>
                 </div>
               </div>
             </div>
-          </form>
+            <div class="col-12" *ngIf="surplus_payment_type=='4'">
+              <div class="form-group-2">
+                <label>{{'viewCollections.choosePaymentConcept' | translate}} <span class="color-red">*</span></label>
+                <div class="form-group">
+                  <select name="payment_choice13" required [(ngModel)]="surplus_payment_choice_id" class="form-control"
+                    (ngModelChange)="setPaymentSurplusAmount($event)">
+                    <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
+                    <option *ngFor="let bt of paymentConcepts" [disabled]="bt?.is_paid_calculated || bt?.is_disabled"
+                      [ngValue]="bt">
+                      {{bt?.name}}
+                      <span *ngIf="bt?.is_paid_calculated"> | Paid</span>
+                    </option>
+                  </select>
+                </div>
+                <p>{{'viewCollections.amountToBePaid' | translate}} : {{surplus_amt}}</p>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="btn-cont text-right">
+                <button type="button" (click)="closeSurplusMoney(); applyCollectionPayment()"
+                  class="btn btn-primary-new">
+                  <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
+                  {{'addForm.saveBtn' | translate}}</button>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      </form>
     </div>
+  </div>
+</div>
