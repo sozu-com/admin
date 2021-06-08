@@ -968,7 +968,7 @@ export class AddProjectComponent implements OnInit {
     this.file4.reset();
   }
 
-  openConfigPopupFun() {
+  openConfigPopupFun(config) {
     this.openConfigPopup.nativeElement.click();
     this.addConfig.nativeElement.reset();
     this.new_config = new Configuration;
@@ -1069,14 +1069,17 @@ export class AddProjectComponent implements OnInit {
 
     this.file4.upload().then(r1 => {
       this.new_config.images = this.file4.files;
+      this.config(count, totalFilesCount);
     });
 
     this.config360Img.upload().then(r1 => {
       this.new_config.images360 = this.config360Img.files;
+      this.config(count, totalFilesCount);
     });
 
     this.configVideos.upload().then(r1 => {
       this.new_config.videos = this.configVideos.files;
+      this.config(count, totalFilesCount);
     });
 
     this.file4.files.forEach(element => {
@@ -1094,7 +1097,9 @@ export class AddProjectComponent implements OnInit {
         count++;
       }
     });
+  }
 
+  config(count, totalFilesCount){
     if (count === totalFilesCount) {
       this.spinner.hide();
       if (this.new_config_edit >= 0) {
@@ -1102,8 +1107,6 @@ export class AddProjectComponent implements OnInit {
       } else {
         this.model.configurations.push(this.new_config);
       }
-
-      this.new_config = new Configuration();
       this.closeConfigPopup.nativeElement.click();
     }
   }
