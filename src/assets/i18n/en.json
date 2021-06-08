@@ -2394,6 +2394,12 @@
     "finalPrice":"Final Price"
   },
   "quickVisualization": {
+    "Commission":"Commission",
+    "payment_method":"Payment Method",
+    "amount":"Amount",
+    "payment_receipt":"Payment receipt",
+    "payment_date":"Payment Date",
+    "description":"Description",
     "label": "Quick Visualization",
     "stackholdersInformation": "Stakeholders Information",
     "buyer": "Buyer",
