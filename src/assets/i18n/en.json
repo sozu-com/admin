@@ -730,6 +730,7 @@
       "finalPrice_per": "Final price per meter square",
       "Commercialoffers": "Commercial offers",
       "avergagePrice": "Price per m2",
+      "price_per_square":"price per square meter",
       "Commercialofferslist": "Commercial offers list",
       "editPrice": "Edit list price",
       "offerID": "Offer ID",
