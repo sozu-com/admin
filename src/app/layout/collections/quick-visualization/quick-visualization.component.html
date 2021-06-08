@@ -371,33 +371,32 @@
           <tbody>
             <tr>
               <th>{{'quickVisualization.Commission' | translate}}:</th>
-              <td>{{model?.property?.building?.name || ('table.tr.td.NA' | translate)}}</td>
+              <td> {{'viewCollections.cancellation' | translate}}</td>
             </tr>
             <tr>
               <th>{{'quickVisualization.payment_method' | translate}}:</th>
-              <td>{{model?.property?.building_towers?.tower_name || ('table.tr.td.NA' | translate)}}</td>
+              <td>{{model?.cancellation_commission?.payment_method?.name || ('table.tr.td.NA' | translate)}}</td>
             </tr>
             <tr>
               <th>{{'quickVisualization.amount' | translate}}:</th>
               <td>
-                {{model?.property?.floor_num ? (model?.property?.floor_num == 0 ? ('addCollection.groundFloor' |
-                translate) : ('addCollection.floor' | translate) + ' ' + model?.property?.floor_num) : ('table.tr.td.NA'
-                | translate)}}
+                {{model?.cancellation_commission?.payment_amount || ('table.tr.td.NA' | translate)}}
               </td>
             </tr>
             <tr>
               <th>{{'quickVisualization.payment_receipt' | translate}}:</th>
-              <td> <a class="green-color fontW500" target="_blank" href="{{collectionCommission[i]?.payment?.receipt}}">
-                {{model?.property?.building_configuration?.name || ('table.tr.td.NA' | translate)}}
+              <td> <a class="green-color fontW500" target="_blank" href="{{model?.cancellation_commission?.receipt}}">
+                {{model?.cancellation_commission?.receipt || ('table.tr.td.NA' | translate)}}
               </a> </td>
             </tr>
             <tr>
               <th>{{'quickVisualization.payment_date' | translate}}:</th>
-              <td>{{model?.property?.building_configuration?.name || ('table.tr.td.NA' | translate)}}</td>
+              <td>{{(model?.cancellation_commission?.payment_date ? (model?.cancellation_commission?.payment_date | date:'dd/MMM/yyyy') :
+                ('table.tr.td.NA' | translate) )}}</td>
             </tr>
             <tr>
               <th>{{'quickVisualization.description' | translate}}:</th>
-              <td>{{model?.property?.building_configuration?.name || ('table.tr.td.NA' | translate)}}</td>
+              <td>{{model?.cancellation_commission?.description || ('table.tr.td.NA' | translate)}}</td>
             </tr>
           </tbody>
         </table>

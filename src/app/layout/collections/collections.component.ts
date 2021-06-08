@@ -230,6 +230,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   purchase__amount: any;
   agent_amount: any;
   collection_amount: any;
+  cancel_commission_status: any;
   constructor(
     public constant: Constant,
     public apiConstants: ApiConstants,
@@ -409,6 +410,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         // fetching payment status
         for (let index = 0; index < this.items.length; index++) {
           const element = this.items[index];
+          console.log(element.cancellation_commission_status,"status");
+          this.cancel_commission_status = element.cancellation_commission_status;
           this.paid_purchase_commision_amount = element.paid_purchase_commision_amount;
           this.paid_agent_commision_amount = element.paid_agent_commision_amount;
           this.paid_collection_commision_amount = element.paid_collection_commision_amount;
@@ -1530,8 +1533,15 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       this.isApplyBtnClicked = true;
       this.admin.postDataApi('addCancellationCommission',input).subscribe(r => {
         this.isApplyBtnClicked = false;
+        // this.closeCollReceiptModal();
+        this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
+        this.paymentModalClose.nativeElement.click();
         this.closeCollReceiptModal();
-        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.cancellationSuccessfully'), 'success');
+
+        this.toastr.clear();
+        this.toastr.success(this.translate.instant('message.success.cancellationSuccessfully'), this.translate.instant('swal.success'));
+        //swal(this.translate.instant('swal.success'), this.translate.instant('message.success.cancellationSuccessfully'), 'success');
+        // this.getListing();
         //this.spinner.hide();
         //this.all_developers = r.data;
       });
