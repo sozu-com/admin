@@ -725,7 +725,7 @@
       "price": "Precio",
       "listPrice": "Precio de lista",
       "finalPrice": "Precio final",
-      "finalPrice_per": "Precio final por metros cuadrados",
+      "finalPrice_per": "Precio final por m2",
       "Commercialoffers": "Ofertas comerciales",
       "avergagePrice": "Precio por m2",
       "price_per_square":"Precio por metro cuadrado",
@@ -2466,7 +2466,7 @@
     "size": "Talla",
     "docsCount": "Docs",
     "finalPrice":"Precio final",
-    "finalpricesquare":"Precio final por metro cuadrado"
+    "finalpricesquare":"Precio final por m2"
   },
   "addCollectionValidations": {
     "thisIsRequired": "Esto es requerido",
