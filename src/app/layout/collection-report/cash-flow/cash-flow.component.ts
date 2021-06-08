@@ -92,11 +92,11 @@ export class CashFlowComponent implements OnInit {
       input.currency_id = d;
     }
 
-    if (this.start_purchase_date) {
-      input.start_purchase_date = moment(this.start_purchase_date).format('YYYY-MM-DD');
+    if (this.input.start_purchase_date) {
+      input.start_purchase_date = moment(this.input.start_purchase_date).format('YYYY-MM-DD');
     }
-    if (this.end_purchase_date) {
-      input.end_purchase_date = moment(this.end_purchase_date).format('YYYY-MM-DD');
+    if (this.input.end_purchase_date) {
+      input.end_purchase_date = moment(this.input.end_purchase_date).format('YYYY-MM-DD');
     }
     
     this.spinner.show();
@@ -278,11 +278,11 @@ export class CashFlowComponent implements OnInit {
       input.currency_id = d;
     }
    
-    if (this.start_purchase_date) {
-      input.start_purchase_date = moment(this.start_purchase_date).format('YYYY-MM-DD');
+    if (this.input.start_purchase_date) {
+      input.start_purchase_date = moment(this.input.start_purchase_date).format('YYYY-MM-DD');
     }
-    if (this.end_purchase_date) {
-      input.end_purchase_date = moment(this.end_purchase_date).format('YYYY-MM-DD');
+    if (this.input.end_purchase_date) {
+      input.end_purchase_date = moment(this.input.end_purchase_date).format('YYYY-MM-DD');
     }
   
 
@@ -362,11 +362,11 @@ export class CashFlowComponent implements OnInit {
       input.currency_id = d;
     }
 
-    if (this.start_purchase_date) {
-      input.start_purchase_date = moment(this.start_purchase_date).format('YYYY-MM-DD');
+    if (this.input.start_purchase_date) {
+      input.start_purchase_date = moment(this.input.start_purchase_date).format('YYYY-MM-DD');
     }
-    if (this.end_purchase_date) {
-      input.end_purchase_date = moment(this.end_purchase_date).format('YYYY-MM-DD');
+    if (this.input.end_purchase_date) {
+      input.end_purchase_date = moment(this.input.end_purchase_date).format('YYYY-MM-DD');
     }
     
     this.spinner.show();
@@ -554,7 +554,7 @@ export class CashFlowComponent implements OnInit {
       this.already_index = index;
       this.cashFlowInfos = [];
     let data = this.reportData.actual.find(value=> value.label == item.label);
-    let  id = data.id.split(',');
+    let  id = data.id ? data.id.split(',') : undefined;
     let param ={
       id: id
     }
