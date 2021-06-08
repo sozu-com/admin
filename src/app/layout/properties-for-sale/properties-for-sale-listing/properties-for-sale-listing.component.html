@@ -83,15 +83,6 @@
 
   <div class="cust-tabs">
      <div class="row flex-wrap-reverse">
-
-        <!-- <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12">
-           <ul class="nav nav-tabs">
-              <li class="nav-item">
-                 <a [ngClass]="{'active':parameter.flag==3}"
-                    class="nav-link cursor-pointer">{{'filters.flag.approved' | translate}}</a>
-              </li>            
-           </ul>
-        </div> -->
         <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
            <div class="add-new text-left">
               <a class="btn" #modalOpen data-toggle="modal" data-target="#advancedSearch"
@@ -105,19 +96,7 @@
                  {{'table.exportDataBtn' | translate}}</a>
            </div>
         </div>
-        <!-- <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
-           <div class="add-new text-center">
-              <a *ngIf="admin?.admin_acl['Property Management']?.can_create==1" class="btn" href="javascript://"
-                 routerLink="/dashboard/properties/add-bulk-property/0/0">{{'viewProperty.addBulkProperty' |
-                 translate}}</a>
-           </div>
-        </div>
-        <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
-           <div class="add-new text-right">
-              <a *ngIf="admin?.admin_acl['Property Management']?.can_create==1" class="btn" href="javascript://"
-                 routerLink="/dashboard/properties/add-property/0/0">{{'viewProperty.addNewProperty' | translate}}</a>
-           </div>
-        </div> -->
+       
      </div>
      <div class="tab-content white-bg">
         <div class="tab-pane active">
@@ -213,14 +192,14 @@
                                    src="assets/img/top-arrow.png" alt="img"></a>
                           </div>
                        </th>
-                       <!-- <th style="width:10%;vertical-align:top;">
+                       <th style="width:10%;vertical-align:top;">
                           <div (click)="sort_by(1)" class="d-flex table-search">
-                             <label>{{'table.th.finalPrice' | translate}}</label>
-                             <a href="javascript://"><img
+                             <label>{{'table.th.price_per_square' | translate}}</label>
+                             <!-- <a href="javascript://"><img
                                    [ngClass]="{'upsidedown':parameter.sort_by==1 && parameter.sort_by_order==0}"
-                                   src="assets/img/top-arrow.png" alt="img"></a>
+                                   src="assets/img/top-arrow.png" alt="img"></a> -->
                           </div>
-                       </th> -->
+                       </th>
                        <th style="width:8%;vertical-align:top;">
                           <div (click)="sort_by(5)" class="d-flex table-search">
                              <label>{{'table.th.carpetArea' | translate}}</label>
@@ -316,9 +295,7 @@
                                 src="assets/img/edit.png" alt="img"></button>
                        </span></td> -->
                        <td><span>{{p.min_price | price}}</span></td>
-                       <!-- <td><span>{{p.final_price | price}}</span></td> -->
-
-                     
+                       <td><span>${{ p.price_per_square_meter ? (p.price_per_square_meter | number : '1.2-2') : 0.00}}</span></td>
                        <td><span>{{p?.max_area ? p.max_area : 0.00}}</span></td>
                        <td><span>{{p?.is_commercialized ? ( 'table.th.yes' | translate ): ( 'table.th.no' | translate )}}</span></td>
                       <td><span>{{p?.building_towers?.possession_status_id == apiConstant.possessionStatus.sale ?
