@@ -1647,8 +1647,8 @@
             <label>{{'addCollection.currency' | translate}}</label>
             <div class="clearfix"></div>
             <select required name="currency_id" formControlName="currency_id" required class="form-control">
-              <option value="">{{'addCollection.currency' | translate}}</option>
-              <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
+              <option  *ngFor="let c of currencies; let i = index" value="{{c.id}}">
+                {{ c?.code }} | {{c?.currency}}</option>
             </select>
           </div>
           <div *ngIf="showError && (addFormStep4.controls.currency_id.invalid)">

@@ -6,8 +6,8 @@
     border-color: #00B96F;
     text-align: center;
   }
-  button:disabled {
+  /* button:disabled {
     background-color: #ced4da;
     border-color: #ced4da;
     color: #00B96F;
- }
+ } */

@@ -92,7 +92,9 @@ export class AddEditCollectionComponent implements OnInit {
   property_names: Array<any>;
   amenity_index: number;
   amenity_obj: any;
-
+  user = {
+    role: { "id": 78, "code": "MX", "currency": "Pesos" }
+  }
   mode: string;
   folderIndex: number;
   selectedFolder: any = {};
@@ -246,6 +248,10 @@ export class AddEditCollectionComponent implements OnInit {
           //this.addFormStep4.controls.final_price.patchValue(0);
         }
       });
+  }
+
+  compareObjects(o1: any, o2: any): boolean {
+    return o1.id === o2.id && o1.code === o2.code && o1.currency === o2.currency;
   }
 
   editCollection() {
@@ -466,7 +472,7 @@ export class AddEditCollectionComponent implements OnInit {
   initFormStep4() {
     this.addFormStep4 = this.formBuilder.group({
       step: ['', [Validators.required]],
-      currency_id: ['', [Validators.required]],
+      currency_id: ['78', [Validators.required]],
       paymentchoice: [''],
       payment_choices: this.formBuilder.array([]),
       num_of_months: [''],

@@ -959,7 +959,7 @@ export class InhouseUsersComponent implements OnInit {
     input.append('is_csr_renter', this.model.is_csr_renter ? '1' : '0');
     input.append('is_alliance_agent', this.model.is_alliance_agent ? '1' : '0');
     input.append('is_cordinator', this.model.is_cordinator ? '1' : '0');
-    input.append('have_access', this.model.have_access ? '1' : '0');
+    input.append('have_access', this.model.panel_access ? '1' : '0');
     input.append('admin_acl', JSON.stringify(acl));
     if (this.model.phone) {
       input.append('country_code', this.model.country_code ? this.model.country_code : this.constant.dial_code);
@@ -998,15 +998,16 @@ export class InhouseUsersComponent implements OnInit {
               this.translate.instant('message.success.updatedSuccessfully') :
               this.translate.instant('message.success.addedSuccessfully');
             swal(this.translate.instant('swal.success'), text, 'success');
+            this.getInhouseUsers();
             if (this.model.id) {
               this.records[this.parameter.index] = success.data;
-              this.getInhouseUsers();
             } else {
               this.modalClose.nativeElement.click();
               const text = this.model.id ?
                 this.translate.instant('message.success.updatedSuccessfully') :
                 this.translate.instant('message.success.addedSuccessfully');
               swal(this.translate.instant('swal.success'), text, 'success');
+              this.getInhouseUsers();
               if (this.model.id) {
                 this.records[this.parameter.index] = success.data;
               } else {
@@ -1037,7 +1038,7 @@ export class InhouseUsersComponent implements OnInit {
     } else {
       this.model.is_company = 'false';
     }
-    this.model.have_access = userdata.have_access
+    this.model.panel_access = userdata.have_access
     this.user_type = userdata.user_type;
     this.model.rfc_legal_id = userdata.rfc_legal_id && userdata.rfc_legal_id != 'null' ? userdata.rfc_legal_id : '';
     this.model.address = userdata.address;
