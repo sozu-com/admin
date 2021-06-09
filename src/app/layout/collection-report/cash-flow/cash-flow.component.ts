@@ -499,21 +499,51 @@ export class CashFlowComponent implements OnInit {
     this.selectedCurrencies = [];
     this.selctedProjects = [];
   }
+  
   exportData() {
-    if (this.items) {
-      const finalData = [];
-      for (let index = 0; index < this.items.length; index++) {
-        const p = this.items[index];
-        
-        finalData.push({
-          'Month': p.label || '',
-          'Expected Amount': p.expected || 0,
-          'Actual Amount': p.actual || 0
-        });
-      }
-     
-      this.exportAsExcelFile(finalData, 'cashFlow-');
+    const input: any = JSON.parse(JSON.stringify(this.input));
+    input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
+    input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
+
+    if (this.selctedProjects) {
+      const d = this.selctedProjects.map(o => o.id);
+      input.building_id = d;
     }
+    if (this.selectedCurrencies) {
+      const d = this.selectedCurrencies.map(o => o.id);
+      input.currency_id = d;
+    }
+
+    if (this.input.start_purchase_date) {
+      input.start_purchase_date = moment(this.input.start_purchase_date).format('YYYY-MM-DD');
+    }
+    if (this.input.end_purchase_date) {
+      input.end_purchase_date = moment(this.input.end_purchase_date).format('YYYY-MM-DD');
+    }
+    
+    this.spinner.show();
+    this.admin.postDataApi('graphs/cash-flows-export', input).subscribe(r => {
+      let data = r.data;
+      const finalData = [];
+      data.actual.forEach((element, index) =>{
+        finalData.push({
+          'Month': element.label || '',
+          'Expected Amount': data.expected[index].y || 0,
+          'Actual Amount': element.y || 0
+        });
+        element.id.forEach(item=>{
+          finalData.push({
+            'Collection ID': item.id || '',
+            'Property name': item.name || '',
+            'Buyer name': item.buyer_name || '',
+            'Date': item.payment_date || '',
+            'Amount paid': item.amount || 0
+          });
+        });
+      })
+      this.spinner.hide();
+      this.exportAsExcelFile(finalData, 'cashFlow-');
+  });
   }
   // will be used in case of excel
   public exportAsExcelFile(json: any[], excelFileName: string): void {
