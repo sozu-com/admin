@@ -1058,6 +1058,7 @@
       "editPCPayment": "Editar pago de PC",
       "deletePCPayment": "Eliminar pago de PC",
       "editACPayment": "Editar pago de AC",
+      "editCancellationPayment": "Editar pago de cancelación",
       "deleteACPayment": "Eliminar pago de AC",
       "quickVisuaization": "Visualización rápida",
       "accountStatement": "Estado de cuenta",

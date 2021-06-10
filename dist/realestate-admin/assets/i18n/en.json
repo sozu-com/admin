@@ -1057,6 +1057,7 @@
       "editPCPayment": "Edit PC Payment",
       "deletePCPayment": "Delete PC Payment",
       "editACPayment": "Edit AC Payment",
+      "editCancellationPayment": "Edit Cancellation Payment",
       "deleteACPayment": "Delete AC Payment",
       "quickVisuaization": "Quick Visualization",
       "accountStatement": "Account Statement",
