@@ -1055,7 +1055,13 @@ export class AddProjectComponent implements OnInit {
 
   addNewConfig() {
     let count = 0;
-    const totalFilesCount = this.file4.files.length + this.config360Img.files.length + this.configVideo.files.length + this.configVideos.files.length;
+    let countOne = 0;
+    let countTwo = 0;
+    
+    const totalFilesCount = this.file4.files.length ;
+    const config360ImgCount = this.config360Img.files.length; 
+    const configVideoCount = this.configVideos.files.length;
+    
     if (this.file4.files.length < 1) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAtleastOneImage'), 'error');
       return false;
@@ -1069,17 +1075,24 @@ export class AddProjectComponent implements OnInit {
 
     this.file4.upload().then(r1 => {
       this.new_config.images = this.file4.files;
-      this.config(count, totalFilesCount);
+      if(this.new_config.images){
+        this.config(count, totalFilesCount);
+      }
+      
     });
 
     this.config360Img.upload().then(r1 => {
       this.new_config.images360 = this.config360Img.files;
-      this.config(count, totalFilesCount);
+      if(this.new_config.images360){
+        this.config360(countOne, config360ImgCount);
+      }
     });
 
     this.configVideos.upload().then(r1 => {
       this.new_config.videos = this.configVideos.files;
-      this.config(count, totalFilesCount);
+      if(this.new_config.videos){
+      this.config_Video(countTwo, configVideoCount);
+      }
     });
 
     this.file4.files.forEach(element => {
@@ -1101,6 +1114,30 @@ export class AddProjectComponent implements OnInit {
 
   config(count, totalFilesCount){
     if (count === totalFilesCount) {
+      this.spinner.hide();
+      if (this.new_config_edit >= 0) {
+        this.model.configurations[this.new_config_edit] = this.new_config;
+      } else {
+        this.model.configurations.push(this.new_config);
+      }
+      this.closeConfigPopup.nativeElement.click();
+    }
+  }
+
+  config360(countOne, config360ImgCount){
+    if (countOne === config360ImgCount) {
+      this.spinner.hide();
+      if (this.new_config_edit >= 0) {
+        this.model.configurations[this.new_config_edit] = this.new_config;
+      } else {
+        this.model.configurations.push(this.new_config);
+      }
+      this.closeConfigPopup.nativeElement.click();
+    }
+  }
+  
+  config_Video(countTwo, configVideoCount){
+    if (countTwo === configVideoCount) {
       this.spinner.hide();
       if (this.new_config_edit >= 0) {
         this.model.configurations[this.new_config_edit] = this.new_config;
