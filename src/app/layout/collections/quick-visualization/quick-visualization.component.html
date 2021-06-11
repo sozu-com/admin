@@ -385,9 +385,12 @@
             </tr>
             <tr>
               <th>{{'quickVisualization.payment_receipt' | translate}}:</th>
-              <td> <a class="green-color fontW500" target="_blank" href="{{model?.cancellation_commission?.receipt}}">
-                {{model?.cancellation_commission?.receipt || ('table.tr.td.NA' | translate)}}
-              </a> </td>
+              <td>  
+                <a class="green-color fontW500" target="_blank"
+                href="{{model?.cancellation_commission?.receipt}}">
+                {{'quickVisualization.view' | translate}}
+              </a>
+               </td>
             </tr>
             <tr>
               <th>{{'quickVisualization.payment_date' | translate}}:</th>
@@ -396,7 +399,14 @@
             </tr>
             <tr>
               <th>{{'quickVisualization.description' | translate}}:</th>
-              <td>{{model?.cancellation_commission?.description || ('table.tr.td.NA' | translate)}}</td>
+              
+              <td> 
+                <button class="action-icon" *ngIf="model?.cancellation_commission?.description"
+                (click)="showDescription(model?.cancellation_commission?.description, 3)">
+                <img src="assets/img/eye-icon.png" alt="img">
+              </button>
+                <!-- {{model?.cancellation_commission?.description || ('table.tr.td.NA' | translate)}} -->
+              </td>
             </tr>
           </tbody>
         </table>

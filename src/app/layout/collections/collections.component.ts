@@ -46,8 +46,10 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   sameAmount: any;
   sumData: any;
   collection_commission:any;
+  cancellation_commission:any;
   pay_id: any = [];
   selectedLevel: any;
+  commissionType: any;
   // input: CollectionReport;
   public parameter: IProperty = {};
   public location: IProperty = {};
@@ -920,6 +922,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     this.paymentConcepts = [];
     this.property_collection_id = item.id;
     this.collectionIndex = i;
+    this.cancel_commission_status = item.cancellation_commission_status;
+    this.cancellation_commission = item.cancellation_commission;
     // adding purchase and collection commission in payment concept
     if (item.collection_commissions && item.collection_commissions.length > 0) {
       for (let index = 0; index < item.collection_commissions.length; index++) {
@@ -2131,22 +2135,48 @@ export class CollectionsComponent implements OnInit, OnDestroy {
 
 
   editCollectionCommReceipt(item: any) {
-    this.collection_commission = item;
-    this.selectedLevel = this.collection_commission[0];
-    this.payment_id = this.collection_commission[0] ? this.collection_commission[0].id : [];
-    this.payment_method_id = this.collection_commission[0] ? (this.collection_commission[0].payment_method || {}).id : [];
-    this.description = this.collection_commission[0] ? this.collection_commission[0].description : [];
-     this.docFile = this.collection_commission[0] ? this.collection_commission[0].receipt : [];
-    this.amount = this.collection_commission[0] ? this.collection_commission[0].amount : [];
-    this.commission_type = this.collection_commission[0] ? this.collection_commission[0].commission_type : [];
-    this.collection_commission_id = this.collection_commission[0] ? this.collection_commission[0].collection_commission_id : [];
-    this.payment_date = this.collection_commission[0] ?  this.getDateWRTTimezone(this.collection_commission[0].payment_date, 'DD/MMM/YYYY')  : [];
-    this.invoice_date = this.collection_commission[0] ? this.getDateWRTTimezone(this.collection_commission[0].invoice_date, 'DD/MMM/YYYY')  : [];
-    this.pdf_url = this.collection_commission[0] ? this.collection_commission[0].pdf_url : [];
-    this.xml_url = this.collection_commission[0] ? this.collection_commission[0].xml_url : [];
-    this.invoice_id = this.collection_commission[0] ? this.collection_commission[0].invoice_id : [];
-    this.closeEditPaymentModal();
-    this.editCollectionReceiptOpen.nativeElement.click();
+      this.commissionType = item.commission_type;
+    if(this.commissionType == '4'){
+      this.payment_id = item.id 
+      this.payment_method_id = item.payment_method_id;
+      this.description = item.description;
+      this.docFile = item.receipt;
+      this.amount = item.payment_amount;
+      this.commission_type = item.commission_type;
+      if (item.invoice_date) {
+        const offset1 = new Date(item.invoice_date).getTimezoneOffset();
+        if (offset1 < 0) {
+          this.invoice_date = moment(item.invoice_date).subtract(offset1, 'minutes').toDate();
+        } else {
+          this.invoice_date = moment(item.invoice_date).add(offset1, 'minutes').toDate();
+        }
+      }
+      this.payment_date = this.getDateWRTTimezone(item.payment_date, 'DD/MMM/YYYY');
+      //this.invoice_date = this.getDateWRTTimezone(item.invoice_date, 'DD/MMM/YYYY');
+      this.pdf_url = item.pdf_url;
+      this.xml_url = item.xml_url;
+      this.invoice_id = item.invoice_id;
+      this.closeEditPaymentModal();
+      this.editCollectionReceiptOpen.nativeElement.click();
+    } else {
+      this.collection_commission = item;
+      this.selectedLevel = this.collection_commission[0];
+      this.payment_id = this.collection_commission[0] ? this.collection_commission[0].id : [];
+      this.payment_method_id = this.collection_commission[0] ? (this.collection_commission[0].payment_method || {}).id : [];
+      this.description = this.collection_commission[0] ? this.collection_commission[0].description : [];
+      this.docFile = this.collection_commission[0] ? this.collection_commission[0].receipt : [];
+      this.amount = this.collection_commission[0] ? this.collection_commission[0].amount : [];
+      this.commission_type = this.collection_commission[0] ? this.collection_commission[0].commission_type : [];
+      this.collection_commission_id = this.collection_commission[0] ? this.collection_commission[0].collection_commission_id : [];
+      this.payment_date = this.collection_commission[0] ?  this.getDateWRTTimezone(this.collection_commission[0].payment_date, 'DD/MMM/YYYY')  : [];
+      this.invoice_date = this.collection_commission[0] ? this.getDateWRTTimezone(this.collection_commission[0].invoice_date, 'DD/MMM/YYYY')  : [];
+      this.pdf_url = this.collection_commission[0] ? this.collection_commission[0].pdf_url : [];
+      this.xml_url = this.collection_commission[0] ? this.collection_commission[0].xml_url : [];
+      this.invoice_id = this.collection_commission[0] ? this.collection_commission[0].invoice_id : [];
+      this.closeEditPaymentModal();
+      this.editCollectionReceiptOpen.nativeElement.click();
+    }
+    
   }
 
   setPayAmount(item: any){
@@ -2195,9 +2225,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
 
   updateCollectionCommPayment() {
     // checking if date selected and receipt selected
-    if (!this.payment_date) {
+    if (this.commission_type !=4 && !this.collection_commission_id) {
       this.toastr.clear();
-      this.toastr.error(this.translate.instant('message.error.pleaseSelectPaymentDate'), this.translate.instant('swal.error'));
+      this.toastr.error(this.translate.instant('message.error.payToCancel'), this.translate.instant('swal.error'));
       return false;
     }
     if (!this.docFile) {
@@ -2205,7 +2235,11 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       this.toastr.error(this.translate.instant('message.error.pleaseChooseReceipt'), this.translate.instant('swal.error'));
       return false;
     }
-
+    if (!this.payment_date) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseSelectPaymentDate'), this.translate.instant('swal.error'));
+      return false;
+    }
     const offset = new Date(this.payment_date).getTimezoneOffset();
     if (offset < 0) {
       this.payment_date = moment(this.payment_date).subtract(offset, 'minutes').toDate();
@@ -2219,11 +2253,19 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       payment_method_id: this.payment_method_id,
       receipt: this.docFile,
       description: this.description,
-      payment_date: this.payment_date,
+      payment_date: moment(this.payment_date).format('YYYY-MM-DD'),
       collection_commission_id: this.collection_commission_id,
       commission_type: this.commission_type,
       amount: this.amount
     };
+    if (this.invoice_date) {
+      const offset1 = new Date(this.invoice_date).getTimezoneOffset();
+      if (offset1 < 0) {
+        input['invoice_date'] = moment(this.invoice_date).subtract(offset1, 'minutes').toDate();
+      } else {
+        input['invoice_date'] = moment(this.invoice_date).add(offset1, 'minutes').toDate();
+      }
+    }
     input['invoice_id'] = this.invoice_id;
     input['pdf_url'] = this.pdf_url;
     input['xml_url'] = this.xml_url;
