@@ -1329,35 +1329,24 @@ margin-left: -20%;">
             <div class="row">
                <div class="form-group col-md-4">
                   {{'advanceSearch.Bedrooms' | translate}}<br />
-                  <input class="form-control" type="number" [(ngModel)]="parameter.bedroom" min="0" name="bedroom">
-                  <!-- <button (click)="increment()">+</button>
-                  <button (click)="decrement()">-</button>
-                  <br />
-                  <div>{{ count }}</div> -->
+                  <input class="form-control" type="number" [(ngModel)]="parameter.bedroom" 
+                  min="0" name="bedroom">
                </div>
                <div class="form-group col-md-4">
                   {{'advanceSearch.Bathrooms' | translate}}<br />
                   <input class="form-control" type="number" [(ngModel)]="parameter.bathroom" min="0" name="bathroom">
-                  <!-- <button (click)="increment1()">+</button>
-                  <button (click)="decrement1()">-</button>
-                  <br />
-                  <div>{{ count1 }}</div> -->
                </div>
                <div class="form-group col-md-4">
                   {{'advanceSearch.HalfBathrooms' | translate}}<br />
                   <input class="form-control" type="number" [(ngModel)]="parameter.half_bathroom" min="0"
                      name="half_bathroom">
-                  <!-- <button (click)="increment2()">+</button>
-                  <button (click)="decrement2()">-</button>
-                  <br />
-                  <div>{{ count2 }}</div> -->
                </div>
             </div>
             <!-- Amenities -->
-            <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.Amenities' | translate}}</h4>
+            <!-- <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.Amenities' | translate}}</h4> -->
             <div class="row">
                <div class="form-group col-md-12">
-                  <div class="clearfix"></div>
+                  <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.AmenitiesProp' | translate}}</h4>
                   <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
                      name="selctedAmenities" [data]="amenities" [(ngModel)]="selctedAmenities"
                      [settings]="multiDropdownSettings" (onDeSelect)="unsetProject($event)"
@@ -1371,6 +1360,16 @@ margin-left: -20%;">
                <span *ngIf="!showMore">...</span> 
                <a href="javascript:;" *ngIf="!showMore" (click)="showMore=true">{{'addForm.addMore' | translate}}</a>
                {{mymodel | json}} -->
+               </div>
+            </div>
+            <div class="row">
+               <div class="form-group col-md-12">
+                  <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.AmenitiesProj' | translate}}</h4>
+                  <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
+                     name="selctedAmenities" [data]="amenities" [(ngModel)]="selctedAmenities"
+                     [settings]="multiDropdownSettings" (onDeSelect)="unsetProject($event)"
+                     (onSelect)="onItemSelect('selctedAmenities', $event)" (onSelectAll)="onSelectAll($event)">
+                  </ng-multiselect-dropdown>
                </div>
             </div>
             <button type="submit" class="btn btn-success" (click)="searchProperties()" style="border-left-color: rgb(0, 185, 111);

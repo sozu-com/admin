@@ -2507,7 +2507,8 @@
     "Bedrooms": "Bedrooms",
     "Bathrooms": "Bathrooms",
     "HalfBathrooms": "Half Bathrooms",
-    "Amenities": "Amenities"
+    "AmenitiesProp": "Property amenities",
+    "AmenitiesProj": "Project amenities"
   },
   "editDocName": {
     "title": "Edit Document Name",
