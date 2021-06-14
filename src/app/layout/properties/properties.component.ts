@@ -449,7 +449,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     if (this.selctedProjectAmenities) {
       const d = this.selctedProjectAmenities.map(o => o.id);
       // console.log(d, "filter")
-      input.amenities_id = d;
+      input.building_amenities_id = d;
     }
     
     input.min_price = this.parameter.min_price;
