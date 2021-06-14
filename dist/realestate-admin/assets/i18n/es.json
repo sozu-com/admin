@@ -2505,7 +2505,8 @@
     "Bedrooms": "Dormitorios",
     "Bathrooms": "Baños",
     "HalfBathrooms": "Medios Baños",
-    "Amenities": "Comodidades"
+    "AmenitiesProp": "Caracteristicas de la propiedad",
+    "AmenitiesProj": "Caracteristicas del proyecto"
   },
   "editDocName": {
     "title": "Editar el nombre del documento",
