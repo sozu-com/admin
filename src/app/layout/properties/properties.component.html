@@ -1366,9 +1366,9 @@ margin-left: -20%;">
                <div class="form-group col-md-12">
                   <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.AmenitiesProj' | translate}}</h4>
                   <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
-                     name="selctedAmenities" [data]="amenities" [(ngModel)]="selctedAmenities"
-                     [settings]="multiDropdownSettings" (onDeSelect)="unsetProject($event)"
-                     (onSelect)="onItemSelect('selctedAmenities', $event)" (onSelectAll)="onSelectAll($event)">
+                     name="selctedProjectAmenities" [data]="projectAmenities" [(ngModel)]="selctedProjectAmenities"
+                     [settings]="multiDropdownSettings" (onDeSelect)="unsetProjectAmne($event)"
+                     (onSelect)="onItemSelect('selctedProjectAmenities', $event)" (onSelectAll)="onSelectAll($event)">
                   </ng-multiselect-dropdown>
                </div>
             </div>
