@@ -211,7 +211,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.multiDropdownSettings = {
       singleSelection: false,
       idField: 'id',
-      textField: 'name_en',
+      textField: this.language_code == 'en' ? 'name_en' : 'name_es',
       selectAllText: this.translate.instant('commonBlock.selectAll'),
       unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
       searchPlaceholderText: this.translate.instant('commonBlock.search'),
