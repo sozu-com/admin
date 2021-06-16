@@ -168,7 +168,7 @@
     "saveBtn": "Save Information",
     "updateBtn": "Update Information",
     "generalData": "General Data",
-    
+    "resetActivations": "Reset Activation",
     "documentation": "Documentation",
     "companyName": "Company Name",
     "commercialName": "Commercial Name",
@@ -1085,6 +1085,7 @@
       "Reminder": "Successfully Send Reminder.",
       "addedSuccessfully": "Added Successfully.",
       "updatedSuccessfully": "Updated Successfully.",
+      "resetSuccessfully": "Reset Successfully",
       "uploadedSuccessfully": "Uploaded Successfully.",
       "importedSuccessfully": "Imported successfully.",
       "deletedSuccessfully": "Deleted Successfully.",
