@@ -1057,6 +1057,7 @@
       "editPCPayment": "Edit PC Payment",
       "deletePCPayment": "Delete PC Payment",
       "editACPayment": "Edit AC Payment",
+      "editCancellationPayment": "Edit Cancellation Payment",
       "deleteACPayment": "Delete AC Payment",
       "quickVisuaization": "Quick Visualization",
       "accountStatement": "Account Statement",
@@ -1311,6 +1312,7 @@
       "totalPayemntCheck": "In Total Payment, you need to pay exact sum of remanining amount and penalties.",
       "payToRemainingcheck": "You cannot pay more than the sum of remaining unpaid monthly installments",
       "payToFollowingCheck": "You cannot pay more than the remaining amount",
+      "payToCancel": "The collection commission id field is required.",
       "paytoRemainingPendingCheck": "Please complete your pending Monthly Installment first",
       "payToRemainingReduceTimecheck": " If you want to apply a payment to remaining to reduce (time) the payment needs to cover complete monthly instalments 1,2 ,3...",
       "areYouSure": "Are you sure",
@@ -2505,7 +2507,8 @@
     "Bedrooms": "Bedrooms",
     "Bathrooms": "Bathrooms",
     "HalfBathrooms": "Half Bathrooms",
-    "Amenities": "Amenities"
+    "AmenitiesProp": "Property amenities",
+    "AmenitiesProj": "Project amenities"
   },
   "editDocName": {
     "title": "Edit Document Name",

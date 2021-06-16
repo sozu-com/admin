@@ -101,8 +101,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   baseUrl = this.admin.baseUrl + 'exportProperties';
   is_back: boolean;
   amenities = Array<any>();
+  projectAmenities = Array<any>();
   propertyTypes = Array<any>();
   selctedAmenities: Array<any>;
+  selctedProjectAmenities: Array<any>;
   multiDropdownSettings = {};
   //multiDropdownSettingss = {};
   invoice = new Invoice();
@@ -209,7 +211,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.multiDropdownSettings = {
       singleSelection: false,
       idField: 'id',
-      textField: 'name_en',
+      textField: this.language_code == 'en' ? 'name_en' : 'name_es',
       selectAllText: this.translate.instant('commonBlock.selectAll'),
       unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
       searchPlaceholderText: this.translate.instant('commonBlock.search'),
@@ -238,6 +240,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.initializedDropDownSetting();
     // this.iniDropDownSettings();
     this.selctedAmenities = [];
+    this.selctedProjectAmenities = [];
     this.seller_type = 1;
     this.locale = {
       firstDayOfWeek: 0,
@@ -299,6 +302,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.getListing();
     this.getPropertyTypes();
     this.getPropertyAmenities();
+    this.getProjectAmenities();
     this.subscribeInstallmentFormGroup();
     this.http.get('../../../assets/img/sozu_black.png', { responseType: 'blob' })
       .subscribe(res => {
@@ -338,6 +342,16 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.selctedAmenities.map(r => {
       if (r.id == item.id) {
         this.selctedAmenities.splice(i, 1);
+      }
+      i = i + 1;
+    });
+  }
+  
+  unsetProjectAmne(item: any) {
+    let i = 0;
+    this.selctedProjectAmenities.map(r => {
+      if (r.id == item.id) {
+        this.selctedProjectAmenities.splice(i, 1);
       }
       i = i + 1;
     });
@@ -432,7 +446,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       // console.log(d, "filter")
       input.amenities_id = d;
     }
-
+    if (this.selctedProjectAmenities) {
+      const d = this.selctedProjectAmenities.map(o => o.id);
+      // console.log(d, "filter")
+      input.building_amenities_id = d;
+    }
+    
     input.min_price = this.parameter.min_price;
     input.max_price = this.parameter.max_price;
     input.min_carpet_area = this.parameter.min_carpet_area;
@@ -647,6 +666,15 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         }
       );
   }
+
+  getProjectAmenities() {
+    this.admin.postDataApi('getProjectAmenities', { hide_blocked: 1 })
+      .subscribe(
+        success => {
+          this.projectAmenities = success['data'];
+        });
+  }
+
   setBuilding(building_id) {
     this.parameter.building_id = building_id;
   }
@@ -813,6 +841,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.parameter.half_bathroom = null;
     this.parameter.property_type_id = null;
     this.selctedAmenities = [];
+    this.selctedProjectAmenities = [];
     this.parameter.parking_for_sale = null;
     this.resetDates();
     this.getListing();

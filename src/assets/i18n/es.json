@@ -1059,6 +1059,7 @@
       "editPCPayment": "Editar pago de PC",
       "deletePCPayment": "Eliminar pago de PC",
       "editACPayment": "Editar pago de AC",
+      "editCancellationPayment": "Editar pago de cancelación",
       "deleteACPayment": "Eliminar pago de AC",
       "quickVisuaization": "Visualización rápida",
       "accountStatement": "Estado de cuenta",
@@ -1314,6 +1315,7 @@
       "totalPayemntCheck": "En Pago total, debe pagar la suma exacta del monto restante y las multas.",
       "payToRemainingcheck": "No puede pagar más que la suma de las cuotas mensuales pendientes de pago",
       "payToFollowingCheck": "No puede pagar más que la cantidad restante",
+      "payToCancel": "The collection commission id field is required.",
       "paytoRemainingPendingCheck": "Primero complete su Cuota Mensual pendiente",
       "payToRemainingReduceTimecheck": "Si desea aplicar un pago al restante para reducir (tiempo), el pago debe cubrir las cuotas mensuales completas 1,2, 3 ...",
       "areYouSure": "Estás seguro",
@@ -2505,7 +2507,8 @@
     "Bedrooms": "Dormitorios",
     "Bathrooms": "Baños",
     "HalfBathrooms": "Medios Baños",
-    "Amenities": "Comodidades"
+    "AmenitiesProp": "Caracteristicas de la propiedad",
+    "AmenitiesProj": "Caracteristicas del proyecto"
   },
   "editDocName": {
     "title": "Editar el nombre del documento",
