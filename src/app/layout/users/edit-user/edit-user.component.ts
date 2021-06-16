@@ -950,4 +950,16 @@ export class EditUserComponent implements OnInit {
     }
   }
 
+  reset(){
+    this.spinner.show();
+    this.admin.postDataApi('resetActivation', {user_id: this.model.id})
+      .subscribe(
+        success => {
+          this.spinner.hide();
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.resetSuccessfully'), 'success');
+        }, error=>{
+          this.spinner.hide();
+        });
+  }
+
 }
