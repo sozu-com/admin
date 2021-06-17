@@ -18,7 +18,12 @@
         <label class="cust-radio">
             <input [disabled]="sent_as==2" name="looking_for" type="radio" (change)="leadData.prefs.looking_for = 2"
                 [checked]="leadData.prefs.looking_for == 2 ?'checked':''">
-            <span class="checkmark">{{'commonBlock.rent' | translate}}</span>
+            <span class="checkmark">{{'leadDetails.sale' | translate}}</span>
+        </label>
+        <label class="cust-radio">
+            <input [disabled]="sent_as==2" name="looking_for" type="radio" (change)="leadData.prefs.looking_for = 3"
+                [checked]="leadData.prefs.looking_for == 3 ?'checked':''">
+            <span class="checkmark">{{'leadDetails.rent' | translate}}</span>
         </label>
         <div class="clearfix"></div>
     </div>
@@ -102,7 +107,7 @@
     </div>
     
     <div class="form-group-5 marginT20">
-        <label>{{'commonBlock.expectedAmenity' | translate}}</label>
+        <label>{{'advanceSearch.AmenitiesProj' | translate}}</label>
         <div class="clearfix"></div>
         
         <ng-multiselect-dropdown [disabled]="sent_as==2" class="section-section2" *ngIf="leadData.buyer_amenities"
@@ -116,7 +121,21 @@
         </ng-multiselect-dropdown>
         <div class="clearfix"></div>
     </div>
-
+    <div class="form-group-5 marginT20">
+        <label>{{'advanceSearch.AmenitiesProp' | translate}}</label>
+        <div class="clearfix"></div>
+        
+        <ng-multiselect-dropdown [disabled]="sent_as==2" class="section-section2" *ngIf="leadData.properties_amenities"
+            [placeholder]="'Choose Amenities'"
+            [data]="allPropAmenities"
+            [(ngModel)]="selectedPropAmenities"
+            [settings]="dropdownSettings"
+            (onDeSelect)="onItemDePropSelect($event)"
+            (onSelect)="onItemPropSelect($event)"
+            (onSelectAll)="onSelectAll($event)">
+        </ng-multiselect-dropdown>
+        <div class="clearfix"></div>
+    </div>
     <div class="form-group-5 marginT20">
         <label>{{'commonBlock.closeProximity' | translate}}</label>
         <div class="clearfix"></div>
@@ -135,12 +154,12 @@
     </div>
 
     <div class="form-group-5 marginT20">
-        <label>{{'commonBlock.carsYouHave' | translate}}</label>
+        <label>{{'addForm.preferableBuyers.maritalStatus1' | translate}}</label>
         <div class="clearfix"></div>
-        <label class="cust-radio" *ngFor="let car_type of leadData.buyer_car_type; let i=index">
+        <label class="cust-radio" *ngFor="let marrital_status of marrital_status_list; let i=index">
             <input [disabled]="sent_as==2" type="radio" (click)="setCarType(car_type.id)"
-                [checked]="car_type.is_selected == 0 ? '' : 'checked'" name="radio4">
-            <span class="checkmark">{{car_type.name}}</span>
+            [checked]="leadData.prefs.marital_statuses_id == marrital_status.id ?'checked':''" name="radio4">
+            <span class="checkmark">{{marrital_status.name_en}}</span>
         </label>
         <div class="clearfix"></div>
     </div>
@@ -154,10 +173,25 @@
         </label>
         <div class="clearfix"></div>
     </div>
+    <div class="form-group-5 marginT20">
+        <label>{{'addForm.preferableBuyers.job' | translate}}</label>
+        <div class="clearfix"></div>
+        <label class="cust-radio">
+            <input [disabled]="sent_as==2" name="job" type="radio" (change)="leadData.prefs.job = 1"
+                [checked]="leadData.prefs.job == 1 ?'checked':''">
+            <span class="checkmark">{{'leadDetails.student' | translate}}</span>
+        </label>
+        <label class="cust-radio">
+            <input [disabled]="sent_as==2" name="job" type="radio" (change)="leadData.prefs.job = 2"
+                [checked]="leadData.prefs.job == 2 ?'checked':''">
+            <span class="checkmark">{{'leadDetails.pro' | translate}}</span>
+        </label>
+        <div class="clearfix"></div>
+    </div>
 
     <div class="inline-form-group-2 marginT20">
         <div class="row">
-            <div class="col-6"><label class="float-left">{{'commonBlock.doYouHavePets' | translate}}</label></div>
+            <div class="col-6"><label class="float-left">{{'addForm.preferableBuyers.petsfrn' | translate}}</label></div>
             <div class="col-5">
                 <label class="cust-check-bx">
                     <input [disabled]="sent_as==2" type="checkbox" value="{{leadData.prefs.pets == 1 ? 'true' : 'false'}}" [(ngModel)]="leadData.prefs.pets"
@@ -167,14 +201,15 @@
             </div>
         </div>
     </div>
+   
 
     <div class="inline-form-group-2 marginT20">
         <div class="row">
-            <div class="col-6"><label class="float-left">{{'commonBlock.doYouHaveKids' | translate}}</label></div>
+            <div class="col-6"><label class="float-left">{{'addForm.preferableBuyers.lbgt' | translate}}</label></div>
             <div class="col-5">
                 <label class="cust-check-bx">
-                    <input [disabled]="sent_as==2" type="checkbox" value="{{leadData.prefs.kid_count == 1 ? 'true' : 'false'}}"
-                        [(ngModel)]="leadData.prefs.kid_count" name="kid_count">
+                    <input [disabled]="sent_as==2" type="checkbox" value="{{leadData.prefs.live_community == 1 ? 'true' : 'false'}}"
+                        [(ngModel)]="leadData.prefs.live_community" name="live_community">
                     <span class="checkmark"></span>
                 </label>
             </div>

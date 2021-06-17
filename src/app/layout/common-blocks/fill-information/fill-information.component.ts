@@ -6,6 +6,7 @@ import { AdminService } from 'src/app/services/admin.service';
 import { Constant } from 'src/app/common/constants';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
+import { IMarritalStatus } from 'src/app/common/marrital-status-interface';
 // import { TranslateService } from 'src/app/lang/translate.service';
 declare let swal: any;
 
@@ -21,9 +22,11 @@ export class FillInformationComponent implements OnInit {
   @Input('leadData') leadData: Leads;
   @Input('allAmenities') allAmenities: Array<BuyerAmenities>;
   @Input('selectedAmenities') selectedAmenities: Array<BuyerAmenities>;
+  @Input('allPropAmenities') allPropAmenities: Array<BuyerAmenities>;
+  @Input('selectedPropAmenities') selectedPropAmenities: Array<BuyerAmenities>;
   @Input('sent_as') sent_as: number;
   @Input('showOtherTextBox') showOtherTextBox: boolean;
-
+  marrital_status_list = Array<IMarritalStatus>();
   today: any;
   dropdownSettings: any;
   public parameter: IProperty = {};
@@ -37,7 +40,7 @@ export class FillInformationComponent implements OnInit {
     private translate: TranslateService) { }
 
   ngOnInit() {
-
+    this. getMarritalStatusList();
     this.locale = {
       firstDayOfWeek: 0,
       dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
@@ -72,7 +75,11 @@ export class FillInformationComponent implements OnInit {
       e.stopPropagation();
     });
   }
-
+  getMarritalStatusList() {
+    this.admin.postDataApi('getmaritalStatus', {}).subscribe(r => {
+      this.marrital_status_list = r['data'];
+    });
+  }
   getPrefOptions() {
     this.admin.postDataApi('leads/getPrefOptions', {lead_id: this.lead_id}).subscribe(r => {
       this.parameter.proximity_places = r.data.proximity_places;
@@ -123,7 +130,13 @@ export class FillInformationComponent implements OnInit {
   onItemSelect(amenity: BuyerAmenities) {
     this.selectedAmenities.push(amenity);
   }
+  onItemDePropSelect(amenity: BuyerAmenities) {
+    this.allPropAmenities.push(amenity);
+  }
 
+  onItemPropSelect(amenity: BuyerAmenities) {
+    this.selectedPropAmenities.push(amenity);
+  }
   onSelectAll(amenity: BuyerAmenities) {
   }
 
