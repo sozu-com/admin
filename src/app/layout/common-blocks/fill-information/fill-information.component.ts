@@ -6,6 +6,7 @@ import { AdminService } from 'src/app/services/admin.service';
 import { Constant } from 'src/app/common/constants';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
+import { IMarritalStatus } from 'src/app/common/marrital-status-interface';
 // import { TranslateService } from 'src/app/lang/translate.service';
 declare let swal: any;
 
@@ -18,12 +19,24 @@ declare let swal: any;
 export class FillInformationComponent implements OnInit {
 
   @Input('lead_id') lead_id: string;
-  @Input('leadData') leadData: Leads;
+  //@Input('_leadData') _leadData: Leads;
+
+  _leadData : any;
+get leadData(): any {
+    return this.leadData;
+}
+@Input() set leadData(value: any) {
+    this._leadData = value;
+    this.updatePeriodTypes(0);
+}
+
   @Input('allAmenities') allAmenities: Array<BuyerAmenities>;
   @Input('selectedAmenities') selectedAmenities: Array<BuyerAmenities>;
+  @Input('allPropAmenities') allPropAmenities: Array<BuyerAmenities>;
+  @Input('selectedPropAmenities') selectedPropAmenities: Array<BuyerAmenities>;
   @Input('sent_as') sent_as: number;
   @Input('showOtherTextBox') showOtherTextBox: boolean;
-
+  marrital_status_list = Array<IMarritalStatus>();
   today: any;
   dropdownSettings: any;
   public parameter: IProperty = {};
@@ -31,13 +44,21 @@ export class FillInformationComponent implements OnInit {
   model: AddPrefrences;
   configurationCount: Array<string>;
   locale: any;
-
+  temp_array :any = [];
+  configurationCounted:any = [1, 2, 3, 4, 5];
+  bedrooms: any = [
+    { is_selected: false, name: 1 },
+    { is_selected: false, name: 2 },
+    { is_selected: false,  name: 3 },
+    { is_selected: false,  name: 4 },
+    { is_selected: false, name: 5 }
+  ];
   constructor(public admin: AdminService, public constant: Constant,
     private spinner: NgxSpinnerService,
     private translate: TranslateService) { }
 
   ngOnInit() {
-
+    this. getMarritalStatusList();
     this.locale = {
       firstDayOfWeek: 0,
       dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
@@ -54,6 +75,7 @@ export class FillInformationComponent implements OnInit {
     };
     this.today = new Date();
     this.configurationCount = ['1', '2', '3', '4', '5+'];
+    
     this.dropdownSettings = {
       singleSelection: false,
       idField: 'id',
@@ -64,15 +86,27 @@ export class FillInformationComponent implements OnInit {
       // itemsShowLimit: 3,
       allowSearchFilter: true
     };
-    // if (this.leadData.planning_to_buy) {
-    //   this.leadData.planning_to_buy = moment.utc(this.leadData.planning_to_buy).toDate();
+    
+    // if (this._leadData.planning_to_buy) {
+    //   this._leadData.planning_to_buy = moment.utc(this._leadData.planning_to_buy).toDate();
     // }
     // this.getPrefOptions();
     $('.section-section2').scroll(function(e) {
       e.stopPropagation();
     });
   }
-
+  getMarritalStatusList() {
+    this.admin.postDataApi('getmaritalStatus', {}).subscribe(r => {
+      this.marrital_status_list = r['data'];
+    });
+  }
+  updatePeriodTypes(count){
+    if (this._leadData.lead_bedroom) {
+      for (let i = 0; i < this._leadData.lead_bedroom.length; i++) {
+        return this._leadData.lead_bedroom[i].bedroom==count ? true : false;
+      }
+    }
+  }
   getPrefOptions() {
     this.admin.postDataApi('leads/getPrefOptions', {lead_id: this.lead_id}).subscribe(r => {
       this.parameter.proximity_places = r.data.proximity_places;
@@ -81,11 +115,11 @@ export class FillInformationComponent implements OnInit {
   }
 
   onSelect(e) {
-    // this.leadData.planning_to_buy = e;
+    // this._leadData.planning_to_buy = e;
   }
 
   setCarType(id: number) {
-    this.leadData.buyer_car_type.forEach(element => {
+    this._leadData.buyer_car_type.forEach(element => {
       if (element.id === id) {
         element.is_selected = 1;
       } else {
@@ -95,7 +129,7 @@ export class FillInformationComponent implements OnInit {
   }
 
   setPaymentMode(id: number) {
-    this.leadData.payment_modes.forEach(element => {
+    this._leadData.payment_modes.forEach(element => {
       if (element.id === id) {
         element.is_selected = 1;
       } else {
@@ -105,7 +139,7 @@ export class FillInformationComponent implements OnInit {
   }
 
   setValue(param: string, i: any) {
-    this.leadData[param][i].is_selected = this.leadData[param][i].is_selected === 1 ? 0 : 1;
+    this._leadData[param][i].is_selected = this._leadData[param][i].is_selected === 1 ? 0 : 1;
   }
 
   setProximityValue(value: string, showOtherTextBox: boolean) {
@@ -113,7 +147,7 @@ export class FillInformationComponent implements OnInit {
   }
 
   setPrefValue (param: string, value: number) {
-    this.leadData.prefs[param] = value;
+    this._leadData.prefs[param] = value;
   }
 
   onItemDeSelect(amenity: BuyerAmenities) {
@@ -123,12 +157,18 @@ export class FillInformationComponent implements OnInit {
   onItemSelect(amenity: BuyerAmenities) {
     this.selectedAmenities.push(amenity);
   }
+  onItemDePropSelect(amenity: BuyerAmenities) {
+    this.allPropAmenities.push(amenity);
+  }
 
+  onItemPropSelect(amenity: BuyerAmenities) {
+    this.selectedPropAmenities.push(amenity);
+  }
   onSelectAll(amenity: BuyerAmenities) {
   }
 
   addPreferences() {
-    if (this.leadData.prefs.min_price > this.leadData.prefs.max_price) {
+    if (this._leadData.prefs.min_price > this._leadData.prefs.max_price) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.maximumPriceLimit'), 'error');
       return false;
     }
@@ -140,13 +180,13 @@ export class FillInformationComponent implements OnInit {
     // this.model.payment_plans = [];
 
     this.model.lead_id = this.lead_id;
-    this.model.looking_for = this.leadData.prefs.looking_for;
-    this.model.bedroom = this.leadData.prefs.bedroom;
-    this.model.bathroom = this.leadData.prefs.bathroom;
-    this.model.half_bathroom = this.leadData.prefs.half_bathroom;
-    this.model.min_price = this.leadData.prefs.min_price;
-    this.model.max_price = this.leadData.prefs.max_price;
-    this.leadData.buyer_property_type.forEach(element => {
+    this.model.looking_for = this._leadData.prefs.looking_for;
+    this.model.bedroom = this._leadData.prefs.bedroom;
+    this.model.bathroom = this._leadData.prefs.bathroom;
+    this.model.half_bathroom = this._leadData.prefs.half_bathroom;
+    this.model.min_price = this._leadData.prefs.min_price;
+    this.model.max_price = this._leadData.prefs.max_price;
+    this._leadData.buyer_property_type.forEach(element => {
       if (element.is_selected === 1) {
         this.model.property_types.push(element.id);
       }
@@ -154,32 +194,32 @@ export class FillInformationComponent implements OnInit {
     this.selectedAmenities.forEach(element => {
       this.model.amenities.push(element.id);
     });
-    this.leadData.buyer_proximity.forEach(element => {
+    this._leadData.buyer_proximity.forEach(element => {
       if (element.is_selected === 1) {
         this.model.proximity_place_ids.push(element.id);
       }
     });
-    this.leadData.buyer_car_type.forEach(element => {
+    this._leadData.buyer_car_type.forEach(element => {
       if (element.is_selected === 1) {
         this.model.car_type_id = element.id;
       }
     });
-    this.model.proximity_other = this.showOtherTextBox ? this.leadData.prefs.proximity_other : '';
-    this.leadData.prefs.proximity_other = this.showOtherTextBox ? this.leadData.prefs.proximity_other : '';
-    this.model.family_size = this.leadData.prefs.family_size;
-    this.model.kid_count = this.leadData.prefs.kid_count;
-    this.model.pets = this.leadData.prefs.pets;
-    if (this.leadData.prefs.planning_to_buy) {
-      this.model.planning_to_buy = moment.utc(this.leadData.prefs.planning_to_buy).toDate();
-      // this.leadData.planning_to_buy = new ChatTimePipe().transform(this.leadData.planning_to_buy, 'YYYY-MM-DD HH:MM:SS', 3);
+    this.model.proximity_other = this.showOtherTextBox ? this._leadData.prefs.proximity_other : '';
+    this._leadData.prefs.proximity_other = this.showOtherTextBox ? this._leadData.prefs.proximity_other : '';
+    this.model.family_size = this._leadData.prefs.family_size;
+    this.model.kid_count = this._leadData.prefs.kid_count;
+    this.model.pets = this._leadData.prefs.pets;
+    if (this._leadData.prefs.planning_to_buy) {
+      this.model.planning_to_buy = moment.utc(this._leadData.prefs.planning_to_buy).toDate();
+      // this._leadData.planning_to_buy = new ChatTimePipe().transform(this._leadData.planning_to_buy, 'YYYY-MM-DD HH:MM:SS', 3);
     }
     if (this.model.looking_for === 1) {
-      this.leadData.property_purposes.forEach(element => {
+      this._leadData.property_purposes.forEach(element => {
         if (element.is_selected === 1) {
           this.model.property_purpose.push(element.id);
         }
       });
-      // this.leadData.payment_modes.forEach(element => {
+      // this._leadData.payment_modes.forEach(element => {
       //   if (element.is_selected === 1) {
       //     this.model.payment_plans.push(element.id);
       //   }

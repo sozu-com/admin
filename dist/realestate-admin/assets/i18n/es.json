@@ -371,10 +371,15 @@
     "preferableBuyers": {
       "label": "Compradores preferibles",
       "maritalStatus": "Estado civil",
+      "maritalStatus1": "Estado civil",
+      "petsfrn": "Mascota amigable",
+      "job":"Trabajo",
+      "lbgt":"¿Abierto a vivir con la comunidad LGBT?",
       "petsAllowed": "Mascotas",
       "allowed": "Permitido",
       "notAllowed": "No permitido",
       "kidsFriendly": "Ambiente para niños?",
+      "petsFriendly": "Mascota amigable",
       "studentsFriendly": "Ambiente estudiantil",
       "LGBTFriendly": "Amigable con comunidad LGBT?",
       "MaturePeopleFriendly": "¿Ambiente para personas mayores?"
@@ -1499,9 +1504,12 @@
     "CSRClosure": "Cerrador CSR",
     "assignToAgent": "Asignar al agente",
     "dealFinalized": "Acuerdo finalizado",
-    "buy": "En venta",
+    "buy": "Pre-Sale",
+    "sale": "Venta",
     "rent": "Renta",
     "purchase": "Compra",
+    "student":"Alumna",
+    "pro":"Pro",
     "inventory": "Inventario",
     "status": "Estatus",
     "details": "Detalles",
@@ -1940,6 +1948,7 @@
     "manageCommissions": "Administrar Comisiones"
   },
   "commonBlock": {
+    "job": "Trabajo",
     "propertiesAvailable": "Departamentos disponibles",
     "noPropertyFound": "No se ha encontrado ninguna propiedad para los filtros seleccionados.",
     "groundFloor": "Planta baja",
