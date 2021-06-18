@@ -169,13 +169,13 @@
                    
                   <button (click)="this.sendMail(item);"
                   class="action-icon"
-                  *ngIf="!item.is_email_verified"
+                  *ngIf="!item.is_email_verified && !item.is_phone_verified"
                   title="{{'table.title.sendActivationEmail' | translate}}">
                   <i class="fa fa-map-marker" aria-hidden="true" 
                   style="font-size: 166%;color: black;"></i></button>
 
                   <button  class="action-icon"
-                     *ngIf="item.is_email_verified" [disabled]="true"
+                     *ngIf="item.is_email_verified && item.is_phone_verified" [disabled]="true"
                      title="{{'table.title.confirmEmail' | translate}}">
                      <i class="fa fa-map-marker" aria-hidden="true" 
                      style="font-size: 166%;color: lightgray;"></i></button>
