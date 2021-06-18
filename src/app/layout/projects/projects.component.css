@@ -13,3 +13,8 @@ input[type="text"] {
     font-family: inherit;
     background-color: white;
 }
+
+.is_commission_sale_enabled{
+    width: 25px;
+    height: 25px;
+}
