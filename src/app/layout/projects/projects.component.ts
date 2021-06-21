@@ -840,6 +840,9 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       case 20:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.inventory_per_metter;
         break;
+      case 21:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.image;
+        break;
       default:
         break;
     }
@@ -903,7 +906,8 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       action: (this.select_columns_list[16] || []).isCheckBoxChecked,
       inventory_list_price: (this.select_columns_list[17] || []).isCheckBoxChecked,
       inventory_carpet_area: (this.select_columns_list[18] || []).isCheckBoxChecked,
-      inventory_per_metter: (this.select_columns_list[19] || []).isCheckBoxChecked
+      inventory_per_metter: (this.select_columns_list[19] || []).isCheckBoxChecked,
+      image: (this.select_columns_list[20] || []).isCheckBoxChecked,
     };
   }
 
