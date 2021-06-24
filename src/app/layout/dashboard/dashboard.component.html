@@ -116,10 +116,18 @@
   </div> -->
 
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 col-5">
       <div class="title-group">
         <h5>{{'dashboard.dashboardProjects' | translate}}</h5>
       </div>
+    </div>
+    <div class="col-md-5 col-2"></div>
+    <div class="col-lg-2 col-md-2 col-sm-3 col-5">
+     <div class="form-group btn-cont">
+      <label style="display: block; margin-top: 3px;">&nbsp;</label>
+      <button type="button" (click)="exportData()"
+        class="btn btn-primary-new width100P P86">{{'table.exportDataBtn' | translate}}</button>
+    </div>
     </div>
   </div>
   <div class="row">

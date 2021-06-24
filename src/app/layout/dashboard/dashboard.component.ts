@@ -7,6 +7,10 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
 import { OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';;
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -414,5 +418,84 @@ export class DashboardComponent implements OnInit {
     const localityName = locality === 'All' ? 'All' : this.selectedLocation.selectedLocalities.length == 1 ? state : state + '+' + (this.selectedLocation.selectedLocalities.length - 1);
     return `${countryName}/${stateName}/${cityName}/${localityName}`;
   }
+
+  exportData() {
+    let exportfinalData1 = [];
+    let exportfinalData2 = [];
+    let exportfinalData3 = [];
+    let exportfinalData4 = [];
+    this.location.buildings;
+        exportfinalData1.push({
+          'Project': this.location.buildings.building || '',
+          'Sale': this.location.buildings.sale || '',
+          'Presale': this.location.buildings.presale || '',
+          'Without information': this.location.buildings.without_information || '',
+          'Basic': this.location.buildings.basic_information || '',
+          'Semicomplete': this.location.buildings.semi_complete || '',
+          'Complete': this.location.buildings.complete || ''
+        });
+        exportfinalData1.push({
+          'Project': '100%' || '',
+          'Sale': this.getParseInt(this.location.buildings.sale,this.location.buildings.building) || '',
+          'Presale': this.getParseInt(this.location.buildings.presale,this.location.buildings.building) || '',
+          'Without information': this.getParseInt(this.location.buildings.without_information,this.location.buildings.building) || '',
+          'Basic': this.getParseInt(this.location.buildings.basic_information,this.location.buildings.building) || '',
+          'Semicomplete': this.getParseInt(this.location.buildings.semi_complete,this.location.buildings.building) || '',
+          'Complete': this.getParseInt(this.location.buildings.complete,this.location.buildings.building) || ''
+        });
+        this.location.locality.forEach( item=>{
+        exportfinalData2.push({
+          'Localities': item.locality.name || '',
+          'Total': item.locality_count || '',
+          'Without': item.without_information || '',
+          'Basic': item.basic_information || '',
+          'Semicomplete': item.semi_information || '',
+          'Complete': item.complete || ''
+        });
+      });
+        exportfinalData3.push({
+          'Total': this.location.propertyDetails.property || '',
+          'For Sale': this.location.propertyDetails.forSale || '',
+          'Rent': this.location.propertyDetails.forRent || '',
+          'Inventory': this.location.propertyDetails.inventory || '',
+          'Commercialized by Sozu': this.location.propertyDetails.commercialized || '',
+          'Sold by Sozu': this.location.propertyDetails.sold || '',
+          'Approved': this.location.propertyDetails.approved || '',
+          'Unapproved': this.location.propertyDetails.unapproved || '',
+          'Pending Review': this.location.propertyDetails.pending || '',
+          'In Draft': this.location.propertyDetails.draft || ''
+        });
+        this.location.cities1.forEach( item=>{
+        exportfinalData4.push({
+          'City': item.city.name || '',
+          'Properties': item.property_count || '',
+          'Approved': item.approved || '',
+          'Unapproved': item.unapproved || '',
+          'Pending Review': item.pending || '',
+          'In Draft': item.draft || ''
+        });
+      });
+      this.exportAsExcelFile(exportfinalData1, exportfinalData2, exportfinalData3, exportfinalData4);
+  }
+
+  public exportAsExcelFile(json: any[], json1: any[], json2: any[], json3: any[]): void {
+    const worksheet1: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    const worksheet2: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json1);
+    const worksheet3: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json2);
+    const worksheet4: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json3);
+
+    const workbook: XLSX.WorkBook = { Sheets: { 'Hoja 1': worksheet1, 'Hoja 2': worksheet2,'Hoja 3': worksheet3,'Hoja 4': worksheet4, }, SheetNames: ['Hoja 1', 'Hoja 2', 'Hoja 3', 'Hoja 4'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    
+    this.saveAsExcelFile(excelBuffer, 'Dashboard');
+}
+
+private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    const today = new Date();
+    const date = today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear() + '_' + today.getHours() + '_' + today.getMinutes() + '_' + today.getSeconds();
+    fileName = fileName + '_export_' + date;
+    FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
+}
 
 }
