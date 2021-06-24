@@ -60,6 +60,13 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   sales_parking_alots = [];
   parking_alots = [];
 
+  @ViewChild('openSelectColumnsModal') openSelectColumnsModal: ElementRef;
+  @ViewChild('closeSelectColumnsModal') closeSelectColumnsModal: ElementRef;
+  public select_columns_list: any[] = [];
+  public selectedColumnsToShow: any = {};
+  public isSelectAllColumns: boolean = false;
+  public keyword: string = '';
+
   constructor(
     public constant: Constant,
     public apiConstant: ApiConstants,
@@ -74,6 +81,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.getProjectHome();
     this.language_code = localStorage.getItem('language_code');
     //console.log('baseurl', this.admin.baseUrl);
     this.locale = {
@@ -180,7 +188,8 @@ export class ProjectsComponent implements OnInit, OnDestroy {
         //localStorage.setItem('parametersForProject', JSON.stringify(this.parameter));
         this.items = success.data;
         this.items.forEach(function (element) {
-            element['avgg_price'] = (((parseFloat(element.avg_price) || 0) / (parseFloat(element.avg_carpet_area) || 0)));
+          element['avgg_price'] = (((parseFloat(element.avg_price) || 0) / (parseFloat(element.avg_carpet_area) || 0)));
+          element['avgg_price_hold'] = (((parseFloat(element.avg_price_hold) || 0) / (parseFloat(element.avg_carpet_area_hold) || 0)));
         });
         this.total = success.total_count;
         this.spinner.hide();
@@ -209,8 +218,8 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       this.notesadddModalOpen.nativeElement.click();
     });
   }
-  goWay(item){
-    localStorage.setItem('project_id',item.id);
+  goWay(item) {
+    localStorage.setItem('project_id', item.id);
     this.router.navigate(['/dashboard/properties/view-properties/', item.name, '0']);
   }
   getCountries() {
@@ -729,8 +738,177 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   }
 
 
-  totalParkingCount(p: any){
-    let value = ((  parseInt(p.parking_count) || 0) + (parseInt(p.parking_sale_count) || 0)) + '/' + ((parseInt(p.parking_for_rent) || 0) + (parseInt(p.parking_lots) || 0))
+  totalParkingCount(p: any) {
+    let value = ((parseInt(p.parking_count) || 0) + (parseInt(p.parking_sale_count) || 0)) + '/' + ((parseInt(p.parking_for_rent) || 0) + (parseInt(p.parking_lots) || 0))
     return value;
   }
+
+  getProjectSelection = (isFirstTime: boolean, keyword?: string): void => {
+    this.spinner.show();
+    this.admin.postDataApi('getProjectSelection', { name: keyword }).subscribe((response) => {
+      this.spinner.hide();
+      this.select_columns_list = (response.data || []).sort((a, b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0));
+      (this.select_columns_list || []).forEach((data, index) => {
+        this.makeSelectedColumns(data.id, index);
+      });
+      this.changeSelect();
+      if (isFirstTime) {
+        this.keyword = '';
+        this.isSelectAllColumns = false;
+        this.language_code = localStorage.getItem('language_code');
+        this.openSelectColumnsModal.nativeElement.click();
+      }
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), ((error || {}).error || {}).message, 'error');
+    });
+  }
+
+  changeSelect = (): void => {
+    let index = 0;
+    (this.select_columns_list || []).forEach((data) => {
+      if (data.isCheckBoxChecked) {
+        index += 1;
+      }
+    });
+    if ((this.select_columns_list || []).length == index) {
+      this.isSelectAllColumns = true;
+    } else {
+      this.isSelectAllColumns = false;
+    }
+  }
+
+  makeSelectedColumns = (id: number, index: number): void => {
+    switch (id) {
+      case 1:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.building_name;
+        break;
+      case 2:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.developer;
+        break;
+      case 3:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.agency;
+        break;
+      case 4:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.legal_entity;
+        break;
+      case 5:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.contributor;
+        break;
+      case 6:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.managed_company;
+        break;
+      case 7:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.possesion;
+        break;
+      case 8:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.parking_lots;
+        break;
+      case 9:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.properties;
+        break;
+      case 10:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.property_for_rent;
+        break;
+      case 11:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.property_for_sale;
+        break;
+      case 12:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.list_price;
+        break;
+      case 13:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.carpet_area;
+        break;
+      case 14:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.price_per_metter;
+        break;
+      case 15:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.document;
+        break;
+      case 16:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.project_status;
+        break;
+      case 17:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.action;
+        break;
+      case 18:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.inventory_list_price;
+        break;
+      case 19:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.inventory_carpet_area;
+        break;
+      case 20:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.inventory_per_metter;
+        break;
+      case 21:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.image;
+        break;
+      default:
+        break;
+    }
+
+  }
+
+  getProjectHome = (): void => {
+    //this.spinner.show();
+    this.admin.postDataApi('getProjectHome', { user_id: JSON.parse(localStorage.getItem('user-id')) || 0 }).subscribe((response) => {
+      this.selectedColumnsToShow = response.data || {};
+      //this.spinner.hide();
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
+
+  changeSelectAll = (): void => {
+    (this.select_columns_list || []).forEach((data) => {
+      data.isCheckBoxChecked = this.isSelectAllColumns;
+    });
+  }
+
+  closeSelectColumnsPopup = (): void => {
+    this.keyword = '';
+    this.isSelectAllColumns = false;
+    this.closeSelectColumnsModal.nativeElement.click();
+  }
+
+  applyShowSelectedColumns = (): void => {
+    this.spinner.show();
+    this.admin.postDataApi('updateProjectHome', this.getPostRequestForColumn()).subscribe((response) => {
+      this.spinner.hide();
+      this.closeSelectColumnsPopup();
+      this.getProjectHome();
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
+
+  getPostRequestForColumn = (): any => {
+    return {
+      user_id: JSON.parse(localStorage.getItem('user-id')) || 0,
+      building_name: (this.select_columns_list[0] || []).isCheckBoxChecked,
+      developer: (this.select_columns_list[1] || []).isCheckBoxChecked,
+      agency: (this.select_columns_list[2] || []).isCheckBoxChecked,
+      legal_entity: (this.select_columns_list[3] || []).isCheckBoxChecked,
+      contributor: (this.select_columns_list[4] || []).isCheckBoxChecked,
+      managed_company: (this.select_columns_list[5] || []).isCheckBoxChecked,
+      possesion: (this.select_columns_list[6] || []).isCheckBoxChecked,
+      parking_lots: (this.select_columns_list[7] || []).isCheckBoxChecked,
+      properties: (this.select_columns_list[8] || []).isCheckBoxChecked,
+      property_for_rent: (this.select_columns_list[9] || []).isCheckBoxChecked,
+      property_for_sale: (this.select_columns_list[10] || []).isCheckBoxChecked,
+      list_price: (this.select_columns_list[11] || []).isCheckBoxChecked,
+      carpet_area: (this.select_columns_list[12] || []).isCheckBoxChecked,
+      price_per_metter: (this.select_columns_list[13] || []).isCheckBoxChecked,
+      document: (this.select_columns_list[14] || []).isCheckBoxChecked,
+      project_status: (this.select_columns_list[15] || []).isCheckBoxChecked,
+      action: (this.select_columns_list[16] || []).isCheckBoxChecked,
+      inventory_list_price: (this.select_columns_list[17] || []).isCheckBoxChecked,
+      inventory_carpet_area: (this.select_columns_list[18] || []).isCheckBoxChecked,
+      inventory_per_metter: (this.select_columns_list[19] || []).isCheckBoxChecked,
+      image: (this.select_columns_list[20] || []).isCheckBoxChecked,
+    };
+  }
+
 }
