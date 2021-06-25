@@ -234,4 +234,12 @@ export class PropertyDetailsComponent implements OnInit {
       })
     }, 500)
   }
+
+  goBack = (isForBack: boolean): void => {
+    if (isForBack) {
+      this.router.navigate(['/dashboard/properties/view-properties', { for: 'back' }]);
+    } else {
+      this.router.navigate(['/dashboard/properties/view-properties']);
+    }
+  }
 }

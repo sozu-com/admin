@@ -1299,9 +1299,9 @@
             <div class="row">
                <div class="form-group col-md-12">
                   <label class="cust-radio" *ngFor="let item of property_for">
-                     <input name="property_for" type="radio" [ngClass]="{'active':item.is_selected}"
+                     <input name="property_for" type="radio"
                         (click)="toggleOptions(item,property_for)">
-                     <span class="checkmark"> {{language_code == 'en'? item.name_en : item.name_es}}</span>
+                     <span class="checkmark" [ngClass]="{'unActive':!item.is_selected }"> {{language_code == 'en'? item.name_en : item.name_es}}</span>
                   </label>
                   <div class="clearfix"></div>
                </div>
@@ -1310,9 +1310,9 @@
             <div class="row">
                <div class="form-group col-md-12">
                   <label class="cust-radio" *ngFor="let item of possession_status_id">
-                     <input name="possession_status_id" type="radio" [ngClass]="{'active':item.is_selected}"
+                     <input name="possession_status_id" type="radio"
                         (click)="toggleOptions(item,possession_status_id)">
-                     <span class="checkmark"> {{language_code == 'en'? item.name_en : item.name_es}}</span>
+                     <span class="checkmark" [ngClass]="{'unActive': !item.is_selected}"> {{language_code == 'en'? item.name_en : item.name_es}}</span>
                   </label>
                   <div class="clearfix"></div>
                </div>
@@ -1372,9 +1372,9 @@
             <div class="row">
                <div class="form-group col-md-12">
                   <label class="cust-radio" *ngFor="let item of propertyTypes;">
-                     <input name="property_id" type="checkbox" [ngClass]="{'active':item.is_selected}"
+                     <input name="property_id" type="checkbox"
                         (click)="item.is_selected = !item.is_selected">
-                     <span class="checkmark">{{item?.name_en}}</span>
+                     <span class="checkmark" [ngClass]="{'unActive': !item.is_selected}">{{item?.name_en}}</span>
                   </label>
                   <div class="clearfix"></div>
                </div>
@@ -1431,26 +1431,26 @@
                <div class="form-group col-md-12">
                   {{'advanceSearch.Bedrooms' | translate}}<br />
                   <label class="cust-radio" *ngFor="let item of bedrooms;">
-                     <input name="bedroom" type="checkbox" [ngClass]="{'active':item.is_selected}"
+                     <input name="bedroom" type="checkbox"
                         (click)="item.is_selected = !item.is_selected">
-                     <span class="checkmark">{{item?.name}}</span>
+                     <span class="checkmark" [ngClass]="{'unActive': !item.is_selected}">{{item?.name}}</span>
                   </label>
                   <div class="clearfix"></div>
                </div>
                <div class="form-group col-md-12">
                   {{'advanceSearch.Bathrooms' | translate}}<br />
                   <label class="cust-radio" *ngFor="let item of bathrooms;">
-                     <input name="bathroom" type="checkbox" [ngClass]="{'active':item.is_selected}"
+                     <input name="bathroom" type="checkbox"
                         (click)="item.is_selected = !item.is_selected">
-                     <span class="checkmark">{{item?.name}}</span>
+                     <span class="checkmark" [ngClass]="{'unActive': !item.is_selected}">{{item?.name}}</span>
                   </label>
                </div>
                <div class="form-group col-md-12">
                   {{'advanceSearch.HalfBathrooms' | translate}}<br />
                   <label class="cust-radio" *ngFor="let item of halfBathrooms;">
-                     <input name="half_bathroom" type="checkbox" [ngClass]="{'active':item.is_selected}"
+                     <input name="half_bathroom" type="checkbox"
                         (click)="item.is_selected = !item.is_selected">
-                     <span class="checkmark">{{item?.name}}</span>
+                     <span class="checkmark" [ngClass]="{'unActive': !item.is_selected}">{{item?.name}}</span>
                   </label>
                </div>
             </div>
