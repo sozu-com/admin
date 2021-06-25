@@ -468,12 +468,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       input.possession_status_id = this.possession_status_id.filter(f => { return f.is_selected == true }).map(r => { return r.id })[0] || '';
     }
     
-    
     input.bedroom = this.bedrooms.filter(f => { return f.is_selected == true }).map(r => { return r.name });
     input.bathroom = this.bathrooms.filter(f => { return f.is_selected == true }).map(r => { return r.name });
     input.half_bathroom = this.halfBathrooms.filter(f => { return f.is_selected == true }).map(r => { return r.name });
-    input.property_id = this.propertyTypes.filter(f => { return f.is_selected == true }).map(r => { return r.id });
-    input.flag = 3;
+    input.property_type_id = this.propertyTypes.filter(f => { return f.is_selected == true }).map(r => { return r.id });
     input.min_price = this.parameter.min_price;
     input.max_price = this.parameter.max_price;
     input.min_carpet_area = this.parameter.min_carpet_area;
