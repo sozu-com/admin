@@ -167,18 +167,19 @@
                 <td>
                   <div class="table-actions">
                    
-                  <button (click)="this.sendMail(item);"
+                  <!-- <button (click)="this.sendMail(item);"
                   class="action-icon"
                   *ngIf="!item.is_email_verified && !item.is_phone_verified"
                   title="{{'table.title.sendActivationEmail' | translate}}">
                   <i class="fa fa-map-marker" aria-hidden="true" 
-                  style="font-size: 166%;color: black;"></i></button>
+                  style="font-size: 166%;color: black;"></i></button> -->
 
-                  <button  class="action-icon"
-                     *ngIf="item.is_email_verified && item.is_phone_verified" [disabled]="true"
+                  <button  class="action-icon" (click)="this.sendMail(item)"
+                     [disabled]="item.is_email_verified && item.is_phone_verified"
                      title="{{'table.title.confirmEmail' | translate}}">
-                     <i class="fa fa-map-marker" aria-hidden="true" 
-                     style="font-size: 166%;color: lightgray;"></i></button>
+                     <i class="fa fa-map-marker" aria-hidden="true" style="font-size: 166%;color: lightgray;" *ngIf="item.is_email_verified && item.is_phone_verified"></i>
+                     <i class="fa fa-map-marker" aria-hidden="true" style="font-size: 166%;color: black;" *ngIf="!item.is_email_verified || !item.is_phone_verified"></i>
+                  </button>
 
                       <!-- <a href="javascript://" (click)="editUser(item, i)" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>
                       <a href="javascript://" *ngIf="item.is_blocked == 1" (click)="blockUnblockPopup(i, item.id, 0, parameter.type)" title="Unblock user" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a>
