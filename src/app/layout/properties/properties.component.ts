@@ -114,6 +114,36 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   paymentBanks: Array<any>;
   isPreview: boolean = false;
   avg_price: any;
+  property_for: any = [
+    { is_selected: false, id: 1, name_en: 'For sale', name_es: 'En venta' },
+    { is_selected: false, id: 3, name_en: 'Inventory', name_es: 'Inventario' },
+    { is_selected: false, id: 2, name_en: 'Rent', name_es: 'Renta' }
+  ];
+  possession_status_id: any = [
+    { is_selected: false, id: 9, name_en: 'Presale', name_es: 'Preventa' },
+    { is_selected: false, id: 8, name_en: 'Sale', name_es: 'Venta' }
+  ];
+  bedrooms: any = [
+    { is_selected: false, name: '1' },
+    { is_selected: false, name: '2' },
+    { is_selected: false, name: '3' },
+    { is_selected: false, name: '4' },
+    { is_selected: false, name: '5+'}
+  ];
+  bathrooms: any = [
+    { is_selected: false, name: '1' },
+    { is_selected: false, name: '2' },
+    { is_selected: false, name: '3' },
+    { is_selected: false, name: '4' },
+    { is_selected: false, name: '5+'}
+  ];
+  halfBathrooms: any = [
+    { is_selected: false, name: '1' },
+    { is_selected: false, name: '2' },
+    { is_selected: false, name: '3' },
+    { is_selected: false, name: '4' },
+    { is_selected: false, name: '5+'}
+  ];
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('rejectModalOpen') rejectModalOpen: ElementRef;
@@ -159,6 +189,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   public selectedPropertyColumnsToShow: any = {};
   public isSelectAllColumns: boolean = false;
   project_id:any;
+  configurationCount: Array<any>;
   constructor(
     public constant: Constant,
     public apiConstant: ApiConstants,
@@ -220,20 +251,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     };
   }
 
-  // iniDropDownSettings() {
-  //   this.multiDropdownSettingss = {
-  //     singleSelection: true,
-  //     idField: 'id',
-  //     textField: 'name',
-  //     selectAllText: this.translate.instant('commonBlock.selectAll'),
-  //     unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
-  //     searchPlaceholderText: this.translate.instant('commonBlock.search'),
-  //     allowSearchFilter: true,
-  //     itemsShowLimit: 2
-  //   };
-  // }
+ 
 
   ngOnInit(): void {
+    this.configurationCount = ['1', '2', '3', '4', '5+'];
     this.language_code = localStorage.getItem('language_code');
     this.getPropertyHome();
     this.iniDropDownSetting();
@@ -331,12 +352,18 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.getCountries();
   }
 
-  // onItemDeSelect(arrayNAme: any, obj: any) {
-  //   this[arrayNAme].push(obj);
-  // }
+  toggleOptions(item, items) {
+    items.forEach(r => {
+      r.is_selected = false;
+    });
+    item.is_selected = true;
+  }
+
+
   onItemSelects(value) {
     this.selectedvalue = value
   }
+
   unsetProject(item: any) {
     let i = 0;
     this.selctedAmenities.map(r => {
@@ -365,30 +392,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.model[key] = value;
   }
 
-  onSelectAll(obj: any) {
-  }
-  // increment() {
-  //   this.count++;
-  // }
-
-  // decrement() {
-  //   this.count--;
-  //   if (this.count < 0) {
-  //     this.count = 0;
-  //   }
-  // }
-
+  onSelectAll(obj: any) { }
 
   getPropertyTypes() {
-    // this.spinner.show();
     this.admin.postDataApi('getPropertyTypes', { hide_blocked: 1 })
       .subscribe(
         success => {
-          // this.spinner.hide();
           this.propertyTypes = success['data'];
-          // if (this.parameter.propertyTypes.length !== 0 && this.parameter.property_id === '') {
-          //   this.model.property_type_id = this.parameter.propertyTypes[0].id;
-          // }
         }
       );
   }
@@ -451,7 +461,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       // console.log(d, "filter")
       input.building_amenities_id = d;
     }
-    
+    input.property_for = this.property_for.filter(f => { return f.is_selected == true }).map(r => { return r.id })[0] || '';
+    input.possession_status_id = this.possession_status_id.filter(f => { return f.is_selected == true }).map(r => { return r.id })[0] || '';
+    input.bedroom = this.bedrooms.filter(f => { return f.is_selected == true }).map(r => { return r.name });
+    input.bathroom = this.bathrooms.filter(f => { return f.is_selected == true }).map(r => { return r.name });
+    input.half_bathroom = this.halfBathrooms.filter(f => { return f.is_selected == true }).map(r => { return r.name });
+    input.property_id = this.propertyTypes.filter(f => { return f.is_selected == true }).map(r => { return r.id });
+    input.flag = 3;
     input.min_price = this.parameter.min_price;
     input.max_price = this.parameter.max_price;
     input.min_carpet_area = this.parameter.min_carpet_area;
@@ -460,15 +476,14 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     input.furnished = this.parameter.furnished;
     input.parking_place = this.parameter.parking_place;
     input.parking_for_sale = this.parameter.parking_for_sale;
-    input.bedroom = this.parameter.bedroom;
-    input.bathroom = this.parameter.bathroom;
-    input.half_bathroom = this.parameter.half_bathroom;
-
-    if (this.parameter.property_id) {
-      input = {};
-      input.flag = 3;
-      input.property_id = this.parameter.property_id
-    }
+    // input.bedroom = this.parameter.bedroom;
+    // input.bathroom = this.parameter.bathroom;
+    // input.half_bathroom = this.parameter.half_bathroom;
+    // if (this.parameter.property_id) {
+    //   input = {};
+    //   input.flag = 3;
+    //   input.property_id = this.parameter.property_id
+    // }
     this.admin.postDataApi('propertyHome', input).subscribe(
       success => {
         // localStorage.setItem('parametersForProperty', JSON.stringify(this.parameter));

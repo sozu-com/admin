@@ -1,8 +1,11 @@
-.cust-radio {
+.cust-radio[_ngcontent-c4] {
   position: relative;
-  padding-left: 0;
-  margin-bottom: 12px;
+  /* padding-left: 0; */
+  padding: 2px;
+  margin-bottom: 3px;
   cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
   user-select: none;
 }
 
@@ -51,7 +54,8 @@ margin-left: 29px;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    width: 76px;
+    background-color: #00B96F;
     -webkit-transition: .4s;
     transition: .4s;
   }
@@ -61,7 +65,7 @@ margin-left: 29px;
     content: "";
     height: 26px;
     width: 26px;
-    left: 4px;
+    left: 16px;
     bottom: 4px;
     background-color: white;
     -webkit-transition: .4s;

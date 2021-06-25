@@ -8,8 +8,8 @@
       <div class="col-lg-6 col-md-6 col-sm-6 col-12">
          <div class="form-group" style="float: right;">
             <button class="action-icon" (click)="getPropertySelection(true)"
-            title="{{'table.title.selectColumns' | translate}}"><i class="fa fa-pause" 
-                style="cursor: pointer;"></i></button>               
+               title="{{'table.title.selectColumns' | translate}}"><i class="fa fa-pause"
+                  style="cursor: pointer;"></i></button>
          </div>
       </div>
    </div>
@@ -79,8 +79,8 @@
       <div class="col-lg-2 col-md-2">
          <div class="form-group">
             <label>{{'filters.location.country' | translate}}</label>
-            <select class="form-control" (change)="onCountryChange($event.target.value)"  [(ngModel)]="parameter.country_id"
-               style="background-color: white;">
+            <select class="form-control" (change)="onCountryChange($event.target.value)"
+               [(ngModel)]="parameter.country_id" style="background-color: white;">
                <option value="0">{{'filters.location.allOption' | translate}}</option>
                <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
             </select>
@@ -89,7 +89,8 @@
       <div class="col-lg-2 col-md-2">
          <div class="form-group">
             <label>{{'filters.location.state' | translate}}</label>
-            <select class="form-control" (change)="onStateChange($event.target.value)"  [(ngModel)]="parameter.state_id" style="background-color: white;">
+            <select class="form-control" (change)="onStateChange($event.target.value)" [(ngModel)]="parameter.state_id"
+               style="background-color: white;">
                <option value="0">{{'filters.location.allOption' | translate}}</option>
                <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
             </select>
@@ -141,8 +142,8 @@
       <div class="col-lg-2 col-md-2">
          <div class="form-group marginB0">
             <label>{{'filters.location.building' | translate}}</label>
-            <select class="form-control" (change)="setBuilding($event.target.value)" [(ngModel)]="parameter.building_id" 
-            style="background-color: white;">
+            <select class="form-control" (change)="setBuilding($event.target.value)" [(ngModel)]="parameter.building_id"
+               style="background-color: white;">
                <option value="0">{{'filters.location.allOption' | translate}}</option>
                <option *ngFor="let building of parameter.buildings" value="{{building.id}}">{{building.name}}</option>
             </select>
@@ -321,24 +322,24 @@
                               <label>{{'table.th.nameOfBuilding' | translate}}</label>
                               <div class="searh-3">
                                  <input class="width100px" type="text" [(ngModel)]="parameter.keyword" name="keyword"
-                                    (keyup.enter)="getListing()" autocomplete="address-level4" >
+                                    (keyup.enter)="getListing()" autocomplete="address-level4">
                                  <button *ngIf="parameter.keyword" (click)="getListing()"><i
                                        class="fa fa-search"></i></button>
                               </div>
                            </div>
                         </th>
-                        <th style="width:10%; text-align:left;"  *ngIf="selectedPropertyColumnsToShow?.tower_name">
+                        <th style="width:10%; text-align:left;" *ngIf="selectedPropertyColumnsToShow?.tower_name">
                            <div class="table-search">
                               <label>{{'table.th.nameOfTower' | translate}}</label>
                               <div class="searh-3">
                                  <input class="width100px" type="text" [(ngModel)]="parameter.tower_name"
-                                    name="tower_name" (keyup.enter)="getListing()" autocomplete="address-level4" >
+                                    name="tower_name" (keyup.enter)="getListing()" autocomplete="address-level4">
                                  <button *ngIf="parameter.tower_name" (click)="getListing()"><i
                                        class="fa fa-search"></i></button>
                               </div>
                            </div>
                         </th>
-                        <th style="width:10%; text-align:left;"  *ngIf="selectedPropertyColumnsToShow?.floor">
+                        <th style="width:10%; text-align:left;" *ngIf="selectedPropertyColumnsToShow?.floor">
                            <div class="table-search">
                               <label>{{'table.th.floor' | translate}}</label>
                               <select [(ngModel)]="parameter.floor_num" (change)="getListing()" name="floor_num">
@@ -349,7 +350,7 @@
                               </select>
                            </div>
                         </th>
-                        <th style="width:10%; text-align:left;"  *ngIf="selectedPropertyColumnsToShow?.apartment">
+                        <th style="width:10%; text-align:left;" *ngIf="selectedPropertyColumnsToShow?.apartment">
                            <div class="table-search">
                               <label>{{'table.th.apartment' | translate}}
                                  <a (click)="sort_by(4)" href="javascript://"><img
@@ -358,24 +359,25 @@
                               </label>
                               <div class="searh-3">
                                  <input class="width120px" type="text" [(ngModel)]="parameter.name" name="name"
-                                    (keyup.enter)="getListing()" autocomplete="address-level4" >
+                                    (keyup.enter)="getListing()" autocomplete="address-level4">
                                  <button *ngIf="parameter.name" (click)="getListing()"><i
                                        class="fa fa-search"></i></button>
                               </div>
                            </div>
                         </th>
-                        <th style="width:10%; text-align:left;"  *ngIf="selectedPropertyColumnsToShow?.model">
+                        <th style="width:10%; text-align:left;" *ngIf="selectedPropertyColumnsToShow?.model">
                            <div class="table-search">
                               <label>{{'table.th.model' | translate}}</label>
                               <div class="searh-3">
                                  <input class="width120px" type="text" [(ngModel)]="parameter.configuration_name"
-                                    name="configuration_name" (keyup.enter)="getListing()" autocomplete="address-level4" >
+                                    name="configuration_name" (keyup.enter)="getListing()"
+                                    autocomplete="address-level4">
                                  <button *ngIf="parameter.configuration_name" (click)="getListing()"><i
                                        class="fa fa-search"></i></button>
                               </div>
                            </div>
                         </th>
-                        <th style="width:10%; text-align:left;"  *ngIf="selectedPropertyColumnsToShow?.configuration">
+                        <th style="width:10%; text-align:left;" *ngIf="selectedPropertyColumnsToShow?.configuration">
                            <div class="table-search">
                               <label>{{'table.th.configuration' | translate}}</label>
                               <select [(ngModel)]="parameter.configuration_id" (change)="getListing()"
@@ -391,12 +393,13 @@
                               </select>
                            </div>
                         </th>
-                        <th style="width:10%;vertical-align:top;"  *ngIf="selectedPropertyColumnsToShow?.edit_list_price">
+                        <th style="width:10%;vertical-align:top;"
+                           *ngIf="selectedPropertyColumnsToShow?.edit_list_price">
                            <div class="d-flex table-search">
                               <label>{{'table.th.editPrice' | translate}}</label>
                            </div>
                         </th>
-                        <th style="width:10%;vertical-align:top;"  *ngIf="selectedPropertyColumnsToShow?.list_price">
+                        <th style="width:10%;vertical-align:top;" *ngIf="selectedPropertyColumnsToShow?.list_price">
                            <div (click)="sort_by(1)" class="d-flex table-search">
                               <label>{{'table.th.listPrice' | translate}}</label>
                               <a href="javascript://"><img
@@ -404,7 +407,7 @@
                                     src="assets/img/top-arrow.png" alt="img"></a>
                            </div>
                         </th>
-                        <th style="width:10%;vertical-align:top;"  *ngIf="selectedPropertyColumnsToShow?.final_price">
+                        <th style="width:10%;vertical-align:top;" *ngIf="selectedPropertyColumnsToShow?.final_price">
                            <div (click)="sort_by(6)" class="d-flex table-search">
                               <label>{{'table.th.finalPrice' | translate}}</label>
                               <a href="javascript://"><img
@@ -415,17 +418,17 @@
                         <th style="width:10%;vertical-align:top;">
                            <div (click)="price_by(1)" class="d-flex table-search">
                               <label>{{'table.th.avergagePrice' | translate}}</label>
-                              <a href="javascript://"><img
-                                 [ngClass]="{'upsidedown':parameter.price_sort==1}"
-                                 src="assets/img/top-arrow.png" alt="img"></a>
+                              <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.price_sort==1}"
+                                    src="assets/img/top-arrow.png" alt="img"></a>
                            </div>
                         </th>
-                        <th style="width:10%;vertical-align:top;"  *ngIf="selectedPropertyColumnsToShow?.commercial_offers">
+                        <th style="width:10%;vertical-align:top;"
+                           *ngIf="selectedPropertyColumnsToShow?.commercial_offers">
                            <div (click)="sort_by(1)" class="d-flex table-search">
                               <label>{{'table.th.Commercialoffers' | translate}}</label>
                            </div>
                         </th>
-                        <th style="width:8%;vertical-align:top;"  *ngIf="selectedPropertyColumnsToShow?.carpet_area">
+                        <th style="width:8%;vertical-align:top;" *ngIf="selectedPropertyColumnsToShow?.carpet_area">
                            <div (click)="sort_by(5)" class="d-flex table-search">
                               <label>{{'table.th.carpetArea' | translate}}</label>
                               <a href="javascript://"><img
@@ -433,7 +436,8 @@
                                     src="assets/img/top-arrow.png" alt="img"></a>
                            </div>
                         </th>
-                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.commercialized_sozu" style="width:5%;vertical-align:top;">
+                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.commercialized_sozu"
+                           style="width:5%;vertical-align:top;">
                            <div class="table-search">
                               <label>{{'table.th.commercializedBySOZU' | translate}}</label>
                               <select class="width100px" [(ngModel)]="parameter.is_commercialized"
@@ -444,7 +448,8 @@
                               </select>
                            </div>
                         </th>
-                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.possession_status" style="width:5%;vertical-align:top;">
+                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.possession_status"
+                           style="width:5%;vertical-align:top;">
                            <div class="table-search">
                               <label>{{'table.th.possession_status' | translate}}</label>
                               <select [(ngModel)]="parameter.possession_status_id" (change)="getListing()">
@@ -458,28 +463,32 @@
                            </div>
                         </th>
 
-                       
-                        <th style="width:8%;vertical-align:top;"   *ngIf="selectedPropertyColumnsToShow?.agent_commission">
+
+                        <th style="width:8%;vertical-align:top;"
+                           *ngIf="selectedPropertyColumnsToShow?.agent_commission">
                            <div (click)="sort_by(1)" class="d-flex table-search">
                               <label>{{'table.th.agentCommission' | translate}}</label>
                            </div>
                         </th>
-                        <th style="width:4%;vertical-align:top;"   *ngIf="selectedPropertyColumnsToShow?.edit_agent_commission">
+                        <th style="width:4%;vertical-align:top;"
+                           *ngIf="selectedPropertyColumnsToShow?.edit_agent_commission">
                            <div class="d-flex table-search">
                               <label>{{'table.th.editAgentCommission' | translate}}</label>
                            </div>
                         </th>
-                        <th style="width:8%;vertical-align:top;"   *ngIf="selectedPropertyColumnsToShow?.total_commission">
+                        <th style="width:8%;vertical-align:top;"
+                           *ngIf="selectedPropertyColumnsToShow?.total_commission">
                            <div (click)="sort_by(1)" class="d-flex table-search">
                               <label>{{'table.th.totalSozuCommission' | translate}}</label>
                            </div>
                         </th>
-                        <th style="width:4%;vertical-align:top;"   *ngIf="selectedPropertyColumnsToShow?.edit_total_commission">
+                        <th style="width:4%;vertical-align:top;"
+                           *ngIf="selectedPropertyColumnsToShow?.edit_total_commission">
                            <div class="d-flex table-search">
                               <label>{{'table.th.editTotalCommission' | translate}}</label>
                            </div>
                         </th>
-                        <th style="width:4%;vertical-align:top;"   *ngIf="selectedPropertyColumnsToShow?.leads">
+                        <th style="width:4%;vertical-align:top;" *ngIf="selectedPropertyColumnsToShow?.leads">
                            <div (click)="sort_by(3)" class="d-flex table-search">
                               <label>{{'table.th.leads' | translate}}</label>
                               <a href="javascript://"><img
@@ -487,44 +496,50 @@
                                     src="assets/img/top-arrow.png" alt="img"></a>
                            </div>
                         </th>
-                        <th style="width:5%;vertical-align:top;" *ngIf="parameter.flag==5 && selectedPropertyColumnsToShow?.view_seller_request">
+                        <th style="width:5%;vertical-align:top;"
+                           *ngIf="parameter.flag==5 && selectedPropertyColumnsToShow?.view_seller_request">
                            <div class="d-flex table-search">
                               <label>{{'table.th.viewSellerRequest' | translate}}</label>
                            </div>
                         </th>
-                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.change_buyer" style="width:5%;vertical-align:top;">
+                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.change_buyer"
+                           style="width:5%;vertical-align:top;">
                            <div class="table-search">
                               <label>{{'table.th.changeBuyer' | translate}}</label>
                               <div class="searh-3">
                                  <input class="width100px" type="text" [(ngModel)]="parameter.buyer_name"
-                                    name="buyer_name" (keyup.enter)="getListing()" autocomplete="address-level4" >
+                                    name="buyer_name" (keyup.enter)="getListing()" autocomplete="address-level4">
                                  <button *ngIf="parameter.buyer_name" (click)="getListing()"><i
                                        class="fa fa-search"></i></button>
                               </div>
                            </div>
                         </th>
-                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.change_seller" style="width:5%;vertical-align:top;">
+                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.change_seller"
+                           style="width:5%;vertical-align:top;">
                            <div class="table-search">
                               <label>{{'table.th.changeSeller' | translate}}</label>
                               <div class="searh-3">
                                  <input class="width100px" type="text" [(ngModel)]="parameter.seller_name"
-                                    name="seller_name" (keyup.enter)="getListing()" autocomplete="address-level4" >
+                                    name="seller_name" (keyup.enter)="getListing()" autocomplete="address-level4">
                                  <button *ngIf="parameter.seller_name" (click)="getListing()"><i
                                        class="fa fa-search"></i></button>
                               </div>
                            </div>
                         </th>
-                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.link_unlink_agent" style="width:6%;vertical-align:top;">
+                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.link_unlink_agent"
+                           style="width:6%;vertical-align:top;">
                            <div class="table-search">
                               <label>{{'table.th.linkUnlinkInHouseAgent' | translate}}</label>
                            </div>
                         </th>
-                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.link_unlink_agent" style="width:6%;vertical-align:top;">
+                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.link_unlink_agent"
+                           style="width:6%;vertical-align:top;">
                            <div class="table-search">
                               <label>{{'table.th.linkUnlinkOutsideAgent' | translate}}</label>
                            </div>
                         </th>
-                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.link_agency" style="width:6%;vertical-align:top;">
+                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.link_agency"
+                           style="width:6%;vertical-align:top;">
                            <div class="table-search">
                               <label>{{'table.th.LinkAgency' | translate}}</label>
                               <!-- <div class="searh-3">
@@ -533,7 +548,8 @@
                                  </div> -->
                            </div>
                         </th>
-                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.change_availability" style="width:5%;vertical-align:top;">
+                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.change_availability"
+                           style="width:5%;vertical-align:top;">
                            <div class="table-search">
                               <label>{{'table.th.changeAvailability' | translate}}</label>
                               <select [(ngModel)]="parameter.availability_filter" (change)="getListing()"
@@ -545,7 +561,8 @@
                               </select>
                            </div>
                         </th>
-                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.is_property_sold" style="width:5%;vertical-align:top;">
+                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.is_property_sold"
+                           style="width:5%;vertical-align:top;">
                            <div class="table-search">
                               <label>{{'table.th.isPropertySold' | translate}}</label>
                               <select class="width100px" [(ngModel)]="parameter.sold_filter" (change)="getListing()"
@@ -556,7 +573,8 @@
                               </select>
                            </div>
                         </th>
-                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.linked_collection" style="width:5%;vertical-align:top;">
+                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.linked_collection"
+                           style="width:5%;vertical-align:top;">
                            <div class="table-search">
                               <label>{{'table.th.linkedCollection' | translate}}</label>
                            </div>
@@ -579,7 +597,7 @@
                         *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
                         <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
                            (click)="viewPropertyDetails(p.id, p)" *ngIf="selectedPropertyColumnsToShow?.building_name">
-                           
+
                            <strong>{{p?.building?.name || ('table.tr.td.NA' | translate)}}</strong>
                            <div class="clearfix"></div>
                            <small *ngIf="p.quantity > 0">
@@ -588,13 +606,15 @@
                               <span *ngIf="p.quantity > 1">properties</span>
                            </small>
                         </td>
-                        <td *ngIf="selectedPropertyColumnsToShow?.tower_name"><span>{{p?.building_towers ? p?.building_towers?.tower_name : ('table.tr.td.NA' |
+                        <td *ngIf="selectedPropertyColumnsToShow?.tower_name"><span>{{p?.building_towers ?
+                              p?.building_towers?.tower_name : ('table.tr.td.NA' |
                               translate)}}</span></td>
                         <td *ngIf="selectedPropertyColumnsToShow?.floor"><span>{{p?.building_towers?.tower_name
                               ? (p?.floor_num == 0 ? ('addCollection.groundFloor' | translate) : ('addCollection.floor'
                               | translate) + ' ' + p?.floor_num)
                               : ('table.tr.td.NA' | translate)}}</span></td>
-                        <td *ngIf="selectedPropertyColumnsToShow?.apartment"><span>{{p?.name || ('table.tr.td.NA' | translate)}}</span></td>
+                        <td *ngIf="selectedPropertyColumnsToShow?.apartment"><span>{{p?.name || ('table.tr.td.NA' |
+                              translate)}}</span></td>
                         <td *ngIf="selectedPropertyColumnsToShow?.model">
                            <span [style.textAlign]="'center'">
                               <b>{{p?.building_configuration?.name || ('table.tr.td.NA' | translate)}}</b>
@@ -605,36 +625,43 @@
                               [configuration]="p.building_configuration.config"></app-property-configuration>
                         </td>
                         <td *ngIf="selectedPropertyColumnsToShow?.edit_list_price"><span>
-                           <button (click)="editPricePopup(p, i)"
-                              [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                              title="{{'table.title.editPrice' | translate}}" class="action-icon"><img
-                                 src="assets/img/edit.png" alt="img"></button>
-                        </span></td>
+                              <button (click)="editPricePopup(p, i)"
+                                 [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                                 title="{{'table.title.editPrice' | translate}}" class="action-icon"><img
+                                    src="assets/img/edit.png" alt="img"></button>
+                           </span></td>
                         <td *ngIf="selectedPropertyColumnsToShow?.list_price"><span>{{p.min_price | price}}</span></td>
-                        <td *ngIf="selectedPropertyColumnsToShow?.final_price"><span>{{p.final_price ? (p.final_price | price) : ('table.tr.td.NA' | translate)}}</span></td>
+                        <td *ngIf="selectedPropertyColumnsToShow?.final_price"><span>{{p.final_price ? (p.final_price |
+                              price) : ('table.tr.td.NA' | translate)}}</span></td>
                         <td>
                            <span>${{ p.avgg_price ? (p.avgg_price | number : '1.2-2') : 0.00}}</span>
                         </td>
                         <td *ngIf="selectedPropertyColumnsToShow?.commercial_offers">
-                           <span  *ngIf="p?.offer_count">
-                              <a class="add1" href="javascript://" (click)="openOfferModel(p, i)" style="color: #00B96F;">
+                           <span *ngIf="p?.offer_count">
+                              <a class="add1" href="javascript://" (click)="openOfferModel(p, i)"
+                                 style="color: #00B96F;">
                                  <b>{{p?.offer_count || ('table.tr.td.NA' | translate)}}</b>
-                              </a> 
+                              </a>
                            </span>
                            <span *ngIf="!p?.offer_count">
                               <b>{{'table.tr.td.NA' | translate}}</b>
                            </span>
                         </td>
-                       
+
                         <!-- <td><span>{{p?.carpet_areas && p?.carpet_areas?.length>0 ? (p?.carpet_areas[0]?.area| number : '1.2-2') : 0.00}}</span></td> -->
-                        <td *ngIf="selectedPropertyColumnsToShow?.carpet_area"><span>{{p?.max_area ? p.max_area : 0.00}}</span></td>
-                        <td *ngIf="selectedPropertyColumnsToShow?.commercialized_sozu"><span>{{p?.is_commercialized ? ( 'table.th.yes' | translate ): ( 'table.th.no' | translate )
+                        <td *ngIf="selectedPropertyColumnsToShow?.carpet_area"><span>{{p?.max_area ? p.max_area :
+                              0.00}}</span></td>
+                        <td *ngIf="selectedPropertyColumnsToShow?.commercialized_sozu"><span>{{p?.is_commercialized ? (
+                              'table.th.yes' | translate ): ( 'table.th.no' | translate )
                               }}</span></td>
-                        <td *ngIf="selectedPropertyColumnsToShow?.possession_status"><span>{{p?.building_towers?.possession_status_id == apiConstant.possessionStatus.sale ?
+                        <td *ngIf="selectedPropertyColumnsToShow?.possession_status">
+                           <span>{{p?.building_towers?.possession_status_id == apiConstant.possessionStatus.sale ?
                               ('table.tr.td.sale' |
-                              translate) : ('table.tr.td.presale' | translate)}}</span></td>
-                      
-                        <td  *ngIf="selectedPropertyColumnsToShow?.agent_commission"><span>{{p.broker_commision | percentage}}</span></td>
+                              translate) : ('table.tr.td.presale' | translate)}}</span>
+                        </td>
+
+                        <td *ngIf="selectedPropertyColumnsToShow?.agent_commission"><span>{{p.broker_commision |
+                              percentage}}</span></td>
                         <td *ngIf="selectedPropertyColumnsToShow?.edit_agent_commission"><span>
                               <button (click)="editAgentCommissionPopup(p, i, true)"
                                  [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
@@ -642,7 +669,8 @@
                                     src="assets/img/edit.png" alt="img"></button>
                            </span></td>
 
-                        <td *ngIf="selectedPropertyColumnsToShow?.total_commission"><span>{{p?.total_commission | percentage}}</span></td>
+                        <td *ngIf="selectedPropertyColumnsToShow?.total_commission"><span>{{p?.total_commission |
+                              percentage}}</span></td>
                         <td *ngIf="selectedPropertyColumnsToShow?.edit_total_commission"><span>
                               <button (click)="editAgentCommissionPopup(p, i, false)"
                                  [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
@@ -650,9 +678,11 @@
                                     src="assets/img/edit.png" alt="img"></button>
                            </span></td>
 
-                        <td *ngIf="selectedPropertyColumnsToShow?.leads"><span>{{p.lead_properties_count | roundNumber}}</span></td>
+                        <td *ngIf="selectedPropertyColumnsToShow?.leads"><span>{{p.lead_properties_count |
+                              roundNumber}}</span></td>
 
-                        <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.change_buyer" class="cursor-pointer"
+                        <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.change_buyer"
+                           class="cursor-pointer"
                            title="{{p?.selected_buyer?.user?.name ? ('table.title.clickToChangeBuyer' | translate) : ('table.title.clickToAddBuyer' | translate)}}"
                            (click)="getAllSellers(p, '1', i, 'buyer', 1)">
                            <span *ngIf="p?.selected_buyer?.user?.legal_entity" class="green-color">
@@ -663,12 +693,14 @@
                            </span>
                         </td>
 
-                        <td *ngIf="parameter.flag==5  && selectedPropertyColumnsToShow?.view_seller_request" class="cursor-pointer"
-                           title="{{'table.title.viewSellerRequest' | translate}}" (click)="showAllSellers(p?.id, i)">
+                        <td *ngIf="parameter.flag==5  && selectedPropertyColumnsToShow?.view_seller_request"
+                           class="cursor-pointer" title="{{'table.title.viewSellerRequest' | translate}}"
+                           (click)="showAllSellers(p?.id, i)">
                            <span class="green-color"><span>{{'table.tr.td.view' | translate}}</span></span>
                         </td>
 
-                        <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.change_seller" class="cursor-pointer"
+                        <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.change_seller"
+                           class="cursor-pointer"
                            title="{{p?.selected_seller?.user?.name ? ('table.title.clickToChangeSeller' | translate) : ('table.title.clickToAddSeller' | translate)}}"
                            (click)="getAllSellers(p, '1', i, 'seller', 1)">
                            <span *ngIf="p?.selected_seller?.user?.legal_entity" class="green-color">
@@ -679,7 +711,8 @@
                            </span>
                         </td>
 
-                        <td *ngIf="parameter.flag!=5  && selectedPropertyColumnsToShow?.link_unlink_agent" class="cursor-pointer" (click)="getBothBroker(p, '', true)">
+                        <td *ngIf="parameter.flag!=5  && selectedPropertyColumnsToShow?.link_unlink_agent"
+                           class="cursor-pointer" (click)="getBothBroker(p, '', true)">
                            <span class="green-color">
                               <span
                                  title="{{p?.external_broker?.id ? ('table.title.clickToChange' | translate) : ('table.title.clickToAssign' | translate) }}">
@@ -687,7 +720,8 @@
                                  ? ('table.tr.td.change' | translate) : ('table.tr.td.link' | translate)}}</span>
                            </span>
                         </td>
-                        <td *ngIf="parameter.flag!=5  && selectedPropertyColumnsToShow?.link_unlink_agent" class="cursor-pointer" (click)="getBothBroker(p, '', false)">
+                        <td *ngIf="parameter.flag!=5  && selectedPropertyColumnsToShow?.link_unlink_agent"
+                           class="cursor-pointer" (click)="getBothBroker(p, '', false)">
                            <span class="green-color">
                               <span
                                  title="{{p?.external_outside_agent?.id ? ('table.title.clickToChange' | translate) : ('table.title.clickToAssign' | translate) }}">
@@ -695,7 +729,8 @@
                                  ? ('table.tr.td.change' | translate) : ('table.tr.td.link' | translate)}}</span>
                            </span>
                         </td>
-                        <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.link_agency" class="cursor-pointer" (click)="getAgency(p, '',i)">
+                        <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.link_agency"
+                           class="cursor-pointer" (click)="getAgency(p, '',i)">
                            <span class="green-color">
                               <span
                                  title="{{p?.get_agency?.id ? ('table.title.clickToChange' | translate) : ('table.title.clickToAssign' | translate) }}">
@@ -703,7 +738,8 @@
                                  ? ('table.tr.td.change' | translate) : ('table.tr.td.link' | translate)}}</span>
                            </span>
                         </td>
-                        <td *ngIf="parameter.flag!=5  && selectedPropertyColumnsToShow?.change_availability" class="cursor-pointer">
+                        <td *ngIf="parameter.flag!=5  && selectedPropertyColumnsToShow?.change_availability"
+                           class="cursor-pointer">
                            <select (change)="changeSoldStatusPopup(p, i, $event)">
                               <option [selected]="p.for_sale==1" value="1">{{'table.th.buy' | translate}}</option>
                               <option [selected]="p.for_rent==1" value="2">{{'table.th.rent' | translate}}</option>
@@ -734,61 +770,60 @@
                                  [title]="p?.is_commercialized ? ('table.title.commercializedProperty' | translate ): ('table.title.markCommercialized' | translate)"><img
                                     [src]="p?.is_commercialized ? 'assets/img/tick-selected.png' : 'assets/img/tick.png' " alt="img"></button> -->
 
-                              <button (click)="this.updateCommercialized(p,1);"
-                                 class="action-icon" [disabled]="!!p?.collection"
-                                 *ngIf="p.is_commercialized !=1 && parameter?.flag == 3"
+                              <button (click)="this.updateCommercialized(p,1);" class="action-icon"
+                                 [disabled]="!!p?.collection" *ngIf="p.is_commercialized !=1 && parameter?.flag == 3"
                                  title="{{'table.title.commercializedProperty' | translate}}">
                                  <img src="assets/img/tick.png" alt="img"></button>
 
-                                 <button (click)="this.updateCommercialized(p,0);" class="action-icon"
-                                    [disabled]="!!p?.collection"
-                                    *ngIf="p.is_commercialized == true && parameter?.flag == 3"
-                                    title="{{'table.title.markCommercialized' | translate}}">
-                                    <img src="assets/img/tick-selected.png" alt="img"></button>
+                              <button (click)="this.updateCommercialized(p,0);" class="action-icon"
+                                 [disabled]="!!p?.collection"
+                                 *ngIf="p.is_commercialized == true && parameter?.flag == 3"
+                                 title="{{'table.title.markCommercialized' | translate}}">
+                                 <img src="assets/img/tick-selected.png" alt="img"></button>
 
-                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                                    *ngIf="parameter?.flag!=3" routerLink="/dashboard/properties/edit-property/{{p.id}}"
-                                    title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
-                                       src="assets/img/edit.png" alt="img"></button>
-                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                                    *ngIf="parameter?.flag==3"
-                                    routerLink="/dashboard/properties/edit-property/{{p.id}}/edit"
-                                    title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
-                                       src="assets/img/edit.png" alt="img"></button>
-                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_delete==0"
-                                    *ngIf="!p.is_blocked" (click)="blockUnblock(p, 1);" class="action-icon"
-                                    title="{{'table.title.block' | translate}}"><img src="assets/img/block.png"
-                                       alt="img"></button>
-                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_delete==0"
-                                    *ngIf="p.is_blocked == true" (click)="blockUnblock(p, 0);"
-                                    class="action-icon unblock-bg" title="{{'table.title.unblock' | translate}}"><img
-                                       src="assets/img/unblock.png" alt="img"></button>
+                              <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                                 *ngIf="parameter?.flag!=3" routerLink="/dashboard/properties/edit-property/{{p.id}}"
+                                 title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
+                                    src="assets/img/edit.png" alt="img"></button>
+                              <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                                 *ngIf="parameter?.flag==3"
+                                 routerLink="/dashboard/properties/edit-property/{{p.id}}/edit"
+                                 title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
+                                    src="assets/img/edit.png" alt="img"></button>
+                              <button [disabled]="admin?.admin_acl['Property Management']?.can_delete==0"
+                                 *ngIf="!p.is_blocked" (click)="blockUnblock(p, 1);" class="action-icon"
+                                 title="{{'table.title.block' | translate}}"><img src="assets/img/block.png"
+                                    alt="img"></button>
+                              <button [disabled]="admin?.admin_acl['Property Management']?.can_delete==0"
+                                 *ngIf="p.is_blocked == true" (click)="blockUnblock(p, 0);"
+                                 class="action-icon unblock-bg" title="{{'table.title.unblock' | translate}}"><img
+                                    src="assets/img/unblock.png" alt="img"></button>
 
-                                 <!-- unapprove -->
-                                 <a style="display:none;" #modalOpen data-toggle="modal"
-                                    data-target="#addPropertyReason"></a>
-                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                                    *ngIf="p.status == 3" (click)="changeStatus(p, 4);" class="action-icon"
-                                    title="{{'table.title.unapprove' | translate}}"><img
-                                       src="assets/img/ic_disapprove.png" alt="img"></button>
-                                 <!-- *ngIf="p.status == 2 -->
-                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                                    *ngIf="p.status !=1 && p.status !=3" (click)="changeStatus(p,3);"
-                                    class="action-icon" title="{{'table.title.approve' | translate}}"><img
-                                       src="assets/img/tick.png" alt="img"></button>
-                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                                    *ngIf="p.status == 3 && p.is_featured==0" (click)="markPropertyFeatured(p,1);"
-                                    class="action-icon" title="{{'table.title.markFeauture' | translate}}"><img
-                                       src="assets/img/ic_featured.png" alt="img"></button>
-                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                                    *ngIf="p.status == 3 && p.is_featured==1" (click)="markPropertyFeatured(p,0);"
-                                    class="action-icon" title="{{'table.title.markUnfeauture' | translate}}"><img
-                                       src="assets/img/tick-selected.png" alt="img"></button>
-                                 <!-- delete -->
-                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_purge==0"
-                                    (click)="deletePopup(p, i)" class="action-icon"
-                                    title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png"
-                                       alt="img"></button>
+                              <!-- unapprove -->
+                              <a style="display:none;" #modalOpen data-toggle="modal"
+                                 data-target="#addPropertyReason"></a>
+                              <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                                 *ngIf="p.status == 3" (click)="changeStatus(p, 4);" class="action-icon"
+                                 title="{{'table.title.unapprove' | translate}}"><img src="assets/img/ic_disapprove.png"
+                                    alt="img"></button>
+                              <!-- *ngIf="p.status == 2 -->
+                              <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                                 *ngIf="p.status !=1 && p.status !=3" (click)="changeStatus(p,3);" class="action-icon"
+                                 title="{{'table.title.approve' | translate}}"><img src="assets/img/tick.png"
+                                    alt="img"></button>
+                              <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                                 *ngIf="p.status == 3 && p.is_featured==0" (click)="markPropertyFeatured(p,1);"
+                                 class="action-icon" title="{{'table.title.markFeauture' | translate}}"><img
+                                    src="assets/img/ic_featured.png" alt="img"></button>
+                              <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                                 *ngIf="p.status == 3 && p.is_featured==1" (click)="markPropertyFeatured(p,0);"
+                                 class="action-icon" title="{{'table.title.markUnfeauture' | translate}}"><img
+                                    src="assets/img/tick-selected.png" alt="img"></button>
+                              <!-- delete -->
+                              <button [disabled]="admin?.admin_acl['Property Management']?.can_purge==0"
+                                 (click)="deletePopup(p, i)" class="action-icon"
+                                 title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png"
+                                    alt="img"></button>
                            </div>
 
                         </td>
@@ -904,7 +939,8 @@
                            <img *ngIf="!item?.image" src="assets/img/default_img.png" alt="img">
 
                            <div class="n-avail-info">
-                              <p class="p12" *ngIf="item?.name">{{item?.name}} {{item?.first_surname}} {{item?.second_surname}}</p>
+                              <p class="p12" *ngIf="item?.name">{{item?.name}} {{item?.first_surname}}
+                                 {{item?.second_surname}}</p>
                               <p class="p12" *ngIf="item?.comm_name">{{item?.comm_name}}</p>
                               <p class="p12" *ngIf="item?.legal_reps && item?.legal_reps?.id">{{item?.legal_reps?.name}}
                               </p>
@@ -1038,12 +1074,14 @@
          <div class="modal-body">
 
             <p class="modal-title" *ngIf="property?.external_broker?.id"
-            [ngClass]="{'green-color cursor-pointer': property?.external_broker?.name}" (click)="agentTab(property?.external_broker, true)">
-                  {{'viewProperty.currentlyLinkedToAgent' | translate}} - 
-                  <b>{{property?.external_broker?.name}}&nbsp;
+               [ngClass]="{'green-color cursor-pointer': property?.external_broker?.name}"
+               (click)="agentTab(property?.external_broker, true)">
+               {{'viewProperty.currentlyLinkedToAgent' | translate}} -
+               <b>{{property?.external_broker?.name}}&nbsp;
                   {{property?.external_broker?.first_surname}}&nbsp;
-                  {{property?.external_broker?.second_surname}}</b></p>
-          <br/>
+                  {{property?.external_broker?.second_surname}}</b>
+            </p>
+            <br />
             <div class="row">
                <div class="col-md-8 col-6">
                   <input style="max-width:200px" (keyup.enter)="getBothBroker('', keyword, true)" [(ngModel)]="keyword"
@@ -1110,10 +1148,12 @@
          <div class="modal-body">
 
             <p class="modal-title" *ngIf="property?.get_agency?.id"
-            [ngClass]="{'green-color cursor-pointer': property?.get_agency?.name}" (click)="gotoAgencyTab(property?.get_agency)">
-                  {{'viewProperty.currentlyLinkedToAgency' | translate}} - 
-                  <b>{{property?.get_agency?.name}}&nbsp;</b></p>
-          <br/>
+               [ngClass]="{'green-color cursor-pointer': property?.get_agency?.name}"
+               (click)="gotoAgencyTab(property?.get_agency)">
+               {{'viewProperty.currentlyLinkedToAgency' | translate}} -
+               <b>{{property?.get_agency?.name}}&nbsp;</b>
+            </p>
+            <br />
             <div class="row">
                <div class="col-md-8 col-6">
                   <input style="max-width:200px" (keyup.enter)="getAgency('', keyword)" [(ngModel)]="keyword"
@@ -1146,14 +1186,12 @@
                         </div>
                      </td>
                      <td>
-                        <button *ngIf="property?.get_agency?.id!=item.id"
-                           (click)="attachAgencyPopUp(item, false)" class="action-icon"
-                           title="{{'table.title.linkAgency' | translate}}">
+                        <button *ngIf="property?.get_agency?.id!=item.id" (click)="attachAgencyPopUp(item, false)"
+                           class="action-icon" title="{{'table.title.linkAgency' | translate}}">
                            <img src="assets/img/green-icon.png" alt="img"></button>
 
-                        <button *ngIf="property?.get_agency?.id==item.id"
-                           (click)="attachAgencyPopUp(item, true)" class="action-icon"
-                           title="{{'table.title.unlinkAgency' | translate}}">
+                        <button *ngIf="property?.get_agency?.id==item.id" (click)="attachAgencyPopUp(item, true)"
+                           class="action-icon" title="{{'table.title.unlinkAgency' | translate}}">
                            <img src="assets/img/ic_disapprove.png" alt="img"></button>
                      </td>
                   </tr>
@@ -1246,125 +1284,194 @@
      border-top-style: solid;
      border-top-width: thick;
      border-top-color: rgb(0, 185, 111); border-radius: 5px;
-     box-shadow: 0px -2px 0px 7px rgb(105,105,105);width: 130%;
-margin-left: -20%;">
+     box-shadow: 0px -2px 0px 7px rgb(105,105,105);width: 85%;">
          <div class="modal-header modal-header-new" style="background-color: white;">
-            <h4 class="modal-title">{{'advanceSearch.advancedSearch' | translate}}</h4>
+            <h4 class="modal-title" style="color: #333;
+            font-family: 'sf_ui_textmedium';
+            font-size: 24px;
+            font-weight: 700;">{{'advanceSearch.advancedSearch' | translate}}</h4>
             <button style="display: none;" type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
             <button type="button" class="close" (click)="close()">&times;</button>
          </div>
 
          <form class="form-horizontal form-model0P form-model-newP">
-            <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.rangePrice' | translate}}</h4>
+            <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.selectAvailability' | translate}}</h4>
             <div class="row">
-               <div class="form-group col-md-6">
-                  <input type="text" class="form-control" placeholder="Min" name="min_price"
-                     [(ngModel)]="parameter.min_price">
-               </div>
-               <div class="form-group col-md-6">
-                  <input type="text" class="form-control" placeholder="Max" name="max_price"
-                     [(ngModel)]="parameter.max_price">
+               <div class="form-group col-md-12">
+                  <label class="cust-radio" *ngFor="let item of property_for">
+                     <input name="property_for" type="radio" [ngClass]="{'active':item.is_selected}"
+                        (click)="toggleOptions(item,property_for)">
+                     <span class="checkmark"> {{language_code == 'en'? item.name_en : item.name_es}}</span>
+                  </label>
+                  <div class="clearfix"></div>
                </div>
             </div>
-            <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.rangeCarpetArea' | translate}}</h4>
+            <h4 style="color: rgb(48, 46, 46); font-size: 18px;"> {{'advanceSearch.possessionStatus' | translate}}</h4>
             <div class="row">
-               <div class="form-group col-md-6">
-                  <input type="text" class="form-control" placeholder="Min" name="min_carpet_area"
-                     [(ngModel)]="parameter.min_carpet_area">
-               </div>
-               <div class="form-group col-md-6">
-                  <input type="text" class="form-control" placeholder="Max" name="max_carpet_area"
-                     [(ngModel)]="parameter.max_carpet_area">
+               <div class="form-group col-md-12">
+                  <label class="cust-radio" *ngFor="let item of possession_status_id">
+                     <input name="possession_status_id" type="radio" [ngClass]="{'active':item.is_selected}"
+                        (click)="toggleOptions(item,possession_status_id)">
+                     <span class="checkmark"> {{language_code == 'en'? item.name_en : item.name_es}}</span>
+                  </label>
+                  <div class="clearfix"></div>
                </div>
             </div>
+            <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.priceRange' | translate}}</h4>
+            <div class="form-group-4 marginT20">
+               <div class="row">
+                  <div class="col-md-4 col-sm-12 col-12">
+                     <div class="input-group m-b">
+                        <span class="input-group-addon marginR2">{{'advanceSearch.min' | translate}}</span>
+                        &nbsp;&nbsp;
+                        <input class="form-control" type="text" name="min_price" [(ngModel)]="parameter.min_price"
+                           mask="separator.2" thousandSeparator=",">
+                     </div>
+                  </div>
+                  <!-- <div class="col-md-2 col-sm-12 col-12">
+                     {{'advanceSearch.max' | translate}}
+                   </div> -->
+                  <div class="col-md-4 col-sm-12 col-12">
+                     <div class="input-group m-b">
+                        <span class="input-group-addon marginR2">{{'advanceSearch.max' | translate}}</span>
+                        &nbsp;&nbsp;
+                        <input class="form-control" type="text" name="max_price" [(ngModel)]="parameter.max_price"
+                           mask="separator.2" thousandSeparator=",">
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+            <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.carpetArea' | translate}}</h4>
+            <div class="form-group-4 marginT20">
+               <div class="row">
+                  <div class="col-md-4 col-sm-12 col-12">
+                     <div class="input-group m-b">
+                        <span class="input-group-addon marginR2">{{'advanceSearch.min' | translate}}</span>
+                        &nbsp;&nbsp;
+                        <input class="form-control" type="text" name="min_carpet_area"
+                           [(ngModel)]="parameter.min_carpet_area" mask="separator.2" thousandSeparator=",">
+                     </div>
+                  </div>
+                  <!-- <div class="col-md-2 col-sm-12 col-12">
+                       {{'commonBlock.to' | translate}}
+                   </div> -->
+                  <div class="col-md-4 col-sm-12 col-12">
+                     <div class="input-group m-b">
+                        <span class="input-group-addon marginR2">{{'advanceSearch.max' | translate}}</span>
+                        &nbsp;&nbsp;
+                        <input class="form-control" type="text" name="max_carpet_area"
+                           [(ngModel)]="parameter.max_carpet_area" mask="separator.2" thousandSeparator=",">
+                     </div>
+                  </div>
+               </div>
+            </div>
+
             <!-- PropertyType -->
             <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.PropertyType' | translate}}</h4>
             <div class="row">
                <div class="form-group col-md-12">
-                  <label class="cust-radio" *ngFor="let propertyType of propertyTypes">
-                     <input type="radio" (change)="setValue('property_type_id', propertyType.id)"
-                        value="{{propertyType.id}}" [(ngModel)]="parameter.property_type_id"
-                        [checked]="parameter.property_type_id == propertyType.id ? 'checked' : ''"
-                        name="property_type_id">
-                     <span class="checkmark">{{propertyType.name_en}}</span>
+                  <label class="cust-radio" *ngFor="let item of propertyTypes;">
+                     <input name="property_id" type="checkbox" [ngClass]="{'active':item.is_selected}"
+                        (click)="item.is_selected = !item.is_selected">
+                     <span class="checkmark">{{item?.name_en}}</span>
                   </label>
+                  <div class="clearfix"></div>
                </div>
             </div>
             <!-- ParkingDetails -->
             <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.ParkingDetails' | translate}}</h4>
             <div class="row">
-               <div class="form-group col-md-4">
-                  <p class="parking" style="color: #00B96F;">{{'advanceSearch.ParkingAvailable' | translate}}</p>
+               <div class="form-group col-md-1">
+                  <p class="parking" style="
+                  height: 17px;
+                  width: 58px;
+                  color: #333;
+                  font-family: 'sf_ui_textlight';
+                  font-size: 14px;
+                  font-weight: 300;
+                  line-height: 17px;">
+                     {{'advanceSearch.ParkingAvailable' | translate}}
+                  </p>
+               </div>
+               <div class="form-group col-md-5">
                   <label class="switch">
                      <input type="checkbox" [(ngModel)]="parameter.parking" name="parking">
                      <span class="slider round"></span>
                   </label>
                </div>
-
-               <div class="form-group col-md-4">
-                  <p class="parking" style="color: #00B96F;">{{'advanceSearch.PropertyFurnished' | translate}}</p>
-                  <label class="switch">
-                     <input type="checkbox" [(ngModel)]="parameter.furnished" name="furnished">
-                     <span class="slider round"></span>
-                  </label>
+               <div class="form-group col-md-1">
+                  <p class="parking" style="
+                  height: 17px;
+                  width: 58px;
+                  color: #333;
+                  font-family: 'sf_ui_textlight';
+                  font-size: 14px;
+                  font-weight: 300;
+                  line-height: 17px;">
+                     {{'advanceSearch.ParkingForSale' | translate}}
+                  </p>
                </div>
-
-               <div class="form-group col-md-4">
-                  <p class="parking" style="color: #00B96F;">{{'advanceSearch.ParkingForSale' | translate}}</p>
-                  <label class="switch">
-                     <input type="checkbox" [(ngModel)]="parameter.parking_for_sale" name="parking_for_sale" checked>
-                     <span class="slider round"></span>
-                  </label>
+               <div class="form-group col-md-5">
+                   <label class="switch">
+                       <input type="checkbox" [(ngModel)]="parameter.parking_for_sale" name="parking_for_sale" checked>
+                       <span class="slider round"></span>
+                    </label>
                </div>
-
-               <div class="form-group col-md-4" *ngIf="parameter.parking == 1">
+               <!-- <div class="form-group col-md-4" *ngIf="parameter.parking == 1">
                   {{'advanceSearch.ParkingPlace' | translate}}
                   <input class="form-control" type="number" [(ngModel)]="parameter.parking_place" min="0"
                      name="parking_place">
-               </div>
-
+               </div> -->
+           
             </div>
             <!-- configuration -->
             <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.configuration' | translate}}</h4>
             <div class="row">
-               <div class="form-group col-md-4">
+               <div class="form-group col-md-12">
                   {{'advanceSearch.Bedrooms' | translate}}<br />
-                  <input class="form-control" type="number" [(ngModel)]="parameter.bedroom" 
-                  min="0" name="bedroom">
+                  <label class="cust-radio" *ngFor="let item of bedrooms;">
+                     <input name="bedroom" type="checkbox" [ngClass]="{'active':item.is_selected}"
+                        (click)="item.is_selected = !item.is_selected">
+                     <span class="checkmark">{{item?.name}}</span>
+                  </label>
+                  <div class="clearfix"></div>
                </div>
-               <div class="form-group col-md-4">
+               <div class="form-group col-md-12">
                   {{'advanceSearch.Bathrooms' | translate}}<br />
-                  <input class="form-control" type="number" [(ngModel)]="parameter.bathroom" min="0" name="bathroom">
+                  <label class="cust-radio" *ngFor="let item of bathrooms;">
+                     <input name="bathroom" type="checkbox" [ngClass]="{'active':item.is_selected}"
+                        (click)="item.is_selected = !item.is_selected">
+                     <span class="checkmark">{{item?.name}}</span>
+                  </label>
                </div>
-               <div class="form-group col-md-4">
+               <div class="form-group col-md-12">
                   {{'advanceSearch.HalfBathrooms' | translate}}<br />
-                  <input class="form-control" type="number" [(ngModel)]="parameter.half_bathroom" min="0"
-                     name="half_bathroom">
+                  <label class="cust-radio" *ngFor="let item of halfBathrooms;">
+                     <input name="half_bathroom" type="checkbox" [ngClass]="{'active':item.is_selected}"
+                        (click)="item.is_selected = !item.is_selected">
+                     <span class="checkmark">{{item?.name}}</span>
+                  </label>
                </div>
             </div>
             <!-- Amenities -->
             <!-- <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.Amenities' | translate}}</h4> -->
             <div class="row">
                <div class="form-group col-md-12">
-                  <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.AmenitiesProp' | translate}}</h4>
+                  <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.AmenitiesProp' | translate}}
+                  </h4>
                   <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
                      name="selctedAmenities" [data]="amenities" [(ngModel)]="selctedAmenities"
                      [settings]="multiDropdownSettings" (onDeSelect)="unsetProject($event)"
                      (onSelect)="onItemSelect('selctedAmenities', $event)" (onSelectAll)="onSelectAll($event)">
                   </ng-multiselect-dropdown>
                   <div class="clearfix"></div>
-                  <!-- <label class="cust-radio" *ngFor="let amenity of parameter.amenities">
-                  <input type="checkbox" name="amenity" [(ngModel)]="mymodel">
-                  <span class="checkmark">{{(showMore) ? amenity.name_en : amenity.name_en | slice:0:2}}</span>
-               </label>
-               <span *ngIf="!showMore">...</span> 
-               <a href="javascript:;" *ngIf="!showMore" (click)="showMore=true">{{'addForm.addMore' | translate}}</a>
-               {{mymodel | json}} -->
                </div>
             </div>
             <div class="row">
                <div class="form-group col-md-12">
-                  <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.AmenitiesProj' | translate}}</h4>
+                  <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.AmenitiesProj' | translate}}
+                  </h4>
                   <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
                      name="selctedProjectAmenities" [data]="projectAmenities" [(ngModel)]="selctedProjectAmenities"
                      [settings]="multiDropdownSettings" (onDeSelect)="unsetProjectAmne($event)"
@@ -1372,13 +1479,32 @@ margin-left: -20%;">
                   </ng-multiselect-dropdown>
                </div>
             </div>
-            <button type="submit" class="btn btn-success" (click)="searchProperties()" style="border-left-color: rgb(0, 185, 111);
-               border-right-color: rgb(0, 185, 111);">
-               {{'advanceSearch.apply' | translate}}
-            </button>&nbsp;&nbsp;
+            <button type="submit" class="btn btn-success" (click)="searchProperties()" style="
+               border-left-color: rgb(0, 185, 111);
+               border-right-color: rgb(0, 185, 111);color: #fff;
+               border-color: #28a745;
+               height: 40px;
+               width: 180px;
+               border-radius: 2px;
+               background-color: #00B96F;">
+               {{'advanceSearch.search' | translate}}
+            </button>
+            &nbsp;&nbsp; &nbsp;&nbsp;
 
-            <button type="button" class="btn btn-danger" (click)="close()"
-               style="background-color: rgb(238, 123, 124);">{{'advanceSearch.cancel' | translate}}</button>
+            <button type="button" class="btn btn-danger" (click)="close()" style="height: 40px;
+            width: 180px;
+            border-radius: 2px;
+            background-color: #DC3545;">{{'advanceSearch.cancel' | translate}}</button>
+
+            &nbsp;&nbsp; &nbsp;&nbsp;
+
+            <button type="button" class="btn btn-danger" (click)="clearData()" style="background-color: white;
+               color: rgb(0, 185, 111);
+               box-sizing: border-box;
+               height: 40px;
+               width: 180px;
+               border-radius: 2px;
+               border: 1px solid #00B96F;">{{'advanceSearch.clearData' | translate}}</button>
 
          </form>
       </div>
@@ -1388,709 +1514,287 @@ margin-left: -20%;">
 <a style="display:none;" #openInstallmentModal data-toggle="modal" data-target="#installmentModal"></a>
 <div class="modal animated" id="installmentModal">
    <div class="modal-dialog fadeIndown">
-     <div class="modal-content">
-       <div class="modal-header modal-header-new">
-         <h4 class="modal-title" style="font-weight: bold;">{{'generatePDF.offerInformaton' | translate}}</h4>
-         <br>
-         <button style="display: none;" type="button" class="close" data-dismiss="modal"
-         #closeInstallmentModal>&times;</button>
-         <button type="button" class="close" (click)="this.closeModalInstallment()">&times;</button>
-       </div>
-      <!-- role="form" ngNativeValidate #addForm="ngForm" -->
-       <form autocomplete="off" class="form-horizontal form-model0P form-model-newP" 
-       [formGroup]="this.installmentFormGroup">
-         <div class="modal-body modal-body-new">
-            <label>{{'generatePDF.offerDetails' | translate}}</label>
-            <div class="spacer15"></div>
-            <!-- List and final price fields -->
-           <div class="row">
-            <div class="col-lg-4 col-md-12 col-sm-12 col-12">
-               <div class="form-group-3">
-                  <label>{{'generatePDF.listprice' | translate}}</label>
-                  <input autocomplete="off" type="text" class="form-control" placeholder="$" formControlName="listPrice"/>
-               </div>
-            </div>
-            <div class="col-lg-4 col-md-12 col-sm-12 col-12">
-               <div class="form-group-3">
-                  <label>{{'generatePDF.finalprice' | translate}}</label>
-                  <input autocomplete="off" type="text" class="form-control" placeholder="$" formControlName="finalPrice"/>
-               </div>
-            </div>
-            <div class="col-lg-4 col-md-12 col-sm-12 col-12">
-               <div class="form-group-3">
-               </div>
-            </div>
-           </div>
-           <div class="spacer15" *ngIf="!this.installmentFormGroup.get('isAddParkingLotForSale').value"></div>
-           <!-- parking lot for sale button-->
-           <div class="row" *ngIf="!this.installmentFormGroup.get('isAddParkingLotForSale').value">
-            <div class="col-12">
-               <div class="btn-cont">
-                  <span><a class="add" href="javascript://" (click)="this.markIsParkingLotForSale(true,$event)">{{'addForm.addParking' | translate}}</a></span>
-               </div>
-            </div>
+      <div class="modal-content">
+         <div class="modal-header modal-header-new">
+            <h4 class="modal-title" style="font-weight: bold;">{{'generatePDF.offerInformaton' | translate}}</h4>
+            <br>
+            <button style="display: none;" type="button" class="close" data-dismiss="modal"
+               #closeInstallmentModal>&times;</button>
+            <button type="button" class="close" (click)="this.closeModalInstallment()">&times;</button>
          </div>
-         <div class="spacer15"></div>
-         <!-- parking lot for sale row-->
-         <div class="row" *ngIf="this.installmentFormGroup.get('isAddParkingLotForSale').value">
-            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-               <div class="form-group-3">
-                  <label>{{'addForm.noparking' | translate}} <span class="color-red">*</span></label>
-                  <input autocomplete="off" type="text" class="form-control" placeholder="" formControlName="parkingLotsNumber" appOnlyNumber/>
-               </div>
-            </div>
-            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-               <div class="form-group-3">
-                  <label>{{'addForm.Type' | translate}} <span class="color-red">*</span></label>
-                  <!-- <input autocomplete="off" type="text" class="form-control" placeholder="$"/> -->
-                  <select title="Select Type" class="form-control" formControlName="parkingLotsType">
-                  <option value="" disabled >Select Type</option>
-                  <!-- <option value="" disabled>{{'addForm.selectParkingType' | translate}}</option> -->
-                  <option *ngFor="let item of parkingSpaceLotsArray" [value]="item.id" [disabled]="checkAlreadySelected(item.id)">
-                    {{ this.language_code == 'en' ? item.name_en : item.name_es }}
-                  </option>
-                </select>
-               </div>
-            </div>
-            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-               <div class="form-group-3">
-                     <label>{{'addForm.Price(each)' | translate}} <span class="color-red">*</span></label>
-                     <input autocomplete="off" type="text" class="form-control" placeholder="$100,000.00" formControlName="parkingLotsPrice" mask="separator.2" thousandSeparator=","/>
+         <!-- role="form" ngNativeValidate #addForm="ngForm" -->
+         <form autocomplete="off" class="form-horizontal form-model0P form-model-newP"
+            [formGroup]="this.installmentFormGroup">
+            <div class="modal-body modal-body-new">
+               <label>{{'generatePDF.offerDetails' | translate}}</label>
+               <div class="spacer15"></div>
+               <!-- List and final price fields -->
+               <div class="row">
+                  <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+                     <div class="form-group-3">
+                        <label>{{'generatePDF.listprice' | translate}}</label>
+                        <input autocomplete="off" type="text" class="form-control" placeholder="$"
+                           formControlName="listPrice" />
+                     </div>
                   </div>
-            </div>
-            <div class="col-lg-1 col-md-12 col-sm-12 col-12">
-               <label style="color: white;">{{'addForm.Price(each)' | translate}}</label>
-               <span><a class="add" href="javascript://" (click)="this.addNewParkingLotForSale($event)">{{'addForm.save' | translate}}</a></span>
-            </div>
-            <div class="col-lg-2 col-md-12 col-sm-12 col-12">
-               <label style="color: white;">{{'addForm.Price(each)' | translate}}</label>
-               <span><a class="add" style="color: red;"
-                  href="javascript://"  (click)="this.markIsParkingLotForSale(false,$event)">{{'addForm.remove' | translate}}</a></span>
-            </div>
-         </div>
-         <!-- parking list row -->
-          <div formArrayName="parkingLotForSaleFormArray" *ngIf="this.getParkingLotForSaleFormArrayLength > 0">
-               <ng-container
-                  *ngFor="let temp_parking_lot_for_sale of this.getParkingLotForSaleFormArray['controls']; let i=index">
-                  <div [formGroupName]="i">
+                  <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+                     <div class="form-group-3">
+                        <label>{{'generatePDF.finalprice' | translate}}</label>
+                        <input autocomplete="off" type="text" class="form-control" placeholder="$"
+                           formControlName="finalPrice" />
+                     </div>
+                  </div>
+                  <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+                     <div class="form-group-3">
+                     </div>
+                  </div>
+               </div>
+               <div class="spacer15" *ngIf="!this.installmentFormGroup.get('isAddParkingLotForSale').value"></div>
+               <!-- parking lot for sale button-->
+               <div class="row" *ngIf="!this.installmentFormGroup.get('isAddParkingLotForSale').value">
+                  <div class="col-12">
+                     <div class="btn-cont">
+                        <span><a class="add" href="javascript://"
+                              (click)="this.markIsParkingLotForSale(true,$event)">{{'addForm.addParking' |
+                              translate}}</a></span>
+                     </div>
+                  </div>
+               </div>
+               <div class="spacer15"></div>
+               <!-- parking lot for sale row-->
+               <div class="row" *ngIf="this.installmentFormGroup.get('isAddParkingLotForSale').value">
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                     <div class="form-group-3">
+                        <label>{{'addForm.noparking' | translate}} <span class="color-red">*</span></label>
+                        <input autocomplete="off" type="text" class="form-control" placeholder=""
+                           formControlName="parkingLotsNumber" appOnlyNumber />
+                     </div>
+                  </div>
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                     <div class="form-group-3">
+                        <label>{{'addForm.Type' | translate}} <span class="color-red">*</span></label>
+                        <!-- <input autocomplete="off" type="text" class="form-control" placeholder="$"/> -->
+                        <select title="Select Type" class="form-control" formControlName="parkingLotsType">
+                           <option value="" disabled>Select Type</option>
+                           <!-- <option value="" disabled>{{'addForm.selectParkingType' | translate}}</option> -->
+                           <option *ngFor="let item of parkingSpaceLotsArray" [value]="item.id"
+                              [disabled]="checkAlreadySelected(item.id)">
+                              {{ this.language_code == 'en' ? item.name_en : item.name_es }}
+                           </option>
+                        </select>
+                     </div>
+                  </div>
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                     <div class="form-group-3">
+                        <label>{{'addForm.Price(each)' | translate}} <span class="color-red">*</span></label>
+                        <input autocomplete="off" type="text" class="form-control" placeholder="$100,000.00"
+                           formControlName="parkingLotsPrice" mask="separator.2" thousandSeparator="," />
+                     </div>
+                  </div>
+                  <div class="col-lg-1 col-md-12 col-sm-12 col-12">
+                     <label style="color: white;">{{'addForm.Price(each)' | translate}}</label>
+                     <span><a class="add" href="javascript://"
+                           (click)="this.addNewParkingLotForSale($event)">{{'addForm.save' | translate}}</a></span>
+                  </div>
+                  <div class="col-lg-2 col-md-12 col-sm-12 col-12">
+                     <label style="color: white;">{{'addForm.Price(each)' | translate}}</label>
+                     <span><a class="add" style="color: red;" href="javascript://"
+                           (click)="this.markIsParkingLotForSale(false,$event)">{{'addForm.remove' |
+                           translate}}</a></span>
+                  </div>
+               </div>
+               <!-- parking list row -->
+               <div formArrayName="parkingLotForSaleFormArray" *ngIf="this.getParkingLotForSaleFormArrayLength > 0">
+                  <ng-container
+                     *ngFor="let temp_parking_lot_for_sale of this.getParkingLotForSaleFormArray['controls']; let i=index">
+                     <div [formGroupName]="i">
                         <div class="row">
                            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                               <div class="form-group-3">
                                  <label>{{'addForm.noparking' | translate}}</label>
-                                 <input autocomplete="off" type="text" class="form-control" placeholder="" formControlName="parkingLotsNumber"/>
+                                 <input autocomplete="off" type="text" class="form-control" placeholder=""
+                                    formControlName="parkingLotsNumber" />
                               </div>
                            </div>
                            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                               <div class="form-group-3">
                                  <label>{{'addForm.Type' | translate}}</label>
-                                 <select title="Select Type" class="form-control"  formControlName="parkingLotsType">
-                                    <option value="" disabled >Select Type</option>
+                                 <select title="Select Type" class="form-control" formControlName="parkingLotsType">
+                                    <option value="" disabled>Select Type</option>
                                     <!-- <option value="" disabled>{{'addForm.selectParkingType' | translate}}</option> -->
                                     <option *ngFor="let item of parkingSpaceLotsArray" [value]="item.id">
-                                      {{ this.language_code == 'en' ? item.name_en : item.name_es }}
+                                       {{ this.language_code == 'en' ? item.name_en : item.name_es }}
                                     </option>
-                              </select>
+                                 </select>
                               </div>
                            </div>
                            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                               <div class="form-group-3">
-                                    <label>{{'addForm.Price(each)' | translate}}</label>
-                                    <input autocomplete="off" type="text" class="form-control" placeholder="$100,000.00"  formControlName="parkingLotsPrice" mask="separator.2" thousandSeparator=","/>
-                                 </div>
+                                 <label>{{'addForm.Price(each)' | translate}}</label>
+                                 <input autocomplete="off" type="text" class="form-control" placeholder="$100,000.00"
+                                    formControlName="parkingLotsPrice" mask="separator.2" thousandSeparator="," />
+                              </div>
                            </div>
                            <div class="col-lg-1 col-md-12 col-sm-12 col-12">
                               <label style="color: white;">{{'addForm.Price(each)' | translate}}&nbsp;&nbsp;</label>
-                              <button  class="action-icon" (click)="this.removeParkingLotForSaleFormGroup(i)"
-                              title="{{'addForm.remove' | translate}}"><img src="assets/img/ic_disapprove.png"
-                                 alt="img"></button>
+                              <button class="action-icon" (click)="this.removeParkingLotForSaleFormGroup(i)"
+                                 title="{{'addForm.remove' | translate}}"><img src="assets/img/ic_disapprove.png"
+                                    alt="img"></button>
                            </div>
                         </div>
+                     </div>
+                  </ng-container>
+               </div>
+               <hr>
+               <!-- down or discount -->
+               <div class="spacer15"></div>
+               <div class="row">
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                     <div class="form-group-3">
+                        <label>{{'generatePDF.downPaymentPercentage' | translate}} <span
+                              class="color-red">*</span></label>
+                        <input autocomplete="off" type="text" class="form-control" placeholder="%"
+                           formControlName="downPayment" appOnlyDecimal />
+                     </div>
                   </div>
-               </ng-container>
-            </div>
-         <hr>
-         <!-- down or discount -->
-         <div class="spacer15"></div>
-         <div class="row">
-            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-               <div class="form-group-3">
-                  <label>{{'generatePDF.downPaymentPercentage' | translate}} <span class="color-red">*</span></label>
-                  <input autocomplete="off" type="text" class="form-control" placeholder="%" formControlName="downPayment" appOnlyDecimal />
-               </div>
-            </div>
-            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-               <div class="form-group-3">
-                  <label style="color: white;">{{'addForm.Type' | translate}}</label>
-                 <p style="color: red;font-size: 15px;" *ngIf="isPreview">${{installmentFormGroup.get("downPaymentFinalPrice").value}}</p>
-               </div>
-            </div>
-            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-               <div class="form-group-3">
-                     <label>{{'generatePDF.discountPercentage' | translate}}</label>
-                     <input autocomplete="off" type="text" class="form-control" placeholder="%" formControlName="discount" appOnlyDecimal/>
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                     <div class="form-group-3">
+                        <label style="color: white;">{{'addForm.Type' | translate}}</label>
+                        <p style="color: red;font-size: 15px;" *ngIf="isPreview">
+                           ${{installmentFormGroup.get("downPaymentFinalPrice").value}}</p>
+                     </div>
                   </div>
-            </div>
-            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-               <label style="color: white;">{{'addForm.Type' | translate}}</label>
-               <p style="color: red;font-size: 15px;" *ngIf="isPreview && !installmentFormGroup.get('interestFinalPrice').value">${{installmentFormGroup.get("discountFinalPrice").value}}</p>
-            </div>
-         </div>
-         <!-- month or interest -->
-         <div class="spacer15"></div>
-         <div class="row">
-            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-               <div class="form-group-3">
-                  <label>{{'generatePDF.monthlyInstallmentPercentage' | translate}} <span class="color-red">*</span></label>
-                  <input autocomplete="off" type="text" class="form-control" placeholder="%" formControlName="monthlyInstallment" appOnlyDecimal />
-               </div>
-            </div>
-            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-               <div class="form-group-3">
-                  <label style="color: white;">{{'addForm.Type' | translate}}</label>
-                 <p style="color: red;font-size: 15px;" *ngIf="isPreview">${{installmentFormGroup.get("monthlyInstallmentFinalPrice").value}}</p>
-               </div>
-            </div>
-            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-               <div class="form-group-3">
-                     <label>{{'generatePDF.interest' | translate}}</label>
-                     <input autocomplete="off" type="text" class="form-control" placeholder="%" formControlName="interest" appOnlyDecimal/>
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                     <div class="form-group-3">
+                        <label>{{'generatePDF.discountPercentage' | translate}}</label>
+                        <input autocomplete="off" type="text" class="form-control" placeholder="%"
+                           formControlName="discount" appOnlyDecimal />
+                     </div>
                   </div>
-            </div>
-            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-               <label style="color: white;">{{'addForm.Type' | translate}}</label>
-               <p style="color: red;font-size: 15px;" *ngIf="isPreview && installmentFormGroup.get('interestFinalPrice').value">${{installmentFormGroup.get("interestFinalPrice").value}} </p>
-            </div>
-         </div>
-         <!-- numberOfMI -->
-         <div class="spacer15"></div>
-         <div class="row">
-            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-               <div class="form-group-3">
-                  <label style="width: 245px;">{{'generatePDF.numberOfMI' | translate}} <span class="color-red">*</span></label>
-                  <input autocomplete="off" type="text" class="form-control"  maxlength="6" appOnlyNumber placeholder="#" formControlName="numberOfMI"/>
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                     <label style="color: white;">{{'addForm.Type' | translate}}</label>
+                     <p style="color: red;font-size: 15px;"
+                        *ngIf="isPreview && !installmentFormGroup.get('interestFinalPrice').value">
+                        ${{installmentFormGroup.get("discountFinalPrice").value}}</p>
+                  </div>
                </div>
-            </div>
-            <!-- <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+               <!-- month or interest -->
+               <div class="spacer15"></div>
+               <div class="row">
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                     <div class="form-group-3">
+                        <label>{{'generatePDF.monthlyInstallmentPercentage' | translate}} <span
+                              class="color-red">*</span></label>
+                        <input autocomplete="off" type="text" class="form-control" placeholder="%"
+                           formControlName="monthlyInstallment" appOnlyDecimal />
+                     </div>
+                  </div>
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                     <div class="form-group-3">
+                        <label style="color: white;">{{'addForm.Type' | translate}}</label>
+                        <p style="color: red;font-size: 15px;" *ngIf="isPreview">
+                           ${{installmentFormGroup.get("monthlyInstallmentFinalPrice").value}}</p>
+                     </div>
+                  </div>
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                     <div class="form-group-3">
+                        <label>{{'generatePDF.interest' | translate}}</label>
+                        <input autocomplete="off" type="text" class="form-control" placeholder="%"
+                           formControlName="interest" appOnlyDecimal />
+                     </div>
+                  </div>
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                     <label style="color: white;">{{'addForm.Type' | translate}}</label>
+                     <p style="color: red;font-size: 15px;"
+                        *ngIf="isPreview && installmentFormGroup.get('interestFinalPrice').value">
+                        ${{installmentFormGroup.get("interestFinalPrice").value}} </p>
+                  </div>
+               </div>
+               <!-- numberOfMI -->
+               <div class="spacer15"></div>
+               <div class="row">
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                     <div class="form-group-3">
+                        <label style="width: 245px;">{{'generatePDF.numberOfMI' | translate}} <span
+                              class="color-red">*</span></label>
+                        <input autocomplete="off" type="text" class="form-control" maxlength="6" appOnlyNumber
+                           placeholder="#" formControlName="numberOfMI" />
+                     </div>
+                  </div>
+                  <!-- <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                <div class="form-group-3">
                   <label style="color: white;">{{'addForm.Type' | translate}}</label>
                  <p style="color: red;font-size: 15px;">$2,102,178.00</p>
                </div>
             </div> -->
-         </div>
-          <!-- paymentupondeliveryPercentage -->
-         <div class="spacer15"></div>
-         <div class="row">
-            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-               <div class="form-group-3">
-                  <label style="width: 232px;">{{'generatePDF.paymentupondeliveryPercentage' | translate}} <span class="color-red">*</span></label>
-                  <input autocomplete="off" type="text" class="form-control"  formControlName="paymentupondelivery" placeholder="%" appOnlyDecimal/>
                </div>
-            </div>
-            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-               <div class="form-group-3">
-                  <label style="color: white;">{{'addForm.Type' | translate}}</label>
-                 <p style="color: red;font-size: 15px;" *ngIf="isPreview">${{installmentFormGroup.get("paymentupondeliveryFinalPrice").value}}</p>
-               </div>
-            </div>
-            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-               <div class="form-group btn-cont">
-                  <label style="display: block; margin-top: 3px;">&nbsp;</label>
-                  <button type="button" class="btn  width100P P86 btn-primary-new"
-                     (click)="this.onClickPreview(true)">
-                     {{'generatePDF.preview' | translate}}</button>
-               </div>
-            </div>
-         </div>
-         <!-- add variable button-->
-         <div class="spacer15" *ngIf="!this.installmentFormGroup.get('isAddVariables').value"></div>
-         <div class="row" *ngIf="!this.installmentFormGroup.get('isAddVariables').value">
-            <div class="col-12">
-               <div class="btn-cont">
-                  <span><a class="add" href="javascript://" (click)="this.markIsAddVariables(true,$event)">{{'generatePDF.addNewVariablePlus' | translate}}</a></span>
-               </div>
-            </div>
-         </div>
-         <div class="spacer15"></div>
-         <!-- add variable row-->
-         <div class="row" *ngIf="this.installmentFormGroup.get('isAddVariables').value">
-            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-               <div class="form-group-3">
-                  <label>{{'generatePDF.variableName' | translate}} <span class="color-red">*</span></label>
-                  <input autocomplete="off" type="text" class="form-control" placeholder="" formControlName="tempAddVariablesText"/>
-               </div>
-            </div>
-            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-               <div class="form-group-3">
-                     <label>{{'generatePDF.variablePercentage' | translate}} <span class="color-red">*</span></label>
-                     <input autocomplete="off" type="text" class="form-control" placeholder="%" formControlName="tempAddVariablesPercentage" appOnlyDecimal/>
-                  </div>
-            </div>
-            <div class="col-lg-1 col-md-12 col-sm-12 col-12">
-               <label style="color: white;">{{'addForm.Price(each)' | translate}}</label>
-               <span><a class="add" href="javascript://" (click)="this.addNewAddVariables($event)">{{'addForm.save' | translate}}</a></span>
-            </div>
-            <div class="col-lg-2 col-md-12 col-sm-12 col-12">
-               <label style="color: white;">{{'addForm.Price(each)' | translate}}</label>
-               <span><a class="add" style="color: red;"
-                  href="javascript://" (click)="this.markIsAddVariables(false,$event)">{{'addForm.remove' | translate}}</a></span>
-            </div>
-         </div>
-         <!-- listing of add variable -->
-         <div formArrayName="addVariablesFormArray" *ngIf="this.getAddVariablesFormArrayLength > 0">
-            <ng-container
-               *ngFor="let temp_add_variables of this.getAddVariablesFormArray['controls']; let i=index">
-               <div [formGroupName]="i">
-                  <div class="row" style="margin: auto;">
-                     <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                        <div class="form-group-2">
-                           <label>{{'generatePDF.variableName' | translate}}
-                           </label>
-                        </div>
-                     </div>
-                     <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                        <div class="form-group-2">
-                           <label>{{'generatePDF.variablePercentage' | translate}}
-                           </label>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="row" style="margin-top: -15px;margin-left: auto;">
-                     <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                        <div class="form-group-3">
-                           <input required autocomplete="off" class="form-control" type="text"
-                              formControlName="addVariablesText" placeholder="">
-                        </div>
-                     </div>
-                     <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                        <div class="form-group-3">
-                           <input required autocomplete="off" class="form-control" type="text"
-                              formControlName="addVariablesPercentage" placeholder="%">
-                        </div>
-                     </div>
-                     <div class="col-lg-3 col-md-12 col-sm-12 col-12" *ngIf="isPreview">
-                        <div class="form-group-3">
-                          <p style="color: red;font-size: 15px;" >${{this.getAddVariablesFormArray['controls'][i].get("addVariablesPercentageFinalPrice").value}}</p>
-                        </div>
-                     </div>
-                     <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                        <div style="padding: 5px;">
-                           <button (click)="this.removeAddVariablesFormGroup(i);" class="action-icon"
-                              title="{{'addForm.remove' | translate}}"><img src="assets/img/ic_disapprove.png"
-                                 alt="img"></button>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </ng-container>
-         </div>
-         <!-- leadName -->
-         <div class="spacer15"></div>
-         <div class="row">
-            <div class="col-lg-6 col-md-12 col-sm-12 col-12">
-               <label style="width: 232px;">{{'generatePDF.leadName' | translate}} <span class="color-red">*</span></label>
-               <input autocomplete="off" type="text" class="form-control" placeholder="" formControlName="leadName"/>
-            </div>
-         </div>
-         <!-- bankDetails -->
-         <div class="spacer20"></div>
-         <label>{{'generatePDF.bankDetails' | translate}}</label>
-         <div class="row" style="margin: auto;">
-            <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-               <div style="margin: 5px;">
-                  <span style="font-weight: 600;">{{'generatePDF.agency' | translate}}</span>
-               </div>
-            </div>
-            <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-               <div class="form-group-3">
-                  <label class="switch1">
-                     <input type="checkbox" class="form-control" formControlName="agencyOrSeller"
-                        (change)="this.onAgencyOrSellerChange()">
-                     <span class="slider round" style="background-color: #00B96F;"></span>
-                  </label>
-               </div>
-            </div>
-            <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-               <div style="margin: 5px;">
-                  <span style="font-weight: 600;">{{'generatePDF.seller' | translate}}</span>
-               </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-               <div class="form-group-3">
-                  <div class="form-group">
-                     <select name="payment_bank" class="form-control" formControlName="paymentBankDetails">
-                        <option value="">{{'generatePDF.selectAccount' | translate}}</option>
-                        <option *ngFor="let tempPaymentBankDetailsArray of paymentBankDetailsArray"
-                           [ngValue]="tempPaymentBankDetailsArray">
-                           {{tempPaymentBankDetailsArray?.name}} |
-                           {{tempPaymentBankDetailsArray?.account_number}} |
-                           {{tempPaymentBankDetailsArray?.currency?.code}}</option>
-                     </select>
-                  </div>
-               </div>
-            </div>
-         </div>
-         <!-- addNote -->
-         <div class="spacer15" *ngIf="this.getAddNoteFormArrayLength == 0"></div>
-         <div class="row" *ngIf="this.getAddNoteFormArrayLength == 0">
-            <div class="col-12">
-               <div class="btn-cont">
-                  <span><a class="add" href="javascript://" (click)="this.addNotes($event)">{{'generatePDF.addNotePlus' | translate}}</a></span>
-               </div>
-            </div>
-         </div>
-         <div class="spacer15"></div>
-         <!-- addNote row-->
-         <!-- <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-               <div class="form-group-3">
-                  <label>{{'generatePDF.note' | translate}}
-                  </label>
-                  <textarea rows="2" required class="form-control" 
-                  placeholder="This offer value is for our best friend"></textarea>
-               </div>
-            </div>
-         </div> -->
-         <div formArrayName="addNoteFormArray" *ngIf="this.getAddNoteFormArrayLength > 0">
-            <ng-container *ngFor="let temp_add_note of this.getAddNoteFormArray['controls']; let j=index">
-               <div [formGroupName]="j">
-                  <div class="row" >
-                     <div class="col-lg-12 col-md-6 col-sm-6 col-12">
-                        <div class="form-group-3">
-                           <label>{{'generatePDF.note' | translate}}
-                           </label>
-                           <textarea rows="3" type="text" class="form-control note"
-                              formControlName="addNote"></textarea>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </ng-container>
-         </div>
-         <div class="spacer15"></div>
-         <!-- addNote row-->
-         <div class="row">
-            <div class="col-lg-4 col-md-5 col-sm-12 col-12" style="margin-left: auto;">
-               <div class="form-group btn-cont">
-                  <label style="display: block; margin-top: 3px;">&nbsp;</label>
-                  <button type="button" (click)="this.checkIsGeneratePDF()" class="btn btn-primary-new width100P P86"
-                     style="height: 42px;">{{'generatePDF.generateOffer' | translate}}</button>
-               </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 col-12" style="margin-right: auto;">
-               <div class="form-group btn-cont">
-                  <label style="display: block; margin-top: 3px;">&nbsp;</label>
-                  <button type="button" class="btn  width100P P86 btn-danger" (click)="this.closeModalInstallment()">
-                     {{'advanceSearch.cancel' | translate}}</button>
-               </div>
-            </div>
-         </div>
-         </div>
-       </form>
-     </div>
-   </div>
-</div>
-
-<!-- Commercial offers popup -->
-<a href="javascript://" data-toggle="modal" data-target="#addd-notes" #notesadddModalOpen></a>
-<div class="modal animated" id="addd-notes">
-  <div class="modal-dialogg fadeIndown">
-    <div class="modal-content">
-      <div class="modal-header modal-header-new">
-        <!-- <h4 class="modal-title">{{'leadDetails.note.addNote' |translate}}</h4> -->
-        <button style="display: none;" type="button" class="close" data-dismiss="modal"
-          #notesadddModalClose>&times;</button>
-        <button type="button" class="close" (click)="this.closeNotesadddModalModal()">&times;</button>
-      </div>
-      <div class="modal-body">
-         <div class="row" style="margin: 2px;">
-            <div class="col-md-6">
-                <h6>{{'table.th.Commercialofferslist' | translate}}</h6>
-            </div>
-            <div class="col-md-6">
-               <div class="text-right">
-                 <b style="color: #00B96F;font-size: 15px;">{{property_offers.length}}</b>
-               </div>
-             </div>
-          </div>
-          <div class="spacer40"></div>
-          <div class="row" style="margin: 2px;">
-            <div class="col-md-3">
-                <h6>{{'table.th.offerID' | translate}}</h6>
-            </div>
-            <div class="col-md-3">
-               <h6>{{'table.th.agent' | translate}}</h6>
-             </div>
-             <div class="col-md-6">
-               <h6>{{'table.th.date' | translate}}</h6>
-             </div>
-          </div>
-          
-            <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
-               <table class="table table-striped table-align-left quick-table">
-                  <!-- <thead id="myHeader">
-                     <tr>
-                       <th>{{'table.th.offerID' | translate}}</th>
-                       <th>{{'table.th.agent' | translate}}</th> 
-                       <th>{{'table.th.date' | translate}}</th>
-                       <th></th>
-                     </tr>
-                  </thead> -->
-                  <tbody class="content">
-                     <tr *ngFor="let offer of property_offers">
-                        <td> 
-                           <a class="add1" href="javascript://" (click)="offerID(offer)" style="color: #00B96F;">
-                           {{offer.random_id}}
-                         </a>
-                      </td>
-                        <td>{{offer.name ? offer.name : ('viewProperty.NA' | translate)}}</td>
-                        <td>{{offer.date | date }}</td>
-                        <td> <button (click)="deletePopup(p, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img
-                           src="assets/img/ic_delete.png" alt="img" (click)="deleteOffer(offer)"></button></td>
-                      </tr>
-                  </tbody>
-               </table>
-            </div><br>
-            <div class="row">
-               <div class="col-md-12">
-                  <p style="font-weight: bold;">{{'table.th.30days' | translate}}</p>
-               </div>
-            </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- <div class="modal animated" id="installmentModal" style="margin-top: -14%;">
-   <div class="modal-dialog fadeIndown">
-      <div class="modal-content" style="width: 170%;">
-         <div class="modal-header modal-header-new">
-            <h4 class="modal-title" style="font-weight: bold;">{{'generatePDF.offerInformaton' | translate}}</h4>
-            <button style="display: none;" type="button" class="close" data-dismiss="modal"
-               #closeInstallmentModal>&times;</button>
-            <button type="button" class="close" (click)="this.closeModalInstallment()">&times;</button>
-         </div>
-         <form class="form-horizontal form-model0P form-model-newP" role="form" [formGroup]="this.installmentFormGroup">
-            <div class="modal-body modal-body-new">
-               <div style="margin-top: -25px;">
-                  <h6 style="font-weight: bold;">{{'generatePDF.offerDetails' | translate}}</h6>
-               </div>
-               <div class="row" style="margin: auto;" *ngIf="isPreview">
-                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                     <div class="form-group-2">
-                        <label>{{'generatePDF.listprice' | translate}}
-                        </label>
-                     </div>   
-                  </div>
-                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+               <!-- paymentupondeliveryPercentage -->
+               <div class="spacer15"></div>
+               <div class="row">
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                      <div class="form-group-3">
-                        <div class="input-group-append">
-                           <span class="input-group-text" id="basic-addon1">$</span>
-                           <input autocomplete="off" class="form-control" type="text" formControlName="listPrice"
-                              placeholder="">
-                        </div>
+                        <label style="width: 232px;">{{'generatePDF.paymentupondeliveryPercentage' | translate}} <span
+                              class="color-red">*</span></label>
+                        <input autocomplete="off" type="text" class="form-control" formControlName="paymentupondelivery"
+                           placeholder="%" appOnlyDecimal />
                      </div>
                   </div>
-                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                     <div class="form-group-2">
-                        <label style="margin-left: 10px;">{{'generatePDF.finalprice' | translate}}
-                        </label>
-                     </div>
-                  </div>
-                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                      <div class="form-group-3">
-                        <div class="input-group-append">
-                           <span class="input-group-text" id="basic-addon1">$</span>
-                           <input autocomplete="off" class="form-control" type="text" formControlName="finalPrice"
-                              placeholder="">
-                        </div>
+                        <label style="color: white;">{{'addForm.Type' | translate}}</label>
+                        <p style="color: red;font-size: 15px;" *ngIf="isPreview">
+                           ${{installmentFormGroup.get("paymentupondeliveryFinalPrice").value}}</p>
+                     </div>
+                  </div>
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                     <div class="form-group btn-cont">
+                        <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                        <button type="button" class="btn  width100P P86 btn-primary-new"
+                           (click)="this.onClickPreview(true)">
+                           {{'generatePDF.preview' | translate}}</button>
                      </div>
                   </div>
                </div>
-               <div class="row" style="margin: auto;">
-                  <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                     <div class="form-group-2">
-                        <label>{{'generatePDF.downPaymentPercentage' | translate}}
-                           <span class="color-red">*</span>
-                        </label>
-                     </div>
-                  </div>
-                  <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                     <div class="form-group-2">
-                        <label style="margin-left: 10px;">{{'generatePDF.discountPercentage' | translate}}
-                           <span class="color-red">*</span>
-                        </label>
-                     </div>
-                  </div>
-               </div>
-               <div class="row" style="margin-top: -15px;margin-left: auto;">
-                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                     <div class="form-group-3">
-                        <input required autocomplete="off" class="form-control" type="text" appOnlyDecimal
-                           formControlName="downPayment" placeholder="%">
-                     </div>
-                  </div>
-                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                     <div class="form-group-3" *ngIf="isPreview">
-                        <div class="input-group-append">
-                           <span class="input-group-text" id="basic-addon1">$</span>
-                           <input autocomplete="off" class="form-control" type="text"
-                              formControlName="downPaymentFinalPrice" placeholder="">
-                        </div>
-                     </div>
-                  </div>
-                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                     <div class="form-group-3">
-                        <input autocomplete="off" class="form-control" type="text" formControlName="discount"
-                           appOnlyDecimal placeholder="%">
-                     </div>
-                  </div>
-                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                     <div class="form-group-3" *ngIf="isPreview">
-                        <div class="input-group-append">
-                           <span class="input-group-text" id="basic-addon1">$</span>
-                           <input autocomplete="off" class="form-control" type="text"
-                              formControlName="discountFinalPrice" placeholder="">
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <div class="row" style="margin: auto;">
-                  <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                     <div class="form-group-2">
-                        <label>{{'generatePDF.monthlyInstallmentPercentage' | translate}}
-                        </label>
-                     </div>
-                  </div>
-                  <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                     <div class="form-group-2">
-                        <label style="margin-left: 10px;">{{'generatePDF.interest' | translate}}
-                        </label>
-                     </div>
-                  </div>
-               </div>
-               <div class="row" style="margin-top: -15px;margin-left: auto;">
-                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                     <div class="form-group-3">
-                        <input required autocomplete="off" class="form-control" type="text" appOnlyDecimal
-                           formControlName="monthlyInstallment" placeholder="%">
-                     </div>
-                  </div>
-                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                     <div class="form-group-3" *ngIf="isPreview">
-                        <div class="input-group-append">
-                           <span class="input-group-text" id="basic-addon1">$</span>
-                           <input autocomplete="off" class="form-control" type="text"
-                              formControlName="monthlyInstallmentFinalPrice" placeholder="">
-                        </div>
-                     </div>
-                  </div>
-                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                     <div class="form-group-3">
-                        <input autocomplete="off" class="form-control" type="text" formControlName="interest"
-                           appOnlyDecimal placeholder="%">
-                     </div>
-                  </div>
-                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                     <div class="form-group-3" *ngIf="isPreview">
-                        <div class="input-group-append">
-                           <span class="input-group-text" id="basic-addon1">$</span>
-                           <input autocomplete="off" class="form-control" type="text"
-                              formControlName="interestFinalPrice" placeholder="">
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <div class="row" style="margin: auto;">
-                  <div class="col-lg-12 col-md-6 col-sm-6 col-12">
-                     <div class="form-group-2">
-                        <label>{{'generatePDF.numberOfMI' | translate}}
-                        </label>
-                     </div>
-                  </div>
-               </div>
-               <div class="row" style="margin-top: -15px;margin-left: auto;">
-                  <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                     <div class="form-group-3">
-                        <input required autocomplete="off" class="form-control" type="text" formControlName="numberOfMI"
-                           maxlength="6" appOnlyNumber placeholder="#">
-                     </div>
-                  </div>
-               </div>
-               <div class="row" style="margin: auto;">
-                  <div class="col-lg-12 col-md-6 col-sm-6 col-12">
-                     <div class="form-group-2">
-                        <label>{{'generatePDF.paymentupondeliveryPercentage' | translate}}
-                        </label>
-                     </div>
-                  </div>
-               </div>
-               <div class="row" style="margin-top: -15px;margin-left: auto;">
-                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                     <div class="form-group-3">
-                        <input required autocomplete="off" class="form-control" type="text" appOnlyDecimal
-                           formControlName="paymentupondelivery" placeholder="%">
-                     </div>
-                  </div>
-                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                     <div class="form-group-3" *ngIf="isPreview">
-                        <div class="input-group-append">
-                           <span class="input-group-text" id="basic-addon1">$</span>
-                           <input autocomplete="off" class="form-control" type="text"
-                              formControlName="paymentupondeliveryFinalPrice" placeholder="">
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <div class="row" *ngIf="!this.installmentFormGroup.get('isAddVariables').value"
-                  style="margin: auto;font-size: xx-small;">
+               <!-- add variable button-->
+               <div class="spacer15" *ngIf="!this.installmentFormGroup.get('isAddVariables').value"></div>
+               <div class="row" *ngIf="!this.installmentFormGroup.get('isAddVariables').value">
                   <div class="col-12">
                      <div class="btn-cont">
-                        <span><a class="add" (click)="this.markIsAddVariables(true,$event)"
-                              href="javascript://">{{'generatePDF.addNewVariablePlus' | translate}}</a></span>
+                        <span><a class="add" href="javascript://"
+                              (click)="this.markIsAddVariables(true,$event)">{{'generatePDF.addNewVariablePlus' |
+                              translate}}</a></span>
                      </div>
                   </div>
                </div>
-               <div class="row" style="margin: auto;" *ngIf="this.installmentFormGroup.get('isAddVariables').value">
-                  <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                     <div class="form-group-2">
-                        <label>{{'generatePDF.variableName' | translate}}
-                        </label>
-                     </div>
-                  </div>
-                  <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                     <div class="form-group-2">
-                        <label>{{'generatePDF.variablePercentage' | translate}}
-                        </label>
-                     </div>
-                  </div>
-               </div>
-               <div class="row" style="margin-top: -15px;margin-left: auto;"
-                  *ngIf="this.installmentFormGroup.get('isAddVariables').value">
-                  <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+               <div class="spacer15"></div>
+               <!-- add variable row-->
+               <div class="row" *ngIf="this.installmentFormGroup.get('isAddVariables').value">
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                      <div class="form-group-3">
-                        <input required autocomplete="off" class="form-control" type="text"
-                           formControlName="tempAddVariablesText" placeholder="">
+                        <label>{{'generatePDF.variableName' | translate}} <span class="color-red">*</span></label>
+                        <input autocomplete="off" type="text" class="form-control" placeholder=""
+                           formControlName="tempAddVariablesText" />
                      </div>
                   </div>
-                  <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                      <div class="form-group-3">
-                        <input required autocomplete="off" class="form-control" type="text"
-                           formControlName="tempAddVariablesPercentage" placeholder="%">
+                        <label>{{'generatePDF.variablePercentage' | translate}} <span class="color-red">*</span></label>
+                        <input autocomplete="off" type="text" class="form-control" placeholder="%"
+                           formControlName="tempAddVariablesPercentage" appOnlyDecimal />
                      </div>
                   </div>
-                  <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                     <div class="btn-cont" style="padding: 5px;">
-                        <span><a class="add" (click)="this.addNewAddVariables($event)"
-                              href="javascript://">{{'addForm.save' | translate}}</a></span>
-                     </div>
+                  <div class="col-lg-1 col-md-12 col-sm-12 col-12">
+                     <label style="color: white;">{{'addForm.Price(each)' | translate}}</label>
+                     <span><a class="add" href="javascript://"
+                           (click)="this.addNewAddVariables($event)">{{'addForm.save' | translate}}</a></span>
                   </div>
-                  <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                     <div class="btn-cont" style="padding: 5px;">
-                        <span><a class="add" (click)="this.markIsAddVariables(false,$event)" style="color: red;"
-                              href="javascript://">{{'addForm.remove' | translate}}</a></span>
-                     </div>
+                  <div class="col-lg-2 col-md-12 col-sm-12 col-12">
+                     <label style="color: white;">{{'addForm.Price(each)' | translate}}</label>
+                     <span><a class="add" style="color: red;" href="javascript://"
+                           (click)="this.markIsAddVariables(false,$event)">{{'addForm.remove' | translate}}</a></span>
                   </div>
                </div>
+               <!-- listing of add variable -->
                <div formArrayName="addVariablesFormArray" *ngIf="this.getAddVariablesFormArrayLength > 0">
                   <ng-container
                      *ngFor="let temp_add_variables of this.getAddVariablesFormArray['controls']; let i=index">
@@ -2122,13 +1826,11 @@ margin-left: -20%;">
                                     formControlName="addVariablesPercentage" placeholder="%">
                               </div>
                            </div>
-                           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                              <div class="form-group-3" *ngIf="isPreview">
-                                 <div class="input-group-append">
-                                    <span class="input-group-text" id="basic-addon1">$</span>
-                                    <input autocomplete="off" class="form-control" type="text"
-                                       formControlName="addVariablesPercentageFinalPrice" placeholder="">
-                                 </div>
+                           <div class="col-lg-3 col-md-12 col-sm-12 col-12" *ngIf="isPreview">
+                              <div class="form-group-3">
+                                 <p style="color: red;font-size: 15px;">
+                                    ${{this.getAddVariablesFormArray['controls'][i].get("addVariablesPercentageFinalPrice").value}}
+                                 </p>
                               </div>
                            </div>
                            <div class="col-lg-2 col-md-6 col-sm-6 col-12">
@@ -2142,38 +1844,19 @@ margin-left: -20%;">
                      </div>
                   </ng-container>
                </div>
-
+               <!-- leadName -->
+               <div class="spacer15"></div>
                <div class="row">
-                  <div class="col-lg-8 col-md-8">
-                  </div>
-                  <div class="col-lg-4 col-md-4">
-                     <div class="form-group btn-cont">
-                        <label style="display: block; margin-top: 3px;">&nbsp;</label>
-                        <button type="button" class="btn  width100P P86 btn-primary-new"
-                           (click)="this.onClickPreview(true)">
-                           {{'generatePDF.preview' | translate}}</button>
-                     </div>
+                  <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+                     <label style="width: 232px;">{{'generatePDF.leadName' | translate}} <span
+                           class="color-red">*</span></label>
+                     <input autocomplete="off" type="text" class="form-control" placeholder=""
+                        formControlName="leadName" />
                   </div>
                </div>
-
-               <div class="row" style="margin: auto;">
-                  <div class="col-lg-12 col-md-6 col-sm-6 col-12">
-                     <div class="form-group-2">
-                        <label>{{'generatePDF.leadName' | translate}}
-                        </label>
-                     </div>
-                  </div>
-               </div>
-               <div class="row" style="margin-top: -15px;margin-left: auto;">
-                  <div class="col-lg-12 col-md-6 col-sm-6 col-12">
-                     <div class="form-group-3">
-                        <input required autocomplete="off" class="form-control" type="text" formControlName="leadName">
-                     </div>
-                  </div>
-               </div>
-               <div>
-                  <h6 style="font-weight: bold;">{{'generatePDF.bankDetails' | translate}}</h6>
-               </div>
+               <!-- bankDetails -->
+               <div class="spacer20"></div>
+               <label>{{'generatePDF.bankDetails' | translate}}</label>
                <div class="row" style="margin: auto;">
                   <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                      <div style="margin: 5px;">
@@ -2209,20 +1892,36 @@ margin-left: -20%;">
                      </div>
                   </div>
                </div>
-               <div class="row" *ngIf="this.getAddNoteFormArrayLength == 0" style="margin: auto;font-size: xx-small;">
+               <!-- addNote -->
+               <div class="spacer15" *ngIf="this.getAddNoteFormArrayLength == 0"></div>
+               <div class="row" *ngIf="this.getAddNoteFormArrayLength == 0">
                   <div class="col-12">
                      <div class="btn-cont">
-                        <span><a class="add" (click)="this.addNotes($event)"
-                              href="javascript://">{{'generatePDF.addNotePlus' | translate}}</a></span>
+                        <span><a class="add" href="javascript://"
+                              (click)="this.addNotes($event)">{{'generatePDF.addNotePlus' | translate}}</a></span>
                      </div>
                   </div>
                </div>
+               <div class="spacer15"></div>
+               <!-- addNote row-->
+               <!-- <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+               <div class="form-group-3">
+                  <label>{{'generatePDF.note' | translate}}
+                  </label>
+                  <textarea rows="2" required class="form-control" 
+                  placeholder="This offer value is for our best friend"></textarea>
+               </div>
+            </div>
+         </div> -->
                <div formArrayName="addNoteFormArray" *ngIf="this.getAddNoteFormArrayLength > 0">
                   <ng-container *ngFor="let temp_add_note of this.getAddNoteFormArray['controls']; let j=index">
                      <div [formGroupName]="j">
-                        <div class="row" style="margin-left: auto;">
+                        <div class="row">
                            <div class="col-lg-12 col-md-6 col-sm-6 col-12">
-                              <div class="form-group-2">
+                              <div class="form-group-3">
+                                 <label>{{'generatePDF.note' | translate}}
+                                 </label>
                                  <textarea rows="3" type="text" class="form-control note"
                                     formControlName="addNote"></textarea>
                               </div>
@@ -2231,27 +1930,102 @@ margin-left: -20%;">
                      </div>
                   </ng-container>
                </div>
-            </div>
-         </form>
-         <div class="row">
-            <div class="col-lg-5 col-md-5" style="margin-left: auto;">
-               <div class="form-group btn-cont">
-                  <label style="display: block; margin-top: 3px;">&nbsp;</label>
-                  <button type="button" (click)="this.checkIsGeneratePDF()" class="btn btn-primary-new width100P P86"
-                     style="height: 42px;">{{'generatePDF.generateOffer' | translate}}</button>
+               <div class="spacer15"></div>
+               <!-- addNote row-->
+               <div class="row">
+                  <div class="col-lg-4 col-md-5 col-sm-12 col-12" style="margin-left: auto;">
+                     <div class="form-group btn-cont">
+                        <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                        <button type="button" (click)="this.checkIsGeneratePDF()"
+                           class="btn btn-primary-new width100P P86" style="height: 42px;">{{'generatePDF.generateOffer'
+                           | translate}}</button>
+                     </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-12 col-12" style="margin-right: auto;">
+                     <div class="form-group btn-cont">
+                        <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                        <button type="button" class="btn  width100P P86 btn-danger"
+                           (click)="this.closeModalInstallment()">
+                           {{'advanceSearch.cancel' | translate}}</button>
+                     </div>
+                  </div>
                </div>
             </div>
-            <div class="col-lg-4 col-md-4" style="margin-right: auto;">
-               <div class="form-group btn-cont">
-                  <label style="display: block; margin-top: 3px;">&nbsp;</label>
-                  <button type="button" class="btn  width100P P86 btn-danger" (click)="this.closeModalInstallment()">
-                     {{'advanceSearch.cancel' | translate}}</button>
+         </form>
+      </div>
+   </div>
+</div>
+
+<!-- Commercial offers popup -->
+<a href="javascript://" data-toggle="modal" data-target="#addd-notes" #notesadddModalOpen></a>
+<div class="modal animated" id="addd-notes">
+   <div class="modal-dialogg fadeIndown">
+      <div class="modal-content">
+         <div class="modal-header modal-header-new">
+            <!-- <h4 class="modal-title">{{'leadDetails.note.addNote' |translate}}</h4> -->
+            <button style="display: none;" type="button" class="close" data-dismiss="modal"
+               #notesadddModalClose>&times;</button>
+            <button type="button" class="close" (click)="this.closeNotesadddModalModal()">&times;</button>
+         </div>
+         <div class="modal-body">
+            <div class="row" style="margin: 2px;">
+               <div class="col-md-6">
+                  <h6>{{'table.th.Commercialofferslist' | translate}}</h6>
+               </div>
+               <div class="col-md-6">
+                  <div class="text-right">
+                     <b style="color: #00B96F;font-size: 15px;">{{property_offers.length}}</b>
+                  </div>
+               </div>
+            </div>
+            <div class="spacer40"></div>
+            <div class="row" style="margin: 2px;">
+               <div class="col-md-3">
+                  <h6>{{'table.th.offerID' | translate}}</h6>
+               </div>
+               <div class="col-md-3">
+                  <h6>{{'table.th.agent' | translate}}</h6>
+               </div>
+               <div class="col-md-6">
+                  <h6>{{'table.th.date' | translate}}</h6>
+               </div>
+            </div>
+
+            <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+               <table class="table table-striped table-align-left quick-table">
+                  <!-- <thead id="myHeader">
+                     <tr>
+                       <th>{{'table.th.offerID' | translate}}</th>
+                       <th>{{'table.th.agent' | translate}}</th> 
+                       <th>{{'table.th.date' | translate}}</th>
+                       <th></th>
+                     </tr>
+                  </thead> -->
+                  <tbody class="content">
+                     <tr *ngFor="let offer of property_offers">
+                        <td>
+                           <a class="add1" href="javascript://" (click)="offerID(offer)" style="color: #00B96F;">
+                              {{offer.random_id}}
+                           </a>
+                        </td>
+                        <td>{{offer.name ? offer.name : ('viewProperty.NA' | translate)}}</td>
+                        <td>{{offer.date | date }}</td>
+                        <td> <button (click)="deletePopup(p, i);" class="action-icon"
+                              title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png" alt="img"
+                                 (click)="deleteOffer(offer)"></button></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div><br>
+            <div class="row">
+               <div class="col-md-12">
+                  <p style="font-weight: bold;">{{'table.th.30days' | translate}}</p>
                </div>
             </div>
          </div>
       </div>
    </div>
-</div> -->
+</div>
 
 <!-- select columns -->
 <a data-toggle="modal" data-target="#link-select-columns-model" #openSelectColumnsModal style="display: none;"></a>
@@ -2264,26 +2038,26 @@ margin-left: -20%;">
          </div>
          <div class="modal-body">
             <p class="modal-title">{{'table.title.selectTheColumnYouWantToVisualize' | translate}}</p>
-          <br/>
-          <div class="row">
-            <div class="col-md-8 col-6">
-                     <label class="p16-two">
-                       <input class="form-control" class="is_commission_sale_enabled" type="checkbox"
-                         name="SelectAll" (change)="changeSelectAll()"  [(ngModel)]="isSelectAllColumns" >
-                       <span style="margin-left: 10px; vertical-align: super;">{{'commonBlock.selectAll' |
-                         translate}}</span>
-                     </label>
-            </div>
-            <div class="col-md-4 col-6 btn-cont">
-               <a class="btn btn-primary pull-right" href="javascript://"
-                  (click)="applyShowSelectedColumns()">{{'filters.location.applyBtn' | translate}}</a>
-            </div>
-         </div>
-         <div class="spacer40"></div>
+            <br />
             <div class="row">
                <div class="col-md-8 col-6">
-                  <input style="max-width:200px" (keyup.enter)="getPropertySelection(false, keyword)" [(ngModel)]="keyword"
-                     class="form-control" type="text" name="keyword"
+                  <label class="p16-two">
+                     <input class="form-control" class="is_commission_sale_enabled" type="checkbox" name="SelectAll"
+                        (change)="changeSelectAll()" [(ngModel)]="isSelectAllColumns">
+                     <span style="margin-left: 10px; vertical-align: super;">{{'commonBlock.selectAll' |
+                        translate}}</span>
+                  </label>
+               </div>
+               <div class="col-md-4 col-6 btn-cont">
+                  <a class="btn btn-primary pull-right" href="javascript://"
+                     (click)="applyShowSelectedColumns()">{{'filters.location.applyBtn' | translate}}</a>
+               </div>
+            </div>
+            <div class="spacer40"></div>
+            <div class="row">
+               <div class="col-md-8 col-6">
+                  <input style="max-width:200px" (keyup.enter)="getPropertySelection(false, keyword)"
+                     [(ngModel)]="keyword" class="form-control" type="text" name="keyword"
                      placeholder="{{'addForm.placeholder.search' | translate}}">
                </div>
                <div class="col-md-4 col-5 btn-cont">
@@ -2301,11 +2075,12 @@ margin-left: -20%;">
                            <div class="col-md-8 col-6">
                               <label class="p16-two">
                                  <input class="form-control" class="is_commission_sale_enabled" type="checkbox"
-                                        name="checkbox{{ii}}" [(ngModel)]="item.isCheckBoxChecked" (change)="changeSelect()">
+                                    name="checkbox{{ii}}" [(ngModel)]="item.isCheckBoxChecked"
+                                    (change)="changeSelect()">
                                  <span style="margin-left: 10px; vertical-align: super;">
                                     {{this.language_code == 'en' ? item.name_en : item.name_es }}
                                  </span>
-                                 </label>
+                              </label>
                            </div>
                         </div>
                      </td>
@@ -2323,19 +2098,22 @@ margin-left: -20%;">
    <div class="modal-dialog ">
       <div class="modal-content notary-avail">
          <div class="modal-header popup-header">
-            <h4 class="modal-title">{{property?.external_outside_agent?.id ? ('viewProperty.changeOutsideAgent' | translate) :
+            <h4 class="modal-title">{{property?.external_outside_agent?.id ? ('viewProperty.changeOutsideAgent' |
+               translate) :
                ('viewProperty.linkOutsideAgent' | translate)}}</h4>
             <button type="button" class="close" #closeOutsideBrokerModal data-dismiss="modal">&times;</button>
          </div>
          <div class="modal-body">
 
             <p class="modal-title" *ngIf="property?.external_outside_agent?.id"
-            [ngClass]="{'green-color cursor-pointer': property?.external_outside_agent?.name}" (click)="agentTab(property?.external_outside_agent, false)">
-                  {{'viewProperty.currentlyLinkedToAgent' | translate}} - 
-                  <b>{{property?.external_outside_agent?.name}}&nbsp;
+               [ngClass]="{'green-color cursor-pointer': property?.external_outside_agent?.name}"
+               (click)="agentTab(property?.external_outside_agent, false)">
+               {{'viewProperty.currentlyLinkedToAgent' | translate}} -
+               <b>{{property?.external_outside_agent?.name}}&nbsp;
                   {{property?.external_outside_agent?.first_surname}}&nbsp;
-                  {{property?.external_outside_agent?.second_surname}}</b></p>
-          <br/>
+                  {{property?.external_outside_agent?.second_surname}}</b>
+            </p>
+            <br />
             <div class="row">
                <div class="col-md-8 col-6">
                   <input style="max-width:200px" (keyup.enter)="getBothBroker('', keyword, false)" [(ngModel)]="keyword"
