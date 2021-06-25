@@ -461,8 +461,14 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       // console.log(d, "filter")
       input.building_amenities_id = d;
     }
-    input.property_for = this.property_for.filter(f => { return f.is_selected == true }).map(r => { return r.id })[0] || '';
-    input.possession_status_id = this.possession_status_id.filter(f => { return f.is_selected == true }).map(r => { return r.id })[0] || '';
+    if (this.property_for !== '' && this.property_for !== '0') {
+      input.property_for = this.property_for.filter(f => { return f.is_selected == true }).map(r => { return r.id })[0] || '';
+    }
+    if (this.possession_status_id !== '' && this.possession_status_id !== '0') {
+      input.possession_status_id = this.possession_status_id.filter(f => { return f.is_selected == true }).map(r => { return r.id })[0] || '';
+    }
+    
+    
     input.bedroom = this.bedrooms.filter(f => { return f.is_selected == true }).map(r => { return r.name });
     input.bathroom = this.bathrooms.filter(f => { return f.is_selected == true }).map(r => { return r.name });
     input.half_bathroom = this.halfBathrooms.filter(f => { return f.is_selected == true }).map(r => { return r.name });
@@ -508,6 +514,27 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.getListing();
   }
 
+  clearData(){
+    this.parameter.is_selected = false;
+    this.parameter.page = this.constant.p;
+    this.parameter.dash_flag = this.constant.dash_flag;
+    this.parameter.total = 0;
+    this.parameter.count_flag = 1;
+    this.parameter.min_price = 0;
+    this.parameter.max_price = 0;
+    this.parameter.min_carpet_area = 0;
+    this.parameter.max_carpet_area = 0;
+    this.parameter.parking = null;
+    this.parameter.bedroom = null;
+    this.parameter.bathroom = null;
+    this.parameter.half_bathroom = null;
+    this.propertyTypes = [];
+   // this.possession_status_id = null;
+    //this.property_for = null;
+    this.selctedAmenities = [];
+    this.selctedProjectAmenities = [];
+    this.parameter.parking_for_sale = null;
+  }
 
   getCountries() {
     //this.spinner.show();
