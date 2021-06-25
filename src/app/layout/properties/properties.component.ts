@@ -468,7 +468,6 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       input.possession_status_id = this.possession_status_id.filter(f => { return f.is_selected == true }).map(r => { return r.id })[0] || '';
     }
     
-    
     input.bedroom = this.bedrooms.filter(f => { return f.is_selected == true }).map(r => { return r.name });
     input.bathroom = this.bathrooms.filter(f => { return f.is_selected == true }).map(r => { return r.name });
     input.half_bathroom = this.halfBathrooms.filter(f => { return f.is_selected == true }).map(r => { return r.name });
