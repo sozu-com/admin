@@ -293,6 +293,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       }
       if (params.for) {
         this.is_back = true;
+        this.getParametersForProperty();
+        this.getListingForBack();
       }
     });
     this.setFloors();
@@ -320,7 +322,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     // this.parameter = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.parameter;
     //this.getCountries();
     this.getPropertyConfigurations();
+    if(!this.is_back){
     this.getListing();
+    }
     this.getPropertyTypes();
     this.getPropertyAmenities();
     this.getProjectAmenities();
@@ -347,7 +351,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     if (this.is_back) {
       this.selectedLocation.selectedLocalities = JSON.parse(localStorage.getItem('selectedLocalitiesForProperty'));
       this.selectedLocation.selectedCities = JSON.parse(localStorage.getItem('selectedCitiesForProperty'));
-      this.parameter = JSON.parse(localStorage.getItem('parametersForProperty')) ? JSON.parse(localStorage.getItem('parametersForProperty')) : this.parameter;
+      this.parameter = this.is_back ? JSON.parse(localStorage.getItem('parametersForProperty')) : this.parameter;
     }
     this.getCountries();
   }
@@ -419,10 +423,35 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     $('.modal').modal('hide');
   }
 
+  getListingForBack() {
+    this.spinner.show();
+    this.makePostRequest();
+    let input: any = JSON.parse(JSON.stringify(this.parameter));
+    this.admin.postDataApi('propertyHome', input).subscribe(
+      success => {
+        localStorage.setItem('parametersForProperty', JSON.stringify(input));
+        this.items = success.data;
+        this.items.forEach(function (element) {
+          if(element.id ==  (element.collection || {}).property_id){
+            element['avgg_price'] = (((parseFloat(element.final_price) || 0) / (parseFloat(element.max_area) || 0)));
+          }else{
+            element['avgg_price'] = (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
+          }
+        });
+        this.total = success.total_count;
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      });
+  }
+
+
 
   getListing() {
     this.spinner.show();
     this.makePostRequest();
+    //this.getParametersForProperty();
     let input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
@@ -491,7 +520,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     // }
     this.admin.postDataApi('propertyHome', input).subscribe(
       success => {
-        // localStorage.setItem('parametersForProperty', JSON.stringify(this.parameter));
+        localStorage.setItem('parametersForProperty', JSON.stringify(input));
         this.items = success.data;
         this.items.forEach(function (element) {
           if(element.id ==  (element.collection || {}).property_id){
@@ -2148,7 +2177,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.makePostRequest();
     localStorage.setItem('selectedLocalitiesForProperty', JSON.stringify(this.selectedLocation.selectedLocalities.length > 0 ? this.selectedLocation.selectedLocalities : []));
     localStorage.setItem('selectedCitiesForProperty', JSON.stringify(this.selectedLocation.selectedCities.length > 0 ? this.selectedLocation.selectedCities : []));
-    localStorage.setItem('parametersForProperty', JSON.stringify(this.parameter));
+    //localStorage.setItem('parametersForProperty', JSON.stringify(this.parameter));
   }
 
   get getParkingLotForSaleFormArray(): FormArray {
