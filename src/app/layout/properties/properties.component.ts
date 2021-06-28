@@ -1408,7 +1408,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     }
     delete input.seller_id;
     delete input.buyer_id;
-
+    input.min_price =  this.parameter.min_price == '0.00' ? 0 : this.parameter.min_price;
+    input.max_price = this.parameter.max_price == '0.00' ? 0 : this.parameter.max_price;
+    input.min_carpet_area = this.parameter.min_carpet_area == '0.00' ? 0 : this.parameter.min_carpet_area;
+    input.max_carpet_area = this.parameter.max_carpet_area == '0.00' ? 0 : this.parameter.max_carpet_area;
     this.admin.postDataApi('propertyHome', input).subscribe(
       success => {
         this.exportfinalData = success['data'];

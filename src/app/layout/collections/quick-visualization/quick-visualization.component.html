@@ -129,7 +129,7 @@
               <tbody>
                 <tr>
                   <th rowspan="3">
-                    {{model?.deal_commission_agents?.length>0 && model?.deal_commission_agents[0]?.broker?.is_external_agent==1 ? ('quickVisualization.outsideAgent' | translate) : ('quickVisualization.inhouseAgent' | translate)}}:
+                    {{'quickVisualization.inhouseAgent' | translate}}:
                   </th>
                   <td>
                     {{model?.deal_commission_agents?.length>0 ? 
@@ -141,6 +141,27 @@
                 </tr>
                 <tr>
                   <td>{{model?.deal_commission_agents?.length>0 ? model?.deal_commission_agents[0]?.broker?.dial_code + ' ' +model?.deal_commission_agents[0]?.broker?.phone : ('table.tr.td.NA' | translate)}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-bordered white-bg">
+              <tbody>
+                <tr>
+                  <th rowspan="3">
+                    {{'quickVisualization.outsideAgent' | translate}}:
+                  </th>
+                  <td>
+                    {{model?.deal_commission_outside_agents?.length>0 ? 
+                      (model?.deal_commission_outside_agents[0]?.broker?.name + ' ' + model?.deal_commission_outside_agents[0]?.broker?.first_surname + ' ' +model?.deal_commission_outside_agents[0]?.broker?.second_surname) : 
+                      ('table.tr.td.NA' | translate)}}</td>
+                </tr>
+                <tr>
+                  <td>{{model?.deal_commission_outside_agents?.length>0 ? model?.deal_commission_outside_agents[0]?.broker?.email : ('table.tr.td.NA' | translate)}}</td>
+                </tr>
+                <tr>
+                  <td>{{model?.deal_commission_outside_agents?.length>0 ? model?.deal_commission_outside_agents[0]?.broker?.dial_code + ' ' +model?.deal_commission_outside_agents[0]?.broker?.phone : ('table.tr.td.NA' | translate)}}</td>
                 </tr>
               </tbody>
             </table>

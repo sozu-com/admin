@@ -420,7 +420,18 @@
                   </th>
                   <th style="vertical-align:top; width: 100px;">
                     <div class="table-search">
-                      <label>{{'table.th.commissionAgent' | translate}}</label>
+                      <label>{{'table.th.agentCommissionInhouse' | translate}}</label>
+                      <div class="searh-3">
+                        <input autocomplete="off" class="width100px" type="text" [(ngModel)]="parameter.agent_name"
+                          (keyup.enter)="getListing()">
+                        <button *ngIf="parameter.agent_name" (click)="getListing()"><i
+                            class="fa fa-search"></i></button>
+                      </div>
+                    </div>
+                  </th>
+                  <th style="vertical-align:top; width: 100px;">
+                    <div class="table-search">
+                      <label>{{'table.th.agentCommissionOutside' | translate}}</label>
                       <div class="searh-3">
                         <input autocomplete="off" class="width100px" type="text" [(ngModel)]="parameter.agent_name"
                           (keyup.enter)="getListing()">
@@ -649,6 +660,16 @@
                     </span>
                   </td>
                   <td *ngIf="!p?.deal_commission_agents?.length">
+                    <span>{{('table.tr.td.NA' | translate)}}</span>
+                  </td>
+                  <td *ngIf="p?.deal_commission_outside_agents?.length">
+                    <span>
+                      {{p?.deal_commission_outside_agents[0]?.broker?.name ? (p?.deal_commission_outside_agents[0]?.broker?.name + ' '
+                      +p?.deal_commission_outside_agents[0]?.broker?.first_surname + ' ' +
+                      p?.deal_commission_outside_agents[0]?.broker?.second_surname) : ('table.tr.td.NA' | translate)}}
+                    </span>
+                  </td>
+                  <td *ngIf="!p?.deal_commission_outside_agents?.length">
                     <span>{{('table.tr.td.NA' | translate)}}</span>
                   </td>
                   <td><span>{{(p?.final_price || 0) | currency}}</span></td>

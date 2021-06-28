@@ -508,16 +508,22 @@ export class AddEditCollectionComponent implements OnInit {
       comm_total_commission_amount: [{ value: '', disabled: true }, [Validators.required]],
       comm_shared_commission: [{ value: '', disabled: true }, [Validators.required, Validators.max(100)]],
       comm_shared_commission_amount: [{ value: '', disabled: true }, [Validators.required]],
+      outside_agent_commission_percentage: [{ value: '', disabled: true }, [Validators.required, Validators.max(100)]],
+      outside_agent_commission_amount: [{ value: '', disabled: true }, [Validators.required]],
       sozu_iva_percent: ['', [Validators.required, Validators.max(100)]],
       sozu_iva_amt: ['', [Validators.required]],
       agent_iva_percent: ['', [Validators.required, Validators.max(100)]],
       agent_iva_amt: ['', [Validators.required]],
+      outside_agent_commission_iva_percentage: ['', [Validators.required, Validators.max(100)]],
+      outside_agent_commission_iva_amount: ['', [Validators.required]],
       iva_percent: ['', [Validators.required]],
       add_iva_to_pc: [''],
       add_iva_to_cc: [''],
       add_iva_to_ac: [''],
+      add_iva_to_oac: [''],
       // deal_commission_agents: ['', [Validators.required]]
       deal_commission_agents: this.formBuilder.array([]),
+      deal_commission_outside_agents: this.formBuilder.array([]),
       collection_agent_banks: this.formBuilder.array([]),
       collection_commissions: this.formBuilder.array([]),
       is_commission_sale_enabled: [''],
@@ -973,6 +979,11 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep5.controls.add_iva_to_cc.patchValue(data.add_iva_to_cc || 0);
     this.addFormStep5.controls.add_iva_to_pc.patchValue(data.add_iva_to_pc || 0);
     this.addFormStep5.controls.add_iva_to_ac.patchValue(data.add_iva_to_ac || 0);
+    this.addFormStep5.controls.add_iva_to_oac.patchValue(data.add_iva_to_oac || 0);
+    this.addFormStep5.controls.outside_agent_commission_percentage.patchValue(data.outside_agent_commission_percentage || 0);
+    this.addFormStep5.controls.outside_agent_commission_amount.patchValue(data.outside_agent_commission_amount || 0);
+    this.addFormStep5.controls.outside_agent_commission_iva_percentage.patchValue(data.outside_agent_commission_iva_percentage || 0);
+    this.addFormStep5.controls.outside_agent_commission_iva_amount.patchValue(data.outside_agent_commission_iva_amount || 0);
     let index;
     if (this.isByOffer) {
       index = data.property.property_offer_payment.findIndex(x => x.random_id == data.offer_id);
@@ -982,6 +993,7 @@ export class AddEditCollectionComponent implements OnInit {
 
     // this.addFormStep5.controls.deal_commission_agents.patchValue(data.deal_commission_agents);
     const control1 = this.addFormStep5.get('deal_commission_agents') as FormArray;
+    const control2 = this.addFormStep5.get('deal_commission_outside_agents') as FormArray;
     //console.log(control1);
     if (data.deal_commission_agents && data.deal_commission_agents.length > 0) {
       for (let index = 0; index < data.deal_commission_agents.length; index++) {
@@ -989,6 +1001,20 @@ export class AddEditCollectionComponent implements OnInit {
         //console.log(control1);
         if (index === 0 && x) {
           control1.push(this.formBuilder.group(x));
+        } else {
+          this.addAgent('');
+        }
+      }
+    } else {
+      this.addAgent('');
+    }
+
+    if (data.deal_commission_outside_agents && data.deal_commission_outside_agents.length > 0) {
+      for (let index = 0; index < data.deal_commission_outside_agents.length; index++) {
+        const x = data.deal_commission_outside_agents[index].outside_agent;
+        //console.log(control1);
+        if (index === 0 && x) {
+          control2.push(this.formBuilder.group(x));
         } else {
           this.addAgent('');
         }
@@ -1044,6 +1070,10 @@ export class AddEditCollectionComponent implements OnInit {
           data.collection_commissions[index] ? data.collection_commissions[index].add_agent_commission : 0;
         obj['agent_comm_amount'] = data.collection_commissions.length > 0 &&
           data.collection_commissions[index] ? data.collection_commissions[index].agent_comm_amount : 0;
+        obj['add_agent_outside_commission'] = data.collection_commissions.length > 0 &&
+          data.collection_commissions[index] ? data.collection_commissions[index].add_agent_outside_commission : 0;
+        obj['agent_outside_comm_amount'] = data.collection_commissions.length > 0 &&
+          data.collection_commissions[index] ? data.collection_commissions[index].agent_outside_comm_amount : 0;
 
         if (control1.length != payment_choices.length) {
           control1.push(this.formBuilder.group(obj));

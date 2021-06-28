@@ -2121,6 +2121,10 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <h5 class="marginB30" style="margin-top: 10px;">{{'addCollection.inhouseAgentCommission' | translate}}</h5>
+      <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <label class="p16-two">{{'addCollection.agentCommission' | translate}}</label>
           <div class="input-group form-group-3">
@@ -2260,6 +2264,155 @@
                 </div>
                 <div
                   *ngIf="addFormStep5.controls.deal_commission_agents.controls[i].controls.fed_tax_payer_reg.errors?.maxlength "
+                  class="show-error">
+                  {{'addCollectionValidations.fedTaxMax13Limit' | translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <h5 class="marginB30" style="margin-top: 10px;">{{'addCollection.outsideAgentCommission' | translate}}</h5>
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <label class="p16-two">{{'addCollection.outsideAgentCommission' | translate}}</label>
+          <div class="input-group form-group-3">
+            <input required autocomplete="off" class="form-control" type="number" appUptoThreeDecimal
+              (input)="getAgentAmount($event.target.value)" step="0.001" min="0" max="100" name="comm_shared_commission"
+              formControlName="comm_shared_commission">
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">%</span>
+            </div>
+          </div>
+          <div *ngIf="showError && (addFormStep5.controls.comm_shared_commission.invalid)">
+            <div *ngIf="addFormStep5.controls.comm_shared_commission.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep5.controls.comm_shared_commission.errors?.max " class="show-error">
+              {{'addCollectionValidations.percentMax100Limit' | translate}}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <label class="p16-two">{{'addCollection.outsideAgentCommissionAmount' | translate}}</label>
+          <div class="input-group form-group-3">
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">$</span>
+            </div>
+            <input required autocomplete="off" class="form-control" type="number" appUptoTwoDigitDecimalNumber
+              step="0.01" min="0" max="100" name="comm_shared_commission_amount"
+              formControlName="comm_shared_commission_amount">
+          </div>
+          <div *ngIf="showError && (addFormStep5.controls.comm_shared_commission_amount.invalid)">
+            <div *ngIf="addFormStep5.controls.comm_shared_commission_amount.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <label class="p16-two">{{'addCollection.agentIVACommission' | translate}}</label>
+          <div class="input-group form-group-3">
+            <input required autocomplete="off" class="form-control" type="number" appUptoThreeDecimal
+              (input)="getIVAAmount($event.target.value, 'comm_shared_commission_amount', 'agent_iva_amt')" step="0.001"
+              min="0" max="100" name="agent_iva_percent" formControlName="agent_iva_percent">
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">%</span>
+            </div>
+          </div>
+          <div *ngIf="showError && (addFormStep5.controls.agent_iva_percent.invalid)">
+            <div *ngIf="addFormStep5.controls.agent_iva_percent.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+            <div *ngIf="addFormStep5.controls.agent_iva_percent.errors?.max " class="show-error">
+              {{'addCollectionValidations.percentMax100Limit' | translate}}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <label class="p16-two">{{'addCollection.agentIVACommissionAmount' | translate}}</label>
+          <div class="input-group form-group-3">
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">$</span>
+            </div>
+            <input required autocomplete="off" class="form-control" type="number" appUptoTwoDigitDecimalNumber
+              step="0.01" min="0" max="100" name="agent_iva_amt" formControlName="agent_iva_amt">
+          </div>
+          <div *ngIf="showError && (addFormStep5.controls.agent_iva_amt.invalid)">
+            <div *ngIf="addFormStep5.controls.agent_iva_amt.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div formArrayName="deal_commission_outside_agents">
+        <ng-container
+          *ngFor="let deal_commission_agent of addFormStep5.get('deal_commission_outside_agents').controls; let i=index">
+          <div class="row" [formGroupName]="i">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <label>{{'addCollection.agentName' | translate}}</label>
+              <div class="form-group-3">
+                <!-- (click)="getBothBroker('')" -->
+                <div class="clearfix"></div>
+                <input readonly disabled required autocomplete="off" class="form-control" type="text" name="name"
+                  readonly formControlName="name">
+              </div>
+              <div
+                *ngIf="showError && (addFormStep5.controls.deal_commission_outside_agents.controls[i].controls.name.invalid)">
+                <div *ngIf="addFormStep5.controls.deal_commission_outside_agents.controls[i].controls.name.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <label>{{'addCollection.agentFirstSurName' | translate}}</label>
+              <div class="form-group-3">
+                <div class="clearfix"></div>
+                <input readonly disabled autocomplete="off" class="form-control" type="text" name="first_surname"
+                  readonly formControlName="first_surname">
+              </div>
+              <div
+                *ngIf="showError && (addFormStep5.controls.deal_commission_outside_agents.controls[i].controls.first_surname.invalid)">
+                <div
+                  *ngIf="addFormStep5.controls.deal_commission_outside_agents.controls[i].controls.first_surname.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <label>{{'addCollection.agentSecondSurName' | translate}}</label>
+              <div class="form-group-3">
+                <div class="clearfix"></div>
+                <input readonly disabled autocomplete="off" class="form-control" type="text" name="second_surname"
+                  readonly formControlName="second_surname">
+              </div>
+              <div
+                *ngIf="showError && (addFormStep5.controls.deal_commission_outside_agents.controls[i].controls.second_surname.invalid)">
+                <div
+                  *ngIf="addFormStep5.controls.deal_commission_outside_agents.controls[i].controls.second_surname.errors?.required "
+                  class="show-error">
+                  {{'addCollectionValidations.thisIsRequired' | translate}}
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
+              <div class="form-group-3">
+                <div class="clearfix"></div>
+                <input readonly disabled autocomplete="off" class="form-control" type="text" minlength="12"
+                  maxlength="13" name="fed_tax_payer_reg" formControlName="fed_tax_payer_reg">
+              </div>
+              <div
+                *ngIf="showError  &&  (addFormStep5.controls.deal_commission_outside_agents.controls[i].controls.fed_tax_payer_reg.invalid)">
+                <div
+                  *ngIf="addFormStep5.controls.deal_commission_outside_agents.controls[i].controls.fed_tax_payer_reg.errors?.minlength "
+                  class="show-error">
+                  {{'addCollectionValidations.fedTaxMin12Limit' | translate}}
+                </div>
+                <div
+                  *ngIf="addFormStep5.controls.deal_commission_outside_agents .controls[i].controls.fed_tax_payer_reg.errors?.maxlength "
                   class="show-error">
                   {{'addCollectionValidations.fedTaxMax13Limit' | translate}}
                 </div>
@@ -2442,7 +2595,17 @@
           <label class="p16-two">
             <input class="form-control" class="is_commission_sale_enabled" type="checkbox" name="add_iva_to_ac"
               formControlName="add_iva_to_ac">
-            <span style="margin-left: 10px;vertical-align: super;">{{'addCollection.adddIVAToAgentCommission' |
+            <span style="margin-left: 10px;vertical-align: super;">{{'addCollection.addIVAToAgentCommissionInhouse' |
+              translate}}</span>
+          </label>
+          <div class="clearfix"></div>
+        </div>
+        <div class="col-sm-12">
+          <div class="clearfix"></div>
+          <label class="p16-two">
+            <input class="form-control" class="is_commission_sale_enabled" type="checkbox" name="add_iva_to_ac"
+              formControlName="add_iva_to_ac">
+            <span style="margin-left: 10px;vertical-align: super;">{{'addCollection.addIVAToAgentCommissionOutside' |
               translate}}</span>
           </label>
           <div class="clearfix"></div>
@@ -2462,7 +2625,9 @@
               <th colspan="2"><b>{{'addCollection.enterCollectionCommission' | translate}}</b></th>
               <th rowspan="2"><b>{{'addCollection.addPurchaseCommission' | translate}}</b></th>
               <th rowspan="2"><b>{{'addCollection.enterPCAmount' | translate}}</b></th>
-              <th rowspan="2"><b>{{'addCollection.addAgentCommission' | translate}}</b></th>
+              <th rowspan="2"><b>{{'addCollection.addAgentInhouseCommission' | translate}}</b></th>
+              <th rowspan="2"><b>{{'addCollection.enterPCAmount' | translate}}</b></th>
+              <th rowspan="2"><b>{{'addCollection.addAgentOutsideCommission' | translate}}</b></th>
               <th rowspan="2"><b>{{'addCollection.enterPCAmount' | translate}}</b></th>
             </tr>
             <tr>
@@ -2511,6 +2676,15 @@
                     (input)="getAgentCommAmount($event.target.value, i)" formControlName="agent_comm_amount"
                     name="agent_comm_amount{{i}}">
                 </td>
+                <td>
+                  <input type="checkbox" class="form-control" formControlName="add_agent_outside_commission"
+                    name="add_agent_outside_commission">
+                </td>
+                <td>
+                  <input type="number" step="0.01" appUptoTwoDigitDecimalNumber class="form-control"
+                    (input)="getAgentCommAmount($event.target.value, i)" formControlName="agent_outside_comm_amount"
+                    name="agent_outside_comm_amount{{i}}">
+                </td>
               </tr>
             </ng-container>
           </tbody>
@@ -2528,7 +2702,9 @@
                 <td>{{ccsum | currency}}</td>
                 <td><b>{{'addCollection.sumPC' | translate}}</b></td>
                 <td>{{pcsum | currency}}</td>
-                <td><b>{{'addCollection.sumAC' | translate}}</b></td>
+                <td><b>{{'addCollection.sumIAC' | translate}}</b></td>
+                <td>{{acsum | currency}}</td>
+                <td><b>{{'addCollection.sumOAC' | translate}}</b></td>
                 <td>{{acsum | currency}}</td>
               </tr>
               <tr>
@@ -2540,7 +2716,11 @@
                 <td *ngIf="addFormStep5.controls.add_iva_to_pc.value">{{(((addFormStep5.controls.iva_percent.value ||
                   0)*pcsum)/100 || 0) | currency}}</td>
                 <td *ngIf="!addFormStep5.controls.add_iva_to_pc.value">$0</td>
-                <td><b>{{'addCollection.IVAAC' | translate}}</b></td>
+                <td><b>{{'addCollection.IVAIAC' | translate}}</b></td>
+                <td *ngIf="addFormStep5.controls.add_iva_to_ac.value">{{(((addFormStep5.controls.iva_percent.value ||
+                  0)*acsum)/100 || 0) | currency}}</td>
+                <td *ngIf="!addFormStep5.controls.add_iva_to_ac.value">$0</td>
+                <td><b>{{'addCollection.IVAOAC' | translate}}</b></td>
                 <td *ngIf="addFormStep5.controls.add_iva_to_ac.value">{{(((addFormStep5.controls.iva_percent.value ||
                   0)*acsum)/100 || 0) | currency}}</td>
                 <td *ngIf="!addFormStep5.controls.add_iva_to_ac.value">$0</td>
@@ -2556,7 +2736,11 @@
                   0)*pcsum)/100)+pcsum || 0) | currency}}</td>
                 <td *ngIf="!addFormStep5.controls.add_iva_to_pc.value">{{pcsum | currency}}</td>
                 <!-- <td>{{((((addFormStep5.controls.iva_percent.value || 0)*pcsum)/100)+pcsum || 0) | currency}}</td> -->
-                <td><b>{{'addCollection.TotalAC' | translate}}</b></td>
+                <td><b>{{'addCollection.TotalIAC' | translate}}</b></td>
+                <td *ngIf="addFormStep5.controls.add_iva_to_ac.value">{{((((addFormStep5.controls.iva_percent.value ||
+                  0)*acsum)/100)+acsum || 0) | currency}}</td>
+                <td *ngIf="!addFormStep5.controls.add_iva_to_ac.value">{{acsum | currency}}</td>
+                <td><b>{{'addCollection.TotalOAC' | translate}}</b></td>
                 <td *ngIf="addFormStep5.controls.add_iva_to_ac.value">{{((((addFormStep5.controls.iva_percent.value ||
                   0)*acsum)/100)+acsum || 0) | currency}}</td>
                 <td *ngIf="!addFormStep5.controls.add_iva_to_ac.value">{{acsum | currency}}</td>
