@@ -501,7 +501,6 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     input.bathroom = this.bathrooms.filter(f => { return f.is_selected == true }).map(r => { return r.name });
     input.half_bathroom = this.halfBathrooms.filter(f => { return f.is_selected == true }).map(r => { return r.name });
     input.property_id = this.propertyTypes.filter(f => { return f.is_selected == true }).map(r => { return r.id });
-    input.flag = 3;
     input.min_price =  this.parameter.min_price == '0.00' ? 0 : this.parameter.min_price;
     input.max_price = this.parameter.max_price == '0.00' ? 0 : this.parameter.max_price;
     input.min_carpet_area = this.parameter.min_carpet_area == '0.00' ? 0 : this.parameter.min_carpet_area;

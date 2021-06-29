@@ -2354,15 +2354,8 @@
               <div class="form-group-3">
                 <!-- (click)="getBothBroker('')" -->
                 <div class="clearfix"></div>
-                <input readonly disabled required autocomplete="off" class="form-control" type="text" name="outside_name"
+                <input readonly disabled autocomplete="off" class="form-control" type="text" name="outside_name"
                   readonly formControlName="name">
-              </div>
-              <div
-                *ngIf="showError && (addFormStep5.controls.deal_commission_outside_agents.controls[i].controls.name.invalid)">
-                <div *ngIf="addFormStep5.controls.deal_commission_outside_agents.controls[i].controls.name.errors?.required "
-                  class="show-error">
-                  {{'addCollectionValidations.thisIsRequired' | translate}}
-                </div>
               </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -2372,14 +2365,6 @@
                 <input readonly disabled autocomplete="off" class="form-control" type="text" name="outside_first_surname"
                   readonly formControlName="first_surname">
               </div>
-              <div
-                *ngIf="showError && (addFormStep5.controls.deal_commission_outside_agents.controls[i].controls.first_surname.invalid)">
-                <div
-                  *ngIf="addFormStep5.controls.deal_commission_outside_agents.controls[i].controls.first_surname.errors?.required "
-                  class="show-error">
-                  {{'addCollectionValidations.thisIsRequired' | translate}}
-                </div>
-              </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
               <label>{{'addCollection.agentSecondSurName' | translate}}</label>
@@ -2388,14 +2373,6 @@
                 <input readonly disabled autocomplete="off" class="form-control" type="text" name="outside_second_surname"
                   readonly formControlName="second_surname">
               </div>
-              <div
-                *ngIf="showError && (addFormStep5.controls.deal_commission_outside_agents.controls[i].controls.second_surname.invalid)">
-                <div
-                  *ngIf="addFormStep5.controls.deal_commission_outside_agents.controls[i].controls.second_surname.errors?.required "
-                  class="show-error">
-                  {{'addCollectionValidations.thisIsRequired' | translate}}
-                </div>
-              </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
               <label>{{'addCollection.fedralTaxPayerRegistry' | translate}}</label>
@@ -2403,19 +2380,6 @@
                 <div class="clearfix"></div>
                 <input readonly disabled autocomplete="off" class="form-control" type="text" minlength="12"
                   maxlength="13" name="outside_fed_tax_payer_reg" formControlName="fed_tax_payer_reg">
-              </div>
-              <div
-                *ngIf="showError  &&  (addFormStep5.controls.deal_commission_outside_agents.controls[i].controls.fed_tax_payer_reg.invalid)">
-                <div
-                  *ngIf="addFormStep5.controls.deal_commission_outside_agents.controls[i].controls.fed_tax_payer_reg.errors?.minlength "
-                  class="show-error">
-                  {{'addCollectionValidations.fedTaxMin12Limit' | translate}}
-                </div>
-                <div
-                  *ngIf="addFormStep5.controls.deal_commission_outside_agents .controls[i].controls.fed_tax_payer_reg.errors?.maxlength "
-                  class="show-error">
-                  {{'addCollectionValidations.fedTaxMax13Limit' | translate}}
-                </div>
               </div>
             </div>
           </div>

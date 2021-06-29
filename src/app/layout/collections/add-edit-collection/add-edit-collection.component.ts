@@ -1813,7 +1813,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   addOutsideAgent($event){
-    this.outsideAgents.push(this.newAgent());
+    this.outsideAgents.push(this.newOutsideAgent());
   }
 
   get outsideAgents(): FormArray {
@@ -1822,6 +1822,16 @@ export class AddEditCollectionComponent implements OnInit {
 
   get agents(): FormArray {
     return this.addFormStep5.get('deal_commission_agents') as FormArray;
+  }
+
+  newOutsideAgent(): FormGroup {
+    return this.formBuilder.group({
+      outside_agent_id: [''],
+      name: [''],
+      first_surname: [''],
+      second_surname: [''],
+      fed_tax_payer_reg: ['']
+    });
   }
 
   newAgent(): FormGroup {
