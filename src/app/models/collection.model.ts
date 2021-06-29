@@ -52,6 +52,7 @@ export class Collection {
     collection_buyer_banks?: Array<any>;
     collection_buyer_rep_banks: Array<any>;
     collection_seller_rep_banks: Array<any>;
+    deal_commission_outside_agents: Array<any>;
     buyer_legal_entity?: any;
     seller_legal_entity?: any;
     payment_received_by?: number;

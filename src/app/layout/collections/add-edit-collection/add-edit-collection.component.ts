@@ -2619,6 +2619,7 @@ export class AddEditCollectionComponent implements OnInit {
         formdata['add_iva_to_cc'] = formdata['add_iva_to_cc'] ? 1 : 0;
         formdata['add_iva_to_pc'] = formdata['add_iva_to_pc'] ? 1 : 0;
         formdata['add_iva_to_ac'] = formdata['add_iva_to_ac'] ? 1 : 0;
+        formdata['add_iva_to_oac'] = formdata['add_iva_to_oac'] ? 1 : 0;
         formdata['payment_received_by'] = formdata['payment_received_by'];
       } else {
         this.showError = true;
