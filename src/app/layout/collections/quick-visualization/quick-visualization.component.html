@@ -196,6 +196,122 @@
           </tbody>
         </table>
       </div>
+              <ng-container *ngFor="let buyer_bank of buyerBanks; let sb=index">
+                <tr>
+                  <td></td>
+                  <td>
+                   <a class="black" data-toggle="collapse" data-parent="#accordion" href="#collapseBB{{sb}}">
+                     <b>Bank {{sb+1}}</b>
+                    </a>
+                  </td>
+                </tr>
+                <tr id="collapseBB{{sb}}" class="panel-collapse collapse">
+                  <td></td>
+                  <table [style.width]="'100%'">
+                    <tbody>
+                      <tr><th>{{'quickVisualization.bankName' | translate}}</th></tr>
+                      <tr><td>{{buyer_bank?.bank_name || 'NA'}}</td></tr>
+                      <tr><th>{{'quickVisualization.accountNumber' | translate}}</th></tr>
+                      <tr><td>{{buyer_bank?.account_number || 'NA'}}</td></tr>
+                      <tr><th>{{'quickVisualization.clabeSwift' | translate}}</th></tr>
+                      <tr><td>{{buyer_bank?.swift || 'NA'}}</td></tr>
+                      <tr><th>{{'quickVisualization.currency' | translate}}</th></tr>
+                      <tr><td>{{buyer_bank?.currency?.code || 'NA'}}</td></tr>
+                    </tbody>
+                    </table>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+          <div class="table-responsive">
+            <table class="table table-bordered white-bg">
+              <tbody>
+                <tr>
+                  <th rowspan="3">{{'quickVisualization.seller' | translate}}:</th>
+                  <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.comm_name || ('table.tr.td.NA' | translate)}}</td>
+                  <td *ngIf="model?.seller_type!=2">
+                    {{model?.seller?.name ? (model?.seller?.name + ' ' + model?.seller?.first_surname + ' ' + model?.seller?.second_surname) : ('table.tr.td.NA' | translate)}}
+                  </td>
+                </tr>
+                <tr>
+                  <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.email || ('table.tr.td.NA' | translate)}}</td>
+                  <td *ngIf="model?.seller_type!=2">{{model?.seller?.email || ('table.tr.td.NA' | translate)}}</td>
+                </tr>
+                <tr>
+                  <td *ngIf="model?.seller_type==2">{{model?.seller_legal_entity?.phone ? model?.seller_legal_entity?.dial_code + ' ' + model?.seller_legal_entity?.phone : ('table.tr.td.NA' | translate)}}</td>
+                  <td *ngIf="model?.seller_type!=2">{{model?.seller?.phone ? model?.seller?.dial_code + ' ' + model?.seller?.phone : ('table.tr.td.NA' | translate)}}</td>
+                </tr>
+                <ng-container *ngFor="let seller_bank of sellerBanks; let sb=index">
+                  <tr>
+                    <td></td>
+                    <td>
+                     <a class="black" data-toggle="collapse" data-parent="#accordion" href="#collapseSB{{sb}}">
+                       <b>Bank {{sb+1}}</b>
+                      </a>
+                    </td>
+                  </tr>
+                  <tr id="collapseSB{{sb}}" class="panel-collapse collapse">
+                    <td></td>
+                    <table [style.width]="'100%'">
+                      <tbody>
+                        <tr><th>{{'quickVisualization.bankName' | translate}}</th></tr>
+                        <tr><td>{{seller_bank?.bank_name || 'NA'}}</td></tr>
+                        <tr><th>{{'quickVisualization.accountNumber' | translate}}</th></tr>
+                        <tr><td>{{seller_bank?.account_number || 'NA'}}</td></tr>
+                        <tr><th>{{'quickVisualization.clabeSwift' | translate}}</th></tr>
+                        <tr><td>{{seller_bank?.swift || 'NA'}}</td></tr>
+                        <tr><th>{{'quickVisualization.currency' | translate}}</th></tr>
+                        <tr><td>{{seller_bank?.currency?.code || 'NA'}}</td></tr>
+                      </tbody>
+                      </table>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-bordered white-bg">
+              <tbody>
+                <tr>
+                  <th rowspan="3">
+                    {{'quickVisualization.inhouseAgent' | translate}}:
+                  </th>
+                  <td>
+                    {{model?.deal_commission_agents?.length>0 ? 
+                      (model?.deal_commission_agents[0]?.broker?.name + ' ' + model?.deal_commission_agents[0]?.broker?.first_surname + ' ' +model?.deal_commission_agents[0]?.broker?.second_surname) : 
+                      ('table.tr.td.NA' | translate)}}</td>
+                </tr>
+                <tr>
+                  <td>{{model?.deal_commission_agents?.length>0 ? model?.deal_commission_agents[0]?.broker?.email : ('table.tr.td.NA' | translate)}}</td>
+                </tr>
+                <tr>
+                  <td>{{model?.deal_commission_agents?.length>0 ? model?.deal_commission_agents[0]?.broker?.dial_code + ' ' +model?.deal_commission_agents[0]?.broker?.phone : ('table.tr.td.NA' | translate)}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-bordered white-bg">
+              <tbody>
+                <tr>
+                  <th rowspan="3">
+                    {{'quickVisualization.outsideAgent' | translate}}:
+                  </th>
+                  <td>
+                    {{model?.deal_commission_outside_agents?.length>0 ? 
+                      (model?.deal_commission_outside_agents[0]?.broker?.name + ' ' + model?.deal_commission_outside_agents[0]?.broker?.first_surname + ' ' +model?.deal_commission_outside_agents[0]?.broker?.second_surname) : 
+                      ('table.tr.td.NA' | translate)}}</td>
+                </tr>
+                <tr>
+                  <td>{{model?.deal_commission_outside_agents?.length>0 ? model?.deal_commission_outside_agents[0]?.broker?.email : ('table.tr.td.NA' | translate)}}</td>
+                </tr>
+                <tr>
+                  <td>{{model?.deal_commission_outside_agents?.length>0 ? model?.deal_commission_outside_agents[0]?.broker?.dial_code + ' ' +model?.deal_commission_outside_agents[0]?.broker?.phone : ('table.tr.td.NA' | translate)}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
     </div>
 
     <div class="col-md-1"></div>
