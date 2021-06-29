@@ -7,6 +7,7 @@ import { IProperty } from 'src/app/common/property';
 import { CommonService } from 'src/app/services/common.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
+import { ExcelDownload } from 'src/app/common/excelDownload';
 declare let swal: any;
 
 @Component({
@@ -27,6 +28,7 @@ export class NotaryComponent implements OnInit {
   label: string;
   model: Users;
   items: Array<Users>;
+  private exportfinalData: any[] = [];
   constructor(public constant: Constant,
     private spinner: NgxSpinnerService,
     public admin: AdminService,
@@ -258,5 +260,36 @@ export class NotaryComponent implements OnInit {
         error => {
           swal(this.translate.instant('swal.error'), error.error.message, 'error');
         });
+  }
+
+  getExportlisting = (): void => {
+    this.spinner.show();
+    const input: any = JSON.parse(JSON.stringify(this.model));
+    input.page = 0;
+    this.admin.postDataApi('getNoatariesListing', input).subscribe((success) => {
+      this.exportfinalData = success['data'] || [];
+      this.exportData();
+      this.spinner.hide();
+    }, (error) => {
+      this.spinner.hide();
+    });
+  }
+
+  exportData = (): void => {
+    if (this.exportfinalData.length > 0) {
+      const exportfinalData = [];
+      for (let index = 0; index < this.exportfinalData.length; index++) {
+        const p = this.exportfinalData[index];
+
+        exportfinalData.push({
+          'Company name': p.company_name || '',
+          'Name': p.name ? p.name + ' ' + p.first_surname + ' ' + p.second_surname : '',
+          'Contact number': p.phone ? p.dial_code + ' ' + p.phone : '',
+          'Email Address': p.email || '',
+          'Address': p.address || ''  
+        });
+      }
+      new ExcelDownload().exportAsExcelFile(exportfinalData, 'Companies');
+    }
   }
 }

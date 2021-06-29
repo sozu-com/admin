@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-4 col-6">
+    <div class="col-md-3 col-6">
       <div class="title-group">
         <h5>{{'viewManagers.label' | translate}}</h5>
         <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}}
@@ -18,7 +18,13 @@
           class="btn"><span class="fa fa-upload"></span></a>
       </div>
     </div>
-    <div class="col-md-3 col-6">
+    <div class="col-md-2 col-6">
+      <div class="btn-cont text-right">
+         <a *ngIf="admin?.admin_acl['Managers Management']?.can_create==1" class="btn btn-primary" href="javascript://" (click)="getExportlisting()">
+            {{'table.exportDataBtn' | translate}}</a>
+      </div>
+   </div>
+    <div class="col-md-2 col-6">
       <div class="btn-cont text-right">
         <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#addInhouseUser"
           #inhouseUserModalOpen>{{'table.addNewBtn' | translate}}</a>

@@ -13,7 +13,9 @@ import { AdminService } from 'src/app/services/admin.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { ExcelDownload } from 'src/app/common/excelDownload';
 import { E } from '@angular/core/src/render3';
+
 declare let swal: any;
 declare const google;
 
@@ -61,6 +63,7 @@ export class InhouseUsersComponent implements OnInit {
   records: Array<UserModel>;
   predefinedUsers: Array<any>;
   user_type: any;
+  private exportfinalData: any[] = [];
   constructor(public constant: Constant, private cs: CommonService,
     public model: UserModel, private route: ActivatedRoute,public noted: Notes,
     private spinner: NgxSpinnerService,
@@ -748,6 +751,7 @@ export class InhouseUsersComponent implements OnInit {
     this.model[key] = this.model[key] ? false : true;
     this.model[key2] = false;
   }
+
   getInhouseUsers() {
     switch (this.parameter.userType) {
       case 'data-collectors':
@@ -1416,5 +1420,60 @@ export class InhouseUsersComponent implements OnInit {
       this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
       this.closeNotesModal();
     });
+  }
+
+  getExportlisting = (): void => {
+    this.spinner.show();
+    const input = new FormData();
+    input.append('page', this.parameter.p.toString());
+    if (this.lead_sort) { input.append('lead_sort', this.lead_sort.toString()); }
+    if (this.property_sort) { input.append('property_sort', this.property_sort.toString()); }
+    if (this.parameter.name) { input.append('name', this.parameter.name); }
+    if (this.parameter.email) { input.append('email', this.parameter.email); }
+    if (this.parameter.phone) { input.append('phone', this.parameter.phone); }
+    if (this.parameter.company_name) { input.append('company_name', this.parameter.company_name); }
+    if (this.parameter.is_freelancer) { input.append('is_freelancer', this.parameter.is_freelancer); }
+    if (this.parameter.country_id && this.parameter.country_id !== '-1') {
+      input.append('countries', JSON.stringify([this.parameter.country_id]));
+    }
+    if (this.parameter.state_id && this.parameter.state_id !== '-1') {
+      input.append('states', JSON.stringify([this.parameter.state_id]));
+    }
+    if (this.parameter.city_id && this.parameter.city_id !== '-1') {
+      input.append('cities', JSON.stringify([this.parameter.city_id]));
+    }
+    if (this.parameter.locality_id && this.parameter.locality_id !== '-1') {
+      input.append('localities', JSON.stringify([this.parameter.locality_id]));
+    }
+    if (this.parameter.building_id && this.parameter.building_id !== '-1') {
+      input.append('buildings', JSON.stringify([this.parameter.building_id]));
+    }
+    input.append('is_external_agent', this.model.is_external_agent === true ? '1' : '0');
+    if (this.parameter.id) { input.append('id', this.parameter.id); }
+    input.append('page', '0');
+    this.admin.postDataApi('getInhouseBroker', input).subscribe((success) => {
+      this.exportfinalData = success['data'] || [];
+      this.exportData();
+      this.spinner.hide();
+    }, (error) => {
+      this.spinner.hide();
+    });
+  }
+
+  exportData = (): void => {
+    if (this.exportfinalData.length > 0) {
+      const exportfinalData = [];
+      for (let index = 0; index < this.exportfinalData.length; index++) {
+        const p = this.exportfinalData[index];
+
+        exportfinalData.push({
+          'Full name': p.name ? p.name + ' ' + p.first_surname + ' ' + p.second_surname : '',
+          'Agency': p.agency ? p.agency.name : '',
+          'Email Address': p.email || '',
+          'Contact number': p.phone ? p.dial_code + ' ' + p.phone : ''
+        });
+      }
+      new ExcelDownload().exportAsExcelFile(exportfinalData, 'Companies');
+    }
   }
 }
