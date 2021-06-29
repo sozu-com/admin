@@ -1742,6 +1742,7 @@
                     <option value="1">{{'viewCollections.purchaseCommission' | translate}}</option>
                     <option value="2">{{'viewCollections.collectionCommission' | translate}}</option>
                     <option value="3">{{'viewCollections.agentCommission' | translate}}</option>
+                    <option value="5">{{'viewCollections.outsideagentCommission' | translate}}</option>
                     <option value="4" [disabled]="cancel_commission_status == 1">
                       {{'viewCollections.cancellation' | translate}}
                       <span *ngIf="cancel_commission_status == 1"> | Paid</span>
@@ -1777,6 +1778,22 @@
                       [disabled]="bt?.payment_made2==1 || bt?.agent_payment_status==1">
                       {{bt?.payment_choice?.name}}
                       <span *ngIf="bt?.agent_payment_status==1"> | Paid</span>
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-6" *ngIf="commission_type==5">
+              <div class="form-group-2">
+                <label>{{'viewCollections.choosePaymentConcept' | translate}} <span class="color-red">*</span></label>
+                <div class="form-group">
+                  <select name="payment_choice" #applyPaymentChoiceId1 required class="form-control"
+                    [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
+                    <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
+                    <option *ngFor="let bt of paymentConcepts" [ngValue]="bt"
+                      [disabled]="bt?.payment_made3==1 || bt?.outside_agent_payment_status==1">
+                      {{bt?.payment_choice?.name}}
+                      <span *ngIf="bt?.outside_agent_payment_status==1"> | Paid</span>
                     </option>
                   </select>
                 </div>
@@ -1837,6 +1854,15 @@
               </div>
             </div>
             <div class="col-6" *ngIf="commission_type==3">
+              <div class="form-group-2">
+                <label>{{'viewCollections.currentAmtTobePaid' | translate}}<span class="color-red">*</span></label>
+                <div class="form-group">
+                  <input autocomplete="off" readonly required type="number" step="0.01" min="0" class="form-control"
+                    [(ngModel)]="paid_amount" name="paid_amount">
+                </div>
+              </div>
+            </div>
+            <div class="col-6" *ngIf="commission_type==5">
               <div class="form-group-2">
                 <label>{{'viewCollections.currentAmtTobePaid' | translate}}<span class="color-red">*</span></label>
                 <div class="form-group">

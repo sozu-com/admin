@@ -643,6 +643,30 @@
           <th>
             <b>{{'quickVisualization.xmlDoc' | translate}}</b>
           </th>
+          <th [style.width]="'120px'">
+            <b>{{'quickVisualization.ousideagentCommission' | translate}}</b>
+          </th>
+          <th [style.width]="'150px'">
+            <b>{{'quickVisualization.dateOfOAC' | translate}}</b>
+          </th>
+          <th>
+            <b>{{'quickVisualization.OACAttachment' | translate}}</b>
+          </th>
+          <th>
+            <b>{{'quickVisualization.OACDescription' | translate}}</b>
+          </th>
+          <th>
+            <b>{{'quickVisualization.invoiceDate' | translate}}</b>
+          </th>
+          <th>
+            <b>{{'quickVisualization.invoiceID' | translate}}</b>
+          </th>
+          <th>
+            <b>{{'quickVisualization.pdfDoc' | translate}}</b>
+          </th>
+          <th>
+            <b>{{'quickVisualization.xmlDoc' | translate}}</b>
+          </th>
         </tr>
       </thead>
       <tbody *ngFor="let p of allPaymentConcepts; let i=index">
@@ -827,6 +851,51 @@
             <a class="green-color fontW500"
               *ngIf="collectionCommission[i]?.agent_payment && collectionCommission[i]?.agent_payment?.xml_url"
               target="_blank" href="{{collectionCommission[i]?.agent_payment?.xml_url}}">
+              {{'quickVisualization.view' | translate}}
+            </a>
+          </td>
+           <td (click)="getOutAgent1Info(p?.id)"> 
+            <a class="color-changed" data-toggle="collapse" data-target="#collapsefive{{i}}" 
+            data-parent="#accordion" aria-expanded="true" aria-controls="collapsefive" 
+            href="#collapsefive{{i}}" style="color: #00B96F;">
+              {{p.key == 'total' ? (p.agent_outside_comm_amount | currency) : collectionCommission[i] ?
+              (collectionCommission[i]?.agent1_minus | currency) : ''}}
+              <span *ngIf="collectionCommission[i]?.agent1_minus">
+                <i class="fa fa-angle-down" aria-hidden="true"></i>
+              </span>
+            </a>
+          </td>
+          <td>
+          {{collectionCommission[i]?.outside_agent_payment ? (collectionCommission[i]['outside_agent_payment']?.payment_date |
+          date:'dd/MMM/yyyy') : ''}}
+        </td>
+          <td>
+            <a class="green-color fontW500" *ngIf="collectionCommission[i]?.outside_agent_payment?.receipt" target="_blank"
+              href="{{collectionCommission[i]?.outside_agent_payment?.receipt}}">
+              {{'quickVisualization.view' | translate}}
+            </a>
+          </td>
+          <td>
+            <button class="action-icon" *ngIf="collectionCommission[i]?.outside_agent_payment?.description"
+              (click)="showDescription(collectionCommission[i]?.outside_agent_payment?.description, 5)">
+              <img src="assets/img/eye-icon.png" alt="img">
+            </button>
+          </td>
+          <td>{{collectionCommission[i]?.outside_agent_payment ?
+            (collectionCommission[i]['outside_agent_payment']?.invoice_date | date:'dd/MMM/yyyy') : ''}}</td>
+          <td>{{collectionCommission[i]?.outside_agent_payment ?
+            (collectionCommission[i]['outside_agent_payment']?.invoice_id) : ''}}</td>
+          <td>
+            <a class="green-color fontW500"
+              *ngIf="collectionCommission[i]?.outside_agent_payment && collectionCommission[i]?.outside_agent_payment?.pdf_url"
+              target="_blank" href="{{collectionCommission[i]?.outside_agent_payment?.pdf_url}}">
+              {{'quickVisualization.view' | translate}}
+            </a>
+          </td>
+          <td>
+            <a class="green-color fontW500"
+              *ngIf="collectionCommission[i]?.outside_agent_payment && collectionCommission[i]?.outside_agent_payment?.xml_url"
+              target="_blank" href="{{collectionCommission[i]?.outside_agent_payment?.xml_url}}">
               {{'quickVisualization.view' | translate}}
             </a>
           </td>
@@ -1121,6 +1190,101 @@
 
                 <td *ngIf="collectionCommission[i]?.agent_payment">
                   <a class="green-color fontW500" *ngIf="collectionCommission[i]?.agent_payment && pur?.xml_url"
+                    target="_blank" href="{{pur?.xml_url}}">{{'quickVisualization.view' | translate}}
+                  </a>
+                </td>
+
+              </tbody>
+
+            </table>
+
+          </td>
+
+        </tr>
+         <!-- collection_agent_out -->
+        <tr id="collapsefive{{i}}" class="collapse" data-parent="#accordion">
+
+          <td colspan="10" style="background: #fff; border-color: white;">
+            <table [style.width]="'100%'">
+              <thead style="background: #00B96F; color: #fff;">
+                <th [style.width]="'240px'" [style.color]="'#fff'">{{'quickVisualization.concept' | translate}}</th>
+
+                <th [style.width]="'300px'" [style.color]="'#fff'">{{'quickVisualization.month' | translate}}</th>
+
+                <th [style.width]="'300px'" [style.color]="'#fff'">{{'quickVisualization.paid' | translate}}</th>
+
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.outstandingPayment' |
+                  translate}}</th>
+
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.toBePaidByUser' | translate}}
+                </th>
+
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.penaltyFLP' | translate}}</th>
+
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.penaltyDescription' |
+                  translate}}</th>
+
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.ousideagentCommission' | translate}}
+                </th>
+
+                <th [style.width]="'217px'" [style.color]="'#fff'">{{'quickVisualization.dateOfOAC' | translate}}</th>
+
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.OACAttachment' | translate}}
+                </th>
+
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.OACDescription' | translate}}
+                </th>
+
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.invoiceDate' | translate}}</th>
+
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.invoiceID' | translate}}</th>
+
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.pdfDoc' | translate}}</th>
+
+                <th [style.width]="'200px'" [style.color]="'#fff'">{{'quickVisualization.xmlDoc' | translate}}</th>
+
+              </thead>
+
+              <tbody *ngFor="let pur of outside_agent_payments; let s=index">
+                <td>Commission&nbsp;{{s+0}}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="color: black;">
+                  {{pur?((pur?.amount) | currency) : ''}}</td>
+
+                <td style="color: red;">
+                  {{pur ? (pur?.payment_date | date:'dd/MMM/yyyy') : ''}}
+                </td>
+
+                <td>
+                  <a class="green-color fontW500" *ngIf="collectionCommission[i]?.outside_agent_payment" target="_blank"
+                    href="{{pur?.receipt}}">
+                    {{'quickVisualization.view' | translate}}
+                  </a>
+                </td>
+
+                <td *ngIf="collectionCommission[i]?.outside_agent_payment">
+                  <button class="action-icon" *ngIf="pur?.description" (click)="showDescription(pur?.description, 3)">
+                    <img src="assets/img/eye-icon.png" alt="img">
+                  </button>
+                </td>
+
+                <td *ngIf="collectionCommission[i]?.outside_agent_payment">{{pur ? (pur?.invoice_date | date:'dd/MMM/yyyy') : ''}}</td>
+
+                <td *ngIf="collectionCommission[i]?.outside_agent_payment">{{pur ? (pur?.invoice_id) : ''}}</td>
+
+                <td *ngIf="collectionCommission[i]?.outside_agent_payment">
+                  <a class="green-color fontW500" *ngIf="collectionCommission[i]?.outside_agent_payment && pur?.pdf_url"
+                    target="_blank" href="{{pur?.pdf_url}}">
+                    {{'quickVisualization.view' | translate}}</a>
+                </td>
+
+                <td *ngIf="collectionCommission[i]?.outside_agent_payment">
+                  <a class="green-color fontW500" *ngIf="collectionCommission[i]?.outside_agent_payment && pur?.xml_url"
                     target="_blank" href="{{pur?.xml_url}}">{{'quickVisualization.view' | translate}}
                   </a>
                 </td>
