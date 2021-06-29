@@ -1016,11 +1016,11 @@ export class AddEditCollectionComponent implements OnInit {
         if (index === 0 && x) {
           control2.push(this.formBuilder.group(x));
         } else {
-          this.addAgent('');
+          this.addOutsideAgent('');
         }
       }
     } else {
-      this.addAgent('');
+      this.addOutsideAgent('');
     }
 
     const control = this.addFormStep5.get('collection_agent_banks') as FormArray;
@@ -1810,6 +1810,14 @@ export class AddEditCollectionComponent implements OnInit {
 
   addAgent($event) {
     this.agents.push(this.newAgent());
+  }
+
+  addOutsideAgent($event){
+    this.outsideAgents.push(this.newAgent());
+  }
+
+  get outsideAgents(): FormArray {
+    return this.addFormStep5.get('deal_commission_outside_agents') as FormArray;
   }
 
   get agents(): FormArray {

@@ -2278,17 +2278,17 @@
           <label class="p16-two">{{'addCollection.outsideAgentCommission' | translate}}</label>
           <div class="input-group form-group-3">
             <input required autocomplete="off" class="form-control" type="number" appUptoThreeDecimal
-              (input)="getAgentAmount($event.target.value)" step="0.001" min="0" max="100" name="comm_shared_commission"
-              formControlName="comm_shared_commission">
+              (input)="getAgentAmount($event.target.value)" step="0.001" min="0" max="100" name="outside_agent_commission_percentage"
+              formControlName="outside_agent_commission_percentage">
             <div class="input-group-append">
               <span class="input-group-text" id="basic-addon1">%</span>
             </div>
           </div>
-          <div *ngIf="showError && (addFormStep5.controls.comm_shared_commission.invalid)">
-            <div *ngIf="addFormStep5.controls.comm_shared_commission.errors?.required " class="show-error">
+          <div *ngIf="showError && (addFormStep5.controls.outside_agent_commission_percentage.invalid)">
+            <div *ngIf="addFormStep5.controls.outside_agent_commission_percentage.errors?.required " class="show-error">
               {{'addCollectionValidations.thisIsRequired' | translate}}
             </div>
-            <div *ngIf="addFormStep5.controls.comm_shared_commission.errors?.max " class="show-error">
+            <div *ngIf="addFormStep5.controls.outside_agent_commission_percentage.errors?.max " class="show-error">
               {{'addCollectionValidations.percentMax100Limit' | translate}}
             </div>
           </div>
@@ -2300,11 +2300,11 @@
               <span class="input-group-text" id="basic-addon1">$</span>
             </div>
             <input required autocomplete="off" class="form-control" type="number" appUptoTwoDigitDecimalNumber
-              step="0.01" min="0" max="100" name="comm_shared_commission_amount"
-              formControlName="comm_shared_commission_amount">
+              step="0.01" min="0" max="100" name="outside_agent_commission_amount"
+              formControlName="outside_agent_commission_amount">
           </div>
-          <div *ngIf="showError && (addFormStep5.controls.comm_shared_commission_amount.invalid)">
-            <div *ngIf="addFormStep5.controls.comm_shared_commission_amount.errors?.required " class="show-error">
+          <div *ngIf="showError && (addFormStep5.controls.outside_agent_commission_amount.invalid)">
+            <div *ngIf="addFormStep5.controls.outside_agent_commission_amount.errors?.required " class="show-error">
               {{'addCollectionValidations.thisIsRequired' | translate}}
             </div>
           </div>
@@ -2313,17 +2313,17 @@
           <label class="p16-two">{{'addCollection.agentIVACommission' | translate}}</label>
           <div class="input-group form-group-3">
             <input required autocomplete="off" class="form-control" type="number" appUptoThreeDecimal
-              (input)="getIVAAmount($event.target.value, 'comm_shared_commission_amount', 'agent_iva_amt')" step="0.001"
-              min="0" max="100" name="agent_iva_percent" formControlName="agent_iva_percent">
+              (input)="getIVAAmount($event.target.value, 'outside_agent_commission_amount', 'outside_agent_commission_iva_percentage')" step="0.001"
+              min="0" max="100" name="outside_agent_commission_iva_percentage" formControlName="outside_agent_commission_iva_percentage">
             <div class="input-group-append">
               <span class="input-group-text" id="basic-addon1">%</span>
             </div>
           </div>
-          <div *ngIf="showError && (addFormStep5.controls.agent_iva_percent.invalid)">
-            <div *ngIf="addFormStep5.controls.agent_iva_percent.errors?.required " class="show-error">
+          <div *ngIf="showError && (addFormStep5.controls.outside_agent_commission_iva_percentage.invalid)">
+            <div *ngIf="addFormStep5.controls.outside_agent_commission_iva_percentage.errors?.required " class="show-error">
               {{'addCollectionValidations.thisIsRequired' | translate}}
             </div>
-            <div *ngIf="addFormStep5.controls.agent_iva_percent.errors?.max " class="show-error">
+            <div *ngIf="addFormStep5.controls.outside_agent_commission_iva_percentage.errors?.max " class="show-error">
               {{'addCollectionValidations.percentMax100Limit' | translate}}
             </div>
           </div>
@@ -2335,10 +2335,10 @@
               <span class="input-group-text" id="basic-addon1">$</span>
             </div>
             <input required autocomplete="off" class="form-control" type="number" appUptoTwoDigitDecimalNumber
-              step="0.01" min="0" max="100" name="agent_iva_amt" formControlName="agent_iva_amt">
+              step="0.01" min="0" max="100" name="outside_agent_commission_iva_amount" formControlName="outside_agent_commission_iva_amount">
           </div>
-          <div *ngIf="showError && (addFormStep5.controls.agent_iva_amt.invalid)">
-            <div *ngIf="addFormStep5.controls.agent_iva_amt.errors?.required " class="show-error">
+          <div *ngIf="showError && (addFormStep5.controls.outside_agent_commission_iva_amount.invalid)">
+            <div *ngIf="addFormStep5.controls.outside_agent_commission_iva_amount.errors?.required " class="show-error">
               {{'addCollectionValidations.thisIsRequired' | translate}}
             </div>
           </div>
@@ -2354,7 +2354,7 @@
               <div class="form-group-3">
                 <!-- (click)="getBothBroker('')" -->
                 <div class="clearfix"></div>
-                <input readonly disabled required autocomplete="off" class="form-control" type="text" name="name"
+                <input readonly disabled required autocomplete="off" class="form-control" type="text" name="outside_name"
                   readonly formControlName="name">
               </div>
               <div
@@ -2369,7 +2369,7 @@
               <label>{{'addCollection.agentFirstSurName' | translate}}</label>
               <div class="form-group-3">
                 <div class="clearfix"></div>
-                <input readonly disabled autocomplete="off" class="form-control" type="text" name="first_surname"
+                <input readonly disabled autocomplete="off" class="form-control" type="text" name="outside_first_surname"
                   readonly formControlName="first_surname">
               </div>
               <div
@@ -2385,7 +2385,7 @@
               <label>{{'addCollection.agentSecondSurName' | translate}}</label>
               <div class="form-group-3">
                 <div class="clearfix"></div>
-                <input readonly disabled autocomplete="off" class="form-control" type="text" name="second_surname"
+                <input readonly disabled autocomplete="off" class="form-control" type="text" name="outside_second_surname"
                   readonly formControlName="second_surname">
               </div>
               <div
@@ -2402,7 +2402,7 @@
               <div class="form-group-3">
                 <div class="clearfix"></div>
                 <input readonly disabled autocomplete="off" class="form-control" type="text" minlength="12"
-                  maxlength="13" name="fed_tax_payer_reg" formControlName="fed_tax_payer_reg">
+                  maxlength="13" name="outside_fed_tax_payer_reg" formControlName="fed_tax_payer_reg">
               </div>
               <div
                 *ngIf="showError  &&  (addFormStep5.controls.deal_commission_outside_agents.controls[i].controls.fed_tax_payer_reg.invalid)">
