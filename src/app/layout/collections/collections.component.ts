@@ -2159,11 +2159,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   }
 
   setCommissionType(type: any) {
-    console.log(type,"type");
     this.paymentConcepts = [];
     for (let index = 0; index < this.selectedItem.collection_commissions.length; index++) {
       const element = this.selectedItem.collection_commissions[index];
-      console.log(element,"element");
       element['payment_made'] = 0;
       element['payment_made1'] = 0;
       element['payment_made2'] = 0;

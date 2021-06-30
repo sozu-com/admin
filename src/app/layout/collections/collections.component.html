@@ -1521,12 +1521,6 @@
                       title="{{'table.title.deletePCPayment' | translate}}" class="action-icon"><img
                         src="assets/img/ic_delete.png" alt="img"></button>
 
-                    <!-- <button
-                      *ngIf="last_payment_approved == 1 && p?.commission?.purchase_payment.length == 0 && cancel_commission_status == 1"
-                      (click)="editCollectionCommReceipt(this.cancellation_commission)"
-                      title="{{'table.title.editCancellationPayment' | translate}}" class="action-icon"><img
-                        src="assets/img/ic_commission.png" alt="img"></button> -->
-
                     <button *ngIf="p?.commission?.purchase_payment.length>0 && cancel_commission_status == 1"
                       (click)="editCollectionCommReceipt(this.cancellation_commission)"
                       title="{{'table.title.editCancellationPayment' | translate}}" class="action-icon"><img
@@ -1543,16 +1537,26 @@
                       title="{{'table.title.deleteACPayment' | translate}}" class="action-icon"><img
                         src="assets/img/ic_delete.png" alt="img"></button>
 
-                    <!-- <button
-                      *ngIf="last_payment_approved == 1 && p?.commission?.agent_payment.length == 0 && cancel_commission_status == 1"
-                      (click)="editCollectionCommReceipt(this.cancellation_commission)"
-                      title="{{'table.title.editCancellationPayment' | translate}}" class="action-icon"><img
-                        src="assets/img/ic_commission.png" alt="img"></button> -->
-
                     <button *ngIf="p?.commission?.agent_payment.length>0 && cancel_commission_status == 1"
                       (click)="editCollectionCommReceipt(this.cancellation_commission)"
                       title="{{'table.title.editCancellationPayment' | translate}}" class="action-icon"><img
                         src="assets/img/ic_commission.png" alt="img"></button>
+
+                        <br>
+                        <button *ngIf="p?.commission?.outside_agent_payment && p?.commission?.outside_agent_payment.length>0"
+                          (click)="editCollectionCommReceipt(p.commission.outside_agent_payment)"
+                          title="{{'table.title.editOACPayment' | translate}}" class="action-icon"><img
+                            src="assets/img/ic_commission.png" alt="img"></button>
+    
+                        <button *ngIf="p?.commission?.outside_agent_payment && p?.commission?.outside_agent_payment.length>0"
+                          (click)="deleteCollectionCommReceipt(p.commission.outside_agent_payment)"
+                          title="{{'table.title.deleteOACPayment' | translate}}" class="action-icon"><img
+                            src="assets/img/ic_delete.png" alt="img"></button>
+    
+                        <button *ngIf="p?.commission?.outside_agent_payment.length>0 && cancel_commission_status == 1"
+                          (click)="editCollectionCommReceipt(this.cancellation_commission)"
+                          title="{{'table.title.editCancellationPayment' | translate}}" class="action-icon"><img
+                            src="assets/img/ic_commission.png" alt="img"></button>
 
                   </td>
                 </tr>
