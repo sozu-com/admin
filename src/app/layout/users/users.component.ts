@@ -336,11 +336,10 @@ export class UsersComponent implements OnInit {
         const p = this.exportfinalData[index];
 
         exportfinalData.push({
-          'Company name': p.company_name || '',
-          'Name': p.name ? p.name + ' ' + p.first_surname + ' ' + p.second_surname : '',
-          'Contact number': p.phone ? p.dial_code + ' ' + p.phone : '',
+          'Complete Name': p.name ? p.name + ' ' + p.first_surname + ' ' + p.second_surname : '',
+          'Contact Number': p.phone ? p.dial_code + ' ' + p.phone : '',
           'Email Address': p.email || '',
-          'Address': p.address || ''  
+          'Registered In Sozu (Yes/No)': p.is_email_verified && p.is_phone_verified ? 'Yes' : 'No'  
         });
       }
       new ExcelDownload().exportAsExcelFile(exportfinalData, 'users');
