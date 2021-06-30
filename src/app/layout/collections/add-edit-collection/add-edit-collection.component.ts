@@ -513,8 +513,8 @@ export class AddEditCollectionComponent implements OnInit {
       sozu_iva_percent: ['', [Validators.required, Validators.max(100)]],
       sozu_iva_amt: ['', [Validators.required]],
       agent_iva_percent: ['', [Validators.required, Validators.max(100)]],
-      agent_iva_amt: ['', [Validators.required]],
       outside_agent_commission_iva_percentage: ['', [Validators.required, Validators.max(100)]],
+      agent_iva_amt: ['', [Validators.required]],
       outside_agent_commission_iva_amount: ['', [Validators.required]],
       iva_percent: ['', [Validators.required]],
       add_iva_to_pc: [''],
@@ -974,6 +974,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep5.controls.sozu_iva_percent.patchValue(this.numberUptoNDecimal(data.sozu_iva_percent || 0, 3));
     this.addFormStep5.controls.sozu_iva_amt.patchValue(this.numberUptoNDecimal(data.sozu_iva_amt || 0, 2));
     this.addFormStep5.controls.agent_iva_percent.patchValue(this.numberUptoNDecimal(data.agent_iva_percent || 0, 3));
+    this.addFormStep5.controls.outside_agent_commission_iva_percentage.patchValue(this.numberUptoNDecimal(data.outside_agent_commission_iva_percentage || 0, 3));
     this.addFormStep5.controls.agent_iva_amt.patchValue(this.numberUptoNDecimal(data.agent_iva_amt || 0, 2));
     this.addFormStep5.controls.iva_percent.patchValue(this.numberUptoNDecimal(data.iva_percent || 0, 3));
     this.addFormStep5.controls.add_iva_to_cc.patchValue(data.add_iva_to_cc || 0);
@@ -982,7 +983,6 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep5.controls.add_iva_to_oac.patchValue(data.add_iva_to_oac || 0);
     this.addFormStep5.controls.outside_agent_commission_percentage.patchValue(data.outside_agent_commission_percentage || 0);
     this.addFormStep5.controls.outside_agent_commission_amount.patchValue(data.outside_agent_commission_amount || 0);
-    this.addFormStep5.controls.outside_agent_commission_iva_percentage.patchValue(data.outside_agent_commission_iva_percentage || 0);
     this.addFormStep5.controls.outside_agent_commission_iva_amount.patchValue(data.outside_agent_commission_iva_amount || 0);
     let index;
     if (this.isByOffer) {
@@ -2112,6 +2112,16 @@ export class AddEditCollectionComponent implements OnInit {
     }
     const amount = this.numberUptoNDecimal((percent * price) / 100, 2);
     this.addFormStep5.controls['comm_shared_commission_amount'].patchValue(amount);
+  }
+  getOutsideAgentAmount(percent: number) {
+    const price = this.addFormStep4.get('final_price').value;
+    if (!price || price == 0) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
+      return;
+    }
+    const amount = this.numberUptoNDecimal((percent * price) / 100, 2);
+    this.addFormStep5.controls['outside_agent_commission_amount'].patchValue(amount);
   }
 
   getIVAAmount(percent: number, key: string, key2: string) {

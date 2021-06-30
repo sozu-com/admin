@@ -401,7 +401,7 @@
                   </th>
                   <th style="vertical-align:top; width: 100px;">
                     <div class="table-search">
-                      <label>{{'table.th.agentCommission' | translate}}</label>
+                      <label>{{'table.th.inhouseagentCommission' | translate}}</label>
                     </div>
                   </th>
                   <th style="vertical-align:top; width: 100px;">
@@ -419,6 +419,27 @@
                       <label>{{'table.th.ACInvoice' | translate}}</label>
                     </div>
                   </th>
+                  <th style="vertical-align:top; width: 100px;">
+                    <div class="table-search">
+                      <label>{{'table.th.outsideagentCommission' | translate}}</label>
+                    </div>
+                  </th>
+                  <th style="vertical-align:top; width: 100px;">
+                    <div class="table-search">
+                      <label>{{'table.th.ivaAdded' | translate}}</label>
+                    </div>
+                  </th>
+                  <th style="vertical-align:top; width: 100px;">
+                    <div class="table-search">
+                      <label>{{'table.th.OACReceipt' | translate}}</label>
+                    </div>
+                  </th>
+                  <th style="vertical-align:top; width: 100px;">
+                    <div class="table-search">
+                      <label>{{'table.th.OACInvoice' | translate}}</label>
+                    </div>
+                  </th>
+
                   <th style="vertical-align:top; width: 100px;">
                     <div class="table-search">
                       <label>{{'table.th.agentCommissionInhouse' | translate}}</label>
@@ -652,7 +673,23 @@
                     <input name="ac_invoice{{i}}" disabled class="form-control checkbox_size" type="checkbox"
                       [checked]="p?.ac_invoice ? 'checked' : ''" readonly>
                   </td>
+                  <td>
+                    <span>{{p?.outside_agent_commission_percentage ? (p?.outside_agent_commission_percentage | number : '1.2-3') :
+                      ('table.tr.td.NA' | translate)}}</span>
+                  </td>
 
+                  <td>
+                    <input name="add_iva_to_oac{{i}}" disabled class="form-control checkbox_size" type="checkbox"
+                      [checked]="p?.add_iva_to_oac ? 'checked' : ''" readonly>
+                  </td>
+                  <td>
+                    <input name="oac_receipt{{i}}" disabled class="form-control checkbox_size" type="checkbox"
+                      [checked]="p?.oac_receipt ? 'checked' : ''" readonly>
+                  </td>
+                  <td>
+                    <input name="oac_invoice{{i}}" disabled class="form-control checkbox_size" type="checkbox"
+                      [checked]="p?.oac_invoice ? 'checked' : ''" readonly>
+                  </td>
                   <td *ngIf="p?.deal_commission_agents?.length">
                     <span>
                       {{p?.deal_commission_agents[0]?.broker?.name ? (p?.deal_commission_agents[0]?.broker?.name + ' '
@@ -664,11 +701,8 @@
                     <span>{{('table.tr.td.NA' | translate)}}</span>
                   </td>
                   <td *ngIf="p?.deal_commission_outside_agents?.length">
-                    <span>
-                      {{p?.deal_commission_outside_agents[0]?.broker?.name ? (p?.deal_commission_outside_agents[0]?.broker?.name + ' '
-                      +p?.deal_commission_outside_agents[0]?.broker?.first_surname + ' ' +
-                      p?.deal_commission_outside_agents[0]?.broker?.second_surname) : ('table.tr.td.NA' | translate)}}
-                    </span>
+                    <span>{{p?.deal_commission_outside_agents ? (p?.deal_commission_outside_agents[0]?.name) :
+                      ('table.tr.td.NA' | translate)}}</span>
                   </td>
                   <td *ngIf="!p?.deal_commission_outside_agents?.length">
                     <span>{{('table.tr.td.NA' | translate)}}</span>
