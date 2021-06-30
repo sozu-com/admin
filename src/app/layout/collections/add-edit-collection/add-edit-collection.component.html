@@ -2278,7 +2278,7 @@
           <label class="p16-two">{{'addCollection.outsideAgentCommission' | translate}}</label>
           <div class="input-group form-group-3">
             <input required autocomplete="off" class="form-control" type="number" appUptoThreeDecimal
-              (input)="getAgentAmount($event.target.value)" step="0.001" min="0" max="100" name="outside_agent_commission_percentage"
+              (input)="getOutsideAgentAmount($event.target.value)" step="0.001" min="0" max="100" name="outside_agent_commission_percentage"
               formControlName="outside_agent_commission_percentage">
             <div class="input-group-append">
               <span class="input-group-text" id="basic-addon1">%</span>
@@ -2313,7 +2313,7 @@
           <label class="p16-two">{{'addCollection.agentIVACommission' | translate}}</label>
           <div class="input-group form-group-3">
             <input required autocomplete="off" class="form-control" type="number" appUptoThreeDecimal
-              (input)="getIVAAmount($event.target.value, 'outside_agent_commission_amount', 'outside_agent_commission_iva_percentage')" step="0.001"
+              (input)="getIVAAmount($event.target.value, 'outside_agent_commission_amount', 'outside_agent_commission_iva_amount')" step="0.001"
               min="0" max="100" name="outside_agent_commission_iva_percentage" formControlName="outside_agent_commission_iva_percentage">
             <div class="input-group-append">
               <span class="input-group-text" id="basic-addon1">%</span>
@@ -2669,7 +2669,7 @@
                 <td><b>{{'addCollection.sumIAC' | translate}}</b></td>
                 <td>{{acsum | currency}}</td>
                 <td><b>{{'addCollection.sumOAC' | translate}}</b></td>
-                <td>{{acsum | currency}}</td>
+                <td>{{oacsum | currency}}</td>
               </tr>
               <tr>
                 <td><b>{{'addCollection.IVACC' | translate}}</b></td>
@@ -2686,7 +2686,7 @@
                 <td *ngIf="!addFormStep5.controls.add_iva_to_ac.value">$0</td>
                 <td><b>{{'addCollection.IVAOAC' | translate}}</b></td>
                 <td *ngIf="addFormStep5.controls.add_iva_to_oac.value">{{(((addFormStep5.controls.iva_percent.value ||
-                  0)*acsum)/100 || 0) | currency}}</td>
+                  0)*oacsum)/100 || 0) | currency}}</td>
                 <td *ngIf="!addFormStep5.controls.add_iva_to_oac.value">$0</td>
               </tr>
               <tr>
@@ -2706,8 +2706,8 @@
                 <td *ngIf="!addFormStep5.controls.add_iva_to_ac.value">{{acsum | currency}}</td>
                 <td><b>{{'addCollection.TotalOAC' | translate}}</b></td>
                 <td *ngIf="addFormStep5.controls.add_iva_to_oac.value">{{((((addFormStep5.controls.iva_percent.value ||
-                  0)*acsum)/100)+acsum || 0) | currency}}</td>
-                <td *ngIf="!addFormStep5.controls.add_iva_to_oac.value">{{acsum | currency}}</td>
+                  0)*oacsum)/100)+oacsum || 0) | currency}}</td>
+                <td *ngIf="!addFormStep5.controls.add_iva_to_oac.value">{{oacsum | currency}}</td>
               </tr>
             </tbody>
           </table>

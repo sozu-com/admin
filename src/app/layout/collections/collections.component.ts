@@ -410,6 +410,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
 
         this.items.forEach(function (element) {
           element['avgg_price_per'] = (((parseFloat(element.final_price) || 0) / (parseFloat(element.final_price_per_m2) || 0)));
+         
         });
         
         // fetching payment status
@@ -443,40 +444,81 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           let cc_percent = 0, cc_received = 0, cc_receipt = 0, cc_invoice = 0, cc_active = 0;
           let pc_received = 0, pc_receipt = 0, pc_invoice = 0, pc_active = 0;
           let ac_receipt = 0, ac_invoice = 0, ac_active = 0;
+          let oac_receipt = 0, oac_invoice = 0, oac_active = 0;
           for (let i = 0; i < element.collection_commissions.length; i++) {
             const ele = element.collection_commissions[i];
             cc_percent = cc_percent + (ele.add_collection_commission ? ele.percent : 0);
             cc_received = cc_received + (ele.add_collection_commission ? ele.amount : 0);
             pc_received = pc_received + (ele.add_purchase_commission ? ele.purchase_comm_amount : 0);
-            if (ele.add_collection_commission) {
-              cc_active++;
-            }
-            if (ele.payment) {
-              cc_receipt++;
-              if (ele.payment.invoice_id) {
+            
+            // if (ele.add_collection_commission) {
+            //   cc_active++;
+            // }
+            ele.payment.forEach((elem, index) => {
+              if (index == 0) {
+                if (ele.add_collection_commission) {
+                  cc_active++;
+                }
+                cc_receipt++;
                 cc_invoice++;
               }
-            }
+            })
+            // if (ele.payment) {
+            //   cc_receipt++;
+            //   if (ele.payment.invoice_id) {
+            //     cc_invoice++;
+            //   }
+            // }
 
-            if (ele.add_purchase_commission) {
-              pc_active++;
-            }
-            if (ele.purchase_payment) {
-              pc_receipt++;
-              if (ele.purchase_payment.invoice_id && ele.purchase_payment.pdf_url && ele.purchase_payment.xml_url) {
+            // if (ele.add_purchase_commission) {
+            //   pc_active++;
+            // }
+            ele.purchase_payment.forEach((elem, index) => {
+              if (index == 0) {
+                if (ele.add_purchase_commission) {
+                  pc_active++;
+                }
+                pc_receipt++;
                 pc_invoice++;
               }
-            }
+            })
+            // if (ele.purchase_payment) {
+            //   pc_receipt++;
+            //   if (ele.purchase_payment.invoice_id && ele.purchase_payment.pdf_url && ele.purchase_payment.xml_url) {
+            //     pc_invoice++;
+            //   }
+            // }
 
-            if (ele.add_agent_commission) {
-              ac_active++;
-            }
-            if (ele.agent_payment) {
-              ac_receipt++;
-              if (ele.agent_payment.invoice_id) {
+            // if (ele.add_agent_commission) {
+            //   ac_active++;
+            // }
+            // if (ele.agent_payment) {
+            //   ac_receipt++;
+            //   if (ele.agent_payment.invoice_id) {
+            //     ac_invoice++;
+            //   }
+            // }
+            ele.agent_payment.forEach((elem, index) => {
+              if (index == 0) {
+                if (ele.add_agent_commission) {
+                  ac_active++;
+                }
+                ac_receipt++;
                 ac_invoice++;
               }
-            }
+            })
+            
+           
+            ele.outside_agent_payment.forEach((elem, index) => {
+              if (index == 0) {
+                if (ele.agent_outside_comm_amount) {
+                  oac_active++;
+                }
+                oac_receipt++;
+                oac_invoice++;
+              }
+            })
+            
           }
           element['sum_pc'] = pc_received;
           element['cc_percent'] = this.numberUptoNDecimal((cc_percent / cc_active), 3);
@@ -491,6 +533,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
 
           element['ac_receipt'] = ac_receipt == ac_active && ac_receipt != 0 ? 1 : 0;
           element['ac_invoice'] = ac_invoice == ac_active && ac_invoice != 0 ? 1 : 0;
+
+          element['oac_receipt'] = oac_receipt == oac_active && oac_receipt != 0 ? 1 : 0;
+          element['oac_invoice'] = oac_invoice == oac_active && oac_invoice != 0 ? 1 : 0;
         }
 
         this.spinner.hide();
@@ -2114,11 +2159,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   }
 
   setCommissionType(type: any) {
-    console.log(type,"type");
     this.paymentConcepts = [];
     for (let index = 0; index < this.selectedItem.collection_commissions.length; index++) {
       const element = this.selectedItem.collection_commissions[index];
-      console.log(element,"element");
       element['payment_made'] = 0;
       element['payment_made1'] = 0;
       element['payment_made2'] = 0;
