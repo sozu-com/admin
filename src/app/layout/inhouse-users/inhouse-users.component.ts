@@ -1473,7 +1473,7 @@ export class InhouseUsersComponent implements OnInit {
           'Contact number': p.phone ? p.dial_code + ' ' + p.phone : ''
         });
       }
-      new ExcelDownload().exportAsExcelFile(exportfinalData, 'Companies');
+      new ExcelDownload().exportAsExcelFile(exportfinalData, 'Outside-Agentes');
     }
   }
 }
