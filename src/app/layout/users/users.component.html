@@ -1,13 +1,19 @@
 
 <div class="container-fluid">
   <div class="row">
-      <div class="col-md-6 col-6">
+      <div class="col-md-6 col-4">
         <div class="title-group">
             <h5>{{'viewUsers.label' | translate}}</h5>
             <p>{{'table.pagination.showing' | translate}} {{parameter.items?.length}} {{'table.pagination.outof' | translate}} {{parameter.total}}</p>
         </div>
       </div>
-      <div class="col-md-6 col-6">
+      <div class="col-md-4 col-4">
+        <div class="btn-cont text-right">
+           <a *ngIf="admin?.admin_acl['User Management']?.can_create==1" class="btn btn-primary" href="javascript://" (click)="getExportlisting()">
+              {{'table.exportDataBtn' | translate}}</a>
+        </div>
+     </div>
+      <div class="col-md-2 col-4">
         <div class="btn-cont text-right">
             <a style="display: none;" class="btn btn-primary" href="javascript://" data-toggle="modal" data-target="#add" #modalOpen>{{'table.addNewBtn' | translate}}</a>
             <a *ngIf="admin?.admin_acl['User Management']?.can_create==1" 

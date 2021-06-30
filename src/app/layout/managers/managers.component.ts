@@ -648,8 +648,16 @@ export class ManagersComponent implements OnInit {
 
   getExportlisting = (): void => {
     this.spinner.show();
-    const input: any = JSON.parse(JSON.stringify(this.model));
-    input.page = 0;
+    const input = new FormData();
+    input.append('project_sort', this.model.project_sort);
+    input.append('page', '0');
+    if (this.parameter.name) { input.append('name', this.parameter.name); }
+    if (this.parameter.agent) { input.append('agent', this.parameter.agent); }
+    if (this.parameter.email) { input.append('email', this.parameter.email); }
+    if (this.parameter.phone) { input.append('phone', this.parameter.phone); }
+    if (this.parameter.company_name) { input.append('company_name', this.parameter.company_name); }
+    if (this.parameter.is_freelancer) { input.append('is_freelancer', this.parameter.is_freelancer); }
+    if (this.parameter.agent_id) { input.append('agent_id', this.parameter.agent_id); }
     this.admin.postDataApi('getTowerManager', input).subscribe((success) => {
       this.exportfinalData = success['data'] || [];
       this.exportData();
@@ -672,7 +680,7 @@ export class ManagersComponent implements OnInit {
           'Agent Assignee': p.agent_details && p.agent_details.name ? p.agent_details.name + ' ' + p.agent_details.first_surname + ' ' + p.agent_details.second_surname : '' 
         });
       }
-      new ExcelDownload().exportAsExcelFile(exportfinalData, 'Companies');
+      new ExcelDownload().exportAsExcelFile(exportfinalData, 'Managers');
     }
   }
 }

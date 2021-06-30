@@ -200,7 +200,7 @@ export class LegalEntityComponent implements OnInit {
           'System Dashbaord (Yes/No)': p.legal_reps && p.legal_reps.have_dev_panel_access ? 'Yes' : 'No'  
         });
       }
-      new ExcelDownload().exportAsExcelFile(exportfinalData, 'Companies');
+      new ExcelDownload().exportAsExcelFile(exportfinalData, 'Legal-Entities');
     }
   }
 }

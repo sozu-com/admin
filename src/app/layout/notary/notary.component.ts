@@ -264,7 +264,7 @@ export class NotaryComponent implements OnInit {
 
   getExportlisting = (): void => {
     this.spinner.show();
-    const input: any = JSON.parse(JSON.stringify(this.model));
+    const input: any = JSON.parse(JSON.stringify(this.parameter));
     input.page = 0;
     this.admin.postDataApi('getNoatariesListing', input).subscribe((success) => {
       this.exportfinalData = success['data'] || [];
@@ -289,7 +289,7 @@ export class NotaryComponent implements OnInit {
           'Address': p.address || ''  
         });
       }
-      new ExcelDownload().exportAsExcelFile(exportfinalData, 'Companies');
+      new ExcelDownload().exportAsExcelFile(exportfinalData, 'Notries');
     }
   }
 }

@@ -8,6 +8,7 @@ import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { ExcelDownload } from 'src/app/common/excelDownload';
 declare let swal: any;
 
 @Component({
@@ -31,6 +32,7 @@ export class UsersComponent implements OnInit {
   initialCountry: any;
   local_storage_parameter: any; is_back: boolean;
   private language_code: string;
+  private exportfinalData: any[] = [];
   constructor(public constant: Constant, public model: Users, public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
@@ -312,5 +314,36 @@ export class UsersComponent implements OnInit {
           swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
           this.parameter.items.splice(index, 1);
         });
+  }
+
+  getExportlisting = (): void => {
+    this.spinner.show();
+    const input: any = JSON.parse(JSON.stringify(this.parameter));
+    input.page = 0;
+    this.admin.postDataApi('getBuyers', input).subscribe((success) => {
+      this.exportfinalData = success['data'] || [];
+      this.exportData();
+      this.spinner.hide();
+    }, (error) => {
+      this.spinner.hide();
+    });
+  }
+
+  exportData = (): void => {
+    if (this.exportfinalData.length > 0) {
+      const exportfinalData = [];
+      for (let index = 0; index < this.exportfinalData.length; index++) {
+        const p = this.exportfinalData[index];
+
+        exportfinalData.push({
+          'Company name': p.company_name || '',
+          'Name': p.name ? p.name + ' ' + p.first_surname + ' ' + p.second_surname : '',
+          'Contact number': p.phone ? p.dial_code + ' ' + p.phone : '',
+          'Email Address': p.email || '',
+          'Address': p.address || ''  
+        });
+      }
+      new ExcelDownload().exportAsExcelFile(exportfinalData, 'users');
+    }
   }
 }
