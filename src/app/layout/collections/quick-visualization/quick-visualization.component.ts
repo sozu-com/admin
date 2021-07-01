@@ -392,6 +392,7 @@ export class QuickVisualizationComponent implements OnInit {
               const e = this.allPaymentConcepts[j];
               if (e.id == element.display_choice_id) {
                 this.allPaymentConcepts.splice(j, 0, element);
+                this.collectionCommission.splice(j, 0, {})
                 break;
               }
             }
