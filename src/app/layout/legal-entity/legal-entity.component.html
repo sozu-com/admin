@@ -1,25 +1,27 @@
 
 <div class="container-fluid">
   <div class="row">
-      <div class="col-md-6 col-16">
+      <div class="col-md-6 col-6">
         <div class="title-group">
             <h5>{{'manageLegalEntity.label' | translate}}</h5>
             <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}} {{parameter.total}}</p>
         </div>
       </div>
-      <div class="col-md-4 col-6">
-        <div class="btn-cont text-right">
-           <a *ngIf="admin?.admin_acl['Manage Legal Entity']?.can_create==1" class="btn btn-primary" href="javascript://" (click)="getExportlisting()">
-              {{'table.exportDataBtn' | translate}}</a>
-        </div>
-     </div>
-      <div class="col-md-2 col-6">
+      <div class="col-md-6 col-6">
         <div class="btn-cont text-right">
             <a *ngIf="admin?.admin_acl['Manage Legal Entity']?.can_create==1" class="btn btn-primary" 
             href="javascript://" routerLink="/dashboard/legal-entities/add-legal-entity/0">{{'table.addNewBtn' | translate}}</a>
         </div>
       </div>
   </div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="add-new text-right">
+       <a *ngIf="admin?.admin_acl['Manage Legal Entity']?.can_create==1" class="btn" href="javascript://" (click)="getExportlisting()">
+          {{'table.exportDataBtn' | translate}}</a>
+    </div>
+ </div>
+</div>
 
   <div class="white-bg">
       <div class="tabel-section">
