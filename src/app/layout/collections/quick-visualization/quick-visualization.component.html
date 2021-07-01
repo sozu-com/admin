@@ -177,14 +177,14 @@
                   </th>
                   <td>
                     {{model?.deal_commission_outside_agents?.length>0 ? 
-                      (model?.deal_commission_outside_agents[0]?.broker?.name + ' ' + model?.deal_commission_outside_agents[0]?.broker?.first_surname + ' ' +model?.deal_commission_outside_agents[0]?.broker?.second_surname) : 
+                      (model?.deal_commission_outside_agents[0]?.outside_agent?.name + ' ' + model?.deal_commission_outside_agents[0]?.outside_agent?.first_surname + ' ' +model?.deal_commission_outside_agents[0]?.outside_agent?.second_surname) : 
                       ('table.tr.td.NA' | translate)}}</td>
                 </tr>
                 <tr>
-                  <td>{{model?.deal_commission_outside_agents?.length>0 ? model?.deal_commission_outside_agents[0]?.broker?.email : ('table.tr.td.NA' | translate)}}</td>
+                  <td>{{model?.deal_commission_outside_agents?.length>0 ? model?.deal_commission_outside_agents[0]?.outside_agent?.email : ('table.tr.td.NA' | translate)}}</td>
                 </tr>
                 <tr>
-                  <td>{{model?.deal_commission_outside_agents?.length>0 ? model?.deal_commission_outside_agents[0]?.broker?.dial_code + ' ' +model?.deal_commission_outside_agents[0]?.broker?.phone : ('table.tr.td.NA' | translate)}}</td>
+                  <td>{{model?.deal_commission_outside_agents?.length>0 ? model?.deal_commission_outside_agents[0]?.outside_agent?.dial_code + ' ' +model?.deal_commission_outside_agents[0]?.outside_agent?.phone : ('table.tr.td.NA' | translate)}}</td>
                 </tr>
               </tbody>
             </table>
@@ -670,7 +670,8 @@
         </tr>
       </thead>
       <tbody *ngFor="let p of allPaymentConcepts; let i=index">
-        <tr [ngClass]="{'remaining_amt': p.key == 'remaining_amt'}">
+        <!-- [ngClass]="{'remaining_amt': p.key == 'remaining_amt'}" -->
+        <tr>
           <td>
             <a style="color: #fff;" class="color-changed" data-toggle="collapse" data-parent="#accordion"
               href="#collapse{{i}}">
@@ -678,38 +679,17 @@
             </a>
           </td>
           <td>{{p?.date | date:'dd/MMM/yyyy'}}</td>
-          <!-- <td>{{p?.payment_date || ''}}</td> -->
           <td>
-            <!-- {{p?.paid_amount}}<br> -->
             {{p?.paid_amount && p?.paid_amount>'0.1' ? (p?.paid_amount | currency) : ''}}<br>
-            <!-- {{p?.new_paid_amt ? (p?.new_paid_amt | currency) : ''}}  -->
-            <!-- {{p?.is_paid_calculated == 1 ? p?.amount : (p?.collection_payment ? (p?.collection_payment?.amount | currency) : '')}} -->
           </td>
-          <!-- <td>{{p?.collection_payment?.payment_method?.name || ''}}</td> -->
           <td>
             <span [ngClass]="{'red-color':p?.is_pending}">
               {{p?.outstanding_amount && p?.outstanding_amount > 0 ? (p?.outstanding_amount | currency) : ''}}
             </span>
-            <!-- <span [ngClass]="{'red-color':(p?.amount != p?.collection_payment?.amount) && p?.collection_payment?.amount}">
-                  {{p?.is_paid_calculated!=1 && p?.amount ? ((p?.amount || 0) | currency) : ''}}
-                </span> -->
           </td>
-          <!-- <td>
-                {{p?.collection_payment ? (p?.collection_payment?.amount | currency) : ''}}
-              </td> -->
           <td>
             {{p?.amount ? ((p?.amount || 0) | currency) : ''}}
           </td>
-          <!-- <td>
-                <a class="green-color fontW500" *ngIf="p?.collection_payment && p?.key!='total'" target="_blank" href="{{p?.collection_payment?.receipt}}">
-                  {{'quickVisualization.view' | translate}}
-                </a>
-              </td>
-              <td>
-                <button class="action-icon" *ngIf="p?.collection_payment?.description" (click)="showDescription(p?.collection_payment?.description, 1)">
-                    <img src="assets/img/eye-icon.png" alt="img">
-                </button>
-              </td> -->
           <td>
             {{p?.penalty ? ((p?.penalty?.amount || 0) | currency) : ''}}
           </td>
@@ -727,10 +707,6 @@
               <span *ngIf="collectionCommission[i]?.pay_minus"><i class="fa fa-angle-down"
                   aria-hidden="true"></i></span>
             </a></td>
-          <!-- <td>
-                  {{collectionCommission[i]?.purchase_payment ? 
-                    ((collectionCommission[i]['purchase_payment']?.amount + (collectionCommission[i]['purchase_payment']?.iva_amount || 0)) | currency) : ''}}
-                </td> -->
           <td>
             {{collectionCommission[i]?.purchase_payment ? (collectionCommission[i]['purchase_payment']?.payment_date |
             date:'dd/MMM/yyyy') : ''}}</td>
@@ -773,9 +749,6 @@
                   aria-hidden="true"></i></span>
             </a>
           </td>
-          <!-- <td> {{collectionCommission[i]?.payment ? 
-                ((collectionCommission[i]['payment']?.amount + (collectionCommission[i]['payment']?.iva_amount || 0)) | currency) : ''}}
-              </td> -->
           <td>
             {{collectionCommission[i]?.payment ? (collectionCommission[i]['payment']?.payment_date | date:'dd/MMM/yyyy')
             : ''}}</td>
@@ -1245,8 +1218,8 @@
 
               </thead>
 
-              <tbody *ngFor="let pur of outside_agent_payments; let s=index">
-                <td>Commission&nbsp;{{s+0}}</td>
+              <tbody *ngFor="let pur of outside_agent_payments; let o=index">
+                <td>Commission&nbsp;{{o+0}}</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -1254,7 +1227,8 @@
                 <td></td>
                 <td></td>
                 <td style="color: black;">
-                  {{pur?((pur?.amount) | currency) : ''}}</td>
+                  {{pur ? (pur?.amount | currency) : ''}}
+                </td>
 
                 <td style="color: red;">
                   {{pur ? (pur?.payment_date | date:'dd/MMM/yyyy') : ''}}

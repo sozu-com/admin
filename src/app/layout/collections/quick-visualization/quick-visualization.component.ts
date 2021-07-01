@@ -224,6 +224,7 @@ export class QuickVisualizationComponent implements OnInit {
           this.paymentConcepts = [...this.allPaymentConcepts];
 
           this.collectionCommission = success['data']['collection_commissions'];
+         
           self.collectionCommission.forEach((r) => {
               for (let i = 0; i < (r.purchase_payment || []).length; i++) {
                 let sum: number = r.purchase_payment.map(a => a.amount).reduce(function(a, b)
@@ -491,8 +492,10 @@ export class QuickVisualizationComponent implements OnInit {
     });
   }
   getOutAgent1Info(item: any) {
+    console.log(item,"item");
     this.outside_agent_payments = [];
     this.collectionCommission.forEach((r) => {
+      console.log((r.payment_choice || {}).id,"kdfji");
       if (item == (r.payment_choice || {}).id) {
         for (let i = 0; i < (r.outside_agent_payment || []).length; i++) {
           const paymntsss = r.outside_agent_payment[i];

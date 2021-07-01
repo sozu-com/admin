@@ -66,6 +66,7 @@ export class CommissionIncomeComponent implements OnInit {
       {id: 1, name: this.translate.instant('collectionReport.purchaseCommission')},
       {id: 2, name: this.translate.instant('collectionReport.collectionCommission')},
       {id: 3, name: this.translate.instant('collectionReport.agentCommission')},
+      {id: 5, name: this.translate.instant('collectionReport.OutsiteagentCommission')},
       {id: 4, name: this.translate.instant('viewCollections.cancellation')}
     ];
     this.selectedCommissions = [

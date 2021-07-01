@@ -210,6 +210,12 @@ export class SalesReportComponent implements OnInit {
         color: '#b95500',
         name: 'Collections Without Agent',
         dataPoints: this.reportData['not_linked']
+      }, {
+        type: 'stackedColumn',
+        showInLegend: true,
+        name: 'Inhose and Outside Approved Collections',
+        color: '#2d2a2a',
+        dataPoints: this.reportData['approved_unapproved']
       }]
     });
 
