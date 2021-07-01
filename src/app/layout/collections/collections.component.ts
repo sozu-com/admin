@@ -1388,10 +1388,10 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       }
     } else if (this.commission_type == 5) {
       for (let i = 0; i < (item.outside_agent_payment || []).length; i++) {
-        let sum1: number = item.outside_agent_payment.map(a => a.amount).reduce(function (a, b) {
+        let sum4: number = item.outside_agent_payment.map(a => a.amount).reduce(function (a, b) {
           return a + b;
         });
-        this.outside_agent_payment = sum1;
+        this.outside_agent_payment = sum4;
       }
     }else {
       for (let i = 0; i < (item.payment || []).length; i++) {
@@ -1431,32 +1431,33 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         this.paymentAmount = (item.purchase_comm_amount || 0);
         this.test_pay = item.purchase_comm_amount || 0;
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_pc)) {
-          this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
-          this.paymentAmount = this.paymentAmount + this.ivaAmount - (this.purchase__amount || 0);
+          this.ivaAmount = (parseFloat(this.paymentAmount) * parseFloat(this.selectedItem.iva_percent)) / 100;
+          this.paymentAmount = (parseFloat(this.paymentAmount) + parseFloat(this.ivaAmount) - parseFloat(this.purchase__amount || 0)).toFixed(2);
         }
-        this.getValue(this.commission_type, item)
+        this.getValue(this.commission_type, item);
       } else if (this.commission_type == 3) {
         this.paymentAmount = (item.agent_comm_amount || 0);
         this.test_agent = item.agent_comm_amount || 0;
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_ac)) {
-          this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
-          this.paymentAmount = this.paymentAmount + this.ivaAmount - (this.agent_amount || 0);
+          this.ivaAmount = (parseFloat(this.paymentAmount) * parseFloat(this.selectedItem.iva_percent)) / 100;
+          this.paymentAmount = (parseFloat(this.paymentAmount) + parseFloat(this.ivaAmount) - parseFloat(this.agent_amount || 0)).toFixed(2);
         }
         this.getValue(this.commission_type, item);
       } else if (this.commission_type == 5) {
         this.paymentAmount = (item.agent_outside_comm_amount || 0);
         this.test1_agent = item.agent_outside_comm_amount || 0;
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_oac)) {
-          this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
-          this.paymentAmount = this.paymentAmount + this.ivaAmount - (this.outside_agent_payment || 0);
+          this.ivaAmount = (parseFloat(this.paymentAmount) * parseFloat(this.selectedItem.iva_percent)) / 100;
+          this.paymentAmount = (parseFloat(this.paymentAmount) + parseFloat(this.ivaAmount) - parseFloat(this.outside_agent_payment || 0)).toFixed(2);
+          console.log(this.paymentAmount,"two");
         }
         this.getValue(this.commission_type, item);
       } else {
         this.paymentAmount = (item.amount || 0);
         this.test_Collection = item.amount || 0;
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_cc)) {
-          this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
-          this.paymentAmount = this.paymentAmount + this.ivaAmount - (this.collection_amount || 0);
+          this.ivaAmount = (parseFloat(this.paymentAmount) * parseFloat(this.selectedItem.iva_percent)) / 100;
+          this.paymentAmount = (parseFloat(this.paymentAmount) + parseFloat(this.ivaAmount) - parseFloat(this.collection_amount || 0)).toFixed(2);
         }
         this.getValue(this.commission_type, item);
       }
@@ -1563,9 +1564,10 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       .subscribe(
         success => {
           this.sumData = success['data'];
-          const expected = parseInt(this.sumData.iva_percent)  * parseInt(this.sumData.ecpected) / 100;
-          const total_expect = parseInt(this.sumData.ecpected) + expected;
-          this.paid_amount = total_expect - parseInt(this.sumData.paid_amount);
+          const expected = parseFloat(this.sumData.iva_percent)  * parseFloat(this.sumData.ecpected) / 100;
+          const total_expect = parseFloat(this.sumData.ecpected) + expected;
+          this.paid_amount = (total_expect - parseFloat(this.sumData.paid_amount)).toFixed(2);
+          console.log(this.paid_amount,"one");
         })
   }
   // apply payment, comision payment or supermoney payment function

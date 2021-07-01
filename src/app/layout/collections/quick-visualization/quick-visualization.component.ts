@@ -466,6 +466,11 @@ export class QuickVisualizationComponent implements OnInit {
           const paymnts = r.purchase_payment[i];
           this.purchase_payments.push(paymnts);
         }
+      }else{
+        for (let i = 0; i < (r.purchase_payment || []).length; i++) {
+          const paymnts = r.purchase_payment[i];
+          this.purchase_payments.push(paymnts);
+        }
       }
     });
   }
@@ -473,6 +478,11 @@ export class QuickVisualizationComponent implements OnInit {
     this.collection_payments = [];
     this.collectionCommission.forEach((r) => {
       if (item == (r.payment_choice || {}).id) {
+        for (let i = 0; i < (r.payment || []).length; i++) {
+          const paymntss = r.payment[i];
+          this.collection_payments.push(paymntss);
+        }
+      }else{
         for (let i = 0; i < (r.payment || []).length; i++) {
           const paymntss = r.payment[i];
           this.collection_payments.push(paymntss);
@@ -488,15 +498,23 @@ export class QuickVisualizationComponent implements OnInit {
           const paymntsss = r.agent_payment[i];
           this.agent_payments.push(paymntsss);
         }
+      }else{
+        for (let i = 0; i < (r.agent_payment || []).length; i++) {
+          const paymntsss = r.agent_payment[i];
+          this.agent_payments.push(paymntsss);
+        }
       }
     });
   }
   getOutAgent1Info(item: any) {
-    console.log(item,"item");
     this.outside_agent_payments = [];
     this.collectionCommission.forEach((r) => {
-      console.log((r.payment_choice || {}).id,"kdfji");
       if (item == (r.payment_choice || {}).id) {
+        for (let i = 0; i < (r.outside_agent_payment || []).length; i++) {
+          const paymntsss = r.outside_agent_payment[i];
+          this.outside_agent_payments.push(paymntsss);
+        }
+      }else{
         for (let i = 0; i < (r.outside_agent_payment || []).length; i++) {
           const paymntsss = r.outside_agent_payment[i];
           this.outside_agent_payments.push(paymntsss);

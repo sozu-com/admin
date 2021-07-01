@@ -202,7 +202,7 @@ export class SalesReportComponent implements OnInit {
         type: 'stackedColumn',
         showInLegend: true,
         name: 'Outside Agent Approved Collections',
-        color: '#2d2a2a',
+        color: '#000',
         dataPoints: this.reportData['unapproved']
       }, {
         type: 'stackedColumn',
@@ -214,7 +214,7 @@ export class SalesReportComponent implements OnInit {
         type: 'stackedColumn',
         showInLegend: true,
         name: 'Inhose and Outside Approved Collections',
-        color: '#2d2a2a',
+        color: '#8c8c8c',
         dataPoints: this.reportData['approved_unapproved']
       }]
     });
