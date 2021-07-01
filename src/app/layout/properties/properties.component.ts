@@ -493,9 +493,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     if (this.property_for !== '' && this.property_for !== '0') {
       input.property_for = this.property_for.filter(f => { return f.is_selected == true }).map(r => { return r.id })[0] || '';
     }
-    if (this.possession_status_id !== '' && this.possession_status_id !== '0') {
-      input.possession_status_id = this.possession_status_id.filter(f => { return f.is_selected == true }).map(r => { return r.id })[0] || '';
-    }
+    // if (this.possession_status_id !== '' && this.possession_status_id !== '0') {
+    //   input.possession_status_id = this.possession_status_id.filter(f => { return f.is_selected == true }).map(r => { return r.id })[0] || '';
+    // }
     
     input.bedroom = this.bedrooms.filter(f => { return f.is_selected == true }).map(r => { return r.name });
     input.bathroom = this.bathrooms.filter(f => { return f.is_selected == true }).map(r => { return r.name });
