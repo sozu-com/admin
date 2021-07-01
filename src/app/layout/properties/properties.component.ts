@@ -128,21 +128,21 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     { is_selected: false, name: '2' },
     { is_selected: false, name: '3' },
     { is_selected: false, name: '4' },
-    { is_selected: false, name: '5+'}
+    { is_selected: false, name: '+5'}
   ];
   bathrooms: any = [
     { is_selected: false, name: '1' },
     { is_selected: false, name: '2' },
     { is_selected: false, name: '3' },
     { is_selected: false, name: '4' },
-    { is_selected: false, name: '5+'}
+    { is_selected: false, name: '+5'}
   ];
   halfBathrooms: any = [
     { is_selected: false, name: '1' },
     { is_selected: false, name: '2' },
     { is_selected: false, name: '3' },
     { is_selected: false, name: '4' },
-    { is_selected: false, name: '5+'}
+    { is_selected: false, name: '+5'}
   ];
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;

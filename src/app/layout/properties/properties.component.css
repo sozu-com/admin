@@ -1,14 +1,88 @@
-.cust-radio[_ngcontent-c4] {
+.circle-radio {
   position: relative;
-  /* padding-left: 0; */
-  padding: 2px;
-  margin-bottom: 3px;
+  padding: 0px 10px 0px 0px;
   cursor: pointer;
+  font-size: 14px;
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
 }
+.circle-radio input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+input[type=checkbox], input[type=radio] {
+  box-sizing: border-box;
+  padding: 0;
+}
 
+.circle-radio input:checked ~ .checkmark {
+  background-color: #00B96F;
+  border: 1px solid #00B96F;
+  color: #fff;
+}
+.circle-radio .checkmark {
+  box-sizing: border-box;
+  height: 30px;
+  width: 30px;
+  border-radius: 29px;
+  border: 1px solid #BDBDBD;
+  text-align: center;
+  display: inline-block;
+  padding: 3px 9px 0px 5px;
+}
+.cust-radio {
+  position: relative;
+  padding: 0px 10px 0px 0px;
+  cursor: pointer;
+  font-size: 14px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.cust-radio .checkmark {
+  border-radius: 20px;
+    text-align: center;
+    border: 1px solid #BDBDBD;
+    padding-top: 2px;
+    display: inline-block;
+    padding: 3px 10px;
+    min-width: 88px;
+}
+.cust-radio input:checked ~ .checkmark {
+  background-color: #00B96F;
+  border: 1px solid #00B96F;
+  color: #fff;
+}
+h4.serch-title {
+  height: 19px;
+  width: 192px;
+  color: #333;
+  font-family: "sf_ui_textregular";
+  font-size: 16px;
+  line-height: 19px;
+  margin-bottom: 19px;
+}
+h4.serch1-title {
+  height: 19px;
+  width: 192px;
+  color: #333;
+  font-family: "sf_ui_textregular";
+  font-size: 16px;
+}
+h4.configuration-title{
+  height: 17px;
+    width: 101px;
+    color: #333;
+    font-family: "sf_ui_textlight";
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 17px;
+    margin-left: 16px;
+    margin-bottom: 19px;
+}
 input[type="text"] {
     background-color : white; 
 }
@@ -54,21 +128,20 @@ margin-left: 29px;
     left: 0;
     right: 0;
     bottom: 0;
-    width: 76px;
+    width: 49px;
+    height: 24px;
     background-color: #00B96F;
-    -webkit-transition: .4s;
     transition: .4s;
   }
   
   .slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
-    left: 16px;
-    bottom: 4px;
+    height: 18px;
+    width: 19px;
+    left: 2px;
+    bottom: 3px;
     background-color: white;
-    -webkit-transition: .4s;
     transition: .4s;
   }
   

@@ -1284,7 +1284,8 @@
      border-top-style: solid;
      border-top-width: thick;
      border-top-color: rgb(0, 185, 111); border-radius: 5px;
-     box-shadow: 0px -2px 0px 7px rgb(105,105,105);width: 85%;">
+     box-shadow: 0px -2px 0px 7px rgb(105,105,105);width: 783px;
+    height: 1296px;">
          <div class="modal-header modal-header-new" style="background-color: white;">
             <h4 class="modal-title" style="color: #333;
             font-family: 'sf_ui_textmedium';
@@ -1295,7 +1296,7 @@
          </div>
 
          <form class="form-horizontal form-model0P form-model-newP">
-            <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.selectAvailability' | translate}}</h4>
+            <h4 class="serch-title">{{'advanceSearch.selectAvailability' | translate}}</h4>
             <div class="row">
                <div class="form-group col-md-12">
                   <label class="cust-radio" *ngFor="let item of property_for">
@@ -1306,7 +1307,7 @@
                   <div class="clearfix"></div>
                </div>
             </div>
-            <h4 style="color: rgb(48, 46, 46); font-size: 18px;"> {{'advanceSearch.possessionStatus' | translate}}</h4>
+            <h4 class="serch-title"> {{'advanceSearch.possessionStatus' | translate}}</h4>
             <div class="row">
                <div class="form-group col-md-12">
                   <label class="cust-radio" *ngFor="let item of possession_status_id">
@@ -1317,7 +1318,7 @@
                   <div class="clearfix"></div>
                </div>
             </div>
-            <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.priceRange' | translate}}</h4>
+            <h4 class="serch-title">{{'advanceSearch.priceRange' | translate}}</h4>
             <div class="form-group-4 marginT20">
                <div class="row">
                   <div class="col-md-4 col-sm-12 col-12">
@@ -1342,7 +1343,7 @@
                </div>
             </div>
 
-            <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.carpetArea' | translate}}</h4>
+            <h4 class="serch-title">{{'advanceSearch.carpetArea' | translate}}</h4>
             <div class="form-group-4 marginT20">
                <div class="row">
                   <div class="col-md-4 col-sm-12 col-12">
@@ -1368,9 +1369,10 @@
             </div>
 
             <!-- PropertyType -->
-            <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.PropertyType' | translate}}</h4>
+            <h4 class="serch-title">{{'advanceSearch.PropertyType' | translate}}</h4>
             <div class="row">
-               <div class="form-group col-md-12">
+               <div class="form-group-3 col-md-12">
+                  <div class="clearfix"></div>
                   <label class="cust-radio" *ngFor="let item of propertyTypes;">
                      <input name="property_id" type="checkbox"
                         (click)="item.is_selected = !item.is_selected">
@@ -1380,7 +1382,7 @@
                </div>
             </div>
             <!-- ParkingDetails -->
-            <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.ParkingDetails' | translate}}</h4>
+            <h4 class="serch-title">{{'advanceSearch.ParkingDetails' | translate}}</h4>
             <div class="row">
                <div class="form-group col-md-1">
                   <p class="parking" style="
@@ -1390,7 +1392,7 @@
                   font-family: 'sf_ui_textlight';
                   font-size: 14px;
                   font-weight: 300;
-                  line-height: 17px;">
+                  line-height: 17px;margin-top: 7px;">
                      {{'advanceSearch.ParkingAvailable' | translate}}
                   </p>
                </div>
@@ -1408,7 +1410,7 @@
                   font-family: 'sf_ui_textlight';
                   font-size: 14px;
                   font-weight: 300;
-                  line-height: 17px;">
+                  line-height: 17px;margin-top: 7px;">
                      {{'advanceSearch.ParkingForSale' | translate}}
                   </p>
                </div>
@@ -1426,28 +1428,28 @@
            
             </div>
             <!-- configuration -->
-            <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.configuration' | translate}}</h4>
+            <h4 class="serch-title">{{'advanceSearch.configuration' | translate}}</h4>
             <div class="row">
+               <h4 class="configuration-title">{{'advanceSearch.Bedrooms' | translate}}</h4>
                <div class="form-group col-md-12">
-                  {{'advanceSearch.Bedrooms' | translate}}<br />
-                  <label class="cust-radio" *ngFor="let item of bedrooms;">
+                  <label class="circle-radio" *ngFor="let item of bedrooms;">
                      <input name="bedroom" type="checkbox"
                         (click)="item.is_selected = !item.is_selected">
                      <span class="checkmark" [ngClass]="{'unActive': !item.is_selected}">{{item?.name}}</span>
                   </label>
                   <div class="clearfix"></div>
                </div>
+               <h4 class="configuration-title">{{'advanceSearch.Bathrooms' | translate}}</h4>
                <div class="form-group col-md-12">
-                  {{'advanceSearch.Bathrooms' | translate}}<br />
-                  <label class="cust-radio" *ngFor="let item of bathrooms;">
+                  <label class="circle-radio" *ngFor="let item of bathrooms;">
                      <input name="bathroom" type="checkbox"
                         (click)="item.is_selected = !item.is_selected">
                      <span class="checkmark" [ngClass]="{'unActive': !item.is_selected}">{{item?.name}}</span>
                   </label>
                </div>
+               <h4 class="configuration-title"> {{'advanceSearch.HalfBathrooms' | translate}}</h4>
                <div class="form-group col-md-12">
-                  {{'advanceSearch.HalfBathrooms' | translate}}<br />
-                  <label class="cust-radio" *ngFor="let item of halfBathrooms;">
+                  <label class="circle-radio" *ngFor="let item of halfBathrooms;">
                      <input name="half_bathroom" type="checkbox"
                         (click)="item.is_selected = !item.is_selected">
                      <span class="checkmark" [ngClass]="{'unActive': !item.is_selected}">{{item?.name}}</span>
@@ -1457,9 +1459,8 @@
             <!-- Amenities -->
             <!-- <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.Amenities' | translate}}</h4> -->
             <div class="row">
-               <div class="form-group col-md-12">
-                  <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.AmenitiesProp' | translate}}
-                  </h4>
+               <div class="form-group col-md-6">
+                  <h4 class="serch1-title">{{'advanceSearch.AmenitiesProp' | translate}}</h4>
                   <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
                      name="selctedAmenities" [data]="amenities" [(ngModel)]="selctedAmenities"
                      [settings]="multiDropdownSettings" (onDeSelect)="unsetProject($event)"
@@ -1469,9 +1470,8 @@
                </div>
             </div>
             <div class="row">
-               <div class="form-group col-md-12">
-                  <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.AmenitiesProj' | translate}}
-                  </h4>
+               <div class="form-group col-md-6">
+                  <h4 class="serch1-title">{{'advanceSearch.AmenitiesProj' | translate}} </h4>
                   <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
                      name="selctedProjectAmenities" [data]="projectAmenities" [(ngModel)]="selctedProjectAmenities"
                      [settings]="multiDropdownSettings" (onDeSelect)="unsetProjectAmne($event)"
@@ -1479,33 +1479,43 @@
                   </ng-multiselect-dropdown>
                </div>
             </div>
-            <button type="submit" class="btn btn-success" (click)="searchProperties()" style="
-               border-left-color: rgb(0, 185, 111);
-               border-right-color: rgb(0, 185, 111);color: #fff;
-               border-color: #28a745;
-               height: 40px;
-               width: 180px;
-               border-radius: 2px;
-               background-color: #00B96F;">
-               {{'advanceSearch.search' | translate}}
-            </button>
-            &nbsp;&nbsp; &nbsp;&nbsp;
-
-            <button type="button" class="btn btn-danger" (click)="close()" style="height: 40px;
-            width: 180px;
-            border-radius: 2px;
-            background-color: #DC3545;">{{'advanceSearch.cancel' | translate}}</button>
-
-            &nbsp;&nbsp; &nbsp;&nbsp;
-
-            <button type="button" class="btn btn-danger" (click)="clearData()" style="background-color: white;
-               color: rgb(0, 185, 111);
-               box-sizing: border-box;
-               height: 40px;
-               width: 180px;
-               border-radius: 2px;
-               border: 1px solid #00B96F;">{{'advanceSearch.clearData' | translate}}</button>
-
+            <div class="row">
+               <div class="form-group col-md-3" style="text-align: left;">
+                  <button type="submit" 
+                  class="btn btn-success" 
+                  (click)="searchProperties()" 
+                  style="
+                  border-left-color: rgb(0, 185, 111);
+                  border-right-color: rgb(0, 185, 111);color: #fff;
+                  border-color: #28a745;
+                  height: 40px;
+                  width: 180px;
+                  border-radius: 2px;
+                  background-color: #00B96F;">
+                  {{'advanceSearch.search' | translate}}
+               </button>
+               </div>
+               <div class="form-group col-md-3" style="text-align: center;">
+                  <button type="button" 
+                  class="btn btn-danger" 
+                  (click)="close()" 
+                  style="height: 40px;
+                  width: 180px;
+                  border-radius: 2px;
+                  background-color: #DC3545;">
+                  {{'advanceSearch.cancel' | translate}}
+               </button>
+               </div>
+               <div class="form-group col-md-3" style="text-align: right;">
+                  <button type="button" class="btn btn-danger" (click)="clearData()" style="background-color: white;
+                  color: rgb(0, 185, 111);
+                  box-sizing: border-box;
+                  height: 40px;
+                  width: 180px;
+                  border-radius: 2px;
+                  border: 1px solid #00B96F;">{{'advanceSearch.clearData' | translate}}</button>
+               </div>
+            </div>
          </form>
       </div>
    </div>
