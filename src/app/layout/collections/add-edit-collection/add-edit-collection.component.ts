@@ -155,7 +155,7 @@ export class AddEditCollectionComponent implements OnInit {
   minimumDate: any;
   reminder_date: any;
   noteEmails: any;
-  isShown: boolean = false;
+  isShown: boolean = true;
   edit_reminder: boolean;
 
   public beneficiaries_list: any[] = [];
@@ -481,7 +481,7 @@ export class AddEditCollectionComponent implements OnInit {
       monthly_date: [''],
       monthly_amount: [''],
       email: [''],
-      day: [''],
+      day: ['01'],
       deal_purchase_date: ['', [Validators.required]],
       deal_price: ['', [Validators.required]],
       sum_of_concepts: [''],
@@ -495,6 +495,7 @@ export class AddEditCollectionComponent implements OnInit {
       this.addFormStep4.get('deal_price').enable({ onlySelf: true });
       this.addFormStep4.controls['email'].enable();
       this.addFormStep4.controls['day'].enable();
+      this.addFormStep4.controls.day.patchValue('01');
     } else {
       this.addFormStep4.get('deal_price').disable({ onlySelf: true });
       this.addFormStep4.controls['email'].disable();
@@ -956,7 +957,7 @@ export class AddEditCollectionComponent implements OnInit {
       this.addFormStep4.controls.email.patchValue(emails);
     }
     this.isShown = data.account_statement && data.account_statement.usersemail && data.account_statement.usersemail.length > 0 ? true : false;
-    this.addFormStep4.controls.day.patchValue(data.account_statement ? data.account_statement.day : '');
+    this.addFormStep4.controls.day.patchValue(data.account_statement ? data.account_statement.day : '01');
 
     if (data.property.property_offer_payment && data.property.property_offer_payment.length > 0 && data.offer_id) {
       let index = data.property.property_offer_payment.findIndex(x => x.random_id == data.offer_id);

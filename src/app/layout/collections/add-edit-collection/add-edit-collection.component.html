@@ -1945,7 +1945,7 @@
                 <label style="width: 100px;">{{'deshboard.date' | translate}}</label>
                 <div class="clearfix"></div>
                 <select name="day_list" id="day_list" formControlName="day" [disabled]="!edit_reminder && model.id"  style="width:126px;height:39px;">
-                  <option value="{{days <= 9 ? '0' + days : days}}" selected="days == addFormStep4.value.day" *ngFor="let days of day_list">{{days}}</option>
+                  <option value="{{days <= 9 ? '0' + days : days}}" selected="(days <= 9 ? '0' + days : days) == addFormStep4.value.day" *ngFor="let days of day_list">{{days}}</option>
                 </select>
                 <!-- <p-calendar class="form-control" formControlName="reminder_date" autocomplete="off"
                 [style]="{'width':'100%'}" name="date" class="sz-calendar" [showTime]="true"
