@@ -5,6 +5,10 @@ import { Building } from './addProperty.model';
 export class Collection {
     id: string;
     property_id: any;
+    add_iva_to_pc: any;
+    add_iva_to_ac: any;
+    add_iva_to_cc: any;
+    add_iva_to_oac: any;
     step: number;
     iva_percent: any;
     building_id: string;

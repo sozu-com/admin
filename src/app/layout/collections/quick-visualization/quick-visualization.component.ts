@@ -231,36 +231,56 @@ export class QuickVisualizationComponent implements OnInit {
                 {
                   return a + b;
                 });
-                const calculated_iva = this.model.iva_percent*sum/100;
-                 const calculated_sum =  sum + calculated_iva;
-                r.pay_minus = calculated_sum;
+                if ((this.model.iva_percent && this.model.add_iva_to_pc)) {
+                  const calculated_iva = this.model.iva_percent*sum/100;
+                  const calculated_sum =  sum + calculated_iva;
+                  r.pay_minus = calculated_sum;
+                }else{
+                  r.pay_minus = sum;
+                }
+                
             }
               for (let i = 0; i < (r.agent_payment || []).length; i++) {
                   let sum1: number = r.agent_payment.map(a => a.amount).reduce(function(a, b)
                   {
                     return a + b;
                   });
-                 const calculated_iva = this.model.iva_percent*sum1/100;
-                 const calculated_sum1 =  sum1 + calculated_iva;
-                 r.agent_minus = calculated_sum1;
+                  if ((this.model.iva_percent && this.model.add_iva_to_ac)) {
+                    const calculated_iva = this.model.iva_percent*sum1/100;
+                    const calculated_sum1 =  sum1 + calculated_iva;
+                    r.agent_minus = calculated_sum1;
+                  }else{
+                    r.agent_minus = sum1;
+                  }
+                
               }
               for (let i = 0; i < (r.outside_agent_payment || []).length; i++) {
                 let sum5: number = r.outside_agent_payment.map(a => a.amount).reduce(function(a, b)
                 {
                   return a + b;
                 });
-               const calculated_iva = this.model.iva_percent*sum5/100;
-               const calculated_sum1 =  sum5 + calculated_iva;
-               r.agent1_minus = calculated_sum1;
+              
+               if ((this.model.iva_percent && this.model.add_iva_to_oac)) {
+                const calculated_iva = this.model.iva_percent*sum5/100;
+                const calculated_sum1 =  sum5 + calculated_iva;
+                r.agent1_minus = calculated_sum1;
+              }else{
+                r.agent1_minus = sum5;
+              }
             }
               for (let i = 0; i < (r.payment || []).length; i++) {
                 let sum2: number = r.payment.map(a => a.amount).reduce(function(a, b)
                 {
                   return a + b;
                 });
-                const calculated_iva_pay = this.model.iva_percent*sum2/100;
+                if ((this.model.iva_percent && this.model.add_iva_to_cc)) {
+                  const calculated_iva_pay = this.model.iva_percent*sum2/100;
                 const calculated_sum2 =  sum2 + calculated_iva_pay  ;
                 r.collection_minus = calculated_sum2;
+                }else{
+                  r.collection_minus = sum2;
+                }
+                
             }
            
         });

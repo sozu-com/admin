@@ -27,6 +27,7 @@ import { count } from 'rxjs-compat/operator/count';
 import { OnDestroy } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { GenerateOfferPdfService } from 'src/app/services/generate-offer-pdf.service';
+import { E } from '@angular/core/src/render3';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 declare let swal: any;
 declare var $: any;
@@ -1564,10 +1565,42 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       .subscribe(
         success => {
           this.sumData = success['data'];
-          const expected = parseFloat(this.sumData.iva_percent)  * parseFloat(this.sumData.ecpected) / 100;
-          const total_expect = parseFloat(this.sumData.ecpected) + expected;
-          this.paid_amount = (total_expect - parseFloat(this.sumData.paid_amount)).toFixed(2);
-          console.log(this.paid_amount,"one");
+          if (this.commission_type == 1) {
+            if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_pc)) {
+              const expected = parseFloat(this.sumData.iva_percent)  * parseFloat(this.sumData.ecpected) / 100;
+              const total_expect = parseFloat(this.sumData.ecpected) + expected;
+              this.paid_amount = (total_expect - parseFloat(this.sumData.paid_amount)).toFixed(2);
+            }else{
+              this.paid_amount = (parseFloat(item.purchase_comm_amount || 0) - parseFloat(this.sumData.paid_amount || 0)).toFixed(2);
+            }
+          } else if (this.commission_type == 3) {
+           // this.paid_amount = (item.agent_comm_amount || 0);
+            if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_ac)) {
+              const expected = parseFloat(this.sumData.iva_percent)  * parseFloat(this.sumData.ecpected) / 100;
+              const total_expect = parseFloat(this.sumData.ecpected) + expected;
+              this.paid_amount = (total_expect - parseFloat(this.sumData.paid_amount)).toFixed(2);
+            }else{
+              this.paid_amount = (parseFloat(item.agent_comm_amount || 0) - parseFloat(this.sumData.paid_amount || 0)).toFixed(2);
+            }
+          } else if (this.commission_type == 5) {
+            //this.paid_amount = (item.agent_outside_comm_amount || 0);
+            if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_oac)) {
+              const expected = parseFloat(this.sumData.iva_percent)  * parseFloat(this.sumData.ecpected) / 100;
+              const total_expect = parseFloat(this.sumData.ecpected) + expected;
+              this.paid_amount = (total_expect - parseFloat(this.sumData.paid_amount)).toFixed(2);
+            }else{
+              this.paid_amount = (parseFloat(item.agent_outside_comm_amount || 0) - parseFloat(this.sumData.paid_amount || 0)).toFixed(2);
+            }
+          } else {
+            //this.paid_amount = (item.amount || 0);
+            if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_cc)) {
+              const expected = parseFloat(this.sumData.iva_percent)  * parseFloat(this.sumData.ecpected) / 100;
+              const total_expect = parseFloat(this.sumData.ecpected) + expected;
+              this.paid_amount = (total_expect - parseFloat(this.sumData.paid_amount)).toFixed(2);
+            }else{
+              this.paid_amount = (parseFloat(item.amount || 0) - parseFloat(this.sumData.paid_amount || 0)).toFixed(2);
+            }
+          }
         })
   }
   // apply payment, comision payment or supermoney payment function
