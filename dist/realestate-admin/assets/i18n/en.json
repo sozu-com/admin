@@ -116,7 +116,9 @@
     "type": "Commission Type",
     "purchase": "Purchase",
     "agent": "Agent",
-    "collection": "Collection"
+    "collection": "Collection",
+    "arrear_graph": "Arrear Graph",
+    "arrear_tabular": "Arrear Tabular"
   }
   },
   "addForm": {
