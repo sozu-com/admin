@@ -24,6 +24,16 @@ export class ArrearReportComponent implements OnInit {
   multiDropdownSettings: any;
   legalRepDropdownSettings: any;
   items: any = [];
+  dash: any = {
+    below_30: 0,
+    below_60: 0,
+    above_90: 0,
+    above_60: 0
+  };
+  colorScheme = {
+    domain: ['#DFDFDF','#4c4e50','#fff','#03b971']
+  };
+  view: any[] = [250, 250];
   total: any = 0;
   today: any;
   item: any;
@@ -37,6 +47,7 @@ export class ArrearReportComponent implements OnInit {
   developers: Array<any>;
   buyers: Array<any>;
   legalReps: Array<any>;
+  chartView: any = [];
   selectedBuilding: any;
   previousMonth: any;
   nextMonth: any;
@@ -80,7 +91,7 @@ export class ArrearReportComponent implements OnInit {
     this.getAllPaymentChoices();
     this.getListing();
     this.generateOverdueReport();
-
+    Object.assign(this, this.chartView);
     this.translate.onDefaultLangChange.subscribe((event: LangChangeEvent) => {
       this.initCalendarLocale();
     });
@@ -230,6 +241,8 @@ export class ArrearReportComponent implements OnInit {
           this.legalReps = success.data;
         });
   }
+
+
   getListing() {
     this.spinner.show();
     let self = this;
@@ -444,16 +457,37 @@ export class ArrearReportComponent implements OnInit {
       input.buyer_dev_id = d;
     }
     this.isShow = false;
-    this.admin.postDataApi('generateOverdueReport', input).subscribe((success) => {
+    this.admin.postDataApi('generateOverdueReport', input).subscribe(r => {
       this.spinner.hide();
-      this.overdueReportDetails = success.data || {};
-      this.overdueReportDetails.above_60 = parseFloat(this.overdueReportDetails.above_60 );
-      this.overdueReportDetails.above_90 = parseFloat(this.overdueReportDetails.above_90 );
-      this.overdueReportDetails.below_30 = parseFloat(this.overdueReportDetails.below_30 );
-      this.overdueReportDetails.below_60 = parseFloat(this.overdueReportDetails.below_60 );
-      this.overdueReportDetails['overdueTotal'] = ((this.overdueReportDetails.below_30 || 0) + (this.overdueReportDetails.below_60 || 0) + 
-       (this.overdueReportDetails.above_60 || 0) + (this.overdueReportDetails.above_90 || 0));
-       this.isShow = true;
+      this.dash  = r.data;
+      this.chartView = [
+        {
+          'name': '61-90',
+          'value': parseFloat(this.dash.above_60)
+        },
+        {
+          'name': '31-60',
+          'value': parseFloat(this.dash.below_60)
+        },
+        {
+          'name': '91+',
+          'value': parseFloat(this.dash.above_90)
+        },
+        {
+          'name': '1-30',
+          'value': parseFloat(this.dash.below_30)
+        }
+      ];
+     
+     
+      // this.overdueReportDetails = r.data;
+      this.dash.above_60 = parseFloat(this.dash.above_60 );
+      this.dash.above_90 = parseFloat(this.dash.above_90 );
+      this.dash.below_30 = parseFloat(this.dash.below_30 );
+      this.dash.below_60 = parseFloat(this.dash.below_60 );
+      // this.overdueReportDetails['overdueTotal'] = ((this.overdueReportDetails.below_30 || 0) + (this.overdueReportDetails.below_60 || 0) + 
+      // (this.overdueReportDetails.above_60 || 0) + (this.overdueReportDetails.above_90 || 0));
+      // this.isShow = true;
     }, (error) => {
       this.spinner.hide();
     });

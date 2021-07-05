@@ -116,7 +116,9 @@
       "type": "Tipo de comisión",
       "purchase": "Compra",
       "agent": "Agente",
-      "collection": "Colección"
+      "collection": "Colección",
+      "arrear_graph": "Gráfico de atraso",
+      "arrear_tabular": "Tabular atrasado"
     }
   },
   "addForm": {
