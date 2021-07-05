@@ -62,9 +62,9 @@ export class ArrearReportComponent implements OnInit {
   incomeProjection: Array<any>;
   paidConcepts: Array<any>;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
-  public overdueReportDetails: any;
+  overdueReportTableDetails: any;
   public isShow :boolean= true;
-
+  tested: any;
   constructor(
     public constant: Constant,
     public admin: AdminService,
@@ -82,6 +82,7 @@ export class ArrearReportComponent implements OnInit {
     this.input.start_date = moment().subtract(12, 'months').toDate();
     this.input.end_date = moment().toDate();
     this.nextMonth = moment().add(1, 'months').toDate();
+    this.generateTableReport();
     this.getDevelopers();
     this.getBuyers();
     this.getLegalRep();
@@ -356,11 +357,13 @@ export class ArrearReportComponent implements OnInit {
     this.selectedBuyers = [];
     this.getListing();
     this.generateOverdueReport();
+    this.generateTableReport();
   }
 
   apply(){
     this.getListing();
     this.generateOverdueReport(); 
+    this.generateTableReport();
   }
 
   exportData() {
@@ -488,6 +491,54 @@ export class ArrearReportComponent implements OnInit {
       // this.overdueReportDetails['overdueTotal'] = ((this.overdueReportDetails.below_30 || 0) + (this.overdueReportDetails.below_60 || 0) + 
       // (this.overdueReportDetails.above_60 || 0) + (this.overdueReportDetails.above_90 || 0));
       // this.isShow = true;
+    }, (error) => {
+      this.spinner.hide();
+    });
+  }
+
+
+  generateTableReport() {
+    this.spinner.show();
+    const input: any = JSON.parse(JSON.stringify(this.input));
+    input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
+    input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
+    input.year = new Date(this.input.end_date).getFullYear(),
+    input.month = new Date(this.input.end_date).getMonth() + 1;
+
+    this.previousMonth = moment(this.input.end_date).subtract(1, 'months').toDate();
+    this.nextMonth = moment(this.input.end_date).add(1, 'months').toDate();
+
+    if (this.selctedProjects) {
+      const d = this.selctedProjects.map(o => o.id);
+      input.building_id = d;
+    }
+    if (this.selectedCurrencies) {
+      const d = this.selectedCurrencies.map(o => o.id);
+      input.currency_id = d;
+    }
+    if (this.selectedBuyers) {
+      const d = this.selectedBuyers.map(o => o.id);
+      input.buyer_id = d;
+    }
+    if (this.selectedLegalReps) {
+      const d = this.selectedLegalReps.map(o => o.id);
+      input.legal_rep_id = d;
+    }
+    if (this.selectedBuyerDev) {
+      const d = this.selectedBuyerDev.map(o => o.id);
+      input.buyer_dev_id = d;
+    }
+    //this.isShow = false;
+    this.admin.postDataApi('generateOverdueReportIntable', input).subscribe(r => {
+      this.spinner.hide();
+      this.overdueReportTableDetails  = r.data;
+      this.tested  = Object.values(r.data);
+      for (let index = 0; index < this.tested.length; index++) {
+        const element = this.tested[index];
+        element['overdueTotal'] = (parseFloat(element.below_30 || 0) + parseFloat(element.below_60 || 0) + 
+       parseFloat(element.above_60 || 0) + parseFloat(element.above_90 || 0));
+      }
+      console.log(this.tested);
     }, (error) => {
       this.spinner.hide();
     });
