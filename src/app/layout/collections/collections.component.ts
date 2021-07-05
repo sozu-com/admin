@@ -1450,7 +1450,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_oac)) {
           this.ivaAmount = (parseFloat(this.paymentAmount) * parseFloat(this.selectedItem.iva_percent)) / 100;
           this.paymentAmount = (parseFloat(this.paymentAmount) + parseFloat(this.ivaAmount) - parseFloat(this.outside_agent_payment || 0)).toFixed(2);
-          console.log(this.paymentAmount,"two");
+          
         }
         this.getValue(this.commission_type, item);
       } else {
