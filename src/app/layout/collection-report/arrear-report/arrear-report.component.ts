@@ -538,7 +538,6 @@ export class ArrearReportComponent implements OnInit {
         element['overdueTotal'] = (parseFloat(element.below_30 || 0) + parseFloat(element.below_60 || 0) + 
        parseFloat(element.above_60 || 0) + parseFloat(element.above_90 || 0));
       }
-      console.log(this.tested);
     }, (error) => {
       this.spinner.hide();
     });
