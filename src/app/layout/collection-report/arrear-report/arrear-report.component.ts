@@ -8,6 +8,7 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { CollectionReport } from '../../../models/collection-report.model';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
+import { KeyValue } from '@angular/common';
 import { PricePipe } from 'src/app/pipes/price.pipe';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
@@ -243,6 +244,9 @@ export class ArrearReportComponent implements OnInit {
         });
   }
 
+  valueOrder = (a: KeyValue<number,string>, b: KeyValue<number,string>): number => {
+    return a.value.localeCompare(b.value);
+  }
 
   getListing() {
     this.spinner.show();

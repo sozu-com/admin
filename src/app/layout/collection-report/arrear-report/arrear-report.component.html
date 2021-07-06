@@ -484,7 +484,7 @@
                                           </tr>
                                     </thead>
                                     <tbody>
-                                          <tr *ngFor="let item of overdueReportTableDetails | keyvalue">
+                                          <tr *ngFor="let item of overdueReportTableDetails | keyvalue: valueOrder">
                                                 <td>
                                                       <span class="green-color cursor-pointer" 
                                                       routerLink="/dashboard/collections/view-collections/{{item.key}}">{{item.key}}</span>
