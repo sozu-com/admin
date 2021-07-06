@@ -63,26 +63,30 @@
         <p class="p10">{{'commonBlock.iWouldLikeToKnwMoreAbtYou' | translate}}</p>
 
         <p class="p11">{{'commonBlock.bedroom' | translate}}</p>
-        <label class="cust-radio" *ngFor="let count of configurationCount">
-            <input [disabled]="sent_as==2" name="bathroom" type="checkbox" (change)="setPrefValue('bathroom', count)"
-                [checked]="updatePeriodTypes(count)">
-            <span class="checkmark">{{count}}</span>
+        <!-- <label class="cust-radio" *ngFor="let item of bedrooms;">
+            <input name="bedroom" type="checkbox"
+               (click)="item.is_selected = !item.is_selected">
+            <span class="checkmark" [ngClass]="{'unActive': !item.is_selected}">{{item?.name}}</span>
+         </label> -->
+        <label class="cust-radio" *ngFor="let bedroom of bedrooms;">
+            <input [disabled]="sent_as==2" name="bedroom" type="checkbox" [checked]="updatePeriodTypes(noteEmails)?'checked':''">
+            <span class="checkmark">{{bedroom.name}}</span>
         </label>
         <div class="clearfix"></div>
 
         <p class="p11">{{'commonBlock.bathroom' | translate}}</p>
-        <label class="cust-radio" *ngFor="let count of configurationCount">
-            <input [disabled]="sent_as==2" name="bathroom" type="radio" (change)="setPrefValue('bathroom', count)"
-                [checked]="_leadData.lead_bathroom.bathroom == count ?'checked':''">
-            <span class="checkmark">{{count}}</span>
+        <label class="cust-radio" *ngFor="let bedroom of bedrooms">
+            <input [disabled]="sent_as==2" name="bathroom" type="radio" (change)="setPrefValue('bathroom', bedroom)"
+                [checked]="_leadData.lead_bathroom.bathroom == bedroom ?'checked':''">
+            <span class="checkmark">{{bedroom.name}}</span>
         </label>
         <div class="clearfix"></div>
 
         <p class="p11">{{'commonBlock.halfBathroom' | translate}}</p>
-        <label class="cust-radio" *ngFor="let count of configurationCount">
-            <input [disabled]="sent_as==2" name="half_bathroom" type="radio" (change)="setPrefValue('half_bathroom', count)"
-                [checked]="_leadData.lead_half_bedroom.half_bathroom == count ?'checked':''">
-            <span class="checkmark">{{count}}</span>
+        <label class="cust-radio" *ngFor="let bedroom of bedrooms">
+            <input [disabled]="sent_as==2" name="half_bathroom" type="radio" (change)="setPrefValue('half_bathroom', bedroom)"
+                [checked]="_leadData.lead_half_bedroom.half_bathroom == bedroom ?'checked':''">
+            <span class="checkmark">{{bedroom.name}}</span>
         </label>
         <div class="clearfix"></div>
     </div>

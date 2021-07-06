@@ -44,7 +44,7 @@ get leadData(): any {
   model: AddPrefrences;
   configurationCount: Array<string>;
   locale: any;
-  temp_array :any = [];
+  temp_array :any = [];noteEmails: any;
   configurationCounted:any = [1, 2, 3, 4, 5];
   bedrooms: any = [
     { is_selected: false, name: 1 },
@@ -74,7 +74,7 @@ get leadData(): any {
       weekHeader: 'Wk'
     };
     this.today = new Date();
-    this.configurationCount = ['1', '2', '3', '4', '5+'];
+    //this.configurationCount = ['1', '2', '3', '4', '5+'];
     
     this.dropdownSettings = {
       singleSelection: false,
@@ -102,9 +102,19 @@ get leadData(): any {
   }
   updatePeriodTypes(count){
     if (this._leadData.lead_bedroom) {
-      for (let i = 0; i < this._leadData.lead_bedroom.length; i++) {
-        return this._leadData.lead_bedroom[i].bedroom==count ? true : false;
-      }
+      // const selectedCountry = this._leadData.lead_bedroom.filter(x => {
+      //   if(x.bedroom === count){
+      //     return x.bedroom === count ? true : false;
+      //   }
+      // });
+      
+      let newArray = [];
+    for (var i = 0; i < this._leadData.lead_bedroom.length; i++) {
+      let mails = this._leadData.lead_bedroom[i].bedroom;
+      newArray.push(mails);
+    }
+    this.noteEmails = newArray
+    console.log(this.noteEmails,"hgdy");
     }
   }
   getPrefOptions() {
