@@ -69,6 +69,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this.admin.adminLogin(email.toLowerCase(), password)
       .subscribe(
         success => {
+          localStorage.setItem('all', JSON.stringify(success));
           this.spinner.hide();
           if (success.data.is_blocked === 1) {
             swal(this.translate.instant('swal.error'), this.translate.instant('login.blockedByAdmin'), 'error');
