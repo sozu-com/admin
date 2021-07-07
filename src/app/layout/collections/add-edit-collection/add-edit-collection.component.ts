@@ -481,7 +481,7 @@ export class AddEditCollectionComponent implements OnInit {
       monthly_date: [''],
       monthly_amount: [''],
       email: [''],
-      day: ['01'],
+      day: [''],
       deal_purchase_date: ['', [Validators.required]],
       deal_price: ['', [Validators.required]],
       sum_of_concepts: [''],
@@ -500,6 +500,7 @@ export class AddEditCollectionComponent implements OnInit {
       this.addFormStep4.get('deal_price').disable({ onlySelf: true });
       this.addFormStep4.controls['email'].disable();
       this.addFormStep4.controls['day'].disable();
+      this.addFormStep4.controls.day.patchValue('');
     }
   }
 
@@ -3087,11 +3088,13 @@ export class AddEditCollectionComponent implements OnInit {
     if (value) {
       this.addFormStep4.controls['email'].enable();
       this.addFormStep4.controls['day'].enable();
+      this.addFormStep4.controls.day.patchValue('01');
       this.edit_reminder = true;
     }
     else {
       this.addFormStep4.controls['email'].disable();
       this.addFormStep4.controls['day'].disable();
+      this.addFormStep4.controls.day.patchValue('');
       this.edit_reminder = false;
     }
   }

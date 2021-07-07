@@ -23,6 +23,9 @@ export class CommonService {
   public propertyDetails = new BehaviorSubject({});
   propertyDetailsData$ = this.propertyDetails.asObservable();
 
+  public notificationUnreadCount = new BehaviorSubject(0);
+  notificationUnreadCount$ = this.notificationUnreadCount.asObservable();
+
   public parameter: IProperty = {};
   constructor(public admin: AdminService, private router: Router, private spinner: NgxSpinnerService,
     private translate: TranslateService) { }

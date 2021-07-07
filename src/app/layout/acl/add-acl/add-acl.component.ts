@@ -217,6 +217,7 @@ export class AddAclComponent implements OnInit {
     input.append('is_csr_renter', this.model.is_csr_renter ? '1' : '0');
     input.append('is_alliance_agent', this.model.is_alliance_agent ? '1' : '0');
     input.append('is_cordinator', this.model.is_cordinator ? '1' : '0');
+    input.append('can_csr_coordinator', this.model.can_csr_coordinator ? '1' : '0');
     input.append('have_access', '1');
 
     if (this.model.is_external_agent && this.model.is_company == 'false') {
@@ -365,6 +366,7 @@ export class AddAclComponent implements OnInit {
       this.model.is_credit_agent = userdata.permissions && userdata.permissions.can_credit_agent == 1 ? true : false;
       this.model.is_alliance_agent = userdata.permissions && userdata.permissions.can_alliance_agent == 1 ? true : false;
       this.model.is_cordinator = userdata.permissions && userdata.permissions.can_cordinator == 1 ? true : false;
+      this.model.can_csr_coordinator = userdata.permissions && userdata.permissions.can_csr_coordinator == 1 ? true : false;
 
       for (let ind = 0; ind < userdata.countries.length; ind++) {
         const tempAdd = {
@@ -747,6 +749,10 @@ export class AddAclComponent implements OnInit {
           title: this.translate.instant('addForm.manageCommissions'),
           key: 'can_manage_commission',
           value: this.model.is_cordinator
+        }, {
+          title: this.translate.instant('addForm.csrCoordinator'),
+          key: 'can_csr_coordinator',
+          value: this.model.can_csr_coordinator
         }
 
         // {

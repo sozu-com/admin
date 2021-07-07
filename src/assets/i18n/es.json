@@ -672,7 +672,8 @@
       "chooseDate": "Elegir fecha",
       "parkingLotSpacesEn": "Nombre del tipos de estacionamientos (Inglés)",
       "parkingLotSpacesEs": "Nombre del tipos de estacionamientos (Español)",
-      "manageCommissions": "Administrar Comisiones"
+      "manageCommissions": "Administrar Comisiones",
+      "csrCoordinator": "Coordinador de RSC"
     }
   },
   "charts": {

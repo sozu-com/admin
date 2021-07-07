@@ -3153,9 +3153,9 @@ position: relative;
     transition: all 0.5s;
     border-left:solid 3px #eee;
 }
-.notifications li:hover{
+/* .notifications li:hover{
     border-left:solid 3px #00B96F;
-}
+} */
 /* notifications end */
 h3 .tower{
     color: #00B96F;

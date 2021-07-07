@@ -581,6 +581,7 @@
     "enterMetaTitle": "Enter meta title",
     "enterMetaDescr": "Enter meta description",
     "leadType": "Lead type",
+    "csrCoordinator": "CSR Coordinator",
     "manualLead":{
       "name": "Name",
       "firstSurname": "First Surname",
@@ -672,7 +673,7 @@
       "chooseDate": "Choose Date",
       "parkingLotSpacesEn": "Parking lot spaces name (English)",
       "parkingLotSpacesEs": "Parking lot spaces name (Spanish)",
-      "manageCommissions": "Manage Commissions" 
+      "manageCommissions": "Manage Commissions"
     }
   },
   "charts": {

@@ -298,7 +298,7 @@
                        </li>
 
                        <li class="nav-item" [routerLinkActive]="'active'">
-                        <a class="nav-link" href="javascript://" routerLink="notifications"><i><img src="assets/img/graph.png"></i><span>{{'sidebar.notifications' | translate}}</span></a>
+                        <a class="nav-link" href="javascript://" routerLink="notifications"><i><img src="assets/img/graph.png"></i><span>{{'sidebar.notifications' | translate}}<i class="fa fa-circle" aria-hidden="true" style="margin-left: 12%;font-size: 11px;color: #00B96F;" *ngIf="notificationCount > 0"></i></span></a>
                        </li>
 
                        <li *ngIf="admin?.admin_acl['Settings']?.can_read==1" class="nav-item dropdown" [routerLinkActive]="'active'">

@@ -45,6 +45,7 @@ export class ACL {
     address?: Array<NewAddress>;
     user_type?: any;
     is_cordinator?:any;
+    can_csr_coordinator?:any;
 }
 
 export class Permission {
