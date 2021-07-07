@@ -1281,13 +1281,16 @@
 <div class="modal animated" id="advancedSearch">
    <div class="modal-dialog fadeIndown">
       <div class="modal-content" style="
-     border-top-style: solid;
+     width: 783px;
+     border-radius: 5px;
+     height: 1296px;">
+    <!-- border-top-color: rgb(0, 185, 111); border-top-style: solid;
      border-top-width: thick;
-     border-top-color: rgb(0, 185, 111); border-radius: 5px;
-     box-shadow: 0px -2px 0px 7px rgb(105,105,105);width: 783px;
-    height: 1296px;">
+    box-shadow: 0px -2px 0px 7px rgb(105,105,105);width: 783px; -->
          <div class="modal-header modal-header-new" style="background-color: white;">
-            <h4 class="modal-title" style="color: #333;
+            <h4 class="modal-title" style="height: 29px;
+            width: 241px;
+            color: #333;
             font-family: 'sf_ui_textmedium';
             font-size: 24px;
             font-weight: 700;">{{'advanceSearch.advancedSearch' | translate}}</h4>
@@ -1439,6 +1442,7 @@
                   </label>
                   <div class="clearfix"></div>
                </div>
+               
                <h4 class="configuration-title">{{'advanceSearch.Bathrooms' | translate}}</h4>
                <div class="form-group col-md-12">
                   <label class="circle-radio" *ngFor="let item of bathrooms;">
@@ -1480,7 +1484,7 @@
                </div>
             </div>
             <div class="row">
-               <div class="form-group col-md-3" style="text-align: left;">
+               <div class="form-group col-md-4" style="text-align: left;">
                   <button type="submit" 
                   class="btn btn-success" 
                   (click)="searchProperties()" 
@@ -1495,7 +1499,7 @@
                   {{'advanceSearch.search' | translate}}
                </button>
                </div>
-               <div class="form-group col-md-3" style="text-align: center;">
+               <div class="form-group col-md-4" style="text-align: center;">
                   <button type="button" 
                   class="btn btn-danger" 
                   (click)="close()" 
@@ -1506,7 +1510,7 @@
                   {{'advanceSearch.cancel' | translate}}
                </button>
                </div>
-               <div class="form-group col-md-3" style="text-align: right;">
+               <div class="form-group col-md-4" style="text-align: right;">
                   <button type="button" class="btn btn-danger" (click)="clearData()" style="background-color: white;
                   color: rgb(0, 185, 111);
                   box-sizing: border-box;

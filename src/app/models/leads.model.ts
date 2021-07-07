@@ -342,4 +342,7 @@ export class AddPrefrences {
     amenities: Array<number>;
     proximity_place_ids: Array<number>;
     property_types: Array<number>;
+    bedrooms: Array<any>;
+    bathrooms: Array<number>;
+    half_bedrooms: Array<number>;
 }

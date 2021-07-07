@@ -1115,7 +1115,7 @@ position:relative;
 .form-horizontal {
 border-radius: 4px;
 background-color: #FFFFFF;
-box-shadow: 0 2px 6px 0 rgb(199, 212, 205);
+/* box-shadow: 0 2px 6px 0 rgb(199, 212, 205); */
 padding:40px 35px;
 }
 .fgt-pswd {

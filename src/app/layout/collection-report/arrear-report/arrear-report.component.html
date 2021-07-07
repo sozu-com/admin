@@ -443,7 +443,7 @@
                                                        font-family: 'sf_ui_textmedium';width: 100px;">
                                                             91+
                                                       </p>&nbsp;&nbsp;
-                                                      <p style="background-color: #F9F6F0;height: 20px;
+                                                      <p style="background-color: #1C5C42;height: 20px;
                                                   width: 20px;" title=""></p>
                                                       
                                                 </div>
@@ -489,11 +489,11 @@
                                                       <span class="green-color cursor-pointer" 
                                                       routerLink="/dashboard/collections/view-collections/{{item.key}}">{{item.key}}</span>
                                                       </td>
-                                                <td>{{(item.value.below_30 || 0) | currency}}</td>
-                                                <td>{{(item.value.below_60 || 0) | currency}}</td>
-                                                <td>{{(item.value.above_60 || 0) | currency}}</td>
-                                                <td>{{(item.value.above_90 || 0) | currency}}</td>
-                                                <td>{{(item.value.overdueTotal || 0) | currency}}</td>
+                                                <td>{{item.value.below_30 }}</td>
+                                                <td>{{item.value.below_60 }}</td>
+                                                <td>{{item.value.above_60 }}</td>
+                                                <td>{{item.value.above_90 }}</td>
+                                                <td>{{item.value.overdueTotal}}</td>
                                           </tr>
                                     </tbody>
                               </table>

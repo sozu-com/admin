@@ -21,14 +21,14 @@ export class FillInformationComponent implements OnInit {
   @Input('lead_id') lead_id: string;
   //@Input('_leadData') _leadData: Leads;
 
-  _leadData : any;
-get leadData(): any {
+  _leadData: any;
+  get leadData(): any {
     return this.leadData;
-}
-@Input() set leadData(value: any) {
+  }
+  @Input() set leadData(value: any) {
     this._leadData = value;
-    this.updatePeriodTypes(0);
-}
+    this.updatePeriodTypes();
+  }
 
   @Input('allAmenities') allAmenities: Array<BuyerAmenities>;
   @Input('selectedAmenities') selectedAmenities: Array<BuyerAmenities>;
@@ -40,25 +40,39 @@ get leadData(): any {
   today: any;
   dropdownSettings: any;
   public parameter: IProperty = {};
-  public scrollbarOptions = { axis: 'y', theme: 'dark', scrollbarPosition: 'inside'};
+  public scrollbarOptions = { axis: 'y', theme: 'dark', scrollbarPosition: 'inside' };
   model: AddPrefrences;
   configurationCount: Array<string>;
   locale: any;
-  temp_array :any = [];noteEmails: any;
-  configurationCounted:any = [1, 2, 3, 4, 5];
+  temp_array: any = []; noteEmails: any;bathroom: any;half_bedroom: any;
+  configurationCounted: any = [1, 2, 3, 4, 5];
   bedrooms: any = [
-    { is_selected: false, name: 1 },
-    { is_selected: false, name: 2 },
-    { is_selected: false,  name: 3 },
-    { is_selected: false,  name: 4 },
-    { is_selected: false, name: 5 }
+    { is_selected: 0, name: 1 },
+    { is_selected: 0, name: 2 },
+    { is_selected: 0, name: 3 },
+    { is_selected: 0, name: 4 },
+    { is_selected: 0, name: 5 }
+  ];
+  bathrooms: any = [
+    { is_selected: 0, name: 1 },
+    { is_selected: 0, name: 2 },
+    { is_selected: 0, name: 3 },
+    { is_selected: 0, name: 4 },
+    { is_selected: 0, name: 5 }
+  ];
+  half_bathrooms: any = [
+    { is_selected: 0, name: 1 },
+    { is_selected: 0, name: 2 },
+    { is_selected: 0, name: 3 },
+    { is_selected: 0, name: 4 },
+    { is_selected: 0, name: 5 }
   ];
   constructor(public admin: AdminService, public constant: Constant,
     private spinner: NgxSpinnerService,
     private translate: TranslateService) { }
 
   ngOnInit() {
-    this. getMarritalStatusList();
+    this.getMarritalStatusList();
     this.locale = {
       firstDayOfWeek: 0,
       dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
@@ -74,8 +88,8 @@ get leadData(): any {
       weekHeader: 'Wk'
     };
     this.today = new Date();
-    //this.configurationCount = ['1', '2', '3', '4', '5+'];
-    
+    this.configurationCount = ['1', '2', '3', '4', '5+'];
+
     this.dropdownSettings = {
       singleSelection: false,
       idField: 'id',
@@ -86,12 +100,12 @@ get leadData(): any {
       // itemsShowLimit: 3,
       allowSearchFilter: true
     };
-    
+
     // if (this._leadData.planning_to_buy) {
     //   this._leadData.planning_to_buy = moment.utc(this._leadData.planning_to_buy).toDate();
     // }
     // this.getPrefOptions();
-    $('.section-section2').scroll(function(e) {
+    $('.section-section2').scroll(function (e) {
       e.stopPropagation();
     });
   }
@@ -100,25 +114,66 @@ get leadData(): any {
       this.marrital_status_list = r['data'];
     });
   }
-  updatePeriodTypes(count){
+  updatePeriodTypes() {
+   //lead_bedroom
     if (this._leadData.lead_bedroom) {
-      // const selectedCountry = this._leadData.lead_bedroom.filter(x => {
-      //   if(x.bedroom === count){
-      //     return x.bedroom === count ? true : false;
-      //   }
-      // });
-      
       let newArray = [];
-    for (var i = 0; i < this._leadData.lead_bedroom.length; i++) {
-      let mails = this._leadData.lead_bedroom[i].bedroom;
-      newArray.push(mails);
+      for (var i = 0; i < this._leadData.lead_bedroom.length; i++) {
+        let mails = this._leadData.lead_bedroom[i].bedroom;
+        newArray.push(mails);
+      }
+      this.noteEmails = newArray;
+      (this.noteEmails || []).forEach(res => {
+        this.bedrooms.forEach(element => {
+          if (element.name === res && element.is_selected == 0) {
+            element['is_selected'] = 1;
+          } else if(element.name != res && element.is_selected == 0) {
+            element['is_selected'] = 0;
+          }
+          });
+        });
     }
-    this.noteEmails = newArray
-    console.log(this.noteEmails,"hgdy");
-    }
+//lead_bathroom
+if (this._leadData.lead_bathroom) {
+  let lead_bathrooms = [];
+  for (var i = 0; i < this._leadData.lead_bathroom.length; i++) {
+    let mails = this._leadData.lead_bathroom[i].bathroom;
+    lead_bathrooms.push(mails);
+  }
+  this.bathroom = lead_bathrooms;
+  (this.bathroom || []).forEach(res => {
+    this.bathrooms.forEach(element => {
+        if (element.name === res && element.is_selected == 0) {
+          element['is_selected'] = 1;
+        } else if(element.name != res && element.is_selected == 0) {
+          element['is_selected'] = 0;
+        }
+      });
+    });
+}
+
+//lead_bedroom
+if (this._leadData.lead_half_bedroom) {
+  let half_bedrooms = [];
+  for (var i = 0; i < this._leadData.lead_half_bedroom.length; i++) {
+    let mails = this._leadData.lead_half_bedroom[i].half_bedroom;
+    half_bedrooms.push(mails);
+  }
+  this.half_bedroom = half_bedrooms;
+  (this.half_bedroom || []).forEach(res => {
+    this.half_bathrooms.forEach(element => {
+        if (element.name === res && element.is_selected == 0) {
+          element['is_selected'] = 1;
+        } else if(element.name != res && element.is_selected == 0) {
+          element['is_selected'] = 0;
+        }
+      });
+    });
+}
+    
   }
   getPrefOptions() {
-    this.admin.postDataApi('leads/getPrefOptions', {lead_id: this.lead_id}).subscribe(r => {
+    this.admin.postDataApi('leads/getPrefOptions', { lead_id: this.lead_id }).subscribe(r => {
       this.parameter.proximity_places = r.data.proximity_places;
       this.parameter.car_types = r.data.car_types;
     });
@@ -151,12 +206,12 @@ get leadData(): any {
   setValue(param: string, i: any) {
     this._leadData[param][i].is_selected = this._leadData[param][i].is_selected === 1 ? 0 : 1;
   }
-
+  
   setProximityValue(value: string, showOtherTextBox: boolean) {
     this.showOtherTextBox = showOtherTextBox;
   }
 
-  setPrefValue (param: string, value: number) {
+  setPrefValue(param: string, value: number) {
     this._leadData.prefs[param] = value;
   }
 
@@ -191,9 +246,9 @@ get leadData(): any {
 
     this.model.lead_id = this.lead_id;
     this.model.looking_for = this._leadData.prefs.looking_for;
-    this.model.bedroom = this._leadData.prefs.bedroom;
-    this.model.bathroom = this._leadData.prefs.bathroom;
-    this.model.half_bathroom = this._leadData.prefs.half_bathroom;
+  //  this.model.bedroom = this._leadData.prefs.bedroom;
+  //  this.model.bathroom = this._leadData.prefs.bathroom;
+  //   this.model.half_bathroom = this._leadData.prefs.half_bathroom;
     this.model.min_price = this._leadData.prefs.min_price;
     this.model.max_price = this._leadData.prefs.max_price;
     this._leadData.buyer_property_type.forEach(element => {
@@ -214,6 +269,10 @@ get leadData(): any {
         this.model.car_type_id = element.id;
       }
     });
+  
+    this.model.bedroom = this.bedrooms.filter(f => { return f.is_selected == 1 }).map(r => { return r.name });
+    this.model.bathroom = this.bathrooms.filter(f => { return f.is_selected == 1 }).map(r => { return r.name });
+    this.model.half_bathroom = this.half_bathrooms.filter(f => { return f.is_selected == 1 }).map(r => { return r.name });
     this.model.proximity_other = this.showOtherTextBox ? this._leadData.prefs.proximity_other : '';
     this._leadData.prefs.proximity_other = this.showOtherTextBox ? this._leadData.prefs.proximity_other : '';
     this.model.family_size = this._leadData.prefs.family_size;
