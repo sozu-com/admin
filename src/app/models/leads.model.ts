@@ -325,7 +325,7 @@ export class CSRBuyerLeads {
 
 export class AddPrefrences {
     lead_id: string;
-    marital_statuses_id:any;
+    marital_status:any;
     job:any;
     family_size: number;
     parking_lot:any;
@@ -343,7 +343,7 @@ export class AddPrefrences {
     payment_plans: Array<number>;
     property_purpose: Array<number>;
     amenities: Array<number>;
-    propAmenities: Array<number>;
+    property_amenities: Array<number>;
     proximity_place_ids: Array<number>;
     property_types: Array<number>;
     bedrooms: Array<any>;
