@@ -164,7 +164,7 @@ export class CreditComponent implements OnInit {
     if (this.parameter.sort_date !== sort_date) {
       this.parameter.sort_date = sort_date;
     } else {
-      this.parameter.sort_date = 2;
+      this.parameter.sort_date = this.parameter.sort_date ? 0 : 1;
     }
     this.getBuyers(this.parameter.page, this.parameter.name, 
       this.parameter.first_surname, this.parameter.second_surname);
