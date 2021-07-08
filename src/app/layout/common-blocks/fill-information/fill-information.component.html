@@ -65,8 +65,8 @@
         <p class="p11">{{'commonBlock.bedroom' | translate}}</p>
         <label class="cust-radio" *ngFor="let bedroom of bedrooms; let i=index">
             <input [disabled]="sent_as==2" type="checkbox"
-            (click)="bedroom.is_selected = !bedroom.is_selected"
-            [checked]="bedroom.is_selected == 0 ? '' : 'checked'" name="radio1">
+            (click)="setAccepted(bedroom)" name="radio1"
+            [checked]="bedroom.is_selected == 0 ? '' : 'checked'" >
             <span class="checkmark">{{bedroom.name}}</span>
         </label>
         <div class="clearfix"></div>
@@ -74,8 +74,8 @@
         <p class="p11">{{'commonBlock.bathroom' | translate}}</p>
         <label class="cust-radio" *ngFor="let bathroom of bathrooms; let i=index">
             <input [disabled]="sent_as==2" type="checkbox" 
-            (click)="bathroom.is_selected = !bathroom.is_selected" 
-            [checked]="bathroom.is_selected == 0 ? '' : 'checked'"name="bathroom">
+            (click)="setAccepted(bathroom)" name="bathroom"
+            [checked]="bathroom.is_selected == 0 ? '' : 'checked'">
             <span class="checkmark">{{bathroom.name}}</span>
         </label>
         <div class="clearfix"></div>
@@ -83,8 +83,8 @@
         <p class="p11">{{'commonBlock.halfBathroom' | translate}}</p>
         <label class="cust-radio" *ngFor="let half_bedroom of half_bathrooms; let i=index">
             <input [disabled]="sent_as==2" type="checkbox" 
-            (click)="half_bedroom.is_selected = !half_bedroom.is_selected"
-            [checked]="half_bedroom.is_selected == 0 ? '' : 'checked'"name="half_bedroom">
+            (click)="setAccepted(half_bedroom)" name="half_bedroom"
+            [checked]="half_bedroom.is_selected == 0 ? '' : 'checked'">
             <span class="checkmark">{{half_bedroom.name}}</span>
         </label>
         <div class="clearfix"></div>

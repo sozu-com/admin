@@ -44,7 +44,7 @@ export class FillInformationComponent implements OnInit {
   model: AddPrefrences;
   configurationCount: Array<string>;
   locale: any;
-  temp_array: any = []; noteEmails: any;bathroom: any;half_bedroom: any;
+  temp_array: any = []; noteEmails: any; bathroom: any; half_bedroom: any;
   configurationCounted: any = [1, 2, 3, 4, 5];
   bedrooms: any = [
     { is_selected: 0, name: 1 },
@@ -115,7 +115,7 @@ export class FillInformationComponent implements OnInit {
     });
   }
   updatePeriodTypes() {
-   //lead_bedroom
+    //lead_bedroom
     if (this._leadData.lead_bedroom) {
       let newArray = [];
       for (var i = 0; i < this._leadData.lead_bedroom.length; i++) {
@@ -127,50 +127,50 @@ export class FillInformationComponent implements OnInit {
         this.bedrooms.forEach(element => {
           if (element.name === res && element.is_selected == 0) {
             element['is_selected'] = 1;
-          } else if(element.name != res && element.is_selected == 0) {
+          } else if (element.name != res && element.is_selected == 0) {
             element['is_selected'] = 0;
           }
-          });
         });
+      });
     }
-//lead_bathroom
-if (this._leadData.lead_bathroom) {
-  let lead_bathrooms = [];
-  for (var i = 0; i < this._leadData.lead_bathroom.length; i++) {
-    let mails = this._leadData.lead_bathroom[i].bathroom;
-    lead_bathrooms.push(mails);
-  }
-  this.bathroom = lead_bathrooms;
-  (this.bathroom || []).forEach(res => {
-    this.bathrooms.forEach(element => {
-        if (element.name === res && element.is_selected == 0) {
-          element['is_selected'] = 1;
-        } else if(element.name != res && element.is_selected == 0) {
-          element['is_selected'] = 0;
-        }
+    //lead_bathroom
+    if (this._leadData.lead_bathroom) {
+      let lead_bathrooms = [];
+      for (var i = 0; i < this._leadData.lead_bathroom.length; i++) {
+        let mails = this._leadData.lead_bathroom[i].bathroom;
+        lead_bathrooms.push(mails);
+      }
+      this.bathroom = lead_bathrooms;
+      (this.bathroom || []).forEach(res => {
+        this.bathrooms.forEach(element => {
+          if (element.name === res && element.is_selected == 0) {
+            element['is_selected'] = 1;
+          } else if (element.name != res && element.is_selected == 0) {
+            element['is_selected'] = 0;
+          }
+        });
       });
-    });
-}
+    }
 
-//lead_bedroom
-if (this._leadData.lead_half_bedroom) {
-  let half_bedrooms = [];
-  for (var i = 0; i < this._leadData.lead_half_bedroom.length; i++) {
-    let mails = this._leadData.lead_half_bedroom[i].half_bedroom;
-    half_bedrooms.push(mails);
-  }
-  this.half_bedroom = half_bedrooms;
-  (this.half_bedroom || []).forEach(res => {
-    this.half_bathrooms.forEach(element => {
-        if (element.name === res && element.is_selected == 0) {
-          element['is_selected'] = 1;
-        } else if(element.name != res && element.is_selected == 0) {
-          element['is_selected'] = 0;
-        }
+    //lead_bedroom
+    if (this._leadData.lead_half_bedroom) {
+      let half_bedrooms = [];
+      for (var i = 0; i < this._leadData.lead_half_bedroom.length; i++) {
+        let mails = this._leadData.lead_half_bedroom[i].half_bedroom;
+        half_bedrooms.push(mails);
+      }
+      this.half_bedroom = half_bedrooms;
+      (this.half_bedroom || []).forEach(res => {
+        this.half_bathrooms.forEach(element => {
+          if (element.name === res && element.is_selected == 0) {
+            element['is_selected'] = 1;
+          } else if (element.name != res && element.is_selected == 0) {
+            element['is_selected'] = 0;
+          }
+        });
       });
-    });
-}
-    
+    }
+
   }
   getPrefOptions() {
     this.admin.postDataApi('leads/getPrefOptions', { lead_id: this.lead_id }).subscribe(r => {
@@ -182,7 +182,13 @@ if (this._leadData.lead_half_bedroom) {
   onSelect(e) {
     // this._leadData.planning_to_buy = e;
   }
-
+  setAccepted(item) {
+    if (item.is_selected == 0) {
+      item.is_selected = 1;
+    } else {
+      item.is_selected = 0;
+    }
+  }
   setCarType(id: number) {
     this.marrital_status_list.forEach(element => {
       if (element.id === id) {
@@ -206,7 +212,7 @@ if (this._leadData.lead_half_bedroom) {
   setValue(param: string, i: any) {
     this._leadData[param][i].is_selected = this._leadData[param][i].is_selected === 1 ? 0 : 1;
   }
-  
+
   setProximityValue(value: string, showOtherTextBox: boolean) {
     this.showOtherTextBox = showOtherTextBox;
   }
@@ -247,9 +253,9 @@ if (this._leadData.lead_half_bedroom) {
 
     this.model.lead_id = this.lead_id;
     this.model.looking_for = this._leadData.prefs.looking_for;
-  //  this.model.bedroom = this._leadData.prefs.bedroom;
-  //  this.model.bathroom = this._leadData.prefs.bathroom;
-  //   this.model.half_bathroom = this._leadData.prefs.half_bathroom;
+    //  this.model.bedroom = this._leadData.prefs.bedroom;
+    //  this.model.bathroom = this._leadData.prefs.bathroom;
+    //   this.model.half_bathroom = this._leadData.prefs.half_bathroom;
     this.model.min_price = this._leadData.prefs.min_price;
     this.model.max_price = this._leadData.prefs.max_price;
     this._leadData.buyer_property_type.forEach(element => {
@@ -273,7 +279,7 @@ if (this._leadData.lead_half_bedroom) {
         this.model.car_type_id = element.id;
       }
     });
-  
+
     this.model.bedroom = this.bedrooms.filter(f => { return f.is_selected == 1 }).map(r => { return r.name });
     this.model.bathroom = this.bathrooms.filter(f => { return f.is_selected == 1 }).map(r => { return r.name });
     this.model.half_bathroom = this.half_bathrooms.filter(f => { return f.is_selected == 1 }).map(r => { return r.name });
