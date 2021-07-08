@@ -54,6 +54,7 @@ export class CreditAddEditComponent implements OnInit {
   civilStatus_list = Array<IDestinationStatus>();
   Relationship_list = Array<IDestinationStatus>();
   CustomerProfile_list = Array<IDestinationStatus>();
+  CreditsStatus_list = Array<IDestinationStatus>();
   customerProfile_list = Array<IDestinationStatus>();
   marrital_status_list = Array<IMarritalStatus>();
   Scholarship_list = Array<IMarritalStatus>();
@@ -770,7 +771,8 @@ export class CreditAddEditComponent implements OnInit {
       this.adminService.postDataApi('getReferences', { id: this.parameter.property_id || '0' }),
       this.adminService.postDataApi('getSolidarity', { id: this.parameter.property_id || '0' }),
       this.adminService.postDataApi('getCurrencies', {}),
-      this.adminService.postDataApi('getDebit', { id: this.parameter.property_id || '0' })
+      this.adminService.postDataApi('getDebit', { id: this.parameter.property_id || '0' }),
+      this.adminService.postDataApi('getCreditsStatus', {})
     ]).subscribe((response: any[]) => {
       this.spinnerService.hide();
       this.program_list = response[0].data
@@ -800,6 +802,7 @@ export class CreditAddEditComponent implements OnInit {
       this.solidarity_list = response[24].data || [];
       this.currencies = response[25].data || [];
       this.debit_list = response[26].data || [];
+      this.CreditsStatus_list = response[27].data || [];
       this.loadCreditsBasicDetails();
     });
   }
@@ -922,6 +925,7 @@ export class CreditAddEditComponent implements OnInit {
       programs_id: this.creditModel.programs_id,
       home_value: this.creditModel.home_value,
       credit_amount: this.creditModel.credit_amount,
+      nss: this.creditModel.nss,
       subaccount_balance: this.creditModel.subaccount_balance,
       infonavit_credit: this.creditModel.infonavit_credit,
       executive: this.creditModel.executive,
@@ -930,7 +934,8 @@ export class CreditAddEditComponent implements OnInit {
       square: this.creditModel.square,
       case_status: this.creditModel.case_status,
       property_status: this.creditModel.property_status,
-      customer_profile: this.creditModel.customer_profile
+      customer_profile: this.creditModel.customer_profile,
+      credites_status_id: this.creditModel.credites_status_id
     };
     if (this.creditModel.bank_id) {
       const d = this.creditModel.bank_id.map((o) => o.id);

@@ -146,7 +146,7 @@
 
                 <div class="row">
                   <div class="spacer15"></div>
-                  <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
                     <div class="form-group-3">
                       <label>{{'creditForm.homeValue' | translate}}
                       </label>
@@ -156,7 +156,7 @@
                         placeholder="{{'creditForm.homeValue' | translate}}">
                     </div>
                   </div>
-                  <div class="col-lg-4 col-md-6 col-sm-6 col-12" *ngIf="creditModel.programs_id == 6">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12" *ngIf="creditModel.programs_id == 6">
                     <div class="form-group-3">
                       <label class="p16-two">{{'creditForm.creditAmount' | translate}}</label>
                       <input autocomplete="off" minlength="1"
@@ -165,7 +165,7 @@
                         placeholder="{{'creditForm.creditAmount' | translate}}">
                     </div>
                   </div>
-                  <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
                     <div class="form-group-3">
                       <label class="p16-two">{{'creditForm.deadlines' | translate}}</label>
                       <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
@@ -173,6 +173,15 @@
                         [settings]="multiDropdownSettings" (onSelect)="setDeadline($event, 'selctedDeadlines')"
                         (onDeSelect)="unsetDeadlines($event, 'selctedDeadlines')">
                       </ng-multiselect-dropdown>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12" 
+                  *ngIf="creditModel.programs_id == 2 || creditModel.programs_id == 3 || creditModel.programs_id == 4">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.NSS' | translate}}</label>
+                      <input autocomplete="off" minlength="1" maxlength="11" type="text"
+                        class="form-control" [(ngModel)]="creditModel.nss" name="nss"
+                        placeholder="{{'creditForm.NSS' | translate}}">
                     </div>
                   </div>
                 </div>
@@ -327,12 +336,12 @@
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                     <div class="form-group-3">
                       <label class="p16-two">{{'creditForm.Interestedin' | translate}}</label>
-                      <select title="{{'creditForm.selectInterestedin' | translate}}" name="customer_profile"
-                        class="form-control" [(ngModel)]="creditModel.customer_profile">
+                      <select title="{{'creditForm.selectInterestedin' | translate}}" name="credites_status_id"
+                        class="form-control" [(ngModel)]="creditModel.credites_status_id">
                         <option disabled selected value="undefined">{{'creditForm.selectInterestedin' | translate}}
                         </option>
 
-                        <option *ngFor="let dest of CustomerProfile_list"
+                        <option *ngFor="let dest of CreditsStatus_list"
                           [selected]="dest.id == creditModel.customerProfile_id" value="{{dest.id}}">
                           {{language_code
                           == 'en'? dest.name_en : dest.name_es}}</option>
