@@ -184,11 +184,11 @@ if (this._leadData.lead_half_bedroom) {
   }
 
   setCarType(id: number) {
-    this._leadData.buyer_car_type.forEach(element => {
+    this.marrital_status_list.forEach(element => {
       if (element.id === id) {
-        element.is_selected = 1;
+        element['is_selected'] = 1;
       } else {
-        element.is_selected = 0;
+        element['is_selected'] = 0;
       }
     });
   }
@@ -240,6 +240,7 @@ if (this._leadData.lead_half_bedroom) {
     this.model = new AddPrefrences();
     this.model.property_types = [];
     this.model.amenities = [];
+    this.model.propAmenities = [];
     this.model.proximity_place_ids = [];
     this.model.property_purpose = [];
     // this.model.payment_plans = [];
@@ -259,6 +260,9 @@ if (this._leadData.lead_half_bedroom) {
     this.selectedAmenities.forEach(element => {
       this.model.amenities.push(element.id);
     });
+    this.selectedPropAmenities.forEach(element => {
+      this.model.propAmenities.push(element.id);
+    });
     this._leadData.buyer_proximity.forEach(element => {
       if (element.is_selected === 1) {
         this.model.proximity_place_ids.push(element.id);
@@ -276,6 +280,9 @@ if (this._leadData.lead_half_bedroom) {
     this.model.proximity_other = this.showOtherTextBox ? this._leadData.prefs.proximity_other : '';
     this._leadData.prefs.proximity_other = this.showOtherTextBox ? this._leadData.prefs.proximity_other : '';
     this.model.family_size = this._leadData.prefs.family_size;
+    this.model.marital_statuses_id = this._leadData.prefs.marital_statuses_id;
+    this.model.parking_lot = this._leadData.prefs.parking_lot;
+    this.model.job = this._leadData.prefs.job;
     this.model.kid_count = this._leadData.prefs.kid_count;
     this.model.pets = this._leadData.prefs.pets;
     if (this._leadData.prefs.planning_to_buy) {
