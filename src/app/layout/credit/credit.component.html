@@ -110,7 +110,8 @@
     <div class="col-md-2">
       <div class="form-group btn-cont">
         <label style="display: block; margin-top: 3px;">&nbsp;</label>
-        <button type="button" (click)="getBuyers()" class="btn btn-primary-new width100P">{{'filters.location.applyBtn'
+        <button type="button" (click)="getBuyers(parameter.page, parameter.name, 
+        parameter.first_surname,parameter.second_surname)" class="btn btn-primary-new width100P">{{'filters.location.applyBtn'
           | translate}}</button>
       </div>
     </div>
