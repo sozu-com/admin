@@ -153,40 +153,48 @@
                     <label>{{'table.th.image' | translate}}</label>
                   </div>
                 </th>
+                <th style="vertical-align:top;width:5%">
+                  <div class="d-flex table-search">
+                    <span><label>{{'table.th.recordDate' | translate}}</label></span>
+                    <a (click)="sortData(parameter.property_sort==2?1:2)" href="javascript://"><img
+                        [ngClass]="{'upsidedown':parameter.property_sort==2}" src="assets/img/top-arrow.png"
+                        alt="img"></a>
+                  </div>
+                </th>
                 <th style="width:10%">
                   <div class="table-search">
                       <label>{{'table.th.name' | translate}}</label>
-                      <!-- <div class="searh-3">
+                      <div class="searh-3">
                         <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email
                         ,parameter.first_surname,parameter.second_surname)" name="">
                         <button *ngIf="parameter.name" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
                         parameter.first_surname,parameter.second_surname)"><i class="fa fa-search"></i></button>
-                      </div> -->
+                      </div>
                   </div>
                 </th>
                 <th style="width:10%">
                   <div class="table-search">
                       <label>{{'table.th.firstSurname' | translate}}</label>
-                      <!-- <div class="searh-3">
+                      <div class="searh-3">
                         <input type="text" [(ngModel)]="parameter.first_surname" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
                         parameter.first_surname,parameter.second_surname)" name="">
                         <button *ngIf="parameter.first_surname" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
                         parameter.first_surname,parameter.second_surname)"><i class="fa fa-search"></i></button>
-                      </div> -->
+                      </div>
                   </div>
                 </th>
                 <th style="width:10%">
                   <div class="table-search">
                       <label>{{'table.th.secondSurname' | translate}}</label>
-                      <!-- <div class="searh-3">
+                      <div class="searh-3">
                         <input type="text" [(ngModel)]="parameter.second_surname" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
                         parameter.first_surname,parameter.second_surname)" name="">
                         <button *ngIf="parameter.second_surname" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
                         parameter.first_surname,parameter.second_surname)"><i class="fa fa-search"></i></button>
-                      </div> -->
+                      </div>
                   </div>
                 </th>
-                <th style="width:20%; text-align:left;">
+                <th style="width:12%; text-align:left;">
                   <div class="table-search">
                       <label>{{'table.th.contactNumber' | translate}}</label>
                       <!-- <div class="searh-3">
@@ -197,7 +205,12 @@
                       </div> -->
                   </div>
                 </th>
-                <th style="width:20%">
+                <th style="width:8%; text-align:left;">
+                  <div class="table-search">
+                      <label>{{'creditForm.Interestedin' | translate}}</label>
+                  </div>
+                </th>
+                <th style="width:15%">
                   <div class="table-search">
                       <label>{{'table.th.emailAddress' | translate}}</label>
                       <!-- <div class="searh-3">
@@ -229,6 +242,7 @@
                     <img *ngIf="item?.user?.image" [defaultImage]="item?.user?.image| img:'thumb'" [lazyLoad]="item?.user?.image" class="rounded-circle" alt="img">
                     <img *ngIf="!item?.user?.image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
                 </td>
+                <td>{{item.date | date }}</td>
                 <td class="text-left">
                     <a class="text-ellipsis" data-toggle="popover" data-placement="top" title="{{item?.user?.name}}" >
                       {{item?.user?.name | titlecase}}
@@ -242,6 +256,9 @@
                 </td>
                 <td class="text-left" *ngIf="item?.user?.phone">{{item?.user?.dial_code ? item?.user?.dial_code : constant.dial_code}}-{{item?.user?.phone}}</td>
                 <td class="text-left" *ngIf="!item?.user?.phone">{{'table.tr.td.NA' | translate}}</td>
+                <td class="text-left">
+                  {{item?.user?.second_surname ? (item?.user?.second_surname | titlecase) : ('table.tr.td.NA' | translate)}}
+                </td>
                 <td class="text-left">{{item?.user?.email}}</td>
                 <td *ngIf="parameter.type==1">
                   <span *ngFor="let interest of item.interests; let ii=index">
