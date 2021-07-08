@@ -160,7 +160,6 @@ export class CreditComponent implements OnInit {
       });
   }
   price_by(sort_date) {
-    console.log(sort_date,"sort_date")
     if (this.parameter.sort_date !== sort_date) {
       this.parameter.sort_date = sort_date;
     } else {
@@ -176,7 +175,6 @@ export class CreditComponent implements OnInit {
   }
 
   deletePopup(item: any, index: number) {
-    console.log(item,"item id")
     this.parameter.text = this.translate.instant('message.error.wantToDeleteCredit');
 
     swal({
