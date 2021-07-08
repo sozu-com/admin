@@ -155,7 +155,7 @@ export class AddEditCollectionComponent implements OnInit {
   minimumDate: any;
   reminder_date: any;
   noteEmails: any;
-  isShown: boolean = true;
+  isShown: boolean = false;
   edit_reminder: boolean;
 
   public beneficiaries_list: any[] = [];
