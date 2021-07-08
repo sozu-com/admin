@@ -19,6 +19,7 @@ export class CreditComponent implements OnInit {
   finalData: Array<any>;
   reportData: any;
   total: any = 0;
+  sort_date = 1;
   constructor(
     private translate: TranslateService,
     public admin: AdminService,
@@ -34,7 +35,8 @@ export class CreditComponent implements OnInit {
     this.getCountryLocality();
     this.initCalendarLocale();
     // this.getCreditsUser();
-    this.getBuyers();
+    this.getBuyers(this.parameter.page, this.parameter.name, 
+      this.parameter.first_surname, this.parameter.second_surname);
 
     this.translate.onDefaultLangChange.subscribe((event: LangChangeEvent) => {
       this.initCalendarLocale();
@@ -142,9 +144,13 @@ export class CreditComponent implements OnInit {
     this.parameter.max = '';
   }
 
-  getBuyers() {
+  getBuyers(page: any, name: string,first_surname: string, second_surname: string) {
     this.spinnerService.show();
-    this.admin.postDataApi('getCreditsUser', {}).subscribe(
+    this.parameter.name = name;
+    this.parameter.page = page;
+    this.parameter.first_surname = first_surname;
+    this.parameter.second_surname = second_surname;
+    this.admin.postDataApi('getCreditsUser', this.parameter).subscribe(
       success => {
         this.parameter.items = success.data;
         this.parameter.total = success.total;
@@ -153,14 +159,22 @@ export class CreditComponent implements OnInit {
         this.spinnerService.hide();
       });
   }
-
+  price_by(sort_date) {
+    if (this.parameter.sort_date !== sort_date) {
+      this.parameter.sort_date = sort_date;
+    } else {
+      this.parameter.sort_date = this.parameter.sort_date ? 0 : 1;
+    }
+    this.getBuyers(this.parameter.page, this.parameter.name, 
+      this.parameter.first_surname, this.parameter.second_surname);
+  }
   getPage(page) {
     this.parameter.page = page;
-    this.getBuyers();
+    this.getBuyers(this.parameter.page, this.parameter.name, 
+      this.parameter.first_surname, this.parameter.second_surname);
   }
 
   deletePopup(item: any, index: number) {
-    console.log(item,"item id")
     this.parameter.text = this.translate.instant('message.error.wantToDeleteCredit');
 
     swal({

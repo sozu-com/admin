@@ -10,7 +10,13 @@
         <div class="user-profile notification float-right">
             <a class="count-info bell cursor-pointer" (click)="viewNotification()">
                 <i class="fa fa-bell"></i>
-                <span *ngIf="msg_count!=0" class="label label-warning">{{msg_count}}</span>
+                <span style="margin-top: -21px;
+                margin-left: -3px;">
+                  <i class="fa fa-circle" aria-hidden="true" 
+                  style="font-size: 11px;color: #00B96F;" 
+                  *ngIf="notificationCount > 0"></i>
+                </span>
+                <!-- <span *ngIf="msg_count!=0" class="label label-warning">{{msg_count}}</span> -->
             </a>
             <!-- <a (click)="viewNotification()" class="dropdown-toggle count-info bell" data-toggle="dropdown" href="#" aria-expanded="true">
                 <i class="fa fa-bell"></i>
@@ -298,7 +304,8 @@
                        </li>
 
                        <li class="nav-item" [routerLinkActive]="'active'">
-                        <a class="nav-link" href="javascript://" routerLink="notifications"><i><img src="assets/img/graph.png"></i><span>{{'sidebar.notifications' | translate}}<i class="fa fa-circle" aria-hidden="true" style="margin-left: 12%;font-size: 11px;color: #00B96F;" *ngIf="notificationCount > 0"></i></span></a>
+                        <a class="nav-link" href="javascript://" routerLink="notifications"><i><img src="assets/img/graph.png"></i><span>{{'sidebar.notifications' | translate}}
+                          <i class="fa fa-circle" aria-hidden="true" style="margin-left: 12%;font-size: 11px;color: #00B96F;" *ngIf="notificationCount > 0"></i></span></a>
                        </li>
 
                        <li *ngIf="admin?.admin_acl['Settings']?.can_read==1" class="nav-item dropdown" [routerLinkActive]="'active'">

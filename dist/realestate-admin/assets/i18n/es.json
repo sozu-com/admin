@@ -375,7 +375,7 @@
       "maritalStatus": "Estado civil",
       "maritalStatus1": "Estado civil",
       "petsfrn": "Mascota amigable",
-      "job":"Trabajo",
+      "job":"Ocupación",
       "lbgt":"¿Abierto a vivir con la comunidad LGBT?",
       "petsAllowed": "Mascotas",
       "allowed": "Permitido",
@@ -672,7 +672,8 @@
       "chooseDate": "Elegir fecha",
       "parkingLotSpacesEn": "Nombre del tipos de estacionamientos (Inglés)",
       "parkingLotSpacesEs": "Nombre del tipos de estacionamientos (Español)",
-      "manageCommissions": "Administrar Comisiones"
+      "manageCommissions": "Administrar Comisiones",
+      "csrCoordinator": "Coordinador de RSC"
     }
   },
   "charts": {
@@ -1522,7 +1523,7 @@
     "rent": "Renta",
     "purchase": "Compra",
     "student":"Alumna",
-    "pro":"Pro",
+    "pro":"Otro",
     "inventory": "Inventario",
     "status": "Estatus",
     "details": "Detalles",

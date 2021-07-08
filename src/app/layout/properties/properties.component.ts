@@ -791,12 +791,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.getListing();
   }
   price_by(price_sort) {
-    console.log(price_sort,"price_sort")
     if (this.parameter.price_sort !== price_sort) {
       this.parameter.price_sort = price_sort;
       //this.parameter.price_sort = 1;
     } else {
-      this.parameter.price_sort = 2;
+      this.parameter.price_sort = 0;
     }
     this.getListing();
   }

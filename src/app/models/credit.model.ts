@@ -6,7 +6,9 @@ export class Credit {
     case_status?: string;
     created_at?: string;
     credit_amount?: string;
+    nss?:any;
     customer_profile?: string;
+    credites_status_id?: string;
     destination_id?: string;
     executive?: string;
     home_value?: string;
