@@ -58,11 +58,13 @@ export class GeneralData {
     credites_details_id?: number;
     id?: number;
     general_data_id?: number;
-    co_credited_email?: string;
-    co_credited_relationship?: string;
-    co_credited_owner?: string;
-    co_credited_involved_credit?: string;
-    co_credited_involved_revenue?: string;
+    credits_participant_id?:any;
+    participant_toggel?:any;
+    // co_credited_email?: string;
+    // co_credited_relationship?: string;
+    // co_credited_owner?: string;
+    // co_credited_involved_credit?: string;
+    // co_credited_involved_revenue?: string;
     credit_card?: string;
     existing_mortgage?: string;
     loan?: string;

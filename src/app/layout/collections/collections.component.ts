@@ -455,6 +455,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             // if (ele.add_collection_commission) {
             //   cc_active++;
             // }
+            if (ele.payment) {
             ele.payment.forEach((elem, index) => {
               if (index == 0) {
                 if (ele.add_collection_commission) {
@@ -464,6 +465,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
                 cc_invoice++;
               }
             })
+          }
             // if (ele.payment) {
             //   cc_receipt++;
             //   if (ele.payment.invoice_id) {
@@ -474,6 +476,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             // if (ele.add_purchase_commission) {
             //   pc_active++;
             // }
+            if (ele.purchase_payment) {
             ele.purchase_payment.forEach((elem, index) => {
               if (index == 0) {
                 if (ele.add_purchase_commission) {
@@ -483,6 +486,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
                 pc_invoice++;
               }
             })
+          }
             // if (ele.purchase_payment) {
             //   pc_receipt++;
             //   if (ele.purchase_payment.invoice_id && ele.purchase_payment.pdf_url && ele.purchase_payment.xml_url) {
@@ -499,6 +503,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             //     ac_invoice++;
             //   }
             // }
+            if (ele.agent_payment) {
             ele.agent_payment.forEach((elem, index) => {
               if (index == 0) {
                 if (ele.add_agent_commission) {
@@ -508,8 +513,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
                 ac_invoice++;
               }
             })
-            
-           
+          }
+          if (ele.outside_agent_payment) {
             ele.outside_agent_payment.forEach((elem, index) => {
               if (index == 0) {
                 if (ele.agent_outside_comm_amount) {
@@ -519,7 +524,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
                 oac_invoice++;
               }
             })
-            
+          }
           }
           element['sum_pc'] = pc_received;
           element['cc_percent'] = this.numberUptoNDecimal((cc_percent / cc_active), 3);
