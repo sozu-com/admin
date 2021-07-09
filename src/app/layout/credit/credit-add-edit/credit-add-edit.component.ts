@@ -673,8 +673,11 @@ export class CreditAddEditComponent implements OnInit {
       });
     }
     this.creditModel.bank_id = self.selctedBanks;
-    this.creditModel.general_data.credits_participant_id = creditDetails.general_data.credits_participant_id;
-    this.creditModel.general_data.participant_toggel = creditDetails.general_data.participant_toggel;
+    if(this.creditModel.general_data){
+      this.creditModel.general_data.credits_participant_id = creditDetails.general_data.credits_participant_id || '';
+      this.creditModel.general_data.participant_toggel = creditDetails.general_data.participant_toggel || 0;
+    }
+   
     this.creditModel.payment_scheme = self.selctedPayments;
     this.creditModel.deadlines_quote = self.selctedDeadlines;
     this.creditModel.user['neighbourhoods'] = [];
