@@ -268,6 +268,12 @@ export class AddEditCollectionComponent implements OnInit {
 
   toggleShow(value) {
     this.isShown = value.target.checked ? true : false;
+    if(this.isShown){
+      this.addFormStep4.controls.day.patchValue('01');
+    }
+    else{
+      this.addFormStep4.controls.day.patchValue('');
+    }
   }
 
   getAllPaymentChoices() {
@@ -495,7 +501,6 @@ export class AddEditCollectionComponent implements OnInit {
       this.addFormStep4.get('deal_price').enable({ onlySelf: true });
       this.addFormStep4.controls['email'].enable();
       this.addFormStep4.controls['day'].enable();
-      this.addFormStep4.controls.day.patchValue('01');
     } else {
       this.addFormStep4.get('deal_price').disable({ onlySelf: true });
       this.addFormStep4.controls['email'].disable();
