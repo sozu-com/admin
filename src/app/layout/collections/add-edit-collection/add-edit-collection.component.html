@@ -1924,7 +1924,7 @@
           <div class="row">
           <h5>{{'deshboard.accountEmail' | translate}}</h5>
             <div class="switchToggle" style="margin-left: 10px;">
-              <input type="checkbox" id="switch2" (click)="toggleShow($event)" [checked]="addFormStep4.controls['email'].value || addFormStep4.controls['day'].value">
+              <input type="checkbox" id="switch2" (click)="toggleShow($event)" [checked]="addFormStep4.controls['send_mail'].value == 1">
               <label for="switch2">Toggle</label>
             </div>
           </div>

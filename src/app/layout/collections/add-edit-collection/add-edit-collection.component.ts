@@ -269,10 +269,13 @@ export class AddEditCollectionComponent implements OnInit {
   toggleShow(value) {
     this.isShown = value.target.checked ? true : false;
     if(this.isShown){
+      this.addFormStep4.controls.send_mail.patchValue(1);
       this.addFormStep4.controls.day.patchValue('01');
     }
     else{
       this.addFormStep4.controls.day.patchValue('');
+      this.addFormStep4.controls.send_mail.patchValue(0);
+
     }
   }
 
@@ -488,6 +491,7 @@ export class AddEditCollectionComponent implements OnInit {
       monthly_amount: [''],
       email: [''],
       day: [''],
+      send_mail: [0],
       deal_purchase_date: ['', [Validators.required]],
       deal_price: ['', [Validators.required]],
       sum_of_concepts: [''],
@@ -834,6 +838,8 @@ export class AddEditCollectionComponent implements OnInit {
       }
       if (data.buyer && data.buyer.email && (this.model.id === '0' || (!data.account_statement && this.model.id != '0'))) {
         this.addFormStep4.controls.email.patchValue(data.buyer.email);
+        this.addFormStep4.controls.send_mail.patchValue(data.send_mail);
+        this.addFormStep4.controls.day.patchValue('01');
         this.isShown = true;
       }
     }
@@ -876,6 +882,8 @@ export class AddEditCollectionComponent implements OnInit {
       }
       if (data.buyer_legal_entity && data.buyer_legal_entity.email && (this.model.id === '0' || (!data.account_statement && this.model.id != '0'))) {
         this.addFormStep4.controls.email.patchValue(data.buyer_legal_entity.email);
+        this.addFormStep4.controls.send_mail.patchValue(data.send_mail);
+        this.addFormStep4.controls.day.patchValue('01');
         this.isShown = true;
       }
     }
@@ -921,6 +929,8 @@ export class AddEditCollectionComponent implements OnInit {
       }
       if (data.buyer && data.buyer.email && (this.model.id === '0' || (!data.account_statement && this.model.id != '0'))) {
         this.addFormStep4.controls.email.patchValue(data.buyer.email);
+        this.addFormStep4.controls.send_mail.patchValue(data.send_mail);
+        this.addFormStep4.controls.day.patchValue('01');
         this.isShown = true;
       }
     }
@@ -935,6 +945,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep4.controls.currency_id.patchValue(data.currency_id ? data.currency_id : 1);
     this.addFormStep4.controls.deal_interest_rate.patchValue(data.deal_interest_rate);
     this.addFormStep4.controls.deal_penality.patchValue(data.deal_penality);
+    this.addFormStep4.controls.send_mail.patchValue(data.account_statement ? data.account_statement.send_mail : 0);
     const control1 = this.addFormStep4.get('payment_choices') as FormArray;
     let sum_of_concepts = 0;
     if (data.payment_choices) {
@@ -963,6 +974,7 @@ export class AddEditCollectionComponent implements OnInit {
       this.addFormStep4.controls.email.patchValue(emails);
     }
     this.isShown = data.account_statement && data.account_statement.usersemail && data.account_statement.usersemail.length > 0 ? true : false;
+    this.addFormStep4.controls.send_mail.patchValue(this.isShown ? data.account_statement.send_mail : 0);
     this.addFormStep4.controls.day.patchValue(data.account_statement ? data.account_statement.day : '01');
 
     if (data.property.property_offer_payment && data.property.property_offer_payment.length > 0 && data.offer_id) {
@@ -1117,7 +1129,7 @@ export class AddEditCollectionComponent implements OnInit {
         this.tab = tab;
         if (tab == 4) {
           this.edit_reminder = false;
-          this.isShown = this.addFormStep4.controls['email'].value ? true : false;
+          this.isShown = this.addFormStep4.controls['send_mail'].value == 1 ? true : false;       
         }
       }
     });
