@@ -414,6 +414,11 @@
                                           <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                                                 <div class="row line">
                                                       <p style="font-size: 14px;
+                                                      font-family: 'sf_ui_textmedium';width: 80px; color: #000;">
+                                                           ${{((dash?.below_30 || 0) + (dash?.below_60 || 0) + 
+                                                            (dash?.above_60 || 0) + (dash?.above_90 || 0)) / (dash?.below_30 || 0) | number: '1.0-0'}}
+                                                      </p>
+                                                      <p style="font-size: 14px;
                                                       font-family: 'sf_ui_textmedium';width: 100px;">
                                                             1-30
                                                       </p>&nbsp;&nbsp;
@@ -421,6 +426,11 @@
                                                   width: 20px;" title=""></p>
                                                 </div>
                                                 <div class="row line">
+                                                      <p style="font-size: 14px;
+                                                      font-family: 'sf_ui_textmedium';width: 80px; color: #000;">
+                                                           ${{((dash?.below_30 || 0) + (dash?.below_60 || 0) + 
+                                                            (dash?.above_60 || 0) + (dash?.above_90 || 0)) / (dash?.below_60 || 0) | number: '1.0-0'}}
+                                                      </p>
                                                       <p style="font-size: 14px;
                                                   font-family: 'sf_ui_textmedium';width: 100px;">
                                                             31-60
@@ -431,14 +441,26 @@
                                                 </div>
                                                 <div class="row line">
                                                       <p style="font-size: 14px;
+                                                      font-family: 'sf_ui_textmedium';width: 80px; color: #000;">
+                                                           ${{((dash?.below_30 || 0) + (dash?.below_60 || 0) + 
+                                                            (dash?.above_60 || 0) + (dash?.above_90 || 0)) / (dash?.above_60 || 0) | number: '1.0-0'}}
+                                                      </p>
+                                                      <p style="font-size: 14px;
                                                   font-family: 'sf_ui_textmedium';width: 100px;">
                                                             61-90
                                                       </p>&nbsp;&nbsp;
-                                                      <p style="background-color: #DFDFDF;height: 20px;
+                                                      <p style="background-color: #DFDFDF;
+                                                      height: 20px;
                                                   width: 20px;" title=""></p>
                                                       
                                                 </div>
                                                 <div class="row line">
+                                                      <p style="font-size: 14px;
+                                                      font-family: 'sf_ui_textmedium';
+                                                      width: 80px; color: #000;">
+                                                           ${{((dash?.below_30 || 0) + (dash?.below_60 || 0) + 
+                                                            (dash?.above_60 || 0) + (dash?.above_90 || 0)) / (dash?.above_90 || 0) | number: '1.0-0'}}
+                                                      </p>
                                                       <p style="font-size: 14px;
                                                        font-family: 'sf_ui_textmedium';width: 100px;">
                                                             91+
