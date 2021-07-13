@@ -2637,13 +2637,13 @@
             <div class="spacer40"></div>
             <div class="row">
                <div class="col-md-8 col-6">
-                  <input style="max-width:200px" (keyup.enter)="getPropertySelection(false, keyword)"
+                  <input style="max-width:200px" (keyup.enter)="getCollectionSelection(false, keyword)"
                      [(ngModel)]="keyword" class="form-control" type="text" name="keyword"
                      placeholder="{{'addForm.placeholder.search' | translate}}">
                </div>
                <div class="col-md-4 col-5 btn-cont">
                   <a class="btn btn-primary pull-right" href="javascript://"
-                     (click)="getPropertySelection(false, keyword)">{{'viewProperty.search' | translate}}</a>
+                     (click)="getCollectionSelection(false, keyword)">{{'viewProperty.search' | translate}}</a>
                </div>
             </div>
 
