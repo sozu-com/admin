@@ -940,6 +940,9 @@
       "credit": "Credit",
       "renter": "Renter",
       "project": "proyecto",
+      "agentCommissionInhouse": "Comisión de agente interna",
+      "agentCommissionOutside": "Comisión de agente exterior",
+      "dateOfRegistration": "Fecha de registro",
       "manualLead":{
         "name": "Nombre",
         "firstSurname": "Primer Apellido",
