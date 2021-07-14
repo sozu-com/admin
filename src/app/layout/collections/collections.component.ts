@@ -191,6 +191,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   @ViewChild('folderModalOpen') folderModalOpen: ElementRef;
   @ViewChild('folderModalClose') folderModalClose: ElementRef;
   @ViewChild('localityClose') localityClose: ElementRef;
+  @ViewChild('openSelectColumnsModal') openSelectColumnsModal: ElementRef;
+  @ViewChild('closeSelectColumnsModal') closeSelectColumnsModal: ElementRef;
 
   collectionStatusFilter = [
     { name: 'Up to Date', value: 1 },
@@ -238,6 +240,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   outside_agent_payment: any;
   collection_amount: any;
   cancel_commission_status: any;
+  select_columns_list: any[] = [];
+  public selectedCollectionColumnsToShow: any = {};
+  public isSelectAllColumns: boolean = false;
   constructor(
     public constant: Constant,
     public apiConstants: ApiConstants,
@@ -270,6 +275,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     this.sendEmailForm = this.fb.group({
       'toAddress': ['', [Validators.required, this.commaSepEmail]]
     });
+    this.getCollectionHome();
     this.isPenaltyFormSub = false;
     this.invoiceKeys = false;
     this.showError = false;
@@ -1645,7 +1651,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         }
       }
       this.isApplyBtnClicked = true;
-      this.admin.postDataApi('addCancellationCommission',input).subscribe(r => {
+      this.admin.postDataApi('addCancellationCommission', input).subscribe(r => {
         this.isApplyBtnClicked = false;
         // this.closeCollReceiptModal();
         this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
@@ -1659,7 +1665,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         //this.spinner.hide();
         //this.all_developers = r.data;
       });
-       
+
     } else {
       // checking if date selected and receipt selected
       let callApi = true;
@@ -3868,6 +3874,271 @@ export class CollectionsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     localStorage.setItem('parametersForCollection', JSON.stringify(this.parameter));
+  }
+
+  closeSelectColumnsPopup = (): void => {
+    this.keyword = '';
+    this.isSelectAllColumns = false;
+    this.closeSelectColumnsModal.nativeElement.click();
+  }
+
+  getCollectionSelection = (isFirstTime: boolean, keyword?: string): void => {
+    this.spinner.show();
+    this.admin.postDataApi('getCollectionSelection', { name: keyword }).subscribe((response) => {
+      this.spinner.hide();
+      this.select_columns_list = (response.data || []).sort((a, b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0));
+      (this.select_columns_list || []).forEach((data, index) => {
+        this.makeSelectedColumns(data.id, index);
+      });
+      this.changeSelect();
+      if (isFirstTime) {
+        this.keyword = '';
+        this.isSelectAllColumns = false;
+        this.language_code = localStorage.getItem('language_code');
+        this.openSelectColumnsModal.nativeElement.click();
+      }
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), ((error || {}).error || {}).message, 'error');
+    });
+  }
+
+  getCollectionHome = (): void => {
+    //this.spinner.show();
+    this.admin.postDataApi('getCollectionFeilds', { user_id: JSON.parse(localStorage.getItem('user-id')) || 0 }).subscribe((response) => {
+      this.selectedCollectionColumnsToShow = response.data || {};
+      //this.spinner.hide();
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
+
+  applyShowSelectedColumns = (): void => {
+    this.spinner.show();
+    this.admin.postDataApi('updateCollectionFeilds', this.getPostRequestForColumn()).subscribe((response) => {
+      this.spinner.hide();
+      this.closeSelectColumnsPopup();
+      this.getCollectionHome();
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
+
+  getPostRequestForColumn = (): any => {
+    return {
+      user_id: JSON.parse(localStorage.getItem('user-id')) || 0,
+      buyer_name: (this.select_columns_list[0] || []).isCheckBoxChecked,
+      buyer_legal_representative: (this.select_columns_list[1] || []).isCheckBoxChecked,
+      seller_name: (this.select_columns_list[2] || []).isCheckBoxChecked,
+      seller_legal_representative: (this.select_columns_list[3] || []).isCheckBoxChecked,
+      name_of_building: (this.select_columns_list[4] || []).isCheckBoxChecked,
+      name_of_tower: (this.select_columns_list[5] || []).isCheckBoxChecked,
+      name_of_apartment: (this.select_columns_list[6] || []).isCheckBoxChecked,
+      configuration: (this.select_columns_list[7] || []).isCheckBoxChecked,
+      locality: (this.select_columns_list[8] || []).isCheckBoxChecked,
+      contract: (this.select_columns_list[9] || []).isCheckBoxChecked,
+      purchase_date: (this.select_columns_list[10] || []).isCheckBoxChecked,
+      last_concept: (this.select_columns_list[11] || []).isCheckBoxChecked,
+      last_date_of_payment: (this.select_columns_list[12] || []).isCheckBoxChecked,
+      last_amount: (this.select_columns_list[13] || []).isCheckBoxChecked,
+      next_concept: (this.select_columns_list[14] || []).isCheckBoxChecked,
+      next_date_of_payment: (this.select_columns_list[15] || []).isCheckBoxChecked,
+      next_amount: (this.select_columns_list[16] || []).isCheckBoxChecked,
+      currency: (this.select_columns_list[17] || []).isCheckBoxChecked,
+      sozu_commission: (this.select_columns_list[18] || []).isCheckBoxChecked,
+      iva_amount: (this.select_columns_list[19] || []).isCheckBoxChecked,
+      pc_amount: (this.select_columns_list[20] || []).isCheckBoxChecked,
+      pc_receipt: (this.select_columns_list[21] || []).isCheckBoxChecked,
+      pc_invoice: (this.select_columns_list[22] || []).isCheckBoxChecked,
+      collection_commission: (this.select_columns_list[23] || []).isCheckBoxChecked,
+      iva_amount_pc: (this.select_columns_list[24] || []).isCheckBoxChecked,
+      cc_amount: (this.select_columns_list[25] || []).isCheckBoxChecked,
+      cc_receipt: (this.select_columns_list[26] || []).isCheckBoxChecked,
+      cc_invoice: (this.select_columns_list[27] || []).isCheckBoxChecked,
+      inhouse_agent_commission: (this.select_columns_list[28] || []).isCheckBoxChecked,
+      iva_amount_cc: (this.select_columns_list[29] || []).isCheckBoxChecked,
+      ac_receipt: (this.select_columns_list[30] || []).isCheckBoxChecked,
+      ac_invoice: (this.select_columns_list[31] || []).isCheckBoxChecked,
+      outside_agent_commission: (this.select_columns_list[32] || []).isCheckBoxChecked,
+      iva_amount_ac: (this.select_columns_list[33] || []).isCheckBoxChecked,
+      oac_receipt: (this.select_columns_list[34] || []).isCheckBoxChecked,
+      oac_invoice: (this.select_columns_list[35] || []).isCheckBoxChecked,
+      agent_commission_inhouse: (this.select_columns_list[36] || []).isCheckBoxChecked,
+      agent_commission_outside: (this.select_columns_list[37] || []).isCheckBoxChecked,
+      final_price: (this.select_columns_list[38] || []).isCheckBoxChecked,
+      final_price_per_metter: (this.select_columns_list[39] || []).isCheckBoxChecked,
+      penalty: (this.select_columns_list[40] || []).isCheckBoxChecked,
+      amount_paid: (this.select_columns_list[41] || []).isCheckBoxChecked,
+      remanining_amount: (this.select_columns_list[42] || []).isCheckBoxChecked,
+      status_account: (this.select_columns_list[43] || []).isCheckBoxChecked,
+      actions: (this.select_columns_list[44] || []).isCheckBoxChecked
+
+    };
+  }
+
+  changeSelectAll = (): void => {
+    (this.select_columns_list || []).forEach((data) => {
+      data.isCheckBoxChecked = this.isSelectAllColumns;
+    });
+  }
+
+  changeSelect = (): void => {
+    let index = 0;
+    (this.select_columns_list || []).forEach((data) => {
+      if (data.isCheckBoxChecked) {
+        index += 1;
+      }
+    });
+    if ((this.select_columns_list || []).length == index) {
+      this.isSelectAllColumns = true;
+    } else {
+      this.isSelectAllColumns = false;
+    }
+  }
+
+  makeSelectedColumns = (id: number, index: number): void => {
+    switch (id) {
+      case 1:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.buyer_name;
+        break;
+      case 2:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.buyer_legal_representative;
+        break;
+      case 3:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.seller_name;
+        break;
+      case 4:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.seller_legal_representative;
+        break;
+      case 5:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.name_of_building;
+        break;
+      case 6:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.name_of_tower;
+        break;
+      case 7:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.name_of_apartment;
+        break;
+      case 8:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.configuration;
+        break;
+      case 9:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.locality;
+        break;
+      case 10:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.contract;
+        break;
+      case 11:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.purchase_date;
+        break;
+      case 12:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.last_concept;
+        break;
+      case 13:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.last_date_of_payment;
+        break;
+      case 14:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.last_amount;
+        break;
+      case 15:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.next_concept;
+        break;
+      case 16:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.next_date_of_payment;
+        break;
+      case 17:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.next_amount;
+        break;
+      case 18:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.currency;
+        break;
+      case 19:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.sozu_commission;
+        break;
+      case 20:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.iva_amount;
+        break;
+      case 21:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.pc_amount;
+        break;
+      case 22:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.pc_receipt;
+        break;
+      case 23:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.pc_invoice;
+        break;
+      case 24:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.collection_commission;
+        break;
+      case 25:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.iva_amount_pc;
+        break;
+      case 26:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.cc_amount;
+        break;
+      case 27:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.cc_receipt;
+        break;
+      case 28:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.cc_invoice;
+        break;
+      case 29:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.inhouse_agent_commission;
+        break;
+      case 30:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.iva_amount_cc;
+        break;
+      case 31:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.ac_receipt;
+        break;
+      case 32:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.ac_invoice;
+        break
+      case 33:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.outside_agent_commission;
+        break;
+      case 34:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.iva_amount_ac;
+        break;
+      case 35:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.oac_receipt;
+        break;
+      case 36:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.oac_invoice;
+        break;
+      case 37:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.agent_commission_inhouse;
+        break;
+      case 38:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.agent_commission_outside;
+        break;
+      case 39:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.final_price;
+        break;
+      case 40:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.final_price_per_metter;
+        break;
+      case 41:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.penalty;
+        break;
+      case 42:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.amount_paid;
+        break;
+      case 43:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.remanining_amount;
+        break;
+      case 44:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.status_account;
+        break;
+      case 45:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.actions;
+        break;
+      default:
+        break;
+    }
+
   }
 
 }

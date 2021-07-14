@@ -428,7 +428,7 @@ export class InhouseBrokerComponent implements OnInit {
     this.admin.getApi("leads/all-in-house-broker-statuses" ).subscribe(r => {
       this.addChangeStatusNames = r.data;
       this.spinner.hide();
-      if(item && (this.user.data.permissions.all_geo_access == 1 || this.user.data.permissions.can_in_house_broker == 1 || this.users.permissions.can_cordinator == 1)){
+      if(item && (this.user.data.permissions.all_geo_access == 1 || this.user.data.permissions.can_in_house_broker == 1 || this.users.permissions.can_csr_coordinator == 1)){
       this.addChangeStatusModelOpen.nativeElement.click();
       }
       else{

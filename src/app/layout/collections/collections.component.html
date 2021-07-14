@@ -1,10 +1,17 @@
 <div class="container-fluid ">
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-12">
       <div class="form-group">
         <p class="p16">{{'viewCollections.label' | translate}}</p>
       </div>
     </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+      <div class="form-group" style="float: right;">
+         <button class="action-icon" (click)="getCollectionSelection(true)"
+            title="{{'table.title.selectColumns' | translate}}"><i class="fa fa-pause"
+               style="cursor: pointer;"></i></button>
+      </div>
+   </div>
   </div>
   <div class="row">
     <div class="offset-md-4"></div>
@@ -180,7 +187,7 @@
                       </div>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 150px;">
+                  <th style="text-align:left; width: 150px;" *ngIf="selectedCollectionColumnsToShow?.buyer_name">
                     <div class="table-search">
                       <label>{{'table.th.buyerName' | translate}}</label>
                       <div class="searh-3">
@@ -191,12 +198,12 @@
                       </div>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 150px;">
+                  <th style="text-align:left; width: 150px;" *ngIf="selectedCollectionColumnsToShow?.buyer_legal_representative">
                     <div class="table-search">
                       <label>{{'table.th.buyerLegalRepresentative' | translate}}</label>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 150px;">
+                  <th style="text-align:left; width: 150px;" *ngIf="selectedCollectionColumnsToShow?.seller_name">
                     <div class="table-search">
                       <label>{{'table.th.sellerName' | translate}}</label>
                       <div class="searh-3">
@@ -207,12 +214,12 @@
                       </div>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 150px;">
+                  <th style="text-align:left; width: 150px;" *ngIf="selectedCollectionColumnsToShow?.seller_legal_representative">
                     <div class="table-search">
                       <label>{{'table.th.sellerLegalRepresentative' | translate}}</label>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 140px;">
+                  <th style="text-align:left; width: 140px;" *ngIf="selectedCollectionColumnsToShow?.name_of_building">
                     <div class="table-search">
                       <label>{{'table.th.nameOfBuilding' | translate}}</label>
                       <div class="searh-3">
@@ -223,7 +230,7 @@
                       </div>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 120px;">
+                  <th style="text-align:left; width: 120px;" *ngIf="selectedCollectionColumnsToShow?.name_of_tower">
                     <div class="table-search">
                       <label>{{'table.th.nameOfTower' | translate}}</label>
                       <div class="searh-3">
@@ -234,7 +241,7 @@
                       </div>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 140px;">
+                  <th style="text-align:left; width: 140px;" *ngIf="selectedCollectionColumnsToShow?.name_of_apartment">
                     <div class="table-search">
                       <label>{{'table.th.nameOfApartment' | translate}}</label>
                       <div class="searh-3">
@@ -245,7 +252,7 @@
                       </div>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 120px;">
+                  <th style="text-align:left; width: 120px;" *ngIf="selectedCollectionColumnsToShow?.configuration">
                     <div class="table-search">
                       <label>{{'table.th.configuration' | translate}}</label>
                       <div class="searh-3">
@@ -256,12 +263,12 @@
                       </div>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 110px;">
+                  <th style="text-align:left; width: 110px;" *ngIf="selectedCollectionColumnsToShow?.locality">
                     <div class="table-search">
                       <label>{{'table.th.locality' | translate}}</label>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 100px;">
+                  <th style="vertical-align:top; width: 100px;" *ngIf="selectedCollectionColumnsToShow?.contract">
                     <div class="table-search">
                       <label>{{'table.th.contract' | translate}}</label>
                       <select style="width: 70px;" [(ngModel)]="parameter.pc_contract" (change)="getListing()"
@@ -272,8 +279,7 @@
                       </select>
                     </div>
                   </th>
-
-                  <th style="vertical-align:top; width: 140px;z-index: 2;">
+                  <th style="vertical-align:top; width: 140px;z-index: 2;" *ngIf="selectedCollectionColumnsToShow?.purchase_date">
                     <div class="table-search">
                       <div (click)="sort_by(1)" class="d-flex table-search">
                         <label>{{'table.th.purchaseDate' | translate}}</label>
@@ -295,53 +301,52 @@
                       </div>
                     </div>
                   </th>
-
-                  <th style="vertical-align:top; width: 110px;">
+                  <th style="vertical-align:top; width: 110px;" *ngIf="selectedCollectionColumnsToShow?.last_concept">
                     <div class="d-flex table-search">
                       <label>{{'table.th.lastConcept' | translate}}</label>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 110px;">
+                  <th style="vertical-align:top; width: 110px;" *ngIf="selectedCollectionColumnsToShow?.last_date_of_payment">
                     <div class="d-flex table-search">
                       <label>{{'table.th.lastDateOfPayment' | translate}}</label>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 110px;">
+                  <th style="vertical-align:top; width: 110px;" *ngIf="selectedCollectionColumnsToShow?.last_amount">
                     <div class="d-flex table-search">
                       <label class="width100px">{{'table.th.lastAmount' | translate}}</label>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 110px;">
+                  <th style="vertical-align:top; width: 110px;" *ngIf="selectedCollectionColumnsToShow?.next_concept">
                     <div class="d-flex table-search">
                       <label>{{'table.th.nextConcept' | translate}}</label>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 110px;">
+                  <th style="vertical-align:top; width: 110px;" *ngIf="selectedCollectionColumnsToShow?.next_date_of_payment">
                     <div class="d-flex table-search">
                       <label>{{'table.th.nextDateOfPayment' | translate}}</label>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 110px;">
+                  <th style="vertical-align:top; width: 110px;" *ngIf="selectedCollectionColumnsToShow?.next_amount">
                     <div class="table-search">
                       <label class="width100px">{{'table.th.nextAmount' | translate}}</label>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 100px;">
+                  <th style="text-align:left; width: 100px;" *ngIf="selectedCollectionColumnsToShow?.currency">
                     <div class="table-search">
                       <label>{{'table.th.currency' | translate}}</label>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 100px;">
+                  <th style="vertical-align:top; width: 100px;" *ngIf="selectedCollectionColumnsToShow?.sozu_commission">
                     <div class="table-search">
                       <label>{{'table.th.sozuPC' | translate}}</label>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 100px;">
+                  <th style="vertical-align:top; width: 100px;" *ngIf="selectedCollectionColumnsToShow?.iva_amount">
                     <div class="table-search">
                       <label>{{'table.th.ivaAdded' | translate}}</label>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 100px;">
+                  <th style="vertical-align:top; width: 100px;" *ngIf="selectedCollectionColumnsToShow?.pc_amount">
                     <div class="table-search">
                       <label>{{'table.th.tobeRePC' | translate}}</label>
                       <select style="width: 70px;" [(ngModel)]="parameter.pc_amount" (change)="getListing()"
@@ -352,7 +357,7 @@
                       </select>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 100px;">
+                  <th style="vertical-align:top; width: 100px;" *ngIf="selectedCollectionColumnsToShow?.pc_receipt">
                     <div class="table-search">
                       <label>{{'table.th.PCReceipt' | translate}}</label>
                       <select style="width: 70px;" [(ngModel)]="parameter.pc_receipt" (change)="getListing()"
@@ -363,7 +368,7 @@
                       </select>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 100px;">
+                  <th style="vertical-align:top; width: 100px;" *ngIf="selectedCollectionColumnsToShow?.pc_invoice">
                     <div class="table-search">
                       <label>{{'table.th.PCInvoice' | translate}}</label>
                       <select style="width: 70px;" [(ngModel)]="parameter.pc_invoice" (change)="getListing()"
@@ -374,73 +379,72 @@
                       </select>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 100px;">
+                  <th style="vertical-align:top; width: 100px;" *ngIf="selectedCollectionColumnsToShow?.collection_commission">
                     <div class="table-search">
                       <label>{{'table.th.sozuCC' | translate}}</label>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 100px;">
+                  <th style="vertical-align:top; width: 100px;" *ngIf="selectedCollectionColumnsToShow?.iva_amount_pc">
                     <div class="table-search">
                       <label>{{'table.th.ivaAdded' | translate}}</label>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 100px;">
+                  <th style="vertical-align:top; width: 100px;" *ngIf="selectedCollectionColumnsToShow?.cc_amount">
                     <div class="table-search">
                       <label>{{'table.th.tobeReCC' | translate}}</label>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 100px;">
+                  <th style="vertical-align:top; width: 100px;" *ngIf="selectedCollectionColumnsToShow?.cc_receipt">
                     <div class="table-search">
                       <label>{{'table.th.CCReceipt' | translate}}</label>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 100px;">
+                  <th style="vertical-align:top; width: 100px;" *ngIf="selectedCollectionColumnsToShow?.cc_invoice">
                     <div class="table-search">
                       <label>{{'table.th.CCInvoice' | translate}}</label>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 100px;">
+                  <th style="vertical-align:top; width: 1px;" *ngIf="selectedCollectionColumnsToShow?.inhouse_agent_commission">
                     <div class="table-search">
                       <label>{{'table.th.inhouseagentCommission' | translate}}</label>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 100px;">
+                  <th style="vertical-align:top; width: 100px;" *ngIf="selectedCollectionColumnsToShow?.iva_amount_cc">
                     <div class="table-search">
                       <label>{{'table.th.ivaAdded' | translate}}</label>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 100px;">
+                  <th style="vertical-align:top; width: 100px;" *ngIf="selectedCollectionColumnsToShow?.ac_receipt">
                     <div class="table-search">
                       <label>{{'table.th.ACReceipt' | translate}}</label>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 100px;">
+                  <th style="vertical-align:top; width: 100px;" *ngIf="selectedCollectionColumnsToShow?.ac_invoice">
                     <div class="table-search">
                       <label>{{'table.th.ACInvoice' | translate}}</label>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 100px;">
+                  <th style="vertical-align:top; width: 100px;" *ngIf="selectedCollectionColumnsToShow?.outside_agent_commission">
                     <div class="table-search">
                       <label>{{'table.th.outsideagentCommission' | translate}}</label>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 100px;">
+                  <th style="vertical-align:top; width: 100px;" *ngIf="selectedCollectionColumnsToShow?.iva_amount_ac">
                     <div class="table-search">
                       <label>{{'table.th.ivaAdded' | translate}}</label>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 100px;">
+                  <th style="vertical-align:top; width: 100px;" *ngIf="selectedCollectionColumnsToShow?.oac_receipt">
                     <div class="table-search">
                       <label>{{'table.th.OACReceipt' | translate}}</label>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 100px;">
+                  <th style="vertical-align:top; width: 100px;" *ngIf="selectedCollectionColumnsToShow?.oac_invoice">
                     <div class="table-search">
                       <label>{{'table.th.OACInvoice' | translate}}</label>
                     </div>
                   </th>
-
-                  <th style="vertical-align:top; width: 100px;">
+                  <th style="vertical-align:top; width: 112px;" *ngIf="selectedCollectionColumnsToShow?.agent_commission_inhouse">
                     <div class="table-search">
                       <label>{{'table.th.agentCommissionInhouse' | translate}}</label>
                       <div class="searh-3">
@@ -451,7 +455,7 @@
                       </div>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 100px;">
+                  <th style="vertical-align:top; width: 113px;" *ngIf="selectedCollectionColumnsToShow?.agent_commission_outside">
                     <div class="table-search">
                       <label>{{'table.th.agentCommissionOutside' | translate}}</label>
                       <div class="searh-3">
@@ -462,32 +466,32 @@
                       </div>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 120px;">
+                  <th style="text-align:left; width: 120px;" *ngIf="selectedCollectionColumnsToShow?.final_price">
                     <div class="table-search">
                       <label>{{'table.th.finalPrice' | translate}}</label>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 120px;">
+                  <th style="text-align:left; width: 120px;" *ngIf="selectedCollectionColumnsToShow?.final_price_per_metter">
                     <div class="table-search">
                       <label>{{'table.th.finalPrice_per' | translate}}</label>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 100px;">
+                  <th style="text-align:left; width: 100px;" *ngIf="selectedCollectionColumnsToShow?.penalty">
                     <div class="table-search">
                       <label>{{'table.th.penalty' | translate}}</label>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 120px;">
+                  <th style="text-align:left; width: 120px;" *ngIf="selectedCollectionColumnsToShow?.amount_paid">
                     <div class="table-search">
                       <label>{{'table.th.amountPaid' | translate}}</label>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 120px;">
+                  <th style="text-align:left; width: 120px;" *ngIf="selectedCollectionColumnsToShow?.remanining_amount">
                     <div class="table-search">
                       <label>{{'table.th.remaniningAmount' | translate}}</label>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 100px;">
+                  <th style="text-align:left; width: 185px;" *ngIf="selectedCollectionColumnsToShow?.status_account">
                     <div class="table-search">
                       <label>{{'table.th.statusAccount' | translate}}</label>
                       <select [(ngModel)]="parameter.collection_status" (change)="parameter.page=1;getListing()">
@@ -496,7 +500,7 @@
                       </select>
                     </div>
                   </th>
-                  <th style="width: 400px;" *ngIf="parameter.flag!=5">
+                  <th style="width: 400px;" *ngIf="parameter.flag!=5 && selectedCollectionColumnsToShow?.actions">
                     <div class="table-search">
                       <label>{{'table.th.actions.label' | translate}}</label>
                     </div>
@@ -507,7 +511,7 @@
                 <tr
                   *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
                   <td><span>{{p?.id ? p?.id : ('table.tr.td.NA' | translate)}}</span></td>
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.buyer_name">
                     <span *ngIf="p?.buyer_type == 1" (click)="userinfo(p)" style="cursor: pointer;">
                       {{p?.buyer?.name ? (p?.buyer?.name + ' ' + p?.buyer?.first_surname + ' ' +
                       p?.buyer?.second_surname) : ('table.tr.td.NA' | translate)}}
@@ -521,7 +525,7 @@
                       p?.buyer?.second_surname) : ('table.tr.td.NA' | translate)}}
                     </span>
                   </td>
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.buyer_legal_representative">
                     <span *ngIf="p?.buyer_type == 1">
                       {{p?.buyer?.legal_representative?.name ? (p?.buyer?.legal_representative?.name + ' ' +
                       p?.buyer?.legal_representative?.first_surname + ' ' +
@@ -538,7 +542,7 @@
                       p?.buyer?.legal_representative?.second_surname) : ('table.tr.td.NA' | translate)}}
                     </span>
                   </td>
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.seller_name">
                     <span *ngIf="p?.seller_type == 1">
                       {{p?.seller?.name ? (p?.seller?.name + ' ' + p?.seller?.first_surname + ' ' +
                       p?.seller?.second_surname) : ('table.tr.td.NA' | translate)}}
@@ -552,7 +556,7 @@
                       p?.seller?.second_surname) : ('table.tr.td.NA' | translate)}}
                     </span>
                   </td>
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.seller_legal_representative">
                     <span *ngIf="p?.seller_type == 1">
 
                     </span>
@@ -567,153 +571,149 @@
                       p?.seller?.legal_representative?.second_surname) : ('table.tr.td.NA' | translate)}}
                     </span>
                   </td>
-                  <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}">
+                  <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}" *ngIf="selectedCollectionColumnsToShow?.name_of_building">
                     <strong>{{p?.property?.building?.name ? p?.property?.building?.name: ('table.tr.td.NA' |
                       translate)}}</strong>
                   </td>
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.name_of_tower">
                     <span>{{p?.property?.building_towers ? p?.property?.building_towers?.tower_name : ('table.tr.td.NA'
                       | translate)}}</span>
                   </td>
                   <!-- <td>
                     <span  (click)="this.navigateToProperty(p)" style="cursor: pointer;">{{p?.property?.name ? p?.property?.name : ('table.tr.td.NA' | translate)}}</span>
                   </td> -->
-                  <td [ngClass]="{'green-color cursor-pointer': p?.property?.name }">
+                  <td [ngClass]="{'green-color cursor-pointer': p?.property?.name }" *ngIf="selectedCollectionColumnsToShow?.name_of_apartment">
                     <span (click)="this.navigateToProperty(p)" *ngIf="p?.property?.name">
                       {{p?.property?.name}}
                     </span>
                     <span *ngIf="!p?.property?.name">{{'table.tr.td.NA' | translate}}</span>
                   </td>
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.configuration">
                     <span>{{p?.property?.building_configuration?.name}}</span>
                   </td>
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.locality">
                     <span>{{p?.property?.locality?.name ? p?.property?.locality?.name : ('table.tr.td.NA' |
                       translate)}}</span>
                   </td>
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.contract">
                     <!-- <span>{{p?.property?.locality?.name ? p?.property?.locality?.name : ('table.tr.td.NA' |
                       translate)}}</span> pc_contract -->
                     <span>{{p?.contract_count > 0 ? ('table.th.yes' | translate) : ('table.th.no' | translate)}}</span>
                   </td>
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.purchase_date">
                     <span>{{p.deal_purchase_date ? getDateWRTTimezone(p.deal_purchase_date, 'DD/MMM/YYYY') :
                       ('table.tr.td.NA' | translate)}}</span>
                   </td>
-
-                  <td><span>{{ p?.last_payment ? getLastPaymentConcept(p) : ('table.tr.td.NA' | translate)}}</span></td>
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.last_concept"><span>{{ p?.last_payment ? getLastPaymentConcept(p) : ('table.tr.td.NA' | translate)}}</span></td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.last_date_of_payment">
                     <span>{{(p?.last_payment?.payment_date ? (p?.last_payment?.payment_date | date:'dd/MMM/yyyy') :
                       ('table.tr.td.NA' | translate) )}}</span>
                   </td>
-                  <td><span
+                  <td *ngIf="selectedCollectionColumnsToShow?.last_amount"><span
                       [ngClass]="{'red-color':((p?.last_payment?.calc_payment_amount || 0) < (p?.last_payment?.amount || 0))}">
                       {{ (p?.last_payment?.collection_amount || 0) | currency}}
                     </span></td>
-                  <td><span>{{p?.next_payment?.name || ('table.tr.td.NA' | translate)}}</span></td>
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.next_concept"><span>{{p?.next_payment?.name || ('table.tr.td.NA' | translate)}}</span></td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.next_date_of_payment">
                     <span>{{(p?.next_payment?.date ? (p?.next_payment?.date | date:'dd/MMM/yyyy') : ('table.tr.td.NA' |
                       translate) )}}</span>
                   </td>
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.next_amount">
                     <span>{{ ((p?.next_payment?.amount || 0)-(p?.next_payment?.calc_payment_amount || 0)) |
                       currency}}</span>
                   </td>
-
-                  <td><span>{{p?.currency?.code || ('table.tr.td.NA' | translate)}}</span></td>
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.currency"><span>{{p?.currency?.code || ('table.tr.td.NA' | translate)}}</span></td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.sozu_commission">
                     <span>{{p?.comm_total_commission ? (p?.comm_total_commission | number : '1.2-3') : ('table.tr.td.NA'
                       | translate)}}</span>
                   </td>
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.iva_amount">
                     <input name="add_iva_to_pc{{i}}" disabled class="form-control checkbox_size" type="checkbox"
                       [checked]="p?.add_iva_to_pc ? 'checked' : ''" readonly>
                   </td>
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.pc_amount">
                     <span [ngClass]="{'red-color':((p?.sum_pc || 0) != (p?.comm_total_commission_amount || 0))}">
                       {{(p?.pc_received || 0) | currency}}
                     </span>
                   </td>
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.pc_receipt">
                     <input name="pc_receipt{{i}}" disabled class="form-control checkbox_size" type="checkbox"
                       [checked]="p?.pc_receipt ? 'checked' : ''" readonly>
                   </td>
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.pc_invoice">
                     <input name="pc_invoice{{i}}" disabled class="form-control checkbox_size" type="checkbox"
                       [checked]="p?.pc_invoice ? 'checked' : ''" readonly>
                   </td>
-                  <td>{{p?.cc_percent}}</td>
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.collection_commission">{{p?.cc_percent}}</td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.iva_amount_pc">
                     <input name="add_iva_to_cc{{i}}" disabled class="form-control checkbox_size" type="checkbox"
                       [checked]="p?.add_iva_to_cc ? 'checked' : ''" readonly>
                   </td>
-                  <td>{{(p?.cc_received || 0) | currency}}</td>
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.cc_amount">{{(p?.cc_received || 0) | currency}}</td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.cc_receipt">
                     <input name="cc_receipt{{i}}" disabled class="form-control checkbox_size" type="checkbox"
                       [checked]="p?.cc_receipt ? 'checked' : ''" readonly>
                   </td>
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.cc_invoice">
                     <input name="cc_invoice{{i}}" disabled class="form-control checkbox_size" type="checkbox"
                       [checked]="p?.cc_invoice ? 'checked' : ''" readonly>
                   </td>
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.inhouse_agent_commission">
                     <span>{{p?.comm_shared_commission ? (p?.comm_shared_commission | number : '1.2-3') :
                       ('table.tr.td.NA' | translate)}}</span>
                   </td>
-
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.iva_amount_cc">
                     <input name="add_iva_to_ac{{i}}" disabled class="form-control checkbox_size" type="checkbox"
                       [checked]="p?.add_iva_to_ac ? 'checked' : ''" readonly>
                   </td>
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.ac_receipt">
                     <input name="ac_receipt{{i}}" disabled class="form-control checkbox_size" type="checkbox"
                       [checked]="p?.ac_receipt ? 'checked' : ''" readonly>
                   </td>
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.outside_agent_commission">
                     <input name="ac_invoice{{i}}" disabled class="form-control checkbox_size" type="checkbox"
                       [checked]="p?.ac_invoice ? 'checked' : ''" readonly>
                   </td>
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.iva_amount_ac">
                     <span>{{p?.outside_agent_commission_percentage ? (p?.outside_agent_commission_percentage | number : '1.2-3') :
                       ('table.tr.td.NA' | translate)}}</span>
                   </td>
-
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.ac_receipt">
                     <input name="add_iva_to_oac{{i}}" disabled class="form-control checkbox_size" type="checkbox"
                       [checked]="p?.add_iva_to_oac ? 'checked' : ''" readonly>
                   </td>
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.ac_invoice">
                     <input name="oac_receipt{{i}}" disabled class="form-control checkbox_size" type="checkbox"
                       [checked]="p?.oac_receipt ? 'checked' : ''" readonly>
                   </td>
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.outside_agent_commission">
                     <input name="oac_invoice{{i}}" disabled class="form-control checkbox_size" type="checkbox"
                       [checked]="p?.oac_invoice ? 'checked' : ''" readonly>
                   </td>
-                  <td *ngIf="p?.deal_commission_agents?.length">
+                  <td *ngIf="p?.deal_commission_agents?.length && selectedCollectionColumnsToShow?.agent_commission_inhouse">
                     <span>
                       {{p?.deal_commission_agents[0]?.broker?.name ? (p?.deal_commission_agents[0]?.broker?.name + ' '
                       +p?.deal_commission_agents[0]?.broker?.first_surname + ' ' +
                       p?.deal_commission_agents[0]?.broker?.second_surname) : ('table.tr.td.NA' | translate)}}
                     </span>
                   </td>
-                  <td *ngIf="!p?.deal_commission_agents?.length">
+                  <td *ngIf="!p?.deal_commission_agents?.length && selectedCollectionColumnsToShow?.agent_commission_inhouse">
                     <span>{{('table.tr.td.NA' | translate)}}</span>
                   </td>
-                  <td *ngIf="p?.deal_commission_outside_agents?.length">
+                  <td *ngIf="p?.deal_commission_outside_agents?.length && selectedCollectionColumnsToShow?.agent_commission_outside">
                     <span>{{p?.deal_commission_outside_agents ? (p?.deal_commission_outside_agents[0]?.name) :
                       ('table.tr.td.NA' | translate)}}</span>
                   </td>
-                  <td *ngIf="!p?.deal_commission_outside_agents?.length">
+                  <td *ngIf="!p?.deal_commission_outside_agents?.length && selectedCollectionColumnsToShow?.agent_commission_outside">
                     <span>{{('table.tr.td.NA' | translate)}}</span>
                   </td>
-                  <td><span>{{(p?.final_price || 0) | currency}}</span></td>
-                  <td><span>{{(p?.avgg_price_per || 0) | currency}}</span></td>
-                  <td><span>{{(p?.penalty || 0) | currency}}</span></td>
-                  <td><span>{{(p?.total_payment_recieved || 0) | currency}}</span></td>
-                  <td><span>{{p?.remaining | currency}}</span></td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.final_price"><span>{{(p?.final_price || 0) | currency}}</span></td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.final_price_per_metter"><span>{{(p?.avgg_price_per || 0) | currency}}</span></td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.penalty"><span>{{(p?.penalty || 0) | currency}}</span></td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.amount_paid"><span>{{(p?.total_payment_recieved || 0) | currency}}</span></td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.remanining_amount"><span>{{p?.remaining | currency}}</span></td>
 
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.status_account">
                     <div *ngIf="p?.is_cancelled==1" class="status grey" title="Cancelled"></div>
                     <div *ngIf="p?.is_cancelled==0 && p?.is_commission_sale_enabled==1" class="status purple"
                       title="Only Commission for sale"></div>
@@ -728,7 +728,7 @@
                     <div *ngIf="p?.is_cancelled==0 && p?.is_commission_sale_enabled==0 && p?.payment_status==6"
                       class="status orange" title="Inconsistency between price and deal scheme"></div>
                   </td>
-                  <td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.actions">
                     <div class="table-actions">
 
                       <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
@@ -2754,4 +2754,69 @@
       </form>
     </div>
   </div>
+</div>
+
+<!-- select columns -->
+<a data-toggle="modal" data-target="#link-select-columns-model" #openSelectColumnsModal style="display: none;"></a>
+<div class="modal" id="link-select-columns-model">
+   <div class="modal-dialog" style="width: max-content;">
+      <div class="modal-content notary-avail">
+         <div class="modal-header popup-header">
+            <h4 class="modal-title">{{'table.title.columnsSelection' | translate}}</h4>
+            <button type="button" class="close" #closeSelectColumnsModal data-dismiss="modal">&times;</button>
+         </div>
+         <div class="modal-body">
+            <p class="modal-title">{{'table.title.selectTheColumnYouWantToVisualize' | translate}}</p>
+            <br />
+            <div class="row">
+               <div class="col-md-8 col-6">
+                  <label class="p16-two">
+                     <input class="form-control" class="is_commission_sale_enabled" type="checkbox" name="SelectAll"
+                        (change)="changeSelectAll()" [(ngModel)]="isSelectAllColumns">
+                     <span style="margin-left: 10px; vertical-align: super;">{{'commonBlock.selectAll' |
+                        translate}}</span>
+                  </label>
+               </div>
+               <div class="col-md-4 col-6 btn-cont">
+                  <a class="btn btn-primary pull-right" href="javascript://"
+                     (click)="applyShowSelectedColumns()">{{'filters.location.applyBtn' | translate}}</a>
+               </div>
+            </div>
+            <div class="spacer40"></div>
+            <div class="row">
+               <div class="col-md-8 col-6">
+                  <input style="max-width:200px" (keyup.enter)="getCollectionSelection(false, keyword)"
+                     [(ngModel)]="keyword" class="form-control" type="text" name="keyword"
+                     placeholder="{{'addForm.placeholder.search' | translate}}">
+               </div>
+               <div class="col-md-4 col-5 btn-cont">
+                  <a class="btn btn-primary pull-right" href="javascript://"
+                     (click)="getCollectionSelection(false, keyword)">{{'viewProperty.search' | translate}}</a>
+               </div>
+            </div>
+
+            <div class="spacer40"></div>
+            <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+               <table class="table">
+                  <tr *ngFor="let item of select_columns_list; let ii=index">
+                     <td>
+                        <div class="row">
+                           <div class="col-md-8 col-6">
+                              <label class="p16-two">
+                                 <input class="form-control" class="is_commission_sale_enabled" type="checkbox"
+                                    name="checkbox{{ii}}" [(ngModel)]="item.isCheckBoxChecked"
+                                    (change)="changeSelect()">
+                                 <span style="margin-left: 10px; vertical-align: super;">
+                                    {{this.language_code == 'en' ? item.name_en : item.name_es }}
+                                 </span>
+                              </label>
+                           </div>
+                        </div>
+                     </td>
+                  </tr>
+               </table>
+            </div>
+         </div>
+      </div>
+   </div>
 </div>
