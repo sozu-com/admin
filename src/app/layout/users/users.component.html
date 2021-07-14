@@ -58,6 +58,17 @@
                 </th>
                 <th style="width:10%">
                   <div class="table-search">
+                      <label>{{'table.th.dateOfRegistration' | translate}}</label>
+                      <div class="searh-3">
+                        <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email
+                        ,parameter.first_surname,parameter.second_surname)" name="" autocomplete="address-level4">
+                        <button *ngIf="parameter.name" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
+                        parameter.first_surname,parameter.second_surname)"><i class="fa fa-search"></i></button>
+                      </div>
+                  </div>
+                </th>
+                <th style="width:10%">
+                  <div class="table-search">
                       <label>{{'table.th.name' | translate}}</label>
                       <div class="searh-3">
                         <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email
@@ -143,6 +154,9 @@
                 <td> 
                     <img *ngIf="item.image" [defaultImage]="item.image| img:'thumb'" [lazyLoad]="item.image" class="rounded-circle" alt="img">
                     <img *ngIf="!item.image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
+                </td>
+                <td class="text-left">
+                  <span class="name" *ngIf="item.updated_at">{{item.verified_date ? (item.verified_date | date) : 'N/A'}}</span>
                 </td>
                 <td class="text-left">
                     <a class="text-ellipsis" data-toggle="popover" data-placement="top" title="{{item.name}}" 
