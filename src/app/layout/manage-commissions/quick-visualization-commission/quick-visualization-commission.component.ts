@@ -414,6 +414,7 @@ export class QuickVisualizationCommissionComponent implements OnInit {
               const e = self.allPaymentConcepts[j];
               if (e.id == element.display_choice_id) {
                 self.allPaymentConcepts.splice(j, 0, element);
+                this.collectionCommission.splice(j, 0, {})
                 break;
               }
             }
@@ -472,7 +473,6 @@ export class QuickVisualizationCommissionComponent implements OnInit {
             agent_comm_amount:self.agent_payment_sum,
             agent_outside_comm_amount:self.agentOut_payment_sum
           });
-          console.log(self.allPaymentConcepts,"commission")
           self.collectionCommission.push({});
           
          

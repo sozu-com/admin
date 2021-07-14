@@ -725,7 +725,7 @@ export class ManageCommissionsComponent implements OnInit ,OnDestroy{
       this.admin.postDataApi('addCancellationCommission', input).subscribe(r => {
         this.isApplyBtnClicked = false;
         // this.closeCollReceiptModal();
-        this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
+        this.router.navigate(['/dashboard/commissions/quick-visualization-commission', this.property_collection_id]);
         this.paymentModalClose.nativeElement.click();
         this.closeCollReceiptModal();
 
@@ -959,7 +959,7 @@ export class ManageCommissionsComponent implements OnInit ,OnDestroy{
             });
           }
 
-          this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
+          this.router.navigate(['/dashboard/commissions/quick-visualization-commission', this.property_collection_id]);
           this.paymentModalClose.nativeElement.click();
           this.closeCollReceiptModal();
 
