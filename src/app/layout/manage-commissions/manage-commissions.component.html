@@ -141,8 +141,10 @@
           <label>{{'filters.commisionType.type' | translate}}</label>
           <select class="form-control" (change)="getListing()"  [(ngModel)]="parameter.commission_type">
             <option value="1">{{'filters.commisionType.purchase' | translate}}</option>
-            <option value="2">{{'filters.commisionType.agent' | translate}}</option>
+            <option value="2">{{'filters.commisionType.inhouse-agent' | translate}}</option>
+            <option value="5">{{'filters.commisionType.outside-agent' | translate}}</option>
             <option value="3">{{'filters.commisionType.collection' | translate}}</option>
+            <!-- <option value="4">{{'filters.commisionType.collection' | translate}}</option> -->
           </select>
         </div>
       </div>
@@ -307,7 +309,7 @@
                       <label>{{'table.th.sozuPC' | translate}}</label>
                     </div>
                   </th>    
-                  <th style="vertical-align:top; width: 100px;">
+                  <th style="vertical-align:top; width: 118px;">
                     <div class="table-search">
                       <label>{{'table.th.commission' | translate}}</label>
                       <div class="searh-3">
@@ -318,7 +320,7 @@
                       </div>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 100px;">
+                  <th style="vertical-align:top; width: 118px;">
                     <div class="table-search">
                       <label>{{'table.th.iva' | translate}}</label>
                       <div class="searh-3">
@@ -331,7 +333,7 @@
                   </th>
                   <th style="vertical-align:top; width: 115px;">
                     <div class="table-search">
-                      <label>{{'table.th.total' | translate}}</label>
+                      <label>{{'table.th.total-comm' | translate}}</label>
                       <div class="searh-3">
                         <input autocomplete="off" class="width100px" type="text" [(ngModel)]="parameter.agent_name"
                           (keyup.enter)="getListing()">
@@ -350,15 +352,15 @@
                       <label>{{'table.th.remaniningAmount' | translate}}</label>
                     </div>
                   </th>
-                  <!-- <th style="text-align:left; width: 100px;">
+                  <th style="text-align:left; width: 123px;">
                     <div class="table-search">
-                      <label>{{'table.th.statusAccount' | translate}}</label>
-                      <select [(ngModel)]="parameter.collection_status" (change)="parameter.page=1;getListing()" style="width: 100px;">
+                      <label>{{'table.th.statusComm' | translate}}</label>
+                      <!-- <select [(ngModel)]="parameter.collection_status" (change)="parameter.page=1;getListing()" style="width: 100px;">
                         <option value="">{{'table.th.all' | translate}}</option>
                         <option *ngFor="let c of collectionStatusFilter" value="{{c.value}}">{{c.name}}</option>
-                      </select>
+                      </select> -->
                     </div>
-                  </th> -->
+                  </th>
                   <th style="width: 100px;" *ngIf="parameter.flag!=5">
                     <div class="table-search">
                       <label>{{'table.th.actions.label' | translate}}</label>
@@ -479,22 +481,35 @@
                   <td><span>{{(p?.payment_commission || 0) | currency}}</span></td>
                   <td><span>{{getRemainingAmt(p) | currency}}</span></td>
 
-                  <!-- <td>
+                  <td>
                    
-                    <div *ngIf="p?.is_cancelled==0 && p?.is_commission_sale_enabled==0 && p?.payment_status==1"
-                      class="status green" title="Up to Date"></div>
-                    <div *ngIf="p?.is_cancelled==0 && p?.is_commission_sale_enabled==0 && p?.payment_status==2"
-                      class="status yellow" title="Payment Period"></div>
-                    <div *ngIf="p?.is_cancelled==0 && p?.is_commission_sale_enabled==0 && p?.payment_status==3"
-                      class="status red" title="Overdue Payment"></div>
+                    <div *ngIf="p?.commission_status_color==1"
+                      class="status green" title="Total commission received"></div>
+                    <div *ngIf="p?.commission_status_color==2"
+                      class="status yellow" title="Partial commission received"></div>
+                    <div *ngIf="p?.commission_status_color==3"
+                      class="status blue" title="Pending commission"></div>
                    
-                  </td> -->
+                  </td>
                   <td>
                     <div class="table-actions">
+
                       <button  (click)="all(p)"
-                       title="{{'table.title.quickVisuaization' | translate}}"
-                        class="action-icon"><img src="assets/img/eye-icon.png" alt="img"></button> 
-                        <!-- (click)="all(p)" -->
+                       title="{{'table.title.quickVisuaization' | translate}}" class="action-icon">
+                        <img src="assets/img/eye-icon.png" alt="img">
+                      </button> 
+                        <!-- apply payment -->
+                        <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
+                         title="{{'table.title.collectionCommission' | translate}}" class="action-icon"
+                         (click)="showCollectionCommReceipt(p, i, 'commission-popup')">
+                         <img src="assets/img/ic_commission.png" alt="img">
+                        </button>
+                          <!-- edit payment -->
+                        <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
+                         title="{{'table.title.editPayment' | translate}}" class="action-icon">
+                         <img src="assets/img/edit.png" alt="img">
+                        </button>
+                        <!-- (click)="showEditPaymentPopup(p, i)" -->
                     </div>
                   </td> 
           
@@ -531,7 +546,7 @@
 </div>
 
 
-<a href="javascript://" data-toggle="modal" data-target="#coll-receipt-Modal" #collectionReceiptOpen style="display: none;"></a>
+<a href="javascript://" data-toggle="modal" data-target="#coll-receipt-Modal" #collectionReceiptOpen></a>
 <div class="modal animated" id="coll-receipt-Modal">
   <div class="modal-dialog fadeIndown modal-lg">
     <div class="modal-content notary-avail">
@@ -559,6 +574,11 @@
                     <option value="1">{{'viewCollections.purchaseCommission' | translate}}</option>
                     <option value="2">{{'viewCollections.collectionCommission' | translate}}</option>
                     <option value="3">{{'viewCollections.agentCommission' | translate}}</option>
+                    <option value="5">{{'viewCollections.outsideagentCommission' | translate}}</option>
+                    <option value="4" [disabled]="cancel_commission_status == 1">
+                      {{'viewCollections.cancellation' | translate}}
+                      <span *ngIf="cancel_commission_status == 1"> | Paid</span>
+                    </option>
                   </select>
                 </div>
               </div>
@@ -570,8 +590,11 @@
                   <select name="payment_choice" #applyPaymentChoiceId1 required class="form-control"
                     [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
                     <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
-                    <option *ngFor="let bt of paymentConcepts" [ngValue]="bt"
-                      [disabled]="bt?.payment_made==0 || bt?.purchase_payment"> {{bt?.payment_choice?.name}}</option>
+                    <option *ngFor="let bt of paymentConcepts"
+                      [disabled]="bt?.payment_made==1 || bt?.purchase_payment_status==1" [ngValue]="bt">
+                      {{bt?.payment_choice?.name}}
+                      <span *ngIf="bt?.purchase_payment_status==1"> | Paid</span>
+                    </option>
                   </select>
                 </div>
               </div>
@@ -584,7 +607,26 @@
                     [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
                     <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
                     <option *ngFor="let bt of paymentConcepts" [ngValue]="bt"
-                      [disabled]="bt?.payment_made==0 || bt?.agent_payment"> {{bt?.payment_choice?.name}}</option>
+                      [disabled]="bt?.payment_made2==1 || bt?.agent_payment_status==1">
+                      {{bt?.payment_choice?.name}}
+                      <span *ngIf="bt?.agent_payment_status==1"> | Paid</span>
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-6" *ngIf="commission_type==5">
+              <div class="form-group-2">
+                <label>{{'viewCollections.choosePaymentConcept' | translate}} <span class="color-red">*</span></label>
+                <div class="form-group">
+                  <select name="payment_choice" #applyPaymentChoiceId1 required class="form-control"
+                    [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
+                    <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
+                    <option *ngFor="let bt of paymentConcepts" [ngValue]="bt"
+                      [disabled]="bt?.payment_made3==1 || bt?.outside_agent_payment_status==1">
+                      {{bt?.payment_choice?.name}}
+                      <span *ngIf="bt?.outside_agent_payment_status==1"> | Paid</span>
+                    </option>
                   </select>
                 </div>
               </div>
@@ -597,7 +639,27 @@
                     [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
                     <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
                     <option *ngFor="let bt of paymentConcepts" [ngValue]="bt"
-                      [disabled]="bt?.payment_made==0 || bt?.payment"> {{bt?.payment_choice?.name}}</option>
+                      [disabled]="bt?.payment_made1==1 || bt?.collection_payment_status==1">
+                      {{bt?.payment_choice?.name}}
+                      <span *ngIf="bt?.collection_payment_status==1"> | Paid</span>
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-6" *ngIf="commission_type==4">
+              <div class="form-group-2">
+                <label>{{'viewCollections.choosePaymentConcept' | translate}} <span class="color-red">*</span></label>
+                <div class="form-group">
+                  <select disabled name="payment_choice" #applyPaymentChoiceId2 required class="form-control"
+                    [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)"
+                    style="background-color: #E3E3E3;">
+                    <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
+                    <option *ngFor="let bt of paymentConcepts" [ngValue]="bt"
+                      [disabled]="bt?.payment_made1==1 || bt?.collection_payment_status==1">
+                      {{bt?.payment_choice?.name}}
+                      <span *ngIf="bt?.collection_payment_status==1"> | Paid</span>
+                    </option>
                   </select>
                 </div>
               </div>
@@ -614,16 +676,61 @@
                 </div>
               </div>
             </div>
-            <div class="col-6">
+            <div class="col-6" *ngIf="commission_type==1">
               <div class="form-group-2">
-                <label>{{'viewCollections.enterPaymentAmt' | translate}}<span class="color-red">*</span></label>
+                <label>{{'viewCollections.currentAmtTobePaid' | translate}}<span class="color-red">*</span></label>
                 <div class="form-group">
                   <input autocomplete="off" readonly required type="number" step="0.01" min="0" class="form-control"
+                    [(ngModel)]="paid_amount" name="paid_amount">
+                </div>
+              </div>
+            </div>
+            <div class="col-6" *ngIf="commission_type==3">
+              <div class="form-group-2">
+                <label>{{'viewCollections.currentAmtTobePaid' | translate}}<span class="color-red">*</span></label>
+                <div class="form-group">
+                  <input autocomplete="off" readonly required type="number" step="0.01" min="0" class="form-control"
+                    [(ngModel)]="paid_amount" name="paid_amount">
+                </div>
+              </div>
+            </div>
+            <div class="col-6" *ngIf="commission_type==5">
+              <div class="form-group-2">
+                <label>{{'viewCollections.currentAmtTobePaid' | translate}}<span class="color-red">*</span></label>
+                <div class="form-group">
+                  <input autocomplete="off" readonly required type="number" step="0.01" min="0" class="form-control"
+                    [(ngModel)]="paid_amount" name="paid_amount">
+                </div>
+              </div>
+            </div>
+            <div class="col-6" *ngIf="commission_type==2">
+              <div class="form-group-2">
+                <label>{{'viewCollections.currentAmtTobePaid' | translate}}<span class="color-red">*</span></label>
+                <div class="form-group">
+                  <input autocomplete="off" readonly required type="number" step="0.01" min="0" class="form-control"
+                    [(ngModel)]="paid_amount" name="paid_amount">
+                </div>
+              </div>
+            </div>
+            <div class="col-6" *ngIf="commission_type !=4">
+              <div class="form-group-2">
+                <label>{{'viewCollections.totalAmtToBePaid' | translate}}<span class="color-red">*</span></label>
+                <div class="form-group">
+                  <input autocomplete="off" required type="number" step="0.01" min="0" class="form-control"
                     [(ngModel)]="paymentAmount" name="paymentAmount">
                 </div>
               </div>
             </div>
-            <div class="col-6" *ngIf="payment_method_id == 1">
+            <div class="col-6" *ngIf="commission_type==4">
+              <div class="form-group-2">
+                <label>{{'viewCollections.enterPaymentAmt' | translate}}<span class="color-red">*</span></label>
+                <div class="form-group">
+                  <input autocomplete="off" required type="number" step="0.01" min="0" class="form-control"
+                    [(ngModel)]="payment_amount" name="payment_amount">
+                </div>
+              </div>
+            </div>
+            <div class="col-6" *ngIf="commission_type==4">
               <div class="form-group-2">
                 <label>{{'viewCollections.choosePaymentReceipt' | translate}}</label>
                 <div class="form-group">
@@ -633,7 +740,17 @@
                 </div>
               </div>
             </div>
-            <div class="col-6" *ngIf="payment_method_id !=1">
+            <div class="col-6" *ngIf="payment_method_id == 1 && commission_type != 4">
+              <div class="form-group-2">
+                <label>{{'viewCollections.choosePaymentReceipt' | translate}}</label>
+                <div class="form-group">
+                  <input type="file" name="docFile" #docsFile2
+                    accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/x-png,image/jpg,image/jpeg"
+                    (change)="onSelectFile($event.target.files, 'docFile')">
+                </div>
+              </div>
+            </div>
+            <div class="col-6" *ngIf="payment_method_id !=1 && commission_type !=4">
               <div class="form-group-2">
                 <label>{{'viewCollections.choosePaymentReceipt' | translate}} <span class="color-red">*</span></label>
                 <div class="form-group">
@@ -643,6 +760,7 @@
                 </div>
               </div>
             </div>
+
             <div class="col-6">
               <div class="form-group-2">
                 <label>{{'viewCollections.paymentDate' | translate}} <span class="color-red">*</span> </label>
