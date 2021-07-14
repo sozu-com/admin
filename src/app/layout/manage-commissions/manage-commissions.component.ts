@@ -27,6 +27,18 @@ export class ManageCommissionsComponent implements OnInit ,OnDestroy{
   items: any = [];
   total: any = 0;
   today: Date;
+  purchase__amount: any;
+  agent_amount: any;
+  outside_agent_payment: any;
+  collection_amount: any;
+  test_pay: any;
+  test_agent: any;
+  test1_agent: any;
+  test_Collection: any;
+  sameAmount: any;
+  sumData: any;
+  paid_amount: any;
+  payment_amount: any;
   @ViewChild('collectionReceiptOpen') collectionReceiptOpen: ElementRef;
   @ViewChild('collectionReceiptClose') collectionReceiptClose: ElementRef;
   @ViewChild('collectionTypeSelect') collectionTypeSelect: ElementRef;
@@ -185,6 +197,7 @@ export class ManageCommissionsComponent implements OnInit ,OnDestroy{
     this.today = new Date();
     this.getCountries();
     this.initCalendarLocale();
+    this.getPaymentMethods();
     this.route.params.subscribe(params => {
       if (params['id']) {
         this.parameter.collection_id = params['id'];
@@ -199,7 +212,17 @@ export class ManageCommissionsComponent implements OnInit ,OnDestroy{
     });
   }
 
-  
+  getPaymentMethods() {
+    this.admin.postDataApi('getPaymentMethods', {})
+      .subscribe(
+        success => {
+          this.paymentMethods = success.data;
+        }, error => {
+          this.spinner.hide();
+        }
+      );
+  }
+
   initCalendarLocale() {
     if (this.translate.defaultLang === 'en') {
       this.locale = {
@@ -665,147 +688,31 @@ export class ManageCommissionsComponent implements OnInit ,OnDestroy{
   }
 
   applyCollectionPayment() {
-    // checking if date selected and receipt selected
-    let callApi = true;
-    if (!this.paymentDate) {
-      this.toastr.clear();
-      this.toastr.error(this.translate.instant('message.error.pleaseSelectPaymentDate'), this.translate.instant('swal.error'));
-      return false;
-    }
-    if (!this.docFile && this.payment_method_id != "1") {
-      this.toastr.clear();
-      this.toastr.error(this.translate.instant('message.error.pleaseChooseReceipt'), this.translate.instant('swal.error'));
-      return false;
-    }
-    if (!this.paymentAmount || this.paymentAmount == 0) {
-      this.toastr.clear();
-      this.toastr.error(this.translate.instant('message.error.pleaseEnterValidAmt'), this.translate.instant('swal.error'));
-      return false;
-    }
-    if (this.surplus_payment_type == '4' && !this.surplus_payment_choice_id) {
-      this.toastr.clear();
-      this.toastr.error(this.translate.instant('message.error.pleaseChoosePayments'), this.translate.instant('swal.error'));
-      return false;
-    }
-
-    let amt = this.paymentAmount;
-    // in case of pay to following, if user is paying surplus money ask the user, what he wants to do with durplus money
-    if (this.payment_type == 1 && this.calculatedPayAmount < this.paymentAmount) {
-      if (!this.surplus_payment_type) {
-        this.askUserForSurplusMomey();
-        return;
+    if (this.commission_type == 4) {
+      if (!this.paymentDate) {
+        this.toastr.clear();
+        this.toastr.error(this.translate.instant('message.error.pleaseSelectPaymentDate'), this.translate.instant('swal.error'));
+        return false;
+      }
+    
+      const offset = new Date(this.paymentDate).getTimezoneOffset();
+      if (offset < 0) {
+        this.paymentDate = moment(this.paymentDate).subtract(offset, 'minutes').toDate();
       } else {
-        amt = this.calculatedPayAmount;
+        this.paymentDate = moment(this.paymentDate).add(offset, 'minutes').toDate();
       }
-    }
-
-    // check for type 1, user can not pay more than the sum of all installments
-    if (this.payment_type == '1') {
-      let a = 0;
-      this.paymentConcepts.map(v => {
-        if (!v['is_paid_calculated']) {
-          const remaining_amt = parseFloat(v['amount']) - parseFloat(v['calc_payment_amount']);
-          a = a + remaining_amt + (v['penalty'] ? parseFloat(v['penalty']['amount']) : 0);
-        }
-      }, 0);
-      if (this.paymentAmount > a) {
-        this.toastr.clear();
-        this.toastr.error(this.translate.instant('message.error.payToFollowingCheck'), this.translate.instant('swal.error'));
-        return false;
-      }
-    }
-
-    // check for type 2 abd 2, user cannot pay more than sum of remaining MI
-    if (this.payment_type == '2' || this.payment_type == '3') {
-      let a: any = 0;
-      this.paymentConcepts.map(v => {
-        if (!v['is_paid_calculated'] && v.name.includes('Monthly Installment')) {
-          const remaining_amt = parseFloat(v['amount']) - parseFloat(v['calc_payment_amount']);
-          a = parseFloat(a) + remaining_amt + (v['penalty'] ? parseFloat(v['penalty']['amount']) : 0);
-          a = a.toFixed(2);
-        }
-      }, 0);
-      if (this.paymentAmount > a) {
-        this.toastr.clear();
-        this.toastr.error(this.translate.instant('message.error.payToRemainingcheck'), this.translate.instant('swal.error'));
-        return false;
-      }
-    }
-
-    // check for type 3, user can only pay exact amount of M1, or sum of M1 & M2, or sum of M1,M2,M3 and soon
-    const a1 = this.surplus_payment_type == '3' ? this.paymentAmount - this.calculatedPayAmount : this.paymentAmount;
-    if (this.payment_type == '3' || this.surplus_payment_type == '3') {
-      let a: any = 0;
-      let index = this.paymentConcepts.length - 1;
-      for (index; index >= 0; index--) {
-        const v = this.paymentConcepts[index];
-        if (!v['is_paid_calculated'] && v.name.includes('Monthly Installment')) {
-          const remaining_amt = parseFloat(v['amount']) - parseFloat(v['calc_payment_amount']);
-          a = parseFloat(a) + remaining_amt + (v['penalty'] ? parseFloat(v['penalty']['amount']) : 0);
-          a = a.toFixed(2);
-        }
-        // using a1 and not this.paymentAmount because, need to check for both direct type 3 and type 3 in surplus popup
-        if (a1 > a) {
-          continue;
-        } else if (a1 == a) {
-          break;
-        } else if (this.paymentAmount < a) {
-          this.toastr.clear();
-          this.toastr.error(this.translate.instant('message.error.payToRemainingReduceTimecheck'), this.translate.instant('swal.error'));
-          this.surplus_payment_type == '3' ?
-            this.surplusMoneyModalClose.nativeElement.click() :
-            this.paymentModalClose.nativeElement.click();
-          return false;
-        }
-      }
-    }
-
-    // in pay to specific, user is allowed to pay either exact amount or partial amt
-    if (this.payment_type == 4 && this.calculatedPayAmount < this.paymentAmount) {
-      this.toastr.clear();
-      this.toastr.error(this.translate.instant('message.error.payToSpecificCheck'), this.translate.instant('swal.error'));
-      return false;
-    }
-
-    // in total payment, user is allowed to pay sum of exact remaining amount (sum of installments and penalty)
-    if (this.payment_type == 5 && this.calculatedPayAmount != this.paymentAmount) {
-      this.toastr.clear();
-      this.toastr.error(this.translate.instant('message.error.totalPayemntCheck'), this.translate.instant('swal.error'));
-      return false;
-    }
-
-    const offset = new Date(this.paymentDate).getTimezoneOffset();
-    if (offset < 0) {
-      this.paymentDate = moment(this.paymentDate).subtract(offset, 'minutes').toDate();
-    } else {
-      this.paymentDate = moment(this.paymentDate).add(offset, 'minutes').toDate();
-    }
-
-    const input = {
-      property_collection_id: this.property_collection_id,
-      payment_method_id: this.payment_method_id,
-      is_agency: this.payment_bank ? this.payment_bank.is_agency : null,
-      bank_id: this.payment_bank ? this.payment_bank.bank_id : null,
-      legal_rep_bank_id: this.payment_bank ? this.payment_bank.legal_rep_bank_id : null,
-      amount: amt,
-      receipt: this.docFile,
-      description: this.description,
-      payment_date: this.paymentDate,
-      full_amount: this.paymentAmount // sending real amount entered by user
-    };
-
-    // send commission_type, collection_commission_id, percent incase of applying commission
-    if (this.typeOfPayment === 'commission-popup') {
-      delete input.amount;
-      input['commission_type'] = this.commission_type;
-      input['collection_commission_id'] = this.selectedCollectionCommission.id;
-      input['percent'] = this.selectedCollectionCommission.percent;
-      input['invoice_id'] = this.invoice_id;
-      input['pdf_url'] = this.pdf_url;
-      input['xml_url'] = this.xml_url;
-      input['amount'] = amt - this.ivaAmount;
-      input['iva_amount'] = this.ivaAmount;
-
+      const input = {
+        property_collection_id: this.property_collection_id,
+        payment_method_id: this.payment_method_id,
+        invoice_id: this.invoice_id,
+        pdf_url: this.pdf_url,
+        xml_url: this.xml_url,
+        payment_amount: this.payment_amount,
+        receipt: this.docFile,
+        description: this.description,
+        payment_date: moment(this.paymentDate).format('YYYY-MM-DD'),
+        iva_amount: this.ivaAmount, // sending real amount entered by user
+      };
       if (this.invoice_date) {
         const offset1 = new Date(this.invoice_date).getTimezoneOffset();
         if (offset < 0) {
@@ -814,85 +721,262 @@ export class ManageCommissionsComponent implements OnInit ,OnDestroy{
           input['invoice_date'] = moment(this.invoice_date).add(offset1, 'minutes').toDate();
         }
       }
-    } else {
-      // applying payment
-      // for edit the wrong amount uploaded
-      // if (this.selectedPaymentConcept && this.selectedPaymentConcept['collection_payment']) {
-      //   input['id'] = this.selectedPaymentConcept['collection_payment']['id']
-      // }
-      // for type==2&3, no need to pass collection_payment_choice_id
-      if (this.payment_type == 1 || this.payment_type == 4) {
-        input['collection_payment_choice_id'] = this.payment_choice_id['id'];
-      }
-      input['type'] = this.payment_type;
-    }
-
-
-    if (this.typeOfPayment == 'apply-popup' && (this.cashSum + this.paymentAmount > this.cashLimit)) {
-      callApi = false;
-      swal({
-        html: this.translate.instant('message.error.cashLimitReached'),
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: this.constant.confirmButtonColor,
-        cancelButtonColor: this.constant.cancelButtonColor,
-        confirmButtonText: 'Ok'
-      }).then((result) => {
-        if (result.value) {
-          // continue;
-          this.callToPaymentApi(input);
-        } else {
-          return;
-        }
-      });
-      // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.cashLimitReached'), 'error');
-      // this.toastr.clear();
-      // this.toastr.error(this.translate.instant('message.error.cashLimitReached'), this.translate.instant('swal.error'));
-      // return false;
-    }
-    const url = this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'applyCommissionPayment';
-    // if (this.typeOfPayment) {
-    //   this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'apply-popup';
-    // } else {
-    //   this.typeOfPayment === 'applyCommissionPayment' ? 'applyCollectionPayment1' : 'applyCommissionPayment';
-    // }
-    // const url = this.typeOfPayment
-
-    if (callApi) {
       this.isApplyBtnClicked = true;
-      this.admin.postDataApi(url, input).subscribe(r => {
+      this.admin.postDataApi('addCancellationCommission', input).subscribe(r => {
         this.isApplyBtnClicked = false;
-        if (this.surplus_payment_type) {
-          input['amount'] = this.paymentAmount - this.calculatedPayAmount;
-          input['type'] = this.surplus_payment_type;
-          input['parent_id'] = r.data['id'];   // send parent_id in case of type 1 and surplus (to make parent delete)
-          if (this.surplus_payment_type == '4') {
-            input['collection_payment_choice_id'] = this.surplus_payment_choice_id;
-          }
-
-          this.admin.postDataApi(url, input).subscribe(r => {
-            // if (this.surplus_payment_type == '1' || this.surplus_payment_type == '4') {
-            //   input['collection_payment_choice_id'] = this.payment_choice_id['id']
-            // }
-          });
-        }
-
-        this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
+        // this.closeCollReceiptModal();
+        this.router.navigate(['/dashboard/commissions/quick-visualization-commission', this.property_collection_id]);
         this.paymentModalClose.nativeElement.click();
         this.closeCollReceiptModal();
 
         this.toastr.clear();
-        this.toastr.success(this.translate.instant('message.success.savedSuccessfully'), this.translate.instant('swal.success'));
-      }, error => {
-        this.paymentConcepts = [];
-        this.isApplyBtnClicked = false;
-        this.docsFile1.nativeElement.value = '';
-        this.paymentModalClose.nativeElement.click();
-        this.closeCollReceiptModal();
-        // this.toastr.error(error.message, this.translate.instant('swal.error'));
-        return false;
+        this.toastr.success(this.translate.instant('message.success.cancellationSuccessfully'), this.translate.instant('swal.success'));
+        //swal(this.translate.instant('swal.success'), this.translate.instant('message.success.cancellationSuccessfully'), 'success');
+        // this.getListing();
+        //this.spinner.hide();
+        //this.all_developers = r.data;
       });
+
+    } else {
+      // checking if date selected and receipt selected
+      let callApi = true;
+      if (!this.paymentDate) {
+        this.toastr.clear();
+        this.toastr.error(this.translate.instant('message.error.pleaseSelectPaymentDate'), this.translate.instant('swal.error'));
+        return false;
+      }
+      if (!this.docFile && this.payment_method_id != "1") {
+        this.toastr.clear();
+        this.toastr.error(this.translate.instant('message.error.pleaseChooseReceipt'), this.translate.instant('swal.error'));
+        return false;
+      }
+      if (!this.paymentAmount || this.paymentAmount == 0) {
+        this.toastr.clear();
+        this.toastr.error(this.translate.instant('message.error.pleaseEnterValidAmt'), this.translate.instant('swal.error'));
+        return false;
+      }
+      if (this.surplus_payment_type == '4' && !this.surplus_payment_choice_id) {
+        this.toastr.clear();
+        this.toastr.error(this.translate.instant('message.error.pleaseChoosePayments'), this.translate.instant('swal.error'));
+        return false;
+      }
+
+      let amt = this.paymentAmount;
+      // in case of pay to following, if user is paying surplus money ask the user, what he wants to do with durplus money
+      if (this.payment_type == 1 && this.calculatedPayAmount < this.paymentAmount) {
+        if (!this.surplus_payment_type) {
+          this.askUserForSurplusMomey();
+          return;
+        } else {
+          amt = this.calculatedPayAmount;
+        }
+      }
+
+      // check for type 1, user can not pay more than the sum of all installments
+      if (this.payment_type == '1') {
+        let a = 0;
+        this.paymentConcepts.map(v => {
+          if (!v['is_paid_calculated']) {
+            const remaining_amt = parseFloat(v['amount']) - parseFloat(v['calc_payment_amount']);
+            a = a + remaining_amt + (v['penalty'] ? parseFloat(v['penalty']['amount']) : 0);
+          }
+        }, 0);
+        if (this.paymentAmount > a) {
+          this.toastr.clear();
+          this.toastr.error(this.translate.instant('message.error.payToFollowingCheck'), this.translate.instant('swal.error'));
+          return false;
+        }
+      }
+
+      // check for type 2 abd 2, user cannot pay more than sum of remaining MI
+      if (this.payment_type == '2' || this.payment_type == '3') {
+        let a: any = 0;
+        this.paymentConcepts.map(v => {
+          if (!v['is_paid_calculated'] && v.name.includes('Monthly Installment')) {
+            const remaining_amt = parseFloat(v['amount']) - parseFloat(v['calc_payment_amount']);
+            a = parseFloat(a) + remaining_amt + (v['penalty'] ? parseFloat(v['penalty']['amount']) : 0);
+            a = a.toFixed(2);
+          }
+        }, 0);
+        if (this.paymentAmount > a) {
+          this.toastr.clear();
+          this.toastr.error(this.translate.instant('message.error.payToRemainingcheck'), this.translate.instant('swal.error'));
+          return false;
+        }
+      }
+
+      // check for type 3, user can only pay exact amount of M1, or sum of M1 & M2, or sum of M1,M2,M3 and soon
+      const a1 = this.surplus_payment_type == '3' ? this.paymentAmount - this.calculatedPayAmount : this.paymentAmount;
+      if (this.payment_type == '3' || this.surplus_payment_type == '3') {
+        let a: any = 0;
+        let index = this.paymentConcepts.length - 1;
+        for (index; index >= 0; index--) {
+          const v = this.paymentConcepts[index];
+          if (!v['is_paid_calculated'] && v.name.includes('Monthly Installment')) {
+            const remaining_amt = parseFloat(v['amount']) - parseFloat(v['calc_payment_amount']);
+            a = parseFloat(a) + remaining_amt + (v['penalty'] ? parseFloat(v['penalty']['amount']) : 0);
+            a = a.toFixed(2);
+          }
+          // using a1 and not this.paymentAmount because, need to check for both direct type 3 and type 3 in surplus popup
+          if (a1 > a) {
+            continue;
+          } else if (a1 == a) {
+            break;
+          } else if (this.paymentAmount < a) {
+            this.toastr.clear();
+            this.toastr.error(this.translate.instant('message.error.payToRemainingReduceTimecheck'), this.translate.instant('swal.error'));
+            this.surplus_payment_type == '3' ?
+              this.surplusMoneyModalClose.nativeElement.click() :
+              this.paymentModalClose.nativeElement.click();
+            return false;
+          }
+        }
+      }
+
+      // in pay to specific, user is allowed to pay either exact amount or partial amt
+      if (this.payment_type == 4 && this.calculatedPayAmount < this.paymentAmount) {
+        this.toastr.clear();
+        this.toastr.error(this.translate.instant('message.error.payToSpecificCheck'), this.translate.instant('swal.error'));
+        return false;
+      }
+
+      // in total payment, user is allowed to pay sum of exact remaining amount (sum of installments and penalty)
+      if (this.payment_type == 5 && this.calculatedPayAmount != this.paymentAmount) {
+        this.toastr.clear();
+        this.toastr.error(this.translate.instant('message.error.totalPayemntCheck'), this.translate.instant('swal.error'));
+        return false;
+      }
+
+      const offset = new Date(this.paymentDate).getTimezoneOffset();
+      if (offset < 0) {
+        this.paymentDate = moment(this.paymentDate).subtract(offset, 'minutes').toDate();
+      } else {
+        this.paymentDate = moment(this.paymentDate).add(offset, 'minutes').toDate();
+      }
+
+      const input = {
+        property_collection_id: this.property_collection_id,
+        payment_method_id: this.payment_method_id,
+        is_agency: this.payment_bank ? this.payment_bank.is_agency : null,
+        bank_id: this.payment_bank ? this.payment_bank.bank_id : null,
+        legal_rep_bank_id: this.payment_bank ? this.payment_bank.legal_rep_bank_id : null,
+        amount: amt,
+        receipt: this.docFile,
+        description: this.description,
+        payment_date: this.paymentDate,
+        full_amount: this.paymentAmount, // sending real amount entered by user
+      };
+      if (this.commission_type == 1) {
+        input['total_amount'] = this.test_pay
+      } else if (this.commission_type == 3) {
+        input['total_amount'] = this.test_agent
+      }else if (this.commission_type == 5) {
+        input['total_amount'] = this.test1_agent
+      } else {
+        input['total_amount'] = this.test_Collection
+      }
+      // send commission_type, collection_commission_id, percent incase of applying commission
+      if (this.typeOfPayment === 'commission-popup') {
+
+        delete input.amount;
+        input['commission_type'] = this.commission_type;
+        input['collection_commission_id'] = this.selectedCollectionCommission.id;
+        input['percent'] = this.selectedCollectionCommission.percent;
+        input['invoice_id'] = this.invoice_id;
+        input['pdf_url'] = this.pdf_url;
+        input['xml_url'] = this.xml_url;
+        input['amount'] = amt - this.ivaAmount;
+        input['iva_amount'] = this.ivaAmount;
+
+        if (this.invoice_date) {
+          const offset1 = new Date(this.invoice_date).getTimezoneOffset();
+          if (offset < 0) {
+            input['invoice_date'] = moment(this.invoice_date).subtract(offset1, 'minutes').toDate();
+          } else {
+            input['invoice_date'] = moment(this.invoice_date).add(offset1, 'minutes').toDate();
+          }
+        }
+      } else {
+        // applying payment
+        // for edit the wrong amount uploaded
+        // if (this.selectedPaymentConcept && this.selectedPaymentConcept['collection_payment']) {
+        //   input['id'] = this.selectedPaymentConcept['collection_payment']['id']
+        // }
+        // for type==2&3, no need to pass collection_payment_choice_id
+        if (this.payment_type == 1 || this.payment_type == 4) {
+          input['collection_payment_choice_id'] = this.payment_choice_id['id'];
+        }
+        input['type'] = this.payment_type;
+      }
+
+
+      if (this.typeOfPayment == 'apply-popup' && (this.cashSum + this.paymentAmount > this.cashLimit)) {
+        callApi = false;
+        swal({
+          html: this.translate.instant('message.error.cashLimitReached'),
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: this.constant.confirmButtonColor,
+          cancelButtonColor: this.constant.cancelButtonColor,
+          confirmButtonText: 'Ok'
+        }).then((result) => {
+          if (result.value) {
+            // continue;
+            this.callToPaymentApi(input);
+          } else {
+            return;
+          }
+        });
+        // swal(this.translate.instant('swal.error'), this.translate.instant('message.error.cashLimitReached'), 'error');
+        // this.toastr.clear();
+        // this.toastr.error(this.translate.instant('message.error.cashLimitReached'), this.translate.instant('swal.error'));
+        // return false;
+      }
+      const url = this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'applyCommissionPayment';
+      // if (this.typeOfPayment) {
+      //   this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'apply-popup';
+      // } else {
+      //   this.typeOfPayment === 'applyCommissionPayment' ? 'applyCollectionPayment1' : 'applyCommissionPayment';
+      // }
+      // const url = this.typeOfPayment
+
+      if (callApi) {
+        this.isApplyBtnClicked = true;
+        this.admin.postDataApi(url, input).subscribe(r => {
+          this.isApplyBtnClicked = false;
+          if (this.surplus_payment_type) {
+            input['amount'] = this.paymentAmount - this.calculatedPayAmount;
+            input['type'] = this.surplus_payment_type;
+            input['parent_id'] = r.data['id'];   // send parent_id in case of type 1 and surplus (to make parent delete)
+            if (this.surplus_payment_type == '4') {
+              input['collection_payment_choice_id'] = this.surplus_payment_choice_id;
+            }
+
+            this.admin.postDataApi(url, input).subscribe(r => {
+              // if (this.surplus_payment_type == '1' || this.surplus_payment_type == '4') {
+              //   input['collection_payment_choice_id'] = this.payment_choice_id['id']
+              // }
+            });
+          }
+
+          this.router.navigate(['/dashboard/commissions/quick-visualization-commission', this.property_collection_id]);
+          this.paymentModalClose.nativeElement.click();
+          this.closeCollReceiptModal();
+
+          this.toastr.clear();
+          this.toastr.success(this.translate.instant('message.success.savedSuccessfully'), this.translate.instant('swal.success'));
+        }, error => {
+          this.paymentConcepts = [];
+          this.isApplyBtnClicked = false;
+          this.docsFile1.nativeElement.value = '';
+          this.paymentModalClose.nativeElement.click();
+          this.closeCollReceiptModal();
+          // this.toastr.error(error.message, this.translate.instant('swal.error'));
+          return false;
+        });
+      }
     }
+
   }
 
   setCommissionType(type: any) {
@@ -900,18 +984,43 @@ export class ManageCommissionsComponent implements OnInit ,OnDestroy{
     for (let index = 0; index < this.selectedItem.collection_commissions.length; index++) {
       const element = this.selectedItem.collection_commissions[index];
       element['payment_made'] = 0;
-      if (this.selectedItem.payment_choices[index] && this.selectedItem.payment_choices[index].is_paid_calculated) {
+      element['payment_made1'] = 0;
+      element['payment_made2'] = 0;
+      element['payment_made3'] = 0;
+      // if (this.selectedItem.collection_commissions[index] && this.selectedItem.collection_commissions[index].purchase_payment_status) {
+      //   element['payment_made'] = 1;
+      // }
+      // if (this.selectedItem.collection_commissions[index] && this.selectedItem.collection_commissions[index].collection_payment_status) {
+      //   element['payment_made1'] = 1;
+      // }
+      if (this.selectedItem.collection_commissions[index].payment_choice.calc_payment_amount < this.selectedItem.collection_commissions[index].purchase_comm_amount) {
         element['payment_made'] = 1;
+      }
+      if (this.selectedItem.collection_commissions[index].payment_choice.calc_payment_amount < this.selectedItem.collection_commissions[index].amount) {
+        element['payment_made1'] = 1;
+      }
+      if (this.selectedItem.collection_commissions[index].payment_choice.calc_payment_amount < this.selectedItem.collection_commissions[index].agent_comm_amount) {
+        element['payment_made2'] = 1;
+      }
+      if (this.selectedItem.collection_commissions[index].payment_choice.calc_payment_amount < this.selectedItem.collection_commissions[index].agent_outside_comm_amount) {
+        element['payment_made3'] = 1;
       }
       if (type == 1) {
         if (element.add_purchase_commission == 1) {
           this.paymentConcepts.push(element);
         }
-      } else if (type == 3) {
+      } 
+      else if (type == 3) {
         if (element.add_agent_commission == 1) {
           this.paymentConcepts.push(element);
         }
-      } else {
+      } 
+      else if (type == 5) {
+        if (element.add_agent_outside_commission == 1) {
+          this.paymentConcepts.push(element);
+        }
+      }
+      else {
         if (element.add_collection_commission == 1) {
           this.paymentConcepts.push(element);
         }
@@ -919,7 +1028,80 @@ export class ManageCommissionsComponent implements OnInit ,OnDestroy{
     }
   }
 
+  getValue(commission_type, item) {
+    this.admin.postDataApi('addCollectionCommissionAmount', { id: item.id, commission_type: commission_type })
+      .subscribe(
+        success => {
+          this.sumData = success['data'];
+          if (this.commission_type == 1) {
+            if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_pc)) {
+              const expected = parseFloat(this.sumData.iva_percent)  * parseFloat(this.sumData.ecpected) / 100;
+              const total_expect = parseFloat(this.sumData.ecpected) + expected;
+              this.paid_amount = (total_expect - parseFloat(this.sumData.paid_amount)).toFixed(2);
+            }else{
+              this.paid_amount = (parseFloat(item.purchase_comm_amount || 0) - parseFloat(this.sumData.paid_amount || 0)).toFixed(2);
+            }
+          } else if (this.commission_type == 3) {
+           // this.paid_amount = (item.agent_comm_amount || 0);
+            if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_ac)) {
+              const expected = parseFloat(this.sumData.iva_percent)  * parseFloat(this.sumData.ecpected) / 100;
+              const total_expect = parseFloat(this.sumData.ecpected) + expected;
+              this.paid_amount = (total_expect - parseFloat(this.sumData.paid_amount)).toFixed(2);
+            }else{
+              this.paid_amount = (parseFloat(item.agent_comm_amount || 0) - parseFloat(this.sumData.paid_amount || 0)).toFixed(2);
+            }
+          } else if (this.commission_type == 5) {
+            //this.paid_amount = (item.agent_outside_comm_amount || 0);
+            if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_oac)) {
+              const expected = parseFloat(this.sumData.iva_percent)  * parseFloat(this.sumData.ecpected) / 100;
+              const total_expect = parseFloat(this.sumData.ecpected) + expected;
+              this.paid_amount = (total_expect - parseFloat(this.sumData.paid_amount)).toFixed(2);
+            }else{
+              this.paid_amount = (parseFloat(item.agent_outside_comm_amount || 0) - parseFloat(this.sumData.paid_amount || 0)).toFixed(2);
+            }
+          } else {
+            //this.paid_amount = (item.amount || 0);
+            if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_cc)) {
+              const expected = parseFloat(this.sumData.iva_percent)  * parseFloat(this.sumData.ecpected) / 100;
+              const total_expect = parseFloat(this.sumData.ecpected) + expected;
+              this.paid_amount = (total_expect - parseFloat(this.sumData.paid_amount)).toFixed(2);
+            }else{
+              this.paid_amount = (parseFloat(item.amount || 0) - parseFloat(this.sumData.paid_amount || 0)).toFixed(2);
+            }
+          }
+        })
+  }
+ 
   setPaymentAmount(item: any) {
+    if (this.commission_type == 1) {
+      for (let i = 0; i < (item.purchase_payment || []).length; i++) {
+        let sum: number = item.purchase_payment.map(a => a.amount).reduce(function (a, b) {
+          return a + b;
+        });
+        this.purchase__amount = sum;
+      }
+    } else if (this.commission_type == 3) {
+      for (let i = 0; i < (item.agent_payment || []).length; i++) {
+        let sum1: number = item.agent_payment.map(a => a.amount).reduce(function (a, b) {
+          return a + b;
+        });
+        this.agent_amount = sum1;
+      }
+    } else if (this.commission_type == 5) {
+      for (let i = 0; i < (item.outside_agent_payment || []).length; i++) {
+        let sum4: number = item.outside_agent_payment.map(a => a.amount).reduce(function (a, b) {
+          return a + b;
+        });
+        this.outside_agent_payment = sum4;
+      }
+    }else {
+      for (let i = 0; i < (item.payment || []).length; i++) {
+        let sum2: number = item.payment.map(a => a.amount).reduce(function (a, b) {
+          return a + b;
+        });
+        this.collection_amount = sum2;
+      }
+    }
     if (this.typeOfPayment === 'commission-popup') {
       if (this.commission_type == 1 && item.add_purchase_commission == 0) {
         this.toastr.clear();
@@ -939,27 +1121,47 @@ export class ManageCommissionsComponent implements OnInit ,OnDestroy{
         this.closeCollReceiptModal();
         return false;
       }
+      if (this.commission_type == 5 && item.add_agent_outside_commission == 0) {
+        this.toastr.clear();
+        this.toastr.error(this.translate.instant('message.error.pleaseEnableAgentCommission'), this.translate.instant('swal.error'));
+        this.closeCollReceiptModal();
+        return false;
+      }
       this.ivaAmount = 0;
       if (this.commission_type == 1) {
-        this.paymentAmount = item.purchase_comm_amount || 0;
+        this.paymentAmount = (item.purchase_comm_amount || 0);
+        this.test_pay = item.purchase_comm_amount || 0;
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_pc)) {
-          this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
-          this.paymentAmount = this.paymentAmount + this.ivaAmount;
+          this.ivaAmount = (parseFloat(this.paymentAmount) * parseFloat(this.selectedItem.iva_percent)) / 100;
+          this.paymentAmount = (parseFloat(this.paymentAmount) + parseFloat(this.ivaAmount) - parseFloat(this.purchase__amount || 0)).toFixed(2);
         }
+        this.getValue(this.commission_type, item);
       } else if (this.commission_type == 3) {
-        this.paymentAmount = item.agent_comm_amount || 0;
+        this.paymentAmount = (item.agent_comm_amount || 0);
+        this.test_agent = item.agent_comm_amount || 0;
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_ac)) {
-          this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
-          this.paymentAmount = this.paymentAmount + this.ivaAmount;
+          this.ivaAmount = (parseFloat(this.paymentAmount) * parseFloat(this.selectedItem.iva_percent)) / 100;
+          this.paymentAmount = (parseFloat(this.paymentAmount) + parseFloat(this.ivaAmount) - parseFloat(this.agent_amount || 0)).toFixed(2);
         }
+        this.getValue(this.commission_type, item);
+      } else if (this.commission_type == 5) {
+        this.paymentAmount = (item.agent_outside_comm_amount || 0);
+        this.test1_agent = item.agent_outside_comm_amount || 0;
+        if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_oac)) {
+          this.ivaAmount = (parseFloat(this.paymentAmount) * parseFloat(this.selectedItem.iva_percent)) / 100;
+          this.paymentAmount = (parseFloat(this.paymentAmount) + parseFloat(this.ivaAmount) - parseFloat(this.outside_agent_payment || 0)).toFixed(2);
+          
+        }
+        this.getValue(this.commission_type, item);
       } else {
-        this.paymentAmount = item.amount || 0;
+        this.paymentAmount = (item.amount || 0);
+        this.test_Collection = item.amount || 0;
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_cc)) {
-          this.ivaAmount = (this.paymentAmount * this.selectedItem.iva_percent) / 100;
-          this.paymentAmount = this.paymentAmount + this.ivaAmount;
+          this.ivaAmount = (parseFloat(this.paymentAmount) * parseFloat(this.selectedItem.iva_percent)) / 100;
+          this.paymentAmount = (parseFloat(this.paymentAmount) + parseFloat(this.ivaAmount) - parseFloat(this.collection_amount || 0)).toFixed(2);
         }
+        this.getValue(this.commission_type, item);
       }
-      // this.paymentAmount = this.commission_type == 1 ? (item.purchase_comm_amount || 0) : (item.amount || 0);
       this.selectedCollectionCommission = item;
     } else {
       this.selectedPaymentConcept = item;
@@ -999,6 +1201,7 @@ export class ManageCommissionsComponent implements OnInit ,OnDestroy{
       }
     }
   }
+
 
   askUserForSurplusMomey() {
     this.closePaymentModal();
