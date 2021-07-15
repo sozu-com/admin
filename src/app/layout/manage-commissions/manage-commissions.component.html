@@ -476,7 +476,6 @@
                     <input name="add_iva_to_cc{{i}}" disabled class="form-control checkbox_size" type="checkbox"
                       [checked]="p?.add_iva_to_cc ? 'checked' : ''" readonly>
                   </td>
-                  <!-- <td>{{p?.iva_payment_commission}}</td> -->
                   <td><span> {{(p?.total_commission  || 0)  | currency}}</span></td>
                   <td><span>{{( p?.amount_paid || 0) | currency}}</span></td>
                   <td><span>{{( p?.remaining || 0) | currency}}</span></td>

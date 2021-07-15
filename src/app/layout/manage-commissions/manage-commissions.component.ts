@@ -451,44 +451,44 @@ export class ManageCommissionsComponent implements OnInit ,OnDestroy{
           const element = this.items[index];
           if (this.parameter.commission_type == '1') {
             if ((element.iva_percent && element.add_iva_to_pc)) {
-              element.total_commission = (parseFloat(element.iva_calculate) + parseFloat(element.expected_payment_commission)).toFixed(2);
-              element.amount_paid = (parseFloat(element.iva_calculate) + parseFloat(element.payment_commission)).toFixed(2);
+              element.total_commission = (parseFloat(element.iva_calculate || 0) + parseFloat(element.expected_payment_commission || 0)).toFixed(2);
+              element.amount_paid = (parseFloat(element.iva_calculate || 0) + parseFloat(element.payment_commission || 0)).toFixed(2);
               element.remaining = (parseFloat(element.total_commission || 0) - parseFloat(element.amount_paid || 0));
             }else{
               element.total_commission = (parseFloat(element.expected_payment_commission || 0)).toFixed(2);
               element.remaining = (parseFloat(element.total_commission || 0) - parseFloat(element.payment_commission || 0));
-              element.amount_paid = (parseFloat(element.payment_commission)).toFixed(2);
+              element.amount_paid = (parseFloat(element.payment_commission || 0)).toFixed(2);
             }
           } else if (this.parameter.commission_type == '2') {
             if ((element.iva_percent && element.add_iva_to_ac)) {
-              element.total_commission = (parseFloat(element.iva_calculate) + parseFloat(element.expected_payment_commission)).toFixed(2);
-              element.amount_paid = (parseFloat(element.iva_calculate) + parseFloat(element.payment_commission)).toFixed(2);
+              element.total_commission = (parseFloat(element.iva_calculate || 0) + parseFloat(element.expected_payment_commission || 0)).toFixed(2);
+              element.amount_paid = (parseFloat(element.iva_calculate || 0) + parseFloat(element.payment_commission || 0)).toFixed(2);
               element.remaining = (parseFloat(element.total_commission || 0) - parseFloat(element.amount_paid || 0));
               
             }else{
               element.total_commission = (parseFloat(element.expected_payment_commission || 0)).toFixed(2);
               element.remaining = (parseFloat(element.total_commission || 0) - parseFloat(element.payment_commission || 0));
-              element.amount_paid = (parseFloat(element.payment_commission)).toFixed(2);
+              element.amount_paid = (parseFloat(element.payment_commission || 0)).toFixed(2);
             }
           } else if (this.parameter.commission_type == '5') {
             if ((element.iva_percent && element.add_iva_to_oac)) {
-              element.total_commission = (parseFloat(element.iva_calculate) + parseFloat(element.expected_payment_commission)).toFixed(2);
-              element.amount_paid = (parseFloat(element.iva_calculate) + parseFloat(element.payment_commission)).toFixed(2);
+              element.total_commission = (parseFloat(element.iva_calculate || 0) + parseFloat(element.expected_payment_commission || 0)).toFixed(2);
+              element.amount_paid = (parseFloat(element.iva_calculate || 0) + parseFloat(element.payment_commission || 0)).toFixed(2);
               element.remaining = (parseFloat(element.total_commission || 0) - parseFloat(element.amount_paid || 0));
             }else{
               element.total_commission = (parseFloat(element.expected_payment_commission || 0)).toFixed(2);
               element.remaining = (parseFloat(element.total_commission || 0) - parseFloat(element.payment_commission || 0));
-              element.amount_paid = (parseFloat(element.payment_commission)).toFixed(2);
+              element.amount_paid = (parseFloat(element.payment_commission || 0)).toFixed(2);
             }
           } else {
             if ((element.iva_percent && element.add_iva_to_cc)) {
-              element.total_commission = (parseFloat(element.iva_calculate) + parseFloat(element.expected_payment_commission)).toFixed(2);
-              element.amount_paid = (parseFloat(element.iva_calculate) + parseFloat(element.payment_commission)).toFixed(2);
+              element.total_commission = (parseFloat(element.iva_calculate || 0) + parseFloat(element.expected_payment_commission || 0)).toFixed(2);
+              element.amount_paid = (parseFloat(element.iva_calculate || 0) + parseFloat(element.payment_commission || 0)).toFixed(2);
               element.remaining = (parseFloat(element.total_commission || 0) - parseFloat(element.amount_paid || 0));
             }else{
               element.total_commission = (parseFloat(element.expected_payment_commission || 0)).toFixed(2);
               element.remaining = (parseFloat(element.total_commission || 0) - parseFloat(element.payment_commission || 0));
-              element.amount_paid = (parseFloat(element.payment_commission)).toFixed(2);
+              element.amount_paid = (parseFloat(element.payment_commission || 0)).toFixed(2);
             }
           }
           const dif = (element.deal_price || 0).toFixed(2) - (element.total_deals_sum || 0).toFixed(2);
