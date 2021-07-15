@@ -256,6 +256,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     this.sendEmailForm = this.fb.group({
       'toAddress': ['', [Validators.required, this.commaSepEmail]]
     });
+    this.getCollectionHome();
     this.isPenaltyFormSub = false;
     this.invoiceKeys = false;
     this.showError = false;
