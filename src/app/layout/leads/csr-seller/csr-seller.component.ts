@@ -397,7 +397,7 @@ export class CsrSellerComponent implements OnInit {
 
   openModel(selected) {
     this.user = JSON.parse(localStorage.getItem('all'));
-    if(this.user.data.permissions.all_geo_access == 1 || this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_cordinator == 1){
+    if(this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_cordinator == 1){
     this.selected_lead = selected;
     this.items.filter(item=>{
       if(item.id == selected.id){
