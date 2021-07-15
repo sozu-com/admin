@@ -355,10 +355,11 @@
                   <th style="text-align:left; width: 123px;">
                     <div class="table-search">
                       <label>{{'table.th.statusComm' | translate}}</label>
-                      <!-- <select [(ngModel)]="parameter.collection_status" (change)="parameter.page=1;getListing()" style="width: 100px;">
-                        <option value="">{{'table.th.all' | translate}}</option>
-                        <option *ngFor="let c of collectionStatusFilter" value="{{c.value}}">{{c.name}}</option>
-                      </select> -->
+                      <select style="width: 100px;" (change)="getListing()"  [(ngModel)]="parameter.commission_status_color">
+                        <option value="1">Total commission received</option>
+                        <option value="2">Partial commission received</option>
+                        <option value="3">Pending commission</option>
+                      </select>
                     </div>
                   </th>
                   <th style="width: 100px;" *ngIf="parameter.flag!=5">
@@ -476,10 +477,9 @@
                       [checked]="p?.add_iva_to_cc ? 'checked' : ''" readonly>
                   </td>
                   <!-- <td>{{p?.iva_payment_commission}}</td> -->
-                  <td><span> {{ ((p?.expected_payment_commission || 0)+(p?.iva_calculate || 0)) |
-                    currency}}</span></td>
-                  <td><span>{{(p?.payment_commission || 0) | currency}}</span></td>
-                  <td><span>{{getRemainingAmt(p) | currency}}</span></td>
+                  <td><span> {{(p?.total_commission  || 0)  | currency}}</span></td>
+                  <td><span>{{( p?.amount_paid || 0) | currency}}</span></td>
+                  <td><span>{{( p?.remaining || 0) | currency}}</span></td>
 
                   <td>
                    
