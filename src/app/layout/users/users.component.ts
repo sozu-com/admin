@@ -345,4 +345,10 @@ export class UsersComponent implements OnInit {
       new ExcelDownload().exportAsExcelFile(exportfinalData, 'users');
     }
   }
+
+  sort_by() { 
+    this.parameter.sort_by = this.parameter.sort_by_order ? 0 : 1;
+    this.getBuyers(this.parameter.type, this.parameter.page, this.parameter.name, this.parameter.phone, this.parameter.email,
+      this.parameter.first_surname, this.parameter.second_surname);
+  }
 }

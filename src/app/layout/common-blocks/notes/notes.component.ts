@@ -42,7 +42,7 @@ export class NotesComponent implements OnInit {
   }
 
   addLeadNote(formdata: NgForm, sent_as) {
-    if(((this.user.data.permissions.all_geo_access == 1 || this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_in_house_broker == 1 || 
+    if(((this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_in_house_broker == 1 || 
      this.user.data.permissions.can_csr_coordinator == 1) && this.user.data.user_type == 2)){
     let param ={ 
       lead_id: this.lead_id,

@@ -26,7 +26,8 @@ textarea{
     left:0;
     top: 0;
     z-index:1;
-    background-color: #fff;
+    background-color: #00B96F;
+    color: #fff;
   }
   table.table-striped.quick-table th:first-child {
     z-index:2;
@@ -170,4 +171,8 @@ textarea{
   font-size: 12px;
   border-color: #00B96F;
   text-align: center;
+}
+
+.table-search label{
+  color: #fff !important;
 }
