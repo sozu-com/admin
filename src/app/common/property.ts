@@ -1,7 +1,8 @@
 export interface IProperty {
   url?: string;
   loading?: boolean;                      // loader
-  itemsPerPage?: number;                  // total items per page
+  itemsPerPage?: number;  
+  commission_status_color ?: any;               // total items per page
   total?: number;                         // total records count
   p?: number;                             // page
   sizeLimit?: number;                     // file size limit --- 5000000 means 5MB

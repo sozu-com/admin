@@ -242,18 +242,29 @@ export class QuickVisualizationCommissionComponent implements OnInit {
 
           self.collectionCommission = success['data']['collection_commissions'];
           self.collectionCommission.forEach((r) => {
-            if(self.commission_type == 1){
-              for (let i = 0; i < (r.purchase_payment || []).length; i++) {
-                let sum: number = r.purchase_payment.map(a => a.amount).reduce(function(a, b)
-                {
-                  return a + b;
-                });
-                const calculated_iva = this.model.iva_percent*sum/100;
-                const calculated_sum =  sum + calculated_iva  ;
-                r.pay_minus = calculated_sum;
-            }
-            }else if(self.commission_type == 2){
-              for (let i = 0; i < (r.agent_payment || []).length; i++) {
+            if (self.commission_type == 1) {
+              if ((this.model.iva_percent && this.model.add_iva_to_pc)) {
+                for (let i = 0; i < (r.purchase_payment || []).length; i++) {
+                  let sum: number = r.purchase_payment.map(a => a.amount).reduce(function(a, b)
+                  {
+                    return a + b;
+                  });
+                  const calculated_iva = this.model.iva_percent*sum/100;
+                  const calculated_sum =  sum + calculated_iva  ;
+                  r.pay_minus = calculated_sum;
+              }
+              }else{
+                for (let i = 0; i < (r.purchase_payment || []).length; i++) {
+                  let sum: number = r.purchase_payment.map(a => a.amount).reduce(function(a, b)
+                  {
+                    return a + b;
+                  });
+                  r.pay_minus = sum;
+              }
+              }
+            } else if (self.commission_type == 2) {
+              if ((this.model.iva_percent && this.model.add_iva_to_ac)) {
+                for (let i = 0; i < (r.agent_payment || []).length; i++) {
                   let sum1: number = r.agent_payment.map(a => a.amount).reduce(function(a, b)
                   {
                     return a + b;
@@ -262,8 +273,18 @@ export class QuickVisualizationCommissionComponent implements OnInit {
                   const calculated_sum1 =  sum1 + calculated_iva_agent  ;
                   r.agent_minus = calculated_sum1;
               }
-            }else if(self.commission_type == 5){
-              for (let i = 0; i < (r.outside_agent_payment || []).length; i++) {
+              }else{
+                for (let i = 0; i < (r.agent_payment || []).length; i++) {
+                  let sum1: number = r.agent_payment.map(a => a.amount).reduce(function(a, b)
+                  {
+                    return a + b;
+                  });
+                  r.agent_minus = sum1;
+              }
+              }
+            } else if (self.commission_type == 5) {
+              if ((this.model.iva_percent && this.model.add_iva_to_oac)) {
+                for (let i = 0; i < (r.outside_agent_payment || []).length; i++) {
                   let sum1: number = r.outside_agent_payment.map(a => a.amount).reduce(function(a, b)
                   {
                     return a + b;
@@ -271,18 +292,36 @@ export class QuickVisualizationCommissionComponent implements OnInit {
                   const calculated_iva_agent = this.model.iva_percent*sum1/100;
                   const calculated_sum1 =  sum1 + calculated_iva_agent  ;
                   r.agentoutside_minus = calculated_sum1;
-                  console.log(r.agentoutside_minus,"outside");
               }
-            }else {
-              for (let i = 0; i < (r.payment || []).length; i++) {
-                let sum2: number = r.payment.map(a => a.amount).reduce(function(a, b)
-                {
-                  return a + b;
-                });
-                const calculated_iva_pay = this.model.iva_percent*sum2/100;
-                const calculated_sum2 =  sum2 + calculated_iva_pay  ;
-                r.collection_minus = calculated_sum2;
-            }
+              }else{
+                for (let i = 0; i < (r.outside_agent_payment || []).length; i++) {
+                  let sum2: number = r.outside_agent_payment.map(a => a.amount).reduce(function(a, b)
+                  {
+                    return a + b;
+                  });
+                  r.agentoutside_minus = sum2;
+              }
+              }
+            } else {
+              if ((this.model.iva_percent && this.model.add_iva_to_cc)) {
+                for (let i = 0; i < (r.payment || []).length; i++) {
+                  let sum2: number = r.payment.map(a => a.amount).reduce(function(a, b)
+                  {
+                    return a + b;
+                  });
+                  const calculated_iva_pay = this.model.iva_percent*sum2/100;
+                  const calculated_sum2 =  sum2 + calculated_iva_pay  ;
+                  r.collection_minus = calculated_sum2;
+              }
+              }else{
+                for (let i = 0; i < (r.payment || []).length; i++) {
+                  let sum3: number = r.payment.map(a => a.amount).reduce(function(a, b)
+                  {
+                    return a + b;
+                  });
+                  r.collection_minus = sum3;
+              }
+              }
             }
            
         });

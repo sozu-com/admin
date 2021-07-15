@@ -940,6 +940,7 @@
       "project": "Project",
       "agentCommissionInhouse": "Agent Commission Inhouse",
       "agentCommissionOutside": "Agent Commission Outside",
+      "dateOfRegistration": "Date Of Registration",
       "manualLead":{
         "name": "Name",
         "firstSurname": "First Surname",
