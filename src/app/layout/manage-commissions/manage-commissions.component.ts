@@ -452,8 +452,13 @@ export class ManageCommissionsComponent implements OnInit ,OnDestroy{
           if (this.parameter.commission_type == '1') {
             if ((element.iva_percent && element.add_iva_to_pc)) {
               element.total_commission = (parseFloat(element.iva_calculate || 0) + parseFloat(element.expected_payment_commission || 0)).toFixed(2);
-              element.amount_paid = (parseFloat(element.iva_calculate || 0) + parseFloat(element.payment_commission || 0)).toFixed(2);
-              element.remaining = (parseFloat(element.total_commission || 0) - parseFloat(element.amount_paid || 0));
+              if(element.payment_commission){
+                element.amount_paid = (parseFloat(element.iva_calculate || 0) + parseFloat(element.payment_commission || 0)).toFixed(2);
+                element.remaining = (parseFloat(element.total_commission || 0) - parseFloat(element.amount_paid || 0));
+              }else{
+                element.amount_paid = (parseFloat(element.payment_commission || 0)).toFixed(2);
+                element.remaining = (parseFloat(element.total_commission || 0) - parseFloat(element.payment_commission || 0));
+              }
             }else{
               element.total_commission = (parseFloat(element.expected_payment_commission || 0)).toFixed(2);
               element.remaining = (parseFloat(element.total_commission || 0) - parseFloat(element.payment_commission || 0));
@@ -462,8 +467,13 @@ export class ManageCommissionsComponent implements OnInit ,OnDestroy{
           } else if (this.parameter.commission_type == '2') {
             if ((element.iva_percent && element.add_iva_to_ac)) {
               element.total_commission = (parseFloat(element.iva_calculate || 0) + parseFloat(element.expected_payment_commission || 0)).toFixed(2);
-              element.amount_paid = (parseFloat(element.iva_calculate || 0) + parseFloat(element.payment_commission || 0)).toFixed(2);
-              element.remaining = (parseFloat(element.total_commission || 0) - parseFloat(element.amount_paid || 0));
+              if(element.payment_commission){
+                element.amount_paid = (parseFloat(element.iva_calculate || 0) + parseFloat(element.payment_commission || 0)).toFixed(2);
+                element.remaining = (parseFloat(element.total_commission || 0) - parseFloat(element.amount_paid || 0));
+              }else{
+                element.amount_paid = (parseFloat(element.payment_commission || 0)).toFixed(2);
+                element.remaining = (parseFloat(element.total_commission || 0) - parseFloat(element.payment_commission || 0));
+              }
               
             }else{
               element.total_commission = (parseFloat(element.expected_payment_commission || 0)).toFixed(2);
@@ -473,8 +483,13 @@ export class ManageCommissionsComponent implements OnInit ,OnDestroy{
           } else if (this.parameter.commission_type == '5') {
             if ((element.iva_percent && element.add_iva_to_oac)) {
               element.total_commission = (parseFloat(element.iva_calculate || 0) + parseFloat(element.expected_payment_commission || 0)).toFixed(2);
-              element.amount_paid = (parseFloat(element.iva_calculate || 0) + parseFloat(element.payment_commission || 0)).toFixed(2);
-              element.remaining = (parseFloat(element.total_commission || 0) - parseFloat(element.amount_paid || 0));
+              if(element.payment_commission){
+                element.amount_paid = (parseFloat(element.iva_calculate || 0) + parseFloat(element.payment_commission || 0)).toFixed(2);
+                element.remaining = (parseFloat(element.total_commission || 0) - parseFloat(element.amount_paid || 0));
+              }else{
+                element.amount_paid = (parseFloat(element.payment_commission || 0)).toFixed(2);
+                element.remaining = (parseFloat(element.total_commission || 0) - parseFloat(element.payment_commission || 0));
+              }
             }else{
               element.total_commission = (parseFloat(element.expected_payment_commission || 0)).toFixed(2);
               element.remaining = (parseFloat(element.total_commission || 0) - parseFloat(element.payment_commission || 0));
@@ -483,8 +498,13 @@ export class ManageCommissionsComponent implements OnInit ,OnDestroy{
           } else {
             if ((element.iva_percent && element.add_iva_to_cc)) {
               element.total_commission = (parseFloat(element.iva_calculate || 0) + parseFloat(element.expected_payment_commission || 0)).toFixed(2);
-              element.amount_paid = (parseFloat(element.iva_calculate || 0) + parseFloat(element.payment_commission || 0)).toFixed(2);
-              element.remaining = (parseFloat(element.total_commission || 0) - parseFloat(element.amount_paid || 0));
+              if(element.payment_commission){
+                element.amount_paid = (parseFloat(element.iva_calculate || 0) + parseFloat(element.payment_commission || 0)).toFixed(2);
+                element.remaining = (parseFloat(element.total_commission || 0) - parseFloat(element.amount_paid || 0));
+              }else{
+                element.amount_paid = (parseFloat(element.payment_commission || 0)).toFixed(2);
+                element.remaining = (parseFloat(element.total_commission || 0) - parseFloat(element.payment_commission || 0));
+              }
             }else{
               element.total_commission = (parseFloat(element.expected_payment_commission || 0)).toFixed(2);
               element.remaining = (parseFloat(element.total_commission || 0) - parseFloat(element.payment_commission || 0));
