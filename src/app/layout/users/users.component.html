@@ -57,14 +57,11 @@
                 </div>
                 </th>
                 <th style="width:10%">
-                  <div class="table-search">
+                  <div class="table-search" style="display: inline-flex;">
                       <label>{{'table.th.dateOfRegistration' | translate}}</label>
-                      <div class="searh-3">
-                        <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email
-                        ,parameter.first_surname,parameter.second_surname)" name="" autocomplete="address-level4">
-                        <button *ngIf="parameter.name" (click)="getBuyers(parameter.type, parameter.page, parameter.name, parameter.phone, parameter.email,
-                        parameter.first_surname,parameter.second_surname)"><i class="fa fa-search"></i></button>
-                      </div>
+                      <a (click)="sort_by()" href="javascript://" style="color: black;"><img
+                        [ngClass]="{'upsidedown':parameter.sort_by==4}" src="assets/img/top-arrow.png"
+                        alt="img"></a>
                   </div>
                 </th>
                 <th style="width:10%">
