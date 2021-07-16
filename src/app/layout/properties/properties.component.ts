@@ -1429,6 +1429,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
         exportfinalData.push({
           'Name of Building': (p.building || {}).name || '',
+          'City': (p.city || {}).name || '',
+          'Locality': (p.locality || {}).name || '',
           'Name of Tower': (p.building_towers || {}).tower_name || '',
           'Floor': p.floor_num > 0 ? 'Floor ' + p.floor_num : 'Ground Floor',
           'Apartment': p.name || '',
