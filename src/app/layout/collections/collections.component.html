@@ -2042,7 +2042,7 @@
           <div class="row" *ngIf="invoiceKeys || (is_external_agent==0 && commission_type==3)">
             <div class="col-12">
               <div class="btn-cont text-right">
-                <button type="submit" class="btn btn-primary-new">
+                <button type="submit" class="btn btn-primary-new" [disabled]="isApplyBtnClicked">
                   <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
                   {{'addForm.addBtn' | translate}}</button>
               </div>

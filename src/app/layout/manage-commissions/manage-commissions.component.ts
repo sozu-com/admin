@@ -47,6 +47,8 @@ export class ManageCommissionsComponent implements OnInit ,OnDestroy{
   cancellation_commission:any;
   selectedLevel: any;
   pay_id: any = [];
+  clicked = false;
+  clickedTop = false;
   @ViewChild('collectionReceiptOpen') collectionReceiptOpen: ElementRef;
   @ViewChild('collectionReceiptClose') collectionReceiptClose: ElementRef;
   @ViewChild('collectionTypeSelect') collectionTypeSelect: ElementRef;
