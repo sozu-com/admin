@@ -1546,120 +1546,119 @@
                <div class="warning">
                   <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                </div>
-               <h5 style="text-align: center;">{{'swal.warning' | translate}}</h5>
+               <h5 style="    
+               height: 36px;
+               color: #333;
+               font-family: 'sf_ui_textbold';
+               font-size: 30px;
+               font-weight: 500;
+               line-height: 36px;
+               text-align: center;">{{'swal.warning' | translate}}</h5>
                <div class="spacer15"></div>
                <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                      <div class="form-group-3">
-                        <label style="margin-left: 15%;">{{'generatePDF.pub_prop' | translate}}</label>
+                        <label style="margin-left: 25%;
+                        height: 42px;
+                        width: 277px;
+                        color: #4F4F4F;
+                        font-family: 'sf_ui_textregular';
+                        font-size: 18px;
+                        line-height: 21px;
+                        text-align: center;">{{'generatePDF.pub_prop' | translate}}</label>
                      </div>
                   </div>
                </div>
                <div class="row line">
                   <div class="col-lg-1 col-md-2 col-sm-2 col-12">
-                     <button (click)="this.updateCommercialized(p,1);" class="action-icon"
-                     title="{{'table.title.commercializedProperty' | translate}}">
-                     <img src="assets/img/tick.png" alt="img"></button>
-                     <!-- [disabled]="!!p?.collection" *ngIf="p.is_commercialized !=1 && parameter?.flag == 3" -->
-                  <!-- <button (click)="this.updateCommercialized(p,0);" class="action-icon"
-                     [disabled]="!!p?.collection"
-                     *ngIf="p.is_commercialized == true && parameter?.flag == 3"
-                     title="{{'table.title.markCommercialized' | translate}}">
-                     <img src="assets/img/tick-selected.png" alt="img"></button> -->
+                     <a href="javascript://" (click)="markOption(p)">
+                     <img src="assets/img/tick.png" alt="img">
+                     </a>
+                     <a href="javascript://" *ngIf="isSelected">
+                        <img src="assets/img/tick-selected.png" alt="img">
+                     </a>
                   </div>
                   <div class="col-lg-8 col-md-8 col-sm-8 col-12">
                      <div class="form-group-3">
-                        <label style="margin-left: 9%;">{{'deshboard.ForSale' | translate}}</label>
+                        <label style="color: #828282;
+                        font-family: 'sf_ui_textlight';
+                        font-size: 11px;
+                        line-height: 13px;">{{'deshboard.ForSale' | translate}}</label>
                      </div>
                   </div>
                </div>
                <div class="row line">
                   <div class="col-lg-1 col-md-2 col-sm-2 col-12">
-                     <button (click)="this.updateCommercialized(p,1);" class="action-icon"
-                     title="{{'table.title.commercializedProperty' | translate}}">
-                     <img src="assets/img/tick.png" alt="img"></button>
-                     <!-- [disabled]="!!p?.collection" *ngIf="p.is_commercialized !=1 && parameter?.flag == 3" -->
-                  <!-- <button (click)="this.updateCommercialized(p,0);" class="action-icon"
-                     [disabled]="!!p?.collection"
-                     *ngIf="p.is_commercialized == true && parameter?.flag == 3"
-                     title="{{'table.title.markCommercialized' | translate}}">
-                     <img src="assets/img/tick-selected.png" alt="img"></button> -->
+                     <a href="javascript://">
+                     <img src="assets/img/tick.png" alt="img">
+                  </a>
                   </div>
                   <div class="col-lg-8 col-md-8 col-sm-8 col-12">
                      <div class="form-group-3">
-                        <label style="margin-left: 9%;">{{'table.title.commercialized' | translate}}</label>
+                        <label style="color: #828282;
+                        font-family: 'sf_ui_textlight';
+                        font-size: 11px;
+                        line-height: 13px;">{{'table.title.commercialized' | translate}}</label>
                      </div>
                   </div>
                </div>
                <div class="row line">
                   <div class="col-lg-1 col-md-2 col-sm-2 col-12">
-                     <button (click)="this.updateCommercialized(p,1);" class="action-icon"
-                     title="{{'table.title.commercializedProperty' | translate}}">
-                     <img src="assets/img/tick.png" alt="img"></button>
-                     <!-- [disabled]="!!p?.collection" *ngIf="p.is_commercialized !=1 && parameter?.flag == 3" -->
-                  <!-- <button (click)="this.updateCommercialized(p,0);" class="action-icon"
-                     [disabled]="!!p?.collection"
-                     *ngIf="p.is_commercialized == true && parameter?.flag == 3"
-                     title="{{'table.title.markCommercialized' | translate}}">
-                     <img src="assets/img/tick-selected.png" alt="img"></button> -->
+                     <a href="javascript://">
+                     <img src="assets/img/tick.png" alt="img">
+                  </a>
                   </div>
                   <div class="col-lg-8 col-md-8 col-sm-8 col-12">
                      <div class="form-group-3">
-                        <label style="margin-left: 9%;">{{'table.title.city_id' | translate}}</label>
+                        <label style="color: #828282;
+                        font-family: 'sf_ui_textlight';
+                        font-size: 11px;
+                        line-height: 13px;">{{'table.title.city_id' | translate}}</label>
                      </div>
                   </div>
                </div>
                <div class="row line">
                   <div class="col-lg-1 col-md-2 col-sm-2 col-12">
-                     <button (click)="this.updateCommercialized(p,1);" class="action-icon"
-                     title="{{'table.title.commercializedProperty' | translate}}">
-                     <img src="assets/img/tick.png" alt="img"></button>
-                     <!-- [disabled]="!!p?.collection" *ngIf="p.is_commercialized !=1 && parameter?.flag == 3" -->
-                  <!-- <button (click)="this.updateCommercialized(p,0);" class="action-icon"
-                     [disabled]="!!p?.collection"
-                     *ngIf="p.is_commercialized == true && parameter?.flag == 3"
-                     title="{{'table.title.markCommercialized' | translate}}">
-                     <img src="assets/img/tick-selected.png" alt="img"></button> -->
+                     <a href="javascript://">
+                     <img src="assets/img/tick.png" alt="img">
+                  </a>
                   </div>
                   <div class="col-lg-8 col-md-8 col-sm-8 col-12">
                      <div class="form-group-3">
-                        <label style="margin-left: 9%;">{{'table.title.unblocked' | translate}}</label>
+                        <label style="color: #828282;
+                        font-family: 'sf_ui_textlight';
+                        font-size: 11px;
+                        line-height: 13px;">{{'table.title.unblocked' | translate}}</label>
                      </div>
                   </div>
                </div>
                <div class="row line">
                   <div class="col-lg-1 col-md-2 col-sm-2 col-12">
-                     <button (click)="this.updateCommercialized(p,1);" class="action-icon"
-                     title="{{'table.title.commercializedProperty' | translate}}">
-                     <img src="assets/img/tick.png" alt="img"></button>
-                     <!-- [disabled]="!!p?.collection" *ngIf="p.is_commercialized !=1 && parameter?.flag == 3" -->
-                  <!-- <button (click)="this.updateCommercialized(p,0);" class="action-icon"
-                     [disabled]="!!p?.collection"
-                     *ngIf="p.is_commercialized == true && parameter?.flag == 3"
-                     title="{{'table.title.markCommercialized' | translate}}">
-                     <img src="assets/img/tick-selected.png" alt="img"></button> -->
+                     <a href="javascript://">
+                     <img src="assets/img/tick.png" alt="img">
+                  </a>
                   </div>
                   <div class="col-lg-8 col-md-8 col-sm-8 col-12">
                      <div class="form-group-3">
-                        <label style="margin-left: 9%;">{{'table.title.approve' | translate}}</label>
+                        <label style="color: #828282;
+                        font-family: 'sf_ui_textlight';
+                        font-size: 11px;
+                        line-height: 13px;">{{'table.title.approve' | translate}}</label>
                      </div>
                   </div>
                </div>
                <div class="row line">
                   <div class="col-lg-1 col-md-2 col-sm-2 col-12">
-                     <button (click)="this.updateCommercialized(p,1);" class="action-icon"
-                     title="{{'table.title.commercializedProperty' | translate}}">
-                     <img src="assets/img/tick.png" alt="img"></button>
-                     <!-- [disabled]="!!p?.collection" *ngIf="p.is_commercialized !=1 && parameter?.flag == 3" -->
-                  <!-- <button (click)="this.updateCommercialized(p,0);" class="action-icon"
-                     [disabled]="!!p?.collection"
-                     *ngIf="p.is_commercialized == true && parameter?.flag == 3"
-                     title="{{'table.title.markCommercialized' | translate}}">
-                     <img src="assets/img/tick-selected.png" alt="img"></button> -->
+                     <a href="javascript://">
+                     <img src="assets/img/tick.png" alt="img">
+                  </a>
                   </div>
                   <div class="col-lg-8 col-md-8 col-sm-8 col-12">
                      <div class="form-group-3">
-                        <label style="margin-left: 9%;">{{'table.title.selected' | translate}}</label>
+                        <label style="color: #828282;
+                        font-family: 'sf_ui_textlight';
+                        font-size: 11px;
+                        line-height: 13px;">{{'table.title.selected' | translate}}</label>
                      </div>
                   </div>
                </div>
@@ -1669,7 +1668,7 @@
                   <div class="col-lg-4 col-md-5 col-sm-12 col-12" style="margin-left: auto;">
                      <div class="form-group btn-cont">
                         <label style="display: block; margin-top: 3px;">&nbsp;</label>
-                        <button type="button" (click)="this.checkIsGeneratePDF()"
+                        <button type="button"(click)="this.closeModalPusblish()"
                            class="width100P P86 btn-danger" style="height: 42px;">{{'generatePDF.cancel'
                            | translate}}</button>
                      </div>
@@ -1678,7 +1677,7 @@
                      <div class="form-group btn-cont">
                         <label style="display: block; margin-top: 3px;">&nbsp;</label>
                         <button type="button" class="btn btn-primary-new width100P P86 btn"
-                           (click)="this.closeModalInstallment()">
+                           >
                            {{'generatePDF.publish' | translate}}</button>
                      </div>
                   </div>
