@@ -106,7 +106,8 @@
     <div class="col-lg-2 col-md-2">
       <div class="form-group">
         <label>{{'filters.location.locality' | translate}}</label>
-        <select class="form-control" (change)="getLocalityBuildings($event.target.value)" [(ngModel)]="parameter.locality_id">
+        <select class="form-control" (change)="getLocalityBuildings($event.target.value)"
+          [(ngModel)]="parameter.locality_id">
           <option value="0">{{'filters.location.allOption' | translate}}</option>
           <option *ngFor="let item of location.localities" [value]="item.id">{{item.name}}</option>
         </select>
@@ -883,13 +884,12 @@
                 </p>
               </div>
               <div class="col-md-2">
-                <button  class="delete"
-                  href="javascript://" (click)="deleteLeadPopup(item.id, i)">
+                <button class="delete" href="javascript://" (click)="deleteLeadPopup(item.id, i)">
                   <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </button>
               </div>
-              <div class="col-md-2"> <button 
-                  class="editt" href="javascript://" (click)="editLeadPopup('edit',item.id, item,i)">
+              <div class="col-md-2"> <button class="editt" href="javascript://"
+                  (click)="editLeadPopup('edit',item.id, item,i)">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </button></div>
             </div>
@@ -911,16 +911,15 @@
           <div class="row">
             <div class="col-md-3">
               <p-calendar class="form-control" [(ngModel)]="model.reminder_date" autocomplete="off"
-                [style]="{'width':'100%'}" name="date" class="sz-calendar" [showTime]="true"
-                showIcon="true" (onSelect)="onSelect1($event)" [readonlyInput]="true"></p-calendar>
+                [style]="{'width':'100%'}" name="date" class="sz-calendar" [showTime]="true" showIcon="true"
+                (onSelect)="onSelect1($event)" [readonlyInput]="true"></p-calendar>
             </div>
             <div class="col-md-6">
               <input formControlName="toAddress" [(ngModel)]="model.email"
                 placeholder="{{'addCollection.Addcollaborator' | translate}}" style="width: 100%;">
             </div>
             <div class="col-md-3">
-              <button class="btn btn-primary"
-                >{{'leadDetails.note.addNote' |
+              <button class="btn btn-primary">{{'leadDetails.note.addNote' |
                 translate}}</button>
             </div>
           </div>
@@ -977,19 +976,20 @@
               <div class="form-group-3">
                 <div class="form-group">
                   <div class="clearfix"></div>
-                  <p-calendar showAnim="slideDown" id="calendar" [showIcon]="true" [showTime]="true" [style]="{'width':'100%'}"
-                    [(ngModel)]="reminder_date" dateFormat="MM d, yy" (onSelect)="onSelect2($event)" name="calendar"
-                    [minDate]="minimumDate" [readonlyInput]="true">
+                  <p-calendar showAnim="slideDown" id="calendar" [showIcon]="true" [showTime]="true"
+                    [style]="{'width':'100%'}" [(ngModel)]="reminder_date" dateFormat="MM d, yy"
+                    (onSelect)="onSelect2($event)" name="calendar" [minDate]="minimumDate" [readonlyInput]="true">
                   </p-calendar>
                 </div>
-              </div>  
+              </div>
             </div>
             <!-- [style]="{'pointer-events': 'none', 'width':'100%'}" -->
             <div class="col-12">
               <div class="form-group-2">
                 <div class="form-group">
                   <input type="text" autocomplete="off" class="form-control note" name="noteEmails"
-                    [(ngModel)]="noteEmails" (ngModelChange)="modelChange($event)"  placeholder="{{'addCollection.Addcollaborator' | translate}}">
+                    [(ngModel)]="noteEmails" (ngModelChange)="modelChange($event)"
+                    placeholder="{{'addCollection.Addcollaborator' | translate}}">
                 </div>
               </div>
             </div>
@@ -1482,35 +1482,81 @@
                         src="assets/img/ic_delete.png" alt="img"></button>
                   </td>
                   <td>
-                    <button *ngIf="p.commission && p.commission.payment"
+                    <button *ngIf="p?.commission?.payment && p?.commission?.payment.length>0"
                       (click)="editCollectionCommReceipt(p.commission.payment)"
                       title="{{'table.title.editCCPayment' | translate}}" class="action-icon"><img
                         src="assets/img/ic_commission.png" alt="img"></button>
 
-                    <button *ngIf="p.commission && p.commission.payment"
+                    <button *ngIf="p?.commission?.payment && p?.commission?.payment.length>0"
                       (click)="deleteCollectionCommReceipt(p.commission.payment)"
                       title="{{'table.title.deleteCCPayment' | translate}}" class="action-icon"><img
                         src="assets/img/ic_delete.png" alt="img"></button>
+                        <!-- <button
+                        *ngIf="last_payment_approved == 1 && 
+                        p?.commission?.payment.length == 0 && 
+                        p?.commission?.purchase_payment.length == 0 &&
+                        p?.commission?.agent_payment.length == 0 &&
+                        cancel_commission_status == 1"
+                        (click)="editCollectionCommReceipt(this.cancellation_commission)"
+                        title="{{'table.title.editCancellationPayment' | translate}}" class="action-icon"><img
+                          src="assets/img/ic_commission.png" alt="img"></button> -->
+                    <!-- <button
+                      *ngIf="last_payment_approved == 1 && p?.commission?.payment.length == 0 && cancel_commission_status == 1"
+                      (click)="editCollectionCommReceipt(this.cancellation_commission)"
+                      title="{{'table.title.editCancellationPayment' | translate}}" class="action-icon"><img
+                        src="assets/img/ic_commission.png" alt="img"></button> -->
+
+                    <button *ngIf="p?.commission?.payment.length>0 && cancel_commission_status == 1"
+                      (click)="editCollectionCommReceipt(this.cancellation_commission)"
+                      title="{{'table.title.editCancellationPayment' | translate}}" class="action-icon"><img
+                        src="assets/img/ic_commission.png" alt="img"></button>
                     <br>
-                    <button *ngIf="p.commission && p.commission.purchase_payment"
+                    <button *ngIf="p?.commission?.purchase_payment && p?.commission?.purchase_payment.length>0"
                       (click)="editCollectionCommReceipt(p.commission.purchase_payment)"
                       title="{{'table.title.editPCPayment' | translate}}" class="action-icon"><img
                         src="assets/img/ic_commission.png" alt="img"></button>
 
-                    <button *ngIf="p.commission && p.commission.purchase_payment"
+                    <button *ngIf="p?.commission?.purchase_payment && p?.commission?.purchase_payment.length>0"
                       (click)="deleteCollectionCommReceipt(p.commission.purchase_payment)"
                       title="{{'table.title.deletePCPayment' | translate}}" class="action-icon"><img
                         src="assets/img/ic_delete.png" alt="img"></button>
+
+                    <button *ngIf="p?.commission?.purchase_payment.length>0 && cancel_commission_status == 1"
+                      (click)="editCollectionCommReceipt(this.cancellation_commission)"
+                      title="{{'table.title.editCancellationPayment' | translate}}" class="action-icon"><img
+                        src="assets/img/ic_commission.png" alt="img"></button>
+
                     <br>
-                    <button *ngIf="p.commission && p.commission.agent_payment"
+                    <button *ngIf="p?.commission?.agent_payment && p?.commission?.agent_payment.length>0"
                       (click)="editCollectionCommReceipt(p.commission.agent_payment)"
                       title="{{'table.title.editACPayment' | translate}}" class="action-icon"><img
                         src="assets/img/ic_commission.png" alt="img"></button>
 
-                    <button *ngIf="p.commission && p.commission.agent_payment"
+                    <button *ngIf="p?.commission?.agent_payment && p?.commission?.agent_payment.length>0"
                       (click)="deleteCollectionCommReceipt(p.commission.agent_payment)"
                       title="{{'table.title.deleteACPayment' | translate}}" class="action-icon"><img
                         src="assets/img/ic_delete.png" alt="img"></button>
+
+                    <button *ngIf="p?.commission?.agent_payment.length>0 && cancel_commission_status == 1"
+                      (click)="editCollectionCommReceipt(this.cancellation_commission)"
+                      title="{{'table.title.editCancellationPayment' | translate}}" class="action-icon"><img
+                        src="assets/img/ic_commission.png" alt="img"></button>
+
+                        <br>
+                        <button *ngIf="p?.commission?.outside_agent_payment && p?.commission?.outside_agent_payment.length>0"
+                          (click)="editCollectionCommReceipt(p.commission.outside_agent_payment)"
+                          title="{{'table.title.editOACPayment' | translate}}" class="action-icon"><img
+                            src="assets/img/ic_commission.png" alt="img"></button>
+    
+                        <button *ngIf="p?.commission?.outside_agent_payment && p?.commission?.outside_agent_payment.length>0"
+                          (click)="deleteCollectionCommReceipt(p.commission.outside_agent_payment)"
+                          title="{{'table.title.deleteOACPayment' | translate}}" class="action-icon"><img
+                            src="assets/img/ic_delete.png" alt="img"></button>
+    
+                        <button *ngIf="p?.commission?.outside_agent_payment.length>0 && cancel_commission_status == 1"
+                          (click)="editCollectionCommReceipt(this.cancellation_commission)"
+                          title="{{'table.title.editCancellationPayment' | translate}}" class="action-icon"><img
+                            src="assets/img/ic_commission.png" alt="img"></button>
 
                   </td>
                 </tr>
@@ -1734,7 +1780,8 @@
                     <option value="1">{{'viewCollections.purchaseCommission' | translate}}</option>
                     <option value="2">{{'viewCollections.collectionCommission' | translate}}</option>
                     <option value="3">{{'viewCollections.agentCommission' | translate}}</option>
-                    <option value="4"  [disabled]="cancel_commission_status == 1">
+                    <option value="5">{{'viewCollections.outsideagentCommission' | translate}}</option>
+                    <option value="4" [disabled]="cancel_commission_status == 1">
                       {{'viewCollections.cancellation' | translate}}
                       <span *ngIf="cancel_commission_status == 1"> | Paid</span>
                     </option>
@@ -1749,8 +1796,11 @@
                   <select name="payment_choice" #applyPaymentChoiceId1 required class="form-control"
                     [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
                     <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
-                    <option *ngFor="let bt of paymentConcepts" [ngValue]="bt"
-                    [disabled]="bt?.payment_made==1"> {{bt?.payment_choice?.name}}</option>
+                    <option *ngFor="let bt of paymentConcepts"
+                      [disabled]="bt?.payment_made==1 || bt?.purchase_payment_status==1" [ngValue]="bt">
+                      {{bt?.payment_choice?.name}}
+                      <span *ngIf="bt?.purchase_payment_status==1"> | Paid</span>
+                    </option>
                   </select>
                 </div>
               </div>
@@ -1763,8 +1813,26 @@
                     [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
                     <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
                     <option *ngFor="let bt of paymentConcepts" [ngValue]="bt"
-                    [disabled]="bt?.payment_made2==1"> 
-                    {{bt?.payment_choice?.name}} </option>
+                      [disabled]="bt?.payment_made2==1 || bt?.agent_payment_status==1">
+                      {{bt?.payment_choice?.name}}
+                      <span *ngIf="bt?.agent_payment_status==1"> | Paid</span>
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-6" *ngIf="commission_type==5">
+              <div class="form-group-2">
+                <label>{{'viewCollections.choosePaymentConcept' | translate}} <span class="color-red">*</span></label>
+                <div class="form-group">
+                  <select name="payment_choice" #applyPaymentChoiceId1 required class="form-control"
+                    [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
+                    <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
+                    <option *ngFor="let bt of paymentConcepts" [ngValue]="bt"
+                      [disabled]="bt?.payment_made3==1 || bt?.outside_agent_payment_status==1">
+                      {{bt?.payment_choice?.name}}
+                      <span *ngIf="bt?.outside_agent_payment_status==1"> | Paid</span>
+                    </option>
                   </select>
                 </div>
               </div>
@@ -1777,7 +1845,10 @@
                     [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)">
                     <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
                     <option *ngFor="let bt of paymentConcepts" [ngValue]="bt"
-                    [disabled]="bt?.payment_made1==1"> {{bt?.payment_choice?.name}}</option>
+                      [disabled]="bt?.payment_made1==1 || bt?.collection_payment_status==1">
+                      {{bt?.payment_choice?.name}}
+                      <span *ngIf="bt?.collection_payment_status==1"> | Paid</span>
+                    </option>
                   </select>
                 </div>
               </div>
@@ -1787,7 +1858,8 @@
                 <label>{{'viewCollections.choosePaymentConcept' | translate}} <span class="color-red">*</span></label>
                 <div class="form-group">
                   <select disabled name="payment_choice" #applyPaymentChoiceId2 required class="form-control"
-                    [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)" style="background-color: #E3E3E3;">
+                    [(ngModel)]="payment_choice_id" (ngModelChange)="setPaymentAmount($event)"
+                    style="background-color: #E3E3E3;">
                     <option value="">{{'viewCollections.choosePaymentConcept' | translate}}</option>
                     <option *ngFor="let bt of paymentConcepts" [ngValue]="bt"
                       [disabled]="bt?.payment_made1==1 || bt?.collection_payment_status==1">
@@ -1810,11 +1882,47 @@
                 </div>
               </div>
             </div>
-            <div class="col-6" *ngIf="commission_type !=4">
+            <div class="col-6" *ngIf="commission_type==1">
               <div class="form-group-2">
-                <label>{{'viewCollections.enterPaymentAmt' | translate}}<span class="color-red">*</span></label>
+                <label>{{'viewCollections.currentAmtTobePaid' | translate}}<span class="color-red">*</span></label>
                 <div class="form-group">
                   <input autocomplete="off" readonly required type="number" step="0.01" min="0" class="form-control"
+                    [(ngModel)]="paid_amount" name="paid_amount">
+                </div>
+              </div>
+            </div>
+            <div class="col-6" *ngIf="commission_type==3">
+              <div class="form-group-2">
+                <label>{{'viewCollections.currentAmtTobePaid' | translate}}<span class="color-red">*</span></label>
+                <div class="form-group">
+                  <input autocomplete="off" readonly required type="number" step="0.01" min="0" class="form-control"
+                    [(ngModel)]="paid_amount" name="paid_amount">
+                </div>
+              </div>
+            </div>
+            <div class="col-6" *ngIf="commission_type==5">
+              <div class="form-group-2">
+                <label>{{'viewCollections.currentAmtTobePaid' | translate}}<span class="color-red">*</span></label>
+                <div class="form-group">
+                  <input autocomplete="off" readonly required type="number" step="0.01" min="0" class="form-control"
+                    [(ngModel)]="paid_amount" name="paid_amount">
+                </div>
+              </div>
+            </div>
+            <div class="col-6" *ngIf="commission_type==2">
+              <div class="form-group-2">
+                <label>{{'viewCollections.currentAmtTobePaid' | translate}}<span class="color-red">*</span></label>
+                <div class="form-group">
+                  <input autocomplete="off" readonly required type="number" step="0.01" min="0" class="form-control"
+                    [(ngModel)]="paid_amount" name="paid_amount">
+                </div>
+              </div>
+            </div>
+            <div class="col-6" *ngIf="commission_type !=4">
+              <div class="form-group-2">
+                <label>{{'viewCollections.totalAmtToBePaid' | translate}}<span class="color-red">*</span></label>
+                <div class="form-group">
+                  <input autocomplete="off" required type="number" step="0.01" min="0" class="form-control"
                     [(ngModel)]="paymentAmount" name="paymentAmount">
                 </div>
               </div>
@@ -1828,7 +1936,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-6" *ngIf="payment_method_id == 1 && commission_type !=4">
+            <div class="col-6" *ngIf="commission_type==4">
               <div class="form-group-2">
                 <label>{{'viewCollections.choosePaymentReceipt' | translate}}</label>
                 <div class="form-group">
@@ -1838,7 +1946,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-6" *ngIf="commission_type ==4">
+            <div class="col-6" *ngIf="payment_method_id == 1 && commission_type != 4">
               <div class="form-group-2">
                 <label>{{'viewCollections.choosePaymentReceipt' | translate}}</label>
                 <div class="form-group">
@@ -1858,6 +1966,7 @@
                 </div>
               </div>
             </div>
+
             <div class="col-6">
               <div class="form-group-2">
                 <label>{{'viewCollections.paymentDate' | translate}} <span class="color-red">*</span> </label>
@@ -1933,7 +2042,7 @@
           <div class="row" *ngIf="invoiceKeys || (is_external_agent==0 && commission_type==3)">
             <div class="col-12">
               <div class="btn-cont text-right">
-                <button type="submit" class="btn btn-primary-new">
+                <button type="submit" class="btn btn-primary-new" [disabled]="isApplyBtnClicked">
                   <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
                   {{'addForm.addBtn' | translate}}</button>
               </div>
@@ -1964,27 +2073,53 @@
             <div class="col-12">
               <div class="spacer40"></div>
             </div>
+            <div class="col-6" *ngIf="commissionType==4">
+              <div class="form-group-2">
+                <label>{{'viewCollections.cancellation' | translate}}</label>
+                <input autocomplete="off" required type="number" step="0.01" min="0" class="form-control"
+                  [(ngModel)]="amount" name="amount" [disabled]="cancel_commission_status == 1">
+              </div>
+            </div>
+            <div class="col-6" *ngIf="pay_id && commissionType !=4">
+              <div class="form-group-2">
+                <label>{{'viewCollections.partialpayments' | translate}}</label>
+                <div class="form-group">
+                  <select class="form-control" (ngModelChange)="setPayAmount($event)" [(ngModel)]="selectedLevel"
+                    name="selectedLevel">
+                    <option value="">{{'viewCollections.choosePartialPayment' | translate}}</option>
+                    <option *ngFor="let p of collection_commission;let x = index" [ngValue]="p">
+                      {{ ((p?.amount || 0) + (p?.iva_amount || 0)) |
+                      currency}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-6" *ngIf="!pay_id && commissionType !=4">
+              <div class="form-group-2">
+                <label>{{'viewCollections.partialpayments' | translate}}</label>
+                <div class="form-group">
+                  <select disabled class="form-control" name="tested" style="background-color: #E3E3E3;">
+                    <option value="">{{'viewCollections.choosePartialPayment1' | translate}}</option>
+                    <option value="1">{{'viewCollections.payToFollowing' | translate}}</option>
+                    <option value="2">{{'viewCollections.payToRemainingReducePayment' | translate}}</option>
+                    <option value="3">{{'viewCollections.payToRemainingPayment' | translate}}</option>
+                    <option value="4">{{'viewCollections.payToSpecific' | translate}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
             <div class="col-6">
               <div class="form-group-2">
                 <label>{{'viewCollections.choosePaymentMethod' | translate}} <span class="color-red">*</span></label>
                 <div class="form-group">
                   <select name="payment_method" required #applyPaymentMethodId1 class="form-control"
-                    [(ngModel)]="payment_method_id">
+                    [(ngModel)]="payment_method_id" (ngModelChange)="setPaymentmethod($event)">
                     <option value="">{{'viewCollections.choosePaymentMethod' | translate}}</option>
                     <option *ngFor="let bt of paymentMethods" [value]="bt.id"> {{bt?.name}}</option>
                   </select>
                 </div>
               </div>
             </div>
-            <!-- <div class="col-12">
-                <div class="form-group-2">
-                    <label>{{'viewCollections.enterPaymentAmt' | translate}}<span class="color-red">*</span></label>
-                    <div class="form-group">
-                    <input autocomplete="off" required type="number" step="0.01" min="0" class="form-control" [(ngModel)]="paymentAmount" 
-                        name="paymentAmount">
-                  </div>
-                </div>
-              </div> -->
             <div class="col-6">
               <div class="form-group-2">
                 <label>{{'viewCollections.choosePaymentReceipt' | translate}} <span class="color-red">*</span></label>
@@ -2031,13 +2166,6 @@
                 </div>
               </div>
             </div>
-            <!-- <div class="col-12">
-                <div class="btn-cont text-right">
-                    <button type="submit" class="btn btn-primary-new">
-                        <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
-                        {{'addForm.addBtn' | translate}}</button>
-                </div>
-              </div> -->
 
             <div class="row">
               <div class="col-6">
@@ -2125,8 +2253,6 @@
                 </div>
               </div>
             </div>
-
-
           </div>
         </div>
       </form>
@@ -2278,30 +2404,32 @@
           <tbody>
             <tr>
               <td>
-                <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapseBuyerDocumentation" aria-expanded="true">
+                <a class="color-changed" data-toggle="collapse" data-parent="#accordion"
+                  href="#collapseBuyerDocumentation" aria-expanded="true">
                   <img src="assets/img/ic_folder_1.svg">{{'commonBlock.buyerDocumentation' | translate}}
                 </a>
               </td>
               <td>{{this.buyerDocumentationFoldersDetailsLength || 0}}</td>
               <td></td>
             </tr>
-            <tr id="collapseBuyerDocumentation" class="panel-collapse collapse" *ngIf="this.buyerDocumentationFoldersDetails.length > 0">
+            <tr id="collapseBuyerDocumentation" class="panel-collapse collapse"
+              *ngIf="this.buyerDocumentationFoldersDetails.length > 0">
               <td colspan="3">
-                  <div class="write-note white-bg" *ngIf="this.buyerDocumentationFoldersDetailsLength > 0">
-                    <ng-container *ngFor="let tempBuyerDocumentationFoldersDetails of buyerDocumentationFoldersDetails">
-                      <div class="wn-block" *ngIf="tempBuyerDocumentationFoldersDetails?.document_link">
-                        <div class="circle">
-                          <span></span>
-                        </div>
-                        <p class="time" title="'Click to view'">
-                          <a target="_blank" href="{{tempBuyerDocumentationFoldersDetails?.document_link}}">
-                            {{this.language_code == 'en' ? tempBuyerDocumentationFoldersDetails?.user_document?.name_en :
-                            tempBuyerDocumentationFoldersDetails?.user_document?.name_es }}
-                          </a>
-                        </p>
+                <div class="write-note white-bg" *ngIf="this.buyerDocumentationFoldersDetailsLength > 0">
+                  <ng-container *ngFor="let tempBuyerDocumentationFoldersDetails of buyerDocumentationFoldersDetails">
+                    <div class="wn-block" *ngIf="tempBuyerDocumentationFoldersDetails?.document_link">
+                      <div class="circle">
+                        <span></span>
                       </div>
-                    </ng-container>
-                  </div>               
+                      <p class="time" title="'Click to view'">
+                        <a target="_blank" href="{{tempBuyerDocumentationFoldersDetails?.document_link}}">
+                          {{this.language_code == 'en' ? tempBuyerDocumentationFoldersDetails?.user_document?.name_en :
+                          tempBuyerDocumentationFoldersDetails?.user_document?.name_es }}
+                        </a>
+                      </p>
+                    </div>
+                  </ng-container>
+                </div>
                 <div class="padding20 center" *ngIf="this.buyerDocumentationFoldersDetailsLength == 0">
                   <p class="show-not-found">
                     {{'message.error.noDocumentUploadedYet' | translate}}
@@ -2311,30 +2439,32 @@
             </tr>
             <tr>
               <td>
-                <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapseSellerDocumentation" aria-expanded="true">
+                <a class="color-changed" data-toggle="collapse" data-parent="#accordion"
+                  href="#collapseSellerDocumentation" aria-expanded="true">
                   <img src="assets/img/ic_folder_1.svg">{{'commonBlock.sellerDocumentation' | translate}}
                 </a>
               </td>
               <td>{{this.sellerDocumentationFoldersDetailsLength || 0}}</td>
               <td></td>
             </tr>
-            <tr id="collapseSellerDocumentation" class="panel-collapse collapse" *ngIf="this.sellerDocumentationFoldersDetails.length > 0">
+            <tr id="collapseSellerDocumentation" class="panel-collapse collapse"
+              *ngIf="this.sellerDocumentationFoldersDetails.length > 0">
               <td colspan="3">
-                  <div class="write-note white-bg" *ngIf="this.sellerDocumentationFoldersDetailsLength > 0">
-                    <ng-container *ngFor="let tempsellerDocumentationFoldersDetails of sellerDocumentationFoldersDetails">
-                      <div class="wn-block" *ngIf="tempsellerDocumentationFoldersDetails?.document_link">
-                        <div class="circle">
-                          <span></span>
-                        </div>
-                        <p class="time" title="'Click to view'">
-                          <a target="_blank" href="{{tempsellerDocumentationFoldersDetails?.document_link}}">
-                            {{this.language_code == 'en' ? tempsellerDocumentationFoldersDetails?.user_document?.name_en :
-                            tempsellerDocumentationFoldersDetails?.user_document?.name_es }}
-                          </a>
-                        </p>
+                <div class="write-note white-bg" *ngIf="this.sellerDocumentationFoldersDetailsLength > 0">
+                  <ng-container *ngFor="let tempsellerDocumentationFoldersDetails of sellerDocumentationFoldersDetails">
+                    <div class="wn-block" *ngIf="tempsellerDocumentationFoldersDetails?.document_link">
+                      <div class="circle">
+                        <span></span>
                       </div>
-                    </ng-container>
-                  </div>               
+                      <p class="time" title="'Click to view'">
+                        <a target="_blank" href="{{tempsellerDocumentationFoldersDetails?.document_link}}">
+                          {{this.language_code == 'en' ? tempsellerDocumentationFoldersDetails?.user_document?.name_en :
+                          tempsellerDocumentationFoldersDetails?.user_document?.name_es }}
+                        </a>
+                      </p>
+                    </div>
+                  </ng-container>
+                </div>
                 <div class="padding20 center" *ngIf="this.sellerDocumentationFoldersDetailsLength == 0">
                   <p class="show-not-found">
                     {{'message.error.noDocumentUploadedYet' | translate}}
@@ -2344,31 +2474,36 @@
             </tr>
             <tr>
               <td>
-                <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapsePropertyDocumentation" aria-expanded="true">
+                <a class="color-changed" data-toggle="collapse" data-parent="#accordion"
+                  href="#collapsePropertyDocumentation" aria-expanded="true">
                   <img src="assets/img/ic_folder_1.svg">{{'commonBlock.propertyDocumentation' | translate}}
                 </a>
               </td>
-              <td>{{(property_offer_id ? this.propertyDocumentationFoldersDetailsLength + 1 : this.propertyDocumentationFoldersDetailsLength) || 0}}</td>
+              <td>{{(property_offer_id ? this.propertyDocumentationFoldersDetailsLength + 1 :
+                this.propertyDocumentationFoldersDetailsLength) || 0}}</td>
               <td></td>
             </tr>
-            <tr id="collapsePropertyDocumentation" class="panel-collapse collapse" *ngIf="this.propertyDocumentationFoldersDetails.length > 0">
+            <tr id="collapsePropertyDocumentation" class="panel-collapse collapse"
+              *ngIf="this.propertyDocumentationFoldersDetails.length > 0">
               <td colspan="3">
-                  <div class="write-note white-bg" *ngIf="this.propertyDocumentationFoldersDetailsLength > 0">
-                    <ng-container *ngFor="let tempPropertyDocumentationFoldersDetails of propertyDocumentationFoldersDetails">
-                      <div class="wn-block" *ngIf="tempPropertyDocumentationFoldersDetails?.document_link">
-                        <div class="circle">
-                          <span></span>
-                        </div>
-                        <p class="time" title="'Click to view'">
-                          <a target="_blank" href="{{tempPropertyDocumentationFoldersDetails?.document_link}}">
-                            {{this.language_code == 'en' ? tempPropertyDocumentationFoldersDetails?.user_document?.name_en :
-                            tempPropertyDocumentationFoldersDetails?.user_document?.name_es }}
-                          </a>
-                        </p>
+                <div class="write-note white-bg" *ngIf="this.propertyDocumentationFoldersDetailsLength > 0">
+                  <ng-container
+                    *ngFor="let tempPropertyDocumentationFoldersDetails of propertyDocumentationFoldersDetails">
+                    <div class="wn-block" *ngIf="tempPropertyDocumentationFoldersDetails?.document_link">
+                      <div class="circle">
+                        <span></span>
                       </div>
-                    </ng-container>
+                      <p class="time" title="'Click to view'">
+                        <a target="_blank" href="{{tempPropertyDocumentationFoldersDetails?.document_link}}">
+                          {{this.language_code == 'en' ? tempPropertyDocumentationFoldersDetails?.user_document?.name_en
+                          :
+                          tempPropertyDocumentationFoldersDetails?.user_document?.name_es }}
+                        </a>
+                      </p>
                     </div>
-                  <div class="write-note white-bg" *ngIf="property_offer_id"> 
+                  </ng-container>
+                </div>
+                <div class="write-note white-bg" *ngIf="property_offer_id">
                   <ng-container>
                     <div class="wn-block" *ngIf="property_offer_id">
                       <div class="circle">
@@ -2380,9 +2515,10 @@
                         </a>
                       </p>
                     </div>
-                  </ng-container>     
-                  </div>         
-                <div class="padding20 center" *ngIf="this.propertyDocumentationFoldersDetailsLength == 0 && !property_offer_id">
+                  </ng-container>
+                </div>
+                <div class="padding20 center"
+                  *ngIf="this.propertyDocumentationFoldersDetailsLength == 0 && !property_offer_id">
                   <p class="show-not-found">
                     {{'message.error.noDocumentUploadedYet' | translate}}
                   </p>
@@ -2391,30 +2527,36 @@
             </tr>
             <tr>
               <td>
-                <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapseBeneficiaryDocumentation" aria-expanded="true">
+                <a class="color-changed" data-toggle="collapse" data-parent="#accordion"
+                  href="#collapseBeneficiaryDocumentation" aria-expanded="true">
                   <img src="assets/img/ic_folder_1.svg">{{'commonBlock.beneficiaryDocumentation' | translate}}
                 </a>
               </td>
               <td>{{this.beneficiaryDocumentationFoldersDetails.length || 0}}</td>
               <td></td>
             </tr>
-            <tr id="collapseBeneficiaryDocumentation" class="panel-collapse collapse" *ngIf="this.beneficiaryDocumentationFoldersDetails.length > 0">
+            <tr id="collapseBeneficiaryDocumentation" class="panel-collapse collapse"
+              *ngIf="this.beneficiaryDocumentationFoldersDetails.length > 0">
               <td colspan="3">
-                  <div class="write-note white-bg" *ngIf="this.beneficiaryDocumentationFoldersDetails.length > 0">
-                    <ng-container *ngFor="let tempPropertyDocumentationFoldersDetails of beneficiaryDocumentationFoldersDetails; let s=index">
-                      <div class="wn-block" *ngIf="tempPropertyDocumentationFoldersDetails?.document_link">
-                        <div class="circle">
-                          <span></span>
-                        </div>
-                        <p class="time" title="'Click to view'">
-                          <a target="_blank" href="{{tempPropertyDocumentationFoldersDetails?.document_link}}">
-                            {{this.language_code == 'en' ? tempPropertyDocumentationFoldersDetails?.beneficiary_document?.name_en : tempPropertyDocumentationFoldersDetails?.beneficiary_document?.name_es }}
-                            {{tempPropertyDocumentationFoldersDetails?.beneficiary_last? tempPropertyDocumentationFoldersDetails?.beneficiary_last : ''}}
-                          </a>
-                        </p>
+                <div class="write-note white-bg" *ngIf="this.beneficiaryDocumentationFoldersDetails.length > 0">
+                  <ng-container
+                    *ngFor="let tempPropertyDocumentationFoldersDetails of beneficiaryDocumentationFoldersDetails; let s=index">
+                    <div class="wn-block" *ngIf="tempPropertyDocumentationFoldersDetails?.document_link">
+                      <div class="circle">
+                        <span></span>
                       </div>
-                    </ng-container>
-                  </div>               
+                      <p class="time" title="'Click to view'">
+                        <a target="_blank" href="{{tempPropertyDocumentationFoldersDetails?.document_link}}">
+                          {{this.language_code == 'en' ?
+                          tempPropertyDocumentationFoldersDetails?.beneficiary_document?.name_en :
+                          tempPropertyDocumentationFoldersDetails?.beneficiary_document?.name_es }}
+                          {{tempPropertyDocumentationFoldersDetails?.beneficiary_last?
+                          tempPropertyDocumentationFoldersDetails?.beneficiary_last : ''}}
+                        </a>
+                      </p>
+                    </div>
+                  </ng-container>
+                </div>
                 <div class="padding20 center" *ngIf="this.beneficiaryDocumentationFoldersDetails == 0">
                   <p class="show-not-found">
                     {{'message.error.noDocumentUploadedYet' | translate}}
@@ -2424,30 +2566,36 @@
             </tr>
             <tr>
               <td>
-                <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapseTutorDocumentation" aria-expanded="true">
+                <a class="color-changed" data-toggle="collapse" data-parent="#accordion"
+                  href="#collapseTutorDocumentation" aria-expanded="true">
                   <img src="assets/img/ic_folder_1.svg">{{'commonBlock.tutorDocumentation' | translate}}
                 </a>
               </td>
               <td>{{this.tutorDocumentationFoldersDetails.length || 0}}</td>
               <td></td>
             </tr>
-            <tr id="collapseTutorDocumentation" class="panel-collapse collapse" *ngIf="this.tutorDocumentationFoldersDetails.length > 0">
+            <tr id="collapseTutorDocumentation" class="panel-collapse collapse"
+              *ngIf="this.tutorDocumentationFoldersDetails.length > 0">
               <td colspan="3">
-                  <div class="write-note white-bg" *ngIf="this.tutorDocumentationFoldersDetails.length > 0">
-                    <ng-container *ngFor="let tempPropertyDocumentationFoldersDetails of tutorDocumentationFoldersDetails; let s=index">
-                      <div class="wn-block" *ngIf="tempPropertyDocumentationFoldersDetails?.document_link">
-                        <div class="circle">
-                          <span></span>
-                        </div>
-                        <p class="time" title="'Click to view'">
-                          <a target="_blank" href="{{tempPropertyDocumentationFoldersDetails?.document_link}}">
-                            {{this.language_code == 'en' ? tempPropertyDocumentationFoldersDetails?.tutor_document?.name_en : tempPropertyDocumentationFoldersDetails?.tutor_document?.name_es }}
-                            {{tempPropertyDocumentationFoldersDetails?.tutor_last? tempPropertyDocumentationFoldersDetails?.tutor_last : ''}}
-                          </a>
-                        </p>
+                <div class="write-note white-bg" *ngIf="this.tutorDocumentationFoldersDetails.length > 0">
+                  <ng-container
+                    *ngFor="let tempPropertyDocumentationFoldersDetails of tutorDocumentationFoldersDetails; let s=index">
+                    <div class="wn-block" *ngIf="tempPropertyDocumentationFoldersDetails?.document_link">
+                      <div class="circle">
+                        <span></span>
                       </div>
-                    </ng-container>
-                  </div>               
+                      <p class="time" title="'Click to view'">
+                        <a target="_blank" href="{{tempPropertyDocumentationFoldersDetails?.document_link}}">
+                          {{this.language_code == 'en' ?
+                          tempPropertyDocumentationFoldersDetails?.tutor_document?.name_en :
+                          tempPropertyDocumentationFoldersDetails?.tutor_document?.name_es }}
+                          {{tempPropertyDocumentationFoldersDetails?.tutor_last?
+                          tempPropertyDocumentationFoldersDetails?.tutor_last : ''}}
+                        </a>
+                      </p>
+                    </div>
+                  </ng-container>
+                </div>
                 <div class="padding20 center" *ngIf="this.tutorDocumentationFoldersDetails == 0">
                   <p class="show-not-found">
                     {{'message.error.noDocumentUploadedYet' | translate}}
@@ -2469,7 +2617,7 @@
             <tr id="collapseBeneficiary{{i}}" class="panel-collapse collapse">
               <td colspan="3">
                   <!-- list all documents -->
-                <!-- <div class="write-note white-bg">
+          <!-- <div class="write-note white-bg">
                   <div class="wn-block" *ngFor="let item of folder?.beneficiary_documents; let s=index">
                     <div class="circle" *ngIf="item?.document_link">
                       <span></span>
@@ -2489,7 +2637,7 @@
               </td>
             </tr>
           </tbody> -->
-            <!-- <tbody *ngFor="let folder of tutorDocumentationFoldersDetails; let i=index">
+          <!-- <tbody *ngFor="let folder of tutorDocumentationFoldersDetails; let i=index">
             <tr >
               <td>
                 <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapseTutor{{i}}" aria-expanded="true">
@@ -2502,7 +2650,7 @@
             <tr id="collapseTutor{{i}}" class="panel-collapse collapse">
               <td colspan="3">
                   <!-- list all documents -->
-                <!-- <div class="write-note white-bg">
+          <!-- <div class="write-note white-bg">
                   <div class="wn-block" *ngFor="let item of folder?.tutor_documents; let s=index">
                     <div class="circle" *ngIf="item?.document_link">
                       <span></span>
