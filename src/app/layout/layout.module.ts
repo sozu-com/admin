@@ -36,6 +36,7 @@ import { SharedModule } from '../modules/shared.module';
 import { Img360viewerComponent } from './img360viewer/img360viewer.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { OutSideAddComponent } from './inhouse-users/out-side-add/out-side-add.component';
+import { MarketAnalysisComponent } from './market-analysis/market-analysis.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -67,6 +68,7 @@ import { OutSideAddComponent } from './inhouse-users/out-side-add/out-side-add.c
     LayoutComponent,
     AppHeaderComponent,
     DashboardComponent,
+    MarketAnalysisComponent,
     AppFooterComponent,
     InhouseUsersComponent,
     OutSideAddComponent,

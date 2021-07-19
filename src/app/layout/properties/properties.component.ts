@@ -158,6 +158,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   @ViewChild('closeInstallmentModal') closeInstallmentModal: ElementRef;
   @ViewChild('linkOutsideBrokerModal') linkOutsideBrokerModal: ElementRef;
   @ViewChild('closeOutsideBrokerModal') closeOutsideBrokerModal: ElementRef;
+  @ViewChild('openpusblishModal') openpusblishModal: ElementRef;
+  @ViewChild('closepusblish') closepusblish: ElementRef;
   local_storage_parameter: any;
   @ViewChild('notesadddModalOpen') notesadddModalOpen: ElementRef;
   @ViewChild('notesadddModalClose') notesadddModalClose: ElementRef;
@@ -857,6 +859,23 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.rejectModalClose.nativeElement.click();
   }
 
+  pusblish = (propertyDetails: any): void => {
+    // swal({
+    //   html: this.translate.instant('message.error.areYouSure') + '<br>' +
+    //     this.translate.instant('message.error.wantToDeleteProperty'),
+    //   type: 'warning',
+    //   showCancelButton: true,
+    //   confirmButtonColor: this.constant.confirmButtonColor,
+    //   cancelButtonColor: this.constant.cancelButtonColor,
+    //   confirmButtonText: 'Yes'
+    // }).then((result) => {
+    //   if (result.value) {
+    //     this.deleteProperty(property, index);
+    //   }
+    // });
+    this.openpusblishModal.nativeElement.click();
+  }
+
   openModalInstallment = (propertyDetails: any): void => {
     this.property_array = propertyDetails;
     this.getBase64ImageFromUrl(this.property_array.id);
@@ -880,7 +899,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.closeInstallmentModal.nativeElement.click();
     this.installmentFormGroupPatchValue();
   }
-
+  closeModalPusblish = (): void => {
+    this.closepusblish.nativeElement.click();
+  }
   changeStatus(item, status) {
     item.status = status;
     const input = { property_id: item.id, status_id: status, reason: '' };

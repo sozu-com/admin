@@ -8,6 +8,7 @@ import { InhouseUsersComponent } from './inhouse-users/inhouse-users.component';
 import { GenerateThumbComponent } from './generate-thumb/generate-thumb.component';
 import { AclUserGuard } from '../guards/acl-user.guard';
 import { OutSideAddComponent } from './inhouse-users/out-side-add/out-side-add.component';
+import { MarketAnalysisComponent } from './market-analysis/market-analysis.component';
 
 
 const routes: Routes = [
@@ -38,6 +39,7 @@ const routes: Routes = [
         data: { roles: ['', '', ''] }
       },
       // { path: 'change-password', component: ChangePasswordComponent},
+      { path: 'market-analysis', component: MarketAnalysisComponent },
       { path: 'notary', loadChildren: './notary/notary.module#NotaryModule' },
       { path: 'banks', loadChildren: './banks/banks.module#BanksModule' },
       {
