@@ -876,12 +876,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     // });
     this.openpusblishModal.nativeElement.click();
   }
-  markOption(propertyDetails: any) {
-    if (propertyDetails) {
+  markOption() {
       this.isSelected = true;
-    } else {
-      this.isSelected = false;
-    }
   }
   openModalInstallment = (propertyDetails: any): void => {
     this.property_array = propertyDetails;
