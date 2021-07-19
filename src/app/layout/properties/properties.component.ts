@@ -70,6 +70,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   public parameter: IProperty = {};
   public location: IProperty = {};
   showMore = false;
+  isSelected = false;
   items: any[] = [];
   total: any = 0;
   configurations: any = [];
@@ -128,21 +129,21 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     { is_selected: false, name: '2' },
     { is_selected: false, name: '3' },
     { is_selected: false, name: '4' },
-    { is_selected: false, name: '+5'}
+    { is_selected: false, name: '+5' }
   ];
   bathrooms: any = [
     { is_selected: false, name: '1' },
     { is_selected: false, name: '2' },
     { is_selected: false, name: '3' },
     { is_selected: false, name: '4' },
-    { is_selected: false, name: '+5'}
+    { is_selected: false, name: '+5' }
   ];
   halfBathrooms: any = [
     { is_selected: false, name: '1' },
     { is_selected: false, name: '2' },
     { is_selected: false, name: '3' },
     { is_selected: false, name: '4' },
-    { is_selected: false, name: '+5'}
+    { is_selected: false, name: '+5' }
   ];
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
@@ -190,7 +191,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   select_columns_list: any[] = [];
   public selectedPropertyColumnsToShow: any = {};
   public isSelectAllColumns: boolean = false;
-  project_id:any;
+  project_id: any;
   configurationCount: Array<any>;
   constructor(
     public constant: Constant,
@@ -253,7 +254,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     };
   }
 
- 
+
 
   ngOnInit(): void {
     this.configurationCount = ['1', '2', '3', '4', '5+'];
@@ -279,7 +280,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       dateFormat: 'mm/dd/yy',
       weekHeader: 'Wk'
     };
-    
+
     this.route.params.subscribe(params => {
       this.project_id = JSON.parse(localStorage.getItem('project_id'));
       this.parameter.project_id = this.project_id;
@@ -324,8 +325,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     // this.parameter = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.parameter;
     //this.getCountries();
     this.getPropertyConfigurations();
-    if(!this.is_back){
-    this.getListing();
+    if (!this.is_back) {
+      this.getListing();
     }
     this.getPropertyTypes();
     this.getPropertyAmenities();
@@ -346,7 +347,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     });
     this.getParametersForProperty();
     localStorage.removeItem('project_id');
-    
+
   }
 
   getParametersForProperty = (): void => {
@@ -379,7 +380,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       i = i + 1;
     });
   }
-  
+
   unsetProjectAmne(item: any) {
     let i = 0;
     this.selctedProjectAmenities.map(r => {
@@ -434,9 +435,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         localStorage.setItem('parametersForProperty', JSON.stringify(input));
         this.items = success.data;
         this.items.forEach(function (element) {
-          if(element.id ==  (element.collection || {}).property_id){
+          if (element.id == (element.collection || {}).property_id) {
             element['avgg_price'] = (((parseFloat(element.final_price) || 0) / (parseFloat(element.max_area) || 0)));
-          }else{
+          } else {
             element['avgg_price'] = (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
           }
         });
@@ -498,12 +499,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     // if (this.possession_status_id !== '' && this.possession_status_id !== '0') {
     //   input.possession_status_id = this.possession_status_id.filter(f => { return f.is_selected == true }).map(r => { return r.id })[0] || '';
     // }
-    
+
     input.bedroom = this.bedrooms.filter(f => { return f.is_selected == true }).map(r => { return r.name });
     input.bathroom = this.bathrooms.filter(f => { return f.is_selected == true }).map(r => { return r.name });
     input.half_bathroom = this.halfBathrooms.filter(f => { return f.is_selected == true }).map(r => { return r.name });
     input.property_id = this.propertyTypes.filter(f => { return f.is_selected == true }).map(r => { return r.id });
-    input.min_price =  this.parameter.min_price == '0.00' ? 0 : this.parameter.min_price;
+    input.min_price = this.parameter.min_price == '0.00' ? 0 : this.parameter.min_price;
     input.max_price = this.parameter.max_price == '0.00' ? 0 : this.parameter.max_price;
     input.min_carpet_area = this.parameter.min_carpet_area == '0.00' ? 0 : this.parameter.min_carpet_area;
     input.max_carpet_area = this.parameter.max_carpet_area == '0.00' ? 0 : this.parameter.max_carpet_area;
@@ -524,9 +525,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         localStorage.setItem('parametersForProperty', JSON.stringify(input));
         this.items = success.data;
         this.items.forEach(function (element) {
-          if(element.id ==  (element.collection || {}).property_id){
+          if (element.id == (element.collection || {}).property_id) {
             element['avgg_price'] = (((parseFloat(element.final_price) || 0) / (parseFloat(element.max_area) || 0)));
-          }else{
+          } else {
             element['avgg_price'] = (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
           }
         });
@@ -543,7 +544,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.getListing();
   }
 
-  clearData(){
+  clearData() {
     this.parameter.is_selected = false;
     this.parameter.page = this.constant.p;
     this.parameter.dash_flag = this.constant.dash_flag;
@@ -558,27 +559,27 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.parameter.bathroom = null;
     this.parameter.half_bathroom = null;
     this.propertyTypes = [];
-   // this.possession_status_id = null;
+    // this.possession_status_id = null;
     //this.property_for = null;
     this.selctedAmenities = [];
     this.selctedProjectAmenities = [];
     this.parameter.parking_for_sale = null;
-    this.property_for.forEach(item=>{
+    this.property_for.forEach(item => {
       item.is_selected = false;
     });
-    this.possession_status_id.forEach(item=>{
+    this.possession_status_id.forEach(item => {
       item.is_selected = false;
     });
-    this.propertyTypes.forEach(item=>{
+    this.propertyTypes.forEach(item => {
       item.is_selected = false;
     });
-    this.bedrooms.forEach(item=>{
+    this.bedrooms.forEach(item => {
       item.is_selected = false;
     });
-    this.bathrooms.forEach(item=>{
+    this.bathrooms.forEach(item => {
       item.is_selected = false;
     });
-    this.halfBathrooms.forEach(item=>{
+    this.halfBathrooms.forEach(item => {
       item.is_selected = false;
     });
   }
@@ -875,7 +876,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     // });
     this.openpusblishModal.nativeElement.click();
   }
-
+  markOption(propertyDetails: any) {
+    if (propertyDetails) {
+      this.isSelected = true;
+    } else {
+      this.isSelected = false;
+    }
+  }
   openModalInstallment = (propertyDetails: any): void => {
     this.property_array = propertyDetails;
     this.getBase64ImageFromUrl(this.property_array.id);
@@ -1238,7 +1245,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       this.spinner.hide();
       if (property) {
         this.keyword = '';
-        inhouse? this.linkExtBrokerModal.nativeElement.click() : this.linkOutsideBrokerModal.nativeElement.click();
+        inhouse ? this.linkExtBrokerModal.nativeElement.click() : this.linkOutsideBrokerModal.nativeElement.click();
       }
       this.allExtBrokers = r['data'];
     }, error => {
@@ -1255,7 +1262,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       route = `${'/dashboard/view-inhouse-users/inhouse-broker/'}${details.id}`;
     }
     this.keyword = '';
-    inhouse? this.closeExtBrokerModal.nativeElement.click() : this.closeOutsideBrokerModal.nativeElement.click();
+    inhouse ? this.closeExtBrokerModal.nativeElement.click() : this.closeOutsideBrokerModal.nativeElement.click();
     this.router.navigate([route]);
   }
 
@@ -1295,9 +1302,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   attachOutsideBroker(broker: any, flag: number) {
     this.admin.postDataApi('attachOutsideAgent', {
-      property_id : this.property.id,
-      outside_agent_id: broker.id  ,
-      flag: flag,name: broker.name
+      property_id: this.property.id,
+      outside_agent_id: broker.id,
+      flag: flag, name: broker.name
     }).subscribe(r => {
       this.closeOutsideBrokerModal.nativeElement.click();
       this.property.external_outside_agent = flag === 1 ? broker : null;
@@ -1427,7 +1434,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     }
     delete input.seller_id;
     delete input.buyer_id;
-    input.min_price =  this.parameter.min_price == '0.00' ? 0 : this.parameter.min_price;
+    input.min_price = this.parameter.min_price == '0.00' ? 0 : this.parameter.min_price;
     input.max_price = this.parameter.max_price == '0.00' ? 0 : this.parameter.max_price;
     input.min_carpet_area = this.parameter.min_carpet_area == '0.00' ? 0 : this.parameter.min_carpet_area;
     input.max_carpet_area = this.parameter.max_carpet_area == '0.00' ? 0 : this.parameter.max_carpet_area;
@@ -1698,14 +1705,14 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.layaway') + ':', border: [false, false, false, false], color: '#858291' },
-                      { text: layaway_per ? ((Number(layaway_per).toFixed(3)) + '%' ) : '', border: [false, false, false, false], bold: true },
+                      { text: layaway_per ? ((Number(layaway_per).toFixed(3)) + '%') : '', border: [false, false, false, false], bold: true },
                       { text: this.price.transform(20000), border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.downpayment') + ':', border: [false, false, false, false], color: '#858291' },
                       {
                         text: this.is_for_Offer && this.property_array.property_offer_payment[index].down_payment ? this.property_array.property_offer_payment[index].down_payment + '%' :
-                        final_downpayment_per ? ((Number(final_downpayment_per).toFixed(3)) + '%') : 'N/A', border: [false, false, false, false], bold: true
+                          final_downpayment_per ? ((Number(final_downpayment_per).toFixed(3)) + '%') : 'N/A', border: [false, false, false, false], bold: true
                       },
                       { text: downpayment ? this.price.transform(Number(downpayment || 0).toFixed(2)) : '', border: [false, false, false, false], bold: true },
                     ],
