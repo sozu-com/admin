@@ -106,7 +106,7 @@
                           <a class="nav-link" href="javascript://" routerLink="/dashboard"><i><img src="assets/img/dashboard.png"></i><span>{{'sidebar.dashboard' | translate}}</span></a>
                         </li>
 
-                        <li *ngIf="admin?.admin_acl['Dashboard']?.can_read==1" class="nav-item"
+                        <li *ngIf="admin?.admin_acl['Market Analysis']?.can_read==1" class="nav-item"
                         [routerLinkActive]="'active'"
                         [routerLinkActiveOptions]="{exact:true}">
                           <a class="nav-link" href="javascript://" routerLink="dashboard/market-analysis"><i><img src="assets/img/dashboard.png"></i><span>{{'sidebar.marketAnalysis' | translate}}</span></a>
