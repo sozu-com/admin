@@ -198,17 +198,7 @@ margin-left: 29px;
 }
 }
 
-@media screen and (min-width: 1200px) {
-  .modal-dialog {
-    max-width: 45%;
-}
-.modal-dialogg.fadeIndown {
-  max-width: 45%;
-  margin-left: 29%;
-  margin-top: 12%;
-}
 
-}
 
 .main-table{
   height: 143px;
@@ -251,10 +241,53 @@ margin-left: 29px;
   padding: 40px 35px;
 }
 
-/* @media screen and (min-width: 1300px) {
-  button.btn.btn-success {
-  }
+@media screen and (min-width: 1200px) {
+  .modal-dialog {
+    max-width: 45%;
+}
+.modal-dialogg.fadeIndown {
+  max-width: 45%;
+  margin-left: 29%;
+  margin-top: 12%;
+}
+.warning {
+  font-size: 400%;
+  margin-top: -16%;
+  margin-left: 45%;
+  color: #00B96F;
+}
+.row.line{
+  margin-left: 13%;
+}
+.modal-dialog.fadeIndownpublish{
+  max-width: 37%;
+ margin-top: 4%;
+ margin-left: 38%;
+}
+}
 
-  button.btn.btn-danger {
+
+@media only screen and (min-device-width: 736px) and (max-device-width: 768px) {
+  .modal-dialog.fadeIndown{
+    max-width: 100%;
+    margin-top: 5%;
+    margin-left: 0%;
   }
-} */
+  .warning {
+    font-size: 400%;
+    margin-top: -16%;
+    margin-left: 42%;
+    color: #00B96F;
+  }
+  
+}
+
+@media screen and (min-width: 320px) and (max-width: 570px) {
+  .warning {
+    font-size: 400%;
+    margin-top: -16%;
+    margin-left: 38%;
+    color: #00B96F;
+  }
+  
+}
