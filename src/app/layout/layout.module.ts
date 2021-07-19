@@ -68,14 +68,14 @@ import { MarketAnalysisComponent } from './market-analysis/market-analysis.compo
     LayoutComponent,
     AppHeaderComponent,
     DashboardComponent,
-    MarketAnalysisComponent,
     AppFooterComponent,
     InhouseUsersComponent,
     OutSideAddComponent,
     // AddressComponent,
     GenerateThumbComponent,
     AclPermissionDirective,
-    Img360viewerComponent
+    Img360viewerComponent,
+    MarketAnalysisComponent
   ],
   providers: [MessagingService, AuthGuard, AclUserGuard],
   bootstrap: [LayoutComponent]

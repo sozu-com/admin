@@ -105,12 +105,13 @@
                         [routerLinkActiveOptions]="{exact:true}">
                           <a class="nav-link" href="javascript://" routerLink="/dashboard"><i><img src="assets/img/dashboard.png"></i><span>{{'sidebar.dashboard' | translate}}</span></a>
                         </li>
+
                         <li *ngIf="admin?.admin_acl['Dashboard']?.can_read==1" class="nav-item"
                         [routerLinkActive]="'active'"
                         [routerLinkActiveOptions]="{exact:true}">
-                          <a class="nav-link" href="javascript://" routerLink="market-analysis">
-                            <i><img src="assets/img/users.png"></i><span>{{'sidebar.Market_analysis' | translate}}</span></a>
+                          <a class="nav-link" href="javascript://" routerLink="dashboard/market-analysis"><i><img src="assets/img/dashboard.png"></i><span>{{'sidebar.marketAnalysis' | translate}}</span></a>
                         </li>
+
                        <li *ngIf="admin?.admin_acl['Data Collector Management']?.can_read==1 || admin?.admin_acl['Seller Management']?.can_read==1 ||
                                   admin?.admin_acl['Buyer Management']?.can_read==1 || admin?.admin_acl['Inhouse Agent Management']?.can_read==1 ||
                                   admin?.admin_acl['Closer Management']?.can_read==1 ||

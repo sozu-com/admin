@@ -20,6 +20,7 @@ const routes: Routes = [
     // data: {roles: ['Dashboard', 'can_read', '']},
     children: [
       { path: '', component: DashboardComponent },
+      { path: 'market-analysis', component: MarketAnalysisComponent },
       {
         path: 'view-inhouse-users/:userType',
         component: InhouseUsersComponent,
@@ -39,7 +40,6 @@ const routes: Routes = [
         data: { roles: ['', '', ''] }
       },
       // { path: 'change-password', component: ChangePasswordComponent},
-      { path: 'market-analysis', component: MarketAnalysisComponent },
       { path: 'notary', loadChildren: './notary/notary.module#NotaryModule' },
       { path: 'banks', loadChildren: './banks/banks.module#BanksModule' },
       {
