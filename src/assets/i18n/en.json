@@ -1964,7 +1964,8 @@
     "documentListing": "Document Listing",
     "manageCredits" : "Manage Credits",
     "cordinatorAgent": "Cordinator Agent",
-    "manageCommissions": "Manage Commissions"
+    "manageCommissions": "Manage Commissions",
+    "marketAnalysis": "Market Analysis"
   },
   "commonBlock": {
     "propertiesAvailable": "Properties available",
