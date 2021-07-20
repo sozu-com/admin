@@ -1138,6 +1138,7 @@
       "unlinkedSuccessfully": "Unlinked successfully",
       "doneSuccessfully": "Done successfully.",
       "changedSuccessfully": "Changed successfully",
+      "publishSuccessfully": "publish successfully",
       "cannotDeleteProperty": "It is not possible to delete the property because it has an active collection account",
       "cannotEditProperty": "It is not possible to edit the property because it has an active collection account",
       "logoutSuccessfully": "Logout Successfully.",

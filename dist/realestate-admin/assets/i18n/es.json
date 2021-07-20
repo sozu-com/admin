@@ -1140,6 +1140,7 @@
       "unlinkedSuccessfully": "Desvinculado exitosamente",
       "doneSuccessfully": "Realizado exitosamente.",
       "changedSuccessfully": "Se hizo el cambio exitosamente",
+      "publishSuccessfully": "publicar con éxito",
       "cannotDeleteProperty": "No es posible eliminar la propiedad porque tiene una cuenta de cobranza activa",
       "cannotEditProperty": "No es posible editar la propiedad porque tiene una cuenta de cobranza activa",
       "logoutSuccessfully": "Sesión cerrada exitosamente",
