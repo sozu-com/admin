@@ -761,9 +761,8 @@
                         <td *ngIf="parameter.flag!=5  && selectedPropertyColumnsToShow?.action">
                            <div class="table-actions">
                               <!--this button to open installment modal -->
-                              <button (click)="this.pusblish(p);" class="action-icon"
-                                 [disabled]="!!p?.collection" *ngIf="parameter?.flag == 3"
-                                 title="{{'table.title.pusblish' | translate}}"><img
+                              <button (click)="this.pusblish(p);" class="action-icon" [disabled]="!!p?.collection"
+                                 *ngIf="parameter?.flag == 3" title="{{'table.title.pusblish' | translate}}"><img
                                     src="assets/img/ic_icon_bold.png" alt="img"></button>
 
                               <button (click)="this.openModalInstallment(p);" class="action-icon"
@@ -1289,7 +1288,7 @@
      width: 783px;
      border-radius: 5px;
      height: 1296px;">
-    <!-- border-top-color: rgb(0, 185, 111); border-top-style: solid;
+         <!-- border-top-color: rgb(0, 185, 111); border-top-style: solid;
      border-top-width: thick;
     box-shadow: 0px -2px 0px 7px rgb(105,105,105);width: 783px; -->
          <div class="modal-header modal-header-new" style="background-color: white;">
@@ -1308,9 +1307,9 @@
             <div class="row">
                <div class="form-group col-md-12">
                   <label class="cust-radio" *ngFor="let item of property_for">
-                     <input name="property_for" type="radio"
-                        (click)="toggleOptions(item,property_for)">
-                     <span class="checkmark" [ngClass]="{'unActive':!item.is_selected }"> {{language_code == 'en'? item.name_en : item.name_es}}</span>
+                     <input name="property_for" type="radio" (click)="toggleOptions(item,property_for)">
+                     <span class="checkmark" [ngClass]="{'unActive':!item.is_selected }"> {{language_code == 'en'?
+                        item.name_en : item.name_es}}</span>
                   </label>
                   <div class="clearfix"></div>
                </div>
@@ -1319,9 +1318,9 @@
             <div class="row">
                <div class="form-group col-md-12">
                   <label class="cust-radio" *ngFor="let item of possession_status_id">
-                     <input name="possession_status_id" type="radio"
-                        (click)="toggleOptions(item,possession_status_id)">
-                     <span class="checkmark" [ngClass]="{'unActive': !item.is_selected}"> {{language_code == 'en'? item.name_en : item.name_es}}</span>
+                     <input name="possession_status_id" type="radio" (click)="toggleOptions(item,possession_status_id)">
+                     <span class="checkmark" [ngClass]="{'unActive': !item.is_selected}"> {{language_code == 'en'?
+                        item.name_en : item.name_es}}</span>
                   </label>
                   <div class="clearfix"></div>
                </div>
@@ -1382,8 +1381,7 @@
                <div class="form-group-3 col-md-12">
                   <div class="clearfix"></div>
                   <label class="cust-radio" *ngFor="let item of propertyTypes;">
-                     <input name="property_id" type="checkbox"
-                        (click)="item.is_selected = !item.is_selected">
+                     <input name="property_id" type="checkbox" (click)="item.is_selected = !item.is_selected">
                      <span class="checkmark" [ngClass]="{'unActive': !item.is_selected}">{{item?.name_en}}</span>
                   </label>
                   <div class="clearfix"></div>
@@ -1423,17 +1421,17 @@
                   </p>
                </div>
                <div class="form-group col-md-5">
-                   <label class="switch">
-                       <input type="checkbox" [(ngModel)]="parameter.parking_for_sale" name="parking_for_sale" checked>
-                       <span class="slider round"></span>
-                    </label>
+                  <label class="switch">
+                     <input type="checkbox" [(ngModel)]="parameter.parking_for_sale" name="parking_for_sale" checked>
+                     <span class="slider round"></span>
+                  </label>
                </div>
                <!-- <div class="form-group col-md-4" *ngIf="parameter.parking == 1">
                   {{'advanceSearch.ParkingPlace' | translate}}
                   <input class="form-control" type="number" [(ngModel)]="parameter.parking_place" min="0"
                      name="parking_place">
                </div> -->
-           
+
             </div>
             <!-- configuration -->
             <h4 class="serch-title">{{'advanceSearch.configuration' | translate}}</h4>
@@ -1441,26 +1439,23 @@
                <h4 class="configuration-title">{{'advanceSearch.Bedrooms' | translate}}</h4>
                <div class="form-group col-md-12">
                   <label class="circle-radio" *ngFor="let item of bedrooms;">
-                     <input name="bedroom" type="checkbox"
-                        (click)="item.is_selected = !item.is_selected">
+                     <input name="bedroom" type="checkbox" (click)="item.is_selected = !item.is_selected">
                      <span class="checkmark" [ngClass]="{'unActive': !item.is_selected}">{{item?.name}}</span>
                   </label>
                   <div class="clearfix"></div>
                </div>
-               
+
                <h4 class="configuration-title">{{'advanceSearch.Bathrooms' | translate}}</h4>
                <div class="form-group col-md-12">
                   <label class="circle-radio" *ngFor="let item of bathrooms;">
-                     <input name="bathroom" type="checkbox"
-                        (click)="item.is_selected = !item.is_selected">
+                     <input name="bathroom" type="checkbox" (click)="item.is_selected = !item.is_selected">
                      <span class="checkmark" [ngClass]="{'unActive': !item.is_selected}">{{item?.name}}</span>
                   </label>
                </div>
                <h4 class="configuration-title"> {{'advanceSearch.HalfBathrooms' | translate}}</h4>
                <div class="form-group col-md-12">
                   <label class="circle-radio" *ngFor="let item of halfBathrooms;">
-                     <input name="half_bathroom" type="checkbox"
-                        (click)="item.is_selected = !item.is_selected">
+                     <input name="half_bathroom" type="checkbox" (click)="item.is_selected = !item.is_selected">
                      <span class="checkmark" [ngClass]="{'unActive': !item.is_selected}">{{item?.name}}</span>
                   </label>
                </div>
@@ -1490,10 +1485,7 @@
             </div>
             <div class="row">
                <div class="form-group col-md-4" style="text-align: left;">
-                  <button type="submit" 
-                  class="btn btn-success" 
-                  (click)="searchProperties()" 
-                  style="
+                  <button type="submit" class="btn btn-success" (click)="searchProperties()" style="
                   border-left-color: rgb(0, 185, 111);
                   border-right-color: rgb(0, 185, 111);color: #fff;
                   border-color: #28a745;
@@ -1501,19 +1493,16 @@
                   width: 180px;
                   border-radius: 2px;
                   background-color: #00B96F;">
-                  {{'advanceSearch.search' | translate}}
-               </button>
+                     {{'advanceSearch.search' | translate}}
+                  </button>
                </div>
                <div class="form-group col-md-4" style="text-align: center;">
-                  <button type="button" 
-                  class="btn btn-danger" 
-                  (click)="close()" 
-                  style="height: 40px;
+                  <button type="button" class="btn btn-danger" (click)="close()" style="height: 40px;
                   width: 180px;
                   border-radius: 2px;
                   background-color: #DC3545;">
-                  {{'advanceSearch.cancel' | translate}}
-               </button>
+                     {{'advanceSearch.cancel' | translate}}
+                  </button>
                </div>
                <div class="form-group col-md-4" style="text-align: right;">
                   <button type="button" class="btn btn-danger" (click)="clearData()" style="background-color: white;
@@ -1540,8 +1529,7 @@
                #closepusblish>&times;</button>
             <button type="button" class="close" (click)="this.closeModalPusblish()">&times;</button>
          </div>
-         <form autocomplete="off" class="form-horizontal form-model0P form-model-newP"
-            [formGroup]="this.installmentFormGroup">
+         <form autocomplete="off" class="form-horizontal form-model0P form-model-newP">
             <div class="modal-body modal-body-new">
                <div class="warning">
                   <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
@@ -1565,16 +1553,25 @@
                         font-family: 'sf_ui_textregular';
                         font-size: 18px;
                         line-height: 21px;
-                        text-align: center;">{{'generatePDF.pub_prop' | translate}}</label>
+                        text-align: center;" *ngIf="propertyItems?.is_published == 0">{{'generatePDF.pub_prop' | translate}}</label>
+                         <label style="margin-left: 25%;
+                         height: 42px;
+                         width: 277px;
+                         color: #00B96F;
+                         font-family: 'sf_ui_textregular';
+                         font-size: 18px;
+                         line-height: 21px;
+                         text-align: center;" *ngIf="propertyItems?.is_published == 1">{{'message.success.publishSuccessfully' | translate}}</label>
                      </div>
                   </div>
                </div>
                <div class="row line">
                   <div class="col-lg-1 col-md-2 col-sm-2 col-12">
-                     <a href="javascript://" (click)="markOption(p)">
-                     <img src="assets/img/tick.png" alt="img">
+                     <a href="javascript://" *ngIf="propertyItems?.for_sale == 0">
+                        <img src="assets/img/tick.png" alt="img">
                      </a>
-                     <a href="javascript://" *ngIf="isSelected">
+
+                     <a href="javascript://" *ngIf="propertyItems?.for_sale == 1">
                         <img src="assets/img/tick-selected.png" alt="img">
                      </a>
                   </div>
@@ -1583,82 +1580,144 @@
                         <label style="color: #828282;
                         font-family: 'sf_ui_textlight';
                         font-size: 11px;
-                        line-height: 13px;">{{'deshboard.ForSale' | translate}}</label>
+                        line-height: 13px;" *ngIf="propertyItems?.for_sale == 0">
+                        {{'deshboard.ForSale' | translate}}</label>
+                         <label style="color: #00B96F;
+                         font-family: 'sf_ui_textlight';
+                         font-size: 11px;
+                         line-height: 13px;" *ngIf="propertyItems?.for_sale == 1">
+                         {{'deshboard.ForSale' | translate}}</label>
                      </div>
                   </div>
                </div>
                <div class="row line">
                   <div class="col-lg-1 col-md-2 col-sm-2 col-12">
-                     <a href="javascript://">
-                     <img src="assets/img/tick.png" alt="img">
-                  </a>
+                     <a href="javascript://" *ngIf="propertyItems?.is_commercialized == 0">
+                        <img src="assets/img/tick.png" alt="img">
+                     </a>
+
+                     <a href="javascript://" *ngIf="propertyItems?.is_commercialized == 1">
+                        <img src="assets/img/tick-selected.png" alt="img">
+                     </a>
                   </div>
                   <div class="col-lg-8 col-md-8 col-sm-8 col-12">
                      <div class="form-group-3">
                         <label style="color: #828282;
                         font-family: 'sf_ui_textlight';
                         font-size: 11px;
-                        line-height: 13px;">{{'table.title.commercialized' | translate}}</label>
+                        line-height: 13px;" *ngIf="propertyItems?.is_commercialized == 0">
+                        {{'table.title.commercialized' | translate}}</label>
+                         <label style="color: #00B96F;
+                         font-family: 'sf_ui_textlight';
+                         font-size: 11px;
+                         line-height: 13px;" *ngIf="propertyItems?.is_commercialized == 1">
+                        {{'table.title.commercialized' | translate}}</label>
                      </div>
                   </div>
                </div>
                <div class="row line">
                   <div class="col-lg-1 col-md-2 col-sm-2 col-12">
-                     <a href="javascript://">
-                     <img src="assets/img/tick.png" alt="img">
-                  </a>
+                     <a href="javascript://" *ngIf="!propertyItems?.city_id">
+                        <img src="assets/img/tick.png" alt="img">
+                     </a>
+
+                     <a href="javascript://" *ngIf="propertyItems?.city_id">
+                        <img src="assets/img/tick-selected.png" alt="img">
+                     </a>
                   </div>
                   <div class="col-lg-8 col-md-8 col-sm-8 col-12">
                      <div class="form-group-3">
                         <label style="color: #828282;
                         font-family: 'sf_ui_textlight';
                         font-size: 11px;
-                        line-height: 13px;">{{'table.title.city_id' | translate}}</label>
+                        line-height: 13px;" *ngIf="!propertyItems?.city_id">
+                        {{'table.title.city_id' | translate}}</label>
+                         <label style="color: #00B96F;
+                         font-family: 'sf_ui_textlight';
+                         font-size: 11px;
+                         line-height: 13px;" *ngIf="propertyItems?.city_id">
+                         {{'table.title.city_id' | translate}}</label>
                      </div>
                   </div>
                </div>
                <div class="row line">
                   <div class="col-lg-1 col-md-2 col-sm-2 col-12">
-                     <a href="javascript://">
-                     <img src="assets/img/tick.png" alt="img">
-                  </a>
+                     <a href="javascript://" *ngIf="propertyItems?.is_blocked == 1">
+                        <img src="assets/img/tick.png" alt="img">
+                     </a>
+
+                     <a href="javascript://" *ngIf="propertyItems?.is_blocked == 0">
+                        <img src="assets/img/tick-selected.png" alt="img">
+                     </a>
                   </div>
                   <div class="col-lg-8 col-md-8 col-sm-8 col-12">
                      <div class="form-group-3">
                         <label style="color: #828282;
                         font-family: 'sf_ui_textlight';
                         font-size: 11px;
-                        line-height: 13px;">{{'table.title.unblocked' | translate}}</label>
+                        line-height: 13px;" *ngIf="propertyItems?.is_blocked == 1">
+                        {{'table.title.unblocked' | translate}}
+                     </label>
+                         <label style="color: #00B96F;
+                         font-family: 'sf_ui_textlight';
+                         font-size: 11px;
+                         line-height: 13px;" *ngIf="propertyItems?.is_blocked == 0">
+                         {{'table.title.unblocked' | translate}}
+                        </label>
                      </div>
                   </div>
                </div>
                <div class="row line">
                   <div class="col-lg-1 col-md-2 col-sm-2 col-12">
-                     <a href="javascript://">
-                     <img src="assets/img/tick.png" alt="img">
-                  </a>
+                     <a href="javascript://" *ngIf="propertyItems?.status != 3">
+                        <img src="assets/img/tick.png" alt="img">
+                     </a>
+
+                     <a href="javascript://" *ngIf="propertyItems?.status == 3">
+                        <img src="assets/img/tick-selected.png" alt="img">
+                     </a>
                   </div>
                   <div class="col-lg-8 col-md-8 col-sm-8 col-12">
                      <div class="form-group-3">
                         <label style="color: #828282;
                         font-family: 'sf_ui_textlight';
                         font-size: 11px;
-                        line-height: 13px;">{{'table.title.approve' | translate}}</label>
+                        line-height: 13px;" *ngIf="propertyItems?.status != 3">
+                        {{'table.title.approve' | translate}}</label>
+                        <label style="color: #00B96F;
+                        font-family: 'sf_ui_textlight';
+                        font-size: 11px;
+                        line-height: 13px;" *ngIf="propertyItems?.status == 3">
+                        {{'table.title.approve' | translate}}</label>
                      </div>
                   </div>
                </div>
                <div class="row line">
                   <div class="col-lg-1 col-md-2 col-sm-2 col-12">
-                     <a href="javascript://">
-                     <img src="assets/img/tick.png" alt="img">
-                  </a>
+                     <a href="javascript://" 
+                     *ngIf="!propertyItems?.external_broker && !propertyItems?.external_outside_agent && !propertyItems?.get_agency">
+                        <img src="assets/img/tick.png" alt="img">
+                     </a>
+
+                     <a href="javascript://" 
+                     *ngIf="propertyItems?.external_broker && propertyItems?.external_outside_agent && propertyItems?.get_agency">
+                        <img src="assets/img/tick-selected.png" alt="img">
+                     </a>
                   </div>
                   <div class="col-lg-8 col-md-8 col-sm-8 col-12">
                      <div class="form-group-3">
                         <label style="color: #828282;
                         font-family: 'sf_ui_textlight';
                         font-size: 11px;
-                        line-height: 13px;">{{'table.title.selected' | translate}}</label>
+                        line-height: 13px;" 
+                        *ngIf="!propertyItems?.external_broker && !propertyItems?.external_outside_agent && !propertyItems?.get_agency">
+                        {{'table.title.selected' | translate}}</label>
+                        <label style="color: #00B96F;
+                        font-family: 'sf_ui_textlight';
+                        font-size: 11px;
+                        line-height: 13px;" 
+                        *ngIf="propertyItems?.external_broker && propertyItems?.external_outside_agent && propertyItems?.get_agency">
+                        {{'table.title.selected' | translate}}</label>
                      </div>
                   </div>
                </div>
@@ -1668,8 +1727,8 @@
                   <div class="col-lg-4 col-md-5 col-sm-12 col-12" style="margin-left: auto;">
                      <div class="form-group btn-cont">
                         <label style="display: block; margin-top: 3px;">&nbsp;</label>
-                        <button type="button"(click)="this.closeModalPusblish()"
-                           class="width100P P86 btn-danger" style="height: 42px;">{{'generatePDF.cancel'
+                        <button type="button" (click)="this.closeModalPusblish()" class="width100P P86 btn-danger"
+                           style="height: 42px;">{{'generatePDF.cancel'
                            | translate}}</button>
                      </div>
                   </div>
@@ -1677,7 +1736,7 @@
                      <div class="form-group btn-cont">
                         <label style="display: block; margin-top: 3px;">&nbsp;</label>
                         <button type="button" class="btn btn-primary-new width100P P86 btn"
-                           >
+                        [disabled]="isApplyBtnClicked" (click)="this.openPublish(propertyItems?.id);">
                            {{'generatePDF.publish' | translate}}</button>
                      </div>
                   </div>

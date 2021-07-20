@@ -72,6 +72,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   showMore = false;
   isSelected = false;
   items: any[] = [];
+  propertyItems: any;
   total: any = 0;
   configurations: any = [];
   countries: any;
@@ -115,6 +116,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   paymentBanks: Array<any>;
   isPreview: boolean = false;
   avg_price: any;
+  isApplyBtnClicked = false;
   property_for: any = [
     { is_selected: false, id: 1, name_en: 'For sale', name_es: 'En venta' },
     { is_selected: false, id: 3, name_en: 'Inventory', name_es: 'Inventario' },
@@ -861,27 +863,23 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   pusblish = (propertyDetails: any): void => {
-    // swal({
-    //   html: this.translate.instant('message.error.areYouSure') + '<br>' +
-    //     this.translate.instant('message.error.wantToDeleteProperty'),
-    //   type: 'warning',
-    //   showCancelButton: true,
-    //   confirmButtonColor: this.constant.confirmButtonColor,
-    //   cancelButtonColor: this.constant.cancelButtonColor,
-    //   confirmButtonText: 'Yes'
-    // }).then((result) => {
-    //   if (result.value) {
-    //     this.deleteProperty(property, index);
-    //   }
-    // });
+    console.log(propertyDetails,"789");
+    this.propertyItems = propertyDetails;
     this.openpusblishModal.nativeElement.click();
   }
-  markOption(propertyDetails: any) {
-    if (propertyDetails) {
-      this.isSelected = true;
-    } else {
-      this.isSelected = false;
-    }
+  openPublish(item) {
+    this.spinner.show();
+    this.isApplyBtnClicked = true;
+    this.admin.postDataApi('updateProperyStatus', { id: item }).subscribe((success) => {
+      this.isApplyBtnClicked = false;
+      this.spinner.hide();
+      this.closepusblish.nativeElement.click();
+      this.getListing();
+     // swal(this.translate.instant('swal.success'), this.translate.instant('message.success.publishSuccessfully'), 'success');
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
   }
   openModalInstallment = (propertyDetails: any): void => {
     this.property_array = propertyDetails;

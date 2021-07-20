@@ -607,6 +607,8 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
         exportfinalData.push({
           'Name': p.name || '',
+          'City': (p.city || {}).name || '',
+          'Locality': (p.locality || {}).name || '',
           'Location': p.address || '',
           'Latitude': p.lat || '',
           'Longitude': p.lng || '',

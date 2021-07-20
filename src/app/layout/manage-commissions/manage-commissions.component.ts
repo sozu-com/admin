@@ -121,6 +121,9 @@ export class ManageCommissionsComponent implements OnInit ,OnDestroy{
   paymentAmount: any;
   ivaAmount: any;
   totalAmt: any;
+  total_Collection_Amt: any;
+  total_Agent_Amt: any;
+  total_Purchase_Amt: any;
   paidAmt: any;
   cashSum: any;
   remainingAmt: any;
@@ -945,15 +948,7 @@ export class ManageCommissionsComponent implements OnInit ,OnDestroy{
         payment_date: this.paymentDate,
         full_amount: this.remainingAmt, // sending real amount entered by user
       };
-      if (this.commission_type == 1) {
-        input['total_amount'] = this.test_pay
-      } else if (this.commission_type == 3) {
-        input['total_amount'] = this.test_agent
-      }else if (this.commission_type == 5) {
-        input['total_amount'] = this.test1_agent
-      } else {
-        input['total_amount'] = this.test_Collection
-      }
+     
       // send commission_type, collection_commission_id, percent incase of applying commission
       if (this.typeOfPayment === 'commission-popup') {
 
@@ -964,9 +959,38 @@ export class ManageCommissionsComponent implements OnInit ,OnDestroy{
         input['invoice_id'] = this.invoice_id;
         input['pdf_url'] = this.pdf_url;
         input['xml_url'] = this.xml_url;
-        input['amount'] = this.remainingAmt;
+       // input['amount'] = this.remainingAmt;
         input['iva_amount'] = this.ivaAmount;
-
+        
+        if (this.commission_type == 1) {
+          if(this.purchase__amount){
+            input['amount'] = this.remainingAmt;
+          }else{
+            input['amount'] = (parseFloat(this.remainingAmt || 0) - parseFloat(this.ivaAmount || 0)).toFixed(2);
+          }
+          input['total_amount'] = this.test_pay
+        } else if (this.commission_type == 3) {
+          if(this.agent_amount){
+            input['amount'] = this.remainingAmt;
+          }else{
+            input['amount'] = (parseFloat(this.remainingAmt || 0) - parseFloat(this.ivaAmount || 0)).toFixed(2);
+          }
+          input['total_amount'] = this.test_agent
+        }else if (this.commission_type == 5) {
+          if(this.outside_agent_payment){
+            input['amount'] = this.remainingAmt;
+          }else{
+            input['amount'] = (parseFloat(this.remainingAmt || 0) - parseFloat(this.ivaAmount || 0)).toFixed(2);
+          }
+          input['total_amount'] = this.test1_agent
+        } else {
+          if(this.collection_amount){
+            input['amount'] = this.remainingAmt;
+          }else{
+            input['amount'] = (parseFloat(this.remainingAmt || 0) - parseFloat(this.ivaAmount || 0)).toFixed(2);
+          }
+          input['total_amount'] = this.test_Collection
+        }
         if (this.invoice_date) {
           const offset1 = new Date(this.invoice_date).getTimezoneOffset();
           if (offset < 0) {
@@ -1639,7 +1663,7 @@ closeEditCollReceiptModal() {
   }
  
   setPaymentAmount(item: any) {
-    console.log(item,"item");
+    console.log("test",item)
     if (this.commission_type == 1) {
       for (let i = 0; i < (item.purchase_payment || []).length; i++) {
         let sum: number = item.purchase_payment.map(a => a.amount).reduce(function (a, b) {
@@ -1697,101 +1721,101 @@ closeEditCollReceiptModal() {
       this.ivaAmount = 0;
       if (this.commission_type == 1) {
         this.paymentAmount = (item.purchase_comm_amount || 0);
-        //this.test_pay = item.purchase_comm_amount || 0;
+        this.test_pay = item.purchase_comm_amount || 0;
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_pc)) {
           this.ivaAmount = (parseFloat(this.paymentAmount) * parseFloat(this.selectedItem.iva_percent)) / 100;
-          this.test_pay = (parseFloat(this.paymentAmount) + parseFloat(this.ivaAmount)).toFixed(2);
+          this.total_Purchase_Amt = (parseFloat(this.paymentAmount) + parseFloat(this.ivaAmount)).toFixed(2);
           if(this.purchase__amount){
-            this.paidAmt = (parseFloat(this.purchase__amount) + parseFloat(this.ivaAmount)).toFixed(2);
-            this.remainingAmt = (parseFloat(this.test_pay || 0) - parseFloat(this.paidAmt || 0)).toFixed(2);
+            this.paidAmt = (parseFloat(this.purchase__amount || 0) + parseFloat(this.ivaAmount || 0)).toFixed(2);
+            this.remainingAmt = (parseFloat(this.total_Purchase_Amt || 0) - parseFloat(this.paidAmt || 0)).toFixed(2);
           }else{
-            this.paidAmt = (parseFloat(this.test_pay || 0)).toFixed(2);
-            this.remainingAmt = (parseFloat(this.test_pay || 0)).toFixed(2);
+            this.paidAmt = this.total_Purchase_Amt;
+            this.remainingAmt = (parseFloat(this.paidAmt || 0)).toFixed(2);
           }
           this.paymentAmount = (parseFloat(this.paymentAmount) + parseFloat(this.ivaAmount) - parseFloat(this.purchase__amount || 0)).toFixed(2);
         }else{
-          this.test_pay = (parseFloat(this.paymentAmount)).toFixed(2);
+          this.total_Purchase_Amt = (parseFloat(this.paymentAmount)).toFixed(2);
           if(this.purchase__amount){
             this.paidAmt = (parseFloat(this.purchase__amount || 0)).toFixed(2);
-            this.remainingAmt = (parseFloat(this.test_pay || 0) - parseFloat(this.paidAmt || 0)).toFixed(2);
+            this.remainingAmt = (parseFloat(this.total_Purchase_Amt || 0) - parseFloat(this.paidAmt || 0)).toFixed(2);
           }else{
-            this.paidAmt = (parseFloat(this.test_pay || 0)).toFixed(2);
-            this.remainingAmt = (parseFloat(this.test_pay || 0)).toFixed(2);
+            this.paidAmt = (parseFloat(this.total_Purchase_Amt || 0)).toFixed(2);
+            this.remainingAmt = (parseFloat(this.total_Purchase_Amt || 0)).toFixed(2);
           }
         }
         this.getValue(this.commission_type, item);
       } else if (this.commission_type == 3) {
         this.paymentAmount = (item.agent_comm_amount || 0);
-       // this.test_agent = item.agent_comm_amount || 0;
+       this.test_agent = item.agent_comm_amount || 0;
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_ac)) {
           this.ivaAmount = (parseFloat(this.paymentAmount) * parseFloat(this.selectedItem.iva_percent)) / 100;
-          this.test_agent = (parseFloat(this.paymentAmount) + parseFloat(this.ivaAmount)).toFixed(2);
+          this.total_Agent_Amt = (parseFloat(this.paymentAmount) + parseFloat(this.ivaAmount)).toFixed(2);
           if(this.agent_amount){
             this.paidAmt = (parseFloat(this.agent_amount || 0) + parseFloat(this.ivaAmount || 0)).toFixed(2);
-            this.remainingAmt = (parseFloat(this.test_agent || 0) - parseFloat(this.paidAmt || 0)).toFixed(2);
+            this.remainingAmt = (parseFloat(this.total_Agent_Amt || 0) - parseFloat(this.paidAmt || 0)).toFixed(2);
           }else{
-            this.paidAmt = (parseFloat(this.test_agent || 0)).toFixed(2);
-            this.remainingAmt = (parseFloat(this.test_agent || 0)).toFixed(2);
+            this.paidAmt = (parseFloat(this.total_Agent_Amt || 0)).toFixed(2);
+            this.remainingAmt = (parseFloat(this.total_Agent_Amt || 0)).toFixed(2);
           }
           this.paymentAmount = (parseFloat(this.paymentAmount) + parseFloat(this.ivaAmount) - parseFloat(this.agent_amount || 0)).toFixed(2);
         }else{
-          this.test_agent = (parseFloat(this.paymentAmount)).toFixed(2);
+          this.total_Agent_Amt = (parseFloat(this.paymentAmount)).toFixed(2);
           if(this.agent_amount){
             this.paidAmt = (parseFloat(this.agent_amount || 0)).toFixed(2);
-            this.remainingAmt = (parseFloat(this.test_agent || 0) - parseFloat(this.paidAmt || 0)).toFixed(2);
+            this.remainingAmt = (parseFloat(this.total_Agent_Amt || 0) - parseFloat(this.paidAmt || 0)).toFixed(2);
           }else{
-            this.paidAmt = (parseFloat(this.test_agent || 0)).toFixed(2);
-            this.remainingAmt = (parseFloat(this.test_agent || 0)).toFixed(2);
+            this.paidAmt = (parseFloat(this.total_Agent_Amt || 0)).toFixed(2);
+            this.remainingAmt = (parseFloat(this.total_Agent_Amt || 0)).toFixed(2);
           }
         }
         this.getValue(this.commission_type, item);
       } else if (this.commission_type == 5) {
         this.paymentAmount = (item.agent_outside_comm_amount || 0);
-        //this.test1_agent = item.agent_outside_comm_amount || 0;
+        this.test1_agent = item.agent_outside_comm_amount || 0;
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_oac)) {
           this.ivaAmount = (parseFloat(this.paymentAmount) * parseFloat(this.selectedItem.iva_percent)) / 100;
-          this.test1_agent = (parseFloat(this.paymentAmount) + parseFloat(this.ivaAmount)).toFixed(2);
+          this.paymentAmount = (parseFloat(this.paymentAmount) + parseFloat(this.ivaAmount) - parseFloat(this.outside_agent_payment || 0)).toFixed(2);
+          this.totalAmt = (parseFloat(this.paymentAmount) + parseFloat(this.ivaAmount)).toFixed(2);
           if(this.outside_agent_payment){
             this.paidAmt = (parseFloat(this.outside_agent_payment || 0) + parseFloat(this.ivaAmount || 0)).toFixed(2);
-            this.remainingAmt = (parseFloat(this.test1_agent || 0) - parseFloat(this.paidAmt || 0));
+            this.remainingAmt = (parseFloat(this.totalAmt || 0) - parseFloat(this.paidAmt || 0)).toFixed(2);
           }else{
-            this.paidAmt = (parseFloat(this.test1_agent || 0));
-            this.remainingAmt = (parseFloat(this.test1_agent || 0));
+            this.paidAmt =  this.totalAmt;
+            this.remainingAmt = (parseFloat(this.paidAmt || 0)).toFixed(2);
           }
-          this.paymentAmount = (parseFloat(this.paymentAmount) + parseFloat(this.ivaAmount) - parseFloat(this.outside_agent_payment || 0)).toFixed(2);
         }else{
-          this.test1_agent = (parseFloat(this.paymentAmount)).toFixed(2);
+          this.totalAmt = (parseFloat(this.paymentAmount)).toFixed(2);
           if(this.outside_agent_payment){
             this.paidAmt = (parseFloat(this.outside_agent_payment || 0)).toFixed(2);
-            this.remainingAmt = (parseFloat(this.test1_agent || 0) - parseFloat(this.paidAmt || 0)).toFixed(2);
+            this.remainingAmt = (parseFloat(this.totalAmt || 0) - parseFloat(this.paidAmt || 0)).toFixed(2);
           }else{
-            this.paidAmt = (parseFloat(this.test1_agent || 0)).toFixed(2);
-            this.remainingAmt = (parseFloat(this.test1_agent || 0)).toFixed(2);
+            this.paidAmt = (parseFloat(this.totalAmt || 0)).toFixed(2);
+            this.remainingAmt = (parseFloat(this.totalAmt || 0)).toFixed(2);
           }
         }
         this.getValue(this.commission_type, item);
       } else {
         this.paymentAmount = (item.amount || 0);
-       // this.test_Collection = item.amount || 0;
+        this.test_Collection = item.amount || 0;
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_cc)) {
           this.ivaAmount = (parseFloat(this.paymentAmount) * parseFloat(this.selectedItem.iva_percent)) / 100;
-          this.test_Collection = (parseFloat(this.paymentAmount) + parseFloat(this.ivaAmount)).toFixed(2);
+          this.total_Collection_Amt = (parseFloat(this.paymentAmount) + parseFloat(this.ivaAmount)).toFixed(2);
           if(this.collection_amount){
             this.paidAmt = (parseFloat(this.collection_amount || 0) + parseFloat(this.ivaAmount || 0)).toFixed(2);
-            this.remainingAmt = (parseFloat(this.test_Collection || 0) - parseFloat(this.paidAmt || 0));
+            this.remainingAmt = (parseFloat(this.total_Collection_Amt || 0) - parseFloat(this.paidAmt || 0));
           }else{
-            this.paidAmt = (parseFloat(this.test_Collection || 0));
-            this.remainingAmt = (parseFloat(this.test_Collection || 0));
+            this.paidAmt =  this.total_Collection_Amt;
+            this.remainingAmt = (parseFloat(this.paidAmt || 0)).toFixed(2);
           }
           this.paymentAmount = (parseFloat(this.paymentAmount) + parseFloat(this.ivaAmount) - parseFloat(this.collection_amount || 0)).toFixed(2);
         }else{
-          this.test_Collection = (parseFloat(this.paymentAmount)).toFixed(2);
+          this.total_Collection_Amt = (parseFloat(this.paymentAmount)).toFixed(2);
           if(this.collection_amount){
             this.paidAmt = (parseFloat(this.collection_amount || 0)).toFixed(2);
-            this.remainingAmt = (parseFloat(this.test_Collection || 0) - parseFloat(this.paidAmt || 0)).toFixed(2);
+            this.remainingAmt = (parseFloat(this.total_Collection_Amt || 0) - parseFloat(this.paidAmt || 0)).toFixed(2);
           }else{
-            this.paidAmt = (parseFloat(this.test_Collection || 0)).toFixed(2);
-            this.remainingAmt = (parseFloat(this.test_Collection || 0)).toFixed(2);
+            this.paidAmt = (parseFloat(this.total_Collection_Amt || 0)).toFixed(2);
+            this.remainingAmt = (parseFloat(this.total_Collection_Amt || 0)).toFixed(2);
           }
         }
         this.getValue(this.commission_type, item);

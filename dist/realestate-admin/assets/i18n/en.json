@@ -1012,10 +1012,15 @@
       "approve": "Approve",
       "unapprove": "Unapprove",
       "generatePDF": "Generate PDF",
+      "pusblish": "Pusblish",
       "selectColumns":"Select Columns",
       "columnsSelection":"Columns selection",
       "selectTheColumnYouWantToVisualize":"Select the column you want to visualize",
       "commercializedProperty": "Commercialized Property",
+      "commercialized": "Commercialized",
+      "city_id": "City ID",
+      "unblocked":"Unblocked (Developer,project and property)",
+      "selected":"Select/Agent/Agency", 
       "markCommercialized": "Mark commercialized",
       "sendActivationEmail": "Send Activation Email",
       "confirmEmail": "Confirm Email",
@@ -1133,6 +1138,7 @@
       "unlinkedSuccessfully": "Unlinked successfully",
       "doneSuccessfully": "Done successfully.",
       "changedSuccessfully": "Changed successfully",
+      "publishSuccessfully": "publish successfully",
       "cannotDeleteProperty": "It is not possible to delete the property because it has an active collection account",
       "cannotEditProperty": "It is not possible to edit the property because it has an active collection account",
       "logoutSuccessfully": "Logout Successfully.",
@@ -1899,6 +1905,8 @@
     "changePassword": "Change Password",
     "logout": "Logout",
     "dashboard": "Dashboard",
+    "Market_analysis":"Market analysis",
+    "Market_Analysis":"Market Analysis",
     "manageInhouseUsers": "Manage Inhouse Users",
     "dataCollector": "Data Collector",
     "CSRSeller": "CSR Seller",
@@ -1964,7 +1972,8 @@
     "documentListing": "Document Listing",
     "manageCredits" : "Manage Credits",
     "cordinatorAgent": "Cordinator Agent",
-    "manageCommissions": "Manage Commissions"
+    "manageCommissions": "Manage Commissions",
+    "marketAnalysis": "Market Analysis"
   },
   "commonBlock": {
     "propertiesAvailable": "Properties available",
@@ -2578,6 +2587,9 @@
     "close": "Close"
   },
   "generatePDF": {
+    "pub_prop": "Are you sure you want to publish the property?",
+    "cancel": "Cancel",
+    "publish": "Publish",
     "offerInformaton": "Offer informaton",
     "offerDetails": "Offer details",
     "discountPercentage": "Discount",
