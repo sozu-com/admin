@@ -1972,7 +1972,9 @@
     "manageCredits" : "Manage Credits",
     "cordinatorAgent": "Cordinator Agent",
     "manageCommissions": "Manage Commissions",
-    "marketAnalysis": "Market Analysis"
+    "marketAnalysis": "Market Analysis",
+    "projectAnalysis": "Project Analysis",
+    "locationAnalysis": "Location Analysis"
   },
   "commonBlock": {
     "propertiesAvailable": "Properties available",
@@ -2950,5 +2952,19 @@
   "swalText": {
     "assignInhouseAgent": "Assign Inhouse agent",
     "unassignInhouseAgent": "Unassign Inhouse agent"
+  },
+  "viewProjectAnalysis": {
+    "label": "Project Analysis",
+    "project": "Project",
+    "availability": "Availability",
+    "models": "Models",
+    "noArrearGraphDataAvailable": "No arrear graph data available",
+    "noSoldPropertiesAvailable": "No sold properties available",
+    "averagePrice": "Average Price",
+    "averagepriceperM2": "Average price per m2",
+    "selectModel": "Select model (s)",
+    "selectGraph": "Select graph",
+    "averagePriceH": "Average of all the final prices of the properties (unblocked, active and approved) with an active collection account without considering office property type.",
+     "averagePricePerM": "Average of all the  carpet areas of the properties(unblocked, active and approved) with an active collection account without considering office property type."
   }
 }

@@ -291,7 +291,7 @@
                                     <label>{{'table.th.name' | translate}}</label>
                                     <div class="searh-3">
                                         <input autocomplete="address-level4" type="text" [(ngModel)]="parameter.name"
-                                            (keyup.enter)="changeFilter('name',$event.target.value)" name="">
+                                            (keyup.enter)="changeFilter('name',$event.target.value)" name="name">
                                         <button *ngIf="parameter.name" (click)="changeFilter('name', parameter.name)"><i
                                                 class="fa fa-search"></i></button>
                                     </div>
@@ -301,8 +301,8 @@
                                 <div class="table-search">
                                     <label>{{'table.th.firstSurname' | translate}}</label>
                                     <div class="searh-3">
-                                        <input autocomplete="address-level4" type="text" [(ngModel)]="parameter.name"
-                                            (keyup.enter)="changeFilter('name',$event.target.value)" name="">
+                                        <input autocomplete="address-level4" type="text" [(ngModel)]="parameter.first_surname"
+                                            (keyup.enter)="changeFilter('name',$event.target.value)" name="firstSurname">
                                         <button *ngIf="parameter.first_surname"
                                             (click)="changeFilter('name', parameter.name)"><i
                                                 class="fa fa-search"></i></button>
@@ -313,8 +313,8 @@
                                 <div class="table-search">
                                     <label>{{'table.th.secondSurname' | translate}}</label>
                                     <div class="searh-3">
-                                        <input autocomplete="address-level4" type="text" [(ngModel)]="parameter.name"
-                                            (keyup.enter)="changeFilter('name',$event.target.value)" name="">
+                                        <input autocomplete="address-level4" type="text" [(ngModel)]="parameter.second_surname"
+                                            (keyup.enter)="changeFilter('name',$event.target.value)" name="secondSurname">
                                         <button *ngIf="parameter.second_surname"
                                             (click)="changeFilter('name', parameter.name)"><i
                                                 class="fa fa-search"></i></button>

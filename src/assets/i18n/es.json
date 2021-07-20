@@ -1974,7 +1974,9 @@
     "manageCredits" : "Gestionar créditos",
     "cordinatorAgent": "Agente coordinador",
     "manageCommissions": "Administrar Comisiones",
-    "marketAnalysis": "Análisis De Mercado"
+    "marketAnalysis": "Análisis De Mercado",
+    "projectAnalysis": "Análisis De Proyecto",
+    "locationAnalysis": "Análisis De Ubicación"
   },
   "commonBlock": {
     "job": "Trabajo",
@@ -2948,5 +2950,19 @@
   "swalText": {
     "assignInhouseAgent": "Asignar agente interno",
     "unassignInhouseAgent": "Anular asignación de agente interno"
+  },
+  "viewProjectAnalysis": {
+    "label": "Análisis De Proyecto",
+    "project": "Proyecto",
+    "availability": "Disponibilidad",
+    "models": "Modelo",
+    "noArrearGraphDataAvailable": "No hay datos de gráficos atrasados ​​disponibles",
+    "noSoldPropertiesAvailable": "No hay propiedades vendidas disponibles",
+    "averagePrice": "Precio promedio",
+    "averagepriceperM2": "Precio promedio por m2",
+    "selectModel": "Seleccionar modelo (s)",
+    "selectGraph": "Seleccionar gráfico",
+    "averagePriceH": "Promedio de todos los precios finales de las propiedades (desbloqueadas, activas y aprobadas) con una cuenta de cobro activa sin considerar el tipo de propiedad de la oficina.",
+     "averagePricePerM": "Promedio de todas las áreas de alfombra de las propiedades (desbloqueadas, activas y aprobadas) con una cuenta de cobranza activa sin considerar el tipo de propiedad de la oficina."
   }
 }
