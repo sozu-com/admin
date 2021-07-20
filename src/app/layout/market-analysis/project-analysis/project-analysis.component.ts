@@ -73,7 +73,6 @@ export class ProjectAnalysisComponent implements OnInit {
     this.admin.postDataApi('getProjectsForCollections', {})
       .subscribe(
         success => {
-          this.spinner.hide();
           this.projects = success['data'];
         },
         error => {
@@ -101,12 +100,25 @@ export class ProjectAnalysisComponent implements OnInit {
   }
 
   getMarketPricesByModels() {
+    let projectIds= [];
+    let modelIds= [];
+    if(this.selectedProject.length > 0){
+      this.selectedProject.forEach(item => {
+        projectIds.push(item.id);
+      });
+    }
+
+    if(this.selectedModels.length > 0){
+      this.selectedModels.forEach(item => {
+        modelIds.push(item.id);
+      });
+    }
     const input = {
       availability_filter: this.selectedAvailability,
       start_date: this.min_date,
       end_date: this.max_date,
-      project_id: this.selectedProject,
-      model_id: this.selectedProject
+      project_id: projectIds,
+      model_id: modelIds
     }
     this.admin.postDataApi('getMarketPricesByModels', input)
       .subscribe(
@@ -117,14 +129,28 @@ export class ProjectAnalysisComponent implements OnInit {
   }
 
   getMarketPricesByMonth() {
+    let projectIds= [];
+    let modelIds= [];
+    if(this.selectedProject.length > 0){
+      this.selectedProject.forEach(item => {
+        projectIds.push(item.id);
+      });
+    }
+
+    if(this.selectedModels.length > 0){
+      this.selectedModels.forEach(item => {
+        modelIds.push(item.id);
+      });
+    }
     const input = {
       availability_filter: this.selectedAvailability,
       start_date: this.min_date,
       end_date: this.max_date,
-      project_id: this.selectedProject,
-      model_id: this.selectedProject,
+      project_id: projectIds,
+      model_id: modelIds,
       price_type: this.selectedGraph
     }
+    this.spinner.show();
     this.admin.postDataApi('getMarketPricesByMonth', input)
       .subscribe(
         success => {
@@ -160,6 +186,9 @@ export class ProjectAnalysisComponent implements OnInit {
             }]
           });
           chart.render();
+          this.spinner.hide();
+        },error=>{
+          this.spinner.hide();
         });
   }
 
@@ -174,7 +203,6 @@ export class ProjectAnalysisComponent implements OnInit {
     else {
       this.models = []
     }
-    this.getdata();
   }
 
 
@@ -189,7 +217,14 @@ export class ProjectAnalysisComponent implements OnInit {
     else {
       this.models = []
     }
-    this.getdata();
+  }
+
+  onModelschange(){
+
+  }
+
+  onModelsChangeAll(){
+
   }
 
   onSelectGraph(){

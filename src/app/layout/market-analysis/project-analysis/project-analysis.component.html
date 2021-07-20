@@ -37,7 +37,7 @@
     <div class="col-lg-2 col-md-2 col-sm-5 col-5">
       <div class="form-group" style="display: grid;">
         <label>{{'viewProjectAnalysis.availability' | translate}}</label>
-        <select [(ngModel)]="selectedAvailability" (change)="getdata()" name="availability_filter" style="height:37px;">
+        <select [(ngModel)]="selectedAvailability" name="availability_filter" style="height:37px;">
           <option value="0">{{'table.th.all' | translate}}</option>
           <option value="1">{{'table.th.buy' | translate}}</option>
           <option value="2">{{'table.th.rent' | translate}}</option>
@@ -50,7 +50,7 @@
         <label>{{'viewProjectAnalysis.models' | translate}}</label>
         <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selectedModels"
           [data]="models" [(ngModel)]="selectedModels" [settings]="multiDropdownSettings"
-          (onDeSelect)="onCityChange()" (onSelect)="onCityChange()" (onSelectAll)="onCityChangeAll($event)"
+          (onDeSelect)="onCityChange()" (onSelect)="onModelschange()" (onSelectAll)="onModelsChangeAll($event)"
           (onDeSelectAll)="onCityChangeAll($event)">
         </ng-multiselect-dropdown>
       </div>
