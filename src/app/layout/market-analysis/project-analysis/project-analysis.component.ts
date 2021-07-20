@@ -223,7 +223,7 @@ export class ProjectAnalysisComponent implements OnInit {
 
   }
 
-  onModelsChangeAll(){
+  onModelsChangeAll(item){
 
   }
 
