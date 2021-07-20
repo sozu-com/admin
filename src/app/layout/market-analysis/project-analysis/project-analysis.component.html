@@ -11,7 +11,7 @@
     <div class="col-lg-2 col-md-2 col-sm-5 col-5">
       <div class="form-group" style="display: grid;">
         <label>{{'filters.time.custom.from' | translate}}</label>
-        <p-calendar [locale]="locale" showIcon="true" [(ngModel)]="min_date" [maxDate]="today" name="min_date"
+        <p-calendar [locale]="locale" showIcon="true" [(ngModel)]="min_date"  name="min_date"
           showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040" class="coll-report-calendar">
         </p-calendar>
       </div>
@@ -20,7 +20,7 @@
       <div class="form-group" style="display: grid;">
         <label>{{'filters.time.custom.to' | translate}}</label>
         <p-calendar [locale]="locale" showIcon="true" [(ngModel)]="max_date" [minDate]="min_date" name="max_date"
-          [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040" class="coll-report-calendar">
+          showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040" class="coll-report-calendar">
         </p-calendar>
       </div>
     </div>

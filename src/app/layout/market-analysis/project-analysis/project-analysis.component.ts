@@ -89,7 +89,12 @@ export class ProjectAnalysisComponent implements OnInit {
       this.spinner.hide();
     });
   }
+  onCityChange(){
 
+  }
+  onCityChangeAll(item){
+
+  }
   getdata() {
     this.getMarketPricesByModels();
     this.getMarketPricesByMonth();
@@ -173,7 +178,7 @@ export class ProjectAnalysisComponent implements OnInit {
   }
 
 
-  onProjectChangeAll() {
+  onProjectChangeAll(item) {
     let ids = [];
     this.selectedProject.forEach(item => {
       ids.push(item.id);
