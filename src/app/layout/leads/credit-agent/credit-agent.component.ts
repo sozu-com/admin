@@ -412,4 +412,9 @@ export class CreditAgentComponent implements OnInit {
           swal(this.translate.instant('swal.error'), error.error.message, 'error');
         });
   }
+
+  viewLeadDetails(lead_id: string, data: any) {
+    this.leadsService.setLeadDetailData(data);
+    this.router.navigate(['/dashboard/leads/credit-agents', lead_id]);
+  }
 }

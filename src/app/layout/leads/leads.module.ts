@@ -39,6 +39,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CsrRenterComponent } from './csr-renter/csr-renter.component';
 import { CreditAgentComponent } from './credit-agent/credit-agent.component';
 import { CollectionAgentComponent } from './collection-agent/collection-agent.component';
+import { CreditAgentLeadDetailComponent } from './credit-agent/credit-agent-lead-detail/credit-agent-lead-detail.component';
 
 const routes: Routes = [
   {
@@ -58,6 +59,10 @@ const routes: Routes = [
   {
     path: 'credit-agents-leads/:id', component: CreditAgentComponent,
     canActivate: [AclUserGuard], data: { roles: ['Credit Agent Lead Management', 'can_read', 'can_credit_agent'] }
+  },
+  {
+    path: 'credit-agents/:id', component: CreditAgentLeadDetailComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Credit Agent Lead Management', 'can_read', 'can_csr_seller'] }
   },
   {
     path: 'collection-agents', component: CsrRenterComponent,
@@ -193,7 +198,8 @@ const routes: Routes = [
     OutsideBrokerDetailComponent,
     CsrRenterComponent,
     CreditAgentComponent,
-    CollectionAgentComponent
+    CollectionAgentComponent,
+    CreditAgentLeadDetailComponent
   ],
   // providers: [NgBoxService]
 })

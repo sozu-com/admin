@@ -1528,6 +1528,7 @@
   },
   "leadDetails": {
     "CSRBuyer": "Comprador CSR",
+    "creditAgent": "Agente de crédito",
     "outsideAgent": "Agente externo",
     "inhouseAgent": "Agente interno",
     "CSRClosure": "Cerrador CSR",
@@ -1610,7 +1611,11 @@
     "chatWithSeller": "Chatear con el vendedor",
     "chatWithCSRSeller": "Chatear con el vendedor CSR",
     "leadStatusHistory": "Historial de estado del cliente potencial",
-    "noLeadStatusHistoryAavailable" : "No hay historial de estado de clientes potenciales disponible"
+    "noLeadStatusHistoryAavailable" : "No hay historial de estado de clientes potenciales disponible",
+    "creditInformation": "crédito Información",
+    "radio2": "INFONAVIT",
+    "radio3": "FOVISSSTE",
+    "radio4": "Other"
   },
   "viewACL": {
     "label": "Access Control Mgt.",

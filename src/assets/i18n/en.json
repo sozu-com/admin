@@ -1525,6 +1525,7 @@
   },
   "leadDetails": {
     "CSRBuyer": "CSR Buyer",
+    "creditAgent": "Credit Agent",
     "outsideAgent": "Outside Agent",
     "inhouseAgent": "Inhouse Agent",
     "CSRClosure": "CSR Closure",
@@ -1607,7 +1608,17 @@
     "chatWithSeller": "Chat With Seller",
     "chatWithCSRSeller": "Chat with CSR Seller",
     "leadStatusHistory": "Lead Status History",
-    "noLeadStatusHistoryAavailable" : "No lead status history available"
+    "noLeadStatusHistoryAavailable" : "No lead status history available",
+    "creditInformation": "Credit Information",
+    "budgetForDownPayment": "Budget for down payment",
+    "budgetForMonthlyInstallment": "Budget for monthly installment",
+    "haveChosenTheProppertyHeSheWantToBuy": "have chosen the propperty he/she want to buy",
+    "propertyValue": "Property value",
+    "QuoteFor": "Quote for",
+    "liquidityCredit": "Liquidity credit",
+    "radio2": "INFONAVIT",
+    "radio3": "FOVISSSTE",
+    "radio4": "Other"
   },
   "viewACL": {
     "label": "Access Control Mgt.",
