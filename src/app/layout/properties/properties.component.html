@@ -761,9 +761,32 @@
                         <td *ngIf="parameter.flag!=5  && selectedPropertyColumnsToShow?.action">
                            <div class="table-actions">
                               <!--this button to open installment modal -->
-                              <button (click)="this.pusblish(p);" class="action-icon" [disabled]="!!p?.collection"
-                                 *ngIf="parameter?.flag == 3" title="{{'table.title.pusblish' | translate}}"><img
-                                    src="assets/img/ic_icon_bold.png" alt="img"></button>
+                              <button class="action-icon disable" 
+                              [disabled]="p?.collection && p?.collection?.is_cancelled!=1 && parameter?.flag == 3"
+                              *ngIf="p?.collection && p?.collection?.is_cancelled!=1 && parameter?.flag == 3" 
+                              title="{{'table.title.pusblishDisable' | translate}}">
+                              <img src="assets/img/BLOCKED.jpg" alt="img" style="width: 25px;
+                                 height: 25px;">
+                              </button>
+                              <!-- <button class="action-icon" 
+                              [disabled]="p?.collection && p?.collection?.is_cancelled!=1 && parameter?.flag == 3"
+                              *ngIf="p?.collection && p?.collection?.is_cancelled!=1 && parameter?.flag == 3"  
+                              title="{{'table.title.pusblish' | translate}}">
+                              <img src="assets/img/BLOCKED.jpg" alt="img" style="width: 25px;
+                              height: 25px;"></button> -->
+
+                              <button (click)="this.pusblish(p);" class="action-icon" 
+                              *ngIf="p.is_published == 0 && parameter?.flag == 3 && !p?.collection" 
+                              title="{{'table.title.unPusblish' | translate}}">
+                              <img src="assets/img/UNACTIVE.jpg" alt="img" style="width: 31px;
+                              height: 27px;
+                              margin-left: -3px;">
+                              </button>
+                              
+                              <button (click)="this.pusblish(p);" class="action-icon" 
+                              *ngIf="p.is_published == 1 && parameter?.flag == 3 && !p?.collection" title="{{'table.title.pusblish' | translate}}">
+                              <img src="assets/img/ACTIVE.jpg" alt="img" style="width: 25px;
+                              height: 25px;"></button>
 
                               <button (click)="this.openModalInstallment(p);" class="action-icon"
                                  [disabled]="!!p?.collection" *ngIf="parameter?.flag == 3"

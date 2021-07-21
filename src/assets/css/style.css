@@ -933,6 +933,7 @@ background-image:url(../img/tick-selected.png);
 .steps ul li.current span{
 background-image:url(../img/tick-current.png);
 }
+
 .steps ul li.current a, .steps ul li.selected a{
 font-family: 'sf_ui_textbold';
 color: #00B96F;
