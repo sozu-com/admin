@@ -51,6 +51,7 @@ export class Leads {
     lead_bedroom: Array<bath>;
     lead_bathroom: Array<bath>;
     lead_half_bedroom: Array<bath>;
+    lead_answer?: any;
 }
 
 export class bath {

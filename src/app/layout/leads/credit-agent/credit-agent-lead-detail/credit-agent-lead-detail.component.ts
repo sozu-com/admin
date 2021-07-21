@@ -18,6 +18,10 @@ export class CreditAgentLeadDetailComponent implements OnInit {
   data = [];
   is_deal_finalised: boolean;
   locale = {};
+  public scrollbarOptions = { axis: 'y', theme: 'dark' };
+  today = new Date();
+  date: any;
+  user_id: any;
   constructor(
     public admin: AdminService,
     public constant: Constant,
@@ -82,6 +86,24 @@ export class CreditAgentLeadDetailComponent implements OnInit {
           this.spinner.hide();
         });
     });
+  }
+
+  getPage2(page) {
+    this.parameter.page2 = page;
+  }
+
+  closeModal() {
+  }
+
+  add() {
+
+  }
+
+  addDateTime () {
+    if (this.date) {
+      this.appointment.appointment_date_array.push(this.date);
+      this.date = '';
+    }
   }
 
 }
