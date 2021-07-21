@@ -1717,13 +1717,15 @@
                </div>
                <div class="row line">
                   <div class="col-lg-1 col-md-2 col-sm-2 col-12">
-                     <a href="javascript://" 
-                     *ngIf="!propertyItems?.external_broker && !propertyItems?.external_outside_agent && !propertyItems?.get_agency">
-                        <img src="assets/img/tick.png" alt="img">
+                     <a href="javascript://">
+                        <img src="assets/img/tick.png" alt="img"
+                        *ngIf="propertyItems?.external_broker == null && propertyItems?.external_outside_agent == null
+                        && propertyItems?.get_agency == null && propertyItems?.selected_seller == null">
                      </a>
 
                      <a href="javascript://" 
-                     *ngIf="propertyItems?.external_broker && propertyItems?.external_outside_agent && propertyItems?.get_agency">
+                     *ngIf="propertyItems?.selected_seller && propertyItems?.external_broker 
+                     && propertyItems?.external_outside_agent && propertyItems?.get_agency">
                         <img src="assets/img/tick-selected.png" alt="img">
                      </a>
                   </div>
@@ -1732,14 +1734,14 @@
                         <label style="color: #828282;
                         font-family: 'sf_ui_textlight';
                         font-size: 11px;
-                        line-height: 13px;" 
-                        *ngIf="!propertyItems?.external_broker && !propertyItems?.external_outside_agent && !propertyItems?.get_agency">
+                        line-height: 13px;" *ngIf="propertyItems?.external_broker == null && propertyItems?.external_outside_agent == null
+                        && propertyItems?.get_agency == null && propertyItems?.selected_seller == null">
                         {{'table.title.selected' | translate}}</label>
                         <label style="color: #00B96F;
                         font-family: 'sf_ui_textlight';
                         font-size: 11px;
                         line-height: 13px;" 
-                        *ngIf="propertyItems?.external_broker && propertyItems?.external_outside_agent && propertyItems?.get_agency">
+                        *ngIf="propertyItems?.selected_seller && propertyItems?.external_broker && propertyItems?.external_outside_agent && propertyItems?.get_agency">
                         {{'table.title.selected' | translate}}</label>
                      </div>
                   </div>
