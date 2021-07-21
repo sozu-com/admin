@@ -871,11 +871,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.spinner.show();
     this.isApplyBtnClicked = true;
     this.admin.postDataApi('updateProperyStatus', { id: item }).subscribe((success) => {
-      this.isApplyBtnClicked = false;
-      this.spinner.hide();
       this.closepusblish.nativeElement.click();
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.publishSuccessfully'), 'success');
+      this.isApplyBtnClicked = false;
       this.getListing();
-     // swal(this.translate.instant('swal.success'), this.translate.instant('message.success.publishSuccessfully'), 'success');
+      this.spinner.hide();
     }, (error) => {
       this.spinner.hide();
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
