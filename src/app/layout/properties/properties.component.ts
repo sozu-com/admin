@@ -863,8 +863,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   pusblish = (propertyDetails: any): void => {
-    console.log(propertyDetails,"789");
     this.propertyItems = propertyDetails;
+    console.log(this.propertyItems,"789");
     this.openpusblishModal.nativeElement.click();
   }
   openPublish(item) {
