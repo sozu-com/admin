@@ -697,6 +697,7 @@
     "th": {
       "carpetArea": "Carpet Area",
       "all": "All",
+      "id": "ID",
       "currency": "Currency",
       "systemDashboardAccess": "System Dashboard",
       "adminAccess": "Admin access",

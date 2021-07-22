@@ -1566,39 +1566,28 @@
                #closepusblish>&times;</button>
             <button type="button" class="close" (click)="this.closeModalPusblish()">&times;</button>
          </div>
-         <form autocomplete="off" class="form-horizontal form-model0P form-model-newP">
+         <form autocomplete="off" class="form-horizontal form-model0P form-model-newP" style="padding: 13px 13px;">
             <div class="modal-body modal-body-new">
-               <div class="warning">
-                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-               </div>
+                  <img src="assets/img/warning.png" alt="img" class="img-publish">
+
                <h5 style="    
                height: 36px;
                color: #333;
-               font-family: 'sf_ui_textbold';
+               font-family: 'sf_ui_textmedium';
                font-size: 30px;
                font-weight: 500;
                line-height: 36px;
                text-align: center;">{{'swal.warning' | translate}}</h5>
-               <div class="spacer15"></div>
                <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                      <div class="form-group-3">
-                        <label style="margin-left: 25%;
+                        <p style="text-align: center;
                         height: 42px;
                         width: 277px;
                         color: #4F4F4F;
                         font-family: 'sf_ui_textregular';
                         font-size: 18px;
-                        line-height: 21px;
-                        text-align: center;" *ngIf="propertyItems?.is_published == 0">{{'generatePDF.pub_prop' | translate}}</label>
-                         <label style="margin-left: 25%;
-                         height: 42px;
-                         width: 277px;
-                         color: #00B96F;
-                         font-family: 'sf_ui_textregular';
-                         font-size: 18px;
-                         line-height: 21px;
-                         text-align: center;" *ngIf="propertyItems?.is_published == 1">{{'message.success.publishSuccessfully' | translate}}</label>
+                        line-height: 21px;">{{'generatePDF.pub_prop' | translate}}</p>
                      </div>
                   </div>
                </div>
@@ -1766,15 +1755,14 @@
                   <div class="col-lg-4 col-md-5 col-sm-12 col-12" style="margin-left: auto;">
                      <div class="form-group btn-cont">
                         <label style="display: block; margin-top: 3px;">&nbsp;</label>
-                        <button type="button" (click)="this.closeModalPusblish()" class="width100P P86 btn-danger"
-                           style="height: 42px;">{{'generatePDF.cancel'
+                        <button type="button" (click)="this.closeModalPusblish()" class="cancel">{{'generatePDF.cancel'
                            | translate}}</button>
                      </div>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-12 col-12" style="margin-right: auto;">
                      <div class="form-group btn-cont">
                         <label style="display: block; margin-top: 3px;">&nbsp;</label>
-                        <button type="button" class="btn btn-primary-new width100P P86 btn"
+                        <button type="button" class="publish"
                         [disabled]="isApplyBtnClicked" (click)="this.openPublish(propertyItems?.id);">
                            {{'generatePDF.publish' | translate}}</button>
                      </div>
