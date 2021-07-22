@@ -634,9 +634,12 @@
                 <div class="circle">
                     <span></span>
                   </div>
-                    <p class="time">{{item.user.name}} {{item.user.first_surname || ''}} {{item.user.second_surname || ''}}</p>
+                    <p class="time">{{item.assign_from.name}} {{item.assign_from.first_surname || ''}} {{item.assign_from.second_surname || ''}}</p>
                     <pre class="p13" style="margin-bottom: 0px;color: rgba(0,0,0,0.5);font-size: 12px;">{{item.created_at  | chatTime: 'YYYY-MM-DD H:m:s': 2}}</pre>
-                    <pre class="p13">{{lang == 'en' ? item.status_details.name : item.status_details.name_es}}</pre>
+                    <pre class="p13">{{item.type == 1 ? (('leadDetails.assigned' | translate) + ' ' + (item.assign_to.name + ' ' + item.assign_to.first_surname + ' ' + item.assign_to.second_surname) + ('leadDetails.AsCSRAgent' | translate)) : item.type == 2 ? 
+                        (('leadDetails.assigned' | translate) + ' ' + (item.assign_to.name + ' ' + item.assign_to.first_surname + ' ' + item.assign_to.second_surname) + ('leadDetails.AsInhouseAgent' | translate)) : item.type == 3 ? 
+                        (('leadDetails.hasUpdateStatusTo' | translate) + ' ' + (lang == 'en' ? item.status_details.name : item.status_details.name_es) + ' ' + ('leadDetails.forCSRAgent' | translate)) : item.type == 4 ? 
+                        (('leadDetails.hasUpdateStatusTo' | translate) + ' ' + (lang == 'en' ? item.status_details.name : item.status_details.name_es) + ' ' +( 'leadDetails.forInhouseAgent' | translate)) : ''}}</pre>
                 </div>
                 <div class="col-12" style="font-size: 18px;text-align: center;margin-top: 33%;" *ngIf="!history || history.length == 0">
                     <pre>{{'leadDetails.noLeadStatusHistoryAavailable' | translate}}</pre>

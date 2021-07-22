@@ -359,10 +359,10 @@
             <td>
                 <span *ngFor="let m of item?.mortgage_loan_types; let j=index">{{m.name_es}} <span *ngIf="j<item?.mortgage_loan_types?.length-1">, </span> </span>
             </td>
-               <td class="text-left">{{item?.admin ? item?.admin?.name:('table.tr.td.NA' | translate)}}</td>
+               <td class="text-left green-color" (click)="$event.stopPropagation()"><span class="cursor-pointer" (click)="openModel(item)">{{item?.admin ? item?.admin?.name:('leads.linkCreditAgent' | translate)}}</span></td>
                <td (click)="$event.stopPropagation()">
                   
-                <button *ngIf="item.lead_status_agent==1" [disabled]="admin?.admin_acl['Credit Agent Lead Management']?.can_update==0"
+                <!-- <button *ngIf="item.lead_status_agent==1" [disabled]="admin?.admin_acl['Credit Agent Lead Management']?.can_update==0"
                 title="{{'table.title.openLeads' | translate}}" (click)="changeLeadStatus(0, item.id, i)"
                 class="action-icon"><img src="assets/img/open-lock.png" alt="img"></button>
                 
@@ -376,7 +376,7 @@
                 
                 <button [disabled]="admin?.admin_acl['Manage Collections']?.can_purge==0"
                 (click)="deletePopup(item, i)" title="{{'table.title.delete' | translate}}" 
-                class="action-icon"><img src="assets/img/ic_delete.png" alt="img"></button>  
+                class="action-icon"><img src="assets/img/ic_delete.png" alt="img"></button>   -->
 
                </td>
             </tr>
@@ -455,5 +455,68 @@
           </div>
       </div>
   </div>
+</div>
+
+<a data-toggle="modal" data-target="#link-broker-model" #linkBrokerModal style="display: none;"></a>
+<div class="modal" id="link-broker-model">
+   <div class="modal-dialog ">
+      <div class="modal-content notary-avail">
+         <div class="modal-header popup-header">
+            <h4 class="modal-title">{{'leads.linkCreditAgent' | translate}}</h4>
+            <button type="button" class="close" #closeBrokerModal data-dismiss="modal">&times;</button>
+         </div>
+         <div class="modal-body">
+          <br/>
+            <div class="row">
+               <div class="col-md-8 col-6">
+                  <input style="max-width:200px" (keyup.enter)="getSearchAssign()" [(ngModel)]="assign.keyword"
+                     class="form-control" type="text" name="keyword"
+                     placeholder="{{'addForm.placeholder.search' | translate}}">
+               </div>
+               <div class="col-md-4 col-5 btn-cont">
+                  <a class="btn btn-primary pull-right" href="javascript://"
+                     (click)="getSearchAssign()">{{'viewProperty.search' | translate}}</a>
+               </div>
+            </div>
+
+            <div class="spacer40"></div>
+            <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+               <table class="table">
+                  <tr *ngFor="let item of assign.items">
+                     <td>
+                        <div class="n-avail-profile">
+                           <img *ngIf="item?.image" onerror='src="assets/img/default_img.png"' alt="img"
+                              [defaultImage]="item?.image| img:'thumb'" [lazyLoad]="item?.image">
+                           <img *ngIf="!item?.image" src="assets/img/default_img.png" alt="img">
+
+                           <div class="n-avail-info">
+                              <p class="p12">{{item?.name | titlecase}}</p>
+                              <p class="p10 marginB0">{{'CREDIT AGENT'}}
+                              </p>
+                              <p class="p10">{{'viewProperty.phone' | translate}} : {{item?.dial_code ? item?.dial_code
+                                 : constant.dial_code}}-{{item?.phone}}</p>
+                           </div>
+                        </div>
+                     </td>
+                     <td>
+                        <button *ngIf="selected_lead?.admin_id!=item.id"
+                           (click)="assignAgent(item)" class="action-icon"
+                           title="{{'table.title.linkAgent' | translate}}">
+                           <img src="assets/img/green-icon.png" alt="img"></button>
+
+                        <button *ngIf="selected_lead?.admin_id==item.id"
+                           (click)="assignAgent(item)" class="action-icon"
+                           title="{{'table.title.unlinkAgent' | translate}}">
+                           <img src="assets/img/ic_disapprove.png" alt="img"></button>
+                     </td>
+                  </tr>
+                  <tr *ngIf="assign.items?.length==0">
+                     <p class="show-not-found">{{'leads.noCreditAgent' | translate}}</p>
+                  </tr>
+               </table>
+            </div>
+         </div>
+      </div>
+   </div>
 </div>
   

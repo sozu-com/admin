@@ -200,13 +200,13 @@
                         <tr>
                             <td style="padding-left:0"><label>{{'leadDetails.budgetForDownPayment' | translate}}</label></td>
                             <td>
-                                {{leadData?.lead_answer?.budget_down_payment ? leadData?.lead_answer?.budget_down_payment : 'N/A'}}
+                                {{leadData?.lead_answer?.budget_down_payment ? (leadData?.lead_answer?.budget_down_payment | currency) : 'N/A'}}
                             </td>
                         </tr>
                         <tr>
                             <td style="padding-left:0"><label>{{'leadDetails.budgetForMonthlyInstallment' | translate}}</label></td>
                             <td>
-                              {{leadData?.lead_answer?.credit_monthly ? leadData?.lead_answer?.credit_monthly : 'N/A'}}</td>
+                              {{leadData?.lead_answer?.credit_monthly ? (leadData?.lead_answer?.credit_monthly | currency) : 'N/A'}}</td>
                         </tr>
                         <tr>
                             <td style="padding-left:0"><label>{{'leadDetails.haveChosenTheProppertyHeSheWantToBuy' | translate}}</label></td>
@@ -216,7 +216,7 @@
                         <tr>
                             <td style="padding-left:0"><label>{{'leadDetails.propertyValue' | translate}}</label></td>
                             <td>
-                              {{leadData?.lead_answer?.price ? leadData?.lead_answer?.price : 'N/A'}}
+                              {{leadData?.lead_answer?.price ? (leadData?.lead_answer?.price | currency) : 'N/A'}}
                             </td>
                         </tr>
                         <tr>

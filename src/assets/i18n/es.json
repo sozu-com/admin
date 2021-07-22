@@ -1615,7 +1615,13 @@
     "creditInformation": "crédito Información",
     "radio2": "INFONAVIT",
     "radio3": "FOVISSSTE",
-    "radio4": "Other"
+    "radio4": "Other",
+    "hasUpdateStatusTo": "tiene estado de actualización a",
+    "assigned": "Asignado",
+    "AsCSRAgent": "como Agente Comprador CSR",
+    "AsInhouseAgent": "como Agente interno",
+    "forCSRAgent": "para Agente Comprador CSR",
+    "forInhouseAgent": "para Agente interno"
   },
   "viewACL": {
     "label": "Access Control Mgt.",
@@ -1723,6 +1729,8 @@
     "linkAgents": "link Agent",
     "linkCSRBuyer": "vendedor de enlace CSR",
     "linkCSRSeller": "Agente de enlace CSR",
+    "linkCreditAgent": "Agente de crédito de enlace",
+    "noCreditAgent": "Sin agente de crédito",
     "status": "Estado"
   },
   "propertyDetail": {
