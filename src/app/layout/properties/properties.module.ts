@@ -49,6 +49,10 @@ const routes: Routes = [
     canActivate: [AclUserGuard], data: { roles: ['Property Management', 'can_read', ''] }
   },
   {
+    path: 'view-properties/:name', component: PropertiesComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Property Management', 'can_read', ''] }
+  },
+  {
     path: 'view-properties/:project_id', component: PropertiesComponent,
     canActivate: [AclUserGuard], data: { roles: ['Property Management', 'can_read', ''] }
   },

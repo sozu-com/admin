@@ -196,7 +196,7 @@
                     </li>
 
                     <li *ngIf="admin?.admin_acl['User Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
-                      <a class="nav-link" href="javascript://" routerLink="users"><i><img src="assets/img/users.png"></i><span>{{'sidebar.manageUsers' | translate}}</span></a>
+                      <a class="nav-link" href="javascript://" routerLink="users/view-users"><i><img src="assets/img/users.png"></i><span>{{'sidebar.manageUsers' | translate}}</span></a>
                     </li>
 
                     <li *ngIf="admin?.admin_acl['Manage Credits']?.can_read == 1" class="nav-item" [routerLinkActive]="'active'">

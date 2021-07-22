@@ -697,6 +697,7 @@
     "th": {
       "carpetArea": "Carpet Area",
       "all": "All",
+      "id": "ID",
       "currency": "Currency",
       "systemDashboardAccess": "System Dashboard",
       "adminAccess": "Admin access",
@@ -1022,7 +1023,7 @@
       "commercialized": "Commercialized",
       "city_id": "City ID",
       "unblocked":"Unblocked (Developer,project and property)",
-      "selected":"Select/Agent/Agency", 
+      "selected":"Seller/Agent/Agency", 
       "markCommercialized": "Mark commercialized",
       "sendActivationEmail": "Send Activation Email",
       "confirmEmail": "Confirm Email",
@@ -1525,6 +1526,7 @@
   },
   "leadDetails": {
     "CSRBuyer": "CSR Buyer",
+    "creditAgent": "Credit Agent",
     "outsideAgent": "Outside Agent",
     "inhouseAgent": "Inhouse Agent",
     "CSRClosure": "CSR Closure",
@@ -1607,7 +1609,17 @@
     "chatWithSeller": "Chat With Seller",
     "chatWithCSRSeller": "Chat with CSR Seller",
     "leadStatusHistory": "Lead Status History",
-    "noLeadStatusHistoryAavailable" : "No lead status history available"
+    "noLeadStatusHistoryAavailable" : "No lead status history available",
+    "creditInformation": "Credit Information",
+    "budgetForDownPayment": "Budget for down payment",
+    "budgetForMonthlyInstallment": "Budget for monthly installment",
+    "haveChosenTheProppertyHeSheWantToBuy": "have chosen the propperty he/she want to buy",
+    "propertyValue": "Property value",
+    "QuoteFor": "Quote for",
+    "liquidityCredit": "Liquidity credit",
+    "radio2": "INFONAVIT",
+    "radio3": "FOVISSSTE",
+    "radio4": "Other"
   },
   "viewACL": {
     "label": "Access Control Mgt.",

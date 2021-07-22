@@ -697,6 +697,7 @@
     "th": {
       "carpetArea": "Área de piso",
       "all": "All",
+      "id": "ID",
       "currency": "Moneda",
       "systemDashboardAccess": "Tablero del sistema",
       "adminAccess": "Acceso de administrador",

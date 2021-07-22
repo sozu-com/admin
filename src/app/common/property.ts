@@ -3,7 +3,8 @@ export interface IProperty {
   loading?: boolean;                      // loader
   itemsPerPage?: number;  
   commission_status_color ?: any;               // total items per page
-  total?: number;                         // total records count
+  total?: number;     
+  random_id  ?: any;                  // total records count
   p?: number;                             // page
   sizeLimit?: number;                     // file size limit --- 5000000 means 5MB
   title?: string;
@@ -98,7 +99,7 @@ export interface IProperty {
   agent?: string;
   phone?: string;
   type?: number;
-  property_id?: string;
+  property_id?: any;
   general_id?: string;
   banks?: any;
   bankCount?: string;
@@ -217,6 +218,7 @@ export interface IProperty {
   reminder_date?: any;
   is_commercialized?: number;
   user?: Array<Docs>;
+  building?: building;
   locality?: any;
   pc_receipt?: any;
   pc_invoice?: any;
@@ -247,4 +249,9 @@ export class Docs {
   name?: string;
   phone?: string;
   type?: number;
+}
+
+export class building {
+  id: string;
+  name?: string;
 }
