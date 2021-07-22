@@ -319,6 +319,17 @@
                      <tr>
                         <th style="width:10%; text-align:left;" *ngIf="selectedPropertyColumnsToShow?.building_name">
                            <div class="table-search">
+                              <label>{{'table.th.id' | translate}}</label>
+                              <div class="searh-3">
+                                 <input class="width100px" type="text" [(ngModel)]="parameter.random_id" name="random_id"
+                                    (keyup.enter)="getListing()" autocomplete="address-level4">
+                                 <button *ngIf="parameter.random_id" (click)="getListing()"><i
+                                       class="fa fa-search"></i></button>
+                              </div>
+                           </div>
+                        </th>
+                        <th style="width:10%; text-align:left;" *ngIf="selectedPropertyColumnsToShow?.building_name">
+                           <div class="table-search">
                               <label>{{'table.th.nameOfBuilding' | translate}}</label>
                               <div class="searh-3">
                                  <input class="width100px" type="text" [(ngModel)]="parameter.keyword" name="keyword"
@@ -595,6 +606,9 @@
 
                      <tr
                         *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
+                        <td *ngIf="selectedPropertyColumnsToShow?.id">
+                           <span>{{p?.id ? p?.id : ('table.tr.td.NA' | translate)}}</span>
+                        </td>
                         <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
                            (click)="viewPropertyDetails(p.id, p)" *ngIf="selectedPropertyColumnsToShow?.building_name">
 

@@ -6,7 +6,7 @@ import { Constant } from 'src/app/common/constants';
 import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { ExcelDownload } from 'src/app/common/excelDownload';
 declare let swal: any;
@@ -36,7 +36,8 @@ export class UsersComponent implements OnInit {
   constructor(public constant: Constant, public model: Users, public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
-    private router: Router) { }
+    private route: ActivatedRoute,
+    private router: Router,) { }
 
   ngOnInit() {
     this.language_code = localStorage.getItem('language_code');
@@ -47,6 +48,11 @@ export class UsersComponent implements OnInit {
     this.initialCountry = { initialCountry: this.constant.country_code };
     this.local_storage_parameter = JSON.parse(localStorage.getItem('parametersForUSer'));
     this.parameter = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.parameter;
+    this.route.params.subscribe(params => {
+      if (params['name']) {
+        this.parameter.name = params['name'];
+      }
+    });
     this.getBuyers(this.parameter.type, this.parameter.page, '', '', '', '', '');
   }
 
@@ -130,7 +136,12 @@ export class UsersComponent implements OnInit {
   getBuyers(type: any, page: any, name: string, phone: string, email: string, first_surname: string, second_surname: string) {
     this.parameter.page = page;
     this.parameter.type = type;
-    this.parameter.name = name;
+    if (this.parameter['name']) {
+      this.parameter.name = this.parameter['name'];
+    }else{
+      this.parameter.name = name;
+    }
+    
     this.parameter.phone = phone;
     this.parameter.email = email;
     this.parameter.first_surname = first_surname;

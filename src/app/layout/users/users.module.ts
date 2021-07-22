@@ -23,7 +23,11 @@ import { DocumentsUploadComponent } from './documents-upload/documents-upload.co
 
 const routes: Routes = [
   {
-    path: '', component: UsersComponent,
+    path: 'view-users', component: UsersComponent,
+    canActivate: [AclUserGuard], data: { roles: ['User Management', 'can_read', ''] }
+  },
+  {
+    path: 'view-users/:name', component: UsersComponent,
     canActivate: [AclUserGuard], data: { roles: ['User Management', 'can_read', ''] }
   },
   {

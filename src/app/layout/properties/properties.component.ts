@@ -285,9 +285,14 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
     this.route.params.subscribe(params => {
       this.project_id = JSON.parse(localStorage.getItem('project_id'));
+      if (params['name']) {
+        this.parameter.name = params['name'];
+      }else{
+        this.parameter.keyword = params.name;
+      }
       this.parameter.project_id = this.project_id;
       this.parameter.property_id = params.property_id || '';
-      this.parameter.keyword = params.name;
+     
       if (params.availability_filter) {
         this.parameter.availability_filter = params.availability_filter;
       }
