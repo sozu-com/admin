@@ -94,7 +94,7 @@ export class CreditAgentComponent implements OnInit {
       this.location.countries = r['data'];
     });
   }
-
+  getSearchAssign(){}
   onCountryChange(id) {
     this.parameter.country_id = id;
     this.location.states = []; this.parameter.state_id = '0';

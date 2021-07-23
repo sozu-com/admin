@@ -1619,7 +1619,13 @@
     "liquidityCredit": "Liquidity credit",
     "radio2": "INFONAVIT",
     "radio3": "FOVISSSTE",
-    "radio4": "Other"
+    "radio4": "Other",
+    "hasUpdateStatusTo": "has update status to",
+    "assigned": "Assigned",
+    "AsCSRAgent": "as CSR Buyer agent",
+    "AsInhouseAgent": "as Inhouse agent",
+    "forCSRAgent": "for CSR Agent",
+    "forInhouseAgent": "for Inhouse Agent"
   },
   "viewACL": {
     "label": "Access Control Mgt.",
@@ -1727,6 +1733,8 @@
     "linkAgents": "link Agent",
     "linkCSRBuyer": "Link CSR Buyer",
     "linkCSRSeller": "Link CSR Seller",
+    "linkCreditAgent": "Link Credit Agent",
+    "noCreditAgent": "No credit agent",
     "status": "Status"
   },
   "propertyDetail": {
