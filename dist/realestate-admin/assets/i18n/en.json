@@ -119,7 +119,9 @@
     "outside-agent": "Outside Agent",
     "collection": "Collection",
     "arrear_graph": "Arrear Graph",
-    "arrear_tabular": "Arrear Tabular"
+    "arrear_tabular": "Arrear Tabular",
+    "days": "Days",
+    "amount": "Amount"
   }
   },
   "addForm": {
@@ -1013,8 +1015,8 @@
       "approve": "Approve",
       "unapprove": "Unapprove",
       "generatePDF": "Generate PDF",
-      "pusblish": "Active Pusblish",
-      "unPusblish": "Unactive Pusblish",
+      "pusblish": "Active publish",
+      "unPusblish": "Unactive publish",
       "pusblishDisable": "Linked Collection",
       "selectColumns":"Select Columns",
       "columnsSelection":"Columns selection",
@@ -2342,7 +2344,8 @@
   "swal": {
     "error": "Error",
     "success": "Success",
-    "warning":"Warning"
+    "warning":"Warning",
+    "warnings":"Warning"
   },
   "manageUsers": {
     "addLegalEntity": "Add Legal Entity"
@@ -2612,6 +2615,9 @@
   },
   "generatePDF": {
     "pub_prop": "Are you sure you want to publish the property?",
+    "Unpublish": "Are you sure you want to",
+    "Unpublish1": "Unpublish",
+    "Unpublish2": "the property?",
     "cancel": "Cancel",
     "publish": "Publish",
     "offerInformaton": "Offer informaton",
