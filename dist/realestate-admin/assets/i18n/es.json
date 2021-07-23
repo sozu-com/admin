@@ -119,7 +119,9 @@
       "outside-agent": "Outside Agent",
       "collection": "Colección",
       "arrear_graph": "Gráfico de atraso",
-      "arrear_tabular": "Tabular atrasado"
+      "arrear_tabular": "Tabular atrasado",
+      "days": "Dias",
+      "amount": "Monto"
     }
   },
   "addForm": {
@@ -1016,14 +1018,14 @@
       "unapprove": "No aprobar",
       "generatePDF": "Generar PDF",
       "pusblish": "Publicación activa",
-      "unPusblish": "Pusblish inactivo",
+      "unPusblish": "Publicación inactiva",
       "pusblishDisable": "Colección vinculada",
       "selectColumns":"Seleccionar columnas",
       "columnsSelection":"Selección de columnas",
       "selectTheColumnYouWantToVisualize":"Seleccione la columna que desea visualizar",
       "commercializedProperty": "Propiedad Comercializada",
       "commercialized": "Comercializada",
-      "city_id": "ID de la ciudad",
+      "city_id": "ID ciudad",
       "unblocked":"Desbloqueado (Desarrollador, proyecto y propiedad)",
       "selected":"Vendedora / Agente / Agencia",
       "markCommercialized":"Marca comercializada",
@@ -2336,7 +2338,8 @@
   "swal": {
     "error": "Error",
     "success": "Éxito",
-    "warning":"Advertencia"
+    "warning":"Advertencia",
+    "warnings":"Aviso"
   },
   "manageUsers": {
     "addLegalEntity": "Agregar entidad legal"
@@ -2603,7 +2606,10 @@
     "close": "Cerrar"
   },
   "generatePDF": {
-    "pub_prop": "¿Estás segura de que quieres publicar la propiedad?",
+    "pub_prop": "¿Estas seguro de querer publicar esta propiedad?",
+    "Unpublish": "¿Estas seguro de querer",
+    "Unpublish1": "Despublicar",
+    "Unpublish2": "esta propiedad?",
     "cancel": "Cancelar",
     "publish": "Publicar",
     "offerInformaton": "Información de oferta",
