@@ -394,7 +394,7 @@ export class CsrBuyerComponent implements OnInit {
       }
       else{
         this.assignItem = item;
-        let text = !this.selected_lead.broker_id ? this.translate.instant('swalText.assignInhouseAgent') : this.translate.instant('swalText.unassignInhouseAgent');
+        let text = this.selected_lead.broker_id !=  this.assignItem.id? this.translate.instant('swalText.assignInhouseAgent') : this.translate.instant('swalText.unassignInhouseAgent');
         swal({
           html: this.translate.instant('message.error.areYouSure') + '<br>' +  text,
           type: 'warning',
@@ -421,7 +421,7 @@ export class CsrBuyerComponent implements OnInit {
     inputCSR = {
       csr_buyer_id: this.assignItem.id,
       leads: leads_ids,
-      type: this.selected_lead.admin_id ? 2 : 1
+      type: this.selected_lead.admin_id == this.assignItem.id? 2 : 1
       //users: users_ids
     };
     }
@@ -430,7 +430,7 @@ export class CsrBuyerComponent implements OnInit {
       input = {
         broker_id: this.assignItem.id,
         leads: leads_ids,
-        type: this.selected_lead.broker_id &&  item.broker_id != this.selected_lead.broker_id? 2 : 1
+        type: this.selected_lead.broker_id &&  item.id == this.selected_lead.broker_id? 2 : 1
       };
     } 
     this.spinner.show();
@@ -438,7 +438,7 @@ export class CsrBuyerComponent implements OnInit {
     this.admin.postDataApi(url, this.openFor == 'CSR' ? inputCSR : input).subscribe(r => {
       this.spinner.hide();
       this.closeNewAssignModel.nativeElement.click();
-      let test =  (input && input.type == 2) || (inputCSR && inputCSR.type == 2) ? this.translate.instant('message.success.assignedSuccessfully') : this.translate.instant('message.success.unassignedSuccessfully')
+      let test =  (input && input.type != 2) || (inputCSR && inputCSR.type != 2) ? this.translate.instant('message.success.assignedSuccessfully') : this.translate.instant('message.success.unassignedSuccessfully')
       swal(this.translate.instant('swal.success'), test, 'success');
      if((input && input.type == 2) || (inputCSR && inputCSR.type == 2)){
        this.selected_lead.broker_id = undefined;
@@ -466,7 +466,7 @@ export class CsrBuyerComponent implements OnInit {
 
   openModel(openFor, selected) {
     this.user = JSON.parse(localStorage.getItem('all'));
-    if((this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_csr_coordinator == 1) && this.user.data.user_type == 2){
+    if((openFor == 'CSR' && this.user.data.permissions.can_csr_coordinator == 1 && this.user.data.user_type == 2) ||  (openFor != 'CSR' && (this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_csr_coordinator == 1)&& this.user.data.user_type == 2)){
     this.openFor = openFor;
     this.selected_lead = selected;
     this.items.filter(item=>{
@@ -489,6 +489,8 @@ export class CsrBuyerComponent implements OnInit {
     this.toastr.warning(this.translate.instant('message.error.SorryYouDoNotHaveThePermissionToGoThere'), this.translate.instant('swal.warning'))
   }
   }
+
+
 
   getSearchAssign(){
     this.openFor == 'CSR' ? this.getAssignListing() : this.getInhouseAgentListing();
