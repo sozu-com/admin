@@ -492,8 +492,8 @@ export class ArrearReportComponent implements OnInit {
       this.dash.above_90 = parseFloat(this.dash.above_90 );
       this.dash.below_30 = parseFloat(this.dash.below_30 );
       this.dash.below_60 = parseFloat(this.dash.below_60 );
-      // this.overdueReportDetails['overdueTotal'] = ((this.overdueReportDetails.below_30 || 0) + (this.overdueReportDetails.below_60 || 0) + 
-      // (this.overdueReportDetails.above_60 || 0) + (this.overdueReportDetails.above_90 || 0));
+      this.dash['Total'] = ((this.dash.below_30 || 0) + (this.dash.below_60 || 0) + 
+      (this.dash.above_60 || 0) + (this.dash.above_90 || 0));
       // this.isShow = true;
     }, (error) => {
       this.spinner.hide();

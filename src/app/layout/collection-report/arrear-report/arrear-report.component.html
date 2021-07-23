@@ -392,11 +392,18 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                         <div class="card" style="padding: 12px; height: 297px;">
                               <div class="row" style="margin-left: 12%;">
-                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-12">
                                           <b>{{'filters.commisionType.arrear_graph' | translate}}:</b>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                                          <b style="color:#03b971;">
+                                    <div class="col-lg-2 col-md-3 col-sm-12 col-12" style="margin-left: 21%;">
+                                          <p style="
+                                          color: #03B971;
+                                          font-family: 'sf_ui_textmedium';
+                                          font-size: 14px;
+                                          font-weight: 500;
+                                          line-height: 17px;text-align: center;">Total</p>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-12"><b>
                                                 ${{((dash?.below_30 || 0) + (dash?.below_60 || 0) +
                                                 (dash?.above_60 || 0) + (dash?.above_90 || 0)) | roundNumber}}
                                           </b>
@@ -412,67 +419,116 @@
                                           </ngx-charts-pie-chart>
 
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                                          <div class="table-responsive main-table">
-                                          <div class="row line">
-                                                <p style="font-size: 14px;
-                                                      font-family: 'sf_ui_textmedium';width: 88px;">
-                                                      1-30
-                                                </p>
-
-                                                <p style="background-color:#03b971;height: 20px;
-                                                  width: 20px; margin-left: -18px;" title=""></p>
-
-                                                <p style="font-size: 14px;
-                                                      font-family: 'sf_ui_textmedium';width: 80px; color: #000;margin-left: 9px;">
-                                                      ${{(dash?.below_30 || 0) | number: '1.0-0'}}
-                                                </p>
-
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12" style="margin-top: 12px;">
+                                          <div class="row">
+                                                <div class="col-lg-1 col-md-3 col-sm-12 col-12">
+                                                     
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                                                      <p style="height: 13.38px;    
+                                                      color: #03B971;
+                                                      font-family: 'sf_ui_textlight';
+                                                      font-size: 12px;
+                                                      font-weight: 300;
+                                                      line-height: 14px;">{{'filters.commisionType.days' | translate}}</p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-4 col-sm-12 col-12">
+                                                      <p style="height: 13.38px;
+                                                      color: #03B971;
+                                                      font-family: 'sf_ui_textlight';
+                                                      font-size: 12px;
+                                                      font-weight: 300;
+                                                      line-height: 14px;
+                                                      text-align: center;">{{'filters.commisionType.amount' | translate}}</p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-4 col-sm-12 col-12">
+                                                      <p style="height: 13.38px;
+                                                      color: #03B971;
+                                                      font-family: 'sf_ui_textlight';
+                                                      font-size: 12px;
+                                                      font-weight: 300;
+                                                      line-height: 14px;">%</p>
+                                                </div>      
                                           </div>
-
-                                          <div class="row line">
-                                                <p style="font-size: 14px;
-                                                      font-family: 'sf_ui_textmedium';width: 88px;">
-                                                      31-60
-                                                </p>
-                                                <p style="background-color:#4c4e50;;height: 20px;
-                                                  width: 20px; margin-left: -18px;" title=""></p>
-                                               
-                                                <p style="font-size: 14px;
-                                                  font-family: 'sf_ui_textmedium';width: 80px; color: #000;margin-left: 9px;">
-                                                      ${{(dash?.below_60 || 0) | number: '1.0-0'}}
-                                                </p>
+                                          <div class="row">
+                                                <div class="col-lg-1 col-md-3 col-sm-12 col-12">
+                                                      <p style="background-color:#03b971;height: 20px;
+                                                      width: 20px; margin-left: -18px;" title=""></p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                                                      <p style="font-size: 14px;
+                                                      font-family: 'sf_ui_textmedium';width: 58px;">
+                                                      1-30</p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-4 col-sm-12 col-12">
+                                                      <p style="font-size: 14px;
+                                                         font-family: 'sf_ui_textmedium';
+                                                         width: 80px; 
+                                                         color: #000;">${{(dash?.below_30 || 0) | number: '1.0-0'}} </p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-4 col-sm-12 col-12">
+                                                      <p>{{((dash?.Total || 0) / (dash?.below_30 || 0)) | roundNumber}}</p>
+                                                </div>      
                                           </div>
-
-                                          <div class="row line">
-                                                <p style="font-size: 14px;
-                                                      font-family: 'sf_ui_textmedium';width: 88px;">
-                                                      61-90
-                                                </p>
-
-                                                <p style="background-color: #DFDFDF;
-                                                      height: 20px;  width: 20px; margin-left: -18px;" title=""></p>
-                                                 
-                                                <p style="font-size: 14px;
-                                                   font-family: 'sf_ui_textmedium';width: 80px; color: #000;margin-left: 9px;">
-                                                      ${{(dash?.above_60 || 0) | number: '1.0-0'}}
-                                                </p>
+                                          <div class="row">
+                                                <div class="col-lg-1 col-md-3 col-sm-12 col-12">
+                                                      <p style="background-color:#4c4e50;height: 20px;
+                                                      width: 20px; margin-left: -18px;" title=""></p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                                                      <p style="font-size: 14px;
+                                                      font-family: 'sf_ui_textmedium';width: 58px;">
+                                                      31-60</p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-4 col-sm-12 col-12">
+                                                      <p style="font-size: 14px;
+                                                         font-family: 'sf_ui_textmedium';
+                                                         width: 80px; 
+                                                         color: #000;">${{(dash?.below_60 || 0) | number: '1.0-0'}} </p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-4 col-sm-12 col-12">
+                                                      <p>{{((dash?.Total || 0) / (dash?.below_60 || 0)) | roundNumber}}</p>
+                                                </div>      
                                           </div>
-
-                                          <div class="row line">
-                                                <p style="font-size: 14px;
-                                                      font-family: 'sf_ui_textmedium';width: 88px;">
-                                                     91+
-                                                </p>
-
-                                                <p style="background-color: #DE2400;
-                                                      height: 20px;  width: 20px; margin-left: -18px;" title=""></p>
-                                                
-                                                <p style="font-size: 14px;
-                                                   font-family: 'sf_ui_textmedium';width: 80px; color: #000;margin-left: 9px;">
-                                                      ${{(dash?.above_90 || 0) | number: '1.0-0'}}
-                                                </p>
+                                          <div class="row">
+                                                <div class="col-lg-1 col-md-3 col-sm-12 col-12">
+                                                      <p style="background-color:#DFDFDF;height: 20px;
+                                                      width: 20px; margin-left: -18px;" title=""></p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                                                      <p style="font-size: 14px;
+                                                      font-family: 'sf_ui_textmedium';width: 58px;">
+                                                       61-90</p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-4 col-sm-12 col-12">
+                                                      <p style="font-size: 14px;
+                                                         font-family: 'sf_ui_textmedium';
+                                                         width: 80px; 
+                                                         color: #000;">${{(dash?.above_60 || 0) | number: '1.0-0'}} </p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-4 col-sm-12 col-12">
+                                                      <p>{{((dash?.Total || 0) / (dash?.above_60 || 0)) | roundNumber}}</p>
+                                                </div>      
                                           </div>
+                                          <div class="row">
+                                                <div class="col-lg-1 col-md-3 col-sm-12 col-12">
+                                                      <p style="background-color:#DE2400;height: 20px;
+                                                      width: 20px; margin-left: -18px;" title=""></p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                                                      <p style="font-size: 14px;
+                                                      font-family: 'sf_ui_textmedium';width: 58px;">
+                                                       91+</p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-4 col-sm-12 col-12">
+                                                      <p style="font-size: 14px;
+                                                         font-family: 'sf_ui_textmedium';
+                                                         width: 80px; 
+                                                         color: #000;">${{(dash?.above_90 || 0) | number: '1.0-0'}} </p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-4 col-sm-12 col-12">
+                                                      <p>{{((dash?.Total || 0) / (dash?.above_90 || 0)) | roundNumber}}</p>
+                                                </div>      
                                           </div>
                                     </div>
                               </div>
