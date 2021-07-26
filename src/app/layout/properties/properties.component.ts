@@ -879,16 +879,15 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.admin.postDataApi('updateProperyStatus', { id: item }).subscribe((success) => {
       this.closepusblish.nativeElement.click();
       this.prop_data = success.data;
+      this.isApplyBtnClicked = false;
       this.prop_data.forEach((cityObject) => {
          this.pub = cityObject.is_published;
       });
       if (this.pub == 1) {
-        this
         swal(this.translate.instant('swal.success'), this.translate.instant('message.success.publishSuccessfully'), 'success');
       } else {
         swal(this.translate.instant('swal.success'), this.translate.instant('message.success.UnpublishSuccessfully'), 'success');
       }
-      this.isApplyBtnClicked = false;
       this.getListing();
       this.spinner.hide();
     }, (error) => {
