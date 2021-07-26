@@ -464,7 +464,7 @@
                                                       width: 80px;">${{(dash?.below_30 || 0) | number: '1.0-0'}} </p>
                                                 </div>
                                                 <div class="col-lg-3 col-md-4 col-sm-12 col-12">
-                                                      <p>{{((dash?.Total || 0) / (dash?.below_30 || 0)) | roundNumber}}</p>
+                                                      <p>{{((dash?.below_30 || 0) / (dash?.Total || 0) * 100) | roundNumber}}</p>
                                                 </div>      
                                           </div>
                                           <div class="row">
@@ -481,7 +481,7 @@
                                                          width: 80px;">${{(dash?.below_60 || 0) | number: '1.0-0'}} </p>
                                                 </div>
                                                 <div class="col-lg-3 col-md-4 col-sm-12 col-12">
-                                                      <p>{{((dash?.Total || 0) / (dash?.below_60 || 0)) | roundNumber}}</p>
+                                                      <p>{{((dash?.below_60 || 0) / (dash?.Total || 0) * 100) | roundNumber}}</p>
                                                 </div>      
                                           </div>
                                           <div class="row">
@@ -498,7 +498,7 @@
                                                          width: 70px;">${{(dash?.above_60 || 0) | number: '1.0-0'}} </p>
                                                 </div>
                                                 <div class="col-lg-3 col-md-4 col-sm-12 col-12">
-                                                      <p>{{((dash?.Total || 0) / (dash?.above_60 || 0)) | roundNumber}}</p>
+                                                      <p>{{((dash?.above_60 || 0) / (dash?.Total || 0) * 100) | roundNumber}}</p>
                                                 </div>      
                                           </div>
                                           <div class="row">
@@ -514,7 +514,7 @@
                                                       <p style="font-size: 14px;width: 80px;">${{(dash?.above_90 || 0) | number: '1.0-0'}} </p>
                                                 </div>
                                                 <div class="col-lg-3 col-md-4 col-sm-12 col-12">
-                                                      <p>{{((dash?.Total || 0) / (dash?.above_90 || 0)) | roundNumber}}</p>
+                                                      <p>{{((dash?.above_90 || 0) / (dash?.Total || 0) * 100) | roundNumber}}</p>
                                                 </div>      
                                           </div>
                                     </div>
