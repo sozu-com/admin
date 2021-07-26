@@ -484,7 +484,7 @@
                                     </span>
                                 </span>
                             </td>
-                            <td class="text-left green-color cursor-pointer" (click)="$event.stopPropagation()"> <span (click)="openStatusHistoryModel(item)">{{item.broker_status ? ('table.tr.td.view' | translate) : ('table.tr.td.NA' | translate)}}</span> </td>
+                            <td class="text-left green-color cursor-pointer" (click)="$event.stopPropagation()"> <span (click)="openStatusHistoryModel(item)">{{item.broker_id ? ('table.tr.td.view' | translate) : ('table.tr.td.NA' | translate)}}</span> </td>
                             <!-- <td class="text-left" (click)="$event.stopPropagation()">
                                 <button [disabled]="admin?.admin_acl['Manual Leads']?.can_delete==0"
                                 (click)="deletePopup(item)" class="action-icon"
