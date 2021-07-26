@@ -320,12 +320,12 @@
                         <th style="width:10%; text-align:left;" *ngIf="selectedPropertyColumnsToShow?.building_name">
                            <div class="table-search">
                               <label>{{'table.th.id' | translate}}</label>
-                              <div class="searh-3">
+                              <!-- <div class="searh-3">
                                  <input class="width100px" type="text" [(ngModel)]="parameter.random_id" name="random_id"
                                     (keyup.enter)="getListing()" autocomplete="address-level4">
                                  <button *ngIf="parameter.random_id" (click)="getListing()"><i
                                        class="fa fa-search"></i></button>
-                              </div>
+                              </div> -->
                            </div>
                         </th>
                         <th style="width:10%; text-align:left;" *ngIf="selectedPropertyColumnsToShow?.building_name">
@@ -459,6 +459,18 @@
                               </select>
                            </div>
                         </th>
+                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.is_published"
+                        style="width:5%;vertical-align:top;">
+                        <div class="table-search">
+                           <label>{{'table.th.published' | translate}}</label>
+                           <select class="width100px" [(ngModel)]="parameter.is_published"
+                              (change)="getListing()" name="is_published">
+                              <option value="">{{'table.th.all' | translate}}</option>
+                              <option value="1">{{'table.th.yes' | translate}}</option>
+                              <option value="0">{{'table.th.no' | translate}}</option>
+                           </select>
+                        </div>
+                     </th>
                         <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.possession_status"
                            style="width:5%;vertical-align:top;">
                            <div class="table-search">
@@ -607,7 +619,8 @@
                      <tr
                         *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
                         <td *ngIf="selectedPropertyColumnsToShow?.id">
-                           <span>{{p?.id ? p?.id : ('table.tr.td.NA' | translate)}}</span>
+                           <span class="green-color cursor-pointer" routerLink="/dashboard/properties/edit-property/{{p.id}}/edit">
+                              {{p?.id ? p?.id : ('table.tr.td.NA' | translate)}}</span>
                         </td>
                         <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
                            (click)="viewPropertyDetails(p.id, p)" *ngIf="selectedPropertyColumnsToShow?.building_name">
@@ -665,9 +678,13 @@
                         <!-- <td><span>{{p?.carpet_areas && p?.carpet_areas?.length>0 ? (p?.carpet_areas[0]?.area| number : '1.2-2') : 0.00}}</span></td> -->
                         <td *ngIf="selectedPropertyColumnsToShow?.carpet_area"><span>{{p?.max_area ? p.max_area :
                               0.00}}</span></td>
-                        <td *ngIf="selectedPropertyColumnsToShow?.commercialized_sozu"><span>{{p?.is_commercialized ? (
+                              <td *ngIf="selectedPropertyColumnsToShow?.commercialized_sozu"><span>{{p?.is_commercialized ? (
+                                 'table.th.yes' | translate ): ( 'table.th.no' | translate )
+                                 }}</span></td>
+                        <td *ngIf="selectedPropertyColumnsToShow?.is_published"><span>{{p?.is_published ? (
                               'table.th.yes' | translate ): ( 'table.th.no' | translate )
                               }}</span></td>
+                              
                         <td *ngIf="selectedPropertyColumnsToShow?.possession_status">
                            <span>{{p?.building_towers?.possession_status_id == apiConstant.possessionStatus.sale ?
                               ('table.tr.td.sale' |
@@ -1588,7 +1605,11 @@
                         color: #4F4F4F;
                         font-family: 'sf_ui_textregular';
                         font-size: 18px;
-                        line-height: 21px;">{{'generatePDF.pub_prop' | translate}}</p>
+                        line-height: 21px;">
+                        {{'generatePDF.pub_prop' | translate}}
+                        <b style="font-family: 'sf_ui_textbold';font-weight: bold;">{{'generatePDF.pub_prop1' | translate}}</b>
+                        {{'generatePDF.pub_prop2' | translate}}
+                     </p>
                      </div>
                   </div>
                </div>
@@ -1814,7 +1835,7 @@
                      <label style="display: block; margin-top: 3px;">&nbsp;</label>
                      <button type="button" class="publish"
                      [disabled]="isApplyBtnClicked" (click)="this.openPublish(propertyItems?.id);">
-                        {{'generatePDF.publish' | translate}}</button>
+                        {{'generatePDF.un_publish' | translate}}</button>
                   </div>
                </div>
             </div>

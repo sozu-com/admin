@@ -213,6 +213,7 @@ export class ManageCommissionsComponent implements OnInit ,OnDestroy{
     this.parameter.itemsPerPage = 10;
     this.parameter.flag = 1;
     this.parameter.commission_type = '1';
+    console.log(this.parameter.commission_type,"commission")
     this.today = new Date();
     this.getCountries();
     this.initCalendarLocale();

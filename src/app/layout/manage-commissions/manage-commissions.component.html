@@ -472,10 +472,23 @@
                   <td><span>
                     {{(p?.expected_payment_commission || 0) | currency}}
                   </span></td>
-                  <td>
+                  <td *ngIf="parameter.commission_type == '1'">
+                    <input name="add_iva_to_pc{{i}}" disabled class="form-control checkbox_size" type="checkbox"
+                      [checked]="p?.add_iva_to_pc ? 'checked' : ''" readonly>
+                  </td>
+                  <td *ngIf="parameter.commission_type == '2'">
+                    <input name="add_iva_to_ac{{i}}" disabled class="form-control checkbox_size" type="checkbox"
+                      [checked]="p?.add_iva_to_ac ? 'checked' : ''" readonly>
+                  </td>
+                  <td *ngIf="parameter.commission_type == '5'">
+                    <input name="add_iva_to_oac{{i}}" disabled class="form-control checkbox_size" type="checkbox"
+                      [checked]="p?.add_iva_to_oac ? 'checked' : ''" readonly>
+                  </td>
+                  <td *ngIf="parameter.commission_type == '3'">
                     <input name="add_iva_to_cc{{i}}" disabled class="form-control checkbox_size" type="checkbox"
                       [checked]="p?.add_iva_to_cc ? 'checked' : ''" readonly>
                   </td>
+                  
                   <td><span> {{(p?.total_commission  || 0)  | currency}}</span></td>
                   <td><span>{{( p?.amount_paid || 0) | currency}}</span></td>
                   <td><span>{{( p?.remaining || 0) | currency}}</span></td>
@@ -518,7 +531,7 @@
             </table>
             <div class="padding20 center" *ngIf="total == 0">
 
-              <p class="show-not-found">
+              <p class="show-not-found" style="margin-left: 12%;">
                 {{parameter.flag==1 ? ('message.error.noCommissionFound' | translate) :
                 ('message.error.noCommissionFound' | translate)}}
               </p>

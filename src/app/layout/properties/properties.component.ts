@@ -66,7 +66,8 @@ class Invoice {
 })
 export class PropertiesComponent implements OnInit, OnDestroy {
   selectedvalue: bank;
-
+  prop_data: any = [];
+  pub: any;
   public parameter: IProperty = {};
   public location: IProperty = {};
   showMore = false;
@@ -877,7 +878,16 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.isApplyBtnClicked = true;
     this.admin.postDataApi('updateProperyStatus', { id: item }).subscribe((success) => {
       this.closepusblish.nativeElement.click();
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.publishSuccessfully'), 'success');
+      this.prop_data = success.data;
+      this.prop_data.forEach((cityObject) => {
+         this.pub = cityObject.is_published;
+      });
+      if (this.pub == 1) {
+        this
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.publishSuccessfully'), 'success');
+      } else {
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.UnpublishSuccessfully'), 'success');
+      }
       this.isApplyBtnClicked = false;
       this.getListing();
       this.spinner.hide();
@@ -2506,7 +2516,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       linked_collection: (this.select_columns_list[23] || []).isCheckBoxChecked,
       edit_total_commission: (this.select_columns_list[24] || []).isCheckBoxChecked,
       view_seller_request: (this.select_columns_list[25] || []).isCheckBoxChecked,
-      action: (this.select_columns_list[26] || []).isCheckBoxChecked
+      action: (this.select_columns_list[26] || []).isCheckBoxChecked,
+      is_published: (this.select_columns_list[27] || []).isCheckBoxChecked
     };
   }
 
@@ -2626,6 +2637,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       case 28:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.action;
         break;
+        case 29:
+          this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.is_published;
+          break;
       default:
         break;
     }
