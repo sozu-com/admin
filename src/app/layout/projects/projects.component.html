@@ -502,7 +502,7 @@
                 </td>
                 <td  *ngIf="selectedColumnsToShow?.properties">
                   <a title="{{'table.title.clickToViewProperties' | translate}}" (click)="goWay(p)"><span
-                      class="green-color">{{p?.properties_count_all | numberWithCommas}}</span></a>
+                      class="green-color cursor-pointer">{{p?.properties_count_all | numberWithCommas}}</span></a>
                 </td>
                 <td  *ngIf="selectedColumnsToShow?.property_for_rent">
                   <a title="{{'table.title.clickToViewProperties' | translate}}"
