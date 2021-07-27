@@ -8,9 +8,10 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { CollectionReport } from 'src/app/models/collection-report.model';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
+import { ActivatedRoute, Router } from '@angular/router';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
-
+declare let swal: any;
 @Component({
   selector: 'app-delivery-report',
   templateUrl: './delivery-report.component.html',
@@ -41,7 +42,9 @@ export class DeliveryReportComponent implements OnInit {
   constructor(
     public admin: AdminService,
     private spinner: NgxSpinnerService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private route: ActivatedRoute,
+    private router: Router,
   ) { }
 
   onSelect(event) { }
@@ -308,6 +311,8 @@ export class DeliveryReportComponent implements OnInit {
       });
     }
   }
-
+  navigateToProperty = (collectionDetails: any): void => {
+      this.router.navigate(['/dashboard/properties/view-properties/property', (collectionDetails || '')]);
+  }
 
 }

@@ -292,7 +292,9 @@ export class ManageCommissionsComponent implements OnInit ,OnDestroy{
     this.parameter.min = '';
     this.parameter.max = '';
   }
-
+  navigateToProperty = (collectionDetails: any): void => {
+    this.router.navigate(['/dashboard/properties/view-properties/property', ((collectionDetails || {}).property || {}).id || '']);
+  }
   sort_by(sort_by) {
     if (this.parameter.sort_by !== sort_by) {
       this.parameter.sort_by = sort_by;
