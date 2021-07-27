@@ -314,6 +314,8 @@
     },
     "addProject": "Agregar proyecto",
     "editProject": "Editar proyecto",
+    "addHotel": "Agregar hotel",
+    "editHotel": "Editar hotel",
     "addImages": "Agregar imágenes",
     "uploadCoverImageForProperty": "+Subir imagen de portada para la propiedad",
     "uploadCoverImage": "+Subir imagen de portada para el proyecto",
@@ -1511,6 +1513,13 @@
     "sellerTabOn": "Pestaña del vendedor",
     "addReason": "Agregar razón",
     "addReasonBtn": "Agregar"
+  },
+  "viewHotels": {
+    "label": "Gestionar hoteles",
+    "addBtn": "+Agregar nuevo hotel",
+    "sellerTabOn": "Seller tab on",
+    "addReason": "Add Reason",
+    "addReasonBtn": "Add"
   },
   "viewNotary": {
     "label": "Administrar notarios",

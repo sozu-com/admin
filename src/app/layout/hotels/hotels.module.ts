@@ -17,6 +17,7 @@ import { SharedModule } from 'src/app/modules/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { HotelsComponent } from './hotels.component';
+import { AddHotelComponent } from './add-hotel/add-hotel.component';
 
 
 const routes: Routes = [
@@ -25,8 +26,12 @@ const routes: Routes = [
     canActivate: [AclUserGuard], data: { roles: ['Hotel Management', 'can_read', 'can_data_collector'] }
   },
   {
-    path: 'view-hotels/:type/:id', component: HotelsComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Hotel Management', 'can_read', 'can_data_collector'] }
+    path: 'add-hotel', component: AddHotelComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Hotel Management', 'can_create', 'can_data_collector'] }
+  },
+  {
+    path: 'edit-hotel/:id', component: AddHotelComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Hotel Management', 'can_update', 'can_data_collector'] }
   }
 ];
 
@@ -51,7 +56,8 @@ const routes: Routes = [
     NgMultiSelectDropDownModule.forRoot(),
   ],
   declarations: [
-    HotelsComponent
+    HotelsComponent,
+    AddHotelComponent
     // ImgPipe
   ]
 })
