@@ -585,7 +585,7 @@
                   <td [ngClass]="{'green-color cursor-pointer': p?.property?.name }" *ngIf="selectedCollectionColumnsToShow?.name_of_apartment">
                     <!-- (click)="this.navigateToProperty(p)" -->
                     <span  *ngIf="p?.property?.name" class="green-color cursor-pointer" 
-                    routerLink="/dashboard/properties/view-properties/{{p?.property?.name}}">
+                    (click)="this.navigateToProperty(p)">
                       {{p?.property?.name}}
                     </span>
                     <span *ngIf="!p?.property?.name">{{'table.tr.td.NA' | translate}}</span>
