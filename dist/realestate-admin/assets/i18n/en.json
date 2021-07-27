@@ -315,6 +315,8 @@
     },
     "addProject": "Add Project",
     "editProject": "Edit Project",
+    "addHotel": "Add Hotel",
+    "editHotel": "Edit Hotel",
     "addImages": "Add Images",
     "uploadCoverImageForProperty": "+Upload Cover image for the property",
     "uploadCoverImage": "+Upload Cover image for the project",
@@ -1509,6 +1511,13 @@
     "addReason": "Add Reason",
     "addReasonBtn": "Add"
   },
+  "viewHotels": {
+    "label": "Manage Hotels",
+    "addBtn": "+Add New Hotel",
+    "sellerTabOn": "Seller tab on",
+    "addReason": "Add Reason",
+    "addReasonBtn": "Add"
+  },
   "viewNotary": {
     "label": "Manage Notaries",
     "addBtn": "+Add New",
@@ -1958,6 +1967,7 @@
     "manageDevelopers": "Manage Developers",
     "manageLeads": "Manage Leads",
     "manageProjects": "Manage Projects",
+    "manageHotels": "Manage Hotels",
     "manageProperties": "Manage Properties",
     "managePropertiesForSale":"Properties For Sale",
     "manageLegalEntity": "Manage Legal Entity",
