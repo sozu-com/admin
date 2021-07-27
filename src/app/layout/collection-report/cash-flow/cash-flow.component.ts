@@ -8,13 +8,15 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { CollectionReport } from 'src/app/models/collection-report.model';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
+import { PricePipe } from 'src/app/pipes/price.pipe';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
   selector: 'app-cash-flow',
   templateUrl: './cash-flow.component.html',
-  styleUrls: ['./cash-flow.component.css']
+  styleUrls: ['./cash-flow.component.css'],
+  providers: [PricePipe]
 })
 export class CashFlowComponent implements OnInit {
 
@@ -55,7 +57,8 @@ export class CashFlowComponent implements OnInit {
   actualList: Array<any> = [];
   constructor(public admin: AdminService,
     private spinner: NgxSpinnerService,
-    private translate: TranslateService) {
+    private translate: TranslateService,
+    private price: PricePipe) {
   }
 
   onSelect(event) {}
@@ -401,10 +404,40 @@ export class CashFlowComponent implements OnInit {
   }
 
   plotData() {
+    let self = this;
     const chart = new CanvasJS.Chart('chartContainer', {
       animationEnabled: true,
       exportFileName: 'cash-flow',
       exportEnabled: true,
+      toolTip: {
+        shared: true,
+      contentFormatter: function (e) {
+				var content = " ";
+				for (var i = 0; i < e.entries.length; i++) {
+          if(i == 0){
+					content += "<span style='color:#5a728d'> Layaway Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+					content += "<br/>";
+          }
+          else if(i == 1){
+          content += "<span style='color:#c0514f'> Down Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+          content += "<br/>";
+          }
+          else if(i == 2){
+          content += "<span style='color:#9bbb58'> Payment Upon Delivery</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+          content += "<br/>";
+          }
+          else if(i == 3){
+          content += "<span style='color:#23bfaa'> Special Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+          content += "<br/>";
+          }
+          else if(i == 4){
+          content += "<span style='color:#8165a2'> Monthly Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+          content += "<br/>";
+          }
+				}
+				return content;
+			}
+    },
       title: {
         // text: "Crude Oil Reserves vs Production, 2016"
       },
@@ -423,6 +456,7 @@ export class CashFlowComponent implements OnInit {
   }
 
   plotData1() {
+    let self = this;
     const chart = new CanvasJS.Chart('chartContainer1', {
       animationEnabled: true,
       exportFileName: 'cash-flow',
@@ -430,6 +464,35 @@ export class CashFlowComponent implements OnInit {
       title: {
         // text: "Crude Oil Reserves vs Production, 2016"
       },
+      toolTip: {
+        shared: true,
+      contentFormatter: function (e) {
+				var content = " ";
+				for (var i = 0; i < e.entries.length; i++) {
+          if(i == 0){
+					content += "<span style='color:#5a728d'> Layaway Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+					content += "<br/>";
+          }
+          else if(i == 1){
+          content += "<span style='color:#c0514f'> Down Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+          content += "<br/>";
+          }
+          else if(i == 2){
+          content += "<span style='color:#9bbb58'> Payment Upon Delivery</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+          content += "<br/>";
+          }
+          else if(i == 3){
+          content += "<span style='color:#23bfaa'> Special Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+          content += "<br/>";
+          }
+          else if(i == 4){
+          content += "<span style='color:#8165a2'> Monthly Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+          content += "<br/>";
+          }
+				}
+				return content;
+			}
+    },
       data: this.finalData1
     });
     chart.render();
