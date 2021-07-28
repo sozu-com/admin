@@ -128,6 +128,11 @@
                     </td>
                     <td class="text-left" (click)="$event.stopPropagation()">
                         <button [disabled]="admin?.admin_acl['Manual Leads']?.can_update==0"
+                        (click)= "moveLead(item)"
+                        title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
+                        src="assets/img/edit.png" alt="img"></button>
+
+                        <button [disabled]="admin?.admin_acl['Manual Leads']?.can_update==0"
                         routerLink="/dashboard/manual-leads/update-manual-lead/{{item.id}}"
                         title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
                         src="assets/img/edit.png" alt="img"></button>

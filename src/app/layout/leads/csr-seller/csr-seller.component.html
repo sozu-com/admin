@@ -342,12 +342,45 @@
                                         </div>
                                     </div>
                                 </th>
-                                <th style="width:10%;">
+                                <th style="width:30%;">
+                                    <div class="table-search">
+                                        <label>{{'table.th.city' | translate}}</label>
+                                        <div class="searh-3">
+                                            <input  autocomplete="address-level4"  type="text" name="email"
+                                                [(ngModel)]="parameter.email" (keyup.enter)="getListing()">
+                                            <button *ngIf="parameter.email" (click)="getListing()"><i
+                                                    class="fa fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th style="width:30%;">
+                                    <div class="table-search">
+                                        <label>{{'table.th.locality' | translate}}</label>
+                                        <div class="searh-3">
+                                            <input  autocomplete="address-level4"  type="text" name="email"
+                                                [(ngModel)]="parameter.email" (keyup.enter)="getListing()">
+                                            <button *ngIf="parameter.email" (click)="getListing()"><i
+                                                    class="fa fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th style="width:20%;">
+                                    <div class="table-search">
+                                        <label>{{'table.th.carpetArea' | translate}}</label>
+                                        <div class="searh-3">
+                                            <input  autocomplete="address-level4"  type="text" name="email"
+                                                [(ngModel)]="parameter.email" (keyup.enter)="getListing()">
+                                            <button *ngIf="parameter.email" (click)="getListing()"><i
+                                                    class="fa fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </th>
+                                <!-- <th style="width:10%;">
                                     <div class="table-search">
                                         <label>{{'table.th.assignee' | translate}}</label>
                                     </div>
-                                </th>
-                                <th style="width:5%;">
+                                </th> -->
+                                <!-- <th style="width:5%;">
                                     <div class="table-search">
                                         <label>{{'table.th.chatWithSeller' | translate}}</label>
                                     </div>
@@ -356,8 +389,8 @@
                                     <div class="table-search">
                                         <label>{{'table.th.chatWithAgent' | translate}}</label>
                                     </div>
-                                </th>
-                                <th style="width:5%;">
+                                </th> -->
+                                <!-- <th style="width:5%;">
                                     <div class="table-search">
                                         <label>{{'table.th.properties' | translate}}</label>
                                     </div>
@@ -368,8 +401,8 @@
                                                 [ngClass]="{'upsidedown':parameter.sort_by_flag==3 && parameter.sort_by_order==0}"
                                                 src="assets/img/top-arrow.png" alt="img"></a>
                                     </div>
-                                </th>
-                                <th style="width:5%;">
+                                </th> -->
+                                <!-- <th style="width:5%;">
                                     <label>&nbsp;</label>
                                     <div class="ppties">
                                         <a href="javascript://" (click)="sort_by(4)" data-toggle="tooltip"
@@ -378,8 +411,8 @@
                                                 [ngClass]="{'upsidedown':parameter.sort_by_flag==4 && parameter.sort_by_order==0}"
                                                 src="assets/img/top-arrow.png" alt="img"></a>
                                     </div>
-                                </th>
-                                <th style="width:5%;">
+                                </th> -->
+                                <!-- <th style="width:5%;">
                                     <label>&nbsp;</label>
                                     <div class="ppties">
                                         <a href="javascript://" (click)="sort_by(2)" data-toggle="tooltip"
@@ -398,16 +431,16 @@
                                                 [ngClass]="{'upsidedown':parameter.sort_by_flag==1 && parameter.sort_by_order==0}"
                                                 src="assets/img/top-arrow.png" alt="img"></a>
                                     </div>
-                                </th>
+                                </th> -->
                                 <th style="width:5%;">
-                                    <label>&nbsp;</label>
-                                    <div class="ppties">
+                                    <label>{{'table.th.actions.label' | translate}}</label>
+                                    <!-- <div class="ppties">
                                         <a href="javascript://" (click)="sort_by(5)" data-toggle="tooltip"
                                             data-placement="top" title="{{'table.title.total' | translate}}"
                                             data-original-title="Coming soon">T<img
                                                 [ngClass]="{'upsidedown':parameter.sort_by_flag==5 && parameter.sort_by_order==0}"
                                                 src="assets/img/top-arrow.png" alt="img"></a>
-                                    </div>
+                                    </div> -->
                                 </th>
                             </tr>
                             <tr class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
@@ -450,7 +483,16 @@
                                 <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}" class="text-left">
                                     {{item.email}}
                                 </td>
-                                <td class="text-left" (click)="openModel(item)">
+                                <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}" class="text-left">
+                                    {{item.city ? item.city.name : ('table.tr.td.NA' | translate)}}
+                                </td>
+                                <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}" class="text-left">
+                                    {{item.locality ? item.locality.name : ('table.tr.td.NA' | translate)}}
+                                </td>
+                                <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}" class="text-left">
+                                    {{item.carpet_area ? item.carpet_area : ('table.tr.td.NA' | translate)}}
+                                </td>
+                                <!-- <td class="text-left" (click)="openModel(item)">
                                    <a class="green-color fontW500" href="javascript://"> {{item?.admin?.name? item?.admin?.name : ('leads.linkCSRSeller' | translate)}}</a>
                                 </td>
                                 <td class="text-left"
@@ -462,8 +504,8 @@
                                     (click)="getCSRSellerChat($event, 2, item.assigned_csr_seller_id, item.id)">
                                     <a class="green-color fontW500" href="javascript://">{{'table.th.chatWithAgent' |
                                         translate}}</a>
-                                </td>
-                                <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}">
+                                </td> -->
+                                <!-- <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}">
                                     {{item.approved_count}}
                                 </td>
                                 <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}">
@@ -474,9 +516,12 @@
                                 </td>
                                 <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}">
                                     {{item.draft_count}}
-                                </td>
-                                <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}">
-                                    {{item.total_count}}
+                                </td> -->
+                                <td >
+                                    <button [disabled]="admin?.admin_acl['Manual Leads']?.can_delete==0"
+                                    (click)="deletePopup(item)" class="action-icon"
+                                    title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png"
+                                    alt="img"></button>
                                 </td>
                             </tr>
                         </tbody>

@@ -85,4 +85,15 @@ export class ManualLeadsComponent implements OnInit {
       });
   }
 
+  moveLead(item){
+    this.spinner.show();
+    this.admin.postDataApi('moveManualLead',{ lead_id: item.id }).subscribe(r => {
+      this.getListing();
+      this.spinner.hide();
+  },
+  error => {
+    this.spinner.hide();
+  });
+}
+
 }
