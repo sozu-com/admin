@@ -812,6 +812,7 @@
       "selectContributor": "Select Contributor",
       "contributor": "Contributor",
       "statusHistory": "Status History",
+      "city": "City",
       "possesion": {
         "label": "Possesion",
         "park":"Parking Lots",
@@ -1639,7 +1640,14 @@
     "AsCSRAgent": "as CSR Buyer agent",
     "AsInhouseAgent": "as Inhouse agent",
     "forCSRAgent": "for CSR Agent",
-    "forInhouseAgent": "for Inhouse Agent"
+    "forInhouseAgent": "for Inhouse Agent",
+    "location": "Location",
+    "price": "Price",
+    "rooms": "Rooms",
+    "baths": "Baths",
+    "carpetAreaAprox": "Carpet area aprox",
+    "propertyInformation": "Property Information",
+    "sellerAgent": "Seller Agent"
   },
   "viewACL": {
     "label": "Access Control Mgt.",

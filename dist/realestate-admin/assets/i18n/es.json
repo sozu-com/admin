@@ -811,6 +811,7 @@
       "selectContributor": "Seleccionar colaborador",
       "contributor": "colaborador",
       "statusHistory": "Historial de estado",
+      "city": "Ciudad",
       "possesion": {
         "label": "Fecha de entrega",
         "park":"Estacionamientos",
@@ -1636,7 +1637,14 @@
     "AsCSRAgent": "como Agente Comprador CSR",
     "AsInhouseAgent": "como Agente interno",
     "forCSRAgent": "para Agente Comprador CSR",
-    "forInhouseAgent": "para Agente interno"
+    "forInhouseAgent": "para Agente interno",
+    "location": "Ubicación",
+    "price": "Precio",
+    "rooms": "Recámaras",
+    "baths": "Baños",
+    "carpetAreaAprox": "Metros cuadrados aproximados",
+    "propertyInformation": "Información de la propiedad",
+    "sellerAgent": "Agente Vendedor"
   },
   "viewACL": {
     "label": "Access Control Mgt.",
