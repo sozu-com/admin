@@ -52,6 +52,12 @@ export class Leads {
     lead_bathroom: Array<bath>;
     lead_half_bedroom: Array<bath>;
     lead_answer?: any;
+    city?: any;
+    locality?: any;
+    price?: any;
+    bedrooms?: any;
+    carpet_area?: any;
+    bathrooms?: any;
 }
 
 export class bath {
