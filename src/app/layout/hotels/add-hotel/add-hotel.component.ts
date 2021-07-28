@@ -3,7 +3,6 @@ import { FormGroup, FormControl, Validators, FormBuilder, FormArray, AbstractCon
 import { AdminService } from 'src/app/services/admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IProperty } from 'src/app/common/property';
-import { AddProjectModel, Configuration, Towers, LocalityToCountry, Parking } from 'src/app/models/addProject.model';
 import { MapsAPILoader } from '@agm/core';
 import { Constant } from 'src/app/common/constants';
 import { FileUpload } from 'src/app/common/fileUpload';
@@ -17,6 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Agency } from 'src/app/models/agency.model';
 import { LegalEntity } from 'src/app/models/legalEntity.model';
 import { ToastrService } from 'ngx-toastr';
+import { AddHotelModel,Configuration, Towers, LocalityToCountry, Parking } from 'src/app/models/addHotel.model';
 
 declare const google;
 declare let swal: any;
@@ -25,7 +25,7 @@ declare let swal: any;
   selector: 'app-add-hotel',
   templateUrl: './add-hotel.component.html',
   styleUrls: ['./add-hotel.component.css'],
-  providers: [AddProjectModel, Constant, Towers]
+  providers: [AddHotelModel, Constant, Towers]
 })
 export class AddHotelComponent implements OnInit {
 
@@ -179,7 +179,7 @@ export class AddHotelComponent implements OnInit {
   public language_code: string;
   public amenitiesKeyword: string = ''
   constructor(
-    public model: AddProjectModel,
+    public model: AddHotelModel,
     private admin: AdminService,
     private route: ActivatedRoute,
     private router: Router,
@@ -202,8 +202,8 @@ export class AddHotelComponent implements OnInit {
     this.getParkingLotSpaces();
     // this.parkinLot_sum;
     // this.parkingRent_sum;
-    this.model.building_contributors_param = [];
-    this.model.building_contributors = [];
+    this.model.hotel_contributors_param = [];
+    this.model.hotel_contributors = [];
     this.name = '';
     this.file1 = new FileUpload(true, this.admin);
     this.file2 = new FileUpload(false, this.admin);
@@ -231,23 +231,23 @@ export class AddHotelComponent implements OnInit {
         let self = this;
         this.canEditdeveloperInfo = false;
         this.spinner.show()
-        this.admin.postDataApi('getProjectById', { building_id: this.id }).subscribe(r => {
+        this.admin.postDataApi('getProjectById', { hotel_id: this.id }).subscribe(r => {
           this.spinner.hide();
           this.model = JSON.parse(JSON.stringify(r.data));
-          this.model.parking_space_lots = r.data.parking_space_lots; 
+          this.model.hotel_parking_space_lots = r.data.hotel_parking_space_lots; 
           this.model.possession_status_id = r.data.possession_status_id ? r.data.possession_status_id : '';
           //sum parking
           let sum: any = 0;
-          this.model.parking_space_lots.forEach(a => sum += parseInt(a.no_parking));
+          this.model.hotel_parking_space_lots.forEach(a => sum += parseInt(a.no_parking));
           console.log(sum);
           this.parkinLot_sum = sum
           let sum1: any = 0;
-          this.model.parking_space_rent.forEach(a => sum1 += parseInt(a.no_parking));
+          this.model.hotel_parking_space_rent.forEach(a => sum1 += parseInt(a.no_parking));
           console.log(sum1, "rent");
           this.parkingRent_sum = sum1
 
           // console.log(this.parkinLot_sum,"viewtime");
-          // let sum2: any = this.model.parking_space_rent.map(a => a.no_parking).reduce(function(a, b)
+          // let sum2: any = this.model.hotel_parking_space_rent.map(a => a.no_parking).reduce(function(a, b)
           // {
           //   return a + b;
           // });
@@ -256,20 +256,20 @@ export class AddHotelComponent implements OnInit {
           this.both_sum = parseInt(this.parkinLot_sum) + parseInt(this.parkingRent_sum);
           console.log(this.both_sum, "view 0");
           //end parking sum
-          this.model.parking_space_rent = r.data.parking_space_rent;
-          self.model.building_contributors_param = self.model.building_contributors_param ? self.model.building_contributors_param : [];
-          self.model.building_contributors = []
-          r.data.building_contributors.forEach(element => {
-            self.model.building_contributors_param.push({
+          this.model.hotel_parking_space_rent = r.data.hotel_parking_space_rent;
+          self.model.hotel_contributors_param = self.model.hotel_contributors_param ? self.model.hotel_contributors_param : [];
+          self.model.hotel_contributors = []
+          r.data.hotel_contributors.forEach(element => {
+            self.model.hotel_contributors_param.push({
               id: element.user_type == 1 ? element.users.id : element.legal_entity.id,
               name: element.user_type == 1 ? (element.users.name + " " + (element.users.first_name ? element.users.first_name + ' ' : '') + (element.users.second_name ? element.users.second_name : ''))
                 : (element.legal_entity.comm_name),
               phone: element.user_type == 1 ? element.users.phone : element.legal_entity.phone,
               email: element.user_type == 1 ? element.users.email : element.legal_entity.email
             });
-            this.model.building_contributors.push({ user_type: element.user_type, users_id: element.user_type == 1 ? element.users.id : element.legal_entity.id, building_id: r.data.id });
+            this.model.hotel_contributors.push({ user_type: element.user_type, users_id: element.user_type == 1 ? element.users.id : element.legal_entity.id, hotel_id: r.data.id });
           });
-          this.toggleSelectedDetails.isCreditCardChecked = this.model.parking_space_rent.length > 0 ? true : false;
+          this.toggleSelectedDetails.isCreditCardChecked = this.model.hotel_parking_space_rent.length > 0 ? true : false;
           this.model.manager = r.data.manager ? r.data.manager : new Manager();
           this.model.company = r.data.company ? r.data.company : new Company();
           this.model.agency = r.data.agency ? r.data.agency : new Agency();
@@ -304,7 +304,7 @@ export class AddHotelComponent implements OnInit {
           this.file1.image = this.model.main_image;
           this.projectLogo.image = this.model.project_logo;
           this.model.configurations.map((item) => {
-            item.building_configuration_id = item.id;
+            item.hotel_configuration_id = item.id;
           });
 
           this.model.custom_attributes = this.model.custom_values;
@@ -335,9 +335,9 @@ export class AddHotelComponent implements OnInit {
               }
             }
 
-            if (this.model.building_towers && this.model.building_towers.length > 0) {
+            if (this.model.hotel_towers && this.model.hotel_towers.length > 0) {
               // setting true to tower selected amenities
-              this.model.building_towers.map(item => {
+              this.model.hotel_towers.map(item => {
                 item.amenitiesCount = item.amenities.length;
                 item.amenities.map(i => {
                   i.selected = true;
@@ -346,7 +346,7 @@ export class AddHotelComponent implements OnInit {
               });
 
               // tower amenitites id array only
-              this.model.building_towers.forEach(element => {
+              this.model.hotel_towers.forEach(element => {
                 // const ele_ame = JSON.parse(JSON.stringify(element.amenities));
                 element.amenitiesId = element.amenities.map(op => {
                   const pivot = op['pivot'];
@@ -357,7 +357,7 @@ export class AddHotelComponent implements OnInit {
                 });
               });
             } else {
-              this.model.building_towers = [];
+              this.model.hotel_towers = [];
             }
           });
           this.zoom = 18;
@@ -369,7 +369,7 @@ export class AddHotelComponent implements OnInit {
         this.canEditdeveloperInfo = false;
         this.canEditContributionInfo = false
         this.spinner.show();
-        this.admin.postDataApi('getBuildingRequest', { building_request_id: params.request_id }).subscribe(r => {
+        this.admin.postDataApi('getBuildingRequest', { hotel_request_id: params.request_id }).subscribe(r => {
           this.spinner.hide();
           this.model = JSON.parse(JSON.stringify(r.data));
           this.model.manager = r.data.manager ? r.data.manager : new Manager();
@@ -391,7 +391,7 @@ export class AddHotelComponent implements OnInit {
               phone: '', logo: '', image: '', developer_image: '', developer_desc: '',
               developer_company: ''
             };
-            this.model.building_request_id = params.request_id;
+            this.model.hotel_request_id = params.request_id;
             this.model.developer.name = r.data.dev_name ? r.data.dev_name : '';
             this.model.developer.email = r.data.dev_email ? r.data.dev_email : '';
             this.model.developer.country_code = r.data.dev_countrycode ? r.data.dev_countrycode : '';
@@ -401,7 +401,7 @@ export class AddHotelComponent implements OnInit {
           this.projectLogo.image = this.model.project_logo;
           if (this.model.configurations) {
             this.model.configurations.map((item) => {
-              item.building_configuration_id = item.id;
+              item.hotel_configuration_id = item.id;
             });
           }
           this.model.custom_attributes = this.model.custom_values;
@@ -435,9 +435,9 @@ export class AddHotelComponent implements OnInit {
             }
 
 
-            if (this.model.building_towers && this.model.building_towers.length > 0) {
+            if (this.model.hotel_towers && this.model.hotel_towers.length > 0) {
               // setting true to tower selected amenities
-              this.model.building_towers.map(item => {
+              this.model.hotel_towers.map(item => {
                 item.amenitiesCount = item.amenities.length;
                 item.amenities.map(i => {
                   i.selected = true;
@@ -446,7 +446,7 @@ export class AddHotelComponent implements OnInit {
               });
 
               // tower amenitites id array only
-              this.model.building_towers.forEach(element => {
+              this.model.hotel_towers.forEach(element => {
                 // const ele_ame = JSON.parse(JSON.stringify(element.amenities));
                 element.amenitiesId = element.amenities.map(op => {
                   const pivot = op['pivot'];
@@ -457,7 +457,7 @@ export class AddHotelComponent implements OnInit {
                 });
               });
             } else {
-              this.model.building_towers = [];
+              this.model.hotel_towers = [];
             }
           });
           this.zoom = 18;
@@ -465,11 +465,11 @@ export class AddHotelComponent implements OnInit {
           this.spinner.hide();
         });
       } else {
-        this.model = new AddProjectModel();
+        this.model = new AddHotelModel();
         this.testMarital[0].checked = true;
         this.model.marital_status = [1];
         this.model.floors = 0;
-        this.model.building_towers = [];
+        this.model.hotel_towers = [];
         this.model.building_tower_edit_index = '-1';
         this.canEditdeveloperInfo = true;
         this.canEditContributionInfo = true;
@@ -489,7 +489,7 @@ export class AddHotelComponent implements OnInit {
         });
         this.model.dev_countrycode = 'mx';
         this.model.dev_dialcode = '+52';
-        this.model.parking_space_rent = new Array<Parking>();
+        this.model.hotel_parking_space_rent = new Array<Parking>();
         this.assignedLegalEntity();
         this.initModel();
       }
@@ -933,7 +933,7 @@ export class AddHotelComponent implements OnInit {
       address: new FormControl('', [
         Validators.required
       ])
-      // building_age: new FormControl('', [
+      // hotel_age: new FormControl('', [
       //   Validators.required
       // ]),
       // building_type: new FormControl('', [
@@ -989,7 +989,7 @@ export class AddHotelComponent implements OnInit {
   editConfiguration(config, index) {
     this.new_config_edit = index;
     this.new_config = JSON.parse(JSON.stringify(config));
-    this.new_config.building_configuration_id = this.new_config.id;
+    this.new_config.hotel_configuration_id = this.new_config.id;
     this.file3.image = config.floor_map_image;
     this.file4.files = [];
     this.config360Img.files = [];
@@ -1146,7 +1146,7 @@ export class AddHotelComponent implements OnInit {
     this.model.developer.country_code = this.model.dev_countrycode;
   }
 
-  addProject() {
+  addHotels() {
     this.model.marital_status = [];
     for (let index = 0; index < this.testMarital.length; index++) {
       if (this.testMarital[index].checked === true) {
@@ -1189,25 +1189,9 @@ export class AddHotelComponent implements OnInit {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLocality'), 'error');
       return false;
     }
-    // if (!modelSave.possession_status_id) {
-    //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectPossesionStatus'), 'error');
-    //   return false;
-    // }
-
-    // if (!modelSave.building_towers || modelSave.building_towers.length == 0) {
-    //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseAddAtleastOneTower'), 'error');
-    //   return false;
-    // }
-
-    // launch date to be mandatory possession_status == presale
-    // if (modelSave.possession_status_id &&
-    //   (modelSave.possession_status_id.toString() === this.apiConstants.possession_status_id) &&
-    //   !modelSave.launch_date) {
-    //     swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLaunchDate'), 'error');
-    //   return false;
-    // }
+   
     if (modelSave.images) {
-      modelSave.building_images = modelSave.images.map(r => r.image);
+      modelSave.hotel_images = modelSave.images.map(r => r.image);
     }
     if (modelSave.images360) {
       modelSave.images360 = modelSave.images360.map(r => r.image);
@@ -1276,9 +1260,9 @@ export class AddHotelComponent implements OnInit {
       });
     }
 
-    modelSave.building_towers = this.model.building_towers;
-    if (modelSave.building_towers && modelSave.building_towers.length > 0) {
-      modelSave.building_towers.forEach(element1 => {
+    modelSave.hotel_towers = this.model.hotel_towers;
+    if (modelSave.hotel_towers && modelSave.hotel_towers.length > 0) {
+      modelSave.hotel_towers.forEach(element1 => {
         element1.amenities.forEach(element => {
           const img = [];
           const img_360 = [];
@@ -1308,30 +1292,6 @@ export class AddHotelComponent implements OnInit {
         });
       });
     }
-
-    /* remove fields for edit */
-    // if (!modelSave.name) {swal(this.translate.instant('swal.error'), 'Please add building name', 'error'); return false; }
-    // if (!modelSave.address) {swal(this.translate.instant('swal.error'), 'Please add address', 'error'); return false; }
-    // if (!modelSave.cover_image) {swal(this.translate.instant('swal.error'), 'Please add cover image', 'error'); return false; }
-    // if (!modelSave.cover_image) {swal(this.translate.instant('swal.error'), 'Please add cover image', 'error'); return false; }
-    // if (modelSave.building_images.length < 1) {swal(this.translate.instant('swal.error'), 'Please add atleast one more building image', 'error'); return false; }
-    // if (!modelSave.building_age) {swal(this.translate.instant('swal.error'), 'Please add building age', 'error'); return false; }
-    // if (!modelSave.building_type_id) {swal(this.translate.instant('swal.error'), 'Please add building type', 'error'); return false; }
-    // if (!modelSave.description) {swal(this.translate.instant('swal.error'), 'Please add building description', 'error'); return false; }
-    // if (!modelSave.possession_status_id) {swal(this.translate.instant('swal.error'), 'Please add possession status', 'error'); return false; }
-    // if (!modelSave.floors) {swal(this.translate.instant('swal.error'), 'Please add floors', 'error'); return false; }
-    // if (!modelSave.launch_date) {swal(this.translate.instant('swal.error'), 'Please add building launch date', 'error'); return false; }
-    // if (!modelSave.avg_price) {swal(this.translate.instant('swal.error'), 'Please add building average price', 'error'); return false; }
-    // if (modelSave.amenities.length < 1) {swal(this.translate.instant('swal.error'), 'Please add amenities', 'error'); return false; }
-    // if (modelSave.configurations.length < 1) {swal(this.translate.instant('swal.error'), 'Please add building configuration', 'error'); return false; }
-    // if (!this.id) {
-    //   if (!modelSave.dev_name) {swal(this.translate.instant('swal.error'), 'Please add developer name', 'error'); return false; }
-    //   if (!modelSave.dev_countrycode) {swal(this.translate.instant('swal.error'), 'Please add developer country code', 'error'); return false; }
-    //   if (!modelSave.dev_email) {swal(this.translate.instant('swal.error'), 'Please add developer email', 'error'); return false; }
-    //   if (!modelSave.dev_phone) {swal(this.translate.instant('swal.error'), 'Please add developer phone', 'error'); return false; }
-    //   if (!modelSave.dev_logo) {swal(this.translate.instant('swal.error'), 'Please add developer image', 'error'); return false; }
-    // }
-
     if (modelSave.dev_email) {
       if (!modelSave.dev_name) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseAddDeveloperName'), 'error');
@@ -1357,7 +1317,7 @@ export class AddHotelComponent implements OnInit {
     // without information 0, basic information 2, semicompleted 3, completed 1
 
     const isAnyAmenitiesCheck = this.anyAmenitiesChecked();
-    const isBuildingTowerDetailsAvailable = this.buildingTowerDetailsAvailable(modelSave.building_towers)
+    const isBuildingTowerDetailsAvailable = this.buildingTowerDetailsAvailable(modelSave.hotel_towers)
     // to without information
     if (
       modelSave.name && modelSave.country_id && modelSave.state_id &&
@@ -1372,11 +1332,11 @@ export class AddHotelComponent implements OnInit {
       // modelSave.cover_image && (modelSave.images || []).length > 0 && 
       modelSave.name && modelSave.country_id && modelSave.state_id &&
       modelSave.city_id && modelSave.locality_id && modelSave.address && modelSave.address != null &&
-      modelSave.lat && modelSave.lng && modelSave.building_type_id && modelSave.num_of_properties
+      modelSave.lat && modelSave.lng && modelSave.hotel_type_id && modelSave.num_of_properties
       //&& modelSave.description && modelSave.description != null 
       && modelSave.possession_status_id &&
       //isAnyAmenitiesCheck && (modelSave.amenities || []).length > 0 &&
-      (modelSave.building_towers || []).length > 0 && isBuildingTowerDetailsAvailable
+      (modelSave.hotel_towers || []).length > 0 && isBuildingTowerDetailsAvailable
     ) {
       modelSave.is_completed = 2;
     }
@@ -1388,12 +1348,12 @@ export class AddHotelComponent implements OnInit {
       modelSave.city_id && modelSave.locality_id && modelSave.address && modelSave.address != null &&
       modelSave.lat && modelSave.lng &&
       //modelSave.document && 
-      modelSave.building_type_id && modelSave.num_of_properties
+      modelSave.hotel_type_id && modelSave.num_of_properties
       && modelSave.description && modelSave.description != null
       && modelSave.possession_status_id &&
       //modelSave.launch_date && 
       isAnyAmenitiesCheck &&
-      (modelSave.amenities || []).length > 0 && (modelSave.configurations || []).length > 0 && (modelSave.building_towers || []).length > 0 &&
+      (modelSave.amenities || []).length > 0 && (modelSave.configurations || []).length > 0 && (modelSave.hotel_towers || []).length > 0 &&
       isBuildingTowerDetailsAvailable && (((modelSave || {}).developer || {}).id || modelSave.developer_by) &&
       (((modelSave || {}).agency || {}).id || modelSave.agency_by)
     ) {
@@ -1407,23 +1367,23 @@ export class AddHotelComponent implements OnInit {
       modelSave.city_id && modelSave.locality_id && modelSave.address && modelSave.address != null &&
       modelSave.lat && modelSave.lng
       //&& modelSave.document 
-      && modelSave.building_type_id && modelSave.num_of_properties
+      && modelSave.hotel_type_id && modelSave.num_of_properties
       && modelSave.description && modelSave.description != null && modelSave.possession_status_id
       //&& modelSave.launch_date 
       && isAnyAmenitiesCheck &&
-      (modelSave.amenities || []).length > 0 && (modelSave.configurations || []).length > 0 && (modelSave.building_towers || []).length > 0 &&
+      (modelSave.amenities || []).length > 0 && (modelSave.configurations || []).length > 0 && (modelSave.hotel_towers || []).length > 0 &&
       isBuildingTowerDetailsAvailable && (((modelSave || {}).developer || {}).id || modelSave.developer_by) &&
       (((modelSave || {}).manager || {}).id || ((modelSave || {}).company || {}).id || modelSave.managed_by) && (((modelSave || {}).agency || {}).id || modelSave.agency_by)
     ) {
       modelSave.is_completed = 1;
     }
 
-    if (this.model.building_request_id) {
-      modelSave.building_request_id = this.model.building_request_id;
+    if (this.model.hotel_request_id) {
+      modelSave.hotel_request_id = this.model.hotel_request_id;
     }
 
     if (this.id) {
-      modelSave.building_id = this.id;
+      modelSave.hotel_id = this.id;
       modelSave.developer_id = modelSave.developer.id;
       modelSave.manager_id = modelSave.manager && modelSave.manager.id ? modelSave.manager.id : null;
       modelSave.company_id = modelSave.company && modelSave.company.id ? modelSave.company.id : null;
@@ -1435,12 +1395,12 @@ export class AddHotelComponent implements OnInit {
         swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
         //sum parking
         let sum: any = 0;
-        this.model.parking_space_lots.forEach(a => sum += parseInt(a.no_parking));
+        this.model.hotel_parking_space_lots.forEach(a => sum += parseInt(a.no_parking));
         console.log(sum);
         this.parkinLot_sum = sum
 
         let sum1: any = 0;
-        this.model.parking_space_rent.forEach(a => sum1 += parseInt(a.no_parking));
+        this.model.hotel_parking_space_rent.forEach(a => sum1 += parseInt(a.no_parking));
         console.log(sum1, "rent");
         this.parkingRent_sum = sum1
 
@@ -1457,9 +1417,9 @@ export class AddHotelComponent implements OnInit {
       });
     } else {
       delete modelSave.id;
-      delete modelSave.building_id;
+      delete modelSave.hotel_id;
       this.spinner.show();
-      this.admin.postDataApi('addProject', modelSave).subscribe(success => {
+      this.admin.postDataApi('addHotels', modelSave).subscribe(success => {
         this.spinner.hide();
         swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
         // set model to avoid duplication creation of project
@@ -1542,24 +1502,24 @@ export class AddHotelComponent implements OnInit {
       this.model.developer.developer_desc = data.developer != null && data.developer.developer_desc ? data.developer.developer_desc : '';
     }
     let self = this;
-    self.model.building_contributors_param = self.model.building_contributors_param ? self.model.building_contributors_param : [];
-    self.model.building_contributors = []
-    if (data.building_contributors && data.building_contributors.length > 0) {
-      data.building_contributors.forEach(element => {
-        self.model.building_contributors_param.push({
+    self.model.hotel_contributors_param = self.model.hotel_contributors_param ? self.model.hotel_contributors_param : [];
+    self.model.hotel_contributors = []
+    if (data.hotel_contributors && data.hotel_contributors.length > 0) {
+      data.hotel_contributors.forEach(element => {
+        self.model.hotel_contributors_param.push({
           id: element.user_type == 1 ? element.users.id : element.legal_entity.id,
           name: element.user_type == 1 ? (element.users.name + " " + (element.users.first_name ? element.users.first_name + ' ' : '') + (element.users.second_name ? element.users.second_name : ''))
             : (element.legal_entity.comm_name),
           phone: element.user_type == 1 ? element.users.phone : element.legal_entity.phone,
           email: element.user_type == 1 ? element.users.email : element.legal_entity.email
         });
-        this.model.building_contributors.push({ user_type: element.user_type, users_id: element.user_type == 1 ? element.users.id : element.legal_entity.id, building_id: data.id });
+        this.model.hotel_contributors.push({ user_type: element.user_type, users_id: element.user_type == 1 ? element.users.id : element.legal_entity.id, hotel_id: data.id });
       });
     }
     this.file1.image = this.model.main_image;
     this.projectLogo.image = this.model.project_logo;
     this.model.configurations.map((item) => {
-      item.building_configuration_id = item.id;
+      item.hotel_configuration_id = item.id;
     });
     this.model.custom_attributes = this.model.custom_values;
     this.file5.image = this.model.developer.image;
@@ -1592,9 +1552,9 @@ export class AddHotelComponent implements OnInit {
     });
 
 
-    if (this.model.building_towers && this.model.building_towers.length > 0) {
+    if (this.model.hotel_towers && this.model.hotel_towers.length > 0) {
       // setting true to tower selected amenities
-      this.model.building_towers.map(item => {
+      this.model.hotel_towers.map(item => {
         item.amenitiesCount = item.amenities.length;
         item.amenities.map(i => {
           i.selected = true;
@@ -1603,7 +1563,7 @@ export class AddHotelComponent implements OnInit {
       });
 
       // tower amenitites id array only
-      this.model.building_towers.forEach(element => {
+      this.model.hotel_towers.forEach(element => {
         // const ele_ame = JSON.parse(JSON.stringify(element.amenities));
         element.amenitiesId = element.amenities.map(op => {
           const pivot = op['pivot'];
@@ -1614,7 +1574,7 @@ export class AddHotelComponent implements OnInit {
         });
       });
     } else {
-      this.model.building_towers = [];
+      this.model.hotel_towers = [];
     }
     //this.assignedLegalEntity();
   }
@@ -1733,7 +1693,7 @@ export class AddHotelComponent implements OnInit {
       // swal(this.translate.instant('swal.error'), 'Please choose tower amenities.', 'error'); return false;
       this.newTower.amenities = [];
     }
-    this.model.building_towers.push(this.newTower);
+    this.model.hotel_towers.push(this.newTower);
     this.showAddBtn = true;
 
     // setting tower to empty
@@ -1774,11 +1734,11 @@ export class AddHotelComponent implements OnInit {
       confirmButtonText: 'Yes, Delete!'
     }).then((result) => {
       if (result.value) {
-        const btid = this.model.building_towers[index].id;
-        this.model.building_towers.splice(index, 1);
+        const btid = this.model.hotel_towers[index].id;
+        this.model.hotel_towers.splice(index, 1);
 
         if (btid) {
-          this.admin.postDataApi('deleteTower', { building_towers_id: btid }).subscribe(res => {
+          this.admin.postDataApi('deleteTower', { hotel_towers_id: btid }).subscribe(res => {
             // console.log('sss', res);
           });
         }
@@ -1788,27 +1748,27 @@ export class AddHotelComponent implements OnInit {
 
   saveTower(btower: Towers, index: any) {
 
-    this.model.building_towers[index].launch_date = btower.launch_date;
+    this.model.hotel_towers[index].launch_date = btower.launch_date;
 
     // this.allTowerAmenityForEdit = btower.amenities;
-    if (!this.model.building_towers[index].tower_name) {
+    if (!this.model.hotel_towers[index].tower_name) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterTowerName'), 'error');
       return false;
     }
-    if (!this.model.building_towers[index].num_of_floors) {
+    if (!this.model.hotel_towers[index].num_of_floors) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterNumberoffloors'), 'error');
       return false;
     }
-    if (!this.model.building_towers[index].possession_status_id) {
+    if (!this.model.hotel_towers[index].possession_status_id) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChoosePossessionStatus'), 'error');
       return false;
     }
-    // if (!this.model.building_towers[index].launch_date) { swal(this.translate.instant('swal.error'), 'Please enter launch date.', 'error'); return false; }
+    // if (!this.model.hotel_towers[index].launch_date) { swal(this.translate.instant('swal.error'), 'Please enter launch date.', 'error'); return false; }
 
     // launch date to be mandatory possession_status == presale
-    if (this.model.building_towers[index].possession_status_id &&
-      (this.model.building_towers[index].possession_status_id.toString() === this.apiConstants.possession_status_id) &&
-      !this.model.building_towers[index].launch_date) {
+    if (this.model.hotel_towers[index].possession_status_id &&
+      (this.model.hotel_towers[index].possession_status_id.toString() === this.apiConstants.possession_status_id) &&
+      !this.model.hotel_towers[index].launch_date) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLaunchDate'), 'error');
       return false;
     }
@@ -1824,18 +1784,18 @@ export class AddHotelComponent implements OnInit {
         return op;
       }
     });
-    this.model.building_towers[index].amenitiesId = this.selectedTowerAmenitiesId;
-    this.model.building_towers[index].amenities = this.selectedTowerAmenityObj;
-    if (this.model.building_towers[index].amenities.length < 1) {
+    this.model.hotel_towers[index].amenitiesId = this.selectedTowerAmenitiesId;
+    this.model.hotel_towers[index].amenities = this.selectedTowerAmenityObj;
+    if (this.model.hotel_towers[index].amenities.length < 1) {
       // swal(this.translate.instant('swal.error'), 'Please choose tower amenities.', 'error'); return false;
-      this.model.building_towers[index].amenities = [];
+      this.model.hotel_towers[index].amenities = [];
       this.allTowerAmenityForEdit.map(i => {
         i.selected = false;
         return i;
       });
     }
     // btower.amenities.map(item => { item.images = []; return item; });
-    this.model.building_towers[index].amenitiesCount = this.model.building_towers[index].amenities.length;
+    this.model.hotel_towers[index].amenitiesCount = this.model.hotel_towers[index].amenities.length;
     this.model.building_tower_edit_index = '-1';
   }
 
@@ -1860,21 +1820,21 @@ export class AddHotelComponent implements OnInit {
 
   setTowerAmenity(a: any, m: any) {
     this.allTowerAmenityForEdit[m].selected = !this.allTowerAmenityForEdit[m].selected;
-    this.model.building_towers[this.towerAmenityIndex].amenities =
+    this.model.hotel_towers[this.towerAmenityIndex].amenities =
       this.allTowerAmenityForEdit.filter(op => {
         if (op.selected === true) {
           return op;
         }
       });
-    // this.model.building_towers[this.towerAmenityIndex].amenitiesId =
+    // this.model.hotel_towers[this.towerAmenityIndex].amenitiesId =
     // this.allTowerAmenityForEdit.filter(op => { if (op.selected === true) { return op; } }).map(op => op.id);
-    this.model.building_towers[this.towerAmenityIndex].amenitiesId =
+    this.model.hotel_towers[this.towerAmenityIndex].amenitiesId =
       this.allTowerAmenityForEdit.filter(op => {
         if (op.selected === true) {
           return op;
         }
       });
-    this.model.building_towers[this.towerAmenityIndex].amenitiesCount = this.model.building_towers[this.towerAmenityIndex].amenities.length;
+    this.model.hotel_towers[this.towerAmenityIndex].amenitiesCount = this.model.hotel_towers[this.towerAmenityIndex].amenities.length;
   }
 
 
@@ -2322,9 +2282,9 @@ export class AddHotelComponent implements OnInit {
     this.admin.postDataApi('getAllBuyers', input).subscribe(r => {
       self.spinner.hide();
       self.users = r.data;
-      self.model.building_contributors_param = self.model.building_contributors_param ? self.model.building_contributors_param : [];
+      self.model.hotel_contributors_param = self.model.hotel_contributors_param ? self.model.hotel_contributors_param : [];
       self.users.forEach(element => {
-        self.model.building_contributors_param.forEach(element1 => {
+        self.model.hotel_contributors_param.forEach(element1 => {
           element.value = element.id == element1.id ? true : false;
         })
       })
@@ -2342,21 +2302,21 @@ export class AddHotelComponent implements OnInit {
           element.value = true;
         }
       });
-      this.model.building_contributors = this.model.building_contributors ? this.model.building_contributors : [];
-      this.model.building_contributors_param = this.model.building_contributors_param ? this.model.building_contributors_param : [];
-      if (this.model.building_contributors && this.model.building_contributors.length > 0) {
-        let data = this.model.building_contributors.find(element => element.users_id == user_id);
+      this.model.hotel_contributors = this.model.hotel_contributors ? this.model.hotel_contributors : [];
+      this.model.hotel_contributors_param = this.model.hotel_contributors_param ? this.model.hotel_contributors_param : [];
+      if (this.model.hotel_contributors && this.model.hotel_contributors.length > 0) {
+        let data = this.model.hotel_contributors.find(element => element.users_id == user_id);
         if (!data) {
-          this.model.building_contributors.push({ user_type: status, users_id: user_id, building_id: property_id });
+          this.model.hotel_contributors.push({ user_type: status, users_id: user_id, hotel_id: property_id });
         }
       }
       else {
-        this.model.building_contributors.push({ user_type: status, users_id: user_id, building_id: property_id });
+        this.model.hotel_contributors.push({ user_type: status, users_id: user_id, hotel_id: property_id });
       }
-      if (this.model.building_contributors_param && this.model.building_contributors_param.length > 0) {
-        let data = this.model.building_contributors_param.find(element => element.id == user_id)
+      if (this.model.hotel_contributors_param && this.model.hotel_contributors_param.length > 0) {
+        let data = this.model.hotel_contributors_param.find(element => element.id == user_id)
         if (!data) {
-          this.model.building_contributors_param.push({
+          this.model.hotel_contributors_param.push({
             id: user.id,
             name: name,
             phone: user.phone,
@@ -2365,7 +2325,7 @@ export class AddHotelComponent implements OnInit {
         }
       }
       else {
-        this.model.building_contributors_param.push({
+        this.model.hotel_contributors_param.push({
           id: user.id,
           name: name,
           phone: user.phone,
@@ -2379,10 +2339,10 @@ export class AddHotelComponent implements OnInit {
           element.value = false;
         }
       })
-      let selectedUser = this.model.building_contributors.findIndex(user => user.users_id == user_id);
-      this.model.building_contributors.splice(selectedUser, 1);
-      let UserIndex = this.model.building_contributors_param.findIndex(user => user.id == user_id);
-      this.model.building_contributors_param.splice(UserIndex, 1);
+      let selectedUser = this.model.hotel_contributors.findIndex(user => user.users_id == user_id);
+      this.model.hotel_contributors.splice(selectedUser, 1);
+      let UserIndex = this.model.hotel_contributors_param.findIndex(user => user.id == user_id);
+      this.model.hotel_contributors_param.splice(UserIndex, 1);
     }
   }
 
@@ -2393,13 +2353,13 @@ export class AddHotelComponent implements OnInit {
         element.value = false;
       }
     })
-    let selectedUser = this.model.building_contributors.findIndex(user => user.users_id == userId);
+    let selectedUser = this.model.hotel_contributors.findIndex(user => user.users_id == userId);
     if (selectedUser >= 0) {
-      this.model.building_contributors.splice(selectedUser, 1);
+      this.model.hotel_contributors.splice(selectedUser, 1);
     }
-    let UserIndex = this.model.building_contributors_param.findIndex(user => user.id == userId);
+    let UserIndex = this.model.hotel_contributors_param.findIndex(user => user.id == userId);
     if (UserIndex >= 0) {
-      this.model.building_contributors_param.splice(UserIndex, 1);
+      this.model.hotel_contributors_param.splice(UserIndex, 1);
     }
   }
   assignedLegalEntity = (): void => {
@@ -2428,36 +2388,36 @@ export class AddHotelComponent implements OnInit {
 
   addDeveloperBank(e) {
     //console.log(e,"send")
-    if (this.parameter.parkingLotSpacesTotal == this.model.parking_space_lots.length) {
+    if (this.parameter.parkingLotSpacesTotal == this.model.hotel_parking_space_lots.length) {
       this.toastrService.clear()
       this.toastrService.error(this.translate.instant('message.error.parkingSpaceTypeAllAreInUse'), this.translate.instant('swal.error'));
     } else {
       const bank = new Parking();
-      this.model.parking_space_lots.push(bank);
+      this.model.hotel_parking_space_lots.push(bank);
     }
-    // this.model.parking_space_lots.forEach((r.) => {
+    // this.model.hotel_parking_space_lots.forEach((r.) => {
     // }
 
   }
   addDeveloperBank1(e) {
-    if (this.parameter.parkingLotSpacesTotal == this.model.parking_space_rent.length) {
+    if (this.parameter.parkingLotSpacesTotal == this.model.hotel_parking_space_rent.length) {
       this.toastrService.clear()
       this.toastrService.error(this.translate.instant('message.error.parkingSpaceTypeAllAreInUse'), this.translate.instant('swal.error'));
     } else {
       const bank = new Parking();
-      this.model.parking_space_rent.push(bank);
+      this.model.hotel_parking_space_rent.push(bank);
     }
   }
 
   initModel() {
-    this.model.parking_space_lots = new Array<Parking>();
+    this.model.hotel_parking_space_lots = new Array<Parking>();
   }
 
   toggleShow(value) {
     // this.toggleSelectedDetails.isCreditCardChecked = !this.toggleSelectedDetails.isCreditCardChecked;
     this.toggleSelectedDetails.isCreditCardChecked = value.target.checked ? true : false;
     if (!this.toggleSelectedDetails.isCreditCardChecked) {
-      this.model.parking_space_rent = [];
+      this.model.hotel_parking_space_rent = [];
       this.parkingRent_sum = 0
       this.both_sum = parseInt(this.parkinLot_sum) - parseInt(this.parkingRent_sum);
       console.log(this.both_sum, "view rent");
@@ -2465,7 +2425,7 @@ export class AddHotelComponent implements OnInit {
   }
   // removeDeveloperBank($event: Event, item: any, i: number) {
   //   $event.stopPropagation();
-  //   this.model.parking_space_lots.splice(i, 1);
+  //   this.model.hotel_parking_space_lots.splice(i, 1);
   //   if (item.id) {
   //     this.admin.postDataApi('deleteBankAccount', { id: item.id }).subscribe(success => {
   //       this.spinner.hide();
@@ -2476,10 +2436,10 @@ export class AddHotelComponent implements OnInit {
   // }
   checkAlreadySelected = (parkingSpaceId: number, isParkingSpaceLots: boolean): boolean => {
     if (isParkingSpaceLots) {
-      const data = this.model.parking_space_lots.find((item) => item.parking_space_id == parkingSpaceId);
+      const data = this.model.hotel_parking_space_lots.find((item) => item.parking_space_id == parkingSpaceId);
       return data ? true : false;
     } else {
-      const data = this.model.parking_space_rent.find((item) => item.parking_space_id == parkingSpaceId);
+      const data = this.model.hotel_parking_space_rent.find((item) => item.parking_space_id == parkingSpaceId);
       return data ? true : false;
     }
   }

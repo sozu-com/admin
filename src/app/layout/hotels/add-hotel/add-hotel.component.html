@@ -190,8 +190,8 @@
                   <label>{{'addForm.buildingAge' | translate}}
                     <!-- <span class="color-red">*</span> -->
                   </label>
-                  <input placeholder="{{'addForm.placeholder.buildingAge' | translate}}" min="0" class="form-control" [(ngModel)]="model.building_age"
-                    type="number" name="building_age" />
+                  <input placeholder="{{'addForm.placeholder.buildingAge' | translate}}" min="0" class="form-control" [(ngModel)]="model.hotel_age"
+                    type="number" name="hotel_age" />
                 </div>
               </div>
               <div class="col-sm-6 col-12">
@@ -199,7 +199,7 @@
                   <label>{{'addForm.buildingType.label' | translate}}
                     <!-- <span class="color-red">*</span> -->
                   </label>
-                  <select [(ngModel)]="model.building_type_id" class="form-control" name="building_type_id">
+                  <select [(ngModel)]="model.hotel_type_id" class="form-control" name="hotel_type_id">
                     <option value="" disabled>{{'addForm.buildingType.chooseType' | translate}}</option>
                     <option *ngFor="let s of all_building_types" [value]="s.id">
                       {{s.name}}
@@ -260,20 +260,7 @@
                   </select>
                 </div>
               </div>
-              <!-- <div class="col-md-6 col-sm-6 col-12">
-                <div class="form-group-3">
-                  <label>Floors
-                  </label>
-                  <input min="0" class="form-control" [(ngModel)]="model.floors" type="number" name="building_floors" placeholder="Floors">
-                </div>
-              </div> -->
-              <!-- <div class="col-md-6 col-sm-6 col-12">
-                <div class="form-group-3">
-                  <label>Average Price
-                  </label>
-                  <input min="0" class="form-control" [(ngModel)]="model.avg_price" type="number" name="building_avg_price" placeholder="Average price">
-                </div>
-              </div> -->
+             
               <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>{{'addForm.launchDate' | translate}}
@@ -330,23 +317,6 @@
                       <a *ngIf="a.selected==true" (click)="modelAmenityOpenFun(a, i)" class="btn-third btn btn-green"
                         href="javascript://">{{'addForm.addView' | translate}}</a>
                       <div *ngIf="a.selected==true" class="spacer30"></div>
-
-                      <!-- <div *ngIf="a.selected==true">
-                        <div class="uploaded-img-block">
-                          <div class="uploaded-img2">
-                            <img src="assets/img/placeholder.png" class="u-img" alt="img">
-                            <div class="upload-caption">
-                              <p class="green-color" (click)="modelAmenityOpenFun(a, i)">+ Add more images</p>
-                            </div>
-                          </div>
-                          <div class="uploaded-img2" *ngFor="let item of a.images.slice(0,3); let j=index">
-                            <img *ngIf="item && j<4" onerror="this.src='assets/img/placeholder.png'" class="u-img" [src]="item.image" alt="img">
-                            <div class="upload-caption">
-                              <p *ngIf="a.images?.length > 3 && j==2" class="number" (click)="modelAmenityOpenFun(a, i)">+{{a?.images?.length-3}}</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div> -->
 
                     </li>
                   </ul>
@@ -711,8 +681,8 @@
               <!-- End of Tower Section -->
 
               <!-- listing of added towers -->
-              <div *ngIf="model?.building_towers?.length>0">
-                <div class="row" *ngFor="let btower of model?.building_towers; let i=index">
+              <div *ngIf="model?.hotel_towers?.length>0">
+                <div class="row" *ngFor="let btower of model?.hotel_towers; let i=index">
                   <div class="col-12">
                     <div class="page-title paddingL0 paddingR0">
                       <h3>{{'addForm.tower.tower' | translate}} {{i+1}}
@@ -799,23 +769,6 @@
                           <a *ngIf="at.selected==true" (click)="modelTowerAmenityOpenFun(at, j)"
                             class="btn-third btn btn-green" href="javascript://">{{'addForm.addView' | translate}}</a>
                           <div *ngIf="at.selected==true" class="spacer30"></div>
-
-                          <!-- <div *ngIf="at.selected==true">
-                          <div class="uploaded-img-block">
-                            <div class="uploaded-img2">
-                              <img src="assets/img/placeholder.png" class="u-img" alt="img">
-                              <div class="upload-caption">
-                                <p class="green-color" (click)="modelTowerAmenityOpenFun(at, j)">+ Add more images</p>
-                              </div>
-                            </div>
-                            <div class="uploaded-img2" *ngFor="let item of at.images.slice(0,3); let j=index">
-                              <img *ngIf="j<4" onerror="this.src='assets/img/placeholder.png'" class="u-img" [src]="item.image" alt="img">
-                              <div class="upload-caption">
-                                <p *ngIf="at.images?.length > 3 && j==2" class="number" (click)="modelTowerAmenityOpenFun(at, i)">+{{at?.images?.length-3}}</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div> -->
                         </li>
                       </ul>
 
@@ -855,18 +808,6 @@
 
               <div class="row" *ngIf="model?.developer?.id">
 
-                <!-- <div class="col-md-12 col-sm-12 col-12">
-                <div class="form-group-3 pull-right">
-                  <label class="green-color cursor-pointer" (click)="selectDeveloper('', 1)">Select Developer</label>
-                </div>
-              </div> -->
-
-                <!-- <div class="col-md-6 col-sm-6 col-6">
-                <div class="form-group-3">
-                  <label class="green-color cursor-pointer" (click)="addDeveloper()">Add New Developer</label>
-                </div>
-              </div> -->
-
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>{{'addForm.developer.name' | translate}}</label>
@@ -899,12 +840,6 @@
                       name="developer_company" placeholder="{{'addForm.placeholder.companyName' | translate}}" />
                   </div>
                 </div>
-                <!-- <div class="col-md-12 col-sm-12 col-12">
-                  <div class="form-group-3">
-                    <label>Description</label>
-                    <input autocomplete="off" [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.developer.developer_desc" class="form-control" type="text" name="developer_desc" placeholder="Description"/>
-                  </div>
-                </div> -->
 
                 <div class="col-6">
                   <div class="form-group-3">
@@ -1179,50 +1114,6 @@
                 </div>
               </div>
 
-              <!-- End of Agency Info Section -->
-
-              
-              <!-- Legal Entity Info Section -->
-              <!-- <div class="row">
-                <div class="col-12">
-                  <div class="page-title paddingL0 paddingR0">
-                    <h3>{{'addForm.legalEntity.label' | translate}}
-                      <span class="tower pull-right" style="margin-left: 25px;" *ngIf="model?.legal_entity?.id"
-                        (click)="removeLegalEntity('', 1)">{{'addForm.legalEntity.removeLegalEntity' | translate}} </span>
-                      <span class="tower pull-right"
-                        (click)="selectLegalEntity('', 1)">{{model?.legal_entity?.id ? ('addForm.legalEntity.changeLegalEntity' | translate) : ('addForm.legalEntity.selectLegalEntity' | translate)}} </span>
-                    </h3>
-                  </div>
-                </div>
-              </div>
-
-
-              <div class="row" *ngIf="model?.legal_entity?.id">
-                <div class="col-md-6 col-sm-6 col-12">
-                  <div class="form-group-3">
-                    <label>{{'addForm.companyCommercialName' | translate}}</label>
-                    <input [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.legal_entity.comm_name"
-                      class="form-control" type="text" name="comm_name" placeholder="{{'addForm.placeholder.developerName' | translate}}">
-                  </div>
-                </div>
-                <div class="col-md-6 col-sm-6 col-12">
-                  <div class="form-group-3">
-                    <label>{{'addForm.legalEntity.phoneNumber' | translate}}</label>
-                    <input [disabled]="!canEditdeveloperInfo" 
-                      type="text" class="form-control" id="phone2" placeholder="{{'addForm.placeholder.phoneNumber' | translate}}"
-                      minlength="1" [(ngModel)]="model.legal_entity.phone" name="phone2" ng2TelInput
-                      [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
-                  </div>
-                </div>
-                <div class="col-md-6 col-sm-6 col-12">
-                  <div class="form-group-3">
-                    <label>{{'addForm.legalEntity.email' | translate}}</label>
-                    <input [disabled]="!canEditdeveloperInfo" [(ngModel)]="model.legal_entity.email"
-                      class="form-control" type="email" name="email2" placeholder="{{'addForm.placeholder.developerEmail' | translate}}"
-                      pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
-                  </div>
-                </div>
-              </div> -->
 
               <div class="row">
                 <div class="col-12">
@@ -1291,9 +1182,9 @@
               </div>
 
 
-              <div class="row" *ngIf="model?.building_contributors_param && model?.building_contributors_param.length > 0">
+              <div class="row" *ngIf="model?.hotel_contributors_param && model?.hotel_contributors_param.length > 0">
                 <div class="col-12">
-                  <div class="row" *ngFor="let contributor of model?.building_contributors_param; let i = index">
+                  <div class="row" *ngFor="let contributor of model?.hotel_contributors_param; let i = index">
                     <div class="col-12">
                       <div class="row">
                         <div class="col-4 offset-8" style="height: 45px;">
@@ -1310,7 +1201,7 @@
                         <div class="col-md-6 col-sm-6 col-12">
                           <div class="form-group-3">
                             <label>{{'addForm.contributor.name' | translate}}</label>
-                            <input [disabled]="!canEditContributionInfo" [(ngModel)]="model?.building_contributors_param[i].name"
+                            <input [disabled]="!canEditContributionInfo" [(ngModel)]="model?.hotel_contributors_param[i].name"
                               class="form-control" type="text" name="{{'contributorName' + i}}"
                               placeholder="{{'addForm.placeholder.developerName' | translate}}">
                           </div>
@@ -1320,14 +1211,14 @@
                             <label>{{'addForm.contributor.phoneNumber' | translate}}</label>
                             <input [disabled]="!canEditContributionInfo" type="text" class="form-control"
                               placeholder="{{'addForm.placeholder.phoneNumber' | translate}}" minlength="1"
-                              [(ngModel)]="model?.building_contributors_param[i].phone" name="{{'contributorPhone' + i}}" ng2TelInput
+                              [(ngModel)]="model?.hotel_contributors_param[i].phone" name="{{'contributorPhone' + i}}" ng2TelInput
                               [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
                           </div>
                         </div>
                         <div class="col-md-6 col-sm-6 col-12">
                           <div class="form-group-3">
                             <label>{{'addForm.contributor.email' | translate}}</label>
-                            <input [disabled]="!canEditContributionInfo" [(ngModel)]="model?.building_contributors_param[i].email"
+                            <input [disabled]="!canEditContributionInfo" [(ngModel)]="model?.hotel_contributors_param[i].email"
                               class="form-control" type="email" name="{{'contributorEmail' + i}}"
                               placeholder="{{'addForm.placeholder.developerEmail' | translate}}"
                               pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" />
@@ -1364,7 +1255,7 @@
                 </div>
               </div>
 
-              <div class="row" *ngFor="let bankAccount of model.parking_space_lots; let s=index">
+              <div class="row" *ngFor="let bankAccount of model.hotel_parking_space_lots; let s=index">
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>{{'addForm.spaces-available' | translate}}{{s+1}}</label>
@@ -1408,14 +1299,14 @@
                   <div class="form-group-3">
                     <label style="color: white;">{{'addForm.saleParking' | translate}}</label>
                     <div class="switchToggle">
-                      <input type="checkbox" id="switch50"(click)="toggleShow($event)" [checked]="model.parking_space_rent && model.parking_space_rent.length">
+                      <input type="checkbox" id="switch50"(click)="toggleShow($event)" [checked]="model.hotel_parking_space_rent && model.hotel_parking_space_rent.length">
                       <label for="switch50">Toggle</label>
                     </div>
                   </div>
                 </div>
               </div>
             <div *ngIf="toggleSelectedDetails.isCreditCardChecked">
-              <div class="row" *ngFor="let rest of model.parking_space_rent; let i=index">
+              <div class="row" *ngFor="let rest of model.hotel_parking_space_rent; let i=index">
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>{{'addForm.spaces-available' | translate}}{{i+1}}</label>
@@ -1449,7 +1340,7 @@
               <div class="row">
                 <div class="col-12">
                   <div class="btn-cont text-right">
-                    <button [disabled]="!f.valid" (click)="addProject()" class="btn-primary btn">{{'addForm.submit' | translate}}</button>
+                    <button [disabled]="!f.valid" (click)="addHotels()" class="btn-primary btn">{{'addForm.submit' | translate}}</button>
                   </div>
                 </div>
               </div>
@@ -1811,9 +1702,6 @@
           <p>{{'addForm.videos' | translate}}</p>
           <div class="uploaded-img" *ngFor="let item of amenVideo.files; let j=index">
             <a class="remove" (click)="remove(j)"><img src="assets/img/remove-icon.png" alt="img"></a>
-            <!-- <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'"
-              src="{{videoSrc}}" class="video{{j}} floor-plan" type="video/mp4" controls></video>
-            <canvas *ngIf="!item?.thumb" width="72" height="72" id="canvas2{{j}}"></canvas> -->
             <img *ngIf="item.thumb" class="u-img" [src]="item.thumb| img:'thumb'" alt="img">
             <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
             <div *ngIf="item.loading" class="loaderr"></div>
