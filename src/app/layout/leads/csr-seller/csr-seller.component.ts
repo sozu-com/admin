@@ -415,4 +415,8 @@ export class CsrSellerComponent implements OnInit {
     this.toastr.warning(this.translate.instant('message.error.SorryYouDoNotHaveThePermissionToGoThere'), this.translate.instant('swal.warning'))
   }
   }
+
+  deletePopup(item){
+    
+  }
 }
