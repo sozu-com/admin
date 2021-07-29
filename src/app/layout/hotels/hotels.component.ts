@@ -184,7 +184,7 @@ export class HotelsComponent implements OnInit {
     if (this.parameter.userType === 'agency') {
       input.agency_id = this.parameter.id;
     }
-    this.admin.postDataApi('projectHome', input).subscribe(
+    this.admin.postDataApi('getHotels', input).subscribe(
       success => {
         //localStorage.setItem('parametersForProject', JSON.stringify(this.parameter));
         this.items = success.data;
@@ -212,7 +212,7 @@ export class HotelsComponent implements OnInit {
     this.aloted_parking = parseInt(project.parking_count || 0) + parseInt(project.parking_sale_count || 0);
     this.total_parking = parseInt(project.parking_for_rent || 0) + parseInt(project.parking_lots || 0);
     this.spinner.show();
-    this.admin.postDataApi('getParkingCount', { building_id: project.id }).subscribe(r => {
+    this.admin.postDataApi('getParkingCount', { hotel_id: project.id }).subscribe(r => {
       this.parking_alots = r.data.assign;
       this.sales_parking_alots = r.data.sale;
       this.spinner.hide();
@@ -401,7 +401,7 @@ export class HotelsComponent implements OnInit {
   }
 
   blockProject(item, flag: number) {
-    this.admin.postDataApi('blockProject', { building_id: item.id, flag: flag })
+    this.admin.postDataApi('blockProject', { hotel_id: item.id, flag: flag })
       .subscribe(
         success => {
           swal(this.translate.instant('swal.success'), this.parameter.successText, 'success');
@@ -418,7 +418,7 @@ export class HotelsComponent implements OnInit {
       return false;
     }
     item.status = status;
-    this.admin.postDataApi('approveProject', { building_id: item.id }).subscribe(r => {
+    this.admin.postDataApi('approveProject', { hotel_id: item.id }).subscribe(r => {
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.projectApprovedSuccessfully'), 'success');
     },
       error => {
@@ -428,7 +428,7 @@ export class HotelsComponent implements OnInit {
 
   rejectProject(status) {
     this.items[this.parameter.index].status = status;
-    this.admin.postDataApi('rejectProject', { building_id: this.parameter.building_id }).subscribe(r => {
+    this.admin.postDataApi('rejectProject', { hotel_id: this.parameter.hotel_id }).subscribe(r => {
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.projectUnapprovedSuccessfully'), 'success');
       this.closeModal();
     },
@@ -449,12 +449,12 @@ export class HotelsComponent implements OnInit {
       confirmButtonText: this.translate.instant('propertyDetail.yes')
     }).then((result) => {
       if (result.value) {
-        this.parameter.building_id = item.id;
+        this.parameter.hotel_id = item.id;
         this.parameter.index = index;
         this.rejectProject(4)
       }
     });
-    // this.parameter.building_id = item.id;
+    // this.parameter.hotel_id = item.id;
     // this.parameter.index = index;
     // this.modalOpen.nativeElement.click();
   }
@@ -510,7 +510,7 @@ export class HotelsComponent implements OnInit {
 
   deleteProject(item: any, index: number) {
     this.admin.postDataApi('deleteProject',
-      { building_id: item.id }).subscribe(r => {
+      { hotel_id: item.id }).subscribe(r => {
         swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
         this.items.splice(index, 1);
         this.total--;
@@ -589,7 +589,7 @@ export class HotelsComponent implements OnInit {
     if (this.parameter.userType === 'agency') {
       input.agency_id = this.parameter.id;
     }
-    this.admin.postDataApi('projectHome', input).subscribe(
+    this.admin.postDataApi('getHotels', input).subscribe(
       success => {
         this.exportfinalData = success['data'];
         this.exportData();
@@ -629,7 +629,7 @@ export class HotelsComponent implements OnInit {
           'Max Carpet Area': parseInt(p.max_carpet_area) || 0,
           'Avg Carpet Area': parseInt(p.avg_carpet_area) || 0,
           'Avg Price List per m2': p.avg_price && p.avg_carpet_area ? p.avg_price / p.avg_carpet_area : 0,
-          'Towers': p.building_towers_count || 0
+          'Towers': p.hotel_towers_count || 0
         });
       }
       this.exportAsExcelFile(exportfinalData, 'projects-');

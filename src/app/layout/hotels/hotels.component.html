@@ -337,10 +337,10 @@
                     <span *ngIf="p?.legal_entity_info?.length == 0">{{'table.tr.td.NA' | translate}}</span>
                 </td>
                  <!-- (click)="viewContributor(p)" -->
-                 <td   *ngIf="selectedColumnsToShow?.contributor" [ngClass]="{'green-color cursor-pointer': p?.building_contributors?.length > 0 }">                   
-                    <span (click)="this.openContributorListModel(p.building_contributors)" *ngIf="p?.building_contributors?.length > 0">
-                    {{p.building_contributors && p.building_contributors.length > 0  ? this.getBuildingContributorsInfo(p.building_contributors) : ('table.tr.td.NA' | translate)}}</span>
-                    <span *ngIf="p?.building_contributors?.length == 0">{{'table.tr.td.NA' | translate}}</span>
+                 <td   *ngIf="selectedColumnsToShow?.contributor" [ngClass]="{'green-color cursor-pointer': p?.hotel_contributors?.length > 0 }">                   
+                    <span (click)="this.openContributorListModel(p.hotel_contributors)" *ngIf="p?.hotel_contributors?.length > 0">
+                    {{p.hotel_contributors && p.hotel_contributors.length > 0  ? this.getBuildingContributorsInfo(p.hotel_contributors) : ('table.tr.td.NA' | translate)}}</span>
+                    <span *ngIf="p?.hotel_contributors?.length == 0">{{'table.tr.td.NA' | translate}}</span>
                 </td>
                 <td   *ngIf="selectedColumnsToShow?.managed_company" [ngClass]="{'green-color cursor-pointer': p?.manager?.id || p?.company?.id}"
                   (click)="viewCompanyManager(p)">
@@ -358,24 +358,25 @@
                     <span  *ngIf="!p?.possession_status_id">{{'table.tr.td.NA' | translate}}</span>
                 </td>
                 <td  *ngIf="selectedColumnsToShow?.parking_lots">
-                  <a class="add1" href="javascript://" (click)="addNote(p)">
+                  <!-- (click)="addNote(p)" -->
+                  <a class="add1" href="javascript://">
                     <span style="color: green;">{{totalParkingCount(p) || '0'}}</span>
                   </a>
                  
                 </td>
                 <td  *ngIf="selectedColumnsToShow?.properties">
                   <a title="{{'table.title.clickToViewProperties' | translate}}" (click)="goWay(p)"><span
-                      class="green-color cursor-pointer">{{p?.properties_count_all | numberWithCommas}}</span></a>
+                      class="green-color cursor-pointer">{{p?.properties_count_all || 0 | numberWithCommas}}</span></a>
                 </td>
                 <td  *ngIf="selectedColumnsToShow?.property_for_rent">
                   <a title="{{'table.title.clickToViewProperties' | translate}}"
                     routerLink="/dashboard/properties/view-properties/{{p.name}}/2"><span
-                      class="green-color">{{p?.rent_count_all | numberWithCommas}}</span></a>
+                      class="green-color">{{p?.rent_count_all || 0 | numberWithCommas}}</span></a>
                 </td>
                 <td  *ngIf="selectedColumnsToShow?.property_for_sale">
                   <a title="{{'table.title.clickToViewProperties' | translate}}"
                     routerLink="/dashboard/properties/view-properties/{{p.name}}/1"><span
-                      class="green-color">{{p?.sale_count_all | numberWithCommas}}</span></a>
+                      class="green-color">{{p?.sale_count_all || 0 | numberWithCommas}}</span></a>
                 </td>
                 <td  *ngIf="selectedColumnsToShow?.list_price"><span>${{ p.avg_price ? (p.avg_price | number : '1.2-2') : 0.00}}</span></td>
                 <td  *ngIf="selectedColumnsToShow?.carpet_area"><span>{{ p.avg_carpet_area ? (p.avg_carpet_area | number : '1.2-2') : 0.00}}</span></td>

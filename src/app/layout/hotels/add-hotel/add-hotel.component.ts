@@ -231,7 +231,7 @@ export class AddHotelComponent implements OnInit {
         let self = this;
         this.canEditdeveloperInfo = false;
         this.spinner.show()
-        this.admin.postDataApi('getProjectById', { hotel_id: this.id }).subscribe(r => {
+        this.admin.postDataApi('getHotelById', { hotel_id: this.id }).subscribe(r => {
           this.spinner.hide();
           this.model = JSON.parse(JSON.stringify(r.data));
           this.model.hotel_parking_space_lots = r.data.hotel_parking_space_lots; 
@@ -1390,7 +1390,7 @@ export class AddHotelComponent implements OnInit {
       modelSave.agency_id = modelSave.agency && modelSave.agency.id ? modelSave.agency.id : null;
       modelSave.legal_entity_id = modelSave.legal_entity && modelSave.legal_entity.id ? modelSave.legal_entity.id : null;
       this.spinner.show();
-      this.admin.postDataApi('updateProject', modelSave).subscribe(success => {
+      this.admin.postDataApi('updateHotel', modelSave).subscribe(success => {
         this.spinner.hide();
         swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
         //sum parking
@@ -1401,11 +1401,9 @@ export class AddHotelComponent implements OnInit {
 
         let sum1: any = 0;
         this.model.hotel_parking_space_rent.forEach(a => sum1 += parseInt(a.no_parking));
-        console.log(sum1, "rent");
         this.parkingRent_sum = sum1
 
         this.both_sum = this.parkinLot_sum + this.parkingRent_sum;
-        console.log(this.both_sum, "view 0");
         //end parking sum
         // set model to avoid duplication creation of project
         this.setProjectModel(success['data']);
@@ -1434,34 +1432,18 @@ export class AddHotelComponent implements OnInit {
   }
 
   file2Select($event) {
-    // if ((this.file2.files.length + $event.target.files.length) > 6) {
-    //   swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
-    //   return false;
-    // }
     this.file2.onSelectFile($event);
   }
 
   file4Select($event) {
-    // if ((this.file4.files.length + $event.target.files.length) > 6) {
-    //   swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
-    //   return false;
-    // }
     this.file4.onSelectFile($event);
   }
 
   config360ImgSelect($event) {
-    // if ((this.file4.files.length + $event.target.files.length) > 6) {
-    //   swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
-    //   return false;
-    // }
     this.config360Img.onSelectFile($event);
   }
 
   configVideosSelect($event) {
-    // if ((this.file4.files.length + $event.target.files.length) > 6) {
-    //   swal('Limit exceeded', 'You can upload maximum of 6 images', 'error');
-    //   return false;
-    // }
     this.configVideo.onSelectFile($event);
   }
 
@@ -1592,21 +1574,6 @@ export class AddHotelComponent implements OnInit {
 
   addDeveloper() {
     this.router.navigate(['/dashboard/developers/add-developer/0']);
-    // this.canEditdeveloperInfo = true;
-    // this.model.developer = {
-    //   id: '',
-    //   name: '',
-    //   email: '',
-    //   country_code: this.constant.country_code,
-    //   dial_code: this.constant.dial_code,
-    //   phone: '',
-    //   logo: '',
-    //   image: '',
-    //   developer_image: ''
-    // };
-    // this.file5.image = '';
-    // this.file6.image = '';
-    // this.closeDeveloperListModel.nativeElement.click();
   }
 
   setDeveloper(item) {
@@ -1646,9 +1613,6 @@ export class AddHotelComponent implements OnInit {
 
 
   addNewTower() {
-    // if (this.model.building_tower_edit_index) {
-    //   swal('First save the previous editted tower.');
-    // }
     if (!this.newTower.tower_name) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterTowerName'), 'error');
       return false;
@@ -1662,18 +1626,7 @@ export class AddHotelComponent implements OnInit {
       return false;
     }
 
-    // if (!this.newTower.possession_status_id) {
-    //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChoosePossessionStatus'), 'error');
-    //   return false;
-    // }
-
-    // launch date to be mandatory possession_status == presale
-    // if (this.newTower.possession_status_id &&
-    //   (this.newTower.possession_status_id.toString() === this.apiConstants.possession_status_id) &&
-    //   !this.newTower.launch_date) {
-    //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLaunchDate'), 'error');
-    //   return false;
-    // }
+    
     const tempAmen = JSON.parse(JSON.stringify(this.allTowerAmenities));
     this.selectedTowerAmenitiesId = tempAmen.filter(op => {
       if (op.selected === true) {
@@ -2261,13 +2214,7 @@ export class AddHotelComponent implements OnInit {
       if (iterator.possession_status_id == null || iterator.possession_status_id == '') {
         result = false;
         break;
-      }
-      // if (iterator.amenitiesCount == 0 || iterator.launch_date == null ||
-      //   iterator.launch_date == '' || iterator.possession_status_id == null ||
-      //   iterator.possession_status_id == '') {
-      //   result = false;
-      //   break;
-      // }    
+      }    
     }
     return result;
   }
