@@ -518,7 +518,7 @@
                                     {{item.draft_count}}
                                 </td> -->
                                 <td >
-                                    <button [disabled]="admin?.admin_acl['Manual Leads']?.can_delete==0"
+                                    <button [disabled]="admin?.admin_acl['Seller Management']?.can_delete==0"
                                     (click)="deletePopup(item)" class="action-icon"
                                     title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png"
                                     alt="img"></button>
