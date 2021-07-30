@@ -31,6 +31,7 @@ export class ArrearReportComponent implements OnInit {
     above_90: 0,
     above_60: 0
   };
+  arrearData:any;
   colorScheme = {
     domain: ['#DFDFDF','#4c4e50','#DE2400','#03b971']
   };
@@ -228,6 +229,7 @@ export class ArrearReportComponent implements OnInit {
     this.getAllPaymentChoices();
     this.getListing();
     this.generateOverdueReport();
+    this.generateArrearReport();
     Object.assign(this, this.chartView);
     this.translate.onDefaultLangChange.subscribe((event: LangChangeEvent) => {
       this.initCalendarLocale();
@@ -497,12 +499,14 @@ export class ArrearReportComponent implements OnInit {
     this.getListing();
     this.generateOverdueReport();
     this.generateTableReport();
+    this.generateArrearReport();
   }
 
   apply(){
     this.getListing();
     this.generateOverdueReport(); 
     this.generateTableReport();
+    this.generateArrearReport();
   }
 
   exportData() {
@@ -567,6 +571,64 @@ export class ArrearReportComponent implements OnInit {
     FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
   }
 
+  generateArrearReport(){
+    this.spinner.show();
+    const input: any = JSON.parse(JSON.stringify(this.input));
+    input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
+    input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
+    input.year = new Date(this.input.end_date).getFullYear(),
+      input.month = new Date(this.input.end_date).getMonth() + 1;
+
+    this.previousMonth = moment(this.input.end_date).subtract(1, 'months').toDate();
+    this.nextMonth = moment(this.input.end_date).add(1, 'months').toDate();
+
+    if (this.selctedProjects) {
+      const d = this.selctedProjects.map(o => o.id);
+      input.building_id = d;
+    }
+    if (this.selectedCurrencies) {
+      const d = this.selectedCurrencies.map(o => o.id);
+      input.currency_id = d;
+    }
+    if (this.selectedBuyers) {
+      const d = this.selectedBuyers.map(o => o.id);
+      input.buyer_id = d;
+    }
+    if (this.selectedLegalReps) {
+      const d = this.selectedLegalReps.map(o => o.id);
+      input.legal_rep_id = d;
+    }
+    if (this.selectedBuyerDev) {
+      const d = this.selectedBuyerDev.map(o => o.id);
+      input.buyer_dev_id = d;
+    }
+    this.isShow = false;
+    this.admin.postDataApi('arrearOverdueReport', input).subscribe(r => {
+      this.spinner.hide();
+      this.arrearData  = r.data;
+      // this.chartView = [
+      //   {
+      //     'name': '61-90',
+      //     'value': parseFloat(this.dash.above_60)
+      //   },
+      //   {
+      //     'name': '31-60',
+      //     'value': parseFloat(this.dash.below_60)
+      //   },
+      //   {
+      //     'name': '91+',
+      //     'value': parseFloat(this.dash.above_90)
+      //   },
+      //   {
+      //     'name': '1-30',
+      //     'value': parseFloat(this.dash.below_30)
+      //   }
+      // ];
+    }, (error) => {
+      this.spinner.hide();
+    });
+  }
+  
   generateOverdueReport() {
     this.spinner.show();
     const input: any = JSON.parse(JSON.stringify(this.input));
