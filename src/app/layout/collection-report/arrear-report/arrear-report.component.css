@@ -87,3 +87,13 @@
     margin-left: 1px;
 }
 }
+input[type=checkbox] {
+  vertical-align: middle;
+  border-color: #00B96F;
+  position: relative;
+  bottom: 1px;
+}
+
+label {
+  display: block;
+}

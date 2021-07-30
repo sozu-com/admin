@@ -35,6 +35,7 @@ export class ArrearReportComponent implements OnInit {
     domain: ['#DFDFDF','#4c4e50','#DE2400','#03b971']
   };
   view: any[] = [250, 250];
+  views: any[] = [1300, 250];
   total: any = 0;
   today: any;
   item: any;
@@ -66,6 +67,140 @@ export class ArrearReportComponent implements OnInit {
   overdueReportTableDetails: any;
   public isShow :boolean= true;
   tested: any;
+  reportData = [
+    {
+      "name": "above_60",
+      "series": [
+        {
+          "name": "July",
+          "value": 13
+        },
+        {
+          "name": "Aug",
+          "value": 14
+        },
+        {
+          "name": "Sep",
+          "value": 35
+        },
+        {
+          "name": "Oct",
+          "value": 4
+        },
+        {
+          "name": "Nov",
+          "value": 17
+        },
+        {
+          "name": "Dec",
+          "value": 14
+        },
+        {
+          "name": "Jan",
+          "value": 35
+        }
+      ]
+    },
+    {
+      "name": "below_60",
+      "series": [
+        {
+          "name": "July",
+          "value": 656
+        },
+        {
+          "name": "Aug",
+          "value": 514
+        },
+        {
+          "name": "Sep",
+          "value": 335
+        },
+        {
+          "name": "Oct",
+          "value": 466
+        },
+        {
+          "name": "Nov",
+          "value": 173
+        },
+        {
+          "name": "Dec",
+          "value": 140
+        },
+        {
+          "name": "Jan",
+          "value": 35
+        }
+      ]
+    },
+    {
+      "name": "above_90",
+      "series": [
+        {
+          "name": "July",
+          "value": 553
+        },
+        {
+          "name": "Aug",
+          "value": 364
+        },
+        {
+          "name": "Sep",
+          "value": 412
+        },
+        {
+          "name": "Oct",
+          "value": 437
+        },
+        {
+          "name": "Nov",
+          "value": 437
+        },
+        {
+          "name": "Dec",
+          "value": 364
+        },
+        {
+          "name": "Jan",
+          "value": 412
+        }
+      ]
+    },
+    {
+      "name": "below_30",
+      "series": [
+        {
+          "name": "July",
+          "value": 123
+        },
+        {
+          "name": "Aug",
+          "value": 168
+        },
+        {
+          "name": "Sep",
+          "value": 343
+        },
+        {
+          "name": "Oct",
+          "value": 512
+        },
+        {
+          "name": "Nov",
+          "value": 291
+        },
+        {
+          "name": "Dec",
+          "value": 168
+        },
+        {
+          "name": "Jan",
+          "value": 343
+        },
+      ]
+    },
+  ]
   constructor(
     public constant: Constant,
     public admin: AdminService,

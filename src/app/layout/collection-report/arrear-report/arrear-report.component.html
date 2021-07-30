@@ -422,7 +422,7 @@
                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12" style="margin-top: 12px;">
                                           <div class="row">
                                                 <div class="col-lg-1 col-md-3 col-sm-12 col-12">
-                                                     
+
                                                 </div>
                                                 <div class="col-lg-3 col-md-3 col-sm-12 col-12">
                                                       <p style="height: 13.38px;    
@@ -430,7 +430,8 @@
                                                       font-family: 'sf_ui_textlight';
                                                       font-size: 12px;
                                                       font-weight: 300;
-                                                      line-height: 14px;">{{'filters.commisionType.days' | translate}}</p>
+                                                      line-height: 14px;">{{'filters.commisionType.days' | translate}}
+                                                      </p>
                                                 </div>
                                                 <div class="col-lg-3 col-md-4 col-sm-12 col-12">
                                                       <p style="height: 13.38px;
@@ -439,7 +440,8 @@
                                                       font-size: 12px;
                                                       font-weight: 300;
                                                       line-height: 14px;
-                                                      text-align: center;">{{'filters.commisionType.amount' | translate}}</p>
+                                                      text-align: center;">{{'filters.commisionType.amount' |
+                                                            translate}}</p>
                                                 </div>
                                                 <div class="col-lg-3 col-md-4 col-sm-12 col-12">
                                                       <p style="height: 13.38px;
@@ -448,7 +450,7 @@
                                                       font-size: 12px;
                                                       font-weight: 300;
                                                       line-height: 14px;">%</p>
-                                                </div>      
+                                                </div>
                                           </div>
                                           <div class="row">
                                                 <div class="col-lg-1 col-md-3 col-sm-12 col-12">
@@ -457,15 +459,16 @@
                                                 </div>
                                                 <div class="col-lg-3 col-md-3 col-sm-12 col-12">
                                                       <p style="font-size: 14px;width: 58px;">
-                                                      1-30</p>
+                                                            1-30</p>
                                                 </div>
                                                 <div class="col-lg-3 col-md-4 col-sm-12 col-12">
                                                       <p style="font-size: 14px;
                                                       width: 80px;">${{(dash?.below_30 || 0) | number: '1.0-0'}} </p>
                                                 </div>
                                                 <div class="col-lg-3 col-md-4 col-sm-12 col-12">
-                                                      <p>{{((dash?.below_30 || 0) / (dash?.Total || 0) * 100) | roundNumber}}</p>
-                                                </div>      
+                                                      <p>{{((dash?.below_30 || 0) / (dash?.Total || 0) * 100) |
+                                                            roundNumber}}</p>
+                                                </div>
                                           </div>
                                           <div class="row">
                                                 <div class="col-lg-1 col-md-3 col-sm-12 col-12">
@@ -474,15 +477,17 @@
                                                 </div>
                                                 <div class="col-lg-3 col-md-3 col-sm-12 col-12">
                                                       <p style="font-size: 14px;width: 58px;">
-                                                      31-60</p>
+                                                            31-60</p>
                                                 </div>
                                                 <div class="col-lg-3 col-md-4 col-sm-12 col-12">
                                                       <p style="font-size: 14px;
-                                                         width: 80px;">${{(dash?.below_60 || 0) | number: '1.0-0'}} </p>
+                                                         width: 80px;">${{(dash?.below_60 || 0) | number: '1.0-0'}}
+                                                      </p>
                                                 </div>
                                                 <div class="col-lg-3 col-md-4 col-sm-12 col-12">
-                                                      <p>{{((dash?.below_60 || 0) / (dash?.Total || 0) * 100) | roundNumber}}</p>
-                                                </div>      
+                                                      <p>{{((dash?.below_60 || 0) / (dash?.Total || 0) * 100) |
+                                                            roundNumber}}</p>
+                                                </div>
                                           </div>
                                           <div class="row">
                                                 <div class="col-lg-1 col-md-3 col-sm-12 col-12">
@@ -491,15 +496,17 @@
                                                 </div>
                                                 <div class="col-lg-3 col-md-3 col-sm-12 col-12">
                                                       <p style="font-size: 14px;width: 58px;">
-                                                       61-90</p>
+                                                            61-90</p>
                                                 </div>
                                                 <div class="col-lg-3 col-md-4 col-sm-12 col-12">
                                                       <p style="font-size: 14px;
-                                                         width: 70px;">${{(dash?.above_60 || 0) | number: '1.0-0'}} </p>
+                                                         width: 70px;">${{(dash?.above_60 || 0) | number: '1.0-0'}}
+                                                      </p>
                                                 </div>
                                                 <div class="col-lg-3 col-md-4 col-sm-12 col-12">
-                                                      <p>{{((dash?.above_60 || 0) / (dash?.Total || 0) * 100) | roundNumber}}</p>
-                                                </div>      
+                                                      <p>{{((dash?.above_60 || 0) / (dash?.Total || 0) * 100) |
+                                                            roundNumber}}</p>
+                                                </div>
                                           </div>
                                           <div class="row">
                                                 <div class="col-lg-1 col-md-3 col-sm-12 col-12">
@@ -508,14 +515,16 @@
                                                 </div>
                                                 <div class="col-lg-3 col-md-3 col-sm-12 col-12">
                                                       <p style="font-size: 14px;width: 58px;">
-                                                       91+</p>
+                                                            91+</p>
                                                 </div>
                                                 <div class="col-lg-3 col-md-4 col-sm-12 col-12">
-                                                      <p style="font-size: 14px;width: 80px;">${{(dash?.above_90 || 0) | number: '1.0-0'}} </p>
+                                                      <p style="font-size: 14px;width: 80px;">${{(dash?.above_90 || 0) |
+                                                            number: '1.0-0'}} </p>
                                                 </div>
                                                 <div class="col-lg-3 col-md-4 col-sm-12 col-12">
-                                                      <p>{{((dash?.above_90 || 0) / (dash?.Total || 0) * 100) | roundNumber}}</p>
-                                                </div>      
+                                                      <p>{{((dash?.above_90 || 0) / (dash?.Total || 0) * 100) |
+                                                            roundNumber}}</p>
+                                                </div>
                                           </div>
                                     </div>
                               </div>
@@ -572,4 +581,120 @@
                         </div>
                   </div>
             </div>
+            <br />
+            <div class="card" style="padding: 18px;">
+                  <b style="    font-size: 12px;
+                  font-weight: 600;
+                  line-height: 14px;
+                  color: #3E3E3E;font-family: 'sf_ui_textregular';">Arrear historical:</b>
+                  <div class="row">
+                        <div class="col-lg-10 col-md-6 col-sm-12 col-12">
+                              <ngx-charts-line-chart [results]="reportData" [xAxis]="true" [scheme]="colorScheme"
+                                    [showGridLines]="true" [view]="views"   [yAxis]="true">
+                              </ngx-charts-line-chart>
+                        </div>
+                        <div class="col-lg-2 col-md-6 col-sm-12 col-12">
+                              <div class="card" style="width: 150px;
+                              float: right;
+                              height: 233px;">
+                              <p style="color: #828282;text-align: center;">Arrear category</p>
+
+                              <div class="card" style="margin-top: -8px;
+                              margin-left: 12px;
+                              margin-right: 12px;">
+                                    <form style="padding: 8px;">
+                                          <label>
+                                                <input type="checkbox">
+                                                Select all
+                                          </label>
+
+                                          <label>
+                                                <input type="checkbox">
+                                                Total arrear
+                                          </label>
+
+                                          <label>
+                                                <input type="checkbox">
+                                                1-30
+                                          </label>
+
+                                          <label>
+                                                <input type="checkbox">
+                                                31-60
+                                          </label>
+
+                                          <label>
+                                                <input type="checkbox">
+                                                61-90
+                                          </label>
+
+                                          <label>
+                                                <input type="checkbox">
+                                                +90
+                                          </label>
+                                    </form>
+                              </div>
+                        </div>
+                        </div>
+                  </div>
+                  <br />
+                  <div class="row" style="margin-left: 12%;">
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-12">
+                              <div class="row">
+                                    <div class="col-lg-1 col-md-1 col-sm-12 col-12">
+                                          <p style="background-color:#03B971;height: 13.38px;width: 26.55px;"></p>
+                                    </div>&nbsp;
+                                    <div class="col-lg-1 col-md-1 col-sm-12 col-12">
+                                          <p style="font-size: 12px;width: 58px;margin-top: -2px;">
+                                                1-30</p>
+                                    </div>
+                              </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-12">
+                              <div class="row">
+                                    <div class="col-lg-1 col-md-1 col-sm-12 col-12">
+                                          <p style="background-color:#4c4e50;height: 13.38px;width: 26.55px;"></p>
+                                    </div>&nbsp;
+                                    <div class="col-lg-1 col-md-1 col-sm-12 col-12">
+                                          <p style="font-size: 12px;width: 58px;margin-top: -2px;">
+                                                31-61</p>
+                                    </div>
+                              </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-12">
+                              <div class="row">
+                                    <div class="col-lg-1 col-md-1 col-sm-12 col-12">
+                                          <p style="background-color:#DFDFDF;height: 13.38px;width: 26.55px;" title=""></p>
+                                    </div>&nbsp;
+                                    <div class="col-lg-1 col-md-1 col-sm-12 col-12">
+                                          <p style="font-size: 12px;width: 58px;margin-top: -2px;">
+                                                61-90</p>
+                                    </div>
+                              </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-12">
+                              <div class="row">
+                                    <div class="col-lg-1 col-md-1 col-sm-12 col-12">
+                                          <p style="background-color:#DE2400;height: 13.38px;width: 26.55px;"></p>
+                                    </div>&nbsp;
+                                    <div class="col-lg-1 col-md-1 col-sm-12 col-12">
+                                          <p style="font-size: 12px;width: 58px;margin-top: -2px;">
+                                                91+</p>
+                                    </div>
+                              </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-12">
+                              <div class="row">
+                                    <div class="col-lg-1 col-md-1 col-sm-12 col-12">
+                                          <p style="background-color:#DEA000;height: 13.38px;width: 26.55px;"></p>
+                                    </div>&nbsp;
+                                    <div class="col-lg-3 col-md-1 col-sm-12 col-12">
+                                          <p style="font-size: 12px;width: 58px;white-space: nowrap;margin-top: -2px;">
+                                                Total arrear</p>
+                                    </div>
+                              </div>
+                        </div>
+                  </div>
+            </div>
+
       </div>
