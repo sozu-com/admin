@@ -318,11 +318,11 @@ export class CsrSellerComponent implements OnInit {
   }
 
   sort_by(sort_by_flag) {
-    if (this.parameter.sort_by_flag !== sort_by_flag) {
-      this.parameter.sort_by_flag = sort_by_flag;
-      this.parameter.sort_by_order = 0;
+    if (this.parameter.sort_by !== sort_by_flag) {
+      this.parameter.sort_by = sort_by_flag;
+      this.parameter.sort_by_date = 0;
     } else {
-      this.parameter.sort_by_order = this.parameter.sort_by_order ? 0 : 1;
+      this.parameter.sort_by_date = this.parameter.sort_by_date ? 0 : 1;
     }
     this.getListing();
   }
@@ -452,4 +452,5 @@ export class CsrSellerComponent implements OnInit {
         swal(this.translate.instant('swal.error'), error.message, 'error');
       });
   }
+
 }

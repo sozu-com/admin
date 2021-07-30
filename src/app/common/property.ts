@@ -240,6 +240,7 @@ export interface IProperty {
   status_id?: any;
   agent_text?: any;
   broker_text?:any;
+  sort_by_date?:any;
 }
 export class Docs {
   id: string;
