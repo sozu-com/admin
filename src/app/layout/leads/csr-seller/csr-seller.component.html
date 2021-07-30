@@ -280,7 +280,11 @@
                                     </div>
                                 </th>
                                 <th style="width:9%">
-                                    <div class="table-search"><label>{{'table.th.lead_date' | translate}}</label></div>
+                                    <div class="table-search" (click)="sort_by(1)" style="display: inline-flex;">
+                                        <label>{{'table.th.lead_date' | translate}}</label>
+                                        <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by_date==1}"
+                                            src="assets/img/top-arrow.png" alt="img"></a>
+                                    </div>
                                 </th>
                                 <th style="width:6%;">
                                     <div class="table-search">
@@ -454,7 +458,7 @@
                                     <!-- <i class="fa" [ngClass]="item.selected?'fa-check-square-o':'fa-square-o'" (click)="item.selected = !item.selected" aria-hidden="true"></i> -->
                                 </td>
                                 <td>
-                                    <span class="name" *ngIf="item.created_at">{{item.updated_at | date}}</span>
+                                    <span class="name" *ngIf="item.created_at">{{item.created_at | date}}</span>
                                 </td>
                                 <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}">
                                     <img class="rounded-circle" *ngIf="item.image"
