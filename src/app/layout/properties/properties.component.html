@@ -459,7 +459,7 @@
                               </select>
                            </div>
                         </th>
-                        <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.is_published"
+                        <!-- <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.is_published"
                         style="width:5%;vertical-align:top;">
                         <div class="table-search">
                            <label>{{'table.th.published' | translate}}</label>
@@ -470,7 +470,7 @@
                               <option value="2">{{'table.th.no' | translate}}</option>
                            </select>
                         </div>
-                     </th>
+                     </th> -->
                         <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.possession_status"
                            style="width:5%;vertical-align:top;">
                            <div class="table-search">
@@ -682,9 +682,9 @@
                               <td *ngIf="selectedPropertyColumnsToShow?.commercialized_sozu"><span>{{p?.is_commercialized ? (
                                  'table.th.yes' | translate ): ( 'table.th.no' | translate )
                                  }}</span></td>
-                        <td *ngIf="selectedPropertyColumnsToShow?.is_published"><span>{{p?.is_published ? (
+                        <!-- <td *ngIf="selectedPropertyColumnsToShow?.is_published"><span>{{p?.is_published ? (
                               'table.th.yes' | translate ): ( 'table.th.no' | translate )
-                              }}</span></td>
+                              }}</span></td> -->
                               
                         <td *ngIf="selectedPropertyColumnsToShow?.possession_status">
                            <span>{{p?.building_towers?.possession_status_id == apiConstant.possessionStatus.sale ?
