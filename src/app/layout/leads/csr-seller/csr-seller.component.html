@@ -229,7 +229,7 @@
             </div>
             <div class="col-lg-4 col-md-12 col-sm-12 col-12">
                 <div class="chat-msg all-leads" style="padding:0px">
-                    <div class="padding20" *ngIf="dash.lead_total == 0">{{'message.error.noRecordFound' | translate}}
+                    <div class="padding20" *ngIf="dash?.lead_total == 0">{{'message.error.noRecordFound' | translate}}
                     </div>
                     <ngx-charts-pie-chart [results]="chartView"></ngx-charts-pie-chart>
                 </div>

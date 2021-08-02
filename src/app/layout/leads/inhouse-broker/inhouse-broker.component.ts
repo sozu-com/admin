@@ -371,7 +371,7 @@ export class InhouseBrokerComponent implements OnInit {
 
   bulkAssign() {
     // this.assign.keyword = '';
-    if((this.user.data.permissions.can_in_house_broker == 1 || this.user.data.permissions.can_csr_coordinator == 1) && this.user.data.user_type == 2){
+    if(((this.user.data.permissions.can_in_house_broker == 1 || this.user.data.permissions.can_csr_coordinator == 1) && this.user.data.user_type == 2) || this.user.data.admin_acl['Buyer Management'].can_update == 1){
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     if (leads_ids.length === 0) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAtleast1Lead'), 'error');
