@@ -327,14 +327,18 @@
     "developerDetails": "Detalles del desarrollador (opcional)",
     "buildingAge": "Edad de construcción (en años)",
     "numOfProperties": "No. de propiedades",
+    "numOfRooms": "Número de habitaciones",
     "pdfDocument": "Documento PDF",
     "buildingType": {
       "label": "Tipo de construcción",
-      "chooseType": "Seleccione tipo de edificio"
+      "chooseType": "Seleccione tipo de edificio",
+      "labelHotel": "Tipo de hotel",
+      "chooseHotel": "Elija el tipo de hotel"
     },
     "possessionStatus": {
       "label": "Estatus de posesión",
-      "selectStatus": "Seleccionar estatus"
+      "selectStatus": "Seleccionar estatus",
+      "labelStatus": "Estado del hotel"
     },
     "launchDate": "Fecha de lanzamiento",
     "enterCustomParameterandValue": "Ingrese el parámetro personalizado y el valor",
@@ -376,6 +380,7 @@
     "unit": "Unidad",
     "units": "Unidades",
     "preferableBuyers": {
+      "labelGuests": "Invitadas preferibles",
       "label": "Compradores preferibles",
       "maritalStatus": "Estado civil",
       "maritalStatus1": "Estado civil",
@@ -398,6 +403,7 @@
       "name": "Nombre de la torre",
       "numberofFloors": "Número de pisos",
       "numOfProperties": "No. de propiedades",
+      "numOfRooms": "Número de habitaciones",
       "possessionStatus": "Estatus de posesión",
       "tower": "Torre",
       "noAmenityAdded": "Ninguna amenidad agredada para esta torre."
@@ -527,6 +533,7 @@
       "createDraft": "Crear borrador",
       "additionalInfo": "Información adicional",
       "PreferableBuyers": "Compradores preferidos",
+      "labelGuests": "Invitadas preferibles",
       "Custom": "Personalizar",
       "takeImagesFromConfiguration":"Tomar imágenes de la configuración"
     },
@@ -606,6 +613,7 @@
       "searchForLocation": "Buscar ubicación",
       "buildingAge": "Edad del edificio",
       "numOfProperties": "No. de propiedades",
+      "numOfRooms": "Número de habitaciones",
       "projectDescription": "Ingresar descripción del proyecto",
       "launchDate": "Fecha de lanzamiento",
       "parameterName": "Parámetro nombre",
@@ -661,10 +669,22 @@
       "projectPossessionStatusEs": "Project possession Estatus de la entrega del proyecto (Español)",
       "projectTypeEn": "Tipo de proyecto (Inglés)",
       "projectTypeEs": "Tipo de proyecto (Español)",
+
+      "hotelAmenityEn": "Nombre de la amenidad del hotel (Inglés)",
+      "hotelAmenityEs": "Nombre de la amenidad del hotel (español)",
+      "hotelPossessionStatusEn": "Estatus de la entrega (Inglés)",
+      "hotelPossessionStatusEs": "hotel possession Estatus de la entrega del hotel (Español)",
+      "hotelTypeEn": "Tipo de hotel (Inglés)",
+      "hotelTypeEs": "Tipo de hotel (Español)",
+
       "propertyTypeEn": "Nombre del tipo de departamento (Inglés)",
       "propertyTypeEs": "Nombre del tipo de departamento (Español)",
+      "roomTypeEn": "Nombre del tipo de habitación (inglés)",
+      "roomTypeEs": "Nombre del tipo de habitación (español)",
       "propertyConfigEn": "Configuración del departamento (Inglés)",
       "propertyConfigEs": "Configuración del departamento (Español)",
+      "roomConfigEn": "Configuración de la habitación (inglés)",
+      "roomConfigEs": "Configuración de la habitación (español)",
       "bedrooms": "Dormitorios",
       "bathrooms": "Baños",
       "halfBathrooms": "Medios baños",
@@ -1194,12 +1214,16 @@
       "noLocationFound": "¡Localidad no encontrada!",
       "noLocalityFound": "¡País no encontrado!",
       "noPropertyConfigFound": "¡Configuración del departamento no encontrado!",
+      "noRoomConfigFound": "¡No se encontró ninguna configuración de sala!",
       "noPropertyTypeFound": "¡Tipo de propiedad no encontrado!",
       "noAmenityFound": "¡Amenidad no encontrada!",
+      "nohotelAmenityFound": "¡Amenidad no encontrada!",
       "noDocumentFound": "Documento no agregado todavía",
       "noPossessionFound": "¡Estatus de la fecha de entrega no encontrado!",
       "noProjectTypeFound": "¡Tipo de proyecto no encontrado!",
       "noProjectAmenityFound": "¡Amenidad no encontrada!",
+      "noHotelTypeFound": "¡Tipo de hotel no encontrado!",
+      "noHotelAmenityFound": "¡Amenidad no encontrada!",
       "noUserFound": "¡Usuario no encontrado!",
       "noInterstedPropertyFound": "¡Ningún interés agregado por el usuario!",
       "noViewedPropertyFound": "Ninguna propiedad vista por el usuario..",
@@ -1930,6 +1954,19 @@
     "projectType": "Tipo de proyecto",
     "parkingLotSpaces": "Tipos de estacionamientos"
   },
+  "hotel": {
+    "label": "Hotel",
+    "possessionStatus": "Estatus del proyecto",
+    "possessionStatusEn": "Estatus de la fecha de entrega (Inglés)",
+    "possessionStatusEs": "Estatus de la fecha de entrega (Español)",
+    "editAmenity": "Editar amenidad",
+    "editPropertyType": "Editar tipo de hotel",
+    "editPropertyConfig": "Editar la configuración del departamento",
+    "amenities": "Amenidades",
+    "browse": "Buscar",
+    "hotelType": "Tipo de hotel",
+    "parkingLotSpaces": "Tipos de estacionamientos"
+  },
   "property": {
     "label": "Property",
     "propertyConfiguration": "Configuración del departamento",
@@ -1942,6 +1979,19 @@
     "amenities": "Amenidades",
     "browse": "Navegar",
     "propertyType": "Tipo de departamento"
+  },
+  "room": {
+    "label": "Habitación",
+    "roomConfiguration": "Configuración de la habitación",
+    "possessionStatusEn": "Estatus de la fecha de entrega (Inglés)",
+    "possessionStatusEs": "Estatus de la fecha de entrega (Español)",
+    "editAmenity": "Editar amenidad",
+    "editRoomType": "Editar tipo de habitación",
+    "editRoomConfig": "Editar la configuración de la sala",
+    "addRoomConfig": "Agregar configuración de sala",
+    "amenities": "Amenities",
+    "browse": "Browse",
+    "roomType": "Tipo de habitación"
   },
   "sidebar": {
     "profile": "Perfil",
@@ -2013,6 +2063,8 @@
     "locality": "Localidad",
     "property": "Departamento",
     "project": "Proyecto",
+    "hotel": "Hotel",
+    "room": "Habitaciones",
     "defaultSettings": "Configuración por defecto",
     "documentListing": "Listado de documentos",
     "manageCredits" : "Gestionar créditos",

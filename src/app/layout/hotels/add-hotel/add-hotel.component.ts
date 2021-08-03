@@ -311,7 +311,7 @@ export class AddHotelComponent implements OnInit {
           this.file5.image = this.model.developer.image;
           this.file6.image = this.model.developer.developer_image;
           let lang = localStorage.getItem('language_code');
-          this.admin.postDataApi('getAmenities', { hide_blocked: 1, language: lang == 'en'? 1 : 2}).subscribe(res => {
+          this.admin.postDataApi('getHotelAmenities', { hide_blocked: 1, language: lang == 'en'? 1 : 2}).subscribe(res => {
             this.all_amenities = res.data.map(item => {
               item.selected = false;
               item.images = [];
@@ -408,7 +408,7 @@ export class AddHotelComponent implements OnInit {
           this.file5.image = this.model.developer.image;
           this.file6.image = this.model.developer.developer_image;
           let lang = localStorage.getItem('language_code');
-          this.admin.postDataApi('getAmenities', { hide_blocked: 1, language: lang == 'en'? 1 : 2 }).subscribe(res => {
+          this.admin.postDataApi('getHotelAmenities', { hide_blocked: 1, language: lang == 'en'? 1 : 2 }).subscribe(res => {
             this.all_amenities = res.data.map(item => {
               item.selected = false;
               item.images = [];
@@ -474,7 +474,7 @@ export class AddHotelComponent implements OnInit {
         this.canEditdeveloperInfo = true;
         this.canEditContributionInfo = true;
         let lang = localStorage.getItem('language_code');
-        this.admin.postDataApi('getAmenities', { hide_blocked: 1, language: lang == 'en'? 1 : 2 }).subscribe(res => {
+        this.admin.postDataApi('getHotelAmenities', { hide_blocked: 1, language: lang == 'en'? 1 : 2 }).subscribe(res => {
           this.all_amenities = res.data.map(item => {
             item.selected = false;
             item.images = [];
@@ -499,14 +499,14 @@ export class AddHotelComponent implements OnInit {
     this.setCurrentPosition();
     this.getCountries('');
     this.initForm();
-    this.admin.postDataApi('getPossessionStatuses', { hide_blocked: 1 }).subscribe(r => {
+    this.admin.postDataApi('getHotelPossessionStatuses', { hide_blocked: 1 }).subscribe(r => {
       this.all_possession_statuses = r.data;
     });
-    this.admin.postDataApi('getBuildingTypes', { hide_blocked: 1 }).subscribe(r => {
+    this.admin.postDataApi('getHotelType', { hide_blocked: 1 }).subscribe(r => {
       this.all_building_types = r.data;
     });
 
-    this.admin.postDataApi('getConfigurations', { hide_blocked: 1 }).subscribe(r => {
+    this.admin.postDataApi('getRoomConfigurations', { hide_blocked: 1 }).subscribe(r => {
       this.all_configurations = r.data;
     });
   }
@@ -606,7 +606,7 @@ export class AddHotelComponent implements OnInit {
     let lang = localStorage.getItem('language_code');
     const input = { keyword: '', hide_blocked: 1, language: lang == 'en'? 1 : 2 };
     input.keyword = this.amenitiesKeyword;
-    this.admin.postDataApi('getAmenities', input).subscribe(res => {
+    this.admin.postDataApi('getHotelAmenities', input).subscribe(res => {
       // this.all_amenities = res.data.map(item => { item.selected = false; item.images = []; return item; });
       this.spinner.hide();
       switch (index) {
@@ -1511,7 +1511,7 @@ export class AddHotelComponent implements OnInit {
       this.setCountryToLocality(data['locality']);
     }
     let lang = localStorage.getItem('language_code');
-    this.admin.postDataApi('getAmenities', { hide_blocked: 1, language: lang == 'en'? 1 : 2 }).subscribe(res => {
+    this.admin.postDataApi('getHotelAmenities', { hide_blocked: 1, language: lang == 'en'? 1 : 2 }).subscribe(res => {
       this.all_amenities = res.data.map(item => {
         item.selected = false;
         item.images = [];

@@ -328,14 +328,18 @@
     "developerDetails": "Developer Details (optional)",
     "buildingAge": "Building Age (in yrs)",
     "numOfProperties": "No. of properties",
+    "numORooms": "No. of rooms",
     "pdfDocument": "PDF Document",
     "buildingType": {
       "label": "Building Type",
-      "chooseType": "Choose Building type"
+      "chooseType": "Choose Building type",
+      "labelHotel": "Hotel Type",
+      "chooseHotel": "Choose Hotel type"
     },
     "possessionStatus": {
       "label": "Possession Status",
-      "selectStatus": "Select status"
+      "selectStatus": "Select status",
+      "labelStatus": "Hotel Status"
     },
     "launchDate": "Launch Date",
     "enterCustomParameterandValue": "Enter Custom Parameter and Value",
@@ -378,6 +382,7 @@
     "units": "Units",
     "preferableBuyers": {
       "label": "Preferable Buyers",
+      "labelGuests": "Preferable Guests",
       "maritalStatus": "Marital Status?",
       "maritalStatus1": "Marital Status",
       "petsAllowed": "Pets Allowed?",
@@ -399,6 +404,7 @@
       "name": "Name of the Tower",
       "numberofFloors": "Number of Floors",
       "numOfProperties": "No. of properties",
+      "numOfRooms": "No. of rooms",
       "possessionStatus": "Possession Status",
       "tower": "Tower",
       "noAmenityAdded": "No amenity added for this tower."
@@ -528,6 +534,7 @@
       "createDraft": "Create Draft",
       "additionalInfo": "Additional Info",
       "PreferableBuyers": "Preferable Buyers",
+      "labelGuests": "Preferable Guests",
       "Custom": "Custom",
       "takeImagesFromConfiguration":"Take images from configuration"
     },
@@ -606,6 +613,7 @@
       "searchForLocation": "Search for Location",
       "buildingAge": "Building Age",
       "numOfProperties": "No. of properties",
+      "numOfRooms": "No. of rooms",
       "projectDescription": "Enter Project Description",
       "launchDate": "Launch Date",
       "parameterName": "Parameter Name",
@@ -663,8 +671,19 @@
       "projectTypeEs": "Project type (Spanish)",
       "propertyTypeEn": "Property type name (English)",
       "propertyTypeEs": "Property type name (Spanish)",
+      "roomTypeEn": "Room type name (English)",
+      "roomTypeEs": "Room type name (Spanish)",
       "propertyConfigEn": "Property Configuration (English)",
       "propertyConfigEs": "Property Configuration (Spanish)",
+      "roomConfigEn": "Room Configuration (English)",
+      "roomConfigEs": "Room Configuration (Spanish)",
+      "hotelAmenityEn": "Hotel amenity name (English)",
+      "hotelAmenityEs": "Hotel amenity name (Spanish)",
+      "hotelPossessionStatusEn": "Hotel possession status (English)",
+      "hotelPossessionStatusEs": "Hotel possession status (Spanish)",
+      "hotelTypeEn": "Hotel type (English)",
+      "hotelTypeEs": "Hotel type (Spanish)",
+
       "bedrooms": "Bedrooms",
       "bathrooms": "Bathrooms",
       "halfBathrooms": "Half Bathrooms",
@@ -1192,12 +1211,16 @@
       "noLocationFound": "No locality found!",
       "noLocalityFound": "No country found!",
       "noPropertyConfigFound": "No property configuration found!",
+      "noRoomConfigFound": "No Room configuration found!",
       "noPropertyTypeFound": "No property type found!",
       "noAmenityFound": "No amenity found!",
+      "nohotelAmenityFound": "No amenity found!",
       "noDocumentFound": "No document added yet.",
       "noPossessionFound": "No project possession status found!",
       "noProjectTypeFound": "No project type found!",
       "noProjectAmenityFound": "No amenity found!",
+      "noHotelTypeFound": "No hotel type found!",
+      "noHotelAmenityFound": "No amenity found!",
       "noUserFound": "No user found!",
       "noInterstedPropertyFound": "No interests added by user.",
       "noViewedPropertyFound": "No property viewed by user.",
@@ -1934,6 +1957,19 @@
     "projectType": "Project Type",
     "parkingLotSpaces": "Parking lot spaces"
   },
+  "hotel": {
+    "label": "Hotel",
+    "possessionStatus": "Possession Status",
+    "possessionStatusEn": "Possession Status (English)",
+    "possessionStatusEs": "Possession Status (Spanish)",
+    "editAmenity": "Edit Amenity",
+    "editPropertyType": "Edit Hotel Type",
+    "editPropertyConfig": "Edit Property Configuration",
+    "amenities": "Amenities",
+    "browse": "Browse",
+    "hotelType": "Hotel Type",
+    "parkingLotSpaces": "Parking lot spaces"
+  },
   "property": {
     "label": "Property",
     "propertyConfiguration": "Property Configuration",
@@ -1946,6 +1982,19 @@
     "amenities": "Amenities",
     "browse": "Browse",
     "propertyType": "Property Type"
+  },
+  "room": {
+    "label": "Room",
+    "roomConfiguration": "Room Configuration",
+    "possessionStatusEn": "Possession Status (English)",
+    "possessionStatusEs": "Possession Status (Spanish)",
+    "editAmenity": "Edit Amenity",
+    "editRoomType": "Edit Room Type",
+    "editRoomConfig": "Edit Room Configuration",
+    "addRoomConfig": "Add Room Configuration",
+    "amenities": "Amenities",
+    "browse": "Browse",
+    "roomType": "Room Type"
   },
   "sidebar": {
     "profile": "Profile",
@@ -2017,6 +2066,8 @@
     "locality": "Locality",
     "property": "Property",
     "project": "Project",
+    "hotel": "Hotel",
+    "room": "Rooms",
     "defaultSettings": "Default Settings",
     "documentListing": "Document Listing",
     "manageCredits" : "Manage Credits",
