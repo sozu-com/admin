@@ -10,6 +10,7 @@ import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 import { KeyValue } from '@angular/common';
 import { PricePipe } from 'src/app/pipes/price.pipe';
+import { e } from '@angular/core/src/render3';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 
@@ -33,7 +34,7 @@ export class ArrearReportComponent implements OnInit {
   };
   arrearData:any;
   colorScheme = {
-    domain: ['#DFDFDF','#4c4e50','#DE2400','#03b971']
+    domain: ['#DFDFDF', '#4c4e50', '#DE2400', '#03b971', '#DEA000']
   };
   view: any[] = [250, 250];
   views: any[] = [1300, 250];
@@ -68,140 +69,15 @@ export class ArrearReportComponent implements OnInit {
   overdueReportTableDetails: any;
   public isShow :boolean= true;
   tested: any;
-  reportData = [
-    {
-      "name": "above_60",
-      "series": [
-        {
-          "name": "July",
-          "value": 13
-        },
-        {
-          "name": "Aug",
-          "value": 14
-        },
-        {
-          "name": "Sep",
-          "value": 35
-        },
-        {
-          "name": "Oct",
-          "value": 4
-        },
-        {
-          "name": "Nov",
-          "value": 17
-        },
-        {
-          "name": "Dec",
-          "value": 14
-        },
-        {
-          "name": "Jan",
-          "value": 35
-        }
-      ]
-    },
-    {
-      "name": "below_60",
-      "series": [
-        {
-          "name": "July",
-          "value": 656
-        },
-        {
-          "name": "Aug",
-          "value": 514
-        },
-        {
-          "name": "Sep",
-          "value": 335
-        },
-        {
-          "name": "Oct",
-          "value": 466
-        },
-        {
-          "name": "Nov",
-          "value": 173
-        },
-        {
-          "name": "Dec",
-          "value": 140
-        },
-        {
-          "name": "Jan",
-          "value": 35
-        }
-      ]
-    },
-    {
-      "name": "above_90",
-      "series": [
-        {
-          "name": "July",
-          "value": 553
-        },
-        {
-          "name": "Aug",
-          "value": 364
-        },
-        {
-          "name": "Sep",
-          "value": 412
-        },
-        {
-          "name": "Oct",
-          "value": 437
-        },
-        {
-          "name": "Nov",
-          "value": 437
-        },
-        {
-          "name": "Dec",
-          "value": 364
-        },
-        {
-          "name": "Jan",
-          "value": 412
-        }
-      ]
-    },
-    {
-      "name": "below_30",
-      "series": [
-        {
-          "name": "July",
-          "value": 123
-        },
-        {
-          "name": "Aug",
-          "value": 168
-        },
-        {
-          "name": "Sep",
-          "value": 343
-        },
-        {
-          "name": "Oct",
-          "value": 512
-        },
-        {
-          "name": "Nov",
-          "value": 291
-        },
-        {
-          "name": "Dec",
-          "value": 168
-        },
-        {
-          "name": "Jan",
-          "value": 343
-        },
-      ]
-    },
-  ]
+  reportData = []
+  selectAll: boolean = true;
+  totalArrear: boolean = false;
+  oneThirty: boolean = false;
+  thirtySixty: boolean = false;
+  sixtyNinety: boolean = false;
+  ninetyPlus: boolean = false;
+  type = 1;
+
   constructor(
     public constant: Constant,
     public admin: AdminService,
@@ -581,7 +457,6 @@ export class ArrearReportComponent implements OnInit {
 
     this.previousMonth = moment(this.input.end_date).subtract(1, 'months').toDate();
     this.nextMonth = moment(this.input.end_date).add(1, 'months').toDate();
-
     if (this.selctedProjects) {
       const d = this.selctedProjects.map(o => o.id);
       input.building_id = d;
@@ -602,28 +477,56 @@ export class ArrearReportComponent implements OnInit {
       const d = this.selectedBuyerDev.map(o => o.id);
       input.buyer_dev_id = d;
     }
+    if(this.type == 1){
+      this.selectAll = true;
+      this.selectAll = true;
+      this.totalArrear = true;
+      this.oneThirty = true;
+      this.thirtySixty = true;
+      this.sixtyNinety = true;
+      this.ninetyPlus = true;
+     }
+     else{
+      this.selectAll = false;
+     }
+    input.all = this.selectAll ? 1 : 0;
+    input.total_arrear = this.totalArrear ? 1 : 0;
+    input.below_30 = this.oneThirty ? 1 : 0;
+    input.below_60 = this.thirtySixty ? 1 : 0;
+    input.above_60 = this.sixtyNinety ? 1 : 0;
+    input.above_90 = this.ninetyPlus ? 1 : 0;
     this.isShow = false;
     this.admin.postDataApi('arrearOverdueReport', input).subscribe(r => {
       this.spinner.hide();
       this.arrearData  = r.data;
-      // this.chartView = [
-      //   {
-      //     'name': '61-90',
-      //     'value': parseFloat(this.dash.above_60)
-      //   },
-      //   {
-      //     'name': '31-60',
-      //     'value': parseFloat(this.dash.below_60)
-      //   },
-      //   {
-      //     'name': '91+',
-      //     'value': parseFloat(this.dash.above_90)
-      //   },
-      //   {
-      //     'name': '1-30',
-      //     'value': parseFloat(this.dash.below_30)
-      //   }
-      // ];
+      let data = r.newdata;
+      this.arrearData.above_60 ? this.arrearData.above_60[this.arrearData.above_60.length - 1] = data.above_60[0] : undefined;
+      this.arrearData.below_60 ? this.arrearData.below_60[this.arrearData.below_60.length - 1] = data.below_60[0] : undefined;
+      this.arrearData.above_90 ? this.arrearData.above_90[this.arrearData.above_90.length - 1] = data.above_90[0] : undefined;
+      this.arrearData.below_30 ? this.arrearData.below_30[this.arrearData.below_30.length - 1] = data.below_30[0] : undefined;
+      this.arrearData.total_arrear ? this.arrearData.total_arrear[this.arrearData.total_arrear.length - 1] = data.total_arrear[0] : undefined;
+      this.reportData = [
+        {
+          'name': '61-90',
+          'series': this.arrearData.above_60 || []
+        },
+        {
+          'name': '31-60',
+          'series':this.arrearData.below_60 || []
+        },
+        {
+          'name': '91+',
+          'series': this.arrearData.above_90 || []
+        },
+        {
+          'name': '1-30',
+          'series': this.arrearData.below_30 || []
+        },
+        {
+          'name': 'Total arrear',
+          'series': this.arrearData.total_arrear || []
+        }
+      ];
     }, (error) => {
       this.spinner.hide();
     });
@@ -742,5 +645,34 @@ export class ArrearReportComponent implements OnInit {
     }, (error) => {
       this.spinner.hide();
     });
+  }
+
+  changeChart(event, type){
+   this.type = type;
+   if(type == 1){
+    this.selectAll = event.target.checked;
+    this.selectAll = event.target.checked;
+    this.totalArrear = event.target.checked;
+    this.oneThirty = event.target.checked;
+    this.thirtySixty = event.target.checked;
+    this.sixtyNinety = event.target.checked;
+    this.ninetyPlus = event.target.checked;
+   }
+   else if(type == 2){
+    this.totalArrear = event.target.checked;
+   }
+   else if(type == 3){
+    this.oneThirty = event.target.checked;
+  }
+  else if(type == 4){
+    this.thirtySixty = event.target.checked;
+  }
+  else if(type == 5){
+    this.sixtyNinety = event.target.checked;
+  }
+  else if(type == 6){
+    this.ninetyPlus = event.target.checked;
+  }
+   this.generateArrearReport();
   }
 }

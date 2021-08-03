@@ -586,6 +586,8 @@
     "enterMetaTitle": "Ingresa meta título",
     "enterMetaDescr": "Enter meta descripción",
     "leadType": "Tipo de cliente potencial",
+    "csrCoordinator": "Coordinador de RSC",
+    "creditCoordinator": "Coordinador de Credit",
     "manualLead":{
       "buyer": "Buyer",
       "seller": "Seller",
@@ -677,8 +679,7 @@
       "chooseDate": "Elegir fecha",
       "parkingLotSpacesEn": "Nombre del tipos de estacionamientos (Inglés)",
       "parkingLotSpacesEs": "Nombre del tipos de estacionamientos (Español)",
-      "manageCommissions": "Administrar Comisiones",
-      "csrCoordinator": "Coordinador de RSC"
+      "manageCommissions": "Administrar Comisiones"
     }
   },
   "charts": {
@@ -950,6 +951,7 @@
       "project": "proyecto",
       "agentCommissionInhouse": "Comisión de agente interna",
       "agentCommissionOutside": "Comisión de agente exterior",
+      "creditAssignee": "Agente de crédito",
       "dateOfRegistration": "Fecha de registro",
       "manualLead":{
         "name": "Nombre",
@@ -1501,7 +1503,8 @@
       "thisUserHasLeadsAssignedPleaseDeleteTheDependenciesFirst": "Este usuario tiene leads asignados, por favor reasígnalos.",
       "userNotRegisterInWebsite": "El usuario no se registra en el sitio web.",
       "leadCannotDeleteCSRBuyerAssigned": "El cliente potencial no puede eliminar el comprador de CSR asignado.",
-      "firstAssignCSRBuyer": "Primero, asigne un comprador de CSR."
+      "firstAssignCSRBuyer": "Primero, asigne un comprador de CSR.",
+      "firstAssignCreditAgent": "Primero asigne un Agente de Crédito."
 
     }
   },
@@ -1637,6 +1640,7 @@
     "AsCSRAgent": "como Agente Comprador CSR",
     "AsInhouseAgent": "como Agente interno",
     "forCSRAgent": "para Agente Comprador CSR",
+    "forCreditAgent": "para Agente crédito",
     "forInhouseAgent": "para Agente interno",
     "location": "Ubicación",
     "price": "Precio",

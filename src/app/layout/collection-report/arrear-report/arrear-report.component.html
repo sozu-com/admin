@@ -604,32 +604,32 @@
                               margin-right: 12px;">
                                     <form style="padding: 8px;">
                                           <label>
-                                                <input type="checkbox">
+                                                <input type="checkbox" [(ngModel)]="selectAll" [ngModelOptions]="{standalone: true}" (change)="changeChart($event, 1)" [checked]="selectAll">
                                                 Select all
                                           </label>
 
                                           <label>
-                                                <input type="checkbox">
+                                                <input type="checkbox" [(ngModel)]="totalArrear" [ngModelOptions]="{standalone: true}" (change)="changeChart($event, 2)" [checked]="totalArrear">
                                                 Total arrear
                                           </label>
 
                                           <label>
-                                                <input type="checkbox">
+                                                <input type="checkbox" [(ngModel)]="oneThirty" [ngModelOptions]="{standalone: true}" (change)="changeChart($event, 3)" [checked]="oneThirty">
                                                 1-30
                                           </label>
 
                                           <label>
-                                                <input type="checkbox">
+                                                <input type="checkbox" [(ngModel)]="thirtySixty" [ngModelOptions]="{standalone: true}" (change)="changeChart($event, 4)" [checked]="thirtySixty">
                                                 31-60
                                           </label>
 
                                           <label>
-                                                <input type="checkbox">
+                                                <input type="checkbox" [(ngModel)]="sixtyNinety" [ngModelOptions]="{standalone: true}" (change)="changeChart($event, 5)" [checked]="sixtyNinety">
                                                 61-90
                                           </label>
 
                                           <label>
-                                                <input type="checkbox">
+                                                <input type="checkbox" [(ngModel)]="ninetyPlus" [ngModelOptions]="{standalone: true}" (change)="changeChart($event, 6)" [checked]="ninetyPlus">
                                                 +90
                                           </label>
                                     </form>

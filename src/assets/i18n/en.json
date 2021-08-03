@@ -587,6 +587,7 @@
     "enterMetaDescr": "Enter meta description",
     "leadType": "Lead type",
     "csrCoordinator": "CSR Coordinator",
+    "creditCoordinator": "Credit Coordinator",
     "manualLead":{
       "name": "Name",
       "firstSurname": "First Surname",
@@ -949,6 +950,7 @@
       "agentCommissionInhouse": "Agent Commission Inhouse",
       "agentCommissionOutside": "Agent Commission Outside",
       "dateOfRegistration": "Date Of Registration",
+      "creditAssignee": "Assignee",
       "manualLead":{
         "name": "Name",
         "firstSurname": "First Surname",
@@ -1499,7 +1501,8 @@
       "thisUserHasLeadsAssignedPleaseDeleteTheDependenciesFirst": "This user has leads assigned, please delete the dependencies first.",
       "userNotRegisterInWebsite": "User not register in website.",
       "leadCannotDeleteCSRBuyerAssigned": "Lead cannot delete CSR buyer assigned.",
-      "firstAssignCSRBuyer": "First assign CSR buyer."
+      "firstAssignCSRBuyer": "First assign CSR buyer.",
+      "firstAssignCreditAgent": "First assign CreditAgent."
     } 
   },
   "inhouseUsers": {
@@ -1639,7 +1642,8 @@
     "assigned": "Assigned",
     "AsCSRAgent": "as CSR Buyer agent",
     "AsInhouseAgent": "as Inhouse agent",
-    "forCSRAgent": "for CSR Agent",
+    "forCSRAgent": "for CSR Buyer Agent",
+    "forCreditAgent": "for Credit Agent",
     "forInhouseAgent": "for Inhouse Agent",
     "location": "Location",
     "price": "Price",

@@ -188,47 +188,37 @@
       <div class="col-lg-6 col-md-12 col-sm-12 col-12">
           <div class="white-bg padding30">
             <div class="row">
-              <div class="col-md-12" style="border-bottom: 1px solid #EAEAEA;">
+              <div class="col-md-12">
                   <h6>{{'leadDetails.propertyInformation' | translate}}</h6>
               </div>
               <div class="details-table">
                 <table class="table">
                     <tbody>
                       <tr>
-                        <td style="padding-left:0;border-top: none;"><label>{{'leadDetails.location' | translate}}</label></td>
-                      </tr>
-                      <tr>
-                        <td style="border-top: none;">
+                        <td style="padding-left:0;"><label>{{'leadDetails.location' | translate}}</label></td>
+                        <td>
                             <span>{{leadData.city ? leadData.city.name : 'N/A'}}</span><span style="margin-left: 30px;">{{leadData.locality ? leadData.locality.name : ''}}</span>
                         </td>
                     </tr>
                     <tr>
-                        <td style="padding-left:0;border-top: none;"><label>{{'leadDetails.price' | translate}}</label></td>
-                      </tr>
-                      <tr>
-                        <td style="border-top: none;">
+                        <td style="padding-left:0;"><label>{{'leadDetails.price' | translate}}</label></td>
+                        <td>
                           {{leadData.price ? '$ ' + leadData?.price : 'N/A'}}</td>
                     </tr>
                     <tr>
-                        <td style="padding-left:0;border-top: none;"><label>{{'leadDetails.rooms' | translate}}</label></td>
-                      </tr>
-                      <tr>
-                        <td style="border-top: none;">
+                        <td style="padding-left:0;"><label>{{'leadDetails.rooms' | translate}}</label></td>
+                        <td>
                           {{leadData?.bedrooms ? leadData?.bedrooms : 'N/A'}}</td>
                     </tr>
                     <tr>
-                        <td style="padding-left:0;border-top: none;"><label>{{'leadDetails.baths' | translate}}</label></td>
-                      </tr>
-                      <tr>
-                        <td style="border-top: none;">
+                        <td style="padding-left:0;"><label>{{'leadDetails.baths' | translate}}</label></td>
+                        <td>
                           {{leadData.bathrooms ? leadData?.bathrooms : 'N/A'}}
                         </td>
                     </tr>
                     <tr>
-                        <td style="padding-left:0;border-top: none;"><label>{{'leadDetails.carpetAreaAprox' | translate}}</label></td>
-                      </tr>
-                      <tr>
-                        <td style="border-top: none;">{{leadData.carpet_area ? leadData?.carpet_area : 'N/A'}}
+                        <td style="padding-left:0;"><label>{{'leadDetails.carpetAreaAprox' | translate}}</label></td>
+                        <td>{{leadData.carpet_area ? leadData?.carpet_area : 'N/A'}}
                         </td>
                     </tr>
                     </tbody>

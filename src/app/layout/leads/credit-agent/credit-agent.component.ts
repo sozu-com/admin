@@ -23,6 +23,10 @@ export class CreditAgentComponent implements OnInit {
   @ViewChild('closeAssignModel') closeAssignModel: ElementRef;
   @ViewChild('linkBrokerModal') linkBrokerModal: ElementRef;
   @ViewChild('closeBrokerModal') closeBrokerModal: ElementRef;
+  @ViewChild('addChangeStatusModelOpen') addChangeStatusModelOpen: ElementRef;
+  @ViewChild('addChangeStatusModelClose') addChangeStatusModelClose: ElementRef;
+  @ViewChild('viewStatuHistoryModelOpen') viewStatuHistoryModelOpen: ElementRef;
+  @ViewChild('viewStatuHistoryModelClose') viewStatuHistoryModelClose: ElementRef;
 
   public parameter: IProperty = {};
   public location: IProperty = {};
@@ -46,6 +50,10 @@ export class CreditAgentComponent implements OnInit {
   locale: any;
   user: any;
   selected_lead: any;
+  addChangeStatusNames: string[] = [];
+  selectedAddChangeStatus: any;
+  history: any;
+
   constructor(
     public admin: AdminService,
     public leadsService: LeadsService,
@@ -87,6 +95,7 @@ export class CreditAgentComponent implements OnInit {
     this.getListing();
     this.getCSRDashBoardData();
     Object.assign(this, this.chartView);
+    this.openAddChangeStatusModel(undefined)
   }
 
   getCountries() {
@@ -502,6 +511,81 @@ export class CreditAgentComponent implements OnInit {
         this.spinner.hide();
         //this.closeAssignModel.nativeElement.click();
         swal(this.translate.instant('swal.error'), error.error.message, 'error');
+      });
+  }
+
+  openAddChangeStatusModel(item){ 
+    this.user = JSON.parse(localStorage.getItem('all'));
+    this.selected_lead = item;
+    this.selectedAddChangeStatus = item && item.status ? item.status.status_id : 0;
+    this.spinner.show();
+    this.addChangeStatusNames = [];
+    //this.addChangeStatusNames = ['Mailbox', 'Call later', 'Not interested', 'Scheduled appointment', 'Incorrect data', 'Real estate advisory', 'Lead lost', 'N/A'];
+    this.admin.getApi("leads/all-csr-buyer-statuses" ).subscribe(r => {
+       r.data.forEach(item=>{
+        if(item.id != 6){
+          this.addChangeStatusNames.push(item);
+        }
+      });
+      this.spinner.hide();
+      if(item && item.admin && ((this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_credit_agent == 1) && this.user.data.user_type == 2)){
+      this.addChangeStatusModelOpen.nativeElement.click();
+      }
+      else{
+        if(item){
+          if(!item.admin){
+            this.toastr.warning(this.translate.instant('message.error.firstAssignCreditAgent'), this.translate.instant('swal.warning'));
+            return;
+          }
+        this.toastr.warning(this.translate.instant('message.error.SorryYouDoNotHaveThePermissionToGoThere'), this.translate.instant('swal.warning'));
+        }
+        
+      }
+    },
+      error => {
+        this.spinner.hide();
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
+      });
+  }
+
+  closeAddChangeStatusModel = (): void => {
+    this.addChangeStatusModelClose.nativeElement.click();
+  }
+
+  onClickAddStatus() {
+    let input={
+      lead_id: this.selected_lead.id,
+      admin_id: this.selected_lead.admin.id,
+      status_id: this.selectedAddChangeStatus,
+    }
+    this.admin.postDataApi("leads/credit-agent-status", input).subscribe(r => {
+      this.getListing();
+      this.spinner.hide();
+      this.addChangeStatusModelClose.nativeElement.click();
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.statusChangedSuccessfully'), 'success');
+    },
+      error => {
+        this.spinner.hide();
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
+      });
+  }
+
+  isChecked(tempStatusName) {
+    this.selectedAddChangeStatus = tempStatusName.id;
+  }
+
+  openStatusHistoryModel(item){
+    let input = {
+      lead_id: item.id
+    }
+    this.spinner.show();
+    this.admin.postDataApi('leads/csr-buyer-lead-statuses', input).subscribe(
+      success => {
+        this.history = success.data;
+        this.viewStatuHistoryModelOpen.nativeElement.click();
+        this.spinner.hide();
+      },error=>{
+        this.spinner.hide();
       });
   }
 }
