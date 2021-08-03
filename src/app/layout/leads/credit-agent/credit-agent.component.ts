@@ -156,10 +156,10 @@ export class CreditAgentComponent implements OnInit {
     this.getCSRDashBoardData();
   }
 
-  // changeFilter = (key: string, value: any): void => {
-  //   this.parameter[key] = value;
-  //   this.getListing();
-  // }
+  changeFilter = (key: string, value: any): void => {
+    this.parameter[key] = value;
+    this.getListing();
+  }
 
   changeCountFlag(flag: number) {
     this.parameter.count_flag = flag;
