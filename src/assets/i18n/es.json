@@ -677,8 +677,12 @@
 
       "propertyTypeEn": "Nombre del tipo de departamento (Inglés)",
       "propertyTypeEs": "Nombre del tipo de departamento (Español)",
+      "roomTypeEn": "Nombre del tipo de habitación (inglés)",
+      "roomTypeEs": "Nombre del tipo de habitación (español)",
       "propertyConfigEn": "Configuración del departamento (Inglés)",
       "propertyConfigEs": "Configuración del departamento (Español)",
+      "roomConfigEn": "Configuración de la habitación (inglés)",
+      "roomConfigEs": "Configuración de la habitación (español)",
       "bedrooms": "Dormitorios",
       "bathrooms": "Baños",
       "halfBathrooms": "Medios baños",
@@ -1208,6 +1212,7 @@
       "noLocationFound": "¡Localidad no encontrada!",
       "noLocalityFound": "¡País no encontrado!",
       "noPropertyConfigFound": "¡Configuración del departamento no encontrado!",
+      "noRoomConfigFound": "¡No se encontró ninguna configuración de sala!",
       "noPropertyTypeFound": "¡Tipo de propiedad no encontrado!",
       "noAmenityFound": "¡Amenidad no encontrada!",
       "nohotelAmenityFound": "¡Amenidad no encontrada!",
@@ -1971,6 +1976,19 @@
     "browse": "Navegar",
     "propertyType": "Tipo de departamento"
   },
+  "room": {
+    "label": "Habitación",
+    "roomConfiguration": "Configuración de la habitación",
+    "possessionStatusEn": "Estatus de la fecha de entrega (Inglés)",
+    "possessionStatusEs": "Estatus de la fecha de entrega (Español)",
+    "editAmenity": "Editar amenidad",
+    "editRoomType": "Editar tipo de habitación",
+    "editRoomConfig": "Editar la configuración de la sala",
+    "addRoomConfig": "Agregar configuración de sala",
+    "amenities": "Amenities",
+    "browse": "Browse",
+    "roomType": "Tipo de habitación"
+  },
   "sidebar": {
     "profile": "Perfil",
     "editProfile": "Editar perfil",
@@ -2042,6 +2060,7 @@
     "property": "Departamento",
     "project": "Proyecto",
     "hotel": "Hotel",
+    "room": "Habitaciones",
     "defaultSettings": "Configuración por defecto",
     "documentListing": "Listado de documentos",
     "manageCredits" : "Gestionar créditos",

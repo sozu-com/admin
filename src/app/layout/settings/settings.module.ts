@@ -24,6 +24,7 @@ import { DefaultSettingsComponent } from './default-settings/default-settings.co
 import { MatchValueDirective } from 'src/app/directives/match-value.directive';
 import { SharedModule } from 'src/app/modules/shared.module';
 import { HotelComponent } from './hotel/hotel.component';
+import { RoomComponent } from './room/room.component';
 
 const routes: Routes = [
   { path: 'view-profile', component: ProfileComponent },
@@ -54,6 +55,10 @@ const routes: Routes = [
     canActivate: [AclUserGuard], data: { roles: ['Settings', 'can_read', ''] }
   },
   {
+    path: 'setting-room', component: RoomComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Settings', 'can_read', ''] }
+  },
+  {
     path: 'documents-listing', component: DocumentsComponent,
     canActivate: [AclUserGuard], data: { roles: ['Settings', 'can_read', ''] }
   }
@@ -74,7 +79,8 @@ const routes: Routes = [
     ChangePasswordComponent,
     DefaultSettingsComponent,
     MatchValueDirective,
-    HotelComponent
+    HotelComponent,
+    RoomComponent
   ],
   imports: [
     RouterModule.forChild(routes),

@@ -3,7 +3,7 @@ import { AdminService } from 'src/app/services/admin.service';
 import { IProperty } from 'src/app/common/property';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Constant } from 'src/app/common/constants';
-import { Amenities, ParkingLotSpaces } from 'src/app/models/project.model';
+import { Amenities, ParkingLotSpaces } from 'src/app/models/hotel.model';
 import { NgForm } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
@@ -86,9 +86,9 @@ export class HotelComponent implements OnInit {
   }
 
 
-  addParkingLotSpaces(id, name_en, name_es, status, type) {
+  addHotelParkingLotSpaces(id, name_en, name_es, status, type) {
     if (type === 'edit') { this.modalRef.hide(); }
-    this.parameter.url = 'addParkingLotSpaces';
+    this.parameter.url = 'addHotelParkingLotSpaces';
     const input = new FormData();
     input.append('name_en', name_en);
     input.append('name_es', name_es);
@@ -172,12 +172,13 @@ export class HotelComponent implements OnInit {
           this.hotel.type.name_es = '';
           swal(this.translate.instant('swal.success'), text, 'success');
           if (this.parameter.index !== -1) {
-            this.parameter.projectTypes[this.parameter.index] = success.data;
+            this.parameter.hotelTypes[this.parameter.index] = success.data;
           } else {
-            this.parameter.projectTypes.push(success.data);
+            this.parameter.hotelTypes.push(success.data);
           }
           this.parameter.index = -1;
-          // this.getHotelType();
+          //this.amenityModel = new Amenities;
+          //this.getHotelType();
         }, error => {
           this.spinner.hide();
         });
@@ -221,7 +222,7 @@ export class HotelComponent implements OnInit {
 
   getParkingLotSpaces() {
     this.spinner.show();
-    this.parameter.url = 'getParkingspace';
+    this.parameter.url = 'getHotelParkingspace';
     const input = new FormData();
     this.admin.postDataApi(this.parameter.url, { hide_blocked: 0 })
       .subscribe(
@@ -303,8 +304,8 @@ export class HotelComponent implements OnInit {
 
   addHotelTypePopup(index, id, name_en, name_es, status, type) {
     this.parameter.index = index;
-    const text = status === 1 ? this.translate.instant('message.error.wantToUnblockProjectType') :
-      this.translate.instant('message.error.wantToBlockProjectType');
+    const text = status === 1 ? this.translate.instant('message.error.wantToUnblockhotelType') :
+      this.translate.instant('message.error.wantToBlockhotelType');
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
       type: 'warning',
@@ -364,7 +365,7 @@ export class HotelComponent implements OnInit {
     formdata.reset();
     if (name_es === '') {
       swal({
-        text: this.translate.instant('message.error.saveEngProjectType'),
+        text: this.translate.instant('message.error.saveEnghotelType'),
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: this.constant.confirmButtonColor,
@@ -415,11 +416,11 @@ export class HotelComponent implements OnInit {
         confirmButtonText: 'Yes'
       }).then((result) => {
         if (result.value) {
-          this.addParkingLotSpaces(id, name_en, name_en, status, type);
+          this.addHotelParkingLotSpaces(id, name_en, name_en, status, type);
         }
       });
     } else {
-      self.addParkingLotSpaces(id, name_en, name_es, status, type);
+      self.addHotelParkingLotSpaces(id, name_en, name_es, status, type);
     }
   }
 
@@ -444,7 +445,7 @@ export class HotelComponent implements OnInit {
         text = this.translate.instant('message.error.wantToDeletePossessionStatus1')
         break;
       case 2:
-        text = this.translate.instant('message.error.wantToDeleteProjectType')
+        text = this.translate.instant('message.error.wantToDeletehotelType')
         break;
       case 3:
         text = this.translate.instant('message.error.wantToDeleteAmenities')
@@ -464,10 +465,10 @@ export class HotelComponent implements OnInit {
             this.deletePossessionStatus(data, index);
             break;
           case 2:
-            this.deleteProjectType(data, index);
+            this.deletehotelType(data, index);
             break;
           case 3:
-            this.deleteProjectAmenities(data, index);
+            this.deletehotelAmenities(data, index);
             break;
         }
       }
@@ -490,15 +491,15 @@ export class HotelComponent implements OnInit {
     });
   }
 
-  deleteProjectType = (item: any, index: number): void => {
+  deletehotelType = (item: any, index: number): void => {
     this.spinner.show();
     this.admin.postDataApi('HotelType', { id: item.id }).subscribe((response) => {
       this.spinner.hide();
       if (response.success == '0') {
-        this.toastr.error(this.translate.instant('message.error.youCannotDeleteThisProjectType'), this.translate.instant('swal.error'));
+        this.toastr.error(this.translate.instant('message.error.youCannotDeleteThishotelType'), this.translate.instant('swal.error'));
       } else {
         this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
-        this.parameter.projectTypes.splice(index, 1);
+        this.parameter.hotelTypes.splice(index, 1);
       }
     }, (error) => {
       this.spinner.hide();
@@ -506,9 +507,9 @@ export class HotelComponent implements OnInit {
     });
   }
 
-  deleteProjectAmenities = (item: any, index: number): void => {
+  deletehotelAmenities = (item: any, index: number): void => {
     this.spinner.show();
-    this.admin.postDataApi('DeleteProjectAmenities ', { id: item.id }).subscribe((response) => {
+    this.admin.postDataApi('DeletehotelAmenities ', { id: item.id }).subscribe((response) => {
       this.spinner.hide();
       if (response.success == '0') {
         this.toastr.error(this.translate.instant('message.error.youCannotDeleteThisAmenities'), this.translate.instant('swal.error'));
