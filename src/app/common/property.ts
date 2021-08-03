@@ -86,6 +86,8 @@ export interface IProperty {
   amenitiesCount?: number;
   projectTypes?: any;
   projectTypesCount?: number;
+  hotelTypes?: any;
+  hotelTypesCount?: number;
   routeName?: string;
   icon?: any;
   userType?: string;

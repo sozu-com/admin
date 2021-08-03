@@ -196,11 +196,11 @@
               </div>
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>{{'addForm.buildingType.label' | translate}}
+                  <label>{{'addForm.buildingType.labelHotel' | translate}}
                     <!-- <span class="color-red">*</span> -->
                   </label>
                   <select [(ngModel)]="model.hotel_type_id" class="form-control" name="hotel_type_id">
-                    <option value="" disabled>{{'addForm.buildingType.chooseType' | translate}}</option>
+                    <option value="" disabled>{{'addForm.buildingType.chooseHotel' | translate}}</option>
                     <option *ngFor="let s of all_building_types" [value]="s.id">
                       {{s.name}}
                     </option>
@@ -209,8 +209,8 @@
               </div>
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>{{'addForm.numOfProperties' | translate}}</label>
-                  <input placeholder="{{'addForm.placeholder.numOfProperties' | translate}}" min="0" class="form-control" [(ngModel)]="model.num_of_properties"
+                  <label>{{'addForm.numORooms' | translate}}</label>
+                  <input placeholder="{{'addForm.placeholder.numORooms' | translate}}" min="0" class="form-control" [(ngModel)]="model.num_of_properties"
                     type="number" name="num_of_properties" />
                 </div>
               </div>
@@ -249,7 +249,7 @@
 
               <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
-                  <label>{{'addForm.possessionStatus.label' | translate}}
+                  <label>{{'addForm.possessionStatus.labelStatus' | translate}}
                     <!-- <span class="color-red">*</span> -->
                   </label>
                   <select [(ngModel)]="model.possession_status_id" class="form-control" name="possession_status_id">
@@ -468,7 +468,7 @@
               <div class="row">
                 <div class="col-12">
                   <div class="page-title paddingL0 paddingR0">
-                    <h3>{{'addForm.preferableBuyers.label' | translate}}
+                    <h3>{{'addForm.preferableBuyers.labelGuests' | translate}}
                       <span class="tower pull-right"
                         (click)="showPreferableBuyer=!showPreferableBuyer">{{showPreferableBuyer ? ('addForm.hide' | translate) : ('addForm.show' | translate)}}</span>
                     </h3>
@@ -615,15 +615,15 @@
 
                   <div class="col-md-6 col-sm-6 col-12">
                     <div class="form-group-3">
-                      <label>{{'addForm.tower.numOfProperties' | translate}}</label>
+                      <label>{{'addForm.tower.numOfRooms' | translate}}</label>
                       <input min="0" autocomplete="off" [(ngModel)]="newTower.num_of_properties" class="form-control"
-                        type="number" name="num_of_properties" placeholder="{{'addForm.placeholder.numOfProperties' | translate}}" />
+                        type="number" name="num_of_properties" placeholder="{{'addForm.placeholder.numOfRooms' | translate}}" />
                     </div>
                   </div>
                   
                   <div class="col-md-6 col-sm-6 col-12">
                     <div class="form-group-3">
-                      <label>{{'addForm.possessionStatus.label' | translate}}</label>
+                      <label>{{'addForm.possessionStatus.labelStatus' | translate}}</label>
                       <select [(ngModel)]="newTower.possession_status_id" class="form-control"
                         name="t_possession_status_id">
                         <option value="">{{'addForm.possessionStatus.selectStatus' | translate}}</option>
@@ -717,16 +717,16 @@
            
                   <div class="col-md-6 col-sm-6 col-12">
                     <div class="form-group-3">
-                      <label>{{'addForm.tower.numOfProperties' | translate}}</label>
+                      <label>{{'addForm.tower.numOfRooms' | translate}}</label>
                       <input autocomplete="off" [disabled]="model?.building_tower_edit_index!=i"
                         [(ngModel)]="btower.num_of_properties" class="form-control" type="number" name="num_of_properties{{i}}"
-                        placeholder="{{'addForm.placeholder.numOfProperties' | translate}}" />
+                        placeholder="{{'addForm.placeholder.numOfRooms' | translate}}" />
                     </div>
                   </div>
             
                   <div class="col-md-6 col-sm-6 col-12">
                     <div class="form-group-3">
-                      <label>{{'addForm.possessionStatus.label' | translate}}</label>
+                      <label>{{'addForm.possessionStatus.labelStatus' | translate}}</label>
                       <select [disabled]="model?.building_tower_edit_index!=i" [(ngModel)]="btower.possession_status_id"
                         class="form-control" name="possession_status_id{{i}}">
                         <option value="">{{'addForm.possessionStatus.selectStatus' | translate}}</option>
