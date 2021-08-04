@@ -236,67 +236,7 @@
                         alt="img"></a>
                   </div>
                 </th>
-                <th style="vertical-align:top;width:5%" *ngIf="selectedColumnsToShow?.property_for_rent">
-                  <div class="d-flex table-search">
-                    <span><label>{{'table.th.propertiesForRent' | translate}}</label></span>
-                  </div>
-                </th>
-                <th style="vertical-align:top;width:5%" *ngIf="selectedColumnsToShow?.property_for_sale">
-                  <div class="d-flex table-search">
-                    <span><label>{{'table.th.propertiesForSale' | translate}}</label></span>
-                  </div>
-                </th>
-
-                <th style="vertical-align:top;width:5%" *ngIf="selectedColumnsToShow?.list_price">
-                  <div class="d-flex table-search">
-                    <span><label>{{'table.th.avgPrice2' | translate}}</label></span>
-                    <a (click)="sortData(parameter.property_sort==2?1:2)" href="javascript://"><img
-                        [ngClass]="{'upsidedown':parameter.property_sort==2}" src="assets/img/top-arrow.png"
-                        alt="img"></a>
-                  </div>
-                </th>
-                <th style="vertical-align:top;width:5%" *ngIf="selectedColumnsToShow?.carpet_area">
-                  <div class="d-flex table-search">
-                    <span><label>{{'table.th.avgCarpetArea2' | translate}}</label></span>
-                  </div>
-                </th>
-                <th style="vertical-align:top;width:5%" *ngIf="selectedColumnsToShow?.price_per_metter">
-                  <div class="d-flex table-search">
-                    <span><label>{{'table.th.avergagePrice2' | translate}}</label></span>
-                  </div>
-                </th>
-
-                <th style="vertical-align:top;width:5%" *ngIf="selectedColumnsToShow?.inventory_list_price">
-                  <div class="d-flex table-search">
-                    <span><label>{{'table.th.avgPrice3' | translate}}</label></span>
-                  </div>
-                </th>
-                <th style="vertical-align:top;width:5%" *ngIf="selectedColumnsToShow?.inventory_carpet_area">
-                  <div class="d-flex table-search">
-                    <span><label>{{'table.th.avgCarpetArea3' | translate}}</label></span>
-                  </div>
-                </th>
-                <th style="vertical-align:top;width:5%" *ngIf="selectedColumnsToShow?.inventory_per_metter">
-                  <div class="d-flex table-search">
-                    <span><label>{{'table.th.avergagePrice3' | translate}}</label></span>
-                  </div>
-                </th>
-
-                <th style="vertical-align:top;width:10%" *ngIf="selectedColumnsToShow?.document">
-                  <div class="d-flex table-search"><span><label>{{'table.th.document' | translate}}</label></span></div>
-                </th>
-                <th style="width:10%" *ngIf="selectedColumnsToShow?.project_status">
-                  <div class="table-search">
-                    <label>{{'table.th.projectStatus.label' | translate}}</label>
-                    <select [(ngModel)]="parameter.project_status_filter" (change)="getListing()">
-                      <option value="{{apiConstant.projectStatus.all}}">{{'table.th.projectStatus.all' | translate}}</option>
-                      <option value="{{apiConstant.projectStatus.without_information}}">{{'table.th.projectStatus.withoutInformation' | translate}}</option>
-                      <option value="{{apiConstant.projectStatus.basic_information}}">{{'table.th.projectStatus.basicInformation' | translate}}</option>
-                      <option value="{{apiConstant.projectStatus.semicompleted}}">{{'table.th.projectStatus.semicompleted' | translate}}</option>
-                      <option value="{{apiConstant.projectStatus.completed}}">{{'table.th.projectStatus.completed' | translate}}</option>
-                    </select>
-                  </div>
-                </th>
+              
                 <th style="vertical-align:top;width:100px;width:20%" *ngIf="selectedColumnsToShow?.action">
                   <div class="table-search">
                     <label>{{'table.th.actions.label' | translate}}</label>
@@ -368,36 +308,7 @@
                   <a title="{{'table.title.clickToViewProperties' | translate}}" (click)="goWay(p)"><span
                       class="green-color cursor-pointer">{{p?.properties_count_all || 0 | numberWithCommas}}</span></a>
                 </td>
-                <td  *ngIf="selectedColumnsToShow?.property_for_rent">
-                  <a title="{{'table.title.clickToViewProperties' | translate}}"
-                    routerLink="/dashboard/properties/view-properties/{{p.name}}/2"><span
-                      class="green-color">{{p?.rent_count_all || 0 | numberWithCommas}}</span></a>
-                </td>
-                <td  *ngIf="selectedColumnsToShow?.property_for_sale">
-                  <a title="{{'table.title.clickToViewProperties' | translate}}"
-                    routerLink="/dashboard/properties/view-properties/{{p.name}}/1"><span
-                      class="green-color">{{p?.sale_count_all || 0 | numberWithCommas}}</span></a>
-                </td>
-                <td  *ngIf="selectedColumnsToShow?.list_price"><span>${{ p.avg_price ? (p.avg_price | number : '1.2-2') : 0.00}}</span></td>
-                <td  *ngIf="selectedColumnsToShow?.carpet_area"><span>{{ p.avg_carpet_area ? (p.avg_carpet_area | number : '1.2-2') : 0.00}}</span></td>
-                <td *ngIf="selectedColumnsToShow?.price_per_metter"><span>${{ p.avgg_price ? (p.avgg_price | number : '1.2-2') : 0.00}}</span></td>
-
-                <td *ngIf="selectedColumnsToShow?.inventory_list_price"><span>${{ p.avg_price_hold ? (p.avg_price_hold | number : '1.2-2') : 0.00}}</span></td>
-                <td *ngIf="selectedColumnsToShow?.inventory_carpet_area"><span>{{ p.avg_carpet_area_hold ? (p.avg_carpet_area_hold | number : '1.2-2') : 0.00}}</span></td>
-                <td *ngIf="selectedColumnsToShow?.inventory_per_metter"><span>${{ p.avgg_price_hold ? (p.avgg_price_hold | number : '1.2-2') : 0.00}}</span></td>
-
-                <td *ngIf="selectedColumnsToShow?.document">
-                  <span *ngIf="!p?.document">{{'table.tr.td.NA' | translate}}</span>
-                  <button *ngIf="p?.document" [disabled]="admin?.admin_acl['Project Management']?.can_read==0"
-                    (click)="viewDocument(p?.document)" class="action-icon">
-                    <img src="assets/img/eye-icon.png" alt="img"></button>
-                </td>
-                <td *ngIf="selectedColumnsToShow?.project_status">
-                  <span>{{(p?.is_completed == apiConstant.projectStatus.without_information) ? ('table.th.projectStatus.withoutInformation' | translate) : 
-                    (p?.is_completed == apiConstant.projectStatus.basic_information) ? ('table.th.projectStatus.basicInformation' | translate) :
-                    (p?.is_completed == apiConstant.projectStatus.semicompleted) ? ('table.th.projectStatus.semicompleted' | translate) : 
-                    (p?.is_completed == apiConstant.projectStatus.completed) ? ('table.th.projectStatus.completed' | translate) :''}}</span>
-                </td>
+               
                 <td *ngIf="selectedColumnsToShow?.action">
                   <div class="table-actions">
                     <!-- <div class="message"> -->
