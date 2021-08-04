@@ -1525,7 +1525,8 @@
       "userNotRegisterInWebsite": "User not register in website.",
       "leadCannotDeleteCSRBuyerAssigned": "Lead cannot delete CSR buyer assigned.",
       "firstAssignCSRBuyer": "First assign CSR buyer.",
-      "firstAssignCreditAgent": "First assign CreditAgent."
+      "firstAssignCreditAgent": "First assign CreditAgent.",
+      "youWantToMoveThisToManageLeads": "you want to move this to manage leads?"
     } 
   },
   "inhouseUsers": {

@@ -591,6 +591,11 @@
                         <div class="col-lg-10 col-md-6 col-sm-12 col-12">
                               <ngx-charts-line-chart [results]="reportData" [xAxis]="true" [scheme]="colorScheme"
                                     [showGridLines]="true"  [yAxis]="true">
+                                    <ng-template #seriesTooltipTemplate let-model="model">
+                                          <span class="tooltip-label" *ngFor="let series of model">
+                                                {{series.series}}: ${{series.value | number: '1.0-0'}}
+                                              </span>       
+                                    </ng-template>
                               </ngx-charts-line-chart>
                         </div>
                         <div class="col-lg-2 col-md-6 col-sm-12 col-12">

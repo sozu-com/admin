@@ -500,11 +500,11 @@ export class ArrearReportComponent implements OnInit {
       this.spinner.hide();
       this.arrearData  = r.data;
       let data = r.newdata;
-      this.arrearData.above_60 ? this.arrearData.above_60[this.arrearData.above_60.length - 1] = data.above_60[0] : undefined;
-      this.arrearData.below_60 ? this.arrearData.below_60[this.arrearData.below_60.length - 1] = data.below_60[0] : undefined;
-      this.arrearData.above_90 ? this.arrearData.above_90[this.arrearData.above_90.length - 1] = data.above_90[0] : undefined;
-      this.arrearData.below_30 ? this.arrearData.below_30[this.arrearData.below_30.length - 1] = data.below_30[0] : undefined;
-      this.arrearData.total_arrear ? this.arrearData.total_arrear[this.arrearData.total_arrear.length - 1] = data.total_arrear[0] : undefined;
+      this.arrearData.above_60[this.arrearData.above_60.length - 1].name == data.above_60[0].name ? this.arrearData.above_60[this.arrearData.above_60.length - 1] = data.above_60[0] : undefined;
+      this.arrearData.below_60[this.arrearData.above_60.length - 1].name == data.below_60[0].name? this.arrearData.below_60[this.arrearData.below_60.length - 1] = data.below_60[0] : undefined;
+      this.arrearData.above_90[this.arrearData.above_60.length - 1].name == data.above_90[0].name ? this.arrearData.above_90[this.arrearData.above_90.length - 1] = data.above_90[0] : undefined;
+      this.arrearData.below_30[this.arrearData.above_60.length - 1].name == data.below_30[0].name ? this.arrearData.below_30[this.arrearData.below_30.length - 1] = data.below_30[0] : undefined;
+      this.arrearData.total_arrear[this.arrearData.above_60.length - 1].name == data.total_arrear[0].name ? this.arrearData.total_arrear[this.arrearData.total_arrear.length - 1] = data.total_arrear[0] : undefined;
       this.reportData = [
         {
           'name': '61-90',
