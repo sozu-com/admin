@@ -449,7 +449,8 @@ export class CreditAgentComponent implements OnInit {
 
   openModel(selected) {
     this.user = JSON.parse(localStorage.getItem('all'));
-    if(this.user.data.permissions.can_credit_agent == 1 && this.user.data.user_type == 2){
+    let admin = this.user.data.admin_acl.find(x=> x.acl.name == 'Buyer Management');
+    if((this.user.data.permissions.can_credit_agent == 1 && this.user.data.user_type == 2) || admin.can_update == 1){
     this.selected_lead = selected;
     this.items.filter(item=>{
       if(item.id == selected.id){
@@ -528,7 +529,8 @@ export class CreditAgentComponent implements OnInit {
         }
       });
       this.spinner.hide();
-      if(item && item.admin && ((this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_credit_agent == 1) && this.user.data.user_type == 2)){
+      let admin = this.user.data.admin_acl.find(x=> x.acl.name == 'Buyer Management');
+      if(item && item.admin && (((this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_credit_agent == 1) && this.user.data.user_type == 2) || admin.can_update == 1)){
       this.addChangeStatusModelOpen.nativeElement.click();
       }
       else{

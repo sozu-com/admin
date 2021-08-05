@@ -341,7 +341,8 @@ export class CsrBuyerComponent implements OnInit {
   }
 
   bulkAssign() {
-    if(((this.user.data.permissions.can_csr_buyer == 1 || this.users.data.permissions.can_csr_coordinator == 1) && this.user.data.user_type == 2) || this.user.data.admin_acl['Buyer Management'].can_update == 1){
+    let admin = this.user.data.admin_acl.find(x=> x.acl.name == 'Buyer Management');
+    if(((this.user.data.permissions.can_csr_buyer == 1 || this.users.data.permissions.can_csr_coordinator == 1) && this.user.data.user_type == 2) || admin.can_update == 1){
     this.showSearchText = false;
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     if (leads_ids.length === 0) {
@@ -466,7 +467,8 @@ export class CsrBuyerComponent implements OnInit {
 
   openModel(openFor, selected) {
     this.user = JSON.parse(localStorage.getItem('all'));
-    if((openFor == 'CSR' && this.user.data.permissions.can_csr_coordinator == 1 && this.user.data.user_type == 2) ||  (openFor != 'CSR' && (this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_csr_coordinator == 1)&& this.user.data.user_type == 2) || this.user.data.admin_acl['Buyer Management'].can_update == 1){
+    let admin = this.user.data.admin_acl.find(x=> x.acl.name == 'Buyer Management');
+    if((openFor == 'CSR' && this.user.data.permissions.can_csr_coordinator == 1 && this.user.data.user_type == 2) ||  (openFor != 'CSR' && (this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_csr_coordinator == 1)&& this.user.data.user_type == 2) || admin.can_update == 1){
     this.openFor = openFor;
     this.selected_lead = selected;
     this.items.filter(item=>{
@@ -505,7 +507,8 @@ export class CsrBuyerComponent implements OnInit {
     this.admin.getApi("leads/all-csr-buyer-statuses" ).subscribe(r => {
       this.addChangeStatusNames = r.data;
       this.spinner.hide();
-      if(item && item.admin && ((this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_csr_coordinator == 1) && this.user.data.user_type == 2)){
+      let admin = this.user.data.admin_acl.find(x=> x.acl.name == 'Buyer Management');
+      if(item && item.admin && (((this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_csr_coordinator == 1) && this.user.data.user_type == 2) || admin.can_update == 1)){
       this.addChangeStatusModelOpen.nativeElement.click();
       }
       else{
