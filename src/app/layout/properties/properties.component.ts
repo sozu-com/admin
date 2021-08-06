@@ -2517,8 +2517,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       linked_collection: (this.select_columns_list[23] || []).isCheckBoxChecked,
       edit_total_commission: (this.select_columns_list[24] || []).isCheckBoxChecked,
       view_seller_request: (this.select_columns_list[25] || []).isCheckBoxChecked,
-      action: (this.select_columns_list[26] || []).isCheckBoxChecked,
-      is_published: (this.select_columns_list[27] || []).isCheckBoxChecked
+      action: (this.select_columns_list[26] || []).isCheckBoxChecked                                              
     };
   }
 
@@ -2597,8 +2596,6 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       case 14:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.agent_commission;
         break;
-
-
       case 16:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.total_commission;
         break;
@@ -2638,9 +2635,6 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       case 28:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.action;
         break;
-        case 29:
-          this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.is_published;
-          break;
       default:
         break;
     }
