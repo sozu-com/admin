@@ -77,15 +77,8 @@ export class PropertyDetailsComponent implements OnInit {
     this.property = this.propertyService.property
     this.route.params.subscribe((params) => {
       this.getPropertyDetails(params.property_id)
-      //this.getBasicDetails(params.property_id);
     })
-    // this.cs.propertyDetailsData$.subscribe(res => {
-    //   this.data = res;
-    // });
   }
-  // goBack(){
-  //   this.router.navigate(['/dashboard/properties/view-properties', {for: 'back'}])
-  // }
   getPropertyDetails(property_id: string) {
     let self = this
     this.spinner.show();
@@ -200,17 +193,6 @@ export class PropertyDetailsComponent implements OnInit {
       )
   }
 
-  // getBasicDetails = (property_id: string): void => {
-  //   this.spinner.show();
-  //   forkJoin([
-  //     this.admin.postDataApi('getFloorPlanImage', { id: property_id || '' }),
-  //     this.admin.postDataApi('getCoverImage', { id: property_id || '' })
-  //   ]).subscribe((response: any[]) => {
-  //     this.spinner.hide();
-  //     this.floorPlanImage = 'data:image/jpeg;base64,' + response[0].data
-  //     this.coverImage = 'data:image/jpeg;base64,' + response[1].data
-  //   });
-  // }
 
   downloadPDF() {
     this.spinner.show()

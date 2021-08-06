@@ -3053,7 +3053,21 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       const tempExportData = [];
       for (let index = 0; index < this.exportfinalData.length; index++) {
         const p = this.exportfinalData[index];
-
+        this.paid_purchase_commision_amount = p.paid_purchase_commision_amount;
+        this.paid_agent_commision_amount = p.paid_agent_commision_amount;
+        this.paid_collection_commision_amount = p.paid_collection_commision_amount;
+        const dif = (p.property.final_price || 0).toFixed(2) - (p.total_deals_sum || 0).toFixed(2);
+        const currency_id = p.currency_id;
+        p['remaining'] = (((parseFloat(p.final_price) || 0) + (parseFloat(p.penalty) || 0)) - (parseFloat(p.total_payment_recieved) || 0));
+        if (!p.total_deals_sum) {
+          p.payment_status = 6;
+        } else if ((dif >= 5 && currency_id == 78) || (dif >= 0.5 && currency_id == 124)) {
+          p.payment_status = 6;
+        } else if (p.next_payment && p.next_payment.date) {
+          p.payment_status = p.collection_status;
+        } else {
+          p.payment_status = 5;
+        }
         tempExportData.push({
           'ID Account': p.id || '',
           'Buyer Name': (p.buyer_type == 2) ? (p.buyer_legal_entity || {}).comm_name || '' : (p.buyer || {}).name + ' ' + (p.buyer || {}).first_surname + ' ' + (p.buyer || {}).second_surname || '',
@@ -3094,7 +3108,11 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           'Penalty': parseInt(p.penalty || 0),
           'Amount Paid': parseInt(p.total_payment_recieved || 0),
           //'Remanining Amount': (this.getRemainingAmt(p) || 0),
-          // 'Status Account': ''
+          'Remanining Amount': parseFloat(p.remaining || 0).toFixed(2),
+          'Status Account': (p.is_cancelled) == 1 ? 'Cancelled(grey)' : (p.is_cancelled == 0 && p.is_commission_sale_enabled) == 1 ? 'Only Commission for sale(purple)' :
+           ( p.is_cancelled == 0 && p.is_commission_sale_enabled == 0 && p.payment_status == 1) ? 'Up to Date(green)' : (p.is_cancelled == 0 && p.is_commission_sale_enabled == 0 && p.payment_status == 2)  ? 'Payment Period(yellow)' : (p.is_cancelled == 0 && p.is_commission_sale_enabled == 0 && p.payment_status == 3) ? 'Overdue Payment(red)'
+            : p.is_cancelled == 0 && p.is_commission_sale_enabled == 0 && p.payment_status == 5 ? 'Settled(blue)' : (p.is_cancelled == 0 && p.is_commission_sale_enabled == 0 && p.payment_status == 6) ? 'Inconsistency between price and deal scheme(orange)' : ''
+           
         });
 
       }
