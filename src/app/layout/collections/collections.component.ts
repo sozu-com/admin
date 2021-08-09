@@ -3068,7 +3068,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         } else {
           p.payment_status = 5;
         }
-        tempExportData.push({
+
+        let obj = {
           'ID Account': p.id || '',
           'Buyer Name': (p.buyer_type == 2) ? (p.buyer_legal_entity || {}).comm_name || '' : (p.buyer || {}).name + ' ' + (p.buyer || {}).first_surname + ' ' + (p.buyer || {}).second_surname || '',
           'Buyer Legal Representative': (p.buyer_type == 2) ? (((p.buyer_legal_entity || {}).legal_reps || {}).name) ? (((p.buyer_legal_entity || {}).legal_reps || {}).name + ' ' + ((p.buyer_legal_entity || {}).legal_reps || {}).first_surname + ' ' + ((p.buyer_legal_entity || {}).legal_reps || {}).second_surname) : ''
@@ -3081,6 +3082,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           'Name of Apartment': (p.property || {}).name || '',
           'Configuration': ((p.property || {}).building_configuration || {}).name || '',
           'Locality': ((p.property || {}).locality || {}).name || '',
+          "Contract": p.contract_count > 0 ? this.translate.instant('table.th.yes') : this.translate.instant('table.th.no'),
           'Purchase Date': p.deal_purchase_date ? this.getDateWRTTimezone(p.deal_purchase_date, 'DD/MMM/YYYY') : '',
           'Last Concept': p.last_payment ? this.getLastPaymentConcept(p) : '',
           'Last Date Of Payment': (p.last_payment || {}).payment_date ? (p.last_payment || {}).payment_date : '',//(p?.last_payment?.payment_date | date:'dd/MMM/yyyy') :
@@ -3099,21 +3101,72 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           'CC Amount': parseInt(p.cc_received || 0),
           'CC Receipt': p.cc_receipt ? 'Yes' : 'No',
           'CC Invoice': p.cc_invoice ? 'Yes' : 'No',
-          'Agent Commission (in %)': p.comm_shared_commission ? p.comm_shared_commission : 0,//(p?.comm_shared_commission | number : '1.2-3') :
+          'Inhouse Agent Commission (in %)': p.comm_shared_commission ? p.comm_shared_commission : 0,//(p?.comm_shared_commission | number : '1.2-3') :
           'IVA Added in Amount 3': p.add_iva_to_ac ? 'Yes' : 'No',
           'AC Receipt': p.ac_receipt ? 'Yes' : 'No',
           'AC Invoice': p.ac_invoice ? 'Yes' : 'No',
-          'Commission Agent': (((p.deal_commission_agents || [])[0] || []).broker || {}).name ? ((((p.deal_commission_agents || [])[0] || []).broker || {}).name + ' ' + (((p.deal_commission_agents || [])[0] || []).broker || {}).first_surname + ' ' + (((p.deal_commission_agents || [])[0] || []).broker || {}).second_surname) : '',
+          "Outside Agent Commission (in %)": p.outside_agent_commission_percentage ? p.outside_agent_commission_percentage : 0,
+          "IVA Added in Amount 4": p.add_iva_to_oac ? 'Yes' : 'No',
+          "OAC Receipt": p.oac_receipt ? 'Yes' : 'No',
+          "OAC Invoice":p.oac_invoice ? 'Yes' : 'No',
+          'Agent Commission Inhouse': (((p.deal_commission_agents || [])[0] || []).broker || {}).name ? ((((p.deal_commission_agents || [])[0] || []).broker || {}).name + ' ' + (((p.deal_commission_agents || [])[0] || []).broker || {}).first_surname + ' ' + (((p.deal_commission_agents || [])[0] || []).broker || {}).second_surname) : '',
+          'Agent Commission Outside':  p.deal_commission_outside_agents && p.deal_commission_outside_agents[0].name ? ((p.deal_commission_outside_agents || [])[0]).name + ' ' + ((p.deal_commission_outside_agents || [])[0]).first_surname + ' ' + (((p.deal_commission_outside_agents || [])[0]).second_surname) : '',
           'final Price': parseInt(p.deal_price || 0),
+          'Final price per m2' :  parseInt(p.avgg_price_per || 0),
           'Penalty': parseInt(p.penalty || 0),
           'Amount Paid': parseInt(p.total_payment_recieved || 0),
           //'Remanining Amount': (this.getRemainingAmt(p) || 0),
           'Remanining Amount': parseFloat(p.remaining || 0).toFixed(2),
           'Status Account': (p.is_cancelled) == 1 ? 'Cancelled(grey)' : (p.is_cancelled == 0 && p.is_commission_sale_enabled) == 1 ? 'Only Commission for sale(purple)' :
            ( p.is_cancelled == 0 && p.is_commission_sale_enabled == 0 && p.payment_status == 1) ? 'Up to Date(green)' : (p.is_cancelled == 0 && p.is_commission_sale_enabled == 0 && p.payment_status == 2)  ? 'Payment Period(yellow)' : (p.is_cancelled == 0 && p.is_commission_sale_enabled == 0 && p.payment_status == 3) ? 'Overdue Payment(red)'
-            : p.is_cancelled == 0 && p.is_commission_sale_enabled == 0 && p.payment_status == 5 ? 'Settled(blue)' : (p.is_cancelled == 0 && p.is_commission_sale_enabled == 0 && p.payment_status == 6) ? 'Inconsistency between price and deal scheme(orange)' : ''
-           
-        });
+            : p.is_cancelled == 0 && p.is_commission_sale_enabled == 0 && p.payment_status == 5 ? 'Settled(blue)' : (p.is_cancelled == 0 && p.is_commission_sale_enabled == 0 && p.payment_status == 6) ? 'Inconsistency between price and deal scheme(orange)' : ''          
+        }
+
+        this.selectedCollectionColumnsToShow.buyer_name == 0 ? delete obj['Buyer Name'] : undefined;
+        this.selectedCollectionColumnsToShow.buyer_legal_representative == 0 ? delete obj['Buyer Legal Representative'] : undefined;
+        this.selectedCollectionColumnsToShow.seller_name == 0 ? delete obj['Seller Name'] : undefined;
+        this.selectedCollectionColumnsToShow.seller_legal_representative == 0 ? delete obj['Seller Legal Representative'] : undefined;
+        this.selectedCollectionColumnsToShow.name_of_building == 0 ? delete obj['Name of Building'] : undefined;
+        this.selectedCollectionColumnsToShow.name_of_tower == 0 ? delete obj['Name of Tower'] : undefined;
+        this.selectedCollectionColumnsToShow.name_of_apartment == 0 ? delete obj['Name of Apartment'] : undefined
+        this.selectedCollectionColumnsToShow.configuration == 0 ? delete obj['Configuration'] : undefined;
+        this.selectedCollectionColumnsToShow.locality == 0 ? delete obj['Locality'] : undefined;
+        this.selectedCollectionColumnsToShow.contract == 0 ? delete obj['Contract'] : undefined;
+        this.selectedCollectionColumnsToShow.purchase_date == 0 ? delete obj['Purchase Date'] : undefined;
+        this.selectedCollectionColumnsToShow.last_concept == 0 ? delete obj['Last Concept'] : undefined;
+        this.selectedCollectionColumnsToShow.last_date_of_payment == 0 ? delete obj['Last Date Of Payment'] : undefined;
+        this.selectedCollectionColumnsToShow.last_amount == 0 ? delete obj['Last Amount'] : undefined;
+        this.selectedCollectionColumnsToShow.next_concept == 0 ? delete obj['Next Concept'] : undefined;
+        this.selectedCollectionColumnsToShow.next_date_of_payment == 0 ? delete obj['Next Date Of Payment'] : undefined;
+        this.selectedCollectionColumnsToShow.next_amount == 0 ? delete obj['Next Amount'] : undefined;
+        this.selectedCollectionColumnsToShow.currency == 0 ? delete obj['Currency'] : undefined;
+        this.selectedCollectionColumnsToShow.sozu_commission == 0 ? delete obj['Sozu Commission (in %)'] : undefined;
+        this.selectedCollectionColumnsToShow.iva_amount == 0 ? delete obj['IVA Added in Amount'] : undefined;
+        this.selectedCollectionColumnsToShow.pc_amount == 0 ? delete obj['PC Amount'] : undefined;
+        this.selectedCollectionColumnsToShow.pc_receipt == 0 ? delete obj['PC Receipt'] : undefined;
+        this.selectedCollectionColumnsToShow.pc_invoice == 0 ? delete obj['PC Invoice'] : undefined;
+        this.selectedCollectionColumnsToShow.collection_commission == 0 ? delete obj['Collection Commission (in %)'] : undefined;
+        this.selectedCollectionColumnsToShow.cc_amount == 0 ? delete obj['CC Amount'] : undefined;
+        this.selectedCollectionColumnsToShow.cc_receipt == 0 ? delete obj['CC Receipt'] : undefined;
+        this.selectedCollectionColumnsToShow.cc_invoice == 0 ? delete obj['CC Invoice'] : undefined;
+        this.selectedCollectionColumnsToShow.inhouse_agent_commission == 0 ? delete obj['Inhouse Agent Commission (in %)'] : undefined;
+        this.selectedCollectionColumnsToShow.iva_amount_cc == 0 ? delete obj['IVA Added in Amount 2'] : undefined;
+        this.selectedCollectionColumnsToShow.ac_receipt == 0 ? delete obj['AC Receipt'] : undefined;
+        this.selectedCollectionColumnsToShow.ac_invoice == 0 ? delete obj['AC Invoice'] : undefined;
+        this.selectedCollectionColumnsToShow.outside_agent_commission == 0 ? delete obj['Outside Agent Commission (in %)'] : undefined;
+        this.selectedCollectionColumnsToShow.iva_amount_ac == 0 ? delete obj['IVA Added in Amount 4'] : undefined;
+        this.selectedCollectionColumnsToShow.oac_receipt == 0 ? delete obj['OAC Receipt'] : undefined;
+        this.selectedCollectionColumnsToShow.oac_invoice == 0 ? delete obj['OAC Invoice'] : undefined;
+        this.selectedCollectionColumnsToShow.agent_commission_inhouse == 0 ? delete obj['Agent Commission Inhouse'] : undefined;
+        this.selectedCollectionColumnsToShow.agent_commission_outside == 0 ? delete obj['Agent Commission Outside'] : undefined;
+        this.selectedCollectionColumnsToShow.final_price == 0 ? delete obj['final Price'] : undefined;
+        this.selectedCollectionColumnsToShow.final_price_per_metter == 0 ? delete obj['Final price per m2'] : undefined;
+        this.selectedCollectionColumnsToShow.penalty == 0 ? delete obj['Penalty'] : undefined;
+        this.selectedCollectionColumnsToShow.amount_paid == 0 ? delete obj['Amount Paid'] : undefined;
+        this.selectedCollectionColumnsToShow.remanining_amount == 0 ? delete obj['Remanining Amount'] : undefined;
+        this.selectedCollectionColumnsToShow.status_account == 0 ? delete obj['Status Account'] : undefined;
+
+        tempExportData.push(obj);
 
       }
       new ExcelDownload().exportAsExcelFile(tempExportData, 'collections');

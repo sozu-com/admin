@@ -672,23 +672,23 @@
                     <input name="ac_receipt{{i}}" disabled class="form-control checkbox_size" type="checkbox"
                       [checked]="p?.ac_receipt ? 'checked' : ''" readonly>
                   </td>
-                  <td *ngIf="selectedCollectionColumnsToShow?.outside_agent_commission">
+                  <td *ngIf="selectedCollectionColumnsToShow?.ac_invoice">
                     <input name="ac_invoice{{i}}" disabled class="form-control checkbox_size" type="checkbox"
                       [checked]="p?.ac_invoice ? 'checked' : ''" readonly>
                   </td>
-                  <td *ngIf="selectedCollectionColumnsToShow?.iva_amount_ac">
+                  <td *ngIf="selectedCollectionColumnsToShow?.outside_agent_commission">
                     <span>{{p?.outside_agent_commission_percentage ? (p?.outside_agent_commission_percentage | number : '1.2-3') :
                       ('table.tr.td.NA' | translate)}}</span>
                   </td>
-                  <td *ngIf="selectedCollectionColumnsToShow?.ac_receipt">
+                  <td *ngIf="selectedCollectionColumnsToShow?.iva_amount_ac">
                     <input name="add_iva_to_oac{{i}}" disabled class="form-control checkbox_size" type="checkbox"
                       [checked]="p?.add_iva_to_oac ? 'checked' : ''" readonly>
                   </td>
-                  <td *ngIf="selectedCollectionColumnsToShow?.ac_invoice">
+                  <td *ngIf="selectedCollectionColumnsToShow?.oac_receipt">
                     <input name="oac_receipt{{i}}" disabled class="form-control checkbox_size" type="checkbox"
                       [checked]="p?.oac_receipt ? 'checked' : ''" readonly>
                   </td>
-                  <td *ngIf="selectedCollectionColumnsToShow?.outside_agent_commission">
+                  <td *ngIf="selectedCollectionColumnsToShow?.oac_invoice">
                     <input name="oac_invoice{{i}}" disabled class="form-control checkbox_size" type="checkbox"
                       [checked]="p?.oac_invoice ? 'checked' : ''" readonly>
                   </td>
