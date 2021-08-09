@@ -2539,7 +2539,7 @@
         <div class="col-sm-12">
           <label class="p16-two">
             <input class="form-control" class="is_commission_sale_enabled" type="checkbox" name="add_iva_to_cc"
-              formControlName="add_iva_to_cc">
+              formControlName="add_iva_to_cc" [attr.disabled]="tempmodel.paid_collection_commision_amount ? true : null">
             <span style="margin-left: 10px;vertical-align: super;">{{'addCollection.adddIVAToColCommission' |
               translate}}</span>
           </label>
@@ -2548,7 +2548,7 @@
           <div class="clearfix"></div>
           <label class="p16-two">
             <input class="form-control" class="is_commission_sale_enabled" type="checkbox" name="add_iva_to_pc"
-              formControlName="add_iva_to_pc">
+              formControlName="add_iva_to_pc" [attr.disabled]="tempmodel.paid_purchase_commision_amount ? true : null">
             <span style="margin-left: 10px;vertical-align: super;">{{'addCollection.adddIVAToPurCommission' |
               translate}}</span>
           </label>
@@ -2558,7 +2558,7 @@
           <div class="clearfix"></div>
           <label class="p16-two">
             <input class="form-control" class="is_commission_sale_enabled" type="checkbox" name="add_iva_to_ac"
-              formControlName="add_iva_to_ac">
+              formControlName="add_iva_to_ac" [attr.disabled]="tempmodel.paid_agent_commision_amount ? true : null">
             <span style="margin-left: 10px;vertical-align: super;">{{'addCollection.addIVAToAgentCommissionInhouse' |
               translate}}</span>
           </label>
@@ -2568,7 +2568,7 @@
           <div class="clearfix"></div>
           <label class="p16-two">
             <input class="form-control" class="is_commission_sale_enabled" type="checkbox" name="add_iva_to_oac"
-              formControlName="add_iva_to_oac">
+              formControlName="add_iva_to_oac" [attr.disabled]="tempmodel.outside_payment_commission ? true : null">
             <span style="margin-left: 10px;vertical-align: super;">{{'addCollection.addIVAToAgentCommissionOutside' |
               translate}}</span>
           </label>
