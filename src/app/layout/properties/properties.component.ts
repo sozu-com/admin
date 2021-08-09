@@ -25,6 +25,7 @@ import { forkJoin } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { GenerateOfferPdfService } from 'src/app/services/generate-offer-pdf.service';
 import { runInThisContext } from 'vm';
+import { ThrowStmt } from '@angular/compiler';
 
 declare let swal: any;
 declare var $: any;
@@ -1468,8 +1469,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       const exportfinalData = [];
       for (let index = 0; index < this.exportfinalData.length; index++) {
         const p = this.exportfinalData[index];
-
-        exportfinalData.push({
+        let obj = {
           'Name of Building': (p.building || {}).name || '',
           'City': (p.city || {}).name || '',
           'Locality': (p.locality || {}).name || '',
@@ -1482,16 +1482,53 @@ export class PropertiesComponent implements OnInit, OnDestroy {
           'Configuration Half Bath': p.configuration ? p.configuration.half_bathroom + ' Half Bath' : '0 Half Bath',
           'List Price': p.min_price || 0,
           'Final Price': p.final_price || 0,
+          'Price per m2': p.avgg_price || 0,
+          'Commercial offers': p.offer_count || 0,
           'Carpet Area': p.max_area || 0,
           'Agent Commission (in %)': parseFloat(p.broker_commision).toFixed(3) || 0,
           'Commercialized by SOZU': p.is_commercialized ? 'yes' : 'no',
           'Total Commission (in %)': parseFloat(p.total_commission).toFixed(3) || 0,
+          'Possession Status': p.building_towers && p.building_towers.possession_status_id == this.apiConstant.possessionStatus.sale ? 
+                              this.translate.instant('table.tr.td.sale') : this.translate.instant('table.tr.td.presale'),
+          'Inhouse Agent': p.external_broker && p.external_broker.id ? p.external_broker.name : '',
+          'Outside Agent': p.external_outside_agent && p.external_outside_agent.id ? p.external_outside_agent.name : '',
+          'Agency': p.get_agency && p.get_agency.id ? p.get_agency.name : '',
+          'Availability': p.for_sale == 1 ? this.translate.instant('table.th.buy') : p.for_rent == 1 ? this.translate.instant('table.th.rent') : 
+                          p.for_hold == 1 ?  this.translate.instant('table.th.inventory') : '',
           'Leads': parseInt(p.lead_properties_count) || 0,
           'Buyer': ((p.selected_buyer || {}).user || {}).name || '',
           'Seller': ((p.selected_seller || {}).user || {}).name || '',
           'Is Property Sold': p.is_property_sold ? 'yes' : 'no',
           'Linked Collection': p.collection ? 'yes' : 'no',
-        });
+        };
+        this.selectedPropertyColumnsToShow.building_name == 0 ? delete obj['Name of Building'] : undefined;
+        this.selectedPropertyColumnsToShow.tower_name == 0 ? delete obj['Name of Tower'] : undefined;
+        this.selectedPropertyColumnsToShow.floor == 0 ? delete obj['Floor'] : undefined;
+        this.selectedPropertyColumnsToShow.apartment == 0 ? delete obj['Apartment'] : undefined;
+        this.selectedPropertyColumnsToShow.model == 0 ? delete obj['Model'] : undefined;
+        this.selectedPropertyColumnsToShow.configuration == 0 ? delete obj['Configuration Bed'] : undefined;
+        this.selectedPropertyColumnsToShow.configuration == 0 ? delete obj['Configuration Bath'] : undefined;
+        this.selectedPropertyColumnsToShow.configuration == 0 ? delete obj['Configuration Half Bath'] : undefined;
+        this.selectedPropertyColumnsToShow.list_price == 0 ? delete obj['List Price'] : undefined;
+        this.selectedPropertyColumnsToShow.final_price == 0 ? delete obj['Final Price'] : undefined;
+        this.selectedPropertyColumnsToShow.commercial_offers == 0 ? delete obj['Commercial offers'] : undefined;
+        this.selectedPropertyColumnsToShow.carpet_area == 0 ? delete obj['Carpet Area'] : undefined;
+        this.selectedPropertyColumnsToShow.commercialized_sozu == 0 ? delete obj['Commercialized by SOZU'] : undefined;
+        this.selectedPropertyColumnsToShow.possession_status == 0 ? delete obj['Possession Status'] : undefined;
+        this.selectedPropertyColumnsToShow.agent_commission == 0 ? delete obj['Agent Commission (in %)'] : undefined;
+        this.selectedPropertyColumnsToShow.total_commission == 0 ? delete obj['Total Commission (in %)'] : undefined;
+        this.selectedPropertyColumnsToShow.leads == 0 ? delete obj['Leads'] : undefined;
+        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.change_buyer == 0 ? delete obj['Buyer'] : undefined;
+        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.change_seller == 0 ? delete obj['Seller'] : undefined;
+        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.link_unlink_inhouse_agent == 0 ? delete obj['Inhouse Agent'] : undefined;
+        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.link_unlink_outside_agent == 0 ? delete obj['Outside Agent'] : undefined;
+        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.link_agency == 0 ? delete obj['Agency'] : undefined;
+        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.change_availability == 0 ? delete obj['Availability'] : undefined;
+        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.is_property_sold == 0 ? delete obj['Is Property Sold'] : undefined;
+        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.linked_collection == 0 ? delete obj['Linked Collection'] : undefined;
+        this.selectedPropertyColumnsToShow.price_per_m2 == 0 ? delete obj['Price per m2'] : undefined;
+
+        exportfinalData.push(obj);
       }
       new ExcelDownload().exportAsExcelFile(exportfinalData, 'properties');
     }
@@ -2510,14 +2547,16 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       leads: (this.select_columns_list[16] || []).isCheckBoxChecked,
       change_buyer: (this.select_columns_list[17] || []).isCheckBoxChecked,
       change_seller: (this.select_columns_list[18] || []).isCheckBoxChecked,
-      link_unlink_agent: (this.select_columns_list[19] || []).isCheckBoxChecked,
-      link_agency: (this.select_columns_list[20] || []).isCheckBoxChecked,
-      change_availability: (this.select_columns_list[21] || []).isCheckBoxChecked,
-      is_property_sold: (this.select_columns_list[22] || []).isCheckBoxChecked,
-      linked_collection: (this.select_columns_list[23] || []).isCheckBoxChecked,
-      edit_total_commission: (this.select_columns_list[24] || []).isCheckBoxChecked,
-      view_seller_request: (this.select_columns_list[25] || []).isCheckBoxChecked,
-      action: (this.select_columns_list[26] || []).isCheckBoxChecked                                              
+      link_unlink_inhouse_agent: (this.select_columns_list[27] || []).isCheckBoxChecked,
+      link_unlink_outside_agent: (this.select_columns_list[28] || []).isCheckBoxChecked,
+      link_agency: (this.select_columns_list[19] || []).isCheckBoxChecked,
+      change_availability: (this.select_columns_list[20] || []).isCheckBoxChecked,
+      is_property_sold: (this.select_columns_list[21] || []).isCheckBoxChecked,
+      linked_collection: (this.select_columns_list[22] || []).isCheckBoxChecked,
+      edit_total_commission: (this.select_columns_list[23] || []).isCheckBoxChecked,
+      view_seller_request: (this.select_columns_list[24] || []).isCheckBoxChecked,
+      action: (this.select_columns_list[25] || []).isCheckBoxChecked,
+      price_per_m2: (this.select_columns_list[26] || []).isCheckBoxChecked                                              
     };
   }
 
@@ -2611,9 +2650,6 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       case 20:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.change_seller;
         break;
-      case 21:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.link_unlink_agent;
-        break;
       case 22:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.link_agency;
         break;
@@ -2634,6 +2670,15 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         break;
       case 28:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.action;
+        break;
+      case 30:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.link_unlink_inhouse_agent;
+        break;
+      case 31:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.link_unlink_outside_agent;
+        break;
+      case 32:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.price_per_m2;
         break;
       default:
         break;
