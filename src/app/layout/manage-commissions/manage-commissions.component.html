@@ -514,7 +514,7 @@
                         <!-- apply payment -->
                         <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
                          title="{{'table.title.collectionCommission' | translate}}" class="action-icon"
-                         (click)="showCollectionCommReceipt(p, i, 'commission-popup')">
+                         (click)="showCollectionCommReceipt(p, i, 'commission-popup')" >
                          <img src="assets/img/ic_commission.png" alt="img">
                         </button>
                           <!-- edit payment -->
