@@ -3110,7 +3110,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           "OAC Receipt": p.oac_receipt ? 'Yes' : 'No',
           "OAC Invoice":p.oac_invoice ? 'Yes' : 'No',
           'Agent Commission Inhouse': (((p.deal_commission_agents || [])[0] || []).broker || {}).name ? ((((p.deal_commission_agents || [])[0] || []).broker || {}).name + ' ' + (((p.deal_commission_agents || [])[0] || []).broker || {}).first_surname + ' ' + (((p.deal_commission_agents || [])[0] || []).broker || {}).second_surname) : '',
-          'Agent Commission Outside':  p.deal_commission_outside_agents && p.deal_commission_outside_agents[0].name ? ((p.deal_commission_outside_agents || [])[0]).name + ' ' + ((p.deal_commission_outside_agents || [])[0]).first_surname + ' ' + (((p.deal_commission_outside_agents || [])[0]).second_surname) : '',
+          'Agent Commission Outside':  ((p.deal_commission_outside_agents || [])[0] || []).name ? ((p.deal_commission_outside_agents || [])[0] || []).name + ' ' + ((p.deal_commission_outside_agents || [])[0] || []).first_surname + ' ' + (((p.deal_commission_outside_agents || [])[0] || []).second_surname) : '',
           'final Price': parseInt(p.deal_price || 0),
           'Final price per m2' :  parseInt(p.avgg_price_per || 0),
           'Penalty': parseInt(p.penalty || 0),
