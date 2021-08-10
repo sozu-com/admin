@@ -604,8 +604,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       const exportfinalData = [];
       for (let index = 0; index < this.exportfinalData.length; index++) {
         const p = this.exportfinalData[index];
-
-        exportfinalData.push({
+        let obj = {
           'Name': p.name || '',
           'City': (p.city || {}).name || '',
           'Locality': (p.locality || {}).name || '',
@@ -615,21 +614,46 @@ export class ProjectsComponent implements OnInit, OnDestroy {
           'Developer Name': p.developer && p.developer.name ? p.developer.name : '',
           'Agency Name': p.agency && p.agency.name ? p.agency.name : '',
           'Legal Entity Name': p.legal_entity && p.legal_entity.comm_name ? p.legal_entity.comm_name : '',
+          'Contributor': p.building_contributors && p.building_contributors.length > 0  ? this.getBuildingContributorsInfo(p.building_contributors) : '',
           'Manager Name': p.manager && p.manager.name ? p.manager.name : '',
           'Company Name': p.company && p.company.name ? p.company.name : '',
           'Possession Status': p.possession_status_id == this.apiConstant.possessionStatus.sale ? 'Sale' : 'Presale',
+          'Parking Lots': this.totalParkingCount(p) || 0,
           'Properties': parseInt(p.properties_count_all) || 0,
           'Properties available for rent': parseInt(p.rent_count_all) || 0,
           'Properties available for sale': parseInt(p.sale_count_all) || 0,
-          'Min Price List($)': parseInt(p.min_price) || 0,
-          'Max Price List ($)': parseInt(p.max_price) || 0,
-          'Avg Price List ($)': parseInt(p.avg_price) || 0,
-          'Min Carpet Area': parseInt(p.min_carpet_area) || 0,
-          'Max Carpet Area': parseInt(p.max_carpet_area) || 0,
-          'Avg Carpet Area': parseInt(p.avg_carpet_area) || 0,
-          'Avg Price List per m2': p.avg_price && p.avg_carpet_area ? p.avg_price / p.avg_carpet_area : 0,
-          'Towers': p.building_towers_count || 0
-        });
+          'Avg list price (For sale)': parseInt(p.avg_price) || 0,
+          'Avg Carpet Area (For sale)': parseInt(p.avg_carpet_area) || 0,
+          'Price per m2 (For sale)': parseInt(p.avgg_price) || 0,
+          'Avg list price (Inventory)': parseInt(p.avg_price_hold) || 0,
+          'Avg Carpet Area (Inventory)': parseInt(p.avg_carpet_area_hold) || 0,
+          'Price per m2 (Inventory)': parseInt(p.avgg_price_hold) || 0, 
+          'Project Status': p.is_completed == this.apiConstant.projectStatus.without_information ? this.translate.instant('table.th.projectStatus.withoutInformation') : 
+          (p.is_completed == this.apiConstant.projectStatus.basic_information) ? this.translate.instant('table.th.projectStatus.basicInformation') :
+          (p.is_completed == this.apiConstant.projectStatus.semicompleted) ? this.translate.instant('table.th.projectStatus.semicompleted') : 
+          (p.is_completed == this.apiConstant.projectStatus.completed) ? this.translate.instant('table.th.projectStatus.completed') : ''
+        }
+
+        this.selectedColumnsToShow.building_name == 0 ? delete obj['Name'] : undefined;
+        this.selectedColumnsToShow.developer == 0 ? delete obj['Developer Name'] : undefined;
+        this.selectedColumnsToShow.agency == 0 ? delete obj['Agency Name'] : undefined;
+        this.selectedColumnsToShow.legal_entity == 0 ? delete obj['Legal Entity Name'] : undefined;
+        this.selectedColumnsToShow.contributor == 0 ? delete obj['Contributor'] : undefined;
+        this.selectedColumnsToShow.managed_company == 0 ? delete obj['Manager Name'] : undefined;
+        this.selectedColumnsToShow.possesion == 0 ? delete obj['Possession Status'] : undefined;
+        this.selectedColumnsToShow.parking_lots == 0 ? delete obj['Parking Lots'] : undefined;
+        this.selectedColumnsToShow.properties == 0 ? delete obj['Properties'] : undefined;
+        this.selectedColumnsToShow.property_for_rent == 0 ? delete obj['Properties available for rent'] : undefined;
+        this.selectedColumnsToShow.property_for_sale == 0 ? delete obj['Properties available for sale'] : undefined;
+        this.selectedColumnsToShow.list_price == 0 ? delete obj['Avg list price (For sale)'] : undefined;
+        this.selectedColumnsToShow.carpet_area == 0 ? delete obj['Avg Carpet Area (For sale)'] : undefined;
+        this.selectedColumnsToShow.price_per_metter == 0 ? delete obj['Price per m2 (For sale)'] : undefined;
+        this.selectedColumnsToShow.project_status == 0 ? delete obj['Project Status'] : undefined;
+        this.selectedColumnsToShow.inventory_list_price == 0 ? delete obj['Avg list price (Inventory)'] : undefined;
+        this.selectedColumnsToShow.inventory_carpet_area == 0 ? delete obj['Avg Carpet Area (Inventory)'] : undefined;
+        this.selectedColumnsToShow.inventory_per_metter == 0 ? delete obj['Price per m2 (Inventory)'] : undefined;
+
+        exportfinalData.push(obj);
       }
       this.exportAsExcelFile(exportfinalData, 'projects-');
     }
