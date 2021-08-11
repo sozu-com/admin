@@ -455,6 +455,10 @@
               <td>{{model?.property?.name || ('table.tr.td.NA' | translate)}}</td>
             </tr>
             <tr>
+              <th>{{'quickVisualization.carpetArea' | translate}}:</th>
+              <td>{{(model?.property?.max_area || 0)}}</td>
+            </tr>
+            <tr>
               <th>{{'quickVisualization.finalprice' | translate}}:</th>
               <td>{{(model?.property?.final_price || 0) | currency}}</td>
             </tr>

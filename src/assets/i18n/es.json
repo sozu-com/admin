@@ -2637,7 +2637,8 @@
     "size": "Talla",
     "docsCount": "Docs",
     "finalPrice":"Precio final",
-    "finalpricesquare":"Precio final por m2"
+    "finalpricesquare":"Precio final por m2",
+    "carpetArea": "Area de piso"
   },
   "addCollectionValidations": {
     "thisIsRequired": "Esto es requerido",

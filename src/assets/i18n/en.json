@@ -2643,7 +2643,8 @@
     "size": "Size",
     "docsCount": "Docs",
     "finalprice":"Final Price",
-    "finalpricesquare":"Final price per m2"
+    "finalpricesquare":"Final price per m2",
+    "carpetArea": "Carpet Area"
   },
   "addCollectionValidations": {
     "thisIsRequired": "This is required",
