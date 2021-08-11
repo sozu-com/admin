@@ -164,9 +164,9 @@
                     <label>{{'table.th.image' | translate}}</label>
                   </div>
                 </th>
-                <th style="width:15%" *ngIf="selectedColumnsToShow?.building_name">
+                <th style="width:10%" *ngIf="selectedColumnsToShow?.building_name">
                   <div class="table-search">
-                    <label>{{'table.th.nameOfBuilding' | translate}}</label>
+                    <label>{{'table.th.nameOfHotel' | translate}}</label>
                     <div class="searh-3">
                       <input class="width100px" type="text" [(ngModel)]="parameter.keyword"
                         (keyup.enter)="getListing()" autocomplete="address-level4">
@@ -174,7 +174,7 @@
                     </div>
                   </div>
                 </th>
-                <th style="width:14%" *ngIf="selectedColumnsToShow?.developer">
+                <th style="width:10%" *ngIf="selectedColumnsToShow?.developer">
                   <div class="table-search">
                     <label>{{'table.th.developer' | translate}}</label>
                     <div class="searh-3">
@@ -183,7 +183,7 @@
                     </div>
                   </div>
                 </th>
-                <th style="width:15%" *ngIf="selectedColumnsToShow?.agency">
+                <!-- <th style="width:15%" *ngIf="selectedColumnsToShow?.agency">
                   <div class="table-search">
                     <label>{{'table.th.agency' | translate}}</label>
                     <div class="searh-3">
@@ -192,23 +192,23 @@
                       <button *ngIf="parameter.agency_name" (click)="getListing()"><i class="fa fa-search"></i></button>
                     </div>
                   </div>
-                </th>
-                <th style="width:15%" *ngIf="selectedColumnsToShow?.legal_entity">
+                </th> -->
+                <!-- <th style="width:15%" *ngIf="selectedColumnsToShow?.legal_entity">
                   <div class="table-search">
                     <label>{{'table.th.legalEntity' | translate}}</label>
                   </div>
-                </th>
-                <th style="width:15%" *ngIf="selectedColumnsToShow?.contributor">
+                </th> -->
+                <th style="width:10%" *ngIf="selectedColumnsToShow?.contributor">
                   <div class="table-search">
                     <label>{{'table.th.contributor' | translate}}</label>
                   </div>
                 </th>
-                <th style="width:15%" *ngIf="selectedColumnsToShow?.managed_company">
+                <th style="width:13%" *ngIf="selectedColumnsToShow?.managed_company">
                   <div class="table-search">
                     <label>{{'table.th.managedBy' | translate}}</label>
                   </div>
                 </th>
-                <th style="width:10%" *ngIf="selectedColumnsToShow?.possesion">
+                <th style="width:7%" *ngIf="selectedColumnsToShow?.possesion">
                   <div class="table-search">
                     <label>{{'table.th.possesion.label' | translate}}</label>
                     <select [(ngModel)]="parameter.possession_filter" (change)="getListing()">
@@ -220,7 +220,7 @@
                     </select>
                   </div>
                 </th>
-                <th style="vertical-align:top;width:5%" *ngIf="selectedColumnsToShow?.parking_lots">
+                <th style="vertical-align:top;width:6%" *ngIf="selectedColumnsToShow?.parking_lots">
                   <div class="table-search">
                     <label>{{'table.th.possesion.park' | translate}}</label>
                       <a (click)="sortData1(parameter.parking_sort == 2 ? 1 : 2)" href="javascript://"><img
@@ -237,7 +237,7 @@
                   </div>
                 </th>
               
-                <th style="vertical-align:top;width:100px;width:20%" *ngIf="selectedColumnsToShow?.action">
+                <th style="vertical-align:top;width:2%" *ngIf="selectedColumnsToShow?.action">
                   <div class="table-search">
                     <label>{{'table.th.actions.label' | translate}}</label>
                     <select [(ngModel)]="parameter.action_filter" (change)="getListing()">
@@ -267,15 +267,15 @@
                 <td [ngClass]="{'green-color cursor-pointer': p?.developer?.name}"  *ngIf="selectedColumnsToShow?.developer" (click)="viewDeveloper(p)">
                   <span>{{p?.developer?.name ? p?.developer?.name : ('table.tr.td.NA' | translate)}}</span>
                 </td>
-                <td [ngClass]="{'green-color cursor-pointer': p?.agency?.name}"  *ngIf="selectedColumnsToShow?.agency" (click)="viewAgency(p)">
+                <!-- <td [ngClass]="{'green-color cursor-pointer': p?.agency?.name}"  *ngIf="selectedColumnsToShow?.agency" (click)="viewAgency(p)">
                   <span>{{p?.agency?.name ? p?.agency?.name : ('table.tr.td.NA' | translate)}}</span>
-                </td>
+                </td> -->
                 <!-- (click)="viewLegalEntity(p)" -->
-                <td   *ngIf="selectedColumnsToShow?.legal_entity" [ngClass]="{'green-color cursor-pointer': p?.legal_entity_info?.length > 0 }">
+                <!-- <td   *ngIf="selectedColumnsToShow?.legal_entity" [ngClass]="{'green-color cursor-pointer': p?.legal_entity_info?.length > 0 }">
                   <span (click)="this.openLegalEnityListModel(p.legal_entity_info)" *ngIf="p?.legal_entity_info?.length > 0">
                     {{this.getLegalEntityInfo(p.legal_entity_info)}}</span>
                     <span *ngIf="p?.legal_entity_info?.length == 0">{{'table.tr.td.NA' | translate}}</span>
-                </td>
+                </td> -->
                  <!-- (click)="viewContributor(p)" -->
                  <td   *ngIf="selectedColumnsToShow?.contributor" [ngClass]="{'green-color cursor-pointer': p?.hotel_contributors?.length > 0 }">                   
                     <span (click)="this.openContributorListModel(p.hotel_contributors)" *ngIf="p?.hotel_contributors?.length > 0">

@@ -110,9 +110,9 @@
             <div class="row">
               <div class="col-sm-12 col-12">
                 <div class="form-group-3">
-                  <label>{{'addForm.nameOfBuilding' | translate}} <span class="color-red">*</span></label>
+                  <label>{{'addForm.nameOfHotel' | translate}} <span class="color-red">*</span></label>
                   <input class="form-control" type="text" [pattern]="constant.onlyWhiteSpaces" [(ngModel)]="model.name"
-                    name="name2" placeholder="{{'addForm.placeholder.nameOfBuilding' | translate}}" autocomplete="off" required>
+                    name="name2" placeholder="{{'addForm.placeholder.nameOfHotel' | translate}}" autocomplete="off" required>
                 </div>
               </div>
 
@@ -185,15 +185,14 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-sm-6 col-12">
+              <!-- <div class="col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>{{'addForm.buildingAge' | translate}}
-                    <!-- <span class="color-red">*</span> -->
                   </label>
                   <input placeholder="{{'addForm.placeholder.buildingAge' | translate}}" min="0" class="form-control" [(ngModel)]="model.hotel_age"
                     type="number" name="hotel_age" />
                 </div>
-              </div>
+              </div> -->
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>{{'addForm.buildingType.labelHotel' | translate}}
@@ -261,16 +260,15 @@
                 </div>
               </div>
              
-              <div class="col-md-6 col-sm-6 col-12">
+              <!-- <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>{{'addForm.launchDate' | translate}}
-                    <!-- <span class="color-red">*</span> -->
                   </label>
                   <input class="form-control" [ngModel]="model.launch_date  | date:'yyyy-MM-dd'"
                     (ngModelChange)="model.launch_date  = $event" type="date" name="building_launch_date"
                     placeholder="{{'addForm.placeholder.launchDate' | translate}}">
                 </div>
-              </div>
+              </div> -->
 
               <div class="col-sm-12 col-12">
                 <div class="form-group-3">
@@ -399,7 +397,7 @@
 
 
               <!-- Regulations & Policies Section -->
-              <div class="row">
+              <!-- <div class="row">
                 <div class="col-12">
                   <div class="page-title paddingL0 paddingR0">
                     <h3>{{'addForm.regulationsPolicies' | translate}}
@@ -415,7 +413,7 @@
                     <div class="clearfix"></div>
                   </div>
                 </div>
-              </div>
+              </div> -->
               <!-- End Of Regulations & Policies Section -->
 
 
@@ -634,14 +632,14 @@
                     </div>
                   </div>
 
-                  <div class="col-md-6 col-sm-6 col-12">
+                  <!-- <div class="col-md-6 col-sm-6 col-12">
                     <div class="form-group-3">
                       <label>{{'addForm.launchDate' | translate}}</label>
                       <input class="form-control" [ngModel]="newTower.launch_date  | date:'yyyy-MM-dd'"
                         (ngModelChange)="newTower.launch_date  = $event" type="date" name="launch_date"
                         placeholder="{{'addForm.placeholder.launchDate' | translate}}">
                     </div>
-                  </div>
+                  </div> -->
 
                   <div class="col-12">
                     <div class="form-group-3 marginB0">
@@ -737,7 +735,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-6 col-sm-6 col-12">
+                  <!-- <div class="col-md-6 col-sm-6 col-12">
                     <div class="form-group-3">
                       <label>{{'addForm.launchDate' | translate}}</label>
                       <input class="form-control" [disabled]="model?.building_tower_edit_index!=i"
@@ -745,7 +743,7 @@
                         (ngModelChange)="btower.launch_date  = $event" type="date" name="launch_date{{i}}"
                         placeholder="{{'addForm.placeholder.launchDate' | translate}}">
                     </div>
-                  </div>
+                  </div> -->
 
                   <div class="col-12">
                     <div class="form-group-3 marginB0">
@@ -1049,11 +1047,10 @@
 
               
               <!-- Agency Info Section -->
-              <div class="row">
+              <!-- <div class="row">
                 <div class="col-12">
                   <div class="page-title paddingL0 paddingR0">
                     <h3>{{'addForm.agency.label' | translate}}
-                      <!-- <span class="color-red">*</span> -->
                       <span class="tower pull-right" style="margin-left: 20px;" *ngIf="model?.agency?.id"
                       (click)="unlinkAgency('', 1)">{{'addForm.agency.unlinkAgency' | translate}} </span>
 
@@ -1112,10 +1109,10 @@
                     <label style="font-size: x-large; font-weight: bold;">{{'addForm.NoInformation' | translate}}</label>
                   </div>
                 </div>
-              </div>
+              </div> -->
 
 
-              <div class="row">
+              <!-- <div class="row">
                 <div class="col-12">
                   <div class="page-title paddingL0 paddingR0">
                     <h3>{{'addForm.legalEntity.label' | translate}}
@@ -1124,9 +1121,9 @@
                     </h3>
                   </div>
                 </div>
-              </div>
+              </div> -->
 
-            <div *ngIf="model.legal_entity?.length > 0">
+            <!-- <div *ngIf="model.legal_entity?.length > 0">
               <div *ngFor="let legal_entity of model.legal_entity; let i=index">
                 <div class="row">
                   <div class="col-12">
@@ -1165,7 +1162,7 @@
                 </div>
               </div>
               </div>
-            </div>
+            </div> -->
 
               <!-- End of Legal Entity Info Section -->
 
