@@ -54,6 +54,10 @@ const routes: Routes = [
         loadChildren: './companies/companies.module#CompaniesModule'
       },
       {
+        path: 'hotel-companies',
+        loadChildren: './hotel-companies/hotel-companies.module#HotelCompaniesModule'
+      },
+      {
         path: 'managers',
         loadChildren: './managers/managers.module#ManagersModule'
       },
