@@ -25,6 +25,7 @@ import { MatchValueDirective } from 'src/app/directives/match-value.directive';
 import { SharedModule } from 'src/app/modules/shared.module';
 import { HotelComponent } from './hotel/hotel.component';
 import { RoomComponent } from './room/room.component';
+import { OfficeComponent } from './office/office.component';
 
 const routes: Routes = [
   { path: 'view-profile', component: ProfileComponent },
@@ -48,6 +49,10 @@ const routes: Routes = [
   },
   {
     path: 'setting-project', component: ProjectComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Settings', 'can_read', ''] }
+  },
+  {
+    path: 'setting-office', component: OfficeComponent,
     canActivate: [AclUserGuard], data: { roles: ['Settings', 'can_read', ''] }
   },
   {
@@ -80,7 +85,8 @@ const routes: Routes = [
     DefaultSettingsComponent,
     MatchValueDirective,
     HotelComponent,
-    RoomComponent
+    RoomComponent,
+    OfficeComponent
   ],
   imports: [
     RouterModule.forChild(routes),

@@ -48,7 +48,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     { selectedCountry: '', selectedStates: [], selectedCities: [], selectedLocalities: [] };
   @ViewChild('legalEnityListModelOpen') legalEnityListModelOpen: ElementRef;
   @ViewChild('legalEnityListModelClose') legalEnityListModelClose: ElementRef;
-  @ViewChild('contributorListModelOpen') contributorListModelOpen: ElementRef;
+  @ViewChild('contributorListModelOpen') contributorListModelOpen: ElementRef; 
   @ViewChild('contributorListModelClose') contributorListModelClose: ElementRef;
   @ViewChild('notesadddModalOpen') notesadddModalOpen: ElementRef;
   @ViewChild('notesadddModalClose') notesadddModalClose: ElementRef;

@@ -1,0 +1,20 @@
+input[type="text"] {
+    background-color : #d1d1d1; 
+}
+.modal-dialog {
+    max-width: 500px;
+    margin: 24.75rem auto;
+}
+
+:host ::ng-deep .multiselect-dropdown {
+    position: relative;
+    width: 100%;
+    font-size: inherit;
+    font-family: inherit;
+    background-color: white;
+}
+
+.is_commission_sale_enabled{
+    width: 25px;
+    height: 25px;
+}

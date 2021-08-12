@@ -103,6 +103,10 @@ const routes: Routes = [
         loadChildren: './projects/projects.module#ProjectsModule'
       },
       {
+        path: 'office',
+        loadChildren: './manage-office/manage-office.module#ManageOfficeModule'
+      },
+      {
         path: 'hotels',
         loadChildren: './hotels/hotels.module#HotelsModule'
       },
