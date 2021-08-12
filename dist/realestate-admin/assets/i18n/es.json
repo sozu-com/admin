@@ -287,6 +287,7 @@
     "canDelete": "Puedan Borrar",
     "canCRUD": "CRUD",
     "companyCommercialName": "Nombre de la empresa (nombre comercial)",
+    "companyHotelCommercialName": "Nombre de la empresa hotelera (nombre comercial)",
     "rfcLegalId": "RFC (identificación legal)",
     "razonSocial": "Razon Social (Nombre legal)",
     "locationPinOnMap": "Ubicación del Pin en el mapa",
@@ -406,7 +407,9 @@
       "numOfRooms": "Número de habitaciones",
       "possessionStatus": "Estatus de posesión",
       "tower": "Torre",
-      "noAmenityAdded": "Ninguna amenidad agredada para esta torre."
+      "noAmenityAdded": "Ninguna amenidad agredada para esta torre.",
+      "totalSquareMeter": "Metros cuadrados totales",
+      "layout": "Diseño"
     },
     "developer": {
       "developer": "Desarrollador",
@@ -595,6 +598,14 @@
     "leadType": "Tipo de cliente potencial",
     "csrCoordinator": "Coordinador de RSC",
     "creditCoordinator": "Coordinador de Credit",
+    "addOffice": "Agregar Oficina",
+    "editOffice": "Editar Oficina",
+    "nameOfOffice": "nombre del Oficina",
+    "totalSquareMeter": "Metros cuadrados totales",
+    "layoutBrochure": "Diseño / Folleto",
+    "officeAge": "Edad del Oficina",
+    "officeType": "Oficina Tipo",
+    "chooseOfficeType": "Elija el tipo de oficina",
     "manualLead":{
       "buyer": "Buyer",
       "seller": "Seller",
@@ -612,6 +623,7 @@
       "searchForBranch": "Buscar sucursal",
       "searchForLocation": "Buscar ubicación",
       "buildingAge": "Edad del edificio",
+      "officeAge": "Edad del Oficina",
       "numOfProperties": "No. de propiedades",
       "numOfRooms": "Número de habitaciones",
       "projectDescription": "Ingresar descripción del proyecto",
@@ -670,7 +682,7 @@
       "projectPossessionStatusEs": "Project possession Estatus de la entrega del proyecto (Español)",
       "projectTypeEn": "Tipo de proyecto (Inglés)",
       "projectTypeEs": "Tipo de proyecto (Español)",
-
+      "totalSquareMeter": "Metros cuadrados totales",
       "hotelAmenityEn": "Nombre de la amenidad del hotel (Inglés)",
       "hotelAmenityEs": "Nombre de la amenidad del hotel (español)",
       "hotelPossessionStatusEn": "Estatus de la entrega (Inglés)",
@@ -749,6 +761,8 @@
       "address": "Dirección",
       "image": "Imagen",
       "nameOfBuilding": "Nombre del edificio",
+      "nameOfOffice": "nombre del Oficina",
+      "totalSquareMeter": "Metros cuadrados totales",
       "nameOfHotel": "Nombre del hotel",
       "nameOfTower": "Nombre de la torre",
       "floor": "Piso",
@@ -831,6 +845,7 @@
       "agency": "Agencia",
       "legalEntity": "Entidad legal",
       "companyCommercialName": "Nombre de la compañía (Nombre comercial)",
+      "companyHotelCommercialName": "Nombre de la empresa hotelera (Nombre comercial)",
       "selectContributor": "Seleccionar colaborador",
       "contributor": "colaborador",
       "statusHistory": "Historial de estado",
@@ -1707,7 +1722,10 @@
   "viewCompanies": {
     "label": "Administrar compañías",
     "addCompany": "Agregar compañía",
-    "editCompany": "Editar compañía"
+    "editCompany": "Editar compañía",
+    "label_hotel": "Gestionar Empresas Hoteleras",
+    "addCompany_hotel": "Agregar empresa hotelera",
+    "editCompany_hotel": "Editar empresa hotelera"
   },
   "viewDevelopers": {
     "label": "Administrar desarrolladores",
@@ -2076,7 +2094,9 @@
     "manageCommissions": "Administrar Comisiones",
     "marketAnalysis": "Análisis De Mercado",
     "projectAnalysis": "Análisis De Proyecto",
-    "locationAnalysis": "Análisis De Ubicación"
+    "locationAnalysis": "Análisis De Ubicación",
+    "office": "Oficina",
+    "manageOffice": "Gestionar Oficina"
   },
   "commonBlock": {
     "job": "Trabajo",
@@ -2260,7 +2280,7 @@
     "selectDealType": "Seleccionar tipo de oferta",
     "didntFoundyourBuilding": "¿No encontraste tu edificio?",
     "GenerateARequesttoAddABuildingByOurDataCollectors": "Genere una solicitud para agregar un edificio por nuestros recopiladores de datos",
-    "nameOfBuilding": "nombre del edificio",
+    "totalSquareMeter": "Metros cuadrados totales",
     "nameOfHotel": "nombre del hotel ",
     "nameOfDeveloper": "Nombre de la desarrolladora",
     "whereItIsLocated": "¿Donde esta ubicado?",
@@ -3073,5 +3093,15 @@
     "selectGraph": "Seleccionar gráfico",
     "averagePriceH": "Promedio de todos los precios finales de las propiedades (desbloqueadas, activas y aprobadas) con una cuenta de cobro activa sin considerar el tipo de propiedad de la oficina.",
      "averagePricePerM": "Promedio de todas las áreas de alfombra de las propiedades (desbloqueadas, activas y aprobadas) con una cuenta de cobranza activa sin considerar el tipo de propiedad de la oficina."
+  },
+  "office":{
+    "officeStatus": "Oficina estatus",
+    "officeType": "Oficina Tipo",
+    "officeTypeE": "Oficina Tipo (Inglés)",
+    "officeTypeS": "Oficina Tipo (Español)",
+    "officeAmenityNameE" : "Oficina Amenidades Nombre (Inglés)",
+    "officeAmenityNameS" : "Oficina Amenidades Nombre (Español)",
+    "addNewOffice": "Añadir nuevo Oficina",
+    "manageOffice": "Gestionar Oficina"
   }
 }

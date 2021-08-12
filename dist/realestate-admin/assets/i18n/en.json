@@ -287,6 +287,7 @@
     "canDelete": "Can Delete",
     "canCRUD": "CRUD",
     "companyCommercialName": "Company Name (Commercial Name)",
+    "companyHotelCommercialName": "Hotel Company Name (Commercial Name)",
     "rfcLegalId": "RFC (Legal ID)",
     "razonSocial": "Razon Social (Legal Name)",
     "locationPinOnMap": "Location Pin on Map",
@@ -407,7 +408,9 @@
       "numOfRooms": "No. of rooms",
       "possessionStatus": "Possession Status",
       "tower": "Tower",
-      "noAmenityAdded": "No amenity added for this tower."
+      "noAmenityAdded": "No amenity added for this tower.",
+      "totalSquareMeter": "Total square meters",
+      "layout": "Layout"
     },
     "developer": {
       "developer": "Developer",
@@ -596,6 +599,14 @@
     "leadType": "Lead type",
     "csrCoordinator": "CSR Coordinator",
     "creditCoordinator": "Credit Coordinator",
+    "addOffice": "Add Office",
+    "editOffice": "Edit Office",
+    "nameOfOffice": "Name of Office",
+    "totalSquareMeter": "Total square meters",
+    "layoutBrochure": "Layout/Brochure",
+    "officeAge": "Office Age",
+    "officeType": "Office Type",
+    "chooseOfficeType": "Choose office type",
     "manualLead":{
       "name": "Name",
       "firstSurname": "First Surname",
@@ -613,6 +624,7 @@
       "searchForBranch": "Search for Branch Office",
       "searchForLocation": "Search for Location",
       "buildingAge": "Building Age",
+      "officeAge": "Office Age",
       "numOfProperties": "No. of properties",
       "numOfRooms": "No. of rooms",
       "projectDescription": "Enter Project Description",
@@ -633,6 +645,7 @@
       "companyEmail": "Company Email",
       "search": "Search",
       "nameOfBuilding": "Enter Name of the Building",
+      "nameOfOffice": "Name of Office",
       "nameOfHotel": "Enter Name of the Hotel",
       "apartmentName": "Apartment Name",
       "areaShouldBeInSqmt": "Area should be in Sq/mt.",
@@ -685,7 +698,7 @@
       "hotelPossessionStatusEs": "Hotel possession status (Spanish)",
       "hotelTypeEn": "Hotel type (English)",
       "hotelTypeEs": "Hotel type (Spanish)",
-
+      "totalSquareMeter": "Total square meters",
       "bedrooms": "Bedrooms",
       "bathrooms": "Bathrooms",
       "halfBathrooms": "Half Bathrooms",
@@ -750,6 +763,8 @@
       "address": "Address",
       "image": "Image",
       "nameOfBuilding": "Name of Building",
+      "nameOfOffice": "Name of office",
+      "totalSquareMeter": "Total square meters",
       "nameOfHotel": "Name of Hotel",
       "nameOfTower": "Name of Tower",
       "floor": "Floor",
@@ -832,6 +847,7 @@
       "agency": "Agency",
       "legalEntity": "Legal Entity",
       "companyCommercialName": "Company Name (Commercial Name)",
+      "companyHotelCommercialName": "Hotel Company Name (Commercial Name)",
       "selectContributor": "Select Contributor",
       "contributor": "Contributor",
       "statusHistory": "Status History",
@@ -1710,7 +1726,10 @@
   "viewCompanies": {
     "label": "Manage Companies",
     "addCompany": "Add Company",
-    "editCompany": "Edit Company"
+    "editCompany": "Edit Company",
+    "label_hotel": "Manage Hotel Companies",
+    "addCompany_hotel": "Add Hotel Company",
+    "editCompany_hotel": "Edit Hotel Company"
   },
   "viewDevelopers": {
     "label": "Manage Developers",
@@ -2080,7 +2099,9 @@
     "manageCommissions": "Manage Commissions",
     "marketAnalysis": "Market Analysis",
     "projectAnalysis": "Project Analysis",
-    "locationAnalysis": "Location Analysis"
+    "locationAnalysis": "Location Analysis",
+    "office": "Office",
+    "manageOffice": "Manage Office"
   },
   "commonBlock": {
     "propertiesAvailable": "Properties available",
@@ -3080,5 +3101,15 @@
     "selectGraph": "Select graph",
     "averagePriceH": "Average of all the final prices of the properties (unblocked, active and approved) with an active collection account without considering office property type.",
      "averagePricePerM": "Average of all the  carpet areas of the properties(unblocked, active and approved) with an active collection account without considering office property type."
+  },
+  "office":{
+    "officeStatus": "Office Status",
+    "officeType": "Office Type",
+    "officeTypeE": "Office Type (English)",
+    "officeTypeS": "Office Type (Spanish)",
+    "officeAmenityNameE" : "Office Amenity Name (English)",
+    "officeAmenityNameS" : "Office Amenity Name (Spanish)",
+    "addNewOffice": "Add New Office",
+    "manageOffice": "Manage Office"
   }
 }
