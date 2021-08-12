@@ -256,7 +256,7 @@
                       </a>
                       </li>
                       <li *ngIf="admin?.admin_acl['Data Collector Lead Management']?.can_read==1 || admin?.permissions?.can_data_collector==1 ||
-                       admin?.admin_acl['Hotel Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
+                       admin?.admin_acl['Hotel Companies Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
                        <a class="nav-link" href="javascript://" routerLink="hotel-companies/view-all">
                         <i><img src="assets/img/bank.png"></i>
                         <span>{{'sidebar.hotelCompany' | translate}}</span>
