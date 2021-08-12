@@ -13,7 +13,9 @@ import { AdminService } from 'src/app/services/admin.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { ExcelDownload } from 'src/app/common/excelDownload';
 import { E } from '@angular/core/src/render3';
+
 declare let swal: any;
 declare const google;
 
@@ -61,6 +63,7 @@ export class InhouseUsersComponent implements OnInit {
   records: Array<UserModel>;
   predefinedUsers: Array<any>;
   user_type: any;
+  private exportfinalData: any[] = [];
   constructor(public constant: Constant, private cs: CommonService,
     public model: UserModel, private route: ActivatedRoute,public noted: Notes,
     private spinner: NgxSpinnerService,
@@ -748,6 +751,7 @@ export class InhouseUsersComponent implements OnInit {
     this.model[key] = this.model[key] ? false : true;
     this.model[key2] = false;
   }
+
   getInhouseUsers() {
     switch (this.parameter.userType) {
       case 'data-collectors':
@@ -934,7 +938,7 @@ export class InhouseUsersComponent implements OnInit {
     const outside_agent = 1;
     const predefinedRole = 2;
     const is_external_agent = 1;
-    let acl = [{"acl_id":1,"acl":{"name":"Dashboard"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":2,"acl":{"name":"Inhouse Agent Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":3,"acl":{"name":"Seller Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":4,"acl":{"name":"Bank Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":5,"acl":{"name":"Notaries Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":6,"acl":{"name":"User Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":7,"acl":{"name":"Data Collector Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":9,"acl":{"name":"Property Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":10,"acl":{"name":"Project Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":11,"acl":{"name":"Enquiries"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":12,"acl":{"name":"Manage Localities"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":13,"acl":{"name":"Admin Defaults"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":14,"acl":{"name":"Access Controls"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":15,"acl":{"name":"Buyer Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":16,"acl":{"name":"Closer Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":17,"acl":{"name":"Notary Lead Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":18,"acl":{"name":"Data Collector Lead Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":19,"acl":{"name":"Seller Lead Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":20,"acl":{"name":"Buyer Lead Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":21,"acl":{"name":"Inhouse Agent Lead Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":22,"acl":{"name":"Closer Lead Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":23,"acl":{"name":"Reports"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":24,"acl":{"name":"Manual Leads"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":25,"acl":{"name":"Templates"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":26,"acl":{"name":"Settings"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":27,"acl":{"name":"Bank Lead Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":28,"acl":{"name":"Appointments"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":29,"acl":{"name":"Notifications"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":30,"acl":{"name":"Developers Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":31,"acl":{"name":"Outside Agent Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":32,"acl":{"name":"Outside Agent Lead Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":33,"acl":{"name":"Agencies Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":34,"acl":{"name":"Companies Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":35,"acl":{"name":"Managers Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":36,"acl":{"name":"Manage Legal Entity"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":37,"acl":{"name":"Manage Collections"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":38,"acl":{"name":"Collection Reports"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":39,"acl":{"name":"Renter Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":40,"acl":{"name":"Collection Agent Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":41,"acl":{"name":"Credit Agent Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":42,"acl":{"name":"Renter Lead Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":43,"acl":{"name":"Credit Agent Lead Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":44,"acl":{"name":"Collection Agent Lead Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":45,"acl":{"name":"Manage Credits"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":46,"acl":{"name":"Alliance Agent Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":47,"acl":{"name":"Cordinator Agent Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":48,"acl":{"name":"Manage Commission"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":49,"acl":{"name":"Properties For Sale Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1}]
+    let acl = [{"acl_id":1,"acl":{"name":"Dashboard"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":2,"acl":{"name":"Inhouse Agent Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":3,"acl":{"name":"Seller Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":4,"acl":{"name":"Bank Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":5,"acl":{"name":"Notaries Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":6,"acl":{"name":"User Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":7,"acl":{"name":"Data Collector Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":9,"acl":{"name":"Property Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":10,"acl":{"name":"Project Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":11,"acl":{"name":"Enquiries"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":12,"acl":{"name":"Manage Localities"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":13,"acl":{"name":"Admin Defaults"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":14,"acl":{"name":"Access Controls"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":15,"acl":{"name":"Buyer Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":16,"acl":{"name":"Closer Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":17,"acl":{"name":"Notary Lead Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":18,"acl":{"name":"Data Collector Lead Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":19,"acl":{"name":"Seller Lead Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":20,"acl":{"name":"Buyer Lead Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":21,"acl":{"name":"Inhouse Agent Lead Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":22,"acl":{"name":"Closer Lead Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":23,"acl":{"name":"Reports"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":24,"acl":{"name":"Manual Leads"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":25,"acl":{"name":"Templates"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":26,"acl":{"name":"Settings"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":27,"acl":{"name":"Bank Lead Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":28,"acl":{"name":"Appointments"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":29,"acl":{"name":"Notifications"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":30,"acl":{"name":"Developers Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":31,"acl":{"name":"Outside Agent Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":32,"acl":{"name":"Outside Agent Lead Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":33,"acl":{"name":"Agencies Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":34,"acl":{"name":"Companies Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":35,"acl":{"name":"Managers Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":36,"acl":{"name":"Manage Legal Entity"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":37,"acl":{"name":"Manage Collections"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":38,"acl":{"name":"Collection Reports"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":39,"acl":{"name":"Renter Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":40,"acl":{"name":"Collection Agent Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":41,"acl":{"name":"Credit Agent Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":42,"acl":{"name":"Renter Lead Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":43,"acl":{"name":"Credit Agent Lead Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":44,"acl":{"name":"Collection Agent Lead Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":45,"acl":{"name":"Manage Credits"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":46,"acl":{"name":"Alliance Agent Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":47,"acl":{"name":"Cordinator Agent Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":48,"acl":{"name":"Manage Commission"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":49,"acl":{"name":"Properties For Sale Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},{"acl_id":50,"acl":{"name":"Hotel Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1}]
     if (this.model.img_loader || this.model.logo_loader) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.uploadingImage'), 'error');
       return false;
@@ -1416,5 +1420,60 @@ export class InhouseUsersComponent implements OnInit {
       this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
       this.closeNotesModal();
     });
+  }
+
+  getExportlisting = (): void => {
+    this.spinner.show();
+    const input = new FormData();
+    input.append('page', this.parameter.p.toString());
+    if (this.lead_sort) { input.append('lead_sort', this.lead_sort.toString()); }
+    if (this.property_sort) { input.append('property_sort', this.property_sort.toString()); }
+    if (this.parameter.name) { input.append('name', this.parameter.name); }
+    if (this.parameter.email) { input.append('email', this.parameter.email); }
+    if (this.parameter.phone) { input.append('phone', this.parameter.phone); }
+    if (this.parameter.company_name) { input.append('company_name', this.parameter.company_name); }
+    if (this.parameter.is_freelancer) { input.append('is_freelancer', this.parameter.is_freelancer); }
+    if (this.parameter.country_id && this.parameter.country_id !== '-1') {
+      input.append('countries', JSON.stringify([this.parameter.country_id]));
+    }
+    if (this.parameter.state_id && this.parameter.state_id !== '-1') {
+      input.append('states', JSON.stringify([this.parameter.state_id]));
+    }
+    if (this.parameter.city_id && this.parameter.city_id !== '-1') {
+      input.append('cities', JSON.stringify([this.parameter.city_id]));
+    }
+    if (this.parameter.locality_id && this.parameter.locality_id !== '-1') {
+      input.append('localities', JSON.stringify([this.parameter.locality_id]));
+    }
+    if (this.parameter.building_id && this.parameter.building_id !== '-1') {
+      input.append('buildings', JSON.stringify([this.parameter.building_id]));
+    }
+    input.append('is_external_agent', this.model.is_external_agent === true ? '1' : '0');
+    if (this.parameter.id) { input.append('id', this.parameter.id); }
+    input.append('page', '0');
+    this.admin.postDataApi('getInhouseBroker', input).subscribe((success) => {
+      this.exportfinalData = success['data'] || [];
+      this.exportData();
+      this.spinner.hide();
+    }, (error) => {
+      this.spinner.hide();
+    });
+  }
+
+  exportData = (): void => {
+    if (this.exportfinalData.length > 0) {
+      const exportfinalData = [];
+      for (let index = 0; index < this.exportfinalData.length; index++) {
+        const p = this.exportfinalData[index];
+
+        exportfinalData.push({
+          'Full name': p.name ? p.name + ' ' + p.first_surname + ' ' + p.second_surname : '',
+          'Agency': p.agency ? p.agency.name : '',
+          'Email Address': p.email || '',
+          'Contact number': p.phone ? p.dial_code + ' ' + p.phone : ''
+        });
+      }
+      new ExcelDownload().exportAsExcelFile(exportfinalData, 'Outside-Agentes');
+    }
   }
 }

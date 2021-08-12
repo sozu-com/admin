@@ -158,15 +158,16 @@
             <!-- fill information start -->
             <app-fill-information *ngIf="leadData" [sent_as]="parameter.sent_as" [leadData]="leadData"
                 [selectedAmenities]="selectedAmenities" [allAmenities]="allAmenities" [lead_id]="parameter.lead_id"
-                [showOtherTextBox]="showOtherTextBox">
+                [showOtherTextBox]="showOtherTextBox" [selectedPropAmenities]="selectedPropAmenities" 
+                [allPropAmenities]="allPropAmenities">
             </app-fill-information>
             <!-- fill information end -->
 
         </div>
         <div class="col-lg-6 col-md-12 col-sm-12 col-12">
-            <!-- <div *ngIf="!leadData?.user" class="white-bg padding20">
+             <div *ngIf="!leadData?.user" class="white-bg padding20">
                     {{'leadDetails.userIsNotRegistered' | translate}}
-            </div> -->
+            </div> 
 
             <!-- chat start -->
             <!-- <div *ngIf="leadData?.user"> -->

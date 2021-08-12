@@ -25,6 +25,7 @@ import { forkJoin } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { GenerateOfferPdfService } from 'src/app/services/generate-offer-pdf.service';
 import { runInThisContext } from 'vm';
+import { ThrowStmt } from '@angular/compiler';
 
 declare let swal: any;
 declare var $: any;
@@ -66,11 +67,14 @@ class Invoice {
 })
 export class PropertiesComponent implements OnInit, OnDestroy {
   selectedvalue: bank;
-
+  prop_data: any = [];
+  pub: any;
   public parameter: IProperty = {};
   public location: IProperty = {};
   showMore = false;
+  isSelected = false;
   items: any[] = [];
+  propertyItems: any;
   total: any = 0;
   configurations: any = [];
   countries: any;
@@ -114,6 +118,37 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   paymentBanks: Array<any>;
   isPreview: boolean = false;
   avg_price: any;
+  isApplyBtnClicked = false;
+  property_for: any = [
+    { is_selected: false, id: 1, name_en: 'For sale', name_es: 'En venta' },
+    { is_selected: false, id: 3, name_en: 'Inventory', name_es: 'Inventario' },
+    { is_selected: false, id: 2, name_en: 'Rent', name_es: 'Renta' }
+  ];
+  possession_status_id: any = [
+    { is_selected: false, id: 9, name_en: 'Presale', name_es: 'Preventa' },
+    { is_selected: false, id: 8, name_en: 'Sale', name_es: 'Venta' }
+  ];
+  bedrooms: any = [
+    { is_selected: false, name: '1' },
+    { is_selected: false, name: '2' },
+    { is_selected: false, name: '3' },
+    { is_selected: false, name: '4' },
+    { is_selected: false, name: '+5' }
+  ];
+  bathrooms: any = [
+    { is_selected: false, name: '1' },
+    { is_selected: false, name: '2' },
+    { is_selected: false, name: '3' },
+    { is_selected: false, name: '4' },
+    { is_selected: false, name: '+5' }
+  ];
+  halfBathrooms: any = [
+    { is_selected: false, name: '1' },
+    { is_selected: false, name: '2' },
+    { is_selected: false, name: '3' },
+    { is_selected: false, name: '4' },
+    { is_selected: false, name: '+5' }
+  ];
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('rejectModalOpen') rejectModalOpen: ElementRef;
@@ -128,6 +163,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   @ViewChild('closeInstallmentModal') closeInstallmentModal: ElementRef;
   @ViewChild('linkOutsideBrokerModal') linkOutsideBrokerModal: ElementRef;
   @ViewChild('closeOutsideBrokerModal') closeOutsideBrokerModal: ElementRef;
+  @ViewChild('openpusblishModal') openpusblishModal: ElementRef;
+  @ViewChild('closepusblish') closepusblish: ElementRef;
   local_storage_parameter: any;
   @ViewChild('notesadddModalOpen') notesadddModalOpen: ElementRef;
   @ViewChild('notesadddModalClose') notesadddModalClose: ElementRef;
@@ -158,7 +195,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   select_columns_list: any[] = [];
   public selectedPropertyColumnsToShow: any = {};
   public isSelectAllColumns: boolean = false;
-  project_id:any;
+  project_id: any;
+  configurationCount: Array<any>;
   constructor(
     public constant: Constant,
     public apiConstant: ApiConstants,
@@ -220,20 +258,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     };
   }
 
-  // iniDropDownSettings() {
-  //   this.multiDropdownSettingss = {
-  //     singleSelection: true,
-  //     idField: 'id',
-  //     textField: 'name',
-  //     selectAllText: this.translate.instant('commonBlock.selectAll'),
-  //     unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
-  //     searchPlaceholderText: this.translate.instant('commonBlock.search'),
-  //     allowSearchFilter: true,
-  //     itemsShowLimit: 2
-  //   };
-  // }
+
 
   ngOnInit(): void {
+    this.configurationCount = ['1', '2', '3', '4', '5+'];
     this.language_code = localStorage.getItem('language_code');
     this.getPropertyHome();
     this.iniDropDownSetting();
@@ -256,12 +284,19 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       dateFormat: 'mm/dd/yy',
       weekHeader: 'Wk'
     };
-    
+
     this.route.params.subscribe(params => {
+      console.log(params,"params");
       this.project_id = JSON.parse(localStorage.getItem('project_id'));
+      this.parameter.keyword = params.name;
+      if (params.property_id) {
+        this.parameter.random_id = params['property_id'];
+      }else{
+        this.parameter.keyword = params.name;
+      }
       this.parameter.project_id = this.project_id;
       this.parameter.property_id = params.property_id || '';
-      this.parameter.keyword = params.name;
+     
       if (params.availability_filter) {
         this.parameter.availability_filter = params.availability_filter;
       }
@@ -272,6 +307,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       }
       if (params.for) {
         this.is_back = true;
+        this.getParametersForProperty();
+        this.getListingForBack();
       }
     });
     this.setFloors();
@@ -299,7 +336,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     // this.parameter = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.parameter;
     //this.getCountries();
     this.getPropertyConfigurations();
-    this.getListing();
+    if (!this.is_back) {
+      this.getListing();
+    }
     this.getPropertyTypes();
     this.getPropertyAmenities();
     this.getProjectAmenities();
@@ -319,24 +358,30 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     });
     this.getParametersForProperty();
     localStorage.removeItem('project_id');
-    
+
   }
 
   getParametersForProperty = (): void => {
     if (this.is_back) {
       this.selectedLocation.selectedLocalities = JSON.parse(localStorage.getItem('selectedLocalitiesForProperty'));
       this.selectedLocation.selectedCities = JSON.parse(localStorage.getItem('selectedCitiesForProperty'));
-      this.parameter = JSON.parse(localStorage.getItem('parametersForProperty')) ? JSON.parse(localStorage.getItem('parametersForProperty')) : this.parameter;
+      this.parameter = this.is_back ? JSON.parse(localStorage.getItem('parametersForProperty')) : this.parameter;
     }
     this.getCountries();
   }
 
-  // onItemDeSelect(arrayNAme: any, obj: any) {
-  //   this[arrayNAme].push(obj);
-  // }
+  toggleOptions(item, items) {
+    items.forEach(r => {
+      r.is_selected = false;
+    });
+    item.is_selected = true;
+  }
+
+
   onItemSelects(value) {
     this.selectedvalue = value
   }
+
   unsetProject(item: any) {
     let i = 0;
     this.selctedAmenities.map(r => {
@@ -346,7 +391,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       i = i + 1;
     });
   }
-  
+
   unsetProjectAmne(item: any) {
     let i = 0;
     this.selctedProjectAmenities.map(r => {
@@ -365,30 +410,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.model[key] = value;
   }
 
-  onSelectAll(obj: any) {
-  }
-  // increment() {
-  //   this.count++;
-  // }
-
-  // decrement() {
-  //   this.count--;
-  //   if (this.count < 0) {
-  //     this.count = 0;
-  //   }
-  // }
-
+  onSelectAll(obj: any) { }
 
   getPropertyTypes() {
-    // this.spinner.show();
     this.admin.postDataApi('getPropertyTypes', { hide_blocked: 1 })
       .subscribe(
         success => {
-          // this.spinner.hide();
           this.propertyTypes = success['data'];
-          // if (this.parameter.propertyTypes.length !== 0 && this.parameter.property_id === '') {
-          //   this.model.property_type_id = this.parameter.propertyTypes[0].id;
-          // }
         }
       );
   }
@@ -409,10 +437,35 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     $('.modal').modal('hide');
   }
 
+  getListingForBack() {
+    this.spinner.show();
+    this.makePostRequest();
+    let input: any = JSON.parse(JSON.stringify(this.parameter));
+    this.admin.postDataApi('propertyHome', input).subscribe(
+      success => {
+        localStorage.setItem('parametersForProperty', JSON.stringify(input));
+        this.items = success.data;
+        this.items.forEach(function (element) {
+          if (element.id == (element.collection || {}).property_id) {
+            element['avgg_price'] = (((parseFloat(element.final_price) || 0) / (parseFloat(element.max_area) || 0)));
+          } else {
+            element['avgg_price'] = (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
+          }
+        });
+        this.total = success.total_count;
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      });
+  }
+
+
 
   getListing() {
     this.spinner.show();
     this.makePostRequest();
+    //this.getParametersForProperty();
     let input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
@@ -451,32 +504,41 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       // console.log(d, "filter")
       input.building_amenities_id = d;
     }
-    
-    input.min_price = this.parameter.min_price;
-    input.max_price = this.parameter.max_price;
-    input.min_carpet_area = this.parameter.min_carpet_area;
-    input.max_carpet_area = this.parameter.max_carpet_area;
+    if (this.property_for !== '' && this.property_for !== '0') {
+      input.property_for = this.property_for.filter(f => { return f.is_selected == true }).map(r => { return r.id })[0] || '';
+    }
+    // if (this.possession_status_id !== '' && this.possession_status_id !== '0') {
+    //   input.possession_status_id = this.possession_status_id.filter(f => { return f.is_selected == true }).map(r => { return r.id })[0] || '';
+    // }
+
+    input.bedroom = this.bedrooms.filter(f => { return f.is_selected == true }).map(r => { return r.name });
+    input.bathroom = this.bathrooms.filter(f => { return f.is_selected == true }).map(r => { return r.name });
+    input.half_bathroom = this.halfBathrooms.filter(f => { return f.is_selected == true }).map(r => { return r.name });
+    input.property_id = this.propertyTypes.filter(f => { return f.is_selected == true }).map(r => { return r.id });
+    input.min_price = this.parameter.min_price == '0.00' ? 0 : this.parameter.min_price;
+    input.max_price = this.parameter.max_price == '0.00' ? 0 : this.parameter.max_price;
+    input.min_carpet_area = this.parameter.min_carpet_area == '0.00' ? 0 : this.parameter.min_carpet_area;
+    input.max_carpet_area = this.parameter.max_carpet_area == '0.00' ? 0 : this.parameter.max_carpet_area;
     input.parking = this.parameter.parking;
     input.furnished = this.parameter.furnished;
     input.parking_place = this.parameter.parking_place;
     input.parking_for_sale = this.parameter.parking_for_sale;
-    input.bedroom = this.parameter.bedroom;
-    input.bathroom = this.parameter.bathroom;
-    input.half_bathroom = this.parameter.half_bathroom;
-
-    if (this.parameter.property_id) {
-      input = {};
-      input.flag = 3;
-      input.property_id = this.parameter.property_id
-    }
+    // input.bedroom = this.parameter.bedroom;
+    // input.bathroom = this.parameter.bathroom;
+    // input.half_bathroom = this.parameter.half_bathroom;
+    // if (this.parameter.property_id) {
+    //   input = {};
+    //   input.flag = 3;
+    //   input.property_id = this.parameter.property_id
+    // }
     this.admin.postDataApi('propertyHome', input).subscribe(
       success => {
-        // localStorage.setItem('parametersForProperty', JSON.stringify(this.parameter));
+        localStorage.setItem('parametersForProperty', JSON.stringify(input));
         this.items = success.data;
         this.items.forEach(function (element) {
-          if(element.id ==  (element.collection || {}).property_id){
+          if (element.id == (element.collection || {}).property_id) {
             element['avgg_price'] = (((parseFloat(element.final_price) || 0) / (parseFloat(element.max_area) || 0)));
-          }else{
+          } else {
             element['avgg_price'] = (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
           }
         });
@@ -493,6 +555,45 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.getListing();
   }
 
+  clearData() {
+    this.parameter.is_selected = false;
+    this.parameter.page = this.constant.p;
+    this.parameter.dash_flag = this.constant.dash_flag;
+    this.parameter.total = 0;
+    this.parameter.count_flag = 1;
+    this.parameter.min_price = 0;
+    this.parameter.max_price = 0;
+    this.parameter.min_carpet_area = 0;
+    this.parameter.max_carpet_area = 0;
+    this.parameter.parking = null;
+    this.parameter.bedroom = null;
+    this.parameter.bathroom = null;
+    this.parameter.half_bathroom = null;
+    this.propertyTypes = [];
+    // this.possession_status_id = null;
+    //this.property_for = null;
+    this.selctedAmenities = [];
+    this.selctedProjectAmenities = [];
+    this.parameter.parking_for_sale = null;
+    this.property_for.forEach(item => {
+      item.is_selected = false;
+    });
+    this.possession_status_id.forEach(item => {
+      item.is_selected = false;
+    });
+    this.propertyTypes.forEach(item => {
+      item.is_selected = false;
+    });
+    this.bedrooms.forEach(item => {
+      item.is_selected = false;
+    });
+    this.bathrooms.forEach(item => {
+      item.is_selected = false;
+    });
+    this.halfBathrooms.forEach(item => {
+      item.is_selected = false;
+    });
+  }
 
   getCountries() {
     //this.spinner.show();
@@ -704,12 +805,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.getListing();
   }
   price_by(price_sort) {
-    console.log(price_sort,"price_sort")
     if (this.parameter.price_sort !== price_sort) {
       this.parameter.price_sort = price_sort;
       //this.parameter.price_sort = 1;
     } else {
-      this.parameter.price_sort = 2;
+      this.parameter.price_sort = 0;
     }
     this.getListing();
   }
@@ -771,6 +871,33 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.rejectModalClose.nativeElement.click();
   }
 
+  pusblish = (propertyDetails: any): void => {
+    this.propertyItems = propertyDetails;
+    console.log(this.propertyItems,"789");
+    this.openpusblishModal.nativeElement.click();
+  }
+  openPublish(item) {
+    this.spinner.show();
+    this.isApplyBtnClicked = true;
+    this.admin.postDataApi('updateProperyStatus', { id: item }).subscribe((success) => {
+      this.closepusblish.nativeElement.click();
+      this.prop_data = success.data;
+      this.isApplyBtnClicked = false;
+      this.prop_data.forEach((cityObject) => {
+         this.pub = cityObject.is_published;
+      });
+      if (this.pub == 1) {
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.publishSuccessfully'), 'success');
+      } else {
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.UnpublishSuccessfully'), 'success');
+      }
+      this.getListing();
+      this.spinner.hide();
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
   openModalInstallment = (propertyDetails: any): void => {
     this.property_array = propertyDetails;
     this.getBase64ImageFromUrl(this.property_array.id);
@@ -794,7 +921,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.closeInstallmentModal.nativeElement.click();
     this.installmentFormGroupPatchValue();
   }
-
+  closeModalPusblish = (): void => {
+    this.closepusblish.nativeElement.click();
+  }
   changeStatus(item, status) {
     item.status = status;
     const input = { property_id: item.id, status_id: status, reason: '' };
@@ -1131,7 +1260,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       this.spinner.hide();
       if (property) {
         this.keyword = '';
-        inhouse? this.linkExtBrokerModal.nativeElement.click() : this.linkOutsideBrokerModal.nativeElement.click();
+        inhouse ? this.linkExtBrokerModal.nativeElement.click() : this.linkOutsideBrokerModal.nativeElement.click();
       }
       this.allExtBrokers = r['data'];
     }, error => {
@@ -1148,7 +1277,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       route = `${'/dashboard/view-inhouse-users/inhouse-broker/'}${details.id}`;
     }
     this.keyword = '';
-    inhouse? this.closeExtBrokerModal.nativeElement.click() : this.closeOutsideBrokerModal.nativeElement.click();
+    inhouse ? this.closeExtBrokerModal.nativeElement.click() : this.closeOutsideBrokerModal.nativeElement.click();
     this.router.navigate([route]);
   }
 
@@ -1188,9 +1317,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   attachOutsideBroker(broker: any, flag: number) {
     this.admin.postDataApi('attachOutsideAgent', {
-      property_id : this.property.id,
-      outside_agent_id: broker.id  ,
-      flag: flag,name: broker.name
+      property_id: this.property.id,
+      outside_agent_id: broker.id,
+      flag: flag, name: broker.name
     }).subscribe(r => {
       this.closeOutsideBrokerModal.nativeElement.click();
       this.property.external_outside_agent = flag === 1 ? broker : null;
@@ -1320,7 +1449,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     }
     delete input.seller_id;
     delete input.buyer_id;
-
+    input.min_price = this.parameter.min_price == '0.00' ? 0 : this.parameter.min_price;
+    input.max_price = this.parameter.max_price == '0.00' ? 0 : this.parameter.max_price;
+    input.min_carpet_area = this.parameter.min_carpet_area == '0.00' ? 0 : this.parameter.min_carpet_area;
+    input.max_carpet_area = this.parameter.max_carpet_area == '0.00' ? 0 : this.parameter.max_carpet_area;
     this.admin.postDataApi('propertyHome', input).subscribe(
       success => {
         this.exportfinalData = success['data'];
@@ -1337,9 +1469,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       const exportfinalData = [];
       for (let index = 0; index < this.exportfinalData.length; index++) {
         const p = this.exportfinalData[index];
-
-        exportfinalData.push({
+        let obj = {
           'Name of Building': (p.building || {}).name || '',
+          'City': (p.city || {}).name || '',
+          'Locality': (p.locality || {}).name || '',
           'Name of Tower': (p.building_towers || {}).tower_name || '',
           'Floor': p.floor_num > 0 ? 'Floor ' + p.floor_num : 'Ground Floor',
           'Apartment': p.name || '',
@@ -1349,16 +1482,53 @@ export class PropertiesComponent implements OnInit, OnDestroy {
           'Configuration Half Bath': p.configuration ? p.configuration.half_bathroom + ' Half Bath' : '0 Half Bath',
           'List Price': p.min_price || 0,
           'Final Price': p.final_price || 0,
+          'Price per m2': p.avgg_price || 0,
+          'Commercial offers': p.offer_count || 0,
           'Carpet Area': p.max_area || 0,
           'Agent Commission (in %)': parseFloat(p.broker_commision).toFixed(3) || 0,
           'Commercialized by SOZU': p.is_commercialized ? 'yes' : 'no',
           'Total Commission (in %)': parseFloat(p.total_commission).toFixed(3) || 0,
+          'Possession Status': p.building_towers && p.building_towers.possession_status_id == this.apiConstant.possessionStatus.sale ? 
+                              this.translate.instant('table.tr.td.sale') : this.translate.instant('table.tr.td.presale'),
+          'Inhouse Agent': p.external_broker && p.external_broker.id ? p.external_broker.name : '',
+          'Outside Agent': p.external_outside_agent && p.external_outside_agent.id ? p.external_outside_agent.name : '',
+          'Agency': p.get_agency && p.get_agency.id ? p.get_agency.name : '',
+          'Availability': p.for_sale == 1 ? this.translate.instant('table.th.buy') : p.for_rent == 1 ? this.translate.instant('table.th.rent') : 
+                          p.for_hold == 1 ?  this.translate.instant('table.th.inventory') : '',
           'Leads': parseInt(p.lead_properties_count) || 0,
           'Buyer': ((p.selected_buyer || {}).user || {}).name || '',
           'Seller': ((p.selected_seller || {}).user || {}).name || '',
           'Is Property Sold': p.is_property_sold ? 'yes' : 'no',
           'Linked Collection': p.collection ? 'yes' : 'no',
-        });
+        };
+        this.selectedPropertyColumnsToShow.building_name == 0 ? delete obj['Name of Building'] : undefined;
+        this.selectedPropertyColumnsToShow.tower_name == 0 ? delete obj['Name of Tower'] : undefined;
+        this.selectedPropertyColumnsToShow.floor == 0 ? delete obj['Floor'] : undefined;
+        this.selectedPropertyColumnsToShow.apartment == 0 ? delete obj['Apartment'] : undefined;
+        this.selectedPropertyColumnsToShow.model == 0 ? delete obj['Model'] : undefined;
+        this.selectedPropertyColumnsToShow.configuration == 0 ? delete obj['Configuration Bed'] : undefined;
+        this.selectedPropertyColumnsToShow.configuration == 0 ? delete obj['Configuration Bath'] : undefined;
+        this.selectedPropertyColumnsToShow.configuration == 0 ? delete obj['Configuration Half Bath'] : undefined;
+        this.selectedPropertyColumnsToShow.list_price == 0 ? delete obj['List Price'] : undefined;
+        this.selectedPropertyColumnsToShow.final_price == 0 ? delete obj['Final Price'] : undefined;
+        this.selectedPropertyColumnsToShow.commercial_offers == 0 ? delete obj['Commercial offers'] : undefined;
+        this.selectedPropertyColumnsToShow.carpet_area == 0 ? delete obj['Carpet Area'] : undefined;
+        this.selectedPropertyColumnsToShow.commercialized_sozu == 0 ? delete obj['Commercialized by SOZU'] : undefined;
+        this.selectedPropertyColumnsToShow.possession_status == 0 ? delete obj['Possession Status'] : undefined;
+        this.selectedPropertyColumnsToShow.agent_commission == 0 ? delete obj['Agent Commission (in %)'] : undefined;
+        this.selectedPropertyColumnsToShow.total_commission == 0 ? delete obj['Total Commission (in %)'] : undefined;
+        this.selectedPropertyColumnsToShow.leads == 0 ? delete obj['Leads'] : undefined;
+        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.change_buyer == 0 ? delete obj['Buyer'] : undefined;
+        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.change_seller == 0 ? delete obj['Seller'] : undefined;
+        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.link_unlink_inhouse_agent == 0 ? delete obj['Inhouse Agent'] : undefined;
+        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.link_unlink_outside_agent == 0 ? delete obj['Outside Agent'] : undefined;
+        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.link_agency == 0 ? delete obj['Agency'] : undefined;
+        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.change_availability == 0 ? delete obj['Availability'] : undefined;
+        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.is_property_sold == 0 ? delete obj['Is Property Sold'] : undefined;
+        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.linked_collection == 0 ? delete obj['Linked Collection'] : undefined;
+        this.selectedPropertyColumnsToShow.price_per_m2 == 0 ? delete obj['Price per m2'] : undefined;
+
+        exportfinalData.push(obj);
       }
       new ExcelDownload().exportAsExcelFile(exportfinalData, 'properties');
     }
@@ -1586,14 +1756,14 @@ export class PropertiesComponent implements OnInit, OnDestroy {
                     ],
                     [
                       { text: this.translate.instant('generatePDF.layaway') + ':', border: [false, false, false, false], color: '#858291' },
-                      { text: layaway_per ? ((Number(layaway_per).toFixed(3)) + '%' ) : '', border: [false, false, false, false], bold: true },
+                      { text: layaway_per ? ((Number(layaway_per).toFixed(3)) + '%') : '', border: [false, false, false, false], bold: true },
                       { text: this.price.transform(20000), border: [false, false, false, false], bold: true },
                     ],
                     [
                       { text: this.translate.instant('generatePDF.downpayment') + ':', border: [false, false, false, false], color: '#858291' },
                       {
                         text: this.is_for_Offer && this.property_array.property_offer_payment[index].down_payment ? this.property_array.property_offer_payment[index].down_payment + '%' :
-                        final_downpayment_per ? ((Number(final_downpayment_per).toFixed(3)) + '%') : 'N/A', border: [false, false, false, false], bold: true
+                          final_downpayment_per ? ((Number(final_downpayment_per).toFixed(3)) + '%') : 'N/A', border: [false, false, false, false], bold: true
                       },
                       { text: downpayment ? this.price.transform(Number(downpayment || 0).toFixed(2)) : '', border: [false, false, false, false], bold: true },
                     ],
@@ -2089,7 +2259,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.makePostRequest();
     localStorage.setItem('selectedLocalitiesForProperty', JSON.stringify(this.selectedLocation.selectedLocalities.length > 0 ? this.selectedLocation.selectedLocalities : []));
     localStorage.setItem('selectedCitiesForProperty', JSON.stringify(this.selectedLocation.selectedCities.length > 0 ? this.selectedLocation.selectedCities : []));
-    localStorage.setItem('parametersForProperty', JSON.stringify(this.parameter));
+    //localStorage.setItem('parametersForProperty', JSON.stringify(this.parameter));
   }
 
   get getParkingLotForSaleFormArray(): FormArray {
@@ -2377,14 +2547,16 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       leads: (this.select_columns_list[16] || []).isCheckBoxChecked,
       change_buyer: (this.select_columns_list[17] || []).isCheckBoxChecked,
       change_seller: (this.select_columns_list[18] || []).isCheckBoxChecked,
-      link_unlink_agent: (this.select_columns_list[19] || []).isCheckBoxChecked,
-      link_agency: (this.select_columns_list[20] || []).isCheckBoxChecked,
-      change_availability: (this.select_columns_list[21] || []).isCheckBoxChecked,
-      is_property_sold: (this.select_columns_list[22] || []).isCheckBoxChecked,
-      linked_collection: (this.select_columns_list[23] || []).isCheckBoxChecked,
-      edit_total_commission: (this.select_columns_list[24] || []).isCheckBoxChecked,
-      view_seller_request: (this.select_columns_list[25] || []).isCheckBoxChecked,
-      action: (this.select_columns_list[26] || []).isCheckBoxChecked
+      link_unlink_inhouse_agent: (this.select_columns_list[27] || []).isCheckBoxChecked,
+      link_unlink_outside_agent: (this.select_columns_list[28] || []).isCheckBoxChecked,
+      link_agency: (this.select_columns_list[19] || []).isCheckBoxChecked,
+      change_availability: (this.select_columns_list[20] || []).isCheckBoxChecked,
+      is_property_sold: (this.select_columns_list[21] || []).isCheckBoxChecked,
+      linked_collection: (this.select_columns_list[22] || []).isCheckBoxChecked,
+      edit_total_commission: (this.select_columns_list[23] || []).isCheckBoxChecked,
+      view_seller_request: (this.select_columns_list[24] || []).isCheckBoxChecked,
+      action: (this.select_columns_list[25] || []).isCheckBoxChecked,
+      price_per_m2: (this.select_columns_list[26] || []).isCheckBoxChecked                                              
     };
   }
 
@@ -2463,8 +2635,6 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       case 14:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.agent_commission;
         break;
-
-
       case 16:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.total_commission;
         break;
@@ -2479,9 +2649,6 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         break;
       case 20:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.change_seller;
-        break;
-      case 21:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.link_unlink_agent;
         break;
       case 22:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.link_agency;
@@ -2503,6 +2670,15 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         break;
       case 28:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.action;
+        break;
+      case 30:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.link_unlink_inhouse_agent;
+        break;
+      case 31:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.link_unlink_outside_agent;
+        break;
+      case 32:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.price_per_m2;
         break;
       default:
         break;

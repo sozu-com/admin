@@ -6,6 +6,7 @@ import { IProperty } from '../../common/property';
 import { MessagingService } from 'src/app/fire-base/messaging.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
+import { CommonService } from 'src/app/services/common.service';
 // import { MessagingService } from '../../fire-base/messaging.service';
 
 declare let swal: any;
@@ -16,7 +17,7 @@ declare let swal: any;
   styleUrls: ['./app-header.component.css']
 })
 
-export class AppHeaderComponent {
+export class AppHeaderComponent implements OnInit {
 
   message: any;
   public parameter: IProperty = {};
@@ -25,13 +26,15 @@ export class AppHeaderComponent {
   admin_acl: any;
   msg_count = 0;
   public scrollbarOptions = { axis: 'yx', theme: 'minimal-dark' };
+  notificationCount: any;
 
   constructor(public admin: AdminService,
     private router: Router,
     public constant: Constant,
     private messagingService: MessagingService,
     private spinner: NgxSpinnerService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private commonService: CommonService
     ) {
 
     this.admin.loginData$.subscribe(success => {
@@ -53,6 +56,15 @@ export class AppHeaderComponent {
     //   }
     // });
     this.getNotifications();
+    this.getNotificationsCount();
+  }
+
+  ngOnInit(){
+    this.commonService.notificationUnreadCount$.subscribe(r=>{
+      if(r){
+        this.notificationCount = r;
+      }
+    })
   }
 
   updateDeviceToken() {
@@ -126,5 +138,13 @@ export class AppHeaderComponent {
   viewNotification () {
     this.msg_count = 0;
     this.router.navigate(['/dashboard/notifications']);
+  }
+
+  getNotificationsCount() {
+    this.admin.postDataApi('getNotificationsCount', {}).subscribe(r => {
+      this.notificationCount = r.data.count;
+     localStorage.setItem('notificationCount', r.data.count) ;
+      // this.msg_count = r.total_count;
+    });
   }
 }

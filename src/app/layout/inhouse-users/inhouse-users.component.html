@@ -109,6 +109,14 @@
       </div>
     </div>
 </div>
+<div class="row" *ngIf="parameter.userType=='outside-broker'">
+<div class="col-md-2 col-6 offset-md-10 offset-6">
+  <div class="add-new text-right">
+     <a *ngIf="admin?.admin_acl['Outside Agent Management']?.can_create==1" class="btn" href="javascript://" (click)="getExportlisting()">
+        {{'table.exportDataBtn' | translate}}</a>
+  </div>
+</div>
+</div>
   <hr>
 
 
@@ -273,6 +281,10 @@
                               src="assets/img/chat-icon.png" alt="img"></button>
                             <a *ngIf="(admin?.admin_acl['Project Management']?.can_read==1 || admin?.permissions?.can_data_collector==1)&& 
                             parameter.userType == 'data-collectors'" title="{{'table.title.viewProjects' | translate}}" href="javascript://" routerLink="/dashboard/projects/view-projects/data-collector/{{item?.id}}" class="icon-block edit-icon">
+                              <img src="assets/img/ic_projects_manage.png" alt="img">
+                            </a>
+                            <a *ngIf="(admin?.admin_acl['Hotel Management']?.can_read==1 || admin?.permissions?.can_data_collector==1)&& 
+                            parameter.userType == 'data-collectors'" title="{{'table.title.viewProjects' | translate}}" href="javascript://" routerLink="/dashboard/hotels/view-hotels/data-collector/{{item?.id}}" class="icon-block edit-icon">
                               <img src="assets/img/ic_projects_manage.png" alt="img">
                             </a>
                             <a *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 && parameter.userType == 'csr-sellers'" title="{{'table.title.viewLeads' | translate}}" href="javascript://" routerLink="/dashboard/leads/csr-sellers-leads/{{item?.id}}" class="icon-block edit-icon">

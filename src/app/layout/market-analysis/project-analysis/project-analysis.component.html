@@ -1,0 +1,124 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+      <div class="form-group">
+        <p class="p16">{{'viewProjectAnalysis.label' | translate}}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-2 col-md-2 col-sm-5 col-5">
+      <div class="form-group" style="display: grid;">
+        <label>{{'filters.time.custom.from' | translate}}</label>
+        <p-calendar [locale]="locale" showIcon="true" [(ngModel)]="min_date"  name="min_date"
+          showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040" class="coll-report-calendar">
+        </p-calendar>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-5 col-5">
+      <div class="form-group" style="display: grid;">
+        <label>{{'filters.time.custom.to' | translate}}</label>
+        <p-calendar [locale]="locale" showIcon="true" [(ngModel)]="max_date" [minDate]="min_date" name="max_date"
+          showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040" class="coll-report-calendar">
+        </p-calendar>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-5 col-5">
+      <div class="form-group">
+        <label>{{'viewProjectAnalysis.project' | translate}}</label>
+        <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selectedProject"
+          [data]="projects" [(ngModel)]="selectedProject" [settings]="multiDropdownSettings"
+          (onDeSelect)="onProjectchange()" (onSelect)="onProjectchange()" (onSelectAll)="onProjectChangeAll($event)"
+          (onDeSelectAll)="onCityChangeAll($event)">
+        </ng-multiselect-dropdown>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-5 col-5">
+      <div class="form-group" style="display: grid;">
+        <label>{{'viewProjectAnalysis.availability' | translate}}</label>
+        <select [(ngModel)]="selectedAvailability" name="availability_filter" style="height:37px;">
+          <option value="0">{{'table.th.all' | translate}}</option>
+          <option value="1">{{'table.th.buy' | translate}}</option>
+          <option value="2">{{'table.th.rent' | translate}}</option>
+          <option value="3">{{'table.th.inventory' | translate}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-5 col-5">
+      <div class="form-group">
+        <label>{{'viewProjectAnalysis.models' | translate}}</label>
+        <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selectedModels"
+          [data]="models" [(ngModel)]="selectedModels" [settings]="multiDropdownSettings"
+          (onDeSelect)="onCityChange()" (onSelect)="onModelschange()" (onSelectAll)="onModelsChangeAll($event)"
+          (onDeSelectAll)="onCityChangeAll($event)">
+        </ng-multiselect-dropdown>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-2 col-6">
+      <div class="form-group btn-cont">
+        <label style="display: block; margin-top: 3px;">&nbsp;</label>
+        <button type="button" class="btn btn-primary-new width100P P86" href="javascript://" (click)="getdata()"
+          [disabled]="!min_date || !max_date">{{'filters.time.custom.applyBtn' |
+          translate}}</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cust-tabs">
+    <div class="tab-content white-bg">
+      <div class="row" style="margin: 0;">
+        <div class="col-lg-6 col-md-12 col-sm-12 col-12" style="margin-bottom: 10px;">
+          <div class="row">
+            <div class="col-md-10 pt-2 mt-2">
+              <p>
+                <span class="w-50 d-inline-block"><strong>{{'viewProjectAnalysis.averagePrice' | translate}}</strong><i
+                    class="fa fa-info" aria-hidden="true" title="{{'viewProjectAnalysis.averagePriceH' | translate}}"
+                    style="color: #00b96f;margin-left: 10px;"></i></span>
+                <span class="w-50 d-inline-block">${{sold_property_details?.average_price? (sold_property_details?.average_price | number :
+                  '1.2-2') : 0}}</span>
+              </p>
+              <p>
+                <span class="w-50 d-inline-block"><strong>{{'viewProjectAnalysis.averagepriceperM2' |
+                    translate}}</strong><i class="fa fa-info" aria-hidden="true"
+                    title="{{'viewProjectAnalysis.averagePricePerM' | translate}}"
+                    style="color: #00b96f;margin-left: 10px;"></i></span>
+                <span class="w-50 d-inline-block">${{sold_property_details?.average_carpate_area ? (sold_property_details?.average_carpate_area | number :
+                  '1.2-2') : 0 }}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6"></div>
+        <div class="col-lg-2 col-md-3 col-sm-2 col-12">
+          <div class="form-group">
+            <label>{{'viewProjectAnalysis.selectGraph' | translate}}</label>
+            <div class="clearfix"></div>
+            <select name="graph" id="graph" [(ngModel)]="selectedGraph" (change)="onSelectGraph()"
+              style="min-width: 115px;">
+              <option [value]="1" selected="selectedGraph == '1'">{{'viewProjectAnalysis.averagePrice' | translate}}
+              </option>
+              <option [value]="2" selected="selectedGraph == '2'">{{'viewProjectAnalysis.averagepriceperM2' | translate}}
+              </option>
+            </select>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <div class="col-lg-10 col-md-9 col-sm-6"></div>
+        <div class="col-md-12 col-sm-12 col-12" style="margin-top: 20px">
+          <div class="dashboard-bx">
+            <h4><strong>{{selectedGraph == 1 ? ('viewProjectAnalysis.averagePrice' | translate) :
+                ('viewProjectAnalysis.averagepriceperM2' | translate)}}</strong></h4>
+            <div [ngStyle]="{'display': graph_data && graph_data.length > 0 ? 'block':'none'}">
+              <div id="lineChartContainer" style="height: 415px; width: 90%; margin-left:auto;margin-right:auto;">
+              </div>
+            </div>
+            <div class="no-sales-trend" *ngIf="!graph_data || graph_data.length == 0">
+              <h6>{{'viewProjectAnalysis.noSoldPropertiesAvailable' | translate}}</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

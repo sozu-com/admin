@@ -29,6 +29,7 @@ export class Leads {
     payment_modes: Array<PaymentModes>;
     property_purposes: Array<PaymentModes>;
     buyer_amenities: Array<BuyerAmenities>;
+    properties_amenities: Array<BuyerAmenities>;
     buyer_car_type: Array<CarTypes>;
     buyer_proximity: Array<ProximityPlaces>;
     buyer_property_type: Array<PropertyTypes>;
@@ -47,6 +48,23 @@ export class Leads {
     image: string;
     first_surname: string;
     second_surname: string;
+    lead_bedroom: Array<bath>;
+    lead_bathroom: Array<bath>;
+    lead_half_bedroom: Array<bath>;
+    lead_answer?: any;
+    city?: any;
+    locality?: any;
+    price?: any;
+    bedrooms?: any;
+    carpet_area?: any;
+    bathrooms?: any;
+}
+
+export class bath {
+    id: number;
+    bathroom: string;
+    bedroom: string;
+    half_bedroom: string;
 }
 
 export class PaymentModes {
@@ -73,6 +91,7 @@ export class Prefs {
     bathroom: number;
     half_bathroom: number;
     proximity_other: string;
+    marital_statuses_id: string;
 }
 
 export class BuyerAmenities {
@@ -313,7 +332,10 @@ export class CSRBuyerLeads {
 
 export class AddPrefrences {
     lead_id: string;
+    marital_status:any;
+    job:any;
     family_size: number;
+    parking_lot:any;
     kid_count: number;
     car_type_id: number;
     pets: number;
@@ -328,6 +350,10 @@ export class AddPrefrences {
     payment_plans: Array<number>;
     property_purpose: Array<number>;
     amenities: Array<number>;
+    property_amenities: Array<number>;
     proximity_place_ids: Array<number>;
     property_types: Array<number>;
+    bedrooms: Array<any>;
+    bathrooms: Array<number>;
+    half_bedrooms: Array<number>;
 }

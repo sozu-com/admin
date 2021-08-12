@@ -1,8 +1,10 @@
 export interface IProperty {
   url?: string;
   loading?: boolean;                      // loader
-  itemsPerPage?: number;                  // total items per page
-  total?: number;                         // total records count
+  itemsPerPage?: number;  
+  commission_status_color ?: any;               // total items per page
+  total?: number;     
+  random_id  ?: any;                  // total records count
   p?: number;                             // page
   sizeLimit?: number;                     // file size limit --- 5000000 means 5MB
   title?: string;
@@ -54,6 +56,7 @@ export interface IProperty {
   city_id?: string;
   city_id1?: any;
   locality_id?: string;
+  hotel_id?: string;
   building_id?: string;
   countryCount?: number;
   stateCount?: number;
@@ -83,6 +86,8 @@ export interface IProperty {
   amenitiesCount?: number;
   projectTypes?: any;
   projectTypesCount?: number;
+  hotelTypes?: any;
+  hotelTypesCount?: number;
   routeName?: string;
   icon?: any;
   userType?: string;
@@ -97,7 +102,7 @@ export interface IProperty {
   agent?: string;
   phone?: string;
   type?: number;
-  property_id?: string;
+  property_id?: any;
   general_id?: string;
   banks?: any;
   bankCount?: string;
@@ -140,6 +145,7 @@ export interface IProperty {
   property_for?: any;
   dash_flag?: any;
   price_sort?: any;
+  sort_date?: any;
   sort_by?: any;
   sort_by_order?: any;
   sort_by_flag?: any;
@@ -215,6 +221,7 @@ export interface IProperty {
   reminder_date?: any;
   is_commercialized?: number;
   user?: Array<Docs>;
+  building?: building;
   locality?: any;
   pc_receipt?: any;
   pc_invoice?: any;
@@ -235,6 +242,7 @@ export interface IProperty {
   status_id?: any;
   agent_text?: any;
   broker_text?:any;
+  sort_by_date?:any;
 }
 export class Docs {
   id: string;
@@ -245,4 +253,9 @@ export class Docs {
   name?: string;
   phone?: string;
   type?: number;
+}
+
+export class building {
+  id: string;
+  name?: string;
 }

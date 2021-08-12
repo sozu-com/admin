@@ -1,3 +1,19 @@
+<div class="padding15">
+  <div class="row">
+    <div class="col-11">
+      <div class="title-group">
+        <h5><a (click)="goBack(true)" href="javascript://"><i class="fa fa-angle-double-left"></i> </a></h5>
+      </div>
+    </div>
+    <div class="col-lg-1 col-md-1 col-6">
+      <div class="btn-cont text-right title-group">
+        <a href="javascript://" (click)="goBack(false)" style="color: #fff !important; background-color: #00B96F !important;"
+          class="btn-sm btn-primary-new" href="javascript://">{{'quickVisualization.back' | translate}}</a>
+        </div>
+    </div>
+  </div>
+</div>
+
 <div *ngIf="!property" style="margin-top:120px;" class="container">
   <img style="width:100%" src="assets/img/loading_content.gif">
 </div>

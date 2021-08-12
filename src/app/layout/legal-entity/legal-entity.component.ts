@@ -7,6 +7,7 @@ import { IProperty } from 'src/app/common/property';
 import { Constant } from 'src/app/common/constants';
 import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ExcelDownload } from 'src/app/common/excelDownload';
 declare let swal: any;
 
 @Component({
@@ -28,6 +29,7 @@ export class LegalEntityComponent implements OnInit {
   developer_name: string;
   developer_id: number;
   legal_entity_id: string;
+  private exportfinalData: any[] = [];
 
   constructor(
     public constant: Constant,
@@ -155,6 +157,50 @@ export class LegalEntityComponent implements OnInit {
   viewDeveloper(item: any) {
     if (item.user && item.user.name) {
       this.router.navigate(['/dashboard/developers/view-all', item.user.name]);
+    }
+  }
+
+  getExportlisting = (): void => {
+    this.spinner.show();
+    const input = {
+      comm_name: this.comm_name,
+      legal_name: this.legal_name,
+      phone: this.phone,
+      email: this.email,
+      name: this.name,
+      developer_name: this.developer_name,
+      legal_rep_name: this.legal_rep_name,
+      developer_id: this.developer_id,
+      page: this.parameter.page,
+      legal_entity_id: this.legal_entity_id
+    };
+    input.page = 0;
+    this.admin.postDataApi('getLegalEntity', input).subscribe((success) => {
+      this.exportfinalData = success['data'] || [];
+      this.exportData();
+      this.spinner.hide();
+    }, (error) => {
+      this.spinner.hide();
+    });
+  }
+
+  exportData = (): void => {
+    if (this.exportfinalData.length > 0) {
+      const exportfinalData = [];
+      for (let index = 0; index < this.exportfinalData.length; index++) {
+        const p = this.exportfinalData[index];
+
+        exportfinalData.push({
+          'Commercial Name': p.comm_name || '',
+          'Legal Name': p.legal_name || '',
+          'Email': p.email || '',
+          'Phone': p.phone ? p.dial_code + ' ' + p.phone : '',
+          'Legal Representative': p.legal_reps && p.legal_reps.name ? p.legal_reps.name + ' ' + p.legal_reps.first_surname + '' + p.legal_reps.second_surname : '',
+          'Developer': p.user ? p.user.name : '',
+          'System Dashbaord (Yes/No)': p.legal_reps && p.legal_reps.have_dev_panel_access ? 'Yes' : 'No'  
+        });
+      }
+      new ExcelDownload().exportAsExcelFile(exportfinalData, 'Legal-Entities');
     }
   }
 }

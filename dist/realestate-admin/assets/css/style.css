@@ -933,6 +933,7 @@ background-image:url(../img/tick-selected.png);
 .steps ul li.current span{
 background-image:url(../img/tick-current.png);
 }
+
 .steps ul li.current a, .steps ul li.selected a{
 font-family: 'sf_ui_textbold';
 color: #00B96F;
@@ -1115,7 +1116,7 @@ position:relative;
 .form-horizontal {
 border-radius: 4px;
 background-color: #FFFFFF;
-box-shadow: 0 2px 6px 0 rgb(199, 212, 205);
+/* box-shadow: 0 2px 6px 0 rgb(199, 212, 205); */
 padding:40px 35px;
 }
 .fgt-pswd {
@@ -3153,9 +3154,9 @@ position: relative;
     transition: all 0.5s;
     border-left:solid 3px #eee;
 }
-.notifications li:hover{
+/* .notifications li:hover{
     border-left:solid 3px #00B96F;
-}
+} */
 /* notifications end */
 h3 .tower{
     color: #00B96F;

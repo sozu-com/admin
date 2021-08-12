@@ -12,6 +12,7 @@ import { AdminService } from 'src/app/services/admin.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { ExcelDownload } from 'src/app/common/excelDownload';
 declare let swal: any;
 declare const google;
 
@@ -47,6 +48,7 @@ export class ManagersComponent implements OnInit {
   public assign: IProperty = {};
   public assignItem: any;
   public towerManagerAgentArray: any[] = [];
+  private exportfinalData: any[] = [];
 
   constructor(public constant: Constant, private cs: CommonService,
     private route: ActivatedRoute,
@@ -644,4 +646,41 @@ export class ManagersComponent implements OnInit {
     });
   }
 
+  getExportlisting = (): void => {
+    this.spinner.show();
+    const input = new FormData();
+    input.append('project_sort', this.model.project_sort);
+    input.append('page', '0');
+    if (this.parameter.name) { input.append('name', this.parameter.name); }
+    if (this.parameter.agent) { input.append('agent', this.parameter.agent); }
+    if (this.parameter.email) { input.append('email', this.parameter.email); }
+    if (this.parameter.phone) { input.append('phone', this.parameter.phone); }
+    if (this.parameter.company_name) { input.append('company_name', this.parameter.company_name); }
+    if (this.parameter.is_freelancer) { input.append('is_freelancer', this.parameter.is_freelancer); }
+    if (this.parameter.agent_id) { input.append('agent_id', this.parameter.agent_id); }
+    this.admin.postDataApi('getTowerManager', input).subscribe((success) => {
+      this.exportfinalData = success['data'] || [];
+      this.exportData();
+      this.spinner.hide();
+    }, (error) => {
+      this.spinner.hide();
+    });
+  }
+
+  exportData = (): void => {
+    if (this.exportfinalData.length > 0) {
+      const exportfinalData = [];
+      for (let index = 0; index < this.exportfinalData.length; index++) {
+        const p = this.exportfinalData[index];
+
+        exportfinalData.push({
+          'Company name (Commercial Name)': p.name || '',
+          'Name': p.name ? p.name + ' ' + p.first_surname + ' ' + p.second_surname : '',
+          'Email Address': p.email || '',
+          'Agent Assignee': p.agent_details && p.agent_details.name ? p.agent_details.name + ' ' + p.agent_details.first_surname + ' ' + p.agent_details.second_surname : '' 
+        });
+      }
+      new ExcelDownload().exportAsExcelFile(exportfinalData, 'Managers');
+    }
+  }
 }

@@ -77,6 +77,23 @@
   .hvrbox.active .hvrbox-text_mobile {
     display: block;
   } */
-  .row.line {
+  /* .row.line {
     margin-left: 12%;
+} */
+
+@media only screen and (min-width: 1200px) {
+  .row.line {
+    margin-top: 24px;
+    margin-left: 1px;
+}
+}
+input[type=checkbox] {
+  vertical-align: middle;
+  border-color: #00B96F;
+  position: relative;
+  bottom: 1px;
+}
+
+label {
+  display: block;
 }

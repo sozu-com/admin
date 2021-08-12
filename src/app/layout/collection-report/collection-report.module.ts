@@ -11,7 +11,7 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 // general components
 import { AclUserGuard } from 'src/app/guards/acl-user.guard';
 import { SharedModule } from 'src/app/modules/shared.module';
@@ -99,6 +99,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
+    NgxChartsModule,
     FormsModule,
     ReactiveFormsModule,
     NgxSpinnerModule,

@@ -85,4 +85,32 @@ export class ManualLeadsComponent implements OnInit {
       });
   }
 
+  moveLead(item: any) {
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+        this.translate.instant('message.error.youWantToMoveThisToManageLeads'),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: this.translate.instant('deleteSwal.yes'),
+      cancelButtonText: this.translate.instant('deleteSwal.cancel')
+    }).then((result) => {
+      if (result.value) {
+        this.moveLeadTo(item);
+      }
+    });
+  }
+
+  moveLeadTo(item){
+    this.spinner.show();
+    this.admin.postDataApi('moveManualLead',{ lead_id: item.id }).subscribe(r => {
+      this.getListing();
+      this.spinner.hide();
+  },
+  error => {
+    this.spinner.hide();
+  });
+}
+
 }

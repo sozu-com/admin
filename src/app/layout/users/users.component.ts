@@ -6,8 +6,9 @@ import { Constant } from 'src/app/common/constants';
 import { IProperty } from 'src/app/common/property';
 import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
+import { ExcelDownload } from 'src/app/common/excelDownload';
 declare let swal: any;
 
 @Component({
@@ -31,10 +32,12 @@ export class UsersComponent implements OnInit {
   initialCountry: any;
   local_storage_parameter: any; is_back: boolean;
   private language_code: string;
+  private exportfinalData: any[] = [];
   constructor(public constant: Constant, public model: Users, public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
-    private router: Router) { }
+    private route: ActivatedRoute,
+    private router: Router,) { }
 
   ngOnInit() {
     this.language_code = localStorage.getItem('language_code');
@@ -45,6 +48,11 @@ export class UsersComponent implements OnInit {
     this.initialCountry = { initialCountry: this.constant.country_code };
     this.local_storage_parameter = JSON.parse(localStorage.getItem('parametersForUSer'));
     this.parameter = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.parameter;
+    this.route.params.subscribe(params => {
+      if (params['name']) {
+        this.parameter.name = params['name'];
+      }
+    });
     this.getBuyers(this.parameter.type, this.parameter.page, '', '', '', '', '');
   }
 
@@ -128,7 +136,12 @@ export class UsersComponent implements OnInit {
   getBuyers(type: any, page: any, name: string, phone: string, email: string, first_surname: string, second_surname: string) {
     this.parameter.page = page;
     this.parameter.type = type;
-    this.parameter.name = name;
+    if (this.parameter['name']) {
+      this.parameter.name = this.parameter['name'];
+    }else{
+      this.parameter.name = name;
+    }
+    
     this.parameter.phone = phone;
     this.parameter.email = email;
     this.parameter.first_surname = first_surname;
@@ -312,5 +325,41 @@ export class UsersComponent implements OnInit {
           swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
           this.parameter.items.splice(index, 1);
         });
+  }
+
+  getExportlisting = (): void => {
+    this.spinner.show();
+    const input: any = JSON.parse(JSON.stringify(this.parameter));
+    input.page = 0;
+    this.admin.postDataApi('getBuyers', input).subscribe((success) => {
+      this.exportfinalData = success['data'] || [];
+      this.exportData();
+      this.spinner.hide();
+    }, (error) => {
+      this.spinner.hide();
+    });
+  }
+
+  exportData = (): void => {
+    if (this.exportfinalData.length > 0) {
+      const exportfinalData = [];
+      for (let index = 0; index < this.exportfinalData.length; index++) {
+        const p = this.exportfinalData[index];
+
+        exportfinalData.push({
+          'Complete Name': p.name ? p.name + ' ' + p.first_surname + ' ' + p.second_surname : '',
+          'Contact Number': p.phone ? p.dial_code + ' ' + p.phone : '',
+          'Email Address': p.email || '',
+          'Registered In Sozu (Yes/No)': p.is_email_verified && p.is_phone_verified ? 'Yes' : 'No'  
+        });
+      }
+      new ExcelDownload().exportAsExcelFile(exportfinalData, 'users');
+    }
+  }
+
+  sort_by() { 
+    this.parameter.sort_by = this.parameter.sort_by_order ? 0 : 1;
+    this.getBuyers(this.parameter.type, this.parameter.page, this.parameter.name, this.parameter.phone, this.parameter.email,
+      this.parameter.first_surname, this.parameter.second_surname);
   }
 }

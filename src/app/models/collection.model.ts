@@ -5,6 +5,10 @@ import { Building } from './addProperty.model';
 export class Collection {
     id: string;
     property_id: any;
+    add_iva_to_pc: any;
+    add_iva_to_ac: any;
+    add_iva_to_cc: any;
+    add_iva_to_oac: any;
     step: number;
     iva_percent: any;
     building_id: string;
@@ -52,6 +56,7 @@ export class Collection {
     collection_buyer_banks?: Array<any>;
     collection_buyer_rep_banks: Array<any>;
     collection_seller_rep_banks: Array<any>;
+    deal_commission_outside_agents: Array<any>;
     buyer_legal_entity?: any;
     seller_legal_entity?: any;
     payment_received_by?: number;

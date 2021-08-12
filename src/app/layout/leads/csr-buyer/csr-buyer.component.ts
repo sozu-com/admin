@@ -341,7 +341,8 @@ export class CsrBuyerComponent implements OnInit {
   }
 
   bulkAssign() {
-    if(this.user.data.permissions.all_geo_access == 1 || this.user.data.permissions.can_csr_buyer == 1 || this.users.permissions.can_cordinator == 1){
+    let admin = this.user.data.admin_acl.find(x=> x.acl.name == 'Buyer Management');
+    if(((this.user.data.permissions.can_csr_buyer == 1 || this.users.data.permissions.can_csr_coordinator == 1) && this.user.data.user_type == 2) || admin.can_update == 1){
     this.showSearchText = false;
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     if (leads_ids.length === 0) {
@@ -394,7 +395,7 @@ export class CsrBuyerComponent implements OnInit {
       }
       else{
         this.assignItem = item;
-        let text = !this.selected_lead.broker_id ? this.translate.instant('swalText.assignInhouseAgent') : this.translate.instant('swalText.unassignInhouseAgent');
+        let text = this.selected_lead.broker_id !=  this.assignItem.id? this.translate.instant('swalText.assignInhouseAgent') : this.translate.instant('swalText.unassignInhouseAgent');
         swal({
           html: this.translate.instant('message.error.areYouSure') + '<br>' +  text,
           type: 'warning',
@@ -413,33 +414,34 @@ export class CsrBuyerComponent implements OnInit {
 
 
   assignNow(item) {
+    let inputCSR;
+    let input;
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     if(this.openFor == 'CSR'){
     //users_ids = this.items.filter(x => x.selected).map(y => y.admin.id);
+    inputCSR = {
+      csr_buyer_id: this.assignItem.id,
+      leads: leads_ids,
+      type: this.selected_lead.admin_id == this.assignItem.id? 2 : 1
+      //users: users_ids
+    };
     }
     else{
       this.assignItem = item;
-    }
-    const inputCSR = {
-      csr_buyer_id: this.assignItem.id,
-      leads: leads_ids,
-      //type: this.selected_lead.admin_id ? 2 : 1
-      //users: users_ids
-    };
-
-    const input = {
-      broker_id: this.assignItem.id,
-      leads: leads_ids,
-      type: this.selected_lead.broker_id &&  item.broker_id != this.selected_lead.broker_id? 2 : 1
-    };
+      input = {
+        broker_id: this.assignItem.id,
+        leads: leads_ids,
+        type: this.selected_lead.broker_id &&  item.id == this.selected_lead.broker_id? 2 : 1
+      };
+    } 
     this.spinner.show();
     let url = this.openFor == 'CSR' ? 'leads/bulkAssignBuyer' : 'leads/bulkAssignBroker';
     this.admin.postDataApi(url, this.openFor == 'CSR' ? inputCSR : input).subscribe(r => {
       this.spinner.hide();
       this.closeNewAssignModel.nativeElement.click();
-      let test = input.type == 1 ? this.translate.instant('message.success.assignedSuccessfully') : this.translate.instant('message.success.unassignedSuccessfully')
+      let test =  (input && input.type != 2) || (inputCSR && inputCSR.type != 2) ? this.translate.instant('message.success.assignedSuccessfully') : this.translate.instant('message.success.unassignedSuccessfully')
       swal(this.translate.instant('swal.success'), test, 'success');
-     if(input.type == 2){
+     if((input && input.type == 2) || (inputCSR && inputCSR.type == 2)){
        this.selected_lead.broker_id = undefined;
        this.selected_lead.broker = undefined;
      }
@@ -465,7 +467,8 @@ export class CsrBuyerComponent implements OnInit {
 
   openModel(openFor, selected) {
     this.user = JSON.parse(localStorage.getItem('all'));
-    if(this.user.data.permissions.all_geo_access == 1 || this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_cordinator == 1){
+    let admin = this.user.data.admin_acl.find(x=> x.acl.name == 'Buyer Management');
+    if((openFor == 'CSR' && this.user.data.permissions.can_csr_coordinator == 1 && this.user.data.user_type == 2) ||  (openFor != 'CSR' && (this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_csr_coordinator == 1)&& this.user.data.user_type == 2) || admin.can_update == 1){
     this.openFor = openFor;
     this.selected_lead = selected;
     this.items.filter(item=>{
@@ -489,6 +492,8 @@ export class CsrBuyerComponent implements OnInit {
   }
   }
 
+
+
   getSearchAssign(){
     this.openFor == 'CSR' ? this.getAssignListing() : this.getInhouseAgentListing();
   }
@@ -502,7 +507,8 @@ export class CsrBuyerComponent implements OnInit {
     this.admin.getApi("leads/all-csr-buyer-statuses" ).subscribe(r => {
       this.addChangeStatusNames = r.data;
       this.spinner.hide();
-      if(item && item.admin && (this.user.data.permissions.all_geo_access == 1 || this.user.data.permissions.can_csr_buyer == 1 || this.user.permissions.can_cordinator == 1)){
+      let admin = this.user.data.admin_acl.find(x=> x.acl.name == 'Buyer Management');
+      if(item && item.admin && (((this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_csr_coordinator == 1) && this.user.data.user_type == 2) || admin.can_update == 1)){
       this.addChangeStatusModelOpen.nativeElement.click();
       }
       else{

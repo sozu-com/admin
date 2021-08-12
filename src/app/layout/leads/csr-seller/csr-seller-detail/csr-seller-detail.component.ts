@@ -5,179 +5,108 @@ import { IProperty } from 'src/app/common/property';
 import { Constant } from 'src/app/common/constants';
 import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
+import { AddAppointmentMultiple, Leads, Prefs } from 'src/app/models/leads.model';
 declare let swal: any;
 
 @Component({
   selector: 'app-csr-seller-detail',
   templateUrl: './csr-seller-detail.component.html',
-  styleUrls: ['./csr-seller-detail.component.css']
+  styleUrls: ['./csr-seller-detail.component.css'],
+  providers:[AddAppointmentMultiple]
 })
 export class CsrSellerDetailComponent implements OnInit {
-
   public parameter: IProperty = {};
-  public location: IProperty = {};
-
-  items: any = [];
-  total: any = 0;
-  configurations: any = [];
-  countries: any;
-
-  price_sort = 1;
-  availability_sort = 1;
-  lead_sort = 1;
-
-  seller_id: any;
+  leadData: Leads;
+  data = [];
+  is_deal_finalised: boolean;
+  locale = {};
+  public scrollbarOptions = { axis: 'y', theme: 'dark' };
+  today = new Date();
+  date: any;
+  user_id: any;
 
   constructor(
-    public constant: Constant,
-    private route: ActivatedRoute,
     public admin: AdminService,
+    public constant: Constant,
     private spinner: NgxSpinnerService,
-    private translate: TranslateService
+    private route: ActivatedRoute,
+    public appointment: AddAppointmentMultiple,
   ) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.parameter.seller_id = params.id;
-      this.parameter.itemsPerPage = this.constant.itemsPerPage;
-      this.parameter.page = this.constant.p;
-      this.parameter.dash_flag = 2;
-      this.parameter.flag = 3;
-      this.parameter.property_for = '';
-      this.getCountries();
-      this.getPropertyConfigurations();
-      this.getListing();
+    this.locale = {
+      firstDayOfWeek: 0,
+      dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+      dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+      dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+      monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+      monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun',
+        'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+      today: 'Hoy',
+      clear: 'Clara',
+      dateFormat: 'mm/dd/yy',
+      weekHeader: 'Wk'
+    };
+    this.parameter.itemsPerPage = this.constant.itemsPerPage;
+    this.parameter.page2 = this.constant.p;
+    this.parameter.total2 = 0;
+
+    // Initialising
+    this.leadData = new Leads();
+    this.leadData.prefs = new Prefs();
+
+    this.parameter.sent_as = this.constant.userType.csr_buyer;
+    this.route.params.subscribe( params => {
+     this.parameter.lead_id = params.id;
+      let param= {
+        lead_id: this.parameter.lead_id,
+        sent_as: this.constant.userType.inhouse_broker
+      };
+     
+      this.spinner.show();
+        this.admin.postDataApi('leads/details',param).subscribe(r => {
+          // this.user_id ? param1 : param
+          this.spinner.hide();
+          if(r.data){
+          this.leadData = r.data.lead;
+          this.leadData.broker = r.data.lead.broker;
+          if (r.data.lead.appointments.length !== 0) {
+            this.data = r.data.lead.appointments;
+            // this.appointment = r.data.lead.appointments[0];
+          }
+          this.parameter.favorites = r.data.favorites;
+          this.parameter.fav_properties_count = r.data.fav_properties_count;
+          this.parameter.proximity_places = r.data.lead.proximity_places;
+          this.parameter.interested_properties = r.data.interested_properties;
+          this.is_deal_finalised = this.leadData.selected_properties.length !== 0 ? true : false;
+          this.parameter.viewed_properties = r.data.viewed_properties;
+          this.parameter.viewed_projects = r.data.viewed_projects;
+          this.parameter.interested_projects = r.data.interested_projects;
+          this.parameter.user_id = this.leadData.user ? this.leadData.user.id : 0;
+        }
+        }, error => {
+          this.spinner.hide();
+        });
     });
   }
 
-  getListing() {
-    this.spinner.show();
-    this.items = [];
-    this.parameter.noResultFound = false;
-    this.admin.postDataApi('propertyHome', this.parameter).subscribe(
-      success => {
-        this.items = success.data;
-        if (this.items.length <= 0) { this.parameter.noResultFound = true; }
-        this.total = success.total_count;
-        this.spinner.hide();
-      },
-      error => {
-        this.spinner.hide();
-      });
+  getPage2(page) {
+    this.parameter.page2 = page;
   }
 
-  getCountries() {
-    this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
-      this.location.countries = r['data'];
-    });
+  closeModal() {
   }
 
-  getPropertyConfigurations() {
-    this.admin.postDataApi('getPropertyConfigurations', {}).subscribe(r => {
-      this.configurations = r['data'];
-    });
+  add() {
+
   }
 
-  onCountryChange(id) {
-    this.location.states = []; this.parameter.state_id = '0';
-    this.location.cities = []; this.parameter.city_id = '0';
-    this.location.localities = []; this.parameter.locality_id = '0';
-    this.parameter.state_id = '';
-    if (!id || id === '0') {
-      this.parameter.state_id = '0';
-      this.location.states = [];
-      return false;
+  addDateTime () {
+    if (this.date) {
+      this.appointment.appointment_date_array.push(this.date);
+      this.date = '';
     }
-
-    this.parameter.country_id = id;
-    const selectedCountry = this.location.countries.filter(x => x.id.toString() === id);
-    this.location.states = selectedCountry[0].states;
   }
 
-  onStateChange(id) {
-    this.location.cities = []; this.parameter.city_id = '0';
-    this.location.localities = []; this.parameter.locality_id = '0';
-    this.parameter.city_id = '';
-    if (!id || id === '0') {
-      this.parameter.city_id = '0';
-      this.location.cities = [];
-      return false;
-    }
-
-    this.parameter.state_id = id;
-    const selectedState = this.location.states.filter(x => x.id.toString() === id);
-    this.location.cities = selectedState[0].cities;
-  }
-
-  onCityChange(id) {
-    this.location.localities = []; this.parameter.locality_id = '0';
-    this.parameter.locality_id = '';
-    if (!id || id === '0') {
-      this.parameter.locality_id = '0';
-      return false;
-    }
-
-    this.parameter.city_id = id;
-    const selectedCountry = this.location.cities.filter(x => x.id.toString() === id);
-    this.location.localities = selectedCountry[0].localities;
-  }
-
-  onLocalityChange(id) {
-    if (!id || id === '0') {
-      return false;
-    }
-
-    this.parameter.locality_id = id;
-    this.getListing();
-  }
-
-  changeFlag(flag) {
-    this.parameter.flag = flag;
-    this.getListing();
-  }
-
-  sort_by(sort_by) {
-    if (this.parameter.sort_by !== sort_by) {
-      this.parameter.sort_by = sort_by;
-      this.parameter.sort_by_order = 0;
-    } else {
-      this.parameter.sort_by_order = this.parameter.sort_by_order ? 0 : 1;
-    }
-    this.getListing();
-  }
-
-  getPage(page) {
-    this.parameter.page = page;
-    this.getListing();
-  }
-
-  block(item) {
-    item.is_blocked = true;
-    this.admin.postDataApi('blockProperty', { property_id: item.id, flag: 1 }).subscribe(r => {
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.propertyBlockedSuccessfully'), 'success');
-    },
-      error => {
-        swal(this.translate.instant('swal.error'), error.error.message, 'error');
-      });
-  }
-
-  unblock(item) {
-    item.is_blocked = false;
-    this.admin.postDataApi('blockProperty', { property_id: item.id, flag: 0 }).subscribe(r => {
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.propertyUnblockedSuccessfully'), 'success');
-    },
-      error => {
-        swal(this.translate.instant('swal.error'), error.error.message, 'error');
-      });
-  }
-
-  changeStatus(item, status) {
-    item.status = status;
-    this.admin.postDataApi('updatePropertyStatus', { property_id: item.id, status_id: status }).subscribe(r => {
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.propertyStatusChanged'), 'success');
-    },
-      error => {
-        swal(this.translate.instant('swal.error'), error.error.message, 'error');
-      });
-  }
 }

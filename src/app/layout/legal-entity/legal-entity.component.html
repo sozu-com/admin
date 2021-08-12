@@ -14,6 +14,14 @@
         </div>
       </div>
   </div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="add-new text-right">
+       <a *ngIf="admin?.admin_acl['Manage Legal Entity']?.can_create==1" class="btn" href="javascript://" (click)="getExportlisting()">
+          {{'table.exportDataBtn' | translate}}</a>
+    </div>
+ </div>
+</div>
 
   <div class="white-bg">
       <div class="tabel-section">

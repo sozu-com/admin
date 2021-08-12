@@ -163,9 +163,12 @@
                                              <tbody *ngFor="let cashFlowInfo of cashFlowInfos; let i=index">
                                                    <!-- <td style="color: white;">{{cashFlowInfo.id}}</td> -->
                                                    <!-- <td></td> -->
-                                                <td><span>{{cashFlowInfo?.id}}</span></td>
-                                                <td><span>{{cashFlowInfo?.name}}</span></td>
-                                                <td><span>{{cashFlowInfo?.buyer_name}}</span></td>
+                                                <td><span class="green-color cursor-pointer" routerLink="/dashboard/collections/view-collections/{{cashFlowInfo?.id}}">{{cashFlowInfo?.id}}</span></td>
+                                                <td><span class="green-color cursor-pointer" 
+                                                      (click)="this.navigateToProperty(cashFlowInfo.property_id)">
+                                                      {{cashFlowInfo?.name}}</span></td>
+                                                <td><span class="green-color cursor-pointer" 
+                                                      routerLink="/dashboard/users/view-users/{{cashFlowInfo?.buyer_name}}">{{cashFlowInfo?.buyer_name}}</span></td>
                                                 <td><span>{{cashFlowInfo?.delivery_date | date:'dd/MMM/yyyy'}}</span></td>
                                                 <!-- <td><span>{{(cashFlowInfo.amount || 0) | currency}}</span></td> -->
                                              </tbody>

@@ -37,6 +37,7 @@ export class CreditAddEditComponent implements OnInit {
   showText: boolean;
   buildingLoading: boolean;
   showBuilding: boolean;
+  isShow: boolean = false;
   addFormStep1: FormGroup;
   tab: number;
   selected_id: number;
@@ -53,7 +54,9 @@ export class CreditAddEditComponent implements OnInit {
   caseStatus_list = Array<IDestinationStatus>();
   civilStatus_list = Array<IDestinationStatus>();
   Relationship_list = Array<IDestinationStatus>();
+  Participant_list = Array<IDestinationStatus>();
   CustomerProfile_list = Array<IDestinationStatus>();
+  CreditsStatus_list = Array<IDestinationStatus>();
   customerProfile_list = Array<IDestinationStatus>();
   marrital_status_list = Array<IMarritalStatus>();
   Scholarship_list = Array<IMarritalStatus>();
@@ -81,11 +84,11 @@ export class CreditAddEditComponent implements OnInit {
   Onedit = false;
   toggleSelectedDetails: {
     isCreditCardChecked: boolean, isOwnCarChecked: boolean, additionalDetail: boolean, additionalDetailBeneficiary: boolean
-    , Business: boolean, WarrantyProperty: boolean, Personal: boolean
+    , Business: boolean, WarrantyProperty: boolean, Personal: boolean,credits_participant: boolean
   } =
     {
       isCreditCardChecked: false, isOwnCarChecked: false, additionalDetail: false, additionalDetailBeneficiary: false, Business: false,
-      WarrantyProperty: false, Personal: false
+      WarrantyProperty: false, Personal: false,credits_participant: false
     };
   //dataView: boolean = false ;
   initialCountry: any;
@@ -115,6 +118,7 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.creditModel,"creditModel");
     this.language_code = localStorage.getItem('language_code');
     this.initialCountry = { initialCountry: this.constant.country_code };
     this.tab = 1;
@@ -168,6 +172,10 @@ export class CreditAddEditComponent implements OnInit {
         break;
       case 7:
         this.toggleSelectedDetails.Business = !this.toggleSelectedDetails.Business;
+        break;
+        case 8:
+        this.toggleSelectedDetails.credits_participant = !this.toggleSelectedDetails.credits_participant;
+        console.log(this.toggleSelectedDetails.credits_participant,"toggle")
         break;
       default:
         break;
@@ -665,6 +673,11 @@ export class CreditAddEditComponent implements OnInit {
       });
     }
     this.creditModel.bank_id = self.selctedBanks;
+    if(this.creditModel.general_data){
+      this.creditModel.general_data.credits_participant_id = creditDetails.general_data.credits_participant_id || '';
+      this.creditModel.general_data.participant_toggel = creditDetails.general_data.participant_toggel || 0;
+    }
+   
     this.creditModel.payment_scheme = self.selctedPayments;
     this.creditModel.deadlines_quote = self.selctedDeadlines;
     this.creditModel.user['neighbourhoods'] = [];
@@ -770,7 +783,9 @@ export class CreditAddEditComponent implements OnInit {
       this.adminService.postDataApi('getReferences', { id: this.parameter.property_id || '0' }),
       this.adminService.postDataApi('getSolidarity', { id: this.parameter.property_id || '0' }),
       this.adminService.postDataApi('getCurrencies', {}),
-      this.adminService.postDataApi('getDebit', { id: this.parameter.property_id || '0' })
+      this.adminService.postDataApi('getDebit', { id: this.parameter.property_id || '0' }),
+      this.adminService.postDataApi('getCreditsStatus', {}),
+      this.adminService.postDataApi('getParticipant', {})
     ]).subscribe((response: any[]) => {
       this.spinnerService.hide();
       this.program_list = response[0].data
@@ -800,6 +815,8 @@ export class CreditAddEditComponent implements OnInit {
       this.solidarity_list = response[24].data || [];
       this.currencies = response[25].data || [];
       this.debit_list = response[26].data || [];
+      this.CreditsStatus_list = response[27].data || [];
+      this.Participant_list = response[28].data || [];
       this.loadCreditsBasicDetails();
     });
   }
@@ -922,6 +939,7 @@ export class CreditAddEditComponent implements OnInit {
       programs_id: this.creditModel.programs_id,
       home_value: this.creditModel.home_value,
       credit_amount: this.creditModel.credit_amount,
+      nss: this.creditModel.nss,
       subaccount_balance: this.creditModel.subaccount_balance,
       infonavit_credit: this.creditModel.infonavit_credit,
       executive: this.creditModel.executive,
@@ -930,7 +948,8 @@ export class CreditAddEditComponent implements OnInit {
       square: this.creditModel.square,
       case_status: this.creditModel.case_status,
       property_status: this.creditModel.property_status,
-      customer_profile: this.creditModel.customer_profile
+      customer_profile: this.creditModel.customer_profile,
+      credites_status_id: this.creditModel.credites_status_id
     };
     if (this.creditModel.bank_id) {
       const d = this.creditModel.bank_id.map((o) => o.id);
@@ -953,16 +972,27 @@ export class CreditAddEditComponent implements OnInit {
     const modelSave1 = {
       id: this.parameter.property_id,
       general_data_id: this.creditModel.general_data.id,
-      co_credited_email: this.creditModel.general_data.co_credited_email,
-      co_credited_relationship: this.creditModel.general_data.co_credited_relationship,
-      co_credited_owner: this.creditModel.general_data.co_credited_owner,
-      co_credited_involved_credit: this.creditModel.general_data.co_credited_involved_credit,
-      co_credited_involved_revenue: this.creditModel.general_data.co_credited_involved_revenue
+      credits_participant_id: this.creditModel.general_data.credits_participant_id,
+      participant_toggel: this.creditModel.general_data.participant_toggel
+      // co_credited_relationship: this.creditModel.general_data.co_credited_relationship,
+      // co_credited_owner: this.creditModel.general_data.co_credited_owner,
+      // co_credited_involved_credit: this.creditModel.general_data.co_credited_involved_credit,
+      // co_credited_involved_revenue: this.creditModel.general_data.co_credited_involved_revenue
     };
     modelSave = { general_data: modelSave1, step: currentStep };
     return modelSave;
   }
-
+  togglePart(value){
+     this.isShow = value.target.checked ? true : false;
+     console.log(this.isShow,"val");
+  //  if(value == true){
+  //   this.isShow = true;
+  //   console.log(this.isShow,"show");
+  //  }else{
+  //   this.isShow = false;
+  //   console.log(this.isShow,"show");
+  //  }
+  }
   getRequestDataForFourthStep = (currentStep: number): any => {
     let modelSave = JSON.parse(JSON.stringify(this.creditModel));
     //  const stepOneId = localStorage.getItem('stepOneId');
@@ -1237,13 +1267,15 @@ export class CreditAddEditComponent implements OnInit {
 
   hasErrorCoCredited = (): boolean => {
     if (!this.parameter.property_id ||
-      !this.creditModel.general_data.co_credited_email ||
-      this.creditModel.general_data.co_credited_email == '' ||
-      !this.creditModel.general_data.co_credited_relationship ||
-      this.creditModel.general_data.co_credited_relationship == '' ||
-      !this.creditModel.general_data.co_credited_owner ||
-      !this.creditModel.general_data.co_credited_involved_revenue ||
-      !this.creditModel.general_data.co_credited_involved_credit
+       !this.creditModel.general_data.credits_participant_id ||
+       this.creditModel.general_data.credits_participant_id
+      // !this.creditModel.general_data.co_credited_email ||
+      // this.creditModel.general_data.co_credited_email == '' ||
+      // !this.creditModel.general_data.co_credited_relationship ||
+      // this.creditModel.general_data.co_credited_relationship == '' ||
+      // !this.creditModel.general_data.co_credited_owner ||
+      // !this.creditModel.general_data.co_credited_involved_revenue ||
+      // !this.creditModel.general_data.co_credited_involved_credit
     ) {
       return true;
     }

@@ -8,6 +8,7 @@ import { Users } from 'src/app/models/users.model';
 import { AdminService } from 'src/app/services/admin.service';
 import { LeadsService } from 'src/app/services/leads.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 declare let swal: any;
 
 @Component({
@@ -20,6 +21,12 @@ export class CreditAgentComponent implements OnInit {
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
   @ViewChild('openAssignModel') openAssignModel: ElementRef;
   @ViewChild('closeAssignModel') closeAssignModel: ElementRef;
+  @ViewChild('linkBrokerModal') linkBrokerModal: ElementRef;
+  @ViewChild('closeBrokerModal') closeBrokerModal: ElementRef;
+  @ViewChild('addChangeStatusModelOpen') addChangeStatusModelOpen: ElementRef;
+  @ViewChild('addChangeStatusModelClose') addChangeStatusModelClose: ElementRef;
+  @ViewChild('viewStatuHistoryModelOpen') viewStatuHistoryModelOpen: ElementRef;
+  @ViewChild('viewStatuHistoryModelClose') viewStatuHistoryModelClose: ElementRef;
 
   public parameter: IProperty = {};
   public location: IProperty = {};
@@ -41,6 +48,12 @@ export class CreditAgentComponent implements OnInit {
 
   chartView: any = [];
   locale: any;
+  user: any;
+  selected_lead: any;
+  addChangeStatusNames: string[] = [];
+  selectedAddChangeStatus: any;
+  history: any;
+
   constructor(
     public admin: AdminService,
     public leadsService: LeadsService,
@@ -48,7 +61,8 @@ export class CreditAgentComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private spinner: NgxSpinnerService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -81,6 +95,7 @@ export class CreditAgentComponent implements OnInit {
     this.getListing();
     this.getCSRDashBoardData();
     Object.assign(this, this.chartView);
+    this.openAddChangeStatusModel(undefined)
   }
 
   getCountries() {
@@ -88,7 +103,7 @@ export class CreditAgentComponent implements OnInit {
       this.location.countries = r['data'];
     });
   }
-
+  getSearchAssign(){}
   onCountryChange(id) {
     this.parameter.country_id = id;
     this.location.states = []; this.parameter.state_id = '0';
@@ -141,10 +156,10 @@ export class CreditAgentComponent implements OnInit {
     this.getCSRDashBoardData();
   }
 
-  // changeFilter = (key: string, value: any): void => {
-  //   this.parameter[key] = value;
-  //   this.getListing();
-  // }
+  changeFilter = (key: string, value: any): void => {
+    this.parameter[key] = value;
+    this.getListing();
+  }
 
   changeCountFlag(flag: number) {
     this.parameter.count_flag = flag;
@@ -411,5 +426,168 @@ export class CreditAgentComponent implements OnInit {
         error => {
           swal(this.translate.instant('swal.error'), error.error.message, 'error');
         });
+  }
+
+  viewLeadDetails(lead_id: string, data: any) {
+    this.leadsService.setLeadDetailData(data);
+    this.router.navigate(['/dashboard/leads/credit-agents', lead_id]);
+  }
+
+  getInhouseAgentListing() {
+    const input = {
+      keyword: this.assign.keyword
+    };
+    this.spinner.show();
+    this.assign.items = [];
+    this.admin.postDataApi('getCreditAgent', input).subscribe(
+      success => {
+        this.spinner.hide();
+        this.assign.items = success.data;
+        this.assignItem = this.assign.items.find(x=> x.id ==  this.selected_lead.broker_id);
+      });
+  }
+
+  openModel(selected) {
+    this.user = JSON.parse(localStorage.getItem('all'));
+    let admin = this.user.data.admin_acl.find(x=> x.acl.name == 'Buyer Management');
+    if((this.user.data.permissions.can_credit_agent == 1 && this.user.data.user_type == 2) || admin.can_update == 1){
+    this.selected_lead = selected;
+    this.items.filter(item=>{
+      if(item.id == selected.id){
+        item.selected = true;
+      }
+      else{
+        item.selected = false;
+      }
+    })
+    this.assign.keyword=null;
+     this.getInhouseAgentListing();
+     this.linkBrokerModal.nativeElement.click();
+  }
+  else{
+    this.toastr.warning(this.translate.instant('message.error.SorryYouDoNotHaveThePermissionToGoThere'), this.translate.instant('swal.warning'))
+  }
+  }
+
+  assignAgent(item){
+        this.assignItem = item;
+        let text = this.translate.instant('swalText.assignInhouseAgent');
+        swal({
+          html: this.translate.instant('message.error.areYouSure') + '<br>' +  text,
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: this.constant.confirmButtonColor,
+          cancelButtonColor: this.constant.cancelButtonColor,
+          confirmButtonText: this.translate.instant('deleteSwal.yes'),
+          cancelButtonText: this.translate.instant('deleteSwal.cancel')
+        }).then((result) => {
+          if (result.value) {
+            this.assignCreditAgent(item)
+          }
+        });
+  }
+
+  assignCreditAgent(item) {
+    const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
+      this.assignItem = item;
+      let input = {
+        admin_id: this.assignItem.id,
+        id: leads_ids[0],
+        type: this.selected_lead.admin_id ? 2 : 1
+      };
+    this.spinner.show();
+    this.admin.postDataApi('assignCreditAgent', input).subscribe(r => {
+      this.spinner.hide();
+      this.closeBrokerModal.nativeElement.click();
+      let test =  input.type == 2 ? this.translate.instant('message.success.assignedSuccessfully') : this.translate.instant('message.success.unassignedSuccessfully')
+      swal(this.translate.instant('swal.success'), test, 'success');
+      this.getListing();
+      this.items.filter(item=>{
+        if(item.selected){
+          item.selected = false;
+        }
+      });
+    },
+      error => {
+        this.spinner.hide();
+        //this.closeAssignModel.nativeElement.click();
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
+      });
+  }
+
+  openAddChangeStatusModel(item){ 
+    this.user = JSON.parse(localStorage.getItem('all'));
+    this.selected_lead = item;
+    this.selectedAddChangeStatus = item && item.status ? item.status.status_id : 0;
+    this.spinner.show();
+    this.addChangeStatusNames = [];
+    //this.addChangeStatusNames = ['Mailbox', 'Call later', 'Not interested', 'Scheduled appointment', 'Incorrect data', 'Real estate advisory', 'Lead lost', 'N/A'];
+    this.admin.getApi("leads/all-csr-buyer-statuses" ).subscribe(r => {
+       r.data.forEach(item=>{
+        if(item.id != 6){
+          this.addChangeStatusNames.push(item);
+        }
+      });
+      this.spinner.hide();
+      let admin = this.user.data.admin_acl.find(x=> x.acl.name == 'Buyer Management');
+      if(item && item.admin && (((this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_credit_agent == 1) && this.user.data.user_type == 2) || admin.can_update == 1)){
+      this.addChangeStatusModelOpen.nativeElement.click();
+      }
+      else{
+        if(item){
+          if(!item.admin){
+            this.toastr.warning(this.translate.instant('message.error.firstAssignCreditAgent'), this.translate.instant('swal.warning'));
+            return;
+          }
+        this.toastr.warning(this.translate.instant('message.error.SorryYouDoNotHaveThePermissionToGoThere'), this.translate.instant('swal.warning'));
+        }
+        
+      }
+    },
+      error => {
+        this.spinner.hide();
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
+      });
+  }
+
+  closeAddChangeStatusModel = (): void => {
+    this.addChangeStatusModelClose.nativeElement.click();
+  }
+
+  onClickAddStatus() {
+    let input={
+      lead_id: this.selected_lead.id,
+      admin_id: this.selected_lead.admin.id,
+      status_id: this.selectedAddChangeStatus,
+    }
+    this.admin.postDataApi("leads/credit-agent-status", input).subscribe(r => {
+      this.getListing();
+      this.spinner.hide();
+      this.addChangeStatusModelClose.nativeElement.click();
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.statusChangedSuccessfully'), 'success');
+    },
+      error => {
+        this.spinner.hide();
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
+      });
+  }
+
+  isChecked(tempStatusName) {
+    this.selectedAddChangeStatus = tempStatusName.id;
+  }
+
+  openStatusHistoryModel(item){
+    let input = {
+      lead_id: item.id
+    }
+    this.spinner.show();
+    this.admin.postDataApi('leads/csr-buyer-lead-statuses', input).subscribe(
+      success => {
+        this.history = success.data;
+        this.viewStatuHistoryModelOpen.nativeElement.click();
+        this.spinner.hide();
+      },error=>{
+        this.spinner.hide();
+      });
   }
 }

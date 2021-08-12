@@ -35,6 +35,8 @@ export class CsrBuyerDetailComponent implements OnInit {
   leadData: Leads;
   allAmenities: Array<BuyerAmenities> = [];
   selectedAmenities: Array<BuyerAmenities> = [];
+  allPropAmenities: Array<BuyerAmenities> = [];
+  selectedPropAmenities: Array<BuyerAmenities> = [];
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
   locale: any;
 
@@ -130,6 +132,12 @@ export class CsrBuyerDetailComponent implements OnInit {
     leadData.buyer_amenities.forEach(element => {
       if (element.is_selected) {
         this.selectedAmenities.push(element);
+      }
+    });
+    this.allPropAmenities = leadData.properties_amenities;
+    leadData.properties_amenities.forEach(element => {
+      if (element.is_selected) {
+        this.selectedPropAmenities.push(element);
       }
     });
     if (leadData.prefs !== null) {

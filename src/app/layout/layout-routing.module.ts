@@ -19,6 +19,7 @@ const routes: Routes = [
     // data: {roles: ['Dashboard', 'can_read', '']},
     children: [
       { path: '', component: DashboardComponent },
+      { path: 'market-analysis', loadChildren: './market-analysis/market-analysis.module#MarketAnalysisModule' },
       {
         path: 'view-inhouse-users/:userType',
         component: InhouseUsersComponent,
@@ -51,6 +52,10 @@ const routes: Routes = [
       {
         path: 'companies',
         loadChildren: './companies/companies.module#CompaniesModule'
+      },
+      {
+        path: 'hotel-companies',
+        loadChildren: './hotel-companies/hotel-companies.module#HotelCompaniesModule'
       },
       {
         path: 'managers',
@@ -96,6 +101,10 @@ const routes: Routes = [
       {
         path: 'projects',
         loadChildren: './projects/projects.module#ProjectsModule'
+      },
+      {
+        path: 'hotels',
+        loadChildren: './hotels/hotels.module#HotelsModule'
       },
       {
         path: 'collections',

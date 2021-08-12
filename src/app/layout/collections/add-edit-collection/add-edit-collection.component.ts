@@ -88,6 +88,7 @@ export class AddEditCollectionComponent implements OnInit {
   selectedBuilding: AddProjectModel;
   selectedTower: Towers;
   agent_amount: any;
+  outside_agent_amount: any;
   num_of_property: any;
   property_names: Array<any>;
   amenity_index: number;
@@ -137,6 +138,7 @@ export class AddEditCollectionComponent implements OnInit {
   ccsum: any;
   pcsum: any;
   acsum: any;
+  ocsum: any;
   purchase_amount : any;
   coll_amt: any;
   isAgencyBank: boolean;
@@ -266,6 +268,15 @@ export class AddEditCollectionComponent implements OnInit {
 
   toggleShow(value) {
     this.isShown = value.target.checked ? true : false;
+    if(this.isShown){
+      this.addFormStep4.controls.send_mail.patchValue(1);
+      this.addFormStep4.controls.day.patchValue('01');
+    }
+    else{
+      this.addFormStep4.controls.day.patchValue('');
+      this.addFormStep4.controls.send_mail.patchValue(0);
+
+    }
   }
 
   getAllPaymentChoices() {
@@ -480,6 +491,7 @@ export class AddEditCollectionComponent implements OnInit {
       monthly_amount: [''],
       email: [''],
       day: [''],
+      send_mail: [0],
       deal_purchase_date: ['', [Validators.required]],
       deal_price: ['', [Validators.required]],
       sum_of_concepts: [''],
@@ -497,6 +509,7 @@ export class AddEditCollectionComponent implements OnInit {
       this.addFormStep4.get('deal_price').disable({ onlySelf: true });
       this.addFormStep4.controls['email'].disable();
       this.addFormStep4.controls['day'].disable();
+      this.addFormStep4.controls.day.patchValue('');
     }
   }
 
@@ -508,16 +521,22 @@ export class AddEditCollectionComponent implements OnInit {
       comm_total_commission_amount: [{ value: '', disabled: true }, [Validators.required]],
       comm_shared_commission: [{ value: '', disabled: true }, [Validators.required, Validators.max(100)]],
       comm_shared_commission_amount: [{ value: '', disabled: true }, [Validators.required]],
+      outside_agent_commission_percentage: [{ value: '', disabled: true }, [Validators.required, Validators.max(100)]],
+      outside_agent_commission_amount: [{ value: '', disabled: true }, [Validators.required]],
       sozu_iva_percent: ['', [Validators.required, Validators.max(100)]],
       sozu_iva_amt: ['', [Validators.required]],
       agent_iva_percent: ['', [Validators.required, Validators.max(100)]],
+      outside_agent_commission_iva_percentage: ['', [Validators.required, Validators.max(100)]],
       agent_iva_amt: ['', [Validators.required]],
+      outside_agent_commission_iva_amount: ['', [Validators.required]],
       iva_percent: ['', [Validators.required]],
       add_iva_to_pc: [''],
       add_iva_to_cc: [''],
       add_iva_to_ac: [''],
+      add_iva_to_oac: [''],
       // deal_commission_agents: ['', [Validators.required]]
       deal_commission_agents: this.formBuilder.array([]),
+      deal_commission_outside_agents: this.formBuilder.array([]),
       collection_agent_banks: this.formBuilder.array([]),
       collection_commissions: this.formBuilder.array([]),
       is_commission_sale_enabled: [''],
@@ -819,6 +838,8 @@ export class AddEditCollectionComponent implements OnInit {
       }
       if (data.buyer && data.buyer.email && (this.model.id === '0' || (!data.account_statement && this.model.id != '0'))) {
         this.addFormStep4.controls.email.patchValue(data.buyer.email);
+        this.addFormStep4.controls.send_mail.patchValue(data.send_mail);
+        this.addFormStep4.controls.day.patchValue('01');
         this.isShown = true;
       }
     }
@@ -861,6 +882,8 @@ export class AddEditCollectionComponent implements OnInit {
       }
       if (data.buyer_legal_entity && data.buyer_legal_entity.email && (this.model.id === '0' || (!data.account_statement && this.model.id != '0'))) {
         this.addFormStep4.controls.email.patchValue(data.buyer_legal_entity.email);
+        this.addFormStep4.controls.send_mail.patchValue(data.send_mail);
+        this.addFormStep4.controls.day.patchValue('01');
         this.isShown = true;
       }
     }
@@ -906,6 +929,8 @@ export class AddEditCollectionComponent implements OnInit {
       }
       if (data.buyer && data.buyer.email && (this.model.id === '0' || (!data.account_statement && this.model.id != '0'))) {
         this.addFormStep4.controls.email.patchValue(data.buyer.email);
+        this.addFormStep4.controls.send_mail.patchValue(data.send_mail);
+        this.addFormStep4.controls.day.patchValue('01');
         this.isShown = true;
       }
     }
@@ -920,6 +945,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep4.controls.currency_id.patchValue(data.currency_id ? data.currency_id : 1);
     this.addFormStep4.controls.deal_interest_rate.patchValue(data.deal_interest_rate);
     this.addFormStep4.controls.deal_penality.patchValue(data.deal_penality);
+    this.addFormStep4.controls.send_mail.patchValue(data.account_statement ? data.account_statement.send_mail : 0);
     const control1 = this.addFormStep4.get('payment_choices') as FormArray;
     let sum_of_concepts = 0;
     if (data.payment_choices) {
@@ -948,7 +974,8 @@ export class AddEditCollectionComponent implements OnInit {
       this.addFormStep4.controls.email.patchValue(emails);
     }
     this.isShown = data.account_statement && data.account_statement.usersemail && data.account_statement.usersemail.length > 0 ? true : false;
-    this.addFormStep4.controls.day.patchValue(data.account_statement ? data.account_statement.day : '');
+    this.addFormStep4.controls.send_mail.patchValue(this.isShown ? data.account_statement.send_mail : 0);
+    this.addFormStep4.controls.day.patchValue(data.account_statement ? data.account_statement.day : '01');
 
     if (data.property.property_offer_payment && data.property.property_offer_payment.length > 0 && data.offer_id) {
       let index = data.property.property_offer_payment.findIndex(x => x.random_id == data.offer_id);
@@ -968,11 +995,16 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep5.controls.sozu_iva_percent.patchValue(this.numberUptoNDecimal(data.sozu_iva_percent || 0, 3));
     this.addFormStep5.controls.sozu_iva_amt.patchValue(this.numberUptoNDecimal(data.sozu_iva_amt || 0, 2));
     this.addFormStep5.controls.agent_iva_percent.patchValue(this.numberUptoNDecimal(data.agent_iva_percent || 0, 3));
+    this.addFormStep5.controls.outside_agent_commission_iva_percentage.patchValue(this.numberUptoNDecimal(data.outside_agent_commission_iva_percentage || 0, 3));
     this.addFormStep5.controls.agent_iva_amt.patchValue(this.numberUptoNDecimal(data.agent_iva_amt || 0, 2));
     this.addFormStep5.controls.iva_percent.patchValue(this.numberUptoNDecimal(data.iva_percent || 0, 3));
     this.addFormStep5.controls.add_iva_to_cc.patchValue(data.add_iva_to_cc || 0);
     this.addFormStep5.controls.add_iva_to_pc.patchValue(data.add_iva_to_pc || 0);
     this.addFormStep5.controls.add_iva_to_ac.patchValue(data.add_iva_to_ac || 0);
+    this.addFormStep5.controls.add_iva_to_oac.patchValue(data.add_iva_to_oac || 0);
+    this.addFormStep5.controls.outside_agent_commission_percentage.patchValue(data.outside_agent_commission_percentage || 0);
+    this.addFormStep5.controls.outside_agent_commission_amount.patchValue(data.outside_agent_commission_amount || 0);
+    this.addFormStep5.controls.outside_agent_commission_iva_amount.patchValue(data.outside_agent_commission_iva_amount || 0);
     let index;
     if (this.isByOffer) {
       index = data.property.property_offer_payment.findIndex(x => x.random_id == data.offer_id);
@@ -982,6 +1014,7 @@ export class AddEditCollectionComponent implements OnInit {
 
     // this.addFormStep5.controls.deal_commission_agents.patchValue(data.deal_commission_agents);
     const control1 = this.addFormStep5.get('deal_commission_agents') as FormArray;
+    const control2 = this.addFormStep5.get('deal_commission_outside_agents') as FormArray;
     //console.log(control1);
     if (data.deal_commission_agents && data.deal_commission_agents.length > 0) {
       for (let index = 0; index < data.deal_commission_agents.length; index++) {
@@ -995,6 +1028,20 @@ export class AddEditCollectionComponent implements OnInit {
       }
     } else {
       this.addAgent('');
+    }
+
+    if (data.deal_commission_outside_agents && data.deal_commission_outside_agents.length > 0) {
+      for (let index = 0; index < data.deal_commission_outside_agents.length; index++) {
+        const x = data.deal_commission_outside_agents[index].outside_agent;
+        //console.log(control1);
+        if (index === 0 && x) {
+          control2.push(this.formBuilder.group(x));
+        } else {
+          this.addOutsideAgent('');
+        }
+      }
+    } else {
+      this.addOutsideAgent('');
     }
 
     const control = this.addFormStep5.get('collection_agent_banks') as FormArray;
@@ -1015,6 +1062,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.ccsum = 0;
     this.pcsum = 0;
     this.acsum = 0;
+    this.ocsum = 0;
     if (payment_choices) {
       for (let index = 0; index < payment_choices.length; index++) {
         const element = payment_choices[index];
@@ -1044,6 +1092,10 @@ export class AddEditCollectionComponent implements OnInit {
           data.collection_commissions[index] ? data.collection_commissions[index].add_agent_commission : 0;
         obj['agent_comm_amount'] = data.collection_commissions.length > 0 &&
           data.collection_commissions[index] ? data.collection_commissions[index].agent_comm_amount : 0;
+        obj['add_agent_outside_commission'] = data.collection_commissions.length > 0 &&
+          data.collection_commissions[index] ? data.collection_commissions[index].add_agent_outside_commission : 0;
+        obj['agent_outside_comm_amount'] = data.collection_commissions.length > 0 &&
+          data.collection_commissions[index] ? data.collection_commissions[index].agent_outside_comm_amount : 0;
 
         if (control1.length != payment_choices.length) {
           control1.push(this.formBuilder.group(obj));
@@ -1053,6 +1105,7 @@ export class AddEditCollectionComponent implements OnInit {
         this.ccsum = parseFloat(this.ccsum) + (obj['amount'] && obj['add_collection_commission'] ? parseFloat(obj['amount']) : 0.00);
         this.pcsum = parseFloat(this.pcsum) + (obj['purchase_comm_amount'] && obj['add_purchase_commission'] ? parseFloat(obj['purchase_comm_amount']) : 0.00);
         this.acsum = parseFloat(this.acsum) + (obj['agent_comm_amount'] && obj['add_agent_commission'] ? parseFloat(obj['agent_comm_amount']) : 0.00);
+        this.ocsum = parseFloat(this.ocsum) + (obj['agent_outside_comm_amount'] && obj['add_agent_outside_commission'] ? parseFloat(obj['agent_outside_comm_amount']) : 0.00);
       }
     }
   }
@@ -1076,7 +1129,7 @@ export class AddEditCollectionComponent implements OnInit {
         this.tab = tab;
         if (tab == 4) {
           this.edit_reminder = false;
-          this.isShown = this.addFormStep4.controls['email'].value ? true : false;
+          this.isShown = this.addFormStep4.controls['send_mail'].value == 1 ? true : false;       
         }
       }
     });
@@ -1782,8 +1835,26 @@ export class AddEditCollectionComponent implements OnInit {
     this.agents.push(this.newAgent());
   }
 
+  addOutsideAgent($event){
+    this.outsideAgents.push(this.newOutsideAgent());
+  }
+
+  get outsideAgents(): FormArray {
+    return this.addFormStep5.get('deal_commission_outside_agents') as FormArray;
+  }
+
   get agents(): FormArray {
     return this.addFormStep5.get('deal_commission_agents') as FormArray;
+  }
+
+  newOutsideAgent(): FormGroup {
+    return this.formBuilder.group({
+      outside_agent_id: [''],
+      name: [''],
+      first_surname: [''],
+      second_surname: [''],
+      fed_tax_payer_reg: ['']
+    });
   }
 
   newAgent(): FormGroup {
@@ -2065,6 +2136,16 @@ export class AddEditCollectionComponent implements OnInit {
     const amount = this.numberUptoNDecimal((percent * price) / 100, 2);
     this.addFormStep5.controls['comm_shared_commission_amount'].patchValue(amount);
   }
+  getOutsideAgentAmount(percent: number) {
+    const price = this.addFormStep4.get('final_price').value;
+    if (!price || price == 0) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseEnterPrice'), this.translate.instant('swal.error'));
+      return;
+    }
+    const amount = this.numberUptoNDecimal((percent * price) / 100, 2);
+    this.addFormStep5.controls['outside_agent_commission_amount'].patchValue(amount);
+  }
 
   getIVAAmount(percent: number, key: string, key2: string) {
     const price = this.addFormStep5.get(key).value;
@@ -2167,6 +2248,10 @@ export class AddEditCollectionComponent implements OnInit {
     {
       return parseFloat(a) + parseFloat(b);
     });
+    let sum4: number = pcArray.map(a => a.agent_outside_comm_amount).reduce(function(a, b)
+    {
+      return parseFloat(a) + parseFloat(b);
+    });
     let sum1: number = pcArray.map(a => a.purchase_comm_amount).reduce(function(a, b)
     {
       return parseFloat(a) + parseFloat(b);
@@ -2178,12 +2263,14 @@ export class AddEditCollectionComponent implements OnInit {
     this.agent_amount = sum;
     this.purchase_amount = sum1;
     this.coll_amt = sum2;
+    this.outside_agent_amount = sum4;
 }
     const installOne = pcArray.find(r => r.name.includes('Monthly Installment'));
     // if first monthly installment percent added, => update amount in all monthly installments
     this.ccsum = 0;
     this.pcsum = 0;
     this.acsum = 0;
+    this.ocsum = 0;
     if (installOne && (installOne.name === pcArray[index].name)) {
       pcArray.map(e => {
         // if (e.pc_id == 5) {
@@ -2197,6 +2284,7 @@ export class AddEditCollectionComponent implements OnInit {
       this.ccsum = parseFloat(this.ccsum) + e.add_collection_commission ? parseFloat(this.coll_amt) : 0.00;
       this.pcsum = parseFloat(this.pcsum) + e.add_purchase_commission ? parseFloat(this.purchase_amount) : 0.00;
       this.acsum = parseFloat(this.acsum) + e.add_agent_commission ? parseFloat(this.agent_amount) : 0.00;
+      this.ocsum = parseFloat(this.ocsum) + e.add_agent_outside_commission ? parseFloat(this.outside_agent_amount) : 0.00;
     });
     this.addFormStep5.controls['collection_commissions'].patchValue(pcArray);
   }
@@ -2224,6 +2312,7 @@ export class AddEditCollectionComponent implements OnInit {
       this.ccsum = parseFloat(this.ccsum) + e.add_collection_commission ? parseFloat(e.amount) : 0.00;
       this.pcsum = parseFloat(this.pcsum) + e.add_purchase_commission ? parseFloat(e.purchase_comm_amount) : 0.00;
       this.acsum = parseFloat(this.acsum) + e.add_agent_commission ? parseFloat(e.agent_comm_amount) : 0.00;
+      this.ocsum = parseFloat(this.ocsum) + e.add_agent_outside_commission ? parseFloat(e.agent_outside_comm_amount) : 0.00;
     });
     this.addFormStep5.controls['collection_commissions'].patchValue(pcArray);
   }
@@ -2234,6 +2323,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.ccsum = 0;
     this.pcsum = 0;
     this.acsum = 0;
+    this.ocsum =0;
     // if first monthly installment percent added, => update amount in all monthly installments
     if (installOne && (installOne.name === pcArray[index].name)) {
       const sta = add_purchase_commission;
@@ -2249,6 +2339,7 @@ export class AddEditCollectionComponent implements OnInit {
       this.ccsum = parseFloat(this.ccsum) + e.add_collection_commission ? parseFloat(e.amount) : 0.00;
       this.pcsum = parseFloat(this.pcsum) + e.add_purchase_commission ? parseFloat(e.purchase_comm_amount) : 0.00;
       this.acsum = parseFloat(this.acsum) + e.add_agent_commission ? parseFloat(e.agent_comm_amount) : 0.00;
+      this.ocsum = parseFloat(this.ocsum) + e.add_agent_outside_commission ? parseFloat(e.agent_outside_comm_amount) : 0.00;
     });
     this.addFormStep5.controls['collection_commissions'].patchValue(pcArray);
   }
@@ -2258,6 +2349,10 @@ export class AddEditCollectionComponent implements OnInit {
    // pcArray[index].purchase_comm_amount = amount;
    for (let i = 0; i < (pcArray || []).length; i++) {
     let sum: number = pcArray.map(a => a.agent_comm_amount).reduce(function(a, b)
+    {
+      return a + b;
+    });
+    let sum4: number = pcArray.map(a => a.agent_outside_comm_amount).reduce(function(a, b)
     {
       return a + b;
     });
@@ -2272,10 +2367,12 @@ export class AddEditCollectionComponent implements OnInit {
     this.agent_amount = sum;
     this.purchase_amount = sum1;
     this.coll_amt = sum2;
+    this.outside_agent_amount = sum4;
 }
     this.ccsum = 0;
     this.pcsum = 0;
     this.acsum = 0;
+    this.ocsum = 0;
     pcArray.map(e => {
       // this.ccsum = this.coll_amt || 0;
       // this.pcsum = this.purchase_amount || 0;
@@ -2283,17 +2380,58 @@ export class AddEditCollectionComponent implements OnInit {
       this.ccsum = parseFloat(this.ccsum) + e.add_collection_commission ? parseFloat(this.coll_amt) : 0.00;
       this.pcsum = parseFloat(this.pcsum) + e.add_purchase_commission ? parseFloat(this.purchase_amount) : 0.00;
       this.acsum = parseFloat(this.acsum) + e.add_agent_commission ? parseFloat(this.agent_amount) : 0.00;
+      this.ocsum = parseFloat(this.ocsum) + e.add_agent_outside_commission ? parseFloat(this.outside_agent_amount) : 0.00;
       // this.ccsum = parseFloat(this.ccsum) + e.add_collection_commission ? parseFloat(e.amount) : 0.00;
       // this.pcsum = parseFloat(this.pcsum) + e.add_purchase_commission ? parseFloat(e.purchase_comm_amount) : 0.00;
       // this.acsum = parseFloat(this.acsum) + e.add_agent_commission ? parseFloat(e.agent_comm_amount) : 0.00;
     });
     this.addFormStep5.controls['collection_commissions'].patchValue(pcArray);
   }
-
+  getOAgentCommAmount(amount: number, index: number){
+    const pcArray: Array<any> = this.addFormStep5.get('collection_commissions').value;
+    // pcArray[index].purchase_comm_amount = amount;
+    for (let i = 0; i < (pcArray || []).length; i++) {
+     let sum: number = pcArray.map(a => a.agent_comm_amount).reduce(function(a, b)
+     {
+       return a + b;
+     });
+     let sum4: number = pcArray.map(a => a.agent_outside_comm_amount).reduce(function(a, b)
+     {
+       return a + b;
+     });
+     let sum1: number = pcArray.map(a => a.purchase_comm_amount).reduce(function(a, b)
+     {
+       return a + b;
+     });
+     let sum2: number = pcArray.map(a => a.amount).reduce(function(a, b)
+     {
+       return a + b;
+     });
+     this.agent_amount = sum;
+     this.purchase_amount = sum1;
+     this.coll_amt = sum2;
+     this.outside_agent_amount = sum4;
+ }
+     this.ccsum = 0;
+     this.pcsum = 0;
+     this.acsum = 0;
+     this.ocsum = 0;
+     pcArray.map(e => {
+       this.ccsum = parseFloat(this.ccsum) + e.add_collection_commission ? parseFloat(this.coll_amt) : 0.00;
+       this.pcsum = parseFloat(this.pcsum) + e.add_purchase_commission ? parseFloat(this.purchase_amount) : 0.00;
+       this.acsum = parseFloat(this.acsum) + e.add_agent_commission ? parseFloat(this.agent_amount) : 0.00;
+       this.ocsum = parseFloat(this.ocsum) + e.add_agent_outside_commission ? parseFloat(this.outside_agent_amount) : 0.00;
+     });
+     this.addFormStep5.controls['collection_commissions'].patchValue(pcArray);
+  }
   getAgentCommAmount(amount: number, index: number) {
     const pcArray: Array<any> = this.addFormStep5.get('collection_commissions').value;
     for (let i = 0; i < (pcArray || []).length; i++) {
       let sum: number = pcArray.map(a => a.agent_comm_amount).reduce(function(a, b)
+      {
+        return a + b;
+      });
+      let sum4: number = pcArray.map(a => a.agent_outside_comm_amount).reduce(function(a, b)
       {
         return a + b;
       });
@@ -2308,6 +2446,7 @@ export class AddEditCollectionComponent implements OnInit {
       this.agent_amount = sum;
       this.purchase_amount = sum1;
       this.coll_amt = sum2;
+      this.outside_agent_amount = sum4;
   }
     // pcArray.forEach((r) => {
     //   console.log(r.agent_comm_amount,"agent_comm_amount")
@@ -2316,6 +2455,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.ccsum = 0;
     this.pcsum = 0;
     this.acsum = 0;
+    this.ocsum = 0;
     pcArray.map(e => {
     // this.ccsum = this.coll_amt || 0;
     // this.pcsum = this.purchase_amount || 0;
@@ -2323,6 +2463,7 @@ export class AddEditCollectionComponent implements OnInit {
       this.ccsum = parseFloat(this.ccsum) + e.add_collection_commission ? parseFloat(this.coll_amt) : 0.00;
       this.pcsum = parseFloat(this.pcsum) + e.add_purchase_commission ? parseFloat(this.purchase_amount) : 0.00;
       this.acsum = parseFloat(this.acsum) + e.add_agent_commission ? parseFloat(this.agent_amount) : 0.00;
+      this.ocsum = parseFloat(this.ocsum) + e.add_agent_outside_commission ? parseFloat(this.outside_agent_amount) : 0.00;
       // this.ccsum = parseFloat(this.ccsum) + e.add_collection_commission ? parseFloat(e.amount) : 0.00;
       // this.pcsum = parseFloat(this.pcsum) + e.add_purchase_commission ? parseFloat(e.purchase_comm_amount) : 0.00;
       // this.acsum = parseFloat(this.acsum) + e.add_agent_commission ? parseFloat(e.agent_comm_amount) : 0.00;
@@ -2571,6 +2712,7 @@ export class AddEditCollectionComponent implements OnInit {
         formdata['add_iva_to_cc'] = formdata['add_iva_to_cc'] ? 1 : 0;
         formdata['add_iva_to_pc'] = formdata['add_iva_to_pc'] ? 1 : 0;
         formdata['add_iva_to_ac'] = formdata['add_iva_to_ac'] ? 1 : 0;
+        formdata['add_iva_to_oac'] = formdata['add_iva_to_oac'] ? 1 : 0;
         formdata['payment_received_by'] = formdata['payment_received_by'];
       } else {
         this.showError = true;
@@ -2963,11 +3105,13 @@ export class AddEditCollectionComponent implements OnInit {
     if (value) {
       this.addFormStep4.controls['email'].enable();
       this.addFormStep4.controls['day'].enable();
+      this.addFormStep4.controls.day.patchValue('01');
       this.edit_reminder = true;
     }
     else {
       this.addFormStep4.controls['email'].disable();
       this.addFormStep4.controls['day'].disable();
+      this.addFormStep4.controls.day.patchValue('');
       this.edit_reminder = false;
     }
   }

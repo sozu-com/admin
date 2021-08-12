@@ -172,3 +172,7 @@ textarea{
   border-color: #00B96F;
   text-align: center;
 }
+
+.table-search label{
+  color: #fff !important;
+}

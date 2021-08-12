@@ -1,13 +1,13 @@
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-md-4 col-6">
+  <div class="row" style="margin-bottom: 5px;">
+    <div class="col-md-5 col-6">
       <div class="title-group">
         <h5>{{'viewManagers.label' | translate}}</h5>
         <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}}
           {{parameter.total}}</p>
       </div>
     </div>
-    <div class="col-md-5 col-6">
+    <div class="col-md-4 col-6">
       <div class="btn-cont upload-excel pull-right">
         <a title="{{'table.title.downloadSampleFile' | translate}}" href="assets/docx/BD_TowerManagerPerson_Sozu.xlsx"
           class="btn"><span class="fa fa-download"></span></a>
@@ -18,7 +18,7 @@
           class="btn"><span class="fa fa-upload"></span></a>
       </div>
     </div>
-    <div class="col-md-3 col-6">
+    <div class="col-md-3 col-12">
       <div class="btn-cont text-right">
         <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#addInhouseUser"
           #inhouseUserModalOpen>{{'table.addNewBtn' | translate}}</a>
@@ -29,7 +29,7 @@
   </div>
 
   <div class="row">
-    <div class="col-lg-6 col-md-6 col-6">
+    <div class="col-lg-10 col-md-10 col-6">
       <!-- <div class="title-group">
             <h5>{{'table.th.leads' | translate}}
                 <span *ngIf="parameter.count_flag == 1">({{'table.th.total' | translate}})</span>
@@ -38,8 +38,12 @@
                 <span *ngIf="parameter.count_flag == 4">({{'table.th.agentAssigned' | translate}})</span>
             </h5>
         </div> -->
+          <div class="add-new text-right">
+             <a *ngIf="admin?.admin_acl['Managers Management']?.can_create==1" class="btn" href="javascript://" (click)="getExportlisting()">
+                {{'table.exportDataBtn' | translate}}</a>
+          </div>
     </div>
-    <div class="col-lg-6 col-md-6 col-5" *ngIf="admin?.admin_acl['Managers Management']?.can_read == 1">
+    <div class="col-lg-2 col-md-2 col-6" *ngIf="admin?.admin_acl['Managers Management']?.can_read == 1">
       <div class="add-new text-right">
         <a class="btn" (click)="bulkAssign()" href="javascript://">
           {{'table.th.bulkReassign' | translate}}</a>

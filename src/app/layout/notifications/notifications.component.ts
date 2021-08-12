@@ -4,6 +4,7 @@ import { AdminService } from 'src/app/services/admin.service';
 import { Constant } from 'src/app/common/constants';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { CommonService } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-notifications',
@@ -14,12 +15,14 @@ export class NotificationsComponent implements OnInit {
 
   public parameter: IProperty = {};
   constructor(public admin: AdminService, private constant: Constant, private router: Router,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService,
+    private commonSerice: CommonService) { }
 
   ngOnInit() {
     this.parameter.page = this.constant.p;
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.getNotifications();
+    this.getNotificationsCount();
   }
 
   getPage(page) {
@@ -90,5 +93,23 @@ export class NotificationsComponent implements OnInit {
     if (item.notification_type !== 5) {
       this.router.navigate([redirectPath, item.notification_data.ref_id]);
     }
+  }
+
+  readSingleNotification(item) {
+    this.spinner.show();
+    this.admin.postDataApi('readSingleNotification', {id: item.id}).subscribe(r => {
+      this.spinner.hide();
+      this.redirect(item);
+    }, error => {
+      this.spinner.hide();
+    });
+  }
+
+  getNotificationsCount() {
+    this.admin.postDataApi('getNotificationsCount', {}).subscribe(r => {
+     localStorage.setItem('notificationCount', r.data.count) ;
+     this.commonSerice.notificationUnreadCount.next(r.data.count);
+      // this.msg_count = r.total_count;
+    });
   }
 }
