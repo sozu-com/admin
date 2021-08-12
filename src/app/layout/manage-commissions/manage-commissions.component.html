@@ -507,20 +507,20 @@
                   <td>
                     <div class="table-actions">
 
-                      <button  (click)="all(p)"
+                      <button  
                        title="{{'table.title.quickVisuaization' | translate}}" class="action-icon">
                         <img src="assets/img/eye-icon.png" alt="img">
                       </button> 
                         <!-- apply payment -->
                         <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
                          title="{{'table.title.collectionCommission' | translate}}" class="action-icon"
-                         (click)="showCollectionCommReceipt(p, i, 'commission-popup')" >
+                         >
                          <img src="assets/img/ic_commission.png" alt="img">
                         </button>
                           <!-- edit payment -->
                         <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
                          title="{{'table.title.editPayment' | translate}}" class="action-icon"
-                         (click)="showEditPaymentPopup(p, i)">
+                         >
                          <img src="assets/img/edit.png" alt="img">
                         </button>
                         <!-- (click)="showEditPaymentPopup(p, i)" -->
