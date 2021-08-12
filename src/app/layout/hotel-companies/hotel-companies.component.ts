@@ -42,12 +42,12 @@ export class HotelCompaniesComponent implements OnInit {
         this.model.name = params.name; 
       }
     });
-    this.getTowerManagerCompany();
+    this.getHotelTowerManagerCompany();
   }
 
   getPage(page: number) {
     this.parameter.page = page;
-    this.getTowerManagerCompany();
+    this.getHotelTowerManagerCompany();
   }
 
   getFileName() {
@@ -63,13 +63,13 @@ export class HotelCompaniesComponent implements OnInit {
     } else {
       this.model.sort_manager = null;
     }
-    this.getTowerManagerCompany();
+    this.getHotelTowerManagerCompany();
   }
 
-  getTowerManagerCompany() {
+  getHotelTowerManagerCompany() {
     this.model.page = this.parameter.page;
     this.spinner.show();
-    this.admin.postDataApi('getTowerManagerCompany', this.model)
+    this.admin.postDataApi('getHotelTowerManagerCompany', this.model)
       .subscribe(
         success => {
           this.spinner.hide();
@@ -177,7 +177,7 @@ export class HotelCompaniesComponent implements OnInit {
             this.fileInput.nativeElement.value = '';
             this.label = this.translate.instant('table.title.chooseCompaniesFile');
             swal(this.translate.instant('swal.success'), this.translate.instant('message.success.importedSuccessfully'), 'success');
-            this.getTowerManagerCompany();
+            this.getHotelTowerManagerCompany();
           }, error => {
             this.fileInput.nativeElement.value = '';
             this.spinner.hide();
@@ -206,7 +206,7 @@ export class HotelCompaniesComponent implements OnInit {
     this.spinner.show();
     const input: any = JSON.parse(JSON.stringify(this.model));
     input.page = 0;
-    this.admin.postDataApi('getTowerManagerCompany', input).subscribe((success) => {
+    this.admin.postDataApi('getHotelTowerManagerCompany', input).subscribe((success) => {
       this.exportfinalData = success['data'] || [];
       this.exportData();
       this.spinner.hide();

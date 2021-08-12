@@ -95,17 +95,19 @@
               <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
               <td class="text-left">{{item.email ? item.email : ('table.tr.td.NA' | translate)}}</td>
               <td class="text-left">
-                <a routerLink="/dashboard/projects/view-projects/company/{{item.id}}">
-                  <span class="green-color">{{(item.project_count + item.project_count1) | numberWithCommas}}</span>
-                </a>
+                <!-- <a routerLink="/dashboard/projects/view-projects/company/{{item.id}}"> -->
+                  <span class="green-color">
+                    {{(item.project_count + item.project_count1) ? (item.project_count + item.project_count1) : ('table.tr.td.NA' | translate)}}
+                  </span>
+                <!-- </a> -->
               </td>
               <td class="text-left">
-                <a class="cursor-pointer" *ngIf="item.managers_count; else noManagersLinked" (click)="getManagers(item)">
-                  <span class="green-color">{{item.managers_count | numberWithCommas}}</span>
-                </a>
-                <ng-template #noManagersLinked>
+                <!-- <a class="cursor-pointer" *ngIf="item.managers_count; else noManagersLinked" (click)="getManagers(item)"> -->
+                  <span class="green-color">{{item.managers_count ? item.managers_count : ('table.tr.td.NA' | translate)}}</span>
+                <!-- </a> -->
+                <!-- <ng-template #noManagersLinked>
                   {{item.managers_count | numberWithCommas}}
-                </ng-template>
+                </ng-template> -->
               </td>
               <!-- <td class="text-left">{{item.project_count | numberWithCommas}}</td> -->
               <!-- <td class="text-left">{{item.managers_count | numberWithCommas}}</td> -->

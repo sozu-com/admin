@@ -54,7 +54,7 @@ export class AddHotelCompanyComponent implements OnInit {
       this.parameter.sub = this.route.params.subscribe(params => {
         if (params['id'] !== '0') {
           this.model.id = params['id'];
-          this.getTowerManagerCompanyById(this.model.id);
+          this.getHotelTowerManagerCompanyById(this.model.id);
         }
       });
   }
@@ -75,9 +75,9 @@ export class AddHotelCompanyComponent implements OnInit {
     this.model.dial_code = '+' + e.dialCode;
     this.initialCountry = {initialCountry: e.iso2};
   }
-  getTowerManagerCompanyById(id: number) {
+  getHotelTowerManagerCompanyById(id: number) {
     this.spinner.show();
-    this.admin.postDataApi('getTowerManagerCompanyById', {'id': id})
+    this.admin.postDataApi('getHotelTowerManagerCompanyById', {'id': id})
     .subscribe(
       success => {
         this.spinner.hide();
@@ -173,7 +173,7 @@ export class AddHotelCompanyComponent implements OnInit {
       }
     }
     this.spinner.show();
-    this.admin.postDataApi('addTowerManagerCompany', modelSave)
+    this.admin.postDataApi('addHotelTowerManagerCompany', modelSave)
       .subscribe(
         success => {
           this.spinner.hide();
@@ -193,7 +193,7 @@ export class AddHotelCompanyComponent implements OnInit {
             // } else {
             //   this.router.navigate(['/dashboard/companies/view-all']);
             // }
-            this.router.navigate(['/dashboard/companies/view-all']);
+            this.router.navigate(['/dashboard/hotel-companies/view-all']);
           }
         }, error => {
           this.spinner.hide();
