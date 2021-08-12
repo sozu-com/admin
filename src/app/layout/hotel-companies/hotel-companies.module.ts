@@ -16,11 +16,15 @@ import { SharedModule } from 'src/app/modules/shared.module';
 import { AclUserGuard } from 'src/app/guards/acl-user.guard';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { HotelCompaniesComponent } from './hotel-companies.component';
+import { AddHotelCompanyComponent } from './add-hotel-company/add-hotel-company.component';
 
 const routes: Routes = [
   {
     path: 'view-all', component: HotelCompaniesComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Companies Management', 'can_read', ''] }
+    canActivate: [AclUserGuard], data: { roles: ['Hotel Companies Management', 'can_read', ''] }
+  },{
+    path: 'add-hotel-company/:id', component: AddHotelCompanyComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Hotel Companies Management', 'can_read', ''] }
   }
 ];
 
@@ -43,7 +47,8 @@ const routes: Routes = [
     MalihuScrollbarModule.forRoot(),
   ],
   declarations: [
-    HotelCompaniesComponent
+    HotelCompaniesComponent,
+    AddHotelCompanyComponent
   ]
 })
 export class HotelCompaniesModule { }

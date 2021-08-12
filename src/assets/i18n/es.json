@@ -287,6 +287,7 @@
     "canDelete": "Puedan Borrar",
     "canCRUD": "CRUD",
     "companyCommercialName": "Nombre de la empresa (nombre comercial)",
+    "companyHotelCommercialName": "Nombre de la empresa hotelera (nombre comercial)",
     "rfcLegalId": "RFC (identificación legal)",
     "razonSocial": "Razon Social (Nombre legal)",
     "locationPinOnMap": "Ubicación del Pin en el mapa",
@@ -844,6 +845,7 @@
       "agency": "Agencia",
       "legalEntity": "Entidad legal",
       "companyCommercialName": "Nombre de la compañía (Nombre comercial)",
+      "companyHotelCommercialName": "Nombre de la empresa hotelera (Nombre comercial)",
       "selectContributor": "Seleccionar colaborador",
       "contributor": "colaborador",
       "statusHistory": "Historial de estado",
@@ -1720,7 +1722,10 @@
   "viewCompanies": {
     "label": "Administrar compañías",
     "addCompany": "Agregar compañía",
-    "editCompany": "Editar compañía"
+    "editCompany": "Editar compañía",
+    "label_hotel": "Gestionar Empresas Hoteleras",
+    "addCompany_hotel": "Agregar empresa hotelera",
+    "editCompany_hotel": "Editar empresa hotelera"
   },
   "viewDevelopers": {
     "label": "Administrar desarrolladores",

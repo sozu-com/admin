@@ -287,6 +287,7 @@
     "canDelete": "Can Delete",
     "canCRUD": "CRUD",
     "companyCommercialName": "Company Name (Commercial Name)",
+    "companyHotelCommercialName": "Hotel Company Name (Commercial Name)",
     "rfcLegalId": "RFC (Legal ID)",
     "razonSocial": "Razon Social (Legal Name)",
     "locationPinOnMap": "Location Pin on Map",
@@ -846,6 +847,7 @@
       "agency": "Agency",
       "legalEntity": "Legal Entity",
       "companyCommercialName": "Company Name (Commercial Name)",
+      "companyHotelCommercialName": "Hotel Company Name (Commercial Name)",
       "selectContributor": "Select Contributor",
       "contributor": "Contributor",
       "statusHistory": "Status History",
@@ -1724,7 +1726,10 @@
   "viewCompanies": {
     "label": "Manage Companies",
     "addCompany": "Add Company",
-    "editCompany": "Edit Company"
+    "editCompany": "Edit Company",
+    "label_hotel": "Manage Hotel Companies",
+    "addCompany_hotel": "Add Hotel Company",
+    "editCompany_hotel": "Edit Hotel Company"
   },
   "viewDevelopers": {
     "label": "Manage Developers",

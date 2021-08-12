@@ -1,0 +1,255 @@
+
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-12">
+        <div class="title-group">
+            <h5>{{model.id ? ('viewCompanies.editCompany_hotel' | translate) : ('viewCompanies.addCompany_hotel' | translate)}}</h5>
+            <div class="spacer30"></div>
+        </div>
+      </div>
+  </div>
+  
+  <div class="white-bg padding40">
+      <div class="row">
+      <form role="form" ngNativeValidate #addForm="ngForm" (ngSubmit)="add(addForm)">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+            <div class="row">
+              <div class="col-2">
+                  <div class="add-img" style="display:flex;">
+                      <img *ngIf="image" [src]="image" [defaultImage]="image| img:'thumb'" [lazyLoad]="image" style="object-fit: cover; width: 100%;">
+                      <label *ngIf="model?.image">
+                        <input accept="image/*" name="image" class="image" (change)="changeListner($event, 'img_loader', 'image')" type="file">
+                      </label>
+                      <label *ngIf="!image">{{'addForm.image' | translate}}</label>
+                      <input *ngIf="!image" accept="image/*" name="image" class="image" (change)="changeListner($event, 'img_loader', 'image')" type="file">
+                      <div *ngIf="model.img_loader" class="loaderr"></div>
+                  </div>
+              </div>
+              <div class="col-2">
+                  <div class="add-img" style="display:flex;">
+                      <img *ngIf="logo" [src]="logo" [defaultImage]="logo| img:'thumb'" [lazyLoad]="logo" style="object-fit: cover; width: 100%;">
+                      <label *ngIf="model?.logo">
+                        <input accept="image/*" name="image" class="image" (change)="changeListner($event, 'logo_loader', 'logo')" type="file">
+                      </label>
+                      <label *ngIf="!logo">{{'addForm.logo' | translate}}</label>
+                      <input *ngIf="!logo" accept="image/*" name="image" class="image" (change)="changeListner($event, 'logo_loader', 'logo')" type="file">
+                      <div *ngIf="model.logo_loader" class="loaderr"></div>
+                  </div>
+              </div>
+              <div class="col-8">
+                  <div class="btn-cont text-right">
+                      <button *ngIf="!model?.id" type="submit" [disabled]="!addForm.valid" class="btn btn-primary">{{'addForm.addBtn' | translate}}</button>
+                      <button *ngIf="model?.id" type="submit" class="btn btn-primary">{{'addForm.updateBtn' | translate}}</button>
+                  </div>
+              </div>
+              <div class="col-12">
+                  <div class="spacer40"></div>
+              </div>
+              <div class="col-12">
+                  <div class="form-group-2">
+                    <label>{{'addForm.companyHotelCommercialName' | translate}}
+                      <span class="color-red">*</span>
+                    </label>
+                    <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" required type="text" class="form-control" [(ngModel)]="model.name" name="name">
+                  </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-2">
+                  <label>{{'addForm.fedralTaxPayerRegistry' | translate}}
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
+                  <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" type="text" class="form-control" [(ngModel)]="model.rfc" name="rfc">
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-2">
+                  <label>{{'addForm.razonSocial' | translate}}
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
+                  <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" type="text" class="form-control" [(ngModel)]="model.razon_social" name="razon_social">
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-2">
+                  <label>{{'addForm.name' | translate}}
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
+                  <input autocomplete="off" [pattern]="constant.onlyWhiteSpaces" type="text" class="form-control" [(ngModel)]="model.person_in_charge" name="person_in_charge">
+                </div>
+              </div>
+              <div class="col-12">
+                  <div class="form-group-2">
+                    <label>{{'addForm.contactNumber' | translate}}
+                      <!-- <span class="color-red">*</span> -->
+                    </label>
+                    <input minlength="6" maxlength="16" autocomplete="off" type="text" [pattern]="constant.phonePattern" class="form-control" id="phone" minlength="1" [(ngModel)]="model.phone" name="phone"
+                          ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryCodeChange($event)" />
+                  </div>
+              </div>
+              <div class="col-12">
+                  <div class="form-group-2">
+                    <label>{{'addForm.emailId' | translate}} 
+                      <!-- <span class="color-red">*</span> -->
+                    </label>
+                    <input (keydown.space)="$event.preventDefault();" autocomplete="off" [pattern]="constant.emailPattern" type="email" class="form-control" [(ngModel)]="model.email" name="email">
+                  </div>
+              </div>
+              <div class="col-12">
+                  <div class="form-group-2">
+                    <label>{{'addForm.address' | translate}} 
+                      <!-- <span class="color-red">*</span> -->
+                    </label>
+                    <input placeholder="{{'addForm.placeholder.searchForAddress' | translate}}" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search (input)="loadPlaces('address', 'lat', 'lng', 'searchElementRef')" name="address" [(ngModel)]="model.address" autocomplete="off">
+                  </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-2">
+                    <label>{{'addForm.locationPinOnMap' | translate}}
+                      <!-- <span class="color-red">*</span> -->
+                    </label>
+                    <agm-map class="height200" [latitude]="model.lat" [longitude]="model.lng" [scrollwheel]="false" (mapClick)="placeMarker($event, 'address', 'lat', 'lng')" [zoom]="constant.zoom">
+                      <agm-marker [latitude]="model.lat" [longitude]="model.lng"></agm-marker>
+                    </agm-map>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-2">
+                  <label>{{'addForm.description' | translate}} 
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
+                  <textarea autocomplete="off" rows="3" class="form-control" name="description" [(ngModel)]="model.description"></textarea>
+                </div>
+              </div>
+              <!-- <div class="col-12">
+                <div class="form-group-2">
+                  <label>{{'addForm.branchOffice' | translate}}</label>
+                  <input placeholder="{{'addForm.placeholder.searchForBranch' | translate}}" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search1 (input)="loadPlaces('branch', 'branch_lat', 'branch_lng', 'search1ElementRef')" name="branch" [(ngModel)]="model.branch" autocomplete="off">
+                </div>
+              </div> -->
+              <!-- <div class="col-12">
+                <div class="form-group-2">
+                    <label>{{'addForm.locationPinOnMap' | translate}}</label>
+                    <agm-map class="height200" [latitude]="model.branch_lat" [longitude]="model.branch_lng" [scrollwheel]="false" (mapClick)="placeMarker($event, 'branch', 'branch_lat', 'branch_lng')" [zoom]="constant.zoom">
+                      <agm-marker [latitude]="model.branch_lat" [longitude]="model.branch_lng"></agm-marker>
+                    </agm-map>
+                </div>
+              </div> -->
+            </div>
+  
+  
+            <div class="row">
+              <div class="col-12">
+                  <div class="spacer40"></div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-2">
+                  <h5>{{'addForm.legalRepresentativeInfo' | translate}}</h5>
+                </div>
+              </div>
+              <div class="col-12">
+                  <div class="form-group-2">
+                    <label>{{'addForm.names' | translate}} 
+                      <span class="color-red">*</span>
+                    </label>
+                    <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces" type="text" class="form-control" 
+                      [(ngModel)]="model.legal_representative.name" name="rep_name">
+                  </div>
+              </div>
+              <div class="col-12">
+                  <div class="form-group-2">
+                    <label>{{'addForm.firstSurname' | translate}} 
+                      <span class="color-red">*</span>
+                    </label>
+                    <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces" type="text" class="form-control" 
+                      [(ngModel)]="model.legal_representative.first_surname" name="first_surname">
+                  </div>
+              </div>
+              <div class="col-12">
+                  <div class="form-group-2">
+                    <label>{{'addForm.secondSurname' | translate}} 
+                      <!-- <span class="color-red">*</span> -->
+                    </label>
+                    <input autocomplete="off" minlength="1" maxlength="30" [pattern]="constant.onlyWhiteSpaces" type="text" class="form-control" 
+                      [(ngModel)]="model.legal_representative.second_surname" name="second_surname">
+                  </div>
+              </div>
+              <div class="col-12">
+                  <div class="form-group-2">
+                    <label>{{'addForm.contactNumber' | translate}} 
+                      <!-- <span class="color-red">*</span> -->
+                    </label>
+                    <input minlength="8" maxlength="15" autocomplete="off" type="text" [pattern]="constant.phonePattern" 
+                      class="form-control" id="phone" [(ngModel)]="model.legal_representative.phone" name="legal_representative_phone"
+                      ng2TelInput [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
+                  </div>
+              </div>
+            <div class="col-12">
+                <div class="form-group-2">
+                  <label>{{'addForm.emailId' | translate}} 
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
+                  <input (keydown.space)="$event.preventDefault();" autocomplete="off" [pattern]="constant.emailPattern" 
+                  type="email" class="form-control" [(ngModel)]="model.legal_representative.email" name="rep_email">
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group-2">
+                  <label>{{'addForm.fedralTaxPayerRegistry' | translate}} 
+                    <!-- <span class="color-red">*</span> -->
+                  </label>
+                  <input autocomplete="off" minlength="12" maxlength="13" [pattern]="constant.onlyWhiteSpaces" type="text" class="form-control" [(ngModel)]="model.legal_representative.fed_tax_pay" name="le_fed_tax_pay">
+                </div>
+            </div>
+  
+            <div class="col-12">
+              <label>{{'addCollection.bankAccount' | translate}}
+                <!-- <span class="color-red">*</span> -->
+                <span class="pull-right"><a class="add" (click)="addLegalEntityBank($event)" href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
+              </label>
+              <div class="row" *ngFor="let leBankAccount of model.legal_representative.legal_rep_banks; let i=index">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                    <label>{{'addCollection.bankName' | translate}}</label>
+                    <div class="clearfix"></div>
+                    <input autocomplete="off" minlength="1" maxlength="30" class="form-control" type="text" [(ngModel)]="leBankAccount.bank_name" name="le_bank_name{{i}}">
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                  <label>{{'addCollection.accountNumber' | translate}}</label>
+                  <div class="clearfix"></div>
+                  <input autocomplete="off" class="form-control" type="text" minlength="9" maxlength="20" [pattern]="constant.accountPattern" [(ngModel)]="leBankAccount.account_number" name="le_account_number{{i}}">
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                  <label>{{'addCollection.clabeSwift' | translate}}</label>
+                  <div class="clearfix"></div>
+                  <input autocomplete="off" class="form-control" type="text" [(ngModel)]="leBankAccount.swift" name="le_swift{{i}}">
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                  <label>{{'addCollection.currency' | translate}}</label>
+                  <div class="clearfix"></div>
+                  <select name="le_currency_id{{i}}" [(ngModel)]="leBankAccount.currency_id" class="form-control">
+                    <option value="">{{'addCollection.currency' | translate}}</option>
+                    <option value="{{c.id}}" *ngFor="let c of currencies">{{ c?.code }} | {{c?.currency}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                  <label>{{'addCollection.remove' | translate}}</label>
+                  <div class="clearfix"></div>
+                  <button type="button" (click)="removeLegalEntityBank($event, leBankAccount, i)">{{'addCollection.remove' | translate}}</button>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+        </form>
+      </div>
+  </div>
+  
