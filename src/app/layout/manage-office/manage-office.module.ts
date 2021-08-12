@@ -14,7 +14,7 @@ import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
-import { NumberexPipe } from 'src/app/pipes/numberex.pipe';
+//import { NumberexPipe } from 'src/app/pipes/numberex.pipe';
 import { SharedModule } from 'src/app/modules/shared.module';
 
 const routes: Routes = [
@@ -55,7 +55,7 @@ const routes: Routes = [
   declarations: [
     AddOfficeComponent,
     ManageOfficeComponent,
-    NumberexPipe
+    //NumberexPipe
   ]
 })
 export class ManageOfficeModule { }

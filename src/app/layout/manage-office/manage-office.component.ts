@@ -32,9 +32,12 @@ export class ManageOfficeComponent implements OnInit {
   total: any = 0;
   configurations: any = [];
   countries: any;
-  public selectedColumnsToShow: any = {};
   public selectedLocation: { selectedCountry: string, selectedStates: any[], selectedCities: any[], selectedLocalities: any[] } =
     { selectedCountry: '', selectedStates: [], selectedCities: [], selectedLocalities: [] };
+  public select_columns_list: any[] = [];
+  public selectedColumnsToShow: any = {};
+  public isSelectAllColumns: boolean = false;
+  public keyword: string = '';
   constructor(
     public constant: Constant,
     public apiConstant: ApiConstants,
@@ -214,6 +217,201 @@ export class ManageOfficeComponent implements OnInit {
   totalParkingCount(p: any) {
     let value = ((parseInt(p.parking_count) || 0) + (parseInt(p.parking_sale_count) || 0)) + '/' + ((parseInt(p.parking_for_rent) || 0) + (parseInt(p.parking_lots) || 0))
     return value;
+  }
+
+  resetDates() {
+    this.parameter.min = '';
+    this.parameter.max = '';
+  }
+
+  onCountryChange(id) {
+    this.selectedLocation.selectedCities = [];
+    this.location.cities = [];
+    this.selectedLocation.selectedLocalities = [];
+    this.location.localities = [];
+    this.parameter.country_id = id;
+    this.location.states = []; this.parameter.state_id = '0';
+    this.parameter.city_id = '0';
+    this.parameter.locality_id = '0';
+    if (!id || id === '0') {
+      this.parameter.state_id = '0';
+      return false;
+    }
+    this.parameter.country_id = id;
+    const selectedCountry = this.location.countries.filter(x => x.id.toString() === id);
+    this.location.states = selectedCountry[0].states;
+  }
+
+  onStateChange(id) {
+    this.selectedLocation.selectedCities = [];
+    this.location.cities = [];
+    this.selectedLocation.selectedLocalities = [];
+    this.location.localities = [];
+    this.parameter.city_id = '0';
+    this.parameter.locality_id = '0';
+    if (!id || id === '0') {
+      this.parameter.city_id = '0';
+      return false;
+    }
+    this.parameter.state_id = id;
+    const selectedState = this.location.states.filter(x => x.id.toString() === id);
+    this.location.cities = selectedState[0].cities;
+  }
+
+  onCityChangeAll = (data: any[]): void => {
+    this.selectedLocation.selectedCities = data;
+    this.onCityChange();
+  }
+
+  onCityChange = (): void => {
+    this.selectedLocation.selectedLocalities = [];
+    this.location.localities = [];
+    const localities = [];
+    this.selectedLocation.selectedCities.forEach((cityObject) => {
+      const selectedlocality = this.location.cities.filter(x => x.id == cityObject.id);
+      (selectedlocality[0].localities || []).forEach((localityObject) => {
+        localities.push(localityObject);
+      });
+    });
+    this.location.localities = localities;
+  }
+
+  changeFlag(flag: number) {
+    this.parameter.dash_flag = flag;
+    this.projectService.dash_flag = flag;
+    if (flag === 5) {
+      return false;
+    }
+    this.resetDates();
+    this.getListing();
+  }
+
+  resetFilters() {
+    this.location.countries = JSON.parse(JSON.stringify(this.location.countries));
+    this.onCountryChange('0');
+    this.parameter.is_selected = false;
+    this.parameter.page = this.constant.p;
+    this.parameter.dash_flag = this.constant.dash_flag;
+    this.parameter.total = 0;
+    // this.selectedUser = '';
+    this.parameter.keyword = '';
+    this.parameter.count_flag = 1;
+    this.parameter.min_price = null;
+    this.parameter.max_price = null;
+    this.parameter.min_carpet_area = null;
+    this.parameter.max_carpet_area = null;
+    this.resetDates();
+    this.getListing();
+  }
+
+  getExportlisting(){
+    
+  }
+
+  getProjectSelection = (isFirstTime: boolean, keyword?: string): void => {
+    this.spinner.show();
+    this.admin.postDataApi('getProjectSelection', { name: keyword }).subscribe((response) => {
+      this.spinner.hide();
+      this.select_columns_list = (response.data || []).sort((a, b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0));
+      (this.select_columns_list || []).forEach((data, index) => {
+        this.makeSelectedColumns(data.id, index);
+      });
+      this.changeSelect();
+      if (isFirstTime) {
+        this.keyword = '';
+        this.isSelectAllColumns = false;
+        this.language_code = localStorage.getItem('language_code');
+        //this.openSelectColumnsModal.nativeElement.click();
+      }
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), ((error || {}).error || {}).message, 'error');
+    });
+  }
+
+  changeSelect = (): void => {
+    let index = 0;
+    (this.select_columns_list || []).forEach((data) => {
+      if (data.isCheckBoxChecked) {
+        index += 1;
+      }
+    });
+    if ((this.select_columns_list || []).length == index) {
+      this.isSelectAllColumns = true;
+    } else {
+      this.isSelectAllColumns = false;
+    }
+  }
+
+  makeSelectedColumns = (id: number, index: number): void => {
+    switch (id) {
+      case 1:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.building_name;
+        break;
+      case 2:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.developer;
+        break;
+      case 3:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.agency;
+        break;
+      case 4:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.legal_entity;
+        break;
+      case 5:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.contributor;
+        break;
+      case 6:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.managed_company;
+        break;
+      case 7:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.possesion;
+        break;
+      case 8:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.parking_lots;
+        break;
+      case 9:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.properties;
+        break;
+      case 10:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.property_for_rent;
+        break;
+      case 11:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.property_for_sale;
+        break;
+      case 12:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.list_price;
+        break;
+      case 13:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.carpet_area;
+        break;
+      case 14:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.price_per_metter;
+        break;
+      case 15:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.document;
+        break;
+      case 16:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.project_status;
+        break;
+      case 17:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.action;
+        break;
+      case 18:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.inventory_list_price;
+        break;
+      case 19:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.inventory_carpet_area;
+        break;
+      case 20:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.inventory_per_metter;
+        break;
+      case 21:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.image;
+        break;
+      default:
+        break;
+    }
+
   }
 
 }
