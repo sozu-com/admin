@@ -290,7 +290,7 @@
                     <span  *ngIf="!p?.possession_status_id">{{'table.tr.td.NA' | translate}}</span>
                 </td>
                 <td  *ngIf="selectedColumnsToShow?.parking_lots">
-                  <a class="add1" href="javascript://" (click)="addNote(p)">
+                  <a class="add1" href="javascript://">
                     <span style="color: green;">{{totalParkingCount(p) || '0'}}</span>
                   </a>
                  
