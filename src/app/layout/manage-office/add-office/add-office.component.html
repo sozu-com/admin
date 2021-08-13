@@ -1386,7 +1386,7 @@
                 </div>
               </div>
 
-              <div class="row" *ngFor="let bankAccount of model.parking_space_lots; let s=index">
+              <div class="row" *ngFor="let bankAccount of model.office_parking_space_lots; let s=index">
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>{{'addForm.spaces-available' | translate}}{{s+1}}</label>
@@ -1437,7 +1437,7 @@
                 </div>
               </div>
             <div *ngIf="toggleSelectedDetails.isCreditCardChecked">
-              <div class="row" *ngFor="let rest of model.parking_space_rent; let i=index">
+              <div class="row" *ngFor="let rest of model.office_parking_space_rent; let i=index">
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>{{'addForm.spaces-available' | translate}}{{i+1}}</label>

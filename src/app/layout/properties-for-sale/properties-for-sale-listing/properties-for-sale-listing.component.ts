@@ -149,6 +149,11 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
   offer_id: any;
   agency_list: any;
   propertyIndex: any;
+  @ViewChild('openSelectColumnsModal') openSelectColumnsModal: ElementRef;
+  @ViewChild('closeSelectColumnsModal') closeSelectColumnsModal: ElementRef;
+  select_columns_list: any[] = [];
+  public selectedPropertyColumnsToShow: any = {};
+  public isSelectAllColumns: boolean = false;
 
   constructor(
     public constant: Constant,
@@ -225,6 +230,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.language_code = localStorage.getItem('language_code');
+    this.getPropertyHome();
     this.iniDropDownSetting();
     this.initializedDropDownSetting();
     // this.iniDropDownSettings();
@@ -358,7 +364,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     this.admin.postDataApi('getPropertyTypes', { hide_blocked: 1 })
       .subscribe(
         success => {
-         // this.spinner.hide();
+          // this.spinner.hide();
           this.propertyTypes = success['data'];
           // if (this.parameter.propertyTypes.length !== 0 && this.parameter.property_id === '') {
           //   this.model.property_type_id = this.parameter.propertyTypes[0].id;
@@ -444,7 +450,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
         // localStorage.setItem('parametersForProperty', JSON.stringify(this.parameter));
         this.items = success.data;
         this.items.forEach(function (element) {
-            element['price_per_square_meter'] = (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
+          element['price_per_square_meter'] = (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
         });
         this.total = success.total_count;
         this.spinner.hide();
@@ -494,7 +500,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
       this.configurations = r['data'];
     });
   }
-  
+
   agentTab(details: any) {
     let route = '';
     if (details.is_external_agent) {
@@ -505,7 +511,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     this.closeExtBrokerModal.nativeElement.click();
     this.router.navigate([route]);
   }
-  
+
   onCountryChange(id) {
     this.selectedLocation.selectedCities = [];
     this.selectedLocation.selectedLocalities = [];
@@ -629,7 +635,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     this.admin.postDataApi('getPropertyAmenities', { hide_blocked: 1 })
       .subscribe(
         success => {
-         // this.spinner.hide();
+          // this.spinner.hide();
           this.amenities = success['data'];
           // this.exportfinalData = success['data'].map(item => {
           //   item.name
@@ -1110,9 +1116,8 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
       const exportfinalData = [];
       for (let index = 0; index < this.exportfinalData.length; index++) {
         const p = this.exportfinalData[index];
-
-        exportfinalData.push({
-          'Name of Building':  (p.building || {}).name || '',
+        let obj = {
+          'Name of Building': (p.building || {}).name || '',
           'Name of Tower': (p.building_towers || {}).tower_name || '',
           'Floor': p.floor_num > 0 ? 'Floor ' + p.floor_num : 'Ground Floor',
           'Apartment': p.name || '',
@@ -1121,13 +1126,32 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
           'Configuration Bath': p.configuration ? p.configuration.bathroom + ' Bath' : '0 Bath',
           'Configuration Half Bath': p.configuration ? p.configuration.half_bathroom + ' Half Bath' : '0 Half Bath',
           'List Price': parseInt(p.min_price) || 0,
+          'Price per m2': p.avgg_price || 0,
           'Carpet Area': parseInt(p.max_area) || 0,
           'Commercialized by SOZU': p.is_commercialized ? 'yes' : 'no',
           'Possession Status': p.building_towers.possession_status_id == this.apiConstant.possessionStatus.sale ? 'Sale' : 'Presale',
           'Seller': ((p.selected_seller || {}).user || {}).name || 'N/A',
           'Outside Agent': p.external_outside_agent ? p.external_outside_agent.name : 'N/A',
           'Agency': p.get_agency ? p.get_agency.name : 'N/A',
-        });
+        }
+
+        this.selectedPropertyColumnsToShow.building_name == 0 ? delete obj['Name of Building'] : undefined;
+        this.selectedPropertyColumnsToShow.tower_name == 0 ? delete obj['Name of Tower'] : undefined;
+        this.selectedPropertyColumnsToShow.floor == 0 ? delete obj['Floor'] : undefined;
+        this.selectedPropertyColumnsToShow.apartment == 0 ? delete obj['Apartment'] : undefined;
+        this.selectedPropertyColumnsToShow.model == 0 ? delete obj['Model'] : undefined;
+        this.selectedPropertyColumnsToShow.configuration == 0 ? delete obj['Configuration Bed'] : undefined;
+        this.selectedPropertyColumnsToShow.configuration == 0 ? delete obj['Configuration Bath'] : undefined;
+        this.selectedPropertyColumnsToShow.configuration == 0 ? delete obj['Configuration Half Bath'] : undefined;
+        this.selectedPropertyColumnsToShow.list_price == 0 ? delete obj['List Price'] : undefined;
+        this.selectedPropertyColumnsToShow.carpet_area == 0 ? delete obj['Carpet Area'] : undefined;
+        this.selectedPropertyColumnsToShow.commercialized_sozu == 0 ? delete obj['Commercialized by SOZU'] : undefined;
+        this.selectedPropertyColumnsToShow.possession_status == 0 ? delete obj['Possession Status'] : undefined;
+        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.change_seller == 0 ? delete obj['Seller'] : undefined;
+        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.link_unlink_outside_agent == 0 ? delete obj['Outside Agent'] : undefined;
+        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.link_agency == 0 ? delete obj['Agency'] : undefined;
+        this.selectedPropertyColumnsToShow.price_per_m2 == 0 ? delete obj['Price per m2'] : undefined;
+        exportfinalData.push(obj);
       }
       new ExcelDownload().exportAsExcelFile(exportfinalData, 'properties_for_sale');
     }
@@ -1930,5 +1954,144 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
       this.spinner.hide();
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
     });
+  }
+
+  getPropertySelection = (isFirstTime: boolean, keyword?: string): void => {
+    this.spinner.show();
+    this.admin.postDataApi('getPropertySaleSelection', { name: keyword }).subscribe((response) => {
+      this.spinner.hide();
+      this.select_columns_list = (response.data || []).sort((a, b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0));
+      (this.select_columns_list || []).forEach((data, index) => {
+        this.makeSelectedColumns(data.id, index);
+      });
+      this.changeSelect();
+      if (isFirstTime) {
+        this.keyword = '';
+        this.isSelectAllColumns = false;
+        this.language_code = localStorage.getItem('language_code');
+        this.openSelectColumnsModal.nativeElement.click();
+      }
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), ((error || {}).error || {}).message, 'error');
+    });
+  }
+
+  closeSelectColumnsPopup = (): void => {
+    this.keyword = '';
+    this.isSelectAllColumns = false;
+    this.closeSelectColumnsModal.nativeElement.click();
+  }
+
+  applyShowSelectedColumns = (): void => {
+    this.spinner.show();
+    this.admin.postDataApi('updatePropertySaleHome', this.getPostRequestForColumn()).subscribe((response) => {
+      this.spinner.hide();
+      this.closeSelectColumnsPopup();
+      this.getPropertyHome();
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
+
+  getPostRequestForColumn = (): any => {
+    return {
+      user_id: JSON.parse(localStorage.getItem('user-id')) || 0,
+      building_name: (this.select_columns_list[0] || []).isCheckBoxChecked,
+      tower_name: (this.select_columns_list[1] || []).isCheckBoxChecked,
+      floor: (this.select_columns_list[2] || []).isCheckBoxChecked,
+      apartment: (this.select_columns_list[3] || []).isCheckBoxChecked,
+      model: (this.select_columns_list[4] || []).isCheckBoxChecked,
+      configuration: (this.select_columns_list[5] || []).isCheckBoxChecked,
+      list_price: (this.select_columns_list[6] || []).isCheckBoxChecked,
+      carpet_area: (this.select_columns_list[7] || []).isCheckBoxChecked,
+      commercialized_sozu: (this.select_columns_list[8] || []).isCheckBoxChecked,
+      possession_status: (this.select_columns_list[9] || []).isCheckBoxChecked,
+      change_seller: (this.select_columns_list[10] || []).isCheckBoxChecked,
+      link_unlink_outside_agent: (this.select_columns_list[13] || []).isCheckBoxChecked,
+      link_agency: (this.select_columns_list[11] || []).isCheckBoxChecked,
+      price_per_m2: (this.select_columns_list[12] || []).isCheckBoxChecked
+    };
+  }
+
+  getPropertyHome = (): void => {
+    //this.spinner.show();
+    this.admin.postDataApi('getPropertySaleHome', { user_id: JSON.parse(localStorage.getItem('user-id')) || 0 }).subscribe((response) => {
+      this.selectedPropertyColumnsToShow = response.data || {};
+      //this.spinner.hide();
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
+
+  changeSelectAll = (): void => {
+    (this.select_columns_list || []).forEach((data) => {
+      data.isCheckBoxChecked = this.isSelectAllColumns;
+    });
+  }
+
+  changeSelect = (): void => {
+    let index = 0;
+    (this.select_columns_list || []).forEach((data) => {
+      if (data.isCheckBoxChecked) {
+        index += 1;
+      }
+    });
+    if ((this.select_columns_list || []).length == index) {
+      this.isSelectAllColumns = true;
+    } else {
+      this.isSelectAllColumns = false;
+    }
+  }
+
+  makeSelectedColumns = (id: number, index: number): void => {
+    switch (id) {
+      case 1:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.building_name;
+        break;
+      case 2:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.tower_name;
+        break;
+      case 3:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.floor;
+        break;
+      case 4:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.apartment;
+        break;
+      case 5:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.model;
+        break;
+      case 6:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.configuration;
+        break;
+      case 8:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.list_price;
+        break;
+      case 11:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.carpet_area;
+        break;
+      case 12:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.commercialized_sozu;
+        break;
+      case 13:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.possession_status;
+        break;
+      case 19:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.change_seller;
+        break;
+      case 20:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.link_agency;
+        break;
+      case 29:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.link_unlink_outside_agent;
+        break;
+      case 27:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.price_per_m2;
+        break;
+      default:
+        break;
+    }
   }
 }

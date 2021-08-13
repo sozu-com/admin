@@ -182,9 +182,8 @@ export class AddOfficeModel {
   doc_loader?: boolean;
   is_completed: any;
   office_request_id: '';
-    parking_space_lots?: Array<Parking>;
-    parking_space_rent?: Array<Parking>;
-    
+  office_parking_space_lots?: Array<Parking>;
+  office_parking_space_rent?: Array<Parking>;
   office_towers: Array<Towers>;
   office_offer_payment: Array<pay>;
   office_tower_edit_index: any;
@@ -220,7 +219,7 @@ export class Parking {
   id: string;
   parking_space_id: number;
   no_parking: string;
-  is_parking: boolean = false;
+  is_parking: boolean;
 }
 
 export class Configuration {
@@ -242,6 +241,40 @@ export class Configuration {
   };
   configuration_id: any = '';
   building_configuration_id: any = '';
+  created_at: any = '';
+  created_by: any = '';
+  floor_map_image: any = '';
+  id: any = '';
+  other_images: any = [];
+  images_files: any = [];
+  images_path: any = [];
+  images: any = [];
+  images360: any = [];
+  videos: any = [];
+  updated_at: any = '';
+  name: any = '';
+  cover_profile:any='';
+}
+
+export class OfficeConfiguration {
+  base_price: any = '';
+  office_id: any = '';
+  carpet_area: any = '';
+  config: any = {
+    created_at: '',
+    created_by: '',
+    id: '',
+    name: '',
+    name_en: '',
+    name_es: '',
+    bedroom: 0,
+    bathroom: 0,
+    half_bathroom: 0,
+    status: '',
+    updated_at: ''
+  };
+  configuration_id: any = '';
+  office_configuration_id: any = '';
   created_at: any = '';
   created_by: any = '';
   floor_map_image: any = '';

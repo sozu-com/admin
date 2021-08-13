@@ -158,7 +158,7 @@
                     <label>{{'table.th.image' | translate}}</label>
                   </div>
                 </th>
-                <th style="width:15%" *ngIf="selectedColumnsToShow?.building_name">
+                <th style="width:15%" *ngIf="selectedColumnsToShow?.office_name">
                   <div class="table-search">
                     <label>{{'table.th.nameOfOffice' | translate}}</label>
                     <div class="searh-3">
@@ -222,7 +222,7 @@
                       alt="img"></a>
                   </div>
                 </th>
-                <th style="vertical-align:top;width:5%" *ngIf="selectedColumnsToShow?.properties">
+                <th style="vertical-align:top;width:5%" *ngIf="selectedColumnsToShow?.total_square_meters">
                   <div class="d-flex table-search">
                     <span><label>{{'table.th.totalSquareMeter' | translate}}</label></span>
                     <a (click)="sortData(parameter.property_sort==2?1:2)" href="javascript://"><img
@@ -252,7 +252,7 @@
                   <img *ngIf="!p.main_image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
                 </td>
                 <!--  -->
-                <td   *ngIf="selectedColumnsToShow?.building_name" class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
+                <td   *ngIf="selectedColumnsToShow?.office_name" class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
                 routerLink="/dashboard/projects/details/{{p.id}}">
                   <strong>{{p?.name}}</strong>
                 </td>
@@ -269,10 +269,10 @@
                     <span *ngIf="p?.legal_entity_info?.length == 0">{{'table.tr.td.NA' | translate}}</span>
                 </td>
                  <!-- (click)="viewContributor(p)" -->
-                 <td   *ngIf="selectedColumnsToShow?.contributor" [ngClass]="{'green-color cursor-pointer': p?.building_contributors?.length > 0 }">                   
-                    <span (click)="this.openContributorListModel(p.building_contributors)" *ngIf="p?.building_contributors?.length > 0">
-                    {{p.building_contributors && p.building_contributors.length > 0  ? this.getBuildingContributorsInfo(p.building_contributors) : ('table.tr.td.NA' | translate)}}</span>
-                    <span *ngIf="p?.building_contributors?.length == 0">{{'table.tr.td.NA' | translate}}</span>
+                 <td   *ngIf="selectedColumnsToShow?.contributor" [ngClass]="{'green-color cursor-pointer': p?.office_contributors?.length > 0 }">                   
+                    <span (click)="this.openContributorListModel(p.office_contributors)" *ngIf="p?.office_contributors?.length > 0">
+                    {{p.office_contributors && p.office_contributors.length > 0  ? this.getBuildingContributorsInfo(p.office_contributors) : ('table.tr.td.NA' | translate)}}</span>
+                    <span *ngIf="p?.office_contributors ?.length == 0">{{'table.tr.td.NA' | translate}}</span>
                 </td>
                 <td   *ngIf="selectedColumnsToShow?.managed_company" [ngClass]="{'green-color cursor-pointer': p?.manager?.id || p?.company?.id}"
                   (click)="viewCompanyManager(p)">
@@ -295,15 +295,15 @@
                   </a>
                  
                 </td>
-                <td  *ngIf="selectedColumnsToShow?.properties">
-                  <a title="{{'table.title.clickToViewProperties' | translate}}" (click)="goWay(p)"><span
-                      class="green-color cursor-pointer">{{p?.properties_count_all | numberWithCommas}}</span></a>
+                <td  *ngIf="selectedColumnsToShow?.total_square_meters">
+                  <a title="{{'table.title.clickToViewProperties' | translate}}"><span>
+                    {{p?.total_square_meters | numberWithCommas}}</span></a>
                 </td>
                 <td *ngIf="selectedColumnsToShow?.action">
                   <div class="table-actions">
                     <!-- <div class="message"> -->
                     <button [disabled]="admin?.admin_acl['Project Management']?.can_update==0"
-                      routerLink="/dashboard/projects/edit-office/{{p.id}}"
+                      routerLink="/dashboard/office/edit-office/{{p.id}}"
                       title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
                         src="assets/img/edit.png" alt="img"></button>
                     <button [disabled]="admin?.admin_acl['Project Management']?.can_delete==0" *ngIf="!p.is_blocked"
@@ -356,4 +356,320 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="modal animated" id="addNote">
+  <div class="modal-dialog fadeIndown">
+    <div class="modal-content">
+      <div class="modal-header modal-header-new">
+        <h4 class="modal-title">{{'viewProjects.addReason' | translate}}</h4>
+        <button style="display: none;" type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
+        <button type="button" class="close" (click)="closeModal()">&times;</button>
+      </div>
+
+      <form class="form-horizontal form-model0P form-model-newP" role="form" ngNativeValidate #addForm="ngForm"
+        (ngSubmit)="rejectProject(4); addForm.reset();">
+        <div class="modal-body modal-body-new">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group-2">
+                <div class="form-group">
+                  <textarea rows="4" required class="form-control note" name="reason" [(ngModel)]="reason"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="btn-cont text-right">
+                <button type="submit" [disabled]="!addForm.valid" class="btn btn-primary">{{'viewProjects.addReasonBtn'
+                  | translate}}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal animated" id="advancedSearch">
+  <div class="modal-dialog fadeIndown">
+    <div class="modal-content" style="
+    border-top-style: solid;
+    border-top-width: thick;
+    border-top-color: rgb(0, 185, 111);
+    padding: 10px; border-radius: 5px;
+    box-shadow: 0px -2px 0px 7px rgb(105,105,105);">
+      <div class="modal-header modal-header-new" style="background-color: white;">
+        <h4 class="modal-title">{{'advanceSearch.advancedSearch' | translate}}</h4>
+        <button style="display: none;" type="button" class="close" data-dismiss="modal" #modalClose>&times;</button>
+        <button type="button" class="close" (click)="close()">&times;</button>
+      </div>
+
+      <form class="form-horizontal form-model0P form-model-newP" #addFilterForm="ngForm">
+        <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.rangePrice' | translate}}</h4>
+        <div class="row">
+          <div class="form-group col-md-6">
+            <input type="text" class="form-control" placeholder="Min" name="min_price" [(ngModel)]="parameter.min_price">
+          </div>
+          <div class="form-group col-md-6">
+            <input type="text" class="form-control" placeholder="Max" name="max_price" [(ngModel)]="parameter.max_price">
+          </div>
+        </div>
+       
+        <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.rangeCarpetArea' | translate}}</h4>
+        <div class="row">
+          <div class="form-group col-md-6">
+            <input type="text" class="form-control" placeholder="Min" name="min_carpet_area"
+              [(ngModel)]="parameter.min_carpet_area">
+          </div>
+          <div class="form-group col-md-6">
+            <input type="text" class="form-control" placeholder="Max" name="max_carpet_area"
+              [(ngModel)]="parameter.max_carpet_area">
+          </div>
+        </div>
+
+        <!-- <div class="btn-cont text-right"> -->
+
+           <button type="submit" class="btn btn-success" (click)="searchProject()"
+        style="border-left-color: rgb(0, 185, 111);
+          border-right-color: rgb(0, 185, 111);">{{'advanceSearch.apply' | translate}}</button>&nbsp;&nbsp;
+
+          <button type="button" class="btn btn-danger" (click)="close()"
+            style="background-color: rgb(238, 123, 124);">{{'advanceSearch.cancel' | translate}}</button>
+        <!-- </div> -->
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<a #legalEnityListModelOpen class="btn-third btn btn-block" data-target="#legal-entity-list" data-toggle="modal" style="display: none;"></a>
+<div class="modal" id="legal-entity-list">
+  <div class="modal-dialog">
+    <div class="modal-content notary-avail">
+      <div class="modal-header popup-header">
+        <h4 class="modal-title">{{'table.th.legalEntity' | translate}}</h4>
+        <button type="button" class="close" data-dismiss="modal" #legalEnityListModelClose>&times;</button>
+      </div>
+      <div class="modal-body">
+        <!-- <div class="row">
+          <div class="col-md-8 col-6">
+            <input style="max-width:200px" [(ngModel)]="name" class="form-control" type="text" name="keyword"
+              placeholder="{{'addForm.placeholder.search' | translate}}">
+          </div>
+          <div class="col-md-4 col-5 btn-cont">
+            <a class="btn btn-primary pull-right" href="javascript://"
+              (click)="selectLegalEntity(name, 2)">{{'addForm.search' | translate}}</a>
+          </div>
+        </div> -->
+        <div class="spacer40"></div>
+        <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+          <div class="table-scroll">
+            <table class="table">
+              <tr *ngFor="let item of this.legalEntities">
+                <!-- <td *ngIf="item.is_blocked!=1"> -->
+                <td>
+                  <div class="n-avail-profile">
+                    <img [src]="item?.legal_entity?.image| img:'thumb'" onerror='src="assets/img/default_img.png"' alt="img">
+                    <div class="n-avail-info" style="cursor: pointer;" (click)="this.navigateToLegalEntity(item)">
+                      <p class="p12">{{item?.legal_entity?.comm_name}}</p>
+                      <p class="p10">{{'addForm.phone' | translate}} : {{item?.legal_entity?.dial_code ? item?.legal_entity?.dial_code : constant.dial_code}}-{{item?.legal_entity?.phone}}</p>
+                    </div>
+                  </div>
+                </td>
+                <!-- <td *ngIf="item.is_blocked!=1">
+                  <label class="cust-check-bx float-right">
+                    <input type="radio" name="id" (click)="setLegalEntity(item)">
+                    <span class="checkmark"></span>
+                  </label>
+                </td> -->
+              </tr>
+              <!-- <tr *ngIf="legalEntities?.length<1">
+                <p class="show-not-found">{{'addForm.no' | translate}} </p>
+              </tr> -->
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a #contributorListModelOpen class="btn-third btn btn-block" data-target="#contributor-list" data-toggle="modal" style="display: none;"></a>
+<div class="modal" id="contributor-list">
+  <div class="modal-dialog">
+    <div class="modal-content notary-avail">
+      <div class="modal-header popup-header">
+        <h4 class="modal-title">{{'table.th.contributor' | translate}}</h4>
+        <button type="button" class="close" data-dismiss="modal" #contributorListModelClose>&times;</button>
+      </div>
+      <div class="modal-body">
+        <!-- <div class="row">
+          <div class="col-md-8 col-6">
+            <input style="max-width:200px" [(ngModel)]="name" class="form-control" type="text" name="keyword"
+              placeholder="{{'addForm.placeholder.search' | translate}}">
+          </div>
+          <div class="col-md-4 col-5 btn-cont">
+            <a class="btn btn-primary pull-right" href="javascript://"
+              (click)="selectLegalEntity(name, 2)">{{'addForm.search' | translate}}</a>
+          </div>
+        </div> -->
+        <div class="spacer40"></div>
+        <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+          <div class="table-scroll">
+            <table class="table">
+              <tr *ngFor="let item of this.contributor">
+                <!-- <td *ngIf="item.is_blocked!=1"> -->
+                <td>
+                  <div class="n-avail-profile">
+                    <img [src]="item?.legal_entity?.image| img:'thumb'" onerror='src="assets/img/default_img.png"' alt="img">
+                    <div class="n-avail-info" style="cursor: pointer;" (click)="this.navigateToLegalEntity(item)">
+                      <p class="p12">{{item.user_type == 1 ?  (item?.users?.name + " " + (item?.users?.first_name ? item?.users?.first_name + ' ' : '') + (item?.users?.second_name ? item?.users?.second_name : '')) : item?.legal_entity?.comm_name}}</p>
+                      <p class="p10">{{'addForm.phone' | translate}} : {{item?.legal_entity?.dial_code ? item?.legal_entity?.dial_code : constant.dial_code}}-{{item?.legal_entity?.phone}}</p>
+                    </div>
+                  </div>
+                </td>
+                <!-- <td *ngIf="item.is_blocked!=1">
+                  <label class="cust-check-bx float-right">
+                    <input type="radio" name="id" (click)="setLegalEntity(item)">
+                    <span class="checkmark"></span>
+                  </label>
+                </td> -->
+              </tr>
+              <!-- <tr *ngIf="legalEntities?.length<1">
+                <p class="show-not-found">{{'addForm.no' | translate}} </p>
+              </tr> -->
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a href="javascript://" data-toggle="modal" data-target="#addd-notes" #notesadddModalOpen></a>
+<div class="modal animated" id="addd-notes">
+  <div class="modal-dialog fadeIndown">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button style="display: none;" type="button" class="close" data-dismiss="modal"
+          #notesadddModalClose>&times;</button>
+        <button type="button" class="close" (click)="this.closeNotesadddModalModal()">&times;</button>
+      </div>
+      <form autocomplete="off" class="form-horizontal form-model0P form-model-newP" role="form" ngNativeValidate
+        #addForm="ngForm">
+        <div class="modal-body modal-body-new">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+              <h4 style="font-weight: 700;">{{'addForm.parkingLot' | translate}}</h4>
+            </div>
+            
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+              <h4  style="color: #00B96F;float: right;font-weight: 700;">{{aloted_parking || 0}}/{{total_parking || 0}}</h4>
+            </div>
+          </div>
+          <hr>
+          <label>{{'addForm.totalAssign' | translate}}</label>
+            <div class="row" *ngFor="let parking of parking_alots; let i=index">
+              <div class="col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="parking.total_count > 0">
+                <p style="color: #585252;">{{i +1}}.&nbsp;{{parking.name_en}}</p>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="parking.total_count > 0">
+                <p  style="color: #00B96F;">{{parking.lots_parking || 0}}/{{parking.total_count || 0}}</p>
+              </div>
+            </div>
+            <!-- <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                <p style="color: #585252;">2.&nbsp;Double</p>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                <p  style="color: #00B96F;">50/200</p>
+              </div>
+            </div>  -->
+          <hr>
+          <label>{{'addForm.availableSale' | translate}}</label>
+          <div class="row" *ngFor="let parking of sales_parking_alots; let i=index">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="parking.total_count > 0">
+              <p style="color: #585252;">{{i +1}}.&nbsp;{{parking.name_en}}</p>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="parking.total_count > 0">
+              <p  style="color: #00B96F;">{{parking.lots_parking || 0}}/{{parking.total_count || 0}}</p>
+            </div>
+          </div>
+          <!-- <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+              <p style="color: #585252;">2.&nbsp;Double</p>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+              <p  style="color: #00B96F;">50/200</p>
+            </div>
+          </div>   -->
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- select columns -->
+<a data-toggle="modal" data-target="#link-select-columns-model" #openSelectColumnsModal style="display: none;"></a>
+<div class="modal" id="link-select-columns-model">
+   <div class="modal-dialog" style="width: max-content; margin: 0 auto;">
+      <div class="modal-content notary-avail">
+         <div class="modal-header popup-header">
+            <h4 class="modal-title">{{'table.title.columnsSelection' | translate}}</h4>
+            <button type="button" class="close" #closeSelectColumnsModal data-dismiss="modal">&times;</button>
+         </div>
+         <div class="modal-body">
+            <p class="modal-title">{{'table.title.selectTheColumnYouWantToVisualize' | translate}}</p>
+          <br/>
+          <div class="row">
+            <div class="col-md-8 col-6">
+                     <label class="p16-two">
+                       <input class="form-control" class="is_commission_sale_enabled" type="checkbox"
+                         name="SelectAll" (change)="changeSelectAll()"  [(ngModel)]="isSelectAllColumns" >
+                       <span style="margin-left: 10px; vertical-align: super;">{{'commonBlock.selectAll' |
+                         translate}}</span>
+                     </label>
+            </div>
+            <div class="col-md-4 col-6 btn-cont">
+               <a class="btn btn-primary pull-right" href="javascript://"
+                  (click)="applyShowSelectedColumns()">{{'filters.location.applyBtn' | translate}}</a>
+            </div>
+         </div>
+         <div class="spacer40"></div>
+            <div class="row">
+               <div class="col-md-8 col-6">
+                  <input style="max-width:200px;background-color: white;" (keyup.enter)="getProjectSelection(false, keyword)" [(ngModel)]="keyword"
+                     class="form-control" type="text" name="keyword"
+                     placeholder="{{'addForm.placeholder.search' | translate}}">
+               </div>
+               <div class="col-md-4 col-5 btn-cont">
+                  <a class="btn btn-primary pull-right" href="javascript://"
+                     (click)="getProjectSelection(false, keyword)">{{'viewProperty.search' | translate}}</a>
+               </div>
+            </div>
+
+            <div class="spacer40"></div>
+            <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+               <table class="table">
+                  <tr *ngFor="let item of select_columns_list; let ii=index">
+                     <td>
+                        <div class="row">
+                           <div class="col-md-12 col-12">
+                              <label class="p16-two">
+                                 <input class="form-control" class="is_commission_sale_enabled" type="checkbox"
+                                        name="checkbox{{ii}}" [(ngModel)]="item.isCheckBoxChecked" (change)="changeSelect()">
+                                 <span style="margin-left: 10px; vertical-align: super;">
+                                    {{this.language_code == 'en' ? item.name_en : item.name_es }}
+                                 </span>
+                                 </label>
+                           </div>
+                        </div>
+                     </td>
+                  </tr>
+               </table>
+            </div>
+         </div>
+      </div>
+   </div>
 </div>

@@ -243,6 +243,8 @@ export interface IProperty {
   agent_text?: any;
   broker_text?:any;
   sort_by_date?:any;
+  office_id?:any;
+  Office_status_filter?:any;
 }
 export class Docs {
   id: string;

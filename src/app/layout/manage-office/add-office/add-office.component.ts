@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators, FormBuilder, FormArray, AbstractCon
 import { AdminService } from 'src/app/services/admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IProperty } from 'src/app/common/property';
-import { AddProjectModel, Configuration, Towers, LocalityToCountry, Parking, AddOfficeModel } from 'src/app/models/addProject.model';
+import { AddProjectModel, Configuration, Towers, LocalityToCountry, Parking, AddOfficeModel, OfficeConfiguration } from 'src/app/models/addProject.model';
 import { MapsAPILoader } from '@agm/core';
 import { Constant } from 'src/app/common/constants';
 import { FileUpload } from 'src/app/common/fileUpload';
@@ -97,7 +97,7 @@ export class AddOfficeComponent implements OnInit {
   amenity_index: number;
   amenity_obj: any;
   selected_amenities: any = [];
-  new_config: any = new Configuration;
+  new_config: any = new OfficeConfiguration;
   new_custom: any = { name: '', value: '' };
   new_config_edit: any;
   FU: any = {};
@@ -231,18 +231,18 @@ export class AddOfficeComponent implements OnInit {
         let self = this;
         this.canEditdeveloperInfo = false;
         this.spinner.show()
-        this.admin.postDataApi('getProjectById', { building_id: this.id }).subscribe(r => {
+        this.admin.postDataApi('getOfficeById', { office_id: this.id }).subscribe(r => {
           this.spinner.hide();
           this.model = JSON.parse(JSON.stringify(r.data));
-          this.model.parking_space_lots = r.data.parking_space_lots; 
+          this.model.office_parking_space_lots = r.data.office_parking_space_lots; 
           this.model.possession_status_id = r.data.possession_status_id ? r.data.possession_status_id : '';
           //sum parking
           let sum: any = 0;
-          this.model.parking_space_lots.forEach(a => sum += parseInt(a.no_parking));
+          this.model.office_parking_space_lots.forEach(a => sum += parseInt(a.no_parking));
           console.log(sum);
           this.parkinLot_sum = sum
           let sum1: any = 0;
-          this.model.parking_space_rent.forEach(a => sum1 += parseInt(a.no_parking));
+          this.model.office_parking_space_rent.forEach(a => sum1 += parseInt(a.no_parking));
           console.log(sum1, "rent");
           this.parkingRent_sum = sum1
 
@@ -256,7 +256,7 @@ export class AddOfficeComponent implements OnInit {
           this.both_sum = parseInt(this.parkinLot_sum) + parseInt(this.parkingRent_sum);
           console.log(this.both_sum, "view 0");
           //end parking sum
-          this.model.parking_space_rent = r.data.parking_space_rent;
+          this.model.office_parking_space_rent = r.data.office_parking_space_rent;
           self.model.office_contributors_param = self.model.office_contributors_param ? self.model.office_contributors_param : [];
           self.model.office_contributors = []
           r.data.office_contributors.forEach(element => {
@@ -269,7 +269,7 @@ export class AddOfficeComponent implements OnInit {
             });
             this.model.office_contributors.push({ user_type: element.user_type, users_id: element.user_type == 1 ? element.users.id : element.legal_entity.id, office_id: r.data.id });
           });
-          this.toggleSelectedDetails.isCreditCardChecked = this.model.parking_space_rent.length > 0 ? true : false;
+          this.toggleSelectedDetails.isCreditCardChecked = this.model.office_parking_space_rent.length > 0 ? true : false;
           this.model.manager = r.data.manager ? r.data.manager : new Manager();
           this.model.company = r.data.company ? r.data.company : new Company();
           this.model.agency = r.data.agency ? r.data.agency : new Agency();
@@ -324,7 +324,7 @@ export class AddOfficeComponent implements OnInit {
             this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
 
             for (let index = 0; index < this.all_amenities.length; index++) {
-              for (let i = 0; i < this.model.amenities.length; i++) {
+              for (let i = 0; i < (this.model.amenities || []).length; i++) {
                 if (this.model.amenities[i].id === this.all_amenities[index].id) {
                   this.all_amenities[index].selected = true;
                   const pivot = this.model.amenities[i]['pivot'];
@@ -421,8 +421,8 @@ export class AddOfficeComponent implements OnInit {
             this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
 
             for (let index = 0; index < this.all_amenities.length; index++) {
-              if (this.model.amenities && this.model.amenities.length > 0) {
-                for (let i = 0; i < this.model.amenities.length; i++) {
+              if (this.model.amenities && (this.model.amenities || []).length > 0) {
+                for (let i = 0; i < (this.model.amenities || []).length; i++) {
                   if (this.model.amenities[i].id === this.all_amenities[index].id) {
                     this.all_amenities[index].selected = true;
                     const pivot = this.model.amenities[i]['pivot'];
@@ -489,7 +489,7 @@ export class AddOfficeComponent implements OnInit {
         });
         this.model.dev_countrycode = 'mx';
         this.model.dev_dialcode = '+52';
-        this.model.parking_space_rent = new Array<Parking>();
+        this.model.office_parking_space_rent = new Array<Parking>();
         this.assignedLegalEntity();
         this.initModel();
       }
@@ -971,7 +971,7 @@ export class AddOfficeComponent implements OnInit {
   openConfigPopupFun() {
     this.openConfigPopup.nativeElement.click();
     this.addConfig.nativeElement.reset();
-    this.new_config = new Configuration;
+    this.new_config = new OfficeConfiguration;
     this.new_config_edit = -1;
     this.file3.image = '';
     this.file4.files = [];
@@ -989,7 +989,7 @@ export class AddOfficeComponent implements OnInit {
   editConfiguration(config, index) {
     this.new_config_edit = index;
     this.new_config = JSON.parse(JSON.stringify(config));
-    this.new_config.building_configuration_id = this.new_config.id;
+    this.new_config.office_configuration_id = this.new_config.id;
     this.file3.image = config.floor_map_image;
     this.file4.files = [];
     this.config360Img.files = [];
@@ -1369,12 +1369,12 @@ export class AddOfficeComponent implements OnInit {
         swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
         //sum parking
         let sum: any = 0;
-        this.model.parking_space_lots.forEach(a => sum += parseInt(a.no_parking));
+        this.model.office_parking_space_lots.forEach(a => sum += parseInt(a.no_parking));
         console.log(sum);
         this.parkinLot_sum = sum
 
         let sum1: any = 0;
-        this.model.parking_space_rent.forEach(a => sum1 += parseInt(a.no_parking));
+        this.model.office_parking_space_rent.forEach(a => sum1 += parseInt(a.no_parking));
         console.log(sum1, "rent");
         this.parkingRent_sum = sum1
 
@@ -1513,7 +1513,7 @@ export class AddOfficeComponent implements OnInit {
       this.allTowerAmenityForEdit = JSON.parse(JSON.stringify(this.all_amenities));
 
       for (let index = 0; index < this.all_amenities.length; index++) {
-        for (let i = 0; i < this.model.amenities.length; i++) {
+        for (let i = 0; i < (this.model.amenities || []).length; i++) {
           if (this.model.amenities[i].id === this.all_amenities[index].id) {
             this.all_amenities[index].selected = true;
             const pivot = this.model.amenities[i]['pivot'];
@@ -1631,8 +1631,8 @@ export class AddOfficeComponent implements OnInit {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterNumberoffloors'), 'error');
       return false;
     }
-    if (!this.newTower.num_of_properties && this.newTower.num_of_properties !== 0) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterNumberofProperties'), 'error');
+    if (!this.newTower.total_square_meters && this.newTower.total_square_meters !== 0) {
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterTotalSquareMeter'), 'error');
       return false;
     }
 
@@ -2362,36 +2362,36 @@ export class AddOfficeComponent implements OnInit {
 
   addDeveloperBank(e) {
     //console.log(e,"send")
-    if (this.parameter.parkingLotSpacesTotal == this.model.parking_space_lots.length) {
+    if (this.parameter.parkingLotSpacesTotal == (this.model.office_parking_space_lots || []).length) {
       this.toastrService.clear()
       this.toastrService.error(this.translate.instant('message.error.parkingSpaceTypeAllAreInUse'), this.translate.instant('swal.error'));
     } else {
       const bank = new Parking();
-      this.model.parking_space_lots.push(bank);
+      this.model.office_parking_space_lots.push(bank);
     }
     // this.model.parking_space_lots.forEach((r.) => {
     // }
 
   }
   addDeveloperBank1(e) {
-    if (this.parameter.parkingLotSpacesTotal == this.model.parking_space_rent.length) {
+    if (this.parameter.parkingLotSpacesTotal == (this.model.office_parking_space_rent || []).length) {
       this.toastrService.clear()
       this.toastrService.error(this.translate.instant('message.error.parkingSpaceTypeAllAreInUse'), this.translate.instant('swal.error'));
     } else {
       const bank = new Parking();
-      this.model.parking_space_rent.push(bank);
+      this.model.office_parking_space_rent.push(bank);
     }
   }
 
   initModel() {
-    this.model.parking_space_lots = new Array<Parking>();
+    this.model.office_parking_space_lots = new Array<Parking>();
   }
 
   toggleShow(value) {
     // this.toggleSelectedDetails.isCreditCardChecked = !this.toggleSelectedDetails.isCreditCardChecked;
     this.toggleSelectedDetails.isCreditCardChecked = value.target.checked ? true : false;
     if (!this.toggleSelectedDetails.isCreditCardChecked) {
-      this.model.parking_space_rent = [];
+      this.model.office_parking_space_rent = [];
       this.parkingRent_sum = 0
       this.both_sum = parseInt(this.parkinLot_sum) - parseInt(this.parkingRent_sum);
       console.log(this.both_sum, "view rent");
@@ -2410,10 +2410,10 @@ export class AddOfficeComponent implements OnInit {
   // }
   checkAlreadySelected = (parkingSpaceId: number, isParkingSpaceLots: boolean): boolean => {
     if (isParkingSpaceLots) {
-      const data = this.model.parking_space_lots.find((item) => item.parking_space_id == parkingSpaceId);
+      const data = this.model.office_parking_space_lots.find((item) => item.parking_space_id == parkingSpaceId);
       return data ? true : false;
     } else {
-      const data = this.model.parking_space_rent.find((item) => item.parking_space_id == parkingSpaceId);
+      const data = this.model.office_parking_space_rent.find((item) => item.parking_space_id == parkingSpaceId);
       return data ? true : false;
     }
   }
