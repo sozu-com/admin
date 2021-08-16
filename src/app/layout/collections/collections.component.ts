@@ -205,7 +205,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     { name: 'Cancelled', value: 4 },
     { name: 'Settled', value: 5 },
     { name: 'Inconsistency', value: 6 },
-    { name: 'Only Commission for sale', value: 7 }];
+    { name: 'Only Commission for sale', value: 7 },
+    { name: 'Initial Resale', value: 8 },
+    { name: 'Final Resale', value: 9 }];
   collection_data: any;
   collection_payments = [];
   table_data = [];

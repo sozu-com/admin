@@ -167,6 +167,7 @@ export class AddEditCollectionComponent implements OnInit {
   public multiDropdownSettings = {};
   collection_account_statement_id: any;
   isCommercialOffer: boolean;
+  isResale: boolean;
   offer_id: any;
   offerDetail: any;
   is_choices: boolean;
@@ -3247,7 +3248,10 @@ export class AddEditCollectionComponent implements OnInit {
     this.searchedOffers = undefined;
     this.parameter.offerCount = undefined;
   }
-
+  toggleResale(value) {
+    this.isResale = value.target.checked ? true : false;
+    console.log(this.isResale,"isResale")
+  }
   getOfferPropertyDetail(id) {
     this.spinner.show();
     this.adminService.postDataApi('getOfferById', { id: id }).subscribe(success => {

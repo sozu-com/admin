@@ -1610,6 +1610,7 @@
     "student":"Alumna",
     "pro":"Otro",
     "inventory": "Inventario",
+    "resale": "Reventa",
     "status": "Estatus",
     "details": "Detalles",
     "fullName": "Nombre completo",
@@ -2250,6 +2251,8 @@
     "chooseWhichPaymentTypeYouwantToApplyForSurplusMoney": "Elija qué tipo de pago desea solicitar para el dinero excedente de"
   },
   "addCollection": {
+    "Initial": "Reventa inicial",
+    "Final": "Reventa final",
     "addLabel": "Agregar nueva colección",
     "editLabel": "Editar colección",
     "tabs": {
@@ -2404,6 +2407,8 @@
     "developer": "Desarrolladora",
     "chooseBuyerType": "Elegir tipo de comprador",
     "chooseSellerType": "Elegir tipo de vendedor",
+    "chooseResaleType": "Elija el tipo de reventa",
+    "proposed_price": "Precio propuesto",
     "payments": "Pagos",
     "category": "Categoría",
     "view": "Ver",
@@ -2433,6 +2438,7 @@
     "Sozu": "Sozu",
     "Seller": "Vendedor",
     "createCollectionBasedOnCommercialOffer": "Crear colección basada en oferta comercial",
+    "resale":"¿Esta colección es una reventa?",
     "finalPrice":"Precio final",  
     "discountInterst": "Descuento/Interés%",
     "listPrice": "Precio de lista",

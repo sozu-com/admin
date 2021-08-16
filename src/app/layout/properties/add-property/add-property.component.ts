@@ -96,7 +96,8 @@ export class AddPropertyComponent implements OnInit {
   availabilityStatus = [
     { id: '1', name: this.translate.instant('leadDetails.buy'), checked: false },
     { id: '2', name: this.translate.instant('leadDetails.rent'), checked: false },
-    { id: '3', name: this.translate.instant('leadDetails.inventory'), checked: false }];
+    { id: '3', name: this.translate.instant('leadDetails.inventory'), checked: false },
+    { id: '4', name: this.translate.instant('leadDetails.resale'), checked: false }];
   imageEvent = [];
   showText = false;
   showSearch = false;

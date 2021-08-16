@@ -125,6 +125,35 @@
       <input type="checkbox" id="switch3" (click)="toggleSearch($event)" [checked]="isCommercialOffer">
       <label for="switch3">Toggle</label>
     </div>
+    <div class="switchToggle" style="margin-bottom: 70px;">
+      <h5 class="p16-two">{{'addCollection.resale' | translate}}</h5>
+      <input type="checkbox" id="switch5" (click)="toggleResale($event)" [checked]="isResale">
+      <label for="switch5">Toggle</label>
+    </div>
+      <div class="form-group-3 row" style="margin-top: -37px;" *ngIf="isResale">
+        <h5 class="col-sm-3 p16-two">{{'addCollection.chooseResaleType' | translate}}:</h5>
+        <div class="col-sm-9">
+          <div class="clearfix"></div>
+          <label class="cust-radio">
+            <input disabled type="radio" value="1" name="seller_type">
+            <span class="checkmark">{{'addCollection.Initial' | translate}}</span>
+          </label>
+          <label class="cust-radio">
+            <input disabled type="radio"  value="2" name="seller_type">
+            <span class="checkmark">{{'addCollection.Final' | translate}}</span>
+          </label>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+      <div class="form-group-3 row">
+        <h5 class="col-sm-3 p16-two">{{'addCollection.proposed_price' | translate}}:</h5>
+        <div class="col-sm-3">
+          <div class="clearfix"></div>
+            <input readonly  type="text" formControlName="proposed_price"  name="proposed_price"
+            autocomplete="off" class="form-control">
+          <div class="clearfix"></div>
+        </div>
+      </div>
     <h5 class="p16-two" *ngIf="!isCommercialOffer">{{'addCollection.SearchYourBuildingInOurDatabase' | translate}}</h5>
     <div class="searh d-flex" *ngIf="!isCommercialOffer">
       <input autocomplete="off" class="border-right-0" autocomplete="off" type="text" #buildingname
