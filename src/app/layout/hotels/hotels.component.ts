@@ -32,6 +32,7 @@ export class HotelsComponent implements OnInit {
   items: any = [];
   total: any = 0;
   configurations: any = [];
+  PossessionStatuses: any = [];
   countries: any;
   reason: string;
   locale: any;
@@ -82,6 +83,7 @@ export class HotelsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getHotelPossessionStatuses();
     this.getProjectHome();
     this.language_code = localStorage.getItem('language_code');
     //console.log('baseurl', this.admin.baseUrl);
@@ -254,7 +256,11 @@ export class HotelsComponent implements OnInit {
       this.configurations = r['data'];
     });
   }
-
+  getHotelPossessionStatuses() {
+    this.admin.postDataApi('getHotelPossessionStatuses', {  }).subscribe(r => {
+      this.PossessionStatuses = r['data'];
+    });
+  }
   onCountryChange(id) {
     this.selectedLocation.selectedCities = [];
     this.location.cities = [];

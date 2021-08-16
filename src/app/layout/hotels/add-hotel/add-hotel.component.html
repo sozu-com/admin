@@ -254,7 +254,7 @@
                   <select [(ngModel)]="model.possession_status_id" class="form-control" name="possession_status_id">
                     <option value="">{{'addForm.possessionStatus.selectStatus' | translate}}</option>
                     <option *ngFor="let s of all_possession_statuses" [value]="s.id">
-                      {{s.name}}
+                      {{this.language_code == 'en' ? s.name_en : s.name_es }}
                     </option>
                   </select>
                 </div>
