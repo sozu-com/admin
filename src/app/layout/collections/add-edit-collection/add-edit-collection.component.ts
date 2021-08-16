@@ -167,9 +167,11 @@ export class AddEditCollectionComponent implements OnInit {
   public multiDropdownSettings = {};
   collection_account_statement_id: any;
   isCommercialOffer: boolean;
+  for_resale: boolean;
   isResale: boolean;
   offer_id: any;
   offerDetail: any;
+  proposed_price: number = 0;
   is_choices: boolean;
   //public selectedbeneficiaries: any[] = [];
   public parkingLotIncludedDetails: any;
@@ -182,7 +184,9 @@ export class AddEditCollectionComponent implements OnInit {
   isByOffer: any;
   parking_area: any[] = [];
   isEditDeliveryDate :boolean = false;
-
+  resales = [
+    { id: '1', name: this.translate.instant('addCollection.Initial'), checked: true },
+    { id: '2', name: this.translate.instant('addCollection.Final'), checked: false }];
   constructor(
     public model: Collection,
     private adminService: AdminService,
@@ -1346,7 +1350,16 @@ export class AddEditCollectionComponent implements OnInit {
   setDealType(id: number) {
     this.model.deal_type_id = id;
   }
-
+  setStatus(aindex: number){
+    if (aindex === 0) {
+      this.resales[0].checked = true;
+      this.model.initial_status = this.resales[0].id;
+    } else {
+      this.resales[0].checked = false;
+      this.resales[1].checked = true;
+      this.model.initial_status = this.resales[1].id;
+    }
+  }
   setPropertyId(property_id) {
     this.model.property_id = property_id;
     this.model.property_id = this.addFormStep1.get('property_id').value.id;
@@ -2500,6 +2513,10 @@ export class AddEditCollectionComponent implements OnInit {
       if (this.isCommercialOffer) {
         formdata['offer_id'] = this.offer_id;
       }
+      if (this.for_resale) {
+        formdata['initial_status'] = this.model.initial_status;
+      }
+     // formdata['proposed_price'] = this.proposed_price;
       formdata['for_sale'] = this.availabilityStatus[0].checked ? 1 : 0;
       formdata['for_rent'] = this.availabilityStatus[1].checked ? 1 : 0;
       formdata['building_configuration_id'] = this.model.building_configuration_id;
@@ -3249,8 +3266,8 @@ export class AddEditCollectionComponent implements OnInit {
     this.parameter.offerCount = undefined;
   }
   toggleResale(value) {
-    this.isResale = value.target.checked ? true : false;
-    console.log(this.isResale,"isResale")
+    this.for_resale = value.target.checked ? true : false;
+    console.log(this.for_resale,"isResale")
   }
   getOfferPropertyDetail(id) {
     this.spinner.show();

@@ -236,16 +236,25 @@ export class AddPropertyComponent implements OnInit {
       this.availabilityStatus[0].checked = true;
       this.availabilityStatus[1].checked = false;
       this.availabilityStatus[2].checked = false;
+      this.availabilityStatus[3].checked = false;
       this.model.availabilityStatusId = this.availabilityStatus[0].id;
     } else if (aindex === 1) {
       this.availabilityStatus[0].checked = false;
       this.availabilityStatus[1].checked = true;
       this.availabilityStatus[2].checked = false;
+      this.availabilityStatus[3].checked = false;
       this.model.availabilityStatusId = this.availabilityStatus[1].id;
+    } else if (aindex === 3) {
+      this.availabilityStatus[0].checked = false;
+      this.availabilityStatus[1].checked = false;
+      this.availabilityStatus[2].checked = false;
+      this.availabilityStatus[3].checked = true;
+      this.model.availabilityStatusId = this.availabilityStatus[3].id;
     } else {
       this.availabilityStatus[0].checked = false;
       this.availabilityStatus[1].checked = false;
       this.availabilityStatus[2].checked = true;
+      this.availabilityStatus[3].checked = false;
       this.model.availabilityStatusId = this.availabilityStatus[2].id;
     }
   }
@@ -385,6 +394,9 @@ export class AddPropertyComponent implements OnInit {
       // this.model.availabilityStatusId = this.availabilityStatus[2].id;
     } else if (data.for_rent) {
       this.setAvailableStatus(1);
+      // this.model.availabilityStatusId = this.availabilityStatus[1].id;
+    }else if (data.for_resale) {
+      this.setAvailableStatus(3);
       // this.model.availabilityStatusId = this.availabilityStatus[1].id;
     } else {
       this.setAvailableStatus(0);
@@ -1086,6 +1098,7 @@ export class AddPropertyComponent implements OnInit {
         input.append('for_sale', this.availabilityStatus[0].checked === true ? '1' : '0');
         input.append('for_rent', this.availabilityStatus[1].checked === true ? '1' : '0');
         input.append('for_hold', this.availabilityStatus[2].checked === true ? '1' : '0');
+        input.append('for_resale', this.availabilityStatus[3].checked === true ? '1' : '0');
         input.append('country_id', this.model.country_id);
         input.append('state_id', this.model.state_id);
         input.append('city_id', this.model.city_id);

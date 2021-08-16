@@ -32,6 +32,8 @@ export class Collection {
     deal_price: number;
     seller_type: any;
     buyer_type: any;
+    initial_status: any;
+    final_status: any;
     building_configuration?: any;
     building_configuration_id: any;
     collection_commissions: any;
