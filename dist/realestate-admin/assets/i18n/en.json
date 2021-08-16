@@ -1608,6 +1608,7 @@
     "pro":"Other",
     "purchase": "Purchase",
     "inventory": "Inventory",
+    "resale": "Resale",
     "status": "Status",
     "details": "Details",
     "fullName": "Full Name",
@@ -2256,6 +2257,8 @@
     "chooseWhichPaymentTypeYouwantToApplyForSurplusMoney": "Choose which payment type you want to apply for surplus money of"
   },
   "addCollection": {
+    "Initial": "Initial resale",
+    "Final": "Final Resale",
     "addLabel": "Add new Collection",
     "editLabel": "Edit Collection",
     "tabs": {
@@ -2409,6 +2412,8 @@
     "developer": "Developer",
     "chooseBuyerType": "Choose Buyer Type",
     "chooseSellerType": "Choose Seller Type",
+    "chooseResaleType": "Choose Resale Type",
+    "proposed_price": "Proposed price",
     "payments": "Payments",
     "category": "Category",
     "view": "View",
@@ -2438,6 +2443,7 @@
     "Sozu": "Sozu",
     "Seller": "Seller",
     "createCollectionBasedOnCommercialOffer": "Create collection based on commercial offer",
+    "resale":"Is this collection a resale?",
     "finalPrice":"Final Price",  
     "discountInterst": "Discount/Interest%",
     "listprice":"List Price",
