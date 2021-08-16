@@ -138,7 +138,7 @@
     <div class="row flex-wrap-reverse">
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="add-new pull-right">
-          <a *ngIf="admin?.admin_acl['Project Management']?.can_create==1 || admin?.permissions?.can_data_collector==1"
+          <a *ngIf="admin?.admin_acl['Manage Office']?.can_create==1 || admin?.permissions?.can_data_collector==1"
             class="btn" href="javascript://" routerLink="/dashboard/office/add-office">{{'office.addNewOffice' |
             translate}}</a>
         </div>
@@ -290,7 +290,8 @@
                     <span  *ngIf="!p?.possession_status_id">{{'table.tr.td.NA' | translate}}</span>
                 </td>
                 <td  *ngIf="selectedColumnsToShow?.parking_lots">
-                  <a class="add1" href="javascript://">
+                  <a class="add1" href="javascript://"
+                  (click)="addNote(p)">
                     <span style="color: green;">{{totalParkingCount(p) || '0'}}</span>
                   </a>
                  
@@ -302,30 +303,30 @@
                 <td *ngIf="selectedColumnsToShow?.action">
                   <div class="table-actions">
                     <!-- <div class="message"> -->
-                    <button [disabled]="admin?.admin_acl['Project Management']?.can_update==0"
+                    <button [disabled]="admin?.admin_acl['Manage Office']?.can_update==0"
                       routerLink="/dashboard/office/edit-office/{{p.id}}"
                       title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
                         src="assets/img/edit.png" alt="img"></button>
-                    <button [disabled]="admin?.admin_acl['Project Management']?.can_delete==0" *ngIf="!p.is_blocked"
+                    <button [disabled]="admin?.admin_acl['Manage Office']?.can_delete==0" *ngIf="!p.is_blocked"
                       (click)="blockUnblock(p, 1);" class="action-icon" title="{{'table.title.block' | translate}}"><img
                         src="assets/img/block.png" alt="img"></button>
-                    <button [disabled]="admin?.admin_acl['Project Management']?.can_delete==0"
+                    <button [disabled]="admin?.admin_acl['Manage Office']?.can_delete==0"
                       *ngIf="p.is_blocked == true" (click)="blockUnblock(p, 0);" class="action-icon unblock-bg"
                       title="{{'table.title.unblock' | translate}}"><img src="assets/img/unblock.png"
                         alt="img"></button>
                     <!-- unapprove => when status=2(pending), 1(approved)   (click)="openCancellationModal(p, i)"-->
                     <a style="display:none;" #modalOpen data-toggle="modal" data-target="#addNote"></a>
                     <button (click)="openCancellationModal(p, i)"
-                      [disabled]="admin?.admin_acl['Project Management']?.can_update==0"
+                      [disabled]="admin?.admin_acl['Manage Office']?.can_update==0"
                       *ngIf="p.status == 1 || p.status==2" class="action-icon"
                       title="{{'table.title.unapprove' | translate}}"><img src="assets/img/ic_disapprove.png"
                         alt="img"></button>
                     <!-- approve => when status=2(pending), 4(rejected)-->
-                    <button [disabled]="admin?.admin_acl['Project Management']?.can_update==0"
+                    <button [disabled]="admin?.admin_acl['Manage Office']?.can_update==0"
                       *ngIf="p.status == 2 || p.status == 4" (click)="approveProject(p, 1);" class="action-icon"
                       title="{{'table.title.approve' | translate}}"><img src="assets/img/tick.png" alt="img"></button>
                     <!-- delete project -->
-                    <button [disabled]="admin?.admin_acl['Project Management']?.can_purge==0"
+                    <button [disabled]="admin?.admin_acl['Manage Office']?.can_purge==0"
                       (click)="deletePopup(p, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img
                         src="assets/img/ic_delete.png" alt="img"></button>
                     <!-- </div> -->

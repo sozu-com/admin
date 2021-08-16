@@ -212,7 +212,7 @@ export class ManageOfficeComponent implements OnInit {
     this.aloted_parking = parseInt(project.parking_count || 0) + parseInt(project.parking_sale_count || 0);
     this.total_parking = parseInt(project.parking_for_rent || 0) + parseInt(project.parking_lots || 0);
     this.spinner.show();
-    this.admin.postDataApi('getParkingCount', { office_id: project.id }).subscribe(r => {
+    this.admin.postDataApi('getOfficeParkingCount', { office_id: project.id }).subscribe(r => {
       this.parking_alots = r.data.assign;
       this.sales_parking_alots = r.data.sale;
       this.spinner.hide();

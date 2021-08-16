@@ -130,9 +130,9 @@ export class HotelsComponent implements OnInit {
 
   getParametersForProject = (): void => {
     if (this.is_back) {
-      this.selectedLocation.selectedLocalities = JSON.parse(localStorage.getItem('selectedLocalitiesForProject'));
-      this.selectedLocation.selectedCities = JSON.parse(localStorage.getItem('selectedCitiesForProject'));
-      this.parameter = JSON.parse(localStorage.getItem('parametersForProject')) ? JSON.parse(localStorage.getItem('parametersForProject')) : this.parameter;
+      this.selectedLocation.selectedLocalities = JSON.parse(localStorage.getItem('selectedLocalitiesForHotel'));
+      this.selectedLocation.selectedCities = JSON.parse(localStorage.getItem('selectedCitiesForHotel'));
+      this.parameter = JSON.parse(localStorage.getItem('parametersForHotel')) ? JSON.parse(localStorage.getItem('parametersForHotel')) : this.parameter;
     }
     this.initializedDropDownSetting();
     this.getCountries();
@@ -212,7 +212,7 @@ export class HotelsComponent implements OnInit {
     this.aloted_parking = parseInt(project.parking_count || 0) + parseInt(project.parking_sale_count || 0);
     this.total_parking = parseInt(project.parking_for_rent || 0) + parseInt(project.parking_lots || 0);
     this.spinner.show();
-    this.admin.postDataApi('getParkingCount', { hotel_id: project.id }).subscribe(r => {
+    this.admin.postDataApi('getHotelParkingCount', { hotel_id: project.id }).subscribe(r => {
       this.parking_alots = r.data.assign;
       this.sales_parking_alots = r.data.sale;
       this.spinner.hide();
@@ -220,8 +220,8 @@ export class HotelsComponent implements OnInit {
     });
   }
   goWay(item) {
-    localStorage.setItem('project_id', item.id);
-    this.router.navigate(['/dashboard/properties/view-properties/', item.name, '0']);
+    localStorage.setItem('hotel_id', item.id);
+    this.router.navigate(['/dashboard/hotels/view-hotels/', item.name, '0']);
   }
   getCountries() {
     this.spinner.show();
@@ -378,7 +378,7 @@ export class HotelsComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.blockProject(item, flag);
+        this.blockHotel(item, flag);
       }
     });
   }
@@ -400,8 +400,8 @@ export class HotelsComponent implements OnInit {
     });
   }
 
-  blockProject(item, flag: number) {
-    this.admin.postDataApi('blockProject', { hotel_id: item.id, flag: flag })
+  blockHotel(item, flag: number) {
+    this.admin.postDataApi('blockHotel', { hotel_id: item.id, flag: flag })
       .subscribe(
         success => {
           swal(this.translate.instant('swal.success'), this.parameter.successText, 'success');
@@ -418,7 +418,7 @@ export class HotelsComponent implements OnInit {
       return false;
     }
     item.status = status;
-    this.admin.postDataApi('approveProject', { hotel_id: item.id }).subscribe(r => {
+    this.admin.postDataApi('approveHotel', { hotel_id: item.id }).subscribe(r => {
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.projectApprovedSuccessfully'), 'success');
     },
       error => {
@@ -428,7 +428,7 @@ export class HotelsComponent implements OnInit {
 
   rejectProject(status) {
     this.items[this.parameter.index].status = status;
-    this.admin.postDataApi('rejectProject', { hotel_id: this.parameter.hotel_id }).subscribe(r => {
+    this.admin.postDataApi('rejectHotel', { hotel_id: this.parameter.hotel_id }).subscribe(r => {
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.projectUnapprovedSuccessfully'), 'success');
       this.closeModal();
     },
@@ -509,7 +509,7 @@ export class HotelsComponent implements OnInit {
   }
 
   deleteProject(item: any, index: number) {
-    this.admin.postDataApi('deleteProject',
+    this.admin.postDataApi('deleteHotel',
       { hotel_id: item.id }).subscribe(r => {
         swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
         this.items.splice(index, 1);
@@ -524,7 +524,7 @@ export class HotelsComponent implements OnInit {
     if (item.developer && item.developer.name) {
       this.router.navigate(['/dashboard/developers/view-all', item.developer.name]);
     } else {
-      this.router.navigate(['/dashboard/projects/edit-project', item.id]);
+      this.router.navigate(['/dashboard/hotels/edit-hotels', item.id]);
     }
   }
 
@@ -532,7 +532,7 @@ export class HotelsComponent implements OnInit {
     if (item.agency && item.agency.name) {
       this.router.navigate(['/dashboard/agencies/view-all', item.agency.name]);
     } else {
-      this.router.navigate(['/dashboard/projects/edit-project', item.id]);
+      this.router.navigate(['/dashboard/hotels/edit-hotels', item.id]);
     }
   }
 
@@ -550,7 +550,7 @@ export class HotelsComponent implements OnInit {
     } else if (item.company && item.company.id) {
       this.router.navigate(['/dashboard/companies/view-all', item.company.name]);
     } else {
-      this.router.navigate(['/dashboard/projects/edit-project', item.id]);
+      this.router.navigate(['/dashboard/hotels/edit-hotels', item.id]);
     }
   }
 
@@ -632,7 +632,7 @@ export class HotelsComponent implements OnInit {
           'Towers': p.hotel_towers_count || 0
         });
       }
-      this.exportAsExcelFile(exportfinalData, 'projects-');
+      this.exportAsExcelFile(exportfinalData, 'hotels-');
     }
   }
 
@@ -693,9 +693,9 @@ export class HotelsComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.makePostRequest();
-    localStorage.setItem('selectedLocalitiesForProject', JSON.stringify(this.selectedLocation.selectedLocalities.length > 0 ? this.selectedLocation.selectedLocalities : []));
-    localStorage.setItem('selectedCitiesForProject', JSON.stringify(this.selectedLocation.selectedCities.length > 0 ? this.selectedLocation.selectedCities : []));
-    localStorage.setItem('parametersForProject', JSON.stringify(this.parameter));
+    localStorage.setItem('selectedLocalitiesForHotel', JSON.stringify(this.selectedLocation.selectedLocalities.length > 0 ? this.selectedLocation.selectedLocalities : []));
+    localStorage.setItem('selectedCitiesForHotel', JSON.stringify(this.selectedLocation.selectedCities.length > 0 ? this.selectedLocation.selectedCities : []));
+    localStorage.setItem('parametersForHotel', JSON.stringify(this.parameter));
   }
 
   openLegalEnityListModel = (legal_entity: any[]): void => {
@@ -856,13 +856,13 @@ export class HotelsComponent implements OnInit {
       user_id: JSON.parse(localStorage.getItem('user-id')) || 0,
       hotel_name: (this.select_columns_list[0] || []).isCheckBoxChecked,
       developer: (this.select_columns_list[1] || []).isCheckBoxChecked,
-      contributor: (this.select_columns_list[4] || []).isCheckBoxChecked,
-      managed_company: (this.select_columns_list[5] || []).isCheckBoxChecked,
-      possesion: (this.select_columns_list[6] || []).isCheckBoxChecked,
-      parking_lots: (this.select_columns_list[7] || []).isCheckBoxChecked,
+      contributor: (this.select_columns_list[2] || []).isCheckBoxChecked,
+      managed_company: (this.select_columns_list[3] || []).isCheckBoxChecked,
+      possesion: (this.select_columns_list[4] || []).isCheckBoxChecked,
+      parking_lots: (this.select_columns_list[5] || []).isCheckBoxChecked,
       properties: (this.select_columns_list[8] || []).isCheckBoxChecked,
-      action: (this.select_columns_list[16] || []).isCheckBoxChecked,
-      image: (this.select_columns_list[20] || []).isCheckBoxChecked,
+      action: (this.select_columns_list[6] || []).isCheckBoxChecked,
+      image: (this.select_columns_list[7] || []).isCheckBoxChecked,
     };
   }
 

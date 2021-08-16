@@ -164,7 +164,7 @@
                     <label>{{'table.th.image' | translate}}</label>
                   </div>
                 </th>
-                <th style="width:10%" *ngIf="selectedColumnsToShow?.building_name">
+                <th style="width:10%" *ngIf="selectedColumnsToShow?.hotel_name">
                   <div class="table-search">
                     <label>{{'table.th.nameOfHotel' | translate}}</label>
                     <div class="searh-3">
@@ -260,7 +260,7 @@
                   <img *ngIf="!p.main_image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
                 </td>
                 <!--  -->
-                <td   *ngIf="selectedColumnsToShow?.building_name" class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
+                <td   *ngIf="selectedColumnsToShow?.hotel_name" class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
                 routerLink="/dashboard/projects/details/{{p.id}}">
                   <strong>{{p?.name}}</strong>
                 </td>
@@ -298,8 +298,7 @@
                     <span  *ngIf="!p?.possession_status_id">{{'table.tr.td.NA' | translate}}</span>
                 </td>
                 <td  *ngIf="selectedColumnsToShow?.parking_lots">
-                  <!-- (click)="addNote(p)" -->
-                  <a class="add1" href="javascript://">
+                  <a class="add1" href="javascript://" (click)="addNote(p)">
                     <span style="color: green;">{{totalParkingCount(p) || '0'}}</span>
                   </a>
                  
@@ -318,20 +317,20 @@
                       <img src="assets/img/edit.png" alt="img">
                     </button>
                     <button [disabled]="admin?.admin_acl['Hotel Management']?.can_delete==0" *ngIf="!p.is_blocked"
-                       class="action-icon" title="{{'table.title.block' | translate}}">
+                       class="action-icon" title="{{'table.title.block' | translate}}" (click)="blockUnblock(p, 1);">
                        <img src="assets/img/block.png" alt="img">
                     </button>
                         <!-- (click)="blockUnblock(p, 1);" -->
                     <button [disabled]="admin?.admin_acl['Project Management']?.can_delete==0"
                       *ngIf="p.is_blocked == true"  class="action-icon unblock-bg"
-                      title="{{'table.title.unblock' | translate}}">
+                      title="{{'table.title.unblock' | translate}}" (click)="blockUnblock(p, 0);">
                       <img src="assets/img/unblock.png" alt="img">
                     </button>
                         <!-- (click)="blockUnblock(p, 0);" -->
                     <!-- unapprove => when status=2(pending), 1(approved)   (click)="openCancellationModal(p, i)"-->
                     <a style="display:none;" #modalOpen data-toggle="modal" data-target="#addNote"></a>
                     <button [disabled]="admin?.admin_acl['Project Management']?.can_update==0"
-                      *ngIf="p.status == 1 || p.status==2" class="action-icon"
+                    (click)="openCancellationModal(p, i)" *ngIf="p.status == 1 || p.status==2" class="action-icon"
                       title="{{'table.title.unapprove' | translate}}">
                       <img src="assets/img/ic_disapprove.png"  alt="img">
                     </button>
@@ -339,13 +338,14 @@
                     <!-- approve => when status=2(pending), 4(rejected)-->
                     <button [disabled]="admin?.admin_acl['Project Management']?.can_update==0"
                       *ngIf="p.status == 2 || p.status == 4"  class="action-icon"
-                      title="{{'table.title.approve' | translate}}">
+                      title="{{'table.title.approve' | translate}}" (click)="approveProject(p, 1);">
                       <img src="assets/img/tick.png" alt="img">
                     </button>
                       <!-- (click)="approveProject(p, 1);" -->
                     <!-- delete project -->
                     <button [disabled]="admin?.admin_acl['Project Management']?.can_purge==0"
-                       class="action-icon" title="{{'table.title.delete' | translate}}">
+                       class="action-icon" title="{{'table.title.delete' | translate}}"
+                       (click)="deletePopup(p, i)">
                        <img src="assets/img/ic_delete.png" alt="img">
                     </button>
                         <!-- (click)="deletePopup(p, i);" -->
