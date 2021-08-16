@@ -213,7 +213,7 @@
                     <label>{{'table.th.possesion.label' | translate}}</label>
                     <select [(ngModel)]="parameter.possession_filter" (change)="getListing()">
                       <option value="0">{{'table.th.all' | translate}}</option>
-                      <option *ngFor="let item of PossessionStatuses" value="{{item.id}}"> 
+                      <option *ngFor="let item of possessionStatuses" value="{{item.id}}"> 
                         {{this.language_code == 'en' ? item.name_en : item.name_es }}</option>
                     </select>
                     <!-- <select [(ngModel)]="parameter.possession_filter" (change)="getListing()">

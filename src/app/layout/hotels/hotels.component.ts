@@ -32,7 +32,7 @@ export class HotelsComponent implements OnInit {
   items: any = [];
   total: any = 0;
   configurations: any = [];
-  PossessionStatuses: any = [];
+  possessionStatuses: any = [];
   countries: any;
   reason: string;
   locale: any;
@@ -191,6 +191,13 @@ export class HotelsComponent implements OnInit {
         //localStorage.setItem('parametersForProject', JSON.stringify(this.parameter));
         this.items = success.data;
         this.items.forEach(function (element) {
+          // (this.possessionStatuses || []).forEach(r => {
+          //   console.log(r,"web");
+          //     if (element.possession_status_id == r.id) {
+          //       console.log(r.name_en,"webs");
+          //       element['status_possion'] = r.name_en;
+          //     }
+          // });
           element['avgg_price'] = (((parseFloat(element.avg_price) || 0) / (parseFloat(element.avg_carpet_area) || 0)));
           element['avgg_price_hold'] = (((parseFloat(element.avg_price_hold) || 0) / (parseFloat(element.avg_carpet_area_hold) || 0)));
         });
@@ -258,7 +265,7 @@ export class HotelsComponent implements OnInit {
   }
   getHotelPossessionStatuses() {
     this.admin.postDataApi('getHotelPossessionStatuses', {  }).subscribe(r => {
-      this.PossessionStatuses = r['data'];
+      this.possessionStatuses = r['data'];
     });
   }
   onCountryChange(id) {
