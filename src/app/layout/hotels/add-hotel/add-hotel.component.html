@@ -901,8 +901,7 @@
                   <ul class="loc-tags-group">
                     <li class="width100">
                       <span class="width100 amen-img">{{'addForm.managedBy.manager' | translate}}
-                        <a class="pull-right cursor-pointer" title="{{'table.title.selectManager' | translate}}">
-                          <!--(click)="selectManagedBy('', 1, 1)"-->
+                        <a class="pull-right cursor-pointer" title="{{'table.title.selectManager' | translate}}" (click)="selectManagedBy('', 1, 1)">
                           <!-- <img src="assets/img/add.png" /> -->
                           {{'addForm.add' | translate}}
                         </a>
