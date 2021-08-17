@@ -346,12 +346,17 @@
                   <div class="table-search">
                     <label>{{'table.th.possesion.label' | translate}}</label>
                     <select [(ngModel)]="parameter.possession_filter" (change)="getListing()">
+                      <option value="0">{{'table.th.all' | translate}}</option>
+                      <option *ngFor="let item of possessionStatuses" value="{{item.id}}"> 
+                        {{this.language_code == 'en' ? item.name_en : item.name_es }}</option>
+                    </select>
+                    <!-- <select [(ngModel)]="parameter.possession_filter" (change)="getListing()">
                       <option value="0">{{'table.th.possesion.all' | translate}}</option>
                       <option value="{{apiConstant.possessionStatus.sale}}">{{'table.th.possesion.sale' | translate}}
                       </option>
                       <option value="{{apiConstant.possessionStatus.preSale}}">
                         {{'table.th.possesion.presale' | translate}}</option>
-                    </select>
+                    </select> -->
                   </div>
                 </th>
                 <th style="vertical-align:top;width:5%" *ngIf="selectedColumnsToShow?.parking_lots">
@@ -490,10 +495,14 @@
                   </small>
                 </td>
                 <td  *ngIf="selectedColumnsToShow?.possesion">
+                  <span *ngIf="p?.possession_status_id">{{p?.possession_status_id ? p?.status_possion : ('table.tr.td.presale' | translate)}}</span>
+                    <span  *ngIf="!p?.possession_status_id">{{'table.tr.td.NA' | translate}}</span>
+                </td>
+                <!-- <td  *ngIf="selectedColumnsToShow?.possesion">
                   <span *ngIf="p?.possession_status_id">{{p?.possession_status_id == apiConstant.possessionStatus.sale ? ('table.tr.td.sale' |
                     translate) : ('table.tr.td.presale' | translate)}}</span>
                     <span  *ngIf="!p?.possession_status_id">{{'table.tr.td.NA' | translate}}</span>
-                </td>
+                </td> -->
                 <td  *ngIf="selectedColumnsToShow?.parking_lots">
                   <a class="add1" href="javascript://" (click)="addNote(p)">
                     <span style="color: green;">{{totalParkingCount(p) || '0'}}</span>

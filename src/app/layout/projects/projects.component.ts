@@ -59,7 +59,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   total_parking: any;
   sales_parking_alots = [];
   parking_alots = [];
-
+  possessionStatuses: Array<any>;
   @ViewChild('openSelectColumnsModal') openSelectColumnsModal: ElementRef;
   @ViewChild('closeSelectColumnsModal') closeSelectColumnsModal: ElementRef;
   public select_columns_list: any[] = [];
@@ -126,7 +126,11 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     // this.getListing();
     this.getParametersForProject();
   }
-
+  getPossessionStatuses() {
+    this.admin.postDataApi('getPossessionStatuses', { hide_blocked: 1 }).subscribe(r => {
+      this.possessionStatuses = r['data'];
+    });
+  }
   getParametersForProject = (): void => {
     if (this.is_back) {
       this.selectedLocation.selectedLocalities = JSON.parse(localStorage.getItem('selectedLocalitiesForProject'));
@@ -152,6 +156,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   getListing() {
     this.spinner.show();
     this.makePostRequest();
+    this.getPossessionStatuses();
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
@@ -187,6 +192,13 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       success => {
         //localStorage.setItem('parametersForProject', JSON.stringify(this.parameter));
         this.items = success.data;
+        (this.possessionStatuses || []).forEach(r => {
+          (this.items || []).forEach(ele => {
+            if (ele.possession_status_id == r.id) {
+              ele['status_possion'] = r.name_en;
+            }
+          })
+        });
         this.items.forEach(function (element) {
           element['avgg_price'] = (((parseFloat(element.avg_price) || 0) / (parseFloat(element.avg_carpet_area) || 0)));
           element['avgg_price_hold'] = (((parseFloat(element.avg_price_hold) || 0) / (parseFloat(element.avg_carpet_area_hold) || 0)));

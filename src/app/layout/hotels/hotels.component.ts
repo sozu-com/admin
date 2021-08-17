@@ -612,42 +612,46 @@ export class HotelsComponent implements OnInit {
         this.spinner.hide();
       });
   }
-
   exportData() {
     if (this.exportfinalData) {
       const exportfinalData = [];
+      (this.possessionStatuses || []).forEach(r => {
+        (this.exportfinalData || []).forEach(ele => {
+          if (ele.possession_status_id == r.id) {
+            ele['status_possion'] = r.name_en;
+          }
+        })
+      });
       for (let index = 0; index < this.exportfinalData.length; index++) {
         const p = this.exportfinalData[index];
-
-        exportfinalData.push({
-          'Name': p.name || '',
+        let obj = {
+          'Name of Hotel': p.name || '',
           'City': (p.city || {}).name || '',
           'Locality': (p.locality || {}).name || '',
           'Location': p.address || '',
           'Latitude': p.lat || '',
           'Longitude': p.lng || '',
           'Developer Name': p.developer && p.developer.name ? p.developer.name : '',
-          'Agency Name': p.agency && p.agency.name ? p.agency.name : '',
-          'Legal Entity Name': p.legal_entity && p.legal_entity.comm_name ? p.legal_entity.comm_name : '',
+          'Contributor': p.hotel_contributors && p.hotel_contributors.length > 0  ? this.getBuildingContributorsInfo(p.hotel_contributors) : '',
           'Manager Name': p.manager && p.manager.name ? p.manager.name : '',
           'Company Name': p.company && p.company.name ? p.company.name : '',
-          'Possession Status': p.possession_status_id == this.apiConstant.possessionStatus.sale ? 'Sale' : 'Presale',
-          'Properties': parseInt(p.properties_count_all) || 0,
-          'Properties available for rent': parseInt(p.rent_count_all) || 0,
-          'Properties available for sale': parseInt(p.sale_count_all) || 0,
-          'Min Price List($)': parseInt(p.min_price) || 0,
-          'Max Price List ($)': parseInt(p.max_price) || 0,
-          'Avg Price List ($)': parseInt(p.avg_price) || 0,
-          'Min Carpet Area': parseInt(p.min_carpet_area) || 0,
-          'Max Carpet Area': parseInt(p.max_carpet_area) || 0,
-          'Avg Carpet Area': parseInt(p.avg_carpet_area) || 0,
-          'Avg Price List per m2': p.avg_price && p.avg_carpet_area ? p.avg_price / p.avg_carpet_area : 0,
-          'Towers': p.hotel_towers_count || 0
-        });
+          'Possession Status': p.status_possion,
+          'Parking Lots': this.totalParkingCount(p) || 0,
+          'Properties': parseInt(p.properties_count_all) || 0
+        };
+        this.selectedColumnsToShow.hotel_name == 0 ? delete obj['Name of Hotel'] : undefined;
+        this.selectedColumnsToShow.developer == 0 ? delete obj['Developer Name'] : undefined;
+        this.selectedColumnsToShow.contributor == 0 ? delete obj['Contributor'] : undefined;
+        this.selectedColumnsToShow.managed_company == 0 ? delete obj['Manager Name'] : undefined;
+        this.selectedColumnsToShow.possesion == 0 ? delete obj['Possession Status'] : undefined;
+        this.selectedColumnsToShow.parking_lots == 0 ? delete obj['Parking Lots'] : undefined;
+        this.selectedColumnsToShow.properties == 0 ? delete obj['Properties'] : undefined;
+        exportfinalData.push(obj);
       }
       this.exportAsExcelFile(exportfinalData, 'hotels-');
     }
   }
+
 
   // getTransformedAmount(value: any) {
   //   return (this.price.transform(Number(value).toFixed(2)).toString()).substring(1);
