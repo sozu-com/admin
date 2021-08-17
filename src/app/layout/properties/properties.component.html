@@ -475,14 +475,19 @@
                            style="width:5%;vertical-align:top;">
                            <div class="table-search">
                               <label>{{'table.th.possession_status' | translate}}</label>
-                              <select [(ngModel)]="parameter.possession_status_id" (change)="getListing()">
+                              <select [(ngModel)]="parameter.possession_filter" (change)="getListing()">
+                                 <option value="0">{{'table.th.all' | translate}}</option>
+                                 <option *ngFor="let item of possessionStatuses" value="{{item.id}}"> 
+                                   {{this.language_code == 'en' ? item.name_en : item.name_es }}</option>
+                               </select>
+                              <!-- <select [(ngModel)]="parameter.possession_status_id" (change)="getListing()">
                                  <option value="0">{{'table.th.possesion.all' | translate}}</option>
                                  <option value="{{apiConstant.possessionStatus.sale}}">{{'table.th.possesion.sale' |
                                     translate}}
                                  </option>
                                  <option value="{{apiConstant.possessionStatus.preSale}}">
                                     {{'table.th.possesion.presale' | translate}}</option>
-                              </select>
+                              </select> -->
                            </div>
                         </th>
 

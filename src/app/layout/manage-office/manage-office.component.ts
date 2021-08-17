@@ -619,7 +619,8 @@ export class ManageOfficeComponent implements OnInit {
           'Legal Entity Name': p.legal_entity && p.legal_entity.comm_name ? p.legal_entity.comm_name : '',
           'Manager Name': p.manager && p.manager.name ? p.manager.name : '',
           'Company Name': p.company && p.company.name ? p.company.name : '',
-          'Possession Status': p.possession_status ? p.possession_status.name : '',
+          'Possession Status': p.possession_status && this.language_code == 'en' ? p.possession_status.name_en : p.possession_status && this.language_code == 'es' ?
+                               p.possession_status.name_es : '',
           'Parking Lots': parseInt(this.totalParkingCount(p)) || 0,
           'Total Square Meters': parseInt(p.properties_count_all) || 0,
           'Contributor': parseInt(p.rent_count_all) || 0

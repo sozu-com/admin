@@ -197,6 +197,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   public isSelectAllColumns: boolean = false;
   project_id: any;
   configurationCount: Array<any>;
+  possessionStatuses: Array<any>;
+
   constructor(
     public constant: Constant,
     public apiConstant: ApiConstants,
@@ -464,6 +466,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   getListing() {
     this.spinner.show();
+    this.getPossessionStatuses();
     this.makePostRequest();
     //this.getParametersForProperty();
     let input: any = JSON.parse(JSON.stringify(this.parameter));
@@ -2691,6 +2694,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         break;
     }
 
+  }
+
+  getPossessionStatuses() {
+    this.admin.postDataApi('getPossessionStatuses', { hide_blocked: 1 }).subscribe(r => {
+      this.possessionStatuses = r['data'];
+    });
   }
 
 }

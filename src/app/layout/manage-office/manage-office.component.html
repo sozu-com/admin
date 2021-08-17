@@ -290,7 +290,7 @@
                   </small>
                 </td>
                 <td  *ngIf="selectedColumnsToShow?.possesion">
-                  <span *ngIf="p?.possession_status">{{p?.possession_status.name}}</span>
+                  <span *ngIf="p?.possession_status">{{{this.language_code == 'en' ? p.possession_status.name_en : p.possession_status.name_es}}</span>
                     <span  *ngIf="!p?.possession_status">{{'table.tr.td.NA' | translate}}</span>
                 </td>
                 <td  *ngIf="selectedColumnsToShow?.parking_lots">
