@@ -2018,7 +2018,7 @@ export class AddHotelComponent implements OnInit {
       }
     }
     this.spinner.show();
-    this.admin.postDataApi(managedBy === 1 ? 'getUnBlockedTowerManager' : 'getUnBlockedTowerManagerCompany',
+    this.admin.postDataApi(managedBy === 1 ? 'getUnBlockedTowerManager' : 'HotelTowerManagerCompany',
       { name: name }).subscribe(r => {
         this.spinner.hide();
         this.all_managers = r.data;

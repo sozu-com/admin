@@ -635,7 +635,7 @@ export class HotelsComponent implements OnInit {
           'Contributor': p.hotel_contributors && p.hotel_contributors.length > 0  ? this.getBuildingContributorsInfo(p.hotel_contributors) : '',
           'Manager Name': p.manager && p.manager.name ? p.manager.name : '',
           'Company Name': p.company && p.company.name ? p.company.name : '',
-          'Possession Status': p.status_possion,
+          'Possession Status': p.status_possion ? p.status_possion : '',
           'Parking Lots': this.totalParkingCount(p) || 0,
           'Properties': parseInt(p.properties_count_all) || 0
         };

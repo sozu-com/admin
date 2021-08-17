@@ -67,6 +67,8 @@ export class ManageOfficeComponent implements OnInit {
   public selectedColumnsToShow: any = {};
   public isSelectAllColumns: boolean = false;
   public keyword: string = '';
+  possessionStatuses: Array<any>;
+
   constructor(
     public constant: Constant,
     public apiConstant: ApiConstants,
@@ -152,6 +154,7 @@ export class ManageOfficeComponent implements OnInit {
 
   getListing() {
     this.spinner.show();
+    this.getofficePossessionStatuses();
     this.makePostRequest();
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.parameter.min) {
@@ -604,9 +607,8 @@ export class ManageOfficeComponent implements OnInit {
       const exportfinalData = [];
       for (let index = 0; index < this.exportfinalData.length; index++) {
         const p = this.exportfinalData[index];
-
-        exportfinalData.push({
-          'Name': p.name || '',
+        let obj = {
+          'Office Name': p.name || '',
           'City': (p.city || {}).name || '',
           'Locality': (p.locality || {}).name || '',
           'Location': p.address || '',
@@ -617,19 +619,24 @@ export class ManageOfficeComponent implements OnInit {
           'Legal Entity Name': p.legal_entity && p.legal_entity.comm_name ? p.legal_entity.comm_name : '',
           'Manager Name': p.manager && p.manager.name ? p.manager.name : '',
           'Company Name': p.company && p.company.name ? p.company.name : '',
-          'Possession Status': p.possession_status_id == this.apiConstant.possessionStatus.sale ? 'Sale' : 'Presale',
-          'Properties': parseInt(p.properties_count_all) || 0,
-          'Properties available for rent': parseInt(p.rent_count_all) || 0,
-          'Properties available for sale': parseInt(p.sale_count_all) || 0,
-          'Min Price List($)': parseInt(p.min_price) || 0,
-          'Max Price List ($)': parseInt(p.max_price) || 0,
-          'Avg Price List ($)': parseInt(p.avg_price) || 0,
-          'Min Carpet Area': parseInt(p.min_carpet_area) || 0,
-          'Max Carpet Area': parseInt(p.max_carpet_area) || 0,
-          'Avg Carpet Area': parseInt(p.avg_carpet_area) || 0,
-          'Avg Price List per m2': p.avg_price && p.avg_carpet_area ? p.avg_price / p.avg_carpet_area : 0,
-          'Towers': p.office_towers_count || 0
-        });
+          'Possession Status': p.possession_status ? p.possession_status.name : '',
+          'Parking Lots': parseInt(this.totalParkingCount(p)) || 0,
+          'Total Square Meters': parseInt(p.properties_count_all) || 0,
+          'Contributor': parseInt(p.rent_count_all) || 0
+        };
+
+        this.selectedColumnsToShow.office_name == 0 ? delete obj['Office Name'] : undefined;
+        this.selectedColumnsToShow.developer == 0 ? delete obj['Developer Name'] : undefined;
+        this.selectedColumnsToShow.agency == 0 ? delete obj['Agency Name'] : undefined;
+        this.selectedColumnsToShow.legal_entity == 0 ? delete obj['Legal Entity Name'] : undefined;
+        this.selectedColumnsToShow.contributor == 0 ? delete obj['Contributor'] : undefined;
+        this.selectedColumnsToShow.managed_company == 0 && !p.manager ? delete obj['Manager Name'] : undefined;
+        this.selectedColumnsToShow.managed_company == 0 && !p.company ? delete obj['Company Name'] : undefined;
+        this.selectedColumnsToShow.possesion == 0 ? delete obj['Possession Status'] : undefined;
+        this.selectedColumnsToShow.parking_lots == 0 ? delete obj['Parking Lots'] : undefined;
+        this.selectedColumnsToShow.total_square_meters == 0 ? delete obj['Total Square Meters'] : undefined;
+
+        exportfinalData.push(obj);
       }
       this.exportAsExcelFile(exportfinalData, 'Office-');
     }
@@ -871,5 +878,11 @@ export class ManageOfficeComponent implements OnInit {
       action: (this.select_columns_list[9] || []).isCheckBoxChecked,
       image: (this.select_columns_list[10] || []).isCheckBoxChecked,
     };
+  }
+
+  getofficePossessionStatuses() {
+    this.admin.postDataApi('getOfficePossessionStatuses', {  }).subscribe(r => {
+      this.possessionStatuses = r['data'];
+    });
   }
 }
