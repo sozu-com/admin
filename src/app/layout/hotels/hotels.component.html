@@ -439,7 +439,7 @@
       </div>
 
       <form class="form-horizontal form-model0P form-model-newP" #addFilterForm="ngForm">
-        <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.rangePrice' | translate}}</h4>
+        <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.priceRange' | translate}}</h4>
         <div class="row">
           <div class="form-group col-md-6">
             <input type="text" class="form-control" placeholder="Min" name="min_price" [(ngModel)]="parameter.min_price">
@@ -449,7 +449,7 @@
           </div>
         </div>
        
-        <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.rangeCarpetArea' | translate}}</h4>
+        <h4 style="color: rgb(48, 46, 46); font-size: 18px;">{{'advanceSearch.carpetArea' | translate}}</h4>
         <div class="row">
           <div class="form-group col-md-6">
             <input type="text" class="form-control" placeholder="Min" name="min_carpet_area"
@@ -465,7 +465,7 @@
 
            <button type="submit" class="btn btn-success" (click)="searchProject()"
         style="border-left-color: rgb(0, 185, 111);
-          border-right-color: rgb(0, 185, 111);">{{'advanceSearch.apply' | translate}}</button>&nbsp;&nbsp;
+          border-right-color: rgb(0, 185, 111);">{{'advanceSearch.search' | translate}}</button>&nbsp;&nbsp;
 
           <button type="button" class="btn btn-danger" (click)="close()"
             style="background-color: rgb(238, 123, 124);">{{'advanceSearch.cancel' | translate}}</button>

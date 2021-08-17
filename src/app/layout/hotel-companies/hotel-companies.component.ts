@@ -89,7 +89,7 @@ export class HotelCompaniesComponent implements OnInit {
     this.parameter.title = this.translate.instant('message.error.areYouSure');
     switch (flag) {
       case 0:
-      this.parameter.text = this.translate.instant('message.error.wantToUnblockCompany');
+      this.parameter.text = this.translate.instant('message.error.wantToUnblockHotelCompany');
       this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
       break;
     case 1:
@@ -107,20 +107,20 @@ export class HotelCompaniesComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.blockTowerManagerCompany(index, id, flag);
+        this.blockHotelTowerManagerCompany(index, id, flag);
       }
     });
   }
 
 
-  blockTowerManagerCompany(index: number, id: any, flag: any) {
+  blockHotelTowerManagerCompany(index: number, id: any, flag: any) {
     this.parameter.index = index;
     const input = {
       id: id,
       flag: flag
     };
 
-    this.admin.postDataApi('blockTowerManagerCompany', input)
+    this.admin.postDataApi('blockHotelTowerManagerCompany', input)
       .subscribe(
         success => {
           swal(this.translate.instant('swal.success'), this.parameter.successText, 'success');
@@ -130,7 +130,7 @@ export class HotelCompaniesComponent implements OnInit {
 
   deletePopup(item: any, index: number) {
     this.parameter.title = this.translate.instant('message.error.areYouSure');
-    this.parameter.text = this.translate.instant('message.error.wantToDeleteCompany');
+    this.parameter.text = this.translate.instant('message.error.wantToDeleteHotelCompany');
 
     swal({
       html: this.parameter.title + '<br>' + this.parameter.text,
@@ -147,7 +147,7 @@ export class HotelCompaniesComponent implements OnInit {
   }
 
   deleteData(item: any, index: number) {
-    this.admin.postDataApi('deleteTowerManagerCompany',
+    this.admin.postDataApi('deleteHotelTowerManagerCompany',
       { id: item.id }).subscribe(r => {
         this.items.splice(index, 1);
         this.parameter.total--;
@@ -227,7 +227,7 @@ export class HotelCompaniesComponent implements OnInit {
           'Email Address': p.email || ''  
         });
       }
-      new ExcelDownload().exportAsExcelFile(exportfinalData, 'Companies');
+      new ExcelDownload().exportAsExcelFile(exportfinalData, 'HotelCompanies');
     }
   }
 }

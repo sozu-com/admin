@@ -121,11 +121,12 @@
                     <!-- (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1)"  -->
                   <button [disabled]="admin?.admin_acl['Hotel Companies Management']?.can_delete==0"
                     title="{{item.is_blocked==1 ? ('table.title.unblock' | translate) : ('table.title.block' | translate)}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
-                    class="action-icon"><img src="assets/img/block.png" alt="img">
+                    class="action-icon" (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1)"><img src="assets/img/block.png" alt="img">
                   </button>
                   <!-- (click)="deletePopup(item, i);" -->
                   <button [disabled]="admin?.admin_acl['Hotel Companies Management']?.can_purge==0"
-                    class="action-icon" title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png" alt="img"></button>
+                    class="action-icon" title="{{'table.title.delete' | translate}}"
+                    (click)="deletePopup(item, i);"><img src="assets/img/ic_delete.png" alt="img"></button>
                 </div>
               </td>
             </tr>

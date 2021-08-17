@@ -373,11 +373,11 @@ export class HotelsComponent implements OnInit {
     this.parameter.title = this.translate.instant('message.error.areYouSure');
     switch (flag) {
       case 0:
-        this.parameter.text = this.translate.instant('message.error.wantToUnBlockProject');
+        this.parameter.text = this.translate.instant('message.error.wantToUnBlockHotel');
         this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
         break;
       case 1:
-        this.parameter.text = this.translate.instant('message.error.wantToBlockProject');
+        this.parameter.text = this.translate.instant('message.error.wantToBlockHotel');
         this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
     }
@@ -427,7 +427,7 @@ export class HotelsComponent implements OnInit {
 
   approveProject(item, status) {
     if (item.is_completed !== 1 && item.is_completed !== 3) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.cannotApproveBuilding'), 'error');
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.cannotApproveHotel'), 'error');
       return false;
     }
     item.status = status;
@@ -505,7 +505,7 @@ export class HotelsComponent implements OnInit {
   }
 
   deletePopup(item: any, index: number) {
-    this.parameter.text = this.translate.instant('message.error.wantToDeleteProject');
+    this.parameter.text = this.translate.instant('message.error.wantToDeleteHotel');
 
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
