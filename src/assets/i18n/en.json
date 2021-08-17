@@ -828,6 +828,7 @@
       "buy": "For Sale",
       "rent": "Rent",
       "inventory": "Inventory",
+      "resale": "Resale",
       "isPropertySold": "Is Property Sold",
       "contract" :"Contract" ,
       "defined":"Defined",

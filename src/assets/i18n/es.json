@@ -826,6 +826,7 @@
       "buy": "En venta",
       "rent": "Renta",
       "inventory": "Inventario",
+      "resale": "Reventa",
       "isPropertySold": "Esta vendida la propiedad",
       "contract" :"Contrato" ,
       "defined":"Definido",

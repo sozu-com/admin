@@ -1182,7 +1182,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
           event.target.value = 1;
         } else if (property.for_rent === 1) {
           event.target.value = 2;
-        } else {
+        } else if (property.for_resale === 1) {
+          event.target.value = 4;
+        }else {
           event.target.value = 3;
         }
       }
@@ -1194,11 +1196,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.items[index].for_sale = 0;
     this.items[index].for_rent = 0;
     this.items[index].for_hold = 0;
+    this.items[index].for_resale = 0;
     const input = {
       property_id: property.id,
       for_hold: 0,
       for_sale: 0,
-      for_rent: 0
+      for_rent: 0,
+      for_resale: 0
     };
     if (value === '1') {
       this.items[index].for_sale = 1;
@@ -1206,6 +1210,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     } else if (value === '2') {
       this.items[index].for_rent = 1;
       input.for_rent = 1;
+    }else if (value === '4') {
+      this.items[index].for_resale = 1;
+      input.for_resale = 1;
     } else {
       this.items[index].for_hold = 1;
       input.for_hold = 1;
