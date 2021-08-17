@@ -298,8 +298,7 @@
                   </small>
                 </td>
                 <td  *ngIf="selectedColumnsToShow?.possesion">
-                  <span *ngIf="p?.possession_status_id">{{p?.possession_status_id == apiConstant.possessionStatus.sale ? ('table.tr.td.sale' |
-                    translate) : ('table.tr.td.presale' | translate)}}</span>
+                  <span *ngIf="p?.possession_status_id">{{p?.status_possion}}</span>
                     <span  *ngIf="!p?.possession_status_id">{{'table.tr.td.NA' | translate}}</span>
                 </td>
                 <td  *ngIf="selectedColumnsToShow?.parking_lots">

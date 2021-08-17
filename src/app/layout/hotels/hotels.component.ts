@@ -28,11 +28,10 @@ export class HotelsComponent implements OnInit {
   @ViewChild('modalClose') modalClose: ElementRef;
   public parameter: IProperty = {};
   public location: IProperty = {};
-
   items: any = [];
   total: any = 0;
   configurations: any = [];
-  possessionStatuses: any = [];
+  possessionStatuses: Array<any>;
   countries: any;
   reason: string;
   locale: any;
@@ -83,7 +82,6 @@ export class HotelsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getHotelPossessionStatuses();
     this.getProjectHome();
     this.language_code = localStorage.getItem('language_code');
     //console.log('baseurl', this.admin.baseUrl);
@@ -129,7 +127,11 @@ export class HotelsComponent implements OnInit {
     // this.getListing();
     this.getParametersForProject();
   }
-
+  getHotelPossessionStatuses() {
+    this.admin.postDataApi('getHotelPossessionStatuses', {  }).subscribe(r => {
+      this.possessionStatuses = r['data'];
+    });
+  }
   getParametersForProject = (): void => {
     if (this.is_back) {
       this.selectedLocation.selectedLocalities = JSON.parse(localStorage.getItem('selectedLocalitiesForHotel'));
@@ -155,6 +157,7 @@ export class HotelsComponent implements OnInit {
   getListing() {
     this.spinner.show();
     this.makePostRequest();
+    this.getHotelPossessionStatuses();
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
@@ -188,16 +191,16 @@ export class HotelsComponent implements OnInit {
     }
     this.admin.postDataApi('getHotels', input).subscribe(
       success => {
-        //localStorage.setItem('parametersForProject', JSON.stringify(this.parameter));
         this.items = success.data;
+        (this.possessionStatuses || []).forEach(r => {
+          (this.items || []).forEach(ele => {
+            if (ele.possession_status_id == r.id) {
+              ele['status_possion'] = r.name_en;
+            }
+          })
+        });
         this.items.forEach(function (element) {
-          // (this.possessionStatuses || []).forEach(r => {
-          //   console.log(r,"web");
-          //     if (element.possession_status_id == r.id) {
-          //       console.log(r.name_en,"webs");
-          //       element['status_possion'] = r.name_en;
-          //     }
-          // });
+          
           element['avgg_price'] = (((parseFloat(element.avg_price) || 0) / (parseFloat(element.avg_carpet_area) || 0)));
           element['avgg_price_hold'] = (((parseFloat(element.avg_price_hold) || 0) / (parseFloat(element.avg_carpet_area_hold) || 0)));
         });
@@ -254,6 +257,7 @@ export class HotelsComponent implements OnInit {
         this.parameter.country_id = '0';
         this.parameter.state_id = '0';
       }
+      this.getHotelPossessionStatuses();
       this.getListing();
     });
   }
@@ -263,11 +267,7 @@ export class HotelsComponent implements OnInit {
       this.configurations = r['data'];
     });
   }
-  getHotelPossessionStatuses() {
-    this.admin.postDataApi('getHotelPossessionStatuses', {  }).subscribe(r => {
-      this.possessionStatuses = r['data'];
-    });
-  }
+  
   onCountryChange(id) {
     this.selectedLocation.selectedCities = [];
     this.location.cities = [];
