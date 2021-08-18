@@ -356,4 +356,8 @@ export class AddPrefrences {
     bedrooms: Array<any>;
     bathrooms: Array<number>;
     half_bedrooms: Array<number>;
+    country_id?: any;
+    state_id?: any;
+    city_id?: any;
+    locality_id?: any;
 }

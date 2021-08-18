@@ -108,6 +108,7 @@ export class CsrBuyerDetailComponent implements OnInit {
           this.parameter.proximity_places = r.data.lead.proximity_places;
           this.parameter.interested_properties = r.data.interested_properties;
           this.is_deal_finalised = this.leadData.selected_properties.length !== 0 ? true : false;
+          this.parameter.preferences_properties = r.data.preferences_properties;
           this.parameter.viewed_properties = r.data.viewed_properties;
           this.parameter.viewed_projects = r.data.viewed_projects;
           this.parameter.interested_projects = r.data.interested_projects;

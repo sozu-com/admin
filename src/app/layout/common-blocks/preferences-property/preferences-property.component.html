@@ -1,0 +1,114 @@
+<div class="spacer30"></div>
+<div class="row">
+  <div class="col-6">
+    <p class="p16">{{'commonBlock.preferencesMatch' | translate}}</p>
+  </div>
+  <div class="col-6">
+    <div class="btn-cont text-right">
+      <a style="display: none;" data-toggle="modal" #showPropertyModal data-target="#view-viewed-property"
+        class="btn btn-fourth" href="javascript://">{{'commonBlock.viewAll' | translate}}</a>
+      <a *ngIf="_preferences_properties?.length>1" class="btn btn-fourth" href="javascript://"
+        (click)="viewProperties(_preferences_properties, user_id, 1)">{{'commonBlock.viewAll' | translate}}</a>
+    </div>
+  </div>
+</div>
+
+<div class="spacer15"></div>
+<div class="row" *ngIf="_preferences_properties?.length > 0">
+  <div class="col-lg-6 col-md-12 col-sm-12 col-12" *ngFor="let data of _preferences_properties; let in=index">
+
+    <div *ngIf="data?.property?.building && data && in<2" class="project-des-bx white-bg">
+      <div class="price">
+        <p class="p10">
+          {{data?.property?.for_sale == 1 ? ('leadDetails.buy' | translate) : ('commonBlock.rent' | translate)}}
+        </p>
+      </div>
+      <div class="fig-block">
+        <img [src]="data?.property?.image| img:'thumb'" onerror='src="assets/img/placeholder-img.png"' alt="img">
+      </div>
+    <div class="project-des-content">
+      <small title="Apartment">
+        {{data?.property?.name ? data?.property?.name : ('commonBlock.NA' | translate)}}
+        <!-- {{data?.building?.developer?.name ? data?.building?.developer?.name : 'NA'}} -->
+      </small>
+      <a title="Building" routerLink="/dashboard/properties/details/{{data.id}}">
+        <h5>{{data?.property?.building.name.slice(0, 35)}}</h5>
+      </a>
+      <p class="p12">{{data?.property?.building.address.slice(0, 90)}}</p>
+      <!-- 
+      <p class="p13" *ngIf="data">
+        {{data.configuration.name}}, {{data.property_type.name}}
+      </p> -->
+      <p class="p13" *ngIf="data">
+        <app-property-configuration *ngIf="data?.property?.configuration"
+          [configuration]="data?.property?.configuration"></app-property-configuration>
+        <span>&middot; {{data?.property?.property_type.name}}</span>
+      </p>
+      <!-- <p class="p13" title="Configuration" *ngIf="!data">NA</p> -->
+      <!-- <p class="p13" title="Property Type" *ngIf="data">{{data.property_type.name}}</p> -->
+      <p class="p13" title="Type"><strong>
+          {{data?.property?.min_price|price}}</strong></p>
+    </div>
+  </div>
+
+</div>
+<div *ngIf="_preferences_properties?.length == 0">
+  <p class="show-not-found">
+    {{'message.error.noViewedPreferencesFound' | translate}}
+  </p>
+</div>
+
+
+<!-- show preferences_properties -->
+<div class="modal" id="view-viewed-property">
+  <div class="modal-dialog  modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h3>{{'commonBlock.viewedProperties' | translate}}</h3>
+
+        <hr>
+        <pagination-controls id="v-property-1" class="my-pagination" (pageChange)="getPageForViewedProperty($event)">
+        </pagination-controls>
+
+        <div class="scrollbox fav-prop" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+          <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12 col-12"
+              *ngFor="let x of parameter.preferences_properties| paginate: { id:'v-property-1', itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let in=index">
+              <div class="project-des-bx white-bg-2">
+                <div class="price">
+                  <p class="p10">{{x.for_sale==1 ? ('leadDetails.buy' | translate) : ('commonBlock.rent' | translate)}}
+                  </p>
+                </div>
+                <div class="fig-block">
+                  <img [src]="x.image| img:'thumb'" onerror='src="assets/img/bank.png"' alt="img">
+                </div>
+                <div class="project-des-content">
+                  <!-- <small>{{x.building?.developer?.name ? x.building?.developer?.name : 'NA'}}</small> -->
+                  <small title="Apartment">{{x.name ? x.name : ('commonBlock.NA' | translate)}}</small>
+                  <a title="Building" routerLink="/dashboard/properties/details/{{x.id}}">
+                    <h5>{{x.building?.name.slice(0, 15)}}</h5>
+                  </a>
+                  <p class="p12">{{x.building.address.slice(0, 45)}}</p>
+                  <!-- <p class="p13" *ngIf="x">{{x.configuration.name}}, {{x.property_type.name}}</p> -->
+                  <p class="p13" *ngIf="x">
+                    <app-property-configuration *ngIf="x.configuration" [configuration]="x.configuration">
+                    </app-property-configuration>
+                    <span>&middot; {{x.property_type.name}}</span>
+                  </p>
+                  <!-- <p class="p13" *ngIf="!x">NA</p>
+                        <p class="p13" *ngIf="x">{{x.property_type.name}}</p> -->
+                  <p class="p13" *ngIf="x">
+                    {{x.min_price|price}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

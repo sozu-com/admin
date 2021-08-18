@@ -194,6 +194,11 @@
         </div>
     </div>
 
+     <!-- Interested Properties start -->
+     <app-preferences-property *ngIf="parameter?.lead_id || parameter?.user_id" [user_id]="leadData?.user_id" [preferences_properties]="parameter.preferences_properties">        
+     </app-preferences-property>
+ <!-- Interested Properties end -->
+
     <!-- Interested Properties start -->
     <app-interested-property *ngIf="parameter?.lead_id || parameter?.user_id" [is_deal_finalised]="false" [selected_properties]="leadData?.selected_properties"
         [lead_id]="parameter.lead_id" [interested_properties]="parameter.interested_properties"

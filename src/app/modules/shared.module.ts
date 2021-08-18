@@ -38,6 +38,7 @@ import { OnlyDecimalDirective } from '../directives/only-decimal.directive';
 import { OfferBlockComponent } from '../layout/common-blocks/offer-block/offer-block.component';
 import { CustomPricePipe } from '../pipes/custom-price.pipe';
 import { InterestedProjectComponent } from '../layout/common-blocks/interested-project/interested-project.component';
+import { PreferencesPropertyComponent } from '../layout/common-blocks/preferences-property/preferences-property.component';
 
 @NgModule({
   imports: [
@@ -55,6 +56,7 @@ import { InterestedProjectComponent } from '../layout/common-blocks/interested-p
   ],
   declarations: [
     CsrBuyerDetailComponent,
+    PreferencesPropertyComponent,
     InterestedPropertyComponent,
     ViewedPropertyComponent,
     ViewedProjectsComponent,

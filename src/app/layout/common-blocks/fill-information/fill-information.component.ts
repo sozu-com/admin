@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import * as moment from 'moment';
 import { Leads, Prefs, BuyerAmenities, AddPrefrences } from 'src/app/models/leads.model';
 import { IProperty } from 'src/app/common/property';
@@ -30,6 +30,9 @@ export class FillInformationComponent implements OnInit {
     this.updatePeriodTypes();
   }
 
+  @ViewChild('showPropertyModal') showPropertyModal: ElementRef;
+  @ViewChild('hidePropertyModal') hidePropertyModal: ElementRef;
+
   @Input('allAmenities') allAmenities: Array<BuyerAmenities>;
   @Input('selectedAmenities') selectedAmenities: Array<BuyerAmenities>;
   @Input('allPropAmenities') allPropAmenities: Array<BuyerAmenities>;
@@ -46,6 +49,9 @@ export class FillInformationComponent implements OnInit {
   locale: any;
   temp_array: any = []; noteEmails: any; bathroom: any; half_bedroom: any;
   configurationCounted: any = [1, 2, 3, 4, 5];
+  public location: IProperty = {};
+  interested_properties = [];
+  property_ids = [];
   bedrooms: any = [
     { is_selected: 0, name: 1 },
     { is_selected: 0, name: 2 },
@@ -315,5 +321,208 @@ export class FillInformationComponent implements OnInit {
       this.spinner.hide();
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
     });
+  }
+
+  SearchPreferences(){
+    this.model = new AddPrefrences();
+    this.model.property_types = [];
+    this.model.amenities = [];
+    this.model.property_amenities = [];
+    this.model.proximity_place_ids = [];
+    this.model.property_purpose = [];
+    // this.model.payment_plans = [];
+
+    this.model.lead_id = this.lead_id;
+    this.model.looking_for = this._leadData.prefs.looking_for;
+    //  this.model.bedroom = this._leadData.prefs.bedroom;
+    //  this.model.bathroom = this._leadData.prefs.bathroom;
+    //   this.model.half_bathroom = this._leadData.prefs.half_bathroom;
+    this.model.min_price = this._leadData.prefs.min_price;
+    this.model.max_price = this._leadData.prefs.max_price;
+    this._leadData.buyer_property_type.forEach(element => {
+      if (element.is_selected === 1) {
+        this.model.property_types.push(element.id);
+      }
+    });
+    this.selectedAmenities.forEach(element => {
+      this.model.amenities.push(element.id);
+    });
+    this.selectedPropAmenities.forEach(element => {
+      this.model.property_amenities.push(element.id);
+    });
+    this._leadData.buyer_proximity.forEach(element => {
+      if (element.is_selected === 1) {
+        this.model.proximity_place_ids.push(element.id);
+      }
+    });
+    this._leadData.buyer_car_type.forEach(element => {
+      if (element.is_selected === 1) {
+        this.model.car_type_id = element.id;
+      }
+    });
+
+    this.model.bedroom = this.bedrooms.filter(f => { return f.is_selected == 1 }).map(r => { return r.name });
+    this.model.bathroom = this.bathrooms.filter(f => { return f.is_selected == 1 }).map(r => { return r.name });
+    this.model.half_bathroom = this.half_bathrooms.filter(f => { return f.is_selected == 1 }).map(r => { return r.name });
+    this.model.proximity_other = this.showOtherTextBox ? this._leadData.prefs.proximity_other : '';
+    this._leadData.prefs.proximity_other = this.showOtherTextBox ? this._leadData.prefs.proximity_other : '';
+    this.model.family_size = this._leadData.prefs.family_size;
+    this.model.marital_status = this._leadData.prefs.marital_statuses_id;
+    this.model.parking_lot = this._leadData.prefs.parking_lot;
+    this.model.job = this._leadData.prefs.job;
+    this.model.kid_count = this._leadData.prefs.kid_count;
+    this.model.pets = this._leadData.prefs.pets;
+    if (this._leadData.prefs.planning_to_buy) {
+      this.model.planning_to_buy = moment.utc(this._leadData.prefs.planning_to_buy).toDate();
+      // this._leadData.planning_to_buy = new ChatTimePipe().transform(this._leadData.planning_to_buy, 'YYYY-MM-DD HH:MM:SS', 3);
+    }
+    if (this.model.looking_for === 9) {
+      this._leadData.property_purposes.forEach(element => {
+        if (element.is_selected === 1) {
+          this.model.property_purpose.push(element.id);
+        }
+      });
+      // this._leadData.payment_modes.forEach(element => {
+      //   if (element.is_selected === 1) {
+      //     this.model.payment_plans.push(element.id);
+      //   }
+      // });
+    } else {
+      this.model.property_purpose = [];
+      // this.model.payment_plans = [];
+    }
+    this.model.looking_for = this.model.looking_for == 1 ? 9 : this.model.looking_for == 2 ? 8 :  this.model.looking_for;
+    this.model.country_id = this.parameter.country_id;
+    this.model.state_id = this.parameter.state_id;
+    this.model.city_id = this.parameter.city_id;
+    this.model.locality_id = this.parameter.locality_id;
+    this.spinner.show();
+    this.admin.postDataApi('homeSearch', this.model).subscribe(r => {
+      this.spinner.hide();
+      this.parameter.items = r.data;
+      if (this.property_ids.length > 0) {
+        this.parameter.items.forEach(element => {
+          const check_id = this.property_ids.indexOf(element.id);
+          if (check_id !== -1) { element.checked = true; }
+        });
+      }
+      this.parameter.total = r.total;
+      if (this.parameter.items.length <= 0) { this.parameter.noResultFound = true; }
+    });
+  }
+
+  getCountries(lead_id) {
+    this.location.cities = []; this.parameter.city_id = '0';
+    this.location.localities = []; this.parameter.locality_id = '0';
+    this.location.states = []; this.parameter.state_id = '0';
+    this.parameter.items = [];
+    this.parameter.total = 0;
+    this.parameter.noResultFound = false;
+    this.parameter.lead_id = lead_id;
+    this.showPropertyModal.nativeElement.click();
+    this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
+      this.location.countries = r['data'];
+    });
+  }
+
+  onCountryChange(id) {
+    this.location.states = []; this.parameter.state_id = '0';
+    this.location.cities = []; this.parameter.city_id = '0';
+    this.location.localities = []; this.parameter.locality_id = '0';
+    if (!id || id.toString() === '0') {
+      this.parameter.state_id = '0';
+      return false;
+    }
+    this.parameter.country_id = id;
+    const selectedCountry = this.location.countries.filter(x => x.id.toString() === id);
+    this.location.states = selectedCountry[0].states;
+
+  }
+
+  onStateChange(id) {
+    this.location.cities = []; this.parameter.city_id = '0';
+    this.location.localities = []; this.parameter.locality_id = '0';
+    if (!id || id.toString() === '0') {
+      this.parameter.city_id = '0';
+      return false;
+    }
+    this.parameter.state_id = id;
+    const selectedState = this.location.states.filter(x => x.id.toString() === id);
+    this.location.cities = selectedState[0].cities;
+  }
+
+  onCityChange(id) {
+    this.location.localities = []; this.parameter.locality_id = '0';
+    if (!id || id.toString() === '0') {
+      this.parameter.locality_id = '0';
+      return false;
+    }
+    this.parameter.city_id = id;
+    const selectedCountry = this.location.cities.filter(x => x.id.toString() === id);
+    this.location.localities = selectedCountry[0].localities;
+  }
+
+  onLocalityChange(id) {
+    if (!id || id.toString() === '0') {
+      return false;
+    }
+    this.parameter.locality_id = id;
+  }
+
+  propertySearch() {
+    this.spinner.show();
+    this.admin.postDataApi('propertySearch', this.parameter).subscribe(r => {
+      this.spinner.hide();
+      this.parameter.items = r.data;
+      if (this.property_ids.length > 0) {
+        this.parameter.items.forEach(element => {
+          const check_id = this.property_ids.indexOf(element.id);
+          if (check_id !== -1) { element.checked = true; }
+        });
+      }
+      this.parameter.total = r.total;
+      if (this.parameter.items.length <= 0) { this.parameter.noResultFound = true; }
+    });
+  }
+
+  addPropertyToInterest() {
+    let self = this;
+    this.parameter.text = this.translate.instant('message.error.wantToAddToPreferences');
+    if (this.property_ids.length > 0) {
+      swal({
+        html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: this.constant.confirmButtonColor,
+        cancelButtonColor: this.constant.cancelButtonColor,
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          const input = {property_id: self.property_ids, lead_id: self.lead_id};
+          self.admin.postDataApi('leads/addLeadPreferencesProperty', input).subscribe(r => {
+            self.showPropertyModal.nativeElement.click();
+            self.property_ids = [];
+            swal(self.translate.instant('swal.success'), self.translate.instant('message.success.addedSuccessfully'), 'success');
+          });
+        }
+      });
+    } else {
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.chooseAnyProperty'), 'error');
+    }
+  }
+
+  addLeadInterestedProperty(property_id) {
+    const ids = this.interested_properties.map(d => d.id);
+    const ff = ids.filter(p => p === property_id);
+    if (ff.length !== 0) {
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.alreadyAddedPreferences'), 'error');
+    } else {
+      const check_id = this.property_ids.indexOf(property_id);
+      if (check_id === -1) {
+        this.property_ids.push(property_id);
+      } else {
+        this.property_ids.splice(check_id, 1);
+      }
+    }
   }
 }

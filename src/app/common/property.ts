@@ -245,6 +245,7 @@ export interface IProperty {
   sort_by_date?:any;
   office_id?:any;
   Office_status_filter?:any;
+  preferences_properties?:any;
 }
 export class Docs {
   id: string;
