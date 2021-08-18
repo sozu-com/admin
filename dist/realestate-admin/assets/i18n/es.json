@@ -1248,7 +1248,8 @@
       "noHotelAmenityFound": "¡Amenidad no encontrada!",
       "noUserFound": "¡Usuario no encontrado!",
       "noInterstedPropertyFound": "¡Ningún interés agregado por el usuario!",
-      "noViewedPropertyFound": "Ninguna propiedad vista por el usuario..",
+      "noViewedPropertyFound": "Ninguna propiedad vista por el usuario.",
+      "noViewedPreferencesFound": "Ninguna preferencias vista por el usuario.",
       "noViewedProjectFound": "Ningún proyecto visto por el usuario.",
       "noNoteFound": "No hay notas para mostrar.",
       "noRecordFound": "Ningún registro encontrado",
@@ -1281,6 +1282,7 @@
       "totalAmountcheck": "La cantidad total debe ser mayor que la cantidad simbólica.",
       "cannotRemoveAsItsFinalised": "No puedes eliminar esta propiedad ya que esta es una propiedad finalizada.",
       "alreadyAddedInInterests": "Esta propiedad ya está agregada en tus intereses.",
+      "alreadyAddedPreferences": "Esta preferencia ya está agregada en sus intereses",
       "chooseAnyProperty": "Elige cualquier propiedad.",
       "pleaseChooseAtleast1Lead": "Elige al menos un lead.",
       "pleaseChooseAtleastOneManager": "Por favor elija al menos un gerente.",
@@ -1526,6 +1528,7 @@
       "logoutBtn": "¡Cerrar sesión!",
       "wantToRemoveProperty": "¿Quieres eliminar esta propiedad?",
       "wantToAddToInterested": "¿Desea agregar propiedades seleccionadas a sus propiedades de interés?",
+      "wantToAddToPreferences": "¿Desea agregar propiedades seleccionadas a sus propiedades de preferencias?",
       "wantToChangeAvailablity": "¿Desea cambiar la disponibilidad de esta propiedad?",
       "wantToScheduleMeeting": "¿Quieres programar esta hora para la reunión?",
       "wantToAssignBank": "¿Quieres asignar este banco?",
@@ -2190,7 +2193,8 @@
     "propertyDocumentation": "Documentación de propiedad",
     "beneficiaryDocumentation": "Documentación del beneficiario",
     "tutorDocumentation": "Documentación del tutor",
-    "interestedProjects": "Proyectos de interés"
+    "interestedProjects": "Proyectos de interés",
+    "preferencesMatch": "Resultados de preferencias"
   },
   "viewCollections": {
     "choose": "Escoger",

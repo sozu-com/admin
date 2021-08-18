@@ -1248,6 +1248,7 @@
       "noUserFound": "No user found!",
       "noInterstedPropertyFound": "No interests added by user.",
       "noViewedPropertyFound": "No property viewed by user.",
+      "noViewedPreferencesFound": "No preferences viewed by user.",
       "noViewedProjectFound": "No project viewed by user.",
       "noNoteFound": "No notes to show.",
       "noRecordFound": "No record found",
@@ -1280,6 +1281,7 @@
       "totalAmountcheck": "Total amount must be greater than token amount.",
       "cannotRemoveAsItsFinalised": "You cannot remove this property as this is finalized property.",
       "alreadyAddedInInterests": "This property is already added in your interests.",
+      "alreadyAddedPreferences": "This preferences is already added in your interests.",
       "chooseAnyProperty": "Please choose any property.",
       "pleaseChooseAtleast1Lead": "Please choose atleast one lead.",
       "pleaseChooseAtleastOneManager": "Please choose atleast one manager.",
@@ -1525,6 +1527,7 @@
       "logoutBtn": "Logout!",
       "wantToRemoveProperty": "You want to remove this property?",
       "wantToAddToInterested": "You want to add selected properties to your interested properties?",
+      "wantToAddToPreferences": "You want to add selected properties to your preferences properties?",
       "wantToChangeAvailablity": "You want to change availability for this property?",
       "wantToScheduleMeeting": "You want to schedule this time for meeting?",
       "wantToAssignBank": "You want to assign this bank?",
@@ -2196,7 +2199,8 @@
     "propertyDocumentation": "Property documentation",
     "beneficiaryDocumentation": "Beneficiary documentation",
     "tutorDocumentation": "Tutor documentation",
-    "interestedProjects": "Interested Projects"
+    "interestedProjects": "Interested Projects",
+    "preferencesMatch": "Preferences Match"
   },
   "viewCollections": {
     "choose": "Choose",
