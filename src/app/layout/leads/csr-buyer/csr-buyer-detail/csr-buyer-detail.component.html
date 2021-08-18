@@ -195,7 +195,7 @@
     </div>
 
      <!-- Interested Properties start -->
-     <app-preferences-property *ngIf="parameter?.lead_id || parameter?.user_id" [user_id]="leadData?.user_id" [preferences_properties]="parameter.preferences_properties">        
+     <app-preferences-property *ngIf="parameter?.lead_id || parameter?.user_id" [user_id]="parameter.preferences_properties[0].user_id" [preferences_properties]="parameter.preferences_properties">        
      </app-preferences-property>
  <!-- Interested Properties end -->
 
