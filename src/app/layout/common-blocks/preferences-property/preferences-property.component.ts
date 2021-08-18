@@ -40,7 +40,7 @@ export class PreferencesPropertyComponent implements OnInit {
   viewProperties(data, user_id, page) {
     // this.parameter.viewed_properties = data;
     // this.showPropertyModal.nativeElement.click();
-    let id = this.parameter.preferences_properties[0].user_id;
+    let id = this._preferences_properties[0].user_id;
     this.spinner.show();
     this.admin.postDataApi('leads/PreferencesProperty', {user_id: id, page: page}).subscribe(r => {
       this.spinner.hide();
