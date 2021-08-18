@@ -256,4 +256,43 @@ export class CsrBuyerDetailComponent implements OnInit {
   removeAppointment(i) {
     this.appointment.appointment_date_array.splice(i, 1);
   }
+
+  refreshDetail(event){
+    if(event){
+      let param= {
+        lead_id: this.parameter.lead_id,
+        user_id: this.parameter.user_id, 
+        sent_as: this.constant.userType.inhouse_broker
+      };
+      this.spinner.show();
+        this.admin.postDataApi('leads/details',param).subscribe(r => {
+          // this.user_id ? param1 : param
+          this.spinner.hide();
+          if(r.data){
+          this.leadData = r.data.lead;
+          this.leadData.broker = r.data.lead.broker;
+          if (r.data.lead.appointments.length !== 0) {
+            this.data = r.data.lead.appointments;
+            // this.appointment = r.data.lead.appointments[0];
+          }
+          this.parameter.favorites = r.data.favorites;
+          this.parameter.fav_properties_count = r.data.fav_properties_count;
+          this.setFillInformationData(this.leadData);
+          this.parameter.proximity_places = r.data.lead.proximity_places;
+          this.parameter.interested_properties = r.data.interested_properties;
+          this.is_deal_finalised = this.leadData.selected_properties.length !== 0 ? true : false;
+          this.parameter.preferences_properties = r.data.preferences_properties;
+          this.parameter.viewed_properties = r.data.viewed_properties;
+          this.parameter.viewed_projects = r.data.viewed_projects;
+          this.parameter.interested_projects = r.data.interested_projects;
+          this.parameter.user_id = this.leadData.user ? this.leadData.user.id : 0;
+        }
+        else{
+          this.noDataAvailable.emit(true);
+        }
+        }, error => {
+          this.spinner.hide();
+        });
+    }
+  }
 }

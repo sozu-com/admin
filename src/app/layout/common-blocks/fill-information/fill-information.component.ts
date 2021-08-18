@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, Output } from '@angular/core';
 import * as moment from 'moment';
 import { Leads, Prefs, BuyerAmenities, AddPrefrences } from 'src/app/models/leads.model';
 import { IProperty } from 'src/app/common/property';
@@ -7,6 +7,7 @@ import { Constant } from 'src/app/common/constants';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
 import { IMarritalStatus } from 'src/app/common/marrital-status-interface';
+import { EventEmitter } from '@angular/core';
 // import { TranslateService } from 'src/app/lang/translate.service';
 declare let swal: any;
 
@@ -17,7 +18,7 @@ declare let swal: any;
 })
 
 export class FillInformationComponent implements OnInit {
-
+ @Output() referDetail: EventEmitter<any> = new EventEmitter();
   @Input('lead_id') lead_id: string;
   //@Input('_leadData') _leadData: Leads;
 
@@ -500,6 +501,7 @@ export class FillInformationComponent implements OnInit {
         if (result.value) {
           const input = {property_id: self.property_ids, lead_id: self.lead_id};
           self.admin.postDataApi('leads/addLeadPreferencesProperty', input).subscribe(r => {
+            self.referDetail.emit('true');
             self.hidePropertyModal.nativeElement.click();
             self.property_ids = [];
             swal(self.translate.instant('swal.success'), self.translate.instant('message.success.addedSuccessfully'), 'success');

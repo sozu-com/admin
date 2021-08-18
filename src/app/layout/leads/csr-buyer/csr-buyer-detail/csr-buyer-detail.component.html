@@ -159,7 +159,7 @@
             <app-fill-information *ngIf="leadData" [sent_as]="parameter.sent_as" [leadData]="leadData"
                 [selectedAmenities]="selectedAmenities" [allAmenities]="allAmenities" [lead_id]="parameter.lead_id"
                 [showOtherTextBox]="showOtherTextBox" [selectedPropAmenities]="selectedPropAmenities" 
-                [allPropAmenities]="allPropAmenities">
+                [allPropAmenities]="allPropAmenities" (referDetail)="refreshDetail($event)">
             </app-fill-information>
             <!-- fill information end -->
 
