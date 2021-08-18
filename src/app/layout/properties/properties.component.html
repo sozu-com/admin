@@ -586,7 +586,7 @@
                                  <option value="1">{{'table.th.buy' | translate}}</option>
                                  <option value="2">{{'table.th.rent' | translate}}</option>
                                  <option value="3">{{'table.th.inventory' | translate}}</option>
-                                 <option value="4">{{'table.th.resale' | translate}}</option>
+                                 <!-- <option value="4">{{'table.th.resale' | translate}}</option> -->
                               </select>
                            </div>
                         </th>
@@ -782,7 +782,7 @@
                               <option [selected]="p.for_sale==1" value="1">{{'table.th.buy' | translate}}</option>
                               <option [selected]="p.for_rent==1" value="2">{{'table.th.rent' | translate}}</option>
                               <option [selected]="p.for_hold==1" value="3">{{'table.th.inventory' | translate}}</option>
-                              <option [selected]="p.for_resale==1" value="4">{{'table.th.resale' | translate}}</option>
+                              <!-- <option [selected]="p.for_resale==1" value="4">{{'table.th.resale' | translate}}</option> -->
                            </select>
                         </td>
                         <td *ngIf="parameter.flag!=5  && selectedPropertyColumnsToShow?.is_property_sold">
