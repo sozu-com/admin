@@ -500,7 +500,7 @@ export class FillInformationComponent implements OnInit {
         if (result.value) {
           const input = {property_id: self.property_ids, lead_id: self.lead_id};
           self.admin.postDataApi('leads/addLeadPreferencesProperty', input).subscribe(r => {
-            self.showPropertyModal.nativeElement.click();
+            self.hidePropertyModal.nativeElement.click();
             self.property_ids = [];
             swal(self.translate.instant('swal.success'), self.translate.instant('message.success.addedSuccessfully'), 'success');
           });
