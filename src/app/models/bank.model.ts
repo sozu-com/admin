@@ -1,5 +1,6 @@
 export class Bank {
     id: string;
+    bank_name: string;
     name: string;
     country_code: string;
     dial_code: string;

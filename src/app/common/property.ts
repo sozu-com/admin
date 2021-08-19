@@ -99,6 +99,7 @@ export interface IProperty {
   image?: any;
   index?: number;
   name?: string;
+  bank_name?: string;
   agent?: string;
   phone?: string;
   type?: number;
