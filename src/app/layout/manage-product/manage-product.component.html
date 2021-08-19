@@ -137,7 +137,7 @@
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="add-new pull-right">
           <a *ngIf="admin?.admin_acl['Manage Products']?.can_create==1 || admin?.permissions?.can_data_collector==1"
-            class="btn" href="javascript://" routerLink="/dashboard/office/add-office">{{'office.addNewOffice' |
+            class="btn" href="javascript://" routerLink="/dashboard/product/add-product">{{'office.addNewOffice' |
             translate}}</a>
         </div>
         <div class="export-project pull-right mr-4">
@@ -160,9 +160,9 @@
                   <div class="table-search">
                     <label>{{'table.th.id' | translate}}</label>
                     <div class="searh-3">
-                      <input class="width100px" type="text" [(ngModel)]="parameter.keyword"
+                      <input class="width100px" type="text" [(ngModel)]="parameter.id"
                         (keyup.enter)="getListing()" autocomplete="address-level4">
-                      <button *ngIf="parameter.keyword" (click)="getListing()"><i class="fa fa-search"></i></button>
+                      <button *ngIf="parameter.id" (click)="getListing()"><i class="fa fa-search"></i></button>
                     </div>
                   </div>
                 </th>
@@ -170,8 +170,8 @@
                   <div class="table-search">
                     <label>{{'table.th.name' | translate}}</label>
                     <div class="searh-3">
-                      <input class="width100px" type="text" [(ngModel)]="parameter.email" (keyup.enter)="getListing()" autocomplete="address-level4" >
-                      <button *ngIf="parameter.email" (click)="getListing()"><i class="fa fa-search"></i></button>
+                      <input class="width100px" type="text" [(ngModel)]="parameter.name" (keyup.enter)="getListing()" autocomplete="address-level4" >
+                      <button *ngIf="parameter.name" (click)="getListing()"><i class="fa fa-search"></i></button>
                     </div>
                   </div>
                 </th>
@@ -179,20 +179,30 @@
                   <div class="table-search">
                     <label>{{'table.th.supplier' | translate}}</label>
                     <div class="searh-3">
-                      <input class="width100px" type="text" [(ngModel)]="parameter.agency_name"
+                      <input class="width100px" type="text" [(ngModel)]="parameter.supplier"
                         (keyup.enter)="getListing()" autocomplete="address-level4">
-                      <button *ngIf="parameter.agency_name" (click)="getListing()"><i class="fa fa-search"></i></button>
+                      <button *ngIf="parameter.supplier" (click)="getListing()"><i class="fa fa-search"></i></button>
                     </div>
                   </div>
                 </th>
                 <th style="width:15%" *ngIf="selectedColumnsToShow?.legal_entity">
                   <div class="table-search">
                     <label>{{'table.th.price' | translate}}</label>
+                    <div class="searh-3">
+                      <input class="width100px" type="text" [(ngModel)]="parameter.price"
+                        (keyup.enter)="getListing()" autocomplete="address-level4">
+                      <button *ngIf="parameter.price" (click)="getListing()"><i class="fa fa-search"></i></button>
+                    </div>
                   </div>
                 </th>
                 <th style="width:15%" *ngIf="selectedColumnsToShow?.contributor">
                   <div class="table-search">
-                    <label>{{'table.th.cuantity' | translate}}</label>
+                    <label>{{'table.th.quantity' | translate}}</label>
+                    <div class="searh-3">
+                      <input class="width100px" type="text" [(ngModel)]="parameter.quantity"
+                        (keyup.enter)="getListing()" autocomplete="address-level4">
+                      <button *ngIf="parameter.quantity" (click)="getListing()"><i class="fa fa-search"></i></button>
+                    </div>
                   </div>
                 </th>
                 <th style="vertical-align:top;width:100px;width:20%" *ngIf="selectedColumnsToShow?.action">
@@ -217,55 +227,33 @@
                   <img *ngIf="!p.main_image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
                 </td>
                 <!--  -->
-                <td   *ngIf="selectedColumnsToShow?.office_name" class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
-                routerLink="/dashboard/projects/details/{{p.id}}">
-                  <strong>{{p?.name}}</strong>
+                <td *ngIf="selectedColumnsToShow?.office_name" class="cursor-pointer">
+                  <span>{{p?.id}}</span>
+                </td>
+                <td *ngIf="selectedColumnsToShow?.office_name" class="cursor-pointer">
+                  <span>{{p?.product_name}}</span>
                 </td>
                 <td [ngClass]="{'green-color cursor-pointer': p?.developer?.name}"  *ngIf="selectedColumnsToShow?.developer" (click)="viewDeveloper(p)">
                   <span>{{p?.developer?.name ? p?.developer?.name : ('table.tr.td.NA' | translate)}}</span>
                 </td>
-                <td [ngClass]="{'green-color cursor-pointer': p?.agency?.name}"  *ngIf="selectedColumnsToShow?.agency" (click)="viewAgency(p)">
-                  <span>{{p?.agency?.name ? p?.agency?.name : ('table.tr.td.NA' | translate)}}</span>
+                <td *ngIf="selectedColumnsToShow?.agency">
+                  <span>{{p?.price ? p?.price : ('table.tr.td.NA' | translate)}}</span>
                 </td>
-                <!-- (click)="viewLegalEntity(p)" -->
-                <td   *ngIf="selectedColumnsToShow?.legal_entity" [ngClass]="{'green-color cursor-pointer': p?.legal_entity_info?.length > 0 }">
-                  <span (click)="this.openLegalEnityListModel(p.legal_entity_info)" *ngIf="p?.legal_entity_info?.length > 0">
-                    {{this.getLegalEntityInfo(p.legal_entity_info)}}</span>
-                    <span *ngIf="p?.legal_entity_info?.length == 0">{{'table.tr.td.NA' | translate}}</span>
-                </td>
-                 <!-- (click)="viewContributor(p)" -->
-                 <td   *ngIf="selectedColumnsToShow?.contributor" [ngClass]="{'green-color cursor-pointer': p?.office_contributors?.length > 0 }">                   
-                    <span (click)="this.openContributorListModel(p.office_contributors)" *ngIf="p?.office_contributors?.length > 0">
-                    {{p.office_contributors && p.office_contributors.length > 0  ? this.getBuildingContributorsInfo(p.office_contributors) : ('table.tr.td.NA' | translate)}}</span>
-                    <span *ngIf="p?.office_contributors ?.length == 0">{{'table.tr.td.NA' | translate}}</span>
+                <td  *ngIf="selectedColumnsToShow?.legal_entity">
+                  <span>{{p?.quantity ? p?.quantity : ('table.tr.td.NA' | translate)}}</span>
                 </td>
                 <td *ngIf="selectedColumnsToShow?.action">
                   <div class="table-actions">
                     <!-- <div class="message"> -->
-                    <button [disabled]="admin?.admin_acl['Manage Office']?.can_update==0"
-                      routerLink="/dashboard/office/edit-office/{{p.id}}"
+                      <button [disabled]="admin?.admin_acl['Manage Products']?.can_read == 0"
+                       title="{{'table.title.quickVisuaization' | translate}}"
+                        class="action-icon"><img src="assets/img/eye-icon.png" alt="img"></button>
+                    <button [disabled]="admin?.admin_acl['Manage Products']?.can_update==0"
+                      routerLink="/dashboard/product/edit-product/{{p.id}}"
                       title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
                         src="assets/img/edit.png" alt="img"></button>
-                    <button [disabled]="admin?.admin_acl['Manage Office']?.can_delete==0" *ngIf="!p.is_blocked"
-                      (click)="blockUnblock(p, 1);" class="action-icon" title="{{'table.title.block' | translate}}"><img
-                        src="assets/img/block.png" alt="img"></button>
-                    <button [disabled]="admin?.admin_acl['Manage Office']?.can_delete==0"
-                      *ngIf="p.is_blocked == true" (click)="blockUnblock(p, 0);" class="action-icon unblock-bg"
-                      title="{{'table.title.unblock' | translate}}"><img src="assets/img/unblock.png"
-                        alt="img"></button>
-                    <!-- unapprove => when status=2(pending), 1(approved)   (click)="openCancellationModal(p, i)"-->
-                    <a style="display:none;" #modalOpen data-toggle="modal" data-target="#addNote"></a>
-                    <button (click)="openCancellationModal(p, i)"
-                      [disabled]="admin?.admin_acl['Manage Office']?.can_update==0"
-                      *ngIf="p.status == 1 || p.status==2" class="action-icon"
-                      title="{{'table.title.unapprove' | translate}}"><img src="assets/img/ic_disapprove.png"
-                        alt="img"></button>
-                    <!-- approve => when status=2(pending), 4(rejected)-->
-                    <button [disabled]="admin?.admin_acl['Manage Office']?.can_update==0"
-                      *ngIf="p.status == 2 || p.status == 4" (click)="approveProject(p, 1);" class="action-icon"
-                      title="{{'table.title.approve' | translate}}"><img src="assets/img/tick.png" alt="img"></button>
                     <!-- delete project -->
-                    <button [disabled]="admin?.admin_acl['Manage Office']?.can_purge==0"
+                    <button [disabled]="admin?.admin_acl['Manage Products']?.can_purge==0"
                       (click)="deletePopup(p, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img
                         src="assets/img/ic_delete.png" alt="img"></button>
                     <!-- </div> -->

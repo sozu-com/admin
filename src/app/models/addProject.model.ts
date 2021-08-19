@@ -355,3 +355,18 @@ export class contributors {
   phone: string;
   email: string;
 }
+
+export class AddProdutModel { 
+  videos: any = [];
+  product_name: string;
+  description: string;
+  document: string;
+  supplier_id: number;
+  main_image: string;
+  price: number;
+  quantity: number;
+  inventory: string;
+  created_by: any;
+  status: any;
+  is_blocked: any;
+}

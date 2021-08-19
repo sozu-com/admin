@@ -104,6 +104,7 @@ export class ManageProductComponent implements OnInit {
     // // this.getPropertyConfigurations(); 
     // this.getListing();
     this.getParametersForProject();
+    this.getListing();
   }
 
   getParametersForProject = (): void => {
@@ -132,37 +133,7 @@ export class ManageProductComponent implements OnInit {
     this.spinner.show();
     this.makePostRequest();
     const input: any = JSON.parse(JSON.stringify(this.parameter));
-    if (this.parameter.min) {
-      input.min = moment(this.parameter.min).format('YYYY-MM-DD');
-    } else {
-      delete input.min;
-    }
-    if (this.parameter.max) {
-      input.max = moment(this.parameter.max).format('YYYY-MM-DD');
-    } else {
-      delete input.max;
-    }
-    input.min_price = this.parameter.min_price;
-    input.max_price = this.parameter.max_price;
-    input.min_carpet_area = this.parameter.min_carpet_area;
-    input.max_carpet_area = this.parameter.max_carpet_area;
-
-    if (this.parameter.userType === 'developer') {
-      input.developer_id = this.parameter.id;
-    }
-    if (this.parameter.userType === 'data-collector') {
-      input.data_collector_id = this.parameter.id;
-    }
-    if (this.parameter.userType === 'manager') {
-      input.manager_id = this.parameter.id;
-    }
-    if (this.parameter.userType === 'company') {
-      input.company_id = this.parameter.id;
-    }
-    if (this.parameter.userType === 'agency') {
-      input.agency_id = this.parameter.id;
-    }
-    this.admin.postDataApi('getOffice', input).subscribe(
+    this.admin.postDataApi('getProducts', input).subscribe(
       success => {
         //localStorage.setItem('parametersForProject', JSON.stringify(this.parameter));
         this.items = success.data;
@@ -441,6 +412,35 @@ export class ManageProductComponent implements OnInit {
       action: (this.select_columns_list[9] || []).isCheckBoxChecked,
       image: (this.select_columns_list[10] || []).isCheckBoxChecked,
     };
+  }
+
+  deletePopup(item: any, index: number) {
+    this.parameter.text = this.translate.instant('message.error.wantToDeleteOffice');
+
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteProduct(item, index);
+      }
+    });
+  }
+
+  deleteProduct(item: any, index: number) {
+    this.admin.postDataApi('deleteProduct',
+      { product_id: item.id }).subscribe(r => {
+        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
+        this.items.splice(index, 1);
+        this.total--;
+      },
+        error => {
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
+        });
   }
 
 }
