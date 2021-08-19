@@ -254,6 +254,14 @@
     "floorPlanImage": "Imagen de plano arquitectónico",
     "locationTitle": "Ubicación",
     "addfloorPlan": "+ Agregar plano arquitectónico",
+    "addProduct": "Agregar producto",
+    "editProduct": "Editar producto",
+    "nameOfProduct": "Nombre del producto",
+    "technicalSpecificationDocument": "Documento de especificaciones técnicas",
+    "quantity": "Cantidad",
+    "inventory": "Inventario",
+    "selectSupplier": "Select Supplier",
+    "price": "Precio",
     "moreImages": {
       "label": "Imágenes",
       "addMoreBtn": "+ Agregar más imágenes",
@@ -713,7 +721,13 @@
       "chooseDate": "Elegir fecha",
       "parkingLotSpacesEn": "Nombre del tipos de estacionamientos (Inglés)",
       "parkingLotSpacesEs": "Nombre del tipos de estacionamientos (Español)",
-      "manageCommissions": "Administrar Comisiones"
+      "manageCommissions": "Administrar Comisiones",
+      "nameOfProduct": "Nombre del producto",
+      "technicalSpecificationDocument": "Documento de especificaciones técnicas",
+      "quantity": "Cantidad",
+      "inventory": "Inventario",
+      "selectSupplier": "Select Supplier",
+      "price": "Precio"
     }
   },
   "charts": {
@@ -853,7 +867,7 @@
       "statusHistory": "Historial de estado",
       "city": "Ciudad",
       "supplier": "Proveedor",
-      "cuantity": "Cantidad",
+      "quantity": "Cantidad",
       "possesion": {
         "label": "Fecha de entrega",
         "park":"Estacionamientos",

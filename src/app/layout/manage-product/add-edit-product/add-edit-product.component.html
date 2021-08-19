@@ -1,3 +1,192 @@
-<p>
-  add-edit-product works!
-</p>
+<div class="container-fluid">
+  <div class="white-bg">
+    <div class="row" style="margin: 0%;">
+      <div class="col-lg-10 col-md-11 col-sm-12 col-12 page-title title-div">
+        <a href="javascript://" class="back-icon" (click)="goBack(true)"><i class="fa fa-angle-left"
+            aria-hidden="true"></i></a>
+        <h3 *ngIf="!id">{{'addForm.addProduct' | translate}}</h3>
+        <h3 *ngIf="id">{{'addForm.editProduct' | translate}}</h3>
+      </div>
+
+      <div class="col-lg-1 col-md-1 col-6 page-title title-div">
+        <div class="btn-cont text-right">
+          <a href="javascript://" (click)="goBack(false)" class="btn-sm btn-primary-new"
+            href="javascript://">{{'quickVisualization.back' | translate}}</a>
+        </div>
+      </div>
+    </div>
+    <div class="padding40 paddingT0">
+
+      <form #f="ngForm" name="add-project-form" ngNativeValidate>
+        <div class="row">
+          <div class="col-md-5 col-sm-12 col-12">
+            <div class="form-group-3">
+              <label>{{'addForm.addImages' | translate}}</label>
+              <div class="upload-cover-img">
+                <img [src]="file1.image" [defaultImage]="file1.image| img:'thumb'" [lazyLoad]="file1.image"
+                  onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
+                <div *ngIf="file1.loading" class="loaderr"></div>
+                <div *ngIf="!file1.image" class="upload-caption">
+                  <p class="green-color marginT30">{{'addForm.uploadCoverImage' | translate}}</p>
+                  <p>{{'addForm.imageSizeForCover' | translate}}</p>
+                </div>
+                <input type="file" name="cover_image" accept="image/*" (change)="file1.onSelectFile($event,true)">
+              </div>
+            </div>
+
+            <!-- more images -->
+            <hr>
+            <div class="form-group-3">
+              <label>{{'addForm.addVideo.label' | translate}} </label>
+              <div class="add-project-img-more marginT0">
+                <div class="add-project-img-more marginT0">
+                  <img *ngIf="model.videos?.length>0" [src]="model.videos[0]?.thumb"
+                    onerror="this.src='assets/img/placeholder.png'" class="img-fluid">
+                  <div class="upload-caption">
+                    <p *ngIf="model?.videos?.length > 1" class="number" (click)="modelOpenVideos()">
+                      +{{model?.videos?.length-1}}</p>
+                    <p *ngIf="model?.videos?.length <= 1" class="green-color" (click)="modelOpenVideos()">
+                      {{'addForm.addVideo.addBtn' | translate}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-md-7 col-sm-12 col-12">
+            <div class="row">
+              <div class="col-sm-12 col-12">
+                <div class="form-group-3">
+                  <label>{{'addForm.nameOfProduct' | translate}} <span class="color-red">*</span></label>
+                  <input class="form-control" type="text" [pattern]="constant.onlyWhiteSpaces" [(ngModel)]="model.product_name"
+                    name="name2" placeholder="{{'addForm.placeholder.nameOfProduct' | translate}}" autocomplete="off"
+                    required>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group-3">
+                      <label>{{'addForm.description' | translate}}
+                        <!-- <span class="color-red">*</span> -->
+                      </label>
+                      <textarea [(ngModel)]="model.description" name="model_description" class="form-control"
+                        placeholder="{{'addForm.placeholder.projectDescription' | translate}}">
+                       </textarea>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group-3">
+                      <label>{{'addForm.technicalSpecificationDocument' | translate}}</label>
+                      <div class="chat-shared-file" *ngIf="model?.document || model?.doc_loader">
+                        <span *ngIf="model?.doc_loader" class="m-loader">
+                          <div *ngIf="model?.doc_loader" class="loaderr"></div>
+                        </span>
+                        <span *ngIf="model.document">
+                          <a *ngIf="model?.document" href="javascript://">
+                            <span (click)="viewDocument(model?.document)">Document <img class="viewfull"
+                                (click)="removeDocument($event)" src="assets/img/close-tag.png"></span>
+                          </a>
+                        </span>
+                      </div>
+                      <input class="form-control" *ngIf="!model?.document"
+                        accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf"
+                        name="document" (change)="changeListner($event, 'doc_loader', 'document')" type="file">
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group-3">
+                      <label>{{'addForm.price' | translate}} <span class="color-red">*</span></label>
+                      <input class="form-control" type="number" [(ngModel)]="model.price" name="price"
+                        placeholder="{{'addForm.placeholder.price' | translate}}" autocomplete="off" required>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-12 col-sm-6">
+                    <div class="form-group-3">
+                      <label>{{'addForm.quantity' | translate}} <span class="color-red">*</span></label>
+                      <input class="form-control" type="number" [(ngModel)]="model.quantity" name="quantity"
+                        placeholder="{{'addForm.placeholder.quantity' | translate}}" autocomplete="off" required>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <div class="form-group-3">
+                      <label>{{'addForm.inventory' | translate}} <span class="color-red">*</span></label>
+                      <input class="form-control" type="text" [(ngModel)]="model.inventory" name="inventory"
+                        placeholder="{{'addForm.placeholder.inventory' | translate}}" autocomplete="off" required>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'addForm.selectSupplier' | translate}} <span
+                          class="color-red">*</span></label>
+                      <select title="{{'table.title.chooseSupplier' | translate}}" name="supplier" required
+                        class="form-control" (change)="selectSupplier($event.target.value, '')">
+                        <option *ngFor="let supplier of suppliers" value="{{supplier.id}}"
+                          [selected]="supplier.id == model.supplier_id">{{country.name_en}}</option>
+                      </select>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="btn-cont text-right">
+                  <button [disabled]="!f.valid" (click)="addProduct()" class="btn-primary btn">{{'addForm.submit' | translate}}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<!--Add More video -->
+<span data-target="#add-more-videos" data-toggle="modal" #modalAddMoreVideos></span>
+<div class="modal add-more-popup" id="add-more-videos">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h4 class="modal-title">{{'addForm.videos' | translate}}</h4>
+        <button type="button" class="close" data-dismiss="modal" #modalVideosClose>&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="uploaded-img-block">
+          <div class="uploaded-img" *ngFor="let item of amenVideo.files; let i=index">
+            <a class="remove" (click)="remove(i)"><img src="assets/img/remove-icon.png" alt="img"></a>
+            <!-- <video style="width: 100%; height: 100%; display: none;" onerror="this.src='assets/img/placeholder.png'"
+              src="{{videoSrc}}" class="video{{i}} floor-plan" type="video/mp4" controls></video>
+            <canvas *ngIf="!item?.thumb" width="72" height="72" id="canvas3{{i}}"></canvas> -->
+            <img *ngIf="item.thumb" class="u-img" [src]="item.thumb| img:'thumb'" alt="img">
+            <img *ngIf="!item" class="u-img" src="http://via.placeholder.com/300x300" alt="img">
+            <div *ngIf="item.loading" class="loaderr"></div>
+          </div>
+        </div>
+        <div class="add-more-images dimensions">
+          <input type="file" name="add-more" multiple max="6" accept="video/*"
+            (change)="amenVideosSelect($event, 'videos')">
+          <span>{{'addForm.addVideo.addBtn' | translate}} </span>
+        </div>
+
+        <div class="modal-footer btn-cont">
+          <button type="button" (click)="saveVideos()" class="btn btn-primary">{{'addForm.submit' | translate}}</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

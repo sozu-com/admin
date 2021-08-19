@@ -254,6 +254,14 @@
     "locationTitle": "Location",
     "floorPlanImage": "Floor Plan Image",
     "addfloorPlan": "+ Add Floor plan",
+    "addProduct": "Add Product",
+    "editProduct": "Edit Product",
+    "nameOfProduct": "Name Of Product",
+    "technicalSpecificationDocument": "Technical Specification Document",
+    "quantity": "Quantity",
+    "inventory": "Inventory",
+    "selectSupplier": "Select Supplier",
+    "price": "Price",
     "moreImages": {
       "label": "Images",
       "addMoreBtn": "+ Add more images",
@@ -714,7 +722,13 @@
       "chooseDate": "Choose Date",
       "parkingLotSpacesEn": "Parking lot spaces name (English)",
       "parkingLotSpacesEs": "Parking lot spaces name (Spanish)",
-      "manageCommissions": "Manage Commissions"
+      "manageCommissions": "Manage Commissions",
+      "nameOfProduct": "Name Of Product",
+      "technicalSpecificationDocument": "Technical Specification Document",
+      "quantity": "Quantity",
+      "inventory": "Inventory",
+      "selectSupplier": "Select Supplier",
+      "price": "Price"
     }
   },
   "charts": {
@@ -855,7 +869,7 @@
       "statusHistory": "Status History",
       "city": "City",
       "supplier": "Supplier",
-      "cuantity": "Cuantity",
+      "quantity": "quantity",
       "possesion": {
         "label": "Possesion",
         "park":"Parking Lots",
