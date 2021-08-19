@@ -122,7 +122,9 @@ export class ManageProductComponent implements OnInit {
     this.parameter.property_sort = value;
     this.getListing();
   }
+  changeFlag(ab){
 
+  }
   sortData1(value: number) {
     this.parameter.property_sort = 0;
     this.parameter.parking_sort = value;

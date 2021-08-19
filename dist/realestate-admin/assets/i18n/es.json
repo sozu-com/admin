@@ -137,6 +137,7 @@
     "addParkingLot":"+ Agregar estacionamiento",
     "noparking":"No estacionamientos",
     "Type":"Tipo",
+    "bank":"Banco",
     "Price(each)":"Precio (cada uno)",
     "saleParking":"Venta de plazas de aparcamiento",
     "parkingLot":"Estacionamientos",
@@ -253,6 +254,14 @@
     "floorPlanImage": "Imagen de plano arquitectónico",
     "locationTitle": "Ubicación",
     "addfloorPlan": "+ Agregar plano arquitectónico",
+    "addProduct": "Agregar producto",
+    "editProduct": "Editar producto",
+    "nameOfProduct": "Nombre del producto",
+    "technicalSpecificationDocument": "Documento de especificaciones técnicas",
+    "quantity": "Cantidad",
+    "inventory": "Inventario",
+    "selectSupplier": "Select Supplier",
+    "price": "Precio",
     "moreImages": {
       "label": "Imágenes",
       "addMoreBtn": "+ Agregar más imágenes",
@@ -712,7 +721,13 @@
       "chooseDate": "Elegir fecha",
       "parkingLotSpacesEn": "Nombre del tipos de estacionamientos (Inglés)",
       "parkingLotSpacesEs": "Nombre del tipos de estacionamientos (Español)",
-      "manageCommissions": "Administrar Comisiones"
+      "manageCommissions": "Administrar Comisiones",
+      "nameOfProduct": "Nombre del producto",
+      "technicalSpecificationDocument": "Documento de especificaciones técnicas",
+      "quantity": "Cantidad",
+      "inventory": "Inventario",
+      "selectSupplier": "Select Supplier",
+      "price": "Precio"
     }
   },
   "charts": {
@@ -851,6 +866,8 @@
       "contributor": "colaborador",
       "statusHistory": "Historial de estado",
       "city": "Ciudad",
+      "supplier": "Proveedor",
+      "quantity": "Cantidad",
       "possesion": {
         "label": "Fecha de entrega",
         "park":"Estacionamientos",
@@ -1458,6 +1475,11 @@
       "wantToUnblockDeveloper": "¿Quieres desbloquear este desarrollador?",
       "wantToDeleteDeveloper": "¿Quieres eliminar este desarrollador?",
       "wantToBlockLegalEntity": "¿Desea bloquear esta entidad jurídica?",
+
+      "wantToBlocksuppliers": "¿Quieres bloquear a este proveedor?",
+      "wantToUnblocksuppliers": "¿Quiere desbloquear este proveedor?",
+      "wantToDeletesuppliers": "¿Quiere eliminar este proveedor?",
+
       "wantToUnblockLegalEntity": "¿Desea desbloquear esta entidad jurídica?",
       "wantToDeleteLegalEntity": "¿Desea eliminar esta entidad jurídica?",
       "wantToDeleteLead": "de querer eliminar este lead?",
@@ -2065,12 +2087,14 @@
     "manageDevelopers": "Administrar desarrolladores",
     "manageLeads": "Administrar leads",
     "manageProjects": "Administrar proyectos",
+    "manageProduct": "Administrar Producto",
     "manageHotels": "Gestionar Hoteles",
     "hotelCompany": "Empresa hotelera",
     "manageProperties": "Administrar Propiedades",
     "managePropertiesForSale":"Propiedades en venta",
     "manageCollections": "Administrar colecciones",
     "manageLegalEntity": "Gestionar entidad jurídica",
+    "managesuppliers": "Administrar proveedores",
     "collectionReports": "Informes de colección",
     "generalReport": "Informe general",
     "monthlyReport": "Reporte mensual",
@@ -2473,6 +2497,7 @@
   },
   "manageLegalEntity": {
     "label": "Gestionar entidad jurídica",
+    "labelSuppliers": "Administrar proveedores",
     "commercialName": "Nombre comercial",
     "legalName": "Nombre legal",
     "phone": "Teléfono",
@@ -2482,7 +2507,12 @@
   },
   "addLegalEntity": {
     "editEntity": "Editar entidad legal",
-    "addEntity": "Agregar entidad legal"
+    "addEntity": "Agregar entidad legal",
+    "editsupplier": "Editar proveedor",
+    "addsupplier": "Agregar proveedor",
+    "supplier_name":"Nombre del proveedor",
+    "supplier_info":"Información del proveedor",
+    "Commercial_Name":"Nombre comercial"
   },
   "collectionReport": {
     "collection_id": "ID de colección",
@@ -3128,5 +3158,8 @@
     "officeAmenityNameS" : "Oficina Amenidades Nombre (Español)",
     "addNewOffice": "Añadir nuevo Oficina",
     "manageOffice": "Gestionar Oficina"
+  },
+  "product": {
+    "manageProduct": "Administrar Producto"
   }
 }

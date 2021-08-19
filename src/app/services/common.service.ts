@@ -140,6 +140,12 @@ export class CommonService {
     input.append('id', id);
     return this.admin.postDataApi('addLegalEntityDocument',input);
   }
+  saveAttachment7(file,id) {
+    const input = new FormData();
+    input.append('attachment', file);
+    input.append('id', id);
+    return this.admin.postDataApi('addSuppliersDocument',input);
+  }
   saveAttachment3(file,id) {
     console.log(id,"saveAttachment3")
     const input = new FormData();

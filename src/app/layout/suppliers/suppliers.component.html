@@ -32,17 +32,17 @@
                 <div class="table-search">
                     <label>{{'manageLegalEntity.commercialName' | translate}}</label>
                     <div class="searh-3">
-                      <input type="text" [(ngModel)]="comm_name" (keyup.enter)="getLegalEntity()" name="" autocomplete="address-level4" >
-                      <button *ngIf="comm_name" (click)="getLegalEntity()"><i class="fa fa-search"></i></button>
+                      <input type="text" [(ngModel)]="comm_name" (keyup.enter)="getSuppliers()" name="" autocomplete="address-level4" >
+                      <button *ngIf="comm_name" (click)="getSuppliers()"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
               </th>
               <th style="width:9%">
                 <div class="table-search">
-                    <label>{{'manageLegalEntity.legalName' | translate}}</label>
+                    <label>{{'addLegalEntity.supplier_name' | translate}}</label>
                     <div class="searh-3">
-                      <input type="text" [(ngModel)]="legal_name" (keyup.enter)="getLegalEntity()" name="" autocomplete="address-level4" >
-                      <button *ngIf="legal_name" (click)="getLegalEntity()"><i class="fa fa-search"></i></button>
+                      <input type="text" [(ngModel)]="legal_name" (keyup.enter)="getSuppliers()" name="" autocomplete="address-level4" >
+                      <button *ngIf="legal_name" (click)="getSuppliers()"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
               </th>
@@ -50,8 +50,8 @@
                 <div class="table-search">
                     <label>{{'manageLegalEntity.email' | translate}}</label>
                     <div class="searh-3">
-                      <input type="text" [(ngModel)]="email" (keyup.enter)="getLegalEntity()" autocomplete="address-level4" >
-                      <button *ngIf="email" (click)="getLegalEntity()"><i class="fa fa-search"></i></button>
+                      <input type="text" [(ngModel)]="email" (keyup.enter)="getSuppliers()" autocomplete="address-level4" >
+                      <button *ngIf="email" (click)="getSuppliers()"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
               </th>
@@ -59,8 +59,8 @@
                 <div class="table-search">
                     <label>{{'manageLegalEntity.phone' | translate}}</label>
                     <div class="searh-3">
-                      <input type="text" [(ngModel)]="phone" (keyup.enter)="getLegalEntity()" name="" autocomplete="address-level4" >
-                      <button *ngIf="phone" (click)="getLegalEntity()"><i class="fa fa-search"></i></button>
+                      <input type="text" [(ngModel)]="phone" (keyup.enter)="getSuppliers()" name="" autocomplete="address-level4" >
+                      <button *ngIf="phone" (click)="getSuppliers()"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
               </th>
@@ -68,8 +68,8 @@
                   <div class="table-search">
                     <label>{{'manageLegalEntity.legalRep' | translate}}</label>
                     <div class="searh-3">
-                      <input type="text" [(ngModel)]="legal_rep_name" (keyup.enter)="getLegalEntity()" name="" autocomplete="address-level4" >
-                      <button *ngIf="legal_rep_name" (click)="getLegalEntity()"><i class="fa fa-search"></i></button>
+                      <input type="text" [(ngModel)]="legal_rep_name" (keyup.enter)="getSuppliers()" name="" autocomplete="address-level4" >
+                      <button *ngIf="legal_rep_name" (click)="getSuppliers()"><i class="fa fa-search"></i></button>
                     </div>
                   </div>
               </th>
@@ -77,8 +77,8 @@
                   <div class="table-search">
                     <label>{{'manageLegalEntity.developer' | translate}}</label>
                     <div class="searh-3">
-                      <input type="text" [(ngModel)]="developer_name" (keyup.enter)="getLegalEntity()" name="" autocomplete="address-level4" >
-                      <button *ngIf="developer_name" (click)="getLegalEntity()"><i class="fa fa-search"></i></button>
+                      <input type="text" [(ngModel)]="developer_name" (keyup.enter)="getSuppliers()" name="" autocomplete="address-level4" >
+                      <button *ngIf="developer_name" (click)="getSuppliers()"><i class="fa fa-search"></i></button>
                     </div>
                   </div>
               </th> -->

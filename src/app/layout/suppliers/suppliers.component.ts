@@ -47,15 +47,15 @@ export class SuppliersComponent implements OnInit {
       this.developer_id = params['developer_id'];
       this.legal_entity_id = params['legal_entity_id'];
     });
-    this.getLegalEntity();
+    this.getSuppliers();
   }
 
   getPage(page: number) {
     this.parameter.page = page;
-    this.getLegalEntity();
+    this.getSuppliers();
   }
 
-  getLegalEntity = (): void => {
+  getSuppliers = (): void => {
     const input = {
       comm_name: this.comm_name,
       legal_name: this.legal_name,
@@ -69,7 +69,7 @@ export class SuppliersComponent implements OnInit {
       legal_entity_id: this.legal_entity_id
     };
     this.spinner.show();
-    this.admin.postDataApi('getLegalEntity', input).subscribe((success) => {
+    this.admin.postDataApi('getSuppliers', input).subscribe((success) => {
       this.spinner.hide();
       this.items = success.data;
       this.parameter.total = success.total_count;
@@ -114,7 +114,7 @@ export class SuppliersComponent implements OnInit {
 
   blockAdmin(index: number, id: any, flag: any) {
     this.parameter.index = index;
-    this.parameter.url = flag == 1 ? 'blockLegalEntity' : 'unblockLegalEntity';
+    this.parameter.url = flag == 1 ? 'blockSuppliers' : 'unblockSuppliers';
     this.admin.postDataApi(this.parameter.url, { id: id })
       .subscribe(
         success => {
@@ -142,7 +142,7 @@ export class SuppliersComponent implements OnInit {
   }
 
   deleteData(item: any, index: number) {
-    this.admin.postDataApi('deleteLegalEntity',
+    this.admin.postDataApi('deleteSuppliers',
       { id: item.id }).subscribe(r => {
         this.items.splice(index, 1);
         this.parameter.total--;
@@ -171,7 +171,7 @@ export class SuppliersComponent implements OnInit {
       legal_entity_id: this.legal_entity_id
     };
     input.page = 0;
-    this.admin.postDataApi('getLegalEntity', input).subscribe((success) => {
+    this.admin.postDataApi('getSuppliers', input).subscribe((success) => {
       this.exportfinalData = success['data'] || [];
       this.exportData();
       this.spinner.hide();
@@ -188,7 +188,7 @@ export class SuppliersComponent implements OnInit {
 
         exportfinalData.push({
           'Commercial Name': p.comm_name || '',
-          'Legal Name': p.legal_name || '',
+          'Supplier Name': p.legal_name || '',
           'Email': p.email || '',
           'Phone': p.phone ? p.dial_code + ' ' + p.phone : '' 
         });

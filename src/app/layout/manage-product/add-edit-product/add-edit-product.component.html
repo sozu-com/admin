@@ -2,7 +2,7 @@
   <div class="white-bg">
     <div class="row" style="margin: 0%;">
       <div class="col-lg-10 col-md-11 col-sm-12 col-12 page-title title-div">
-        <a href="javascript://" class="back-icon" (click)="goBack(true)"><i class="fa fa-angle-left"
+        <a href="javascript://" class="back-icon" ><i class="fa fa-angle-left"
             aria-hidden="true"></i></a>
         <h3 *ngIf="!id">{{'addForm.addProduct' | translate}}</h3>
         <h3 *ngIf="id">{{'addForm.editProduct' | translate}}</h3>
@@ -10,7 +10,7 @@
 
       <div class="col-lg-1 col-md-1 col-6 page-title title-div">
         <div class="btn-cont text-right">
-          <a href="javascript://" (click)="goBack(false)" class="btn-sm btn-primary-new"
+          <a href="javascript://"  class="btn-sm btn-primary-new"
             href="javascript://">{{'quickVisualization.back' | translate}}</a>
         </div>
       </div>
@@ -78,7 +78,7 @@
                   <div class="col-12">
                     <div class="form-group-3">
                       <label>{{'addForm.technicalSpecificationDocument' | translate}}</label>
-                      <div class="chat-shared-file" *ngIf="model?.document || model?.doc_loader">
+                      <!-- <div class="chat-shared-file" *ngIf="model?.document || model?.doc_loader">
                         <span *ngIf="model?.doc_loader" class="m-loader">
                           <div *ngIf="model?.doc_loader" class="loaderr"></div>
                         </span>
@@ -88,7 +88,7 @@
                                 (click)="removeDocument($event)" src="assets/img/close-tag.png"></span>
                           </a>
                         </span>
-                      </div>
+                      </div> -->
                       <input class="form-control" *ngIf="!model?.document"
                         accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf"
                         name="document" (change)="changeListner($event, 'doc_loader', 'document')" type="file">
@@ -179,7 +179,7 @@
         </div>
         <div class="add-more-images dimensions">
           <input type="file" name="add-more" multiple max="6" accept="video/*"
-            (change)="amenVideosSelect($event, 'videos')">
+            >
           <span>{{'addForm.addVideo.addBtn' | translate}} </span>
         </div>
 

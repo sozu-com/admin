@@ -18,6 +18,7 @@ import { AclUserGuard } from 'src/app/guards/acl-user.guard';
 import { SharedModule } from 'src/app/modules/shared.module';
 import { SuppliersComponent } from './suppliers.component';
 import { AddSupplierComponent } from './add-supplier/add-supplier.component';
+import { DocumentUploadComponent } from './document-upload/document-upload.component';
 const routes: Routes = [
   {
     path: 'view-all', component: SuppliersComponent,
@@ -27,18 +28,14 @@ const routes: Routes = [
     path: 'view-all/:supplier', component: SuppliersComponent,
     canActivate: [AclUserGuard], data: { roles: ['Manage Suppliers', 'can_read', ''] }
   },
-//   {
-//     path: 'view-all/:developer_name/:developer_id', component: LegalEntityComponent,
-//     canActivate: [AclUserGuard], data: { roles: ['Manage Legal Entity', 'can_read', ''] }
-//   },
   {
     path: 'add-supplier/:id', component: AddSupplierComponent,
     canActivate: [AclUserGuard], data: { roles: ['Manage Suppliers', 'can_read', ''] }
   },
-//   {
-//     path: 'document-upload/:id', component: DocumentUploadComponent,
-//     canActivate: [AclUserGuard], data: { roles: ['User Management', 'can_read', ''] }
-//   }
+  {
+    path: 'document-upload/:id', component: DocumentUploadComponent,
+    canActivate: [AclUserGuard], data: { roles: ['User Management', 'can_read', ''] }
+  }
 ];
 
 @NgModule({
@@ -63,6 +60,7 @@ const routes: Routes = [
   declarations: [
     SuppliersComponent,
     AddSupplierComponent,
+    DocumentUploadComponent,
     // AddLegalEntityComponent,
     // DocumentUploadComponent
   ]
