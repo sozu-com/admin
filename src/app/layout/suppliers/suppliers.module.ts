@@ -21,11 +21,11 @@ import { AddSupplierComponent } from './add-supplier/add-supplier.component';
 const routes: Routes = [
   {
     path: 'view-all', component: SuppliersComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Manage suppliers', 'can_read', ''] }
+    canActivate: [AclUserGuard], data: { roles: ['Manage Suppliers', 'can_read', ''] }
   },
   {
     path: 'view-all/:supplier', component: SuppliersComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Manage suppliers', 'can_read', ''] }
+    canActivate: [AclUserGuard], data: { roles: ['Manage Suppliers', 'can_read', ''] }
   },
 //   {
 //     path: 'view-all/:developer_name/:developer_id', component: LegalEntityComponent,
@@ -33,7 +33,7 @@ const routes: Routes = [
 //   },
   {
     path: 'add-supplier/:id', component: AddSupplierComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Manage suppliers', 'can_read', ''] }
+    canActivate: [AclUserGuard], data: { roles: ['Manage Suppliers', 'can_read', ''] }
   },
 //   {
 //     path: 'document-upload/:id', component: DocumentUploadComponent,
