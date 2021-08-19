@@ -102,8 +102,8 @@
               <span class="pull-right"><a class="add" (click)="addLegalEntityBank($event)"
                   href="javascript://">{{'addCollection.addNewBankAccount' | translate}}</a></span>
             </label>
-            <div formArrayName="legal_entity_banks">
-              <ng-container *ngFor="let lebanks of addDataForm.get('legal_entity_banks')['controls']; let i=index">
+            <div formArrayName="suppliers_banks">
+              <ng-container *ngFor="let lebanks of addDataForm.get('suppliers_banks')['controls']; let i=index">
     
                 <div class="row" [formGroupName]="i">
                   <div class="col-lg-3 col-md-6 col-sm-6 col-12">

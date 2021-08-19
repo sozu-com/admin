@@ -9,6 +9,7 @@ import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LegalEntity, LegalRepresentative } from '../../../models/legalEntity.model';
 import { Developer } from 'src/app/models/global.model';
+import { Supplier } from 'src/app/models/supplier.model';
 declare const google;
 declare let swal: any;
 @Component({
@@ -27,7 +28,7 @@ export class AddSupplierComponent implements OnInit {
   initialCountry: any;
   show = false;
   name: string;
-  model: LegalEntity;
+  model: Supplier;
   currencies: Array<any>;
   addDataForm: FormGroup;
   all_developers: Array<Developer>;
@@ -56,12 +57,9 @@ export class AddSupplierComponent implements OnInit {
 
   ngOnInit() {
     this.iniDropDownSetting();
-    this.model = new LegalEntity();
-    this.model.legal_rep = new LegalRepresentative();
+    this.model = new Supplier();
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
-    this.model.legal_rep.country_code = this.constant.country_code;
-    this.model.legal_rep.dial_code = this.constant.dial_code;
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
     this.initForm();
@@ -93,7 +91,7 @@ export class AddSupplierComponent implements OnInit {
 
   uploadDoc(legalentity) {
     //console.log(legalentity, "legal-entity id")
-    this.router.navigate(['/dashboard/legal-entities/document-upload', legalentity.id]);
+    this.router.navigate(['/dashboard/suppliers/document-upload', legalentity.id]);
   }
 
   initForm() {
@@ -112,8 +110,7 @@ export class AddSupplierComponent implements OnInit {
       lng: [''],
       // mapvalue: [''],
       fed_tax_pay: [''],
-      legal_entity_banks: this.fb.array([]),
-      developer_id: [''],
+      suppliers_banks: this.fb.array([]),
       // for tax addresses
       street_address: [''],
       external_number: [''],
@@ -134,30 +131,7 @@ export class AddSupplierComponent implements OnInit {
       tax_state: [''],
       tax_city: [''],
       tax_neighbourhood: [''],
-      // tax_neighbourhoods?: any[];
       use_user_same_address: [false],
-      // nationality_name?: string;
-      // nationality_id?: number = 1;
-
-      legal_rep: this.fb.group({
-        id: [''],
-        name: [''],
-        first_surname: [''],
-        second_surname: [''],
-        phone: [''],
-        country_code: [''],
-        dial_code: [''],
-        email: [''],
-        have_dev_panel_access: [''],
-        // fed_tax_pay: ['', [Validators.required]],
-        fed_tax_pay: [''],
-        legal_rep_banks: this.fb.array([]),
-        building_ids: [''],
-        sales_commission: [''],
-        login_website: [0],
-        //developer_id: ['']
-      //  addThisInformationAsAUser:[false]
-      })
 
     });
 
@@ -167,7 +141,7 @@ export class AddSupplierComponent implements OnInit {
     };
     this.addDataForm.controls.country_code.patchValue(this.model.country_code);
     this.addDataForm.controls.dial_code.patchValue(this.model.dial_code);
-    this.addDataForm.patchValue({ legal_rep: countryDialCode });
+   // this.addDataForm.patchValue({ legal_rep: countryDialCode });
 
     this.setCurrentPosition();
   }
@@ -197,7 +171,7 @@ export class AddSupplierComponent implements OnInit {
   }
 
   get legalEntityBanks(): FormArray {
-    return this.addDataForm.get('legal_entity_banks') as FormArray;
+    return this.addDataForm.get('suppliers_banks') as FormArray;
   }
 
   removeLegalEntityBank($event: Event, i: number, item) {
@@ -213,20 +187,6 @@ export class AddSupplierComponent implements OnInit {
     }
   }
 
-  addLegalRepBank($event) {
-    $event.stopPropagation();
-    this.legalRepBanks.push(this.newBanks());
-  }
-
-  get legalRepBanks(): FormArray {
-    const legalRep = this.addDataForm.get('legal_rep') as FormGroup;
-    return legalRep.get('legal_rep_banks') as FormArray;
-  }
-
-  removeLegalRepBank($event: Event, i: number) {
-    $event.stopPropagation();
-    this.legalRepBanks.removeAt(i);
-  }
 
   newBanks(): FormGroup {
     return this.fb.group({
@@ -243,7 +203,7 @@ export class AddSupplierComponent implements OnInit {
       .subscribe(
         success => {
           this.projects = success['data'];
-          this.getLegalEntityById(this.model.id);
+          this.getSuppliersById(this.model.id);
         }, error => {
           this.spinner.hide();
         });
@@ -266,11 +226,11 @@ export class AddSupplierComponent implements OnInit {
   onSelectAll(obj: any) {
   }
 
-  getLegalEntityById(id: string) {
+  getSuppliersById(id: string) {
     let self = this;
     this.data_fetch = false;
     this.spinner.show();
-    this.admin.postDataApi('getLegalEntityById', { id: id })
+    this.admin.postDataApi('getSuppliersById', { id: id })
       .subscribe(
         success => {
           this.spinner.hide();
@@ -300,20 +260,10 @@ export class AddSupplierComponent implements OnInit {
       this.model.lat = data.lat;
       this.model.lng = data.lng;
     }
-    const control = this.addDataForm.get('legal_entity_banks') as FormArray;
-    if (data.legal_entity_banks) {
-      data.legal_entity_banks.forEach(x => {
+    const control = this.addDataForm.get('suppliers_banks') as FormArray;
+    if (data.suppliers_banks) {
+      data.suppliers_banks.forEach(x => {
         control.push(this.fb.group(x));
-      });
-    }
-    this.addDataForm.patchValue({ legal_rep: data.legal_reps });
-    if (data.legal_reps) {
-      this.model.legal_rep.sales_commission = data.legal_reps.sales_commission;
-    }
-    const repBanks = this.addDataForm.get('legal_rep').get('legal_rep_banks') as FormArray;
-    if (data.legal_reps && data.legal_reps.legal_rep_banks) {
-      data.legal_reps.legal_rep_banks.forEach(x => {
-        repBanks.push(this.fb.group(x));
       });
     }
     this.model['neighbourhoods'] = [];
@@ -324,7 +274,7 @@ export class AddSupplierComponent implements OnInit {
   }
 
   setSaleComm(sales_commission: number) {
-    this.model.legal_rep.sales_commission = sales_commission;
+  //  this.model.legal_rep.sales_commission = sales_commission;
   }
 
   set() {
@@ -347,9 +297,6 @@ export class AddSupplierComponent implements OnInit {
   add(formData: NgForm) {
     formData['country_code'] = this.model.country_code;
     formData['dial_code'] = this.model.dial_code;
-    formData['legal_rep']['country_code'] = this.model.country_code;
-    formData['legal_rep']['dial_code'] = this.model.dial_code;
-    formData['legal_rep']['have_dev_panel_access'] = formData['legal_rep']['have_dev_panel_access'] ? 1 : 0;
     formData['send_mail'] = this.model.send_mail ? this.model.send_mail : 0;
     if (this.model.id) {
       formData['id'] = this.model.id;
@@ -359,40 +306,12 @@ export class AddSupplierComponent implements OnInit {
       formData['lng'] = this.model.lng;
       formData['address'] = this.model.address;
     }
-    if (formData['legal_rep'].name || formData['legal_rep'].first_surname || formData['legal_rep'].phone
-      || formData['legal_rep'].email) {
-      // if any of key present, then all must be entered
-      if (!formData['legal_rep'].name) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeName'), 'error');
-        return;
-      }
-      if (!formData['legal_rep'].first_surname) {
-        swal(this.translate.instant('swal.error'),
-          this.translate.instant('message.error.pleaseEnterLegalRepresentativeFirstName'), 'error');
-        return;
-      }
-      if (!formData['legal_rep'].phone) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativePhone'), 'error');
-        return;
-      }
-      if (!formData['legal_rep'].email) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeEmail'), 'error');
-        return;
-      }
-      // if (!formData['legal_rep'].fed_tax_pay) {
-      //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeFTPR'), 'error');
-      //   return;
-      // }
-    }
-    if (!formData['legal_rep'].name || !formData['legal_rep'].first_surname || !formData['legal_rep'].phone
-      || !formData['legal_rep'].email) {
-      delete formData['legal_rep'];
-    }
+  
 
-    if (formData['legal_entity_banks'] && formData['legal_entity_banks'].length > 0) {
+    if (formData['suppliers_banks'] && formData['suppliers_banks'].length > 0) {
       let i = 0;
-      for (let index = 0; index < formData['legal_entity_banks'].length; index++) {
-        const element = formData['legal_entity_banks'][index];
+      for (let index = 0; index < formData['suppliers_banks'].length; index++) {
+        const element = formData['suppliers_banks'][index];
         if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
           i = i + 1;
           swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
@@ -400,32 +319,8 @@ export class AddSupplierComponent implements OnInit {
         }
       }
     }
-
-    if (formData['legal_rep'] && formData['legal_rep']['legal_rep_banks'] && formData['legal_rep']['legal_rep_banks'].length > 0) {
-      let i = 0;
-      for (let index = 0; index < formData['legal_rep']['legal_rep_banks'].length; index++) {
-        const element = formData['legal_rep']['legal_rep_banks'][index];
-        if (!element.bank_name || !element.account_number || !element.swift || !element.currency_id) {
-          i = i + 1;
-          swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterBankDetails'), 'error');
-          return;
-        }
-      }
-    }
-    if (formData['legal_rep'] && this.selctedProjects && this.selctedProjects.length > 0) {
-      const d = this.selctedProjects.map(o => o.id);
-      formData['legal_rep']['building_ids'] = d;
-    }
-    if (this.getDeveloperAccessFormArrayLength > 0) {
-      if (this.checkDeveloperAccessFormArrayInvalid()) {
-        return;
-      } else {
-        formData['developer_access'] = this.getDeveloperAccessFormArray.getRawValue();
-      }
-    }
-    //formData['developer_id'] = (this.addDataForm.get('legal_rep') as FormGroup).get('developer_id').value;
     this.spinner.show();
-    this.admin.postDataApi('addLegalEntity', formData)
+    this.admin.postDataApi('addSuppliers', formData)
       .subscribe(
         success => {
           this.spinner.hide();
@@ -437,10 +332,7 @@ export class AddSupplierComponent implements OnInit {
               this.translate.instant('message.success.addedSuccessfully') :
               this.translate.instant('message.success.updatedSuccessfully');
             swal(this.translate.instant('swal.success'), text, 'success');
-            this.router.navigate(['/dashboard/legal-entities/view-all']);
-            // if (this.model.id === '') {
-            //   formData.reset();
-            // }
+            this.router.navigate(['/dashboard/suppliers/view-all']);
           }
         }, error => {
           this.spinner.hide();
@@ -492,7 +384,7 @@ export class AddSupplierComponent implements OnInit {
     this.getGeoLocation(addParam, this.model[paramLat], this.model[paramLng]);
   }
   goBack() {
-    this.router.navigate(['/dashboard/legal-entities/view-all', { for: 'back' }])
+    this.router.navigate(['/dashboard/suppliers/view-all', { for: 'back' }])
   }
 
   getGeoLocation(addParam: string, lat: number, lng: number) {
