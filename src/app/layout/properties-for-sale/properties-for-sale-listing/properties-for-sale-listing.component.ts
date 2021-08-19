@@ -2000,21 +2000,21 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
   getPostRequestForColumn = (): any => {
     return {
       user_id: JSON.parse(localStorage.getItem('user-id')) || 0,
-      building_name: (this.select_columns_list[0] || []).isCheckBoxChecked,
-      tower_name: (this.select_columns_list[1] || []).isCheckBoxChecked,
-      floor: (this.select_columns_list[2] || []).isCheckBoxChecked,
-      apartment: (this.select_columns_list[3] || []).isCheckBoxChecked,
-      model: (this.select_columns_list[4] || []).isCheckBoxChecked,
-      configuration: (this.select_columns_list[5] || []).isCheckBoxChecked,
-      list_price: (this.select_columns_list[6] || []).isCheckBoxChecked,
-      carpet_area: (this.select_columns_list[7] || []).isCheckBoxChecked,
-      commercialized_sozu: (this.select_columns_list[8] || []).isCheckBoxChecked,
-      possession_status: (this.select_columns_list[9] || []).isCheckBoxChecked,
-      change_seller: (this.select_columns_list[10] || []).isCheckBoxChecked,
-      link_unlink_outside_agent: (this.select_columns_list[13] || []).isCheckBoxChecked,
-      link_agency: (this.select_columns_list[11] || []).isCheckBoxChecked,
-      price_per_m2: (this.select_columns_list[12] || []).isCheckBoxChecked,
-      property_sale_id: (this.select_columns_list[14] || []).isCheckBoxChecked 
+      building_name: (this.select_columns_list[11] || []).isCheckBoxChecked,
+      tower_name: (this.select_columns_list[12] || []).isCheckBoxChecked,
+      floor: (this.select_columns_list[5] || []).isCheckBoxChecked,
+      apartment: (this.select_columns_list[0] || []).isCheckBoxChecked,
+      model: (this.select_columns_list[10] || []).isCheckBoxChecked,
+      configuration: (this.select_columns_list[4] || []).isCheckBoxChecked,
+      list_price: (this.select_columns_list[9] || []).isCheckBoxChecked,
+      carpet_area: (this.select_columns_list[1] || []).isCheckBoxChecked,
+      commercialized_sozu: (this.select_columns_list[3] || []).isCheckBoxChecked,
+      possession_status: (this.select_columns_list[13] || []).isCheckBoxChecked,
+      change_seller: (this.select_columns_list[2] || []).isCheckBoxChecked,
+      link_unlink_outside_agent: (this.select_columns_list[8] || []).isCheckBoxChecked,
+      link_agency: (this.select_columns_list[7] || []).isCheckBoxChecked,
+      price_per_m2: (this.select_columns_list[14] || []).isCheckBoxChecked,
+      id: (this.select_columns_list[6] || []).isCheckBoxChecked 
     };
   }
 
@@ -2095,6 +2095,9 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
         break;
       case 28:
       this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.property_sale_id;
+      break;
+      case 30:
+      this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.id;
       break;
       default:
         break;

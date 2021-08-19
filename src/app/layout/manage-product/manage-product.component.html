@@ -132,7 +132,7 @@
     </div>
   </div> -->
 
-  <div class="cust-tabs">
+  <div class="cust-tabs" style="margin-top: 15px;">
     <div class="row flex-wrap-reverse">
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="add-new pull-right">
@@ -156,7 +156,7 @@
                     <label>{{'table.th.image' | translate}}</label>
                   </div>
                 </th>
-                <th style="width:15%" *ngIf="selectedColumnsToShow?.office_name">
+                <th style="width:15%" *ngIf="selectedColumnsToShow?.id">
                   <div class="table-search">
                     <label>{{'table.th.id' | translate}}</label>
                     <div class="searh-3">
@@ -166,7 +166,7 @@
                     </div>
                   </div>
                 </th>
-                <th style="width:14%" *ngIf="selectedColumnsToShow?.developer">
+                <th style="width:14%" *ngIf="selectedColumnsToShow?.name">
                   <div class="table-search">
                     <label>{{'table.th.name' | translate}}</label>
                     <div class="searh-3">
@@ -175,7 +175,7 @@
                     </div>
                   </div>
                 </th>
-                <th style="width:15%" *ngIf="selectedColumnsToShow?.agency">
+                <th style="width:15%" *ngIf="selectedColumnsToShow?.suppliers">
                   <div class="table-search">
                     <label>{{'table.th.supplier' | translate}}</label>
                     <div class="searh-3">
@@ -185,7 +185,7 @@
                     </div>
                   </div>
                 </th>
-                <th style="width:15%" *ngIf="selectedColumnsToShow?.legal_entity">
+                <th style="width:15%" *ngIf="selectedColumnsToShow?.price">
                   <div class="table-search">
                     <label>{{'table.th.price' | translate}}</label>
                     <div class="searh-3">
@@ -195,7 +195,7 @@
                     </div>
                   </div>
                 </th>
-                <th style="width:15%" *ngIf="selectedColumnsToShow?.contributor">
+                <th style="width:15%" *ngIf="selectedColumnsToShow?.quantity">
                   <div class="table-search">
                     <label>{{'table.th.quantity' | translate}}</label>
                     <div class="searh-3">
@@ -210,10 +210,10 @@
                     <label>{{'table.th.actions.label' | translate}}</label>
                     <select [(ngModel)]="parameter.action_filter" (change)="getListing()">
                       <option value="0">{{'table.th.actions.all' | translate}}</option>
-                      <option value="3">{{'table.th.actions.approved' | translate}}</option>
+                      <!-- <option value="3">{{'table.th.actions.approved' | translate}}</option>
                       <option value="4">{{'table.th.actions.unapproved' | translate}}</option>
                       <option value="1">{{'table.th.actions.blocked' | translate}}</option>
-                      <option value="2">{{'table.th.actions.unblocked' | translate}}</option>
+                      <option value="2">{{'table.th.actions.unblocked' | translate}}</option> -->
                     </select>
                   </div>
                 </th>
@@ -227,19 +227,19 @@
                   <img *ngIf="!p.main_image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
                 </td>
                 <!--  -->
-                <td *ngIf="selectedColumnsToShow?.office_name" class="cursor-pointer">
+                <td *ngIf="selectedColumnsToShow?.id" class="cursor-pointer">
                   <span>{{p?.id}}</span>
                 </td>
-                <td *ngIf="selectedColumnsToShow?.office_name" class="cursor-pointer">
+                <td *ngIf="selectedColumnsToShow?.name" class="cursor-pointer">
                   <span>{{p?.product_name}}</span>
                 </td>
-                <td [ngClass]="{'green-color cursor-pointer': p?.developer?.name}"  *ngIf="selectedColumnsToShow?.developer" (click)="viewDeveloper(p)">
-                  <span>{{p?.developer?.name ? p?.developer?.name : ('table.tr.td.NA' | translate)}}</span>
+                <td [ngClass]="{'green-color cursor-pointer': p?.developer?.name}"  *ngIf="selectedColumnsToShow?.suppliers" (click)="viewDeveloper(p)">
+                  <span>{{p?.supplier?.comm_name ? p?.supplier.comm_name : ('table.tr.td.NA' | translate)}}</span>
                 </td>
-                <td *ngIf="selectedColumnsToShow?.agency">
+                <td *ngIf="selectedColumnsToShow?.price">
                   <span>{{p?.price ? p?.price : ('table.tr.td.NA' | translate)}}</span>
                 </td>
-                <td  *ngIf="selectedColumnsToShow?.legal_entity">
+                <td  *ngIf="selectedColumnsToShow?.quantity">
                   <span>{{p?.quantity ? p?.quantity : ('table.tr.td.NA' | translate)}}</span>
                 </td>
                 <td *ngIf="selectedColumnsToShow?.action">

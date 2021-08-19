@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Constant } from 'src/app/common/constants';
@@ -34,11 +34,13 @@ export class AddEditProductComponent implements OnInit {
     private route: ActivatedRoute,
     public constant: Constant,
     private cs: CommonService,
+    private router: Router,
     private translate: TranslateService
   ) { }
 
   ngOnInit() {
     this.language_code = localStorage.getItem('language_code');
+    this.getSupplier();
     this.file1 = new FileUpload(true, this.admin);
     this.amenVideo = new VideoUpload(false, this.admin);
     this.route.params.subscribe(params => {
@@ -46,11 +48,11 @@ export class AddEditProductComponent implements OnInit {
 
       if (this.id) {
         /* if id exists edit mode */
-        let self = this;
         this.spinner.show()
-        this.admin.postDataApi('getProductById', { office_id: this.id }).subscribe(r => {
-          this.spinner.hide();
+        this.admin.postDataApi('getProductById', { product_id: this.id }).subscribe(r => {
           this.model = JSON.parse(JSON.stringify(r.data));
+          this.file1.image = this.model.main_image;
+          this.spinner.hide();
         }, error => {
           this.spinner.hide();
         });
@@ -58,10 +60,23 @@ export class AddEditProductComponent implements OnInit {
     });
   }
 
+  getSupplier(){
+    this.spinner.show();
+    this.admin.postDataApi('getAllSuppliers', { }).subscribe(r => {
+      this.suppliers = r.data;
+      this.spinner.hide();
+    }, error => {
+      this.spinner.hide();
+    });
+  }
+
   addProduct(){
-    this.model.supplier_id =1;
     let modelSave = this.model;
+    if(this.file1.image){
+      this.model.main_image = this.file1.image;
+    }
     if (this.id) {
+      modelSave.product_id = this.id;
       this.spinner.show();
       this.admin.postDataApi('updateProduct', modelSave).subscribe(success => {
         this.spinner.hide();
@@ -137,6 +152,18 @@ export class AddEditProductComponent implements OnInit {
       );
     };
     reader.readAsDataURL(event.target.files[0]);
+  }
+
+  selectSupplier(data){
+   this.model.supplier_id = data;
+  }
+
+  goBack = (isForBack: boolean): void => {
+    if (isForBack) {
+      this.router.navigate(['dashboard/product/view-product', { for: 'back' }]);
+    } else {
+      this.router.navigate(['dashboard/product/view-product']);
+    }
   }
 
 }

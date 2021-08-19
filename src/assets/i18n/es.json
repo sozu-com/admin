@@ -1167,7 +1167,8 @@
       "Negotiating": "Negociando",
       "Layaway": "Layaway",
       "Deal Done": "Trato hecho",
-      "Lead Lost": "Plomo perdido"
+      "Lead Lost": "Plomo perdido",
+      "chooseSupplier": "Elija proveedor"
     },
     "pagination": {
       "showing": "Mostrando",
@@ -1455,6 +1456,7 @@
       "wantToDeleteProject": "¿Quieres eliminar este proyecto?",
       "wantToDeleteHotel": "¿Quieres eliminar este hotel?",
       "wantToDeleteOffice": "¿Quieres eliminar este Oficina?",
+      "wantToDeleteProduct": "¿Quieres eliminar este Producto?",
       "wantToDeleteAcess": "¿Quieres dar acceso al panel?",
       "wantToDeleteRvoke": "¿Quieres revocar el acceso al panel?",
       "wantToUnapproveProject": "¿Quieres desaprobar este proyecto?",

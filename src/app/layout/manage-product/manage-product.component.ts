@@ -109,9 +109,9 @@ export class ManageProductComponent implements OnInit {
 
   getParametersForProject = (): void => {
     if (this.is_back) {
-      this.selectedLocation.selectedLocalities = JSON.parse(localStorage.getItem('selectedLocalitiesForOffice'));
-      this.selectedLocation.selectedCities = JSON.parse(localStorage.getItem('selectedCitiesForOffice'));
-      this.parameter = JSON.parse(localStorage.getItem('parametersForOffice')) ? JSON.parse(localStorage.getItem('parametersForOffice')) : this.parameter;
+      // this.selectedLocation.selectedLocalities = JSON.parse(localStorage.getItem('selectedLocalitiesForO'));
+      // this.selectedLocation.selectedCities = JSON.parse(localStorage.getItem('selectedCitiesForOffice'));
+      this.parameter = JSON.parse(localStorage.getItem('parametersForProduct')) ? JSON.parse(localStorage.getItem('parametersForProduct')) : this.parameter;
     }
     this.initializedDropDownSetting();
     //this.getCountries();
@@ -137,10 +137,6 @@ export class ManageProductComponent implements OnInit {
       success => {
         //localStorage.setItem('parametersForProject', JSON.stringify(this.parameter));
         this.items = success.data;
-        this.items.forEach(function (element) {
-          element['avgg_price'] = (((parseFloat(element.avg_price) || 0) / (parseFloat(element.avg_carpet_area) || 0)));
-          element['avgg_price_hold'] = (((parseFloat(element.avg_price_hold) || 0) / (parseFloat(element.avg_carpet_area_hold) || 0)));
-        });
         this.total = success.total_count;
         this.spinner.hide();
       },
@@ -180,7 +176,7 @@ export class ManageProductComponent implements OnInit {
     if (this.parameter.userType === 'agency') {
       input.agency_id = this.parameter.id;
     }
-    this.admin.postDataApi('getOffice', input).subscribe(
+    this.admin.postDataApi('getProducts', input).subscribe(
       success => {
         this.exportfinalData = success['data'];
         this.exportData();
@@ -197,37 +193,22 @@ export class ManageProductComponent implements OnInit {
       for (let index = 0; index < this.exportfinalData.length; index++) {
         const p = this.exportfinalData[index];
         let obj = {
-          'Office Name': p.name || '',
-          'City': (p.city || {}).name || '',
-          'Locality': (p.locality || {}).name || '',
-          'Location': p.address || '',
-          'Latitude': p.lat || '',
-          'Longitude': p.lng || '',
-          'Developer Name': p.developer && p.developer.name ? p.developer.name : '',
-          'Agency Name': p.agency && p.agency.name ? p.agency.name : '',
-          'Legal Entity Name': p.legal_entity && p.legal_entity.comm_name ? p.legal_entity.comm_name : '',
-          'Manager Name': p.manager && p.manager.name ? p.manager.name : '',
-          'Company Name': p.company && p.company.name ? p.company.name : '',
-          'Possession Status': p.possession_status && this.language_code == 'en' ? p.possession_status.name_en : p.possession_status && this.language_code == 'es' ?
-                               p.possession_status.name_es : '',
-          'Total Square Meters': parseInt(p.properties_count_all) || 0,
-          'Contributor': parseInt(p.rent_count_all) || 0
+          'Id': p.id,
+          'Product Name': p.name || '',
+          'Supplier': p.supplier? p.supplier.comm_name : '',
+          'Price': p.price || '',
+          'Quantity': p.quantity || ''
         };
 
-        this.selectedColumnsToShow.office_name == 0 ? delete obj['Office Name'] : undefined;
-        this.selectedColumnsToShow.developer == 0 ? delete obj['Developer Name'] : undefined;
-        this.selectedColumnsToShow.agency == 0 ? delete obj['Agency Name'] : undefined;
-        this.selectedColumnsToShow.legal_entity == 0 ? delete obj['Legal Entity Name'] : undefined;
-        this.selectedColumnsToShow.contributor == 0 ? delete obj['Contributor'] : undefined;
-        this.selectedColumnsToShow.managed_company == 0 && !p.manager ? delete obj['Manager Name'] : undefined;
-        this.selectedColumnsToShow.managed_company == 0 && !p.company ? delete obj['Company Name'] : undefined;
-        this.selectedColumnsToShow.possesion == 0 ? delete obj['Possession Status'] : undefined;
-        this.selectedColumnsToShow.parking_lots == 0 ? delete obj['Parking Lots'] : undefined;
-        this.selectedColumnsToShow.total_square_meters == 0 ? delete obj['Total Square Meters'] : undefined;
+        this.selectedColumnsToShow.id == 0 ? delete obj['Id'] : undefined;
+        this.selectedColumnsToShow.name == 0 ? delete obj['Product Name'] : undefined;
+        this.selectedColumnsToShow.suppliers == 0 ? delete obj['Supplier'] : undefined;
+        this.selectedColumnsToShow.price == 0 ? delete obj['Price'] : undefined;
+        this.selectedColumnsToShow.quantity == 0 ? delete obj['Quantity'] : undefined;
 
         exportfinalData.push(obj);
       }
-      this.exportAsExcelFile(exportfinalData, 'Office-');
+      this.exportAsExcelFile(exportfinalData, 'Product-');
     }
   }
 
@@ -288,7 +269,7 @@ export class ManageProductComponent implements OnInit {
 
   getProjectSelection = (isFirstTime: boolean, keyword?: string): void => {
     this.spinner.show();
-    this.admin.postDataApi('getOfficeSelection', { name: keyword }).subscribe((response) => {
+    this.admin.postDataApi('getProductSelection', { name: keyword }).subscribe((response) => {
       this.spinner.hide();
       this.select_columns_list = (response.data || []).sort((a, b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0));
       (this.select_columns_list || []).forEach((data, index) => {
@@ -323,37 +304,25 @@ export class ManageProductComponent implements OnInit {
 
   makeSelectedColumns = (id: number, index: number): void => {
     switch (id) {
-      case 1:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.office_name;
-        break;
       case 2:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.developer;
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.id;
         break;
       case 3:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.agency;
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.name;
         break;
       case 4:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.legal_entity;
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.suppliers;
         break;
       case 5:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.contributor;
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.price;
         break;
       case 6:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.managed_company;
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.quantity;
         break;
       case 7:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.possesion;
-        break;
-      case 8:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.parking_lots;
-        break;
-      case 9:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.total_square_meters;
-        break;
-      case 17:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.action;
         break;
-      case 21:
+      case 1:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.image;
         break;
       default:
@@ -364,7 +333,7 @@ export class ManageProductComponent implements OnInit {
 
   getProjectHome = (): void => {
     //this.spinner.show();
-    this.admin.postDataApi('getOfficeHome', { user_id: JSON.parse(localStorage.getItem('user-id')) || 0 }).subscribe((response) => {
+    this.admin.postDataApi('getProductHome', { user_id: JSON.parse(localStorage.getItem('user-id')) || 0 }).subscribe((response) => {
       this.selectedColumnsToShow = response.data || {};
       //this.spinner.hide();
     }, (error) => {
@@ -387,7 +356,7 @@ export class ManageProductComponent implements OnInit {
 
   applyShowSelectedColumns = (): void => {
     this.spinner.show();
-    this.admin.postDataApi('updateOfficeHome', this.getPostRequestForColumn()).subscribe((response) => {
+    this.admin.postDataApi('updateProductHome', this.getPostRequestForColumn()).subscribe((response) => {
       this.spinner.hide();
       this.closeSelectColumnsPopup();
       this.getProjectHome();
@@ -400,22 +369,18 @@ export class ManageProductComponent implements OnInit {
   getPostRequestForColumn = (): any => {
     return {
       user_id: JSON.parse(localStorage.getItem('user-id')) || 0,
-      office_name: (this.select_columns_list[0] || []).isCheckBoxChecked,
-      developer: (this.select_columns_list[1] || []).isCheckBoxChecked,
-      agency: (this.select_columns_list[2] || []).isCheckBoxChecked,
-      legal_entity: (this.select_columns_list[3] || []).isCheckBoxChecked,
-      contributor: (this.select_columns_list[4] || []).isCheckBoxChecked,
-      managed_company: (this.select_columns_list[5] || []).isCheckBoxChecked,
-      possesion: (this.select_columns_list[6] || []).isCheckBoxChecked,
-      parking_lots: (this.select_columns_list[7] || []).isCheckBoxChecked,
-      total_square_meters: (this.select_columns_list[8] || []).isCheckBoxChecked,
-      action: (this.select_columns_list[9] || []).isCheckBoxChecked,
-      image: (this.select_columns_list[10] || []).isCheckBoxChecked,
+      name: (this.select_columns_list[3] || []).isCheckBoxChecked,
+      suppliers: (this.select_columns_list[6] || []).isCheckBoxChecked,
+      price: (this.select_columns_list[4] || []).isCheckBoxChecked,
+      quantity: (this.select_columns_list[5] || []).isCheckBoxChecked,
+      action: (this.select_columns_list[0] || []).isCheckBoxChecked,
+      id: (this.select_columns_list[1] || []).isCheckBoxChecked,
+      image: (this.select_columns_list[2] || []).isCheckBoxChecked,
     };
   }
 
   deletePopup(item: any, index: number) {
-    this.parameter.text = this.translate.instant('message.error.wantToDeleteOffice');
+    this.parameter.text = this.translate.instant('message.error.wantToDeleteProduct');
 
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,

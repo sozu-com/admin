@@ -1166,7 +1166,8 @@
       "Negotiating": "Negotiating",
       "Layaway": "Layaway",
       "Deal Done": "Deal Done",
-      "Lead Lost": "Lead Lost"
+      "Lead Lost": "Lead Lost",
+      "chooseSupplier": "Choose supplier"
     },
     "pagination": {
       "showing": "Showing",
@@ -1454,6 +1455,7 @@
       "wantToDeleteProject": "You want to delete this project?",
       "wantToDeleteHotel": "You want to delete this hotel?",
       "wantToDeleteOffice": "You want to delete this office?",
+      "wantToDeleteProduct": "You want to delete this product?",
       "wantToDeleteAcess": "You want to give access of panel?",
       "wantToDeleteRvoke": "You want to revoke the access to panel?",
       "wantToUnapproveProject": "You want to disapprove this project?",

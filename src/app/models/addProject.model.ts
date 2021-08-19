@@ -369,4 +369,5 @@ export class AddProdutModel {
   created_by: any;
   status: any;
   is_blocked: any;
+  product_id: number;
 }

@@ -620,9 +620,8 @@ export class ManageOfficeComponent implements OnInit {
           'Company Name': p.company && p.company.name ? p.company.name : '',
           'Possession Status': p.possession_status && this.language_code == 'en' ? p.possession_status.name_en : p.possession_status && this.language_code == 'es' ?
                                p.possession_status.name_es : '',
-          'Parking Lots': parseInt(this.totalParkingCount(p)) || 0,
-          'Total Square Meters': parseInt(p.properties_count_all) || 0,
-          'Contributor': parseInt(p.rent_count_all) || 0
+          'Parking Lots': this.totalParkingCount(p) || 0,
+          'Total Square Meters': parseInt(p.total_square_meters) || 0
         };
 
         this.selectedColumnsToShow.office_name == 0 ? delete obj['Office Name'] : undefined;

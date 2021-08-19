@@ -125,12 +125,13 @@
                 <div class="row">
                   <div class="col-12">
                     <div class="form-group-3">
-                      <label class="p16-two">{{'addForm.selectSupplier' | translate}} <span
-                          class="color-red">*</span></label>
-                      <select title="{{'table.title.chooseSupplier' | translate}}" name="supplier" required
+                      <label class="p16-two">{{'addForm.selectSupplier' | translate}}</label>
+                        <!-- <span class="color-red">*</span> -->
+                      <select title="{{'table.title.chooseSupplier' | translate}}" name="supplier"
                         class="form-control" (change)="selectSupplier($event.target.value, '')">
+                        <option value="" disabled>{{'addForm.selectSupplier' | translate}}</option>
                         <option *ngFor="let supplier of suppliers" value="{{supplier.id}}"
-                          [selected]="supplier.id == model.supplier_id">{{country.name_en}}</option>
+                          [selected]="supplier.id == model.supplier_id">{{supplier.comm_name}}</option>
                       </select>
                     </div>
                   </div>
