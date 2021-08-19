@@ -133,6 +133,10 @@ const routes: Routes = [
       {
         path: 'properties-for-sale',
         loadChildren: './properties-for-sale/properties-for-sale.module#PropertiesForSaleModule'
+      },
+      {
+        path: 'product',
+        loadChildren: './manage-product/manage-product.module#ManageProductModule'
       }
     ]
   }

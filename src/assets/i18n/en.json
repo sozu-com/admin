@@ -853,6 +853,8 @@
       "contributor": "Contributor",
       "statusHistory": "Status History",
       "city": "City",
+      "supplier": "Supplier",
+      "cuantity": "Cuantity",
       "possesion": {
         "label": "Possesion",
         "park":"Parking Lots",
@@ -2070,6 +2072,7 @@
     "manageDevelopers": "Manage Developers",
     "manageLeads": "Manage Leads",
     "manageProjects": "Manage Projects",
+    "manageProduct": "Manage Products",
     "manageHotels": "Manage Hotels",
     "hotelCompany": "Hotel company",
     "manageProperties": "Manage Properties",
@@ -2120,7 +2123,7 @@
     "projectAnalysis": "Project Analysis",
     "locationAnalysis": "Location Analysis",
     "office": "Office",
-    "manageOffice": "Manage Office"
+    "manageOffice": "Manage Offices"
   },
   "commonBlock": {
     "propertiesAvailable": "Properties available",
@@ -3135,6 +3138,9 @@
     "officeAmenityNameE" : "Office Amenity Name (English)",
     "officeAmenityNameS" : "Office Amenity Name (Spanish)",
     "addNewOffice": "Add New Office",
-    "manageOffice": "Manage Office"
+    "manageOffice": "Manage Offices"
+  },
+  "product": {
+    "manageProduct": "Manage Products"
   }
 }

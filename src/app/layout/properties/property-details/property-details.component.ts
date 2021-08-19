@@ -1,14 +1,13 @@
-import { Component, OnInit } from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router'
-import { NgxSpinnerService } from 'ngx-spinner'
-import { IProperty } from 'src/app/common/property'
-import { AdminService } from 'src/app/services/admin.service'
-import { Constant } from 'src/app/common/constants'
-import { PropertyService } from 'src/app/services/property.service'
-import jspdf from 'jspdf'
-import html2canvas from 'html2canvas'
-import { forkJoin } from 'rxjs'
-import { AngularFireAuth } from '@angular/fire/auth'
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { IProperty } from 'src/app/common/property';
+import { AdminService } from 'src/app/services/admin.service';
+import { Constant } from 'src/app/common/constants';
+import { PropertyService } from 'src/app/services/property.service';
+import jspdf from 'jspdf';
+import html2canvas from 'html2canvas';
+import { Location } from '@angular/common';
 
 declare var jsPDF: any
 
@@ -65,17 +64,20 @@ export class PropertyDetailsComponent implements OnInit {
   isShow: boolean = true
   galleryImage : any;
   image360 : any;
+  from: any;
   constructor(
     public admin: AdminService,
     private route: ActivatedRoute,
     public constant: Constant,
     private propertyService: PropertyService,
     private router: Router,private spinner: NgxSpinnerService,
+    private location: Location
   ) {}
 
   ngOnInit() {
     this.property = this.propertyService.property
     this.route.params.subscribe((params) => {
+      this.from = params.for;
       this.getPropertyDetails(params.property_id)
     })
   }
@@ -218,9 +220,13 @@ export class PropertyDetailsComponent implements OnInit {
   }
 
   goBack = (isForBack: boolean): void => {
-    if (isForBack) {
+    if (isForBack && this.from != 'buyerLead') {
       this.router.navigate(['/dashboard/properties/view-properties', { for: 'back' }]);
-    } else {
+    }
+    else if(this.from == 'buyerLead'){
+      this.location.back();
+    }
+     else {
       this.router.navigate(['/dashboard/properties/view-properties']);
     }
   }

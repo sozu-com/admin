@@ -1,4 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Constant } from 'src/app/common/constants';
 import { IProperty } from 'src/app/common/property';
@@ -24,7 +25,8 @@ export class PreferencesPropertyComponent implements OnInit {
 
   public parameter: IProperty = {};
   public scrollbarOptions = { axis: 'y', theme: 'dark', scrollbarPosition: 'inside'};
-  constructor(public constant: Constant, private admin: AdminService, private spinner: NgxSpinnerService) { }
+  constructor(public constant: Constant, private admin: AdminService, private spinner: NgxSpinnerService,
+    private router: Router) { }
 
   ngOnInit() {
     this.parameter.page = this.constant.p;
@@ -52,6 +54,10 @@ export class PreferencesPropertyComponent implements OnInit {
     }, error => {
       this.spinner.hide();
     });
+  }
+
+  goDetailPage = (data): void => {
+    this.router.navigate(['/dashboard/properties/details/' + data.id, { for: 'buyerLead' }]);
   }
 
 }

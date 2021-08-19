@@ -31,7 +31,7 @@
         {{data?.property?.name ? data?.property?.name : ('commonBlock.NA' | translate)}}
         <!-- {{data?.building?.developer?.name ? data?.building?.developer?.name : 'NA'}} -->
       </small>
-      <a title="Building" routerLink="/dashboard/properties/details/{{data.id}}">
+      <a title="Building" href="javascript://" (click)="goDetailPage(data)">
         <h5>{{data?.property?.building.name.slice(0, 35)}}</h5>
       </a>
       <p class="p12">{{data?.property?.building.address.slice(0, 90)}}</p>

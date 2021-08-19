@@ -851,6 +851,8 @@
       "contributor": "colaborador",
       "statusHistory": "Historial de estado",
       "city": "Ciudad",
+      "supplier": "Proveedor",
+      "cuantity": "Cantidad",
       "possesion": {
         "label": "Fecha de entrega",
         "park":"Estacionamientos",
@@ -2065,6 +2067,7 @@
     "manageDevelopers": "Administrar desarrolladores",
     "manageLeads": "Administrar leads",
     "manageProjects": "Administrar proyectos",
+    "manageProduct": "Administrar Producto",
     "manageHotels": "Gestionar Hoteles",
     "hotelCompany": "Empresa hotelera",
     "manageProperties": "Administrar Propiedades",
@@ -3128,5 +3131,8 @@
     "officeAmenityNameS" : "Oficina Amenidades Nombre (Español)",
     "addNewOffice": "Añadir nuevo Oficina",
     "manageOffice": "Gestionar Oficina"
+  },
+  "product": {
+    "manageProduct": "Administrar Producto"
   }
 }
