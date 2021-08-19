@@ -137,6 +137,7 @@
     "addParkingLot":"+ Add parking lot",
     "noparking":"No. parking lots",
     "Type":"Type",
+    "bank":"Bank",
     "Price(each)":"Price(each)",
     "saleParking":"Parking spaces for sale",
     "parkingLot":"Parking lots",
@@ -1461,6 +1462,11 @@
       "wantToBlockLegalEntity": "You want to block this Legal Entity?",
       "wantToUnblockLegalEntity": "You want to unblock this Legal Entity?",
       "wantToDeleteLegalEntity": "You want to delete this Legal Entity?",
+
+      "wantToBlocksuppliers": "You want to block this Supplier?",
+      "wantToUnblocksuppliers": "You want to unblock this Supplier?",
+      "wantToDeletesuppliers": "You want to delete this Supplier?",
+
       "wantToDeleteLead": "You want to delete this Lead?",
       "wantToBlockManager": "You want to block this Manager?",
       "wantToUnblockManager": "You want to unblock this Manager?",
@@ -2078,6 +2084,7 @@
     "manageProperties": "Manage Properties",
     "managePropertiesForSale":"Properties For Sale",
     "manageLegalEntity": "Manage Legal Entity",
+    "managesuppliers": "Manage Suppliers",
     "manageCollections": "Manage Collections",
     "collectionReports": "Collection Reports",
     "generalReport": "General Report",
@@ -2482,6 +2489,7 @@
   },
   "manageLegalEntity": {
     "label": "Manage Legal Entity",
+    "labelSuppliers": "Manage Suppliers",
     "commercialName": "Commercial Name",
     "legalName": "Legal Name",
     "phone": "Phone",
@@ -2491,7 +2499,12 @@
   },
   "addLegalEntity": {
     "editEntity": "Edit Legal Entity",
-    "addEntity": "Add Legal Entity"
+    "addEntity": "Add Legal Entity",
+    "editsupplier": "Edit Supplier",
+    "addsupplier": "Add Supplier",
+    "supplier_name":"Supplier Name",
+    "supplier_info":"Supplier Information",
+    "Commercial_Name":"Commercial Name"
   },
   "collectionReport": {
     "Month": "Month",

@@ -137,6 +137,7 @@
     "addParkingLot":"+ Agregar estacionamiento",
     "noparking":"No estacionamientos",
     "Type":"Tipo",
+    "bank":"Banco",
     "Price(each)":"Precio (cada uno)",
     "saleParking":"Venta de plazas de aparcamiento",
     "parkingLot":"Estacionamientos",
@@ -1460,6 +1461,11 @@
       "wantToUnblockDeveloper": "¿Quieres desbloquear este desarrollador?",
       "wantToDeleteDeveloper": "¿Quieres eliminar este desarrollador?",
       "wantToBlockLegalEntity": "¿Desea bloquear esta entidad jurídica?",
+
+      "wantToBlocksuppliers": "¿Quieres bloquear a este proveedor?",
+      "wantToUnblocksuppliers": "¿Quiere desbloquear este proveedor?",
+      "wantToDeletesuppliers": "¿Quiere eliminar este proveedor?",
+
       "wantToUnblockLegalEntity": "¿Desea desbloquear esta entidad jurídica?",
       "wantToDeleteLegalEntity": "¿Desea eliminar esta entidad jurídica?",
       "wantToDeleteLead": "de querer eliminar este lead?",
@@ -2074,6 +2080,7 @@
     "managePropertiesForSale":"Propiedades en venta",
     "manageCollections": "Administrar colecciones",
     "manageLegalEntity": "Gestionar entidad jurídica",
+    "managesuppliers": "Administrar proveedores",
     "collectionReports": "Informes de colección",
     "generalReport": "Informe general",
     "monthlyReport": "Reporte mensual",
@@ -2476,6 +2483,7 @@
   },
   "manageLegalEntity": {
     "label": "Gestionar entidad jurídica",
+    "labelSuppliers": "Administrar proveedores",
     "commercialName": "Nombre comercial",
     "legalName": "Nombre legal",
     "phone": "Teléfono",
@@ -2485,7 +2493,12 @@
   },
   "addLegalEntity": {
     "editEntity": "Editar entidad legal",
-    "addEntity": "Agregar entidad legal"
+    "addEntity": "Agregar entidad legal",
+    "editsupplier": "Editar proveedor",
+    "addsupplier": "Agregar proveedor",
+    "supplier_name":"Nombre del proveedor",
+    "supplier_info":"Información del proveedor",
+    "Commercial_Name":"Nombre comercial"
   },
   "collectionReport": {
     "collection_id": "ID de colección",

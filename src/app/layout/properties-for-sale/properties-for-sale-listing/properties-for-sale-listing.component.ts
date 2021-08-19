@@ -1117,6 +1117,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
       for (let index = 0; index < this.exportfinalData.length; index++) {
         const p = this.exportfinalData[index];
         let obj = {
+          'ID': p.id || '',
           'Name of Building': (p.building || {}).name || '',
           'Name of Tower': (p.building_towers || {}).tower_name || '',
           'Floor': p.floor_num > 0 ? 'Floor ' + p.floor_num : 'Ground Floor',
@@ -1151,6 +1152,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
         this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.link_unlink_outside_agent == 0 ? delete obj['Outside Agent'] : undefined;
         this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.link_agency == 0 ? delete obj['Agency'] : undefined;
         this.selectedPropertyColumnsToShow.price_per_m2 == 0 ? delete obj['Price per m2'] : undefined;
+        this.selectedPropertyColumnsToShow.property_sale_id == 0 ? delete obj['ID'] : undefined;
         exportfinalData.push(obj);
       }
       new ExcelDownload().exportAsExcelFile(exportfinalData, 'properties_for_sale');
@@ -2011,7 +2013,8 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
       change_seller: (this.select_columns_list[10] || []).isCheckBoxChecked,
       link_unlink_outside_agent: (this.select_columns_list[13] || []).isCheckBoxChecked,
       link_agency: (this.select_columns_list[11] || []).isCheckBoxChecked,
-      price_per_m2: (this.select_columns_list[12] || []).isCheckBoxChecked
+      price_per_m2: (this.select_columns_list[12] || []).isCheckBoxChecked,
+      property_sale_id: (this.select_columns_list[14] || []).isCheckBoxChecked 
     };
   }
 
@@ -2090,6 +2093,9 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
       case 27:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.price_per_m2;
         break;
+      case 28:
+      this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.property_sale_id;
+      break;
       default:
         break;
     }

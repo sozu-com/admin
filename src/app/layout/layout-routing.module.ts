@@ -99,6 +99,10 @@ const routes: Routes = [
         loadChildren: './properties/properties.module#PropertiesModule'
       },
       {
+        path: 'suppliers',
+        loadChildren: './suppliers/suppliers.module#SuppliersModule'
+      },
+      {
         path: 'projects',
         loadChildren: './projects/projects.module#ProjectsModule'
       },

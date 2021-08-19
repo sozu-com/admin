@@ -37,7 +37,7 @@ export class BanksComponent implements OnInit {
     this.parameter.page = this.constant.p;
     this.parameter.lead_sort = 2;
     this.initialCountry = { initialCountry: this.constant.country_code };
-    this.getBanks(this.parameter.page, '', '', '');
+    this.getBanks(this.parameter.page, '', '', '','');
   }
 
   telInputObject(obj) {
@@ -58,13 +58,14 @@ export class BanksComponent implements OnInit {
 
   getPage(page) {
     this.parameter.page = page;
-    this.getBanks(this.parameter.page, this.parameter.name, this.parameter.phone, this.parameter.email);
+    this.getBanks(this.parameter.page, this.parameter.name, this.parameter.phone, this.parameter.email,this.parameter.bank_name);
   }
 
-  getBanks(page, name, phone, email) {
+  getBanks(page,bank_name, name, phone, email) {
     this.spinner.show();
     this.parameter.page = page;
     this.parameter.name = name;
+    this.parameter.bank_name = bank_name;
     this.parameter.phone = phone;
     this.parameter.email = email;
 
@@ -82,7 +83,7 @@ export class BanksComponent implements OnInit {
   setLeadSort() {
     this.parameter.lead_sort = this.parameter.lead_sort === 2 ? 1 : 2;
     this.getBanks(this.parameter.page, this.parameter.name,
-      this.parameter.phone, this.parameter.email);
+      this.parameter.phone, this.parameter.email,this.parameter.bank_name);
   }
 
 
