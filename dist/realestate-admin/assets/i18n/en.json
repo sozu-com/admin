@@ -137,6 +137,7 @@
     "addParkingLot":"+ Add parking lot",
     "noparking":"No. parking lots",
     "Type":"Type",
+    "bank":"Bank",
     "Price(each)":"Price(each)",
     "saleParking":"Parking spaces for sale",
     "parkingLot":"Parking lots",
@@ -253,6 +254,14 @@
     "locationTitle": "Location",
     "floorPlanImage": "Floor Plan Image",
     "addfloorPlan": "+ Add Floor plan",
+    "addProduct": "Add Product",
+    "editProduct": "Edit Product",
+    "nameOfProduct": "Name Of Product",
+    "technicalSpecificationDocument": "Technical Specification Document",
+    "quantity": "Quantity",
+    "inventory": "Inventory",
+    "selectSupplier": "Select Supplier",
+    "price": "Price",
     "moreImages": {
       "label": "Images",
       "addMoreBtn": "+ Add more images",
@@ -713,7 +722,13 @@
       "chooseDate": "Choose Date",
       "parkingLotSpacesEn": "Parking lot spaces name (English)",
       "parkingLotSpacesEs": "Parking lot spaces name (Spanish)",
-      "manageCommissions": "Manage Commissions"
+      "manageCommissions": "Manage Commissions",
+      "nameOfProduct": "Name Of Product",
+      "technicalSpecificationDocument": "Technical Specification Document",
+      "quantity": "Quantity",
+      "inventory": "Inventory",
+      "selectSupplier": "Select Supplier",
+      "price": "Price"
     }
   },
   "charts": {
@@ -853,6 +868,8 @@
       "contributor": "Contributor",
       "statusHistory": "Status History",
       "city": "City",
+      "supplier": "Supplier",
+      "quantity": "quantity",
       "possesion": {
         "label": "Possesion",
         "park":"Parking Lots",
@@ -1459,6 +1476,11 @@
       "wantToBlockLegalEntity": "You want to block this Legal Entity?",
       "wantToUnblockLegalEntity": "You want to unblock this Legal Entity?",
       "wantToDeleteLegalEntity": "You want to delete this Legal Entity?",
+
+      "wantToBlocksuppliers": "You want to block this Supplier?",
+      "wantToUnblocksuppliers": "You want to unblock this Supplier?",
+      "wantToDeletesuppliers": "You want to delete this Supplier?",
+
       "wantToDeleteLead": "You want to delete this Lead?",
       "wantToBlockManager": "You want to block this Manager?",
       "wantToUnblockManager": "You want to unblock this Manager?",
@@ -2070,11 +2092,13 @@
     "manageDevelopers": "Manage Developers",
     "manageLeads": "Manage Leads",
     "manageProjects": "Manage Projects",
+    "manageProduct": "Manage Products",
     "manageHotels": "Manage Hotels",
     "hotelCompany": "Hotel company",
     "manageProperties": "Manage Properties",
     "managePropertiesForSale":"Properties For Sale",
     "manageLegalEntity": "Manage Legal Entity",
+    "managesuppliers": "Manage Suppliers",
     "manageCollections": "Manage Collections",
     "collectionReports": "Collection Reports",
     "generalReport": "General Report",
@@ -2120,7 +2144,7 @@
     "projectAnalysis": "Project Analysis",
     "locationAnalysis": "Location Analysis",
     "office": "Office",
-    "manageOffice": "Manage Office"
+    "manageOffice": "Manage Offices"
   },
   "commonBlock": {
     "propertiesAvailable": "Properties available",
@@ -2479,6 +2503,7 @@
   },
   "manageLegalEntity": {
     "label": "Manage Legal Entity",
+    "labelSuppliers": "Manage Suppliers",
     "commercialName": "Commercial Name",
     "legalName": "Legal Name",
     "phone": "Phone",
@@ -2488,7 +2513,12 @@
   },
   "addLegalEntity": {
     "editEntity": "Edit Legal Entity",
-    "addEntity": "Add Legal Entity"
+    "addEntity": "Add Legal Entity",
+    "editsupplier": "Edit Supplier",
+    "addsupplier": "Add Supplier",
+    "supplier_name":"Supplier Name",
+    "supplier_info":"Supplier Information",
+    "Commercial_Name":"Commercial Name"
   },
   "collectionReport": {
     "Month": "Month",
@@ -3135,6 +3165,9 @@
     "officeAmenityNameE" : "Office Amenity Name (English)",
     "officeAmenityNameS" : "Office Amenity Name (Spanish)",
     "addNewOffice": "Add New Office",
-    "manageOffice": "Manage Office"
+    "manageOffice": "Manage Offices"
+  },
+  "product": {
+    "manageProduct": "Manage Products"
   }
 }
