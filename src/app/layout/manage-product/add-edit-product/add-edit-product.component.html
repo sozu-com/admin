@@ -128,7 +128,7 @@
                       <label class="p16-two">{{'addForm.selectSupplier' | translate}}</label>
                         <!-- <span class="color-red">*</span> -->
                       <select title="{{'table.title.chooseSupplier' | translate}}" name="supplier"
-                        class="form-control" (change)="selectSupplier($event.target.value, '')">
+                        class="form-control" (change)="selectSupplier($event.target.value)">
                         <option value="" disabled>{{'addForm.selectSupplier' | translate}}</option>
                         <option *ngFor="let supplier of suppliers" value="{{supplier.id}}"
                           [selected]="supplier.id == model.supplier_id">{{supplier.comm_name}}</option>
