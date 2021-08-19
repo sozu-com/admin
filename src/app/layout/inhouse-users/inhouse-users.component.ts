@@ -944,7 +944,7 @@ export class InhouseUsersComponent implements OnInit {
     {"acl_id":51,"acl":{"name":"Hotel Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},
     {"acl_id":52,"acl":{"name":"Hotel Companies Management"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},
     {"acl_id":53,"acl":{"name":"Manage Office"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1},
-    {"acl_id":54,"acl":{"name":"Manage suppliers"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1}]
+    {"acl_id":54,"acl":{"name":"Manage Suppliers"},"show":false,"can_create":1,"can_update":1,"can_read":1,"can_delete":1,"can_purge":1,"can_crud":1}]
     if (this.model.img_loader || this.model.logo_loader) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.uploadingImage'), 'error');
       return false;

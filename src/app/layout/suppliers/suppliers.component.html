@@ -9,7 +9,7 @@
       </div>
       <div class="col-md-6 col-6">
         <div class="btn-cont text-right">
-            <a *ngIf="admin?.admin_acl['Manage suppliers']?.can_create==1" class="btn btn-primary" 
+            <a *ngIf="admin?.admin_acl['Manage Suppliers']?.can_create==1" class="btn btn-primary" 
             href="javascript://" routerLink="/dashboard/suppliers/add-supplier/0">{{'table.addNewBtn' | translate}}</a>
         </div>
       </div>
@@ -17,7 +17,7 @@
 <div class="row">
   <div class="col-md-12">
     <div class="add-new text-right">
-       <a *ngIf="admin?.admin_acl['Manage suppliers']?.can_create==1" class="btn" href="javascript://" (click)="getExportlisting()">
+       <a *ngIf="admin?.admin_acl['Manage Suppliers']?.can_create==1" class="btn" href="javascript://" (click)="getExportlisting()">
           {{'table.exportDataBtn' | translate}}</a>
     </div>
  </div>
@@ -120,14 +120,14 @@
               <!-- <td><input name="have_dev_panel_access{{i}}" disabled class="form-control checkbox_size" type="checkbox" [checked]="item?.legal_reps?.have_dev_panel_access ? 'checked' : ''" readonly> </td> -->
               <td>
                 <div class="table-actions">
-                  <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Manage suppliers']?.can_update==0" 
+                  <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Manage Suppliers']?.can_update==0" 
                     (click)="editUser(item)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
-                  <button [disabled]="admin?.admin_acl['Manage suppliers']?.can_delete==0"
+                  <button [disabled]="admin?.admin_acl['Manage Suppliers']?.can_delete==0"
                     (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1)" 
                     title="{{item.is_blocked==1 ? ('table.title.unblock' | translate) : ('table.title.block' | translate)}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
                     class="action-icon"><img src="assets/img/block.png" alt="img">
                   </button>
-                  <button [disabled]="admin?.admin_acl['Manage suppliers']?.can_purge==0"
+                  <button [disabled]="admin?.admin_acl['Manage Suppliers']?.can_purge==0"
                     (click)="deletePopup(item, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png" alt="img"></button>
                 </div>
               </td>
