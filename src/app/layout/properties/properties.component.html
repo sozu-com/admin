@@ -799,6 +799,10 @@
                         </td>
                         <td *ngIf="parameter.flag!=5  && selectedPropertyColumnsToShow?.action">
                            <div class="table-actions">
+                              <button [disabled]="admin?.admin_acl['Property Management']?.can_read == 0 " 
+                              (click)="getNotes(p)"
+                              title="Property Notes" class="action-icon"><img
+                                src="assets/img/chat-icon.png" alt="img"></button>
                               <!--this button to open installment modal -->
                               <button class="action-icon disable" 
                               [disabled]="p?.collection && p?.collection?.is_cancelled!=1 && parameter?.flag == 3"
@@ -2507,4 +2511,92 @@
          </div>
       </div>
    </div>
+</div>
+<!-- add note -->
+<a href="javascript://" data-toggle="modal" data-target="#collection-notes" #notesModalOpen></a>
+<div class="modal animated" id="collection-notes">
+  <div class="modal-dialog fadeIndown" style="max-width: 54%; margin-top: 11%;">
+    <div class="modal-content notary-avail">
+      <div class="modal-header popup-header">
+        <h4>{{'addCollection.Notes' | translate}}</h4>
+        <button style="display: none;" type="button" class="close" data-dismiss="modal"
+          #notesModalClose>&times;</button>
+        <button type="button" class="close" (click)="closeNotesModal()">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="white-bg">
+          <div class="row">
+          </div>
+        </div>
+        <div class="form-group-2">
+          <div class="form-group">
+            <label>{{'addCollection.title' | translate}}</label>
+            <input type="text" required class="form-control title" name="title" [(ngModel)]="noted.title">
+          </div>
+        </div>
+        <div class="form-group-2">
+          <div class="form-group">
+            <label>{{'addCollection.note' | translate}}</label>
+            <textarea rows="3" required class="form-control note" name="note" [(ngModel)]="noted.note"></textarea>
+          </div>
+        </div>
+        <div *ngIf="parameter.notes?.length!=0" [ngStyle]="{'max-height':sent_as === 1 ? '250px' : '' }"
+          class="write-note white-bg" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+          <div class="wn-block" *ngFor="let item of parameter.notes; let i=index">
+            <div class="circle">
+              <span></span>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <pre class="p13">{{item?.create_date}}</pre>
+              </div>
+              <div class="col-md-2">
+                <p>{{item?.userinfo?.name}}</p>
+              </div>
+              <div class="col-md-2">
+                <p>{{item?.title}}</p>
+              </div>
+              <div class="col-md-4">
+                <p>{{item?.note}}</p>
+              </div>
+              <div class="col-md-2">
+                <button class="delete" href="javascript://" (click)="deleteNote(item.id, i)">
+                  <i class="fa fa-trash-o" aria-hidden="true" style="margin-left: -18px;"></i>
+                </button>
+              </div>
+              <!-- <div class="col-md-2">
+                <button class="delete" href="javascript://" (click)="deleteLeadPopup(item.id, i)">
+                  <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </button>
+              </div> -->
+              <!-- <div class="col-md-2"> <button class="editt" href="javascript://"
+                  (click)="editLeadPopup('edit',item.id, item,i)">
+                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                </button></div> -->
+            </div>
+
+            <!-- <ng-template #noDeletePermissiom>
+              <a class="delete" href="javascript://">{{'commonBlock.delete' | translate}}</a>
+            </ng-template> -->
+
+
+          </div>
+        </div>
+        <div *ngIf="parameter.notes?.length==0" class="write-note white-bg"
+          [ngStyle]="{'height':sent_as === 1 ? '230px' : '245px' }">
+          <p class="show-not-found">
+            {{'message.error.noNoteFound' | translate}}
+          </p>
+        </div>
+        
+        <div class="col-12">
+          <div class="btn-cont text-right">
+            <button type="submit" class="btn btn-primary" (click)="addNote()">{{'leadDetails.note.addNote' |
+              translate}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

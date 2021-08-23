@@ -834,10 +834,8 @@ export class HotelsComponent implements OnInit {
   }
 
   getProjectHome = (): void => {
-    //this.spinner.show();
     this.admin.postDataApi('getHotelHome', { user_id: JSON.parse(localStorage.getItem('user-id')) || 0 }).subscribe((response) => {
       this.selectedColumnsToShow = response.data || {};
-      //this.spinner.hide();
     }, (error) => {
       this.spinner.hide();
       swal(this.translate.instant('swal.error'), error.error.message, 'error');

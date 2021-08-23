@@ -12,6 +12,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 import { PricePipe } from 'src/app/pipes/price.pipe';
+import { Notes } from 'src/app/models/addProperty.model';
+import { ToastrService } from 'ngx-toastr';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 declare let swal: any;
@@ -19,7 +21,8 @@ declare var $: any;
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
-  styleUrls: ['./projects.component.css']
+  styleUrls: ['./projects.component.css'],
+  providers: [Notes]
 })
 export class ProjectsComponent implements OnInit, OnDestroy {
 
@@ -52,6 +55,8 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   @ViewChild('contributorListModelClose') contributorListModelClose: ElementRef;
   @ViewChild('notesadddModalOpen') notesadddModalOpen: ElementRef;
   @ViewChild('notesadddModalClose') notesadddModalClose: ElementRef;
+  @ViewChild('notesModalOpen') notesModalOpen: ElementRef;
+  @ViewChild('notesModalClose') notesModalClose: ElementRef;
   legalEntities: any[] = [];
   contributor: any[] = [];
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
@@ -70,13 +75,13 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   constructor(
     public constant: Constant,
     public apiConstant: ApiConstants,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute,public noted: Notes,
     public admin: AdminService,
     public projectService: ProjectService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService, private http: HttpClient,
     private router: Router, private elementRef: ElementRef,
-    private price: PricePipe,
+    private price: PricePipe, private toastr: ToastrService,
   ) {
   }
 
@@ -948,5 +953,54 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       image: (this.select_columns_list[20] || []).isCheckBoxChecked,
     };
   }
+  getNotes(item) {
+    this.noted.agent_id = item.id;
+   const input = { agent_id: item.id };
+   this.admin.postDataApi('viewProjectNotes', input).subscribe(r => {
+     this.parameter.notes = r.data;
+     this.notesModalOpen.nativeElement.click();
+   });
+ }
+ addNotes() {
+  this.spinner.show();
+  this.admin.postDataApi('addProjectNote', { note: this.noted.note, title: this.noted.title,
+     agent_id: this.noted.agent_id
+  }).subscribe(r => {
+    this.spinner.hide();
+    this.noted = new Notes();
+    this.parameter.notes.push(r.data);
+    this.toastr.clear();
+    this.toastr.success(this.translate.instant('message.success.addedSuccessfully'), this.translate.instant('swal.success'));
+    this.closeNotesModal();
+  }); 
+}
 
+closeNotesModal() {
+this.notesModalClose.nativeElement.click();
+}
+deleteNote(note_id, index) {
+  this.parameter.text = this.translate.instant('message.error.wantToDeleteNote');
+  swal({
+    html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: this.constant.confirmButtonColor,
+    cancelButtonColor: this.constant.cancelButtonColor,
+    confirmButtonText: 'Delete!'
+  }).then((result) => {
+    if (result.value) {
+      this.deleteLeadNote(note_id, index);
+    }
+  });
+}
+
+
+deleteLeadNote(note_id, index) {
+  this.admin.postDataApi('deleteProjectNotes', { id: note_id }).subscribe(r => {
+    this.parameter.notes.splice(index, 1);
+    this.toastr.clear();
+    this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+    this.closeNotesModal();
+  });
+}
 }
