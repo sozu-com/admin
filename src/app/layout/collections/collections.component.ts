@@ -3662,18 +3662,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         }
       });
     }
-    // this.collection_payments.forEach(element => {
-    //   docDefinition.content[1].columns[0][4].table.body.push([
-    //     { text: element.name_en + ':', border: [false, false, false, false], color: '#858291' },
-    //     { text: element.total_amount? this.price.transform(Number(element.total_amount).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true }
-    //   ])
-    // });
     pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.accountStatments') + ' ' + current_date.toISOString() + '.pdf');
-    // }else if(action === 'print'){
-    //   pdfMake.createPdf(docDefinition).print();
-    // }else{
-    //   pdfMake.createPdf(docDefinition).open();
-    // }
+    
   }
 
   get buyerDocumentationFoldersDetailsLength(): number {

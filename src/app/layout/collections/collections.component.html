@@ -2462,72 +2462,7 @@
               </td>
             </tr>
           </tbody>
-          <!-- <tbody *ngFor="let folder of beneficiaryDocumentationFoldersDetails; let i=index">
-            <tr>
-              <td>
-                <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapseBeneficiary{{i}}" aria-expanded="true">
-                  <img src="assets/img/ic_folder_1.svg">{{'commonBlock.beneficiaryDocumentation' | translate}} - {{folder.beneficiary_name}}
-                </a>
-              </td>
-              <td>{{this.folder.beneficiary_documents.length || 0}}</td>
-              <td></td>
-            </tr>
-            <tr id="collapseBeneficiary{{i}}" class="panel-collapse collapse">
-              <td colspan="3">
-                  <!-- list all documents -->
-                <!-- <div class="write-note white-bg">
-                  <div class="wn-block" *ngFor="let item of folder?.beneficiary_documents; let s=index">
-                    <div class="circle" *ngIf="item?.document_link">
-                      <span></span>
-                    </div>
-                    <p class="time" title="'Click to view'" *ngIf="item?.document_link">
-                      <a target="_blank" href="{{('commonBlock.document' | translate) + ' ' + (s + 1)}}">
-                        {{('commonBlock.document' | translate) + ' ' + (s + 1)}}
-                      </a>
-                    </p>
-                  </div>
-                </div>
-                <div class="padding20 center" *ngIf="folder?.beneficiary_documents?.length == 0">
-                  <p class="show-not-found">
-                    {{'message.error.noDocumentUploadedYet' | translate}}
-                  </p>
-                </div>
-              </td>
-            </tr>
-          </tbody> -->
-            <!-- <tbody *ngFor="let folder of tutorDocumentationFoldersDetails; let i=index">
-            <tr >
-              <td>
-                <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapseTutor{{i}}" aria-expanded="true">
-                  <img src="assets/img/ic_folder_1.svg">{{'commonBlock.tutorDocumentation' | translate}} - {{folder.tutor_name}}
-                </a>
-              </td>
-              <td>{{this.folder.tutor_documents.length || 0}}</td>
-              <td></td>
-            </tr>
-            <tr id="collapseTutor{{i}}" class="panel-collapse collapse">
-              <td colspan="3">
-                  <!-- list all documents -->
-                <!-- <div class="write-note white-bg">
-                  <div class="wn-block" *ngFor="let item of folder?.tutor_documents; let s=index">
-                    <div class="circle" *ngIf="item?.document_link">
-                      <span></span>
-                    </div>
-                    <p class="time" title="'Click to view'" *ngIf="item?.document_link">
-                      <a target="_blank" href="{{('commonBlock.document' | translate) + ' ' + (s + 1)}}">
-                        {{('commonBlock.document' | translate) + ' ' + (s + 1)}}
-                      </a>
-                    </p>
-                  </div>
-                </div>
-                <div class="padding20 center" *ngIf="folder?.tutor_documents?.length == 0">
-                  <p class="show-not-found">
-                    {{'message.error.noDocumentUploadedYet' | translate}}
-                  </p>
-                </div>
-              </td>
-            </tr>
-          </tbody> -->
+        
           <div class="padding20 center" *ngIf="collectionFolders?.length == 0">
             <p class="show-not-found">
               {{'message.error.nnFolderCreated' | translate}}
