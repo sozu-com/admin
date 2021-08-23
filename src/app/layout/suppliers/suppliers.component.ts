@@ -38,6 +38,8 @@ export class SuppliersComponent implements OnInit {
   public selectedColumnsToShow: any = {};
   public isSelectAllColumns: boolean = false;
   public keyword: string = '';public language_code: string;
+  public scrollbarOptions = { axis: 'y', theme: 'dark' };
+  
   constructor(
     public constant: Constant,
     public admin: AdminService,
