@@ -1,34 +1,55 @@
 
 <div class="container-fluid">
   <div class="row">
-      <div class="col-md-6 col-6">
-        <div class="title-group">
-            <h5>{{'manageLegalEntity.labelSuppliers' | translate}}</h5>
-            <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}} {{parameter.total}}</p>
-        </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+      <div class="title-group">
+        <h5>{{'manageLegalEntity.labelSuppliers' | translate}}</h5>
+        <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}} {{parameter.total}}</p>
+    </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+       <div class="form-group" style="float: right;">
+          <button class="action-icon" (click)="getProjectSelection(true)"
+          title="{{'table.title.selectColumns' | translate}}"><i class="fa fa-pause" 
+              style="cursor: pointer;"></i></button>               
+       </div>
+    </div>
+ </div>
+  <div class="row">
+    <div class="col-lg-8 col-md-8 col-sm-3 col-12">
+    
+    </div>
+      <div class="col-lg-2 col-md-2 col-sm-3 col-12">
+        <!-- <div class="add-new text-right"> -->
+          <div class="btn-cont">
+          <a *ngIf="admin?.admin_acl['Manage Suppliers']?.can_create==1"  class="btn btn-primary-new width100P" 
+          href="javascript://" (click)="getExportlisting()">
+             {{'table.exportDataBtn' | translate}}</a>
+       </div>
       </div>
-      <div class="col-md-6 col-6">
+      <div class="col-lg-2 col-md-2 col-sm-3 col-12">
         <div class="btn-cont text-right">
-            <a *ngIf="admin?.admin_acl['Manage Suppliers']?.can_create==1" class="btn btn-primary" 
+            <a *ngIf="admin?.admin_acl['Manage Suppliers']?.can_create==1" class="btn btn-primary-new width100P" 
             href="javascript://" routerLink="/dashboard/suppliers/add-supplier/0">{{'table.addNewBtn' | translate}}</a>
         </div>
       </div>
   </div>
-<div class="row">
+  <br/>
+<!-- <div class="row">
   <div class="col-md-12">
     <div class="add-new text-right">
        <a *ngIf="admin?.admin_acl['Manage Suppliers']?.can_create==1" class="btn" href="javascript://" (click)="getExportlisting()">
           {{'table.exportDataBtn' | translate}}</a>
     </div>
  </div>
-</div>
+</div> -->
 
   <div class="white-bg">
       <div class="tabel-section">
         <div class="table-responsive">
           <table class="table table-striped table-align-left">
             <tr>
-              <th style="width:9%">
+              <th style="width:9%" *ngIf="selectedColumnsToShow?.commercial_name">
                 <div class="table-search">
                     <label>{{'manageLegalEntity.commercialName' | translate}}</label>
                     <div class="searh-3">
@@ -37,7 +58,7 @@
                     </div>
                 </div>
               </th>
-              <th style="width:9%">
+              <th style="width:9%" *ngIf="selectedColumnsToShow?.supplier_name">
                 <div class="table-search">
                     <label>{{'addLegalEntity.supplier_name' | translate}}</label>
                     <div class="searh-3">
@@ -46,7 +67,7 @@
                     </div>
                 </div>
               </th>
-              <th style="width:5%; text-align:left;">
+              <th style="width:5%; text-align:left;" *ngIf="selectedColumnsToShow?.email">
                 <div class="table-search">
                     <label>{{'manageLegalEntity.email' | translate}}</label>
                     <div class="searh-3">
@@ -55,7 +76,7 @@
                     </div>
                 </div>
               </th>
-              <th style="width:4%; text-align:left;">
+              <th style="width:4%; text-align:left;" *ngIf="selectedColumnsToShow?.phone">
                 <div class="table-search">
                     <label>{{'manageLegalEntity.phone' | translate}}</label>
                     <div class="searh-3">
@@ -100,17 +121,21 @@
                    </select>
                 </div>
              </th> -->
-              <th style="width:2%">
+              <th style="width:2%" *ngIf="selectedColumnsToShow?.action">
                 <label>{{'table.th.actions.label' | translate}}</label>
               </th>
             </tr>
       
             <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
-              <td class="text-left">{{item.comm_name ? item.comm_name : ('table.tr.td.NA' | translate)}}</td>
-              <td class="text-left">{{item.legal_name ? item.legal_name : ('table.tr.td.NA' | translate)}}</td>
-              <td class="text-left">{{item.email ? item.email : ('table.tr.td.NA' | translate)}}</td>
-              <td class="text-left" *ngIf="item.phone">{{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
-              <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
+              <td class="text-left" *ngIf="selectedColumnsToShow?.commercial_name">
+                {{item.comm_name ? item.comm_name : ('table.tr.td.NA' | translate)}}</td>
+              <td class="text-left" *ngIf="selectedColumnsToShow?.supplier_name">
+                {{item.legal_name ? item.legal_name : ('table.tr.td.NA' | translate)}}</td>
+              <td class="text-left" *ngIf="selectedColumnsToShow?.email">
+                {{item.email ? item.email : ('table.tr.td.NA' | translate)}}</td>
+              <td class="text-left" *ngIf="selectedColumnsToShow?.phone">
+                {{item.dial_code ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
+              <!-- <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td> -->
               <!-- <td class="text-left">
                 {{item?.legal_reps?.name}} {{item?.legal_reps?.first_surname || ''}} {{item?.legal_reps?.second_surname || ''}}
               </td> -->
@@ -118,7 +143,7 @@
                 {{item?.user?.name || ('table.tr.td.NA' | translate)}}</span></td> -->
               <!-- <td class="text-left" routerLink="/dashboard/projects/view-projects/developer/{{item.id}}">{{item?.user?.name || ('table.tr.td.NA' | translate)}}</td> -->
               <!-- <td><input name="have_dev_panel_access{{i}}" disabled class="form-control checkbox_size" type="checkbox" [checked]="item?.legal_reps?.have_dev_panel_access ? 'checked' : ''" readonly> </td> -->
-              <td>
+              <td *ngIf="selectedColumnsToShow?.action">
                 <div class="table-actions">
                   <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Manage Suppliers']?.can_update==0" 
                     (click)="editUser(item)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
@@ -146,4 +171,67 @@
     <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
   </div>
   
+</div>
+<!-- select columns -->
+<a data-toggle="modal" data-target="#link-select-columns-model" #openSelectColumnsModal style="display: none;"></a>
+<div class="modal" id="link-select-columns-model">
+   <div class="modal-dialog" style="width: max-content; margin: 0 auto;">
+      <div class="modal-content notary-avail">
+         <div class="modal-header popup-header">
+            <h4 class="modal-title">{{'table.title.columnsSelection' | translate}}</h4>
+            <button type="button" class="close" #closeSelectColumnsModal data-dismiss="modal">&times;</button>
+         </div>
+         <div class="modal-body">
+            <p class="modal-title">{{'table.title.selectTheColumnYouWantToVisualize' | translate}}</p>
+          <br/>
+          <div class="row">
+            <div class="col-md-8 col-6">
+                     <label class="p16-two">
+                       <input class="form-control" class="is_commission_sale_enabled" type="checkbox"
+                         name="SelectAll" (change)="changeSelectAll()"  [(ngModel)]="isSelectAllColumns" >
+                       <span style="margin-left: 10px; vertical-align: super;">{{'commonBlock.selectAll' |
+                         translate}}</span>
+                     </label>
+            </div>
+            <div class="col-md-4 col-6 btn-cont">
+               <a class="btn btn-primary pull-right" href="javascript://"
+                  (click)="applyShowSelectedColumns()">{{'filters.location.applyBtn' | translate}}</a>
+            </div>
+         </div>
+         <div class="spacer40"></div>
+            <div class="row">
+               <div class="col-md-8 col-6">
+                  <input style="max-width:200px;background-color: white;" (keyup.enter)="getProjectSelection(false, keyword)" [(ngModel)]="keyword"
+                     class="form-control" type="text" name="keyword"
+                     placeholder="{{'addForm.placeholder.search' | translate}}">
+               </div>
+               <div class="col-md-4 col-5 btn-cont">
+                  <a class="btn btn-primary pull-right" href="javascript://"
+                     (click)="getProjectSelection(false, keyword)">{{'viewProperty.search' | translate}}</a>
+               </div>
+            </div>
+
+            <div class="spacer40"></div>
+            <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+               <table class="table">
+                  <tr *ngFor="let item of select_columns_list; let ii=index">
+                     <td>
+                        <div class="row">
+                           <div class="col-md-12 col-12">
+                              <label class="p16-two">
+                                 <input class="form-control" class="is_commission_sale_enabled" type="checkbox"
+                                        name="checkbox{{ii}}" [(ngModel)]="item.isCheckBoxChecked" (change)="changeSelect()">
+                                 <span style="margin-left: 10px; vertical-align: super;">
+                                    {{this.language_code == 'en' ? item.name_en : item.name_es }}
+                                 </span>
+                                 </label>
+                           </div>
+                        </div>
+                     </td>
+                  </tr>
+               </table>
+            </div>
+         </div>
+      </div>
+   </div>
 </div>

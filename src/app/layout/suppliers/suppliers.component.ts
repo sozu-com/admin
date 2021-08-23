@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -7,8 +7,12 @@ import { IProperty } from 'src/app/common/property';
 import { Constant } from 'src/app/common/constants';
 import { AdminService } from 'src/app/services/admin.service';
 import { TranslateService } from '@ngx-translate/core';
-import { ExcelDownload } from 'src/app/common/excelDownload';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 declare let swal: any;
+declare var $: any;
 
 @Component({
   selector: 'app-suppliers',
@@ -16,7 +20,8 @@ declare let swal: any;
   styleUrls: ['./suppliers.component.css']
 })
 export class SuppliersComponent implements OnInit {
-
+  @ViewChild('openSelectColumnsModal') openSelectColumnsModal: ElementRef;
+  @ViewChild('closeSelectColumnsModal') closeSelectColumnsModal: ElementRef;
   public parameter: IProperty = {};
   items: Array<Users>;
   comm_name: string;
@@ -29,7 +34,12 @@ export class SuppliersComponent implements OnInit {
   developer_id: number;
   legal_entity_id: string;
   private exportfinalData: any[] = [];
-
+  public select_columns_list: any[] = [];
+  public selectedColumnsToShow: any = {};
+  public isSelectAllColumns: boolean = false;
+  public keyword: string = '';public language_code: string;
+  public scrollbarOptions = { axis: 'y', theme: 'dark' };
+  
   constructor(
     public constant: Constant,
     public admin: AdminService,
@@ -40,6 +50,7 @@ export class SuppliersComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getProjectHome();
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.sub = this.route.params.subscribe((params) => {
@@ -179,21 +190,158 @@ export class SuppliersComponent implements OnInit {
       this.spinner.hide();
     });
   }
-
-  exportData = (): void => {
-    if (this.exportfinalData.length > 0) {
+  exportData() {
+    if (this.exportfinalData) {
       const exportfinalData = [];
       for (let index = 0; index < this.exportfinalData.length; index++) {
         const p = this.exportfinalData[index];
-
-        exportfinalData.push({
+        let obj = {
           'Commercial Name': p.comm_name || '',
           'Supplier Name': p.legal_name || '',
           'Email': p.email || '',
           'Phone': p.phone ? p.dial_code + ' ' + p.phone : '' 
-        });
+        };
+        this.selectedColumnsToShow.commercial_name == 0 ? delete obj['Commercial Name'] : undefined;
+        this.selectedColumnsToShow.supplier_name == 0 ? delete obj['Supplier Name'] : undefined;
+        this.selectedColumnsToShow.email == 0 ? delete obj['Email'] : undefined;
+        this.selectedColumnsToShow.phone == 0 ? delete obj['Phone'] : undefined;
+        exportfinalData.push(obj);
       }
-      new ExcelDownload().exportAsExcelFile(exportfinalData, 'Suppliers');
+      this.exportAsExcelFile(exportfinalData, 'Suppliers-');
     }
+  }
+  public exportAsExcelFile(json: any[], excelFileName: string): void {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { data: worksheet },
+      SheetNames: ['data']
+    };
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array'
+    });
+    this.spinner.hide();
+    this.saveAsExcelFile(excelBuffer, excelFileName);
+  }
+
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    const today = new Date();
+    const date =
+      today.getDate() +
+      '-' +
+      today.getMonth() +
+      '-' +
+      today.getFullYear() +
+      '_' +
+      today.getHours() +
+      '_' +
+      today.getMinutes() +
+      '_' +
+      today.getSeconds();
+    fileName = fileName + date;
+    FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
+  }
+
+ 
+  getProjectSelection = (isFirstTime: boolean, keyword?: string): void => {
+    this.spinner.show();
+    this.admin.postDataApi('getSuppliersSelection', { name: keyword }).subscribe((response) => {
+      this.spinner.hide();
+      this.select_columns_list = (response.data || []).sort((a, b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0));
+      (this.select_columns_list || []).forEach((data, index) => {
+        this.makeSelectedColumns(data.id, index);
+      });
+      this.changeSelect();
+      if (isFirstTime) {
+        this.keyword = '';
+        this.isSelectAllColumns = false;
+        this.language_code = localStorage.getItem('language_code');
+        this.openSelectColumnsModal.nativeElement.click();
+      }
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), ((error || {}).error || {}).message, 'error');
+    });
+  }
+
+  changeSelect = (): void => {
+    let index = 0;
+    (this.select_columns_list || []).forEach((data) => {
+      if (data.isCheckBoxChecked) {
+        index += 1;
+      }
+    });
+    if ((this.select_columns_list || []).length == index) {
+      this.isSelectAllColumns = true;
+    } else {
+      this.isSelectAllColumns = false;
+    }
+  }
+
+  makeSelectedColumns = (id: number, index: number): void => {
+    switch (id) {
+      case 1:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.commercial_name;
+        break;
+      case 2:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.supplier_name;
+        break;
+      case 3:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.email;
+        break;
+      case 4:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.phone;
+        break;
+      case 5:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.action;
+        break;
+      default:
+        break;
+    }
+
+  }
+  getProjectHome = (): void => {
+    this.admin.postDataApi('getSuppliersHome', { user_id: JSON.parse(localStorage.getItem('user-id')) || 0 }).subscribe((response) => {
+      this.selectedColumnsToShow = response.data || {};
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
+
+  changeSelectAll = (): void => {
+    (this.select_columns_list || []).forEach((data) => {
+      data.isCheckBoxChecked = this.isSelectAllColumns;
+    });
+  }
+
+  closeSelectColumnsPopup = (): void => {
+    this.keyword = '';
+    this.isSelectAllColumns = false;
+    this.closeSelectColumnsModal.nativeElement.click();
+  }
+
+  applyShowSelectedColumns = (): void => {
+    this.spinner.show();
+    this.admin.postDataApi('updateSuppliersHome', this.getPostRequestForColumn()).subscribe((response) => {
+      this.spinner.hide();
+      this.closeSelectColumnsPopup();
+      this.getProjectHome();
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
+
+  getPostRequestForColumn = (): any => {
+    return {
+      user_id: JSON.parse(localStorage.getItem('user-id')) || 0,
+      commercial_name: (this.select_columns_list[0] || []).isCheckBoxChecked,
+      supplier_name: (this.select_columns_list[1] || []).isCheckBoxChecked,
+      email: (this.select_columns_list[2] || []).isCheckBoxChecked,
+      phone: (this.select_columns_list[3] || []).isCheckBoxChecked,
+      action: (this.select_columns_list[4] || []).isCheckBoxChecked
+    };
   }
 }

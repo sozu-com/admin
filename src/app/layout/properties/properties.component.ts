@@ -3,7 +3,7 @@ import * as moment from 'moment';
 import { UserModel } from 'src/app/models/inhouse-users.model';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { IProperty } from 'src/app/common/property';
-import { SellerSelections, AddPropertyModel } from 'src/app/models/addProperty.model';
+import { SellerSelections, AddPropertyModel, Notes } from 'src/app/models/addProperty.model';
 import { Constant } from 'src/app/common/constants';
 import { AdminService } from 'src/app/services/admin.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -63,7 +63,7 @@ class Invoice {
   selector: 'app-properties',
   templateUrl: './properties.component.html',
   styleUrls: ['./properties.component.css'],
-  providers: [AddPropertyModel, DatePipe, PricePipe]
+  providers: [AddPropertyModel, DatePipe, PricePipe,Notes]
 })
 export class PropertiesComponent implements OnInit, OnDestroy {
   selectedvalue: bank;
@@ -168,6 +168,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   local_storage_parameter: any;
   @ViewChild('notesadddModalOpen') notesadddModalOpen: ElementRef;
   @ViewChild('notesadddModalClose') notesadddModalClose: ElementRef;
+  @ViewChild('notesModalOpen') notesModalOpen: ElementRef;
+  @ViewChild('notesModalClose') notesModalClose: ElementRef;
   public installmentFormGroup: FormGroup;
   public paymentBankDetailsArray: any[] = [];
   private installmentFormGroupSubscription: Subscription;
@@ -202,7 +204,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   constructor(
     public constant: Constant,
     public apiConstant: ApiConstants,
-    public admin: AdminService,
+    public admin: AdminService,public noted: Notes,
     private propertyService: PropertyService,
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
@@ -2701,5 +2703,54 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       this.possessionStatuses = r['data'];
     });
   }
+  getNotes(item) {
+    this.noted.agent_id = item.id;
+   const input = { agent_id: item.id };
+   this.admin.postDataApi('viewPropertyNotes', input).subscribe(r => {
+     this.parameter.notes = r.data;
+     this.notesModalOpen.nativeElement.click();
+   });
+ }
+ addNote() {
+  this.spinner.show();
+  this.admin.postDataApi('addPropertyNote', { note: this.noted.note, title: this.noted.title,
+     agent_id: this.noted.agent_id
+  }).subscribe(r => {
+    this.spinner.hide();
+    this.noted = new Notes();
+    this.parameter.notes.push(r.data);
+    this.toastr.clear();
+    this.toastr.success(this.translate.instant('message.success.addedSuccessfully'), this.translate.instant('swal.success'));
+    this.closeNotesModal();
+  }); 
+}
 
+closeNotesModal() {
+this.notesModalClose.nativeElement.click();
+}
+deleteNote(note_id, index) {
+  this.parameter.text = this.translate.instant('message.error.wantToDeleteNote');
+  swal({
+    html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: this.constant.confirmButtonColor,
+    cancelButtonColor: this.constant.cancelButtonColor,
+    confirmButtonText: 'Delete!'
+  }).then((result) => {
+    if (result.value) {
+      this.deleteLeadNote(note_id, index);
+    }
+  });
+}
+
+
+deleteLeadNote(note_id, index) {
+  this.admin.postDataApi('deletePropertyNotes', { id: note_id }).subscribe(r => {
+    this.parameter.notes.splice(index, 1);
+    this.toastr.clear();
+    this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+    this.closeNotesModal();
+  });
+}
 }

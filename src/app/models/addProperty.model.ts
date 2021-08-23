@@ -87,6 +87,12 @@ export class userDoc {
     name_en: string;
     name_es: string;
 }
+export class Notes {
+    note: string;
+    title : string;
+    agent_id : any;
+    userinfo?:User;
+}
 export class Building {
     id: string;
     name: string;
