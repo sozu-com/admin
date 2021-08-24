@@ -109,7 +109,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   projectAmenities = Array<any>();
   propertyTypes = Array<any>();
   selctedAmenities: Array<any>;
-  selctedFilters: Array<any>;
+  selctedFilters: any;
   selctedProjectAmenities: Array<any>;
   multiDropdownSettings = {};
   //multiDropdownSettingss = {};
@@ -409,15 +409,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       i = i + 1;
     });
   }
-  unsetFilter(item: any) {
-    let i = 0;
-    this.selctedFilters.map(r => {
-      if (r.id == item.id) {
-        this.selctedFilters.splice(i, 1);
-      }
-      i = i + 1;
-    });
-  }
+
   
   unsetProjectAmne(item: any) {
     let i = 0;
@@ -490,18 +482,22 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
 
   getListing(data,value) {
-    console.log(value, "filter");
     this.spinner.show();
     this.getPossessionStatuses();
     this.makePostRequest();
     let input: any = JSON.parse(JSON.stringify(this.parameter));
     if (value) {
-      this.selctedFilters.push(value);
-      //this.selctedFilters.forEach(function (o) {
-        const d = this.selctedFilters.map(o => o.id);
-        console.log(d, "o");
+      if(data == "all"){
+        const d = value.map(o => o.id);
         input.availability_filter = d;
-     // });
+      } else if(data == "select"){
+        this.selctedFilters.push(value);
+        const d = this.selctedFilters.map(o => o.id);
+        input.availability_filter = d;
+      }else if(data == "unselect"){
+        const d = this.parameter.availability_filter.map(o => o.id);
+        input.availability_filter = d;
+      }
     }
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');

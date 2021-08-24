@@ -595,9 +595,9 @@
                               [data]="availabilityStatus" 
                               [(ngModel)]="parameter.availability_filter"
                               [settings]="multiDropdownSettings" 
-                              (onDeSelect)="unsetFilter($event)"
-                              (onSelect)="getListing('selctedFilters',$event)" 
-                              (onSelectAll)="getListing('selctedFilters',$event)">
+                              (onDeSelect)="getListing('unselect',$event)"
+                              (onSelect)="getListing('select',$event)" 
+                              (onSelectAll)="getListing('all',$event)">
                               </ng-multiselect-dropdown>
                               <!-- <select [(ngModel)]="parameter.availability_filter" (change)="getListing()"
                                  name="availability_filter">
@@ -802,7 +802,7 @@
                               <option [selected]="p.for_sale==1" value="1">{{'table.th.buy' | translate}}</option>
                               <option [selected]="p.for_rent==1" value="2">{{'table.th.rent' | translate}}</option>
                               <option [selected]="p.for_hold==1" value="3">{{'table.th.inventory' | translate}}</option>
-                              <!-- <option [selected]="p.for_resale==1" value="4">{{'table.th.resale' | translate}}</option> -->
+                              <option [selected]="p.for_resale==1" value="4">{{'leadDetails.saleAndrent' | translate}}</option>
                            </select>
                         </td>
                         <td *ngIf="parameter.flag!=5  && selectedPropertyColumnsToShow?.is_property_sold">
