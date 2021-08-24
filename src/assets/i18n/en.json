@@ -889,6 +889,7 @@
       "properties": "Properties",
       "propertiesForRent": "Properties Available For Rent",
       "propertiesForSale": "Properties Available For Sale",
+      "propertiesForSaleAndRent": "Properties Available For Sale & Rent",
       "document": "Document",
       "avgPrice": "Avg list price",
       "recordDate": "Record date",

@@ -386,6 +386,12 @@
                   </div>
                 </th>
 
+                <th style="vertical-align:top;width:5%" *ngIf="selectedColumnsToShow?.property_for_sale">
+                  <div class="d-flex table-search">
+                    <span><label>{{'table.th.propertiesForSaleAndRent' | translate}}</label></span>
+                  </div>
+                </th>
+
                 <th style="vertical-align:top;width:5%" *ngIf="selectedColumnsToShow?.list_price">
                   <div class="d-flex table-search">
                     <span><label>{{'table.th.avgPrice2' | translate}}</label></span>
@@ -522,6 +528,11 @@
                   <a title="{{'table.title.clickToViewProperties' | translate}}"
                     routerLink="/dashboard/properties/view-properties/{{p.name}}/1"><span
                       class="green-color">{{p?.sale_count_all | numberWithCommas}}</span></a>
+                </td>
+                <td  *ngIf="selectedColumnsToShow?.property_for_sale">
+                  <a title="{{'table.title.clickToViewProperties' | translate}}"
+                    routerLink="/dashboard/properties/view-properties/{{p.name}}/1"><span
+                      class="green-color">{{((p?.rent_and_sale_count_all || 0) + (p?.sale_count_all || 0) + (p?.rent_count_all || 0)) | numberWithCommas}}</span></a>
                 </td>
                 <td  *ngIf="selectedColumnsToShow?.list_price"><span>${{ p.avg_price ? (p.avg_price | number : '1.2-2') : 0.00}}</span></td>
                 <td  *ngIf="selectedColumnsToShow?.carpet_area"><span>{{ p.avg_carpet_area ? (p.avg_carpet_area | number : '1.2-2') : 0.00}}</span></td>
