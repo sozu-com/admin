@@ -1524,6 +1524,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
           'Configuration Half Bath': p.configuration ? p.configuration.half_bathroom + ' Half Bath' : '0 Half Bath',
           'List Price': p.min_price || 0,
           'Final Price': p.final_price || 0,
+          'Rent Price': p.rent_price || 0,
           'Price per m2': p.avgg_price || 0,
           'Commercial offers': p.offer_count || 0,
           'Carpet Area': p.max_area || 0,
@@ -1553,6 +1554,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         this.selectedPropertyColumnsToShow.configuration == 0 ? delete obj['Configuration Half Bath'] : undefined;
         this.selectedPropertyColumnsToShow.list_price == 0 ? delete obj['List Price'] : undefined;
         this.selectedPropertyColumnsToShow.final_price == 0 ? delete obj['Final Price'] : undefined;
+        this.selectedPropertyColumnsToShow.rent_price == 0 ? delete obj['Rent Price'] : undefined;
         this.selectedPropertyColumnsToShow.commercial_offers == 0 ? delete obj['Commercial offers'] : undefined;
         this.selectedPropertyColumnsToShow.carpet_area == 0 ? delete obj['Carpet Area'] : undefined;
         this.selectedPropertyColumnsToShow.commercialized_sozu == 0 ? delete obj['Commercialized by SOZU'] : undefined;
