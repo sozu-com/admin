@@ -267,8 +267,6 @@
             [disabled]="this.parameter.propertyDetails.collection && this.parameter.propertyDetails.collection.is_cancelled != 1 && this.us.permissions && this.us.permissions.can_collection_agent != 1">
           <span class="checkmark">{{astatus.name}}</span>
         </label>
-
-        <div class="clearfix"></div>
       </div>
 <!-- 
       <div class="spacer15"></div>
@@ -350,12 +348,22 @@
               [(ngModel)]="newcarpet_area.area">
           </div>
         </div>
-        <div class="col-md-4 col-sm-12 col-12">
+        <div class="col-md-4 col-sm-12 col-12" *ngIf="model.availabilityStatusId != 2">
           <div class="form-group-3 eap">
             <label class="p16-two">{{'addForm.enterPrice' | translate}} <span class="color-red">*</span></label>
-            <input required class="form-control" type="number" step="0.01" name="price[{{c}}]" placeholder="{{'addForm.placeholder.amountShouldBeIn' | translate}}"
-              [(ngModel)]="newcarpet_area.price" 
-              [disabled]="this.parameter.propertyDetails.collection && this.parameter.propertyDetails.collection.is_cancelled != 1 && this.us.permissions && this.us.permissions.can_collection_agent != 1">
+            <input required class="form-control" type="number" step="0.01" 
+              name="price[{{c}}]" placeholder="{{'addForm.placeholder.amountShouldBeIn' | translate}}"
+              [(ngModel)]="newcarpet_area.price"
+              [readonly]="this.parameter.propertyDetails.collection && this.parameter.propertyDetails.collection.is_cancelled != 1 
+              && this.us.permissions && this.us.permissions.can_collection_agent != 1 && model.availabilityStatusId==2">
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12 col-12" *ngIf="model.availabilityStatusId == 2">
+          <div class="form-group-3 eap">
+            <label class="p16-two">{{'addForm.enterPrice' | translate}}</label>
+            <input  class="form-control" type="number" step="0.01" 
+              name="price[{{c}}]" placeholder="{{'addForm.placeholder.amountShouldBeIn' | translate}}"
+              [(ngModel)]="newcarpet_area.price" [readonly]="model.availabilityStatusId==2">
           </div>
         </div>
         <!-- <div class="col-md-2 col-sm-12 col-12">
@@ -371,6 +379,24 @@
               placeholder="{{'addForm.placeholder.inPercent' | translate}}"> -->
             <input  class="form-control" type="text"  name="property_key" placeholder="{{'addForm.propertyKey' | translate}}"
               [(ngModel)]="model.property_key" autocomplete="off" minlength="1" maxlength="25">
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12 col-12" *ngIf="model.availabilityStatusId == 2">
+          <div class="form-group-3 eap">
+            <label class="p16-two">{{'addForm.enterRentPrice' | translate}} <span class="color-red">*</span></label>
+            <input required class="form-control" type="number" step="0.01" name="rent_price[{{c}}]" 
+            placeholder="{{'addForm.placeholder.amountShouldBeIn' | translate}}" [(ngModel)]="newcarpet_area.rent_price" 
+              [disabled]="this.parameter.propertyDetails.collection && this.parameter.propertyDetails.collection.is_cancelled != 1 
+              && this.us.permissions && this.us.permissions.can_collection_agent != 1">
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12 col-12" *ngIf="model.availabilityStatusId == 4">
+          <div class="form-group-3 eap">
+            <label class="p16-two">{{'addForm.enterRentPrice' | translate}} <span class="color-red">*</span></label>
+            <input required class="form-control" type="number" step="0.01" name="rent_price[{{c}}]" 
+            placeholder="{{'addForm.placeholder.amountShouldBeIn' | translate}}" [(ngModel)]="newcarpet_area.rent_price" 
+              [disabled]="this.parameter.propertyDetails.collection && this.parameter.propertyDetails.collection.is_cancelled != 1 
+              && this.us.permissions && this.us.permissions.can_collection_agent != 1">
           </div>
         </div>
       </div>

@@ -184,7 +184,7 @@ export interface IProperty {
   action_filter?: number;
   seller_name?: string;
   agent_name?: string;
-  availability_filter?: number;
+  availability_filter?:Array<any>;
   sold_filter?: number;
   bulk_approve_property?: number;
   bulk_approve_project?: number;

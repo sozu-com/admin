@@ -105,9 +105,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   baseUrl = this.admin.baseUrl + 'exportProperties';
   is_back: boolean;
   amenities = Array<any>();
+  availabilityStatus = Array<any>();
   projectAmenities = Array<any>();
   propertyTypes = Array<any>();
   selctedAmenities: Array<any>;
+  selctedFilters: any;
   selctedProjectAmenities: Array<any>;
   multiDropdownSettings = {};
   //multiDropdownSettingss = {};
@@ -128,6 +130,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     { is_selected: false, id: 9, name_en: 'Presale', name_es: 'Preventa' },
     { is_selected: false, id: 8, name_en: 'Sale', name_es: 'Venta' }
   ];
+  
   bedrooms: any = [
     { is_selected: false, name: '1' },
     { is_selected: false, name: '2' },
@@ -180,6 +183,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   base64: any;
   fullName: any;
   public multiDropdownSettingsForLocation = {};
+  public multiDropdownSettingsForfilter = {};
   public language_code: string;
   public selectedLocation: { selectedCountry: string, selectedStates: any[], selectedCities: any[], selectedLocalities: any[] } =
     { selectedCountry: '', selectedStates: [], selectedCities: [], selectedLocalities: [] };
@@ -268,10 +272,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.configurationCount = ['1', '2', '3', '4', '5+'];
     this.language_code = localStorage.getItem('language_code');
     this.getPropertyHome();
+    this.getPropertyFilter();
     this.iniDropDownSetting();
     this.initializedDropDownSetting();
+    this.initializedDropDownSettingfor();
     // this.iniDropDownSettings();
     this.selctedAmenities = [];
+    this.selctedFilters = [];
     this.selctedProjectAmenities = [];
     this.seller_type = 1;
     this.locale = {
@@ -290,7 +297,6 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     };
 
     this.route.params.subscribe(params => {
-      console.log(params,"params");
       this.project_id = JSON.parse(localStorage.getItem('project_id'));
       this.parameter.keyword = params.name;
       if (params.property_id) {
@@ -300,10 +306,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       }
       this.parameter.project_id = this.project_id;
       this.parameter.property_id = params.property_id || '';
-     
-      if (params.availability_filter) {
-        this.parameter.availability_filter = params.availability_filter;
-      }
+      
+      // if (params.availability_filter) {
+      //   this.parameter.availability_filter = params.availability_filter;
+      // }
       if (params.type === 'agent') {
         this.parameter.agent_id = params.id;
       } else if (params.type === 'agency') {
@@ -341,7 +347,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     //this.getCountries();
     this.getPropertyConfigurations();
     if (!this.is_back) {
-      this.getListing();
+      this.getListing(null,null);
     }
     this.getPropertyTypes();
     this.getPropertyAmenities();
@@ -364,7 +370,15 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     localStorage.removeItem('project_id');
 
   }
-
+  getPropertyFilter(){
+   this.availabilityStatus = [
+      //{ id: 0, name_en: 'All', name_es: 'All'},
+      { id: 1, name_en: 'For Sale', name_es: 'En venta'},
+      { id: 2, name_en: 'Rent', name_es: 'Renta'},
+      { id: 3, name_en: 'Inventory', name_es: 'Inventario'},
+      { id: 4, name_en: 'For Sale & Rent', name_es: 'En venta & Renta'}
+    ];
+  }
   getParametersForProperty = (): void => {
     if (this.is_back) {
       this.selectedLocation.selectedLocalities = JSON.parse(localStorage.getItem('selectedLocalitiesForProperty'));
@@ -396,6 +410,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     });
   }
 
+  
   unsetProjectAmne(item: any) {
     let i = 0;
     this.selctedProjectAmenities.map(r => {
@@ -466,12 +481,24 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
 
 
-  getListing() {
+  getListing(data,value) {
     this.spinner.show();
     this.getPossessionStatuses();
     this.makePostRequest();
-    //this.getParametersForProperty();
     let input: any = JSON.parse(JSON.stringify(this.parameter));
+    if (value) {
+      if(data == "all"){
+        const d = value.map(o => o.id);
+        input.availability_filter = d;
+      } else if(data == "select"){
+       // this.selctedFilters.push(value);
+        const d = this.parameter.availability_filter.map(o => o.id);
+        input.availability_filter = d;
+      }else if(data == "unselect"){
+        const d = this.parameter.availability_filter.map(o => o.id);
+        input.availability_filter = d;
+      }
+    }
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
     } else {
@@ -499,6 +526,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     }
     delete input.seller_id;
     delete input.buyer_id;
+    
+    
     if (this.selctedAmenities) {
       const d = this.selctedAmenities.map(o => o.id);
       // console.log(d, "filter")
@@ -557,7 +586,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   searchProperties() {
     this.close();
-    this.getListing();
+    this.getListing(null,null);
   }
 
   clearData() {
@@ -792,12 +821,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       return false;
     }
     this.resetDates();
-    this.getListing();
+    this.getListing(null,null);
   }
 
   changePropertyFlag(flag) {
     this.parameter.flag = flag;
-    this.getListing();
+    this.getListing(null,null);
   }
 
   sort_by(sort_by) {
@@ -807,7 +836,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     } else {
       this.parameter.sort_by_order = this.parameter.sort_by_order ? 0 : 1;
     }
-    this.getListing();
+    this.getListing(null,null);
   }
   price_by(price_sort) {
     if (this.parameter.price_sort !== price_sort) {
@@ -816,11 +845,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     } else {
       this.parameter.price_sort = 0;
     }
-    this.getListing();
+    this.getListing(null,null);
   }
   getPage(page) {
     this.parameter.page = page;
-    this.getListing();
+    this.getListing(null,null);
   }
 
   blockUnblock(item, flag: number) {
@@ -896,7 +925,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       } else {
         swal(this.translate.instant('swal.success'), this.translate.instant('message.success.UnpublishSuccessfully'), 'success');
       }
-      this.getListing();
+      this.getListing(null,null);
       this.spinner.hide();
     }, (error) => {
       this.spinner.hide();
@@ -975,10 +1004,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.parameter.half_bathroom = null;
     this.parameter.property_type_id = null;
     this.selctedAmenities = [];
+    this.selctedFilters = [];
     this.selctedProjectAmenities = [];
     this.parameter.parking_for_sale = null;
     this.resetDates();
-    this.getListing();
+    this.getListing(null,null);
   }
 
   resetDates() {
@@ -2054,7 +2084,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         this.offer_id = result.data;
         this.generatePDF();
         this.closeModalInstallment();
-        this.getListing();
+        this.getListing(null,null);
         this.spinner.hide();
       });
     } else {
@@ -2254,7 +2284,19 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       itemsShowLimit: 1
     };
   }
-
+  initializedDropDownSettingfor = (): void => {
+    this.multiDropdownSettingsForfilter = {
+      singleSelection: false,
+      idField: 'id',
+      textField: this.language_code == 'en' ? 'name_en' : 'name_es',
+      selectAllText: this.language_code == 'en' ? 'Select All' : 'Seleccionar todo',
+      unSelectAllText: this.language_code == 'en' ? 'Unselect All' : 'Deselecciona todo',
+      searchPlaceholderText: this.language_code == 'en' ? 'Search' : 'Buscar',
+      allowSearchFilter: true,
+      itemsShowLimit: 1
+    };
+  }
+  
   makePostRequest = (): void => {
     this.parameter.localities = this.selectedLocation.selectedLocalities.length > 0 ? this.selectedLocation.selectedLocalities.map(o => o.id) : null;
     this.parameter.cities = this.selectedLocation.selectedCities.length > 0 ? this.selectedLocation.selectedCities.map(o => o.id) : null;
@@ -2568,7 +2610,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       edit_total_commission: (this.select_columns_list[23] || []).isCheckBoxChecked,
       view_seller_request: (this.select_columns_list[24] || []).isCheckBoxChecked,
       action: (this.select_columns_list[25] || []).isCheckBoxChecked,
-      price_per_m2: (this.select_columns_list[26] || []).isCheckBoxChecked                                              
+      price_per_m2: (this.select_columns_list[26] || []).isCheckBoxChecked  ,
+      rent_price: (this.select_columns_list[27] || []).isCheckBoxChecked                                         
     };
   }
 
@@ -2691,6 +2734,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         break;
       case 32:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.price_per_m2;
+        break;
+      case 33:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.rent_price;
         break;
       default:
         break;

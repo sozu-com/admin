@@ -5,7 +5,8 @@ export class CarpetAreas {
     carpet_areas: Array<object> = [
         {
             area: 0,
-            price: 0
+            price: 0,
+            rent_price: 0
         }
     ];
 }
@@ -67,6 +68,7 @@ export class AddPropertyModel {
     outside_percentage_commission = 0;
     total_commission = 0;
     price: string = null;
+    rent_price: string = null;
     property_linked_documents?: Array<Docs>;
     comm_total_commission_amount?: number;
     comm_shared_commission_amount?: number;
