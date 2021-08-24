@@ -153,7 +153,7 @@
       <div class="col-lg-1 col-md-2">
          <div class="form-group btn-cont">
             <label style="display: block; margin-top: 3px;">&nbsp;</label>
-            <button type="button" (click)="getListing()"
+            <button type="button" (click)="getListing('','')"
                class="btn btn-primary-new width100P P86">{{'filters.location.applyBtn' | translate}}</button>
          </div>
       </div>
@@ -322,8 +322,8 @@
                               <label>{{'table.th.id' | translate}}</label>
                               <div class="searh-3">
                                  <input class="width100px" type="text" [(ngModel)]="parameter.random_id" name="random_id"
-                                    (keyup.enter)="getListing()" autocomplete="address-level4">
-                                 <button *ngIf="parameter.random_id" (click)="getListing()"><i
+                                    (keyup.enter)="getListing('','')" autocomplete="address-level4">
+                                 <button *ngIf="parameter.random_id" (click)="getListing('','')"><i
                                        class="fa fa-search"></i></button>
                               </div>
                            </div>
@@ -333,8 +333,8 @@
                               <label>{{'table.th.nameOfBuilding' | translate}}</label>
                               <div class="searh-3">
                                  <input class="width100px" type="text" [(ngModel)]="parameter.keyword" name="keyword"
-                                    (keyup.enter)="getListing()" autocomplete="address-level4">
-                                 <button *ngIf="parameter.keyword" (click)="getListing()"><i
+                                    (keyup.enter)="getListing('','')" autocomplete="address-level4">
+                                 <button *ngIf="parameter.keyword" (click)="getListing('','')"><i
                                        class="fa fa-search"></i></button>
                               </div>
                            </div>
@@ -344,8 +344,8 @@
                               <label>{{'table.th.nameOfTower' | translate}}</label>
                               <div class="searh-3">
                                  <input class="width100px" type="text" [(ngModel)]="parameter.tower_name"
-                                    name="tower_name" (keyup.enter)="getListing()" autocomplete="address-level4">
-                                 <button *ngIf="parameter.tower_name" (click)="getListing()"><i
+                                    name="tower_name" (keyup.enter)="getListing('','')" autocomplete="address-level4">
+                                 <button *ngIf="parameter.tower_name" (click)="getListing('','')"><i
                                        class="fa fa-search"></i></button>
                               </div>
                            </div>
@@ -353,7 +353,7 @@
                         <th style="width:10%; text-align:left;" *ngIf="selectedPropertyColumnsToShow?.floor">
                            <div class="table-search">
                               <label>{{'table.th.floor' | translate}}</label>
-                              <select [(ngModel)]="parameter.floor_num" (change)="getListing()" name="floor_num">
+                              <select [(ngModel)]="parameter.floor_num" (change)="getListing('','')" name="floor_num">
                                  <option value="">{{'table.th.allFloors' | translate}}</option>
                                  <option *ngFor="let c of floors" value="{{c.id}}">
                                     {{c.name}}
@@ -370,8 +370,8 @@
                               </label>
                               <div class="searh-3">
                                  <input class="width120px" type="text" [(ngModel)]="parameter.name" name="name"
-                                    (keyup.enter)="getListing()" autocomplete="address-level4">
-                                 <button *ngIf="parameter.name" (click)="getListing()"><i
+                                    (keyup.enter)="getListing('','')" autocomplete="address-level4">
+                                 <button *ngIf="parameter.name" (click)="getListing('','')"><i
                                        class="fa fa-search"></i></button>
                               </div>
                            </div>
@@ -381,9 +381,9 @@
                               <label>{{'table.th.model' | translate}}</label>
                               <div class="searh-3">
                                  <input class="width120px" type="text" [(ngModel)]="parameter.configuration_name"
-                                    name="configuration_name" (keyup.enter)="getListing()"
+                                    name="configuration_name" (keyup.enter)="getListing('','')"
                                     autocomplete="address-level4">
-                                 <button *ngIf="parameter.configuration_name" (click)="getListing()"><i
+                                 <button *ngIf="parameter.configuration_name" (click)="getListing('','')"><i
                                        class="fa fa-search"></i></button>
                               </div>
                            </div>
@@ -391,7 +391,7 @@
                         <th style="width:10%; text-align:left;" *ngIf="selectedPropertyColumnsToShow?.configuration">
                            <div class="table-search">
                               <label>{{'table.th.configuration' | translate}}</label>
-                              <select [(ngModel)]="parameter.configuration_id" (change)="getListing()"
+                              <select [(ngModel)]="parameter.configuration_id" (change)="getListing('','')"
                                  name="configuration_id">
                                  <option value="0">{{'table.th.allConfiguration' | translate}}</option>
                                  <option *ngFor="let c of configurations" value="{{c.id}}">
@@ -460,7 +460,7 @@
                            <div class="table-search">
                               <label>{{'table.th.commercializedBySOZU' | translate}}</label>
                               <select class="width100px" [(ngModel)]="parameter.is_commercialized"
-                                 (change)="getListing()" name="is_commercialized">
+                                 (change)="getListing('','')" name="is_commercialized">
                                  <option value="">{{'table.th.all' | translate}}</option>
                                  <option value="1">{{'table.th.yes' | translate}}</option>
                                  <option value="0">{{'table.th.no' | translate}}</option>
@@ -483,7 +483,7 @@
                            style="width:5%;vertical-align:top;">
                            <div class="table-search">
                               <label>{{'table.th.possession_status' | translate}}</label>
-                              <select [(ngModel)]="parameter.possession_filter" (change)="getListing()">
+                              <select [(ngModel)]="parameter.possession_filter" (change)="getListing('','')">
                                  <option value="0">{{'table.th.all' | translate}}</option>
                                  <option *ngFor="let item of possessionStatuses" value="{{item.id}}"> 
                                    {{this.language_code == 'en' ? item.name_en : item.name_es }}</option>
@@ -544,8 +544,8 @@
                               <label>{{'table.th.changeBuyer' | translate}}</label>
                               <div class="searh-3">
                                  <input class="width100px" type="text" [(ngModel)]="parameter.buyer_name"
-                                    name="buyer_name" (keyup.enter)="getListing()" autocomplete="address-level4">
-                                 <button *ngIf="parameter.buyer_name" (click)="getListing()"><i
+                                    name="buyer_name" (keyup.enter)="getListing('','')" autocomplete="address-level4">
+                                 <button *ngIf="parameter.buyer_name" (click)="getListing('','')"><i
                                        class="fa fa-search"></i></button>
                               </div>
                            </div>
@@ -556,8 +556,8 @@
                               <label>{{'table.th.changeSeller' | translate}}</label>
                               <div class="searh-3">
                                  <input class="width100px" type="text" [(ngModel)]="parameter.seller_name"
-                                    name="seller_name" (keyup.enter)="getListing()" autocomplete="address-level4">
-                                 <button *ngIf="parameter.seller_name" (click)="getListing()"><i
+                                    name="seller_name" (keyup.enter)="getListing('','')" autocomplete="address-level4">
+                                 <button *ngIf="parameter.seller_name" (click)="getListing('','')"><i
                                        class="fa fa-search"></i></button>
                               </div>
                            </div>
@@ -613,7 +613,7 @@
                            style="width:20%;vertical-align:top;">
                            <div class="table-search">
                               <label>{{'table.th.isPropertySold' | translate}}</label>
-                              <select class="width100px" [(ngModel)]="parameter.sold_filter" (change)="getListing()"
+                              <select class="width100px" [(ngModel)]="parameter.sold_filter" (change)="getListing('','')"
                                  name="sold_filter">
                                  <option value="0">{{'table.th.all' | translate}}</option>
                                  <option value="1">{{'table.th.yes' | translate}}</option>
@@ -630,7 +630,7 @@
                         <th style="width:20%;" *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.action">
                            <div class="table-search">
                               <label>{{'table.th.actions.label' | translate}}</label>
-                              <select [(ngModel)]="parameter.action_filter" (change)="getListing()"
+                              <select [(ngModel)]="parameter.action_filter" (change)="getListing('','')"
                                  name="action_filter">
                                  <option value="0">{{'table.th.actions.all' | translate}}</option>
                                  <option value="3">{{'table.th.actions.featured' | translate}}</option>
