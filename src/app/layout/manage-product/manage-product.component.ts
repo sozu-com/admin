@@ -137,7 +137,7 @@ export class ManageProductComponent implements OnInit {
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     this.admin.postDataApi('getProducts', input).subscribe(
       success => {
-        localStorage.setItem('parametersForProject', JSON.stringify(this.parameter));
+        localStorage.setItem('parametersForProduct', JSON.stringify(this.parameter));
         this.items = success.data;
         this.total = success.total_count;
         this.spinner.hide();
