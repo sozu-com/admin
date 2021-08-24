@@ -94,10 +94,10 @@ export class AddPropertyComponent implements OnInit {
     }
   ];
   availabilityStatus = [
-    { id: '1', name: this.translate.instant('leadDetails.buy'), checked: false },
+    { id: '1', name: this.translate.instant('leadDetails.buyy'), checked: false },
     { id: '2', name: this.translate.instant('leadDetails.rent'), checked: false },
     { id: '3', name: this.translate.instant('leadDetails.inventory'), checked: false },
-    //{ id: '4', name: this.translate.instant('leadDetails.resale'), checked: false }
+    { id: '4', name: this.translate.instant('leadDetails.saleAndrent'), checked: false }
   ];
   imageEvent = [];
   showText = false;
@@ -107,7 +107,7 @@ export class AddPropertyComponent implements OnInit {
   propertyDetails = false;
   details: any;
   editMode = false;
-  newcarpet_area = { area: '', price: '' };
+  newcarpet_area = { area: '', price: '', rent_price: '' };
   newcustom_attribute = { name: '', value: '' };
   buildingLoading = false;
   buildingData: AddProjectModel;
@@ -246,13 +246,13 @@ export class AddPropertyComponent implements OnInit {
      // this.availabilityStatus[3].checked = false;
       this.model.availabilityStatusId = this.availabilityStatus[1].id;
     } 
-    // else if (aindex === 3) {
-    //   this.availabilityStatus[0].checked = false;
-    //   this.availabilityStatus[1].checked = false;
-    //   this.availabilityStatus[2].checked = false;
-    //   this.availabilityStatus[3].checked = true;
-    //   this.model.availabilityStatusId = this.availabilityStatus[3].id;
-    // }
+    else if (aindex === 3) {
+      this.availabilityStatus[0].checked = false;
+      this.availabilityStatus[1].checked = false;
+      this.availabilityStatus[2].checked = false;
+      this.availabilityStatus[3].checked = true;
+      this.model.availabilityStatusId = this.availabilityStatus[3].id;
+    }
      else {
       this.availabilityStatus[0].checked = false;
       this.availabilityStatus[1].checked = false;
@@ -275,6 +275,7 @@ export class AddPropertyComponent implements OnInit {
           this.parameter.propertyDetails = success['data'];
           this.getParkingSpaceLotsAndparkingSpaceRent();
           this.propertyData = success['data'];
+          this.model.rent_price = this.propertyData.rent_price
           this.model.external_outside_agent = this.propertyData.external_outside_agent || {};
           if (this.model.configuration_toggle && this.model.building_configuration_id) {
             this.model.floor_plan = (this.propertyData.building_configuration || {}).floor_map_image;
@@ -399,10 +400,9 @@ export class AddPropertyComponent implements OnInit {
       this.setAvailableStatus(1);
       // this.model.availabilityStatusId = this.availabilityStatus[1].id;
     }
-    // else if (data.for_resale) {
-    //   this.setAvailableStatus(3);
-    //   // this.model.availabilityStatusId = this.availabilityStatus[1].id;
-    // } 
+    else if (data.for_resale) {
+      this.setAvailableStatus(3);
+    } 
     else {
       this.setAvailableStatus(0);
       // this.model.availabilityStatusId = this.availabilityStatus[0].id;
@@ -537,8 +537,8 @@ export class AddPropertyComponent implements OnInit {
 
     for (let index = 0; index < data.carpet_areas.length; index++) {
       const element = data.carpet_areas[index];
-      this.model.carpet_areas[index] = { area: element.area, price: element.price };
-      this.newcarpet_area = { area: element.area, price: element.price };
+      this.model.carpet_areas[index] = { area: element.area, price: element.price, rent_price: element.rent_price };
+      this.newcarpet_area = { area: element.area, price: element.price, rent_price: element.rent_price };
     }
 
     for (let index = 0; index < data.custom_values.length; index++) {
@@ -823,11 +823,11 @@ export class AddPropertyComponent implements OnInit {
   }
 
   addCarpetArea() {
-    if (!this.newcarpet_area.area || !this.newcarpet_area.price) {
+    if (!this.newcarpet_area.area)  {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseFillCarpetAreaFields'), 'error');
     } else {
       this.model.carpet_areas.push(JSON.parse(JSON.stringify(this.newcarpet_area)));
-      this.newcarpet_area = { area: '', price: '' };
+      this.newcarpet_area = { area: '', price: '', rent_price: ''};
     }
   }
 
@@ -1078,6 +1078,7 @@ export class AddPropertyComponent implements OnInit {
     this.model.carpet_areas = [];
     this.model.carpet_areas.push(JSON.parse(JSON.stringify(this.newcarpet_area)));
     this.model.price = this.newcarpet_area.price;
+    this.model.rent_price = this.newcarpet_area.rent_price
     if (this.model.carpet_areas.length < 1 && this.tab == 1) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseAddCarpetArea'), 'error');
     }
@@ -1103,7 +1104,7 @@ export class AddPropertyComponent implements OnInit {
         input.append('for_sale', this.availabilityStatus[0].checked === true ? '1' : '0');
         input.append('for_rent', this.availabilityStatus[1].checked === true ? '1' : '0');
         input.append('for_hold', this.availabilityStatus[2].checked === true ? '1' : '0');
-       // input.append('for_resale', this.availabilityStatus[3].checked === true ? '1' : '0');
+        input.append('for_resale', this.availabilityStatus[3].checked === true ? '1' : '0');
         input.append('country_id', this.model.country_id);
         input.append('state_id', this.model.state_id);
         input.append('city_id', this.model.city_id);
@@ -1119,6 +1120,7 @@ export class AddPropertyComponent implements OnInit {
         input.append('building_towers_id', this.model.building_towers_id);
         input.append('floor_num', this.model.floor_num);
         input.append('price', this.model.price);
+        input.append('rent_price', this.model.rent_price);
       }
       if (this.model.step === 2) {
         const imagesString = this.model.images ? this.model.images.map(r => r.image) : [];
