@@ -491,8 +491,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         const d = value.map(o => o.id);
         input.availability_filter = d;
       } else if(data == "select"){
-        this.selctedFilters.push(value);
-        const d = this.selctedFilters.map(o => o.id);
+       // this.selctedFilters.push(value);
+        const d = this.parameter.availability_filter.map(o => o.id);
         input.availability_filter = d;
       }else if(data == "unselect"){
         const d = this.parameter.availability_filter.map(o => o.id);
