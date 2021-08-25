@@ -26,6 +26,7 @@ import { ToastrService } from 'ngx-toastr';
 import { GenerateOfferPdfService } from 'src/app/services/generate-offer-pdf.service';
 import { runInThisContext } from 'vm';
 import { ThrowStmt } from '@angular/compiler';
+import { value } from 'numeral';
 
 declare let swal: any;
 declare var $: any;
@@ -69,6 +70,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   selectedvalue: bank;
   prop_data: any = [];
   pub: any;
+  value: any;
+  value1: any;
   public parameter: IProperty = {};
   public location: IProperty = {};
   showMore = false;
@@ -487,6 +490,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.makePostRequest();
     let input: any = JSON.parse(JSON.stringify(this.parameter));
     if (value) {
+      this.value = data;
+      this.value1 = value;
       if(data == "all"){
         const d = value.map(o => o.id);
         input.availability_filter = d;
@@ -849,7 +854,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
   getPage(page) {
     this.parameter.page = page;
-    this.getListing(null,null);
+    this.getListing(this.value,this.value1);
   }
 
   blockUnblock(item, flag: number) {
