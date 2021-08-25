@@ -475,9 +475,9 @@ export class OfficeComponent implements OnInit {
 
   deletePossessionStatus = (item: any, index: number): void => {
     this.spinner.show();
-    this.admin.postDataApi('deletePossessionStatus', { id: item.id }).subscribe((response) => {
+    this.admin.postDataApi('OfficePossessionStatusDelete', { id: item.id }).subscribe((response) => {
       this.spinner.hide();
-      if (response.success == '0') {
+      if (response.message != 'success') {
         this.toastr.error(this.translate.instant('message.error.youCannotDeleteThisPossessionStatus'), this.translate.instant('swal.error'));
       } else {
         this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
@@ -491,9 +491,9 @@ export class OfficeComponent implements OnInit {
 
   deleteProjectType = (item: any, index: number): void => {
     this.spinner.show();
-    this.admin.postDataApi('ProjectType', { id: item.id }).subscribe((response) => {
+    this.admin.postDataApi('DeleteOfficeType', { id: item.id }).subscribe((response) => {
       this.spinner.hide();
-      if (response.success == '0') {
+      if (response.message != 'success') {
         this.toastr.error(this.translate.instant('message.error.youCannotDeleteThisProjectType'), this.translate.instant('swal.error'));
       } else {
         this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
@@ -507,9 +507,9 @@ export class OfficeComponent implements OnInit {
 
   deleteProjectAmenities = (item: any, index: number): void => {
     this.spinner.show();
-    this.admin.postDataApi('DeleteProjectAmenities ', { id: item.id }).subscribe((response) => {
+    this.admin.postDataApi('DeleteOfficeAmenities', { id: item.id }).subscribe((response) => {
       this.spinner.hide();
-      if (response.success == '0') {
+      if (response.message != 'success') {
         this.toastr.error(this.translate.instant('message.error.youCannotDeleteThisAmenities'), this.translate.instant('swal.error'));
       } else {
         this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
