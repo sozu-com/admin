@@ -2613,7 +2613,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       view_seller_request: (this.select_columns_list[24] || []).isCheckBoxChecked,
       action: (this.select_columns_list[25] || []).isCheckBoxChecked,
       price_per_m2: (this.select_columns_list[26] || []).isCheckBoxChecked  ,
-      rent_price: (this.select_columns_list[27] || []).isCheckBoxChecked                                         
+      rent_price: (this.select_columns_list[29] || []).isCheckBoxChecked                                         
     };
   }
 
