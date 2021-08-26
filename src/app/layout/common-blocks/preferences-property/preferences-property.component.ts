@@ -57,7 +57,7 @@ export class PreferencesPropertyComponent implements OnInit {
   }
 
   goDetailPage = (data): void => {
-    this.router.navigate(['/dashboard/properties/details/' + data.id, { for: 'buyerLead' }]);
+    this.router.navigate(['/dashboard/properties/details/' + data.property_id, { for: 'buyerLead' }]);
   }
 
 }
