@@ -96,6 +96,9 @@ export class FillInformationComponent implements OnInit {
     };
     this.today = new Date();
     this.configurationCount = ['1', '2', '3', '4', '5+'];
+    this.parameter.itemsPerPage = this.constant.itemsPerPage;
+    this.parameter.page = this.constant.p;
+    this.parameter.total = 0;
 
     this.dropdownSettings = {
       singleSelection: false,
@@ -324,8 +327,14 @@ export class FillInformationComponent implements OnInit {
     });
   }
 
+  getPage(page) {
+    this.parameter.page = page;
+    this.SearchPreferences();
+  }
+
   SearchPreferences(){
     this.model = new AddPrefrences();
+    this.model.page = this.parameter.page;
     this.model.property_types = [];
     this.model.amenities = [];
     this.model.property_amenities = [];
@@ -407,7 +416,7 @@ export class FillInformationComponent implements OnInit {
           if (check_id !== -1) { element.checked = true; }
         });
       }
-      this.parameter.total = r.total;
+      this.parameter.total = r.total_count;
       if (this.parameter.items.length <= 0) { this.parameter.noResultFound = true; }
     });
   }

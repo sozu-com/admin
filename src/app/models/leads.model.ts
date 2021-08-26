@@ -360,4 +360,5 @@ export class AddPrefrences {
     state_id?: any;
     city_id?: any;
     locality_id?: any;
+    page?:any;
 }

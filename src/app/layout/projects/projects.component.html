@@ -522,12 +522,12 @@
                 <td  *ngIf="selectedColumnsToShow?.property_for_rent">
                   <a title="{{'table.title.clickToViewProperties' | translate}}"
                     routerLink="/dashboard/properties/view-properties/{{p.name}}/2"><span
-                      class="green-color">{{p?.rent_count_all | numberWithCommas}}</span></a>
+                      class="green-color">{{((p?.rent_and_sale_count_all || 0) + (p?.rent_count_all || 0)) | numberWithCommas}}</span></a>
                 </td>
                 <td  *ngIf="selectedColumnsToShow?.property_for_sale">
                   <a title="{{'table.title.clickToViewProperties' | translate}}"
                     routerLink="/dashboard/properties/view-properties/{{p.name}}/1"><span
-                      class="green-color">{{p?.sale_count_all | numberWithCommas}}</span></a>
+                      class="green-color">{{((p?.sale_count_all || 0) + (p?.rent_and_sale_count_all || 0)) | numberWithCommas}}</span></a>
                 </td>
                 <td  *ngIf="selectedColumnsToShow?.property_for_sale">
                   <a title="{{'table.title.clickToViewProperties' | translate}}"
