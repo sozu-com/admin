@@ -843,6 +843,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     }
     this.getListing(null,null);
   }
+  sortData(value: number) {
+    this.parameter.sort_by = 7;
+    this.parameter.sort_by_order = value;
+    this.getListing(this.value,this.value1);
+  }
   price_by(price_sort) {
     if (this.parameter.price_sort !== price_sort) {
       this.parameter.price_sort = price_sort;
