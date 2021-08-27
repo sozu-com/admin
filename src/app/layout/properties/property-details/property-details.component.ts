@@ -151,23 +151,29 @@ export class PropertyDetailsComponent implements OnInit {
 
           //images 360
           if (this.property.configuration_toggle == 0) {
-            this.admin
-            .postDataApi('getCoverImage', {
-              image: (this.property || {}).images360[0].image,
-            })
-            .subscribe((response: any) => {
-              this.spinner.hide()
-              this.image360 = 'data:image/jpeg;base64,' + response.data
-            })
+            if ((this.property || {}).images360  === undefined || (this.property || {}).images360.length == 0) {}
+            else{
+              this.admin
+              .postDataApi('getCoverImage', {
+                image: (this.property || {}).images360[0].image,
+              })
+              .subscribe((response: any) => {
+                this.spinner.hide()
+                this.image360 = 'data:image/jpeg;base64,' + response.data
+              })
+            }
           }else {
-            this.admin
-            .postDataApi('getCoverImage', {
-              image: (this.property.building_configuration || {}).images360[0].image,
-            })
-            .subscribe((response: any) => {
-              this.spinner.hide()
-              this.image360 = 'data:image/jpeg;base64,' + response.data
-            })
+            if ((this.property.building_configuration || {}).images360 === undefined || (this.property.building_configuration || {}).images360.length == 0) { } 
+            else {
+              this.admin
+              .postDataApi('getCoverImage', {
+                image: (this.property.building_configuration || {}).images360[0].image,
+              })
+              .subscribe((response: any) => {
+                this.spinner.hide()
+                this.image360 = 'data:image/jpeg;base64,' + response.data
+              })
+            }
           }
 
           if (
