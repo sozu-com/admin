@@ -209,7 +209,7 @@
           </table>
         </div>
 
-        <div *ngIf="property?.amenities.length > 0">
+        <div>
           <h4>{{'propertyDetail.amenities' | translate}}</h4>
           <ul class="green-icon-list">
             <li *ngFor="let amenity of property.amenities">
@@ -479,7 +479,7 @@
             </table>
           </div>
   
-          <div *ngIf="property?.amenities.length > 0">
+          <div>
             <h4>{{'propertyDetail.amenities' | translate}}</h4>
             <ul class="green-icon-list">
               <li *ngFor="let amenity of property.amenities">
@@ -503,7 +503,7 @@
             </div>
             <div *ngIf="isShow">
             <div class="fig-block text-center">
-              <div class="project-gallery marginB15" *ngIf="property?.building_configuration?.images360.length>0">
+              <div class="project-gallery marginB15" *ngIf="property?.building_configuration?.images360.length > 0">
                 <img [lazyLoad]="image360"
                      [defaultImage]="image360"
                       onerror='this.src="assets/img/placeholder.png"'>
