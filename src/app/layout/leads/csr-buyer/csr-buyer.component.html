@@ -294,7 +294,8 @@
                                 <div class="table-search">
                                     <label>{{'table.th.firstSurname' | translate}}</label>
                                     <div class="searh-3">
-                                        <input autocomplete="address-level4" type="text" [(ngModel)]="parameter.first_surname"
+                                        <input autocomplete="address-level4" type="text"
+                                            [(ngModel)]="parameter.first_surname"
                                             (keyup.enter)="changeFilter('first_surname',$event.target.value)" name="">
                                         <button *ngIf="parameter.first_surname"
                                             (click)="changeFilter('first_surname', parameter.first_surname)"><i
@@ -306,7 +307,8 @@
                                 <div class="table-search">
                                     <label>{{'table.th.secondSurname' | translate}}</label>
                                     <div class="searh-3">
-                                        <input autocomplete="address-level4" type="text" [(ngModel)]="parameter.second_surname"
+                                        <input autocomplete="address-level4" type="text"
+                                            [(ngModel)]="parameter.second_surname"
                                             (keyup.enter)="changeFilter('second_surname',$event.target.value)" name="">
                                         <button *ngIf="parameter.second_surname"
                                             (click)="changeFilter('second_surname', parameter.second_surname)"><i
@@ -342,8 +344,10 @@
                                 <div class="table-search">
                                     <label>{{'table.th.project' | translate}}</label>
                                     <div class="searh-3">
-                                        <input autocomplete="address-level4" type="text" [(ngModel)]="parameter.project_text"
-                                            (keyup.enter)="changeFilter('project_text',$event.target.value)" name="project_text">
+                                        <input autocomplete="address-level4" type="text"
+                                            [(ngModel)]="parameter.project_text"
+                                            (keyup.enter)="changeFilter('project_text',$event.target.value)"
+                                            name="project_text">
                                         <button *ngIf="parameter.project_text"
                                             (click)="changeFilter('project_text', parameter.project_text)"><i
                                                 class="fa fa-search"></i></button>
@@ -354,8 +358,10 @@
                                 <div class="table-search">
                                     <label>{{'table.th.property' | translate}}</label>
                                     <div class="searh-3">
-                                        <input autocomplete="address-level4" type="text" [(ngModel)]="parameter.property_text"
-                                            (keyup.enter)="changeFilter('property_text',$event.target.value)" name="property_text" style="width:60px;"> 
+                                        <input autocomplete="address-level4" type="text"
+                                            [(ngModel)]="parameter.property_text"
+                                            (keyup.enter)="changeFilter('property_text',$event.target.value)"
+                                            name="property_text" style="width:60px;">
                                         <button *ngIf="parameter.property_text"
                                             (click)="changeFilter('property_text', parameter.property_text)"><i
                                                 class="fa fa-search"></i></button>
@@ -371,8 +377,10 @@
                                 <div class="table-search">
                                     <label>{{'table.th.csrAssignation' | translate}}</label>
                                     <div class="searh-3">
-                                        <input autocomplete="address-level4" type="text" [(ngModel)]="parameter.csr_buyer_text"
-                                            (keyup.enter)="changeFilter('csr_buyer_text',$event.target.value)" name="csr_buyer_text">
+                                        <input autocomplete="address-level4" type="text"
+                                            [(ngModel)]="parameter.csr_buyer_text"
+                                            (keyup.enter)="changeFilter('csr_buyer_text',$event.target.value)"
+                                            name="csr_buyer_text">
                                         <button *ngIf="parameter.csr_buyer_text"
                                             (click)="changeFilter('csr_buyer_text', parameter.csr_buyer_text)"><i
                                                 class="fa fa-search"></i></button>
@@ -383,12 +391,15 @@
                                 <div class="table-search">
                                     <label>{{'table.th.status' | translate}}</label>
                                     <div class="searh-3">
-                                        <select [(ngModel)]="parameter.status_id" (change)="changeFilter('status_id', parameter.status_id)" name="status_id">
+                                        <select [(ngModel)]="parameter.status_id"
+                                            (change)="changeFilter('status_id', parameter.status_id)" name="status_id">
                                             <option value="">{{'table.th.all' | translate}}</option>
-                                            <option *ngFor="let tempStatusName of addChangeStatusNames" value="{{tempStatusName.id}}">
-                                               {{translate.defaultLang == 'en'? tempStatusName.name : tempStatusName.name_es}}
+                                            <option *ngFor="let tempStatusName of addChangeStatusNames"
+                                                value="{{tempStatusName.id}}">
+                                                {{translate.defaultLang == 'en'? tempStatusName.name :
+                                                tempStatusName.name_es}}
                                             </option>
-                                         </select>
+                                        </select>
                                     </div>
                                 </div>
                             </th>
@@ -396,8 +407,10 @@
                                 <div class="table-search">
                                     <label>{{'table.th.AgentAsignation' | translate}}</label>
                                     <div class="searh-3">
-                                        <input autocomplete="address-level4" type="text" [(ngModel)]="parameter.agent_text"
-                                            (keyup.enter)="changeFilter('agent_text',$event.target.value)" name="agent_text">
+                                        <input autocomplete="address-level4" type="text"
+                                            [(ngModel)]="parameter.agent_text"
+                                            (keyup.enter)="changeFilter('agent_text',$event.target.value)"
+                                            name="agent_text">
                                         <button *ngIf="parameter.agent_text"
                                             (click)="changeFilter('agent_text', parameter.agent_text)"><i
                                                 class="fa fa-search"></i></button>
@@ -435,15 +448,18 @@
                             </td>
                             <td class="text-left">
                                 <span *ngIf="item.name" class="name"
-                                    (click)="viewLeadDetails(item.id, item)">{{item?.user && item?.user?.name ? (item?.user?.name | titlecase) : (item?.name | titlecase)}}</span>
+                                    (click)="viewLeadDetails(item.id, item)">{{item?.user && item?.user?.name ?
+                                    (item?.user?.name | titlecase) : (item?.name | titlecase)}}</span>
                                 <span class="name" *ngIf="!item.name">{{'table.tr.td.NA' | translate}}</span>
                             </td>
                             <td class="text-left" (click)="viewLeadDetails(item.id, item)">
-                                <span class="name">{{item?.user && item?.user?.first_surname ? item?.user?.first_surname : (item?.first_surname ) ? (item?.first_surname |
+                                <span class="name">{{item?.user && item?.user?.first_surname ? item?.user?.first_surname
+                                    : (item?.first_surname ) ? (item?.first_surname |
                                     titlecase) : ('table.tr.td.NA' | translate)}}</span>
                             </td>
                             <td class="text-left" (click)="viewLeadDetails(item.id, item)">
-                                <span class="name">{{item?.user && item?.user?.second_surname ? item?.user?.second_surname : item?.second_surname? (item?.second_surname |
+                                <span class="name">{{item?.user && item?.user?.second_surname ?
+                                    item?.user?.second_surname : item?.second_surname? (item?.second_surname |
                                     titlecase):('table.tr.td.NA' | translate)}}</span>
                             </td>
                             <td class="text-left" *ngIf="item?.phone">
@@ -453,26 +469,43 @@
                             <td class="text-left" *ngIf="item.email">{{item?.user?.email ? item?.user?.email :
                                 item.email}}</td>
                             <td class="text-left" *ngIf="!item.email">{{'table.tr.td.NA' | translate}}</td>
-                            <td class="text-left">{{item?.building?.name ? item?.building?.name : ('table.tr.td.NA' | translate)}}</td>
+                            <td class="text-left">{{item?.building?.name ? item?.building?.name : ('table.tr.td.NA' |
+                                translate)}}</td>
                             <!-- <td class="text-left" title="{{'table.title.CSRBuyer' | translate}}">{{item?.admin?.name ?
                                 item?.admin?.name : ('table.tr.td.NA' | translate)}}</td> -->
-                            <td class="text-left">{{item?.property?.name ? item?.property?.name : ('table.tr.td.NA' | translate)}}</td>
+                            <td class="text-left">{{item?.property?.name ? item?.property?.name : ('table.tr.td.NA' |
+                                translate)}}</td>
 
-                            <td class="text-left green-color cursor-pointer" (click)="openModel('CSR', item)"> <span>{{item?.admin ? item?.admin?.name : ('leads.linkCSRBuyer' | translate)}}</span> </td>
+                            <td class="text-left green-color cursor-pointer" (click)="openModel('CSR', item)">
+                                <span>{{item?.admin ? item?.admin?.name : ('leads.linkCSRBuyer' | translate)}}</span>
+                            </td>
                             <td class="text-left green-color cursor-pointer" (click)="openAddChangeStatusModel(item)">
                                 <span>
-                                    {{item?.status && translate.defaultLang == 'en' ? item.status.status_details.name.slice(0, 11) :
-                                    item?.status && translate.defaultLang != 'en' ? item.status.status_details.name_es.slice(0, 11) :
+                                    {{item?.status && translate.defaultLang == 'en' ?
+                                    item.status.status_details.name.slice(0, 11) :
+                                    item?.status && translate.defaultLang != 'en' ?
+                                    item.status.status_details.name_es.slice(0, 11) :
                                     ('table.tr.td.add' | translate)}}
                                 </span>
                             </td>
-                            <td class="text-left green-color cursor-pointer" (click)="openModel('', item)"> <span>{{item?.broker ? item?.broker?.name : ('leads.linkAgent' | translate)}}</span> </td>
-                            <td class="text-left green-color cursor-pointer" (click)="openStatusHistoryModel(item)"> <span>{{item.admin_id ? ('table.tr.td.view' | translate) : ('table.tr.td.NA' | translate)}}</span> </td>
-                            <td class="text-left" (click)="$event.stopPropagation()">
+                            <td class="text-left green-color cursor-pointer" (click)="openModel('', item)">
+                                <span>{{item?.broker ? item?.broker?.name : ('leads.linkAgent' | translate)}}</span>
+                            </td>
+                            <td class="text-left green-color cursor-pointer" (click)="openStatusHistoryModel(item)">
+                                <span>{{item.admin_id ? ('table.tr.td.view' | translate) : ('table.tr.td.NA' |
+                                    translate)}}</span> </td>
+                            <td class="text-left" style="display: inline-flex" (click)="$event.stopPropagation()">
+                                <button class="action-icon" (click)="this.sendMail(item)" [disabled]="item.user_id"
+                                    title="{{'table.title.confirmEmail' | translate}}">
+                                    <i class="fa fa-map-marker" aria-hidden="true"
+                                        style="font-size: 166%;color: lightgray;" *ngIf="item.user_id "></i>
+                                    <i class="fa fa-map-marker" aria-hidden="true" style="font-size: 166%;color: black;"
+                                        *ngIf="!item.user_id"></i>
+                                </button>
                                 <button [disabled]="admin?.admin_acl['Buyer Management']?.can_delete==0"
-                                (click)="deletePopup(item)" class="action-icon"
-                                title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png"
-                                alt="img"></button>
+                                    (click)="deletePopup(item)" class="action-icon"
+                                    title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png"
+                                        alt="img"></button>
                             </td>
                         </tr>
                     </table>
@@ -543,7 +576,8 @@
                             </td>
                             <td *ngIf="item.is_blocked!=1">
                                 <label class="cust-check-bx float-right">
-                                    <input type="radio" name="notary_id" (click)="assignItem = item" [checked]="item?.id == assignItem?.id">
+                                    <input type="radio" name="notary_id" (click)="assignItem = item"
+                                        [checked]="item?.id == assignItem?.id">
                                     <span class="checkmark"></span>
                                 </label>
                             </td>
@@ -600,7 +634,8 @@
                             </td>
                             <td *ngIf="item.is_blocked!=1">
                                 <label class="cust-check-bx float-right">
-                                    <input type="radio" name="notary_id" (click)="assignItem = item" [checked]="item?.id == assignItem?.id">
+                                    <input type="radio" name="notary_id" (click)="assignItem = item"
+                                        [checked]="item?.id == assignItem?.id">
                                     <span class="checkmark"></span>
                                 </label>
                             </td>
@@ -618,7 +653,8 @@
                     <div class="col-md-6 col-5 btn-cont">
                         <a class="btn btn-primary pull-right"
                             style="width: 180px;background-color: #fe0002;padding: 12px 15px;" href="javascript://"
-                            data-dismiss="modal" #closeNewAssignModel (click)="closeModal()">{{'advanceSearch.cancel' | translate}}</a>
+                            data-dismiss="modal" #closeNewAssignModel (click)="closeModal()">{{'advanceSearch.cancel' |
+                            translate}}</a>
                     </div>
                 </div>
             </div>
@@ -628,88 +664,92 @@
 
 <a data-toggle="modal" data-target="#link-broker-model" #linkBrokerModal style="display: none;"></a>
 <div class="modal" id="link-broker-model">
-   <div class="modal-dialog ">
-      <div class="modal-content notary-avail">
-         <div class="modal-header popup-header">
-            <h4 class="modal-title">{{'leads.linkAgent' | translate}}</h4>
-            <button type="button" class="close" #closeBrokerModal data-dismiss="modal">&times;</button>
-         </div>
-         <div class="modal-body">
+    <div class="modal-dialog ">
+        <div class="modal-content notary-avail">
+            <div class="modal-header popup-header">
+                <h4 class="modal-title">{{'leads.linkAgent' | translate}}</h4>
+                <button type="button" class="close" #closeBrokerModal data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
 
-            <!-- <p class="modal-title" *ngIf="property?.external_broker?.id"
+                <!-- <p class="modal-title" *ngIf="property?.external_broker?.id"
             [ngClass]="{'green-color cursor-pointer': property?.external_broker?.name}" (click)="agentTab(property?.external_broker, true)">
                   {{'viewProperty.currentlyLinkedToAgent' | translate}} - 
                   <b>{{property?.external_broker?.name}}&nbsp;
                   {{property?.external_broker?.first_surname}}&nbsp;
                   {{property?.external_broker?.second_surname}}</b></p> -->
-          <br/>
-            <div class="row">
-               <div class="col-md-8 col-6">
-                  <input style="max-width:200px" (keyup.enter)="getSearchAssign()" [(ngModel)]="assign.keyword"
-                     class="form-control" type="text" name="keyword"
-                     placeholder="{{'addForm.placeholder.search' | translate}}">
-               </div>
-               <div class="col-md-4 col-5 btn-cont">
-                  <a class="btn btn-primary pull-right" href="javascript://"
-                     (click)="getSearchAssign()">{{'viewProperty.search' | translate}}</a>
-               </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-8 col-6">
+                        <input style="max-width:200px" (keyup.enter)="getSearchAssign()" [(ngModel)]="assign.keyword"
+                            class="form-control" type="text" name="keyword"
+                            placeholder="{{'addForm.placeholder.search' | translate}}">
+                    </div>
+                    <div class="col-md-4 col-5 btn-cont">
+                        <a class="btn btn-primary pull-right" href="javascript://"
+                            (click)="getSearchAssign()">{{'viewProperty.search' | translate}}</a>
+                    </div>
+                </div>
+
+                <div class="spacer40"></div>
+                <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+                    <table class="table">
+                        <tr *ngFor="let item of assign.items">
+                            <td>
+                                <div class="n-avail-profile">
+                                    <img *ngIf="item?.image" onerror='src="assets/img/default_img.png"' alt="img"
+                                        [defaultImage]="item?.image| img:'thumb'" [lazyLoad]="item?.image">
+                                    <img *ngIf="!item?.image" src="assets/img/default_img.png" alt="img">
+
+                                    <div class="n-avail-info">
+                                        <p class="p12">{{item?.name | titlecase}}</p>
+                                        <p class="p10 marginB0">{{item?.is_external_agent ? 'OUTSIDE AGENT' : 'IN-HOUSE
+                                            AGENT'}}
+                                        </p>
+                                        <p class="p10">{{'viewProperty.phone' | translate}} : {{item?.dial_code ?
+                                            item?.dial_code
+                                            : constant.dial_code}}-{{item?.phone}}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <button *ngIf="selected_lead?.broker_id!=item.id" (click)="assignBuyerAgent(item)"
+                                    class="action-icon" title="{{'table.title.linkAgent' | translate}}">
+                                    <img src="assets/img/green-icon.png" alt="img"></button>
+
+                                <button *ngIf="selected_lead?.broker_id==item.id" (click)="assignBuyerAgent(item)"
+                                    class="action-icon" title="{{'table.title.unlinkAgent' | translate}}">
+                                    <img src="assets/img/ic_disapprove.png" alt="img"></button>
+                            </td>
+                        </tr>
+                        <tr *ngIf="assign.items?.length==0">
+                            <p class="show-not-found">{{'leads.noInhouseAgent' | translate}}</p>
+                        </tr>
+                    </table>
+                </div>
             </div>
-
-            <div class="spacer40"></div>
-            <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
-               <table class="table">
-                  <tr *ngFor="let item of assign.items">
-                     <td>
-                        <div class="n-avail-profile">
-                           <img *ngIf="item?.image" onerror='src="assets/img/default_img.png"' alt="img"
-                              [defaultImage]="item?.image| img:'thumb'" [lazyLoad]="item?.image">
-                           <img *ngIf="!item?.image" src="assets/img/default_img.png" alt="img">
-
-                           <div class="n-avail-info">
-                              <p class="p12">{{item?.name | titlecase}}</p>
-                              <p class="p10 marginB0">{{item?.is_external_agent ? 'OUTSIDE AGENT' : 'IN-HOUSE AGENT'}}
-                              </p>
-                              <p class="p10">{{'viewProperty.phone' | translate}} : {{item?.dial_code ? item?.dial_code
-                                 : constant.dial_code}}-{{item?.phone}}</p>
-                           </div>
-                        </div>
-                     </td>
-                     <td>
-                        <button *ngIf="selected_lead?.broker_id!=item.id"
-                           (click)="assignBuyerAgent(item)" class="action-icon"
-                           title="{{'table.title.linkAgent' | translate}}">
-                           <img src="assets/img/green-icon.png" alt="img"></button>
-
-                        <button *ngIf="selected_lead?.broker_id==item.id"
-                           (click)="assignBuyerAgent(item)" class="action-icon"
-                           title="{{'table.title.unlinkAgent' | translate}}">
-                           <img src="assets/img/ic_disapprove.png" alt="img"></button>
-                     </td>
-                  </tr>
-                  <tr *ngIf="assign.items?.length==0">
-                     <p class="show-not-found">{{'leads.noInhouseAgent' | translate}}</p>
-                  </tr>
-               </table>
-            </div>
-         </div>
-      </div>
-   </div>
+        </div>
+    </div>
 </div>
 
-<a #addChangeStatusModelOpen class="btn-third btn btn-block" data-target="#add-change-status" data-toggle="modal" style="display: none;"></a>
+<a #addChangeStatusModelOpen class="btn-third btn btn-block" data-target="#add-change-status" data-toggle="modal"
+    style="display: none;"></a>
 <div class="modal" id="add-change-status">
     <div class="modal-dialog">
         <div class="modal-content notary-avail">
             <div class="modal-header popup-header">
                 <div class="row" style="width: 100%;">
-                <div class="col-12" style="display: contents;">
-                <h4 class="modal-title">{{'leads.addChangeStatus' | translate}}</h4>
-                <button type="button" class="close" data-dismiss="modal" #addChangeStatusModelClose>&times;</button>
-              </div>
-                <div class="col-12">
-                <span *ngIf="selected_lead?.status" style="font-weight: bold;white-space: pre-line">{{'leads.status' | translate}} - {{selected_lead?.status?.status_details?.name}}</span>
+                    <div class="col-12" style="display: contents;">
+                        <h4 class="modal-title">{{'leads.addChangeStatus' | translate}}</h4>
+                        <button type="button" class="close" data-dismiss="modal"
+                            #addChangeStatusModelClose>&times;</button>
+                    </div>
+                    <div class="col-12">
+                        <span *ngIf="selected_lead?.status"
+                            style="font-weight: bold;white-space: pre-line">{{'leads.status' | translate}} -
+                            {{selected_lead?.status?.status_details?.name}}</span>
+                    </div>
                 </div>
-            </div>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -719,9 +759,11 @@
                 </div>
                 <div style="padding-left: inherit;" *ngFor="let tempStatusName of addChangeStatusNames; let i=index">
                     <div class="col-md-12 col-6">
-                        <span><input type="radio" id="status{i}" name="status" value="{{tempStatusName.id}}" 
-                            [checked]= "tempStatusName.id == selectedAddChangeStatus" (change)="isChecked(tempStatusName)"></span>
-                        <label style="font-weight: bold; padding: inherit;font-size: medium;">{{translate.defaultLang == 'en'? tempStatusName.name : tempStatusName.name_es}}</label>
+                        <span><input type="radio" id="status{i}" name="status" value="{{tempStatusName.id}}"
+                                [checked]="tempStatusName.id == selectedAddChangeStatus"
+                                (change)="isChecked(tempStatusName)"></span>
+                        <label style="font-weight: bold; padding: inherit;font-size: medium;">{{translate.defaultLang ==
+                            'en'? tempStatusName.name : tempStatusName.name_es}}</label>
                     </div>
                 </div>
                 <div class="row">
@@ -738,36 +780,41 @@
         </div>
     </div>
 </div>
-<a #viewStatuHistoryModelOpen class="btn-third btn btn-block" data-target="#view-status-history" data-toggle="modal" style="display: none;"></a>
+<a #viewStatuHistoryModelOpen class="btn-third btn btn-block" data-target="#view-status-history" data-toggle="modal"
+    style="display: none;"></a>
 <div class="modal" id="view-status-history">
     <div class="modal-dialog  modal-lg">
         <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" #viewStatuHistoryModelClose>&times;</button>
-        </div>
-        <div class="modal-body">
-            <h3>{{'leadDetails.leadStatusHistory' | translate}}</h3>
-            <hr>
-            <div class="scrollbox fav-prop" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
-            <div class="row">
-                <div class="col-lg-6 col-md-12 col-sm-12 col-12 wn-block"
-                *ngFor="let item of history; let in=index">
-                <div class="circle">
-                    <span></span>
-                  </div>
-                    <p class="time">{{item.assign_from.name}} {{item.assign_from.first_surname || ''}} {{item.assign_from.second_surname || ''}}</p>
-                    <pre class="p13" style="margin-bottom: 0px;color: rgba(0,0,0,0.5);font-size: 12px;">{{item.created_at  | chatTime: 'YYYY-MM-DD H:m:s': 2}}</pre>
-                    <pre class="p13">{{item.type == 1 ? (('leadDetails.assigned' | translate) + ' ' + (item.assign_to.name + ' ' + item.assign_to.first_surname + ' ' + item.assign_to.second_surname) + ('leadDetails.AsCSRAgent' | translate)) : item.type == 2 ? 
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" #viewStatuHistoryModelClose>&times;</button>
+            </div>
+            <div class="modal-body">
+                <h3>{{'leadDetails.leadStatusHistory' | translate}}</h3>
+                <hr>
+                <div class="scrollbox fav-prop" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12 col-sm-12 col-12 wn-block"
+                            *ngFor="let item of history; let in=index">
+                            <div class="circle">
+                                <span></span>
+                            </div>
+                            <p class="time">{{item.assign_from.name}} {{item.assign_from.first_surname || ''}}
+                                {{item.assign_from.second_surname || ''}}</p>
+                            <pre class="p13"
+                                style="margin-bottom: 0px;color: rgba(0,0,0,0.5);font-size: 12px;">{{item.created_at  | chatTime: 'YYYY-MM-DD H:m:s': 2}}</pre>
+                            <pre
+                                class="p13">{{item.type == 1 ? (('leadDetails.assigned' | translate) + ' ' + (item.assign_to.name + ' ' + item.assign_to.first_surname + ' ' + item.assign_to.second_surname) + ('leadDetails.AsCSRAgent' | translate)) : item.type == 2 ? 
                         (('leadDetails.assigned' | translate) + ' ' + (item.assign_to.name + ' ' + item.assign_to.first_surname + ' ' + item.assign_to.second_surname) + ('leadDetails.AsInhouseAgent' | translate)) : item.type == 3 ? 
                         (('leadDetails.hasUpdateStatusTo' | translate) + ' ' + (lang == 'en' ? item.status_details.name : item.status_details.name_es) + ' ' + ('leadDetails.forCSRAgent' | translate)) : item.type == 4 ? 
                         (('leadDetails.hasUpdateStatusTo' | translate) + ' ' + (lang == 'en' ? item.status_details.name : item.status_details.name_es) + ' ' + ('leadDetails.forInhouseAgent' | translate)) : ''}}</pre>
-                </div>
-                <div class="col-12" style="font-size: 18px;text-align: center;margin-top: 33%;" *ngIf="!history || history.length == 0">
-                    <pre>{{'leadDetails.noLeadStatusHistoryAavailable' | translate}}</pre>
+                        </div>
+                        <div class="col-12" style="font-size: 18px;text-align: center;margin-top: 33%;"
+                            *ngIf="!history || history.length == 0">
+                            <pre>{{'leadDetails.noLeadStatusHistoryAavailable' | translate}}</pre>
+                        </div>
+                    </div>
                 </div>
             </div>
-            </div>
-        </div>
         </div>
     </div>
 </div>
