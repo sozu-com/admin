@@ -20,6 +20,7 @@ declare let swal: any;
 
 export class CsrBuyerDetailComponent implements OnInit {
   @ViewChild('showPropertyModal') showPropertyModal: ElementRef;
+  @ViewChild('showProjectModal') showProjectModal: ElementRef;
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
   @Input() user_id: number;
@@ -104,6 +105,7 @@ export class CsrBuyerDetailComponent implements OnInit {
           }
           this.parameter.favorites = r.data.favorites;
           this.parameter.fav_properties_count = r.data.fav_properties_count;
+          this.parameter.fav_project_count = r.data.lead.fav_project_count;
           this.setFillInformationData(this.leadData);
           this.parameter.proximity_places = r.data.lead.proximity_places;
           this.parameter.interested_properties = r.data.interested_properties;
@@ -177,12 +179,29 @@ export class CsrBuyerDetailComponent implements OnInit {
 
   viewFavProperties() {
     this.spinner.show();
+    this.parameter.favorites = [];
     this.admin.postDataApi('leads/favoriteProperties', {lead_id: this.parameter.lead_id, page: this.parameter.page2}).subscribe(r => {
       this.spinner.hide();
       this.parameter.favorites = r.data;
       this.parameter.total2 = r.total;
       if (this.parameter.page2 === 1) {
         this.showPropertyModal.nativeElement.click();
+      }
+    }, error => {
+      this.spinner.hide();
+    });
+  }
+
+  viewFavProject() {
+    let self = this;
+    this.parameter.favorites = [];
+    this.spinner.show();
+    this.admin.postDataApi('leads/favoriteProject', {lead_id: this.parameter.lead_id, page: this.parameter.page2}).subscribe(r => {
+      self.spinner.hide();
+      self.parameter.favorites = r.data;
+      self.parameter.total2 = r.total;
+      if (self.parameter.page2 === 1) {
+        self.showProjectModal.nativeElement.click();
       }
     }, error => {
       this.spinner.hide();
