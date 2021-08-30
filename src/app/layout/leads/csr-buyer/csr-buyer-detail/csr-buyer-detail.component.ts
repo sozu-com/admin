@@ -194,14 +194,16 @@ export class CsrBuyerDetailComponent implements OnInit {
 
   viewFavProject() {
     let self = this;
-    this.parameter.favorites = [];
+    this.parameter.favoritess = [];
     this.spinner.show();
     this.admin.postDataApi('leads/favoriteProject', {lead_id: this.parameter.lead_id, page: this.parameter.page2}).subscribe(r => {
       self.spinner.hide();
-      self.parameter.favorites = r.data;
+      r.data.forEach(d => {
+        self.parameter.favoritess = d.fav_project;
+      });
       self.parameter.total2 = r.total;
       if (self.parameter.page2 === 1) {
-        self.showProjectModal.nativeElement.click();
+        this.showProjectModal.nativeElement.click();
       }
     }, error => {
       this.spinner.hide();

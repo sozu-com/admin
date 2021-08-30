@@ -137,6 +137,7 @@ export interface IProperty {
   allDocuments?: any;
   subscriber?: any;
   favorites?: any;
+  favoritess?: any;
   fav_properties_count?: number;
   buildingSpecificTypes?: any;
   paymentStatuses?: any;

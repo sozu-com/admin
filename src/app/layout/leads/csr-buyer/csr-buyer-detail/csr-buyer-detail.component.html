@@ -126,8 +126,8 @@
                             <tr>
                                 <td style="padding-left:0"><label>{{'leadDetails.favoriteProperties' | translate}}</label></td>
                                 <td>{{parameter.fav_properties_count}}
-                                    <a style="display: none;" data-toggle="modal" #showPropertyModal
-                                        data-target="#view-fav-property" class="view-all" href="javascript://">{{'leadDetails.viewAll' | translate}}</a>
+                                    <a href="javascript://" style="display: none;" data-toggle="modal" data-target="#prop"
+                                    #showPropertyModal>{{'leadDetails.viewAll' | translate}}</a>
                                     <a *ngIf="parameter.fav_properties_count" class="view-all" href="javascript://"
                                         (click)="viewFavProperties()">{{'leadDetails.viewAll' | translate}}</a>
                                 </td>
@@ -135,8 +135,8 @@
                             <tr>
                                 <td style="padding-left:0"><label>{{'leadDetails.favoriteProject' | translate}}</label></td>
                                 <td>{{parameter.fav_project_count}}
-                                    <a style="display: none;" data-toggle="modal" #showProjectModal
-                                        data-target="#viewProject" class="view-all" href="javascript://">{{'leadDetails.viewAll' | translate}}</a>
+                                    <!-- <a style="display: none;" data-toggle="modal" #showProjectModal
+                                        data-target="#viewProject" class="view-all" href="javascript://">{{'leadDetails.viewAll' | translate}}</a> -->
                                     <a *ngIf="parameter.fav_project_count" class="view-all" href="javascript://"
                                         (click)="viewFavProject()">{{'leadDetails.viewAll' | translate}}</a>
                                 </td>
@@ -234,7 +234,7 @@
 
 
 <!-- show fav properties -->
-<div class="modal" id="view-fav-property">
+<div class="modal animated" id="prop">
     <div class="modal-dialog  modal-lg">
         <div class="modal-content">
         <div class="modal-header">
@@ -280,7 +280,8 @@
 </div>
 
 <!-- show fav project -->
-<div class="modal" id="viewProject">
+<a href="javascript://" data-toggle="modal" data-target="#collection-notes" #showProjectModal></a>
+<div class="modal animated" id="collection-notes">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
         <div class="modal-header">
@@ -294,28 +295,28 @@
             <div class="scrollbox fav-prop" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
             <div class="row">
                 <div class="col-lg-6 col-md-12 col-sm-12 col-12"
-                *ngFor="let x of parameter.favorites| paginate: { id: 'page2', itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page2, totalItems: parameter.total2 }; let in=index">
-                <div *ngIf="favorites && in<2" class="project-des-bx white-bg">
+                *ngFor="let x of parameter.favoritess| paginate: { id: 'page2', itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page2, totalItems: parameter.total2 }; let in=index">
+                <div *ngIf="x && in<2" class="project-des-bx white-bg">
                     <!-- <div class="price">{{data.starting_price|thousand}}+</div> -->
                     <div class="fig-block">
-                      <img [src]="favorites.main_image| img:'thumb'" onerror='src="assets/img/placeholder-img.png"' alt="img">
+                      <img [src]="x.main_image| img:'thumb'" onerror='src="assets/img/placeholder-img.png"' alt="img">
                     </div>
                     <div class="project-des-content">
-                      <small title="Developer">{{favorites?.developer?.name ? data?.developer?.name : ('commonBlock.NA' | translate)}}</small>
+                      <!-- <small title="Developer">{{x?.developer?.name ? data?.developer?.name : ('commonBlock.NA' | translate)}}</small> -->
                       <a title="Building Name" routerLink="/dashboard/projects/details/{{data.id}}">
-                        <h5>{{favorites.name.slice(0, 35)}}</h5>
+                        <h5>{{x.name}}</h5>
                       </a>
-                      <p class="p12">{{favorites.address.slice(0, 90)}}</p>
+                      <p class="p12">{{x.address}}</p>
               
                       <p class="p13" title="Configurations">
                         <span *ngFor="let conf1 of data.configurations; let k=index">
                           <!-- {{conf1.config.name}} -->
                           {{conf1?.name ? conf1?.name : conf1?.config?.name}}
-                          <span *ngIf="k<favorites?.configurations?.length-1">,</span>
+                          <span *ngIf="k<x?.configurations?.length-1">,</span>
                         </span>
-                        <span *ngIf="favorites.configurations?.length==0">NA</span>
+                        <span *ngIf="x.configurations?.length==0">NA</span>
                       </p>
-                      <p class="p13"><strong>{{favorites.starting_price|price}}</strong></p>
+                      <p class="p13"><strong>{{x.starting_price|price}}</strong></p>
                     </div>
                   </div>
                 </div>
