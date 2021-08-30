@@ -130,6 +130,11 @@ export class CsrBuyerDetailComponent implements OnInit {
     this.viewFavProperties();
   }
 
+  getPage3(page) {
+    this.parameter.page2 = page;
+    this.viewFavProject();
+  }
+
   setFillInformationData(leadData: Leads) {
     this.allAmenities = leadData.buyer_amenities;
     leadData.buyer_amenities.forEach(element => {

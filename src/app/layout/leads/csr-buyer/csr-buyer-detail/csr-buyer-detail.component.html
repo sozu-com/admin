@@ -264,7 +264,7 @@
                     <p class="p12">{{x.building.address.slice(0, 40)}}</p>
                     <p class="p13" *ngIf="x">
                         <app-property-configuration *ngIf="x.configuration" [configuration]="x.configuration"></app-property-configuration>
-                        <span>&middot; {{x.property_type.name}}</span>
+                        <!-- <span>&middot; {{x.property_type.name}}</span> -->
                     </p>
                     <p class="p13">
                         {{x.min_price | price}}
@@ -290,7 +290,7 @@
         <div class="modal-body">
             <h3>{{'leadDetails.favoriteProject' | translate}}</h3>
             <hr>
-            <pagination-controls id="page2" class="my-pagination" (pageChange)="getPage2($event)"></pagination-controls>
+            <pagination-controls id="page3" class="my-pagination" (pageChange)="getPage3($event)"></pagination-controls>
     
             <div class="scrollbox fav-prop" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
             <div class="row">
