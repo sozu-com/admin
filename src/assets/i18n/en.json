@@ -1011,6 +1011,7 @@
       "agentCommissionOutside": "Agent Commission Outside",
       "dateOfRegistration": "Date Of Registration",
       "creditAssignee": "Assignee",
+      "csrSeller": "CSR Seller",
       "manualLead":{
         "name": "Name",
         "firstSurname": "First Surname",
@@ -1590,6 +1591,7 @@
       "userNotRegisterInWebsite": "User not register in website.",
       "leadCannotDeleteCSRBuyerAssigned": "Lead cannot delete CSR buyer assigned.",
       "firstAssignCSRBuyer": "First assign CSR buyer.",
+      "firstAssignCSRSeller": "First assign CSR seller.",
       "firstAssignCreditAgent": "First assign CreditAgent.",
       "youWantToMoveThisToManageLeads": "you want to move this to manage leads?"
     } 
@@ -1735,6 +1737,8 @@
     "assigned": "Assigned",
     "AsCSRAgent": "as CSR Buyer agent",
     "AsInhouseAgent": "as Inhouse agent",
+    "AsCSRSeller": "as CSR Seller agent",
+    "forCSRSeller": "for CSR Seller agent",
     "forCSRAgent": "for CSR Buyer Agent",
     "forCreditAgent": "for Credit Agent",
     "forInhouseAgent": "for Inhouse Agent",

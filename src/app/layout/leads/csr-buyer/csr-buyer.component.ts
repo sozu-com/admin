@@ -342,7 +342,7 @@ export class CsrBuyerComponent implements OnInit {
 
   bulkAssign() {
     let admin = this.user.data.admin_acl.find(x=> x.acl.name == 'Buyer Management');
-    if(((this.user.data.permissions.can_csr_buyer == 1 || this.users.data.permissions.can_csr_coordinator == 1) && this.user.data.user_type == 2) || admin.can_update == 1){
+    if(((this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_csr_coordinator == 1) && this.user.data.user_type == 2) || admin.can_update == 1){
     this.showSearchText = false;
     const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
     if (leads_ids.length === 0) {

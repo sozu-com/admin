@@ -1011,6 +1011,7 @@
       "agentCommissionInhouse": "Comisión de agente interna",
       "agentCommissionOutside": "Comisión de agente exterior",
       "creditAssignee": "Agente de crédito",
+      "csrSeller": "Vendedor CSR",
       "dateOfRegistration": "Fecha de registro",
       "manualLead":{
         "name": "Nombre",
@@ -1590,6 +1591,7 @@
       "userNotRegisterInWebsite": "El usuario no se registra en el sitio web.",
       "leadCannotDeleteCSRBuyerAssigned": "El cliente potencial no puede eliminar el comprador de CSR asignado.",
       "firstAssignCSRBuyer": "Primero, asigne un comprador de CSR.",
+      "firstAssignCSRSeller": "Primero, asigne un vendedor de CSR.",
       "firstAssignCreditAgent": "Primero asigne un Agente de Crédito.",
       "youWantToMoveThisToManageLeads": "¿de que querer mover a administrar leads?"
 
@@ -1730,6 +1732,8 @@
     "assigned": "Asignado",
     "AsCSRAgent": "como Agente Comprador CSR",
     "AsInhouseAgent": "como Agente interno",
+    "AsCSRSeller": "como Agente Vendedor CSR",
+    "forCSRSeller": "para Agente Vendedor CSR",
     "forCSRAgent": "para Agente Comprador CSR",
     "forCreditAgent": "para Agente crédito",
     "forInhouseAgent": "para Agente interno",
