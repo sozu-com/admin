@@ -1,0 +1,10 @@
+.cust-radio .checkmark {
+    border-radius: 13px;
+    text-align: center;
+    border: 1px solid rgba(179,179,179,0.5);
+    padding-top: 2px;
+    display: inline-block;
+    padding: 1.5px 20px;
+    /* min-width: 86px; */
+    margin-right: 12px;
+}
