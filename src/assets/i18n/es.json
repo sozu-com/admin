@@ -1591,6 +1591,7 @@
       "userNotRegisterInWebsite": "El usuario no se registra en el sitio web.",
       "leadCannotDeleteCSRBuyerAssigned": "El cliente potencial no puede eliminar el comprador de CSR asignado.",
       "firstAssignCSRBuyer": "Primero, asigne un comprador de CSR.",
+      "firstAssignCSRSeller": "Primero, asigne un vendedor de CSR.",
       "firstAssignCreditAgent": "Primero asigne un Agente de Crédito.",
       "youWantToMoveThisToManageLeads": "¿de que querer mover a administrar leads?"
 

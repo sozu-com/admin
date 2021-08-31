@@ -480,7 +480,7 @@ export class CsrSellerComponent implements OnInit {
       }
     });
     if(openFor != 'CSR' && !selected.admin){
-      this.toastr.warning(this.translate.instant('message.error.firstAssignCSRBuyer'), this.translate.instant('swal.warning'));
+      this.toastr.warning(this.translate.instant('message.error.firstAssignCSRSeller'), this.translate.instant('swal.warning'));
       return;
     }
     this.assign.keyword=null;
@@ -514,7 +514,7 @@ export class CsrSellerComponent implements OnInit {
       else{
         if(item){
           if(!item.admin){
-            this.toastr.warning(this.translate.instant('message.error.firstAssignCSRBuyer'), this.translate.instant('swal.warning'));
+            this.toastr.warning(this.translate.instant('message.error.firstAssignCSRSeller'), this.translate.instant('swal.warning'));
             return;
           }
         this.toastr.warning(this.translate.instant('message.error.SorryYouDoNotHaveThePermissionToGoThere'), this.translate.instant('swal.warning'));
