@@ -296,6 +296,11 @@ export class CsrSellerComponent implements OnInit {
     });
   }
 
+  changeFilter = (key: string, value: any): void => {
+    this.parameter[key] = value;
+    this.getListing();
+  }
+
   getListing() {
     this.items = [];
     this.parameter.noResultFound = false;
