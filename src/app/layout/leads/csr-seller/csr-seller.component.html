@@ -559,7 +559,7 @@
                     </div>
                     <div class="col-md-4 col-5 btn-cont">
                         <a class="btn btn-primary pull-right" href="javascript://"
-                            (click)="assignNow()">{{'leads.assign' | translate}}</a>
+                            (click)="openFor= 'CSR'; assignNow()">{{'leads.assign' | translate}}</a>
                     </div>
                 </div>
                 <div class="spacer40"></div>
@@ -581,7 +581,7 @@
                             </td>
                             <td *ngIf="item.is_blocked!=1">
                                 <label class="cust-check-bx float-right">
-                                    <input type="radio" name="notary_id" (click)="assignItem = item">
+                                    <input type="radio" name="notary_id" (click)="assignItem = item; selected_lead = item">
                                     <span class="checkmark"></span>
                                 </label>
                             </td>

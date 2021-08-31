@@ -420,7 +420,7 @@ export class CsrSellerComponent implements OnInit {
     if(this.openFor == 'CSR'){
     //users_ids = this.items.filter(x => x.selected).map(y => y.admin.id);
     inputCSR = {
-      csr_buyer_id: this.assignItem.id,
+      csr_seller_id: this.assignItem.id,
       leads: leads_ids,
       type: this.selected_lead.admin_id == this.assignItem.id? 2 : 1
       //users: users_ids
