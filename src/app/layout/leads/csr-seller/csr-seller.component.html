@@ -504,7 +504,7 @@
                                     <span>{{item?.broker ? item?.broker?.name : ('leads.linkAgent' | translate)}}</span>
                                 </td>
                                 <td class="text-left green-color cursor-pointer" (click)="openStatusHistoryModel(item)">
-                                    <span>{{item.admin_id ? ('table.tr.td.view' | translate) : ('table.tr.td.NA' |
+                                    <span>{{item.admin_id || item?.status ? ('table.tr.td.view' | translate) : ('table.tr.td.NA' |
                                         translate)}}</span> </td>
                                <td >
                                     <button [disabled]="admin?.admin_acl['Seller Management']?.can_delete==0"
