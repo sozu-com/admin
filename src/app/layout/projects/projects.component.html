@@ -429,7 +429,12 @@
                     <span><label>{{'table.th.avergagePrice3' | translate}}</label></span>
                   </div>
                 </th>
-
+                <th style="vertical-align:top;width:5%" 
+                *ngIf="selectedColumnsToShow?.avg_price_rent">
+                  <div class="d-flex table-search">
+                    <span><label>{{'table.th.avergagePrice5' | translate}}</label></span>
+                  </div>
+                </th>
                 <th style="vertical-align:top;width:10%" *ngIf="selectedColumnsToShow?.document">
                   <div class="d-flex table-search"><span><label>{{'table.th.document' | translate}}</label></span></div>
                 </th>
@@ -541,7 +546,7 @@
                 <td *ngIf="selectedColumnsToShow?.inventory_list_price"><span>${{ p.avg_price_hold ? (p.avg_price_hold | number : '1.2-2') : 0.00}}</span></td>
                 <td *ngIf="selectedColumnsToShow?.inventory_carpet_area"><span>{{ p.avg_carpet_area_hold ? (p.avg_carpet_area_hold | number : '1.2-2') : 0.00}}</span></td>
                 <td *ngIf="selectedColumnsToShow?.inventory_per_metter"><span>${{ p.avgg_price_hold ? (p.avgg_price_hold | number : '1.2-2') : 0.00}}</span></td>
-
+                <td *ngIf="selectedColumnsToShow?.avg_price_rent"><span>${{ p.rent_avg_price ? (p.rent_avg_price | number : '1.2-2') : 0.00}}</span></td>
                 <td *ngIf="selectedColumnsToShow?.document">
                   <span *ngIf="!p?.document">{{'table.tr.td.NA' | translate}}</span>
                   <button *ngIf="p?.document" [disabled]="admin?.admin_acl['Project Management']?.can_read==0"

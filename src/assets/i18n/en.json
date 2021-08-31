@@ -801,6 +801,7 @@
       "avergagePrice": "Price per m2",
       "avergagePrice2": "Price per m2 (For sale)",
       "avergagePrice3": "Price per m2 (Inventory)",
+      "avergagePrice5": "Avg Price Rent",
       "price_per_square":"price per square meter",
       "Commercialofferslist": "Commercial offers list",
       "editPrice": "Edit list price",

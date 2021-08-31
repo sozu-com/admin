@@ -670,7 +670,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
         this.selectedColumnsToShow.inventory_list_price == 0 ? delete obj['Avg list price (Inventory)'] : undefined;
         this.selectedColumnsToShow.inventory_carpet_area == 0 ? delete obj['Avg Carpet Area (Inventory)'] : undefined;
         this.selectedColumnsToShow.inventory_per_metter == 0 ? delete obj['Price per m2 (Inventory)'] : undefined;
-
+        this.selectedColumnsToShow.avg_price_rent == 0 ? delete obj['Avg Price Rent'] : undefined;
         exportfinalData.push(obj);
       }
       this.exportAsExcelFile(exportfinalData, 'projects-');
@@ -887,6 +887,9 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       case 21:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.image;
         break;
+      case 22:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.avg_price_rent;
+        break;
       default:
         break;
     }
@@ -952,6 +955,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       inventory_carpet_area: (this.select_columns_list[18] || []).isCheckBoxChecked,
       inventory_per_metter: (this.select_columns_list[19] || []).isCheckBoxChecked,
       image: (this.select_columns_list[20] || []).isCheckBoxChecked,
+      avg_price_rent: (this.select_columns_list[21] || []).isCheckBoxChecked,
     };
   }
   getNotes(item) {
