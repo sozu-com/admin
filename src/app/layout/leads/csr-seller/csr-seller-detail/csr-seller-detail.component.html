@@ -1,168 +1,184 @@
 <div class="container-fluid">
-  <div class="white-bg padding15">
-      <div class="row">
-          <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-              <div class="df-profile">
-                  <a routerLink="../" *ngIf="!user_id"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
-                  <img [src]="leadData?.user?.image" onerror='src="assets/img/default_img.png"' alt="img">
-                  <div class="df-info">
-                      <p class="p14 text-ellipsis120">
-                          {{leadData?.user?.name ? leadData?.user?.name : leadData?.name}}
-                          {{leadData?.user?.first_surname ? leadData?.user?.first_surname : leadData?.first_surname}}
-                          {{leadData?.user?.second_surname ? leadData?.user?.second_surname : leadData?.second_surname}}
-                      </p>
-                      <p class="p12">
-                          {{leadData?.user?.dial_code?leadData?.user?.dial_code:leadData?.dial_code}}-{{leadData?.user?.phone ? leadData?.user?.phone:leadData?.phone}}
-                      </p>
-                  </div>
-              </div>
-          </div>
-          <div class="col-lg-7 col-md-12 col-sm-6 col-12">
-              <div class="profile-list">
-                  <ul>
-                      <li>
-                          <div class="df-info">
-                              <p class="p14 marginB0" *ngIf="leadData?.admin">
-                                  {{leadData.admin.name | titlecase}}
-                                  {{leadData.admin.first_surname | titlecase}}
-                                  {{leadData.admin.second_surname | titlecase}}
-                              </p>
-                              <p class="p12">{{'leadDetails.sellerAgent' | translate}}
-                                  
-                              </p>
-                          </div>
-                      </li>
-                      <li>
-                          <div class="df-info" *ngIf="leadData?.broker">
-                              <p class="p14 marginB0">
-                                  {{leadData.broker.name | titlecase}}
-                                  {{leadData.broker.first_surname | titlecase}}
-                                  {{leadData.broker.second_surname | titlecase}}
-                              </p>
-                              <p class="p12">
-                                  {{leadData?.broker?.is_external_agent==1 ? ('leadDetails.outsideAgent' | translate) : ('leadDetails.inhouseAgent' | translate)}}</p>
-                          </div>
-                      </li>
-                      <li>
-                          <div class="df-info" *ngIf="leadData?.closer">
-                              <p class="p14 marginB0">{{leadData.closer.name | titlecase}}</p>
-                              <p class="p12">{{'leadDetails.CSRClosure' | translate}}</p>
-                          </div>
-                      </li>
-                  </ul>
-              </div>
-          </div>
+    <div class="white-bg padding15">
+        <div class="row">
+            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                <div class="df-profile">
+                    <a routerLink="../" *ngIf="!user_id"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+                    <img [src]="leadData?.user?.image" onerror='src="assets/img/default_img.png"' alt="img">
+                    <div class="df-info">
+                        <p class="p14 text-ellipsis120">
+                            {{leadData?.user?.name ? leadData?.user?.name : leadData?.name}}
+                            {{leadData?.user?.first_surname ? leadData?.user?.first_surname : leadData?.first_surname}}
+                            {{leadData?.user?.second_surname ? leadData?.user?.second_surname :
+                            leadData?.second_surname}}
+                        </p>
+                        <p class="p12">
+                            {{leadData?.user?.dial_code?leadData?.user?.dial_code:leadData?.dial_code}}-{{leadData?.user?.phone
+                            ? leadData?.user?.phone:leadData?.phone}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7 col-md-12 col-sm-6 col-12">
+                <div class="profile-list">
+                    <ul>
+                        <li>
+                            <div class="df-info">
+                                <p class="p14 marginB0" *ngIf="leadData?.admin">
+                                    {{leadData.admin.name | titlecase}}
+                                    {{leadData.admin.first_surname | titlecase}}
+                                    {{leadData.admin.second_surname | titlecase}}
+                                </p>
+                                <p class="p12">{{'leadDetails.sellerAgent' | translate}}
 
-          <div class="col-lg-2 col-md-12 col-sm-12 col-12"
-              *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1">
-              <div *ngIf="!leadData?.broker && leadData?.user && (admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1)"
-                  class="form-group d-flex marginT10 float-right right-side">
-                  <div class="dropdown btn-cont">
-                      <a (click)="assignToBroker()" class="btn btn-primary" href="javascript://">{{'leadDetails.assignToAgent' | translate}}</a>
-                      <!-- <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="df-info" *ngIf="leadData?.broker">
+                                <p class="p14 marginB0">
+                                    {{leadData.broker.name | titlecase}}
+                                    {{leadData.broker.first_surname | titlecase}}
+                                    {{leadData.broker.second_surname | titlecase}}
+                                </p>
+                                <p class="p12">
+                                    {{leadData?.broker?.is_external_agent==1 ? ('leadDetails.outsideAgent' | translate)
+                                    : ('leadDetails.inhouseAgent' | translate)}}</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="df-info" *ngIf="leadData?.closer">
+                                <p class="p14 marginB0">{{leadData.closer.name | titlecase}}</p>
+                                <p class="p12">{{'leadDetails.CSRClosure' | translate}}</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-12 col-sm-12 col-12"
+                *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1">
+                <div *ngIf="!leadData?.broker && leadData?.user && (admin?.admin_acl['Buyer Lead Management']?.can_update==1 || admin?.permissions?.can_csr_buyer==1)"
+                    class="form-group d-flex marginT10 float-right right-side">
+                    <div class="dropdown btn-cont">
+                        <a (click)="assignToBroker()" class="btn btn-primary"
+                            href="javascript://">{{'leadDetails.assignToAgent' | translate}}</a>
+                        <!-- <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                Action
              </button>
              <div class="dropdown-menu dropdown-menu-right">
                <a (click)="assignToBroker()" *ngIf="!leadData?.broker && leadData?.user" class="dropdown-item" href="javascript://">Assign to broker</a>
                <a (click)="blockThisLead()" class="dropdown-item" href="javascript://">Block</a>
              </div> -->
-                  </div>
-              </div>
-              <div *ngIf="is_deal_finalised" class="row">
-                  <div class="col-sm-7 btn-cont text-right">
-                      <a style="cursor: auto;" class="btn btn-fourth" href="javascript://">{{'leadDetails.dealFinalized' | translate}}</a>
-                  </div>
-              </div>
-          </div>
-      </div>
+                    </div>
+                </div>
+                <div *ngIf="is_deal_finalised" class="row">
+                    <div class="col-sm-7 btn-cont text-right">
+                        <a style="cursor: auto;" class="btn btn-fourth"
+                            href="javascript://">{{'leadDetails.dealFinalized' | translate}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-  </div>
+    </div>
 
-  <div class="spacer30"></div>
-  <div class="row">
-      <div class="col-lg-6 col-md-12 col-sm-12 col-12">
-          <div class="white-bg padding30">
+    <div class="spacer30"></div>
+    <div class="row">
+        <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+            <div class="white-bg padding30">
 
-              <div class="row">
-                  <div class="col-md-6">
-                      <h6>{{'leadDetails.details' | translate}}</h6>
-                  </div>
-                  <!-- <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>{{'leadDetails.details' | translate}}</h6>
+                    </div>
+                    <!-- <div class="col-md-6">
                <div class="edit text-right"><a href="javascript://">Edit</a></div>
             </div> -->
-              </div>
-              <div class="details-table">
-                  <table class="table">
-                      <tbody>
-                          <tr>
-                              <td style="padding-left:0"><label>{{'leadDetails.fullName' | translate}}</label></td>
-                              <td *ngIf="leadData?.name">
-                                  {{leadData?.user?.name ? leadData?.user?.name : leadData?.name}}
-                                  {{leadData?.user?.first_surname ? leadData?.user?.first_surname : leadData?.first_surname}}
-                                  {{leadData?.user?.second_surname ? leadData?.user?.second_surname : leadData?.second_surname}}
-                              </td>
-                          </tr>
-                          <tr>
-                              <td style="padding-left:0"><label>{{'leadDetails.contactNumber' | translate}}</label></td>
-                              <td *ngIf="leadData?.phone">
-                                  {{leadData?.user?.dial_code ? leadData?.user?.dial_code : leadData?.dial_code}} -
-                                  {{leadData?.user?.phone ? leadData?.user?.phone : leadData?.phone}}</td>
-                          </tr>
-                          <tr>
-                              <td style="padding-left:0"><label>{{'leadDetails.emailAddress' | translate}}</label></td>
-                              <td *ngIf="leadData?.email">
-                                  {{leadData?.user?.email ? leadData?.user?.email : leadData?.email}}</td>
-                          </tr>
-                          <tr>
-                              <td style="padding-left:0"><label>{{'leadDetails.interestedIn' | translate}}</label></td>
-                              <td>
-                                  <span>{{leadData.bedrooms ? (leadData?.bedrooms + ' ' + ('leadDetails.rooms' | translate)) : ('leadDetails.NA' | translate)}}</span>
-                                  <span *ngIf="leadData?.bathrooms" style="margin-left: 10px;">{{leadData.bathrooms ? (leadData?.bathrooms + ' ' + ('leadDetails.baths' | translate)) : ''}}</span>
-                              </td>
-                          </tr>
-                          <tr>
-                              <td style="padding-left:0"><label>{{'leadDetails.favoriteProperties' | translate}}</label></td>
-                              <td>{{parameter.fav_properties_count}}
-                                  <a style="display: none;" data-toggle="modal" #showPropertyModal
-                                      data-target="#view-fav-property" class="view-all" href="javascript://">{{'leadDetails.viewAll' | translate}}</a>
-                                  <a *ngIf="parameter.fav_properties_count" class="view-all" href="javascript://"
-                                      (click)="viewFavProperties()">{{'leadDetails.viewAll' | translate}}</a>
-                              </td>
-                          </tr>
+                </div>
+                <div class="details-table">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td style="padding-left:0"><label>{{'leadDetails.fullName' | translate}}</label></td>
+                                <td *ngIf="leadData?.name">
+                                    {{leadData?.user?.name ? leadData?.user?.name : leadData?.name}}
+                                    {{leadData?.user?.first_surname ? leadData?.user?.first_surname :
+                                    leadData?.first_surname}}
+                                    {{leadData?.user?.second_surname ? leadData?.user?.second_surname :
+                                    leadData?.second_surname}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:0"><label>{{'leadDetails.contactNumber' | translate}}</label>
+                                </td>
+                                <td *ngIf="leadData?.phone">
+                                    {{leadData?.user?.dial_code ? leadData?.user?.dial_code : leadData?.dial_code}} -
+                                    {{leadData?.user?.phone ? leadData?.user?.phone : leadData?.phone}}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:0"><label>{{'leadDetails.emailAddress' | translate}}</label>
+                                </td>
+                                <td *ngIf="leadData?.email">
+                                    {{leadData?.user?.email ? leadData?.user?.email : leadData?.email}}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:0"><label>{{'leadDetails.interestedIn' | translate}}</label>
+                                </td>
+                                <td>
+                                    <span>{{leadData.bedrooms ? (leadData?.bedrooms + ' ' + ('leadDetails.rooms' |
+                                        translate)) : ('leadDetails.NA' | translate)}}</span>
+                                    <span *ngIf="leadData?.bathrooms" style="margin-left: 10px;">{{leadData.bathrooms ?
+                                        (leadData?.bathrooms + ' ' + ('leadDetails.baths' | translate)) : ''}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:0"><label>{{'leadDetails.favoriteProperties' |
+                                        translate}}</label></td>
+                                <td>{{parameter.fav_properties_count}}
+                                    <a style="display: none;" data-toggle="modal" #showPropertyModal
+                                        data-target="#view-fav-property" class="view-all"
+                                        href="javascript://">{{'leadDetails.viewAll' | translate}}</a>
+                                    <a *ngIf="parameter.fav_properties_count" class="view-all" href="javascript://"
+                                        (click)="viewFavProperties()">{{'leadDetails.viewAll' | translate}}</a>
+                                </td>
+                            </tr>
 
-                          <!-- Meeting Schedule -->
-                          <tr *ngIf="leadData?.sale_rent==1">
-                              <td style="padding-left:0"><label><strong>{{'leadDetails.meetingSchedule' | translate}}</strong></label></td>
-                              <td colspan="2">
-                                  <p style="display:none;" class="date" #modalOpen data-toggle="modal"
-                                      data-target="#set_appointment">{{'leadDetails.clickToSchedule' | translate}}</p>
-                                  <!-- <p class="date cursor-pointer" (click)="openModal()">{{'leadDetails.clickToSchedule' | translate}}</p> -->
-                                  <p class="date cursor-pointer" style="color: gray !important;">{{'leadDetails.clickToSchedule' | translate}}</p>
-                                  <p *ngFor="let na of data; let m=index" class="date">
-                                      <span *ngIf="m<2">{{na.appointment_date | moment}}</span>
-                                  </p>
-                                  <span class="read-more" *ngIf="data.length>2" data-toggle="modal"
-                                      data-target="#get-availability1">{{'leadDetails.viewAll' | translate}}</span>
-                              </td>
-                          </tr>
+                            <!-- Meeting Schedule -->
+                            <tr *ngIf="leadData?.sale_rent==1">
+                                <td style="padding-left:0"><label><strong>{{'leadDetails.meetingSchedule' |
+                                            translate}}</strong></label></td>
+                                <td colspan="2">
+                                    <p style="display:none;" class="date" #modalOpen data-toggle="modal"
+                                        data-target="#set_appointment">{{'leadDetails.clickToSchedule' | translate}}</p>
+                                    <!-- <p class="date cursor-pointer" (click)="openModal()">{{'leadDetails.clickToSchedule' | translate}}</p> -->
+                                    <p class="date cursor-pointer" style="color: gray !important;">
+                                        {{'leadDetails.clickToSchedule' | translate}}</p>
+                                    <p *ngFor="let na of data; let m=index" class="date">
+                                        <span *ngIf="m<2">{{na.appointment_date | moment}}</span>
+                                    </p>
+                                    <span class="read-more" *ngIf="data.length>2" data-toggle="modal"
+                                        data-target="#get-availability1">{{'leadDetails.viewAll' | translate}}</span>
+                                </td>
+                            </tr>
 
-                      </tbody>
-                  </table>
-              </div>
-          </div>
-          <div class="spacer30"></div>
-          
-      </div>
-      <div class="col-lg-6 col-md-12 col-sm-12 col-12">
-           <div *ngIf="!leadData?.user" class="white-bg padding20">
-                  {{'leadDetails.userIsNotRegistered' | translate}}
-          </div> 
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="spacer30"></div>
 
-          <!-- chat start -->
-          <!-- <div *ngIf="leadData?.user"> -->
-              <!-- <app-chat [lead_id]="parameter.lead_id" [sent_as]="parameter.sent_as" [user_id]="parameter.user_id"
+        </div>
+        <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+            <div *ngIf="!leadData?.user" class="white-bg padding20">
+                {{'leadDetails.userIsNotRegistered' | translate}}
+            </div>
+
+            <!-- chat start -->
+            <!-- <div *ngIf="leadData?.user"> -->
+            <!-- <app-chat [lead_id]="parameter.lead_id" [sent_as]="parameter.sent_as" [user_id]="parameter.user_id"
                   [admin_id]="parameter.admin_id"></app-chat> -->
-              <!-- <div class="white-bg move-below">
+            <!-- <div class="white-bg move-below">
                   <div class="page-title-3 marginB0">
                       <h4><i><img src="assets/img/chat-icon.png" alt="img"></i> {{'leadDetails.chat' | translate}}</h4>
                   </div>
@@ -174,57 +190,129 @@
                   </div>
               </div>
           </div> -->
-          <!-- chat end -->
+            <!-- chat end -->
 
-          <!-- notes start -->
-          <app-notes *ngIf="parameter?.lead_id || parameter?.user_id" [sent_as]="parameter.sent_as" [lead_id]="parameter.lead_id" [user_id]="parameter.user_id"></app-notes>
-          <!-- notes end -->
+            <!-- notes start -->
+            <app-notes *ngIf="parameter?.lead_id || parameter?.user_id" [sent_as]="parameter.sent_as"
+                [lead_id]="parameter.lead_id" [user_id]="parameter.user_id"></app-notes>
+            <!-- notes end -->
 
-      </div>
-  </div>
+        </div>
+    </div>
 
-  <div class="spacer30"></div>
-  <div class="row">
-      <div class="col-lg-6 col-md-12 col-sm-12 col-12">
-          <div class="white-bg padding30">
-            <div class="row">
-              <div class="col-md-12">
-                  <h6>{{'leadDetails.propertyInformation' | translate}}</h6>
-              </div>
-              <div class="details-table">
-                <table class="table">
-                    <tbody>
-                      <tr>
-                        <td style="padding-left:0;"><label>{{'leadDetails.location' | translate}}</label></td>
-                        <td>
-                            <span>{{leadData.city ? leadData.city.name : 'N/A'}}</span><span style="margin-left: 30px;">{{leadData.locality ? leadData.locality.name : ''}}</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="padding-left:0;"><label>{{'leadDetails.price' | translate}}</label></td>
-                        <td>
-                          {{leadData.price ? '$ ' + leadData?.price : 'N/A'}}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding-left:0;"><label>{{'leadDetails.rooms' | translate}}</label></td>
-                        <td>
-                          {{leadData?.bedrooms ? leadData?.bedrooms : 'N/A'}}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding-left:0;"><label>{{'leadDetails.baths' | translate}}</label></td>
-                        <td>
-                          {{leadData.bathrooms ? leadData?.bathrooms : 'N/A'}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="padding-left:0;"><label>{{'leadDetails.carpetAreaAprox' | translate}}</label></td>
-                        <td>{{leadData.carpet_area ? leadData?.carpet_area : 'N/A'}}
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>  
-          </div>
-          </div>
-      </div>
-  </div>
+    <div class="spacer30"></div>
+    <div class="row">
+        <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+            <div class="white-bg padding30">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                        <h6>{{'leadDetails.propertyInformation' | translate}}</h6>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                        <h6 style="color: #00B96F;cursor: pointer;float: right !important;" (click)="toggleShow();">
+                            {{'leadDetails.edit' | translate}}</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="details-table">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td style="padding-left:0;"><label>{{'leadDetails.location' | translate}}</label>
+                                    </td>
+                                    <td>
+                                        <span *ngIf="isShown">
+                                            <div class="form-group">
+                                                <select class="form-control" [(ngModel)]="leadData.city.name"
+                                                (change)="changeCity($event.target.value)">
+                                                    <!-- <option value="0">{{'filters.location.allOption' | translate}}
+                                                    </option> -->
+                                                    <option *ngFor="let item of allCities" [value]="item.name">
+                                                        {{item.name}}</option>
+                                                </select>
+                                            </div>
+                                        </span>
+                                        <span *ngIf="isShown">
+                                            <div class="form-group">
+                                                <select class="form-control" (change)="changeLocality($event.target.value)"
+                                                [(ngModel)]="leadData.locality.name">
+                                                    <!-- <option value="0">{{'filters.location.allOption' | translate}}
+                                                    </option> -->
+                                                    <option *ngFor="let item of CityLocalities" [value]="item.name">
+                                                        {{item.name}}</option>
+                                                </select>
+                                            </div>
+                                        </span>
+                                        <span *ngIf="!isShown">{{leadData.city ? leadData.city.name : 'N/A'}}</span>
+                                        <span style="margin-left: 30px;" *ngIf="!isShown">{{leadData.locality ? leadData.locality.name : ''}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-left:0;"><label>{{'leadDetails.price' | translate}}</label></td>
+                                    <td *ngIf="isShown">
+                                        <div class="form-group">
+                                            <select class="form-control" 
+                                            [(ngModel)]="leadData.price">
+                                                <option value="0">{{'filters.location.allOption' | translate}}</option>
+                                                <option *ngFor="let item of allPrices" [value]="item.name_en">
+                                                    {{item.name_en}}</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td *ngIf="!isShown">
+                                        {{leadData.price ? '$ ' + leadData?.price : 'N/A'}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-left:0;"><label>{{'leadDetails.rooms' | translate}}</label></td>
+                                    <td *ngIf="isShown">
+                                        <label class="cust-radio" *ngFor="let count of bedrooms">
+                                            <input name="bedroom" type="radio" (change)="setPrefValue(count.id)"
+                                                [checked]="leadData.bedrooms == count.name ?'checked':''">
+                                            <span class="checkmark">{{count.name}}</span>
+                                        </label>
+                                    </td>
+                                    <td *ngIf="!isShown">
+                                        {{leadData?.bedrooms ? leadData?.bedrooms : 'N/A'}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-left:0;"><label>{{'leadDetails.baths' | translate}}</label></td>
+                                    <td *ngIf="isShown">
+                                        <label class="cust-radio" *ngFor="let count of bathrooms">
+                                            <input name="bathroom" type="radio"
+                                                (change)="setBath(count.id)"
+                                                [checked]="leadData.bathrooms == count.name ?'checked':''">
+                                            <span class="checkmark">{{count.name}}</span>
+                                        </label>
+                                    </td>
+                                    <td *ngIf="!isShown">
+                                        {{leadData.bathrooms ? leadData?.bathrooms : 'N/A'}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-left:0;"><label>{{'leadDetails.carpetAreaAprox' |
+                                            translate}}</label></td>
+                                    <td *ngIf="isShown">
+                                        <input class="form-control" type="number" name="carpet_area" [(ngModel)]="leadData.carpet_area">
+                                    </td>
+                                    <td *ngIf="!isShown">
+                                        {{leadData.carpet_area ? leadData?.carpet_area : 'N/A'}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-6 col-12">
+                        <div class="btn-cont float-right">
+                            <button class="btn btn-primary" (click)="editPreferences()" [disabled]="!isShown">
+                                {{'commonBlock.save' | translate}}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
