@@ -22,6 +22,18 @@ export class CsrSellerComponent implements OnInit {
   @ViewChild('openAssignModel') openAssignModel: ElementRef;
   @ViewChild('closeAssignModel') closeAssignModel: ElementRef;
 
+  @ViewChild('openNewAssignModel') openNewAssignModel: ElementRef;
+  @ViewChild('closeNewAssignModel') closeNewAssignModel: ElementRef;
+
+  @ViewChild('addChangeStatusModelOpen') addChangeStatusModelOpen: ElementRef;
+  @ViewChild('addChangeStatusModelClose') addChangeStatusModelClose: ElementRef;
+
+  @ViewChild('linkBrokerModal') linkBrokerModal: ElementRef;
+  @ViewChild('closeBrokerModal') closeBrokerModal: ElementRef;
+
+  @ViewChild('viewStatuHistoryModelOpen') viewStatuHistoryModelOpen: ElementRef;
+  @ViewChild('viewStatuHistoryModelClose') viewStatuHistoryModelClose: ElementRef;
+
   public parameter: IProperty = {};
   public location: IProperty = {};
   public assign: IProperty = {};
@@ -45,6 +57,10 @@ export class CsrSellerComponent implements OnInit {
   locale: any;
   user: any;
   selected_lead: any;
+  openFor: string;
+  selectedAddChangeStatus: any;
+  addChangeStatusNames: any;
+  history: any;
   constructor(
     public admin: AdminService,
     public leadsService: LeadsService,
@@ -358,21 +374,79 @@ export class CsrSellerComponent implements OnInit {
       });
   }
 
-  assignNow() {
-    const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
-    //const users_ids = this.items.filter(x => x.selected).map(y => y.admin.id);
+  getInhouseAgentListing() {
     const input = {
-      csr_seller_id: this.assignItem.id,
-      leads: leads_ids,
-      //users: users_ids
+      keyword: this.assign.keyword
     };
     this.spinner.show();
-    this.admin.postDataApi('leads/bulkAssignSeller', input).subscribe(r => {
+    this.assign.items = [];
+    this.admin.postDataApi('getInhouseBroker', input).subscribe(
+      success => {
+        this.spinner.hide();
+        this.assign.items = success.data;
+        this.assignItem = this.assign.items.find(x=> x.id ==  this.selected_lead.broker_id);
+      });
+  }
+
+  assignBuyerAgent(item){
+    if(this.openFor == 'CSR'){
+      //users_ids = this.items.filter(x => x.selected).map(y => y.admin.id);
+      this.assignNow(item);
+      }
+      else{
+        this.assignItem = item;
+        let text = this.selected_lead.broker_id !=  this.assignItem.id? this.translate.instant('swalText.assignInhouseAgent') : this.translate.instant('swalText.unassignInhouseAgent');
+        swal({
+          html: this.translate.instant('message.error.areYouSure') + '<br>' +  text,
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: this.constant.confirmButtonColor,
+          cancelButtonColor: this.constant.cancelButtonColor,
+          confirmButtonText: this.translate.instant('deleteSwal.yes'),
+          cancelButtonText: this.translate.instant('deleteSwal.cancel')
+        }).then((result) => {
+          if (result.value) {
+            this.assignNow(item)
+          }
+        });
+      }
+  }
+
+
+  assignNow(item) {
+    let inputCSR;
+    let input;
+    const leads_ids = this.items.filter(x => x.selected).map(y => y.id);
+    if(this.openFor == 'CSR'){
+    //users_ids = this.items.filter(x => x.selected).map(y => y.admin.id);
+    inputCSR = {
+      csr_buyer_id: this.assignItem.id,
+      leads: leads_ids,
+      type: this.selected_lead.admin_id == this.assignItem.id? 2 : 1
+      //users: users_ids
+    };
+    }
+    else{
+      this.assignItem = item;
+      input = {
+        broker_id: this.assignItem.id,
+        leads: leads_ids,
+        type: this.selected_lead.broker_id &&  item.id == this.selected_lead.broker_id? 2 : 1
+      };
+    } 
+    this.spinner.show();
+    let url = this.openFor == 'CSR' ? 'leads/bulkAssignSeller' : 'leads/bulkAssignBroker';
+    this.admin.postDataApi(url, this.openFor == 'CSR' ? inputCSR : input).subscribe(r => {
       this.spinner.hide();
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.assignedSuccessfully'), 'success');
-      this.closeAssignModel.nativeElement.click();
+      this.closeNewAssignModel.nativeElement.click();
+      let test =  (input && input.type != 2) || (inputCSR && inputCSR.type != 2) ? this.translate.instant('message.success.assignedSuccessfully') : this.translate.instant('message.success.unassignedSuccessfully')
+      swal(this.translate.instant('swal.success'), test, 'success');
+     if((input && input.type == 2) || (inputCSR && inputCSR.type == 2)){
+       this.selected_lead.broker_id = undefined;
+       this.selected_lead.broker = undefined;
+     }
+     this.openFor != 'CSR'? this.closeBrokerModal.nativeElement.click() : undefined; 
       this.getListing();
-      this.allSelected = false;
       this.items.filter(item=>{
         if(item.selected){
           item.selected = false;
@@ -381,23 +455,21 @@ export class CsrSellerComponent implements OnInit {
     },
       error => {
         this.spinner.hide();
-        this.closeAssignModel.nativeElement.click();
+        //this.closeAssignModel.nativeElement.click();
         swal(this.translate.instant('swal.error'), error.error.message, 'error');
       });
   }
 
-  getCSRSellerChat($event: any, chat_with: number, csr_seller_id: number, lead_id: number) {
-    // chat_with = 1 means chat with seller, 2 means chat with agent
-    if (csr_seller_id) {
-      this.router.navigate(['/dashboard/leads/chat-with-seller', chat_with, csr_seller_id, lead_id]);
-    } else {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.noCSRSellerAssigned'), 'error');
-    }
+  viewLeadDetails(lead_id: string, data: any) {
+    this.leadsService.setLeadDetailData(data);
+    this.router.navigate(['/dashboard/leads/csr-buyers', lead_id]);
   }
 
-  openModel(selected) {
+  openModel(openFor, selected) {
     this.user = JSON.parse(localStorage.getItem('all'));
-    if(this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_cordinator == 1){
+    let admin = this.user.data.admin_acl.find(x=> x.acl.name == 'Buyer Management');
+    if((openFor == 'CSR' && this.user.data.permissions.can_csr_coordinator == 1 && this.user.data.user_type == 2) ||  (openFor != 'CSR' && (this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_csr_coordinator == 1)&& this.user.data.user_type == 2) || admin.can_update == 1){
+    this.openFor = openFor;
     this.selected_lead = selected;
     this.items.filter(item=>{
       if(item.id == selected.id){
@@ -407,13 +479,94 @@ export class CsrSellerComponent implements OnInit {
         item.selected = false;
       }
     });
+    if(openFor != 'CSR' && !selected.admin){
+      this.toastr.warning(this.translate.instant('message.error.firstAssignCSRBuyer'), this.translate.instant('swal.warning'));
+      return;
+    }
     this.assign.keyword=null;
-    this.getAssignListing();
-    this.openAssignModel.nativeElement.click();
+    openFor == 'CSR' ? this.getAssignListing() : this.getInhouseAgentListing();
+    this.openFor == 'CSR'? this.openNewAssignModel.nativeElement.click() : this.linkBrokerModal.nativeElement.click();
   }
   else{
     this.toastr.warning(this.translate.instant('message.error.SorryYouDoNotHaveThePermissionToGoThere'), this.translate.instant('swal.warning'))
   }
+  }
+
+
+
+  getSearchAssign(){
+    this.openFor == 'CSR' ? this.getAssignListing() : this.getInhouseAgentListing();
+  }
+
+  openAddChangeStatusModel(item){ 
+    this.user = JSON.parse(localStorage.getItem('all'));
+    this.selected_lead = item;
+    this.selectedAddChangeStatus = item && item.status ? item.status.status_id : 0;
+    this.spinner.show();
+    //this.addChangeStatusNames = ['Mailbox', 'Call later', 'Not interested', 'Scheduled appointment', 'Incorrect data', 'Real estate advisory', 'Lead lost', 'N/A'];
+    this.admin.getApi("leads/all-csr-buyer-statuses" ).subscribe(r => {
+      this.addChangeStatusNames = r.data;
+      this.spinner.hide();
+      let admin = this.user.data.admin_acl.find(x=> x.acl.name == 'Buyer Management');
+      if(item && item.admin && (((this.user.data.permissions.can_csr_buyer == 1 || this.user.data.permissions.can_csr_coordinator == 1) && this.user.data.user_type == 2) || admin.can_update == 1)){
+      this.addChangeStatusModelOpen.nativeElement.click();
+      }
+      else{
+        if(item){
+          if(!item.admin){
+            this.toastr.warning(this.translate.instant('message.error.firstAssignCSRBuyer'), this.translate.instant('swal.warning'));
+            return;
+          }
+        this.toastr.warning(this.translate.instant('message.error.SorryYouDoNotHaveThePermissionToGoThere'), this.translate.instant('swal.warning'));
+        }
+        
+      }
+    },
+      error => {
+        this.spinner.hide();
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
+      });
+  }
+
+  closeAddChangeStatusModel = (): void => {
+    this.addChangeStatusModelClose.nativeElement.click();
+  }
+
+  onClickAddStatus() {
+    let input={
+      lead_id: this.selected_lead.id,
+      admin_id: this.selected_lead.admin.id,
+      status_id: this.selectedAddChangeStatus
+    }
+    this.admin.postDataApi("leads/csr-seller-status", input).subscribe(r => {
+      this.getListing();
+      this.spinner.hide();
+      this.addChangeStatusModelClose.nativeElement.click();
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.statusChangedSuccessfully'), 'success');
+    },
+      error => {
+        this.spinner.hide();
+        swal(this.translate.instant('swal.error'), error.error.message, 'error');
+      });
+  }
+
+  isChecked(tempStatusName) {
+    this.selectedAddChangeStatus = tempStatusName.id;
+  }
+
+  closeModal(){
+    this.items.filter(item=>{
+     item.selected = false;
+    });
+  }
+
+  getCSRSellerChat($event: any, chat_with: number, csr_seller_id: number, lead_id: number) {
+    // chat_with = 1 means chat with seller, 2 means chat with agent
+    if (csr_seller_id) {
+      this.router.navigate(['/dashboard/leads/chat-with-seller', chat_with, csr_seller_id, lead_id]);
+    } else {
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.noCSRSellerAssigned'), 'error');
+    }
   }
 
   deletePopup(item){
@@ -452,5 +605,21 @@ export class CsrSellerComponent implements OnInit {
         swal(this.translate.instant('swal.error'), error.message, 'error');
       });
   }
+
+  openStatusHistoryModel(item){
+    let input = {
+      lead_id: item.id
+    }
+    this.spinner.show();
+    this.admin.postDataApi('leads/csr-buyer-lead-statuses', input).subscribe(
+      success => {
+        this.history = success.data;
+        this.viewStatuHistoryModelOpen.nativeElement.click();
+        this.spinner.hide();
+      },error=>{
+        this.spinner.hide();
+      });
+  }
+
 
 }

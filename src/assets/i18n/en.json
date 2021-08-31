@@ -1010,6 +1010,7 @@
       "agentCommissionOutside": "Agent Commission Outside",
       "dateOfRegistration": "Date Of Registration",
       "creditAssignee": "Assignee",
+      "csrSeller": "CSR Seller",
       "manualLead":{
         "name": "Name",
         "firstSurname": "First Surname",
@@ -1734,6 +1735,8 @@
     "assigned": "Assigned",
     "AsCSRAgent": "as CSR Buyer agent",
     "AsInhouseAgent": "as Inhouse agent",
+    "AsCSRSeller": "as CSR Seller agent",
+    "forCSRSeller": "for CSR Seller agent",
     "forCSRAgent": "for CSR Buyer Agent",
     "forCreditAgent": "for Credit Agent",
     "forInhouseAgent": "for Inhouse Agent",
