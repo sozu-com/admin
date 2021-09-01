@@ -123,6 +123,8 @@ export class CsrSellerDetailComponent implements OnInit {
   }
   toggleShow() {
     this.isShown = !this.isShown;
+    this.leadData.locality = this.leadData.locality ? this.leadData.locality : {};
+    this.leadData.city = this.leadData.city ? this.leadData.city : {};
   }
   setPrefValue(item) {
     this.leadData.bedrooms = item;
@@ -195,7 +197,7 @@ export class CsrSellerDetailComponent implements OnInit {
     if(city){
       this.CityLocalities.forEach(element => {
         if(element.name == city){
-          this.locality = element.id;
+          this.locality_id = element.id;
         }
       });
     }
@@ -215,8 +217,6 @@ export class CsrSellerDetailComponent implements OnInit {
           this.locality_id = element.id;
         }
       });
-    }else{
-      this.locality_id = this.locality;
     }
     const input = {
       lead_id: this.parameter.lead_id,

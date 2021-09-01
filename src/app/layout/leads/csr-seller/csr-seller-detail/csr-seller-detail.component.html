@@ -305,10 +305,10 @@
 
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" *ngIf="isShown">
                     <div class="col-md-12 col-sm-6 col-12">
                         <div class="btn-cont float-right">
-                            <button class="btn btn-primary" (click)="editPreferences()" [disabled]="!isShown">
+                            <button class="btn btn-primary" (click)="editPreferences()">
                                 {{'commonBlock.save' | translate}}</button>
                         </div>
                     </div>
