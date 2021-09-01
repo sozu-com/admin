@@ -282,8 +282,9 @@
                                 <th style="width:9%">
                                     <div class="table-search" (click)="sort_by(1)" style="display: inline-flex;">
                                         <label>{{'table.th.lead_date' | translate}}</label>
-                                        <a href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by_date==1}"
-                                            src="assets/img/top-arrow.png" alt="img"></a>
+                                        <a href="javascript://"><img
+                                                [ngClass]="{'upsidedown':parameter.sort_by_date==1}"
+                                                src="assets/img/top-arrow.png" alt="img"></a>
                                     </div>
                                 </th>
                                 <th style="width:6%;">
@@ -295,8 +296,8 @@
                                     <div class="table-search">
                                         <label>{{'table.th.name' | translate}}</label>
                                         <div class="searh-3">
-                                            <input  type="text" name="name"
-                                                [(ngModel)]="parameter.name" (keyup.enter)="getListing()" autocomplete="address-level4" >
+                                            <input type="text" name="name" [(ngModel)]="parameter.name"
+                                                (keyup.enter)="getListing()" autocomplete="address-level4">
                                             <button *ngIf="parameter.name" (click)="getListing()"><i
                                                     class="fa fa-search"></i></button>
                                         </div>
@@ -306,7 +307,7 @@
                                     <div class="table-search">
                                         <label>{{'table.th.firstSurname' | translate}}</label>
                                         <div class="searh-3">
-                                            <input  autocomplete="address-level4"  type="text" name="first_surname"
+                                            <input autocomplete="address-level4" type="text" name="first_surname"
                                                 [(ngModel)]="parameter.first_surname" (keyup.enter)="getListing()">
                                             <button *ngIf="parameter.first_surname" (click)="getListing()"><i
                                                     class="fa fa-search"></i></button>
@@ -317,7 +318,7 @@
                                     <div class="table-search">
                                         <label>{{'table.th.secondSurname' | translate}}</label>
                                         <div class="searh-3">
-                                            <input  autocomplete="address-level4"  type="text" name="second_surname"
+                                            <input autocomplete="address-level4" type="text" name="second_surname"
                                                 [(ngModel)]="parameter.second_surname" (keyup.enter)="getListing()">
                                             <button *ngIf="parameter.second_surname" (click)="getListing()"><i
                                                     class="fa fa-search"></i></button>
@@ -328,7 +329,7 @@
                                     <div class="table-search">
                                         <label>{{'table.th.contactNumber' | translate}}</label>
                                         <div class="searh-3">
-                                            <input  autocomplete="address-level4"  type="text" name="phone"
+                                            <input autocomplete="address-level4" type="text" name="phone"
                                                 [(ngModel)]="parameter.phone" (keyup.enter)="getListing()">
                                             <button *ngIf="parameter.phone" (click)="getListing()"><i
                                                     class="fa fa-search"></i></button>
@@ -339,7 +340,7 @@
                                     <div class="table-search">
                                         <label>{{'table.th.emailAddress' | translate}}</label>
                                         <div class="searh-3">
-                                            <input  autocomplete="address-level4"  type="text" name="email"
+                                            <input autocomplete="address-level4" type="text" name="email"
                                                 [(ngModel)]="parameter.email" (keyup.enter)="getListing()">
                                             <button *ngIf="parameter.email" (click)="getListing()"><i
                                                     class="fa fa-search"></i></button>
@@ -350,7 +351,7 @@
                                     <div class="table-search">
                                         <label>{{'table.th.city' | translate}}</label>
                                         <div class="searh-3">
-                                            <input  autocomplete="address-level4"  type="text" name="email"
+                                            <input autocomplete="address-level4" type="text" name="email"
                                                 [(ngModel)]="parameter.email" (keyup.enter)="getListing()">
                                             <button *ngIf="parameter.email" (click)="getListing()"><i
                                                     class="fa fa-search"></i></button>
@@ -361,7 +362,7 @@
                                     <div class="table-search">
                                         <label>{{'table.th.locality' | translate}}</label>
                                         <div class="searh-3">
-                                            <input  autocomplete="address-level4"  type="text" name="email"
+                                            <input autocomplete="address-level4" type="text" name="email"
                                                 [(ngModel)]="parameter.email" (keyup.enter)="getListing()">
                                             <button *ngIf="parameter.email" (click)="getListing()"><i
                                                     class="fa fa-search"></i></button>
@@ -372,7 +373,7 @@
                                     <div class="table-search">
                                         <label>{{'table.th.carpetArea' | translate}}</label>
                                         <div class="searh-3">
-                                            <input  autocomplete="address-level4"  type="text" name="email"
+                                            <input autocomplete="address-level4" type="text" name="email"
                                                 [(ngModel)]="parameter.email" (keyup.enter)="getListing()">
                                             <button *ngIf="parameter.email" (click)="getListing()"><i
                                                     class="fa fa-search"></i></button>
@@ -398,7 +399,8 @@
                                         <label>{{'table.th.status' | translate}}</label>
                                         <div class="searh-3">
                                             <select [(ngModel)]="parameter.status_id"
-                                                (change)="changeFilter('status_id', parameter.status_id)" name="status_id">
+                                                (change)="changeFilter('status_id', parameter.status_id)"
+                                                name="status_id">
                                                 <option value="">{{'table.th.all' | translate}}</option>
                                                 <option *ngFor="let tempStatusName of addChangeStatusNames"
                                                     value="{{tempStatusName.id}}">
@@ -461,15 +463,19 @@
                                 </td>
                                 <td class="text-left">
                                     <span *ngIf="item.name" class="name"
-                                    routerLink="/dashboard/leads/csr-sellers/{{item.id}}">{{item?.user && item?.user?.name ? (item?.user?.name | titlecase) : (item?.name | titlecase)}}</span>
+                                        routerLink="/dashboard/leads/csr-sellers/{{item.id}}">{{item?.user &&
+                                        item?.user?.name ? (item?.user?.name | titlecase) : (item?.name |
+                                        titlecase)}}</span>
                                     <span class="name" *ngIf="!item.name">{{'table.tr.td.NA' | translate}}</span>
                                 </td>
                                 <td class="text-left" routerLink="/dashboard/leads/csr-sellers/{{item.id}}">
-                                    <span class="name">{{item?.user && item?.user.first_surname ? item?.user?.first_surname : (item?.first_surname ) ? (item?.first_surname |
+                                    <span class="name">{{item?.user && item?.user.first_surname ?
+                                        item?.user?.first_surname : (item?.first_surname ) ? (item?.first_surname |
                                         titlecase) : ('table.tr.td.NA' | translate)}}</span>
                                 </td>
                                 <td class="text-left" routerLink="/dashboard/leads/csr-sellers/{{item.id}}">
-                                    <span class="name">{{item?.user && item?.user?.second_surname ? item?.user?.second_surname : item?.second_surname? (item?.second_surname |
+                                    <span class="name">{{item?.user && item?.user?.second_surname ?
+                                        item?.user?.second_surname : item?.second_surname? (item?.second_surname |
                                         titlecase):('table.tr.td.NA' | translate)}}</span>
                                 </td>
                                 <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}" class="text-left"
@@ -489,9 +495,11 @@
                                     {{item.carpet_area ? item.carpet_area : ('table.tr.td.NA' | translate)}}
                                 </td>
                                 <td class="text-left green-color cursor-pointer" (click)="openModel('CSR', item)">
-                                    <span>{{item?.admin ? item?.admin?.name : ('leads.linkCSRSeller' | translate)}}</span>
+                                    <span>{{item?.admin ? item?.admin?.name : ('leads.linkCSRSeller' |
+                                        translate)}}</span>
                                 </td>
-                                <td class="text-left green-color cursor-pointer" (click)="openAddChangeStatusModel(item)">
+                                <td class="text-left green-color cursor-pointer"
+                                    (click)="openAddChangeStatusModel(item)">
                                     <span>
                                         {{item?.status && translate.defaultLang == 'en' ?
                                         item.status.status_details.name.slice(0, 11) :
@@ -504,13 +512,22 @@
                                     <span>{{item?.broker ? item?.broker?.name : ('leads.linkAgent' | translate)}}</span>
                                 </td>
                                 <td class="text-left green-color cursor-pointer" (click)="openStatusHistoryModel(item)">
-                                    <span>{{item.admin_id || item?.status ? ('table.tr.td.view' | translate) : ('table.tr.td.NA' |
-                                        translate)}}</span> </td>
-                               <td >
+                                    <span>{{item.admin_id || item?.status ? ('table.tr.td.view' | translate) :
+                                        ('table.tr.td.NA' |
+                                        translate)}}</span>
+                                </td>
+                                <td style="display: inline-flex">
+                                    <button class="action-icon" (click)="this.sendMail(item)" [disabled]="item.user_id"
+                                        title="{{'table.title.confirmEmail' | translate}}">
+                                        <i class="fa fa-map-marker" aria-hidden="true"
+                                            style="font-size: 166%;color: lightgray;" *ngIf="item.user_id "></i>
+                                        <i class="fa fa-map-marker" aria-hidden="true"
+                                            style="font-size: 166%;color: black;" *ngIf="!item.user_id"></i>
+                                    </button>
                                     <button [disabled]="admin?.admin_acl['Seller Management']?.can_delete==0"
-                                    (click)="deletePopup(item)" class="action-icon"
-                                    title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png"
-                                    alt="img"></button>
+                                        (click)="deletePopup(item)" class="action-icon"
+                                        title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png"
+                                            alt="img"></button>
                                 </td>
                             </tr>
                         </tbody>
@@ -581,7 +598,8 @@
                             </td>
                             <td *ngIf="item.is_blocked!=1">
                                 <label class="cust-check-bx float-right">
-                                    <input type="radio" name="notary_id" (click)="assignItem = item; selected_lead = item">
+                                    <input type="radio" name="notary_id"
+                                        (click)="assignItem = item; selected_lead = item">
                                     <span class="checkmark"></span>
                                 </label>
                             </td>
@@ -642,13 +660,15 @@
                                         [checked]="item?.id == assignItem?.id">
                                     <span class="checkmark"></span>
                                 </label> -->
-                                <button *ngIf="selected_lead?.admin_id!=item.id" (click)="assignItem = item; assignBuyerAgent(null)"
-                                class="action-icon" title="{{'table.title.linkAgent' | translate}}">
-                                <img src="assets/img/green-icon.png" alt="img"></button>
+                                <button *ngIf="selected_lead?.admin_id!=item.id"
+                                    (click)="assignItem = item; assignBuyerAgent(null)" class="action-icon"
+                                    title="{{'table.title.linkAgent' | translate}}">
+                                    <img src="assets/img/green-icon.png" alt="img"></button>
 
-                            <button *ngIf="selected_lead?.admin_id==item.id" (click)="assignItem = item; assignBuyerAgent(null)"
-                                class="action-icon" title="{{'table.title.unlinkAgent' | translate}}">
-                                <img src="assets/img/ic_disapprove.png" alt="img"></button>
+                                <button *ngIf="selected_lead?.admin_id==item.id"
+                                    (click)="assignItem = item; assignBuyerAgent(null)" class="action-icon"
+                                    title="{{'table.title.unlinkAgent' | translate}}">
+                                    <img src="assets/img/ic_disapprove.png" alt="img"></button>
                             </td>
                         </tr>
                         <tr *ngIf="assign?.items?.length==0">

@@ -492,8 +492,10 @@
                                 <span>{{item?.broker ? item?.broker?.name : ('leads.linkAgent' | translate)}}</span>
                             </td>
                             <td class="text-left green-color cursor-pointer" (click)="openStatusHistoryModel(item)">
-                                <span>{{item.admin_id || item?.status ? ('table.tr.td.view' | translate) : ('table.tr.td.NA' |
-                                    translate)}}</span> </td>
+                                <span>{{item.admin_id || item?.status ? ('table.tr.td.view' | translate) :
+                                    ('table.tr.td.NA' |
+                                    translate)}}</span>
+                            </td>
                             <td class="text-left" style="display: inline-flex" (click)="$event.stopPropagation()">
                                 <button class="action-icon" (click)="this.sendMail(item)" [disabled]="item.user_id"
                                     title="{{'table.title.confirmEmail' | translate}}">
@@ -576,7 +578,8 @@
                             </td>
                             <td *ngIf="item.is_blocked!=1">
                                 <label class="cust-check-bx float-right">
-                                    <input type="radio" name="notary_id" (click)="assignItem = item; selected_lead = item"
+                                    <input type="radio" name="notary_id"
+                                        (click)="assignItem = item; selected_lead = item"
                                         [checked]="item?.id == assignItem?.id">
                                     <span class="checkmark"></span>
                                 </label>
@@ -638,13 +641,15 @@
                                         [checked]="item?.id == assignItem?.id">
                                     <span class="checkmark"></span>
                                 </label> -->
-                                <button *ngIf="selected_lead?.admin_id!=item.id" (click)="assignItem = item; assignBuyerAgent(null)"
-                                class="action-icon" title="{{'table.title.linkAgent' | translate}}">
-                                <img src="assets/img/green-icon.png" alt="img"></button>
+                                <button *ngIf="selected_lead?.admin_id!=item.id"
+                                    (click)="assignItem = item; assignBuyerAgent(null)" class="action-icon"
+                                    title="{{'table.title.linkAgent' | translate}}">
+                                    <img src="assets/img/green-icon.png" alt="img"></button>
 
-                            <button *ngIf="selected_lead?.admin_id==item.id" (click)="assignItem = item; assignBuyerAgent(null)"
-                                class="action-icon" title="{{'table.title.unlinkAgent' | translate}}">
-                                <img src="assets/img/ic_disapprove.png" alt="img"></button>
+                                <button *ngIf="selected_lead?.admin_id==item.id"
+                                    (click)="assignItem = item; assignBuyerAgent(null)" class="action-icon"
+                                    title="{{'table.title.unlinkAgent' | translate}}">
+                                    <img src="assets/img/ic_disapprove.png" alt="img"></button>
                             </td>
                         </tr>
                         <tr *ngIf="assign?.items?.length==0">

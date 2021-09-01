@@ -53,6 +53,7 @@ export class CreditAgentComponent implements OnInit {
   addChangeStatusNames: string[] = [];
   selectedAddChangeStatus: any;
   history: any;
+  lang: string;
 
   constructor(
     public admin: AdminService,
@@ -66,7 +67,7 @@ export class CreditAgentComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
+    this.lang = localStorage.getItem('language_code');
     this.locale = {
       firstDayOfWeek: 0,
       dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
@@ -95,7 +96,7 @@ export class CreditAgentComponent implements OnInit {
     this.getListing();
     this.getCSRDashBoardData();
     Object.assign(this, this.chartView);
-    this.openAddChangeStatusModel(undefined)
+    this.openAddChangeStatusModel(undefined);
   }
 
   getCountries() {
@@ -589,5 +590,34 @@ export class CreditAgentComponent implements OnInit {
       },error=>{
         this.spinner.hide();
       });
+  }
+
+  sendMail = (data: any): void => {
+    swal({
+      html:
+        this.translate.instant('message.error.areYouSure') +
+        '<br>' +
+        this.translate.instant(
+          'message.error.youWantToSendEmail',
+        ),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes',
+    }).then((result) => {
+      if (result.value) {
+        this.spinner.show();
+        this.admin.postDataApi('leads/verifyEmailLead', {
+          id: (data || {}).id, is_language: this.lang == 'en' ? 1 : 2, email_date: moment.utc(new Date()).toDate()
+        }).subscribe((success) => {
+          this.spinner.hide();
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.emailSent'), 'success');
+        }, (error) => {
+          this.spinner.hide();
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
+        });
+      }
+    });
   }
 }
