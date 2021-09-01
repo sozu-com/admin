@@ -117,8 +117,7 @@ export class CsrBuyerComponent implements OnInit {
     this.getListing();
     this.getCSRDashBoardData();
     Object.assign(this, this.chartView);
-    this.openAddChangeStatusModel(undefined)
-
+    this.openAddChangeStatusModel(undefined);
   }
 
   getCountries() {

@@ -61,6 +61,7 @@ export class CsrSellerComponent implements OnInit {
   selectedAddChangeStatus: any;
   addChangeStatusNames: any;
   history: any;
+  lang: string;
   constructor(
     public admin: AdminService,
     public leadsService: LeadsService,
@@ -74,6 +75,7 @@ export class CsrSellerComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.lang = localStorage.getItem('language_code');
     this.user = localStorage.getItem('all') ? JSON.parse(localStorage.getItem('all')) : undefined;
     this.locale = {
       firstDayOfWeek: 0,
@@ -103,6 +105,7 @@ export class CsrSellerComponent implements OnInit {
     this.getListing();
     this.getCSRDashBoardData();
     Object.assign(this, this.chartView);
+    this.openAddChangeStatusModel(undefined);
   }
 
   getCountries() {
@@ -621,5 +624,32 @@ export class CsrSellerComponent implements OnInit {
       });
   }
 
-
+  sendMail = (data: any): void => {
+    swal({
+      html:
+        this.translate.instant('message.error.areYouSure') +
+        '<br>' +
+        this.translate.instant(
+          'message.error.youWantToSendEmail',
+        ),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes',
+    }).then((result) => {
+      if (result.value) {
+        this.spinner.show();
+        this.admin.postDataApi('leads/verifyEmailLead', {
+          id: (data || {}).id, is_language: this.lang == 'en' ? 1 : 2, email_date: moment.utc(new Date()).toDate()
+        }).subscribe((success) => {
+          this.spinner.hide();
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.emailSent'), 'success');
+        }, (error) => {
+          this.spinner.hide();
+          swal(this.translate.instant('swal.error'), error.error.message, 'error');
+        });
+      }
+    });
+  }
 }
