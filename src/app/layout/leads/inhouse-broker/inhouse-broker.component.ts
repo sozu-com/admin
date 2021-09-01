@@ -51,6 +51,7 @@ export class InhouseBrokerComponent implements OnInit {
   user: any;
   lang: string;
   history: any;
+  openFor: any;
 
   constructor(
     public admin: AdminService,
@@ -89,9 +90,10 @@ export class InhouseBrokerComponent implements OnInit {
     this.leadsService.inhouseAgentLeadsCountFlag : this.constant.count_flag;
     this.route.params.subscribe(params => {
       this.parameter.assignee_id = params.id;
+      this.openFor = params.openFor;
+      this.getListing();
     });
     this.getCountries();
-    this.getListing();
     this.getCSRDashBoardData();
     Object.assign(this, this.chartView);
     this.openAddChangeStatusModel(undefined);
@@ -309,7 +311,8 @@ export class InhouseBrokerComponent implements OnInit {
       input.assignee_id = this.parameter.assignee_id;
     }
     this.spinner.show();
-    this.admin.postDataApi('leads/in-house-broker', input).subscribe(
+    let url = this.openFor == 'buyer' ? 'leads/in-house-broker' : 'leads/in-house-seller';
+    this.admin.postDataApi(url, input).subscribe(
       success => {
         this.spinner.hide();
         this.items = success.data;

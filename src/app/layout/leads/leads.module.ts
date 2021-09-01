@@ -103,7 +103,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'inhouse-broker', component: InhouseBrokerComponent,
+    path: 'inhouse-broker/:openFor', component: InhouseBrokerComponent,
     canActivate: [AclUserGuard], data: { roles: ['Inhouse Agent Lead Management', 'can_read', 'can_in_house_broker'] }
   },
   // leads wrt inhouse broker
