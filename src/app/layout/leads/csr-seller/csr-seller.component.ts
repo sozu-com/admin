@@ -300,7 +300,7 @@ export class CsrSellerComponent implements OnInit {
   }
 
   getListing() {
-    this.items = [];
+    //this.items = [];
     this.parameter.noResultFound = false;
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.parameter.min) {

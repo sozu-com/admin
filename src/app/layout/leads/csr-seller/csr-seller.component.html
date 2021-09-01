@@ -260,14 +260,14 @@
                 </div>
             </div>
         </div>
-        <div class="white-bg">
-            <div class="tabel-section">
+        <div class="tab-content white-bg">
+              <div class="tabel-section">
                 <div class="table-responsive">
-                    <table class="table table-striped border-0">
+                  <table class="table table-striped table-align-left">
                         <tbody>
                             <tr>
                                 <th *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 && !this.parameter.assignee_id"
-                                    style="width:5%;">
+                                    >
                                     <div class="table-search">
                                         <label>{{'table.th.all' | translate}}</label>
                                         <div>
@@ -279,7 +279,9 @@
                                         </div>
                                     </div>
                                 </th>
-                                <th style="width:9%">
+                                <th style="clear: both;
+                                overflow: hidden;
+                                white-space: nowrap;text-align:left;">
                                     <div class="table-search" (click)="sort_by(1)" style="display: inline-flex;">
                                         <label>{{'table.th.lead_date' | translate}}</label>
                                         <a href="javascript://"><img
@@ -287,13 +289,12 @@
                                                 src="assets/img/top-arrow.png" alt="img"></a>
                                     </div>
                                 </th>
-                                <th style="width:6%;">
+                                <th>
                                     <div class="table-search">
                                         <label>{{'table.th.image' | translate}}</label>
                                     </div>
                                 </th>
-                                <th style="width:15%;">
-                                    <div class="table-search">
+                                <th>
                                         <label>{{'table.th.name' | translate}}</label>
                                         <div class="searh-3">
                                             <input type="text" name="name" [(ngModel)]="parameter.name"
@@ -301,9 +302,11 @@
                                             <button *ngIf="parameter.name" (click)="getListing()"><i
                                                     class="fa fa-search"></i></button>
                                         </div>
-                                    </div>
+                                 
                                 </th>
-                                <th style="width:15%;">
+                                <th style="clear: both;
+                                overflow: hidden;
+                                white-space: nowrap;text-align:left;">
                                     <div class="table-search">
                                         <label>{{'table.th.firstSurname' | translate}}</label>
                                         <div class="searh-3">
@@ -314,7 +317,9 @@
                                         </div>
                                     </div>
                                 </th>
-                                <th style="width:15%;">
+                                <th style="clear: both;
+                                overflow: hidden;
+                                white-space: nowrap;text-align:left;">
                                     <div class="table-search">
                                         <label>{{'table.th.secondSurname' | translate}}</label>
                                         <div class="searh-3">
@@ -325,7 +330,9 @@
                                         </div>
                                     </div>
                                 </th>
-                                <th style="width:15%;">
+                                <th style="clear: both;
+                                overflow: hidden;
+                                white-space: nowrap;text-align:left;">
                                     <div class="table-search">
                                         <label>{{'table.th.contactNumber' | translate}}</label>
                                         <div class="searh-3">
@@ -336,7 +343,7 @@
                                         </div>
                                     </div>
                                 </th>
-                                <th style="width:20%;">
+                                <th>
                                     <div class="table-search">
                                         <label>{{'table.th.emailAddress' | translate}}</label>
                                         <div class="searh-3">
@@ -347,7 +354,7 @@
                                         </div>
                                     </div>
                                 </th>
-                                <th style="width:30%;">
+                                <th>
                                     <div class="table-search">
                                         <label>{{'table.th.city' | translate}}</label>
                                         <div class="searh-3">
@@ -358,7 +365,7 @@
                                         </div>
                                     </div>
                                 </th>
-                                <th style="width:30%;">
+                                <th>
                                     <div class="table-search">
                                         <label>{{'table.th.locality' | translate}}</label>
                                         <div class="searh-3">
@@ -369,18 +376,16 @@
                                         </div>
                                     </div>
                                 </th>
-                                <th style="width:20%;">
+                                <th style="clear: both;
+                                overflow: hidden;
+                                white-space: nowrap;text-align:left;">
                                     <div class="table-search">
                                         <label>{{'table.th.carpetArea' | translate}}</label>
-                                        <div class="searh-3">
-                                            <input autocomplete="address-level4" type="text" name="email"
-                                                [(ngModel)]="parameter.email" (keyup.enter)="getListing()">
-                                            <button *ngIf="parameter.email" (click)="getListing()"><i
-                                                    class="fa fa-search"></i></button>
-                                        </div>
                                     </div>
                                 </th>
-                                <th style="width:24%">
+                                <th style="clear: both;
+                                overflow: hidden;
+                                white-space: nowrap;text-align:left;">
                                     <div class="table-search">
                                         <label>{{'table.th.csrSeller' | translate}}</label>
                                         <div class="searh-3">
@@ -394,7 +399,7 @@
                                         </div>
                                     </div>
                                 </th>
-                                <th style="width:10%">
+                                <th>
                                     <div class="table-search">
                                         <label>{{'table.th.status' | translate}}</label>
                                         <div class="searh-3">
@@ -411,7 +416,9 @@
                                         </div>
                                     </div>
                                 </th>
-                                <th style="width:24%">
+                                <th style="clear: both;
+                                overflow: hidden;
+                                white-space: nowrap;text-align:left;">
                                     <div class="table-search">
                                         <label>{{'table.th.AgentAsignation' | translate}}</label>
                                         <div class="searh-3">
@@ -425,12 +432,14 @@
                                         </div>
                                     </div>
                                 </th>
-                                <th style="width:10%">
+                                <th style="clear: both;
+                                overflow: hidden;
+                                white-space: nowrap;text-align:left;">
                                     <div class="table-search">
                                         <label>{{'table.th.statusHistory' | translate}}</label>
                                     </div>
                                 </th>
-                                <th style="width:5%;">
+                                <th>
                                     <label>{{'table.th.actions.label' | translate}}</label>
                                     <!-- <div class="ppties">
                                         <a href="javascript://" (click)="sort_by(5)" data-toggle="tooltip"
@@ -441,8 +450,9 @@
                                     </div> -->
                                 </th>
                             </tr>
-                            <tr class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
+                            <tr title="{{'table.title.clickToViewDetails' | translate}}"
                                 *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }">
+                               
                                 <td *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 && !this.parameter.assignee_id"
                                     (click)="$event.stopPropagation()">
                                     <label class="cust-check-bx marginT0">
@@ -451,8 +461,10 @@
                                     </label>
                                     <!-- <i class="fa" [ngClass]="item.selected?'fa-check-square-o':'fa-square-o'" (click)="item.selected = !item.selected" aria-hidden="true"></i> -->
                                 </td>
-                                <td>
-                                    <span class="name" *ngIf="item.created_at">{{item.created_at | date}}</span>
+                                <td style="clear: both;
+                                overflow: hidden;
+                                white-space: nowrap;text-align:left;">
+                                    <span *ngIf="item.created_at">{{item.created_at | date}}</span>
                                 </td>
                                 <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}">
                                     <img class="rounded-circle" *ngIf="item.image"
@@ -461,37 +473,37 @@
                                     <img class="rounded-circle" *ngIf="!item.image" src="assets/img/default_img.png"
                                         alt="img">
                                 </td>
-                                <td class="text-left">
-                                    <span *ngIf="item.name" class="name"
+                                <td>
+                                    <span *ngIf="item.name" 
                                         routerLink="/dashboard/leads/csr-sellers/{{item.id}}">{{item?.user &&
                                         item?.user?.name ? (item?.user?.name | titlecase) : (item?.name |
                                         titlecase)}}</span>
-                                    <span class="name" *ngIf="!item.name">{{'table.tr.td.NA' | translate}}</span>
+                                    <span  *ngIf="!item.name">{{'table.tr.td.NA' | translate}}</span>
                                 </td>
-                                <td class="text-left" routerLink="/dashboard/leads/csr-sellers/{{item.id}}">
-                                    <span class="name">{{item?.user && item?.user.first_surname ?
+                                <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}">
+                                    <span>{{item?.user && item?.user.first_surname ?
                                         item?.user?.first_surname : (item?.first_surname ) ? (item?.first_surname |
                                         titlecase) : ('table.tr.td.NA' | translate)}}</span>
                                 </td>
-                                <td class="text-left" routerLink="/dashboard/leads/csr-sellers/{{item.id}}">
-                                    <span class="name">{{item?.user && item?.user?.second_surname ?
+                                <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}">
+                                    <span>{{item?.user && item?.user?.second_surname ?
                                         item?.user?.second_surname : item?.second_surname? (item?.second_surname |
                                         titlecase):('table.tr.td.NA' | translate)}}</span>
                                 </td>
-                                <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}" class="text-left"
+                                <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}" 
                                     *ngIf="item.phone">{{item.dial_code}}-{{item.phone.trim()}}</td>
-                                <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}" class="text-left"
+                                <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}"
                                     *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
-                                <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}" class="text-left">
+                                <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}" >
                                     {{item.email}}
                                 </td>
-                                <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}" class="text-left">
+                                <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}" >
                                     {{item.city ? item.city.name : ('table.tr.td.NA' | translate)}}
                                 </td>
-                                <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}" class="text-left">
+                                <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}" >
                                     {{item.locality ? item.locality.name : ('table.tr.td.NA' | translate)}}
                                 </td>
-                                <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}" class="text-left">
+                                <td routerLink="/dashboard/leads/csr-sellers/{{item.id}}" >
                                     {{item.carpet_area ? item.carpet_area : ('table.tr.td.NA' | translate)}}
                                 </td>
                                 <td class="text-left green-color cursor-pointer" (click)="openModel('CSR', item)">
@@ -537,7 +549,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
