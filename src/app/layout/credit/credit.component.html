@@ -154,6 +154,19 @@
                     <label>{{'table.th.image' | translate}}</label>
                   </div>
                 </th>
+                <th style="width:10%; text-align:left;">
+                  <div class="table-search">
+                     <label>{{'table.th.id' | translate}}</label>
+                     <div class="searh-3">
+                        <input class="width100px" type="text" [(ngModel)]="parameter.id" name=""
+                        (keyup.enter)="getBuyers(parameter.page, parameter.id, parameter.name, 
+                        parameter.first_surname,parameter.second_surname)" autocomplete="address-level4">
+                        <button *ngIf="parameter.id" (keyup.enter)="getBuyers(parameter.page, parameter.id, parameter.name, 
+                        parameter.first_surname,parameter.second_surname)"><i
+                              class="fa fa-search"></i></button>
+                     </div>
+                  </div>
+               </th>
                 <th style="vertical-align:top;width:9%">
                   <div (click)="price_by(1)" class="d-flex table-search">
                     <span><label>{{'table.th.recordDate' | translate}}</label></span>
@@ -165,9 +178,9 @@
                   <div class="table-search">
                       <label>{{'table.th.name' | translate}}</label>
                       <div class="searh-3">
-                        <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getBuyers(parameter.page, parameter.name, 
+                        <input type="text" [(ngModel)]="parameter.name" (keyup.enter)="getBuyers(parameter.page, parameter.id, parameter.name, 
                         parameter.first_surname,parameter.second_surname)" name="">
-                        <button *ngIf="parameter.name" (click)="getBuyers(parameter.page, parameter.name, 
+                        <button *ngIf="parameter.name" (click)="getBuyers(parameter.page, parameter.id, parameter.name, 
                         parameter.first_surname,parameter.second_surname)"><i class="fa fa-search"></i></button>
                       </div>
                   </div>
@@ -176,9 +189,9 @@
                   <div class="table-search">
                       <label>{{'table.th.firstSurname' | translate}}</label>
                       <div class="searh-3">
-                        <input type="text" [(ngModel)]="parameter.first_surname" (keyup.enter)="getBuyers(parameter.page, parameter.name, 
+                        <input type="text" [(ngModel)]="parameter.first_surname" (keyup.enter)="getBuyers(parameter.page, parameter.id, parameter.name, 
                         parameter.first_surname,parameter.second_surname)" name="">
-                        <button *ngIf="parameter.first_surname" (click)="getBuyers(parameter.page, parameter.name, 
+                        <button *ngIf="parameter.first_surname" (click)="getBuyers(parameter.page, parameter.id, parameter.name, 
                         parameter.first_surname,parameter.second_surname)"><i class="fa fa-search"></i></button>
                       </div>
                   </div>
@@ -187,9 +200,9 @@
                   <div class="table-search">
                       <label>{{'table.th.secondSurname' | translate}}</label>
                       <div class="searh-3">
-                        <input type="text" [(ngModel)]="parameter.second_surname" (keyup.enter)="getBuyers(parameter.page, parameter.name, 
+                        <input type="text" [(ngModel)]="parameter.second_surname" (keyup.enter)="getBuyers(parameter.page, parameter.id, parameter.name, 
                         parameter.first_surname,parameter.second_surname)" name="">
-                        <button *ngIf="parameter.second_surname" (click)="getBuyers(parameter.page, parameter.name, 
+                        <button *ngIf="parameter.second_surname" (click)="getBuyers(parameter.page, parameter.id, parameter.name, 
                         parameter.first_surname,parameter.second_surname)"><i class="fa fa-search"></i></button>
                       </div>
                   </div>
@@ -242,6 +255,10 @@
                     <img *ngIf="item?.user?.image" [defaultImage]="item?.user?.image| img:'thumb'" [lazyLoad]="item?.user?.image" class="rounded-circle" alt="img">
                     <img *ngIf="!item?.user?.image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
                 </td>
+                <td>
+                  <span class="green-color cursor-pointer" routerLink="/dashboard/credit/edit-credit/{{item.id}}">
+                     {{item?.id ? item?.id : ('table.tr.td.NA' | translate)}}</span>
+               </td>
                 <td>{{item.created_at | date }}</td>
                 <td class="text-left">
                     <a class="text-ellipsis" data-toggle="popover" data-placement="top" title="{{item?.user?.name}}" >

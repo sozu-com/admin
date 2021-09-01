@@ -130,12 +130,9 @@ export class CsrSellerDetailComponent implements OnInit {
   setBath(item) {
     this.leadData.bathrooms = item;
   }
-  closeModal() {
-  }
+  closeModal() {}
 
-  add() {
-
-  }
+  add() {}
 
   addDateTime() {
     if (this.date) {
@@ -149,29 +146,6 @@ export class CsrSellerDetailComponent implements OnInit {
     });
     item.is_selected = true;
   }
-
-  changeCity(city) {
-    if(city){
-      this.allCities.forEach(element => {
-        if(element.name == city){
-          this.city_id = element.id;
-          this.getCityLocalities(this.city_id);
-        }
-      });
-    }
-  }
-
-  changeLocality(city) {
-    if(city){
-      this.CityLocalities.forEach(element => {
-        if(element.name == city){
-          this.leadData.locality.name = element.name;
-          this.locality_id = element.id;
-        }
-      });
-    }
-  }
-
   getprices() {
     this.allPrices = [
       { id: 0, name_en: 'Price', name_es: 'Precio' },
@@ -197,13 +171,34 @@ export class CsrSellerDetailComponent implements OnInit {
       );
   }
 
+  changeCity(city) {
+    if(city){
+      this.allCities.forEach(element => {
+        if(element.name == city){
+          this.city_id = element.id;
+          this.getCityLocalities(this.city_id);
+        }
+      });
+    }
+  }
+
   getCityLocalities(item) {
-    console.log(item,"A")
     this.admin.postDataApi('getCityLocalities', { city_id: item })
       .subscribe(
         success => {
           this.CityLocalities = success['data'];
+          //this.locality = this.CityLocalities[0];
         });
+  }
+
+  changeLocality(city) {
+    if(city){
+      this.CityLocalities.forEach(element => {
+        if(element.name == city){
+          this.locality = element.id;
+        }
+      });
+    }
   }
 
   editPreferences() {
@@ -214,6 +209,15 @@ export class CsrSellerDetailComponent implements OnInit {
         }
       });
     }
+    if(this.leadData.locality){
+      this.CityLocalities.forEach(element => {
+        if(element.name == this.leadData.locality.name){
+          this.locality_id = element.id;
+        }
+      });
+    }else{
+      this.locality_id = this.locality;
+    }
     const input = {
       lead_id: this.parameter.lead_id,
       city_id: this.city_id,
@@ -223,6 +227,7 @@ export class CsrSellerDetailComponent implements OnInit {
       bathrooms: this.leadData.bathrooms,
       carpet_area: this.leadData.carpet_area
     };
+
     this.admin.postDataApi('leads/updatePropertyInfo', input)
       .subscribe(
         r => {
