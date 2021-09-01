@@ -35,7 +35,7 @@ export class CreditComponent implements OnInit {
     this.getCountryLocality();
     this.initCalendarLocale();
     // this.getCreditsUser();
-    this.getBuyers(this.parameter.page, this.parameter.name, 
+    this.getBuyers(this.parameter.page, this.parameter.id, this.parameter.name, 
       this.parameter.first_surname, this.parameter.second_surname);
 
     this.translate.onDefaultLangChange.subscribe((event: LangChangeEvent) => {
@@ -144,8 +144,9 @@ export class CreditComponent implements OnInit {
     this.parameter.max = '';
   }
 
-  getBuyers(page: any, name: string,first_surname: string, second_surname: string) {
+  getBuyers(page: any,id: any, name: string,first_surname: string, second_surname: string) {
     this.spinnerService.show();
+    this.parameter.id = id;
     this.parameter.name = name;
     this.parameter.page = page;
     this.parameter.first_surname = first_surname;
@@ -165,12 +166,12 @@ export class CreditComponent implements OnInit {
     } else {
       this.parameter.sort_date = this.parameter.sort_date ? 0 : 1;
     }
-    this.getBuyers(this.parameter.page, this.parameter.name, 
+    this.getBuyers(this.parameter.page, this.parameter.id, this.parameter.name, 
       this.parameter.first_surname, this.parameter.second_surname);
   }
   getPage(page) {
     this.parameter.page = page;
-    this.getBuyers(this.parameter.page, this.parameter.name, 
+    this.getBuyers(this.parameter.page, this.parameter.id, this.parameter.name, 
       this.parameter.first_surname, this.parameter.second_surname);
   }
 
