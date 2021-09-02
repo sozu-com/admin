@@ -845,10 +845,10 @@
                             <pre class="p13"
                                 style="margin-bottom: 0px;color: rgba(0,0,0,0.5);font-size: 12px;">{{item.created_at  | chatTime: 'YYYY-MM-DD H:m:s': 2}}</pre>
                             <pre
-                                class="p13">{{item.type == 1 ? (('leadDetails.assigned' | translate) + ' ' + (item.assign_to.name + ' ' + item.assign_to.first_surname + ' ' + item.assign_to.second_surname) + ('leadDetails.AsCSRSeller' | translate)) : item.type == 2 ? 
-                        (('leadDetails.assigned' | translate) + ' ' + (item.assign_to.name + ' ' + item.assign_to.first_surname + ' ' + item.assign_to.second_surname) + ('leadDetails.AsInhouseAgent' | translate)) : item.type == 6 ? 
-                        (('leadDetails.hasUpdateStatusTo' | translate) + ' ' + (lang == 'en' ? item.status_details.name : item.status_details.name_es) + ' ' + ('leadDetails.forCSRSeller' | translate)) : item.type == 7 ? 
-                        (('leadDetails.hasUpdateStatusTo' | translate) + ' ' + (lang == 'en' ? item.status_details.name : item.status_details.name_es) + ' ' + ('leadDetails.forInhouseAgent' | translate)) : ''}}</pre>
+                                class="p13">{{item.type == 7 ? (('leadDetails.assigned' | translate) + ' ' + (item?.assign_to?.name + ' ' + item?.assign_to?.first_surname + ' ' + item?.assign_to?.second_surname) + ('leadDetails.AsCSRSeller' | translate)) : item.type == 2 ? 
+                        (('leadDetails.assigned' | translate) + ' ' + (item?.assign_to?.name + ' ' + item?.assign_to?.first_surname + ' ' + item?.assign_to?.second_surname) + ('leadDetails.AsInhouseAgent' | translate)) : item.type == 6 ? 
+                        (('leadDetails.hasUpdateStatusTo' | translate) + ' ' + (lang == 'en' ? item?.status_details?.name : item.status_details.name_es) + ' ' + ('leadDetails.forCSRSeller' | translate)) : item.type == 4 ? 
+                        (('leadDetails.hasUpdateStatusTo' | translate) + ' ' + (lang == 'en' ? item?.status_details?.name : item.status_details.name_es) + ' ' + ('leadDetails.forInhouseAgent' | translate)) : ''}}</pre>
                         </div>
                         <div class="col-12" style="font-size: 18px;text-align: center;margin-top: 33%;"
                             *ngIf="!history || history.length == 0">

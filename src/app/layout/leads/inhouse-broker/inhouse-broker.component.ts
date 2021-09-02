@@ -92,9 +92,9 @@ export class InhouseBrokerComponent implements OnInit {
       this.parameter.assignee_id = params.id;
       this.openFor = params.openFor;
       this.getListing();
+      this.getCSRDashBoardData();
     });
     this.getCountries();
-    this.getCSRDashBoardData();
     Object.assign(this, this.chartView);
     this.openAddChangeStatusModel(undefined);
   }
@@ -270,8 +270,8 @@ export class InhouseBrokerComponent implements OnInit {
     } else if (this.parameter.assignee_id) {
       input.assignee_id = this.parameter.assignee_id;
     }
-
-    this.admin.postDataApi('leads/in-house-broker-dash-count', input).subscribe(r => {
+    let url = this.openFor == 'buyer' ? 'leads/in-house-broker-dash-count' : 'leads/in-house-seller-dash-count';
+    this.admin.postDataApi(url, input).subscribe(r => {
       this.dash = r.data;
       this.chartView = [
         // {
