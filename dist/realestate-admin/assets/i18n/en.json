@@ -125,6 +125,7 @@
   }
   },
   "addForm": {
+    "ocupation":"Ocupation",
     "addManualLead":"Add Manual Lead",
     "editManualLead":"Edit Manual Lead",
     "parking-spaces":"Total parking spaces",
