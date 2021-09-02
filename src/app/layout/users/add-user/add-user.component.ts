@@ -444,7 +444,7 @@ export class AddUserComponent implements OnInit {
               this.translate.instant('message.success.updatedSuccessfully');
             swal(this.translate.instant('swal.success'), text, 'success');
             if (this.model.id === '') {
-              this.router.navigate(['/dashboard/users']);
+              this.router.navigate(['/dashboard/users/view-users']);
             } else {
               this.model = success.data;
               this.model.legal_rep_banks = success.data.legal_rep_banks || [];

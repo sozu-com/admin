@@ -18,6 +18,7 @@ export class Users {
     user_type: string;
     address: string;
     selected: any;
+    ocupation?: any;
     is_developer?: string;
     have_dev_panel_access?: number;
     send_mail?: number;
