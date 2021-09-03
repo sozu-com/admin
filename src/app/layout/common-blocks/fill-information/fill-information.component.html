@@ -5,7 +5,7 @@
 <hr class="margin0" *ngIf="_leadData">
 
 <!-- <div class="white-bg padding40 fill-info" malihu-scrollbar [scrollbarOptions]="scrollbarOptions"> -->
-        <div class="white-bg padding40 fill-info" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+<div class="white-bg padding40 fill-info" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
 
     <div class="form-group-5">
         <label>{{'commonBlock.whatYouAreLookingFor' | translate}}</label>
@@ -64,27 +64,24 @@
 
         <p class="p11">{{'commonBlock.bedroom' | translate}}</p>
         <label class="cust-radio" *ngFor="let bedroom of bedrooms; let i=index">
-            <input [disabled]="sent_as==2" type="checkbox"
-            (click)="setAccepted(bedroom)" name="radio1"
-            [checked]="bedroom.is_selected == 0 ? '' : 'checked'" >
+            <input [disabled]="sent_as==2" type="checkbox" (click)="setAccepted(bedroom)" name="radio1"
+                [checked]="bedroom.is_selected == 0 ? '' : 'checked'">
             <span class="checkmark">{{bedroom.name}}</span>
         </label>
         <div class="clearfix"></div>
         <!-- [checked]="bedroom.is_selected == 0 ? '' : 'checked'" -->
         <p class="p11">{{'commonBlock.bathroom' | translate}}</p>
         <label class="cust-radio" *ngFor="let bathroom of bathrooms; let i=index">
-            <input [disabled]="sent_as==2" type="checkbox" 
-            (click)="setAccepted(bathroom)" name="bathroom"
-            [checked]="bathroom.is_selected == 0 ? '' : 'checked'">
+            <input [disabled]="sent_as==2" type="checkbox" (click)="setAccepted(bathroom)" name="bathroom"
+                [checked]="bathroom.is_selected == 0 ? '' : 'checked'">
             <span class="checkmark">{{bathroom.name}}</span>
         </label>
         <div class="clearfix"></div>
         <!-- [checked]="bathroom.is_selected == 0 ? '' : 'checked'" -->
         <p class="p11">{{'commonBlock.halfBathroom' | translate}}</p>
         <label class="cust-radio" *ngFor="let half_bedroom of half_bathrooms; let i=index">
-            <input [disabled]="sent_as==2" type="checkbox" 
-            (click)="setAccepted(half_bedroom)" name="half_bedroom"
-            [checked]="half_bedroom.is_selected == 0 ? '' : 'checked'">
+            <input [disabled]="sent_as==2" type="checkbox" (click)="setAccepted(half_bedroom)" name="half_bedroom"
+                [checked]="half_bedroom.is_selected == 0 ? '' : 'checked'">
             <span class="checkmark">{{half_bedroom.name}}</span>
         </label>
         <div class="clearfix"></div>
@@ -100,7 +97,8 @@
                 </div> -->
                 <div class="input-group m-b">
                     <span class="input-group-addon marginR2">$</span>
-                    <input [disabled]="sent_as==2" class="form-control" type="number" name="min_price" [(ngModel)]="_leadData.prefs.min_price">
+                    <input [disabled]="sent_as==2" class="form-control" type="number" name="min_price"
+                        [(ngModel)]="_leadData.prefs.min_price">
                 </div>
             </div>
             <div class="col-md-2 col-sm-12 col-12">
@@ -109,7 +107,8 @@
             <div class="col-md-4 col-sm-12 col-12">
                 <div class="input-group m-b">
                     <span class="input-group-addon marginR2">$</span>
-                    <input [disabled]="sent_as==2" class="form-control" type="number" name="max_price" [(ngModel)]="_leadData.prefs.max_price">
+                    <input [disabled]="sent_as==2" class="form-control" type="number" name="max_price"
+                        [(ngModel)]="_leadData.prefs.max_price">
                 </div>
                 <!-- <div class="form-group-3 eap">
                     <span class="input-group-addon">$</span>
@@ -133,8 +132,9 @@
     <div class="form-group-5 date-picker marginT20">
         <label>{{'commonBlock.planningDate' | translate}}</label>
         <div class="clearfix"></div>
-        <p-calendar  [style]="{'width':'100%'}" [disabled]="sent_as==2" [locale]="locale" showIcon="true" (onSelect)="onSelect($event)" [(ngModel)]="_leadData.prefs.planning_to_buy"
-            showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+        <p-calendar [style]="{'width':'100%'}" [disabled]="sent_as==2" [locale]="locale" showIcon="true"
+            (onSelect)="onSelect($event)" [(ngModel)]="_leadData.prefs.planning_to_buy" showButtonBar="true"
+            [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
         <div class="clearfix"></div>
     </div>
     <!-- <div class="form-group-5 marginT20" *ngIf="!_leadData?.user_id">
@@ -155,30 +155,22 @@
     <div class="form-group-5 marginT20">
         <label>{{'advanceSearch.AmenitiesProj' | translate}}</label>
         <div class="clearfix"></div>
-        
+
         <ng-multiselect-dropdown [disabled]="sent_as==2" class="section-section2" *ngIf="_leadData.buyer_amenities"
-            [placeholder]="'Choose Amenities'"
-            [data]="allAmenities"
-            [(ngModel)]="selectedAmenities"
-            [settings]="dropdownSettings"
-            (onDeSelect)="onItemDeSelect($event)"
-            (onSelect)="onItemSelect($event)"
+            [placeholder]="'Choose Amenities'" [data]="allAmenities" [(ngModel)]="selectedAmenities"
+            [settings]="dropdownSettings" (onDeSelect)="onItemDeSelect($event)" (onSelect)="onItemSelect($event)"
             (onSelectAll)="onSelectAll($event)">
         </ng-multiselect-dropdown>
         <div class="clearfix"></div>
     </div>
-    <div class="form-group-5 marginT20" >
+    <div class="form-group-5 marginT20">
         <label>{{'advanceSearch.AmenitiesProp' | translate}}</label>
         <div class="clearfix"></div>
-        
+
         <ng-multiselect-dropdown [disabled]="sent_as==2" class="section-section2" *ngIf="_leadData.properties_amenities"
-            [placeholder]="'Choose Amenities'"
-            [data]="allPropAmenities"
-            [(ngModel)]="selectedPropAmenities"
-            [settings]="dropdownSettings"
-            (onDeSelect)="onItemDePropSelect($event)"
-            (onSelect)="onItemPropSelect($event)"
-            (onSelectAll)="onSelectAll($event)">
+            [placeholder]="'Choose Amenities'" [data]="allPropAmenities" [(ngModel)]="selectedPropAmenities"
+            [settings]="dropdownSettings" (onDeSelect)="onItemDePropSelect($event)"
+            (onSelect)="onItemPropSelect($event)" (onSelectAll)="onSelectAll($event)">
         </ng-multiselect-dropdown>
         <div class="clearfix"></div>
     </div>
@@ -191,11 +183,13 @@
             <span class="checkmark">{{proximity_place.name}}</span>
         </label>
         <label class="cust-radio">
-            <input [disabled]="sent_as==2" type="checkbox" (click)="setProximityValue($event, showOtherTextBox ? false : true)"
+            <input [disabled]="sent_as==2" type="checkbox"
+                (click)="setProximityValue($event, showOtherTextBox ? false : true)"
                 [checked]="showOtherTextBox ? 'checked' : ''" name="radio3">
             <span class="checkmark">{{'commonBlock.other' | translate}}</span>
         </label>
-        <textarea [disabled]="sent_as==2" *ngIf="showOtherTextBox" [(ngModel)]="_leadData.prefs.proximity_other" class="form-control" rows="3" name="proximity_other">{{_leadData.prefs.proximity_other}}</textarea>
+        <textarea [disabled]="sent_as==2" *ngIf="showOtherTextBox" [(ngModel)]="_leadData.prefs.proximity_other"
+            class="form-control" rows="3" name="proximity_other">{{_leadData.prefs.proximity_other}}</textarea>
         <div class="clearfix"></div>
     </div>
 
@@ -203,8 +197,9 @@
         <label>{{'addForm.preferableBuyers.maritalStatus1' | translate}}</label>
         <div class="clearfix"></div>
         <label class="cust-radio" *ngFor="let marrital_status of marrital_status_list; let i=index">
-            <input [disabled]="sent_as==2" type="radio" (change)="setPrefValue('marital_statuses_id', marrital_status.id)"
-            [checked]="_leadData.prefs.marital_statuses_id == marrital_status.id ?'checked':''" name="radio4">
+            <input [disabled]="sent_as==2" type="radio"
+                (change)="setPrefValue('marital_statuses_id', marrital_status.id)"
+                [checked]="_leadData.prefs.marital_statuses_id == marrital_status.id ?'checked':''" name="radio4">
             <span class="checkmark">{{marrital_status.name_en}}</span>
         </label>
         <div class="clearfix"></div>
@@ -256,7 +251,8 @@
             <div class="col-6"><label class="float-left">{{'commonBlock.doYouHaveKids' | translate}}</label></div>
             <div class="col-5">
                 <label class="cust-check-bx">
-                    <input [disabled]="sent_as==2" type="checkbox" value="{{_leadData.prefs.kid_count == 1 ? 'true' : 'false'}}"
+                    <input [disabled]="sent_as==2" type="checkbox"
+                        value="{{_leadData.prefs.kid_count == 1 ? 'true' : 'false'}}"
                         [(ngModel)]="_leadData.prefs.kid_count" name="kid_count">
                     <span class="checkmark"></span>
                 </label>
@@ -282,17 +278,19 @@
 
     <div class="inline-form-group-2 marginT20">
         <div class="row">
-            <div class="col-6"><label class="float-left">{{'addForm.preferableBuyers.petsfrn' | translate}}</label></div>
+            <div class="col-6"><label class="float-left">{{'addForm.preferableBuyers.petsfrn' | translate}}</label>
+            </div>
             <div class="col-5">
                 <label class="cust-check-bx">
-                    <input [disabled]="sent_as==2" type="checkbox" value="{{_leadData.prefs.pets == 1 ? 'true' : 'false'}}" [(ngModel)]="_leadData.prefs.pets"
+                    <input [disabled]="sent_as==2" type="checkbox"
+                        value="{{_leadData.prefs.pets == 1 ? 'true' : 'false'}}" [(ngModel)]="_leadData.prefs.pets"
                         name="pets">
                     <span class="checkmark"></span>
                 </label>
             </div>
         </div>
     </div>
-   
+
 
     <!-- <div class="inline-form-group-2 marginT20" *ngIf="_leadData?.user_id">
         <div class="row">
@@ -317,18 +315,18 @@
         </label>
         <div class="clearfix"></div>
     </div> -->
-    
-    
+
+
     <!-- <div class="btn-cont text-right">
         <button *ngIf="sent_as!=2" [disabled]="(sent_as==constant.userType.csr_buyer && (admin?.admin_acl['Buyer Lead Management']?.can_update==0 || admin?.permissions?.can_csr_buyer==0)) ||
                             (sent_as==constant.userType.inhouse_broker && (admin?.admin_acl['Inhouse Agent Lead Management']?.can_update==0 || admin?.permissions?.can_in_house_broker==0))"
             type="button" class="btn btn-primary" (click)="addPreferences()">{{'commonBlock.save' | translate}}</button>
     </div> -->
     <div class="btn-cont text-right">
-        <button class="btn btn-primary" (click)="SearchPreferences()" [disabled]="_leadData?.user_id" data-toggle="modal"
+        <button class="btn btn-primary" (click)="SearchPreferences(true)" data-toggle="modal"
             data-target="#add-property-popup" style="margin-right: 10px;">
             {{'commonBlock.search' | translate}}</button>
-  
+
         <button class="btn btn-primary" (click)="addPreferences()" [disabled]="_leadData?.user_id">
             {{'commonBlock.save' | translate}}</button>
     </div>
@@ -337,119 +335,133 @@
 <!-- add property to interested_properties -->
 <div class="modal" id="add-property-popup">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content notary-avail">
-        <div class="modal-header popup-header">
-          <h4 class="modal-title">{{'commonBlock.propertiesAvailable' | translate}}</h4>
-          <button type="button" class="close" data-dismiss="modal" #hidePropertyModal>&times;</button>
-        </div>
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-md-3">
-              <div class="form-group">
-                <label>{{'filters.location.country' | translate}}</label>
-                <select class="form-control" (change)="onCountryChange($event.target.value)">
-                  <option value="0">{{'filters.location.allOption' | translate}}</option>
-                  <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
-                </select>
-              </div>
+        <div class="modal-content notary-avail">
+            <div class="modal-header popup-header">
+                <h4 class="modal-title">{{'commonBlock.propertiesAvailable' | translate}}</h4>
+                <button type="button" class="close" data-dismiss="modal" #hidePropertyModal>&times;</button>
             </div>
-            <div class="col-md-3">
-              <div class="form-group">
-                <label>{{'filters.location.state' | translate}}</label>
-                <select class="form-control" (change)="onStateChange($event.target.value)">
-                  <option value="0">{{'filters.location.allOption' | translate}}</option>
-                  <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="form-group">
-                <label>{{'filters.location.city' | translate}}</label>
-                <select class="form-control" (change)="onCityChange($event.target.value)">
-                  <option value="0">{{'filters.location.allOption' | translate}}</option>
-                  <option *ngFor="let item of location.cities" [value]="item.id">{{item.name}}</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="form-group">
-                <label>{{'filters.location.locality' | translate}}</label>
-                <select class="form-control" (change)="onLocalityChange($event.target.value)">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>{{'filters.location.country' | translate}}</label>
+                            <select class="form-control" (change)="onCountryChange($event.target.value)">
+                                <option value="0">{{'filters.location.allOption' | translate}}</option>
+                                <option *ngFor="let item of location.countries"
+                                    [selected]="item.id == parameter.country_id" [value]="item.id">{{item.name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>{{'filters.location.state' | translate}}</label>
+                            <select class="form-control" (change)="onStateChange($event.target.value)">
+                                <option value="0">{{'filters.location.allOption' | translate}}</option>
+                                <option *ngFor="let item of location.states" [selected]="item.id == parameter.state_id"
+                                    [value]="item.id">{{item.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>{{'filters.location.city' | translate}}</label>
+                            <select class="form-control" (change)="onCityChange($event.target.value)">
+                                <option value="0">{{'filters.location.allOption' | translate}}</option>
+                                <option *ngFor="let item of location.cities" [selected]="item.id == parameter.city_id"
+                                    [value]="item.id">{{item.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>{{'filters.location.locality' | translate}}</label>
+                            <!-- <select class="form-control" (change)="onLocalityChange($event.target.value)">
                   <option value="0">{{'filters.location.allOption' | translate}}</option>
                   <option *ngFor="let item of location.localities" [value]="item.id">{{item.name}}</option>
-                </select>
-              </div>
-            </div>
-          </div>
-  
-          <div class="row">
-            <div class="col-md-3">
-              <div class="form-group btn-cont">
-                <button class="btn btn-primary" (click)="SearchPreferences()">{{'commonBlock.viewProperties' | translate}}</button>
-              </div>
-            </div>
-            <div class="col-md-9 pull-right">
-              <pagination-controls id="page1" *ngIf="parameter.total>constant.p" class="my-pagination"
-                (pageChange)="getPage($event)"></pagination-controls>
-            </div>
-            <!-- <div class="col-md-3">
+                </select> -->
+                            <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
+                                name="selectedLocalities" [data]="location.localities"
+                                [(ngModel)]="parameter.locality_ids" [settings]="multiDropdownSettings">
+                            </ng-multiselect-dropdown>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group btn-cont">
+                            <button class="btn btn-primary" (click)="SearchPreferences(false)">{{'commonBlock.viewProperties'
+                                | translate}}</button>
+                        </div>
+                    </div>
+                    <div class="col-md-9 pull-right">
+                        <pagination-controls id="page1" *ngIf="parameter.total>constant.p" class="my-pagination"
+                            (pageChange)="getPage($event)"></pagination-controls>
+                    </div>
+                    <!-- <div class="col-md-3">
                     <div class="form-group btn-cont">
                     <button class="btn btn-primary" (click)="addPropertyToInterest()">Add Properties</button>
                     </div>
                 </div> -->
-          </div>
-  
-          <table class="table" *ngIf="parameter?.items?.length!=0">
-            <tbody>
-              <tr
-                *ngFor="let item of parameter.items| paginate: { id:'page1', itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
-                <td>
-                  <div class="n-avail-profile">
-                    <img [src]="item.image| img:'thumb'" onerror='src="assets/img/house.png"' alt="img">
-                    <div class="n-avail-info">
-                      <p title="Apartment" class="p12">{{item.name}}</p>
-                      <p class="p13">{{item.building.name}} &middot; {{item.building_towers.tower_name}} &middot;
-                        {{item.building_towers.num_of_floors == 0 ? ('commonBlock.groundFloor' | translate) : ('commonBlock.floor' | translate) + ' ' + item.building_towers.num_of_floors}}
-                      </p>
-                      <!-- <p class="p10 marginB0">{{item.building.address ? item.building.address : 'NA'}}</p> -->
-                      <p class="p10">
-                        <app-property-configuration *ngIf="item.configuration" [configuration]="item.configuration"></app-property-configuration>
-                        <span>&middot; {{item.property_type.name}}</span>
-                      </p>
-                      <!-- <p class="p10">{{item.configuration.name}}</p> -->
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <!-- <label class="cust-check-bx float-right">
+                </div>
+
+                <table class="table" *ngIf="parameter?.items?.length!=0">
+                    <tbody>
+                        <tr
+                            *ngFor="let item of parameter.items| paginate: { id:'page1', itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
+                            <td>
+                                <div class="n-avail-profile">
+                                    <img [src]="item.image| img:'thumb'" onerror='src="assets/img/house.png"' alt="img">
+                                    <div class="n-avail-info">
+                                        <p title="Apartment" class="p12">{{item.name}}</p>
+                                        <p class="p13">{{item.building.name}} &middot;
+                                            {{item.building_towers.tower_name}} &middot;
+                                            {{item.building_towers.num_of_floors == 0 ? ('commonBlock.groundFloor' |
+                                            translate) : ('commonBlock.floor' | translate) + ' ' +
+                                            item.building_towers.num_of_floors}}
+                                        </p>
+                                        <!-- <p class="p10 marginB0">{{item.building.address ? item.building.address : 'NA'}}</p> -->
+                                        <p class="p10">
+                                            <app-property-configuration *ngIf="item.configuration"
+                                                [configuration]="item.configuration"></app-property-configuration>
+                                            <span>&middot; {{item.property_type.name}}</span>
+                                        </p>
+                                        <!-- <p class="p10">{{item.configuration.name}}</p> -->
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <!-- <label class="cust-check-bx float-right">
                         <input type="radio" name="bank_id1" (click)="addLeadInterestedProperty(item.id)">
                         <span class="checkmark"></span>
                         </label> -->
-                  <label class="cust-check-bx float-right">
-                    <input [checked]="item.checked == true ? 'checked': ''" type="checkbox" name="bank_id1"
-                      (click)="addLeadInterestedProperty(item.id)">
-                    <span class="checkmark"></span>
-                  </label>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div *ngIf="parameter?.items?.length==0 && parameter.noResultFound">
-            <p class="show-not-found">{{'message.error.noPropertyFoundForFilters' | translate}}</p>
-          </div>
-          <div *ngIf="!parameter.noResultFound && parameter?.items?.length==0">
-            <p class="show-not-found">{{'message.error.selectFilters' | translate}}</p>
-          </div>
-  
-          <div *ngIf="property_ids.length>0" class="row pull-right">
-            <div class="form-group btn-cont">
-              <button class="btn btn-primary" (click)="addPropertyToInterest()">{{'commonBlock.addProperties' | translate}}</button>
+                                <label class="cust-check-bx float-right">
+                                    <input [checked]="item.checked == true ? 'checked': ''" type="checkbox"
+                                        name="bank_id1" (click)="addLeadInterestedProperty(item.id)">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="parameter?.items?.length==0 && parameter.noResultFound">
+                    <p class="show-not-found">{{'message.error.noPropertyFoundForFilters' | translate}}</p>
+                </div>
+                <div *ngIf="!parameter.noResultFound && parameter?.items?.length==0">
+                    <p class="show-not-found">{{'message.error.selectFilters' | translate}}</p>
+                </div>
+
+                <div *ngIf="property_ids.length>0" class="row pull-right">
+                    <div class="form-group btn-cont">
+                        <button class="btn btn-primary" (click)="addPropertyToInterest()">{{'commonBlock.addProperties'
+                            | translate}}</button>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
 
 
 

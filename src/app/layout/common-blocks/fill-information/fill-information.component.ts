@@ -23,6 +23,9 @@ export class FillInformationComponent implements OnInit {
   //@Input('_leadData') _leadData: Leads;
 
   _leadData: any;
+  language_code: string;
+  locality_ids: number[];
+  firstTime: any;
   get leadData(): any {
     return this.leadData;
   }
@@ -53,6 +56,7 @@ export class FillInformationComponent implements OnInit {
   public location: IProperty = {};
   interested_properties = [];
   property_ids = [];
+  public multiDropdownSettings = {};
   bedrooms: any = [
     { is_selected: 0, name: 1 },
     { is_selected: 0, name: 2 },
@@ -79,7 +83,13 @@ export class FillInformationComponent implements OnInit {
     private translate: TranslateService) { }
 
   ngOnInit() {
+    this.language_code = localStorage.getItem('language_code');
+    this.initializedDropDownSetting();
     this.getMarritalStatusList();
+    this.parameter.country_id = '9';
+    this.parameter.state_id = '13';
+    this.parameter.city_id = '13';
+    this.locality_ids = [40, 59, 60, 45, 41];
     this.locale = {
       firstDayOfWeek: 0,
       dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
@@ -119,6 +129,20 @@ export class FillInformationComponent implements OnInit {
       e.stopPropagation();
     });
   }
+
+  initializedDropDownSetting = (): void => {
+    this.multiDropdownSettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: this.language_code == 'en' ? 'name_en' : 'name_es',
+      selectAllText: this.translate.instant('commonBlock.selectAll'),
+      unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
+      searchPlaceholderText: this.translate.instant('commonBlock.search'),
+      allowSearchFilter: true,
+      itemsShowLimit: 1
+    };
+  }
+
   getMarritalStatusList() {
     this.admin.postDataApi('getmaritalStatus', {}).subscribe(r => {
       this.marrital_status_list = r['data'];
@@ -329,10 +353,18 @@ export class FillInformationComponent implements OnInit {
 
   getPage(page) {
     this.parameter.page = page;
-    this.SearchPreferences();
+    this.SearchPreferences(false);
   }
 
-  SearchPreferences(){
+  SearchPreferences(data){
+    this.firstTime = data;
+    if(data){
+      this.parameter.country_id = '9';
+      this.parameter.state_id = '13';
+      this.parameter.city_id = '13';
+      this.locality_ids = [40, 59, 60, 45, 41];
+      this.getCountries(this.lead_id);
+    }
     this.model = new AddPrefrences();
     this.model.page = this.parameter.page;
     this.model.property_types = [];
@@ -404,9 +436,16 @@ export class FillInformationComponent implements OnInit {
     this.model.looking_for = this.model.looking_for == 1 ? 9 : this.model.looking_for == 2 ? 8 :  this.model.looking_for;
     this.model.country_id = this.parameter.country_id;
     this.model.state_id = this.parameter.state_id;
+    let ids = [];
+    if(!data){
+    this.parameter.locality_ids.forEach(item=>{
+    ids.push(item.id);
+    })
+  }
     this.model.city_id = this.parameter.city_id;
-    this.model.locality_id = this.parameter.locality_id;
+    this.model.locality_id = data ? this.locality_ids : ids;
     this.spinner.show();
+    this.getCountries(this.lead_id);
     this.admin.postDataApi('homeSearch', this.model).subscribe(r => {
       this.spinner.hide();
       this.parameter.items = r.data;
@@ -422,16 +461,33 @@ export class FillInformationComponent implements OnInit {
   }
 
   getCountries(lead_id) {
-    this.location.cities = []; this.parameter.city_id = '0';
-    this.location.localities = []; this.parameter.locality_id = '0';
-    this.location.states = []; this.parameter.state_id = '0';
+    let self = this;
+    this.location.cities = [];
+    this.location.localities = [];
+    this.location.states = [];
     this.parameter.items = [];
     this.parameter.total = 0;
     this.parameter.noResultFound = false;
     this.parameter.lead_id = lead_id;
-    this.showPropertyModal.nativeElement.click();
+    //this.showPropertyModal.nativeElement.click();
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
       this.location.countries = r['data'];
+      const selectedCountry = this.location.countries.filter(x => x.id.toString() === this.parameter.country_id);
+      this.location.states = selectedCountry[0].states;
+      const selectedState = this.location.states.filter(x => x.id.toString() === this.parameter.state_id);
+      this.location.cities = selectedState[0].cities;
+      const selectedcity = this.location.cities.filter(x => x.id.toString() === this.parameter.city_id);
+      this.location.localities = selectedcity[0].localities;
+      if(this.firstTime){
+        self.parameter.locality_ids = [];
+        this.location.localities.forEach(element => {
+          self.locality_ids.forEach(item=>{
+            if(item == element.id){
+              self.parameter.locality_ids.push({id: element.id, name_en: element.name_en, name_es: element.name_es})
+            }
+          });
+        });
+      }
     });
   }
 
@@ -470,6 +526,7 @@ export class FillInformationComponent implements OnInit {
     this.parameter.city_id = id;
     const selectedCountry = this.location.cities.filter(x => x.id.toString() === id);
     this.location.localities = selectedCountry[0].localities;
+    this.parameter.locality_ids = [];
   }
 
   onLocalityChange(id) {

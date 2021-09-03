@@ -249,6 +249,7 @@ export interface IProperty {
   Office_status_filter?:any;
   preferences_properties?:any;
   fav_project_count?:any;
+  locality_ids?: Array<any>; 
 }
 export class Docs {
   id: string;
