@@ -251,7 +251,7 @@
                                     <td style="padding-left:0;"><label>{{'leadDetails.price' | translate}}</label></td>
                                     <td *ngIf="isShown">
                                         <div class="form-group">
-                                            <select class="form-control" 
+                                            <select class="form-control" size="3" style="height: 131px !important;"
                                             [(ngModel)]="leadData.price">
                                                 <option value="0">{{'filters.location.allOption' | translate}}</option>
                                                 <option *ngFor="let item of allPrices" [value]="item.name_en">
