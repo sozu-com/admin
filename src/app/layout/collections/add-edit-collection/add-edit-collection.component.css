@@ -66,38 +66,41 @@
 @media screen and (min-width: 1200px) {
     hr.new1 {
         height: 3px;
-        width: 172px;
+        width: 68%;
         margin-left: -5px;
         background-color: #00B96F;
     }
     hr.new2 {
         height: 3px;
-        width: 225px;
+        width: 330px;
+        margin-left: 0px;
         background-color: #00B96F;
     }
     hr.new3 {
         height: 3px;
-        width: 167px;
+        width: 237px;
         margin-left: -2px;
         background-color: #00B96F;
     }hr.new4 {
         height: 3px;
-        width: 130px;
+        width: 184px;
+        margin-left: 0px;
         background-color: #00B96F;
     }
     hr.new5 {
         height: 3px;
-        width: 30px;
+        width: 42px;
+        margin-left: 0px;
         margin-left: 0px;
         background-color: #00B96F;
     }label.new1 {
-        margin-left: 12px;
+        margin-left: 49px;
     }label.new2 {
-        margin-left: 69px;
+        margin-left: 121px;
     }label.new3 {
-        margin-left: 30px;
+        margin-left: 67px;
     }label.new4 {
-        margin-left: 34px;
+        margin-left: 58px;
     }
     label {
         height: 17px;
@@ -112,26 +115,30 @@
 @media screen and (min-width: 320px) and (max-width: 767px) {
     hr.new1 {
         height: 3px;
-        width: 172px;margin-left: 0px;
+        width: 232px;
+        margin-left: 0px;
         background-color: #00B96F;
     }
     hr.new2 {
         height: 3px;
-        width: 225px;margin-left: 0px;
+        width: 330px;
+        margin-left: 0px;
         background-color: #00B96F;
     }
     hr.new3 {
         height: 3px;
-        width: 167px;margin-left: 0px;
+        width: 232px;
+        margin-left: 0px;
         background-color: #00B96F;
     }hr.new4 {
         height: 3px;
-        width: 130px;margin-left: 0px;
+        width: 185px;
+        margin-left: 0px;
         background-color: #00B96F;
     }
     hr.new5 {
         height: 3px;
-        width: 30px;
+        width: 42px;
         margin-left: 0px;
         background-color: #00B96F;
     }

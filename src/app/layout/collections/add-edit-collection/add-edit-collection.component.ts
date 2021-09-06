@@ -200,11 +200,10 @@ export class AddEditCollectionComponent implements OnInit {
     placeholder: '',
     inputStyles: {
       'box- sizing': 'border- box',
-      'height': '25px',
-      'width': '25px',
-      'opacity': '0.27',
-      'background-color': '#757575',
-      'border': '1px solid #808080'
+      'height': '40px',
+      'width': '40px',
+      'background-color': '#dadada',
+      'font-size': '23px'
     }
   };
   config1 = {
@@ -215,11 +214,10 @@ export class AddEditCollectionComponent implements OnInit {
     placeholder: '',
     inputStyles: {
       'box- sizing': 'border- box',
-      'height': '25px',
-      'width': '25px',
-      'opacity': '0.27',
-      'background-color': '#757575',
-      'border': '1px solid #808080'
+      'height': '40px',
+      'width': '40px',
+      'background-color': '#dadada',
+      'font-size': '23px'
     }
   };
   config2 = {
@@ -230,11 +228,10 @@ export class AddEditCollectionComponent implements OnInit {
     placeholder: '',
     inputStyles: {
       'box- sizing': 'border- box',
-      'height': '25px',
-      'width': '25px',
-      'opacity': '0.27',
-      'background-color': '#757575',
-      'border': '1px solid #808080'
+      'height': '40px',
+      'width': '40px',
+      'background-color': '#dadada',
+      'font-size': '23px'
     }
   };
   config3 = {
@@ -245,11 +242,10 @@ export class AddEditCollectionComponent implements OnInit {
     placeholder: '',
     inputStyles: {
       'box- sizing': 'border- box',
-      'height': '25px',
-      'width': '25px',
-      'opacity': '0.27',
-      'background-color': '#757575',
-      'border': '1px solid #808080'
+      'height': '40px',
+      'width': '40px',
+      'background-color': '#dadada',
+      'font-size': '23px'
     }
   };
   config4 = {
@@ -260,11 +256,10 @@ export class AddEditCollectionComponent implements OnInit {
     placeholder: '',
     inputStyles: {
       'box- sizing': 'border- box',
-      'height': '25px',
-      'width': '25px',
-      'opacity': '0.27',
-      'background-color': '#757575',
-      'border': '1px solid #808080'
+      'height': '40px',
+      'width': '40px',
+      'background-color': '#dadada',
+      'font-size': '23px'
     }
   };
   constructor(
