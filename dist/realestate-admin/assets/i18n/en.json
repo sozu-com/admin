@@ -125,6 +125,11 @@
   }
   },
   "addForm": {
+    "first_line":"Collection Account: 5 spaces, Numeric, the empty spaces at the left side",
+    "second_line":"Project name: 7 spaces, Alphanumeric, if less than 7 characters 0 = null in the right side.",
+    "third_line":"Apartment name: 5 spaces, Alphanumeric,  if less than 5 characters 0 = null in the left side",
+    "forth_line":"Client RFC: 4 spaces, Alphanumeric, the first 4 characters in the RFC",
+    "fifth_line":"Checker: 1 space, Numeric, the sum of every number in the other spaces, and if the result has more than 1 digit they need to be the sum eachother.",
     "ocupation":"Ocupation",
     "addManualLead":"Add Manual Lead",
     "editManualLead":"Edit Manual Lead",
@@ -2319,7 +2324,8 @@
       "buyer": "Buyer",
       "deal": "Deal",
       "commission": "Commission",
-      "uploadDocuments": "Upload Documents"
+      "uploadDocuments": "Upload Documents",
+      "bankReference": "Bank Reference"
     },
     "title": "Title",
     "note": "Note",
@@ -2507,7 +2513,13 @@
     "addIVAToAgentCommissionInhouse": "Add IVA To Agent Commission Inhouse",
     "addIVAToAgentCommissionOutside": "Add IVA To Agent Commission Outside",
     "addAgentInhouseCommission": "Add Agent Inhouse Commission",
-    "addAgentOutsideCommission": "Add Agent Outside Commission"
+    "addAgentOutsideCommission": "Add Agent Outside Commission",
+    "bankReference": "Bank Reference",
+    "collectionAccount": "Collection Account",
+    "projectName": "Project Name",
+    "propertyName": "Property Name",
+    "clientRFC": "Client RFC",
+    "checker": "Checker"
   },
   "swal": {
     "error": "Error",
@@ -2741,7 +2753,8 @@
     "docsCount": "Docs",
     "finalprice":"Final Price",
     "finalpricesquare":"Final price per m2",
-    "carpetArea": "Carpet Area"
+    "carpetArea": "Carpet Area",
+    "bankReference": "Bank Reference"
   },
   "addCollectionValidations": {
     "thisIsRequired": "This is required",
@@ -2902,7 +2915,8 @@
     "parkingForSale": "Parking For Sale",
     "parkingType": "Parking Type",
     "parkingPrice": "Parking Price",
-    "comnercialOfferId": "Comnercial offer id:"
+    "comnercialOfferId": "Comnercial offer id:",
+    "bankReference": "Bank Reference:"
   },
   "viewCredit": {
     "label": "Manage Credit",

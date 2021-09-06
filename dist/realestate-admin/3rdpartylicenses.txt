@@ -2036,6 +2036,9 @@ SOFTWARE.
 ng-multiselect-dropdown
 MIT
 
+ng-otp-input
+MIT
+
 ng2-nouislider
 MIT
 MIT License
