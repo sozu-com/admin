@@ -201,7 +201,8 @@ export class AddEditCollectionComponent implements OnInit {
       inputStyles: {
         'width': '40px',
         'height': '40px',
-        'background': '#d1d1d1'
+        'background': '#d1d1d1',
+        'font-size': '23px'
       }
     };
   config1 = {
@@ -213,7 +214,8 @@ export class AddEditCollectionComponent implements OnInit {
       inputStyles: {
         'width': '40px',
         'height': '40px',
-        'background': '#d1d1d1'
+        'background': '#d1d1d1',
+        'font-size': '23px'
       }
     };
   config2 = {
@@ -225,7 +227,8 @@ export class AddEditCollectionComponent implements OnInit {
       inputStyles: {
         'width': '40px',
         'height': '40px',
-        'background': '#d1d1d1'
+        'background': '#d1d1d1',
+        'font-size': '23px'
       }
     };
   config3 = {
@@ -237,7 +240,8 @@ export class AddEditCollectionComponent implements OnInit {
       inputStyles: {
         'width': '40px',
         'height': '40px',
-        'background': '#d1d1d1'
+        'background': '#d1d1d1',
+        'font-size': '23px'
       }
     };
   config4 = {
@@ -249,7 +253,8 @@ export class AddEditCollectionComponent implements OnInit {
       inputStyles: {
         'width': '40px',
         'height': '40px',
-        'background': '#d1d1d1'
+        'background': '#d1d1d1',
+        'font-size': '23px'
       }
     };
   constructor(
@@ -1148,6 +1153,7 @@ export class AddEditCollectionComponent implements OnInit {
     }
   }
     this.ngOtpInputRef.setValue(collection_account);
+    this.ngOtpInputRef.otpForm.disable();
     let projectname = data.property.building.name;
     let count2 = 7 - data.property.building.name.toString().length;
     if(count2 > 0){
@@ -1156,6 +1162,7 @@ export class AddEditCollectionComponent implements OnInit {
     }
   }
     this.ngOtpInputRef1.setValue(projectname);
+    this.ngOtpInputRef1.otpForm.disable();
     let property_name = data.property.name;
     let count1 = 5 - data.property.name.toString().length;
     if(count1 > 0){
@@ -1164,7 +1171,9 @@ export class AddEditCollectionComponent implements OnInit {
     }
   }
     this.ngOtpInputRef2.setValue(property_name);
+    this.ngOtpInputRef2.otpForm.disable();
     this.ngOtpInputRef3.setValue(data.buyer.fed_tax_pay? data.buyer.fed_tax_pay : '0000');
+    this.ngOtpInputRef3.otpForm.disable();
     let array = collection_account.split("");
     let array1 = collection_account.split("");
     let num = 0;
@@ -1179,8 +1188,9 @@ export class AddEditCollectionComponent implements OnInit {
     let num3 = (Number(num2) + 1) + '0';
     let value = Number(num3) - num;
     this.ngOtpInputRef4.setValue(value);
-    let bank_reference_id = collection_account.substr(1, 5) + data.property.building.name.substr(1, 7) + property_name.substr(1, 5) + (data.buyer.fed_tax_pay ? 
-                            data.buyer.fed_tax_pay.substr(1, 4) : '0000') + value;
+    this.ngOtpInputRef4.otpForm.disable();
+    let bank_reference_id = collection_account.substr(0, 4) + projectname.substr(0, 6) + property_name.substr(0, 4) + (data.buyer.fed_tax_pay ? 
+                            data.buyer.fed_tax_pay.substr(0, 3) : '0000') + value;
     this.addFormStep6.controls.step.patchValue(6);
     this.addFormStep6.controls.bank_reference_id.patchValue(data.bank_reference_id? data.bank_reference_id : bank_reference_id);
   }
@@ -2866,6 +2876,10 @@ export class AddEditCollectionComponent implements OnInit {
         this.showError = true;
         return false;
       }
+    }
+
+    if(this.model.step == 6){
+     formdata['bank_reference_id'] = this.addFormStep6.value.bank_reference_id
     }
 
     if (callApi) {

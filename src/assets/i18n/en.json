@@ -2748,7 +2748,8 @@
     "docsCount": "Docs",
     "finalprice":"Final Price",
     "finalpricesquare":"Final price per m2",
-    "carpetArea": "Carpet Area"
+    "carpetArea": "Carpet Area",
+    "bankReference": "Bank Reference"
   },
   "addCollectionValidations": {
     "thisIsRequired": "This is required",
@@ -2909,7 +2910,8 @@
     "parkingForSale": "Parking For Sale",
     "parkingType": "Parking Type",
     "parkingPrice": "Parking Price",
-    "comnercialOfferId": "Comnercial offer id:"
+    "comnercialOfferId": "Comnercial offer id:",
+    "bankReference": "Bank Reference:"
   },
   "viewCredit": {
     "label": "Manage Credit",

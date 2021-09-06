@@ -593,6 +593,10 @@ export class DownloadAccountStatementComponent implements OnInit {
                       { text: this.translate.instant('generatePDF.cLABE'), border: [false, false, false, false], color: '#858291' },
                       { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[0].swift ? this.paymentBankDetailsArray[0].swift : 'N/A', border: [false, false, false, false], bold: true }
                     ],
+                    [
+                      { text: this.translate.instant('generatePDF.bankReference'), border: [false, false, false, false], color: '#858291' },
+                      { text: this.collection_data.bank_reference_id ? this.collection_data.bank_reference_id : 'N/A', border: [false, false, false, false], bold: true }
+                    ],
                   ],
                 }
               }
