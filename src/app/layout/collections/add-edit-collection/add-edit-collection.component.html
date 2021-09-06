@@ -2765,26 +2765,40 @@
     </div>
     <div class="padding40">
     <div class="row">
-      <div class="col-3">
+      <div class="col-lg-3 col-md-12 col-12">
         <ng-otp-input #ngOtpInput [config]="config"></ng-otp-input>
-        <label>{{'addCollection.collectionAccount' | translate}}</label>
+        <hr class="new1">
+        <label class="new1">{{'addCollection.collectionAccount' | translate}}</label>
       </div>
-      <div class="col-3">
+
+      <div class="col-lg-3 col-md-12 col-12" style="clear: both;
+      overflow: hidden;
+      white-space: nowrap;">
         <ng-otp-input #ngOtpInput1 [config]="config1"></ng-otp-input>
-        <label>{{'addCollection.projectName' | translate}}</label>
+        <hr class="new2">
+        <label class="new2">{{'addCollection.projectName' | translate}}</label>
       </div>
-      <div class="col-3">
+
+      <div class="col-lg-3 col-md-12 col-12">
         <ng-otp-input #ngOtpInput2 [config]="config2"></ng-otp-input>
-        <label>{{'addCollection.propertyName' | translate}}</label>
+        <hr class="new3">
+        <label class="new3">{{'addCollection.propertyName' | translate}}</label>
       </div>
-      <div class="col-2">
+
+      <div class="col-lg-2 col-md-12 col-12" style="clear: both;
+      overflow: hidden;
+      white-space: nowrap;">
         <ng-otp-input #ngOtpInput3 [config]="config3"></ng-otp-input>
-        <label>{{'addCollection.clientRFC' | translate}}</label>
+        <hr class="new4">
+        <label class="new4">{{'addCollection.clientRFC' | translate}}</label>
       </div>
-      <div class="col-1">
+
+      <div class=" col-lg-1 col-md-12 col-12">
         <ng-otp-input #ngOtpInput4 [config]="config4"></ng-otp-input>
-        <label>{{'addCollection.checker' | translate}}</label>
+        <hr class="new5">
+        <label class="new5">{{'addCollection.checker' | translate}}</label>
       </div>
+
     </div>
     <div class="spacer50"></div>
       <div class="row">
