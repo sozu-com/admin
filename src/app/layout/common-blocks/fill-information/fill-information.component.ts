@@ -83,6 +83,11 @@ export class FillInformationComponent implements OnInit {
     private translate: TranslateService) { }
 
   ngOnInit() {
+    this.getCountries(this.lead_id);
+    this.parameter.country_id = '9';
+    this.parameter.state_id = '13';
+    this.parameter.city_id = '13';
+    this.locality_ids = [40, 59, 60, 45, 41];
     this.language_code = localStorage.getItem('language_code');
     this.initializedDropDownSetting();
     this.getMarritalStatusList();this.parameter.country_id = '9';
@@ -434,18 +439,14 @@ export class FillInformationComponent implements OnInit {
     }
     this.model.looking_for = this.model.looking_for == 1 ? 9 : this.model.looking_for == 2 ? 8 :  this.model.looking_for;
     let ids = [];
-    if(!data){
-      this.model.country_id = this.parameter.country_id;
-      this.model.state_id = this.parameter.state_id;
+    this.model.country_id = this.parameter.country_id;
+    this.model.state_id = this.parameter.state_id;
     this.parameter.locality_ids.forEach(item=>{
     ids.push(item.id);
     });
     this.model.city_id = this.parameter.city_id;
     this.model.locality_id = data ? this.locality_ids : ids;
-  }
- 
     this.spinner.show();
-    this.getCountries(this.lead_id);
     this.admin.postDataApi('homeSearch', this.model).subscribe(r => {
       this.spinner.hide();
       this.parameter.items = r.data;
@@ -478,7 +479,7 @@ export class FillInformationComponent implements OnInit {
       this.location.cities = selectedState[0].cities;
       const selectedcity = this.location.cities.filter(x => x.id.toString() === this.parameter.city_id);
       this.location.localities = selectedcity[0].localities;
-      if(this.firstTime){
+      if(!this.firstTime){
         self.parameter.locality_ids = [];
         this.location.localities.forEach(element => {
           self.locality_ids.forEach(item=>{
