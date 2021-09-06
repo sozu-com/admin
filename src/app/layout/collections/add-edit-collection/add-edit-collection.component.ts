@@ -1155,7 +1155,7 @@ export class AddEditCollectionComponent implements OnInit {
       projectname = '0' + projectname;
     }
   }
-    this.ngOtpInputRef1.setValue();
+    this.ngOtpInputRef1.setValue(projectname);
     let property_name = data.property.name;
     let count1 = 5 - data.property.name.toString().length;
     if(count1 > 0){
