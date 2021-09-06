@@ -40,6 +40,7 @@ import { CsrRenterComponent } from './csr-renter/csr-renter.component';
 import { CreditAgentComponent } from './credit-agent/credit-agent.component';
 import { CollectionAgentComponent } from './collection-agent/collection-agent.component';
 import { CreditAgentLeadDetailComponent } from './credit-agent/credit-agent-lead-detail/credit-agent-lead-detail.component';
+import { NgxMaskModule } from 'ngx-mask';
 
 const routes: Routes = [
   {
@@ -172,7 +173,8 @@ const routes: Routes = [
     NgxChartsModule,
     SharedModule,
     CalendarModule,
-    TranslateModule
+    TranslateModule,
+    NgxMaskModule.forRoot()
     // LayoutModule
     // NgBoxModule
   ],
@@ -187,7 +189,7 @@ const routes: Routes = [
     //CsrBuyerDetailComponent,
     InhouseBrokerDetailComponent,
     CsrCloserDetailComponent,
-   // InterestedPropertyComponent,
+    // InterestedPropertyComponent,
     //ViewedPropertyComponent,
     //ViewedProjectsComponent,
     RemoveCommaPipe,
