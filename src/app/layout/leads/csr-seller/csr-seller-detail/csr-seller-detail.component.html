@@ -251,16 +251,18 @@
                                     <td style="padding-left:0;"><label>{{'leadDetails.price' | translate}}</label></td>
                                     <td *ngIf="isShown">
                                         <div class="form-group">
-                                            <select class="form-control" size="3" style="height: 131px !important;"
+                                            <input autocomplete="off" mask="separator.2" thousandSeparator="," type="text"
+                        class="form-control" [(ngModel)]="leadData.price" name="price">
+                                            <!-- <select class="form-control" size="3" style="height: 131px !important;"
                                             [(ngModel)]="leadData.price">
                                                 <option value="0">{{'filters.location.allOption' | translate}}</option>
                                                 <option *ngFor="let item of allPrices" [value]="item.name_en">
                                                     {{item.name_en}}</option>
-                                            </select>
+                                            </select> -->
                                         </div>
                                     </td>
                                     <td *ngIf="!isShown">
-                                        {{leadData.price ? '$ ' + leadData?.price : 'N/A'}}
+                                       $ {{leadData.price | number: '1.0-0'}}
                                     </td>
                                 </tr>
                                 <tr>
