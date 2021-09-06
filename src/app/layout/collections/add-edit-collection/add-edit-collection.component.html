@@ -31,7 +31,9 @@
           translate}}</a></li>
       <li [ngClass]="{'current': tab == 5}"><span></span><a (click)="setTab(5)">{{'addCollection.tabs.commission' |
           translate}}</a></li>
-      <li [ngClass]="{'current': tab == 6}"><span></span><a (click)="setTab(6)">{{'addCollection.tabs.uploadDocuments' |
+      <li [ngClass]="{'current': tab == 6}"><span></span><a (click)="setTab(6)">{{'addCollection.tabs.bankReference' |
+          translate}}</a></li>
+      <li [ngClass]="{'current': tab == 7}"><span></span><a (click)="setTab(6)">{{'addCollection.tabs.uploadDocuments' |
           translate}}</a></li>
     </ul>
   </div>
@@ -2755,10 +2757,51 @@
   </div>
 </form>
 
-
-
-<form autocomplete="off" ngNativeValidate #addFormStep6="ngForm" (ngSubmit)="saveCollectionFolders()">
+<form autocomplete="off" ngNativeValidate #addFormStep6="ngForm" (ngSubmit)="createCollection(addFormStep6.value, 6)">
+  <!-- tab-5 -->
   <div class="white-bg" *ngIf="tab==6">
+    <div class="page-title">
+      <h3>{{'addCollection.bankReference' | translate}}</h3>
+    </div>
+    <div class="padding40">
+    <div class="row">
+      <div class="col-3">
+        <ng-otp-input #ngOtpInput [config]="config"></ng-otp-input>
+        <label>{{'addCollection.collectionAccount' | translate}}</label>
+      </div>
+      <div class="col-3">
+        <ng-otp-input #ngOtpInput1 [config]="config1"></ng-otp-input>
+        <label>{{'addCollection.projectName' | translate}}</label>
+      </div>
+      <div class="col-3">
+        <ng-otp-input #ngOtpInput2 [config]="config2"></ng-otp-input>
+        <label>{{'addCollection.propertyName' | translate}}</label>
+      </div>
+      <div class="col-2">
+        <ng-otp-input #ngOtpInput3 [config]="config3"></ng-otp-input>
+        <label>{{'addCollection.clientRFC' | translate}}</label>
+      </div>
+      <div class="col-1">
+        <ng-otp-input #ngOtpInput4 [config]="config4"></ng-otp-input>
+        <label>{{'addCollection.checker' | translate}}</label>
+      </div>
+    </div>
+    <div class="spacer50"></div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="btn-cont text-right">
+            <button type="button" class="btn btn-primary" (click)="setTab(5)">{{'addForm.previous' |
+              translate}}</button>
+            <button type="submit" class="btn btn-primary marginL15">{{'addForm.next' | translate}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<form autocomplete="off" ngNativeValidate #addFormStep7="ngForm" (ngSubmit)="saveCollectionFolders()">
+  <div class="white-bg" *ngIf="tab==7">
     <div class="page-title">
       <h3>{{'addCollection.tabs.uploadDocuments' | translate}}</h3>
     </div>
@@ -2836,7 +2879,7 @@
       <div class="row">
         <div class="col-md-12">
           <div class="btn-cont text-right">
-            <button type="button" class="btn btn-primary" (click)="setTab(5)">{{'addForm.previous' |
+            <button type="button" class="btn btn-primary" (click)="setTab(7)">{{'addForm.previous' |
               translate}}</button>
             <button type="submit" class="btn btn-primary marginL15">{{'addForm.submit' | translate}}</button>
           </div>

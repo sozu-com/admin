@@ -17,7 +17,6 @@ import { Collection, Seller } from 'src/app/models/collection.model';
 import { ToastrService } from 'ngx-toastr';
 import { Document } from 'src/app/models/document.model';
 import { IDestinationStatus } from 'src/app/common/marrital-status-interface';
-import { element } from 'protractor';
 import { forkJoin } from 'rxjs';
 import { GenerateOfferPdfService } from 'src/app/services/generate-offer-pdf.service';
 declare let swal: any;
@@ -49,6 +48,11 @@ export class AddEditCollectionComponent implements OnInit {
   @ViewChild('buyerSellerPropertyDocumentationModalOpen') buyerSellerPropertyDocumentationModalOpen: ElementRef;
   @ViewChild('buyerSellerPropertyDocumentationModalClose') buyerSellerPropertyDocumentationModalClose: ElementRef;
   @ViewChild('notesadddModalOpen') notesadddModalOpen: ElementRef;
+  @ViewChild('ngOtpInput') ngOtpInputRef:any;
+  @ViewChild('ngOtpInput1') ngOtpInputRef1:any;
+  @ViewChild('ngOtpInput2') ngOtpInputRef2:any;
+  @ViewChild('ngOtpInput3') ngOtpInputRef3:any;
+  @ViewChild('ngOtpInput4') ngOtpInputRef4:any;
   public latitude: number;
   public longitude: number;
   public searchControl: FormControl;
@@ -115,6 +119,7 @@ export class AddEditCollectionComponent implements OnInit {
   addFormStep4: FormGroup;
   addFormStep5: FormGroup;
   addFormStep6: FormGroup;
+  addFormStep7: FormGroup;
   collectionFolders: Array<any>;
   docs: Array<any>;
   keyword: string;
@@ -187,6 +192,66 @@ export class AddEditCollectionComponent implements OnInit {
   resales = [
     { id: '1', name: this.translate.instant('addCollection.Initial'), checked: true },
     { id: '2', name: this.translate.instant('addCollection.Final'), checked: false }];
+  config = {
+      allowNumbersOnly: false,
+      length: 5,
+      isPasswordInput: false,
+      disableAutoFocus: false,
+      placeholder: '',
+      inputStyles: {
+        'width': '40px',
+        'height': '40px',
+        'background': '#d1d1d1'
+      }
+    };
+  config1 = {
+      allowNumbersOnly: false,
+      length: 7,
+      isPasswordInput: false,
+      disableAutoFocus: false,
+      placeholder: '',
+      inputStyles: {
+        'width': '40px',
+        'height': '40px',
+        'background': '#d1d1d1'
+      }
+    };
+  config2 = {
+      allowNumbersOnly: false,
+      length: 5,
+      isPasswordInput: false,
+      disableAutoFocus: false,
+      placeholder: '',
+      inputStyles: {
+        'width': '40px',
+        'height': '40px',
+        'background': '#d1d1d1'
+      }
+    };
+  config3 = {
+      allowNumbersOnly: false,
+      length: 4,
+      isPasswordInput: false,
+      disableAutoFocus: false,
+      placeholder: '',
+      inputStyles: {
+        'width': '40px',
+        'height': '40px',
+        'background': '#d1d1d1'
+      }
+    };
+  config4 = {
+      allowNumbersOnly: false,
+      length: 1,
+      isPasswordInput: false,
+      disableAutoFocus: false,
+      placeholder: '',
+      inputStyles: {
+        'width': '40px',
+        'height': '40px',
+        'background': '#d1d1d1'
+      }
+    };
   constructor(
     public model: Collection,
     private adminService: AdminService,
@@ -268,6 +333,8 @@ export class AddEditCollectionComponent implements OnInit {
     this.initFormStep3();
     this.initFormStep4();
     this.initFormStep5();
+    this.initFormStep6();
+    this.initFormStep7();
     this.getCollectionDetails(this.model.id);
   }
 
@@ -556,6 +623,13 @@ export class AddEditCollectionComponent implements OnInit {
   initFormStep6() {
     this.addFormStep6 = this.formBuilder.group({
       step: ['', [Validators.required]],
+      bank_reference_id: [''],
+    });
+  }
+
+  initFormStep7() {
+    this.addFormStep7 = this.formBuilder.group({
+      step: ['', [Validators.required]],
       folderName: [''],
       collection_folders: this.formBuilder.array([])
     });
@@ -581,6 +655,11 @@ export class AddEditCollectionComponent implements OnInit {
           (success.data || {}).buyer_type == 1 ? this.getAllBeneficiary(success.data) : '';
           this.collection_account_statement_id = success.data.account_statement ? success.data.account_statement.id : undefined;
           this.patchFormData(success['data']);
+          if(this.tab == 6){
+            setTimeout(() => {
+            this.patchFormStep6(this.tempmodel);
+            },1000);
+          }
           this.isAgencyBank = success['data'].payment_received_by == '1' ? true : false;
           this.getBanks(success['data'].property.id)
         }, error => {
@@ -1060,6 +1139,52 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep5.controls.step.patchValue(5);
   }
 
+    patchFormStep6(data){
+    let collection_account = data.id;
+    let count = 5 - data.id.toString().length;
+    if(count > 0){
+    for(let i = 1; i <= count; i++){
+      collection_account = '0' + collection_account;
+    }
+  }
+    this.ngOtpInputRef.setValue(collection_account);
+    let projectname = data.property.building.name;
+    let count2 = 7 - data.property.building.name.toString().length;
+    if(count2 > 0){
+    for(let i = 1; i <= count2; i++){
+      projectname = '0' + projectname;
+    }
+  }
+    this.ngOtpInputRef1.setValue();
+    let property_name = data.property.name;
+    let count1 = 5 - data.property.name.toString().length;
+    if(count1 > 0){
+    for(let i = 1; i <= count1; i++){
+      property_name = '0' + property_name;
+    }
+  }
+    this.ngOtpInputRef2.setValue(property_name);
+    this.ngOtpInputRef3.setValue(data.buyer.fed_tax_pay? data.buyer.fed_tax_pay : '0000');
+    let array = collection_account.split("");
+    let array1 = collection_account.split("");
+    let num = 0;
+    array.forEach(item=>{
+     num = num + Number(item);
+    });
+    array1.forEach(item=>{
+      num = num + Number(item);
+    });
+    let num1 = num.toString();
+    let num2 = num1[0];
+    let num3 = (Number(num2) + 1) + '0';
+    let value = Number(num3) - num;
+    this.ngOtpInputRef4.setValue(value);
+    let bank_reference_id = collection_account.substr(1, 5) + data.property.building.name.substr(1, 7) + property_name.substr(1, 5) + (data.buyer.fed_tax_pay ? 
+                            data.buyer.fed_tax_pay.substr(1, 4) : '0000') + value;
+    this.addFormStep6.controls.step.patchValue(6);
+    this.addFormStep6.controls.bank_reference_id.patchValue(data.bank_reference_id? data.bank_reference_id : bank_reference_id);
+  }
+
   setCommission(data) {
     this.model.collection_commissions = [];
     const payment_choices = this.addFormStep4.get('payment_choices').value;
@@ -1135,6 +1260,11 @@ export class AddEditCollectionComponent implements OnInit {
         if (tab == 4) {
           this.edit_reminder = false;
           this.isShown = this.addFormStep4.controls['send_mail'].value == 1 ? true : false;       
+        }
+        else if(tab == 6){
+          setTimeout(() => {
+            this.patchFormStep6(this.tempmodel);
+          }, 1000);
         }
       }
     });
@@ -1806,7 +1936,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   get folders(): FormArray {
-    return this.addFormStep6.get('collection_folders') as FormArray;
+    return this.addFormStep7.get('collection_folders') as FormArray;
   }
 
   newFolder(): FormGroup {
@@ -1828,7 +1958,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   get folderDocs(): FormArray {
-    const collFolders = this.addFormStep6.get('collection_folders') as FormArray;
+    const collFolders = this.addFormStep7.get('collection_folders') as FormArray;
     return collFolders.get('folder_docs') as FormArray;
   }
 
@@ -2780,6 +2910,12 @@ export class AddEditCollectionComponent implements OnInit {
               this.patchFormStep5(success['data']);
             }
             if (tab == 6) {
+              this.initFormStep6();
+              setTimeout(() => {
+              this.patchFormStep6(success['data']);
+              },1000);
+            }
+            if (tab == 7) {
               this.router.navigate(['/dashboard/collections/view-collections']);
               // swal({
               //   html: this.translate.instant('message.success.submittedSccessfully'), type: 'success'

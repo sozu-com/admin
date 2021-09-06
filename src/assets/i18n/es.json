@@ -2312,7 +2312,8 @@
       "buyer": "Compradora",
       "deal": "Acuerdo",
       "commission": "Comisión",
-      "uploadDocuments": "subir documentos"
+      "uploadDocuments": "subir documentos",
+      "bankReference": "Referencia Bancaria"
     },
     "title":"Titulo nota",
     "note":"Escribir nota",
@@ -2500,7 +2501,13 @@
     "outsideAgentIVACommission": "Comisión de IVA del agente externo",
     "outsideAgentIVACommissionAmount": "Monto de la comisión de IVA del agente externo",
     "agentCommissionInhouse": "Comisión de agente interna",
-    "agentCommissionOutside": "Comisión de agente exterior"
+    "agentCommissionOutside": "Comisión de agente exterior",
+    "bankReference": "Referencia Bancaria",
+    "collectionAccount": "Cuenta de cobranza",
+    "projectName": "Nombre del proyecto",
+    "propertyName": "Nombre del departamento",
+    "clientRFC": "RFC del cliente",
+    "checker": "Verificador"
   },
   "swal": {
     "error": "Error",

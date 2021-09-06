@@ -2319,7 +2319,8 @@
       "buyer": "Buyer",
       "deal": "Deal",
       "commission": "Commission",
-      "uploadDocuments": "Upload Documents"
+      "uploadDocuments": "Upload Documents",
+      "bankReference": "Bank Reference"
     },
     "title": "Title",
     "note": "Note",
@@ -2507,7 +2508,13 @@
     "addIVAToAgentCommissionInhouse": "Add IVA To Agent Commission Inhouse",
     "addIVAToAgentCommissionOutside": "Add IVA To Agent Commission Outside",
     "addAgentInhouseCommission": "Add Agent Inhouse Commission",
-    "addAgentOutsideCommission": "Add Agent Outside Commission"
+    "addAgentOutsideCommission": "Add Agent Outside Commission",
+    "bankReference": "Bank Reference",
+    "collectionAccount": "Collection Account",
+    "projectName": "Project Name",
+    "propertyName": "Property Name",
+    "clientRFC": "Client RFC",
+    "checker": "Checker"
   },
   "swal": {
     "error": "Error",

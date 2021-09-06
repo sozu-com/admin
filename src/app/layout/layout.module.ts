@@ -61,7 +61,7 @@ import { OutSideAddComponent } from './inhouse-users/out-side-add/out-side-add.c
     CalendarModule,
     LazyLoadImageModule,
     AngularFireDatabaseModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
   ],
   declarations: [
     LayoutComponent,

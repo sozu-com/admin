@@ -90,6 +90,7 @@ const appRoutes: Routes = [
     NgxSpinnerModule,
     MalihuScrollbarModule.forRoot(),
     Ng2TelInputModule,
+    
     ToastrModule.forRoot({
       maxOpened: 1,
       preventDuplicates: true,

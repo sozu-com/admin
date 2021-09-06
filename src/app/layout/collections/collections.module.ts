@@ -24,6 +24,7 @@ import { AnalyticsComponent } from './analytics/analytics.component';
 import { QuickVisualizationComponent } from './quick-visualization/quick-visualization.component';
 import { AccountStatementComponent } from './account-statement/account-statement.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { NgOtpInputModule } from  'ng-otp-input';
 
 const routes: Routes = [
   // {
@@ -81,6 +82,7 @@ const routes: Routes = [
       autoDismiss: true
     }),
     NgMultiSelectDropDownModule.forRoot(),
+    NgOtpInputModule
   ],
   declarations: [
     CollectionsComponent,
