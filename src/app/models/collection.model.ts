@@ -9,6 +9,7 @@ export class Collection {
     add_iva_to_ac: any;
     add_iva_to_cc: any;
     add_iva_to_oac: any;
+    bank_reference_id: any;
     step: number;
     iva_percent: any;
     building_id: string;
@@ -26,7 +27,7 @@ export class Collection {
     buyer: Seller;
     final_price: string;
     final_price_per_m2: string;
-    cancellation_commission:any;
+    cancellation_commission: any;
     availabilityStatusId: string;
     is_property_sold: boolean;
     deal_price: number;

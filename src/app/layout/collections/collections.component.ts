@@ -47,8 +47,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   test_Collection: any;
   sameAmount: any;
   sumData: any;
-  collection_commission:any;
-  cancellation_commission:any;
+  collection_commission: any;
+  cancellation_commission: any;
   pay_id: any = [];
   selectedLevel: any;
   commissionType: any;
@@ -95,8 +95,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   typeOfPayment: string;
   collectionIndex: number;
   last_payment_id: string;
-  last_payment_approved:any;
-  last_payment:any;
+  last_payment_approved: any;
+  last_payment: any;
   selectedPaymentConcept: any;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
   invoiceKeys: boolean;
@@ -424,9 +424,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
 
         this.items.forEach(function (element) {
           element['avgg_price_per'] = (((parseFloat(element.final_price) || 0) / (parseFloat(element.final_price_per_m2) || 0)));
-         
+
         });
-        
+
         // fetching payment status
         for (let index = 0; index < this.items.length; index++) {
           const element = this.items[index];
@@ -464,21 +464,21 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             cc_percent = cc_percent + (ele.add_collection_commission ? ele.percent : 0);
             cc_received = cc_received + (ele.add_collection_commission ? ele.amount : 0);
             pc_received = pc_received + (ele.add_purchase_commission ? ele.purchase_comm_amount : 0);
-            
+
             // if (ele.add_collection_commission) {
             //   cc_active++;
             // }
             if (ele.payment) {
-            ele.payment.forEach((elem, index) => {
-              if (index == 0) {
-                if (ele.add_collection_commission) {
-                  cc_active++;
+              ele.payment.forEach((elem, index) => {
+                if (index == 0) {
+                  if (ele.add_collection_commission) {
+                    cc_active++;
+                  }
+                  cc_receipt++;
+                  cc_invoice++;
                 }
-                cc_receipt++;
-                cc_invoice++;
-              }
-            })
-          }
+              })
+            }
             // if (ele.payment) {
             //   cc_receipt++;
             //   if (ele.payment.invoice_id) {
@@ -490,16 +490,16 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             //   pc_active++;
             // }
             if (ele.purchase_payment) {
-            ele.purchase_payment.forEach((elem, index) => {
-              if (index == 0) {
-                if (ele.add_purchase_commission) {
-                  pc_active++;
+              ele.purchase_payment.forEach((elem, index) => {
+                if (index == 0) {
+                  if (ele.add_purchase_commission) {
+                    pc_active++;
+                  }
+                  pc_receipt++;
+                  pc_invoice++;
                 }
-                pc_receipt++;
-                pc_invoice++;
-              }
-            })
-          }
+              })
+            }
             // if (ele.purchase_payment) {
             //   pc_receipt++;
             //   if (ele.purchase_payment.invoice_id && ele.purchase_payment.pdf_url && ele.purchase_payment.xml_url) {
@@ -517,27 +517,27 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             //   }
             // }
             if (ele.agent_payment) {
-            ele.agent_payment.forEach((elem, index) => {
-              if (index == 0) {
-                if (ele.add_agent_commission) {
-                  ac_active++;
+              ele.agent_payment.forEach((elem, index) => {
+                if (index == 0) {
+                  if (ele.add_agent_commission) {
+                    ac_active++;
+                  }
+                  ac_receipt++;
+                  ac_invoice++;
                 }
-                ac_receipt++;
-                ac_invoice++;
-              }
-            })
-          }
-          if (ele.outside_agent_payment) {
-            ele.outside_agent_payment.forEach((elem, index) => {
-              if (index == 0) {
-                if (ele.agent_outside_comm_amount) {
-                  oac_active++;
+              })
+            }
+            if (ele.outside_agent_payment) {
+              ele.outside_agent_payment.forEach((elem, index) => {
+                if (index == 0) {
+                  if (ele.agent_outside_comm_amount) {
+                    oac_active++;
+                  }
+                  oac_receipt++;
+                  oac_invoice++;
                 }
-                oac_receipt++;
-                oac_invoice++;
-              }
-            })
-          }
+              })
+            }
           }
           element['sum_pc'] = pc_received;
           element['cc_percent'] = this.numberUptoNDecimal((cc_percent / cc_active), 3);
@@ -1005,7 +1005,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     // this.last_payment_id = item.last_payment ? item.last_payment.collection_payment_id : '';
     this.last_payment_approved = item.last_payment ? item.last_payment.is_paid_calculated : 0;
     //this.last_payment = item.last_payment;
-    console.log(this.last_payment,"last")
+    console.log(this.last_payment, "last")
     this.last_payment_id = item.last_payment ? item.last_payment.parent_id : '';
     this.seller_type = item.seller_type;
     this.showPaymentBanks(item);
@@ -1412,7 +1412,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         });
         this.outside_agent_payment = sum4;
       }
-    }else {
+    } else {
       for (let i = 0; i < (item.payment || []).length; i++) {
         let sum2: number = item.payment.map(a => a.amount).reduce(function (a, b) {
           return a + b;
@@ -1452,19 +1452,19 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_pc)) {
           this.ivaAmount = (parseFloat(this.paymentAmount) * parseFloat(this.selectedItem.iva_percent)) / 100;
           this.total_Purchase_Amt = (parseFloat(this.paymentAmount) + parseFloat(this.ivaAmount)).toFixed(2);
-          if(this.purchase__amount){
+          if (this.purchase__amount) {
             this.paid_amount = (parseFloat(this.purchase__amount || 0) + parseFloat(this.ivaAmount || 0)).toFixed(2);
             this.paymentAmount = (parseFloat(this.total_Purchase_Amt || 0) - parseFloat(this.paid_amount || 0)).toFixed(2);
-          }else{
+          } else {
             this.paid_amount = this.total_Purchase_Amt;
             this.paymentAmount = (parseFloat(this.paid_amount || 0)).toFixed(2);
           }
-        }else{
+        } else {
           this.total_Purchase_Amt = (parseFloat(this.paymentAmount)).toFixed(2);
-          if(this.purchase__amount){
+          if (this.purchase__amount) {
             this.paid_amount = (parseFloat(this.purchase__amount || 0)).toFixed(2);
             this.paymentAmount = (parseFloat(this.total_Purchase_Amt || 0) - parseFloat(this.paid_amount || 0)).toFixed(2);
-          }else{
+          } else {
             this.paid_amount = (parseFloat(this.total_Purchase_Amt || 0));
             this.paymentAmount = (parseFloat(this.total_Purchase_Amt || 0));
           }
@@ -1480,19 +1480,19 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_ac)) {
           this.ivaAmount = (parseFloat(this.paymentAmount) * parseFloat(this.selectedItem.iva_percent)) / 100;
           this.total_Agent_Amt = (parseFloat(this.paymentAmount) + parseFloat(this.ivaAmount)).toFixed(2);
-          if(this.agent_amount){
+          if (this.agent_amount) {
             this.paid_amount = (parseFloat(this.agent_amount || 0) + parseFloat(this.ivaAmount || 0)).toFixed(2);
             this.paymentAmount = (parseFloat(this.total_Agent_Amt || 0) - parseFloat(this.paid_amount || 0)).toFixed(2);
-          }else{
+          } else {
             this.paid_amount = this.total_Agent_Amt;
             this.paymentAmount = (parseFloat(this.paid_amount || 0)).toFixed(2);
           }
-        }else{
+        } else {
           this.total_Agent_Amt = (parseFloat(this.paymentAmount)).toFixed(2);
-          if(this.agent_amount){
+          if (this.agent_amount) {
             this.paid_amount = (parseFloat(this.agent_amount || 0)).toFixed(2);
             this.paymentAmount = (parseFloat(this.total_Agent_Amt || 0) - parseFloat(this.paid_amount || 0)).toFixed(2);
-          }else{
+          } else {
             this.paid_amount = (parseFloat(this.total_Agent_Amt || 0));
             this.paymentAmount = (parseFloat(this.total_Agent_Amt || 0));
           }
@@ -1508,24 +1508,24 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_oac)) {
           this.ivaAmount = (parseFloat(this.paymentAmount) * parseFloat(this.selectedItem.iva_percent)) / 100;
           this.total_payment = (parseFloat(this.paymentAmount) + parseFloat(this.ivaAmount)).toFixed(2);
-          if(this.outside_agent_payment){
+          if (this.outside_agent_payment) {
             this.paid_amount = (parseFloat(this.outside_agent_payment || 0) + parseFloat(this.ivaAmount || 0)).toFixed(2);
             this.paymentAmount = (parseFloat(this.total_payment || 0) - parseFloat(this.paid_amount || 0)).toFixed(2);
-          }else{
+          } else {
             this.paid_amount = this.total_payment;
             this.paymentAmount = (parseFloat(this.paid_amount || 0)).toFixed(2);
           }
-        }else{
+        } else {
           this.total_payment = (parseFloat(this.paymentAmount)).toFixed(2);
-          if(this.outside_agent_payment){
+          if (this.outside_agent_payment) {
             this.paid_amount = (parseFloat(this.outside_agent_payment || 0)).toFixed(2);
             this.paymentAmount = (parseFloat(this.total_payment || 0) - parseFloat(this.paid_amount || 0)).toFixed(2);
-          }else{
+          } else {
             this.paid_amount = (parseFloat(this.total_payment || 0));
             this.paymentAmount = (parseFloat(this.total_payment || 0));
           }
         }
-       // if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_oac)) {
+        // if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_oac)) {
         //   this.ivaAmount = (parseFloat(this.paymentAmount) * parseFloat(this.selectedItem.iva_percent)) / 100;
         //   this.paymentAmount = (parseFloat(this.paymentAmount) + parseFloat(this.ivaAmount) - parseFloat(this.outside_agent_payment || 0)).toFixed(2);
         // }
@@ -1536,19 +1536,19 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_cc)) {
           this.ivaAmount = (parseFloat(this.paymentAmount) * parseFloat(this.selectedItem.iva_percent)) / 100;
           this.total_Collection_Amt = (parseFloat(this.paymentAmount) + parseFloat(this.ivaAmount)).toFixed(2);
-          if(this.collection_amount){
+          if (this.collection_amount) {
             this.paid_amount = (parseFloat(this.collection_amount || 0) + parseFloat(this.ivaAmount || 0)).toFixed(2);
             this.paymentAmount = (parseFloat(this.total_Collection_Amt || 0) - parseFloat(this.paid_amount || 0)).toFixed(2);
-          }else{
+          } else {
             this.paid_amount = this.total_Collection_Amt;
             this.paymentAmount = (parseFloat(this.paid_amount || 0)).toFixed(2);
           }
-        }else{
+        } else {
           this.total_Collection_Amt = (parseFloat(this.paymentAmount)).toFixed(2);
-          if(this.collection_amount){
+          if (this.collection_amount) {
             this.paid_amount = (parseFloat(this.collection_amount || 0)).toFixed(2);
             this.paymentAmount = (parseFloat(this.total_Collection_Amt || 0) - parseFloat(this.paid_amount || 0)).toFixed(2);
-          }else{
+          } else {
             this.paid_amount = (parseFloat(this.total_Collection_Amt || 0));
             this.paymentAmount = (parseFloat(this.total_Collection_Amt || 0));
           }
@@ -1599,37 +1599,37 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     }
   }
 
-  setPaymentmethod(item:any){
-     let data = this.collection_commission.find(value=> value.payment_method_id == item);
-     this.pay_id = data;
-     if(!this.pay_id){
+  setPaymentmethod(item: any) {
+    let data = this.collection_commission.find(value => value.payment_method_id == item);
+    this.pay_id = data;
+    if (!this.pay_id) {
       this.payment_id = this.collection_commission ? this.collection_commission.id : [];
       this.payment_method_id = this.collection_commission ? (this.collection_commission.payment_method || {}).id : [];
       this.description = this.collection_commission ? this.collection_commission.description : [];
-       this.docFile = this.collection_commission ? this.collection_commission.receipt : [];
+      this.docFile = this.collection_commission ? this.collection_commission.receipt : [];
       this.amount = this.collection_commission ? this.collection_commission.amount : [];
       this.commission_type = this.collection_commission ? this.collection_commission.commission_type : [];
       this.collection_commission_id = this.collection_commission ? this.collection_commission.collection_commission_id : [];
-      this.payment_date = this.collection_commission ?  this.collection_commission.payment_date : [];
+      this.payment_date = this.collection_commission ? this.collection_commission.payment_date : [];
       this.invoice_date = this.collection_commission ? this.collection_commission.invoice_date : [];
       this.pdf_url = this.collection_commission ? this.collection_commission.pdf_url : [];
       this.xml_url = this.collection_commission ? this.collection_commission.xml_url : [];
       this.invoice_id = this.collection_commission ? this.collection_commission.invoice_id : [];
-     }else{
+    } else {
       this.selectedLevel = this.collection_commission[0];
       this.payment_id = this.collection_commission[0] ? this.collection_commission[0].id : [];
       this.payment_method_id = this.collection_commission[0] ? (this.collection_commission[0].payment_method || {}).id : [];
       this.description = this.collection_commission[0] ? this.collection_commission[0].description : [];
-       this.docFile = this.collection_commission[0] ? this.collection_commission[0].receipt : [];
+      this.docFile = this.collection_commission[0] ? this.collection_commission[0].receipt : [];
       this.amount = this.collection_commission[0] ? this.collection_commission[0].amount : [];
       this.commission_type = this.collection_commission[0] ? this.collection_commission[0].commission_type : [];
       this.collection_commission_id = this.collection_commission[0] ? this.collection_commission[0].collection_commission_id : [];
-      this.payment_date = this.collection_commission[0] ?  this.getDateWRTTimezone(this.collection_commission[0].payment_date, 'DD/MMM/YYYY')  : [];
-      this.invoice_date = this.collection_commission[0] ? this.getDateWRTTimezone(this.collection_commission[0].invoice_date, 'DD/MMM/YYYY')  : [];
+      this.payment_date = this.collection_commission[0] ? this.getDateWRTTimezone(this.collection_commission[0].payment_date, 'DD/MMM/YYYY') : [];
+      this.invoice_date = this.collection_commission[0] ? this.getDateWRTTimezone(this.collection_commission[0].invoice_date, 'DD/MMM/YYYY') : [];
       this.pdf_url = this.collection_commission[0] ? this.collection_commission[0].pdf_url : [];
       this.xml_url = this.collection_commission[0] ? this.collection_commission[0].xml_url : [];
       this.invoice_id = this.collection_commission[0] ? this.collection_commission[0].invoice_id : [];
-     }
+    }
   }
 
   closePaymentModal() {
@@ -1664,37 +1664,37 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           this.sumData = success['data'];
           if (this.commission_type == 1) {
             if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_pc)) {
-              const expected = parseFloat(this.sumData.iva_percent)  * parseFloat(this.sumData.ecpected) / 100;
+              const expected = parseFloat(this.sumData.iva_percent) * parseFloat(this.sumData.ecpected) / 100;
               const total_expect = parseFloat(this.sumData.ecpected) + expected;
               this.paid_amount = (total_expect - parseFloat(this.sumData.paid_amount)).toFixed(2);
-            }else{
+            } else {
               this.paid_amount = (parseFloat(item.purchase_comm_amount || 0) - parseFloat(this.sumData.paid_amount || 0)).toFixed(2);
             }
           } else if (this.commission_type == 3) {
-           // this.paid_amount = (item.agent_comm_amount || 0);
+            // this.paid_amount = (item.agent_comm_amount || 0);
             if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_ac)) {
-              const expected = parseFloat(this.sumData.iva_percent)  * parseFloat(this.sumData.ecpected) / 100;
+              const expected = parseFloat(this.sumData.iva_percent) * parseFloat(this.sumData.ecpected) / 100;
               const total_expect = parseFloat(this.sumData.ecpected) + expected;
               this.paid_amount = (total_expect - parseFloat(this.sumData.paid_amount)).toFixed(2);
-            }else{
+            } else {
               this.paid_amount = (parseFloat(item.agent_comm_amount || 0) - parseFloat(this.sumData.paid_amount || 0)).toFixed(2);
             }
           } else if (this.commission_type == 5) {
             //this.paid_amount = (item.agent_outside_comm_amount || 0);
             if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_oac)) {
-              const expected = parseFloat(this.sumData.iva_percent)  * parseFloat(this.sumData.ecpected) / 100;
+              const expected = parseFloat(this.sumData.iva_percent) * parseFloat(this.sumData.ecpected) / 100;
               const total_expect = parseFloat(this.sumData.ecpected) + expected;
               this.paid_amount = (total_expect - parseFloat(this.sumData.paid_amount)).toFixed(2);
-            }else{
+            } else {
               this.paid_amount = (parseFloat(item.agent_outside_comm_amount || 0) - parseFloat(this.sumData.paid_amount || 0)).toFixed(2);
             }
           } else {
             //this.paid_amount = (item.amount || 0);
             if ((this.selectedItem.iva_percent && this.selectedItem.add_iva_to_cc)) {
-              const expected = parseFloat(this.sumData.iva_percent)  * parseFloat(this.sumData.ecpected) / 100;
+              const expected = parseFloat(this.sumData.iva_percent) * parseFloat(this.sumData.ecpected) / 100;
               const total_expect = parseFloat(this.sumData.ecpected) + expected;
               this.paid_amount = (total_expect - parseFloat(this.sumData.paid_amount)).toFixed(2);
-            }else{
+            } else {
               this.paid_amount = (parseFloat(item.amount || 0) - parseFloat(this.sumData.paid_amount || 0)).toFixed(2);
             }
           }
@@ -1709,7 +1709,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         this.toastr.error(this.translate.instant('message.error.pleaseSelectPaymentDate'), this.translate.instant('swal.error'));
         return false;
       }
-    
+
       const offset = new Date(this.paymentDate).getTimezoneOffset();
       if (offset < 0) {
         this.paymentDate = moment(this.paymentDate).subtract(offset, 'minutes').toDate();
@@ -1904,30 +1904,30 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         input['iva_amount'] = this.ivaAmount;
         //input['amount'] = amt - this.ivaAmount;
         if (this.commission_type == 1) {
-          if(this.purchase__amount){
+          if (this.purchase__amount) {
             input['amount'] = amt
-          }else{
+          } else {
             input['amount'] = (parseFloat(amt || 0) - parseFloat(this.ivaAmount || 0)).toFixed(2);
           }
           input['total_amount'] = this.test_pay
         } else if (this.commission_type == 3) {
-          if(this.agent_amount){
+          if (this.agent_amount) {
             input['amount'] = amt;
-          }else{
+          } else {
             input['amount'] = (parseFloat(amt || 0) - parseFloat(this.ivaAmount || 0)).toFixed(2);
           }
           input['total_amount'] = this.test_agent
-        }else if (this.commission_type == 5) {
-          if(this.outside_agent_payment){
+        } else if (this.commission_type == 5) {
+          if (this.outside_agent_payment) {
             input['amount'] = amt;
-          }else{
+          } else {
             input['amount'] = (parseFloat(amt || 0) - parseFloat(this.ivaAmount || 0)).toFixed(2);
           }
           input['total_amount'] = this.test1_agent
         } else {
-          if(this.collection_amount){
+          if (this.collection_amount) {
             input['amount'] = amt;
-          }else{
+          } else {
             input['amount'] = (parseFloat(amt || 0) - parseFloat(this.ivaAmount || 0)).toFixed(2);
           }
           input['total_amount'] = this.test_Collection
@@ -2349,12 +2349,12 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         if (element.add_purchase_commission == 1) {
           this.paymentConcepts.push(element);
         }
-      } 
+      }
       else if (type == 3) {
         if (element.add_agent_commission == 1) {
           this.paymentConcepts.push(element);
         }
-      } 
+      }
       else if (type == 5) {
         if (element.add_agent_outside_commission == 1) {
           this.paymentConcepts.push(element);
@@ -2382,9 +2382,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
 
 
   editCollectionCommReceipt(item: any) {
-      this.commissionType = item.commission_type;
-    if(this.commissionType == '4'){
-      this.payment_id = item.id 
+    this.commissionType = item.commission_type;
+    if (this.commissionType == '4') {
+      this.payment_id = item.id
       this.payment_method_id = item.payment_method_id;
       this.description = item.description;
       this.docFile = item.receipt;
@@ -2415,18 +2415,18 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       this.amount = this.collection_commission[0] ? this.collection_commission[0].amount : [];
       this.commission_type = this.collection_commission[0] ? this.collection_commission[0].commission_type : [];
       this.collection_commission_id = this.collection_commission[0] ? this.collection_commission[0].collection_commission_id : [];
-      this.payment_date = this.collection_commission[0] ?  this.getDateWRTTimezone(this.collection_commission[0].payment_date, 'DD/MMM/YYYY')  : [];
-      this.invoice_date = this.collection_commission[0] ? this.getDateWRTTimezone(this.collection_commission[0].invoice_date, 'DD/MMM/YYYY')  : [];
+      this.payment_date = this.collection_commission[0] ? this.getDateWRTTimezone(this.collection_commission[0].payment_date, 'DD/MMM/YYYY') : [];
+      this.invoice_date = this.collection_commission[0] ? this.getDateWRTTimezone(this.collection_commission[0].invoice_date, 'DD/MMM/YYYY') : [];
       this.pdf_url = this.collection_commission[0] ? this.collection_commission[0].pdf_url : [];
       this.xml_url = this.collection_commission[0] ? this.collection_commission[0].xml_url : [];
       this.invoice_id = this.collection_commission[0] ? this.collection_commission[0].invoice_id : [];
       this.closeEditPaymentModal();
       this.editCollectionReceiptOpen.nativeElement.click();
     }
-    
+
   }
 
-  setPayAmount(item: any){
+  setPayAmount(item: any) {
     this.payment_id = item.id;
     this.payment_method_id = (item.payment_method || {}).id;
     this.description = item.description;
@@ -2472,7 +2472,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
 
   updateCollectionCommPayment() {
     // checking if date selected and receipt selected
-    if (this.commission_type !=4 && !this.collection_commission_id) {
+    if (this.commission_type != 4 && !this.collection_commission_id) {
       this.toastr.clear();
       this.toastr.error(this.translate.instant('message.error.payToCancel'), this.translate.instant('swal.error'));
       return false;
@@ -2766,12 +2766,12 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   }
 
   getRemainingAmt(p: any) {
-  
-    const diff = ((parseInt(p.final_price || 0) + parseInt(p.penalty || 0)) );
+
+    const diff = ((parseInt(p.final_price || 0) + parseInt(p.penalty || 0)));
     const v = diff - parseInt(p.total_payment_recieved || 0);
     return v > 0 ? v : 0;
-     
-   // return v > 0 ? v : 0;
+
+    // return v > 0 ? v : 0;
   }
 
   showDescription(description: string, title: any) {
@@ -3111,18 +3111,18 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           "Outside Agent Commission (in %)": p.outside_agent_commission_percentage ? p.outside_agent_commission_percentage : 0,
           "IVA Added in Amount 4": p.add_iva_to_oac ? 'Yes' : 'No',
           "OAC Receipt": p.oac_receipt ? 'Yes' : 'No',
-          "OAC Invoice":p.oac_invoice ? 'Yes' : 'No',
+          "OAC Invoice": p.oac_invoice ? 'Yes' : 'No',
           'Agent Commission Inhouse': (((p.deal_commission_agents || [])[0] || []).broker || {}).name ? ((((p.deal_commission_agents || [])[0] || []).broker || {}).name + ' ' + (((p.deal_commission_agents || [])[0] || []).broker || {}).first_surname + ' ' + (((p.deal_commission_agents || [])[0] || []).broker || {}).second_surname) : '',
-          'Agent Commission Outside':  ((p.deal_commission_outside_agents || [])[0] || []).name ? ((p.deal_commission_outside_agents || [])[0] || []).name + ' ' + ((p.deal_commission_outside_agents || [])[0] || []).first_surname + ' ' + (((p.deal_commission_outside_agents || [])[0] || []).second_surname) : '',
+          'Agent Commission Outside': ((p.deal_commission_outside_agents || [])[0] || []).name ? ((p.deal_commission_outside_agents || [])[0] || []).name + ' ' + ((p.deal_commission_outside_agents || [])[0] || []).first_surname + ' ' + (((p.deal_commission_outside_agents || [])[0] || []).second_surname) : '',
           'final Price': parseInt(p.deal_price || 0),
-          'Final price per m2' :  parseInt(p.avgg_price_per || 0),
+          'Final price per m2': parseInt(p.avgg_price_per || 0),
           'Penalty': parseInt(p.penalty || 0),
           'Amount Paid': parseInt(p.total_payment_recieved || 0),
           //'Remanining Amount': (this.getRemainingAmt(p) || 0),
           'Remanining Amount': parseFloat(p.remaining || 0).toFixed(2),
           'Status Account': (p.is_cancelled) == 1 ? 'Cancelled(grey)' : (p.is_cancelled == 0 && p.is_commission_sale_enabled) == 1 ? 'Only Commission for sale(purple)' :
-           ( p.is_cancelled == 0 && p.is_commission_sale_enabled == 0 && p.payment_status == 1) ? 'Up to Date(green)' : (p.is_cancelled == 0 && p.is_commission_sale_enabled == 0 && p.payment_status == 2)  ? 'Payment Period(yellow)' : (p.is_cancelled == 0 && p.is_commission_sale_enabled == 0 && p.payment_status == 3) ? 'Overdue Payment(red)'
-            : p.is_cancelled == 0 && p.is_commission_sale_enabled == 0 && p.payment_status == 5 ? 'Settled(blue)' : (p.is_cancelled == 0 && p.is_commission_sale_enabled == 0 && p.payment_status == 6) ? 'Inconsistency between price and deal scheme(orange)' : ''          
+            (p.is_cancelled == 0 && p.is_commission_sale_enabled == 0 && p.payment_status == 1) ? 'Up to Date(green)' : (p.is_cancelled == 0 && p.is_commission_sale_enabled == 0 && p.payment_status == 2) ? 'Payment Period(yellow)' : (p.is_cancelled == 0 && p.is_commission_sale_enabled == 0 && p.payment_status == 3) ? 'Overdue Payment(red)'
+              : p.is_cancelled == 0 && p.is_commission_sale_enabled == 0 && p.payment_status == 5 ? 'Settled(blue)' : (p.is_cancelled == 0 && p.is_commission_sale_enabled == 0 && p.payment_status == 6) ? 'Inconsistency between price and deal scheme(orange)' : ''
         }
 
         this.selectedCollectionColumnsToShow.buyer_name == 0 ? delete obj['Buyer Name'] : undefined;
