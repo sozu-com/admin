@@ -1186,7 +1186,7 @@ export class AddEditCollectionComponent implements OnInit {
     }
     this.ngOtpInputRef2.setValue(data.bank_reference_id ? data.bank_reference_id.substr(12, 5) : property_name);
     this.ngOtpInputRef2.otpForm.disable();
-    this.ngOtpInputRef3.setValue((data.bank_reference_id ? data.bank_reference_id.substr(18, 4) : data.buyer.fed_tax_pay ? data.buyer.fed_tax_pay.substr(0, 4) : '0000'));
+    this.ngOtpInputRef3.setValue((data.bank_reference_id ? data.bank_reference_id.substr(17, 4) : data.buyer.fed_tax_pay ? data.buyer.fed_tax_pay.substr(0, 4) : '0000'));
     this.ngOtpInputRef3.otpForm.disable();
     let array = collection_account.split("");
     let array1 = collection_account.split("");
@@ -1201,27 +1201,27 @@ export class AddEditCollectionComponent implements OnInit {
     let num2 = num1[0];
     let num3 = (Number(num2) + 1) + '0';
     let value = Number(num3) - num;
-    this.ngOtpInputRef4.setValue(data.bank_reference_id ? data.bank_reference_id.substr(22, 1) : value);
+    this.ngOtpInputRef4.setValue(data.bank_reference_id ? data.bank_reference_id.substr(21, 1) : value);
     this.ngOtpInputRef4.otpForm.disable();
-    let bank_reference_id = collection_account.substr(0, 5) + projectname.substr(0, 7) + property_name.substr(0, 5) + (data.buyer.fed_tax_pay ? data.buyer.fed_tax_pay.substr(0, 4) 
-                             : '0000') + value;
+    let bank_reference_id = collection_account.substr(0, 5) + projectname.substr(0, 7) + property_name.substr(0, 5) + (data.buyer.fed_tax_pay ? data.buyer.fed_tax_pay.substr(0, 4)
+      : '0000') + value;
     this.addFormStep6.controls.step.patchValue(6);
     this.addFormStep6.controls.bank_reference_id.patchValue(data.bank_reference_id ? data.bank_reference_id : bank_reference_id);
   }
 
-  onAccountChange(data){
-  let collection_account = data;
-  let count = 5 - data.toString().length;
-  if (count > 0) {
-    for (let i = 1; i <= count; i++) {
-      collection_account = '0' + collection_account;
+  onAccountChange(data) {
+    let collection_account = data;
+    let count = 5 - data.toString().length;
+    if (count > 0) {
+      for (let i = 1; i <= count; i++) {
+        collection_account = '0' + collection_account;
+      }
     }
-  }
-  let bank_reference_id = collection_account + this.addFormStep6.controls.bank_reference_id.value.substr(5, this.addFormStep6.controls.bank_reference_id.value.length - 1);
-  this.addFormStep6.controls.bank_reference_id.patchValue(bank_reference_id);
+    let bank_reference_id = collection_account + this.addFormStep6.controls.bank_reference_id.value.substr(5, this.addFormStep6.controls.bank_reference_id.value.length - 1);
+    this.addFormStep6.controls.bank_reference_id.patchValue(bank_reference_id);
   }
 
-  onProjectChange(data){
+  onProjectChange(data) {
     let projectname = data;
     let count = 7 - data.toString().length;
     if (count > 0) {
@@ -1233,8 +1233,8 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep6.controls.bank_reference_id.patchValue(bank_reference_id);
   }
 
-  onPropertyChange(data){
-   let property_name = data;
+  onPropertyChange(data) {
+    let property_name = data;
     let count = 5 - data.toString().length;
     if (count > 0) {
       for (let i = 1; i <= count; i++) {
@@ -1245,7 +1245,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep6.controls.bank_reference_id.patchValue(bank_reference_id);
   }
 
-  onClientChange(data){
+  onClientChange(data) {
     let client_rfc = data;
     let count = 4 - data.toString().length;
     if (count > 0) {
@@ -1257,7 +1257,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep6.controls.bank_reference_id.patchValue(bank_reference_id);
   }
 
-  onCheckerChange(data){
+  onCheckerChange(data) {
     let checker = data;
     if (!checker) {
       checker = '0';
@@ -1266,20 +1266,20 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep6.controls.bank_reference_id.patchValue(bank_reference_id);
   }
 
-  editbankPopup(data){
+  editbankPopup(data) {
     this.edit_bank = data;
-    if(data){
-    this.ngOtpInputRef.otpForm.enable();
-    this.ngOtpInputRef1.otpForm.enable();
-    this.ngOtpInputRef2.otpForm.enable();
-    this.ngOtpInputRef3.otpForm.enable();
-    this.ngOtpInputRef4.otpForm.enable();
-    }else{
+    if (data) {
+      this.ngOtpInputRef.otpForm.enable();
+      this.ngOtpInputRef1.otpForm.enable();
+      this.ngOtpInputRef2.otpForm.enable();
+      this.ngOtpInputRef3.otpForm.enable();
+      this.ngOtpInputRef4.otpForm.enable();
+    } else {
       this.ngOtpInputRef.otpForm.disable();
-    this.ngOtpInputRef1.otpForm.disable();
-    this.ngOtpInputRef2.otpForm.disable();
-    this.ngOtpInputRef3.otpForm.disable();
-    this.ngOtpInputRef4.otpForm.disable();
+      this.ngOtpInputRef1.otpForm.disable();
+      this.ngOtpInputRef2.otpForm.disable();
+      this.ngOtpInputRef3.otpForm.disable();
+      this.ngOtpInputRef4.otpForm.disable();
     }
   }
 
@@ -2786,6 +2786,46 @@ export class AddEditCollectionComponent implements OnInit {
             return;
           }
         }
+
+        if (this.tempmodelForBank.buyer_id && this.tempmodelForBank.seller_leg_rep_email) {
+          let collection_account = this.tempmodelForBank.id;
+          let count = 5 - this.tempmodelForBank.id.toString().length;
+          if (count > 0) {
+            for (let i = 1; i <= count; i++) {
+              collection_account = '0' + collection_account;
+            }
+          }
+          let projectname = this.tempmodelForBank.property.building.name.split(' ').join('');
+          let count2 = 7 - this.tempmodelForBank.property.building.name.toString().length;
+          if (count2 > 0) {
+            for (let i = 1; i <= count2; i++) {
+              projectname = projectname + '0';
+            }
+          }
+          let property_name = this.tempmodelForBank.property.name;
+          let count1 = 5 - this.tempmodelForBank.property.name.toString().length;
+          if (count1 > 0) {
+            for (let i = 1; i <= count1; i++) {
+              property_name = '0' + property_name;
+            }
+          }
+          let array = collection_account.split("");
+          let array1 = collection_account.split("");
+          let num = 0;
+          array.forEach(item => {
+            num = num + Number(item);
+          });
+          array1.forEach(item => {
+            num = num + Number(item);
+          });
+          let num1 = num.toString();
+          let num2 = num1[0];
+          let num3 = (Number(num2) + 1) + '0';
+          let value = Number(num3) - num;
+          let bank_reference_id = collection_account.substr(0, 5) + projectname.substr(0, 7) + property_name.substr(0, 5) + (this.tempmodelForBank.buyer.fed_tax_pay ?
+            this.tempmodelForBank.buyer.fed_tax_pay.substr(0, 4) : '0000') + value;
+          formdata['bank_reference_id'] = bank_reference_id;
+        }
       } else {
         this.showError = true;
         return;
@@ -2951,7 +2991,7 @@ export class AddEditCollectionComponent implements OnInit {
     }
 
     if (this.model.step == 6) {
-      formdata['bank_reference_id'] = this.addFormStep6.value.bank_reference_id
+      formdata['bank_reference_id'] = this.addFormStep6.value.bank_reference_id;
     }
 
     if (callApi) {
