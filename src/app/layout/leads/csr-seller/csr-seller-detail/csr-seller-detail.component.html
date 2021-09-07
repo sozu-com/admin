@@ -353,21 +353,21 @@
                                     <tr>
                                         <td><label>{{'leadDetails.pricePerM2' | translate}}</label>
                                         </td>
-                                        <td>52,936</td>
-                                        <td>42,193</td>
-                                        <td>72,202</td>
+                                        <td>{{leadData.list_price | number: '1.0-0'}}</td>
+                                        <td>{{leadData.list_min_price | number: '1.0-0'}}</td>
+                                        <td>{{leadData.list_max_price | number: '1.0-0'}}</td>
                                     </tr>
                                     <tr>
                                         <td><label>{{'leadDetails.listPrice' | translate}}</label></td>
-                                        <td>52,936</td>
-                                        <td>42,193</td>
-                                        <td>72,202</td>
+                                        <td>{{leadData.list_price | number: '1.0-0'}}</td>
+                                        <td>{{leadData.list_min_price | number: '1.0-0'}}</td>
+                                        <td>{{leadData.list_max_price | number: '1.0-0'}}</td>
                                     </tr>
                                     <tr>
                                         <td><label>{{'leadDetails.carpetArea' | translate}}</label></td>
-                                        <td>52,936</td>
-                                        <td>42,193</td>
-                                        <td>72,202</td>
+                                        <td>{{leadData.carpet | number: '1.0-0'}}</td>
+                                        <td>{{leadData.min_carpet | number: '1.0-0'}}</td>
+                                        <td>{{leadData.max_carpet | number: '1.0-0'}}</td>
                                     </tr>
                               </tbody>
                         </table>
