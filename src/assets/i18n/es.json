@@ -1739,6 +1739,7 @@
     "AsCSRAgent": "como Agente Comprador CSR",
     "AsInhouseAgent": "como Agente interno",
     "AsCSRSeller": "como Agente Vendedor CSR",
+    "AsCSRCredit": "como Agente Crédito CSR",
     "forCSRSeller": "para Agente Vendedor CSR",
     "forCSRAgent": "para Agente Comprador CSR",
     "forCreditAgent": "para Agente crédito",

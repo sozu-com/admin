@@ -189,6 +189,7 @@ export class AddEditCollectionComponent implements OnInit {
   isByOffer: any;
   parking_area: any[] = [];
   isEditDeliveryDate: boolean = false;
+  edit_bank: boolean = false;
   resales = [
     { id: '1', name: this.translate.instant('addCollection.Initial'), checked: true },
     { id: '2', name: this.translate.instant('addCollection.Final'), checked: false }];
@@ -262,6 +263,12 @@ export class AddEditCollectionComponent implements OnInit {
       'font-size': '23px'
     }
   };
+  collection_account: any;
+  Project_name: any;
+  property_name: any;
+  client_rfc: any;
+  checker: any;
+  tempmodelForBank: any;
   constructor(
     public model: Collection,
     private adminService: AdminService,
@@ -659,6 +666,7 @@ export class AddEditCollectionComponent implements OnInit {
           }
           this.spinner.hide();
           this.tempmodel = JSON.parse(JSON.stringify(success['data']));
+          this.tempmodelForBank = JSON.parse(JSON.stringify(success['data']));
           this.property_beneficiary = (success.data || {}).beneficiary || [];
           this.getParkingSpaceLots(((success.data || {}).property || {}).building_id);
           this.getCollectionDocument(success.data);
@@ -667,7 +675,7 @@ export class AddEditCollectionComponent implements OnInit {
           this.patchFormData(success['data']);
           if (this.tab == 6) {
             setTimeout(() => {
-              this.patchFormStep6(this.tempmodel);
+              this.patchFormStep6(this.tempmodelForBank);
             }, 1000);
           }
           this.isAgencyBank = success['data'].payment_received_by == '1' ? true : false;
@@ -1150,6 +1158,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   patchFormStep6(data) {
+    this.edit_bank = false;
     let collection_account = data.id;
     let count = 5 - data.id.toString().length;
     if (count > 0) {
@@ -1157,16 +1166,16 @@ export class AddEditCollectionComponent implements OnInit {
         collection_account = '0' + collection_account;
       }
     }
-    this.ngOtpInputRef.setValue(collection_account);
+    this.ngOtpInputRef.setValue(data.bank_reference_id ? data.bank_reference_id.substr(0, 5) : collection_account);
     this.ngOtpInputRef.otpForm.disable();
-    let projectname = data.property.building.name;
+    let projectname = data.property.building.name.split(' ').join('');
     let count2 = 7 - data.property.building.name.toString().length;
     if (count2 > 0) {
       for (let i = 1; i <= count2; i++) {
         projectname = projectname + '0';
       }
     }
-    this.ngOtpInputRef1.setValue(projectname);
+    this.ngOtpInputRef1.setValue(data.bank_reference_id ? data.bank_reference_id.substr(5, 7) : projectname);
     this.ngOtpInputRef1.otpForm.disable();
     let property_name = data.property.name;
     let count1 = 5 - data.property.name.toString().length;
@@ -1175,9 +1184,9 @@ export class AddEditCollectionComponent implements OnInit {
         property_name = '0' + property_name;
       }
     }
-    this.ngOtpInputRef2.setValue(property_name);
+    this.ngOtpInputRef2.setValue(data.bank_reference_id ? data.bank_reference_id.substr(12, 5) : property_name);
     this.ngOtpInputRef2.otpForm.disable();
-    this.ngOtpInputRef3.setValue(data.buyer.fed_tax_pay ? data.buyer.fed_tax_pay : '0000');
+    this.ngOtpInputRef3.setValue((data.bank_reference_id ? data.bank_reference_id.substr(18, 4) : data.buyer.fed_tax_pay ? data.buyer.fed_tax_pay.substr(0, 4) : '0000'));
     this.ngOtpInputRef3.otpForm.disable();
     let array = collection_account.split("");
     let array1 = collection_account.split("");
@@ -1192,12 +1201,86 @@ export class AddEditCollectionComponent implements OnInit {
     let num2 = num1[0];
     let num3 = (Number(num2) + 1) + '0';
     let value = Number(num3) - num;
-    this.ngOtpInputRef4.setValue(value);
+    this.ngOtpInputRef4.setValue(data.bank_reference_id ? data.bank_reference_id.substr(22, 1) : value);
     this.ngOtpInputRef4.otpForm.disable();
-    let bank_reference_id = collection_account.substr(0, 4) + projectname.substr(0, 6) + property_name.substr(0, 4) + (data.buyer.fed_tax_pay ?
-      data.buyer.fed_tax_pay.substr(0, 3) : '0000') + value;
+    let bank_reference_id = collection_account.substr(0, 5) + projectname.substr(0, 7) + property_name.substr(0, 5) + (data.buyer.fed_tax_pay ? data.buyer.fed_tax_pay.substr(0, 4) 
+                             : '0000') + value;
     this.addFormStep6.controls.step.patchValue(6);
     this.addFormStep6.controls.bank_reference_id.patchValue(data.bank_reference_id ? data.bank_reference_id : bank_reference_id);
+  }
+
+  onAccountChange(data){
+  let collection_account = data;
+  let count = 5 - data.toString().length;
+  if (count > 0) {
+    for (let i = 1; i <= count; i++) {
+      collection_account = '0' + collection_account;
+    }
+  }
+  let bank_reference_id = collection_account + this.addFormStep6.controls.bank_reference_id.value.substr(5, this.addFormStep6.controls.bank_reference_id.value.length - 1);
+  this.addFormStep6.controls.bank_reference_id.patchValue(bank_reference_id);
+  }
+
+  onProjectChange(data){
+    let projectname = data;
+    let count = 7 - data.toString().length;
+    if (count > 0) {
+      for (let i = 1; i <= count; i++) {
+        projectname = projectname + '0';
+      }
+    }
+    let bank_reference_id = this.addFormStep6.controls.bank_reference_id.value.substr(0, 5) + projectname + this.addFormStep6.controls.bank_reference_id.value.substr(12, this.addFormStep6.controls.bank_reference_id.value.length - 1);
+    this.addFormStep6.controls.bank_reference_id.patchValue(bank_reference_id);
+  }
+
+  onPropertyChange(data){
+   let property_name = data;
+    let count = 5 - data.toString().length;
+    if (count > 0) {
+      for (let i = 1; i <= count; i++) {
+        property_name = '0' + property_name;
+      }
+    }
+    let bank_reference_id = this.addFormStep6.controls.bank_reference_id.value.substr(0, 12) + property_name + this.addFormStep6.controls.bank_reference_id.value.substr(17, this.addFormStep6.controls.bank_reference_id.value.length - 1);
+    this.addFormStep6.controls.bank_reference_id.patchValue(bank_reference_id);
+  }
+
+  onClientChange(data){
+    let client_rfc = data;
+    let count = 4 - data.toString().length;
+    if (count > 0) {
+      for (let i = 1; i <= count; i++) {
+        client_rfc = '0' + client_rfc;
+      }
+    }
+    let bank_reference_id = this.addFormStep6.controls.bank_reference_id.value.substr(0, 17) + client_rfc + this.addFormStep6.controls.bank_reference_id.value.substr(21, this.addFormStep6.controls.bank_reference_id.value.length - 1);
+    this.addFormStep6.controls.bank_reference_id.patchValue(bank_reference_id);
+  }
+
+  onCheckerChange(data){
+    let checker = data;
+    if (!checker) {
+      checker = '0';
+    }
+    let bank_reference_id = this.addFormStep6.controls.bank_reference_id.value.substr(0, 22) + checker;
+    this.addFormStep6.controls.bank_reference_id.patchValue(bank_reference_id);
+  }
+
+  editbankPopup(data){
+    this.edit_bank = data;
+    if(data){
+    this.ngOtpInputRef.otpForm.enable();
+    this.ngOtpInputRef1.otpForm.enable();
+    this.ngOtpInputRef2.otpForm.enable();
+    this.ngOtpInputRef3.otpForm.enable();
+    this.ngOtpInputRef4.otpForm.enable();
+    }else{
+      this.ngOtpInputRef.otpForm.disable();
+    this.ngOtpInputRef1.otpForm.disable();
+    this.ngOtpInputRef2.otpForm.disable();
+    this.ngOtpInputRef3.otpForm.disable();
+    this.ngOtpInputRef4.otpForm.disable();
+    }
   }
 
   setCommission(data) {
@@ -1278,7 +1361,7 @@ export class AddEditCollectionComponent implements OnInit {
         }
         else if (tab == 6) {
           setTimeout(() => {
-            this.patchFormStep6(this.tempmodel);
+            this.patchFormStep6(this.tempmodelForBank);
           }, 1000);
         }
       }
@@ -2878,6 +2961,7 @@ export class AddEditCollectionComponent implements OnInit {
           success => {
             this.tab = tab + 1;
             this.spinner.hide();
+            this.tempmodelForBank = JSON.parse(JSON.stringify(success['data']));
             this.property_beneficiary = (success.data || {}).beneficiary || [];
             this.showError = false;
             this.model.id = success['data'].id;

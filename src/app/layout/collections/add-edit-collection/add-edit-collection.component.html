@@ -2766,7 +2766,7 @@
     <div class="padding40">
     <div class="row">
       <div class="col-lg-3 col-md-12 col-12">
-        <ng-otp-input #ngOtpInput [config]="config"></ng-otp-input>
+        <ng-otp-input #ngOtpInput [config]="config" (onInputChange)="onAccountChange($event)"></ng-otp-input>
         <hr class="new1">
         <label class="new1">{{'addCollection.collectionAccount' | translate}}</label>
       </div>
@@ -2774,29 +2774,40 @@
       <div class="col-lg-3 col-md-12 col-12" style="clear: both;
       overflow: hidden;
       white-space: nowrap;">
-        <ng-otp-input #ngOtpInput1 [config]="config1"></ng-otp-input>
+        <ng-otp-input #ngOtpInput1 [config]="config1" (onInputChange)="onProjectChange($event)"></ng-otp-input>
         <hr class="new2">
         <label class="new2">{{'addCollection.projectName' | translate}}</label>
       </div>
 
       <div class="col-lg-3 col-md-12 col-12">
-        <ng-otp-input #ngOtpInput2 [config]="config2"></ng-otp-input>
+        <ng-otp-input #ngOtpInput2 [config]="config2" (onInputChange)="onPropertyChange($event)"></ng-otp-input>
         <hr class="new3">
         <label class="new3">{{'addCollection.propertyName' | translate}}</label>
       </div>
 
-      <div class="col-lg-2 col-md-12 col-12">
-        <ng-otp-input #ngOtpInput3 [config]="config3"></ng-otp-input>
+      <div class="col-lg-2 col-md-12 col-12" style="clear: both;
+      overflow: hidden;
+      white-space: nowrap;">
+        <ng-otp-input #ngOtpInput3 [config]="config3" (onInputChange)="onClientChange($event)"></ng-otp-input>
         <hr class="new4">
         <label class="new4">{{'addCollection.clientRFC' | translate}}</label>
       </div>
 
       <div class=" col-lg-1 col-md-12 col-12">
-        <ng-otp-input #ngOtpInput4 [config]="config4"></ng-otp-input>
+        <ng-otp-input #ngOtpInput4 [config]="config4" (onInputChange)="onCheckerChange($event)"></ng-otp-input>
         <hr class="new5">
         <label class="new5">{{'addCollection.checker' | translate}}</label>
       </div>
-
+      <div class="col-1 offset-10">
+        <div class="form-group-3">
+          <label>&nbsp;&nbsp;</label>
+          <div class="clearfix"></div>
+          <a href="javascript://" style="float: right;">
+            <i class="fa fa-pencil" aria-hidden="true" style="font-size: 25px;" (click)="editbankPopup(true)" *ngIf="!edit_bank"></i>
+            <i class="fa fa-undo" aria-hidden="true" style="font-size: 25px;" (click)="editbankPopup(false)" *ngIf="edit_bank"></i>
+          </a>
+        </div>
+      </div>
     </div>
     <br/><br/>
     <div class="row">
@@ -2923,7 +2934,7 @@
       <div class="row">
         <div class="col-md-12">
           <div class="btn-cont text-right">
-            <button type="button" class="btn btn-primary" (click)="setTab(7)">{{'addForm.previous' |
+            <button type="button" class="btn btn-primary" (click)="setTab(6)">{{'addForm.previous' |
               translate}}</button>
             <button type="submit" class="btn btn-primary marginL15">{{'addForm.submit' | translate}}</button>
           </div>
