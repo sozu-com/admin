@@ -1163,7 +1163,7 @@ export class AddEditCollectionComponent implements OnInit {
     let count2 = 7 - data.property.building.name.toString().length;
     if (count2 > 0) {
       for (let i = 1; i <= count2; i++) {
-        projectname = '0' + projectname;
+        projectname = projectname + '0';
       }
     }
     this.ngOtpInputRef1.setValue(projectname);
