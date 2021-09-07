@@ -1754,7 +1754,14 @@
     "baths": "Baths",
     "carpetAreaAprox": "Carpet area aprox",
     "propertyInformation": "Property Information",
-    "sellerAgent": "Seller Agent"
+    "Propertiescomparataion":"Properties comparataion",
+    "sellerAgent": "Seller Agent",
+    "pricePerM2": "Price per m2",
+    "listPrice": "List Price",
+    "carpetArea": "Carpet area",
+    "min":"Min",
+    "max":"Max",
+    "avg":"Avg"
   },
   "viewACL": {
     "label": "Access Control Mgt.",
