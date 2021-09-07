@@ -8,3 +8,7 @@
     /* min-width: 86px; */
     margin-right: 12px;
 }
+.table.table-striped {
+    border: 1px solid white;
+    margin-bottom: 0;
+}

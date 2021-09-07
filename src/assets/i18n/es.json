@@ -1750,7 +1750,14 @@
     "baths": "Baños",
     "carpetAreaAprox": "Metros cuadrados aproximados",
     "propertyInformation": "Información de la propiedad",
-    "sellerAgent": "Agente Vendedor"
+    "Propertiescomparataion":"Comparación de propiedades",
+    "sellerAgent": "Agente Vendedor",
+    "pricePerM2": "Precio por m2",
+    "listPrice": "Precio de lista",
+    "carpetArea": "Área de alfombra",
+    "min":"Min",
+    "max":"Max",
+    "avg":"promedio"
   },
   "viewACL": {
     "label": "Access Control Mgt.",
