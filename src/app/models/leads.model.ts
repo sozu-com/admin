@@ -6,6 +6,15 @@ import { AddPropertyModel } from './addProperty.model';
 export class Leads {
     id: number;
     user_id: number;
+    price_per_m2: any;
+    min_price_per_m2: any;
+    max_price_per_m2: any;
+    list_price: any;
+    list_min_price: any;
+    list_max_price: any;
+    carpet: any;
+    min_carpet: any;
+    max_carpet: any;
     admin_id: number;
     name: string;
     email: string;
@@ -117,10 +126,10 @@ export class Notes {
     id: number;
     lead_id: number;
     note: string;
-    title : string;
+    title: string;
     name: string;
     reminder_date: any;
-    email : any;
+    email: any;
 }
 
 // export class FillInformation {
@@ -332,10 +341,10 @@ export class CSRBuyerLeads {
 
 export class AddPrefrences {
     lead_id: string;
-    marital_status:any;
-    job:any;
+    marital_status: any;
+    job: any;
     family_size: number;
-    parking_lot:any;
+    parking_lot: any;
     kid_count: number;
     car_type_id: number;
     pets: number;
@@ -360,5 +369,5 @@ export class AddPrefrences {
     state_id?: any;
     city_id?: any;
     locality_id?: any;
-    page?:any;
+    page?: any;
 }
