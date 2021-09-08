@@ -1769,7 +1769,8 @@
     "carpetArea": "Carpet area",
     "min":"Min",
     "max":"Max",
-    "avg":"Avg"
+    "avg":"Avg",
+    "info": "*Data from properties available for sale"
   },
   "viewACL": {
     "label": "Access Control Mgt.",

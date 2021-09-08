@@ -1762,9 +1762,10 @@
     "pricePerM2": "Precio por m2",
     "listPrice": "Precio de lista",
     "carpetArea": "Área de alfombra",
-    "min":"Min",
-    "max":"Max",
-    "avg":"promedio"
+    "min":"Mín",
+    "max":"Máx",
+    "avg":"promedio",
+    "info":"*Datos de propiedades disponibles para la venta"
   },
   "viewACL": {
     "label": "Access Control Mgt.",
