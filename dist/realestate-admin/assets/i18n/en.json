@@ -104,7 +104,9 @@
       "newOutside": "New Outside Agents",
       "pendingReview": "Pending Review",
       "inDraft": "In Draft",
-      "sellerRequest": "Seller's Request"
+      "sellerRequest": "Seller's Request",
+      "contracts": "Contracts",
+      "contractType": "Contract Type"
     },
     "type": {
       "post": "Post",
@@ -268,6 +270,8 @@
     "inventory": "Inventory",
     "selectSupplier": "Select Supplier",
     "price": "Price",
+    "addContract": "Add Contract",
+    "editContract": "Edit Contract",
     "moreImages": {
       "label": "Images",
       "addMoreBtn": "+ Add more images",
@@ -1018,6 +1022,11 @@
       "dateOfRegistration": "Date Of Registration",
       "creditAssignee": "Assignee",
       "csrSeller": "CSR Seller",
+      "collectionId": "Collection ID",
+      "appartment": "Appartment",
+      "typeOfContract": "Type of contract",
+      "signatureDate": "Signature date",
+      "contractId": "Contract ID",
       "manualLead":{
         "name": "Name",
         "firstSurname": "First Surname",
@@ -1762,7 +1771,8 @@
     "carpetArea": "Carpet area",
     "min":"Min",
     "max":"Max",
-    "avg":"Avg"
+    "avg":"Avg",
+    "info": "*Data from properties available for sale"
   },
   "viewACL": {
     "label": "Access Control Mgt.",
@@ -2174,7 +2184,8 @@
     "projectAnalysis": "Project Analysis",
     "locationAnalysis": "Location Analysis",
     "office": "Office",
-    "manageOffice": "Manage Offices"
+    "manageOffice": "Manage Offices",
+    "manageContacts": "Manage Contracts"
   },
   "commonBlock": {
     "propertiesAvailable": "Properties available",
@@ -3208,5 +3219,9 @@
   },
   "product": {
     "manageProduct": "Manage Products"
+  },
+  "contract": {
+    "manageContracts": "Manage Contracts",
+    "addNewContract": "+ Add new"
   }
 }

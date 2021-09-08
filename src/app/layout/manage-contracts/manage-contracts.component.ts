@@ -24,7 +24,7 @@ export class ManageContractsComponent implements OnInit {
 
   @ViewChild('openSelectColumnsModal') openSelectColumnsModal: ElementRef;
   @ViewChild('closeSelectColumnsModal') closeSelectColumnsModal: ElementRef;
-  
+
   public parameter: IProperty = {};
   public select_columns_list: any[] = [];
   public selectedColumnsToShow: any = {};
@@ -41,7 +41,7 @@ export class ManageContractsComponent implements OnInit {
     public admin: AdminService,
     public projectService: ProjectService,
     private spinner: NgxSpinnerService,
-    private translate: TranslateService, 
+    private translate: TranslateService,
   ) { }
 
   ngOnInit() {
@@ -50,16 +50,21 @@ export class ManageContractsComponent implements OnInit {
     this.getContractHome();
   }
 
-  changePropertyFlag(tab){
+  changePropertyFlag(tab) {
     this.parameter.flag = tab;
-      this.getContractHome();
+    this.getContractHome();
   }
 
-  getExportlisting(){
-    
-  }
+  getExportlisting() {
 
-  getContractSelection  = (isFirstTime: boolean, keyword?: string): void => {
+  }
+  getProjectSelection(data, data1) {
+
+  }
+  changeFlag(value) {
+
+  }
+  getContractSelection = (isFirstTime: boolean, keyword?: string): void => {
     this.spinner.show();
     let url = this.parameter.flag == 1 ? 'getContractSelection' : 'getContractTypeSelection';
     this.admin.postDataApi(url, { name: keyword }).subscribe((response) => {
@@ -105,7 +110,7 @@ export class ManageContractsComponent implements OnInit {
         break;
       case 3:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.project;
-        break;  
+        break;
       case 4:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.apartment;
         break;
@@ -168,31 +173,31 @@ export class ManageContractsComponent implements OnInit {
   }
 
   getPostRequestForColumn = (): any => {
-    if(this.parameter.flag == 1){
-    return {
-      user_id: JSON.parse(localStorage.getItem('user-id')) || 0,
-      collection_id: (this.select_columns_list[3] || []).isCheckBoxChecked,
-      developer: (this.select_columns_list[4] || []).isCheckBoxChecked,
-      project: (this.select_columns_list[5] || []).isCheckBoxChecked,
-      apartment: (this.select_columns_list[1] || []).isCheckBoxChecked,
-      buyer: (this.select_columns_list[2] || []).isCheckBoxChecked,
-      type_of_contract: (this.select_columns_list[8] || []).isCheckBoxChecked,
-      signature_date: (this.select_columns_list[6] || []).isCheckBoxChecked,
-      status: (this.select_columns_list[7] || []).isCheckBoxChecked,
-      actions: (this.select_columns_list[0] || []).isCheckBoxChecked,
-    };
-  }
-  else{
-    return {
-      user_id: JSON.parse(localStorage.getItem('user-id')) || 0,
-      contract_id: (this.select_columns_list[1] || []).isCheckBoxChecked,
-      developer: (this.select_columns_list[2] || []).isCheckBoxChecked,
-      project: (this.select_columns_list[3] || []).isCheckBoxChecked,
-      type_of_contract: (this.select_columns_list[5] || []).isCheckBoxChecked,
-      status: (this.select_columns_list[4] || []).isCheckBoxChecked,
-      actions: (this.select_columns_list[0] || []).isCheckBoxChecked,
-    };
-  }
+    if (this.parameter.flag == 1) {
+      return {
+        user_id: JSON.parse(localStorage.getItem('user-id')) || 0,
+        collection_id: (this.select_columns_list[3] || []).isCheckBoxChecked,
+        developer: (this.select_columns_list[4] || []).isCheckBoxChecked,
+        project: (this.select_columns_list[5] || []).isCheckBoxChecked,
+        apartment: (this.select_columns_list[1] || []).isCheckBoxChecked,
+        buyer: (this.select_columns_list[2] || []).isCheckBoxChecked,
+        type_of_contract: (this.select_columns_list[8] || []).isCheckBoxChecked,
+        signature_date: (this.select_columns_list[6] || []).isCheckBoxChecked,
+        status: (this.select_columns_list[7] || []).isCheckBoxChecked,
+        actions: (this.select_columns_list[0] || []).isCheckBoxChecked,
+      };
+    }
+    else {
+      return {
+        user_id: JSON.parse(localStorage.getItem('user-id')) || 0,
+        contract_id: (this.select_columns_list[1] || []).isCheckBoxChecked,
+        developer: (this.select_columns_list[2] || []).isCheckBoxChecked,
+        project: (this.select_columns_list[3] || []).isCheckBoxChecked,
+        type_of_contract: (this.select_columns_list[5] || []).isCheckBoxChecked,
+        status: (this.select_columns_list[4] || []).isCheckBoxChecked,
+        actions: (this.select_columns_list[0] || []).isCheckBoxChecked,
+      };
+    }
   }
 
 }
