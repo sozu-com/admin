@@ -62,7 +62,7 @@
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="add-new pull-right">
           <a *ngIf="admin?.admin_acl['Manage Contracts']?.can_create==1 || admin?.permissions?.can_data_collector==1"
-            class="btn" href="javascript://" routerLink="/dashboard/contract/add-contract">{{'contract.addNewContract' |
+            class="btn" href="javascript://" routerLink="/dashboard/manage-contracts/add-contract">{{'contract.addNewContract' |
             translate}}</a>
         </div>
         <div class="export-project pull-right mr-4">

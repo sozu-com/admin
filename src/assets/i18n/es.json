@@ -270,6 +270,8 @@
     "inventory": "Inventario",
     "selectSupplier": "Select Supplier",
     "price": "Precio",
+    "addContract": "Agregar Contratos",
+    "editContract": "Editar Contratos",
     "moreImages": {
       "label": "Imágenes",
       "addMoreBtn": "+ Agregar más imágenes",

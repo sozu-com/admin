@@ -1,3 +1,18 @@
-<p>
-  add-edit-contracts works!
-</p>
+<div class="container-fluid">
+  <div class="white-bg">
+    <div class="row" style="margin: 0%;">
+      <div class="col-lg-10 col-md-11 col-sm-12 col-12 page-title title-div">
+        <a href="javascript://" class="back-icon" (click)="goBack(true)"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+        <h3 *ngIf="!id">{{'addForm.addContract' | translate}}</h3>
+        <h3 *ngIf="id">{{'addForm.editContract' | translate}}</h3>
+      </div>
+  
+      <div class="col-lg-1 col-md-1 col-6 page-title title-div">
+        <div class="btn-cont text-right">
+          <a href="javascript://"  (click)="goBack(false)"
+            class="btn-sm btn-primary-new" href="javascript://">{{'quickVisualization.back' | translate}}</a>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

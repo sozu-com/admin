@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-edit-contracts',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddEditContractsComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private router: Router,
+  ) { }
 
   ngOnInit() {
+  }
+
+  goBack = (isForBack: boolean): void => {
+    if (isForBack) {
+      this.router.navigate(['dashboard/manage-contracts/view-all', { for: 'back' }]);
+    } else {
+      this.router.navigate(['dashboard/manage-contracts/view-all']);
+    }
   }
 
 }

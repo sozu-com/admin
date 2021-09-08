@@ -55,6 +55,10 @@ export class ManageContractsComponent implements OnInit {
       this.getContractHome();
   }
 
+  getExportlisting(){
+    
+  }
+
   getContractSelection  = (isFirstTime: boolean, keyword?: string): void => {
     this.spinner.show();
     let url = this.parameter.flag == 1 ? 'getContractSelection' : 'getContractTypeSelection';
