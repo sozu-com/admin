@@ -283,6 +283,9 @@
                        <li *ngIf="admin?.admin_acl['Manage Legal Entity']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
                         <a class="nav-link" href="javascript://" routerLink="legal-entities/view-all"><i><img src="assets/img/ic_properties_manage.png"></i><span>{{'sidebar.manageLegalEntity' | translate}}</span></a>
                       </li>
+                      <li *ngIf="admin?.admin_acl['Manage Contracts']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
+                        <a class="nav-link" href="javascript://" routerLink="manage-contracts/view-all"><i><img src="assets/img/ic_properties_manage.png"></i><span>{{'sidebar.manageContacts' | translate}}</span></a>
+                      </li>
                       <li *ngIf="admin?.admin_acl['Manage Suppliers']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
                         <a class="nav-link" href="javascript://" routerLink="suppliers/view-all"><i><img src="assets/img/ic_properties_manage.png"></i><span>{{'sidebar.managesuppliers' | translate}}</span></a>
                       </li>

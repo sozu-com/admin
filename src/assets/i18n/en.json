@@ -104,7 +104,9 @@
       "newOutside": "New Outside Agents",
       "pendingReview": "Pending Review",
       "inDraft": "In Draft",
-      "sellerRequest": "Seller's Request"
+      "sellerRequest": "Seller's Request",
+      "contracts": "Contracts",
+      "contractType": "Contract Type"
     },
     "type": {
       "post": "Post",
@@ -1018,6 +1020,11 @@
       "dateOfRegistration": "Date Of Registration",
       "creditAssignee": "Assignee",
       "csrSeller": "CSR Seller",
+      "collectionId": "Collection ID",
+      "appartment": "Appartment",
+      "typeOfContract": "Type of contract",
+      "signatureDate": "Signature date",
+      "contractId": "Contract ID",
       "manualLead":{
         "name": "Name",
         "firstSurname": "First Surname",
@@ -2174,7 +2181,8 @@
     "projectAnalysis": "Project Analysis",
     "locationAnalysis": "Location Analysis",
     "office": "Office",
-    "manageOffice": "Manage Offices"
+    "manageOffice": "Manage Offices",
+    "manageContacts": "Manage Contracts"
   },
   "commonBlock": {
     "propertiesAvailable": "Properties available",
@@ -3208,5 +3216,9 @@
   },
   "product": {
     "manageProduct": "Manage Products"
+  },
+  "contract": {
+    "manageContracts": "Manage Contracts",
+    "addNewContract": "+ Add new"
   }
 }

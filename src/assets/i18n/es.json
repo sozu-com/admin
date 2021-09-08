@@ -104,7 +104,9 @@
       "newOutside": "Nuevas agentes externas",
       "pendingReview": "Revisión pendiente",
       "inDraft": "En borrador",
-      "sellerRequest": "Solicitud del vendedor"
+      "sellerRequest": "Solicitud del vendedor",
+      "contracts": "Contratos",
+      "contractType": "TIPOS DE CONTRATO"
     },
     "type": {
       "post": "Publicaciones",
@@ -1019,6 +1021,11 @@
       "creditAssignee": "Agente de crédito",
       "csrSeller": "Vendedor CSR",
       "dateOfRegistration": "Fecha de registro",
+      "collectionId": "ID colección",
+      "appartment": "Deaprtamento",
+      "typeOfContract": "Tipo de contrato",
+      "signatureDate": "Fecha de firma",
+      "contractId": "ID contrato",
       "manualLead":{
         "name": "Nombre",
         "firstSurname": "Primer Apellido",
@@ -2168,7 +2175,8 @@
     "projectAnalysis": "Análisis De Proyecto",
     "locationAnalysis": "Análisis De Ubicación",
     "office": "Oficina",
-    "manageOffice": "Gestionar Oficina"
+    "manageOffice": "Gestionar Oficina",
+    "manageContacts": "Administrar Contratos"
   },
   "commonBlock": {
     "job": "Trabajo",
@@ -3199,5 +3207,9 @@
   },
   "product": {
     "manageProduct": "Administrar Producto"
+  },
+  "contract": {
+    "manageContracts": "Administrar Contratos",
+    "addNewContract": "+ Agregar"
   }
 }

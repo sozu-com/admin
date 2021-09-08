@@ -123,6 +123,10 @@ const routes: Routes = [
         loadChildren: './legal-entity/legal-entity.module#LegalEntityModule'
       },
       {
+        path: 'manage-contracts',
+        loadChildren: './manage-contracts/manage-contracts.module#ManageContractsModule'
+      },
+      {
         path: 'collection-report',
         loadChildren: './collection-report/collection-report.module#CollectionReportModule'
       },
