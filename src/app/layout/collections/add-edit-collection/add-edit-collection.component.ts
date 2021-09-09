@@ -1166,7 +1166,7 @@ export class AddEditCollectionComponent implements OnInit {
         collection_account = '0' + collection_account;
       }
     }
-    this.ngOtpInputRef.setValue(data.bank_reference_id ? data.bank_reference_id.substr(0, 5) : collection_account);
+    this.ngOtpInputRef.setValue(collection_account);
     this.ngOtpInputRef.otpForm.disable();
     let projectname = data.property.building.name.split(' ').join('');
     let count2 = 7 - data.property.building.name.toString().length;
@@ -1175,7 +1175,7 @@ export class AddEditCollectionComponent implements OnInit {
         projectname = projectname + '0';
       }
     }
-    this.ngOtpInputRef1.setValue(data.bank_reference_id ? data.bank_reference_id.substr(5, 7) : projectname);
+    this.ngOtpInputRef1.setValue(projectname);
     this.ngOtpInputRef1.otpForm.disable();
     let property_name = data.property.name;
     let count1 = 5 - data.property.name.toString().length;
@@ -1184,29 +1184,94 @@ export class AddEditCollectionComponent implements OnInit {
         property_name = '0' + property_name;
       }
     }
-    this.ngOtpInputRef2.setValue(data.bank_reference_id ? data.bank_reference_id.substr(12, 5) : property_name);
+    this.ngOtpInputRef2.setValue(property_name);
     this.ngOtpInputRef2.otpForm.disable();
-    this.ngOtpInputRef3.setValue((data.bank_reference_id ? data.bank_reference_id.substr(17, 4) : data.buyer.fed_tax_pay ? data.buyer.fed_tax_pay.substr(0, 4) : '0000'));
+    this.ngOtpInputRef3.setValue((data.buyer.fed_tax_pay ? data.buyer.fed_tax_pay.substr(0, 4) : '0000'));
     this.ngOtpInputRef3.otpForm.disable();
-    let array = collection_account.split("");
-    let array1 = collection_account.split("");
-    let num = 0;
-    array.forEach(item => {
-      num = num + Number(item);
-    });
-    array1.forEach(item => {
-      num = num + Number(item);
-    });
-    let num1 = num.toString();
-    let num2 = num1[0];
-    let num3 = (Number(num2) + 1) + '0';
-    let value = Number(num3) - num;
-    this.ngOtpInputRef4.setValue(data.bank_reference_id ? data.bank_reference_id.substr(21, 1) : value);
-    this.ngOtpInputRef4.otpForm.disable();
     let bank_reference_id = collection_account.substr(0, 5) + projectname.substr(0, 7) + property_name.substr(0, 5) + (data.buyer.fed_tax_pay ? data.buyer.fed_tax_pay.substr(0, 4)
-      : '0000') + value;
+      : '0000');
+    let value = this.getChecker(bank_reference_id, data.property.building.name.split(' ').join(''), data.buyer.fed_tax_pay.substr(0, 4));
+    bank_reference_id = bank_reference_id + value;
+    this.ngOtpInputRef4.setValue(value);
+    this.ngOtpInputRef4.otpForm.disable();
     this.addFormStep6.controls.step.patchValue(6);
     this.addFormStep6.controls.bank_reference_id.patchValue(data.bank_reference_id ? data.bank_reference_id : bank_reference_id);
+  }
+
+  getChecker(bank_reference_id, projectname, fed_tax_pay){
+    let alpha = [{ id : "a", value: 1}, { id : "b", value: 2}, { id : "c", value: 3}, { id : "d", value: 4}, { id : "e", value: 5}, { id : "f", value: 6}, { id : "g", value: 7}, 
+                  { id : "h", value: 8}, { id : "i", value: 9}, { id : "j", value: 1}, { id : "k", value: 2}, { id : "l", value: 3}, { id : "m", value: 4}, { id : "n", value: 5},
+                  { id : "o", value: 6}, { id : "p", value: 7}, { id : "q", value: 8}, { id : "r", value: 9}, { id : "s", value: 1}, { id : "t", value: 2}, { id : "u", value: 3},
+                  { id : "v", value: 4}, { id : "w", value: 5}, { id : "x", value: 6}, { id : "y", value: 7}, { id : "z", value: 8}];
+    let num = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    let array = projectname.split("");
+    let Project_name_num = '';
+    array.forEach(element => {
+      alpha.forEach(item=>{
+        if(element.toLowerCase() == item.id){
+          Project_name_num = Project_name_num + item.value;
+        }
+        else{
+          num.forEach(value=>{
+            if(element == value){
+              Project_name_num = Project_name_num + value;
+            }
+        });
+      }
+      });
+    });
+    let count2 = 7 - Project_name_num.toString().length;
+    if (count2 > 0) {
+      for (let i = 1; i <= count2; i++) {
+        projectname = projectname + '0';
+        Project_name_num = Project_name_num + '0';
+      }
+    }
+    let value = '';
+    let num_id = bank_reference_id.replace(projectname, Project_name_num);
+    let fed_tax = '';
+    if(fed_tax_pay){
+    let array2 = fed_tax_pay.split("");
+    array2.forEach(element => {
+      alpha.forEach(item=>{
+        if(element.toLowerCase() == item.id){
+          fed_tax = fed_tax + item.value;
+        }
+        else{
+          num.forEach(value=>{
+            if(element == value){
+              fed_tax = fed_tax + value;
+            }
+        });
+      }
+      });
+    });
+  }
+  let num_id1 = num_id.replace(fed_tax_pay, fed_tax);
+  num_id1 = num_id1.split("");
+    for(let i = 1; i <= num_id1.length; i++){
+      let rem = i%2;
+      if(rem == 1 ){
+      if((num_id1[num_id1.length - i] * 2) > 9){
+        let data = '';
+        data = data + (num_id1[num_id1.length - i] * 2);
+        let array3 = data.split("");
+        value = value + (Number(array3[0]) + Number(array3[1]));
+      }
+      else{
+        value = value + (num_id1[num_id1.length - i] * 2);
+      }
+    }
+    else{
+      value = value + (num_id1[num_id1.length - i] * 1);
+    }
+    }
+    let array1 = value.split("");
+    let final_value = 0;
+    array1.forEach(item=>{
+      final_value = final_value + Number(item);
+    });
+    return final_value;
   }
 
   onAccountChange(data) {
