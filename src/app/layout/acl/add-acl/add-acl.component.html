@@ -233,7 +233,7 @@
                   || permission?.acl?.name == 'Templates'
                   || permission?.acl?.name == 'Project Management' || permission?.acl?.name == 'Hotel Management' || permission?.acl?.name == 'Hotel Companies Management'
                   || permission?.acl?.name == 'Manage Suppliers'
-                  || permission?.acl?.name == 'Notaries Management' || permission?.acl?.name == 'Settings' " 
+                  || permission?.acl?.name == 'Notaries Management' || permission?.acl?.name == 'Settings'|| permission?.acl?.name == 'Metatags' " 
                     class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_purge==1}">{{'addForm.canDelete' | translate}}
                       <input type="checkbox" [checked]="permission.can_purge == 1 ? 'checked': ''"  (click)="setPermission('can_purge', i)">
                       <span class="checkmark"></span>

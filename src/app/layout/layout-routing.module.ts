@@ -95,6 +95,10 @@ const routes: Routes = [
         loadChildren: './settings/settings.module#SettingsModule'
       },
       {
+        path: 'metatags',
+        loadChildren: './metatags/metatags.module#MetatagsModule'
+      },
+      {
         path: 'properties',
         loadChildren: './properties/properties.module#PropertiesModule'
       },

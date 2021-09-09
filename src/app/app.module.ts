@@ -74,7 +74,7 @@ const appRoutes: Routes = [
     DownloadAccountStatementComponent
   ],
   imports: [
-    RouterModule.forRoot(appRoutes, { useHash: false , preloadingStrategy: PreloadAllModules }),
+    RouterModule.forRoot(appRoutes, { useHash: false, preloadingStrategy: PreloadAllModules }),
     // RouterModule.forRoot(appRoutes, { preloadingStrategy: PreloadAllModules }),
     SweetAlert2Module.forRoot({
       // confirmButtonClass: 'btn btn-primary',
@@ -90,7 +90,7 @@ const appRoutes: Routes = [
     NgxSpinnerModule,
     MalihuScrollbarModule.forRoot(),
     Ng2TelInputModule,
-    
+
     ToastrModule.forRoot({
       maxOpened: 1,
       preventDuplicates: true,
@@ -99,11 +99,11 @@ const appRoutes: Routes = [
     AngularFireModule.initializeApp(environment.firebase),
     HttpClientModule,
     TranslateModule.forRoot({
-        loader: {
-            provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
-            deps: [HttpClient]
-        }
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
     })
   ],
   providers: [

@@ -100,6 +100,22 @@
                 <!-- sidebar-collapse -->
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
                   <ul class="navbar-nav">
+                    <li *ngIf="admin?.admin_acl['Metatags']?.can_read==1" class="nav-item dropdown" [routerLinkActive]="'active'">
+                      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                      <i><img src="assets/img/settings.png"></i><span>{{'sidebar.metatags' | translate}}</span></a>
+                      <div class="dropdown-menu">
+                        <ul>
+                          <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="metatags/metatag-home">{{'sidebar.home' | translate}}</a></li>
+                          <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="metatags/metatag-sale">{{'sidebar.for-sale' | translate}}</a></li>
+                          <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="metatags/metatag-rent">{{'sidebar.rent' | translate}}</a></li>
+                          <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="metatags/metatag-sell">{{'sidebar.sell' | translate}}</a></li>
+                          <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="metatags/metatag-mortage-loans">{{'sidebar.mortage' | translate}}</a></li>
+                          <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="metatags/metatag-new-project">{{'sidebar.new_pro' | translate}}</a></li>
+                          <li [routerLinkActive]="'active'"><a class="dropdown-item" routerLink="metatags/metatag-developer">{{'sidebar.developer' | translate}}</a></li>
+                         
+                        </ul>
+                      </div>
+                    </li>
                        <li *ngIf="admin?.admin_acl['Dashboard']?.can_read==1" class="nav-item"
                         [routerLinkActive]="'active'"
                         [routerLinkActiveOptions]="{exact:true}">
