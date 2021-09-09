@@ -22,7 +22,7 @@
                 <div class="col-md-8" *ngIf="admin?.admin_acl['Settings']?.can_create==1" >
                     <div class="form-group marginB0">
                       <div class="btn-cont text-right">
-                          <a *ngIf="admin?.admin_acl['Settings']?.can_create==1" class="btn btn-primary" href="javascript://" (click)="openPropertyConfigModal(addPropertyConfigModal, -1, '', '', '', '', '', '', 1)">
+                          <a *ngIf="admin?.admin_acl['Settings']?.can_create==1" class="btn btn-primary" href="javascript://" (click)="openPropertyConfigModal(addPropertyConfigModal, '', '', '', '', '')">
                             {{'location.addNew' | translate}}</a>
                       </div>
                     </div>
@@ -57,14 +57,8 @@
                   <td>
                     <div class="table-actions">
                     <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Metatags']?.can_update==0" 
-                      (click)="openPropertyConfigModal(addPropertyConfigModal, i, item.id, item.meta_title_en, item.meta_title_es, item.meta_description_en, item.meta_description_es, item.block_status)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                      (click)="openPropertyConfigModal(addPropertyConfigModal,item.id, item.meta_title_en, item.meta_title_es, item.meta_description_en, item.meta_description_es)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                     
-                      <!-- status = 1 means unblocked -->
-                    <!-- <button [disabled]="admin?.admin_acl['Metatags']?.can_delete==0"
-                      (click)="addPropertyConfigurationPopup(i, item.id, item.block_status==1?0:1, item.block_status==1?'block':'unblock')" 
-                      title="{{item.block_status==1 ? ('table.title.block' | translate) : ('table.title.unblock' | translate)}}" [ngClass]="{'unblock-bg':item.block_status==0}"
-                      class="action-icon"><img src="assets/img/block.png" alt="img">
-                    </button> -->
                     <button [disabled]="admin?.admin_acl['Metatags']?.can_delete==0"
                      *ngIf="item.block_status == 0"
                     (click)="addPropertyConfigurationPopup(i,item.id, 1);" class="action-icon" 

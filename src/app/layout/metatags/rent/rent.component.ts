@@ -38,64 +38,79 @@ export class RentComponent implements OnInit {
     this.getConfigurations();
   }
 
-  public openPropertyConfigModal(template: TemplateRef<any>, index, id, name_en, name_es, bedroom, bathroom, half_bathroom, status) {
-    this.parameter.index = index;
-    this.property.configuration.id = id;
-    this.property.configuration.name_en = name_en;
-    this.property.configuration.name_es = name_es == null ? name_en : name_es;
-    this.property.configuration.bedroom = bedroom;
-    this.property.configuration.bathroom = bathroom;
-    this.property.configuration.half_bathroom = half_bathroom;
-    this.property.configuration.status = status;
+  public openPropertyConfigModal(template: TemplateRef<any>, id, meta_title_en, meta_title_es, meta_description_en, meta_description_es) {
+    // this.parameter.index = index;
+    this.property.rent_tag.id = id;
+    this.property.rent_tag.meta_title_en = meta_title_en;
+    this.property.rent_tag.meta_title_es = meta_title_es == null ? meta_title_en : meta_title_es;
+    this.property.rent_tag.meta_description_en = meta_description_en;
+    this.property.rent_tag.meta_description_es = meta_description_es;
+    //this.property.rent_tag.block_status = status;
     this.modalRef = this.modalService.show(template);
   }
 
-  addPropertyConfiguration(id, name_en, name_es, bedroom, bathroom, half_bathroom, status, type) {
-    if (type === 'edit') { this.modalRef.hide(); }
-    this.parameter.url = 'addConfiguration';
-    const input = new FormData();
-    input.append('name_en', name_en);
-    input.append('name_es', name_es);
-    input.append('bedroom', bedroom);
-    input.append('bathroom', bathroom);
-    input.append('half_bathroom', half_bathroom);
-    input.append('status', status);
+  addPropertyConfiguration(id, meta_title_en, meta_title_es, meta_description_en, meta_description_es) {
 
-    if (id) { input.append('id', id); }
-    this.spinner.show();
-    this.admin.postDataApi(this.parameter.url, input)
-      .subscribe(
-        success => {
-          this.spinner.hide();
-          const text = id ?
-            this.translate.instant('message.success.updatedSuccessfully') :
-            this.translate.instant('message.success.addedSuccessfully');
-          // this.getConfigurations();
-          this.property.configuration.id = '';
-          this.property.configuration.name_en = '';
-          this.property.configuration.name_es = '';
-          swal(this.translate.instant('swal.success'), text, 'success');
-          if (this.parameter.index !== -1) {
-            this.parameter.items[this.parameter.index] = success.data;
-          } else {
-            this.parameter.items.push(success.data);
+    this.parameter.url = 'addRentMetatag';
+    if (this.property.rent_tag.id) {
+      const input = new FormData();
+      input.append('id', this.property.rent_tag.id);
+      input.append('meta_title_en', meta_title_en);
+      input.append('meta_title_es', meta_title_es);
+      input.append('meta_description_en', meta_description_en);
+      input.append('meta_description_es', meta_description_es);
+      this.spinner.show();
+      this.admin.postDataApi(this.parameter.url, input)
+        .subscribe(
+          success => {
+            this.spinner.hide();
+            this.toastr.success(this.translate.instant('message.success.updatedSuccessfully'), this.translate.instant('swal.success'));
+            this.modalRef.hide()
+            this.getConfigurations();
+          }, error => {
+            this.spinner.hide();
           }
-          this.parameter.index = -1;
-        }, error => {
-          this.spinner.hide();
-        }
-      );
+        );
+    } else {
+      const input = new FormData();
+      input.append('meta_title_en', meta_title_en);
+      input.append('meta_title_es', meta_title_es);
+      input.append('meta_description_en', meta_description_en);
+      input.append('meta_description_es', meta_description_es);
+      this.spinner.show();
+      this.admin.postDataApi(this.parameter.url, input)
+        .subscribe(
+          success => {
+            this.spinner.hide();
+            this.toastr.success(this.translate.instant('message.success.addedSuccessfully'), this.translate.instant('swal.success'));
+            this.property.rent_tag.id = '';
+            this.property.rent_tag.meta_title_en = '';
+            this.property.rent_tag.meta_title_es = '';
+            this.property.rent_tag.meta_description_en = '';
+            this.property.rent_tag.meta_description_es = '';
+            if (this.parameter.index !== -1) {
+              this.parameter.rents[this.parameter.index] = success.data;
+            } else {
+              this.parameter.rents.push(success.data);
+            }
+            this.parameter.index = -1;
+          }, error => {
+            this.spinner.hide();
+          }
+        );
+    }
+
   }
 
   getConfigurations() {
     this.spinner.show();
-    this.parameter.url = 'getConfigurations';
+    this.parameter.url = 'getRentMetatag';
     const input = new FormData();
     this.admin.postDataApi(this.parameter.url, { hide_blocked: 0 })
       .subscribe(
         success => {
           this.spinner.hide();
-          this.parameter.items = success.data;
+          this.parameter.rents = success.data;
           this.parameter.total = success.data.length;
         },
         error => {
@@ -107,13 +122,13 @@ export class RentComponent implements OnInit {
 
 
 
-  addPropertyConfigurationPopup(index, id, name_en, name_es, bedroom, bathroom, half_bathroom, status, type) {
+  addPropertyConfigurationPopup(index, id, status) {
     this.parameter.index = index;
     const self = this;
-    const text = status === 1 ? this.translate.instant('message.error.wantToUnblockPropertyConfig') :
-      this.translate.instant('message.error.wantToBlockPropertyConfig');
+    const text = status === 1 ? this.translate.instant('message.error.wantToBlockmetatag') :
+      this.translate.instant('message.error.wantToUnblockunmeta');
     swal({
-      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -121,16 +136,32 @@ export class RentComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.addPropertyConfiguration(id, name_en, name_es, bedroom, bathroom, half_bathroom, status, type);
+        this.addPropertyblockConfiguration(index, id, status);
       }
     });
   }
+  addPropertyblockConfiguration(index, id, status) {
+    this.parameter.url = 'blockRentMetatag';
+    this.admin.postDataApi(this.parameter.url, { id: id })
+      .subscribe(
+        success => {
+          this.spinner.hide();
+          if (status === 1) {
+            this.toastr.success(this.translate.instant('message.success.blockSuccessfully'), this.translate.instant('swal.success'));
+          } else {
+            this.toastr.success(this.translate.instant('message.success.unblockSuccessfully'), this.translate.instant('swal.success'));
+          }
+          this.getConfigurations();
+        }, error => {
+          this.spinner.hide();
+        }
+      );
+  }
 
-
-  checkIfConfigSpanishNameEntered(formdata: NgForm, id, name_en, name_es, bedroom, bathroom, half_bathroom, status, type) {
+  checkIfConfigSpanishNameEntered(formdata: NgForm, id, meta_title_en, meta_title_es, meta_description_en, meta_description_es, type, status) {
     const self = this;
     formdata.reset();
-    if (name_es === '') {
+    if (meta_title_es === '') {
       swal({
         text: this.translate.instant('message.error.saveEngPropertyConfig'),
         type: 'warning',
@@ -140,11 +171,11 @@ export class RentComponent implements OnInit {
         confirmButtonText: 'Yes'
       }).then((result) => {
         if (result.value) {
-          this.addPropertyConfiguration(id, name_en, name_en, bedroom, bathroom, half_bathroom, status, type);
+          this.addPropertyConfiguration(id, meta_title_en, meta_title_es, meta_description_en, meta_description_es);
         }
       });
     } else {
-      self.addPropertyConfiguration(id, name_en, name_es, bedroom, bathroom, half_bathroom, status, type);
+      self.addPropertyConfiguration(id, meta_title_en, meta_title_es, meta_description_en, meta_description_es);
     }
   }
   changeListner(event) {
@@ -165,8 +196,8 @@ export class RentComponent implements OnInit {
   openDeleteConfirmationPopup = (item: any, index: number, isDeletePropertyConfiguration: boolean): void => {
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' +
-        (isDeletePropertyConfiguration ? this.translate.instant('message.error.wantToDeletePropertyConfiguration')
-          : this.translate.instant('message.error.wantToDeleteAmenities')),
+        (isDeletePropertyConfiguration ? this.translate.instant('message.error.wantToDeletemeta')
+          : this.translate.instant('message.error.wantToDeletemeta')),
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: this.constant.confirmButtonColor,
@@ -183,13 +214,13 @@ export class RentComponent implements OnInit {
 
   deletePropertyConfiguration = (item: any, index: number): void => {
     this.spinner.show();
-    this.admin.postDataApi('deletePropertyConfiguration', { id: item.id }).subscribe((response) => {
+    this.admin.postDataApi('deleteRentMetatag', { id: item.id }).subscribe((response) => {
       this.spinner.hide();
       if (response.success == '0') {
         this.toastr.error(this.translate.instant('message.error.youCannotDeleteThisPropertyConfiguration'), this.translate.instant('swal.error'));
       } else {
         this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
-        this.parameter.items.splice(index, 1);
+        this.parameter.rents.splice(index, 1);
       }
     }, (error) => {
       this.spinner.hide();
@@ -197,5 +228,5 @@ export class RentComponent implements OnInit {
     });
   }
 
-}
 
+}

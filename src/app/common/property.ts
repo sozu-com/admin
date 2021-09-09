@@ -1,15 +1,17 @@
 export interface IProperty {
   url?: string;
   loading?: boolean;                      // loader
-  itemsPerPage?: number;  
-  commission_status_color ?: any;               // total items per page
-  total?: number;     
-  random_id  ?: any;                  // total records count
+  itemsPerPage?: number;
+  commission_status_color?: any;               // total items per page
+  total?: number;
+  random_id?: any;                  // total records count
   p?: number;                             // page
   sizeLimit?: number;                     // file size limit --- 5000000 means 5MB
   title?: string;
   text?: string;
   items?: any[];
+  sales?: any[];
+  rents?: any[];
   notes?: any[];
   records?: any[];
   sub?: any;
@@ -185,7 +187,7 @@ export interface IProperty {
   action_filter?: number;
   seller_name?: string;
   agent_name?: string;
-  availability_filter?:Array<any>;
+  availability_filter?: Array<any>;
   sold_filter?: number;
   bulk_approve_property?: number;
   bulk_approve_project?: number;
@@ -234,8 +236,8 @@ export interface IProperty {
   parkingLotSpacesTotal?: any;
   parking_sort?: number;
   broker_id?: any;
-  commission_type?:string;
-  project?: string; 
+  commission_type?: string;
+  project?: string;
   property?: string;
   interested_projects?: any;
   project_text?: any;
@@ -243,13 +245,13 @@ export interface IProperty {
   csr_buyer_text?: any;
   status_id?: any;
   agent_text?: any;
-  broker_text?:any;
-  sort_by_date?:any;
-  office_id?:any;
-  Office_status_filter?:any;
-  preferences_properties?:any;
-  fav_project_count?:any;
-  locality_ids?: Array<any>; 
+  broker_text?: any;
+  sort_by_date?: any;
+  office_id?: any;
+  Office_status_filter?: any;
+  preferences_properties?: any;
+  fav_project_count?: any;
+  locality_ids?: Array<any>;
 }
 export class Docs {
   id: string;

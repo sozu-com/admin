@@ -38,52 +38,68 @@ export class HomeComponent implements OnInit {
     this.getConfigurations();
   }
 
-  public openPropertyConfigModal(template: TemplateRef<any>, index, id, meta_title_en, meta_title_es, meta_description_en, meta_description_es, type, status) {
-    this.parameter.index = index;
+  public openPropertyConfigModal(template: TemplateRef<any>, id, meta_title_en, meta_title_es, meta_description_en, meta_description_es) {
+    // this.parameter.index = index;
     this.property.home_tag.id = id;
     this.property.home_tag.meta_title_en = meta_title_en;
     this.property.home_tag.meta_title_es = meta_title_es == null ? meta_title_en : meta_title_es;
     this.property.home_tag.meta_description_en = meta_description_en;
     this.property.home_tag.meta_description_es = meta_description_es;
-    this.property.home_tag.status = status;
+    //this.property.home_tag.block_status = status;
     this.modalRef = this.modalService.show(template);
   }
 
-  addPropertyConfiguration(id, meta_title_en, meta_title_es, meta_description_en, meta_description_es, type, status) {
-    if (type === 'edit') { this.modalRef.hide(); }
-    this.parameter.url = 'addHomeMetatag';
-    const input = new FormData();
-    input.append('meta_title_en', meta_title_en);
-    input.append('meta_title_es', meta_title_es);
-    input.append('meta_description_en', meta_description_en);
-    input.append('meta_description_es', meta_description_es);
+  addPropertyConfiguration(id, meta_title_en, meta_title_es, meta_description_en, meta_description_es) {
 
-    if (id) { input.append('id', id); }
-    this.spinner.show();
-    this.admin.postDataApi(this.parameter.url, input)
-      .subscribe(
-        success => {
-          this.spinner.hide();
-          const text = id ?
-            this.translate.instant('message.success.updatedSuccessfully') :
-            this.translate.instant('message.success.addedSuccessfully');
-          // this.getConfigurations();
-          this.property.home_tag.id = '';
-          this.property.home_tag.meta_title_en = '';
-          this.property.home_tag.meta_title_es = '';
-          this.property.home_tag.meta_description_en = '';
-          this.property.home_tag.meta_description_es = '';
-          swal(this.translate.instant('swal.success'), text, 'success');
-          if (this.parameter.index !== -1) {
-            this.parameter.items[this.parameter.index] = success.data;
-          } else {
-            this.parameter.items.push(success.data);
+    this.parameter.url = 'addHomeMetatag';
+    if (this.property.home_tag.id) {
+      const input = new FormData();
+      input.append('id', this.property.home_tag.id);
+      input.append('meta_title_en', meta_title_en);
+      input.append('meta_title_es', meta_title_es);
+      input.append('meta_description_en', meta_description_en);
+      input.append('meta_description_es', meta_description_es);
+      this.spinner.show();
+      this.admin.postDataApi(this.parameter.url, input)
+        .subscribe(
+          success => {
+            this.spinner.hide();
+            this.toastr.success(this.translate.instant('message.success.updatedSuccessfully'), this.translate.instant('swal.success'));
+            this.modalRef.hide()
+            this.getConfigurations();
+          }, error => {
+            this.spinner.hide();
           }
-          this.parameter.index = -1;
-        }, error => {
-          this.spinner.hide();
-        }
-      );
+        );
+    } else {
+      const input = new FormData();
+      input.append('meta_title_en', meta_title_en);
+      input.append('meta_title_es', meta_title_es);
+      input.append('meta_description_en', meta_description_en);
+      input.append('meta_description_es', meta_description_es);
+      this.spinner.show();
+      this.admin.postDataApi(this.parameter.url, input)
+        .subscribe(
+          success => {
+            this.spinner.hide();
+            this.toastr.success(this.translate.instant('message.success.addedSuccessfully'), this.translate.instant('swal.success'));
+            this.property.home_tag.id = '';
+            this.property.home_tag.meta_title_en = '';
+            this.property.home_tag.meta_title_es = '';
+            this.property.home_tag.meta_description_en = '';
+            this.property.home_tag.meta_description_es = '';
+            if (this.parameter.index !== -1) {
+              this.parameter.items[this.parameter.index] = success.data;
+            } else {
+              this.parameter.items.push(success.data);
+            }
+            this.parameter.index = -1;
+          }, error => {
+            this.spinner.hide();
+          }
+        );
+    }
+
   }
 
   getConfigurations() {
@@ -155,11 +171,11 @@ export class HomeComponent implements OnInit {
         confirmButtonText: 'Yes'
       }).then((result) => {
         if (result.value) {
-          this.addPropertyConfiguration(id, meta_title_en, meta_title_es, meta_description_en, meta_description_es, type, status);
+          this.addPropertyConfiguration(id, meta_title_en, meta_title_es, meta_description_en, meta_description_es);
         }
       });
     } else {
-      self.addPropertyConfiguration(id, meta_title_en, meta_title_es, meta_description_en, meta_description_es, type, status);
+      self.addPropertyConfiguration(id, meta_title_en, meta_title_es, meta_description_en, meta_description_es);
     }
   }
   changeListner(event) {

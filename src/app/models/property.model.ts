@@ -14,7 +14,23 @@ export class Property {
         meta_title_es: '',
         meta_description_en: '',
         meta_description_es: '',
-        status: 0
+        block_status: 0
+    };
+    public sale_tag = {
+        id: '',
+        meta_title_en: '',
+        meta_title_es: '',
+        meta_description_en: '',
+        meta_description_es: '',
+        block_status: 0
+    };
+    public rent_tag = {
+        id: '',
+        meta_title_en: '',
+        meta_title_es: '',
+        meta_description_en: '',
+        meta_description_es: '',
+        block_status: 0
     };
     public type = {
         id: '',

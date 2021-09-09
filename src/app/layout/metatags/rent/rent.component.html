@@ -22,7 +22,7 @@
                 <div class="col-md-8" *ngIf="admin?.admin_acl['Settings']?.can_create==1" >
                     <div class="form-group marginB0">
                       <div class="btn-cont text-right">
-                          <a *ngIf="admin?.admin_acl['Settings']?.can_create==1" class="btn btn-primary" href="javascript://" (click)="openPropertyConfigModal(addPropertyConfigModal, -1, '', '', '', '', '', '', 1)">
+                          <a *ngIf="admin?.admin_acl['Settings']?.can_create==1" class="btn btn-primary" href="javascript://" (click)="openPropertyConfigModal(addPropertyConfigModal, '', '', '', '', '')">
                             {{'location.addNew' | translate}}</a>
                       </div>
                     </div>
@@ -41,35 +41,46 @@
                   <th style="width:25%; text-align:left;">{{'addForm.placeholder.MD_SP' | translate}}</th>
                   <th style="width:20%">{{'table.th.actions.label' | translate}}</th>
                 </tr>
-                <tr *ngFor="let item of parameter.items; let i=index">
+                <tr *ngFor="let item of parameter.rents; let i=index">
                   <td class="text-left">
-                    {{item.name_en}}
+                    {{item.meta_title_en}}
                   </td>
                   <td class="text-left">
-                    {{item.name_es}}
+                    {{item.meta_title_es}}
                   </td>
                   <td class="text-left">
-                    {{item.bedroom}}
+                    {{item.meta_description_en}}
                   </td>
                   <td class="text-left">
-                    {{item.bathroom}}
+                    {{item.meta_description_es}}
                   </td>
                   <td>
-                    <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Settings']?.can_update==0" 
-                      (click)="openPropertyConfigModal(addPropertyConfigModal, i, item.id, item.name_en, item.name_es, item.bedroom, item.bathroom, item.half_bathroom, item.status)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                    <div class="table-actions">
+                    <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Metatags']?.can_update==0" 
+                      (click)="openPropertyConfigModal(addPropertyConfigModal,item.id, item.meta_title_en, item.meta_title_es, item.meta_description_en, item.meta_description_es)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                     
-                      <!-- status = 1 means unblocked -->
-                    <button [disabled]="admin?.admin_acl['Settings']?.can_delete==0"
-                      (click)="addPropertyConfigurationPopup(i, item.id, item.name_en, item.name_es, item.bedroom, item.bathroom, item.half_bathroom, item.status==1?0:1, item.status==1?'block':'unblock')" 
-                      title="{{item.status==1 ? ('table.title.block' | translate) : ('table.title.unblock' | translate)}}" [ngClass]="{'unblock-bg':item.status==0}"
-                      class="action-icon"><img src="assets/img/block.png" alt="img">
+                    <button [disabled]="admin?.admin_acl['Metatags']?.can_delete==0"
+                     *ngIf="item.block_status == 0"
+                    (click)="addPropertyConfigurationPopup(i,item.id, 1);" class="action-icon" 
+                    title="{{'table.title.block' | translate}}">
+                    <img src="assets/img/block.png" alt="img">
                     </button>
-                    <button [disabled]="admin?.admin_acl['Settings']?.can_purge==0" (click)="openDeleteConfirmationPopup(item, i,true)"
+
+                  <button [disabled]="admin?.admin_acl['Metatags']?.can_delete==0"
+                    *ngIf="item.block_status == 1" 
+                    (click)="addPropertyConfigurationPopup(i,item.id, 0);" 
+                    class="action-icon unblock-bg"
+                    title="{{'table.title.unblock' | translate}}">
+                    <img src="assets/img/unblock.png" alt="img">
+                  </button>
+
+                    <button [disabled]="admin?.admin_acl['Metatags']?.can_purge==0" (click)="openDeleteConfirmationPopup(item, i,true)"
                      title="{{'table.title.delete' | translate}}"
                     class="action-icon"><img src="assets/img/ic_delete.png" alt="img"></button>
-                    
+                    </div>
                   </td>
                 </tr>
+
 
                 <div *ngIf="parameter.total == 0">
                   <p class="show-not-found">
@@ -93,23 +104,23 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <form class="form-horizontal my-modal-form" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfConfigSpanishNameEntered(addForm, property.configuration.id, addForm.value.name_en, addForm.value.name_es, addForm.value.bedroom, addForm.value.bathroom, addForm.value.half_bathroom, property.configuration.status, 'edit')">
+    <form class="form-horizontal my-modal-form" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfConfigSpanishNameEntered(addForm, property.id, addForm.value.meta_title_en, addForm.value.meta_title_es, addForm.value.meta_description_en, addForm.value.meta_description_es, 'edit')">
       <div class="modal-body my-modal-body">
         <div class="form-group">
-          <input autocomplete="off" type="text" class="form-control" placeholder="{{'addForm.placeholder.MT' | translate}}" id="name_en" required [(ngModel)]="property.configuration.name_en" name="name_en" #name_en="ngModel">
+          <input autocomplete="off" type="text" class="form-control" placeholder="{{'addForm.placeholder.MT' | translate}}" id="meta_title_en" required [(ngModel)]="property.rent_tag.meta_title_en" name="meta_title_en" #name_en="ngModel">
         </div>
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="{{'addForm.placeholder.MT_SP' | translate}}" [(ngModel)]="property.configuration.name_es" name="name_es">
+          <input type="text" class="form-control" placeholder="{{'addForm.placeholder.MT_SP' | translate}}" [(ngModel)]="property.rent_tag.meta_title_es" name="meta_title_es">
         </div>
         <div class="form-group">
-          <input type="number" class="form-control" required placeholder="{{'addForm.placeholder.MD' | translate}}" [(ngModel)]="property.configuration.bedroom" name="bedroom" #bedroom="ngModel">
+          <input type="text" class="form-control" required placeholder="{{'addForm.placeholder.MD' | translate}}" [(ngModel)]="property.rent_tag.meta_description_en" name="meta_description_en" #bedroom="ngModel">
         </div>
         <div class="form-group">
-          <input type="number" class="form-control" required placeholder="{{'addForm.placeholder.MD_SP' | translate}}" [(ngModel)]="property.configuration.bedroom" name="bedroom" #bedroom="ngModel">
+          <input type="text" class="form-control" required placeholder="{{'addForm.placeholder.MD_SP' | translate}}" [(ngModel)]="property.rent_tag.meta_description_es" name="meta_description_es" #bedroom="ngModel">
         </div>
       </div>
       <div class="modal-footer btn-cont">
-        <button type="submit" [disabled]="admin?.admin_acl['Settings']?.can_update==0 || addForm.invalid" class="btn btn-primary-new">{{'addForm.submit' | translate}}</button>
+        <button type="submit" [disabled]="admin?.admin_acl['Metatags']?.can_update==0 || addForm.invalid" class="btn btn-primary-new">{{'addForm.submit' | translate}}</button>
         <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">{{'addForm.close' | translate}}</button>
       </div>
     </form>
