@@ -20,6 +20,8 @@ import { MortageLoansComponent } from './mortage-loans/mortage-loans.component';
 import { NewProjectComponent } from './new-project/new-project.component';
 import { RentComponent } from './rent/rent.component';
 import { SellComponent } from './sell/sell.component';
+import { DevelopersComponent } from './developers/developers.component';
+import { NewDevComponent } from './new-dev/new-dev.component';
 
 const routes: Routes = [
     {
@@ -46,10 +48,10 @@ const routes: Routes = [
         path: 'metatag-new-project', component: NewProjectComponent,
         canActivate: [AclUserGuard], data: { roles: ['Metatags', 'can_read', ''] }
     },
-    // {
-    //     path: 'metatag-developer', component: DevelopersComponent,
-    //     canActivate: [AclUserGuard], data: { roles: ['Metatags', 'can_read', ''] }
-    // }
+    {
+        path: 'metatag-devloper', component: NewDevComponent,
+        canActivate: [AclUserGuard], data: { roles: ['Metatags', 'can_read', ''] }
+    }
 ];
 
 
@@ -63,7 +65,8 @@ const routes: Routes = [
         MortageLoansComponent,
         NewProjectComponent,
         RentComponent,
-        SellComponent
+        SellComponent,
+        NewDevComponent
     ],
     imports: [
         RouterModule.forChild(routes),

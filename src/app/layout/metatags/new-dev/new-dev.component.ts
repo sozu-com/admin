@@ -12,12 +12,12 @@ declare let swal: any;
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-developers',
-  templateUrl: './developers.component.html',
-  styleUrls: ['./developers.component.css'],
+  selector: 'app-new-dev',
+  templateUrl: './new-dev.component.html',
+  styleUrls: ['./new-dev.component.css'],
   providers: [Constant, Property]
 })
-export class DevelopersComponent implements OnInit {
+export class NewDevComponent implements OnInit {
 
   public parameter: IProperty = {};
   public modalRef: BsModalRef;
@@ -231,3 +231,4 @@ export class DevelopersComponent implements OnInit {
 
 
 }
+

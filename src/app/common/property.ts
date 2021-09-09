@@ -12,6 +12,10 @@ export interface IProperty {
   items?: any[];
   sales?: any[];
   rents?: any[];
+  sells?: any[];
+  loans?: any[];
+  pros?: any[];
+  developers?: any[];
   notes?: any[];
   records?: any[];
   sub?: any;

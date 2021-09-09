@@ -1,3 +1,128 @@
-<p>
-  mortage-loans works!
-</p>
+
+<div class="container-fluid">
+  <div class="breadcrumb-group">
+    <h5>{{'settings.label1' | translate}}</h5>
+      <nav class="breadcrumb">
+        <a class="breadcrumb-item">{{'settings.label1' | translate}}</a>
+        <a class="breadcrumb-item">{{'sidebar.mortage' | translate}}</a>
+      </nav>
+  </div>
+  <div class="white-bg">
+      <div class="page-title">
+        <h3>{{'settings.label1' | translate}}</h3>
+      </div>
+
+
+      <div class="form-outer">
+          <div class="inline-form-group">
+             <div class="row">
+                <div class="col-md-4">
+                    <label><strong>{{'property.metatag_loans' | translate}}</strong></label>
+                </div>
+                <div class="col-md-8" *ngIf="admin?.admin_acl['Settings']?.can_create==1" >
+                    <div class="form-group marginB0">
+                      <div class="btn-cont text-right">
+                          <a *ngIf="admin?.admin_acl['Settings']?.can_create==1" class="btn btn-primary" href="javascript://" (click)="openPropertyConfigModal(addPropertyConfigModal, '', '', '', '', '')">
+                            {{'location.addNew' | translate}}</a>
+                      </div>
+                    </div>
+                </div>
+             </div>
+          </div>
+      </div>
+
+      <div class="tabel-section padding40 paddingT0">
+          <div class="table-responsive">
+            <table class="table table-striped">
+                <tr>
+                  <th style="width:25%; text-align:left;">{{'addForm.placeholder.MT' | translate}}</th>
+                  <th style="width:25%; text-align:left;">{{'addForm.placeholder.MT_SP' | translate}}</th>
+                  <th style="width:25%; text-align:left;">{{'addForm.placeholder.MD' | translate}}</th>
+                  <th style="width:25%; text-align:left;">{{'addForm.placeholder.MD_SP' | translate}}</th>
+                  <th style="width:20%">{{'table.th.actions.label' | translate}}</th>
+                </tr>
+                <tr *ngFor="let item of parameter.loans; let i=index">
+                  <td class="text-left">
+                    {{item.meta_title_en}}
+                  </td>
+                  <td class="text-left">
+                    {{item.meta_title_es}}
+                  </td>
+                  <td class="text-left">
+                    {{item.meta_description_en}}
+                  </td>
+                  <td class="text-left">
+                    {{item.meta_description_es}}
+                  </td>
+                  <td>
+                    <div class="table-actions">
+                    <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Metatags']?.can_update==0" 
+                      (click)="openPropertyConfigModal(addPropertyConfigModal,item.id, item.meta_title_en, item.meta_title_es, item.meta_description_en, item.meta_description_es)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
+                    
+                    <button [disabled]="admin?.admin_acl['Metatags']?.can_delete==0"
+                     *ngIf="item.block_status == 0"
+                    (click)="addPropertyConfigurationPopup(i,item.id, 1);" class="action-icon" 
+                    title="{{'table.title.block' | translate}}">
+                    <img src="assets/img/block.png" alt="img">
+                    </button>
+
+                  <button [disabled]="admin?.admin_acl['Metatags']?.can_delete==0"
+                    *ngIf="item.block_status == 1" 
+                    (click)="addPropertyConfigurationPopup(i,item.id, 0);" 
+                    class="action-icon unblock-bg"
+                    title="{{'table.title.unblock' | translate}}">
+                    <img src="assets/img/unblock.png" alt="img">
+                  </button>
+
+                    <button [disabled]="admin?.admin_acl['Metatags']?.can_purge==0" (click)="openDeleteConfirmationPopup(item, i,true)"
+                     title="{{'table.title.delete' | translate}}"
+                    class="action-icon"><img src="assets/img/ic_delete.png" alt="img"></button>
+                    </div>
+                  </td>
+                </tr>
+
+
+                <div *ngIf="parameter.total == 0">
+                  <p class="show-not-found">
+                      {{'message.error.noRecordFound' | translate}}
+                  </p>
+                </div>
+            </table>
+          </div>
+      </div>
+
+  </div>
+</div>
+
+
+<!-- add configuration modal -->
+<ng-template #addPropertyConfigModal>
+  <div class="modal-content">
+    <div class="modal-header my-modal-header">
+      <h4 class="modal-title">{{parameter.index!='-1' ? ('property.editPropertyLoansTag' | translate) : ('property.addPropertyLoansTag' | translate)}}</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form class="form-horizontal my-modal-form" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfConfigSpanishNameEntered(addForm, property.id, addForm.value.meta_title_en, addForm.value.meta_title_es, addForm.value.meta_description_en, addForm.value.meta_description_es, 'edit')">
+      <div class="modal-body my-modal-body">
+        <div class="form-group">
+          <input autocomplete="off" type="text" class="form-control" placeholder="{{'addForm.placeholder.MT' | translate}}" id="meta_title_en" required [(ngModel)]="property.loan_tag.meta_title_en" name="meta_title_en" #name_en="ngModel">
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="{{'addForm.placeholder.MT_SP' | translate}}" [(ngModel)]="property.loan_tag.meta_title_es" name="meta_title_es">
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" required placeholder="{{'addForm.placeholder.MD' | translate}}" [(ngModel)]="property.loan_tag.meta_description_en" name="meta_description_en" #bedroom="ngModel">
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" required placeholder="{{'addForm.placeholder.MD_SP' | translate}}" [(ngModel)]="property.loan_tag.meta_description_es" name="meta_description_es" #bedroom="ngModel">
+        </div>
+      </div>
+      <div class="modal-footer btn-cont">
+        <button type="submit" [disabled]="admin?.admin_acl['Metatags']?.can_update==0 || addForm.invalid" class="btn btn-primary-new">{{'addForm.submit' | translate}}</button>
+        <button type="button" class="btn btn-default" aria-label="Close" (click)="modalRef.hide()">{{'addForm.close' | translate}}</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

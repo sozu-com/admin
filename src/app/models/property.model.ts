@@ -32,6 +32,38 @@ export class Property {
         meta_description_es: '',
         block_status: 0
     };
+    public sell_tag = {
+        id: '',
+        meta_title_en: '',
+        meta_title_es: '',
+        meta_description_en: '',
+        meta_description_es: '',
+        block_status: 0
+    };
+    public loan_tag = {
+        id: '',
+        meta_title_en: '',
+        meta_title_es: '',
+        meta_description_en: '',
+        meta_description_es: '',
+        block_status: 0
+    };
+    public pro_tag = {
+        id: '',
+        meta_title_en: '',
+        meta_title_es: '',
+        meta_description_en: '',
+        meta_description_es: '',
+        block_status: 0
+    };
+    public dev_tag = {
+        id: '',
+        meta_title_en: '',
+        meta_title_es: '',
+        meta_description_en: '',
+        meta_description_es: '',
+        block_status: 0
+    };
     public type = {
         id: '',
         name_es: '',
