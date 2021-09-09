@@ -1204,7 +1204,7 @@ export class AddEditCollectionComponent implements OnInit {
                   { id : "o", value: 6}, { id : "p", value: 7}, { id : "q", value: 8}, { id : "r", value: 9}, { id : "s", value: 1}, { id : "t", value: 2}, { id : "u", value: 3},
                   { id : "v", value: 4}, { id : "w", value: 5}, { id : "x", value: 6}, { id : "y", value: 7}, { id : "z", value: 8}];
     let num = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-    let array = projectname.split("");
+    let array = projectname.length > 7 ? projectname.substr(0, 4).split("") : projectname.split("");
     let Project_name_num = '';
     array.forEach(element => {
       alpha.forEach(item=>{
@@ -1228,10 +1228,10 @@ export class AddEditCollectionComponent implements OnInit {
       }
     }
     let value = '';
-    let num_id = bank_reference_id.replace(projectname, Project_name_num);
+    let num_id = bank_reference_id.replace(projectname.substr(0, 7), Project_name_num.substr(0, 7));
     let fed_tax = '';
     if(fed_tax_pay){
-    let array2 = fed_tax_pay.split("");
+    let array2 = fed_tax_pay.substr(0, 4).split("");
     array2.forEach(element => {
       alpha.forEach(item=>{
         if(element.toLowerCase() == item.id){
@@ -1247,7 +1247,7 @@ export class AddEditCollectionComponent implements OnInit {
       });
     });
   }
-  let num_id1 = num_id.replace(fed_tax_pay, fed_tax);
+  let num_id1 = num_id.replace(fed_tax_pay.substr(0, 4), fed_tax.substr(0, 4));
   num_id1 = num_id1.split("");
     for(let i = 1; i <= num_id1.length; i++){
       let rem = i%2;
@@ -1271,7 +1271,11 @@ export class AddEditCollectionComponent implements OnInit {
     array1.forEach(item=>{
       final_value = final_value + Number(item);
     });
-    return final_value;
+    let num1 = final_value.toString();
+    let num2 = num1[0];
+    let num3 = (Number(num2) + 1) + '0';
+    let checker_value = Number(num3) - final_value;
+    return checker_value;
   }
 
   onAccountChange(data) {
@@ -2874,21 +2878,11 @@ export class AddEditCollectionComponent implements OnInit {
               property_name = '0' + property_name;
             }
           }
-          let array = collection_account.split("");
-          let array1 = collection_account.split("");
-          let num = 0;
-          array.forEach(item => {
-            num = num + Number(item);
-          });
-          array1.forEach(item => {
-            num = num + Number(item);
-          });
-          let num1 = num.toString();
-          let num2 = num1[0];
-          let num3 = (Number(num2) + 1) + '0';
-          let value = Number(num3) - num;
+
           let bank_reference_id = collection_account.substr(0, 5) + projectname.substr(0, 7) + property_name.substr(0, 5) + (this.tempmodelForBank.buyer.fed_tax_pay ?
-            this.tempmodelForBank.buyer.fed_tax_pay.substr(0, 4) : '0000') + value;
+            this.tempmodelForBank.buyer.fed_tax_pay.substr(0, 4) : '0000');
+            let value = this.getChecker(bank_reference_id, this.tempmodelForBank.property.building.name, this.tempmodelForBank.buyer.fed_tax_pay);
+            bank_reference_id = bank_reference_id + value;
           formdata['bank_reference_id'] = bank_reference_id;
         }
       } else {
