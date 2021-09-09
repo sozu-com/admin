@@ -8,7 +8,14 @@ export class Property {
         half_bathroom: 0,
         status: 0
     };
-
+    public home_tag = {
+        id: '',
+        meta_title_en: '',
+        meta_title_es: '',
+        meta_description_en: '',
+        meta_description_es: '',
+        status: 0
+    };
     public type = {
         id: '',
         name_es: '',

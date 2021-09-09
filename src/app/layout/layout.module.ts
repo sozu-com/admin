@@ -78,4 +78,4 @@ import { OutSideAddComponent } from './inhouse-users/out-side-add/out-side-add.c
   providers: [MessagingService, AuthGuard, AclUserGuard],
   bootstrap: [LayoutComponent]
 })
-export class LayoutModule {}
+export class LayoutModule { }
