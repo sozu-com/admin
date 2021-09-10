@@ -292,7 +292,7 @@ export class AddPropertyComponent implements OnInit {
           }
           this.setModelData(success['data']);
           if (this.parameter.propertyDetails.step < 5) {
-            this.tab = this.parameter.propertyDetails.step;
+            this.tab = this.parameter.propertyDetails.step == 4 ? 3 : this.parameter.propertyDetails.step;
           }
           this.url2 = this.parameter.propertyDetails.images.map(op => op.image);
           if (this.url2.length > 0) {
