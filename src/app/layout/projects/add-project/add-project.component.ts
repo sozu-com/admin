@@ -178,8 +178,6 @@ export class AddProjectComponent implements OnInit {
     };
   public language_code: string;
   public amenitiesKeyword: string = ''
-  meta_title_es: any;
-  meta_description_es: any;
   constructor(
     public model: AddProjectModel,
     private admin: AdminService,
@@ -1165,8 +1163,8 @@ export class AddProjectComponent implements OnInit {
     modelSave.project_logo = this.projectLogo.image;
     modelSave.document = this.model.document;
 
-    modelSave.meta_description_es = this.meta_description_es;
-    modelSave.meta_title_es = this.meta_title_es;
+    modelSave.meta_description_es = this.model.meta_description_es;
+    modelSave.meta_title_es = this.model.meta_title_es;
     if (this.model.doc_loader) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.uploadingDocument'), 'error');
       return;
