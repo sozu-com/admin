@@ -39,6 +39,7 @@ export class HomeComponent implements OnInit {
   }
 
   public openPropertyConfigModal(template: TemplateRef<any>, id, meta_title_en, meta_title_es, meta_description_en, meta_description_es) {
+    console.log(id, meta_title_en, meta_title_es, meta_description_en, meta_description_es, "abc");
     // this.parameter.index = index;
     this.property.home_tag.id = id;
     this.property.home_tag.meta_title_en = meta_title_en;
@@ -49,16 +50,14 @@ export class HomeComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  addPropertyConfiguration(id, meta_title_en, meta_title_es, meta_description_en, meta_description_es) {
+  addPropertyConfiguration(id, meta_title_en, meta_title_es, meta_description_es, meta_description_en) {
 
     this.parameter.url = 'addHomeMetatag';
     if (this.property.home_tag.id) {
       const input = new FormData();
       input.append('id', this.property.home_tag.id);
-      input.append('meta_title_en', meta_title_en);
-      input.append('meta_title_es', meta_title_es);
-      input.append('meta_description_en', meta_description_en);
-      input.append('meta_description_es', meta_description_es);
+      input.append('meta_title_es', this.property.home_tag.meta_title_es);
+      input.append('meta_description_es', this.property.home_tag.meta_description_es);
       this.spinner.show();
       this.admin.postDataApi(this.parameter.url, input)
         .subscribe(
@@ -73,9 +72,7 @@ export class HomeComponent implements OnInit {
         );
     } else {
       const input = new FormData();
-      input.append('meta_title_en', meta_title_en);
       input.append('meta_title_es', meta_title_es);
-      input.append('meta_description_en', meta_description_en);
       input.append('meta_description_es', meta_description_es);
       this.spinner.show();
       this.admin.postDataApi(this.parameter.url, input)
@@ -84,9 +81,7 @@ export class HomeComponent implements OnInit {
             this.spinner.hide();
             this.toastr.success(this.translate.instant('message.success.addedSuccessfully'), this.translate.instant('swal.success'));
             this.property.home_tag.id = '';
-            this.property.home_tag.meta_title_en = '';
             this.property.home_tag.meta_title_es = '';
-            this.property.home_tag.meta_description_en = '';
             this.property.home_tag.meta_description_es = '';
             if (this.parameter.index !== -1) {
               this.parameter.items[this.parameter.index] = success.data;
@@ -118,9 +113,6 @@ export class HomeComponent implements OnInit {
         }
       );
   }
-
-
-
 
   addPropertyConfigurationPopup(index, id, status) {
     this.parameter.index = index;
@@ -158,40 +150,9 @@ export class HomeComponent implements OnInit {
       );
   }
 
-  checkIfConfigSpanishNameEntered(formdata: NgForm, id, meta_title_en, meta_title_es, meta_description_en, meta_description_es, type, status) {
-    const self = this;
-    formdata.reset();
-    if (meta_title_es === '') {
-      swal({
-        text: this.translate.instant('message.error.saveEngPropertyConfig'),
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: this.constant.confirmButtonColor,
-        cancelButtonColor: this.constant.cancelButtonColor,
-        confirmButtonText: 'Yes'
-      }).then((result) => {
-        if (result.value) {
-          this.addPropertyConfiguration(id, meta_title_en, meta_title_es, meta_description_en, meta_description_es);
-        }
-      });
-    } else {
-      self.addPropertyConfiguration(id, meta_title_en, meta_title_es, meta_description_en, meta_description_es);
-    }
+  checkIfPossessionSpanishNameEntered(formdata: NgForm, id, meta_title_en, meta_title_es, meta_description_en, meta_description_es, type, status) {
+    this.addPropertyConfiguration(id, meta_title_en, meta_title_es, meta_description_en, meta_description_es);
   }
-  changeListner(event) {
-    const reader = new FileReader();
-    const image = this.element.nativeElement.querySelector('.image');
-    const fileToUpload = event.target.files[0];
-    this.icon = fileToUpload;
-
-    reader.onload = function (e) {
-      const src = e.target['result'];
-      image.src = src;
-    };
-
-    reader.readAsDataURL(event.target.files[0]);
-  }
-
 
   openDeleteConfirmationPopup = (item: any, index: number, isDeletePropertyConfiguration: boolean): void => {
     swal({

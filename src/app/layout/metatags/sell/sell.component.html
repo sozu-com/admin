@@ -19,14 +19,29 @@
                 <div class="col-md-4">
                     <label><strong>{{'property.metatag_sell' | translate}}</strong></label>
                 </div>
-                <div class="col-md-8" *ngIf="admin?.admin_acl['Settings']?.can_create==1" >
+                <div class="col-md-8" *ngIf="parameter.sells?.length < 1">
+                  <form role="form" novalidate #addPossessionForm="ngForm" (ngSubmit)="checkIfPossessionSpanishNameEntered(addPossessionForm, '', addPossessionForm.value.meta_title_es, addPossessionForm.value.meta_description_es, 1, 'add')">
+                     <div class="row">
+                       <div class="col-lg-6 col-md-6">
+                        <input type="text" class="form-control" placeholder="{{'addForm.placeholder.MT_SP' | translate}}" [(ngModel)]="property.sell_tag.meta_title_es" name="meta_title_es">
+                       </div>
+                       <div class="col-lg-6 col-md-6">
+                        <input type="text" class="form-control" required placeholder="{{'addForm.placeholder.MD_SP' | translate}}" [(ngModel)]="property.sell_tag.meta_description_es" name="meta_description_es" #bedroom="ngModel">
+                       </div>
+                     </div>
+                   <button [disabled]="admin?.admin_acl['Metatags']?.can_create==0 || addPossessionForm.invalid" type="submit" class="add-btn btn">
+                      <img src="assets/img/add.png" alt="img">
+                    </button>
+                  </form>
+               </div>
+                <!-- <div class="col-md-8" *ngIf="admin?.admin_acl['Settings']?.can_create==1" >
                     <div class="form-group marginB0">
                       <div class="btn-cont text-right">
                           <a *ngIf="admin?.admin_acl['Settings']?.can_create==1" class="btn btn-primary" href="javascript://" (click)="openPropertyConfigModal(addPropertyConfigModal, '', '', '', '', '')">
                             {{'location.addNew' | translate}}</a>
                       </div>
                     </div>
-                </div>
+                </div> -->
              </div>
           </div>
       </div>
@@ -35,21 +50,13 @@
           <div class="table-responsive">
             <table class="table table-striped">
                 <tr>
-                  <th style="width:25%; text-align:left;">{{'addForm.placeholder.MT' | translate}}</th>
                   <th style="width:25%; text-align:left;">{{'addForm.placeholder.MT_SP' | translate}}</th>
-                  <th style="width:25%; text-align:left;">{{'addForm.placeholder.MD' | translate}}</th>
                   <th style="width:25%; text-align:left;">{{'addForm.placeholder.MD_SP' | translate}}</th>
                   <th style="width:20%">{{'table.th.actions.label' | translate}}</th>
                 </tr>
                 <tr *ngFor="let item of parameter.sells; let i=index">
                   <td class="text-left">
-                    {{item.meta_title_en}}
-                  </td>
-                  <td class="text-left">
                     {{item.meta_title_es}}
-                  </td>
-                  <td class="text-left">
-                    {{item.meta_description_en}}
                   </td>
                   <td class="text-left">
                     {{item.meta_description_es}}
@@ -81,8 +88,7 @@
                   </td>
                 </tr>
 
-
-                <div *ngIf="parameter.total == 0">
+                <div *ngIf="parameter.sells?.length < 1">
                   <p class="show-not-found">
                       {{'message.error.noRecordFound' | translate}}
                   </p>
