@@ -8,18 +8,13 @@
       </nav>
   </div>
   <div class="white-bg">
-      <div class="page-title">
-        <h3>{{'settings.label1' | translate}}</h3>
-      </div>
-
-
       <div class="form-outer">
           <div class="inline-form-group">
-             <div class="row">
+             <div class="row" *ngIf="parameter.rents?.length < 1">
                 <div class="col-md-4">
                     <label><strong>{{'property.metatag_rent' | translate}}</strong></label>
                 </div>
-                <div class="col-md-8" *ngIf="parameter.rents?.length < 1">
+                <div class="col-md-8">
                   <form role="form" novalidate #addPossessionForm="ngForm" (ngSubmit)="checkIfPossessionSpanishNameEntered(addPossessionForm, '',addPossessionForm.value.meta_title_en, addPossessionForm.value.meta_title_es, addPossessionForm.value.meta_description_es,addPossessionForm.value.meta_description_en, 1, 'add')">
                      <div class="row">
                        <div class="col-lg-6 col-md-6">
