@@ -25,6 +25,8 @@ export class AddProjectModel {
   for_sale = true;
   floors: any = '';
   address = '';
+  meta_description_es = '';
+  meta_title_es = '';
   avg_price = '';
   cover_image: File;
   images: any = [];
@@ -80,9 +82,9 @@ export class AddProjectModel {
   doc_loader?: boolean;
   is_completed: any;
   building_request_id: '';
-    parking_space_lots?: Array<Parking>;
-    parking_space_rent?: Array<Parking>;
-    
+  parking_space_lots?: Array<Parking>;
+  parking_space_rent?: Array<Parking>;
+
   building_towers: Array<Towers>;
   property_offer_payment: Array<pay>;
   building_tower_edit_index: any;
@@ -253,7 +255,7 @@ export class Configuration {
   videos: any = [];
   updated_at: any = '';
   name: any = '';
-  cover_profile:any='';
+  cover_profile: any = '';
 }
 
 export class OfficeConfiguration {
@@ -287,7 +289,7 @@ export class OfficeConfiguration {
   videos: any = [];
   updated_at: any = '';
   name: any = '';
-  cover_profile:any='';
+  cover_profile: any = '';
 }
 
 export class Towers {
@@ -356,7 +358,7 @@ export class contributors {
   email: string;
 }
 
-export class AddProdutModel { 
+export class AddProdutModel {
   videos: any = [];
   product_name: string;
   description: string;

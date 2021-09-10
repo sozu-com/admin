@@ -178,6 +178,8 @@ export class AddProjectComponent implements OnInit {
     };
   public language_code: string;
   public amenitiesKeyword: string = ''
+  meta_title_es: any;
+  meta_description_es: any;
   constructor(
     public model: AddProjectModel,
     private admin: AdminService,
@@ -234,27 +236,24 @@ export class AddProjectComponent implements OnInit {
         this.admin.postDataApi('getProjectById', { building_id: this.id }).subscribe(r => {
           this.spinner.hide();
           this.model = JSON.parse(JSON.stringify(r.data));
-          this.model.parking_space_lots = r.data.parking_space_lots; 
+          this.model.meta_description_es = r.data.meta_description_es;
+          this.model.meta_title_es = r.data.meta_title_es;
+          this.model.parking_space_lots = r.data.parking_space_lots;
           this.model.possession_status_id = r.data.possession_status_id ? r.data.possession_status_id : '';
           //sum parking
           let sum: any = 0;
           this.model.parking_space_lots.forEach(a => sum += parseInt(a.no_parking));
-          console.log(sum);
           this.parkinLot_sum = sum
           let sum1: any = 0;
           this.model.parking_space_rent.forEach(a => sum1 += parseInt(a.no_parking));
-          console.log(sum1, "rent");
           this.parkingRent_sum = sum1
 
-          // console.log(this.parkinLot_sum,"viewtime");
           // let sum2: any = this.model.parking_space_rent.map(a => a.no_parking).reduce(function(a, b)
           // {
           //   return a + b;
           // });
           // this.parkingRent_sum = sum2
-          // console.log(this.parkinLot_sum,"view resnt");
           this.both_sum = parseInt(this.parkinLot_sum) + parseInt(this.parkingRent_sum);
-          console.log(this.both_sum, "view 0");
           //end parking sum
           this.model.parking_space_rent = r.data.parking_space_rent;
           self.model.building_contributors_param = self.model.building_contributors_param ? self.model.building_contributors_param : [];
@@ -311,7 +310,7 @@ export class AddProjectComponent implements OnInit {
           this.file5.image = this.model.developer.image;
           this.file6.image = this.model.developer.developer_image;
           let lang = localStorage.getItem('language_code');
-          this.admin.postDataApi('getAmenities', { hide_blocked: 1, language: lang == 'en'? 1 : 2}).subscribe(res => {
+          this.admin.postDataApi('getAmenities', { hide_blocked: 1, language: lang == 'en' ? 1 : 2 }).subscribe(res => {
             this.all_amenities = res.data.map(item => {
               item.selected = false;
               item.images = [];
@@ -408,7 +407,7 @@ export class AddProjectComponent implements OnInit {
           this.file5.image = this.model.developer.image;
           this.file6.image = this.model.developer.developer_image;
           let lang = localStorage.getItem('language_code');
-          this.admin.postDataApi('getAmenities', { hide_blocked: 1, language: lang == 'en'? 1 : 2 }).subscribe(res => {
+          this.admin.postDataApi('getAmenities', { hide_blocked: 1, language: lang == 'en' ? 1 : 2 }).subscribe(res => {
             this.all_amenities = res.data.map(item => {
               item.selected = false;
               item.images = [];
@@ -474,7 +473,7 @@ export class AddProjectComponent implements OnInit {
         this.canEditdeveloperInfo = true;
         this.canEditContributionInfo = true;
         let lang = localStorage.getItem('language_code');
-        this.admin.postDataApi('getAmenities', { hide_blocked: 1, language: lang == 'en'? 1 : 2 }).subscribe(res => {
+        this.admin.postDataApi('getAmenities', { hide_blocked: 1, language: lang == 'en' ? 1 : 2 }).subscribe(res => {
           this.all_amenities = res.data.map(item => {
             item.selected = false;
             item.images = [];
@@ -604,7 +603,7 @@ export class AddProjectComponent implements OnInit {
   searchAmenity(index: number) {
     this.spinner.show();
     let lang = localStorage.getItem('language_code');
-    const input = { keyword: '', hide_blocked: 1, language: lang == 'en'? 1 : 2 };
+    const input = { keyword: '', hide_blocked: 1, language: lang == 'en' ? 1 : 2 };
     input.keyword = this.amenitiesKeyword;
     this.admin.postDataApi('getAmenities', input).subscribe(res => {
       // this.all_amenities = res.data.map(item => { item.selected = false; item.images = []; return item; });
@@ -631,7 +630,7 @@ export class AddProjectComponent implements OnInit {
           });
           this.allTowerAmenities = JSON.parse(JSON.stringify(all_amenities));
           break;
-          case 3:
+        case 3:
           const all_amenities1 = res.data.map(item => {
             item.selected = false;
             item.images = [];
@@ -1060,7 +1059,7 @@ export class AddProjectComponent implements OnInit {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAtleastOneImage'), 'error');
       return false;
     }
-   // this.file4.upload().then(r1 => {
+    // this.file4.upload().then(r1 => {
     //   this.new_config.images = this.file4.files;
     //     this.config(count, totalFilesCount);
     // });
@@ -1077,14 +1076,14 @@ export class AddProjectComponent implements OnInit {
 
     this.config360Img.upload().then(r1 => {
       this.configVideos.upload().then(r1 => {
-      this.file4.upload().then(r1 => {
-        this.spinner.hide();
-        this.new_config.images = this.file4.files;
-        this.new_config.images360 = this.config360Img.files;
-        this.new_config.videos = this.configVideos.files;
-        this.config(count, totalFilesCount);
+        this.file4.upload().then(r1 => {
+          this.spinner.hide();
+          this.new_config.images = this.file4.files;
+          this.new_config.images360 = this.config360Img.files;
+          this.new_config.videos = this.configVideos.files;
+          this.config(count, totalFilesCount);
+        });
       });
-    });
     });
     this.file4.files.forEach(element => {
       if (element.loading !== true) {
@@ -1103,7 +1102,7 @@ export class AddProjectComponent implements OnInit {
     });
   }
 
-  config(count, totalFilesCount){
+  config(count, totalFilesCount) {
     if (count === totalFilesCount) {
       this.spinner.hide();
       if (this.new_config_edit >= 0) {
@@ -1126,7 +1125,7 @@ export class AddProjectComponent implements OnInit {
   //     this.closeConfigPopup.nativeElement.click();
   //   }
   // }
-  
+
   // config_Video(countTwo, configVideoCount){
   //   if (countTwo === configVideoCount) {
   //     this.spinner.hide();
@@ -1165,6 +1164,9 @@ export class AddProjectComponent implements OnInit {
     modelSave.cover_image = this.file1.image;
     modelSave.project_logo = this.projectLogo.image;
     modelSave.document = this.model.document;
+
+    modelSave.meta_description_es = this.meta_description_es;
+    modelSave.meta_title_es = this.meta_title_es;
     if (this.model.doc_loader) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.uploadingDocument'), 'error');
       return;
@@ -1436,16 +1438,13 @@ export class AddProjectComponent implements OnInit {
         //sum parking
         let sum: any = 0;
         this.model.parking_space_lots.forEach(a => sum += parseInt(a.no_parking));
-        console.log(sum);
         this.parkinLot_sum = sum
 
         let sum1: any = 0;
         this.model.parking_space_rent.forEach(a => sum1 += parseInt(a.no_parking));
-        console.log(sum1, "rent");
         this.parkingRent_sum = sum1
 
         this.both_sum = this.parkinLot_sum + this.parkingRent_sum;
-        console.log(this.both_sum, "view 0");
         //end parking sum
         // set model to avoid duplication creation of project
         this.setProjectModel(success['data']);
@@ -1569,7 +1568,7 @@ export class AddProjectComponent implements OnInit {
       this.setCountryToLocality(data['locality']);
     }
     let lang = localStorage.getItem('language_code');
-    this.admin.postDataApi('getAmenities', { hide_blocked: 1, language: lang == 'en'? 1 : 2 }).subscribe(res => {
+    this.admin.postDataApi('getAmenities', { hide_blocked: 1, language: lang == 'en' ? 1 : 2 }).subscribe(res => {
       this.all_amenities = res.data.map(item => {
         item.selected = false;
         item.images = [];
@@ -1779,7 +1778,6 @@ export class AddProjectComponent implements OnInit {
 
         if (btid) {
           this.admin.postDataApi('deleteTower', { building_towers_id: btid }).subscribe(res => {
-            // console.log('sss', res);
           });
         }
       }
@@ -1925,7 +1923,6 @@ export class AddProjectComponent implements OnInit {
         videoObj.thumb = success['data'].thumb;
         this.model.videos = [videoObj];
       }, error => {
-        // console.log(error);
       }
     );
   }
@@ -2427,7 +2424,6 @@ export class AddProjectComponent implements OnInit {
   }
 
   addDeveloperBank(e) {
-    //console.log(e,"send")
     if (this.parameter.parkingLotSpacesTotal == this.model.parking_space_lots.length) {
       this.toastrService.clear()
       this.toastrService.error(this.translate.instant('message.error.parkingSpaceTypeAllAreInUse'), this.translate.instant('swal.error'));
@@ -2460,7 +2456,6 @@ export class AddProjectComponent implements OnInit {
       this.model.parking_space_rent = [];
       this.parkingRent_sum = 0
       this.both_sum = parseInt(this.parkinLot_sum) - parseInt(this.parkingRent_sum);
-      console.log(this.both_sum, "view rent");
     }
   }
   // removeDeveloperBank($event: Event, item: any, i: number) {
@@ -2549,7 +2544,7 @@ export class AddProjectComponent implements OnInit {
     this.configVideos.files.splice(index, 1);
   }
 
-  removeCoverImage(){
+  removeCoverImage() {
     this.file9.image = '';
   }
 }
