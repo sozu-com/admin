@@ -33,7 +33,7 @@
       <li [ngClass]="{'current': tab == 1}"><span></span><a (click)="setTab(1)">{{'addForm.tabs.createDraft' | translate}}</a></li>
       <li [ngClass]="{'current': tab == 2}"><span></span><a (click)="setTab(2)">{{'addForm.tabs.additionalInfo' | translate}}</a></li>
       <li [ngClass]="{'current': tab == 3}"><span></span><a (click)="setTab(3)">{{'addForm.tabs.PreferableBuyers' | translate}}</a></li>
-      <li [ngClass]="{'current': (tab == 4) || (tab == 5)}"><span></span><a (click)="setTab(4)">{{'addForm.tabs.Custom' | translate}}</a></li>
+      <!-- <li [ngClass]="{'current': (tab == 4) || (tab == 5)}"><span></span><a (click)="setTab(4)">{{'addForm.tabs.Custom' | translate}}</a></li> -->
       
     </ul>
     <div class="btn-cont text-right">
@@ -1101,7 +1101,7 @@
 </form>
 
 
-<form ngNativeValidate #preferableBuyer="ngForm" (ngSubmit)="addProperty(preferableBuyer, 4)">
+<form ngNativeValidate #preferableBuyer="ngForm" (ngSubmit)="addProperty(preferableBuyer, 5)">
   <!-- tab-3 -->
   <div class="white-bg" *ngIf="tab==3">
     <div class="page-title">
@@ -1214,7 +1214,7 @@
           <div class="btn-cont text-right">
             <!-- <a class="btn-third btn" href="javascript://" (click)="addProperty(addForm, 4)">Next</a> -->
             <button type="button" class="btn btn-primary" (click)="setTab(2)">{{'addForm.previous' | translate}}</button>
-            <button type="submit" [disabled]="preferableBuyer.invalid" class="btn btn-primary marginL15">{{'addForm.next' | translate}}</button>
+            <button type="submit" [disabled]="preferableBuyer.invalid" class="btn btn-primary marginL15">{{'addForm.submit' | translate}}</button>
           </div>
         </div>
       </div>
@@ -1225,9 +1225,9 @@
 
 
 
-<form ngNativeValidate #custom="ngForm" (ngSubmit)="addProperty(custom, 5)">
+<!-- <form ngNativeValidate #custom="ngForm" (ngSubmit)="addProperty(custom, 5)"> -->
   <!-- tab-4 -->
-  <div class="white-bg" *ngIf="tab==4 || tab==5">
+  <!-- <div class="white-bg" *ngIf="tab==4 || tab==5">
     <div class="page-title">
       <h3>{{'addForm.tabs.Custom' | translate}}</h3>
     </div>
@@ -1279,16 +1279,14 @@
       <div class="row">
         <div class="col-md-12">
           <div class="btn-cont text-right">
-            <!-- <a class="btn-third btn" href="javascript://" (click)="addProperty(addForm, 5)">Next</a> -->
             <button type="button" class="btn btn-primary" (click)="setTab(3)">{{'addForm.previous' | translate}}</button>
             <button type="submit" class="btn btn-primary marginL15">{{'addForm.submit' | translate}}</button>
           </div>
         </div>
       </div>
-
     </div>
   </div>
-</form>
+</form> -->
 
 
 
