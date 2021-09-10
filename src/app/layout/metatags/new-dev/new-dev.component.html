@@ -20,13 +20,13 @@
                     <label><strong>{{'property.metatag_dev' | translate}}</strong></label>
                 </div>
                 <div class="col-md-8" *ngIf="parameter.developers?.length < 1">
-                  <form role="form" novalidate #addPossessionForm="ngForm" (ngSubmit)="checkIfPossessionSpanishNameEntered(addPossessionForm, '', addPossessionForm.value.meta_title_es, addPossessionForm.value.meta_description_es, 1, 'add')">
+                  <form role="form" novalidate #addPossessionForm="ngForm" (ngSubmit)="checkIfPossessionSpanishNameEntered(addPossessionForm, '',addPossessionForm.value.meta_title_en, addPossessionForm.value.meta_title_es, addPossessionForm.value.meta_description_es,addPossessionForm.value.meta_description_en, 1, 'add')">
                      <div class="row">
                        <div class="col-lg-6 col-md-6">
-                        <input type="text" class="form-control" placeholder="{{'addForm.placeholder.MT_SP' | translate}}" [(ngModel)]="property.dev_tag.meta_title_es" name="meta_title_es">
+                        <input type="text" class="form-control" placeholder="{{'addForm.placeholder.MT_SP' | translate}}" [(ngModel)]="property.dev_tag.meta_title_es" name="meta_title_es"  autocomplete="off">
                        </div>
                        <div class="col-lg-6 col-md-6">
-                        <input type="text" class="form-control" required placeholder="{{'addForm.placeholder.MD_SP' | translate}}" [(ngModel)]="property.dev_tag.meta_description_es" name="meta_description_es" #bedroom="ngModel">
+                        <input type="text" class="form-control" required placeholder="{{'addForm.placeholder.MD_SP' | translate}}" [(ngModel)]="property.dev_tag.meta_description_es" name="meta_description_es" #bedroom="ngModel"  autocomplete="off">
                        </div>
                      </div>
                    <button [disabled]="admin?.admin_acl['Metatags']?.can_create==0 || addPossessionForm.invalid" type="submit" class="add-btn btn">
@@ -67,7 +67,7 @@
                     <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Metatags']?.can_update==0" 
                       (click)="openPropertyConfigModal(addPropertyConfigModal,item.id, item.meta_title_en, item.meta_title_es, item.meta_description_en, item.meta_description_es)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                     
-                    <button [disabled]="admin?.admin_acl['Metatags']?.can_delete==0"
+                    <!-- <button [disabled]="admin?.admin_acl['Metatags']?.can_delete==0"
                      *ngIf="item.block_status == 0"
                     (click)="addPropertyConfigurationPopup(i,item.id, 1);" class="action-icon" 
                     title="{{'table.title.block' | translate}}">
@@ -80,7 +80,7 @@
                     class="action-icon unblock-bg"
                     title="{{'table.title.unblock' | translate}}">
                     <img src="assets/img/unblock.png" alt="img">
-                  </button>
+                  </button> -->
 
                     <button [disabled]="admin?.admin_acl['Metatags']?.can_purge==0" (click)="openDeleteConfirmationPopup(item, i,true)"
                      title="{{'table.title.delete' | translate}}"
@@ -111,19 +111,13 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <form class="form-horizontal my-modal-form" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfConfigSpanishNameEntered(addForm, property.id, addForm.value.meta_title_en, addForm.value.meta_title_es, addForm.value.meta_description_en, addForm.value.meta_description_es, 'edit')">
+    <form class="form-horizontal my-modal-form" role="form" novalidate #addForm="ngForm" (ngSubmit)="checkIfPossessionSpanishNameEntered(addForm, property.id, addForm.value.meta_title_en, addForm.value.meta_title_es, addForm.value.meta_description_en, addForm.value.meta_description_es, 'edit')">
       <div class="modal-body my-modal-body">
         <div class="form-group">
-          <input autocomplete="off" type="text" class="form-control" placeholder="{{'addForm.placeholder.MT' | translate}}" id="meta_title_en" required [(ngModel)]="property.dev_tag.meta_title_en" name="meta_title_en" #name_en="ngModel">
+          <input type="text" class="form-control" placeholder="{{'addForm.placeholder.MT_SP' | translate}}" [(ngModel)]="property.dev_tag.meta_title_es" name="meta_title_es" autocomplete="off">
         </div>
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="{{'addForm.placeholder.MT_SP' | translate}}" [(ngModel)]="property.dev_tag.meta_title_es" name="meta_title_es">
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" required placeholder="{{'addForm.placeholder.MD' | translate}}" [(ngModel)]="property.dev_tag.meta_description_en" name="meta_description_en" #bedroom="ngModel">
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" required placeholder="{{'addForm.placeholder.MD_SP' | translate}}" [(ngModel)]="property.dev_tag.meta_description_es" name="meta_description_es" #bedroom="ngModel">
+          <input type="text" class="form-control" required placeholder="{{'addForm.placeholder.MD_SP' | translate}}" [(ngModel)]="property.dev_tag.meta_description_es" name="meta_description_es" #bedroom="ngModel"  autocomplete="off">
         </div>
       </div>
       <div class="modal-footer btn-cont">

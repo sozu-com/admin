@@ -50,16 +50,14 @@ export class NewProjectComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  addPropertyConfiguration(id, meta_title_en, meta_title_es, meta_description_en, meta_description_es) {
+  addPropertyConfiguration(id, meta_title_en, meta_title_es, meta_description_es, meta_description_en) {
 
     this.parameter.url = 'addProjectMetatag';
     if (this.property.pro_tag.id) {
       const input = new FormData();
       input.append('id', this.property.pro_tag.id);
-      input.append('meta_title_en', meta_title_en);
-      input.append('meta_title_es', meta_title_es);
-      input.append('meta_description_en', meta_description_en);
-      input.append('meta_description_es', meta_description_es);
+      input.append('meta_title_es', this.property.pro_tag.meta_title_es);
+      input.append('meta_description_es', this.property.pro_tag.meta_description_es);
       this.spinner.show();
       this.admin.postDataApi(this.parameter.url, input)
         .subscribe(
@@ -74,9 +72,7 @@ export class NewProjectComponent implements OnInit {
         );
     } else {
       const input = new FormData();
-      input.append('meta_title_en', meta_title_en);
       input.append('meta_title_es', meta_title_es);
-      input.append('meta_description_en', meta_description_en);
       input.append('meta_description_es', meta_description_es);
       input.append('block_status', '0');
       this.spinner.show();
@@ -86,9 +82,7 @@ export class NewProjectComponent implements OnInit {
             this.spinner.hide();
             this.toastr.success(this.translate.instant('message.success.addedSuccessfully'), this.translate.instant('swal.success'));
             this.property.pro_tag.id = '';
-            this.property.pro_tag.meta_title_en = '';
             this.property.pro_tag.meta_title_es = '';
-            this.property.pro_tag.meta_description_en = '';
             this.property.pro_tag.meta_description_es = '';
             if (this.parameter.index !== -1) {
               this.parameter.pros[this.parameter.index] = success.data;
@@ -160,38 +154,10 @@ export class NewProjectComponent implements OnInit {
       );
   }
 
-  checkIfConfigSpanishNameEntered(formdata: NgForm, id, meta_title_en, meta_title_es, meta_description_en, meta_description_es, type, status) {
-    const self = this;
-    formdata.reset();
-    if (meta_title_es === '') {
-      swal({
-        text: this.translate.instant('message.error.saveEngPropertyConfig'),
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: this.constant.confirmButtonColor,
-        cancelButtonColor: this.constant.cancelButtonColor,
-        confirmButtonText: 'Yes'
-      }).then((result) => {
-        if (result.value) {
-          this.addPropertyConfiguration(id, meta_title_en, meta_title_es, meta_description_en, meta_description_es);
-        }
-      });
-    } else {
-      self.addPropertyConfiguration(id, meta_title_en, meta_title_es, meta_description_en, meta_description_es);
-    }
-  }
-  changeListner(event) {
-    const reader = new FileReader();
-    const image = this.element.nativeElement.querySelector('.image');
-    const fileToUpload = event.target.files[0];
-    this.icon = fileToUpload;
+  checkIfPossessionSpanishNameEntered(formdata: NgForm, id, meta_title_en, meta_title_es, meta_description_en, meta_description_es, type, status) {
 
-    reader.onload = function (e) {
-      const src = e.target['result'];
-      image.src = src;
-    };
+    this.addPropertyConfiguration(id, meta_title_en, meta_title_es, meta_description_en, meta_description_es);
 
-    reader.readAsDataURL(event.target.files[0]);
   }
 
 
