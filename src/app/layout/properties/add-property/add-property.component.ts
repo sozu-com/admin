@@ -1052,7 +1052,7 @@ export class AddPropertyComponent implements OnInit {
   }
 
   addProperty(formdata: NgForm, tab) {
-
+    let self = this;
     // return;
     if (this.model.parking_for_sale && this.model.parking_count) {
       if (this.model.parking_for_sale > this.model.parking_count) {
@@ -1269,7 +1269,7 @@ export class AddPropertyComponent implements OnInit {
                 html: this.translate.instant('message.success.submittedSccessfully') + '<br>' + successText, type: 'success'
               });
 
-              if (this.router.url.indexOf('/dashboard/properties/edit-property') === -1) {
+              if (self.router.url.indexOf('/dashboard/properties/edit-property') <= 0) {
                 this.router.navigate(['/dashboard/properties/view-properties']);
               }
             }
