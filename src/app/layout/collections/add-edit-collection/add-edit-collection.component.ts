@@ -1186,7 +1186,7 @@ export class AddEditCollectionComponent implements OnInit {
     }
     this.ngOtpInputRef2.setValue(property_name);
     this.ngOtpInputRef2.otpForm.disable();
-    this.ngOtpInputRef3.setValue((data.buyer.fed_tax_pay ? data.buyer.fed_tax_pay.substr(0, 4) : '0000'));
+    this.ngOtpInputRef3.setValue((data.buyer.fed_tax_pay ? data.buyer.fed_tax_pay.substr(0, 4) : data.buyer_legal_entity.fed_tax_pay ? data.buyer_legal_entity.fed_tax_pay.substr(0, 4)  : '0000'));
     this.ngOtpInputRef3.otpForm.disable();
     let bank_reference_id = collection_account.substr(0, 5) + projectname.substr(0, 7) + property_name.substr(0, 5) + (data.buyer.fed_tax_pay ? data.buyer.fed_tax_pay.substr(0, 4)
       : '0000');
