@@ -83,7 +83,7 @@ export class AddPropertyComponent implements OnInit {
     {
       id: 2,
       name: this.translate.instant('addForm.maritalStatus.unmarried'),
-      name_en: 'Unmarried',
+      name_en: 'Single',
       checked: false
     },
     {
@@ -1262,7 +1262,7 @@ export class AddPropertyComponent implements OnInit {
               this.model.images360 = (this.propertyData || {}).images360 ? (this.propertyData || {}).images360 : [];
               this.model.videos = (this.propertyData || {}).videos ? (this.propertyData || {}).videos : [];
             }
-            if (this.model.step.toString() === '4') {
+            if (this.model.step.toString() === '3') {
               const successText = this.parameter.bulk_approve_property ? '' :
                 this.translate.instant('message.error.notifiedWhenAdminReview');
               swal({

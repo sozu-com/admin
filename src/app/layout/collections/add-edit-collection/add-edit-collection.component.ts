@@ -1186,11 +1186,11 @@ export class AddEditCollectionComponent implements OnInit {
     }
     this.ngOtpInputRef2.setValue(property_name);
     this.ngOtpInputRef2.otpForm.disable();
-    this.ngOtpInputRef3.setValue((data.buyer.fed_tax_pay ? data.buyer.fed_tax_pay.substr(0, 4) : data.buyer_legal_entity.fed_tax_pay ? data.buyer_legal_entity.fed_tax_pay.substr(0, 4)  : '0000'));
+    this.ngOtpInputRef3.setValue((data.buyer ? data.buyer.fed_tax_pay.substr(0, 4) : data.buyer_legal_entity ? data.buyer_legal_entity.fed_tax_pay.substr(0, 4) : '0000'));
     this.ngOtpInputRef3.otpForm.disable();
-    let bank_reference_id = collection_account.substr(0, 5) + projectname.substr(0, 7) + property_name.substr(0, 5) + (data.buyer.fed_tax_pay ? data.buyer.fed_tax_pay.substr(0, 4)
-      : '0000');
-    let tax_pay = data.buyer.fed_tax_pay ? data.buyer.fed_tax_pay.substr(0, 4) : '0000';
+    let bank_reference_id = collection_account.substr(0, 5) + projectname.substr(0, 7) + property_name.substr(0, 5) + (data.buyer ? data.buyer.fed_tax_pay.substr(0, 4) : 
+                            data.buyer_legal_entity ? data.buyer_legal_entity.fed_tax_pay.substr(0, 4) : '0000');
+    let tax_pay = data.buyer ? data.buyer.fed_tax_pay.substr(0, 4) : data.buyer_legal_entity ? data.buyer_legal_entity.fed_tax_pay.substr(0, 4) : '0000';
     let value = this.getChecker(bank_reference_id, data.property.building.name.split(' ').join(''), tax_pay);
     bank_reference_id = bank_reference_id + value;
     this.ngOtpInputRef4.setValue(value);
@@ -1208,18 +1208,16 @@ export class AddEditCollectionComponent implements OnInit {
     let array = projectname.length > 7 ? projectname.substr(0, 4).split("") : projectname.split("");
     let Project_name_num = '';
     array.forEach(element => {
-      alpha.forEach(item=>{
-        if(element.toLowerCase() == item.id){
-          Project_name_num = Project_name_num + item.value;
-        }
-        else{
-          num.forEach(value=>{
-            if(element == value){
-              Project_name_num = Project_name_num + value;
-            }
-        });
+      let data3 = alpha.find(item=> item.id == element.toLowerCase());
+      if(data3){ 
+        Project_name_num = Project_name_num + data3.value;
       }
-      });
+      else{
+      let data4 = num.find(item=> item == element);
+      if(data4){
+        Project_name_num = Project_name_num + data4;
+      }
+      }
     });
     let count2 = 7 - Project_name_num.toString().length;
     if (count2 > 0) {
@@ -1234,18 +1232,16 @@ export class AddEditCollectionComponent implements OnInit {
     if(fed_tax_pay){
     let array2 = fed_tax_pay.substr(0, 4).split("");
     array2.forEach(element => {
-      alpha.forEach(item=>{
-        if(element.toLowerCase() == item.id){
-          fed_tax = fed_tax + item.value;
-        }
-        else{
-          num.forEach(value=>{
-            if(element == value){
-              fed_tax = fed_tax + value;
-            }
-        });
+      let data5 = alpha.find(item=> item.id == element.toLowerCase());
+      if(data5){ 
+        fed_tax = fed_tax + data5.value;
       }
-      });
+      else{
+      let data6 = num.find(item=> item == element);
+      if(data6){
+        fed_tax = fed_tax + data6;
+      }
+      }
     });
   }
   let num_id1 = num_id.replace(fed_tax_pay.substr(0, 4), fed_tax.substr(0, 4));
