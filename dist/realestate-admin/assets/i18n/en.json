@@ -1599,6 +1599,7 @@
       "wantToDeleteCommission": "You want to delete this Commission?",
       "wantToDeleteDocs": "You want to delete this document?",
       "wantToDeleteFolder": "You want to delete this folder?",
+      "wantToEditBankReference": "You want to edit bank reference?",
       "wantToRemovePaymentConcept": "You want to remove this concept?",
       "cannotRemoveAsPaymentApplied": "You cannot remove this deal, as payment has been applied",
       "pleaseEnterAllCountryStateAndCity": "Please enter both country state And city",
