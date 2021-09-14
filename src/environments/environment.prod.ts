@@ -9,7 +9,7 @@ export const environment = {
   baseIP: 'https://apitest.sozu.com/',
   baseUrl: 'https://apitest.sozu.com/api/admin/',
   socketUrl: 'https://sockettest.sozu.com',
-  versionCheckURL: 'http://admintest.sozu.com/version.json',
+  versionCheckURL: 'http://admintest.sozu.com/verskion.json',
   deviceId: 'ADMIN',
 
   firebase: {
