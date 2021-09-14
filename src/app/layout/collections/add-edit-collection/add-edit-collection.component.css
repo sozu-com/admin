@@ -64,33 +64,35 @@
 .switchToggle label:active:after {width: 60px; } 
 .toggle-switchArea { margin: 10px 0 10px 0; }
 @media screen and (min-width: 1200px) {
+    .for-bank {
+        margin-left: 100px;
+    }
     hr.new1 {
         height: 3px;
-        width: 68%;
-        margin-left: -5px;
+        width: 92%;
+        margin-left: 0px;
         background-color: #00B96F;
     }
     hr.new2 {
         height: 3px;
-        width: 330px;
+        width: 294px;
         margin-left: 0px;
         background-color: #00B96F;
     }
     hr.new3 {
         height: 3px;
-        width: 237px;
-        margin-left: -2px;
+        width: 207px;
+        margin-left: 0px;
         background-color: #00B96F;
     }hr.new4 {
         height: 3px;
-        width: 184px;
+        width: 164px;
         margin-left: 0px;
         background-color: #00B96F;
     }
     hr.new5 {
         height: 3px;
-        width: 42px;
-        margin-left: 0px;
+        width: 35px;
         margin-left: 0px;
         background-color: #00B96F;
     }label.new1 {

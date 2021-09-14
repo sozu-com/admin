@@ -201,10 +201,10 @@ export class AddEditCollectionComponent implements OnInit {
     placeholder: '',
     inputStyles: {
       'box- sizing': 'border- box',
-      'height': '40px',
-      'width': '40px',
+      'height': '35px',
+      'width': '35px',
       'background-color': '#dadada',
-      'font-size': '23px'
+      'font-size': '15px'
     }
   };
   config1 = {
@@ -215,10 +215,10 @@ export class AddEditCollectionComponent implements OnInit {
     placeholder: '',
     inputStyles: {
       'box- sizing': 'border- box',
-      'height': '40px',
-      'width': '40px',
+      'height': '35px',
+      'width': '35px',
       'background-color': '#dadada',
-      'font-size': '23px'
+      'font-size': '15px'
     }
   };
   config2 = {
@@ -229,10 +229,10 @@ export class AddEditCollectionComponent implements OnInit {
     placeholder: '',
     inputStyles: {
       'box- sizing': 'border- box',
-      'height': '40px',
-      'width': '40px',
+      'height': '35px',
+      'width': '35px',
       'background-color': '#dadada',
-      'font-size': '23px'
+      'font-size': '15px'
     }
   };
   config3 = {
@@ -243,10 +243,10 @@ export class AddEditCollectionComponent implements OnInit {
     placeholder: '',
     inputStyles: {
       'box- sizing': 'border- box',
-      'height': '40px',
-      'width': '40px',
+      'height': '35px',
+      'width': '35px',
       'background-color': '#dadada',
-      'font-size': '23px'
+      'font-size': '15px'
     }
   };
   config4 = {
@@ -257,10 +257,10 @@ export class AddEditCollectionComponent implements OnInit {
     placeholder: '',
     inputStyles: {
       'box- sizing': 'border- box',
-      'height': '40px',
-      'width': '40px',
+      'height': '35px',
+      'width': '35px',
       'background-color': '#dadada',
-      'font-size': '23px'
+      'font-size': '15px'
     }
   };
   collection_account: any;
@@ -1333,6 +1333,16 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   editbankPopup(data) {
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+        this.translate.instant('message.error.wantToEditBankReference'),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
     this.edit_bank = data;
     if (data) {
       this.ngOtpInputRef.otpForm.enable();
@@ -1347,6 +1357,8 @@ export class AddEditCollectionComponent implements OnInit {
       this.ngOtpInputRef3.otpForm.disable();
       this.ngOtpInputRef4.otpForm.disable();
     }
+  }
+});
   }
 
   setCommission(data) {
