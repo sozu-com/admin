@@ -1333,6 +1333,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   editbankPopup(data) {
+    if(data){
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' +
         this.translate.instant('message.error.wantToEditBankReference'),
@@ -1359,6 +1360,14 @@ export class AddEditCollectionComponent implements OnInit {
     }
   }
 });
+    }
+    else{
+      this.ngOtpInputRef.otpForm.disable();
+      this.ngOtpInputRef1.otpForm.disable();
+      this.ngOtpInputRef2.otpForm.disable();
+      this.ngOtpInputRef3.otpForm.disable();
+      this.ngOtpInputRef4.otpForm.disable();
+    }
   }
 
   setCommission(data) {
