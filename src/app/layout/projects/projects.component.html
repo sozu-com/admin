@@ -386,7 +386,7 @@
                   </div>
                 </th>
 
-                <th style="vertical-align:top;width:5%" *ngIf="selectedColumnsToShow?.property_for_sale">
+                <th style="vertical-align:top;width:5%" *ngIf="selectedColumnsToShow?.sale_rent">
                   <div class="d-flex table-search">
                     <span><label>{{'table.th.propertiesForSaleAndRent' | translate}}</label></span>
                   </div>
@@ -522,7 +522,7 @@
                 </td>
                 <td  *ngIf="selectedColumnsToShow?.properties">
                   <a title="{{'table.title.clickToViewProperties' | translate}}" (click)="goWay(p)"><span
-                      class="green-color cursor-pointer">{{p?.properties_count_all | numberWithCommas}}</span></a>
+                      class="green-color cursor-pointer">{{(p?.properties_count_all || 0) | numberWithCommas}}</span></a>
                 </td>
                 <td  *ngIf="selectedColumnsToShow?.property_for_rent">
                   <a title="{{'table.title.clickToViewProperties' | translate}}"
@@ -534,7 +534,7 @@
                     routerLink="/dashboard/properties/view-properties/{{p.name}}/1"><span
                       class="green-color">{{((p?.sale_count_all || 0) + (p?.rent_and_sale_count_all || 0)) | numberWithCommas}}</span></a>
                 </td>
-                <td  *ngIf="selectedColumnsToShow?.property_for_sale">
+                <td  *ngIf="selectedColumnsToShow?.sale_rent">
                   <a title="{{'table.title.clickToViewProperties' | translate}}"
                     routerLink="/dashboard/properties/view-properties/{{p.name}}/1"><span
                       class="green-color">{{(p?.rent_and_sale_count_all || 0) | numberWithCommas}}</span></a>

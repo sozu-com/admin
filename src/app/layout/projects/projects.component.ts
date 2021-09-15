@@ -857,6 +857,9 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       case 11:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.property_for_sale;
         break;
+      case 23:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.sale_rent;
+        break;
       case 12:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.list_price;
         break;
@@ -922,9 +925,10 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   applyShowSelectedColumns = (): void => {
     this.spinner.show();
     this.admin.postDataApi('updateProjectHome', this.getPostRequestForColumn()).subscribe((response) => {
-      this.spinner.hide();
+      this.getListing();
       this.closeSelectColumnsPopup();
       this.getProjectHome();
+      this.spinner.hide();
     }, (error) => {
       this.spinner.hide();
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
@@ -945,6 +949,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       properties: (this.select_columns_list[8] || []).isCheckBoxChecked,
       property_for_rent: (this.select_columns_list[9] || []).isCheckBoxChecked,
       property_for_sale: (this.select_columns_list[10] || []).isCheckBoxChecked,
+      sale_rent: (this.select_columns_list[22] || []).isCheckBoxChecked,
       list_price: (this.select_columns_list[11] || []).isCheckBoxChecked,
       carpet_area: (this.select_columns_list[12] || []).isCheckBoxChecked,
       price_per_metter: (this.select_columns_list[13] || []).isCheckBoxChecked,
