@@ -2765,7 +2765,15 @@
     </div>
     <div class="padding40">
     <div class="row">
-      <div class="col-lg-2 col-sm-12 col-md-12 col-12 for-bank">
+      <div class="col-lg-1 offset-11 for-bank">
+        <div class="form-group-3">
+          <a href="javascript://" style="float: left;">
+            <i class="fa fa-pencil" aria-hidden="true" style="font-size: 25px;" (click)="editbankPopup(true)" *ngIf="!edit_bank"></i>
+            <i class="fa fa-undo" aria-hidden="true" style="font-size: 25px;" (click)="editbankPopup(false)" *ngIf="edit_bank"></i>
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-12 col-md-12 col-12">
         <ng-otp-input #ngOtpInput [config]="config" (onInputChange)="onAccountChange($event)"></ng-otp-input>
         <hr class="new1">
         <label class="new1">{{'addCollection.collectionAccount' | translate}}</label>
@@ -2773,13 +2781,13 @@
 
       <div class="col-lg-3 col-sm-12 col-md-12 col-12" style="clear: both;
       overflow: hidden;
-      white-space: nowrap;">
+      white-space: nowrap; padding-left: 0px !important;">
         <ng-otp-input #ngOtpInput1 [config]="config1" (onInputChange)="onProjectChange($event)"></ng-otp-input>
         <hr class="new2">
         <label class="new2">{{'addCollection.projectName' | translate}}</label>
       </div>
 
-      <div class="col-lg-2 col-sm-12 col-md-12 col-12">
+      <div class="col-lg-3 col-sm-12 col-md-12 col-12">
         <ng-otp-input #ngOtpInput2 [config]="config2" (onInputChange)="onPropertyChange($event)"></ng-otp-input>
         <hr class="new3">
         <label class="new3">{{'addCollection.propertyName' | translate}}</label>
@@ -2797,14 +2805,6 @@
         <ng-otp-input #ngOtpInput4 [config]="config4" (onInputChange)="onCheckerChange($event)"></ng-otp-input>
         <hr class="new5">
         <label class="new5">{{'addCollection.checker' | translate}}</label>
-      </div>
-      <div class="col-lg-1 col-sm-12 col-md-12 col-12">
-        <div class="form-group-3">
-          <a href="javascript://" style="float: left;">
-            <i class="fa fa-pencil" aria-hidden="true" style="font-size: 25px;" (click)="editbankPopup(true)" *ngIf="!edit_bank"></i>
-            <i class="fa fa-undo" aria-hidden="true" style="font-size: 25px;" (click)="editbankPopup(false)" *ngIf="edit_bank"></i>
-          </a>
-        </div>
       </div>
     </div>
     <br/><br/>
