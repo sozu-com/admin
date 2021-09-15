@@ -1186,11 +1186,10 @@ export class AddEditCollectionComponent implements OnInit {
     }
     this.ngOtpInputRef2.setValue(property_name);
     this.ngOtpInputRef2.otpForm.disable();
-    this.ngOtpInputRef3.setValue((data.buyer && data.buyer.fed_tax_pay ? data.buyer.fed_tax_pay.substr(0, 4) : data.buyer_legal_entity && data.buyer_legal_entity.fed_tax_pay ? data.buyer_legal_entity.fed_tax_pay.substr(0, 4) : '0000'));
+    this.ngOtpInputRef3.setValue(((data.buyer_type == 1 || data.buyer_type == 3) && data.buyer ? (data.buyer.name.substr(0, 2) + (data.buyer.first_surname ? data.buyer.first_surname.substr(0, 2) : '00')) : data.buyer_type == 2 && data.buyer_legal_entity.legal_name ? data.buyer_legal_entity.legal_name.substr(0, 4) : '0000'));
     this.ngOtpInputRef3.otpForm.disable();
-    let bank_reference_id = collection_account.substr(0, 5) + projectname.substr(0, 7) + property_name.substr(0, 5) + (data.buyer && data.buyer.fed_tax_pay ? data.buyer.fed_tax_pay.substr(0, 4) : 
-                            data.buyer_legal_entity && data.buyer_legal_entity.fed_tax_pay ? data.buyer_legal_entity.fed_tax_pay.substr(0, 4) : '0000');
-    let tax_pay = data.buyer && data.buyer.fed_tax_pay ? data.buyer.fed_tax_pay.substr(0, 4) : data.buyer_legal_entity && data.buyer_legal_entity.fed_tax_pay ? data.buyer_legal_entity.fed_tax_pay.substr(0, 4) : '0000';
+    let bank_reference_id = collection_account.substr(0, 5) + projectname.substr(0, 7) + property_name.substr(0, 5) + ((data.buyer_type == 1 || data.buyer_type == 3) && data.buyer ? (data.buyer.name.substr(0, 2) + (data.buyer.first_surname ? data.buyer.first_surname.substr(0, 2) : '00')) : data.buyer_type == 2 && data.buyer_legal_entity.legal_name ? data.buyer_legal_entity.legal_name.substr(0, 4) : '0000');
+    let tax_pay = (data.buyer_type == 1 || data.buyer_type == 3) && data.buyer ? (data.buyer.name.substr(0, 2) + (data.buyer.first_surname ? data.buyer.first_surname.substr(0, 2) : '00')) : data.buyer_type == 2 && data.buyer_legal_entity.legal_name ? data.buyer_legal_entity.legal_name.substr(0, 4) : '0000';
     let value = this.getChecker(bank_reference_id, data.property.building.name.split(' ').join(''), tax_pay);
     bank_reference_id = bank_reference_id + value;
     this.ngOtpInputRef4.setValue(value);
@@ -1272,6 +1271,9 @@ export class AddEditCollectionComponent implements OnInit {
     let num2 = num1[0];
     let num3 = (Number(num2) + 1) + '0';
     let checker_value = Number(num3) - final_value;
+    if(checker_value > 9){
+      return checker_value.toString().substr(1, 1)
+    }
     return checker_value;
   }
 
@@ -1362,6 +1364,7 @@ export class AddEditCollectionComponent implements OnInit {
 });
     }
     else{
+      this.edit_bank = data;
       this.ngOtpInputRef.otpForm.disable();
       this.ngOtpInputRef1.otpForm.disable();
       this.ngOtpInputRef2.otpForm.disable();
