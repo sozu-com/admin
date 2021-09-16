@@ -364,14 +364,14 @@ export class AgenciesComponent implements OnInit {
   getPostRequestForColumn = (): any => {
       return {
         user_id: JSON.parse(localStorage.getItem('user-id')) || 0,
-        company_name: (this.select_columns_list[1] || []).isCheckBoxChecked,
-        contact_number: (this.select_columns_list[2] || []).isCheckBoxChecked,
-        email: (this.select_columns_list[3] || []).isCheckBoxChecked,
-        image: (this.select_columns_list[4] || []).isCheckBoxChecked,
-        linked_agent: (this.select_columns_list[5] || []).isCheckBoxChecked,
-        linked_projects: (this.select_columns_list[6] || []).isCheckBoxChecked,
-        linked_properties: (this.select_columns_list[7  ] || []).isCheckBoxChecked,
-        actions: (this.select_columns_list[0] || []).isCheckBoxChecked,
+        company_name: (this.select_columns_list[0] || []).isCheckBoxChecked,
+        contact_number: (this.select_columns_list[1] || []).isCheckBoxChecked,
+        email: (this.select_columns_list[2] || []).isCheckBoxChecked,
+        image: (this.select_columns_list[6] || []).isCheckBoxChecked,
+        linked_agent: (this.select_columns_list[3] || []).isCheckBoxChecked,
+        linked_projects: (this.select_columns_list[5] || []).isCheckBoxChecked,
+        linked_properties: (this.select_columns_list[4] || []).isCheckBoxChecked,
+        actions: (this.select_columns_list[7] || []).isCheckBoxChecked,
       };
   }
 }
