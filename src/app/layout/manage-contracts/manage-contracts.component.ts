@@ -45,6 +45,7 @@ export class ManageContractsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.language_code = localStorage.getItem('language_code');
     this.parameter.flag = 1;
     this.parameter.dash_flag = this.projectService.dash_flag ? this.projectService.dash_flag : this.constant.dash_flag;
     this.getContractHome();
