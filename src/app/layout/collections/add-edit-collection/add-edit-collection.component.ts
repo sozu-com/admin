@@ -1063,7 +1063,7 @@ export class AddEditCollectionComponent implements OnInit {
 
     if (!this.isByOffer) {
       let price = this.addFormStep4.controls.final_price.value;
-      this.addFormStep4.controls.final_price.patchValue(price ? price : data.final_price);
+      this.addFormStep4.controls.final_price.patchValue(price ? price : Number(data.final_price) ? data.final_price : data.property.final_price);
       this.addFormStep4.controls.interest_discount.patchValue(data.property.interest_discount);
     }
     this.addFormStep4.controls['sum_of_concepts'].patchValue(this.numberUptoNDecimal(sum_of_concepts, 2));
