@@ -38,6 +38,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   reason: string;
   locale: any;
   baseUrl = this.admin.baseUrl + 'exportProject';
+  all_building_types: any = [];
   min_price: any;
   max_price: any;
   min_carpet_area: any;
@@ -51,7 +52,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     { selectedCountry: '', selectedStates: [], selectedCities: [], selectedLocalities: [] };
   @ViewChild('legalEnityListModelOpen') legalEnityListModelOpen: ElementRef;
   @ViewChild('legalEnityListModelClose') legalEnityListModelClose: ElementRef;
-  @ViewChild('contributorListModelOpen') contributorListModelOpen: ElementRef; 
+  @ViewChild('contributorListModelOpen') contributorListModelOpen: ElementRef;
   @ViewChild('contributorListModelClose') contributorListModelClose: ElementRef;
   @ViewChild('notesadddModalOpen') notesadddModalOpen: ElementRef;
   @ViewChild('notesadddModalClose') notesadddModalClose: ElementRef;
@@ -75,7 +76,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   constructor(
     public constant: Constant,
     public apiConstant: ApiConstants,
-    private route: ActivatedRoute,public noted: Notes,
+    private route: ActivatedRoute, public noted: Notes,
     public admin: AdminService,
     public projectService: ProjectService,
     private spinner: NgxSpinnerService,
@@ -87,6 +88,10 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getProjectHome();
+    this.admin.postDataApi('getBuildingTypes', { hide_blocked: 1 }).subscribe(r => {
+      this.all_building_types = r.data;
+    });
+
     this.language_code = localStorage.getItem('language_code');
     //console.log('baseurl', this.admin.baseUrl);
     this.locale = {
@@ -177,7 +182,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     input.max_price = this.parameter.max_price;
     input.min_carpet_area = this.parameter.min_carpet_area;
     input.max_carpet_area = this.parameter.max_carpet_area;
-
+    input.building_type = this.parameter.building_type;
     if (this.parameter.userType === 'developer') {
       input.developer_id = this.parameter.id;
     }
@@ -201,6 +206,13 @@ export class ProjectsComponent implements OnInit, OnDestroy {
           (this.items || []).forEach(ele => {
             if (ele.possession_status_id == r.id) {
               ele['status_possion'] = r.name_en;
+            }
+          })
+        });
+        (this.all_building_types || []).forEach(r => {
+          (this.items || []).forEach(ele => {
+            if (ele.building_type_id == r.id) {
+              ele['status_building'] = r.name_en;
             }
           })
         });
@@ -631,7 +643,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
           'Developer Name': p.developer && p.developer.name ? p.developer.name : '',
           'Agency Name': p.agency && p.agency.name ? p.agency.name : '',
           'Legal Entity Name': p.legal_entity && p.legal_entity.comm_name ? p.legal_entity.comm_name : '',
-          'Contributor': p.building_contributors && p.building_contributors.length > 0  ? this.getBuildingContributorsInfo(p.building_contributors) : '',
+          'Contributor': p.building_contributors && p.building_contributors.length > 0 ? this.getBuildingContributorsInfo(p.building_contributors) : '',
           'Manager Name': p.manager && p.manager.name ? p.manager.name : '',
           'Company Name': p.company && p.company.name ? p.company.name : '',
           'Possession Status': p.possession_status_id == this.apiConstant.possessionStatus.sale ? 'Sale' : 'Presale',
@@ -645,11 +657,11 @@ export class ProjectsComponent implements OnInit, OnDestroy {
           'Price per m2 (For sale)': parseInt(p.avgg_price) || 0,
           'Avg list price (Inventory)': parseInt(p.avg_price_hold) || 0,
           'Avg Carpet Area (Inventory)': parseInt(p.avg_carpet_area_hold) || 0,
-          'Price per m2 (Inventory)': parseInt(p.avgg_price_hold) || 0, 
-          'Project Status': p.is_completed == this.apiConstant.projectStatus.without_information ? this.translate.instant('table.th.projectStatus.withoutInformation') : 
-          (p.is_completed == this.apiConstant.projectStatus.basic_information) ? this.translate.instant('table.th.projectStatus.basicInformation') :
-          (p.is_completed == this.apiConstant.projectStatus.semicompleted) ? this.translate.instant('table.th.projectStatus.semicompleted') : 
-          (p.is_completed == this.apiConstant.projectStatus.completed) ? this.translate.instant('table.th.projectStatus.completed') : ''
+          'Price per m2 (Inventory)': parseInt(p.avgg_price_hold) || 0,
+          'Project Status': p.is_completed == this.apiConstant.projectStatus.without_information ? this.translate.instant('table.th.projectStatus.withoutInformation') :
+            (p.is_completed == this.apiConstant.projectStatus.basic_information) ? this.translate.instant('table.th.projectStatus.basicInformation') :
+              (p.is_completed == this.apiConstant.projectStatus.semicompleted) ? this.translate.instant('table.th.projectStatus.semicompleted') :
+                (p.is_completed == this.apiConstant.projectStatus.completed) ? this.translate.instant('table.th.projectStatus.completed') : ''
         }
 
         this.selectedColumnsToShow.building_name == 0 ? delete obj['Name'] : undefined;
@@ -965,52 +977,53 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   }
   getNotes(item) {
     this.noted.agent_id = item.id;
-   const input = { agent_id: item.id };
-   this.admin.postDataApi('viewProjectNotes', input).subscribe(r => {
-     this.parameter.notes = r.data;
-     this.notesModalOpen.nativeElement.click();
-   });
- }
- addNotes() {
-  this.spinner.show();
-  this.admin.postDataApi('addProjectNote', { note: this.noted.note, title: this.noted.title,
-     agent_id: this.noted.agent_id
-  }).subscribe(r => {
-    this.spinner.hide();
-    this.noted = new Notes();
-    this.parameter.notes.push(r.data);
-    this.toastr.clear();
-    this.toastr.success(this.translate.instant('message.success.addedSuccessfully'), this.translate.instant('swal.success'));
-    this.closeNotesModal();
-  }); 
-}
+    const input = { agent_id: item.id };
+    this.admin.postDataApi('viewProjectNotes', input).subscribe(r => {
+      this.parameter.notes = r.data;
+      this.notesModalOpen.nativeElement.click();
+    });
+  }
+  addNotes() {
+    this.spinner.show();
+    this.admin.postDataApi('addProjectNote', {
+      note: this.noted.note, title: this.noted.title,
+      agent_id: this.noted.agent_id
+    }).subscribe(r => {
+      this.spinner.hide();
+      this.noted = new Notes();
+      this.parameter.notes.push(r.data);
+      this.toastr.clear();
+      this.toastr.success(this.translate.instant('message.success.addedSuccessfully'), this.translate.instant('swal.success'));
+      this.closeNotesModal();
+    });
+  }
 
-closeNotesModal() {
-this.notesModalClose.nativeElement.click();
-}
-deleteNote(note_id, index) {
-  this.parameter.text = this.translate.instant('message.error.wantToDeleteNote');
-  swal({
-    html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
-    type: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: this.constant.confirmButtonColor,
-    cancelButtonColor: this.constant.cancelButtonColor,
-    confirmButtonText: 'Delete!'
-  }).then((result) => {
-    if (result.value) {
-      this.deleteLeadNote(note_id, index);
-    }
-  });
-}
+  closeNotesModal() {
+    this.notesModalClose.nativeElement.click();
+  }
+  deleteNote(note_id, index) {
+    this.parameter.text = this.translate.instant('message.error.wantToDeleteNote');
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Delete!'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteLeadNote(note_id, index);
+      }
+    });
+  }
 
 
-deleteLeadNote(note_id, index) {
-  this.admin.postDataApi('deleteProjectNotes', { id: note_id }).subscribe(r => {
-    this.parameter.notes.splice(index, 1);
-    this.toastr.clear();
-    this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
-    this.closeNotesModal();
-  });
-}
+  deleteLeadNote(note_id, index) {
+    this.admin.postDataApi('deleteProjectNotes', { id: note_id }).subscribe(r => {
+      this.parameter.notes.splice(index, 1);
+      this.toastr.clear();
+      this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+      this.closeNotesModal();
+    });
+  }
 }

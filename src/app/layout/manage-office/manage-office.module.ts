@@ -16,6 +16,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 //import { NumberexPipe } from 'src/app/pipes/numberex.pipe';
 import { SharedModule } from 'src/app/modules/shared.module';
+import { NgxMaskModule } from 'ngx-mask';
 
 const routes: Routes = [
   {
@@ -51,6 +52,7 @@ const routes: Routes = [
     MalihuScrollbarModule.forRoot(),
     TranslateModule,
     NgMultiSelectDropDownModule.forRoot(),
+    NgxMaskModule.forRoot()
   ],
   declarations: [
     AddOfficeComponent,

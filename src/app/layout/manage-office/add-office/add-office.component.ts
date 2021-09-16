@@ -25,7 +25,7 @@ declare let swal: any;
   selector: 'app-add-office',
   templateUrl: './add-office.component.html',
   styleUrls: ['./add-office.component.css'],
-  providers: [AddProjectModel, AddOfficeModel , Constant, Towers]
+  providers: [AddProjectModel, AddOfficeModel, Constant, Towers]
 })
 export class AddOfficeComponent implements OnInit {
 
@@ -234,7 +234,7 @@ export class AddOfficeComponent implements OnInit {
         this.admin.postDataApi('getOfficeById', { office_id: this.id }).subscribe(r => {
           this.spinner.hide();
           this.model = JSON.parse(JSON.stringify(r.data));
-          this.model.office_parking_space_lots = r.data.office_parking_space_lots; 
+          this.model.office_parking_space_lots = r.data.office_parking_space_lots;
           this.model.possession_status_id = r.data.possession_status_id ? r.data.possession_status_id : '';
           //sum parking
           let sum: any = 0;
@@ -311,7 +311,7 @@ export class AddOfficeComponent implements OnInit {
           this.file5.image = this.model.developer.image;
           this.file6.image = this.model.developer.developer_image;
           let lang = localStorage.getItem('language_code');
-          this.admin.postDataApi('getOfficeAmenities', { hide_blocked: 1, language: lang == 'en'? 1 : 2}).subscribe(res => {
+          this.admin.postDataApi('getOfficeAmenities', { hide_blocked: 1, language: lang == 'en' ? 1 : 2 }).subscribe(res => {
             this.all_amenities = res.data.map(item => {
               item.selected = false;
               item.images = [];
@@ -408,7 +408,7 @@ export class AddOfficeComponent implements OnInit {
           this.file5.image = this.model.developer.image;
           this.file6.image = this.model.developer.developer_image;
           let lang = localStorage.getItem('language_code');
-          this.admin.postDataApi('getOfficeAmenities', { hide_blocked: 1, language: lang == 'en'? 1 : 2 }).subscribe(res => {
+          this.admin.postDataApi('getOfficeAmenities', { hide_blocked: 1, language: lang == 'en' ? 1 : 2 }).subscribe(res => {
             this.all_amenities = res.data.map(item => {
               item.selected = false;
               item.images = [];
@@ -474,7 +474,7 @@ export class AddOfficeComponent implements OnInit {
         this.canEditdeveloperInfo = true;
         this.canEditContributionInfo = true;
         let lang = localStorage.getItem('language_code');
-        this.admin.postDataApi('getOfficeAmenities', { hide_blocked: 1, language: lang == 'en'? 1 : 2 }).subscribe(res => {
+        this.admin.postDataApi('getOfficeAmenities', { hide_blocked: 1, language: lang == 'en' ? 1 : 2 }).subscribe(res => {
           this.all_amenities = res.data.map(item => {
             item.selected = false;
             item.images = [];
@@ -604,7 +604,7 @@ export class AddOfficeComponent implements OnInit {
   searchAmenity(index: number) {
     this.spinner.show();
     let lang = localStorage.getItem('language_code');
-    const input = { keyword: '', hide_blocked: 1, language: lang == 'en'? 1 : 2 };
+    const input = { keyword: '', hide_blocked: 1, language: lang == 'en' ? 1 : 2 };
     input.keyword = this.amenitiesKeyword;
     this.admin.postDataApi('getOfficeAmenities', input).subscribe(res => {
       // this.all_amenities = res.data.map(item => { item.selected = false; item.images = []; return item; });
@@ -631,7 +631,7 @@ export class AddOfficeComponent implements OnInit {
           });
           this.allTowerAmenities = JSON.parse(JSON.stringify(all_amenities));
           break;
-          case 3:
+        case 3:
           const all_amenities1 = res.data.map(item => {
             item.selected = false;
             item.images = [];
@@ -1060,7 +1060,7 @@ export class AddOfficeComponent implements OnInit {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAtleastOneImage'), 'error');
       return false;
     }
-   // this.file4.upload().then(r1 => {
+    // this.file4.upload().then(r1 => {
     //   this.new_config.images = this.file4.files;
     //     this.config(count, totalFilesCount);
     // });
@@ -1077,14 +1077,14 @@ export class AddOfficeComponent implements OnInit {
 
     this.config360Img.upload().then(r1 => {
       this.configVideos.upload().then(r1 => {
-      this.file4.upload().then(r1 => {
-        this.spinner.hide();
-        this.new_config.images = this.file4.files;
-        this.new_config.images360 = this.config360Img.files;
-        this.new_config.videos = this.configVideos.files;
-        this.config(count, totalFilesCount);
+        this.file4.upload().then(r1 => {
+          this.spinner.hide();
+          this.new_config.images = this.file4.files;
+          this.new_config.images360 = this.config360Img.files;
+          this.new_config.videos = this.configVideos.files;
+          this.config(count, totalFilesCount);
+        });
       });
-    });
     });
     this.file4.files.forEach(element => {
       if (element.loading !== true) {
@@ -1103,7 +1103,7 @@ export class AddOfficeComponent implements OnInit {
     });
   }
 
-  config(count, totalFilesCount){
+  config(count, totalFilesCount) {
     if (count === totalFilesCount) {
       this.spinner.hide();
       if (this.new_config_edit >= 0) {
@@ -1173,6 +1173,9 @@ export class AddOfficeComponent implements OnInit {
     }
     modelSave.videos = modelSave.videos ? modelSave.videos : JSON.stringify([]);
     modelSave.dev_name = modelSave.developer.name;
+    modelSave.max_price = modelSave.max_price;
+    modelSave.less_price = modelSave.min_price;
+    modelSave.min_price = modelSave.min_price;
     modelSave.dev_email = modelSave.developer.email;
     modelSave.dev_phone = modelSave.developer.phone;
     modelSave.dev_countrycode = modelSave.developer.country_code ? modelSave.developer.country_code : this.constant.country_code;
@@ -1370,16 +1373,13 @@ export class AddOfficeComponent implements OnInit {
         //sum parking
         let sum: any = 0;
         this.model.office_parking_space_lots.forEach(a => sum += parseInt(a.no_parking));
-        console.log(sum);
         this.parkinLot_sum = sum
 
         let sum1: any = 0;
         this.model.office_parking_space_rent.forEach(a => sum1 += parseInt(a.no_parking));
-        console.log(sum1, "rent");
         this.parkingRent_sum = sum1
 
         this.both_sum = this.parkinLot_sum + this.parkingRent_sum;
-        console.log(this.both_sum, "view 0");
         //end parking sum
         // set model to avoid duplication creation of project
         this.setProjectModel(success['data']);
@@ -1503,7 +1503,7 @@ export class AddOfficeComponent implements OnInit {
       this.setCountryToLocality(data['locality']);
     }
     let lang = localStorage.getItem('language_code');
-    this.admin.postDataApi('getOfficeAmenities', { hide_blocked: 1, language: lang == 'en'? 1 : 2 }).subscribe(res => {
+    this.admin.postDataApi('getOfficeAmenities', { hide_blocked: 1, language: lang == 'en' ? 1 : 2 }).subscribe(res => {
       this.all_amenities = res.data.map(item => {
         item.selected = false;
         item.images = [];
@@ -2483,7 +2483,7 @@ export class AddOfficeComponent implements OnInit {
     this.configVideos.files.splice(index, 1);
   }
 
-  removeCoverImage(){
+  removeCoverImage() {
     this.file9.image = '';
   }
 }

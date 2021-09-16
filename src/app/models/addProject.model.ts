@@ -127,6 +127,9 @@ export class AddOfficeModel {
   name = '';
   for_rent = false;
   for_sale = true;
+  max_price: any;
+  less_price: any;
+  min_price: any;
   floors: any = '';
   address = '';
   avg_price = '';
