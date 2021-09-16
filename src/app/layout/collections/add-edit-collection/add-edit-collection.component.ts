@@ -1195,7 +1195,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.ngOtpInputRef4.setValue(value);
     this.ngOtpInputRef4.otpForm.disable();
     this.addFormStep6.controls.step.patchValue(6);
-    this.addFormStep6.controls.bank_reference_id.patchValue(data.bank_reference_id ? data.bank_reference_id : bank_reference_id);
+    this.addFormStep6.controls.bank_reference_id.patchValue(bank_reference_id);
   }
 
   getChecker(bank_reference_id, projectname, fed_tax_pay){
@@ -2899,10 +2899,9 @@ export class AddEditCollectionComponent implements OnInit {
               property_name = '0' + property_name;
             }
           }
-
-          let bank_reference_id = collection_account.substr(0, 5) + projectname.substr(0, 7) + property_name.substr(0, 5) + (this.tempmodelForBank.buyer.fed_tax_pay ?
-            this.tempmodelForBank.buyer.fed_tax_pay.substr(0, 4) : '0000');
-            let value = this.getChecker(bank_reference_id, this.tempmodelForBank.property.building.name, this.tempmodelForBank.buyer.fed_tax_pay);
+          let tax_pay = (this.tempmodelForBank.buyer_type == 1 || this.tempmodelForBank.buyer_type == 3) && this.tempmodelForBank.buyer ? (this.tempmodelForBank.buyer.name.substr(0, 2) + (this.tempmodelForBank.buyer.first_surname ? this.tempmodelForBank.buyer.first_surname.substr(0, 2) : '00')) : this.tempmodelForBank.buyer_type == 2 && this.tempmodelForBank.buyer_legal_entity.legal_name ? this.tempmodelForBank.buyer_legal_entity.legal_name.substr(0, 4) : '0000';
+          let bank_reference_id = collection_account.substr(0, 5) + projectname.substr(0, 7) + property_name.substr(0, 5) + tax_pay;
+            let value = this.getChecker(bank_reference_id, this.tempmodelForBank.property.building.name, tax_pay);
             bank_reference_id = bank_reference_id + value;
           formdata['bank_reference_id'] = bank_reference_id;
         }
