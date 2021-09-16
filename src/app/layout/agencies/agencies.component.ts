@@ -19,12 +19,22 @@ export class AgenciesComponent implements OnInit {
   @ViewChild('viewAgentsModel') viewAgentsModel: ElementRef;
   @ViewChild('closeViewAgentsModel') closeViewAgentsModel: ElementRef;
   @ViewChild('fileInput') fileInput: ElementRef;
+
+  @ViewChild('openSelectColumnsModal') openSelectColumnsModal: ElementRef;
+  @ViewChild('closeSelectColumnsModal') closeSelectColumnsModal: ElementRef;
+
   public parameter: IProperty = {};
   model: Agency;
   items: Array<Agency>;
   label: string;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
   private exportfinalData: any[] = [];
+  public select_columns_list: any[] = [];
+  public selectedColumnsToShow: any = {};
+  public isSelectAllColumns: boolean = false;
+  public keyword: string = '';
+  language_code: string;
+
   constructor(public constant: Constant,
     private spinner: NgxSpinnerService,
     public admin: AdminService, private router: Router,
@@ -32,6 +42,8 @@ export class AgenciesComponent implements OnInit {
     private translate: TranslateService) { }
 
   ngOnInit() {
+    this.getAgencyHome();
+    this.language_code = localStorage.getItem('language_code');
     this.label = this.translate.instant('table.title.chooseAgenciesFile');
     this.model = new Agency();
     this.model.property_sort = null; // desc
@@ -245,5 +257,121 @@ export class AgenciesComponent implements OnInit {
     item.is_external_agent != 1 ? this.router.navigate(['/dashboard/view-inhouse-users/inhouse-broker', item.id]) : this.router.navigate(['/dashboard/view-inhouse-users/outside-broker', item.id]);
     this.closeViewAgentsModel.nativeElement.click();
   
+  }
+
+  getAgencySelection = (isFirstTime: boolean, keyword?: string): void => {
+    this.spinner.show();
+    this.admin.postDataApi('getAgencySelection', { name: keyword }).subscribe((response) => {
+      this.spinner.hide();
+      this.select_columns_list = (response.data || []).sort((a, b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0));
+      (this.select_columns_list || []).forEach((data, index) => {
+        this.makeSelectedColumns(data.id, index);
+      });
+      this.changeSelect();
+      if (isFirstTime) {
+        this.keyword = '';
+        this.isSelectAllColumns = false;
+        this.language_code = localStorage.getItem('language_code');
+        this.openSelectColumnsModal.nativeElement.click();
+      }
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), ((error || {}).error || {}).message, 'error');
+    });
+  }
+
+  changeSelect = (): void => {
+    let index = 0;
+    (this.select_columns_list || []).forEach((data) => {
+      if (data.isCheckBoxChecked) {
+        index += 1;
+      }
+    });
+    if ((this.select_columns_list || []).length == index) {
+      this.isSelectAllColumns = true;
+    } else {
+      this.isSelectAllColumns = false;
+    }
+  }
+
+  makeSelectedColumns = (id: number, index: number): void => {
+    switch (id) {
+      case 1:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.company_name;
+        break;
+      case 2:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.contact_number;
+        break;
+      case 3:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.email;
+        break;
+      case 4:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.linked_agent;
+        break;
+      case 5:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.linked_projects;
+        break;
+      case 6:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.linked_properties;
+        break;
+      case 22:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.image;
+        break;
+      case 23:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.action;
+      break;
+      default:
+        break;
+    }
+
+  }
+
+  getAgencyHome = (): void => {
+    //this.spinner.show();
+    this.admin.postDataApi('getAgencyHome', { user_id: JSON.parse(localStorage.getItem('user-id')) || 0 }).subscribe((response) => {
+      this.selectedColumnsToShow = response.data || {};
+      //this.spinner.hide();
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.message, 'error');
+    });
+  }
+
+  changeSelectAll = (): void => {
+    (this.select_columns_list || []).forEach((data) => {
+      data.isCheckBoxChecked = this.isSelectAllColumns;
+    });
+  }
+
+  closeSelectColumnsPopup = (): void => {
+    this.keyword = '';
+    this.isSelectAllColumns = false;
+    this.closeSelectColumnsModal.nativeElement.click();
+  }
+
+  applyShowSelectedColumns = (): void => {
+    this.spinner.show();
+    this.admin.postDataApi('updateAgencyHome', this.getPostRequestForColumn()).subscribe((response) => {
+      this.spinner.hide();
+      this.closeSelectColumnsPopup();
+      this.getAgencyHome();
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
+
+  getPostRequestForColumn = (): any => {
+      return {
+        user_id: JSON.parse(localStorage.getItem('user-id')) || 0,
+        company_name: (this.select_columns_list[1] || []).isCheckBoxChecked,
+        contact_number: (this.select_columns_list[2] || []).isCheckBoxChecked,
+        email: (this.select_columns_list[3] || []).isCheckBoxChecked,
+        image: (this.select_columns_list[4] || []).isCheckBoxChecked,
+        linked_agent: (this.select_columns_list[5] || []).isCheckBoxChecked,
+        linked_projects: (this.select_columns_list[6] || []).isCheckBoxChecked,
+        linked_properties: (this.select_columns_list[7  ] || []).isCheckBoxChecked,
+        actions: (this.select_columns_list[0] || []).isCheckBoxChecked,
+      };
   }
 }
