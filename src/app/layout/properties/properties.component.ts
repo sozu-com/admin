@@ -64,7 +64,7 @@ class Invoice {
   selector: 'app-properties',
   templateUrl: './properties.component.html',
   styleUrls: ['./properties.component.css'],
-  providers: [AddPropertyModel, DatePipe, PricePipe,Notes]
+  providers: [AddPropertyModel, DatePipe, PricePipe, Notes]
 })
 export class PropertiesComponent implements OnInit, OnDestroy {
   selectedvalue: bank;
@@ -133,7 +133,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     { is_selected: false, id: 9, name_en: 'Presale', name_es: 'Preventa' },
     { is_selected: false, id: 8, name_en: 'Sale', name_es: 'Venta' }
   ];
-  
+
   bedrooms: any = [
     { is_selected: false, name: '1' },
     { is_selected: false, name: '2' },
@@ -211,7 +211,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   constructor(
     public constant: Constant,
     public apiConstant: ApiConstants,
-    public admin: AdminService,public noted: Notes,
+    public admin: AdminService, public noted: Notes,
     private propertyService: PropertyService,
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
@@ -304,12 +304,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       this.parameter.keyword = params.name;
       if (params.property_id) {
         this.parameter.random_id = params['property_id'];
-      }else{
+      } else {
         this.parameter.keyword = params.name;
       }
       this.parameter.project_id = this.project_id;
       this.parameter.property_id = params.property_id || '';
-      
+
       // if (params.availability_filter) {
       //   this.parameter.availability_filter = params.availability_filter;
       // }
@@ -350,7 +350,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     //this.getCountries();
     this.getPropertyConfigurations();
     if (!this.is_back) {
-      this.getListing(null,null);
+      this.getListing(null, null);
     }
     this.getPropertyTypes();
     this.getPropertyAmenities();
@@ -373,13 +373,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     localStorage.removeItem('project_id');
 
   }
-  getPropertyFilter(){
-   this.availabilityStatus = [
+  getPropertyFilter() {
+    this.availabilityStatus = [
       //{ id: 0, name_en: 'All', name_es: 'All'},
-      { id: 1, name_en: 'For Sale', name_es: 'En venta'},
-      { id: 2, name_en: 'Rent', name_es: 'Renta'},
-      { id: 3, name_en: 'Inventory', name_es: 'Inventario'},
-      { id: 4, name_en: 'For Sale & Rent', name_es: 'En venta & Renta'}
+      { id: 1, name_en: 'For Sale', name_es: 'En venta' },
+      { id: 2, name_en: 'Rent', name_es: 'Renta' },
+      { id: 3, name_en: 'Inventory', name_es: 'Inventario' },
+      { id: 4, name_en: 'For Sale & Rent', name_es: 'En venta & Renta' }
     ];
   }
   getParametersForProperty = (): void => {
@@ -413,7 +413,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     });
   }
 
-  
+
   unsetProjectAmne(item: any) {
     let i = 0;
     this.selctedProjectAmenities.map(r => {
@@ -484,7 +484,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
 
 
-  getListing(data,value) {
+  getListing(data, value) {
     this.spinner.show();
     this.getPossessionStatuses();
     this.makePostRequest();
@@ -492,14 +492,14 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     if (value) {
       this.value = data;
       this.value1 = value;
-      if(data == "all"){
+      if (data == "all") {
         const d = value.map(o => o.id);
         input.availability_filter = d;
-      } else if(data == "select"){
-       // this.selctedFilters.push(value);
+      } else if (data == "select") {
+        // this.selctedFilters.push(value);
         const d = this.parameter.availability_filter.map(o => o.id);
         input.availability_filter = d;
-      }else if(data == "unselect"){
+      } else if (data == "unselect") {
         const d = this.parameter.availability_filter.map(o => o.id);
         input.availability_filter = d;
       }
@@ -531,8 +531,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     }
     delete input.seller_id;
     delete input.buyer_id;
-    
-    
+
+
     if (this.selctedAmenities) {
       const d = this.selctedAmenities.map(o => o.id);
       // console.log(d, "filter")
@@ -591,7 +591,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   searchProperties() {
     this.close();
-    this.getListing(null,null);
+    this.getListing(null, null);
   }
 
   clearData() {
@@ -826,12 +826,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       return false;
     }
     this.resetDates();
-    this.getListing(null,null);
+    this.getListing(null, null);
   }
 
   changePropertyFlag(flag) {
     this.parameter.flag = flag;
-    this.getListing(null,null);
+    this.getListing(null, null);
   }
 
   sort_by(sort_by) {
@@ -841,12 +841,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     } else {
       this.parameter.sort_by_order = this.parameter.sort_by_order ? 0 : 1;
     }
-    this.getListing(null,null);
+    this.getListing(null, null);
   }
   sortData(value: number) {
     this.parameter.sort_by = 7;
     this.parameter.sort_by_order = value;
-    this.getListing(this.value,this.value1);
+    this.getListing(this.value, this.value1);
   }
   price_by(price_sort) {
     if (this.parameter.price_sort !== price_sort) {
@@ -855,11 +855,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     } else {
       this.parameter.price_sort = 0;
     }
-    this.getListing(null,null);
+    this.getListing(null, null);
   }
   getPage(page) {
     this.parameter.page = page;
-    this.getListing(this.value,this.value1);
+    this.getListing(this.value, this.value1);
   }
 
   blockUnblock(item, flag: number) {
@@ -917,7 +917,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   pusblish = (propertyDetails: any): void => {
     this.propertyItems = propertyDetails;
-    console.log(this.propertyItems,"789");
+    console.log(this.propertyItems, "789");
     this.openpusblishModal.nativeElement.click();
   }
   openPublish(item) {
@@ -928,14 +928,14 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       this.prop_data = success.data;
       this.isApplyBtnClicked = false;
       this.prop_data.forEach((cityObject) => {
-         this.pub = cityObject.is_published;
+        this.pub = cityObject.is_published;
       });
       if (this.pub == 1) {
         swal(this.translate.instant('swal.success'), this.translate.instant('message.success.publishSuccessfully'), 'success');
       } else {
         swal(this.translate.instant('swal.success'), this.translate.instant('message.success.UnpublishSuccessfully'), 'success');
       }
-      this.getListing(null,null);
+      this.getListing(null, null);
       this.spinner.hide();
     }, (error) => {
       this.spinner.hide();
@@ -1018,7 +1018,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.selctedProjectAmenities = [];
     this.parameter.parking_for_sale = null;
     this.resetDates();
-    this.getListing(null,null);
+    this.getListing(null, null);
   }
 
   resetDates() {
@@ -1229,7 +1229,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
           event.target.value = 2;
         } else if (property.for_resale === 1) {
           event.target.value = 4;
-        }else {
+        } else {
           event.target.value = 3;
         }
       }
@@ -1255,7 +1255,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     } else if (value === '2') {
       this.items[index].for_rent = 1;
       input.for_rent = 1;
-    }else if (value === '4') {
+    } else if (value === '4') {
       this.items[index].for_resale = 1;
       input.for_resale = 1;
     } else {
@@ -1522,6 +1522,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       for (let index = 0; index < this.exportfinalData.length; index++) {
         const p = this.exportfinalData[index];
         let obj = {
+          'ID': p.id || '',
           'Name of Building': (p.building || {}).name || '',
           'City': (p.city || {}).name || '',
           'Locality': (p.locality || {}).name || '',
@@ -1541,19 +1542,20 @@ export class PropertiesComponent implements OnInit, OnDestroy {
           'Agent Commission (in %)': parseFloat(p.broker_commision).toFixed(3) || 0,
           'Commercialized by SOZU': p.is_commercialized ? 'yes' : 'no',
           'Total Commission (in %)': parseFloat(p.total_commission).toFixed(3) || 0,
-          'Possession Status': p.building_towers && p.building_towers.possession_status_id == this.apiConstant.possessionStatus.sale ? 
-                              this.translate.instant('table.tr.td.sale') : this.translate.instant('table.tr.td.presale'),
+          'Possession Status': p.building_towers && p.building_towers.possession_status_id == this.apiConstant.possessionStatus.sale ?
+            this.translate.instant('table.tr.td.sale') : this.translate.instant('table.tr.td.presale'),
           'Inhouse Agent': p.external_broker && p.external_broker.id ? p.external_broker.name : '',
           'Outside Agent': p.external_outside_agent && p.external_outside_agent.id ? p.external_outside_agent.name : '',
           'Agency': p.get_agency && p.get_agency.id ? p.get_agency.name : '',
-          'Availability': p.for_sale == 1 ? this.translate.instant('table.th.buy') : p.for_rent == 1 ? this.translate.instant('table.th.rent') : 
-                          p.for_hold == 1 ?  this.translate.instant('table.th.inventory') : '',
+          'Availability': p.for_sale == 1 ? this.translate.instant('table.th.buy') : p.for_rent == 1 ? this.translate.instant('table.th.rent') :
+            p.for_hold == 1 ? this.translate.instant('table.th.inventory') : '',
           'Leads': parseInt(p.lead_properties_count) || 0,
           'Buyer': ((p.selected_buyer || {}).user || {}).name || '',
           'Seller': ((p.selected_seller || {}).user || {}).name || '',
           'Is Property Sold': p.is_property_sold ? 'yes' : 'no',
           'Linked Collection': p.collection ? 'yes' : 'no',
         };
+        this.selectedPropertyColumnsToShow.property_id == 0 ? delete obj['ID'] : undefined;
         this.selectedPropertyColumnsToShow.building_name == 0 ? delete obj['Name of Building'] : undefined;
         this.selectedPropertyColumnsToShow.tower_name == 0 ? delete obj['Name of Tower'] : undefined;
         this.selectedPropertyColumnsToShow.floor == 0 ? delete obj['Floor'] : undefined;
@@ -2096,7 +2098,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         this.offer_id = result.data;
         this.generatePDF();
         this.closeModalInstallment();
-        this.getListing(null,null);
+        this.getListing(null, null);
         this.spinner.hide();
       });
     } else {
@@ -2308,7 +2310,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       itemsShowLimit: 1
     };
   }
-  
+
   makePostRequest = (): void => {
     this.parameter.localities = this.selectedLocation.selectedLocalities.length > 0 ? this.selectedLocation.selectedLocalities.map(o => o.id) : null;
     this.parameter.cities = this.selectedLocation.selectedCities.length > 0 ? this.selectedLocation.selectedCities.map(o => o.id) : null;
@@ -2585,6 +2587,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       this.spinner.hide();
       this.closeSelectColumnsPopup();
       this.getPropertyHome();
+      this.getListing(null, null);
     }, (error) => {
       this.spinner.hide();
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
@@ -2622,8 +2625,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       edit_total_commission: (this.select_columns_list[23] || []).isCheckBoxChecked,
       view_seller_request: (this.select_columns_list[24] || []).isCheckBoxChecked,
       action: (this.select_columns_list[25] || []).isCheckBoxChecked,
-      price_per_m2: (this.select_columns_list[26] || []).isCheckBoxChecked  ,
-      rent_price: (this.select_columns_list[29] || []).isCheckBoxChecked                                         
+      price_per_m2: (this.select_columns_list[26] || []).isCheckBoxChecked,
+      rent_price: (this.select_columns_list[29] || []).isCheckBoxChecked,
+      property_id: (this.select_columns_list[30] || []).isCheckBoxChecked,
     };
   }
 
@@ -2750,6 +2754,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       case 33:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.rent_price;
         break;
+      case 34:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.property_id;
+        break;
       default:
         break;
     }
@@ -2763,52 +2770,53 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
   getNotes(item) {
     this.noted.agent_id = item.id;
-   const input = { agent_id: item.id };
-   this.admin.postDataApi('viewPropertyNotes', input).subscribe(r => {
-     this.parameter.notes = r.data;
-     this.notesModalOpen.nativeElement.click();
-   });
- }
- addNote() {
-  this.spinner.show();
-  this.admin.postDataApi('addPropertyNote', { note: this.noted.note, title: this.noted.title,
-     agent_id: this.noted.agent_id
-  }).subscribe(r => {
-    this.spinner.hide();
-    this.noted = new Notes();
-    this.parameter.notes.push(r.data);
-    this.toastr.clear();
-    this.toastr.success(this.translate.instant('message.success.addedSuccessfully'), this.translate.instant('swal.success'));
-    this.closeNotesModal();
-  }); 
-}
+    const input = { agent_id: item.id };
+    this.admin.postDataApi('viewPropertyNotes', input).subscribe(r => {
+      this.parameter.notes = r.data;
+      this.notesModalOpen.nativeElement.click();
+    });
+  }
+  addNote() {
+    this.spinner.show();
+    this.admin.postDataApi('addPropertyNote', {
+      note: this.noted.note, title: this.noted.title,
+      agent_id: this.noted.agent_id
+    }).subscribe(r => {
+      this.spinner.hide();
+      this.noted = new Notes();
+      this.parameter.notes.push(r.data);
+      this.toastr.clear();
+      this.toastr.success(this.translate.instant('message.success.addedSuccessfully'), this.translate.instant('swal.success'));
+      this.closeNotesModal();
+    });
+  }
 
-closeNotesModal() {
-this.notesModalClose.nativeElement.click();
-}
-deleteNote(note_id, index) {
-  this.parameter.text = this.translate.instant('message.error.wantToDeleteNote');
-  swal({
-    html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
-    type: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: this.constant.confirmButtonColor,
-    cancelButtonColor: this.constant.cancelButtonColor,
-    confirmButtonText: 'Delete!'
-  }).then((result) => {
-    if (result.value) {
-      this.deleteLeadNote(note_id, index);
-    }
-  });
-}
+  closeNotesModal() {
+    this.notesModalClose.nativeElement.click();
+  }
+  deleteNote(note_id, index) {
+    this.parameter.text = this.translate.instant('message.error.wantToDeleteNote');
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Delete!'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteLeadNote(note_id, index);
+      }
+    });
+  }
 
 
-deleteLeadNote(note_id, index) {
-  this.admin.postDataApi('deletePropertyNotes', { id: note_id }).subscribe(r => {
-    this.parameter.notes.splice(index, 1);
-    this.toastr.clear();
-    this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
-    this.closeNotesModal();
-  });
-}
+  deleteLeadNote(note_id, index) {
+    this.admin.postDataApi('deletePropertyNotes', { id: note_id }).subscribe(r => {
+      this.parameter.notes.splice(index, 1);
+      this.toastr.clear();
+      this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+      this.closeNotesModal();
+    });
+  }
 }
