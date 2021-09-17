@@ -476,7 +476,7 @@
               </tr>
 
               <tr
-                *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
+                *ngFor="let p of cs.homeData | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: cs.total }; let i=index">
                 <td *ngIf="selectedColumnsToShow?.image">
                   <img *ngIf="p.main_image" [defaultImage]="p.main_image| img:'thumb'" [lazyLoad]="p.main_image"
                     class="rounded-circle" alt="img">
@@ -619,9 +619,9 @@
                         </tr> -->
 
             </table>
-            <div class="padding20 center" *ngIf="total == 0">
+            <!-- <div class="padding20 center" *ngIf="cs.homeData?.length < 1">
               <img src="assets/img/404-error.png">
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -629,12 +629,12 @@
     </div>
   </div>
 
-  <div class="btn-cont marginT15" *ngIf="total">
+  <div class="btn-cont marginT15">
     <div class="row">
       <div class="col-6">
         <div class="title-group">
-          <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}}
-            {{total}}</p>
+          <p>{{'table.pagination.showing' | translate}} {{cs.homeData?.length}} {{'table.pagination.outof' | translate}}
+            {{cs.total}}</p>
         </div>
       </div>
       <div class="col-6 text-right">

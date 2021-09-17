@@ -7,6 +7,7 @@ import { Agency } from 'src/app/models/agency.model';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
 import { ExcelDownload } from 'src/app/common/excelDownload';
+import { CommonService } from 'src/app/services/common.service';
 declare let swal: any;
 
 @Component({
@@ -38,7 +39,7 @@ export class AgenciesComponent implements OnInit {
   constructor(public constant: Constant,
     private spinner: NgxSpinnerService,
     public admin: AdminService, private router: Router,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute, public cs: CommonService,
     private translate: TranslateService) { }
 
   ngOnInit() {
@@ -53,7 +54,7 @@ export class AgenciesComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.model.name = params.name;
     });
-    this.getAgencies();
+    //this.getAgencies();
   }
 
   getPage(page: number) {
@@ -89,8 +90,8 @@ export class AgenciesComponent implements OnInit {
       .subscribe(
         success => {
           this.spinner.hide();
-          this.items = success.data;
-          this.parameter.total = success.total_count;
+          this.cs.agencies = success.data;
+          this.cs.totalAgencies = success.total_count;
         }, error => {
           this.spinner.hide();
         });
@@ -217,7 +218,7 @@ export class AgenciesComponent implements OnInit {
           this.spinner.hide();
         });
   }
-  
+
   getExportlisting = (): void => {
     this.spinner.show();
     const input: any = JSON.parse(JSON.stringify(this.model));
@@ -253,10 +254,10 @@ export class AgenciesComponent implements OnInit {
     }
   }
 
-  changeRoute(item){
+  changeRoute(item) {
     item.is_external_agent != 1 ? this.router.navigate(['/dashboard/view-inhouse-users/inhouse-broker', item.id]) : this.router.navigate(['/dashboard/view-inhouse-users/outside-broker', item.id]);
     this.closeViewAgentsModel.nativeElement.click();
-  
+
   }
 
   getAgencySelection = (isFirstTime: boolean, keyword?: string): void => {
@@ -319,7 +320,7 @@ export class AgenciesComponent implements OnInit {
         break;
       case 23:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.actions;
-      break;
+        break;
       default:
         break;
     }
@@ -363,16 +364,16 @@ export class AgenciesComponent implements OnInit {
   }
 
   getPostRequestForColumn = (): any => {
-      return {
-        user_id: JSON.parse(localStorage.getItem('user-id')) || 0,
-        company_name: (this.select_columns_list[0] || []).isCheckBoxChecked,
-        contact_number: (this.select_columns_list[1] || []).isCheckBoxChecked,
-        email: (this.select_columns_list[2] || []).isCheckBoxChecked,
-        image: (this.select_columns_list[6] || []).isCheckBoxChecked,
-        linked_agent: (this.select_columns_list[3] || []).isCheckBoxChecked,
-        linked_projects: (this.select_columns_list[5] || []).isCheckBoxChecked,
-        linked_properties: (this.select_columns_list[4] || []).isCheckBoxChecked,
-        actions: (this.select_columns_list[7] || []).isCheckBoxChecked,
-      };
+    return {
+      user_id: JSON.parse(localStorage.getItem('user-id')) || 0,
+      company_name: (this.select_columns_list[0] || []).isCheckBoxChecked,
+      contact_number: (this.select_columns_list[1] || []).isCheckBoxChecked,
+      email: (this.select_columns_list[2] || []).isCheckBoxChecked,
+      image: (this.select_columns_list[6] || []).isCheckBoxChecked,
+      linked_agent: (this.select_columns_list[3] || []).isCheckBoxChecked,
+      linked_projects: (this.select_columns_list[5] || []).isCheckBoxChecked,
+      linked_properties: (this.select_columns_list[4] || []).isCheckBoxChecked,
+      actions: (this.select_columns_list[7] || []).isCheckBoxChecked,
+    };
   }
 }
