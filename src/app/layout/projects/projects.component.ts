@@ -209,6 +209,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
           element['avgg_price_hold'] = (((parseFloat(element.avg_price_hold) || 0) / (parseFloat(element.avg_carpet_area_hold) || 0)));
         });
         this.total = success.total_count;
+        this.cs.total = success.total_count
         this.spinner.hide();
       },
       error => {
