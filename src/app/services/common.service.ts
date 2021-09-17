@@ -13,7 +13,11 @@ export class CommonService {
 
   public data: Object = {};
   homeData: any = [];
+  propertyData: any = [];
+  agencies: any = [];
   total: any = 0;
+  totalProperty: any = 0;
+  totalAgencies: any = 0;
   public selectedColumnsToShow: any = {};
   public country = new BehaviorSubject({});
   countryData$ = this.country.asObservable();
@@ -48,9 +52,13 @@ export class CommonService {
   getHomeDetails = (): void => {
     this.parameter.itemsPerPage = 10;
     this.parameter.page = 1;
+    this.parameter.flag = 3;
     forkJoin([
-      this.admin.postDataApi('projectHome', this.parameter)
+      this.admin.postDataApi('projectHome', this.parameter),
+      this.admin.postDataApi('propertyHome', this.parameter),
+      this.admin.postDataApi('getAgencies', this.parameter)
     ]).subscribe(success => {
+      //project home
       this.homeData = success[0].data || [];
       (this.possessionStatuses || []).forEach(r => {
         (this.homeData || []).forEach(ele => {
@@ -71,10 +79,23 @@ export class CommonService {
         element['avgg_price_hold'] = (((parseFloat(element.avg_price_hold) || 0) / (parseFloat(element.avg_carpet_area_hold) || 0)));
       });
       this.total = success[0].total_count;
+      //property home
+      this.propertyData = success[1].data || [];
+      this.propertyData.forEach(function (element) {
+        if (element.id == (element.collection || {}).property_id) {
+          element['avgg_price'] = (((parseFloat(element.final_price) || 0) / (parseFloat(element.max_area) || 0)));
+        } else {
+          element['avgg_price'] = (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
+        }
+      });
+      this.totalProperty = success[1].total_count;
+      //proprty for sale
+      this.agencies = success[2].data || [];
+      this.totalAgencies = success[2].total_count;
     });
   }
-  getCountries(keyword) {
 
+  getCountries(keyword) {
     this.spinner.show();
     this.parameter.url = 'getCountries';
     const input = new FormData();

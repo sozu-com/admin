@@ -95,7 +95,7 @@
               </th>
             </tr>
       
-            <tr *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i=index">
+            <tr *ngFor="let item of cs.agencies| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: cs.totalAgencies }; let i=index">
               <td *ngIf="selectedColumnsToShow.image"> 
                   <img *ngIf="item.image" [defaultImage]="item.image| img:'thumb'" [lazyLoad]="item.image" class="rounded-circle" alt="img">
                   <img *ngIf="!item.image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
@@ -149,12 +149,12 @@
         </div>
       </div>
 
-      <div class="center" *ngIf="parameter.total == 0">
+      <div class="center" *ngIf="cs.totalAgencies == 0">
         <img src="assets/img/404-error.png">
       </div>
   </div>
   
-  <div class="btn-cont text-right marginT15" *ngIf="parameter.total">
+  <div class="btn-cont text-right marginT15" *ngIf="cs.totalAgencies">
     <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
   </div>
   
