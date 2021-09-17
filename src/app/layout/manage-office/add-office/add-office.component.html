@@ -285,7 +285,7 @@
                 </div>
               </div>
 
-              <div class="col-sm-12 col-12">
+              <!-- <div class="col-sm-12 col-12">
                 <div class="form-group-3">
                   <label>{{'addForm.enterCustomParameterandValue' | translate}}</label>
                   <div class="row">
@@ -314,7 +314,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
 
               <div class="spacer30"></div>
 
@@ -1467,6 +1467,29 @@
               </div>
               </div>
 
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <div class="page-title paddingL0 paddingR0">
+                  <h3>{{'addForm.p_info' | translate}}</h3>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>{{'addForm.min_price' | translate}}</label>
+                  <input  class="form-control" autocomplete="off" mask="separator.2" thousandSeparator="," type="text" name="min_price" [(ngModel)]="model.min_price" placeholder="{{'addForm.min_price' | translate}}">
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-6 col-12">
+                <div class="form-group-3">
+                  <label>{{'addForm.max_price' | translate}}</label>
+                  <input  class="form-control" autocomplete="off" mask="separator.2" thousandSeparator="," type="text" name="max_price" [(ngModel)]="model.max_price" placeholder="{{'addForm.max_price' | translate}}">
+                </div>
+              </div>
             </div>
               <div class="row">
                 <div class="col-12">

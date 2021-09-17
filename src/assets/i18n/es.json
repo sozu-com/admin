@@ -179,6 +179,9 @@
     "editSendMail": "Actualizar y enviar correo",
     "sendEmail": "enviar correo electrónico",
     "NoInformation":"No hay informacion",
+    "p_info":"Información de precios",
+    "min_price":"Precio min",
+    "max_price":"Precio máximo",
     "image": "+ Agregar imagen",
     "logo": "+ Agregar logo",
     "coverImage": "+ Agregar imagen de portada",
@@ -890,6 +893,7 @@
       "quantity": "Cantidad",
       "possesion": {
         "label": "Fecha de entrega",
+        "Building_type": "Tipo de construcción",
         "park":"Estacionamientos",
         "all": "Todo",
         "sale": "Venta",

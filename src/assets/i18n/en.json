@@ -176,6 +176,9 @@
     "editSendMail": "Update & Send Mail",
     "sendEmail": "Send Email",
     "NoInformation":"There is no information",
+    "p_info":"Price Information",
+    "min_price":"Min price",
+    "max_price":"Max price",
     "image": "+ Add Image",
     "logo": "+ Add Logo",
     "logos": "Add Logo",
@@ -892,6 +895,7 @@
       "quantity": "quantity",
       "possesion": {
         "label": "Possesion",
+        "Building_type": "Building type",
         "park":"Parking Lots",
         "all": "All",
         "sale": "Sale",

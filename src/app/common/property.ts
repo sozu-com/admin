@@ -5,7 +5,8 @@ export interface IProperty {
   commission_status_color?: any;               // total items per page
   total?: number;
   random_id?: any;                  // total records count
-  p?: number;                             // page
+  p?: number;
+  building_type?: any;                        // page
   sizeLimit?: number;                     // file size limit --- 5000000 means 5MB
   title?: string;
   text?: string;

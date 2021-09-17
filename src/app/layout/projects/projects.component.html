@@ -359,6 +359,16 @@
                     </select> -->
                   </div>
                 </th>
+                <th style="width:10%" *ngIf="selectedColumnsToShow?.building_type">
+                  <div class="table-search">
+                    <label>{{'table.th.possesion.Building_type' | translate}}</label>
+                    <select [(ngModel)]="parameter.building_type" (change)="getListing()">
+                      <option value="0">{{'table.th.all' | translate}}</option>
+                      <option *ngFor="let item of all_building_types" value="{{item.id}}"> 
+                        {{this.language_code == 'en' ? item.name_en : item.name_es }}</option>
+                    </select>
+                  </div>
+                </th>
                 <th style="vertical-align:top;width:5%" *ngIf="selectedColumnsToShow?.parking_lots">
                   <div class="table-search">
                     <label>{{'table.th.possesion.park' | translate}}</label>
@@ -508,6 +518,12 @@
                 <td  *ngIf="selectedColumnsToShow?.possesion">
                   <span *ngIf="p?.possession_status_id">{{p?.possession_status_id ? p?.status_possion : ('table.tr.td.presale' | translate)}}</span>
                     <span  *ngIf="!p?.possession_status_id">{{'table.tr.td.NA' | translate}}</span>
+                </td>
+                <td  *ngIf="selectedColumnsToShow?.building_type">
+                  <span *ngIf="p?.building_type_id">
+                    {{p?.building_type_id ? p?.status_building :  p?.status_building}}
+                  </span>
+                    <span  *ngIf="!p?.building_type_id">{{'table.tr.td.NA' | translate}}</span>
                 </td>
                 <!-- <td  *ngIf="selectedColumnsToShow?.possesion">
                   <span *ngIf="p?.possession_status_id">{{p?.possession_status_id == apiConstant.possessionStatus.sale ? ('table.tr.td.sale' |
