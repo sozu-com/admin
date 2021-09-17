@@ -14,6 +14,7 @@ import * as XLSX from 'xlsx';
 import { PricePipe } from 'src/app/pipes/price.pipe';
 import { Notes } from 'src/app/models/addProperty.model';
 import { ToastrService } from 'ngx-toastr';
+import { CommonService } from 'src/app/services/common.service';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 declare let swal: any;
@@ -74,15 +75,12 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   public keyword: string = '';
 
   constructor(
-    public constant: Constant,
-    public apiConstant: ApiConstants,
+    public constant: Constant, public apiConstant: ApiConstants,
     private route: ActivatedRoute, public noted: Notes,
-    public admin: AdminService,
-    public projectService: ProjectService,
-    private spinner: NgxSpinnerService,
-    private translate: TranslateService, private http: HttpClient,
-    private router: Router, private elementRef: ElementRef,
-    private price: PricePipe, private toastr: ToastrService,
+    public admin: AdminService, public cs: CommonService,
+    public projectService: ProjectService, private spinner: NgxSpinnerService,
+    private translate: TranslateService, private router: Router,
+    private toastr: ToastrService,
   ) {
   }
 
@@ -91,9 +89,10 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.admin.postDataApi('getBuildingTypes', { hide_blocked: 1 }).subscribe(r => {
       this.all_building_types = r.data;
     });
-
+    this.admin.postDataApi('getPossessionStatuses', { hide_blocked: 1 }).subscribe(r => {
+      this.possessionStatuses = r['data'];
+    });
     this.language_code = localStorage.getItem('language_code');
-    //console.log('baseurl', this.admin.baseUrl);
     this.locale = {
       firstDayOfWeek: 0,
       dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
@@ -128,19 +127,9 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.parameter.max_carpet_area = 0;
     this.parameter.country_id = '0';
     this.parameter.state_id = '0';
-    // this.local_storage_parameter = JSON.parse(localStorage.getItem('parametersForProject'));
-    // this.parameter = this.local_storage_parameter && this.is_back ? this.local_storage_parameter : this.parameter;
-    // this.initializedDropDownSetting();
-    // this.getCountries();
-    // // this.getPropertyConfigurations(); 
-    // this.getListing();
     this.getParametersForProject();
   }
-  getPossessionStatuses() {
-    this.admin.postDataApi('getPossessionStatuses', { hide_blocked: 1 }).subscribe(r => {
-      this.possessionStatuses = r['data'];
-    });
-  }
+
   getParametersForProject = (): void => {
     if (this.is_back) {
       this.selectedLocation.selectedLocalities = JSON.parse(localStorage.getItem('selectedLocalitiesForProject'));
@@ -166,7 +155,6 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   getListing() {
     this.spinner.show();
     this.makePostRequest();
-    this.getPossessionStatuses();
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
@@ -198,25 +186,25 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     if (this.parameter.userType === 'agency') {
       input.agency_id = this.parameter.id;
     }
+
     this.admin.postDataApi('projectHome', input).subscribe(
       success => {
-        //localStorage.setItem('parametersForProject', JSON.stringify(this.parameter));
-        this.items = success.data;
+        this.cs.homeData = success.data;
         (this.possessionStatuses || []).forEach(r => {
-          (this.items || []).forEach(ele => {
+          (this.cs.homeData || []).forEach(ele => {
             if (ele.possession_status_id == r.id) {
               ele['status_possion'] = r.name_en;
             }
           })
         });
         (this.all_building_types || []).forEach(r => {
-          (this.items || []).forEach(ele => {
+          (this.cs.homeData || []).forEach(ele => {
             if (ele.building_type_id == r.id) {
               ele['status_building'] = r.name_en;
             }
           })
         });
-        this.items.forEach(function (element) {
+        this.cs.homeData.forEach(function (element) {
           element['avgg_price'] = (((parseFloat(element.avg_price) || 0) / (parseFloat(element.avg_carpet_area) || 0)));
           element['avgg_price_hold'] = (((parseFloat(element.avg_price_hold) || 0) / (parseFloat(element.avg_carpet_area_hold) || 0)));
         });
@@ -231,6 +219,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   close() {
     $('.modal').modal('hide');
   }
+
   closeNotesadddModalModal = (): void => {
     this.notesadddModalClose.nativeElement.click();
     this.modalClose.nativeElement.click();
@@ -247,10 +236,12 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       this.notesadddModalOpen.nativeElement.click();
     });
   }
+
   goWay(item) {
     localStorage.setItem('project_id', item.id);
     this.router.navigate(['/dashboard/properties/view-properties/', item.name, '0']);
   }
+
   getCountries() {
     this.spinner.show();
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
@@ -273,7 +264,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
         this.parameter.country_id = '0';
         this.parameter.state_id = '0';
       }
-      this.getListing();
+      //  this.getListing();
     });
   }
 
@@ -455,7 +446,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   }
 
   rejectProject(status) {
-    this.items[this.parameter.index].status = status;
+    this.cs.homeData[this.parameter.index].status = status;
     this.admin.postDataApi('rejectProject', { building_id: this.parameter.building_id }).subscribe(r => {
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.projectUnapprovedSuccessfully'), 'success');
       this.closeModal();
@@ -540,7 +531,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.admin.postDataApi('deleteProject',
       { building_id: item.id }).subscribe(r => {
         swal(this.translate.instant('swal.success'), this.translate.instant('message.success.deletedSuccessfully'), 'success');
-        this.items.splice(index, 1);
+        this.cs.homeData.splice(index, 1);
         this.total--;
       },
         error => {

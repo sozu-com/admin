@@ -6,11 +6,15 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
-
+import { forkJoin } from 'rxjs'
+import { Constant } from '../common/constants';
 @Injectable()
 export class CommonService {
 
   public data: Object = {};
+  homeData: any = [];
+  total: any = 0;
+  public selectedColumnsToShow: any = {};
   public country = new BehaviorSubject({});
   countryData$ = this.country.asObservable();
 
@@ -27,10 +31,48 @@ export class CommonService {
   notificationUnreadCount$ = this.notificationUnreadCount.asObservable();
 
   public parameter: IProperty = {};
-  constructor(public admin: AdminService, private router: Router, private spinner: NgxSpinnerService,
-    private translate: TranslateService) { }
+  possessionStatuses: Array<any>;
+  all_building_types: any = [];
 
+  constructor(public admin: AdminService, private router: Router, private spinner: NgxSpinnerService, public constant: Constant,
+    private translate: TranslateService) {
+    this.admin.postDataApi('getBuildingTypes', { hide_blocked: 1 }).subscribe(r => {
+      this.all_building_types = r.data;
+    });
+    this.admin.postDataApi('getPossessionStatuses', { hide_blocked: 1 }).subscribe(r => {
+      this.possessionStatuses = r['data'];
+    });
+    this.getHomeDetails();
+  }
 
+  getHomeDetails = (): void => {
+    this.parameter.itemsPerPage = 10;
+    this.parameter.page = 1;
+    forkJoin([
+      this.admin.postDataApi('projectHome', this.parameter)
+    ]).subscribe(success => {
+      this.homeData = success[0].data || [];
+      (this.possessionStatuses || []).forEach(r => {
+        (this.homeData || []).forEach(ele => {
+          if (ele.possession_status_id == r.id) {
+            ele['status_possion'] = r.name_en;
+          }
+        })
+      });
+      (this.all_building_types || []).forEach(r => {
+        (this.homeData || []).forEach(ele => {
+          if (ele.building_type_id == r.id) {
+            ele['status_building'] = r.name_en;
+          }
+        })
+      });
+      this.homeData.forEach(function (element) {
+        element['avgg_price'] = (((parseFloat(element.avg_price) || 0) / (parseFloat(element.avg_carpet_area) || 0)));
+        element['avgg_price_hold'] = (((parseFloat(element.avg_price_hold) || 0) / (parseFloat(element.avg_carpet_area_hold) || 0)));
+      });
+      this.total = success[0].total_count;
+    });
+  }
   getCountries(keyword) {
 
     this.spinner.show();
@@ -128,30 +170,30 @@ export class CommonService {
     input.append('attachment', file);
     return this.admin.postDataApi('saveAttachment', input);
   }
-  saveAttachment1(file,id) {
+  saveAttachment1(file, id) {
     const input = new FormData();
     input.append('attachment', file);
     input.append('id', id);
-    return this.admin.postDataApi('addLinkedDocument',input);
+    return this.admin.postDataApi('addLinkedDocument', input);
   }
-  saveAttachment2(file,id) {
+  saveAttachment2(file, id) {
     const input = new FormData();
     input.append('attachment', file);
     input.append('id', id);
-    return this.admin.postDataApi('addLegalEntityDocument',input);
+    return this.admin.postDataApi('addLegalEntityDocument', input);
   }
-  saveAttachment7(file,id) {
+  saveAttachment7(file, id) {
     const input = new FormData();
     input.append('attachment', file);
     input.append('id', id);
-    return this.admin.postDataApi('addSuppliersDocument',input);
+    return this.admin.postDataApi('addSuppliersDocument', input);
   }
-  saveAttachment3(file,id) {
-    console.log(id,"saveAttachment3")
+  saveAttachment3(file, id) {
+    console.log(id, "saveAttachment3")
     const input = new FormData();
     input.append('attachment', file);
     input.append('id', id);
-    return this.admin.postDataApi('addPropertyDocument',input);
+    return this.admin.postDataApi('addPropertyDocument', input);
   }
   setPropertyDetails(data) {
     this.propertyDetails.next(data);
