@@ -788,10 +788,10 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
   getBuildingContributorsInfo = (contributor: any[]): any => {
     if (contributor.length == 1) {
-      return contributor[0].user_type == 1 ? (contributor[0].users.name + " " + (contributor[0].users.first_name ? contributor[0].users.first_name + ' ' : '') + (contributor[0].users.second_name ? contributor[0].users.second_name : '')) : contributor[0].legal_entity.comm_name;
+      return contributor[0].user_type == 1 ? (contributor[0].users.name + " " + (contributor[0].users.first_name ? contributor[0].users.first_name + ' ' : '') + (contributor[0].users.second_name ? contributor[0].users.second_name : '')) : contributor[0].legal_entity ? contributor[0].legal_entity.comm_name : '';
     }
     else if (contributor.length > 1) {
-      return contributor[0].user_type == 1 ? (contributor[0].users.name + " " + (contributor[0].users.first_name ? contributor[0].users.first_name + ' ' : '') + (contributor[0].users.second_name ? contributor[0].users.second_name : '') + '+' + (contributor.length - 1)) : (contributor[0].legal_entity.comm_name + '+' + (contributor.length - 1));
+      return contributor[0].user_type == 1 ? (contributor[0].users.name + " " + (contributor[0].users.first_name ? contributor[0].users.first_name + ' ' : '') + (contributor[0].users.second_name ? contributor[0].users.second_name : '') + '+' + (contributor.length - 1)) : ((contributor[0].legal_entity ? contributor[0].legal_entity.comm_name : '') + '+' + (contributor.length - 1));
     }
   }
 
