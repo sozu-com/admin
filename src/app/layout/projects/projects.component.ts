@@ -647,6 +647,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
           'Manager Name': p.manager && p.manager.name ? p.manager.name : '',
           'Company Name': p.company && p.company.name ? p.company.name : '',
           'Possession Status': p.possession_status_id == this.apiConstant.possessionStatus.sale ? 'Sale' : 'Presale',
+          'Building Type': p.status_building,
           'Parking Lots': this.totalParkingCount(p) || 0,
           'Properties': parseInt(p.properties_count_all) || 0,
           'Properties available for rent': parseInt((p.rent_count_all || 0) + (p.rent_and_sale_count_all || 0)),
@@ -671,6 +672,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
         this.selectedColumnsToShow.contributor == 0 ? delete obj['Contributor'] : undefined;
         this.selectedColumnsToShow.managed_company == 0 ? delete obj['Manager Name'] : undefined;
         this.selectedColumnsToShow.possesion == 0 ? delete obj['Possession Status'] : undefined;
+        this.selectedColumnsToShow.building_type == 0 ? delete obj['Building Type'] : undefined;
         this.selectedColumnsToShow.parking_lots == 0 ? delete obj['Parking Lots'] : undefined;
         this.selectedColumnsToShow.properties == 0 ? delete obj['Properties'] : undefined;
         this.selectedColumnsToShow.property_for_rent == 0 ? delete obj['Properties available for rent'] : undefined;
@@ -905,6 +907,9 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       case 22:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.avg_price_rent;
         break;
+      case 23:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.building_type;
+        break;
       default:
         break;
     }
@@ -973,6 +978,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       inventory_per_metter: (this.select_columns_list[19] || []).isCheckBoxChecked,
       image: (this.select_columns_list[20] || []).isCheckBoxChecked,
       avg_price_rent: (this.select_columns_list[21] || []).isCheckBoxChecked,
+      building_type: (this.select_columns_list[23] || []).isCheckBoxChecked
     };
   }
   getNotes(item) {

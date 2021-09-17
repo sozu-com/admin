@@ -359,7 +359,7 @@
                     </select> -->
                   </div>
                 </th>
-                <th style="width:10%" *ngIf="selectedColumnsToShow?.possesion">
+                <th style="width:10%" *ngIf="selectedColumnsToShow?.building_type">
                   <div class="table-search">
                     <label>{{'table.th.possesion.Building_type' | translate}}</label>
                     <select [(ngModel)]="parameter.building_type" (change)="getListing()">
@@ -519,7 +519,7 @@
                   <span *ngIf="p?.possession_status_id">{{p?.possession_status_id ? p?.status_possion : ('table.tr.td.presale' | translate)}}</span>
                     <span  *ngIf="!p?.possession_status_id">{{'table.tr.td.NA' | translate}}</span>
                 </td>
-                <td  *ngIf="selectedColumnsToShow?.possesion">
+                <td  *ngIf="selectedColumnsToShow?.building_type">
                   <span *ngIf="p?.building_type_id">
                     {{p?.building_type_id ? p?.status_building :  p?.status_building}}
                   </span>
