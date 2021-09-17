@@ -113,7 +113,7 @@
                   <span class="green-color">{{item.agents_count | numberWithCommas}}</span>
                 </a>
                 <ng-template #noAgentsLinked>
-                  {{item.agents_count | numberWithCommas}}
+                  {{(item.agents_count || 0) | numberWithCommas}}
                 </ng-template>
               </td>
               <td class="text-left" *ngIf="selectedColumnsToShow.linked_projects">
@@ -121,7 +121,7 @@
                   <span class="green-color">{{item.property_count | numberWithCommas}}</span>
                 </a>
                 <ng-template #noPropertyLinked >
-                    {{item.property_count | numberWithCommas}}
+                    {{(item.property_count || 0) | numberWithCommas}}
                 </ng-template>
               </td>
               <td class="text-left" *ngIf="selectedColumnsToShow.linked_properties">
@@ -129,7 +129,7 @@
                   <span class="green-color">{{item.project_count | numberWithCommas}}</span>
                 </a>
                 <ng-template #noProjectLinked>
-                    {{item.project_count | numberWithCommas}}
+                    {{(item.project_count || 0) | numberWithCommas}}
                 </ng-template>
               </td>
               <td  *ngIf="selectedColumnsToShow.actions">

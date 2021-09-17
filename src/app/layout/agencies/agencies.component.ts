@@ -318,7 +318,7 @@ export class AgenciesComponent implements OnInit {
         this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.image;
         break;
       case 23:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.action;
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.actions;
       break;
       default:
         break;
@@ -352,6 +352,7 @@ export class AgenciesComponent implements OnInit {
   applyShowSelectedColumns = (): void => {
     this.spinner.show();
     this.admin.postDataApi('updateAgencyHome', this.getPostRequestForColumn()).subscribe((response) => {
+      this.getAgencies();
       this.spinner.hide();
       this.closeSelectColumnsPopup();
       this.getAgencyHome();
