@@ -76,6 +76,10 @@ export class ExpendituresComponent implements OnInit {
     }
   }
 
+  changeFlag(item) {
+
+  }
+
   makeSelectedColumns = (id: number, index: number): void => {
     switch (id) {
       case 1:

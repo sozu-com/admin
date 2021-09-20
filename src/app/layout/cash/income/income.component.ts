@@ -124,7 +124,9 @@ export class IncomeComponent implements OnInit {
       data.isCheckBoxChecked = this.isSelectAllColumns;
     });
   }
+  changeFlag(item) {
 
+  }
   closeSelectColumnsPopup = (): void => {
     this.keyword = '';
     this.isSelectAllColumns = false;
