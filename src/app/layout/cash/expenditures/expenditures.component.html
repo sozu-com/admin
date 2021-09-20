@@ -63,7 +63,7 @@
                       </div>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 150px;">
+                  <th style="text-align:left; width: 150px;" *ngIf="selectedColumnsToShow?.buyer_name">
                     <div class="table-search">
                       <label>{{'table.th.buyerName' | translate}}</label>
                       <div class="searh-3">
@@ -74,22 +74,22 @@
                       </div>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 150px;">
+                  <th style="text-align:left; width: 150px;" *ngIf="selectedColumnsToShow?.expenditure_concept">
                     <div class="table-search">
                       <label>{{'table.th.Expenditure_concept' | translate}}</label>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 150px;">
+                  <th style="text-align:left; width: 150px;" *ngIf="selectedColumnsToShow?.expenditure_date">
                     <div class="table-search">
                       <label>{{'table.th.Expenditure_date' | translate}}</label>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 150px;">
+                  <th style="text-align:left; width: 150px;" *ngIf="selectedColumnsToShow?.amount">
                     <div class="table-search">
                       <label>{{'table.th.Amount' | translate}}</label>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 140px;">
+                  <th style="text-align:left; width: 140px;" *ngIf="selectedColumnsToShow?.project_name">
                     <div class="table-search">
                       <label>{{'table.th.Project_name' | translate}}</label>
                       <div class="searh-3">
@@ -100,7 +100,7 @@
                       </div>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 120px;">
+                  <th style="text-align:left; width: 120px;" *ngIf="selectedColumnsToShow?.property_name">
                     <div class="table-search">
                       <label>{{'table.th.Property_name' | translate}}</label>
                       <div class="searh-3">
@@ -111,7 +111,7 @@
                       </div>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 140px;">
+                  <th style="text-align:left; width: 140px;" *ngIf="selectedColumnsToShow?.expenditure_status">
                     <div class="table-search">
                       <label>{{'table.th.Expenditure_status' | translate}}</label>
                       <div class="searh-3">
@@ -122,7 +122,7 @@
                       </div>
                     </div>
                   </th> 
-                  <th style="width: 100px;" *ngIf="parameter.flag!=5">
+                  <th style="width: 100px;" *ngIf="selectedColumnsToShow?.actions">
                     <div class="table-search">
                       <label>{{'table.th.actions.label' | translate}}</label>
                     </div>
@@ -131,34 +131,37 @@
               </thead>
               <tbody class="content">
                 <tr>
-                  <td><span>111</span></td>
                   <td>
+                    <span>111</span>
+                  </td>
+                  <td *ngIf="selectedColumnsToShow?.buyer_name">
+                    <span>buyer_name</span>
+                  </td>
+                  <td *ngIf="selectedColumnsToShow?.expenditure_concept">
                     <span  style="cursor: pointer;">
                      abc
                     </span>
                   </td>
-                  <td>
+                  <td *ngIf="selectedColumnsToShow?.expenditure_date">
                     <span>
                      ndhwiufh
                     </span>
                   </td>
-                  <td>
+                  <td *ngIf="selectedColumnsToShow?.amount">
                     <span >
                      nchgyfe
                     </span>
                   </td>
-                  <td>
-                    <span>uhdhf</span>
+                  <td *ngIf="selectedColumnsToShow?.project_name">
+                    <span>project_name</span>
                   </td>
-                  <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}">jsdh
+                  <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}" *ngIf="selectedColumnsToShow?.property_name">
+                    property_name
                   </td>
-                  <td>
-                   bjxsd
-                  </td>
-                  <td>
-                    test
+                  <td *ngIf="selectedColumnsToShow?.expenditure_status">
+                    expenditure_status
                    </td>
-                  <td>
+                  <td *ngIf="selectedColumnsToShow?.actions">
                     <div class="table-actions">
                       <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
                          title="{{'table.title.editexpenditure' | translate}}" 

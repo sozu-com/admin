@@ -44,7 +44,7 @@ export class ExpendituresComponent implements OnInit {
 
   getProjectSelection = (isFirstTime: boolean, keyword?: string): void => {
     this.spinner.show();
-    this.admin.postDataApi('getProjectSelection', { name: keyword }).subscribe((response) => {
+    this.admin.postDataApi('getExpenditureSelection', { name: keyword }).subscribe((response) => {
       this.spinner.hide();
       this.select_columns_list = (response.data || []).sort((a, b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0));
       (this.select_columns_list || []).forEach((data, index) => {
@@ -79,76 +79,28 @@ export class ExpendituresComponent implements OnInit {
   makeSelectedColumns = (id: number, index: number): void => {
     switch (id) {
       case 1:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.building_name;
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.buyer_name;
         break;
       case 2:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.developer;
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.expenditure_concept;
         break;
       case 3:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.agency;
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.expenditure_date;
         break;
       case 4:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.legal_entity;
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.amount;
         break;
       case 5:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.contributor;
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.project_name;
         break;
       case 6:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.managed_company;
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.property_name;
         break;
       case 7:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.possesion;
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.expenditure_status;
         break;
       case 8:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.parking_lots;
-        break;
-      case 9:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.properties;
-        break;
-      case 10:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.property_for_rent;
-        break;
-      case 11:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.property_for_sale;
-        break;
-      case 23:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.sale_rent;
-        break;
-      case 12:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.list_price;
-        break;
-      case 13:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.carpet_area;
-        break;
-      case 14:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.price_per_metter;
-        break;
-      case 15:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.document;
-        break;
-      case 16:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.project_status;
-        break;
-      case 17:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.action;
-        break;
-      case 18:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.inventory_list_price;
-        break;
-      case 19:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.inventory_carpet_area;
-        break;
-      case 20:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.inventory_per_metter;
-        break;
-      case 21:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.image;
-        break;
-      case 22:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.avg_price_rent;
-        break;
-      case 23:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.building_type;
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.actions;
         break;
       default:
         break;
@@ -157,10 +109,8 @@ export class ExpendituresComponent implements OnInit {
   }
 
   getProjectHome = (): void => {
-    //this.spinner.show();
-    this.admin.postDataApi('getProjectHome', { user_id: JSON.parse(localStorage.getItem('user-id')) || 0 }).subscribe((response) => {
+    this.admin.postDataApi('getExpendituresHome', { user_id: JSON.parse(localStorage.getItem('user-id')) || 0 }).subscribe((response) => {
       this.selectedColumnsToShow = response.data || {};
-      //this.spinner.hide();
     }, (error) => {
       this.spinner.hide();
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
@@ -181,7 +131,7 @@ export class ExpendituresComponent implements OnInit {
 
   applyShowSelectedColumns = (): void => {
     this.spinner.show();
-    this.admin.postDataApi('updateProjectHome', this.getPostRequestForColumn()).subscribe((response) => {
+    this.admin.postDataApi('updateExpenditureHome', this.getPostRequestForColumn()).subscribe((response) => {
       this.getListing();
       this.closeSelectColumnsPopup();
       this.getProjectHome();
@@ -195,30 +145,14 @@ export class ExpendituresComponent implements OnInit {
   getPostRequestForColumn = (): any => {
     return {
       user_id: JSON.parse(localStorage.getItem('user-id')) || 0,
-      building_name: (this.select_columns_list[0] || []).isCheckBoxChecked,
-      developer: (this.select_columns_list[1] || []).isCheckBoxChecked,
-      agency: (this.select_columns_list[2] || []).isCheckBoxChecked,
-      legal_entity: (this.select_columns_list[3] || []).isCheckBoxChecked,
-      contributor: (this.select_columns_list[4] || []).isCheckBoxChecked,
-      managed_company: (this.select_columns_list[5] || []).isCheckBoxChecked,
-      possesion: (this.select_columns_list[6] || []).isCheckBoxChecked,
-      parking_lots: (this.select_columns_list[7] || []).isCheckBoxChecked,
-      properties: (this.select_columns_list[8] || []).isCheckBoxChecked,
-      property_for_rent: (this.select_columns_list[9] || []).isCheckBoxChecked,
-      property_for_sale: (this.select_columns_list[10] || []).isCheckBoxChecked,
-      sale_rent: (this.select_columns_list[22] || []).isCheckBoxChecked,
-      list_price: (this.select_columns_list[11] || []).isCheckBoxChecked,
-      carpet_area: (this.select_columns_list[12] || []).isCheckBoxChecked,
-      price_per_metter: (this.select_columns_list[13] || []).isCheckBoxChecked,
-      document: (this.select_columns_list[14] || []).isCheckBoxChecked,
-      project_status: (this.select_columns_list[15] || []).isCheckBoxChecked,
-      action: (this.select_columns_list[16] || []).isCheckBoxChecked,
-      inventory_list_price: (this.select_columns_list[17] || []).isCheckBoxChecked,
-      inventory_carpet_area: (this.select_columns_list[18] || []).isCheckBoxChecked,
-      inventory_per_metter: (this.select_columns_list[19] || []).isCheckBoxChecked,
-      image: (this.select_columns_list[20] || []).isCheckBoxChecked,
-      avg_price_rent: (this.select_columns_list[21] || []).isCheckBoxChecked,
-      building_type: (this.select_columns_list[23] || []).isCheckBoxChecked
+      buyer_name: (this.select_columns_list[0] || []).isCheckBoxChecked,
+      expenditure_concept: (this.select_columns_list[1] || []).isCheckBoxChecked,
+      expenditure_date: (this.select_columns_list[2] || []).isCheckBoxChecked,
+      amount: (this.select_columns_list[3] || []).isCheckBoxChecked,
+      project_name: (this.select_columns_list[4] || []).isCheckBoxChecked,
+      property_name: (this.select_columns_list[5] || []).isCheckBoxChecked,
+      expenditure_status: (this.select_columns_list[6] || []).isCheckBoxChecked,
+      actions: (this.select_columns_list[7] || []).isCheckBoxChecked
     };
   }
 }

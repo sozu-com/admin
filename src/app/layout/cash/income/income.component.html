@@ -64,7 +64,7 @@
                       </div>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 150px;">
+                  <th style="text-align:left; width: 150px;" *ngIf="selectedColumnsToShow?.buyer_name">
                     <div class="table-search">
                       <label>{{'table.th.buyerName' | translate}}</label>
                       <div class="searh-3">
@@ -75,22 +75,22 @@
                       </div>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 150px;">
+                  <th style="text-align:left; width: 150px;" *ngIf="selectedColumnsToShow?.payment_concept">
                     <div class="table-search">
                       <label>{{'table.th.Payment_concept' | translate}}</label>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 150px;">
+                  <th style="text-align:left; width: 150px;" *ngIf="selectedColumnsToShow?.payment_date">
                     <div class="table-search">
                       <label>{{'table.th.Payment_date' | translate}}</label>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 150px;">
+                  <th style="text-align:left; width: 150px;" *ngIf="selectedColumnsToShow?.amount_paid">
                     <div class="table-search">
                       <label>{{'table.th.Amount_paid' | translate}}</label>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 140px;">
+                  <th style="text-align:left; width: 140px;" *ngIf="selectedColumnsToShow?.project_name">
                     <div class="table-search">
                       <label>{{'table.th.Project_name' | translate}}</label>
                       <div class="searh-3">
@@ -101,7 +101,7 @@
                       </div>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 120px;">
+                  <th style="text-align:left; width: 120px;" *ngIf="selectedColumnsToShow?.property_name">
                     <div class="table-search">
                       <label>{{'table.th.Property_name' | translate}}</label>
                       <div class="searh-3">
@@ -112,7 +112,7 @@
                       </div>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 140px;">
+                  <th style="text-align:left; width: 140px;" *ngIf="selectedColumnsToShow?.payment_status">
                     <div class="table-search">
                       <label>{{'table.th.Payment_status' | translate}}</label>
                       <div class="searh-3">
@@ -123,7 +123,7 @@
                       </div>
                     </div>
                   </th> 
-                  <th style="width: 100px;" *ngIf="parameter.flag!=5">
+                  <th style="width: 100px;" *ngIf="selectedColumnsToShow?.action">
                     <div class="table-search">
                       <label>{{'table.th.actions.label' | translate}}</label>
                     </div>
@@ -132,36 +132,38 @@
               </thead>
               <tbody class="content">
                 <tr>
-                  <td><span>111</span></td>
                   <td>
+                    <span>111</span>
+                  </td>
+                  <td *ngIf="selectedColumnsToShow?.buyer_name">
                     <span  style="cursor: pointer;">
                      abc
                     </span>
                   </td>
-                  <td>
+                  <td *ngIf="selectedColumnsToShow?.payment_concept">
                     <span>
                      ndhwiufh
                     </span>
                   </td>
-                  <td>
+                  <td *ngIf="selectedColumnsToShow?.payment_date">
                     <span >
                      nchgyfe
                     </span>
                   </td>
-                  <td>
-                    <span>uhdhf</span>
+                  <td *ngIf="selectedColumnsToShow?.amount_paid">
+                    <span>amount_paid</span>
                   </td>
-                  <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}">jsdh
+                  <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}" *ngIf="selectedColumnsToShow?.project_name">
+                    project_name
                   </td>
-                  <td>
-                   bjxsd
+                  <td *ngIf="selectedColumnsToShow?.property_name">
+                    property_name
                   </td>
-                  <td>
-                    test
+                  <td *ngIf="selectedColumnsToShow?.payment_status">
+                    payment_status
                    </td>
-                  <td>
+                  <td *ngIf="selectedColumnsToShow?.action">
                     <div class="table-actions">
-
                       <button  
                        title="{{'table.title.Receipt_view' | translate}}" class="action-icon">
                         <img src="assets/img/eye-icon.png" alt="img">
@@ -174,7 +176,7 @@
                           src="assets/img/block.png" alt="img"></button>
                           
                         <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
-                         title="{{'table.title.editPayment' | translate}}" 
+                         title="Edit" 
                          class="action-icon" >
                          <img src="assets/img/edit.png" alt="img">
                         </button>
