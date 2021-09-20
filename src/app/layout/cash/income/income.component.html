@@ -1,3 +1,207 @@
-<p>
-  income works!
-</p>
+<div class="container-fluid ">
+  <!-- <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <p class="p16">{{'viewCommission.label' | translate}}</p>
+      </div>
+    </div>
+  </div> -->
+  <div class="row">
+    <div class="offset-md-4"></div>
+    <div class="col-md-8 col-12">
+      <div class="cust-tabs-2">
+        <ul class="nav nav-tabs float-right">
+          <li class="nav-item">
+            <a [ngClass]="{'active':parameter.dash_flag == 1}" (click)="changeFlag(1)" class="nav-link"
+              data-toggle="tab" href="#tw">{{'filters.time.thisWeek' | translate}}</a>
+          </li>
+          <li class="nav-item">
+            <a [ngClass]="{'active':parameter.dash_flag == 2}" (click)="changeFlag(2)" class="nav-link"
+              data-toggle="tab" href="#tm">{{'filters.time.thisMonth' | translate}}</a>
+          </li>
+          <li class="nav-item">
+            <a [ngClass]="{'active':parameter.dash_flag == 3}" (click)="changeFlag(3)" class="nav-link"
+              data-toggle="tab" href="#lm">{{'filters.time.lastMonth' | translate}}</a>
+          </li>
+          <li class="nav-item">
+            <a [ngClass]="{'active':parameter.dash_flag == 4}" (click)="changeFlag(4)" class="nav-link"
+              data-toggle="tab" href="#lt">{{'filters.time.lifetime' | translate}}</a>
+          </li>
+          <li class="nav-item">
+            <a [ngClass]="{'active':parameter.dash_flag == 5}" (click)="changeFlag(5)" class="nav-link"
+              data-toggle="tab" href="#cust">{{'filters.time.custom.label' | translate}}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="cust-tabs">
+    <div class="tab-content white-bg">
+      <div class="tab-pane active">
+        <div class="tabel-section">
+          <div class="table-responsive main-table">
+            <table class="table table-striped table-align-left quick-table">
+              <thead id="myHeader">
+                <tr>
+                  <th style="text-align:left; width: 80px;" [style.z-index]="100">
+                    <div class="table-search">
+                      <label>ID</label>
+                      <div class="searh-3">
+                        <input autocomplete="off" type="text" [(ngModel)]="parameter.collection_id"
+                          (keyup.enter)="getListing()">
+                        <button *ngIf="parameter.collection_id" (click)="getListing()"><i
+                            class="fa fa-search"></i></button>
+                      </div>
+                    </div>
+                  </th>
+                  <th style="text-align:left; width: 150px;">
+                    <div class="table-search">
+                      <label>{{'table.th.buyerName' | translate}}</label>
+                      <div class="searh-3">
+                        <input autocomplete="off" class="width100px" type="text" [(ngModel)]="parameter.buyer_name"
+                          (keyup.enter)="getListing()">
+                        <button *ngIf="parameter.buyer_name" (click)="getListing()"><i
+                            class="fa fa-search"></i></button>
+                      </div>
+                    </div>
+                  </th>
+                  <th style="text-align:left; width: 150px;">
+                    <div class="table-search">
+                      <label>{{'table.th.Payment_concept' | translate}}</label>
+                    </div>
+                  </th>
+                  <th style="text-align:left; width: 150px;">
+                    <div class="table-search">
+                      <label>{{'table.th.Payment_date' | translate}}</label>
+                    </div>
+                  </th>
+                  <th style="text-align:left; width: 150px;">
+                    <div class="table-search">
+                      <label>{{'table.th.Amount_paid' | translate}}</label>
+                    </div>
+                  </th>
+                  <th style="text-align:left; width: 140px;">
+                    <div class="table-search">
+                      <label>{{'table.th.Project_name' | translate}}</label>
+                      <div class="searh-3">
+                        <input autocomplete="off" class="width100px" type="text" [(ngModel)]="parameter.building_name"
+                          (keyup.enter)="getListing()">
+                        <button *ngIf="parameter.building_name" (click)="getListing()"><i
+                            class="fa fa-search"></i></button>
+                      </div>
+                    </div>
+                  </th>
+                  <th style="text-align:left; width: 120px;">
+                    <div class="table-search">
+                      <label>{{'table.th.Property_name' | translate}}</label>
+                      <div class="searh-3">
+                        <input autocomplete="off" class="width100px" type="text" [(ngModel)]="parameter.tower_name"
+                          (keyup.enter)="getListing()">
+                        <button *ngIf="parameter.tower_name" (click)="getListing()"><i
+                            class="fa fa-search"></i></button>
+                      </div>
+                    </div>
+                  </th>
+                  <th style="text-align:left; width: 140px;">
+                    <div class="table-search">
+                      <label>{{'table.th.Payment_status' | translate}}</label>
+                      <div class="searh-3">
+                        <input autocomplete="off" class="width100px" type="text" [(ngModel)]="parameter.apartment_name"
+                          (keyup.enter)="getListing()">
+                        <button *ngIf="parameter.apartment_name" (click)="getListing()"><i
+                            class="fa fa-search"></i></button>
+                      </div>
+                    </div>
+                  </th> 
+                  <th style="width: 100px;" *ngIf="parameter.flag!=5">
+                    <div class="table-search">
+                      <label>{{'table.th.actions.label' | translate}}</label>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="content">
+                <tr>
+                  <td><span>111</span></td>
+                  <td>
+                    <span  style="cursor: pointer;">
+                     abc
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                     ndhwiufh
+                    </span>
+                  </td>
+                  <td>
+                    <span >
+                     nchgyfe
+                    </span>
+                  </td>
+                  <td>
+                    <span>uhdhf</span>
+                  </td>
+                  <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}">jsdh
+                  </td>
+                  <td>
+                   bjxsd
+                  </td>
+                  <td>
+                    test
+                   </td>
+                  <td>
+                    <div class="table-actions">
+
+                      <button  
+                       title="{{'table.title.Receipt_view' | translate}}" class="action-icon">
+                        <img src="assets/img/eye-icon.png" alt="img">
+                      </button> 
+
+                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
+                        (click)="cancelPopup(p, i, p?.is_cancelled == 0 ? 1 : 0)"
+                        title="{{'table.title.cancel_item' | translate}}"
+                        class="action-icon" [ngClass]="{'unblock-bg':p?.is_cancelled==1}"><img
+                          src="assets/img/block.png" alt="img"></button>
+                          
+                        <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
+                         title="{{'table.title.editPayment' | translate}}" 
+                         class="action-icon" >
+                         <img src="assets/img/edit.png" alt="img">
+                        </button>
+                    </div>
+                  </td> 
+          
+                </tr>
+              </tbody>
+            </table>
+            <div class="padding20 center" *ngIf="total == 0">
+
+              <p class="show-not-found" style="margin-left: 12%;">
+                {{parameter.flag==1 ? ('message.error.noCommissionFound' | translate) :
+                ('message.error.noCommissionFound' | translate)}}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane container fade" id="seller">{{'table.th.sellerTabOn' | translate}}</div>
+    </div>
+  </div>
+
+  <div class="btn-cont marginT15" *ngIf="total">
+    <div class="row">
+      <div class="col-6">
+        <div class="title-group">
+          <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}}
+            {{total}}</p>
+        </div>
+      </div>
+      <div class="col-6 text-right">
+        <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>
+

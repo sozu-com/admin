@@ -15,6 +15,7 @@ import { SharedModule } from 'src/app/modules/shared.module';
 import { IncomeComponent } from './income/income.component';
 import { ExpendituresComponent } from './expenditures/expenditures.component';
 import { CashComponent } from './cash.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 const routes: Routes = [
     {
@@ -39,7 +40,7 @@ const routes: Routes = [
         RouterModule.forChild(routes),
         CommonModule,
         TranslateModule,
-        FormsModule,
+        FormsModule, NgxPaginationModule,
         ReactiveFormsModule,
         ModalModule.forRoot(),      // modal
         NgxSpinnerModule,
