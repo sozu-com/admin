@@ -100,8 +100,8 @@ const routes: Routes = [
         loadChildren: './metatags/metatags.module#MetatagsModule'
       },
       {
-        path: 'cashflow',
-        loadChildren: './cashflow/cashflow.module#cashflowModule'
+        path: 'cash',
+        loadChildren: './cash/cash.module#cashModule'
       },
       {
         path: 'properties',

@@ -12,9 +12,9 @@ import { Routes, RouterModule } from '@angular/router';
 // components
 import { AclUserGuard } from '../../guards/acl-user.guard';
 import { SharedModule } from 'src/app/modules/shared.module';
-import { ExpendituresComponent } from './expenditures/expenditures.component';
 import { IncomeComponent } from './income/income.component';
-import { CashflowComponent } from './cashflow.component';
+import { ExpendituresComponent } from './expenditures/expenditures.component';
+import { CashComponent } from './cash.component';
 
 const routes: Routes = [
     {
@@ -31,7 +31,7 @@ const routes: Routes = [
 @NgModule({
 
     declarations: [
-        CashflowComponent,
+        CashComponent,
         IncomeComponent,
         ExpendituresComponent,
     ],
@@ -53,4 +53,4 @@ const routes: Routes = [
     exports: [RouterModule]
 })
 
-export class cashflowModule { }
+export class cashModule { }
