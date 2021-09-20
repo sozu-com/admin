@@ -1,11 +1,18 @@
 <div class="container-fluid ">
-  <!-- <div class="row">
-    <div class="col-md-4">
-      <div class="form-group">
-        <p class="p16">{{'viewCommission.label' | translate}}</p>
-      </div>
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+       <div class="form-group">
+          <p class="p16">{{'viewProjects.Expenditures' | translate}}</p>
+       </div>
     </div>
-  </div> -->
+    <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+       <div class="form-group" style="float: right;">
+          <button class="action-icon" (click)="getProjectSelection(true)"
+          title="{{'table.title.selectColumns' | translate}}"><i class="fa fa-pause" 
+              style="cursor: pointer;"></i></button>               
+       </div>
+    </div>
+ </div>
   <div class="row">
     <div class="offset-md-4"></div>
     <div class="col-md-8 col-12">
@@ -154,15 +161,15 @@
                   <td>
                     <div class="table-actions">
                       <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
+                         title="{{'table.title.editexpenditure' | translate}}" 
+                         class="action-icon" >
+                         <img src="assets/img/edit.png" alt="img">
+                        </button>
+                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
                         (click)="cancelPopup(p, i, p?.is_cancelled == 0 ? 1 : 0)"
                         title="{{'table.title.cancel_item' | translate}}"
                         class="action-icon" [ngClass]="{'unblock-bg':p?.is_cancelled==1}"><img
-                          src="assets/img/block.png" alt="img"></button>
-                          
-                        <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
-                         title="{{'table.title.editPayment' | translate}}" 
-                         class="action-icon" >
-                         <img src="assets/img/edit.png" alt="img">
+                          src="assets/img/block.png" alt="img">
                         </button>
                     </div>
                   </td> 
@@ -197,5 +204,70 @@
       </div>
     </div>
   </div>
+
+  <!-- select columns -->
+<a data-toggle="modal" data-target="#link-select-columns-model" #openSelectColumnsModal style="display: none;"></a>
+<div class="modal" id="link-select-columns-model">
+   <div class="modal-dialog" style="width: max-content; margin: 0 auto;">
+      <div class="modal-content notary-avail">
+         <div class="modal-header popup-header">
+            <h4 class="modal-title">{{'table.title.columnsSelection' | translate}}</h4>
+            <button type="button" class="close" #closeSelectColumnsModal data-dismiss="modal">&times;</button>
+         </div>
+         <div class="modal-body">
+            <p class="modal-title">{{'table.title.selectTheColumnYouWantToVisualize' | translate}}</p>
+          <br/>
+          <div class="row">
+            <div class="col-md-8 col-6">
+                     <label class="p16-two">
+                       <input class="form-control" class="is_commission_sale_enabled" type="checkbox"
+                         name="SelectAll" (change)="changeSelectAll()"  [(ngModel)]="isSelectAllColumns" >
+                       <span style="margin-left: 10px; vertical-align: super;">{{'commonBlock.selectAll' |
+                         translate}}</span>
+                     </label>
+            </div>
+            <div class="col-md-4 col-6 btn-cont">
+               <a class="btn btn-primary pull-right" href="javascript://"
+                  (click)="applyShowSelectedColumns()">{{'filters.location.applyBtn' | translate}}</a>
+            </div>
+         </div>
+         <div class="spacer40"></div>
+            <div class="row">
+               <div class="col-md-8 col-6">
+                  <input style="max-width:200px;background-color: white;" (keyup.enter)="getProjectSelection(false, keyword)" [(ngModel)]="keyword"
+                     class="form-control" type="text" name="keyword"
+                     placeholder="{{'addForm.placeholder.search' | translate}}">
+               </div>
+               <div class="col-md-4 col-5 btn-cont">
+                  <a class="btn btn-primary pull-right" href="javascript://"
+                     (click)="getProjectSelection(false, keyword)">{{'viewProperty.search' | translate}}</a>
+               </div>
+            </div>
+
+            <div class="spacer40"></div>
+            <div class="modal-table-data" malihu-scrollbar>
+               <table class="table">
+                  <tr *ngFor="let item of select_columns_list; let ii=index">
+                     <td>
+                        <div class="row">
+                           <div class="col-md-12 col-12">
+                              <label class="p16-two">
+                                 <input class="form-control" class="is_commission_sale_enabled" type="checkbox"
+                                        name="checkbox{{ii}}" [(ngModel)]="item.isCheckBoxChecked" (change)="changeSelect()">
+                                 <span style="margin-left: 10px; vertical-align: super;">
+                                    {{this.language_code == 'en' ? item.name_en : item.name_es }}
+                                 </span>
+                                 </label>
+                           </div>
+                        </div>
+                     </td>
+                  </tr>
+               </table>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
 </div>
 

@@ -1186,6 +1186,7 @@
       "applyPayment": "Apply Payment",
       "viewFolders": "View Folders",
       "editPayment": "Edit Applied Payment",
+      "editexpenditure": "Edit expenditure",
       "collectionCommission": "Collection Commission",
       "penaltyPayment": "Add Penalty",
       "editPenalty": "Edit Penalty",
@@ -1645,6 +1646,8 @@
   },
   "viewProjects": {
     "label": "Manage Projects",
+    "Expenditures": "Expenditures",
+    "income":"Income",
     "addBtn": "+Add New Project",
     "sellerTabOn": "Seller tab on",
     "addReason": "Add Reason",

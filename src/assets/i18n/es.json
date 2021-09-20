@@ -1186,6 +1186,7 @@
       "activeCollection": "Colección activa",
       "applyPayment": "Aplicar pago",
       "viewFolders": "Ver carpetas",
+      "editexpenditure": "Editar gastos",
       "editPayment": "Editar pago aplicado",
       "collectionCommission": "Comisión de cobro",
       "penaltyPayment": "Añadir penalización",
@@ -1646,6 +1647,8 @@
   },
   "viewProjects": {
     "label": "Administrar proyectos",
+    "Expenditures": "Gastos",
+    "income":"Ingreso",
     "addBtn": "+Agregar nuevo proyecto",
     "sellerTabOn": "Pestaña del vendedor",
     "addReason": "Agregar razón",
