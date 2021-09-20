@@ -36,6 +36,9 @@ import { SharedModule } from '../modules/shared.module';
 import { Img360viewerComponent } from './img360viewer/img360viewer.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { OutSideAddComponent } from './inhouse-users/out-side-add/out-side-add.component';
+import { CashflowComponent } from './cashflow/cashflow.component';
+import { IncomeComponent } from './cashflow/income/income.component';
+import { ExpendituresComponent } from './cashflow/expenditures/expenditures.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -73,7 +76,10 @@ import { OutSideAddComponent } from './inhouse-users/out-side-add/out-side-add.c
     // AddressComponent,
     GenerateThumbComponent,
     AclPermissionDirective,
-    Img360viewerComponent
+    Img360viewerComponent,
+    CashflowComponent,
+    IncomeComponent,
+    ExpendituresComponent
   ],
   providers: [MessagingService, AuthGuard, AclUserGuard],
   bootstrap: [LayoutComponent]

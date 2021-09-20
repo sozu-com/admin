@@ -40,6 +40,7 @@ const routes: Routes = [
       },
       // { path: 'change-password', component: ChangePasswordComponent},
       { path: 'notary', loadChildren: './notary/notary.module#NotaryModule' },
+
       { path: 'banks', loadChildren: './banks/banks.module#BanksModule' },
       {
         path: 'developers',
@@ -97,6 +98,10 @@ const routes: Routes = [
       {
         path: 'metatags',
         loadChildren: './metatags/metatags.module#MetatagsModule'
+      },
+      {
+        path: 'cashflow',
+        loadChildren: './cashflow/cashflow.module#cashflowModule'
       },
       {
         path: 'properties',
