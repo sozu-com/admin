@@ -2158,15 +2158,12 @@
           <div class="row">
             <div class="col-sm-6 col-12">
               <div class="form-group-3">
-                <label>{{'addForm.title' | translate}}</label>
+                <label>{{'addForm.Type' | translate}}</label>
                 <select class="form-control" [(ngModel)]="new_config.configuration_id"
                   (change)="selectConfiguration($event.target.value,new_config)" name="config_name">
                   <option value="">{{'addForm.select' | translate}}</option>
                   <option *ngFor="let c of all_configurations" value="{{c.id}}" daa-model="c">
-                    <!-- {{c.name}} -->
-                    <span *ngIf="c.status">
-                      <app-property-configuration *ngIf="c" [configuration]="c"></app-property-configuration>
-                    </span>
+                     {{language_code == 'en'? c.title_en : c.title_es}}
                   </option>
                 </select>
               </div>

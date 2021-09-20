@@ -253,7 +253,7 @@ export class ManageOfficeComponent implements OnInit {
   }
 
   getPropertyConfigurations() {
-    this.admin.postDataApi('getConfigurations', { hide_blocked: 1 }).subscribe(r => {
+    this.admin.postDataApi('getConfig', { hide_blocked: 1 }).subscribe(r => {
       this.configurations = r['data'];
     });
   }
@@ -309,25 +309,6 @@ export class ManageOfficeComponent implements OnInit {
     });
     this.location.localities = localities;
   }
-
-  // onCityChange(id) {
-  //   this.location.localities = []; this.parameter.locality_id = '0';
-  //   if (!id || id === '0') {
-  //     this.parameter.locality_id = '0';
-  //     return false;
-  //   }
-  //   this.parameter.city_id = id;
-  //   const selectedCountry = this.location.cities.filter(x => x.id.toString() === id);
-  //   this.location.localities = selectedCountry[0].localities;
-  // }
-
-  // onLocalityChange(id) {
-  //   this.parameter.locality_id = '';
-  //   if (!id || id === '0') {
-  //     return false;
-  //   }
-  //   this.parameter.locality_id = id;
-  // }
 
   changeFlag(flag: number) {
     this.parameter.dash_flag = flag;

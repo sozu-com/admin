@@ -506,7 +506,7 @@ export class AddOfficeComponent implements OnInit {
       this.all_building_types = r.data;
     });
 
-    this.admin.postDataApi('getConfigurations', { hide_blocked: 1 }).subscribe(r => {
+    this.admin.postDataApi('getConfig', { hide_blocked: 1 }).subscribe(r => {
       this.all_configurations = r.data;
     });
   }
