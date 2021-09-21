@@ -891,6 +891,14 @@
       "city": "Ciudad",
       "supplier": "Proveedor",
       "quantity": "Cantidad",
+      "downPayment": "Enganche",
+      "monthlyInstallment": "Pago mensual",
+      "specialPayment": "Pagos especiales",
+      "paymentupondelivery": "Pago a la entrega",
+      "layaway": "Apartado",
+      "cancelationCommision": "Comisión de cancelación",
+      "expenditure": "Gasto",
+      "income": "Ingreso",
       "possesion": {
         "label": "Fecha de entrega",
         "Building_type": "Tipo de construcción",
@@ -2326,7 +2334,10 @@
     "beneficiaryDocumentation": "Documentación del beneficiario",
     "tutorDocumentation": "Documentación del tutor",
     "interestedProjects": "Proyectos de interés",
-    "preferencesMatch": "Resultados de preferencias"
+    "preferencesMatch": "Resultados de preferencias",
+    "yes":"Sí",
+    "cancel": "Cancelar",
+    "continue": "continuar"
   },
   "viewCollections": {
     "choose": "Escoger",

@@ -197,6 +197,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   @ViewChild('localityClose') localityClose: ElementRef;
   @ViewChild('openSelectColumnsModal') openSelectColumnsModal: ElementRef;
   @ViewChild('closeSelectColumnsModal') closeSelectColumnsModal: ElementRef;
+  @ViewChild('openCancelDetailModal') openCancelDetailModal: ElementRef;
+  @ViewChild('closeCancelDetailModal') closeCancelDetailModal: ElementRef;
 
   collectionStatusFilter = [
     { name: 'Up to Date', value: 1 },
@@ -250,6 +252,16 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   select_columns_list: any[] = [];
   public selectedCollectionColumnsToShow: any = {};
   public isSelectAllColumns: boolean = false;
+  select_collection: any;
+  cancelationCommision: any;
+  showNext: boolean = false;
+  monthly_installment_amounts = 0;
+  layaway_payment = 0;
+  down_payment = 0;
+  special_payment = 0;
+  payment_upon_delivery = 0;
+  status_collection: number;
+  index_collection: number;
   constructor(
     public constant: Constant,
     public apiConstants: ApiConstants,
@@ -783,6 +795,10 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   }
 
   cancelPopup(item: any, index: number, status: number) {
+    let self = this;
+    this.select_collection = item;
+    this.index_collection = index;
+    this.status_collection = status;
     const t = status == 1 ?
       this.translate.instant('message.error.wantToCancelCollection') :
       this.translate.instant('message.error.wantToActiveCollection');
@@ -795,9 +811,26 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
+        if(this.select_collection.is_cancelled != 1){
+        self.select_collection.payment_choices.forEach(function (element, index) {
+          self.monthly_installment_amounts = element.category_name.includes('Monthly Installment') ? self.monthly_installment_amounts + element.amount :  self.monthly_installment_amounts + 0;
+          self.layaway_payment = element.category_name.includes('Layaway Payment') ? self.layaway_payment + element.amount : self.layaway_payment + 0;
+          self.down_payment = element.category_name.includes('Down Payment') ? self.down_payment + element.amount : self.down_payment + 0;
+          self.special_payment = element.category_name.includes('Special payment') ? self.special_payment + element.amount : self.special_payment + 0;
+          self.payment_upon_delivery = element.category_name.includes('Payment upon Delivery') ? self.payment_upon_delivery + element.amount : self.payment_upon_delivery + 0;       
+        });
+        this.openCancelDetailModal.nativeElement.click();
+      }else{
         this.cancelPropertyCollections(item, index, status);
       }
+      }
     });
+  }
+
+  closeCancelModal(){
+    this.showNext = false;
+    this.cancelationCommision = undefined;
+    this.closeCancelDetailModal.nativeElement.click();
   }
 
   cancelPropertyCollections(item: any, index: number, status: number) {
@@ -808,6 +841,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           this.translate.instant('message.success.activedSuccessfully');
         this.toastr.success(t, this.translate.instant('swal.success'));
         this.items[index].is_cancelled = status;
+        this.closeCancelDetailModal.nativeElement.click();
       },
         error => {
           this.toastr.error(error.error.message, this.translate.instant('swal.error'));

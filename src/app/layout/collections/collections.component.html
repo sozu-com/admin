@@ -7,11 +7,11 @@
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6 col-12">
       <div class="form-group" style="float: right;">
-         <button class="action-icon" (click)="getCollectionSelection(true)"
-            title="{{'table.title.selectColumns' | translate}}"><i class="fa fa-pause"
-               style="cursor: pointer;"></i></button>
+        <button class="action-icon" (click)="getCollectionSelection(true)"
+          title="{{'table.title.selectColumns' | translate}}"><i class="fa fa-pause"
+            style="cursor: pointer;"></i></button>
       </div>
-   </div>
+    </div>
   </div>
   <div class="row">
     <div class="offset-md-4"></div>
@@ -198,7 +198,8 @@
                       </div>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 150px;" *ngIf="selectedCollectionColumnsToShow?.buyer_legal_representative">
+                  <th style="text-align:left; width: 150px;"
+                    *ngIf="selectedCollectionColumnsToShow?.buyer_legal_representative">
                     <div class="table-search">
                       <label>{{'table.th.buyerLegalRepresentative' | translate}}</label>
                     </div>
@@ -214,7 +215,8 @@
                       </div>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 150px;" *ngIf="selectedCollectionColumnsToShow?.seller_legal_representative">
+                  <th style="text-align:left; width: 150px;"
+                    *ngIf="selectedCollectionColumnsToShow?.seller_legal_representative">
                     <div class="table-search">
                       <label>{{'table.th.sellerLegalRepresentative' | translate}}</label>
                     </div>
@@ -279,7 +281,8 @@
                       </select>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 140px;z-index: 2;" *ngIf="selectedCollectionColumnsToShow?.purchase_date">
+                  <th style="vertical-align:top; width: 140px;z-index: 2;"
+                    *ngIf="selectedCollectionColumnsToShow?.purchase_date">
                     <div class="table-search">
                       <div (click)="sort_by(1)" class="d-flex table-search">
                         <label>{{'table.th.purchaseDate' | translate}}</label>
@@ -306,7 +309,8 @@
                       <label>{{'table.th.lastConcept' | translate}}</label>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 110px;" *ngIf="selectedCollectionColumnsToShow?.last_date_of_payment">
+                  <th style="vertical-align:top; width: 110px;"
+                    *ngIf="selectedCollectionColumnsToShow?.last_date_of_payment">
                     <div class="d-flex table-search">
                       <label>{{'table.th.lastDateOfPayment' | translate}}</label>
                     </div>
@@ -321,7 +325,8 @@
                       <label>{{'table.th.nextConcept' | translate}}</label>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 110px;" *ngIf="selectedCollectionColumnsToShow?.next_date_of_payment">
+                  <th style="vertical-align:top; width: 110px;"
+                    *ngIf="selectedCollectionColumnsToShow?.next_date_of_payment">
                     <div class="d-flex table-search">
                       <label>{{'table.th.nextDateOfPayment' | translate}}</label>
                     </div>
@@ -336,7 +341,8 @@
                       <label>{{'table.th.currency' | translate}}</label>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 100px;" *ngIf="selectedCollectionColumnsToShow?.sozu_commission">
+                  <th style="vertical-align:top; width: 100px;"
+                    *ngIf="selectedCollectionColumnsToShow?.sozu_commission">
                     <div class="table-search">
                       <label>{{'table.th.sozuPC' | translate}}</label>
                     </div>
@@ -379,7 +385,8 @@
                       </select>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 100px;" *ngIf="selectedCollectionColumnsToShow?.collection_commission">
+                  <th style="vertical-align:top; width: 100px;"
+                    *ngIf="selectedCollectionColumnsToShow?.collection_commission">
                     <div class="table-search">
                       <label>{{'table.th.sozuCC' | translate}}</label>
                     </div>
@@ -404,7 +411,8 @@
                       <label>{{'table.th.CCInvoice' | translate}}</label>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 100px;" *ngIf="selectedCollectionColumnsToShow?.inhouse_agent_commission">
+                  <th style="vertical-align:top; width: 100px;"
+                    *ngIf="selectedCollectionColumnsToShow?.inhouse_agent_commission">
                     <div class="table-search">
                       <label>{{'table.th.inhouseagentCommission' | translate}}</label>
                     </div>
@@ -424,7 +432,8 @@
                       <label>{{'table.th.ACInvoice' | translate}}</label>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 100px;" *ngIf="selectedCollectionColumnsToShow?.outside_agent_commission">
+                  <th style="vertical-align:top; width: 100px;"
+                    *ngIf="selectedCollectionColumnsToShow?.outside_agent_commission">
                     <div class="table-search">
                       <label>{{'table.th.outsideagentCommission' | translate}}</label>
                     </div>
@@ -444,7 +453,8 @@
                       <label>{{'table.th.OACInvoice' | translate}}</label>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 112px;" *ngIf="selectedCollectionColumnsToShow?.agent_commission_inhouse">
+                  <th style="vertical-align:top; width: 112px;"
+                    *ngIf="selectedCollectionColumnsToShow?.agent_commission_inhouse">
                     <div class="table-search">
                       <label>{{'table.th.agentCommissionInhouse' | translate}}</label>
                       <div class="searh-3">
@@ -455,7 +465,8 @@
                       </div>
                     </div>
                   </th>
-                  <th style="vertical-align:top; width: 113px;" *ngIf="selectedCollectionColumnsToShow?.agent_commission_outside">
+                  <th style="vertical-align:top; width: 113px;"
+                    *ngIf="selectedCollectionColumnsToShow?.agent_commission_outside">
                     <div class="table-search">
                       <label>{{'table.th.agentCommissionOutside' | translate}}</label>
                       <div class="searh-3">
@@ -471,7 +482,8 @@
                       <label>{{'table.th.finalPrice' | translate}}</label>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 120px;" *ngIf="selectedCollectionColumnsToShow?.final_price_per_metter">
+                  <th style="text-align:left; width: 120px;"
+                    *ngIf="selectedCollectionColumnsToShow?.final_price_per_metter">
                     <div class="table-search">
                       <label>{{'table.th.finalPrice_per' | translate}}</label>
                     </div>
@@ -571,7 +583,8 @@
                       p?.seller?.legal_representative?.second_surname) : ('table.tr.td.NA' | translate)}}
                     </span>
                   </td>
-                  <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}" *ngIf="selectedCollectionColumnsToShow?.name_of_building">
+                  <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
+                    *ngIf="selectedCollectionColumnsToShow?.name_of_building">
                     <strong>{{p?.property?.building?.name ? p?.property?.building?.name: ('table.tr.td.NA' |
                       translate)}}</strong>
                   </td>
@@ -582,10 +595,11 @@
                   <!-- <td>
                     <span  (click)="this.navigateToProperty(p)" style="cursor: pointer;">{{p?.property?.name ? p?.property?.name : ('table.tr.td.NA' | translate)}}</span>
                   </td> -->
-                  <td [ngClass]="{'green-color cursor-pointer': p?.property?.name }" *ngIf="selectedCollectionColumnsToShow?.name_of_apartment">
+                  <td [ngClass]="{'green-color cursor-pointer': p?.property?.name }"
+                    *ngIf="selectedCollectionColumnsToShow?.name_of_apartment">
                     <!-- (click)="this.navigateToProperty(p)" -->
-                    <span  *ngIf="p?.property?.name" class="green-color cursor-pointer" 
-                    (click)="this.navigateToProperty(p)">
+                    <span *ngIf="p?.property?.name" class="green-color cursor-pointer"
+                      (click)="this.navigateToProperty(p)">
                       {{p?.property?.name}}
                     </span>
                     <span *ngIf="!p?.property?.name">{{'table.tr.td.NA' | translate}}</span>
@@ -606,7 +620,8 @@
                     <span>{{p.deal_purchase_date ? getDateWRTTimezone(p.deal_purchase_date, 'DD/MMM/YYYY') :
                       ('table.tr.td.NA' | translate)}}</span>
                   </td>
-                  <td *ngIf="selectedCollectionColumnsToShow?.last_concept"><span>{{ p?.last_payment ? getLastPaymentConcept(p) : ('table.tr.td.NA' | translate)}}</span></td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.last_concept"><span>{{ p?.last_payment ?
+                      getLastPaymentConcept(p) : ('table.tr.td.NA' | translate)}}</span></td>
                   <td *ngIf="selectedCollectionColumnsToShow?.last_date_of_payment">
                     <span>{{(p?.last_payment?.payment_date ? (p?.last_payment?.payment_date | date:'dd/MMM/yyyy') :
                       ('table.tr.td.NA' | translate) )}}</span>
@@ -615,7 +630,8 @@
                       [ngClass]="{'red-color':((p?.last_payment?.calc_payment_amount || 0) < (p?.last_payment?.amount || 0))}">
                       {{ (p?.last_payment?.collection_amount || 0) | currency}}
                     </span></td>
-                  <td *ngIf="selectedCollectionColumnsToShow?.next_concept"><span>{{p?.next_payment?.name || ('table.tr.td.NA' | translate)}}</span></td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.next_concept"><span>{{p?.next_payment?.name ||
+                      ('table.tr.td.NA' | translate)}}</span></td>
                   <td *ngIf="selectedCollectionColumnsToShow?.next_date_of_payment">
                     <span>{{(p?.next_payment?.date ? (p?.next_payment?.date | date:'dd/MMM/yyyy') : ('table.tr.td.NA' |
                       translate) )}}</span>
@@ -624,7 +640,8 @@
                     <span>{{ ((p?.next_payment?.amount || 0)-(p?.next_payment?.calc_payment_amount || 0)) |
                       currency}}</span>
                   </td>
-                  <td *ngIf="selectedCollectionColumnsToShow?.currency"><span>{{p?.currency?.code || ('table.tr.td.NA' | translate)}}</span></td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.currency"><span>{{p?.currency?.code || ('table.tr.td.NA' |
+                      translate)}}</span></td>
                   <td *ngIf="selectedCollectionColumnsToShow?.sozu_commission">
                     <span>{{p?.comm_total_commission ? (p?.comm_total_commission | number : '1.2-3') : ('table.tr.td.NA'
                       | translate)}}</span>
@@ -677,7 +694,8 @@
                       [checked]="p?.ac_invoice ? 'checked' : ''" readonly>
                   </td>
                   <td *ngIf="selectedCollectionColumnsToShow?.outside_agent_commission">
-                    <span>{{p?.outside_agent_commission_percentage ? (p?.outside_agent_commission_percentage | number : '1.2-3') :
+                    <span>{{p?.outside_agent_commission_percentage ? (p?.outside_agent_commission_percentage | number :
+                      '1.2-3') :
                       ('table.tr.td.NA' | translate)}}</span>
                   </td>
                   <td *ngIf="selectedCollectionColumnsToShow?.iva_amount_ac">
@@ -692,28 +710,37 @@
                     <input name="oac_invoice{{i}}" disabled class="form-control checkbox_size" type="checkbox"
                       [checked]="p?.oac_invoice ? 'checked' : ''" readonly>
                   </td>
-                  <td *ngIf="p?.deal_commission_agents?.length && selectedCollectionColumnsToShow?.agent_commission_inhouse">
+                  <td
+                    *ngIf="p?.deal_commission_agents?.length && selectedCollectionColumnsToShow?.agent_commission_inhouse">
                     <span>
                       {{p?.deal_commission_agents[0]?.broker?.name ? (p?.deal_commission_agents[0]?.broker?.name + ' '
                       +p?.deal_commission_agents[0]?.broker?.first_surname + ' ' +
                       p?.deal_commission_agents[0]?.broker?.second_surname) : ('table.tr.td.NA' | translate)}}
                     </span>
                   </td>
-                  <td *ngIf="!p?.deal_commission_agents?.length && selectedCollectionColumnsToShow?.agent_commission_inhouse">
+                  <td
+                    *ngIf="!p?.deal_commission_agents?.length && selectedCollectionColumnsToShow?.agent_commission_inhouse">
                     <span>{{('table.tr.td.NA' | translate)}}</span>
                   </td>
-                  <td *ngIf="p?.deal_commission_outside_agents?.length && selectedCollectionColumnsToShow?.agent_commission_outside">
+                  <td
+                    *ngIf="p?.deal_commission_outside_agents?.length && selectedCollectionColumnsToShow?.agent_commission_outside">
                     <span>{{p?.deal_commission_outside_agents ? (p?.deal_commission_outside_agents[0]?.name) :
                       ('table.tr.td.NA' | translate)}}</span>
                   </td>
-                  <td *ngIf="!p?.deal_commission_outside_agents?.length && selectedCollectionColumnsToShow?.agent_commission_outside">
+                  <td
+                    *ngIf="!p?.deal_commission_outside_agents?.length && selectedCollectionColumnsToShow?.agent_commission_outside">
                     <span>{{('table.tr.td.NA' | translate)}}</span>
                   </td>
-                  <td *ngIf="selectedCollectionColumnsToShow?.final_price"><span>{{(p?.final_price || 0) | currency}}</span></td>
-                  <td *ngIf="selectedCollectionColumnsToShow?.final_price_per_metter"><span>{{(p?.avgg_price_per || 0) | currency}}</span></td>
-                  <td *ngIf="selectedCollectionColumnsToShow?.penalty"><span>{{(p?.penalty || 0) | currency}}</span></td>
-                  <td *ngIf="selectedCollectionColumnsToShow?.amount_paid"><span>{{(p?.total_payment_recieved || 0) | currency}}</span></td>
-                  <td *ngIf="selectedCollectionColumnsToShow?.remanining_amount"><span>{{p?.remaining | currency}}</span></td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.final_price"><span>{{(p?.final_price || 0) |
+                      currency}}</span></td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.final_price_per_metter"><span>{{(p?.avgg_price_per || 0) |
+                      currency}}</span></td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.penalty"><span>{{(p?.penalty || 0) | currency}}</span>
+                  </td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.amount_paid"><span>{{(p?.total_payment_recieved || 0) |
+                      currency}}</span></td>
+                  <td *ngIf="selectedCollectionColumnsToShow?.remanining_amount"><span>{{p?.remaining |
+                      currency}}</span></td>
 
                   <td *ngIf="selectedCollectionColumnsToShow?.status_account">
                     <div *ngIf="p?.is_cancelled==1" class="status grey" title="Cancelled"></div>
@@ -1493,7 +1520,7 @@
                       (click)="deleteCollectionCommReceipt(p.commission.payment)"
                       title="{{'table.title.deleteCCPayment' | translate}}" class="action-icon"><img
                         src="assets/img/ic_delete.png" alt="img"></button>
-                        <!-- <button
+                    <!-- <button
                         *ngIf="last_payment_approved == 1 && 
                         p?.commission?.payment.length == 0 && 
                         p?.commission?.purchase_payment.length == 0 &&
@@ -1544,21 +1571,23 @@
                       title="{{'table.title.editCancellationPayment' | translate}}" class="action-icon"><img
                         src="assets/img/ic_commission.png" alt="img"></button>
 
-                        <br>
-                        <button *ngIf="p?.commission?.outside_agent_payment && p?.commission?.outside_agent_payment.length>0"
-                          (click)="editCollectionCommReceipt(p.commission.outside_agent_payment)"
-                          title="{{'table.title.editOACPayment' | translate}}" class="action-icon"><img
-                            src="assets/img/ic_commission.png" alt="img"></button>
-    
-                        <button *ngIf="p?.commission?.outside_agent_payment && p?.commission?.outside_agent_payment.length>0"
-                          (click)="deleteCollectionCommReceipt(p.commission.outside_agent_payment)"
-                          title="{{'table.title.deleteOACPayment' | translate}}" class="action-icon"><img
-                            src="assets/img/ic_delete.png" alt="img"></button>
-    
-                        <button *ngIf="p?.commission?.outside_agent_payment.length>0 && cancel_commission_status == 1"
-                          (click)="editCollectionCommReceipt(this.cancellation_commission)"
-                          title="{{'table.title.editCancellationPayment' | translate}}" class="action-icon"><img
-                            src="assets/img/ic_commission.png" alt="img"></button>
+                    <br>
+                    <button
+                      *ngIf="p?.commission?.outside_agent_payment && p?.commission?.outside_agent_payment.length>0"
+                      (click)="editCollectionCommReceipt(p.commission.outside_agent_payment)"
+                      title="{{'table.title.editOACPayment' | translate}}" class="action-icon"><img
+                        src="assets/img/ic_commission.png" alt="img"></button>
+
+                    <button
+                      *ngIf="p?.commission?.outside_agent_payment && p?.commission?.outside_agent_payment.length>0"
+                      (click)="deleteCollectionCommReceipt(p.commission.outside_agent_payment)"
+                      title="{{'table.title.deleteOACPayment' | translate}}" class="action-icon"><img
+                        src="assets/img/ic_delete.png" alt="img"></button>
+
+                    <button *ngIf="p?.commission?.outside_agent_payment.length>0 && cancel_commission_status == 1"
+                      (click)="editCollectionCommReceipt(this.cancellation_commission)"
+                      title="{{'table.title.editCancellationPayment' | translate}}" class="action-icon"><img
+                        src="assets/img/ic_commission.png" alt="img"></button>
 
                   </td>
                 </tr>
@@ -2759,64 +2788,337 @@
 <!-- select columns -->
 <a data-toggle="modal" data-target="#link-select-columns-model" #openSelectColumnsModal style="display: none;"></a>
 <div class="modal" id="link-select-columns-model">
-   <div class="modal-dialog" style="width: max-content;">
-      <div class="modal-content notary-avail">
-         <div class="modal-header popup-header">
-            <h4 class="modal-title">{{'table.title.columnsSelection' | translate}}</h4>
-            <button type="button" class="close" #closeSelectColumnsModal data-dismiss="modal">&times;</button>
-         </div>
-         <div class="modal-body">
-            <p class="modal-title">{{'table.title.selectTheColumnYouWantToVisualize' | translate}}</p>
-            <br />
-            <div class="row">
-               <div class="col-md-8 col-6">
-                  <label class="p16-two">
-                     <input class="form-control" class="is_commission_sale_enabled" type="checkbox" name="SelectAll"
-                        (change)="changeSelectAll()" [(ngModel)]="isSelectAllColumns">
-                     <span style="margin-left: 10px; vertical-align: super;">{{'commonBlock.selectAll' |
-                        translate}}</span>
-                  </label>
-               </div>
-               <div class="col-md-4 col-6 btn-cont">
-                  <a class="btn btn-primary pull-right" href="javascript://"
-                     (click)="applyShowSelectedColumns()">{{'filters.location.applyBtn' | translate}}</a>
-               </div>
-            </div>
-            <div class="spacer40"></div>
-            <div class="row">
-               <div class="col-md-8 col-6">
-                  <input style="max-width:200px" (keyup.enter)="getCollectionSelection(false, keyword)"
-                     [(ngModel)]="keyword" class="form-control" type="text" name="keyword"
-                     placeholder="{{'addForm.placeholder.search' | translate}}">
-               </div>
-               <div class="col-md-4 col-5 btn-cont">
-                  <a class="btn btn-primary pull-right" href="javascript://"
-                     (click)="getCollectionSelection(false, keyword)">{{'viewProperty.search' | translate}}</a>
-               </div>
-            </div>
-
-            <div class="spacer40"></div>
-            <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
-               <table class="table">
-                  <tr *ngFor="let item of select_columns_list; let ii=index">
-                     <td>
-                        <div class="row">
-                           <div class="col-md-8 col-6">
-                              <label class="p16-two">
-                                 <input class="form-control" class="is_commission_sale_enabled" type="checkbox"
-                                    name="checkbox{{ii}}" [(ngModel)]="item.isCheckBoxChecked"
-                                    (change)="changeSelect()">
-                                 <span style="margin-left: 10px; vertical-align: super;">
-                                    {{this.language_code == 'en' ? item.name_en : item.name_es }}
-                                 </span>
-                              </label>
-                           </div>
-                        </div>
-                     </td>
-                  </tr>
-               </table>
-            </div>
-         </div>
+  <div class="modal-dialog" style="width: max-content;">
+    <div class="modal-content notary-avail">
+      <div class="modal-header popup-header">
+        <h4 class="modal-title">{{'table.title.columnsSelection' | translate}}</h4>
+        <button type="button" class="close" #closeSelectColumnsModal data-dismiss="modal">&times;</button>
       </div>
-   </div>
+      <div class="modal-body">
+        <p class="modal-title">{{'table.title.selectTheColumnYouWantToVisualize' | translate}}</p>
+        <br />
+        <div class="row">
+          <div class="col-md-8 col-6">
+            <label class="p16-two">
+              <input class="form-control" class="is_commission_sale_enabled" type="checkbox" name="SelectAll"
+                (change)="changeSelectAll()" [(ngModel)]="isSelectAllColumns">
+              <span style="margin-left: 10px; vertical-align: super;">{{'commonBlock.selectAll' |
+                translate}}</span>
+            </label>
+          </div>
+          <div class="col-md-4 col-6 btn-cont">
+            <a class="btn btn-primary pull-right" href="javascript://"
+              (click)="applyShowSelectedColumns()">{{'filters.location.applyBtn' | translate}}</a>
+          </div>
+        </div>
+        <div class="spacer40"></div>
+        <div class="row">
+          <div class="col-md-8 col-6">
+            <input style="max-width:200px" (keyup.enter)="getCollectionSelection(false, keyword)" [(ngModel)]="keyword"
+              class="form-control" type="text" name="keyword"
+              placeholder="{{'addForm.placeholder.search' | translate}}">
+          </div>
+          <div class="col-md-4 col-5 btn-cont">
+            <a class="btn btn-primary pull-right" href="javascript://"
+              (click)="getCollectionSelection(false, keyword)">{{'viewProperty.search' | translate}}</a>
+          </div>
+        </div>
+
+        <div class="spacer40"></div>
+        <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+          <table class="table">
+            <tr *ngFor="let item of select_columns_list; let ii=index">
+              <td>
+                <div class="row">
+                  <div class="col-md-8 col-6">
+                    <label class="p16-two">
+                      <input class="form-control" class="is_commission_sale_enabled" type="checkbox"
+                        name="checkbox{{ii}}" [(ngModel)]="item.isCheckBoxChecked" (change)="changeSelect()">
+                      <span style="margin-left: 10px; vertical-align: super;">
+                        {{this.language_code == 'en' ? item.name_en : item.name_es }}
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- for cancel -->
+<a data-toggle="modal" data-target="#link-cancel-detail-model" #openCancelDetailModal style="display: none;"></a>
+<div class="modal" id="link-cancel-detail-model">
+  <div class="modal-dialog" style="max-width: 570px;">
+    <div class="modal-content notary-avail">
+      <div class="modal-header popup-header">
+        <h4 class="modal-title">{{'table.title.collectionDetail' | translate}}</h4>
+        <button type="button" class="close" #closeCancelDetailModal data-dismiss="modal"
+          (click)="closeCancelModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="!showNext">
+          <table class="table">
+            <tr style="background: #F2F2F3;">
+              <td style="border-bottom: none;padding-bottom: 0px;">
+                <label class="p16-two">
+                  <span style="margin-left: 10px; vertical-align: super;">
+                    {{'table.th.buyerName' | translate}}
+                  </span>
+                </label>
+              </td>
+              <td style="border-bottom: none;padding-bottom: 0px;">
+                <span *ngIf="select_collection?.buyer_type == 1">
+                  <strong>{{select_collection?.buyer?.name ? (select_collection?.buyer?.name + ' ' +
+                    select_collection?.buyer?.first_surname + ' ' +
+                    select_collection?.buyer?.second_surname) : ('table.tr.td.NA' | translate)}}</strong>
+                </span>
+                <span *ngIf="select_collection?.buyer_type == 2">
+                  <strong>{{select_collection?.buyer_legal_entity?.comm_name ?
+                    (select_collection?.buyer_legal_entity?.comm_name) : ('table.tr.td.NA' |
+                    translate)}}</strong>
+                </span>
+                <span *ngIf="select_collection?.buyer_type == 3">
+                  <strong>{{select_collection?.buyer?.name ? (select_collection?.buyer?.name + ' ' +
+                    select_collection?.buyer?.first_surname + ' ' +
+                    select_collection?.buyer?.second_surname) : ('table.tr.td.NA' | translate)}}</strong>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td style="border-bottom: none;padding-bottom: 0px;">
+                <label class="p16-two">
+                  <span style="margin-left: 10px; vertical-align: super;">
+                    {{'table.th.nameOfBuilding' | translate}}
+                  </span>
+                </label>
+              </td>
+              <td style="border-bottom: none;padding-bottom: 0px;">
+                <span>
+                  <strong>{{select_collection?.property?.building?.name ? select_collection?.property?.building?.name:
+                    ('table.tr.td.NA' |
+                    translate)}}</strong>
+                </span>
+              </td>
+            </tr>
+            <tr style="background: #F2F2F3;">
+              <td style="border-bottom: none;padding-bottom: 0px;">
+                <label class="p16-two">
+                  <span style="margin-left: 10px; vertical-align: super;">
+                    {{'table.th.nameOfTower' | translate}}
+                  </span>
+                </label>
+              </td>
+              <td style="border-bottom: none;padding-bottom: 0px;">
+                <span><strong>{{select_collection?.property?.building_towers ?
+                    select_collection?.property?.building_towers?.tower_name : ('table.tr.td.NA'
+                    | translate)}}</strong></span>
+              </td>
+            </tr>
+            <tr>
+              <td style="border-bottom: none;padding-bottom: 0px;">
+                <label class="p16-two">
+                  <span style="margin-left: 10px; vertical-align: super;">
+                    {{'table.th.nameOfApartment' | translate}}
+                  </span>
+                </label>
+              </td>
+              <td style="border-bottom: none;padding-bottom: 0px;">
+                <span><strong> {{select_collection?.property?.name}}</strong></span>
+              </td>
+            </tr>
+            <tr style="background: #F2F2F3;">
+              <td style="border-bottom: none;padding-bottom: 0px;">
+                <label class="p16-two">
+                  <span style="margin-left: 10px; vertical-align: super;">
+                    {{'table.th.purchaseDate' | translate}}
+                  </span>
+                </label>
+              </td>
+              <td style="border-bottom: none;padding-bottom: 0px;">
+                <span><strong>{{select_collection?.deal_purchase_date ?
+                    getDateWRTTimezone(select_collection.deal_purchase_date, 'DD/MMM/YYYY') :
+                    ('table.tr.td.NA' | translate)}}</strong></span>
+              </td>
+            </tr>
+            <tr>
+              <td style="border-bottom: none;padding-bottom: 0px;">
+                <label class="p16-two">
+                  <span style="margin-left: 10px; vertical-align: super;">
+                    {{'table.th.amountPaid' | translate}}
+                  </span>
+                </label>
+              </td>
+              <td style="border-bottom: none;padding-bottom: 0px;">
+                <span><strong>{{(select_collection?.total_payment_recieved || 0) | currency}}</strong></span>
+              </td>
+            </tr>
+            <tr style="background: #F2F2F3;">
+              <td style="border-bottom: none;padding-bottom: 0px;">
+                <label class="p16-two">
+                  <span style="margin-left: 10px; vertical-align: super;">
+                    {{'table.th.finalPrice' | translate}}
+                  </span>
+                </label>
+              </td>
+              <td style="border-bottom: none;padding-bottom: 0px;">
+                <span><strong>{{(select_collection?.final_price || 0) | currency}}</strong></span>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="row" *ngIf="!showNext">
+          <div class="col-6">
+            <label class="p16-two">
+              <span style="margin-left: 10px; vertical-align: super;">
+                {{'table.th.cancelationCommision' | translate}}
+              </span>
+            </label>
+          </div>
+          <div class="col-6">
+            <input class="form-control" class="is_commission_sale_enabled" autocomplete="off" mask="separator.2" thousandSeparator="," type="text"
+              name="cancelationCommision" [(ngModel)]="cancelationCommision" required>
+          </div>
+        </div>
+        <div class="row" *ngIf="!showNext">
+          <div class="col-6">
+            <label class="p16-two">
+              <span style="margin-left: 10px; vertical-align: super;">
+                {{'table.th.expenditure' | translate}}
+              </span>
+            </label>
+          </div>
+          <div class="col-6">
+            <span><strong>{{(select_collection?.final_price || 0) | currency}}</strong></span>
+          </div>
+          <div class="col-6">
+            <label class="p16-two">
+              <span style="margin-left: 10px; vertical-align: super;">
+                {{'table.th.income' | translate}}
+              </span>
+            </label>
+          </div>
+          <div class="col-6">
+            <span><strong>{{(cancelationCommision || 0) | currency}}</strong></span>
+          </div>
+        </div>
+        <div class="row" *ngIf="!showNext">
+          <div class="col-6">
+            <button [disabled]="!cancelationCommision" class="btn"
+              style="background-color:#00B96F;color:white;width:90px;float:right;"
+              (click)="showNext = !showNext">{{'commonBlock.yes' |
+              translate}}</button>
+          </div>
+          <div class="col-6">
+            <button class="btn" style="background-color:#EE7B7C;color:white;width:90px;"
+              (click)="closeCancelModal()">{{'commonBlock.cancel' |
+              translate}}</button>
+          </div>
+        </div>
+        <div *ngIf="showNext">
+          <div class="row">
+            <div class="col-6">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.expenditure' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-6">
+              <span><strong>{{(select_collection?.final_price || 0) | currency}}</strong></span>
+            </div>
+          </div>
+          <table class="table">
+            <tr style="background: #F2F2F3;">
+              <td style="border-bottom: none;padding-bottom: 0px;">
+                <label class="p16-two">
+                  <span style="margin-left: 10px; vertical-align: super;">
+                    {{'table.th.layaway' | translate}}
+                  </span>
+                </label>
+              </td>
+              <td style="border-bottom: none;padding-bottom: 0px;">
+                <span><strong>{{layaway_payment ? layaway_payment : ('table.tr.td.NA' |
+                    translate)}}</strong>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td style="border-bottom: none;padding-bottom: 0px;">
+                <label class="p16-two">
+                  <span style="margin-left: 10px; vertical-align: super;">
+                    {{'table.th.downPayment' | translate}}
+                  </span>
+                </label>
+              </td>
+              <td style="border-bottom: none;padding-bottom: 0px;">
+                <span>
+                  <strong>{{down_payment? down_payment: ('table.tr.td.NA' | translate)}}</strong>
+                </span>
+              </td>
+            </tr>
+            <tr style="background: #F2F2F3;">
+              <td style="border-bottom: none;padding-bottom: 0px;">
+                <label class="p16-two">
+                  <span style="margin-left: 10px; vertical-align: super;">
+                    {{'table.th.monthlyInstallment' | translate}}
+                  </span>
+                </label>
+              </td>
+              <td style="border-bottom: none;padding-bottom: 0px;">
+                <span><strong>{{monthly_installment_amounts ? monthly_installment_amounts : ('table.tr.td.NA' |
+                    translate)}}</strong></span>
+              </td>
+            </tr>
+            <tr>
+              <td style="border-bottom: none;padding-bottom: 0px;">
+                <label class="p16-two">
+                  <span style="margin-left: 10px; vertical-align: super;">
+                    {{'table.th.paymentupondelivery' | translate}}
+                  </span>
+                </label>
+              </td>
+              <td style="border-bottom: none;padding-bottom: 0px;">
+                <span><strong> {{payment_upon_delivery? payment_upon_delivery : ('table.tr.td.NA' |
+                    translate)}}</strong></span>
+              </td>
+            </tr>
+            <tr style="background: #F2F2F3;">
+              <td style="border-bottom: none;padding-bottom: 0px;">
+                <label class="p16-two">
+                  <span style="margin-left: 10px; vertical-align: super;">
+                    {{'table.th.specialPayment' | translate}}
+                  </span>
+                </label>
+              </td>
+              <td style="border-bottom: none;padding-bottom: 0px;">
+                <span><strong>{{special_payment ? special_payment : ('table.tr.td.NA' | translate)}}</strong></span>
+              </td>
+            </tr>
+          </table>
+          <div class="row">
+            <div class="col-6">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.income' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-6">
+              <span><strong>{{(cancelationCommision || 0) | currency}}</strong></span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-1 offset-4">
+              <button class="btn" style="background-color:#00B96F;color:white;width:90px;" (click)="cancelPropertyCollections(select_collection, index_collection, status_collection)">{{'commonBlock.continue' |
+                translate}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
