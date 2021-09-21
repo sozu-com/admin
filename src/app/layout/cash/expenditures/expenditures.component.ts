@@ -346,6 +346,98 @@ export class ExpendituresComponent implements OnInit {
       new ExcelDownload().exportAsExcelFile(tempExportData, 'Expenditure');
     }
   }
+  onCountryChange(id) {
+    this.parameter.country_id = id;
+    this.parameter.state_id = '0';
+    this.parameter.city_id = '0';
+    this.parameter.locality_id = '0';
+    this.location.states = [];
+    this.location.cities = [];
+    this.location.localities = [];
+    this.parameter.buildings = [];
+    this.parameter.building_id = '0';
+    if (!id || id.toString() === '0') {
+      return false;
+    }
+
+    this.parameter.country_id = id;
+    const selectedCountry = this.location.countries.filter(x => x.id.toString() === id);
+    this.location.states = selectedCountry[0].states;
+  }
+
+  onStateChange(id) {
+    this.parameter.state_id = id;
+    this.location.cities = []; this.parameter.city_id = '0';
+    this.location.localities = []; this.parameter.locality_id = '0';
+    this.parameter.buildings = []; this.parameter.building_id = '0';
+    if (!id || id.toString() === '0') {
+      return false;
+    }
+
+    this.parameter.state_id = id;
+    const selectedState = this.location.states.filter(x => x.id.toString() === id);
+    this.location.cities = selectedState[0].cities;
+  }
+
+  onCityChange(id) {
+    this.parameter.city_id = id;
+    this.location.localities = []; this.parameter.locality_id = '0';
+    this.parameter.buildings = []; this.parameter.building_id = '0';
+    if (!id || id.toString() === '0') {
+      return false;
+    }
+
+    this.parameter.city_id = id;
+    const selectedCountry = this.location.cities.filter(x => x.id.toString() === id);
+    this.location.localities = selectedCountry[0].localities;
+  }
+
+  onLocalityChange(id) {
+    this.parameter.buildings = []; this.parameter.building_id = '0';
+    if (!id || id.toString() === '0') {
+      return false;
+    }
+    this.parameter.locality_id = id;
+  }
+
+  getLocalityBuildings(id) {
+    if (!id || id.toString() === '0') {
+      this.parameter.localities = [];
+      this.parameter.locality_id = '0';
+      this.parameter.building_id = '0';
+      this.parameter.buildings = [];
+      return false;
+    }
+    this.parameter.locality_id = id;
+    this.parameter.localities = [];
+    this.parameter.localities.push(parseInt(this.parameter.locality_id));
+    this.spinner.show();
+    this.admin.postDataApi('getLocalityBuildings', this.parameter)
+      .subscribe(
+        success => {
+          this.spinner.hide();
+          this.parameter.buildings = success.data;
+        }, error => {
+          this.spinner.hide();
+        });
+  }
+  setBuilding(building_id) {
+    this.parameter.building_id = building_id;
+  }
+  resetFilters() {
+    this.location.countries = JSON.parse(JSON.stringify(this.location.countries));
+    this.onCountryChange('0');
+    this.parameter.is_selected = false;
+    this.parameter.page = this.constant.p;
+    this.parameter.dash_flag = this.constant.dash_flag;
+    this.parameter.total = 0;
+    this.parameter.count_flag = 1;
+    this.is_back = false
+    this.parameter.itemsPerPage = 25;
+    this.parameter.commission_type = '1';
+    this.resetDates();
+    this.getListing();
+  }
 }
 
 
