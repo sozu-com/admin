@@ -43,8 +43,119 @@
       </div>
     </div>
   </div>
+  
+  <div class="row">
+    <div class="col-12">
+      <div *ngIf="parameter.dash_flag == 5" class="row">
+        <div class="offset-lg-7"></div>
+        <div class="col-lg-2 col-md-2 col-sm-5 col-5">
+          <div class="form-group marginB0">
+            <label>{{'filters.time.custom.from' | translate}}</label>
+            <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true" [(ngModel)]="parameter.min"
+              [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true"
+              yearRange="2000:2040"></p-calendar>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-5 col-5">
+          <div class="form-group marginB0">
+            <label>{{'filters.time.custom.to' | translate}}</label>
+            <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true" [(ngModel)]="parameter.max"
+              [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true"
+              [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+          </div>
+        </div>
+        <div class="col-lg-1 col-md-2 col-sm-2 col-6">
+          <div class="form-group btn-cont">
+            <label class="addMT3">&nbsp;</label>
+            <button class="btn btn-calender" href="javascript://" (click)="getListing()"
+              [disabled]="!parameter.min || !parameter.max">{{'filters.time.custom.applyBtn' | translate}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <div class="row">
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group">
+        <label>{{'filters.location.country' | translate}}</label>
+        <select class="form-control" (change)="onCountryChange($event.target.value)" [(ngModel)]="parameter.country_id">
+          <option value="0">{{'filters.location.allOption' | translate}}</option>
+          <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group">
+        <label>{{'filters.location.state' | translate}}</label>
+        <select class="form-control" (change)="onStateChange($event.target.value)" [(ngModel)]="parameter.state_id">
+          <option value="0">{{'filters.location.allOption' | translate}}</option>
+          <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group">
+        <label>{{'filters.location.city' | translate}}</label>
+        <select class="form-control" (change)="onCityChange($event.target.value)" [(ngModel)]="parameter.city_id">
+          <option value="0">{{'filters.location.allOption' | translate}}</option>
+          <option *ngFor="let item of location.cities" [value]="item.id">{{item.name}}</option>
+        </select>
+      </div>
+    </div>
 
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group">
+        <label>{{'filters.location.locality' | translate}}</label>
+        <select class="form-control" (change)="getLocalityBuildings($event.target.value)" [(ngModel)]="parameter.locality_id">
+          <option value="0">{{'filters.location.allOption' | translate}}</option>
+          <option *ngFor="let item of location.localities" [value]="item.id">{{item.name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-2">
+      <div class="form-group marginB0">
+        <label>{{'filters.location.building' | translate}}</label>
+        <select class="form-control" (change)="setBuilding($event.target.value)" [(ngModel)]="parameter.building_id">
+          <option value="0">{{'filters.location.allOption' | translate}}</option>
+          <option *ngFor="let building of parameter.buildings" value="{{building.id}}">{{building.name}}</option>
+        </select>
+      </div>
+    </div>
+
+  
+
+    <div class="col-lg-1 col-md-2">
+      <div class="form-group btn-cont">
+        <label style="display: block; margin-top: 3px;">&nbsp;</label>
+        <button type="button" (click)="getListing()"
+          class="btn btn-primary-new width100P P86">{{'filters.location.applyBtn' | translate}}</button>
+      </div>
+    </div>
+
+    <div class="col-lg-1 col-md-2">
+      <div class="form-group btn-cont">
+        <label style="display: block; margin-top: 3px;">&nbsp;</label>
+        <button type="button" (click)="resetFilters()"
+          class="btn btn-primary-new width100P P86">{{'filters.location.resetBtn' | translate}}</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row flex-wrap-reverse">
+    <div class="col-lg-2 col-md-2"></div>
+    <div class="col-lg-6 col-md-6"></div>
+    <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12"></div>
+    <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
+      <div class="add-new pull-right text-left">
+        <a class="btn" (click)="this.getExportlisting()" href="javascript://">
+          {{'table.exportDataBtn' | translate}}</a>
+      </div>
+    </div>
+   
+  </div>
+  
   <div class="cust-tabs">
     <div class="tab-content white-bg">
       <div class="tab-pane active">
@@ -53,9 +164,24 @@
             <table class="table table-striped table-align-left quick-table">
               <thead id="myHeader">
                 <tr>
-                  <th style="text-align:left; width: 80px;" [style.z-index]="100">
+                  <th style="clear: both;
+                  overflow: hidden;
+                  white-space: nowrap;text-align:left;" [style.z-index]="100">
                     <div class="table-search">
-                      <label>ID</label>
+                      <label>{{'table.th.Payment_ID' | translate}}</label>
+                      <div class="searh-3">
+                        <input autocomplete="off" type="text" [(ngModel)]="parameter.collection_id"
+                          (keyup.enter)="getListing()">
+                        <button *ngIf="parameter.collection_id" (click)="getListing()"><i
+                            class="fa fa-search"></i></button>
+                      </div>
+                    </div>
+                  </th>
+                  <th style="clear: both;
+                  overflow: hidden;
+                  white-space: nowrap;text-align:left;" [style.z-index]="100">
+                    <div class="table-search">
+                      <label>{{'table.th.Collection_ID' | translate}}</label>
                       <div class="searh-3">
                         <input autocomplete="off" type="text" [(ngModel)]="parameter.collection_id"
                           (keyup.enter)="getListing()">
@@ -75,17 +201,27 @@
                       </div>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 150px;" *ngIf="selectedColumnsToShow?.payment_concept">
+                  <th style="clear: both;
+                  overflow: hidden;
+                  white-space: nowrap;text-align:left;" *ngIf="selectedColumnsToShow?.payment_concept">
                     <div class="table-search">
                       <label>{{'table.th.Payment_concept' | translate}}</label>
+                      <div class="searh-3">
+                        <input autocomplete="off" class="width100px" type="text" [(ngModel)]="parameter.buyer_name"
+                          (keyup.enter)="getListing()">
+                        <button *ngIf="parameter.buyer_name" (click)="getListing()"><i
+                            class="fa fa-search"></i></button>
+                      </div>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 150px;" *ngIf="selectedColumnsToShow?.payment_date">
+                  <th style="clear: both;
+                  overflow: hidden;
+                  white-space: nowrap;text-align:left;" *ngIf="selectedColumnsToShow?.payment_date">
                     <div class="table-search">
                       <label>{{'table.th.Payment_date' | translate}}</label>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 150px;" *ngIf="selectedColumnsToShow?.amount_paid">
+                  <th style="text-align:left; width: 106px;" *ngIf="selectedColumnsToShow?.amount_paid">
                     <div class="table-search">
                       <label>{{'table.th.Amount_paid' | translate}}</label>
                     </div>
@@ -112,18 +248,16 @@
                       </div>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 140px;" *ngIf="selectedColumnsToShow?.payment_status">
+                  <th style="text-align:left; width: 150px;" *ngIf="selectedColumnsToShow?.payment_status">
                     <div class="table-search">
                       <label>{{'table.th.Payment_status' | translate}}</label>
-                      <div class="searh-3">
-                        <input autocomplete="off" class="width100px" type="text" [(ngModel)]="parameter.apartment_name"
-                          (keyup.enter)="getListing()">
-                        <button *ngIf="parameter.apartment_name" (click)="getListing()"><i
-                            class="fa fa-search"></i></button>
-                      </div>
+                      <select [(ngModel)]="parameter.collection_status" (change)="parameter.page=1;getListing()">
+                        <option value="">{{'table.th.all' | translate}}</option>
+                        <option *ngFor="let c of collectionStatusFilter" value="{{c.value}}">{{c.name}}</option>
+                      </select>
                     </div>
                   </th> 
-                  <th style="width: 100px;" *ngIf="selectedColumnsToShow?.action">
+                  <th style="width: 140px;" *ngIf="selectedColumnsToShow?.action">
                     <div class="table-search">
                       <label>{{'table.th.actions.label' | translate}}</label>
                     </div>
@@ -133,10 +267,13 @@
               <tbody class="content">
                 <tr>
                   <td>
-                    <span>111</span>
+                    <span>1</span>
+                  </td>
+                  <td>
+                    <span  style="color:#00B96F;cursor: pointer;">1</span>
                   </td>
                   <td *ngIf="selectedColumnsToShow?.buyer_name">
-                    <span  style="cursor: pointer;">
+                    <span  style="color:#00B96F;cursor: pointer;">
                      abc
                     </span>
                   </td>
@@ -169,11 +306,65 @@
                         <img src="assets/img/eye-icon.png" alt="img">
                       </button> 
 
-                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
-                        (click)="cancelPopup(p, i, p?.is_cancelled == 0 ? 1 : 0)"
-                        title="{{'table.title.cancel_item' | translate}}"
-                        class="action-icon" [ngClass]="{'unblock-bg':p?.is_cancelled==1}"><img
-                          src="assets/img/block.png" alt="img"></button>
+                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0"
+                        (click)="generateAccountStatementPdf(p)" title="{{'table.title.accountStatement' | translate}}"
+                        class="action-icon"><img src="assets/img/ic_account.png" alt="img"></button>
+
+                          
+                        <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
+                         title="Edit" 
+                         class="action-icon" >
+                         <img src="assets/img/edit.png" alt="img">
+                        </button>
+                    </div>
+                  </td> 
+          
+                </tr>
+                <tr>
+                  <td>
+                    <span>1</span>
+                  </td>
+                  <td>
+                    <span  style="color:#00B96F;cursor: pointer;">1</span>
+                  </td>
+                  <td *ngIf="selectedColumnsToShow?.buyer_name">
+                    <span  style="color:#00B96F;cursor: pointer;">
+                     abc
+                    </span>
+                  </td>
+                  <td *ngIf="selectedColumnsToShow?.payment_concept">
+                    <span>
+                     ndhwiufh
+                    </span>
+                  </td>
+                  <td *ngIf="selectedColumnsToShow?.payment_date">
+                    <span >
+                     nchgyfe
+                    </span>
+                  </td>
+                  <td *ngIf="selectedColumnsToShow?.amount_paid">
+                    <span>amount_paid</span>
+                  </td>
+                  <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}" *ngIf="selectedColumnsToShow?.project_name">
+                    project_name
+                  </td>
+                  <td *ngIf="selectedColumnsToShow?.property_name" style="color:#00B96F;cursor: pointer;">
+                    property_name
+                  </td>
+                  <td *ngIf="selectedColumnsToShow?.payment_status">
+                    payment_status
+                   </td>
+                  <td *ngIf="selectedColumnsToShow?.action">
+                    <div class="table-actions">
+                      <button  
+                       title="{{'table.title.Receipt_view' | translate}}" class="action-icon">
+                        <img src="assets/img/eye-icon.png" alt="img">
+                      </button> 
+
+                      <button [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0"
+                        (click)="generateAccountStatementPdf(p)" title="{{'table.title.accountStatement' | translate}}"
+                        class="action-icon"><img src="assets/img/ic_account.png" alt="img"></button>
+
                           
                         <button [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
                          title="Edit" 

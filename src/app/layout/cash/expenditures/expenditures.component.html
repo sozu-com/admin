@@ -13,35 +13,148 @@
        </div>
     </div>
  </div>
-  <div class="row">
-    <div class="offset-md-4"></div>
-    <div class="col-md-8 col-12">
-      <div class="cust-tabs-2">
-        <ul class="nav nav-tabs float-right">
-          <li class="nav-item">
-            <a [ngClass]="{'active':parameter.dash_flag == 1}" (click)="changeFlag(1)" class="nav-link"
-              data-toggle="tab" href="#tw">{{'filters.time.thisWeek' | translate}}</a>
-          </li>
-          <li class="nav-item">
-            <a [ngClass]="{'active':parameter.dash_flag == 2}" (click)="changeFlag(2)" class="nav-link"
-              data-toggle="tab" href="#tm">{{'filters.time.thisMonth' | translate}}</a>
-          </li>
-          <li class="nav-item">
-            <a [ngClass]="{'active':parameter.dash_flag == 3}" (click)="changeFlag(3)" class="nav-link"
-              data-toggle="tab" href="#lm">{{'filters.time.lastMonth' | translate}}</a>
-          </li>
-          <li class="nav-item">
-            <a [ngClass]="{'active':parameter.dash_flag == 4}" (click)="changeFlag(4)" class="nav-link"
-              data-toggle="tab" href="#lt">{{'filters.time.lifetime' | translate}}</a>
-          </li>
-          <li class="nav-item">
-            <a [ngClass]="{'active':parameter.dash_flag == 5}" (click)="changeFlag(5)" class="nav-link"
-              data-toggle="tab" href="#cust">{{'filters.time.custom.label' | translate}}</a>
-          </li>
-        </ul>
+  
+ <div class="row">
+  <div class="offset-md-4"></div>
+  <div class="col-md-8 col-12">
+    <div class="cust-tabs-2">
+      <ul class="nav nav-tabs float-right">
+        <li class="nav-item">
+          <a [ngClass]="{'active':parameter.dash_flag == 1}" (click)="changeFlag(1)" class="nav-link"
+            data-toggle="tab" href="#tw">{{'filters.time.thisWeek' | translate}}</a>
+        </li>
+        <li class="nav-item">
+          <a [ngClass]="{'active':parameter.dash_flag == 2}" (click)="changeFlag(2)" class="nav-link"
+            data-toggle="tab" href="#tm">{{'filters.time.thisMonth' | translate}}</a>
+        </li>
+        <li class="nav-item">
+          <a [ngClass]="{'active':parameter.dash_flag == 3}" (click)="changeFlag(3)" class="nav-link"
+            data-toggle="tab" href="#lm">{{'filters.time.lastMonth' | translate}}</a>
+        </li>
+        <li class="nav-item">
+          <a [ngClass]="{'active':parameter.dash_flag == 4}" (click)="changeFlag(4)" class="nav-link"
+            data-toggle="tab" href="#lt">{{'filters.time.lifetime' | translate}}</a>
+        </li>
+        <li class="nav-item">
+          <a [ngClass]="{'active':parameter.dash_flag == 5}" (click)="changeFlag(5)" class="nav-link"
+            data-toggle="tab" href="#cust">{{'filters.time.custom.label' | translate}}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div *ngIf="parameter.dash_flag == 5" class="row">
+      <div class="offset-lg-7"></div>
+      <div class="col-lg-2 col-md-2 col-sm-5 col-5">
+        <div class="form-group marginB0">
+          <label>{{'filters.time.custom.from' | translate}}</label>
+          <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true" [(ngModel)]="parameter.min"
+            [maxDate]="today" showButtonBar="true" [monthNavigator]="true" [yearNavigator]="true"
+            yearRange="2000:2040"></p-calendar>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2 col-sm-5 col-5">
+        <div class="form-group marginB0">
+          <label>{{'filters.time.custom.to' | translate}}</label>
+          <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true" [(ngModel)]="parameter.max"
+            [minDate]="parameter.min" [maxDate]="today" showButtonBar="true" [monthNavigator]="true"
+            [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
+        </div>
+      </div>
+      <div class="col-lg-1 col-md-2 col-sm-2 col-6">
+        <div class="form-group btn-cont">
+          <label class="addMT3">&nbsp;</label>
+          <button class="btn btn-calender" href="javascript://" (click)="getListing()"
+            [disabled]="!parameter.min || !parameter.max">{{'filters.time.custom.applyBtn' | translate}}</button>
+        </div>
       </div>
     </div>
   </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-2 col-md-2">
+    <div class="form-group">
+      <label>{{'filters.location.country' | translate}}</label>
+      <select class="form-control" (change)="onCountryChange($event.target.value)" [(ngModel)]="parameter.country_id">
+        <option value="0">{{'filters.location.allOption' | translate}}</option>
+        <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="col-lg-2 col-md-2">
+    <div class="form-group">
+      <label>{{'filters.location.state' | translate}}</label>
+      <select class="form-control" (change)="onStateChange($event.target.value)" [(ngModel)]="parameter.state_id">
+        <option value="0">{{'filters.location.allOption' | translate}}</option>
+        <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="col-lg-2 col-md-2">
+    <div class="form-group">
+      <label>{{'filters.location.city' | translate}}</label>
+      <select class="form-control" (change)="onCityChange($event.target.value)" [(ngModel)]="parameter.city_id">
+        <option value="0">{{'filters.location.allOption' | translate}}</option>
+        <option *ngFor="let item of location.cities" [value]="item.id">{{item.name}}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="col-lg-2 col-md-2">
+    <div class="form-group">
+      <label>{{'filters.location.locality' | translate}}</label>
+      <select class="form-control" (change)="getLocalityBuildings($event.target.value)" [(ngModel)]="parameter.locality_id">
+        <option value="0">{{'filters.location.allOption' | translate}}</option>
+        <option *ngFor="let item of location.localities" [value]="item.id">{{item.name}}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="col-lg-2 col-md-2">
+    <div class="form-group marginB0">
+      <label>{{'filters.location.building' | translate}}</label>
+      <select class="form-control" (change)="setBuilding($event.target.value)" [(ngModel)]="parameter.building_id">
+        <option value="0">{{'filters.location.allOption' | translate}}</option>
+        <option *ngFor="let building of parameter.buildings" value="{{building.id}}">{{building.name}}</option>
+      </select>
+    </div>
+  </div>
+
+
+
+  <div class="col-lg-1 col-md-2">
+    <div class="form-group btn-cont">
+      <label style="display: block; margin-top: 3px;">&nbsp;</label>
+      <button type="button" (click)="getListing()"
+        class="btn btn-primary-new width100P P86">{{'filters.location.applyBtn' | translate}}</button>
+    </div>
+  </div>
+
+  <div class="col-lg-1 col-md-2">
+    <div class="form-group btn-cont">
+      <label style="display: block; margin-top: 3px;">&nbsp;</label>
+      <button type="button" (click)="resetFilters()"
+        class="btn btn-primary-new width100P P86">{{'filters.location.resetBtn' | translate}}</button>
+    </div>
+  </div>
+</div>
+
+<div class="row flex-wrap-reverse">
+  <div class="col-lg-2 col-md-2"></div>
+  <div class="col-lg-6 col-md-6"></div>
+  <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12"></div>
+  <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
+    <div class="add-new pull-right text-left">
+      <a class="btn" (click)="this.getExportlisting()" href="javascript://">
+        {{'table.exportDataBtn' | translate}}</a>
+    </div>
+  </div>
+ 
+</div>
 
 
   <div class="cust-tabs">
@@ -52,9 +165,11 @@
             <table class="table table-striped table-align-left quick-table">
               <thead id="myHeader">
                 <tr>
-                  <th style="text-align:left; width: 80px;" [style.z-index]="100">
+                  <th style="clear: both;
+                  overflow: hidden;
+                  white-space: nowrap;text-align:left;" [style.z-index]="100">
                     <div class="table-search">
-                      <label>ID</label>
+                      <label>{{'table.th.Expenditures_ID' | translate}}</label>
                       <div class="searh-3">
                         <input autocomplete="off" type="text" [(ngModel)]="parameter.collection_id"
                           (keyup.enter)="getListing()">
@@ -63,7 +178,20 @@
                       </div>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 150px;" *ngIf="selectedColumnsToShow?.buyer_name">
+                  <th style="clear: both;
+                  overflow: hidden;
+                  white-space: nowrap;text-align:left;" [style.z-index]="100">
+                    <div class="table-search">
+                      <label>{{'table.th.Collection_ID' | translate}}</label>
+                      <div class="searh-3">
+                        <input autocomplete="off" type="text" [(ngModel)]="parameter.collection_id"
+                          (keyup.enter)="getListing()">
+                        <button *ngIf="parameter.collection_id" (click)="getListing()"><i
+                            class="fa fa-search"></i></button>
+                      </div>
+                    </div>
+                  </th>
+                  <th style="text-align:left; width: 15%;" *ngIf="selectedColumnsToShow?.buyer_name">
                     <div class="table-search">
                       <label>{{'table.th.buyerName' | translate}}</label>
                       <div class="searh-3">
@@ -74,12 +202,19 @@
                       </div>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 150px;" *ngIf="selectedColumnsToShow?.expenditure_concept">
+                  <th style="text-align:left; width: 15%;" *ngIf="selectedColumnsToShow?.expenditure_concept">
                     <div class="table-search">
                       <label>{{'table.th.Expenditure_concept' | translate}}</label>
+                      <select [(ngModel)]="parameter.collection_status" (change)="parameter.page=1;getListing()">
+                        <option value="" selected>{{'table.th.all' | translate}}</option>
+                        <option *ngFor="let c of collectionStatusFilter" value="{{c.value}}">{{c.name}}</option>
+                      </select>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 150px;" *ngIf="selectedColumnsToShow?.expenditure_date">
+                  <th style="clear: both;
+                  overflow: hidden;
+                  white-space: nowrap;text-align:left;"
+                   *ngIf="selectedColumnsToShow?.expenditure_date">
                     <div class="table-search">
                       <label>{{'table.th.Expenditure_date' | translate}}</label>
                     </div>
@@ -111,15 +246,14 @@
                       </div>
                     </div>
                   </th>
-                  <th style="text-align:left; width: 140px;" *ngIf="selectedColumnsToShow?.expenditure_status">
+                  <th style="text-align:left; width: 190px;" *ngIf="selectedColumnsToShow?.expenditure_status">
                     <div class="table-search">
                       <label>{{'table.th.Expenditure_status' | translate}}</label>
-                      <div class="searh-3">
-                        <input autocomplete="off" class="width100px" type="text" [(ngModel)]="parameter.apartment_name"
-                          (keyup.enter)="getListing()">
-                        <button *ngIf="parameter.apartment_name" (click)="getListing()"><i
-                            class="fa fa-search"></i></button>
-                      </div>
+                      <select [(ngModel)]="parameter.collection_status" (change)="parameter.page=1;getListing()">
+                        <option value="" selected>{{'table.th.all' | translate}}</option>
+                        <option *ngFor="let c of collectionStatus" value="{{c.value}}">
+                          {{c.name}}</option>
+                      </select>
                     </div>
                   </th> 
                   <th style="width: 100px;" *ngIf="selectedColumnsToShow?.actions">
@@ -132,10 +266,13 @@
               <tbody class="content">
                 <tr>
                   <td>
-                    <span>111</span>
+                    <span>1</span>
+                  </td>
+                  <td>
+                    <span style="color:#00B96F;cursor: pointer;">1</span>
                   </td>
                   <td *ngIf="selectedColumnsToShow?.buyer_name">
-                    <span>buyer_name</span>
+                    <span style="color:#00B96F;cursor: pointer;">buyer_name</span>
                   </td>
                   <td *ngIf="selectedColumnsToShow?.expenditure_concept">
                     <span  style="cursor: pointer;">
@@ -155,7 +292,7 @@
                   <td *ngIf="selectedColumnsToShow?.project_name">
                     <span>project_name</span>
                   </td>
-                  <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}" *ngIf="selectedColumnsToShow?.property_name">
+                  <td style="color:#00B96F;cursor: pointer;" title="{{'table.title.clickToViewDetails' | translate}}" *ngIf="selectedColumnsToShow?.property_name">
                     property_name
                   </td>
                   <td *ngIf="selectedColumnsToShow?.expenditure_status">

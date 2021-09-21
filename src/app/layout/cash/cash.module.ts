@@ -16,6 +16,7 @@ import { IncomeComponent } from './income/income.component';
 import { ExpendituresComponent } from './expenditures/expenditures.component';
 import { CashComponent } from './cash.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { CalendarModule } from 'primeng/primeng';
 
 const routes: Routes = [
     {
@@ -39,6 +40,7 @@ const routes: Routes = [
     imports: [
         RouterModule.forChild(routes),
         CommonModule,
+        CalendarModule,
         TranslateModule,
         FormsModule, NgxPaginationModule,
         ReactiveFormsModule,
