@@ -277,7 +277,7 @@
                     </tr>
 
                     <tr
-                       *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
+                       *ngFor="let p of cs.items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: cs.totalSale }; let i=index">
                        <td *ngIf="selectedPropertyColumnsToShow?.id">
                         <span class="green-color cursor-pointer">
                            {{p?.id ? p?.id : ('table.tr.td.NA' | translate)}}</span>
@@ -320,7 +320,6 @@
                       <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.possession_status"><span>{{p?.building_towers?.possession_status_id == apiConstant.possessionStatus.sale ?
                         ('table.tr.td.sale' | translate) : ('table.tr.td.presale' | translate)}}</span></td>
                   
-
                        <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.change_seller" title="{{p?.selected_seller?.user?.name ? ('table.title.clickToChangeSeller' | translate) : ('table.title.clickToAddSeller' | translate)}}">
                           <span *ngIf="p?.selected_seller?.user?.legal_entity">
                              {{p?.selected_seller?.user?.legal_entity?.comm_name || ('table.tr.td.NA' | translate)}}
@@ -345,7 +344,7 @@
                     </tr>
                    
                  </table>
-                 <div class="padding20 center" *ngIf="total == 0">
+                 <div class="padding20 center" *ngIf="cs.totalSale == 0">
                     <img src="assets/img/404-error.png">
                  </div>
               </div>
@@ -355,12 +354,12 @@
      </div>
   </div>
 
-  <div class="btn-cont marginT15" *ngIf="total">
+  <div class="btn-cont marginT15" *ngIf="cs.totalSale">
      <div class="row">
         <div class="col-6">
            <div class="title-group">
-              <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}}
-                 {{total}}</p>
+              <p>{{'table.pagination.showing' | translate}} {{cs.propertySaleDate?.length}} {{'table.pagination.outof' | translate}}
+                 {{cs.totalSale}}</p>
            </div>
         </div>
         <div class="col-6 text-right">
