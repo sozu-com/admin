@@ -8,16 +8,21 @@ import { TranslateService } from '@ngx-translate/core';
 declare let swal: any;
 import { forkJoin } from 'rxjs'
 import { Constant } from '../common/constants';
+import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class CommonService {
-
+  itemsPerPage: any;
+  flag: any;
+  page: any;
   public data: Object = {};
   homeData: any = [];
   propertyData: any = [];
+  items: any[] = [];
   agencies: any = [];
-  total: any = 0;
+  total: any = 0; logoImageBase64: any;
   totalProperty: any = 0;
   totalAgencies: any = 0;
+  totalSale: any = 0;
   public selectedColumnsToShow: any = {};
   public country = new BehaviorSubject({});
   countryData$ = this.country.asObservable();
@@ -38,8 +43,19 @@ export class CommonService {
   possessionStatuses: Array<any>;
   all_building_types: any = [];
 
-  constructor(public admin: AdminService, private router: Router, private spinner: NgxSpinnerService, public constant: Constant,
+  constructor(public admin: AdminService, private router: Router, private spinner: NgxSpinnerService, public constant: Constant, private http: HttpClient,
     private translate: TranslateService) {
+    this.http.get('../../../assets/img/sozu_black.png', { responseType: 'blob' })
+      .subscribe(res => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          let base64data = reader.result;
+          this.logoImageBase64 = base64data;
+        }
+
+        reader.readAsDataURL(res);
+      });
+
     this.admin.postDataApi('getBuildingTypes', { hide_blocked: 1 }).subscribe(r => {
       this.all_building_types = r.data;
     });
@@ -53,13 +69,28 @@ export class CommonService {
     this.parameter.itemsPerPage = 10;
     this.parameter.page = 1;
     this.parameter.flag = 3;
+    this.parameter.broker_id = 1;
+    this.parameter.dash_flag = 4;
+    //property
+    const input = {
+      itemsPerPage: 10,
+      page: 1,
+      flag: 3
+    }
+
     forkJoin([
-      this.admin.postDataApi('projectHome', this.parameter),
-      this.admin.postDataApi('propertyHome', this.parameter),
-      this.admin.postDataApi('getAgencies', this.parameter)
+      this.admin.postDataApi('propertyForSale', this.parameter),
+      this.admin.postDataApi('projectHome', input),
+      this.admin.postDataApi('propertyHome', input),
+      this.admin.postDataApi('getAgencies', input),
     ]).subscribe(success => {
-      //project home
-      this.homeData = success[0].data || [];
+      this.items = success[0].data || [];
+      this.totalSale = success[0].total_count;
+      this.items.forEach(function (element) {
+        element['price_per_square_meter'] =
+          (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
+      });
+      this.homeData = success[1].data || [];
       (this.possessionStatuses || []).forEach(r => {
         (this.homeData || []).forEach(ele => {
           if (ele.possession_status_id == r.id) {
@@ -78,9 +109,9 @@ export class CommonService {
         element['avgg_price'] = (((parseFloat(element.avg_price) || 0) / (parseFloat(element.avg_carpet_area) || 0)));
         element['avgg_price_hold'] = (((parseFloat(element.avg_price_hold) || 0) / (parseFloat(element.avg_carpet_area_hold) || 0)));
       });
-      this.total = success[0].total_count;
-      //property home
-      this.propertyData = success[1].data || [];
+      this.total = success[1].total_count;
+      // //property home
+      this.propertyData = success[2].data || [];
       this.propertyData.forEach(function (element) {
         if (element.id == (element.collection || {}).property_id) {
           element['avgg_price'] = (((parseFloat(element.final_price) || 0) / (parseFloat(element.max_area) || 0)));
@@ -88,12 +119,47 @@ export class CommonService {
           element['avgg_price'] = (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
         }
       });
-      this.totalProperty = success[1].total_count;
-      //proprty for sale
-      this.agencies = success[2].data || [];
-      this.totalAgencies = success[2].total_count;
+      this.totalProperty = success[2].total_count;
+      //agencies
+      this.agencies = success[3].data || [];
+      this.totalAgencies = success[3].total_count;
     });
   }
+
+  // getHomes = (): void => {
+  //   this.parameter.itemsPerPage = 10;
+  //   this.parameter.page = 1;
+  //   this.parameter.flag = 3;
+  //   forkJoin([
+  //     this.admin.postDataApi('projectHome', this.parameter),
+  //     this.admin.postDataApi('getAgencies', this.parameter),
+  //   ]).subscribe(success => {
+  //     this.homeData = success[1].data || [];
+  //     (this.possessionStatuses || []).forEach(r => {
+  //       (this.homeData || []).forEach(ele => {
+  //         if (ele.possession_status_id == r.id) {
+  //           ele['status_possion'] = r.name_en;
+  //         }
+  //       })
+  //     });
+  //     (this.all_building_types || []).forEach(r => {
+  //       (this.homeData || []).forEach(ele => {
+  //         if (ele.building_type_id == r.id) {
+  //           ele['status_building'] = r.name_en;
+  //         }
+  //       })
+  //     });
+  //     this.homeData.forEach(function (element) {
+  //       element['avgg_price'] = (((parseFloat(element.avg_price) || 0) / (parseFloat(element.avg_carpet_area) || 0)));
+  //       element['avgg_price_hold'] = (((parseFloat(element.avg_price_hold) || 0) / (parseFloat(element.avg_carpet_area_hold) || 0)));
+  //     });
+  //     this.total = success[1].total_count;
+  //     // //agencies
+  //     this.agencies = success[3].data || [];
+  //     this.totalAgencies = success[3].total_count;
+
+  //   });
+  // }
 
   getCountries(keyword) {
     this.spinner.show();
