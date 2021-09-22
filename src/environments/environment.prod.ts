@@ -1,9 +1,9 @@
 export const environment = {
   production: true,
-  //  baseIP: 'https://api.sozu.com/',
-  //  baseUrl: 'https://api.sozu.com/api/admin/',
-  //  socketUrl: 'https://socket.sozu.com',
-  //  versionCheckURL: 'https://admin.sozu.com/version.json',
+  //baseIP: 'https://api.sozu.com/',
+  //baseUrl: 'https://api.sozu.com/api/admin/',
+  //socketUrl: 'https://socket.sozu.com',
+  //versionCheckURL: 'https://admin.sozu.com/version.json',
   termConditionUrl: 'https://api.sozu.com/termCondition/es',
   privacyPolicyUrl: 'https://api.sozu.com/privacyPolicy/es',
   baseIP: 'https://apitest.sozu.com/',
