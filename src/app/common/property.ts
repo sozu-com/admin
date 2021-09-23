@@ -2,6 +2,7 @@ export interface IProperty {
   url?: string;
   loading?: boolean;                      // loader
   itemsPerPage?: number;
+  expenditures_id?: any;
   commission_status_color?: any;               // total items per page
   total?: number;
   random_id?: any;                  // total records count

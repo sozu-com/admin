@@ -86,6 +86,9 @@ export class ExpendituresComponent implements OnInit {
     this.parameter.page = page;
     this.getListing();
   }
+  onSelect(e) {
+    this.paymentDate = moment.utc(e).toDate();
+  }
   getListing() {
     this.spinner.show();
     const input: any = JSON.parse(JSON.stringify(this.parameter));
