@@ -67,6 +67,46 @@ export class ExpendituresComponent implements OnInit {
     this.getListing();
   }
   getListing() {
+    this.spinner.show();
+    const input: any = JSON.parse(JSON.stringify(this.parameter));
+    if (this.parameter.deal_to_date && this.parameter.deal_from_date) {
+      input.deal_to_date = this.parameter.deal_to_date;
+      input.deal_from_date = this.parameter.deal_from_date;
+    }
+    if (this.parameter.min) {
+      input.min = moment(this.parameter.min).format('YYYY-MM-DD');
+    } else {
+      delete input.min;
+    }
+    if (this.parameter.max) {
+      input.max = moment(this.parameter.max).format('YYYY-MM-DD');
+    } else {
+      delete input.max;
+    }
+    if (this.parameter.deal_purchase_date) {
+      input.deal_purchase_date = moment(this.parameter.deal_purchase_date).format('YYYY-MM-DD');
+    } else {
+      delete input.deal_purchase_date;
+    }
+
+    input.is_approved = this.parameter.flag;
+    this.admin.postDataApi('getexpenditureHomeData', input).subscribe(
+      success => {
+        this.items = success.data;
+        // for (let index = 0; index < this.items.length; index++) {
+        //   const element = this.items[index];
+        //   this.collection_payment_choice = element.collection_payment_choice;
+        //   this.property_collection = this.collection_payment_choice.property_collection;
+        //   this.buyer = this.property_collection.buyer;
+        //   this.property = this.property_collection.property;
+        //   this.building = this.property.building;
+        // }
+        // this.total = success.total;
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      });
 
   }
   cancelPopup(item) { }

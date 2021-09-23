@@ -1222,7 +1222,8 @@
       "Layaway": "Layaway",
       "Deal Done": "Deal Done",
       "Lead Lost": "Lead Lost",
-      "chooseSupplier": "Choose supplier"
+      "chooseSupplier": "Choose supplier",
+      "collectionDetail": "Collection Detail"
     },
     "pagination": {
       "showing": "Showing",
