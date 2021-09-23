@@ -262,6 +262,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   payment_upon_delivery = 0;
   status_collection: number;
   index_collection: number;
+  monthly_installment_count: any;
   constructor(
     public constant: Constant,
     public apiConstants: ApiConstants,
@@ -796,6 +797,12 @@ export class CollectionsComponent implements OnInit, OnDestroy {
 
   cancelPopup(item: any, index: number, status: number) {
     let self = this;
+    this.monthly_installment_count = 0;
+    this.monthly_installment_amounts = 0;
+    this.layaway_payment = 0;
+    this.down_payment = 0;
+    this.special_payment = 0;
+    this.payment_upon_delivery = 0;
     this.select_collection = item;
     this.index_collection = index;
     this.status_collection = status;
@@ -813,6 +820,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       if (result.value) {
         if(this.select_collection.is_cancelled != 1){
         self.select_collection.payment_choices.forEach(function (element, index) {
+          if(element.category_name.includes('Monthly Installment')){
+            self.monthly_installment_count = self.monthly_installment_count + 1;
+          }
           self.monthly_installment_amounts = element.category_name.includes('Monthly Installment') ? self.monthly_installment_amounts + element.amount :  self.monthly_installment_amounts + 0;
           self.layaway_payment = element.category_name.includes('Layaway Payment') ? self.layaway_payment + element.amount : self.layaway_payment + 0;
           self.down_payment = element.category_name.includes('Down Payment') ? self.down_payment + element.amount : self.down_payment + 0;
@@ -835,7 +845,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
 
   cancelPropertyCollections(item: any, index: number, status: number) {
     this.admin.postDataApi('cancelPropertyCollections',
-      { property_collection_id: item.id, status: status }).subscribe(r => {
+      { property_collection_id: item.id, status: status, cancel_amount: this.cancelationCommision }).subscribe(r => {
         const t = status == 1 ?
           this.translate.instant('message.success.cancelledSuccessfully') :
           this.translate.instant('message.success.activedSuccessfully');
