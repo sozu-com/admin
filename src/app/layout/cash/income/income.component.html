@@ -645,14 +645,8 @@
             <div class="col-12">
               <div class="spacer40"></div>
             </div>
-            <div class="col-6" *ngIf="commissionType==4">
-              <div class="form-group-2">
-                <label>{{'viewCollections.cancellation' | translate}}</label>
-                <input autocomplete="off" required type="number" step="0.01" min="0" class="form-control"
-                  [(ngModel)]="amount" name="amount" [disabled]="cancel_commission_status == 1">
-              </div>
-            </div>
-            <div class="col-6" *ngIf="pay_id && commissionType !=4">
+           
+            <div class="col-6">
               <div class="form-group-2">
                 <label>{{'viewCollections.partialpayments' | translate}}</label>
                 <div class="form-group">
@@ -666,7 +660,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-6" *ngIf="!pay_id && commissionType !=4">
+            <div class="col-6">
               <div class="form-group-2">
                 <label>{{'viewCollections.partialpayments' | translate}}</label>
                 <div class="form-group">

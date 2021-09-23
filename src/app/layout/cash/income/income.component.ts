@@ -9,6 +9,7 @@ import * as moment from 'moment';
 import { PricePipe } from 'src/app/pipes/price.pipe';
 import { ExcelDownload } from 'src/app/common/excelDownload';
 import { PropertyService } from 'src/app/services/property.service';
+import { ToastrService } from 'ngx-toastr';
 declare let swal: any;
 @Component({
   selector: 'app-income',
@@ -26,7 +27,8 @@ export class IncomeComponent implements OnInit {
   public keyword: string = ''; public language_code: string;
   is_back: boolean;
   locale: any; total: any; pay_id: any;
-  paymentConcepts: Array<any>;
+  paymentConcepts: Array<any>; property_collection_id: string;
+  reminder_date: any;
   paymentChoices: Array<any>;
   collectionIndex: number;
   last_payment_id: string;
@@ -44,8 +46,8 @@ export class IncomeComponent implements OnInit {
   private exportfinalData: any[] = [];
   items: any = [];
   seller_type: any;
-  paymentBanks: Array<any>;
-  payment_bank: any; building: any;
+  paymentBanks: Array<any>; paymentMethods: Array<any>;
+  payment_bank: any; building: any; paymentDate: Date;
   collection_commission: any; collection_payment_choice: any;
   selectedLevel: any; payment_id: any; payment_method_id: any; description: string;
   xml_url: any; property_collection: any;
@@ -58,7 +60,7 @@ export class IncomeComponent implements OnInit {
   @ViewChild('editCollectionReceiptClose') editCollectionReceiptClose: ElementRef;
   constructor(
     public admin: AdminService, private propertyService: PropertyService,
-    private translate: TranslateService,
+    private translate: TranslateService, private toastr: ToastrService,
     public constant: Constant,
     private route: ActivatedRoute, private spinner: NgxSpinnerService,
     private router: Router, private price: PricePipe
@@ -135,6 +137,134 @@ export class IncomeComponent implements OnInit {
     window.open(item.receipt, '_blank');
   }
   all(item) { }
+
+  onSelectInvoiceDate(e) {
+    this.invoice_date = moment.utc(e).toDate();
+  }
+  setPayAmount(item: any) {
+    this.payment_id = item.id;
+    this.payment_method_id = (item.payment_method || {}).id;
+    this.description = item.description;
+    this.docFile = item.receipt;
+    this.amount = item.amount;
+    this.commission_type = item.commission_type;
+    this.collection_commission_id = item.collection_commission_id;
+    this.payment_date = item.payment_date ? this.getDateWRTTimezone(item.payment_date, 'DD/MMM/YYYY') : '';
+    this.invoice_date = item.invoice_date ? this.getDateWRTTimezone(item.invoice_date, 'DD/MMM/YYYY') : '';
+    this.pdf_url = item.pdf_url;
+    this.xml_url = item.xml_url;
+    this.invoice_id = item.invoice_id;
+  }
+  closeEditCollReceiptModal() {
+    this.editCollectionReceiptClose.nativeElement.click();
+  }
+
+  onSelect(e) {
+    this.paymentDate = moment.utc(e).toDate();
+  }
+
+
+  setPaymentmethod(item: any) {
+    let data = this.collection_commission.find(value => value.payment_method_id == item);
+    this.pay_id = data;
+    if (!this.pay_id) {
+      this.payment_id = this.collection_commission ? this.collection_commission.id : [];
+      this.payment_method_id = this.collection_commission ? (this.collection_commission.payment_method || {}).id : [];
+      this.description = this.collection_commission ? this.collection_commission.description : [];
+      this.docFile = this.collection_commission ? this.collection_commission.receipt : [];
+      this.amount = this.collection_commission ? this.collection_commission.amount : [];
+      this.commission_type = this.collection_commission ? this.collection_commission.commission_type : [];
+      this.collection_commission_id = this.collection_commission ? this.collection_commission.collection_commission_id : [];
+      this.payment_date = this.collection_commission ? this.collection_commission.payment_date : [];
+      this.invoice_date = this.collection_commission ? this.collection_commission.invoice_date : [];
+      this.pdf_url = this.collection_commission ? this.collection_commission.pdf_url : [];
+      this.xml_url = this.collection_commission ? this.collection_commission.xml_url : [];
+      this.invoice_id = this.collection_commission ? this.collection_commission.invoice_id : [];
+    } else {
+      this.selectedLevel = this.collection_commission[0];
+      this.payment_id = this.collection_commission[0] ? this.collection_commission[0].id : [];
+      this.payment_method_id = this.collection_commission[0] ? (this.collection_commission[0].payment_method || {}).id : [];
+      this.description = this.collection_commission[0] ? this.collection_commission[0].description : [];
+      this.docFile = this.collection_commission[0] ? this.collection_commission[0].receipt : [];
+      this.amount = this.collection_commission[0] ? this.collection_commission[0].amount : [];
+      this.commission_type = this.collection_commission[0] ? this.collection_commission[0].commission_type : [];
+      this.collection_commission_id = this.collection_commission[0] ? this.collection_commission[0].collection_commission_id : [];
+      this.payment_date = this.collection_commission[0] ? this.getDateWRTTimezone(this.collection_commission[0].payment_date, 'DD/MMM/YYYY') : [];
+      this.invoice_date = this.collection_commission[0] ? this.getDateWRTTimezone(this.collection_commission[0].invoice_date, 'DD/MMM/YYYY') : [];
+      this.pdf_url = this.collection_commission[0] ? this.collection_commission[0].pdf_url : [];
+      this.xml_url = this.collection_commission[0] ? this.collection_commission[0].xml_url : [];
+      this.invoice_id = this.collection_commission[0] ? this.collection_commission[0].invoice_id : [];
+    }
+  }
+
+  updateCollectionCommPayment() {
+    // checking if date selected and receipt selected
+    if (this.commission_type != 4 && !this.collection_commission_id) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.payToCancel'), this.translate.instant('swal.error'));
+      return false;
+    }
+    if (!this.docFile) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseChooseReceipt'), this.translate.instant('swal.error'));
+      return false;
+    }
+    if (!this.payment_date) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseSelectPaymentDate'), this.translate.instant('swal.error'));
+      return false;
+    }
+    const offset = new Date(this.payment_date).getTimezoneOffset();
+    if (offset < 0) {
+      this.payment_date = moment(this.payment_date).subtract(offset, 'minutes').toDate();
+    } else {
+      this.payment_date = moment(this.payment_date).add(offset, 'minutes').toDate();
+    }
+
+    // inpur params
+    const input = {
+      id: this.payment_id,
+      payment_method_id: this.payment_method_id,
+      receipt: this.docFile,
+      description: this.description,
+      payment_date: moment(this.payment_date).format('YYYY-MM-DD'),
+      collection_commission_id: this.collection_commission_id,
+      commission_type: this.commission_type,
+      amount: this.amount
+    };
+    if (this.invoice_date) {
+      const offset1 = new Date(this.invoice_date).getTimezoneOffset();
+      if (offset1 < 0) {
+        input['invoice_date'] = moment(this.invoice_date).subtract(offset1, 'minutes').toDate();
+      } else {
+        input['invoice_date'] = moment(this.invoice_date).add(offset1, 'minutes').toDate();
+      }
+    }
+    input['invoice_id'] = this.invoice_id;
+    input['pdf_url'] = this.pdf_url;
+    input['xml_url'] = this.xml_url;
+    // input['amount'] = amt - this.ivaAmount;
+    // input['iva_amount'] = this.ivaAmount;
+
+    if (this.invoice_date) {
+      const offset1 = new Date(this.invoice_date).getTimezoneOffset();
+      if (offset < 0) {
+        input['invoice_date'] = moment(this.invoice_date).subtract(offset1, 'minutes').toDate();
+      } else {
+        input['invoice_date'] = moment(this.invoice_date).add(offset1, 'minutes').toDate();
+      }
+    }
+
+    this.admin.postDataApi('applyCommissionPayment', input).subscribe(r => {
+      this.router.navigate(['/dashboard/commissions/quick-visualization-commission', this.property_collection_id]);
+      this.closeEditCollReceiptModal();
+      this.toastr.clear();
+      this.toastr.success(this.translate.instant('message.success.savedSuccessfully'), this.translate.instant('swal.success'));
+    }, error => {
+      this.toastr.error(error.message, this.translate.instant('swal.error'));
+      return false;
+    });
+  }
 
   initCalendarLocale() {
     if (this.translate.defaultLang === 'en') {
