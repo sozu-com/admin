@@ -25,7 +25,11 @@ export class IncomeComponent implements OnInit {
   public isSelectAllColumns: boolean = false;
   public keyword: string = ''; public language_code: string;
   is_back: boolean;
-  locale: any;
+  locale: any; total: any; pay_id: any;
+  paymentConcepts: Array<any>;
+  paymentChoices: Array<any>;
+  collectionIndex: number;
+  last_payment_id: string;
   collectionStatusFilter = [
     { name: 'Up to Date', value: 1 },
     { name: 'Payment Period', value: 2 },
@@ -39,6 +43,19 @@ export class IncomeComponent implements OnInit {
   public location: IProperty = {};
   private exportfinalData: any[] = [];
   items: any = [];
+  seller_type: any;
+  paymentBanks: Array<any>;
+  payment_bank: any; building: any;
+  collection_commission: any; collection_payment_choice: any;
+  selectedLevel: any; payment_id: any; payment_method_id: any; description: string;
+  xml_url: any; property_collection: any;
+  pdf_url: any; buyer: any; property: any; value: any;
+  invoice_id: string; collection_commission_id: number; payment_date: any = new Date();
+  invoice_date: any; docFile: string; amount: number; commission_type: any;
+  @ViewChild('editPaymentModalOpen') editPaymentModalOpen: ElementRef;
+  @ViewChild('editPaymentModalClose') editPaymentModalClose: ElementRef;
+  @ViewChild('editCollectionReceiptOpen') editCollectionReceiptOpen: ElementRef;
+  @ViewChild('editCollectionReceiptClose') editCollectionReceiptClose: ElementRef;
   constructor(
     public admin: AdminService, private propertyService: PropertyService,
     private translate: TranslateService,
@@ -49,6 +66,7 @@ export class IncomeComponent implements OnInit {
 
   ngOnInit() {
     this.getProjectHome();
+    this.getPayment();
     this.today = new Date();
     this.getCountries();
     this.initCalendarLocale();
@@ -61,9 +79,62 @@ export class IncomeComponent implements OnInit {
     this.getListing();
   }
   getListing() {
+    this.spinner.show();
+    const input: any = JSON.parse(JSON.stringify(this.parameter));
+    if (this.parameter.deal_to_date && this.parameter.deal_from_date) {
+      input.deal_to_date = this.parameter.deal_to_date;
+      input.deal_from_date = this.parameter.deal_from_date;
+    }
+    if (this.parameter.min) {
+      input.min = moment(this.parameter.min).format('YYYY-MM-DD');
+    } else {
+      delete input.min;
+    }
+    if (this.parameter.max) {
+      input.max = moment(this.parameter.max).format('YYYY-MM-DD');
+    } else {
+      delete input.max;
+    }
+    if (this.parameter.deal_purchase_date) {
+      input.deal_purchase_date = moment(this.parameter.deal_purchase_date).format('YYYY-MM-DD');
+    } else {
+      delete input.deal_purchase_date;
+    }
 
+    input.is_approved = this.parameter.flag;
+    this.admin.postDataApi('getIncomeHomeData', input).subscribe(
+      success => {
+        this.items = success.data;
+        for (let index = 0; index < this.items.length; index++) {
+          const element = this.items[index];
+          this.collection_payment_choice = element.collection_payment_choice;
+          this.property_collection = this.collection_payment_choice.property_collection;
+          this.buyer = this.property_collection.buyer;
+          this.property = this.property_collection.property;
+          this.building = this.property.building;
+        }
+        this.total = success.total;
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      });
   }
-  generateAccountStatementPdf(item) { }
+  userinfo = (userdata: any): void => {
+
+    this.router.navigate(['/dashboard/users/edit-user', userdata.id]);
+  }
+  legalinfo = (userdata: any): void => {
+    this.router.navigate(['/dashboard/legal-entities/add-legal-entity/', userdata.id]);
+  }
+  navigateToProperty = (collectionDetails: any): void => {
+    console.log(collectionDetails, "userdata");
+    this.router.navigate(['/dashboard/properties/view-properties/property', (collectionDetails || '')]);
+  }
+  viewDocument(item) {
+    window.open(item.receipt, '_blank');
+  }
+  all(item) { }
 
   initCalendarLocale() {
     if (this.translate.defaultLang === 'en') {
@@ -192,16 +263,25 @@ export class IncomeComponent implements OnInit {
   }
 
   getProjectHome = (): void => {
-    //this.spinner.show();
     this.admin.postDataApi('getIncomeHome', { user_id: JSON.parse(localStorage.getItem('user-id')) || 0 }).subscribe((response) => {
       this.selectedColumnsToShow = response.data || {};
-      //this.spinner.hide();
     }, (error) => {
       this.spinner.hide();
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
     });
   }
-
+  getPayment = (): void => {
+    this.admin.postDataApi('getPaymentChoice', {}).subscribe((response) => {
+      this.paymentChoices = response.data;
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
+  changed(value) {
+    this.value = value;
+    console.log(value, "abc");
+  }
   changeSelectAll = (): void => {
     (this.select_columns_list || []).forEach((data) => {
       data.isCheckBoxChecked = this.isSelectAllColumns;
@@ -419,9 +499,11 @@ export class IncomeComponent implements OnInit {
           this.spinner.hide();
         });
   }
+
   setBuilding(building_id) {
     this.parameter.building_id = building_id;
   }
+
   resetFilters() {
     this.location.countries = JSON.parse(JSON.stringify(this.location.countries));
     this.onCountryChange('0');
@@ -435,5 +517,304 @@ export class IncomeComponent implements OnInit {
     this.parameter.commission_type = '1';
     this.resetDates();
     this.getListing();
+  }
+
+  showEditPaymentPopup(item: any, i: number) {
+    this.paymentConcepts = [];
+    //this.property_collection_id = item.id;
+    this.collectionIndex = i;
+    if (item.collection_commissions && item.collection_commissions.length > 0) {
+      for (let index = 0; index < item.collection_commissions.length; index++) {
+        const element = item.collection_commissions[index];
+        if (item.payment_choices[index]) {
+          item.payment_choices[index]['commission'] = element;
+        }
+      }
+    }
+    this.paymentConcepts = [...item.payment_choices];
+    // this.last_payment_id = item.last_payment ? item.last_payment.collection_payment_id : '';
+    //  this.last_payment_approved = item.last_payment ? item.last_payment.is_paid_calculated : 0;
+    //this.last_payment = item.last_payment;
+    this.last_payment_id = item.last_payment ? item.last_payment.parent_id : '';
+    this.seller_type = item.seller_type;
+    this.showPaymentBanks(item);
+    this.getCollectionDetails();
+    this.editPaymentModalOpen.nativeElement.click();
+  }
+
+  showPaymentBanks(item: any) {
+    // payment banks
+    this.paymentBanks = [];
+    if (item.payment_received_by) {
+      // payment directly received by agency
+      if (item.property.building && item.property.building.agency_id) {
+        // agency banks
+        for (let index = 0; index < item.property.building.agency.agency_banks.length; index++) {
+          const element = item.property.building.agency.agency_banks[index];
+          element.name = 'Agency Bank | ' + element.bank_name;
+          element.is_agency = 1;
+          element.bank_id = element.id;
+          element.legal_rep_bank_id = null;
+          this.paymentBanks.push(element);
+        }
+
+        // agency legal representative banks
+        if (item.property.building.agency.legal_representative) {
+          for (let index = 0; index < item.property.building.agency.legal_representative.legal_rep_banks.length; index++) {
+            const element = item.property.building.agency.legal_representative.legal_rep_banks[index];
+            element.name = 'Agency Legal Rep Bank | ' + element.bank_name;
+            element.is_agency = 1;
+            element.bank_id = null;
+            element.legal_rep_bank_id = element.id;
+            this.paymentBanks.push(element);
+          }
+        }
+      }
+    } else {
+      // payment directly received by seller
+      if (item.seller_type != 2) {
+        // seller (as a person or developer) banks
+        for (let index = 0; index < item.seller.legal_rep_banks.length; index++) {
+          const element = item.seller.legal_rep_banks[index];
+          element.name = 'Seller Bank | ' + element.bank_name;
+          element.is_agency = 2;
+          element.bank_id = element.id;
+          element.legal_rep_bank_id = null;
+          this.paymentBanks.push(element);
+        }
+
+        // agency legal representative banks
+        if (item.seller.legal_representative) {
+          for (let index = 0; index < item.seller.legal_representative.legal_rep_banks.length; index++) {
+            const element = item.seller.legal_representative.legal_rep_banks[index];
+            element.name = 'Seller Legal Rep Bank | ' + element.bank_name;
+            element.is_agency = 2;
+            element.bank_id = null;
+            element.legal_rep_bank_id = element.id;
+            this.paymentBanks.push(element);
+          }
+        }
+      } else {
+        // seller (as a legal entity) banks
+        if (item.seller_legal_entity && item.seller_legal_entity.legal_entity_banks) {
+          for (let index = 0; index < item.seller_legal_entity.legal_entity_banks.length; index++) {
+            const element = item.seller_legal_entity.legal_entity_banks[index];
+            element.name = 'Seller Bank | ' + element.bank_name;
+            element.is_agency = 2;
+            element.bank_id = element.id;
+            element.legal_rep_bank_id = null;
+            this.paymentBanks.push(element);
+          }
+
+          // agency legal representative banks
+          if (item.seller_legal_entity.legal_reps && item.seller_legal_entity.legal_reps.legal_rep_banks) {
+            for (let index = 0; index < item.seller_legal_entity.legal_reps.legal_rep_banks.length; index++) {
+              const element = item.seller_legal_entity.legal_reps.legal_rep_banks[index];
+              element.name = 'Seller Legal Rep Bank | ' + element.bank_name;
+              element.is_agency = 2;
+              element.bank_id = null;
+              element.legal_rep_bank_id = element.id;
+              this.paymentBanks.push(element);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  getCollectionDetails() {
+    const reducingP = [];
+    for (let index = 0; index < this.paymentConcepts.length; index++) {
+      const m = this.paymentConcepts[index];
+      m.payment_date = m.collection_payment > 0 ? this.getDateWRTTimezone(m.collection_payment.payment_date, 'YYYY-MM-DD') : '';
+      m.paid_amount = m.calc_payment_amount ? m.calc_payment_amount : 0;
+
+      let c = {};
+      // if type=2 means reducing payment => add one more row
+      if (m.collection_paymentss && m.collection_paymentss.length > 0) {
+        for (let i = 0; i < m.collection_paymentss.length; i++) {
+          const paymnts = m.collection_paymentss[i];
+          paymnts.payment_bank = null;
+          // payment bank
+          if (paymnts.is_agency == 1) {
+            // payment directly received by agency
+            if (paymnts.bank_id) {
+              // agency bank
+              paymnts['payment_bank'] = paymnts.agency_banks;
+            } else if (paymnts.legal_rep_bank_id) {
+              // agency legal rep bank
+              paymnts['payment_bank'] = paymnts.legal_rep_bank;
+            }
+          } else {
+            // payment directly received by seller
+            if (this.seller_type != 2) {  // seller as person or developer
+              if (paymnts.bank_id) {
+                // seller bank
+                paymnts['payment_bank'] = paymnts.legal_representative_banks;
+              } else if (paymnts.legal_rep_bank_id) {
+                // seller legal rep bank
+                paymnts['payment_bank'] = paymnts.legal_rep_bank;
+              }
+            } else {  // seller as legal entity
+              if (paymnts.bank_id) {
+                // seller bank
+                paymnts['payment_bank'] = paymnts.legal_entitiy_bank;
+              } else if (paymnts.legal_rep_bank_id) {
+                // seller legal rep bank
+                paymnts['payment_bank'] = paymnts.legal_rep_bank;
+              }
+            }
+          }
+          c = {
+            key: 'remaining_amt',
+            name: '',
+            paid_amount: paymnts.full_amount,
+            is_paid_calculated: 0,
+            outstanding_amount: 0,
+            index: index + i,
+            payment_type: 2,  // in real its 2
+            receipt: paymnts.receipt,
+            description: paymnts.description,
+            display_choice_id: paymnts.display_choice_id,
+            created_at: paymnts.created_at
+          };
+          if (paymnts.payment_type == 2) {
+            c['name'] = 'Payment to remaining (Reduce Amount)';
+            c['collection_paymentss'] = [{
+              id: paymnts.id,
+              parent_id: paymnts.parent_id,
+              payment_type: 1,  // in real its 2
+              paid_amount: paymnts.amount,
+              amount: paymnts.amount,
+              payment_date: this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
+              receipt: paymnts.receipt,
+              description: paymnts.description,
+              payment_method: paymnts.payment_method,
+              payment_bank: paymnts.payment_bank
+            }];
+            reducingP.push(c);
+          } else if (paymnts.payment_type == 3 && paymnts.display_choice_id) {
+            c['name'] = 'Payment to remaining (Reduce Time)';
+            c['collection_paymentss'] = [{
+              id: paymnts.id,
+              parent_id: paymnts.parent_id,
+              payment_type: 3,  // in real its 3
+              paid_amount: paymnts.full_amount,
+              amount: paymnts.full_amount,
+              payment_date: this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
+              receipt: paymnts.receipt,
+              description: paymnts.description,
+              payment_method: paymnts.payment_method,
+              payment_bank: paymnts.payment_bank
+            }];
+            reducingP.push(c);
+          } else if (paymnts.payment_type == 5 && paymnts.display_choice_id) {
+            c['name'] = 'Total Payment';
+            c['collection_paymentss'] = [{
+              id: paymnts.id,
+              parent_id: paymnts.parent_id,
+              payment_type: 5,  // in real its 5
+              paid_amount: paymnts.full_amount,
+              amount: paymnts.full_amount,
+              payment_date: this.getDateWRTTimezone(paymnts.payment_date, 'YYYY-MM-DD'),
+              receipt: paymnts.receipt,
+              description: paymnts.description,
+              payment_method: paymnts.payment_method,
+              payment_bank: paymnts.payment_bank
+            }];
+            reducingP.push(c);
+          }
+        }
+      }
+
+      m['outstanding_amount'] = m.amount - (m.calc_payment_amount || 0);
+      if ((m.amount - (m.calc_payment_amount || 0)) >= 0) {
+        const a = (m.calc_payment_amount || 0);
+        m['is_pending'] = a ? 1 : 0;
+      }
+    }
+
+    // now insert at reducing remaining payments at type=2 index
+    // sorting reducingP according to date => in case user is paying using type 3 consecutively many times
+    reducingP.sort(this.sortFunction);
+
+    for (let i = 0; i < reducingP.length; i++) {
+      const element = reducingP[i];
+      // for payment_type 3,5 check display_choice_id
+      // loop is for if need to insert 2 type 2 payments on same index
+      for (let j = 0; j < this.paymentConcepts.length; j++) {
+        const e = this.paymentConcepts[j];
+        if (e.id == element.display_choice_id) {
+          this.paymentConcepts.splice(j, 0, element);
+          break;
+        }
+      }
+    }
+
+    // calculating new paid amt, by skipping type 2
+    for (let index = 0; index < this.paymentConcepts.length; index++) {
+      const element = this.paymentConcepts[index];
+      if (element.collection_paymentss && element.collection_paymentss.length > 0) {
+        for (let i = 0; i < element.collection_paymentss.length; i++) {
+          const ele = element.collection_paymentss[i];
+          if (ele.payment_type == 2) {
+            const v = ele.amt_share || 0;
+            const ids = ele.choices_ids.split(',');
+            for (let j = 0; j < this.paymentConcepts.length; j++) {
+              const e = this.paymentConcepts[j];
+              if (e.id) {
+                const d = e.id.toString();
+                const h = ids.indexOf(d);
+                if (h >= 0) {
+                  const obj = {
+                    id: ele.id,
+                    amount: v,
+                    name: 'Payment to remaining (Reduce Amount)',
+                    payment_type: 1,  // in real its 3
+                    paid_amount: v,
+                    payment_date: this.getDateWRTTimezone(ele.payment_date, 'YYYY-MM-DD'),
+                    receipt: ele.receipt,
+                    description: ele.description,
+                    payment_method: ele.payment_method,
+                    payment_bank: ele.payment_bank
+                  };
+                  this.paymentConcepts[j].paid_amount = parseFloat(this.paymentConcepts[j].paid_amount) - parseFloat(v);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  sortFunction(a, b) {
+    const dateA = new Date(a.created_at).getTime();
+    const dateB = new Date(b.created_at).getTime();
+    return dateA > dateB ? 1 : -1;
+  }
+
+  editCollectionCommReceipt(item: any) {
+    this.collection_commission = item;
+    this.selectedLevel = this.collection_commission[0];
+    this.payment_id = this.collection_commission[0] ? this.collection_commission[0].id : [];
+    this.payment_method_id = this.collection_commission[0] ? (this.collection_commission[0].payment_method || {}).id : [];
+    this.description = this.collection_commission[0] ? this.collection_commission[0].description : [];
+    this.docFile = this.collection_commission[0] ? this.collection_commission[0].receipt : [];
+    this.amount = this.collection_commission[0] ? this.collection_commission[0].amount : [];
+    this.commission_type = this.collection_commission[0] ? this.collection_commission[0].commission_type : [];
+    this.collection_commission_id = this.collection_commission[0] ? this.collection_commission[0].collection_commission_id : [];
+    this.payment_date = this.collection_commission[0] ? this.getDateWRTTimezone(this.collection_commission[0].payment_date, 'DD/MMM/YYYY') : [];
+    this.invoice_date = this.collection_commission[0] ? this.getDateWRTTimezone(this.collection_commission[0].invoice_date, 'DD/MMM/YYYY') : [];
+    this.pdf_url = this.collection_commission[0] ? this.collection_commission[0].pdf_url : [];
+    this.xml_url = this.collection_commission[0] ? this.collection_commission[0].xml_url : [];
+    this.invoice_id = this.collection_commission[0] ? this.collection_commission[0].invoice_id : [];
+    this.closeEditPaymentModal();
+    this.editCollectionReceiptOpen.nativeElement.click();
+  }
+
+  closeEditPaymentModal() {
+    this.paymentConcepts = [];
+    this.editPaymentModalClose.nativeElement.click();
   }
 }

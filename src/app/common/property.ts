@@ -204,8 +204,10 @@ export interface IProperty {
   is_freelancer?: string;
   company_id?: string;
   floor_num?: number;
+  payment_choice_id?: any;
   configuration_name?: string;
   collection_id?: string;
+  payment_id?: any;
   user_type?: number;
   collection_status?: any;
   property_name?: string;
