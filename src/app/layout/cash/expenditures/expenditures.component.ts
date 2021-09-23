@@ -9,6 +9,8 @@ import { AdminService } from 'src/app/services/admin.service';
 import { ExcelDownload } from 'src/app/common/excelDownload';
 import * as moment from 'moment';
 import { PropertyService } from 'src/app/services/property.service';
+import { CommonService } from 'src/app/services/common.service';
+import { ToastrService } from 'ngx-toastr';
 declare let swal: any;
 
 @Component({
@@ -27,7 +29,12 @@ export class ExpendituresComponent implements OnInit {
   public isSelectAllColumns: boolean = false;
   public keyword: string = ''; public language_code: string;
   is_back: boolean;
-  locale: any;
+  locale: any; total: any; pay_id: any;
+  paymentConcepts: Array<any>; property_collection_id: string;
+  reminder_date: any;
+  paymentChoices: Array<any>;
+  collectionIndex: number;
+  last_payment_id: string;
   collectionStatusFilter = [
     { name: 'Up to Date', value: 1 },
     { name: 'Payment Period', value: 2 },
@@ -37,24 +44,37 @@ export class ExpendituresComponent implements OnInit {
     { name: 'Inconsistency', value: 6 },
     { name: 'Only Commission for sale', value: 7 }
   ];
-  collectionStatus = [
-    { name: 'Paid', value: 1 },
-    { name: 'Cancel', value: 2 }
-  ];
-  today: Date;
+  today: Date; cancelationCommision: any;
   public location: IProperty = {};
   private exportfinalData: any[] = [];
   items: any = [];
+  seller_type: any; selectedValue: any;
+  paymentBanks: Array<any>; paymentMethods: Array<any>;
+  payment_bank: any; building: any; paymentDate: Date;
+  collection_commission: any; collection_payment_choice: any;
+  selectedLevel: any; payment_id: any; payment_method_id: any; description: string;
+  xml_url: any; property_collection: any;
+  pdf_url: any; buyer: any; property: any; value: any; payment_res: any;
+  invoice_id: string; collection_commission_id: number; payment_date: any = new Date();
+  invoice_date: any; docFile: string; amount: number; commission_type: any;
+  @ViewChild('editPaymentModalOpen') editPaymentModalOpen: ElementRef;
+  @ViewChild('editPaymentModalClose') editPaymentModalClose: ElementRef;
+  @ViewChild('editCollectionReceiptOpen') editCollectionReceiptOpen: ElementRef;
+  @ViewChild('editCollectionReceiptClose') editCollectionReceiptClose: ElementRef;
+  @ViewChild('openCancelDetailModal') openCancelDetailModal: ElementRef;
+  @ViewChild('closeCancelDetailModal') closeCancelDetailModal: ElementRef;
   constructor(
-    public admin: AdminService,
-    private translate: TranslateService,
-    public constant: Constant, private propertyService: PropertyService,
+    public admin: AdminService, private propertyService: PropertyService,
+    private translate: TranslateService, private toastr: ToastrService,
+    public constant: Constant, public cs: CommonService,
     private route: ActivatedRoute, private spinner: NgxSpinnerService,
     private router: Router, private price: PricePipe
   ) { }
 
   ngOnInit() {
     this.getProjectHome();
+    this.getPayment();
+    this.getPaymentMethods();
     this.today = new Date();
     this.getCountries();
     this.initCalendarLocale();
@@ -88,20 +108,20 @@ export class ExpendituresComponent implements OnInit {
     } else {
       delete input.deal_purchase_date;
     }
-
+    input.payment_choice_id = this.selectedValue;
     input.is_approved = this.parameter.flag;
     this.admin.postDataApi('getexpenditureHomeData', input).subscribe(
       success => {
         this.items = success.data;
-        // for (let index = 0; index < this.items.length; index++) {
-        //   const element = this.items[index];
-        //   this.collection_payment_choice = element.collection_payment_choice;
-        //   this.property_collection = this.collection_payment_choice.property_collection;
-        //   this.buyer = this.property_collection.buyer;
-        //   this.property = this.property_collection.property;
-        //   this.building = this.property.building;
-        // }
-        // this.total = success.total;
+        for (let index = 0; index < this.items.length; index++) {
+          const element = this.items[index];
+          element['collection_payment_choice'] = element.collection_payment_choice;
+          element['property_collection'] = element['collection_payment_choice'].property_collection;
+          element['buyer'] = element['property_collection'].buyer;
+          element['property'] = element['property_collection'].property;
+          element['building'] = element['property'].building;
+        }
+        this.total = success.total;
         this.spinner.hide();
       },
       error => {
@@ -109,7 +129,116 @@ export class ExpendituresComponent implements OnInit {
       });
 
   }
-  cancelPopup(item) { }
+  getPaymentMethods() {
+    this.admin.postDataApi('getPaymentMethods', {})
+      .subscribe(
+        success => {
+          this.paymentMethods = success.data;
+        }, error => {
+          this.spinner.hide();
+        }
+      );
+  }
+  getPayment = (): void => {
+    this.admin.postDataApi('getPaymentChoice', {}).subscribe((response) => {
+      this.paymentChoices = response.data;
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
+  //payment update
+  updateCollectionCommPayment() {
+    // checking if date selected and receipt selected
+    if (!this.payment_date) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseSelectPaymentDate'), this.translate.instant('swal.error'));
+      return false;
+    }
+    if (!this.docFile) {
+      this.toastr.clear();
+      this.toastr.error(this.translate.instant('message.error.pleaseChooseReceipt'), this.translate.instant('swal.error'));
+      return false;
+    }
+
+    const offset = new Date(this.payment_date).getTimezoneOffset();
+    if (offset < 0) {
+      this.payment_date = moment(this.payment_date).subtract(offset, 'minutes').toDate();
+    } else {
+      this.payment_date = moment(this.payment_date).add(offset, 'minutes').toDate();
+    }
+
+    // inpur params
+    const input = {
+      id: this.payment_id,
+      payment_method_id: this.payment_method_id,
+      receipt: this.docFile,
+      description: this.description,
+      payment_date: this.payment_date,
+      amount: this.amount
+    };
+
+    this.admin.postDataApi('updateExpendetureById', input).subscribe(r => {
+      this.getListing();
+      // this.router.navigate(['dashboard/cash/income/quick-visualization-income', r['data'].id]);
+      this.closeEditCollReceiptModal();
+      this.toastr.clear();
+      this.toastr.success(this.translate.instant('message.success.savedSuccessfully'), this.translate.instant('swal.success'));
+    }, error => {
+      this.toastr.error(error.message, this.translate.instant('swal.error'));
+      return false;
+    });
+  }
+  //info payment
+  editCollectionCommReceipt(item: any) {
+    this.admin.postDataApi('getExpenditureById', { id: item.id }).subscribe((response) => {
+      this.editCollectionReceiptOpen.nativeElement.click();
+      this.payment_res = response.data;
+      if (this.payment_res) {
+        this.payment_id = this.payment_res.id;
+        this.payment_method_id = this.payment_res.payment_method_id;
+        this.description = this.payment_res.description;
+        this.docFile = this.payment_res.receipt;
+        this.amount = this.payment_res.amount;
+        this.payment_date = this.payment_res.payment_date ? this.getDateWRTTimezone(this.payment_res.payment_date, 'DD/MMM/YYYY') : '';
+      }
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
+  closeEditCollReceiptModal() {
+    this.editCollectionReceiptClose.nativeElement.click();
+  }
+  cancelPropertyCollections(item: any, index: number, status: number) {
+    this.admin.postDataApi('cancelPropertyCollections',
+      { property_collection_id: item.id, status: status, cancel_amount: this.cancelationCommision }).subscribe(r => {
+        const t = status == 1 ?
+          this.translate.instant('message.success.cancelledSuccessfully') :
+          this.translate.instant('message.success.activedSuccessfully');
+        this.toastr.success(t, this.translate.instant('swal.success'));
+        this.items[index].is_cancelled = status;
+        this.closeCancelDetailModal.nativeElement.click();
+      },
+        error => {
+          this.toastr.error(error.error.message, this.translate.instant('swal.error'));
+        });
+  }
+  userinfo = (userdata: any): void => {
+    this.router.navigate(['/dashboard/users/edit-user', userdata.id]);
+  }
+  legalinfo = (userdata: any): void => {
+    this.router.navigate(['/dashboard/legal-entities/add-legal-entity/', userdata.id]);
+  }
+  navigateToProperty = (collectionDetails: any): void => {
+    console.log(collectionDetails, "userdata");
+    this.router.navigate(['/dashboard/properties/view-properties/property', (collectionDetails || '')]);
+  }
+  viewDocument(item) {
+    window.open(item.receipt, '_blank');
+  }
+  all(item) { }
+
 
   initCalendarLocale() {
     if (this.translate.defaultLang === 'en') {
@@ -337,25 +466,17 @@ export class ExpendituresComponent implements OnInit {
 
     input.is_approved = this.parameter.flag;
     input.page = 0;
-    this.admin.postDataApi('getCommissions', input).subscribe((success) => {
+    this.admin.postDataApi('getexpenditureHomeData', input).subscribe((success) => {
       this.exportfinalData = success.data || [];
-
-      for (let index = 0; index < this.items.length; index++) {
-        const element = this.items[index];
-        const dif = (element.property.final_price || 0).toFixed(2) - (element.total_deals_sum || 0).toFixed(2);
-        const currency_id = element.currency_id;
-
-        if (!element.total_deals_sum) {
-          element.payment_status = 6;
-        } else if ((dif >= 5 && currency_id == 78) || (dif >= 0.5 && currency_id == 124)) {
-          element.payment_status = 6;
-        } else if (element.next_payment && element.next_payment.date) {
-          element.payment_status = element.collection_status;
-        } else {
-          element.payment_status = 5;
-        }
+      for (let index = 0; index < this.exportfinalData.length; index++) {
+        const element = this.exportfinalData[index];
+        element['collection_payment_choice'] = element.collection_payment_choice;
+        element['property_collection'] = element['collection_payment_choice'].property_collection;
+        element['buyer'] = element['property_collection'].buyer;
+        element['property'] = element['property_collection'].property;
+        element['building'] = element['property'].building;
       }
-
+      this.total = success.total;
       this.makeExportData();
       this.spinner.hide();
     }, (error) => {
@@ -371,16 +492,13 @@ export class ExpendituresComponent implements OnInit {
 
         tempExportData.push({
           'Expenditures ID': p.id || '',
-          'Collection ID': p.id || '',
-          'Buyer Name': (p.buyer_type == 2) ? (p.buyer_legal_entity || {}).comm_name || '' : (p.buyer || {}).name + ' ' + (p.buyer || {}).first_surname + ' ' + (p.buyer || {}).second_surname || '',
-          'Expenditure concept': (p.buyer_type == 2) ? (((p.buyer_legal_entity || {}).legal_reps || {}).name) ? (((p.buyer_legal_entity || {}).legal_reps || {}).name + ' ' + ((p.buyer_legal_entity || {}).legal_reps || {}).first_surname + ' ' + ((p.buyer_legal_entity || {}).legal_reps || {}).second_surname) : ''
-            : (((p.buyer || {}).legal_representative || {}).name) ? (((p.buyer || {}).legal_representative || {}).name + ' ' + ((p.buyer || {}).legal_representative || {}).first_surname + ' ' + ((p.buyer || {}).legal_representative || {}).second_surname) : '',
-          'Expenditure date': (p.seller_type == 2) ? (p.seller_legal_entity || {}).comm_name || '' : (p.seller || {}).name + ' ' + (p.seller || {}).first_surname + ' ' + (p.seller || {}).second_surname,
-          'Amount': (p.seller_type == 2) ? ((p.seller_legal_entity || {}).legal_reps || {}).name + ' ' + ((p.seller_legal_entity || {}).legal_reps || {}).first_surname + ' ' + ((p.seller_legal_entity || {}).legal_reps || {}).second_surname :
-            ((p.seller || {}).legal_representative || {}).name + ' ' + ((p.seller || {}).legal_representative || {}).first_surname + ' ' + ((p.seller || {}).legal_representative || {}).second_surname,
-          'Name of Building': ((p.property || {}).building || {}).name || '',
-          'Apartment': ((p.property || {}).building_towers || {}).tower_name || '',
-          'Expenditure status': (p.property || {}).name || ''
+          'Collection ID': p.collection_payment_choice.property_collection_id || '',
+          'Buyer Name': (p.property_collection.buyer_type == 2) ? (p.buyer_legal_entity || {}).comm_name || '' : (p.buyer || {}).name + ' ' + (p.buyer || {}).first_surname + ' ' + (p.buyer || {}).second_surname || '',
+          'Expenditure concept': p.collection_payment_choice.name || '',
+          'Expenditure date': p.collection_payment_choice.date,
+          'Amount': p.amount || '',
+          'Name of Building': p.building.name || '',
+          'Apartment': p.property.name || '',
         });
       }
       new ExcelDownload().exportAsExcelFile(tempExportData, 'Expenditure');

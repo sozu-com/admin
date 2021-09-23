@@ -2395,6 +2395,7 @@
     "collection": "Collection",
     "concept": "Concept",
     "commissionPayment": "Commission Payment",
+    "editPayment": "Edit Payment",
     "chooseCommissionType": "Choose Commission Type",
     "addInvice": "+ Add Invoice",
     "purchaseCommission": "Purchase Commission",

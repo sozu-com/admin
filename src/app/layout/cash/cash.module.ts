@@ -17,6 +17,7 @@ import { ExpendituresComponent } from './expenditures/expenditures.component';
 import { CashComponent } from './cash.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CalendarModule } from 'primeng/primeng';
+import { QuickVisualizationIncomeComponent } from './income/quick-visualization-income/quick-visualization-income.component';
 
 const routes: Routes = [
     {
@@ -26,6 +27,9 @@ const routes: Routes = [
     {
         path: 'expenditures', component: ExpendituresComponent,
         canActivate: [AclUserGuard], data: { roles: ['Cashflow', 'can_read', ''] }
+    },
+    {
+        path: 'income/quick-visualization-income/:id', component: QuickVisualizationIncomeComponent
     }
 ];
 
@@ -36,6 +40,7 @@ const routes: Routes = [
         CashComponent,
         IncomeComponent,
         ExpendituresComponent,
+        QuickVisualizationIncomeComponent,
     ],
     imports: [
         RouterModule.forChild(routes),

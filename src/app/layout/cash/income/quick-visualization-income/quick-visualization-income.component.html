@@ -1,0 +1,87 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-9 col-md-11 col-6">
+      <div class="title-group">
+        <h5><a (click)="goBack()" href="javascript://"><i
+              class="fa fa-angle-double-left" style="font-size: 1.5em;"></i> </a>
+          &nbsp;&nbsp;{{'quickVisualization.label' | translate}}</h5>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-2 col-6" style="display: none;">
+      <div class="btn-cont text-right">
+        <a class="btn" href="javascript://" style="display: none;" data-toggle="modal" data-target="#addInhouseUser"
+          #inhouseUserModalOpen>{{'table.addNewBtn' | translate}}</a>
+        <button class="btn btn-primary-new" href="javascript://" (click)="showApplyPaymentPopup()"
+          [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0">
+          {{'table.title.applyPayment' | translate}}
+        </button>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-2 col-6">
+      <div class="btn-cont text-right">
+        <a routerLink="/dashboard/cash/income" class="btn btn-primary-new"
+          href="javascript://">{{'quickVisualization.back' | translate}}</a>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+  <h5>{{'quickVisualization.paymentInformation' | translate}}</h5>
+  <div class="row">
+    <div class="col-md-6">
+
+      <div class="table-responsive">
+        <table class="table table-bordered white-bg">
+          <tbody>
+            <tr>
+              <th>{{'quickVisualization.amount' | translate}}:</th>
+              <td>{{item?.amount || ('table.tr.td.NA' | translate)}}</td>
+            </tr>
+            <tr>
+              <th>{{'quickVisualization.payment_method' | translate}}:</th>
+              <td>{{item?.collection_payment_choice?.name || ('table.tr.td.NA' | translate)}}</td>
+            </tr>
+            <tr>
+              <th>{{'quickVisualization.payment_receipt' | translate}}:</th>
+              <td>
+                <a target="_blank" href="{{item?.receipt}}">{{'quickVisualization.clickToViewReceipt' | translate}}</a>
+              </td>
+            </tr>
+            <tr>
+              <th>{{'quickVisualization.description' | translate}}:</th>
+              <td>{{item?.description || ('table.tr.td.NA' | translate)}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="col-md-1"></div>
+
+    <div class="col-md-5">
+      <div class="table-responsive">
+        <table class="table table-bordered white-bg">
+          <tbody>
+            <tr>
+              <th>{{'quickVisualization.payment_date' | translate}}:</th>
+              <td>{{item?.collection_payment_choice?.date ? (item?.collection_payment_choice?.date | date:'dd/MMM/yyyy') : ('table.tr.td.NA' |
+                translate)}}</td>
+            </tr>
+            <tr>
+              <th>{{'quickVisualization.finalprice' | translate}}:</th>
+              <td>{{item?.property_collection?.final_price || ('table.tr.td.NA' | translate)}}</td>
+            </tr>
+            <tr>
+              <th>{{'quickVisualization.propertyName' | translate}}:</th>
+              <td>{{item?.property?.name || ('table.tr.td.NA' | translate)}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+</div>
