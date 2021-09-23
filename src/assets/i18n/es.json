@@ -1223,7 +1223,8 @@
       "Layaway": "Layaway",
       "Deal Done": "Trato hecho",
       "Lead Lost": "Plomo perdido",
-      "chooseSupplier": "Elija proveedor"
+      "chooseSupplier": "Elija proveedor",
+      "collectionDetail": "Colección Detalle"
     },
     "pagination": {
       "showing": "Mostrando",
