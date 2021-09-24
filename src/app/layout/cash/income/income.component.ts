@@ -93,7 +93,6 @@ export class IncomeComponent implements OnInit {
     this.getListing();
   }
   getListing() {
-    console.log(this.selectedValue, "selectedValue");
     this.spinner.show();
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     if (this.parameter.deal_to_date && this.parameter.deal_from_date) {
@@ -119,16 +118,18 @@ export class IncomeComponent implements OnInit {
     input.is_approved = this.parameter.flag;
     this.admin.postDataApi('getIncomeHomeData', input).subscribe(
       success => {
-        this.cs.incomes = success.data;
-        for (let index = 0; index < this.cs.incomes.length; index++) {
-          const element = this.cs.incomes[index];
+        // this.cs.incomes = success.data;
+        this.items = success.data;
+        for (let index = 0; index < this.items.length; index++) {
+          const element = this.items[index];
           element['collection_payment_choice'] = element.collection_payment_choice;
           element['property_collection'] = element['collection_payment_choice'].property_collection;
           element['buyer'] = element['property_collection'].buyer;
           element['property'] = element['property_collection'].property;
           element['building'] = element['property'].building;
         }
-        this.cs.totalIncomes = success.total;
+        // this.cs.totalIncomes = success.total;
+        this.total = success.total;
         this.spinner.hide();
       },
       error => {
@@ -274,6 +275,7 @@ export class IncomeComponent implements OnInit {
         this.parameter.building_id = '0';
         this.parameter.commission_type = '1';
       }
+      this.getListing();
     });
   }
 
@@ -333,9 +335,6 @@ export class IncomeComponent implements OnInit {
         this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.property_name;
         break;
       case 7:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.payment_status;
-        break;
-      case 8:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.action;
         break;
       default:
@@ -410,8 +409,7 @@ export class IncomeComponent implements OnInit {
       amount_paid: (this.select_columns_list[3] || []).isCheckBoxChecked,
       project_name: (this.select_columns_list[4] || []).isCheckBoxChecked,
       property_name: (this.select_columns_list[5] || []).isCheckBoxChecked,
-      payment_status: (this.select_columns_list[6] || []).isCheckBoxChecked,
-      action: (this.select_columns_list[7] || []).isCheckBoxChecked
+      action: (this.select_columns_list[6] || []).isCheckBoxChecked
     };
   }
 

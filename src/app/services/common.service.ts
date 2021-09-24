@@ -85,7 +85,7 @@ export class CommonService {
       this.admin.postDataApi('projectHome', input),
       this.admin.postDataApi('propertyHome', input),
       this.admin.postDataApi('getAgencies', input),
-      this.admin.postDataApi('getIncomeHomeData', input),
+      // this.admin.postDataApi('getIncomeHomeData', input),
     ]).subscribe(success => {
       this.items = success[0].data || [];
       this.totalSale = success[0].total_count;
@@ -127,16 +127,16 @@ export class CommonService {
       this.agencies = success[3].data || [];
       this.totalAgencies = success[3].total_count;
       //incomes
-      this.incomes = success[4].data || [];
-      for (let index = 0; index < this.incomes.length; index++) {
-        const element = this.incomes[index];
-        element['collection_payment_choice'] = element.collection_payment_choice;
-        element['property_collection'] = element['collection_payment_choice'].property_collection;
-        element['buyer'] = element['property_collection'].buyer;
-        element['property'] = element['property_collection'].property;
-        element['building'] = element['property'].building;
-      }
-      this.totalIncomes = success[4].total;
+      // this.incomes = success[4].data || [];
+      // for (let index = 0; index < this.incomes.length; index++) {
+      //   const element = this.incomes[index];
+      //   element['collection_payment_choice'] = element.collection_payment_choice;
+      //   element['property_collection'] = element['collection_payment_choice'].property_collection;
+      //   element['buyer'] = element['property_collection'].buyer;
+      //   element['property'] = element['property_collection'].property;
+      //   element['building'] = element['property'].building;
+      // }
+      // this.totalIncomes = success[4].total;
     });
   }
 

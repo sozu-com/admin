@@ -267,7 +267,7 @@
                 </tr>
               </thead>
               <tbody class="content">
-                <tr  *ngFor="let p of cs.incomes | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: cs.totalIncomes }; let i=index">
+                <tr  *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
                   <td>
                     <span>{{p?.id ? p?.id : ('table.tr.td.NA' | translate)}}</span>
                   </td>
@@ -275,7 +275,7 @@
                     <span class="green-color cursor-pointer" routerLink="/dashboard/collections/view-collections/{{p?.collection_payment_choice?.property_collection_id}}">{{p?.collection_payment_choice?.property_collection_id ? p?.collection_payment_choice?.property_collection_id : ('table.tr.td.NA' | translate)}}</span>
                   </td>
                   <td *ngIf="selectedColumnsToShow?.buyer_name">
-                    <span *ngIf="p?.property_collection.buyer_type == 1" (click)="userinfo(buyer)" style="cursor: pointer;color:#00B96F;">
+                    <span *ngIf="p?.property_collection.buyer_type == 1" (click)="userinfo(p?.buyer)" style="cursor: pointer;color:#00B96F;">
                       {{p?.buyer?.name ? (p?.buyer?.name + ' ' + p?.buyer?.first_surname + ' ' +
                       p?.buyer?.second_surname) : ('table.tr.td.NA' | translate)}}
                     </span>
@@ -283,7 +283,7 @@
                       {{buyer_legal_entity?.comm_name ? (buyer_legal_entity?.comm_name) : ('table.tr.td.NA' |
                       translate)}}
                     </span>
-                    <span *ngIf="p?.property_collection.buyer_type == 3" (click)="userinfo(buyer)" style="cursor: pointer;color:#00B96F;">
+                    <span *ngIf="p?.property_collection.buyer_type == 3" (click)="userinfo(p?.buyer)" style="cursor: pointer;color:#00B96F;">
                       {{p?.buyer?.name ? (p?.buyer?.name + ' ' + p?.buyer?.first_surname + ' ' +
                       p?.buyer?.second_surname) : ('table.tr.td.NA' | translate)}}
                     </span>
@@ -294,7 +294,7 @@
                     </span>
                   </td>
                   <td *ngIf="selectedColumnsToShow?.payment_date">
-                    <span>{{p?.collection_payment_choice.date ? this.getDateWRTTimezone(p?.collection_payment_choice.date, 'DD/MMM/YYYY') :
+                    <span>{{p?.payment_date ? this.getDateWRTTimezone(p?.payment_date, 'DD/MMM/YYYY') :
                       ('table.tr.td.NA' | translate)}}</span>
                   </td>
                   <td *ngIf="selectedColumnsToShow?.amount_paid">
@@ -305,7 +305,7 @@
                   </td>
                   <td *ngIf="selectedColumnsToShow?.property_name">
                   <span class="green-color cursor-pointer" 
-                        (click)="this.navigateToProperty(collection_payment_choice?.property_collection_id)">
+                        (click)="this.navigateToProperty(p?.property?.id)">
                     {{p?.property?.name ? (p?.property?.name) : ('table.tr.td.NA' | translate)}}</span>
                   </td>
                   <!-- <td *ngIf="selectedColumnsToShow?.payment_status">
@@ -347,7 +347,7 @@
                 </tr>
               </tbody>
             </table>
-            <div class="padding20 center" *ngIf="cs.totalIncomes == 0">
+            <div class="padding20 center" *ngIf="total == 0">
               <img src="assets/img/404-error.png">
            </div>
           </div>
@@ -361,8 +361,8 @@
     <div class="row">
       <div class="col-6">
         <div class="title-group">
-          <p>{{'table.pagination.showing' | translate}} {{cs.incomes?.length}} {{'table.pagination.outof' | translate}}
-            {{cs.totalIncomes}}</p>
+          <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}}
+            {{cs.total}}</p>
         </div>
       </div>
       <div class="col-6 text-right">
@@ -439,7 +439,7 @@
 
 <a href="javascript://" data-toggle="modal" data-target="#edit-coll-receipt-Modal" #editCollectionReceiptOpen></a>
 <div class="modal animated" id="edit-coll-receipt-Modal">
-  <div class="modal-dialog fadeIndown modal-lg">
+  <div class="modal-dialog fadeIndown modal-lg modal-dialog-centered">
     <div class="modal-content notary-avail">
       <div class="modal-header popup-header">
         <h4>{{'viewCollections.editPayment' | translate}}</h4>
@@ -453,7 +453,7 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-12">
-            <div class="spacer40"></div>
+            <div class="spacer20"></div>
           </div>
           <div class="col-6">
             <div class="form-group-2">
@@ -499,37 +499,32 @@
           </div>
           <div class="col-6">
             <div class="form-group-2">
+              <label>{{'table.th.Amount_paid' | translate}}</label>
+              <div class="form-group">
+                <div class="clearfix"></div>
+                <input type="text" [(ngModel)]="amount" name="amount" class="form-control" readonly>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="form-group-2">
               <label>{{'viewCollections.description' | translate}}</label>
               <div class="form-group">
                 <textarea rows="3" [(ngModel)]="description" name="description2" class="form-control"></textarea>
               </div>
             </div>
           </div>
-
-          <div class="row">
-            <div class="col-6">
-              <div class="form-group-2">
-                <label>{{'table.th.Amount_paid' | translate}}</label>
-                <div class="form-group">
-                  <div class="clearfix"></div>
-                  <input type="text" [(ngModel)]="amount" name="amount" class="form-control" readonly>
-                </div>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="form-group-2">
-                <label style="color: white;">{{'table.th.Amount_paid' | translate}}</label>
-                <div class="form-group">
-                  <button type="submit" class="btn btn-primary-new">
-                    <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
-                    {{'addForm.addBtn' | translate}}</button>
-                </div>
-              </div>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="btn-cont text-right">
+              <button type="submit" class="btn btn-primary-new">
+                <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
+                {{'addForm.updateBtn' | translate}}</button>
             </div>
           </div>
-
-
         </div>
+
       </div>
     </form>
     </div>
