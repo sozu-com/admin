@@ -1300,6 +1300,7 @@
       "uploadingImage": "Uploading Image",
       "uploadingVideo": "Uploading video.",
       "uploadingDocument": "Uploading document",
+      "userEmail": "Project email already register.",
       "pleaseSelectCountry": "Please select country.",
       "pleaseSelectState": "Please select state.",
       "pleaseSelectCity": "Please select city.",
