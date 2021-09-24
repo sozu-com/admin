@@ -1165,6 +1165,10 @@ export class AddProjectComponent implements OnInit {
 
     modelSave.meta_description_es = this.model.meta_description_es;
     modelSave.meta_title_es = this.model.meta_title_es;
+    modelSave.short_address = this.model.short_address;
+    modelSave.project_email = this.model.project_email;
+    modelSave.project_additional_url = this.model.project_additional_url;
+    modelSave.project_tagline = this.model.project_tagline;
     if (this.model.doc_loader) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.uploadingDocument'), 'error');
       return;

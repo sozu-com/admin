@@ -46,18 +46,20 @@ export class IncomeComponent implements OnInit {
   public location: IProperty = {};
   private exportfinalData: any[] = [];
   items: any = [];
-  seller_type: any; selectedValue: any;
+  seller_type: any; selectedValue: any; thing_id: any;
   paymentBanks: Array<any>; paymentMethods: Array<any>;
   payment_bank: any; building: any; paymentDate: Date;
   collection_commission: any; collection_payment_choice: any;
   selectedLevel: any; payment_id: any; payment_method_id: any; description: string;
-  xml_url: any; property_collection: any;
+  xml_url: any; property_collection: any; payment_choice_id: any;
   pdf_url: any; buyer: any; property: any; value: any; payment_res: any;
   invoice_id: string; collection_commission_id: number; payment_date: any = new Date();
   invoice_date: any; docFile: string; amount: number; commission_type: any;
   @ViewChild('editPaymentModalOpen') editPaymentModalOpen: ElementRef;
   @ViewChild('editPaymentModalClose') editPaymentModalClose: ElementRef;
   @ViewChild('editCollectionReceiptOpen') editCollectionReceiptOpen: ElementRef;
+  @ViewChild('editReceiptOpen') editReceiptOpen: ElementRef;
+  @ViewChild('editReceiptClose') editReceiptClose: ElementRef;
   @ViewChild('editCollectionReceiptClose') editCollectionReceiptClose: ElementRef;
   constructor(
     public admin: AdminService, private propertyService: PropertyService,
@@ -147,12 +149,35 @@ export class IncomeComponent implements OnInit {
     this.router.navigate(['/dashboard/properties/view-properties/property', (collectionDetails || '')]);
   }
   viewDocument(item) {
+    //this.docFile = item.receipt;
+    // this.editReceiptOpen.nativeElement.click();
     window.open(item.receipt, '_blank');
   }
+  updateReceipt() {
+
+    const input = {
+      id: this.payment_id,
+      receipt: this.docFile
+    };
+
+    this.admin.postDataApi('updatePaymentById', input).subscribe(r => {
+      this.getListing();
+      this.editReceiptClose.nativeElement.click();
+      this.toastr.clear();
+      this.toastr.success(this.translate.instant('message.success.savedSuccessfully'), this.translate.instant('swal.success'));
+    }, error => {
+      this.toastr.error(error.message, this.translate.instant('swal.error'));
+      return false;
+    });
+  }
+
   all(data: any) {
     this.router.navigate(['dashboard/cash/income/quick-visualization-income', data.id]);
   }
 
+  closeEditReceiptModal() {
+    this.editReceiptClose.nativeElement.click();
+  }
   closeEditCollReceiptModal() {
     this.editCollectionReceiptClose.nativeElement.click();
   }
@@ -351,6 +376,7 @@ export class IncomeComponent implements OnInit {
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
     });
   }
+
   getPayment = (): void => {
     this.admin.postDataApi('getPaymentChoice', {}).subscribe((response) => {
       this.paymentChoices = response.data;

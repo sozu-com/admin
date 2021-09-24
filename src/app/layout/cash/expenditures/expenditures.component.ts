@@ -47,13 +47,13 @@ export class ExpendituresComponent implements OnInit {
   today: Date; cancelationCommision: any;
   public location: IProperty = {};
   private exportfinalData: any[] = [];
-  items: any = [];
+  items: any = []; thing_id: any;
   seller_type: any; selectedValue: any;
   paymentBanks: Array<any>; paymentMethods: Array<any>;
   payment_bank: any; building: any; paymentDate: Date;
   collection_commission: any; collection_payment_choice: any;
   selectedLevel: any; payment_id: any; payment_method_id: any; description: string;
-  xml_url: any; property_collection: any;
+  xml_url: any; property_collection: any; payment_choice_id: any;
   pdf_url: any; buyer: any; property: any; value: any; payment_res: any;
   invoice_id: string; collection_commission_id: number; payment_date: any = new Date();
   invoice_date: any; docFile: string; amount: number; commission_type: any;
@@ -559,7 +559,10 @@ export class ExpendituresComponent implements OnInit {
     }
     this.parameter.locality_id = id;
   }
-
+  changeThing(index) {
+    console.log(this.selectedValue, "selectedValue");
+    console.log(this.paymentChoices[index], "hlo");
+  }
   getLocalityBuildings(id) {
     if (!id || id.toString() === '0') {
       this.parameter.localities = [];

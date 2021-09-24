@@ -13,7 +13,10 @@ export class CarpetAreas {
 }
 
 export class AddProjectModel {
-
+  short_address: any = '';
+  project_email: any = '';
+  project_additional_url: any = '';
+  project_tagline: any = '';
   id = '';
   building_id = '';
   country_id = '';

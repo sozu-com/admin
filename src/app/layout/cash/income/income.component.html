@@ -467,6 +467,19 @@
               </div>
             </div>
           </div>
+          <!-- <div class="col-6">
+            <div class="form-group-2">
+              <label>{{'table.th.Payment_concept' | translate}}<span class="color-red">*</span></label>
+              <div class="form-group">
+                <select [(ngModel)]="payment_choice_id"
+                (change)="changeThing($event.target.value)" 
+                name="thing" class="form-control" required>
+                  <option value="">{{'viewCollections.choosePaymentMethod' | translate}}</option>
+                  <option *ngFor="let bt of paymentChoices; let i = index;" [value]="bt.id"> {{bt?.name}}</option>
+                </select>
+              </div>
+            </div>
+          </div> -->
           <div class="col-6">
             <div class="form-group-2">
               <label>{{'viewCollections.choosePaymentReceipt' | translate}} <span class="color-red">*</span></label>
@@ -510,9 +523,9 @@
         <div class="row">
           <div class="col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="form-group-2">
-              <label>{{'viewCollections.description' | translate}}</label>
+              <label>{{'viewCollections.description' | translate}}<span class="color-red">*</span></label>
               <div class="form-group">
-                <textarea rows="3" [(ngModel)]="description" name="description2" class="form-control"></textarea>
+                <textarea rows="3" [(ngModel)]="description" name="description2" class="form-control" required></textarea>
               </div>
             </div>
           </div>
@@ -531,5 +544,58 @@
   </div>
 </div>
 
+<!-- edit Receipt_view -->
+<a href="javascript://" data-toggle="modal" data-target="#edit" #editReceiptOpen></a>
+<div class="modal animated" id="edit">
+  <div class="modal-dialog fadeIndown modal-lg modal-dialog-centered">
+    <div class="modal-content notary-avail">
+      <div class="modal-header popup-header">
+        <h4>{{'table.title.Receipt_view' | translate}}</h4>
+        <button style="display: none;" type="button" class="close" data-dismiss="modal"
+          #editReceiptClose>&times;</button>
+        <button type="button" class="close" (click)="closeEditReceiptModal();">&times;</button>
+      </div>
+
+      <form autocomplete="off" class="form-horizontal padding0" role="form" ngNativeValidate #addForm="ngForm"
+      (ngSubmit)="updateReceipt()">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="spacer20"></div>
+          </div>
+         
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="form-group-2">
+              <label>{{'viewCollections.choosePaymentReceipt' | translate}} <span class="color-red">*</span></label>
+              <div class="form-group">
+                <p *ngIf="docFile">
+                  <span>
+                    <a target="_blank" href="{{docFile}}">{{'quickVisualization.clickToViewReceipt' | translate}}</a>
+                  </span>
+                  <span>
+                    <a class="remove" (click)="docFile=''"><img src="assets/img/remove-icon.png" alt="img"></a>
+                  </span>
+                </p>
+                <input *ngIf="!docFile" type="file" name="docFile" #docsFile1
+                  accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/x-png,image/jpg,image/jpeg"
+                  (change)="onSelectFile($event.target.files, 'docFile')">
+              </div>
+            </div>
+          </div>
+         
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="btn-cont text-right">
+              <button type="submit" class="btn btn-primary-new">
+                <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
+                {{'addForm.updateBtn' | translate}}</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
 </div>
 
