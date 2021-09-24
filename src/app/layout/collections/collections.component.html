@@ -3037,7 +3037,7 @@ Special p.                {{special_payment | currency}}
               </label>
             </div>
             <div class="col-6">
-              <span><strong>{{(select_collection?.final_price || 0) | currency}}</strong></span>
+              <span><strong>{{(select_collection?.total_payment_recieved || 0) | currency}}</strong></span>
             </div>
           </div>
           <table class="table">
