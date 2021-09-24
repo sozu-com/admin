@@ -113,6 +113,7 @@ export class ExpendituresComponent implements OnInit {
     }
     input.payment_choice_id = this.selectedValue;
     input.is_approved = this.parameter.flag;
+    console.log(input, "test");
     this.admin.postDataApi('getexpenditureHomeData', input).subscribe(
       success => {
         this.items = success.data;
@@ -228,9 +229,11 @@ export class ExpendituresComponent implements OnInit {
         });
   }
   userinfo = (userdata: any): void => {
+    console.log(userdata, "userdata");
     this.router.navigate(['/dashboard/users/edit-user', userdata.id]);
   }
   legalinfo = (userdata: any): void => {
+    console.log(userdata, "userdata");
     this.router.navigate(['/dashboard/legal-entities/add-legal-entity/', userdata.id]);
   }
   navigateToProperty = (collectionDetails: any): void => {
@@ -372,9 +375,6 @@ export class ExpendituresComponent implements OnInit {
         this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.property_name;
         break;
       case 7:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.expenditure_status;
-        break;
-      case 8:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.actions;
         break;
       default:
@@ -426,8 +426,7 @@ export class ExpendituresComponent implements OnInit {
       amount: (this.select_columns_list[3] || []).isCheckBoxChecked,
       project_name: (this.select_columns_list[4] || []).isCheckBoxChecked,
       property_name: (this.select_columns_list[5] || []).isCheckBoxChecked,
-      expenditure_status: (this.select_columns_list[6] || []).isCheckBoxChecked,
-      actions: (this.select_columns_list[7] || []).isCheckBoxChecked
+      actions: (this.select_columns_list[6] || []).isCheckBoxChecked
     };
   }
   getTransformedAmount(value: any) {
