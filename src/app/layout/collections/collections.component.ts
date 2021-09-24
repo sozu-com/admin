@@ -823,11 +823,11 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           if(element.category_name.includes('Monthly Installment')){
             self.monthly_installment_count = self.monthly_installment_count + 1;
           }
-          self.monthly_installment_amounts = element.category_name.includes('Monthly Installment') ? self.monthly_installment_amounts + element.amount :  self.monthly_installment_amounts + 0;
-          self.layaway_payment = element.category_name.includes('Layaway Payment') ? self.layaway_payment + element.amount : self.layaway_payment + 0;
-          self.down_payment = element.category_name.includes('Down Payment') ? self.down_payment + element.amount : self.down_payment + 0;
-          self.special_payment = element.category_name.includes('Special payment') ? self.special_payment + element.amount : self.special_payment + 0;
-          self.payment_upon_delivery = element.category_name.includes('Payment upon Delivery') ? self.payment_upon_delivery + element.amount : self.payment_upon_delivery + 0;       
+          self.monthly_installment_amounts = element.category_name.includes('Monthly Installment') ? self.monthly_installment_amounts + (element.calc_payment_amount || 0):  self.monthly_installment_amounts + 0;
+          self.layaway_payment = element.category_name.includes('Layaway Payment') ? self.layaway_payment + (element.calc_payment_amount || 0) : self.layaway_payment + 0;
+          self.down_payment = element.category_name.includes('Down Payment') ? self.down_payment + (element.calc_payment_amount || 0) : self.down_payment + 0;
+          self.special_payment = element.category_name.includes('Special payment') ? self.special_payment + (element.calc_payment_amount || 0) : self.special_payment + 0;
+          self.payment_upon_delivery = element.category_name.includes('Payment upon Delivery') ? self.payment_upon_delivery + (element.calc_payment_amount || 0) : self.payment_upon_delivery + 0;       
         });
         this.openCancelDetailModal.nativeElement.click();
       }else{
