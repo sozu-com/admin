@@ -366,7 +366,7 @@
                                                 <option value="">{{'table.th.all' | translate}}</option>
                                                 <option *ngFor="let tempStatusName of addChangeStatusNames"
                                                     value="{{tempStatusName.id}}">
-                                                    {{translate.defaultLang == 'en'? tempStatusName.name :
+                                                    {{translate.defaultLang == 'en'? tempStatusName.name_en :
                                                     tempStatusName.name_es}}
                                                 </option>
                                             </select>
@@ -427,9 +427,9 @@
                                         item?.admin?.name:('leads.linkCreditAgent' | translate)}}</span></td>
                                 <td class="text-left green-color cursor-pointer" (click)="$event.stopPropagation()">
                                     <span (click)="openAddChangeStatusModel(item)">
-                                        {{item?.status && translate.defaultLang == 'en' ?
-                                        item.status.status_details.name.slice(0, 11) :
-                                        item?.status && translate.defaultLang != 'en' ?
+                                        {{item?.status && item.status.status_details.name_en && translate.defaultLang == 'en' ?
+                                        item.status.status_details.name_en.slice(0, 11) :
+                                        item?.status && item.status.status_details.name_es && translate.defaultLang != 'en' ?
                                         item.status.status_details.name_es.slice(0, 11) :
                                         ('table.tr.td.add' | translate)}}
                                     </span>
@@ -640,7 +640,7 @@
                                 [checked]="tempStatusName.id == selectedAddChangeStatus"
                                 (change)="isChecked(tempStatusName)"></span>
                         <label style="font-weight: bold; padding: inherit;font-size: medium;">{{translate.defaultLang ==
-                            'en'? tempStatusName.name : tempStatusName.name_es}}</label>
+                            'en'? tempStatusName.name_en : tempStatusName.name_es}}</label>
                     </div>
                 </div>
                 <div class="row">
@@ -682,8 +682,8 @@
                             <pre
                                 class="p13">{{item.type == 8 ? (('leadDetails.assigned' | translate) + ' ' + (item.assign_to.name + ' ' + item.assign_to.first_surname + ' ' + item.assign_to.second_surname) + ('leadDetails.AsCSRCredit' | translate)) : item.type == 2 ? 
                         (('leadDetails.assigned' | translate) + ' ' + (item.assign_to.name + ' ' + item.assign_to.first_surname + ' ' + item.assign_to.second_surname) + ('leadDetails.AsInhouseAgent' | translate)) : item.type == 5 ? 
-                        (('leadDetails.hasUpdateStatusTo' | translate) + ' ' + (lang == 'en' ? item.status_details.name : item.status_details.name_es) + ' ' + ('leadDetails.forCreditAgent' | translate)) : item.type == 4 ? 
-                        (('leadDetails.hasUpdateStatusTo' | translate) + ' ' + (lang == 'en' ? item.status_details.name : item.status_details.name_es) + ' ' + ('leadDetails.forInhouseAgent' | translate)) : ''}}</pre>
+                        (('leadDetails.hasUpdateStatusTo' | translate) + ' ' + (lang == 'en' ? item.status_details.name_en : item.status_details.name_es) + ' ' + ('leadDetails.forCreditAgent' | translate)) : item.type == 4 ? 
+                        (('leadDetails.hasUpdateStatusTo' | translate) + ' ' + (lang == 'en' ? item.status_details.name_en : item.status_details.name_es) + ' ' + ('leadDetails.forInhouseAgent' | translate)) : ''}}</pre>
                         </div>
                         <div class="col-12" style="font-size: 18px;text-align: center;margin-top: 33%;"
                             *ngIf="!history || history.length == 0">
