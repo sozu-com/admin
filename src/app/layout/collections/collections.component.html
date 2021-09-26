@@ -1511,6 +1511,9 @@
                         src="assets/img/ic_delete.png" alt="img"></button>
                   </td>
                   <td>
+                    <button
+                      (click)="downloadReceipt(p)"
+                      title="{{'table.title.downloadPaymentReceipt' | translate}}" class="action-icon"><i class="fa fa-file" aria-hidden="true"></i></button>
                     <button *ngIf="p?.commission?.payment && p?.commission?.payment.length>0"
                       (click)="editCollectionCommReceipt(p.commission.payment)"
                       title="{{'table.title.editCCPayment' | translate}}" class="action-icon"><img

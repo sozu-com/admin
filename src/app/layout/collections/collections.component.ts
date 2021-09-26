@@ -28,6 +28,7 @@ import { OnDestroy } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { GenerateOfferPdfService } from 'src/app/services/generate-offer-pdf.service';
 import { E } from '@angular/core/src/render3';
+import { PaymentReceiptService } from 'src/app/services/payment-receipt.service';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 declare let swal: any;
 declare var $: any;
@@ -280,7 +281,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     private datePipe: DatePipe,
     private http: HttpClient,
     private price: PricePipe,
-    private offerPdf: GenerateOfferPdfService
+    private offerPdf: GenerateOfferPdfService,
+    private paymentReceipt: PaymentReceiptService
   ) {
     // this.userForm = this.fb.group({
     //   email: this.fb.array([this.fb.control(null)])
@@ -1747,6 +1749,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   // apply payment, comision payment or supermoney payment function
 
   applyCollectionPayment() {
+    let self = this;
     if (this.commission_type == 4) {
       if (!this.paymentDate) {
         this.toastr.clear();
@@ -2031,7 +2034,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       if (callApi) {
         this.isApplyBtnClicked = true;
         this.admin.postDataApi(url, input).subscribe(r => {
-          this.isApplyBtnClicked = false;
+          self.isApplyBtnClicked = false;
+          let find_index = this.paymentConcepts.findIndex(item=> item.id == this.payment_choice_id.id);
+          this.paymentReceipt.getCollectionById(this.property_collection_id, find_index, this.payment_choice_id);
           if (this.surplus_payment_type) {
             input['amount'] = this.paymentAmount - this.calculatedPayAmount;
             input['type'] = this.surplus_payment_type;
@@ -2041,6 +2046,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             }
 
             this.admin.postDataApi(url, input).subscribe(r => {
+              let find_index = this.paymentConcepts.findIndex(item=> item.id == this.payment_choice_id.id);
+              self.paymentReceipt.getCollectionById(this.property_collection_id, find_index, this.payment_choice_id);
               // if (this.surplus_payment_type == '1' || this.surplus_payment_type == '4') {
               //   input['collection_payment_choice_id'] = this.payment_choice_id['id']
               // }
@@ -2069,6 +2076,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
 
   applyCollectionPayment1() {
     // checking if date selected and receipt selected
+    let self = this;
     let callApi = true;
     if (!this.paymentDate) {
       this.toastr.clear();
@@ -2264,6 +2272,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       this.isApplyBtnClicked = true;
       this.admin.postDataApi(url, input).subscribe(r => {
         this.isApplyBtnClicked = false;
+        let find_index = this.paymentConcepts.findIndex(item=> item.id == this.payment_choice_id.id);
+        self.paymentReceipt.getCollectionById(this.property_collection_id, find_index, this.payment_choice_id);
         if (this.surplus_payment_type) {
           input['amount'] = this.paymentAmount - this.calculatedPayAmount;
           input['type'] = this.surplus_payment_type;
@@ -2273,6 +2283,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           }
 
           this.admin.postDataApi(url, input).subscribe(r => {
+            let find_index = this.paymentConcepts.findIndex(item=> item.id == this.payment_choice_id.id);
+            self.paymentReceipt.getCollectionById(this.property_collection_id, find_index, this.payment_choice_id);
             // if (this.surplus_payment_type == '1' || this.surplus_payment_type == '4') {
             //   input['collection_payment_choice_id'] = this.payment_choice_id['id']
             // }
@@ -4375,4 +4387,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
 
   }
 
+  downloadReceipt(collectionConcepet){
+    let find_index = this.paymentConcepts.findIndex(item=> item.id == collectionConcepet.id);
+    this.paymentReceipt.getCollectionById(this.property_collection_id, find_index, collectionConcepet);
+  }
 }
