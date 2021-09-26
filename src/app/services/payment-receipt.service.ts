@@ -53,7 +53,7 @@ export class PaymentReceiptService {
     this.language_code = localStorage.getItem('language_code');
     let current_date = new Date();
     let concept = this.collection_data.payment_choices.find(item=> item.id == this.payment_concept.id);
-    let date = this.datePipe.transform(concept.created_at, 'MMM d, y');
+    let date = this.datePipe.transform((concept.created_at? concept.created_at : new Date()), 'MMM d, y');
     let monthNames = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
           'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']
     if (this.language_code != 'en') {
