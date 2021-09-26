@@ -531,7 +531,24 @@ export class AppHeaderComponent implements OnInit {
                 icon: 'assets/img/web_logo.png',
               },
             ]
-          }
+          },
+          {
+            title: this.translate.instant('sidebar.manageFlow'),
+            url: '',
+            icon: 'assets/img/web_logo.png',
+            children: [
+              {
+                title: this.translate.instant('sidebar.icome'),
+                url: '/dashboard/cash/income',
+                icon: 'assets/img/web_logo.png',
+              },
+              {
+                title: this.translate.instant('sidebar.Expenditures'),
+                url: '/dashboard/cash/expenditures',
+                icon: 'assets/img/web_logo.png',
+              }
+            ]
+          },
         ]
       },
       //settings

@@ -820,26 +820,26 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        if(this.select_collection.is_cancelled != 1){
-        self.select_collection.payment_choices.forEach(function (element, index) {
-          if(element.category_name.includes('Monthly Installment')){
-            self.monthly_installment_count = self.monthly_installment_count + 1;
-          }
-          self.monthly_installment_amounts = element.category_name.includes('Monthly Installment') ? self.monthly_installment_amounts + (element.calc_payment_amount || 0):  self.monthly_installment_amounts + 0;
-          self.layaway_payment = element.category_name.includes('Layaway Payment') ? self.layaway_payment + (element.calc_payment_amount || 0) : self.layaway_payment + 0;
-          self.down_payment = element.category_name.includes('Down Payment') ? self.down_payment + (element.calc_payment_amount || 0) : self.down_payment + 0;
-          self.special_payment = element.category_name.includes('Special payment') ? self.special_payment + (element.calc_payment_amount || 0) : self.special_payment + 0;
-          self.payment_upon_delivery = element.category_name.includes('Payment upon Delivery') ? self.payment_upon_delivery + (element.calc_payment_amount || 0) : self.payment_upon_delivery + 0;       
-        });
-        this.openCancelDetailModal.nativeElement.click();
-      }else{
-        this.cancelPropertyCollections(item, index, status);
-      }
+        if (this.select_collection.is_cancelled != 1) {
+          self.select_collection.payment_choices.forEach(function (element, index) {
+            if (element.category_name.includes('Monthly Installment')) {
+              self.monthly_installment_count = self.monthly_installment_count + 1;
+            }
+            self.monthly_installment_amounts = element.category_name.includes('Monthly Installment') ? self.monthly_installment_amounts + (element.calc_payment_amount || 0) : self.monthly_installment_amounts + 0;
+            self.layaway_payment = element.category_name.includes('Layaway Payment') ? self.layaway_payment + (element.calc_payment_amount || 0) : self.layaway_payment + 0;
+            self.down_payment = element.category_name.includes('Down Payment') ? self.down_payment + (element.calc_payment_amount || 0) : self.down_payment + 0;
+            self.special_payment = element.category_name.includes('Special payment') ? self.special_payment + (element.calc_payment_amount || 0) : self.special_payment + 0;
+            self.payment_upon_delivery = element.category_name.includes('Payment upon Delivery') ? self.payment_upon_delivery + (element.calc_payment_amount || 0) : self.payment_upon_delivery + 0;
+          });
+          this.openCancelDetailModal.nativeElement.click();
+        } else {
+          this.cancelPropertyCollections(item, index, status);
+        }
       }
     });
   }
 
-  closeCancelModal(){
+  closeCancelModal() {
     this.showNext = false;
     this.cancelationCommision = undefined;
     this.closeCancelDetailModal.nativeElement.click();
@@ -2035,7 +2035,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         this.isApplyBtnClicked = true;
         this.admin.postDataApi(url, input).subscribe(r => {
           self.isApplyBtnClicked = false;
-          let find_index = this.paymentConcepts.findIndex(item=> item.id == this.payment_choice_id.id);
+          let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
           this.paymentReceipt.getCollectionById(this.property_collection_id, find_index, this.payment_choice_id);
           if (this.surplus_payment_type) {
             input['amount'] = this.paymentAmount - this.calculatedPayAmount;
@@ -2046,7 +2046,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             }
 
             this.admin.postDataApi(url, input).subscribe(r => {
-              let find_index = this.paymentConcepts.findIndex(item=> item.id == this.payment_choice_id.id);
+              let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
               self.paymentReceipt.getCollectionById(this.property_collection_id, find_index, this.payment_choice_id);
               // if (this.surplus_payment_type == '1' || this.surplus_payment_type == '4') {
               //   input['collection_payment_choice_id'] = this.payment_choice_id['id']
@@ -2272,7 +2272,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       this.isApplyBtnClicked = true;
       this.admin.postDataApi(url, input).subscribe(r => {
         this.isApplyBtnClicked = false;
-        let find_index = this.paymentConcepts.findIndex(item=> item.id == this.payment_choice_id.id);
+        let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
         self.paymentReceipt.getCollectionById(this.property_collection_id, find_index, this.payment_choice_id);
         if (this.surplus_payment_type) {
           input['amount'] = this.paymentAmount - this.calculatedPayAmount;
@@ -2283,7 +2283,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           }
 
           this.admin.postDataApi(url, input).subscribe(r => {
-            let find_index = this.paymentConcepts.findIndex(item=> item.id == this.payment_choice_id.id);
+            let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
             self.paymentReceipt.getCollectionById(this.property_collection_id, find_index, this.payment_choice_id);
             // if (this.surplus_payment_type == '1' || this.surplus_payment_type == '4') {
             //   input['collection_payment_choice_id'] = this.payment_choice_id['id']
@@ -4387,8 +4387,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
 
   }
 
-  downloadReceipt(collectionConcepet){
-    let find_index = this.paymentConcepts.findIndex(item=> item.id == collectionConcepet.id);
+  downloadReceipt(collectionConcepet) {
+    let find_index = this.paymentConcepts.findIndex(item => item.id == collectionConcepet.id);
     this.paymentReceipt.getCollectionById(this.property_collection_id, find_index, collectionConcepet);
   }
 }
