@@ -73,7 +73,7 @@ export class AddProjectComponent implements OnInit {
   canEditContributionInfo: boolean;
   id: any;
   url: any[];
-  url2 = [];
+  url2 = []; res: any;
   tab: number;
   selectedGuest;
   image1;
@@ -1169,6 +1169,7 @@ export class AddProjectComponent implements OnInit {
     modelSave.project_email = this.model.project_email;
     modelSave.project_additional_url = this.model.project_additional_url;
     modelSave.project_tagline = this.model.project_tagline;
+
     if (this.model.doc_loader) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.uploadingDocument'), 'error');
       return;
@@ -1433,44 +1434,108 @@ export class AddProjectComponent implements OnInit {
       modelSave.company_id = modelSave.company && modelSave.company.id ? modelSave.company.id : null;
       modelSave.agency_id = modelSave.agency && modelSave.agency.id ? modelSave.agency.id : null;
       modelSave.legal_entity_id = modelSave.legal_entity && modelSave.legal_entity.id ? modelSave.legal_entity.id : null;
-      this.spinner.show();
-      this.admin.postDataApi('updateProject', modelSave).subscribe(success => {
-        this.spinner.hide();
-        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
-        //sum parking
-        let sum: any = 0;
-        this.model.parking_space_lots.forEach(a => sum += parseInt(a.no_parking));
-        this.parkinLot_sum = sum
+      let test = {
+        project_email: modelSave.project_email,
+        building_id: modelSave.building_id
+      }
+      if (modelSave.project_email) {
+        this.admin.postDataApi('checkUpdateExistEmail', test).subscribe(r => {
+          if (r.count > 0) {
+            swal(this.translate.instant('swal.error'), this.translate.instant('message.error.userEmail'), 'error');
+            this.spinner.hide();
+          } else {
+            this.spinner.show();
+            this.admin.postDataApi('updateProject', modelSave).subscribe(success => {
+              this.spinner.hide();
+              swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
+              //sum parking
+              let sum: any = 0;
+              this.model.parking_space_lots.forEach(a => sum += parseInt(a.no_parking));
+              this.parkinLot_sum = sum
 
-        let sum1: any = 0;
-        this.model.parking_space_rent.forEach(a => sum1 += parseInt(a.no_parking));
-        this.parkingRent_sum = sum1
+              let sum1: any = 0;
+              this.model.parking_space_rent.forEach(a => sum1 += parseInt(a.no_parking));
+              this.parkingRent_sum = sum1
 
-        this.both_sum = this.parkinLot_sum + this.parkingRent_sum;
-        //end parking sum
-        // set model to avoid duplication creation of project
-        this.setProjectModel(success['data']);
+              this.both_sum = this.parkinLot_sum + this.parkingRent_sum;
+              //end parking sum
+              // set model to avoid duplication creation of project
+              this.setProjectModel(success['data']);
 
-        // this.router.navigate(['/dashboard/projects/view-projects']);
-      }, error => {
-        this.spinner.hide();
-        swal(this.translate.instant('swal.error'), error.message, 'error');
-      });
+              // this.router.navigate(['/dashboard/projects/view-projects']);
+
+            }, error => {
+              this.spinner.hide();
+              swal(this.translate.instant('swal.error'), error.message, 'error');
+            });
+          }
+        });
+      } else {
+        this.spinner.show();
+        this.admin.postDataApi('updateProject', modelSave).subscribe(success => {
+          this.spinner.hide();
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.updatedSuccessfully'), 'success');
+          //sum parking
+          let sum: any = 0;
+          this.model.parking_space_lots.forEach(a => sum += parseInt(a.no_parking));
+          this.parkinLot_sum = sum
+
+          let sum1: any = 0;
+          this.model.parking_space_rent.forEach(a => sum1 += parseInt(a.no_parking));
+          this.parkingRent_sum = sum1
+
+          this.both_sum = this.parkinLot_sum + this.parkingRent_sum;
+          //end parking sum
+          // set model to avoid duplication creation of project
+          this.setProjectModel(success['data']);
+
+          // this.router.navigate(['/dashboard/projects/view-projects']);
+
+        }, error => {
+          this.spinner.hide();
+          swal(this.translate.instant('swal.error'), error.message, 'error');
+        });
+      }
+
     } else {
+
       delete modelSave.id;
       delete modelSave.building_id;
       this.spinner.show();
-      this.admin.postDataApi('addProject', modelSave).subscribe(success => {
-        this.spinner.hide();
-        swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
-        // set model to avoid duplication creation of project
-        this.id = success['data'].id;
-        this.setProjectModel(success['data']);
-        // this.router.navigate(['/dashboard/projects/view-projects']);
-      }, error => {
-        this.spinner.hide();
-        swal(this.translate.instant('swal.error'), error.message, 'error');
-      });
+      let pro_mail = modelSave.project_email;
+      if (pro_mail) {
+        this.admin.postDataApi('checkExistEmail', { project_email: pro_mail }).subscribe(r => {
+          if (r.count > 0) {
+            swal(this.translate.instant('swal.error'), this.translate.instant('message.error.userEmail'), 'error');
+            this.spinner.hide();
+          } else {
+            this.admin.postDataApi('addProject', modelSave).subscribe(success => {
+              this.spinner.hide();
+              swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
+              // set model to avoid duplication creation of project
+              this.id = success['data'].id;
+              this.setProjectModel(success['data']);
+
+            }, error => {
+              this.spinner.hide();
+              swal(this.translate.instant('swal.error'), error.message, 'error');
+            });
+          }
+        });
+      } else {
+        this.admin.postDataApi('addProject', modelSave).subscribe(success => {
+          this.spinner.hide();
+          swal(this.translate.instant('swal.success'), this.translate.instant('message.success.addedSuccessfully'), 'success');
+          // set model to avoid duplication creation of project
+          this.id = success['data'].id;
+          this.setProjectModel(success['data']);
+
+        }, error => {
+          this.spinner.hide();
+          swal(this.translate.instant('swal.error'), error.message, 'error');
+        });
+      }
+
     }
   }
 

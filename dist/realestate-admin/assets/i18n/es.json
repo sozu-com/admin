@@ -1301,6 +1301,7 @@
       "uploadingImage": "Cargando imagen",
       "uploadingVideo": "Subiendo video.",
       "uploadingDocument": "Subiendo documento.",
+      "userEmail": "El correo electrónico del proyecto ya está registrado.",
       "pleaseSelectCountry": "Selecciona tu país.",
       "pleaseSelectState": "Selecciona tu estado.",
       "pleaseSelectCity": "Selecciona tu ciudad.",

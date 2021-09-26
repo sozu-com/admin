@@ -79,7 +79,7 @@ export class ExpendituresComponent implements OnInit {
     this.getCountries();
     this.initCalendarLocale();
     this.parameter.page = this.constant.p;
-    this.parameter.dash_flag = this.constant.dash_flag;
+    this.parameter.dash_flag = 2;
     this.parameter.itemsPerPage = 10;
   }
   getPage(page) {
@@ -592,7 +592,7 @@ export class ExpendituresComponent implements OnInit {
     this.onCountryChange('0');
     this.parameter.is_selected = false;
     this.parameter.page = this.constant.p;
-    this.parameter.dash_flag = this.constant.dash_flag;
+    this.parameter.dash_flag = 2;
     this.parameter.total = 0;
     this.parameter.count_flag = 1;
     this.is_back = false
