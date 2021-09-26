@@ -1501,9 +1501,9 @@
                     {{p?.amount ? ((p?.amount || 0) | currency) : ''}}
                   </td>
                   <td>
-                    <button
+                    <!-- <button
                       (click)="downloadReceipt(p)"
-                      title="{{'table.title.downloadPaymentReceipt' | translate}}" class="action-icon"><i class="fa fa-file" aria-hidden="true"></i></button>
+                      title="{{'table.title.downloadPaymentReceipt' | translate}}" class="action-icon"><i class="fa fa-file" aria-hidden="true"></i></button> -->
                     <button *ngIf="!p.calc_payment_amount && p.penalty"
                       (click)="showPenaltyPaymentPopup(p, i, 'penalty-popup', p.id)"
                       title="{{'table.title.editPenalty' | translate}}" class="action-icon"><img
