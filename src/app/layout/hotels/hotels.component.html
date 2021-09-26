@@ -198,11 +198,11 @@
                     <label>{{'table.th.legalEntity' | translate}}</label>
                   </div>
                 </th> -->
-                <th style="width:10%" *ngIf="selectedColumnsToShow?.contributor">
+                <!-- <th style="width:10%" *ngIf="selectedColumnsToShow?.contributor">
                   <div class="table-search">
                     <label>{{'table.th.contributor' | translate}}</label>
                   </div>
-                </th>
+                </th> -->
                 <th style="width:13%" *ngIf="selectedColumnsToShow?.managed_company">
                   <div class="table-search">
                     <label>{{'table.th.managedBy' | translate}}</label>
@@ -282,11 +282,11 @@
                     <span *ngIf="p?.legal_entity_info?.length == 0">{{'table.tr.td.NA' | translate}}</span>
                 </td> -->
                  <!-- (click)="viewContributor(p)" -->
-                 <td   *ngIf="selectedColumnsToShow?.contributor" [ngClass]="{'green-color cursor-pointer': p?.hotel_contributors?.length > 0 }">                   
+                 <!-- <td   *ngIf="selectedColumnsToShow?.contributor" [ngClass]="{'green-color cursor-pointer': p?.hotel_contributors?.length > 0 }">                   
                     <span (click)="this.openContributorListModel(p.hotel_contributors)" *ngIf="p?.hotel_contributors?.length > 0">
                     {{p.hotel_contributors && p.hotel_contributors.length > 0  ? this.getBuildingContributorsInfo(p.hotel_contributors) : ('table.tr.td.NA' | translate)}}</span>
                     <span *ngIf="p?.hotel_contributors?.length == 0">{{'table.tr.td.NA' | translate}}</span>
-                </td>
+                </td> -->
                 <td   *ngIf="selectedColumnsToShow?.managed_company" [ngClass]="{'green-color cursor-pointer': p?.manager?.id || p?.company?.id}"
                   (click)="viewCompanyManager(p)">
                   <span>{{p?.manager?.id ? p?.manager?.name : p?.company?.id ? p?.company?.name : ('table.tr.td.NA' |
