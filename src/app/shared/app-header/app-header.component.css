@@ -1,7 +1,17 @@
 
 .logout-btn{
-  cursor: pointer;
+    cursor: pointer;
 }
 /* select::-ms-expand {
-  display: none;
+    display: none;
 } */
+.hidden {
+    display: none;
+  }
+
+  .mat-tree ul,
+  .mat-tree li {
+    margin-top: 0;
+    margin-bottom: 0;
+    list-style-type: none;
+  }
