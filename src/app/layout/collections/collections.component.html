@@ -1501,6 +1501,9 @@
                     {{p?.amount ? ((p?.amount || 0) | currency) : ''}}
                   </td>
                   <td>
+                    <button
+                      (click)="downloadReceipt(p)"
+                      title="{{'table.title.downloadPaymentReceipt' | translate}}" class="action-icon"><i class="fa fa-file" aria-hidden="true"></i></button>
                     <button *ngIf="!p.calc_payment_amount && p.penalty"
                       (click)="showPenaltyPaymentPopup(p, i, 'penalty-popup', p.id)"
                       title="{{'table.title.editPenalty' | translate}}" class="action-icon"><img
@@ -1511,9 +1514,6 @@
                         src="assets/img/ic_delete.png" alt="img"></button>
                   </td>
                   <td>
-                    <button
-                      (click)="downloadReceipt(p)"
-                      title="{{'table.title.downloadPaymentReceipt' | translate}}" class="action-icon"><i class="fa fa-file" aria-hidden="true"></i></button>
                     <button *ngIf="p?.commission?.payment && p?.commission?.payment.length>0"
                       (click)="editCollectionCommReceipt(p.commission.payment)"
                       title="{{'table.title.editCCPayment' | translate}}" class="action-icon"><img
