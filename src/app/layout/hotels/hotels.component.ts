@@ -128,7 +128,7 @@ export class HotelsComponent implements OnInit {
     this.getParametersForProject();
   }
   getHotelPossessionStatuses() {
-    this.admin.postDataApi('getHotelPossessionStatuses', {  }).subscribe(r => {
+    this.admin.postDataApi('getHotelPossessionStatuses', {}).subscribe(r => {
       this.possessionStatuses = r['data'];
     });
   }
@@ -200,7 +200,7 @@ export class HotelsComponent implements OnInit {
           })
         });
         this.items.forEach(function (element) {
-          
+
           element['avgg_price'] = (((parseFloat(element.avg_price) || 0) / (parseFloat(element.avg_carpet_area) || 0)));
           element['avgg_price_hold'] = (((parseFloat(element.avg_price_hold) || 0) / (parseFloat(element.avg_carpet_area_hold) || 0)));
         });
@@ -267,7 +267,7 @@ export class HotelsComponent implements OnInit {
       this.configurations = r['data'];
     });
   }
-  
+
   onCountryChange(id) {
     this.selectedLocation.selectedCities = [];
     this.location.cities = [];
@@ -632,7 +632,6 @@ export class HotelsComponent implements OnInit {
           'Latitude': p.lat || '',
           'Longitude': p.lng || '',
           'Developer Name': p.developer && p.developer.name ? p.developer.name : '',
-          'Contributor': p.hotel_contributors && p.hotel_contributors.length > 0  ? this.getBuildingContributorsInfo(p.hotel_contributors) : '',
           'Manager Name': p.manager && p.manager.name ? p.manager.name : '',
           'Company Name': p.company && p.company.name ? p.company.name : '',
           'Possession Status': p.status_possion ? p.status_possion : '',
@@ -641,7 +640,6 @@ export class HotelsComponent implements OnInit {
         };
         this.selectedColumnsToShow.hotel_name == 0 ? delete obj['Name of Hotel'] : undefined;
         this.selectedColumnsToShow.developer == 0 ? delete obj['Developer Name'] : undefined;
-        this.selectedColumnsToShow.contributor == 0 ? delete obj['Contributor'] : undefined;
         this.selectedColumnsToShow.managed_company == 0 ? delete obj['Manager Name'] : undefined;
         this.selectedColumnsToShow.possesion == 0 ? delete obj['Possession Status'] : undefined;
         this.selectedColumnsToShow.parking_lots == 0 ? delete obj['Parking Lots'] : undefined;
@@ -806,26 +804,23 @@ export class HotelsComponent implements OnInit {
       case 2:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.developer;
         break;
-      case 5:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.contributor;
-        break;
-      case 6:
+      case 3:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.managed_company;
         break;
-      case 7:
+      case 4:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.possesion;
         break;
-      case 8:
+      case 5:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.parking_lots;
         break;
-      case 9:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.properties;
-        break;
-      case 17:
+      case 6:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.action;
         break;
-      case 21:
+      case 7:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.image;
+        break;
+      case 8:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.properties;
         break;
       default:
         break;
@@ -871,13 +866,12 @@ export class HotelsComponent implements OnInit {
       user_id: JSON.parse(localStorage.getItem('user-id')) || 0,
       hotel_name: (this.select_columns_list[0] || []).isCheckBoxChecked,
       developer: (this.select_columns_list[1] || []).isCheckBoxChecked,
-      contributor: (this.select_columns_list[2] || []).isCheckBoxChecked,
-      managed_company: (this.select_columns_list[3] || []).isCheckBoxChecked,
-      possesion: (this.select_columns_list[4] || []).isCheckBoxChecked,
-      parking_lots: (this.select_columns_list[5] || []).isCheckBoxChecked,
-      properties: (this.select_columns_list[8] || []).isCheckBoxChecked,
-      action: (this.select_columns_list[6] || []).isCheckBoxChecked,
-      image: (this.select_columns_list[7] || []).isCheckBoxChecked,
+      managed_company: (this.select_columns_list[2] || []).isCheckBoxChecked,
+      possesion: (this.select_columns_list[3] || []).isCheckBoxChecked,
+      parking_lots: (this.select_columns_list[4] || []).isCheckBoxChecked,
+      action: (this.select_columns_list[5] || []).isCheckBoxChecked,
+      image: (this.select_columns_list[6] || []).isCheckBoxChecked,
+      properties: (this.select_columns_list[7] || []).isCheckBoxChecked,
     };
   }
 

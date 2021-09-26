@@ -183,26 +183,6 @@
                     </div>
                   </div>
                 </th>
-                <!-- <th style="width:15%" *ngIf="selectedColumnsToShow?.agency">
-                  <div class="table-search">
-                    <label>{{'table.th.agency' | translate}}</label>
-                    <div class="searh-3">
-                      <input class="width100px" type="text" [(ngModel)]="parameter.agency_name"
-                        (keyup.enter)="getListing()" autocomplete="address-level4">
-                      <button *ngIf="parameter.agency_name" (click)="getListing()"><i class="fa fa-search"></i></button>
-                    </div>
-                  </div>
-                </th> -->
-                <!-- <th style="width:15%" *ngIf="selectedColumnsToShow?.legal_entity">
-                  <div class="table-search">
-                    <label>{{'table.th.legalEntity' | translate}}</label>
-                  </div>
-                </th> -->
-                <!-- <th style="width:10%" *ngIf="selectedColumnsToShow?.contributor">
-                  <div class="table-search">
-                    <label>{{'table.th.contributor' | translate}}</label>
-                  </div>
-                </th> -->
                 <th style="width:13%" *ngIf="selectedColumnsToShow?.managed_company">
                   <div class="table-search">
                     <label>{{'table.th.managedBy' | translate}}</label>
@@ -216,13 +196,6 @@
                       <option *ngFor="let item of possessionStatuses" value="{{item.id}}"> 
                         {{this.language_code == 'en' ? item.name_en : item.name_es }}</option>
                     </select>
-                    <!-- <select [(ngModel)]="parameter.possession_filter" (change)="getListing()">
-                      <option value="0">{{'table.th.possesion.all' | translate}}</option>
-                      <option value="{{apiConstant.possessionStatus.sale}}">{{'table.th.possesion.sale' | translate}}
-                      </option>
-                      <option value="{{apiConstant.possessionStatus.preSale}}">
-                        {{'table.th.possesion.presale' | translate}}</option>
-                    </select> -->
                   </div>
                 </th>
                 <th style="vertical-align:top;width:6%" *ngIf="selectedColumnsToShow?.parking_lots">
@@ -235,19 +208,17 @@
                 </th>
                 <th style="vertical-align:top;width:5%" *ngIf="selectedColumnsToShow?.properties">
                   <div class="d-flex table-search">
-                    <span><label>{{'table.th.properties' | translate}}</label></span>
+                    <span><label>{{'table.th.room' | translate}}</label></span>
                     <a (click)="sortData(parameter.property_sort==2?1:2)" href="javascript://"><img
                         [ngClass]="{'upsidedown':parameter.property_sort==2}" src="assets/img/top-arrow.png"
                         alt="img"></a>
                   </div>
                 </th>
-              
                 <th style="vertical-align:top;width:2%" *ngIf="selectedColumnsToShow?.action">
                   <div class="table-search">
                     <label>{{'table.th.actions.label' | translate}}</label>
                     <select [(ngModel)]="parameter.action_filter" (change)="getListing()">
                       <option value="0">{{'table.th.actions.all' | translate}}</option>
-                      <!-- <option value="2">Pending</option> -->
                       <option value="3">{{'table.th.actions.approved' | translate}}</option>
                       <option value="4">{{'table.th.actions.unapproved' | translate}}</option>
                       <option value="1">{{'table.th.actions.blocked' | translate}}</option>
@@ -265,29 +236,15 @@
                   <img *ngIf="!p.main_image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
                 </td>
                 <!--  -->
-                <td   *ngIf="selectedColumnsToShow?.hotel_name" class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
+                <td *ngIf="selectedColumnsToShow?.hotel_name" class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
                 routerLink="/dashboard/projects/details/{{p.id}}">
                   <strong>{{p?.name}}</strong>
                 </td>
                 <td [ngClass]="{'green-color cursor-pointer': p?.developer?.name}"  *ngIf="selectedColumnsToShow?.developer" (click)="viewDeveloper(p)">
                   <span>{{p?.developer?.name ? p?.developer?.name : ('table.tr.td.NA' | translate)}}</span>
                 </td>
-                <!-- <td [ngClass]="{'green-color cursor-pointer': p?.agency?.name}"  *ngIf="selectedColumnsToShow?.agency" (click)="viewAgency(p)">
-                  <span>{{p?.agency?.name ? p?.agency?.name : ('table.tr.td.NA' | translate)}}</span>
-                </td> -->
-                <!-- (click)="viewLegalEntity(p)" -->
-                <!-- <td   *ngIf="selectedColumnsToShow?.legal_entity" [ngClass]="{'green-color cursor-pointer': p?.legal_entity_info?.length > 0 }">
-                  <span (click)="this.openLegalEnityListModel(p.legal_entity_info)" *ngIf="p?.legal_entity_info?.length > 0">
-                    {{this.getLegalEntityInfo(p.legal_entity_info)}}</span>
-                    <span *ngIf="p?.legal_entity_info?.length == 0">{{'table.tr.td.NA' | translate}}</span>
-                </td> -->
-                 <!-- (click)="viewContributor(p)" -->
-                 <!-- <td   *ngIf="selectedColumnsToShow?.contributor" [ngClass]="{'green-color cursor-pointer': p?.hotel_contributors?.length > 0 }">                   
-                    <span (click)="this.openContributorListModel(p.hotel_contributors)" *ngIf="p?.hotel_contributors?.length > 0">
-                    {{p.hotel_contributors && p.hotel_contributors.length > 0  ? this.getBuildingContributorsInfo(p.hotel_contributors) : ('table.tr.td.NA' | translate)}}</span>
-                    <span *ngIf="p?.hotel_contributors?.length == 0">{{'table.tr.td.NA' | translate}}</span>
-                </td> -->
-                <td   *ngIf="selectedColumnsToShow?.managed_company" [ngClass]="{'green-color cursor-pointer': p?.manager?.id || p?.company?.id}"
+               
+                <td *ngIf="selectedColumnsToShow?.managed_company" [ngClass]="{'green-color cursor-pointer': p?.manager?.id || p?.company?.id}"
                   (click)="viewCompanyManager(p)">
                   <span>{{p?.manager?.id ? p?.manager?.name : p?.company?.id ? p?.company?.name : ('table.tr.td.NA' |
                     translate)}}</span>
@@ -307,7 +264,7 @@
                   </a>
                  
                 </td>
-                <td  *ngIf="selectedColumnsToShow?.properties">
+                <td *ngIf="selectedColumnsToShow?.properties">
                   <a title="{{'table.title.clickToViewProperties' | translate}}" (click)="goWay(p)"><span
                       class="green-color cursor-pointer">{{p?.properties_count_all || 0 | numberWithCommas}}</span></a>
                 </td>

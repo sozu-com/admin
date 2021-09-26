@@ -992,6 +992,7 @@
       "pending": "Pending",
       "inDraft": "In Draft",
       "user": "User",
+      "room": "Rooms",
       "adminDataCollector": "Admin/Data Collector",
       "buildings": "Buildings",
       "projects": "Projects",
