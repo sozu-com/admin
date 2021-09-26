@@ -39,9 +39,11 @@ import { OfferBlockComponent } from '../layout/common-blocks/offer-block/offer-b
 import { CustomPricePipe } from '../pipes/custom-price.pipe';
 import { InterestedProjectComponent } from '../layout/common-blocks/interested-project/interested-project.component';
 import { PreferencesPropertyComponent } from '../layout/common-blocks/preferences-property/preferences-property.component';
+import { MaterialModule } from '../material.module';
 
 @NgModule({
   imports: [
+    MaterialModule,
     RouterModule,
     CommonModule,
     FormsModule,
@@ -62,7 +64,7 @@ import { PreferencesPropertyComponent } from '../layout/common-blocks/preference
     ViewedProjectsComponent,
     InterestedProjectComponent,
     FillInformationComponent,
-  //  PropertyDetailsComponent,
+    //  PropertyDetailsComponent,
     ChatComponent,
     ChatTabsComponent,
     NotesComponent,
@@ -89,7 +91,7 @@ import { PreferencesPropertyComponent } from '../layout/common-blocks/preference
   ],
   exports: [
     CsrBuyerDetailComponent,
-  //  PropertyDetailsComponent,
+    //  PropertyDetailsComponent,
     InterestedPropertyComponent,
     ViewedPropertyComponent,
     ViewedProjectsComponent,

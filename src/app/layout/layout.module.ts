@@ -36,11 +36,12 @@ import { SharedModule } from '../modules/shared.module';
 import { Img360viewerComponent } from './img360viewer/img360viewer.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { OutSideAddComponent } from './inhouse-users/out-side-add/out-side-add.component';
+import { MaterialModule } from '../material.module';
 @NgModule({
   imports: [
     CommonModule,
     LayoutRoutingModule,
-    TranslateModule,
+    TranslateModule, MaterialModule,
     FormsModule,
     ReactiveFormsModule,
     ModalModule.forRoot(),

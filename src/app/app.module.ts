@@ -47,7 +47,7 @@ import { GenerateOfferPdfService } from './services/generate-offer-pdf.service';
 import { DatePipe } from '@angular/common';
 import { PricePipe } from './pipes/price.pipe';
 import { CustomPricePipe } from './pipes/custom-price.pipe';
-
+import { MaterialModule } from './material.module';
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent },
   { path: 'login', pathMatch: 'full', component: LoginComponent },
@@ -80,6 +80,7 @@ const appRoutes: Routes = [
       // confirmButtonClass: 'btn btn-primary',
       // cancelButtonClass: 'btn'
     }),
+    MaterialModule,
     BrowserAnimationsModule,
     BrowserModule,
     HttpModule,
@@ -90,7 +91,6 @@ const appRoutes: Routes = [
     NgxSpinnerModule,
     MalihuScrollbarModule.forRoot(),
     Ng2TelInputModule,
-
     ToastrModule.forRoot({
       maxOpened: 1,
       preventDuplicates: true,
