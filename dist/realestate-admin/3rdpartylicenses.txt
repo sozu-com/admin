@@ -105,9 +105,13 @@ THE SOFTWARE.
 
 @angular/material/dialog
 
+@angular/material/icon
+
 @angular/material/snack-bar
 
 @angular/material/tooltip
+
+@angular/material/tree
 
 @angular/platform-browser
 MIT
