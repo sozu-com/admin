@@ -307,7 +307,7 @@
                 <div class="form-group-3 marginB0">
                   <label>{{'addForm.amenitiesAvailable' | translate}}</label>
                   <ul class="loc-tags-group">
-                    <li *ngFor="let a of all_amenities; let i=index" [ngClass]="a.selected==true ? 'width100' : ''">
+                    <li *ngFor="let a of office_amenities; let i=index" [ngClass]="a.selected==true ? 'width100' : ''">
                       <span *ngIf="a.selected==true" class="width78 amen-img">{{a.name}}
                         <b class="pull-right" (click)="a.selected = false" title="{{'table.title.remove' | translate}}"><img
                             src="assets/img/close-tag.png" /></b>
@@ -1372,7 +1372,7 @@
         <div class="spacer30"></div>
 
         <div>
-          <label *ngFor="let a of all_amenities; " (click)="a.selected = !a.selected" class="cust-check-bx2">
+          <label *ngFor="let a of all_amenities; " (click)="selecteAmenities(a)" class="cust-check-bx2">
             {{language_code == 'en'? a.name_en : a.name_es}}
             <span *ngIf="a.selected==true" class="checkmark open"></span>
           </label>

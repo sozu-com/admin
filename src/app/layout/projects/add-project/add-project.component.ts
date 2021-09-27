@@ -17,7 +17,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Agency } from 'src/app/models/agency.model';
 import { LegalEntity } from 'src/app/models/legalEntity.model';
 import { ToastrService } from 'ngx-toastr';
-
 declare const google;
 declare let swal: any;
 
@@ -87,7 +86,7 @@ export class AddProjectComponent implements OnInit {
   showText = false;
   all_possession_statuses: any = [];
   all_building_types: any = [];
-  all_amenities: any = [];
+  all_amenities: any[] = [];
   all_configurations: any = [];
   all_developers: Array<Developer>;
   agencies: Array<Agency>;
@@ -178,6 +177,7 @@ export class AddProjectComponent implements OnInit {
     };
   public language_code: string;
   public amenitiesKeyword: string = ''
+  project_amenities: any[] = [];
   constructor(
     public model: AddProjectModel,
     private admin: AdminService,
@@ -331,6 +331,7 @@ export class AddProjectComponent implements OnInit {
                 }
               }
             }
+            this.project_amenities = this.all_amenities.filter(item=> item.selected);
 
             if (this.model.building_towers && this.model.building_towers.length > 0) {
               // setting true to tower selected amenities
@@ -599,6 +600,7 @@ export class AddProjectComponent implements OnInit {
   }
 
   searchAmenity(index: number) {
+    let self = this;
     this.spinner.show();
     let lang = localStorage.getItem('language_code');
     const input = { keyword: '', hide_blocked: 1, language: lang == 'en' ? 1 : 2 };
@@ -616,6 +618,15 @@ export class AddProjectComponent implements OnInit {
             item.videos = [];
             return item;
           });
+          if(self.project_amenities && self.project_amenities.length > 0){
+            this.all_amenities.forEach(item=>{
+            self.project_amenities.forEach(element => {
+              if(item.id == element.id){
+                item.selected = element.selected;
+              }
+            });
+          });
+        }
           break;
         case 2:
           const all_amenities = res.data.map(item => {
@@ -643,6 +654,19 @@ export class AddProjectComponent implements OnInit {
           break;
       }
     });
+  }
+
+  selecteAmenities(a){
+    let data = this.project_amenities.find(item=> item.id == a.id);
+    if(!data){
+    a.selected = true;
+    this.project_amenities.push(a);
+    }
+    else{
+      let index = this.project_amenities.findIndex(item=> item.id == a.id);
+      this.project_amenities.splice(index, 1)
+    }
+    
   }
 
   modelOpenFun() {
@@ -2552,6 +2576,15 @@ export class AddProjectComponent implements OnInit {
     switch (index) {
       case 1:
         this.openAmenitiesModal.nativeElement.click();
+        if(this.project_amenities.length > 0){
+          this.all_amenities.forEach(item=>{
+            this.project_amenities.forEach(element=>{
+              if(item.id == element.id){
+                item.selected = element.selected;
+              }
+            });
+          });
+        }
         break;
       case 2:
         this.towerAmenitiesModal.nativeElement.click();
