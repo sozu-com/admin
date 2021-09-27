@@ -281,6 +281,7 @@
     "price": "Price",
     "addContract": "Add Contract",
     "editContract": "Edit Contract",
+    "paymentReceipt": "Payment Receipt",
     "moreImages": {
       "label": "Images",
       "addMoreBtn": "+ Add more images",

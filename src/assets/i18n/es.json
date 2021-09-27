@@ -281,6 +281,7 @@
     "price": "Precio",
     "addContract": "Agregar Contratos",
     "editContract": "Editar Contratos",
+    "paymentReceipt": "Recibo de pago",
     "moreImages": {
       "label": "Imágenes",
       "addMoreBtn": "+ Agregar más imágenes",
@@ -3039,7 +3040,7 @@
     "detail13": "/100 M.N.",
     "detail14": "($",
     "detail15": ".) por concepto del apartado de unicación, no es reembolsable en caso de cancelación de la operación",
-    "paymentReceipt": "Recibo Pago"
+    "paymentReceipt": "Recibo de pago"
   },
   "viewCredit":{
     "label": "Administrar crédito",
