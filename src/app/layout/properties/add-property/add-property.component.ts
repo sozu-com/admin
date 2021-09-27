@@ -1270,7 +1270,7 @@ export class AddPropertyComponent implements OnInit {
               });
 
               if (self.router.url.indexOf('/dashboard/properties/edit-property') <= 0) {
-                this.router.navigate(['/dashboard/properties/view-properties', { for: 'back' }]);
+                this.router.navigate(['/dashboard/properties/view-properties', { for: 'go' }]);
               }
             }
             this.parameter.property_id = success['data'].id;

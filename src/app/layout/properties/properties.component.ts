@@ -316,6 +316,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         this.getListingForBack();
         this.getListing(null, null);
       }
+      if (params.for == 'go') {
+        this.getListing(null, null);
+      }
     });
     this.setFloors();
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
