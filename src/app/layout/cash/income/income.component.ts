@@ -84,6 +84,7 @@ export class IncomeComponent implements OnInit {
     this.admin.postDataApi('getPaymentMethods', {})
       .subscribe(
         success => {
+
           this.paymentMethods = success.data;
         }, error => {
           this.spinner.hide();
@@ -378,7 +379,7 @@ export class IncomeComponent implements OnInit {
   }
 
   getPayment = (): void => {
-    this.admin.postDataApi('getPaymentChoice', {}).subscribe((response) => {
+    this.admin.postDataApi('getPaymentChoice', {status: 1}).subscribe((response) => {
       this.paymentChoices = response.data;
     }, (error) => {
       this.spinner.hide();

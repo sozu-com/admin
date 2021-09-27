@@ -178,6 +178,7 @@ export class AddHotelComponent implements OnInit {
     };
   public language_code: string;
   public amenitiesKeyword: string = ''
+  office_amenities: any[] = [];
   constructor(
     public model: AddHotelModel,
     private admin: AdminService,
@@ -334,7 +335,7 @@ export class AddHotelComponent implements OnInit {
                 }
               }
             }
-
+            this.office_amenities = this.all_amenities.filter(item=> item.selected);
             if (this.model.hotel_towers && this.model.hotel_towers.length > 0) {
               // setting true to tower selected amenities
               this.model.hotel_towers.map(item => {
@@ -433,7 +434,7 @@ export class AddHotelComponent implements OnInit {
                 }
               }
             }
-
+            this.office_amenities = this.all_amenities.filter(item=> item.selected);
 
             if (this.model.hotel_towers && this.model.hotel_towers.length > 0) {
               // setting true to tower selected amenities
@@ -602,6 +603,7 @@ export class AddHotelComponent implements OnInit {
   }
 
   searchAmenity(index: number) {
+    let self = this;
     this.spinner.show();
     let lang = localStorage.getItem('language_code');
     const input = { keyword: '', hide_blocked: 1, language: lang == 'en'? 1 : 2 };
@@ -619,6 +621,15 @@ export class AddHotelComponent implements OnInit {
             item.videos = [];
             return item;
           });
+          if(self.office_amenities && self.office_amenities.length > 0){
+            this.all_amenities.forEach(item=>{
+            self.office_amenities.forEach(element => {
+              if(item.id == element.id){
+                item.selected = element.selected;
+              }
+            });
+          });
+        }
           break;
         case 2:
           const all_amenities = res.data.map(item => {
@@ -646,6 +657,19 @@ export class AddHotelComponent implements OnInit {
           break;
       }
     });
+  }
+
+  selecteAmenities(a){
+    let data = this.office_amenities.find(item=> item.id == a.id);
+    if(!data){
+    a.selected = true;
+    this.office_amenities.push(a);
+    }
+    else{
+      let index = this.office_amenities.findIndex(item=> item.id == a.id);
+      this.office_amenities.splice(index, 1)
+    }
+    
   }
 
   modelOpenFun() {
@@ -2397,6 +2421,15 @@ export class AddHotelComponent implements OnInit {
     switch (index) {
       case 1:
         this.openAmenitiesModal.nativeElement.click();
+        if(this.office_amenities.length > 0){
+          this.all_amenities.forEach(item=>{
+            this.office_amenities.forEach(element=>{
+              if(item.id == element.id){
+                item.selected = element.selected;
+              }
+            });
+          });
+        }
         break;
       case 2:
         this.towerAmenitiesModal.nativeElement.click();
