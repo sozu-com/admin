@@ -63,22 +63,30 @@
     <div id="side-menu-bar">
       <div class="scrollbox" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
         <mat-tree [dataSource]="treeDataSource" [treeControl]="treeControl">
-          <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle routerLink="{{node.url}}" routerLinkActive="active" style="cursor: pointer;">
+          <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle routerLink="{{node.url}}" routerLinkActive="active" style="cursor: pointer;border-bottom:none;">
             <li class="mat-tree-node" >
               <button mat-icon-button disabled></button>
-              <mat-icon style="margin-top: -14px;">minimize</mat-icon>
-              {{node.title}}
+              <img src="assets/img/Rectangle.png" alt="icon" 
+              style="margin-top: -15px;color: #575E64;
+              font-family: 'sf_ui_textlight';font-size: 14px;">
+             <p style="margin-left: 7%;">{{language_code
+              == 'en'? node.title : node.title_es}}</p>
             </li>
           </mat-tree-node>
         
           <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChildren">
             <li>
-              <div class="mat-tree-node"  style="cursor: pointer;">
+              <div class="mat-tree-node"  style="cursor: pointer;height: 57px;">
                 <button mat-icon-button matTreeNodeToggle>
+                  <img [src]="node.icon" alt="icon" style="margin-left: 30%;"> 
+                 <strong style="color: #434B52;
+                 font-family: 'sf_ui_textregular';
+                 font-size: 16px;
+                 font-weight: 500;margin-left: 40%;">{{language_code
+              == 'en'? node.title : node.title_es}}</strong>&nbsp;&nbsp;
                   <mat-icon class="mat-icon-rtl-mirror">
                     {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
                   </mat-icon>
-                  {{node.title}}
                 </button>
                
               </div>
