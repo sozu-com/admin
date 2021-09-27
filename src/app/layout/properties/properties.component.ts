@@ -294,6 +294,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     };
 
     this.route.params.subscribe(params => {
+
       this.project_id = JSON.parse(localStorage.getItem('project_id'));
       this.parameter.keyword = params.name;
       if (params.property_id) {
@@ -313,6 +314,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         this.is_back = true;
         this.getParametersForProperty();
         this.getListingForBack();
+        this.getListing(null, null);
       }
     });
     this.setFloors();

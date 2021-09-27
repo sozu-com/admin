@@ -237,15 +237,15 @@ export class AddPropertyComponent implements OnInit {
       this.availabilityStatus[0].checked = true;
       this.availabilityStatus[1].checked = false;
       this.availabilityStatus[2].checked = false;
-     // this.availabilityStatus[3].checked = false;
+      // this.availabilityStatus[3].checked = false;
       this.model.availabilityStatusId = this.availabilityStatus[0].id;
     } else if (aindex === 1) {
       this.availabilityStatus[0].checked = false;
       this.availabilityStatus[1].checked = true;
       this.availabilityStatus[2].checked = false;
-     // this.availabilityStatus[3].checked = false;
+      // this.availabilityStatus[3].checked = false;
       this.model.availabilityStatusId = this.availabilityStatus[1].id;
-    } 
+    }
     else if (aindex === 3) {
       this.availabilityStatus[0].checked = false;
       this.availabilityStatus[1].checked = false;
@@ -253,11 +253,11 @@ export class AddPropertyComponent implements OnInit {
       this.availabilityStatus[3].checked = true;
       this.model.availabilityStatusId = this.availabilityStatus[3].id;
     }
-     else {
+    else {
       this.availabilityStatus[0].checked = false;
       this.availabilityStatus[1].checked = false;
       this.availabilityStatus[2].checked = true;
-     // this.availabilityStatus[3].checked = false;
+      // this.availabilityStatus[3].checked = false;
       this.model.availabilityStatusId = this.availabilityStatus[2].id;
     }
   }
@@ -402,7 +402,7 @@ export class AddPropertyComponent implements OnInit {
     }
     else if (data.for_resale) {
       this.setAvailableStatus(3);
-    } 
+    }
     else {
       this.setAvailableStatus(0);
       // this.model.availabilityStatusId = this.availabilityStatus[0].id;
@@ -823,11 +823,11 @@ export class AddPropertyComponent implements OnInit {
   }
 
   addCarpetArea() {
-    if (!this.newcarpet_area.area)  {
+    if (!this.newcarpet_area.area) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseFillCarpetAreaFields'), 'error');
     } else {
       this.model.carpet_areas.push(JSON.parse(JSON.stringify(this.newcarpet_area)));
-      this.newcarpet_area = { area: '', price: '', rent_price: ''};
+      this.newcarpet_area = { area: '', price: '', rent_price: '' };
     }
   }
 
@@ -1270,7 +1270,7 @@ export class AddPropertyComponent implements OnInit {
               });
 
               if (self.router.url.indexOf('/dashboard/properties/edit-property') <= 0) {
-                this.router.navigate(['/dashboard/properties/view-properties']);
+                this.router.navigate(['/dashboard/properties/view-properties', { for: 'back' }]);
               }
             }
             this.parameter.property_id = success['data'].id;
@@ -1913,20 +1913,20 @@ export class AddPropertyComponent implements OnInit {
         confirmButtonText: 'Yes'
       }).then((result) => {
         if (result.value) {
-              this.model.floor_plan = (this.propertyData.building_configuration || {}).floor_map_image;
-              this.model.image = (this.propertyData.building_configuration || {}).cover_profile;
-              this.model.images = (this.propertyData.building_configuration || {}).images;
-              this.model.images360 = (this.propertyData.building_configuration || {}).images360;
-              this.model.videos = (this.propertyData.building_configuration || {}).videos;
+          this.model.floor_plan = (this.propertyData.building_configuration || {}).floor_map_image;
+          this.model.image = (this.propertyData.building_configuration || {}).cover_profile;
+          this.model.images = (this.propertyData.building_configuration || {}).images;
+          this.model.images360 = (this.propertyData.building_configuration || {}).images360;
+          this.model.videos = (this.propertyData.building_configuration || {}).videos;
         } else {
           this.model.configuration_toggle = false;
-          if(this.model.floor_plan && this.model.image &&  this.model.images && this.model.images360){
+          if (this.model.floor_plan && this.model.image && this.model.images && this.model.images360) {
             this.model.floor_plan = (this.propertyData || {}).floor_plan ? (this.propertyData || {}).floor_plan : null;
             this.model.image = (this.propertyData || {}).image ? (this.propertyData || {}).image : null;
             this.model.images = (this.propertyData || {}).images ? (this.propertyData || {}).images : [];
             this.model.images360 = (this.propertyData || {}).images360 ? (this.propertyData || {}).images360 : [];
             this.model.videos = (this.propertyData || {}).videos ? (this.propertyData || {}).videos : [];
-          }else{
+          } else {
             this.model.floor_plan = null;
             this.model.image = null;
             this.model.images = [];
@@ -1935,7 +1935,7 @@ export class AddPropertyComponent implements OnInit {
           }
         }
       });
-    
+
     } else {
       this.model.floor_plan = null;
       this.model.image = null;
@@ -1943,7 +1943,7 @@ export class AddPropertyComponent implements OnInit {
       this.model.images360 = [];
       this.model.videos = [];
     }
-  } 
+  }
 
 }
 

@@ -12,7 +12,7 @@ import { MatTreeNestedDataSource } from '@angular/material/tree'
 import { of } from 'rxjs'
 
 interface MyTreeNode {
-  title: string, title_es: string, url: any, icon: any
+  title: string, title_es: string, url: any, icon: any,
   children?: MyTreeNode[]
 }
 
@@ -25,6 +25,12 @@ const demoNodes: MyTreeNode[] = [
     icon: 'assets/img/chart.png',
     children: [
       {
+        title: 'Dashboard',
+        title_es: 'Tablero',
+        url: '/dashboard',
+        icon: 'assets/img/Ellipse.png'
+      },
+      {
         title: 'Metatags',
         title_es: 'Metaetiquetas',
         url: '',
@@ -34,52 +40,46 @@ const demoNodes: MyTreeNode[] = [
             title: 'Home',
             title_es: 'Inicio',
             url: '/dashboard/metatags/metatag-home',
-            icon: 'assets/img/user_edit.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'For sale',
             title_es: 'En venta',
             url: '/dashboard/metatags/metatag-sale',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Rent',
             title_es: 'Alquilar',
             url: 'metatags/metatag-rent',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Sell',
             title_es: 'Vender',
             url: 'metatags/metatag-sell',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Mortage Loans',
             title_es: 'Préstamo hipotecario',
             url: 'metatags/metatag-mortage-loans',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'New Projects',
             title_es: 'Proyectos nuevos',
             url: 'metatags/metatag-new-project',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Developers',
             title_es: 'Desarrolladoras',
             url: 'metatags/metatag-devloper',
-            icon: 'assets/img/web_logo.png'
+            icon: 'assets/img/Rectangle.png'
           }
         ]
       },
-      // {
-      //   title: 'Dashboard',
-      //   title_es: 'Tablero',
-      //   url: '/dashboard',
-      //   icon: 'assets/img/Ellipse.png'
-      // },
       {
         title: 'Market Analysis',
         title_es: 'Análisis De Mercado',
@@ -90,13 +90,13 @@ const demoNodes: MyTreeNode[] = [
             title: 'Project Analysis',
             title_es: 'Análisis De Proyecto',
             url: '/dashboard/market-analysis/project-analysis',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Location Analysis',
             title_es: 'Análisis De Ubicación',
             url: '/dashboard/market-analysis/location-analysis',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           }
         ]
       },
@@ -110,25 +110,25 @@ const demoNodes: MyTreeNode[] = [
             title: 'Seller',
             title_es: 'Vendedor',
             url: '/dashboard/reports/seller',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Buyer',
             title_es: 'Comprador',
             url: '/dashboard/reports/buyer',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Notary',
             title_es: 'Notario',
             url: '/dashboard/reports/notary',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Bank',
             title_es: 'Banco',
             url: '/dashboard/reports/bank',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           }]
       },
     ]
@@ -147,69 +147,10 @@ const demoNodes: MyTreeNode[] = [
         icon: 'assets/img/Ellipse.png',
       },
       {
-        title: 'Manage Notaries',
-        title_es: 'Administrar notarios',
-        url: '',
-        icon: 'assets/img/Ellipse.png',
-        children: [
-          {
-            title: 'Notary',
-            title_es: 'Notario',
-            url: '/dashboard/notary/view-notary',
-            icon: 'assets/img/web_logo.png',
-          },
-          {
-            title: 'Leads',
-            title_es: 'Leads',
-            url: '/dashboard/notary/notary-leads',
-            icon: 'assets/img/web_logo.png',
-          }
-        ]
-      },
-      {
-        title: 'Manage Banks',
-        title_es: 'Administrar bancos',
-        url: '',
-        icon: 'assets/img/Ellipse.png',
-        children: [
-          {
-            title: 'Banks',
-            title_es: 'Bancos',
-            url: '/dashboard/banks/view-banks',
-            icon: 'assets/img/web_logo.png',
-          },
-          {
-            title: 'Leads',
-            title_es: 'Leads',
-            url: '/dashboard/banks/bank-leads',
-            icon: 'assets/img/web_logo.png',
-          }
-        ]
-      },
-      {
         title: 'Developers',
         title_es: 'Desarrolladores',
         url: '/dashboard/developers/view-all',
         icon: 'assets/img/Ellipse.png',
-      },
-      {
-        title: 'Manage Agents',
-        title_es: 'Administrar agentes',
-        url: '',
-        icon: 'assets/img/Ellipse.png',
-        children: [
-          {
-            title: 'Inhouse Agent',
-            title_es: 'Agentes internos',
-            url: '/dashboard/view-inhouse-users/inhouse-broker',
-            icon: 'assets/img/web_logo.png',
-          },
-          {
-            title: 'Outside Agent',
-            title_es: 'Agentes externos',
-            url: '/dashboard/view-inhouse-users/outside-broker',
-            icon: 'assets/img/web_logo.png',
-          }]
       },
       {
         title: 'Manage Companies',
@@ -229,6 +170,65 @@ const demoNodes: MyTreeNode[] = [
         url: '/dashboard/legal-entities/view-all',
         icon: 'assets/img/Ellipse.png',
       },
+      {
+        title: 'Manage Notaries',
+        title_es: 'Administrar notarios',
+        url: '',
+        icon: 'assets/img/Ellipse.png',
+        children: [
+          {
+            title: 'Notary',
+            title_es: 'Notario',
+            url: '/dashboard/notary/view-notary',
+            icon: 'assets/img/Rectangle.png',
+          },
+          {
+            title: 'Leads',
+            title_es: 'Leads',
+            url: '/dashboard/notary/notary-leads',
+            icon: 'assets/img/Rectangle.png',
+          }
+        ]
+      },
+      {
+        title: 'Manage Banks',
+        title_es: 'Administrar bancos',
+        url: '',
+        icon: 'assets/img/Ellipse.png',
+        children: [
+          {
+            title: 'Banks',
+            title_es: 'Bancos',
+            url: '/dashboard/banks/view-banks',
+            icon: 'assets/img/Rectangle.png',
+          },
+          {
+            title: 'Leads',
+            title_es: 'Leads',
+            url: '/dashboard/banks/bank-leads',
+            icon: 'assets/img/Rectangle.png',
+          }
+        ]
+      },
+      {
+        title: 'Manage Agents',
+        title_es: 'Administrar agentes',
+        url: '',
+        icon: 'assets/img/Ellipse.png',
+        children: [
+          {
+            title: 'Inhouse Agent',
+            title_es: 'Agentes internos',
+            url: '/dashboard/view-inhouse-users/inhouse-broker',
+            icon: 'assets/img/Rectangle.png',
+          },
+          {
+            title: 'Outside Agent',
+            title_es: 'Agentes externos',
+            url: '/dashboard/view-inhouse-users/outside-broker',
+            icon: 'assets/img/Rectangle.png',
+          }]
+      }
     ]
   },
   //Users
@@ -245,6 +245,12 @@ const demoNodes: MyTreeNode[] = [
         icon: 'assets/img/Ellipse.png',
       },
       {
+        title: 'ACL',
+        title_es: 'ACL',
+        url: '/dashboard/access-control-mgt',
+        icon: 'assets/img/Ellipse.png',
+      },
+      {
         title: 'Manage Inhouse Users',
         title_es: 'Administrar usuarios internos',
         url: '',
@@ -254,73 +260,75 @@ const demoNodes: MyTreeNode[] = [
             title: 'Data Collector',
             title_es: 'Data Collector',
             url: '/dashboard/view-inhouse-users/data-collectors',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'CSR Seller',
             title_es: 'Vendedor CSR',
             url: '/dashboard/view-inhouse-users/csr-sellers',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'CSR Buyer',
             title_es: 'Comprador CSR',
             url: '/dashboard/view-inhouse-users/csr-buyers',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'CSR Closure',
             title_es: 'Cerrador CSR',
             url: '/dashboard/view-inhouse-users/csr-closers',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Credit Agent',
             title_es: 'Agente de crédito',
             url: '/dashboard/view-inhouse-users/credit-agents',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
-            title: '"CSR Renter',
+            title: 'CSR Renter',
             title_es: 'CSR Renter',
             url: '/dashboard/view-inhouse-users/csr-renters',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Collection Agent',
             title_es: 'Agente de cobranza',
             url: '/dashboard/view-inhouse-users/collection-agents',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Alliance Agent',
             title_es: 'Agente Alianza',
             url: '/dashboard/view-inhouse-users/alliance-agents',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Cordinator Agent',
             title_es: 'Agente coordinador',
             url: '/dashboard/view-inhouse-users/cordinator-agents',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
         ]
-      },
-
-      {
-        title: 'ACL',
-        title_es: 'ACL',
-        url: '/dashboard/access-control-mgt',
-        icon: 'assets/img/Ellipse.png',
       }
     ]
   },
   //credits
-  // {
-  //   title: this.translate.instant('sidebar.manageCredits'),
-  //   url: '/dashboard/credit/view-credit',
-  //   icon: 'assets/img/vuesax_twotone_card.png',
-  // },
+  {
+    title: 'Manage Credits',
+    title_es: 'Gestionar créditos',
+    url: '/dashboard/credit/view-credit',
+    icon: 'assets/img/vuesax_twotone_card.png',
+    // children: [
+    //   {
+    //     title: '',
+    //     title_es: '',
+    //     url: '',
+    //     icon: '',
+    //   }
+    // ]
+  },
   //Property
   {
     title: 'Properties',
@@ -332,19 +340,19 @@ const demoNodes: MyTreeNode[] = [
         title: 'Manage Projects',
         title_es: 'Administrar proyectos',
         url: '/dashboard/projects/view-projects',
-        icon: 'assets/img/web_logo.png',
+        icon: 'assets/img/Rectangle.png',
       },
       {
         title: 'Manage Properties',
         title_es: 'Administrar Propiedades',
         url: '/dashboard/properties/view-properties',
-        icon: 'assets/img/web_logo.png',
+        icon: 'assets/img/Rectangle.png',
       },
       {
         title: 'Properties For Sale',
         title_es: 'Propiedades en venta',
         url: '/dashboard/properties-for-sale/view-properties-for-sale',
-        icon: 'assets/img/web_logo.png',
+        icon: 'assets/img/Rectangle.png',
       }
     ]
   },
@@ -356,6 +364,12 @@ const demoNodes: MyTreeNode[] = [
     icon: 'assets/img/vuesax_twotone_people.png',
     children: [
       {
+        title: 'Manual Leads',
+        title_es: 'Leads manuales',
+        url: '/dashboard/manual-leads/view-all',
+        icon: 'assets/img/Rectangle.png',
+      },
+      {
         title: 'Manage Leads',
         title_es: 'Administrar leads',
         url: '',
@@ -365,70 +379,63 @@ const demoNodes: MyTreeNode[] = [
             title: 'Data Collector',
             title_es: 'Data Collector',
             url: '/dashboard/leads/data-collectors',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'CSR Seller',
             title_es: 'Vendedor CSR',
-            url: '/dashboard/view-inhouse-users/csr-sellers',
-            icon: 'assets/img/web_logo.png',
+            url: '/dashboard/leads/csr-sellers',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'CSR Buyer',
             title_es: 'Comprador CSR',
-            url: '/dashboard/view-inhouse-users/csr-buyers',
-            icon: 'assets/img/web_logo.png',
+            url: '/dashboard/leads/csr-buyers',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Inhouse Agent Buyer',
             title_es: 'Comprador agentes internos',
             url: '/dashboard/leads/inhouse-broker/buyer',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Inhouse Agent Seller',
             title_es: 'Vendedor agentes internos',
             url: '/dashboard/leads/inhouse-broker/seller',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Outside Agent',
             title_es: 'Agentes externos',
             url: '/dashboard/leads/outside-broker',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'CSR Closure',
             title_es: 'Cerrador CSR',
             url: '/dashboard/leads/csr-closers',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: '"CSR Renter',
             title_es: 'CSR Renter',
             url: '/dashboard/leads/csr-renters',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Credit Agent',
             title_es: 'Agente de crédito',
             url: '/dashboard/leads/credit-agents',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Collection Agent',
             title_es: 'Agente de cobranza',
             url: '/dashboard/leads/collection-agents',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           }
         ]
-      },
-
-      {
-        title: 'Manual Leads',
-        title_es: 'Leads manuales',
-        url: '/dashboard/manual-leads/view-all',
-        icon: 'assets/img/web_logo.png',
       }
     ]
   },
@@ -443,13 +450,13 @@ const demoNodes: MyTreeNode[] = [
         title: 'Products',
         title_es: 'Producto',
         url: '/dashboard/product/view-product',
-        icon: 'assets/img/web_logo.png',
+        icon: 'assets/img/Rectangle.png',
       },
       {
         title: 'Suppliers',
         title_es: 'Proveedores',
         url: '/dashboard/suppliers/view-all',
-        icon: 'assets/img/web_logo.png',
+        icon: 'assets/img/Rectangle.png',
       }
     ]
   },
@@ -464,29 +471,37 @@ const demoNodes: MyTreeNode[] = [
         title: 'Manage Offices',
         title_es: 'Gestionar Oficina',
         url: '/dashboard/office/view-office',
-        icon: 'assets/img/web_logo.png',
+        icon: 'assets/img/Rectangle.png',
       },
       {
         title: 'Manage Hotels',
         title_es: 'Gestionar Hoteles',
         url: '/dashboard/hotels/view-hotels',
-        icon: 'assets/img/web_logo.png',
+        icon: 'assets/img/Rectangle.png',
       },
       {
         title: 'Hotel company',
         title_es: 'Empresa hotelera',
         url: '/dashboard/hotel-companies/view-all',
-        icon: 'assets/img/web_logo.png'
+        icon: 'assets/img/Rectangle.png'
       },
     ]
   },
   //contract
-  // {
-  //   title: this.translate.instant('sidebar.manageContacts'),
-  //   url: '/dashboard/manage-contracts/view-all',
-  //   icon: 'assets/img/vuesax_twotone_document-text.png',
-  //   children: []
-  // },
+  {
+    title: 'Contracts',
+    title_es: 'Contratos',
+    url: '/dashboard/manage-contracts/view-all',
+    icon: 'assets/img/vuesax_twotone_document-text.png',
+    // children: [
+    //   {
+    //     title: '',
+    //     title_es: '',
+    //     url: '',
+    //     icon: '',
+    //   }
+    // ]
+  },
   //collection
   {
     title: 'Collections',
@@ -498,13 +513,13 @@ const demoNodes: MyTreeNode[] = [
         title: 'Manage Collections',
         title_es: 'Administrar colecciones',
         url: '/dashboard/collections/view-collections',
-        icon: 'assets/img/web_logo.png',
+        icon: 'assets/img/Rectangle.png',
       },
       {
         title: 'Manage Commissions',
         title_es: 'Administrar Comisiones',
         url: '/dashboard/commissions/view-commissions',
-        icon: 'assets/img/web_logo.png',
+        icon: 'assets/img/Rectangle.png',
       },
       {
         title: 'Collection Reports',
@@ -516,73 +531,73 @@ const demoNodes: MyTreeNode[] = [
             title: 'General Report',
             title_es: 'Informe general',
             url: '/dashboard/collection-report/general-report',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Monthly Report',
             title_es: 'Reporte mensual',
             url: '/dashboard/collection-report/monthly-report',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Model Report',
             title_es: 'Informe modelo',
             url: '/dashboard/collection-report/model-report',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Concept Report',
             title_es: 'Informe conceptual',
             url: '/dashboard/collection-report/concept-report',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Arrear Report',
             title_es: 'Informe de atrasos',
             url: '/dashboard/collection-report/arrear-report',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Sales Report',
             title_es: 'Reporte de ventas',
             url: '/dashboard/collection-report/sales-report',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Sales Trend',
             title_es: 'Tendencia de ventas',
             url: '/dashboard/collection-report/sales-booking',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Commission Report',
             title_es: 'Informe de la Comisión',
             url: '/dashboard/collection-report/commission-income',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Revenue Report',
             title_es: 'Informe de ingresos',
             url: '/dashboard/collection-report/cash-flow-report',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Project Report',
             title_es: 'Reporte de Proyecto',
             url: '/dashboard/collection-report/project-report',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Buyer Report',
             title_es: 'Informe del comprador',
             url: '/dashboard/collection-report/buyer-report',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Delivery Report',
             title_es: 'Informe de entrega',
             url: '/dashboard/collection-report/delivery-report',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
         ]
       },
@@ -596,13 +611,13 @@ const demoNodes: MyTreeNode[] = [
             title: 'Income',
             title_es: 'Ingresos',
             url: '/dashboard/cash/income',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Expenditures',
             title_es: 'Egresos',
             url: '/dashboard/cash/expenditures',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           }
         ]
       },
@@ -616,24 +631,6 @@ const demoNodes: MyTreeNode[] = [
     icon: '/assets/img/vuesax_twotone_setting-2.png',
     children: [
       {
-        title: 'Templates',
-        title_es: 'Plantillas',
-        url: '/dashboard/templates/view-all',
-        icon: 'assets/img/web_logo.png',
-      },
-      {
-        title: 'Appointments',
-        title_es: 'Citas',
-        url: '/dashboard/appointments',
-        icon: 'assets/img/web_logo.png',
-      },
-      {
-        title: 'Notifications',
-        title_es: 'Notificaciones',
-        url: 'notifications',
-        icon: 'assets/img/web_logo.png',
-      },
-      {
         title: 'Settings',
         title_es: 'Ajustes',
         url: '',
@@ -643,64 +640,83 @@ const demoNodes: MyTreeNode[] = [
             title: 'Location',
             title_es: 'Ubicación',
             url: '/dashboard/settings/setting-location',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Locality',
             title_es: 'Localidad',
             url: '/dashboard/settings/setting-locality',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Property',
             title_es: 'Departamento',
             url: '/dashboard/settings/setting-property',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Project',
             title_es: 'Proyecto',
             url: '/dashboard/settings/setting-project',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Office',
             title_es: 'Oficina ',
             url: '/dashboard/settings/setting-office',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Hotel',
             title_es: 'Hotel',
             url: '/dashboard/settings/setting-hotel',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Room',
             title_es: 'Habitación',
             url: '/dashboard/settings/setting-room',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Default Settings',
             title_es: 'Configuración por defecto',
             url: '/dashboard/settings/default-settings',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           },
           {
             title: 'Document Listing',
             title_es: 'Listado de documentos',
             url: '/dashboard/settings/documents-listing',
-            icon: 'assets/img/web_logo.png',
+            icon: 'assets/img/Rectangle.png',
           }
           // {
           //   title: this.translate.instant('sidebar.logout'),
           //   url: '/dashboard/collection-report/project-report'
           // },
         ]
+      },
+      {
+        title: 'Templates',
+        title_es: 'Plantillas',
+        url: '/dashboard/templates/view-all',
+        icon: 'assets/img/Ellipse.png',
+      },
+      {
+        title: 'Appointments',
+        title_es: 'Citas',
+        url: '/dashboard/appointments',
+        icon: 'assets/img/Ellipse.png',
+      },
+      {
+        title: 'Notifications',
+        title_es: 'Notificaciones',
+        url: 'notifications',
+        icon: 'assets/img/Ellipse.png',
       }
+
     ]
-  },
+  }
 ]
 @Component({
   selector: 'app-header',
