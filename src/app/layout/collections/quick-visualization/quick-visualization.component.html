@@ -1428,7 +1428,7 @@
             </div>
             <div class="col-12">
               <div class="btn-cont text-right">
-                <button class="btn btn-primary-new" (click)="downloadReceipt()" style="margin-right: 15px;">
+                <button type="button" class="btn btn-primary-new" (click)="downloadReceipt()" style="margin-right: 15px;">
                   {{'addForm.paymentReceipt' | translate}}</button>
                 <button type="submit" class="btn btn-primary-new">
                   <img *ngIf="parameter.loading" src="assets/img/loader_gif.gif" height="20">
