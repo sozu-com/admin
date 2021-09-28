@@ -25,7 +25,8 @@ export class PaymentReceiptService {
     public admin: AdminService,
     private datePipe: DatePipe,
     private price: PricePipe,
-  ) { }
+  ) { 
+  }
 
   getCollectionById(id, index, payment_concept){
     this.index = index;
@@ -50,6 +51,7 @@ export class PaymentReceiptService {
   }
 
   generatePaymentReceiptPDF() {
+    var conver = require('numero-a-letras');
     this.language_code = localStorage.getItem('language_code');
     let current_date = new Date();
     let concept = this.collection_data.payment_choices.find(item=> item.id == this.payment_concept.id);
@@ -93,8 +95,8 @@ export class PaymentReceiptService {
               ],
               [
                 { text: date ? date : 'N/A', bold: true, border: [false, false, false, true], margin: [0, 0, 0, 100] },
-                { text: this.index ? (this.index < 10 ? ('0'+ this.index): this.index) : 'N/A', bold: true, border: [false, false, false, true] },
-                { text: this.collection_data.property.building.short_address ? this.collection_data.property.building.short_address : 'N/A', bold: true, border: [false, false, false, true] }
+                { text: this.index || this.index == 0 ? (this.index < 10 ? ('0'+ this.index): this.index) : 'N/A', bold: true, border: [false, false, false, true] },
+                { text: this.collection_data.property.building.short_address ? this.collection_data.property.building.short_address : this.collection_data.property.building.address ? this.collection_data.property.building.address : 'N/A', bold: true, border: [false, false, false, true] }
               ],
             ],
           }
@@ -104,7 +106,7 @@ export class PaymentReceiptService {
             {
               text: [
                 {text: this.translate.instant('generatePDF.detail1') + (concept.calc_payment_amount ? concept.calc_payment_amount : "N/A") + this.translate.instant('generatePDF.detail14') + 
-                    '(N/A)' + this.translate.instant('generatePDF.detail13') + this.translate.instant('generatePDF.detail2') + buyer_name + this.translate.instant('generatePDF.detail3')},
+                (concept.calc_payment_amount ? conver.NumerosALetras(concept.calc_payment_amount) : "N/A") + this.translate.instant('generatePDF.detail13') + this.translate.instant('generatePDF.detail2') + buyer_name + this.translate.instant('generatePDF.detail3')},
               {text:(this. language_code == 'en' ? concept.payment_choice.name_en :  this. language_code == 'es' ? concept.name_es : 'N/A'), bold: true},
               {text:this.translate.instant('generatePDF.detail4') + this.collection_data.property.building.name + this.translate.instant('generatePDF.detail5') + 
                     this.collection_data.property.building.address},
@@ -125,10 +127,16 @@ export class PaymentReceiptService {
         },
         {
           columns: [
+            concept.payment_choice.id == 1 ?
             {
-              text: this.translate.instant('generatePDF.detail12') + (concept.calc_payment_amount ? concept.calc_payment_amount : "N/A") + this.translate.instant('generatePDF.detail14') + '(N/A)' + 
+              text: this.translate.instant('generatePDF.detail12') + (concept.calc_payment_amount ? concept.calc_payment_amount : "N/A") + this.translate.instant('generatePDF.detail14') + (concept.calc_payment_amount ? conver.NumerosALetras(concept.calc_payment_amount) : "N/A") + 
                     this.translate.instant('generatePDF.detail13') + this.translate.instant('generatePDF.detail15'),
               margin: [0, 0, 0, 80], background: 'yellow'
+            }
+            : {
+              text: this.translate.instant('generatePDF.detail12') + (concept.calc_payment_amount ? concept.calc_payment_amount : "N/A") + this.translate.instant('generatePDF.detail14') + (concept.calc_payment_amount ? conver.NumerosALetras(concept.calc_payment_amount) : "N/A") + 
+                    this.translate.instant('generatePDF.detail13') + this.translate.instant('generatePDF.detail15'),
+              margin: [0, 0, 0, 80]
             }
           ]
         },
@@ -154,13 +162,12 @@ export class PaymentReceiptService {
             columns: [
               {
                 text:[
-                  { text: this.collection_data.property.building.project_additional_url ? this.collection_data.property.building.project_additional_url : '', color: '#858291' },
-                  { text: this.collection_data.property.building.project_additional_url || this.collection_data.property.building.project_tagline? ' | ' : '', color: '#858291' },
-                  { text: this.collection_data.property.building.project_tagline ? this.collection_data.property.building.project_tagline : '', color: '#858291' },
+                  { text: this.collection_data.property.building.project_additional_url ? this.collection_data.property.building.project_additional_url : '' },
+                  { text: this.collection_data.property.building.project_additional_url || this.collection_data.property.building.project_tagline? ' | ' : '' },
+                  { text: this.collection_data.property.building.project_tagline ? this.collection_data.property.building.project_tagline : '' },
                 ],
                 width: 500,
-                margin: [45, 20, 20, 20],
-                color: '#858291'
+                margin: [45, 20, 20, 20]
               },
               this.base64 && this.base64!= ''?
               {
@@ -170,7 +177,8 @@ export class PaymentReceiptService {
                 margin: [20, 20, 20, 20],
               } :
               {
-                text: ''
+                text: this.collection_data.property.building.name,
+                bold: true,
               },
             ]
           },
@@ -185,25 +193,10 @@ export class PaymentReceiptService {
               headerRows: 1,
               body: [
                 [
-                  { text: '', border: [false, false, false, true], bold: true, color: '#858291' },
+                  { text: '', border: [false, false, false, true], bold: true },
                 ],
                 [
-                  { text: this.collection_data.property.building.short_address ? this.collection_data.property.building.short_address : 'N/A', bold: true, border: [false, false, false, false], color: '#858291' },
-                ],
-              ],
-            }
-          },
-          {
-            style: 'table',
-            table: {
-              headerRows: 1,
-              widths: [130],
-              body: [
-                [
-                  { text: '', border: [false, false, false, true], bold: true, color: '#858291' }
-                ],
-                [
-                  { text: this.collection_data.property.building.project_email ? this.collection_data.property.building.project_email : 'N/A', bold: true, border: [false, false, false, false], color: '#858291' }
+                  { text: this.collection_data.property.building.short_address ? this.collection_data.property.building.short_address : this.collection_data.property.building.address ? this.collection_data.property.building.address : 'N/A', bold: true, border: [false, false, false, false] },
                 ],
               ],
             }
@@ -215,7 +208,22 @@ export class PaymentReceiptService {
               widths: [130],
               body: [
                 [
-                  { text: '', border: [false, false, false, true], bold: true, color: '#858291' }
+                  { text: '', border: [false, false, false, true], bold: true }
+                ],
+                [
+                  { text: this.collection_data.property.building.project_email ? this.collection_data.property.building.project_email : 'N/A', bold: true, border: [false, false, false, false] }
+                ],
+              ],
+            }
+          },
+          {
+            style: 'table',
+            table: {
+              headerRows: 1,
+              widths: [130],
+              body: [
+                [
+                  { text: '', border: [false, false, false, true], bold: true }
                 ],
                 [
                   { text: '', bold: true, border: [false, false, false, false] }
