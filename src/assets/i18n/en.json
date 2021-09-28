@@ -457,6 +457,22 @@
       "notFound": "No Developer found",
       "notAmenityFound": "No amenity found"
     },
+    "hotel_company": {
+      "developer": "Hotel Company",
+      "label": "Hotel Company Info",
+      "changeDeveloper": "Change Hotel Company",
+      "selectDeveloper": "Select Hotel Company",
+      "removeDeveloper": "Remove Hotel Company",
+      "name": "Hotel Company Name",
+      "phoneNumber": "Phone Number",
+      "phone": "Phone",
+      "email": "Email",
+      "companyName": "Company Name",
+      "logo": "Logo",
+      "coverImage": "Cover Image",
+      "notFound": "No Developer found",
+      "notAmenityFound": "No amenity found"
+    },
     "managedBy": {
       "label": "Managed By",
       "manager": "Manager",
@@ -780,6 +796,7 @@
       "all": "All",
       "id": "ID",
       "currency": "Currency",
+      "hotel_type": "Hotel type",
       "systemDashboardAccess": "System Dashboard",
       "adminAccess": "Admin access",
       "agencyCommercialName": "Agency (Commercial Name)",
@@ -889,6 +906,7 @@
       "sellerTabOn": "Seller tab on",
       "developer": "Developer",
       "managedBy": "Managed By Company/Manager",
+      "hotel_company":"Hotel company",
       "agency": "Agency",
       "legalEntity": "Legal Entity",
       "companyCommercialName": "Company Name (Commercial Name)",

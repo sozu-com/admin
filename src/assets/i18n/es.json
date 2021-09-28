@@ -456,6 +456,22 @@
       "notFound": "No se encontró desarrollador",
       "notAmenityFound": "No se encontró ningún servicio"
     },
+    "hotel_company": {
+      "developer": "Empresa hotelera",
+      "label": "Información de la empresa hotelera",
+      "changeDeveloper": "Cambiar de empresa hotelera",
+      "selectDeveloper": "Seleccionar empresa hotelera",
+      "removeDeveloper": "Eliminar empresa hotelera",
+      "name": "Nombre de la empresa hotelera",
+      "phoneNumber": "Número de telefono",
+      "phone": "Telefono",
+      "email": "Correo",
+      "companyName": "Nombre de la compañía",
+      "logo": "Logo",
+      "coverImage": "Imagen de portada",
+      "notFound": "No se encontró desarrollador",
+      "notAmenityFound": "No se encontró ningún servicio"
+    },
     "managedBy": {
       "label": "Gestionado por",
       "manager": "Gerente",
@@ -775,6 +791,7 @@
       "closed": "Cerrado"
     },
     "th": {
+      "hotel_type": "Tipo de hotel",
       "carpetArea": "Área de piso",
       "all": "All",
       "id": "ID",
@@ -887,6 +904,7 @@
       "sellerTabOn": "Pestaña del vendedor activa",
       "developer": "Desarrollador",
       "managedBy": "Administrada por Compañía/ Manager",
+      "hotel_company":"Empresa hotelera",
       "agency": "Agencia",
       "legalEntity": "Entidad legal",
       "companyCommercialName": "Nombre de la compañía (Nombre comercial)",

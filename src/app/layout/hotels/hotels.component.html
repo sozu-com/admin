@@ -183,9 +183,32 @@
                     </div>
                   </div>
                 </th>
+                <th style="clear: both;
+                overflow: hidden;
+                white-space: nowrap;text-align:left;" *ngIf="selectedColumnsToShow?.hotel_type">
+                  <div class="table-search">
+                    <label>{{'table.th.hotel_type' | translate}}</label>
+                    <div class="searh-3">
+                      <select [(ngModel)]="parameter.hotel_type" (change)="getListing()">
+                        <option value="0">{{'table.th.all' | translate}}</option>
+                        <option *ngFor="let item of hotelTypes" value="{{item.id}}"> 
+                          {{this.language_code == 'en' ? item.name_en : item.name_es }}</option>
+                      </select>
+                    </div>
+                  </div>
+                </th>
                 <th style="width:13%" *ngIf="selectedColumnsToShow?.managed_company">
                   <div class="table-search">
                     <label>{{'table.th.managedBy' | translate}}</label>
+                  </div>
+                </th>
+                <th style="width:13%" *ngIf="selectedColumnsToShow?.hotel_company">
+                  <div class="table-search">
+                    <label>{{'table.th.hotel_company' | translate}}</label>
+                    <div class="searh-3">
+                      <input class="width100px" type="text" [(ngModel)]="parameter.hotel_company_name" (keyup.enter)="getListing()" autocomplete="address-level4" >
+                      <button *ngIf="parameter.hotel_company_name" (click)="getListing()"><i class="fa fa-search"></i></button>
+                    </div>
                   </div>
                 </th>
                 <th style="width:7%" *ngIf="selectedColumnsToShow?.possesion">
@@ -243,6 +266,9 @@
                 <td [ngClass]="{'green-color cursor-pointer': p?.developer?.name}"  *ngIf="selectedColumnsToShow?.developer" (click)="viewDeveloper(p)">
                   <span>{{p?.developer?.name ? p?.developer?.name : ('table.tr.td.NA' | translate)}}</span>
                 </td>
+                <td  *ngIf="selectedColumnsToShow?.hotel_type">
+                  <span>{{p?.hotel_type?.name ? p?.hotel_type?.name : ('table.tr.td.NA' | translate)}}</span>
+                </td>
                
                 <td *ngIf="selectedColumnsToShow?.managed_company" [ngClass]="{'green-color cursor-pointer': p?.manager?.id || p?.company?.id}"
                   (click)="viewCompanyManager(p)">
@@ -253,6 +279,10 @@
                     {{p?.manager?.id ? ('table.tr.td.manager' | translate) : p?.company?.id ? ('table.tr.td.company' |
                     translate) : ''}}
                   </small>
+                </td>
+                <td *ngIf="selectedColumnsToShow?.hotel_company" [ngClass]="{'green-color cursor-pointer': p?.hotel_company?.id}"
+                  (click)="viewhotel(p)">
+                  <span>{{p?.hotel_company?.name ? p?.hotel_company?.name : ('table.tr.td.NA' | translate)}}</span>
                 </td>
                 <td  *ngIf="selectedColumnsToShow?.possesion">
                   <span *ngIf="p?.possession_status_id">{{p?.status_possion}}</span>
