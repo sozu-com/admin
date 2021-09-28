@@ -282,6 +282,10 @@
     "addContract": "Agregar Contratos",
     "editContract": "Editar Contratos",
     "paymentReceipt": "Recibo de pago",
+    "sector": "Sector",
+    "hotels": "Habitacional",
+    "housing": "Hoteleria",
+    "offices": "Oficina",
     "moreImages": {
       "label": "Imágenes",
       "addMoreBtn": "+ Agregar más imágenes",
@@ -923,6 +927,7 @@
       "cancelationCommision": "Comisión de cancelación",
       "expenditure": "Gasto",
       "income": "Ingreso",
+      "sector": "Sector",
       "possesion": {
         "label": "Fecha de entrega",
         "Building_type": "Tipo de construcción",

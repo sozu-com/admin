@@ -262,6 +262,7 @@ export interface IProperty {
   preferences_properties?: any;
   fav_project_count?: any;
   locality_ids?: Array<any>;
+  sector_id?:any;
 }
 export class Docs {
   id: string;
