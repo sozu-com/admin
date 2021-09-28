@@ -282,6 +282,10 @@
     "addContract": "Agregar Contratos",
     "editContract": "Editar Contratos",
     "paymentReceipt": "Recibo de pago",
+    "sector": "Sector",
+    "hotels": "Habitacional",
+    "housing": "Hoteleria",
+    "offices": "Oficina",
     "moreImages": {
       "label": "Imágenes",
       "addMoreBtn": "+ Agregar más imágenes",
@@ -447,6 +451,22 @@
       "selectDeveloper": "Seleccionar desarrollador",
       "removeDeveloper": "Quitar desarrollador",
       "name": "Nombre del desarrollador",
+      "phoneNumber": "Número de telefono",
+      "phone": "Telefono",
+      "email": "Correo",
+      "companyName": "Nombre de la compañía",
+      "logo": "Logo",
+      "coverImage": "Imagen de portada",
+      "notFound": "No se encontró desarrollador",
+      "notAmenityFound": "No se encontró ningún servicio"
+    },
+    "hotel_company": {
+      "developer": "Empresa hotelera",
+      "label": "Información de la empresa hotelera",
+      "changeDeveloper": "Cambiar de empresa hotelera",
+      "selectDeveloper": "Seleccionar empresa hotelera",
+      "removeDeveloper": "Eliminar empresa hotelera",
+      "name": "Nombre de la empresa hotelera",
       "phoneNumber": "Número de telefono",
       "phone": "Telefono",
       "email": "Correo",
@@ -775,6 +795,7 @@
       "closed": "Cerrado"
     },
     "th": {
+      "hotel_type": "Tipo de hotel",
       "carpetArea": "Área de piso",
       "all": "All",
       "id": "ID",
@@ -887,6 +908,7 @@
       "sellerTabOn": "Pestaña del vendedor activa",
       "developer": "Desarrollador",
       "managedBy": "Administrada por Compañía/ Manager",
+      "hotel_company":"Empresa hotelera",
       "agency": "Agencia",
       "legalEntity": "Entidad legal",
       "companyCommercialName": "Nombre de la compañía (Nombre comercial)",
@@ -905,6 +927,7 @@
       "cancelationCommision": "Comisión de cancelación",
       "expenditure": "Gasto",
       "income": "Ingreso",
+      "sector": "Sector",
       "possesion": {
         "label": "Fecha de entrega",
         "Building_type": "Tipo de construcción",
@@ -3037,9 +3060,9 @@
     "detail10": ", de ",
     "detail11": "m2.",
     "detail12": "La cantidad de  ",
-    "detail13": "/100 M.N.",
-    "detail14": "($",
-    "detail15": ".) por concepto del apartado de unicación, no es reembolsable en caso de cancelación de la operación",
+    "detail13": ")",
+    "detail14": "(",
+    "detail15": "por concepto del apartado de unicación, no es reembolsable en caso de cancelación de la operación",
     "paymentReceipt": "Recibo de pago"
   },
   "viewCredit":{
