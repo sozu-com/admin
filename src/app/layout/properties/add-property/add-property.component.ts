@@ -1784,7 +1784,7 @@ export class AddPropertyComponent implements OnInit {
     if (isForBack) {
       this.router.navigate(['/dashboard/properties/view-properties', { for: 'back' }]);
     } else {
-      this.router.navigate(['/dashboard/properties/view-properties']);
+      this.router.navigate(['/dashboard/properties/view-properties', { for: 'go' }]);
     }
   }
 
