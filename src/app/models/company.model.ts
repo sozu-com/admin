@@ -54,6 +54,7 @@ export class Manager {
     company_id?: number;
     selected?: any;
     manager_notes?: Array<Note>;
+    sector?:any;
 }
 export class Note {
     id: string;

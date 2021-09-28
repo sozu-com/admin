@@ -282,6 +282,10 @@
     "addContract": "Add Contract",
     "editContract": "Edit Contract",
     "paymentReceipt": "Payment Receipt",
+    "sector": "Sector",
+    "hotels": "Hotels",
+    "housing": "Housing",
+    "offices": "Offices",
     "moreImages": {
       "label": "Images",
       "addMoreBtn": "+ Add more images",
@@ -925,6 +929,7 @@
       "cancelationCommision": "Cancelation commision",
       "expenditure": "Expenditure",
       "income": "Income",
+      "sector": "Sector",
       "possesion": {
         "label": "Possesion",
         "Building_type": "Building type",

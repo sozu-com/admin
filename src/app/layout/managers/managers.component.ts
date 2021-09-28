@@ -74,6 +74,7 @@ export class ManagersComponent implements OnInit {
     this.model.dial_code = this.constant.dial_code;
     this.model.company = new Company();
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
+    this.parameter.sector_id = 0;
 
     this.setCurrentPosition();
     // this.setCurrentPosition();
@@ -228,6 +229,7 @@ export class ManagersComponent implements OnInit {
     input.append('name', this.model.name);
     input.append('first_surname', this.model.first_surname || '');
     input.append('second_surname', this.model.second_surname || '');
+    input.append('sector', this.model.sector || '');
 
     if (this.model.phone) {
       input.append('country_code', this.model.country_code ? this.model.country_code : this.constant.dial_code);
@@ -312,6 +314,7 @@ export class ManagersComponent implements OnInit {
     this.model.company = userdata.company ? userdata.company : new Company();
     this.image = userdata.image;
     this.logo = userdata.logo;
+    this.model.sector = userdata.sector;
     if (userdata.company_id != null && userdata.company_id != 0) {
       this.model.is_company = 'true';
     } else {
@@ -348,6 +351,10 @@ export class ManagersComponent implements OnInit {
     this.parameter.email = email;
     this.getTowerManager();
   }
+  searchSector(sector){
+    this.parameter.sector_id = sector;
+    this.getTowerManager();
+  }
   searchUserByPhone(phone: string) {
     this.parameter.phone = phone;
     this.getTowerManager();
@@ -371,6 +378,7 @@ export class ManagersComponent implements OnInit {
     if (this.parameter.agent) { input.append('agent', this.parameter.agent); }
     if (this.parameter.email) { input.append('email', this.parameter.email); }
     if (this.parameter.phone) { input.append('phone', this.parameter.phone); }
+    if (this.parameter.sector_id) { input.append('sector_id', this.parameter.sector_id); }
     if (this.parameter.company_name) { input.append('company_name', this.parameter.company_name); }
     if (this.parameter.is_freelancer) { input.append('is_freelancer', this.parameter.is_freelancer); }
     if (this.parameter.agent_id) { input.append('agent_id', this.parameter.agent_id); }

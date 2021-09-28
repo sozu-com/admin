@@ -128,6 +128,20 @@
                 </div>
               </div>
             </th>
+            <th style="width:15%; text-align:left;">
+              <div class="table-search">
+                <label><br>&nbsp;{{'table.th.sector' | translate}}</label>
+                <div class="searh-3">
+                  <select [(ngModel)]="parameter.sector_id" 
+                  name="sector" (change)="searchSector($event.target.value)">
+                    <option value="0">All</option>
+                    <option value="1">{{'addForm.hotels' | translate}}</option>
+                    <option value="2">{{'addForm.housing' | translate}}</option>
+                    <option value="3">{{'addForm.offices' | translate}}</option>
+                </select>
+                </div>
+              </div>
+            </th>
             <th style="width:20%">
               <div class="table-search">
                 <label><br>&nbsp;{{'table.th.emailAddress' | translate}}</label>
@@ -200,6 +214,8 @@
             <td class="text-left" *ngIf="item.phone">
               {{item.dial_code && item.dial_code!=undefined ? item.dial_code : constant.dial_code}}-{{item.phone}}</td>
             <td class="text-left" *ngIf="!item.phone">{{'table.tr.td.NA' | translate}}</td>
+            <td class="text-left">{{item.sector == 1? ('addForm.hotels' | translate) : item.sector == 2? ('addForm.housing' | translate) : item.sector == 3? 
+                                  ('addForm.offices' | translate) : ('table.tr.td.NA' | translate)}}</td>
             <td class="text-left">{{item.email || ('table.tr.td.NA' | translate)}}</td>
             <td class="text-left">
               <a routerLink="/dashboard/projects/view-projects/manager/{{item.id}}">
@@ -347,6 +363,22 @@
                 <div class="form-group">
                   <input (keydown.space)="$event.preventDefault();" autocomplete="off" [pattern]="constant.emailPattern"
                     type="email" class="form-control"  [(ngModel)]="model.email" name="email">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+              <div class="form-group-2">
+                <label>{{'addForm.sector' | translate}} 
+                  <!-- <span class="color-red">*</span> -->
+                </label>
+                <div class="form-group">
+                  <select class="form-control"
+                    [(ngModel)]="model.sector" name="sector">
+                    <option value="1" selected="model.sector == 1">{{'addForm.hotels' | translate}}</option>
+                    <option value="2" selected="model.sector == 2">{{'addForm.housing' | translate}}</option>
+                    <option value="3" selected="model.sector == 3">{{'addForm.offices' | translate}}</option>
+                  </select>
+                   <!-- required -->
                 </div>
               </div>
             </div>

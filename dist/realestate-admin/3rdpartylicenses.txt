@@ -2292,6 +2292,9 @@ WTFPL
   0. You just DO WHAT THE FUCK YOU WANT TO.
 
 
+numero-a-letras
+MIT
+
 parsejson
 MIT
 The MIT License (MIT)

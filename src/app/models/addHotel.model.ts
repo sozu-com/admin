@@ -48,6 +48,7 @@ export class AddHotelModel {
   lgtb_friendly = 1;
   mature_people_friendly = 1;
   marital_status: any = [1];
+  hotel_company_by: any;
 
   developer = {
     id: '',
