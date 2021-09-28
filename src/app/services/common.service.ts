@@ -79,7 +79,7 @@ export class CommonService {
       page: 1,
       flag: 3
     }
-
+    this.spinner.show()
     forkJoin([
       this.admin.postDataApi('propertyForSale', this.parameter),
       this.admin.postDataApi('projectHome', input),
@@ -87,6 +87,7 @@ export class CommonService {
       this.admin.postDataApi('getAgencies', input),
       // this.admin.postDataApi('getIncomeHomeData', input),
     ]).subscribe(success => {
+      this.spinner.hide();
       this.items = success[0].data || [];
       this.totalSale = success[0].total_count;
       this.items.forEach(function (element) {
