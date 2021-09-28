@@ -28,9 +28,12 @@ export class PaymentReceiptService {
   ) { 
   }
 
-  getCollectionById(id, index, payment_concept){
+  getCollectionById(id, index, payment_concept, loader){
     this.index = index;
     this.payment_concept = payment_concept;
+    if(loader){
+      this.spinner.show();
+    }
     this.admin.postDataApi('getCollectionById', { id: id }).subscribe(
       success => {
         this.collection_data = success['data'];
@@ -166,7 +169,7 @@ export class PaymentReceiptService {
                   { text: this.collection_data.property.building.project_additional_url || this.collection_data.property.building.project_tagline? ' | ' : '' },
                   { text: this.collection_data.property.building.project_tagline ? this.collection_data.property.building.project_tagline : '' },
                 ],
-                width: 500,
+                width: 450,
                 margin: [45, 20, 20, 20]
               },
               this.base64 && this.base64!= ''?
@@ -174,7 +177,7 @@ export class PaymentReceiptService {
                 image: this.projectLogoImageBase64,
                 alignment: 'right',
                 width: 100,
-                margin: [20, 20, 20, 20],
+                margin: [40, 20, 20, 20],
               } :
               {
                 text: this.collection_data.property.building.name,

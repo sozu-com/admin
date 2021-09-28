@@ -16,6 +16,7 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { ApiConstants } from 'src/app/common/api-constants';
 import { Constant } from 'src/app/common/constants';
 import { forkJoin } from 'rxjs';
+import { PaymentReceiptService } from 'src/app/services/payment-receipt.service';
 declare let swal: any;
 
 @Component({
@@ -99,6 +100,7 @@ export class QuickVisualizationComponent implements OnInit {
   public parkingLotSaleDetails: any;
   private parkingSpaceLotsArray: any[] = [];
   private parkingSpaceRentArray: any[] = [];
+  paymentSelect: any;
   constructor(
     private route: ActivatedRoute,
     public constant: Constant,
@@ -109,7 +111,8 @@ export class QuickVisualizationComponent implements OnInit {
     private currencyPipe: CurrencyPipe,
     private translate: TranslateService,
     private toastr: ToastrService,
-    private cs: CommonService
+    private cs: CommonService,
+    private paymentReceipt: PaymentReceiptService
   ) { }
 
   ngOnInit(): void {
@@ -613,7 +616,7 @@ export class QuickVisualizationComponent implements OnInit {
     this.payment_date = moment.utc(e).toDate();
   }
 
-  showUpdatePaymentPopup(item: any, i: number, s: number) {
+  showUpdatePaymentPopup(item: any, i: number, s: number, p) {
     this.item = item;
     this.mainIndex = i;
     this.index = s;
@@ -622,6 +625,7 @@ export class QuickVisualizationComponent implements OnInit {
     this.payment_method_id = item.payment_method.id;
     this.description = item.description;
     this.docFile = item.receipt;
+    this.paymentSelect = p;
     this.payment_date = item.payment_date ? this.getDateWRTTimezone(item.payment_date, 'DD/MMM/YYYY') : '';
     this.updatePaymentModalOpen.nativeElement.click();
   }
@@ -1265,5 +1269,10 @@ export class QuickVisualizationComponent implements OnInit {
         break;
     }
     return temp_date;
+  }
+
+  downloadReceipt() {
+    let find_index = this.paymentConcepts.findIndex(item => item.id == this.paymentSelect.id);
+    this.paymentReceipt.getCollectionById(this.property_collection_id, find_index, this.paymentSelect, true);
   }
 }
