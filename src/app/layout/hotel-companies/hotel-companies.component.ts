@@ -19,7 +19,7 @@ export class HotelCompaniesComponent implements OnInit {
 
   @ViewChild('viewManagersModal') viewManagersModal: ElementRef;
   @ViewChild('fileInput') fileInput: ElementRef;
-  public scrollbarOptions = { axis: 'y', theme: 'dark'};
+  public scrollbarOptions = { axis: 'y', theme: 'dark' };
   public parameter: IProperty = {};
   model: Company;
   items: Array<Company>;
@@ -38,8 +38,11 @@ export class HotelCompaniesComponent implements OnInit {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.route.params.subscribe(params => {
+      if (params.type == 'company') {
+        this.model.name = params.name;
+      }
       if (params.name) {
-        this.model.name = params.name; 
+        this.model.name = params.name;
       }
     });
     this.getHotelTowerManagerCompany();
@@ -89,12 +92,12 @@ export class HotelCompaniesComponent implements OnInit {
     this.parameter.title = this.translate.instant('message.error.areYouSure');
     switch (flag) {
       case 0:
-      this.parameter.text = this.translate.instant('message.error.wantToUnblockHotelCompany');
-      this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
-      break;
-    case 1:
-      this.parameter.text = this.translate.instant('message.error.wantToBlockCompany');
-      this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
+        this.parameter.text = this.translate.instant('message.error.wantToUnblockHotelCompany');
+        this.parameter.successText = this.translate.instant('message.success.unblockedSuccessfully');
+        break;
+      case 1:
+        this.parameter.text = this.translate.instant('message.error.wantToBlockCompany');
+        this.parameter.successText = this.translate.instant('message.success.blockedSuccessfully');
         break;
     }
 
@@ -224,7 +227,7 @@ export class HotelCompaniesComponent implements OnInit {
         exportfinalData.push({
           'Company name (Commercial Name)': p.name || '',
           'Contact number': p.phone ? p.dial_code + ' ' + p.phone : '',
-          'Email Address': p.email || ''  
+          'Email Address': p.email || ''
         });
       }
       new ExcelDownload().exportAsExcelFile(exportfinalData, 'HotelCompanies');

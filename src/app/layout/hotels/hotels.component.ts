@@ -29,6 +29,7 @@ export class HotelsComponent implements OnInit {
   public parameter: IProperty = {};
   public location: IProperty = {};
   items: any = [];
+  hotelTypes: any = [];
   total: any = 0;
   configurations: any = [];
   possessionStatuses: Array<any>;
@@ -83,6 +84,7 @@ export class HotelsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProjectHome();
+    this.getHotelType();
     this.language_code = localStorage.getItem('language_code');
     //console.log('baseurl', this.admin.baseUrl);
     this.locale = {
@@ -152,6 +154,21 @@ export class HotelsComponent implements OnInit {
     this.parameter.property_sort = 0;
     this.parameter.parking_sort = value;
     this.getListing();
+  }
+
+  getHotelType() {
+    this.spinner.show();
+    this.parameter.url = 'getHotelType';
+    const input = new FormData();
+    this.admin.postDataApi(this.parameter.url, { hide_blocked: 0 })
+      .subscribe(
+        success => {
+          this.spinner.hide();
+          this.hotelTypes = success.data;
+        }, error => {
+          this.spinner.hide();
+        }
+      );
   }
 
   getListing() {
@@ -566,7 +583,9 @@ export class HotelsComponent implements OnInit {
       this.router.navigate(['/dashboard/hotels/edit-hotels', item.id]);
     }
   }
-
+  viewhotel(item: any) {
+    this.router.navigate(['/dashboard/hotel-companies/view-all', 'company', item.hotel_company.name]);
+  }
   viewDocument(document: string) {
     window.open(document, '_blank');
   }
@@ -632,15 +651,19 @@ export class HotelsComponent implements OnInit {
           'Latitude': p.lat || '',
           'Longitude': p.lng || '',
           'Developer Name': p.developer && p.developer.name ? p.developer.name : '',
+          'Hotel Type Name': p.hotel_type && p.hotel_type.name ? p.hotel_type.name : '',
           'Manager Name': p.manager && p.manager.name ? p.manager.name : '',
           'Company Name': p.company && p.company.name ? p.company.name : '',
+          'Hotel Company Name': p.company && p.company.name ? p.company.name : '',
           'Possession Status': p.status_possion ? p.status_possion : '',
           'Parking Lots': this.totalParkingCount(p) || 0,
           'Properties': parseInt(p.properties_count_all) || 0
         };
         this.selectedColumnsToShow.hotel_name == 0 ? delete obj['Name of Hotel'] : undefined;
         this.selectedColumnsToShow.developer == 0 ? delete obj['Developer Name'] : undefined;
+        this.selectedColumnsToShow.hotel_type == 0 ? delete obj['Hotel Type'] : undefined;
         this.selectedColumnsToShow.managed_company == 0 ? delete obj['Manager Name'] : undefined;
+        this.selectedColumnsToShow.hotel_company == 0 ? delete obj['Hotel Company Name'] : undefined;
         this.selectedColumnsToShow.possesion == 0 ? delete obj['Possession Status'] : undefined;
         this.selectedColumnsToShow.parking_lots == 0 ? delete obj['Parking Lots'] : undefined;
         this.selectedColumnsToShow.properties == 0 ? delete obj['Properties'] : undefined;
@@ -822,6 +845,12 @@ export class HotelsComponent implements OnInit {
       case 8:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.properties;
         break;
+      case 9:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.hotel_type;
+        break;
+      case 10:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.hotel_company;
+        break;
       default:
         break;
     }
@@ -872,6 +901,8 @@ export class HotelsComponent implements OnInit {
       action: (this.select_columns_list[5] || []).isCheckBoxChecked,
       image: (this.select_columns_list[6] || []).isCheckBoxChecked,
       properties: (this.select_columns_list[7] || []).isCheckBoxChecked,
+      hotel_type: (this.select_columns_list[8] || []).isCheckBoxChecked,
+      hotel_company: (this.select_columns_list[9] || []).isCheckBoxChecked,
     };
   }
 

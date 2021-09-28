@@ -22,8 +22,11 @@ const routes: Routes = [
   {
     path: 'view-all', component: HotelCompaniesComponent,
     canActivate: [AclUserGuard], data: { roles: ['Hotel Companies Management', 'can_read', ''] }
-  },{
+  }, {
     path: 'add-hotel-company/:id', component: AddHotelCompanyComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Hotel Companies Management', 'can_read', ''] }
+  }, {
+    path: 'view-all/:type/:name', component: HotelCompaniesComponent,
     canActivate: [AclUserGuard], data: { roles: ['Hotel Companies Management', 'can_read', ''] }
   }
 ];

@@ -16,7 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Agency } from 'src/app/models/agency.model';
 import { LegalEntity } from 'src/app/models/legalEntity.model';
 import { ToastrService } from 'ngx-toastr';
-import { AddHotelModel,Configuration, Towers, LocalityToCountry, Parking } from 'src/app/models/addHotel.model';
+import { AddHotelModel, Configuration, Towers, LocalityToCountry, Parking } from 'src/app/models/addHotel.model';
 
 declare const google;
 declare let swal: any;
@@ -49,6 +49,9 @@ export class AddHotelComponent implements OnInit {
 
   @ViewChild('openDeveloperListModel') openDeveloperListModel: ElementRef;
   @ViewChild('closeDeveloperListModel') closeDeveloperListModel: ElementRef;
+
+  @ViewChild('openHotelListModel') openHotelListModel: ElementRef;
+  @ViewChild('closeHotelListModel') closeHotelListModel: ElementRef;
 
   @ViewChild('openManagedByModel') openManagedByModel: ElementRef;
   @ViewChild('closeManagedByModel') closeManagedByModel: ElementRef;
@@ -90,6 +93,7 @@ export class AddHotelComponent implements OnInit {
   all_amenities: any = [];
   all_configurations: any = [];
   all_developers: Array<Developer>;
+  all_hotels: any = [];
   agencies: Array<Agency>;
   legalEntities: Array<LegalEntity>;
   all_managers: Array<Manager>;
@@ -108,6 +112,7 @@ export class AddHotelComponent implements OnInit {
   file3: FileUpload;
   file4: FileUpload;
   file5: FileUpload;
+  file22: FileUpload;
   file6: FileUpload;
   file7: FileUpload;
   file8: FileUpload;
@@ -211,6 +216,7 @@ export class AddHotelComponent implements OnInit {
     this.file3 = new FileUpload(true, this.admin);
     this.file4 = new FileUpload(false, this.admin);
     this.file5 = new FileUpload(true, this.admin);
+    this.file22 = new FileUpload(true, this.admin);
     this.file6 = new FileUpload(true, this.admin);
     this.file7 = new FileUpload(false, this.admin);
     this.file8 = new FileUpload(false, this.admin);
@@ -235,7 +241,7 @@ export class AddHotelComponent implements OnInit {
         this.admin.postDataApi('getHotelById', { hotel_id: this.id }).subscribe(r => {
           this.spinner.hide();
           this.model = JSON.parse(JSON.stringify(r.data));
-          this.model.hotel_parking_space_lots = r.data.hotel_parking_space_lots; 
+          this.model.hotel_parking_space_lots = r.data.hotel_parking_space_lots;
           this.model.possession_status_id = r.data.possession_status_id ? r.data.possession_status_id : '';
           //sum parking
           let sum: any = 0;
@@ -310,9 +316,10 @@ export class AddHotelComponent implements OnInit {
 
           this.model.custom_attributes = this.model.custom_values;
           this.file5.image = this.model.developer.image;
+          this.file22.image = this.model.hotel_company.image;
           this.file6.image = this.model.developer.developer_image;
           let lang = localStorage.getItem('language_code');
-          this.admin.postDataApi('getHotelAmenities', { hide_blocked: 1, language: lang == 'en'? 1 : 2}).subscribe(res => {
+          this.admin.postDataApi('getHotelAmenities', { hide_blocked: 1, language: lang == 'en' ? 1 : 2 }).subscribe(res => {
             this.all_amenities = res.data.map(item => {
               item.selected = false;
               item.images = [];
@@ -335,7 +342,7 @@ export class AddHotelComponent implements OnInit {
                 }
               }
             }
-            this.office_amenities = this.all_amenities.filter(item=> item.selected);
+            this.office_amenities = this.all_amenities.filter(item => item.selected);
             if (this.model.hotel_towers && this.model.hotel_towers.length > 0) {
               // setting true to tower selected amenities
               this.model.hotel_towers.map(item => {
@@ -407,9 +414,10 @@ export class AddHotelComponent implements OnInit {
           }
           this.model.custom_attributes = this.model.custom_values;
           this.file5.image = this.model.developer.image;
+          this.file22.image = this.model.hotel_company.image;
           this.file6.image = this.model.developer.developer_image;
           let lang = localStorage.getItem('language_code');
-          this.admin.postDataApi('getHotelAmenities', { hide_blocked: 1, language: lang == 'en'? 1 : 2 }).subscribe(res => {
+          this.admin.postDataApi('getHotelAmenities', { hide_blocked: 1, language: lang == 'en' ? 1 : 2 }).subscribe(res => {
             this.all_amenities = res.data.map(item => {
               item.selected = false;
               item.images = [];
@@ -434,7 +442,7 @@ export class AddHotelComponent implements OnInit {
                 }
               }
             }
-            this.office_amenities = this.all_amenities.filter(item=> item.selected);
+            this.office_amenities = this.all_amenities.filter(item => item.selected);
 
             if (this.model.hotel_towers && this.model.hotel_towers.length > 0) {
               // setting true to tower selected amenities
@@ -475,7 +483,7 @@ export class AddHotelComponent implements OnInit {
         this.canEditdeveloperInfo = true;
         this.canEditContributionInfo = true;
         let lang = localStorage.getItem('language_code');
-        this.admin.postDataApi('getHotelAmenities', { hide_blocked: 1, language: lang == 'en'? 1 : 2 }).subscribe(res => {
+        this.admin.postDataApi('getHotelAmenities', { hide_blocked: 1, language: lang == 'en' ? 1 : 2 }).subscribe(res => {
           this.all_amenities = res.data.map(item => {
             item.selected = false;
             item.images = [];
@@ -606,7 +614,7 @@ export class AddHotelComponent implements OnInit {
     let self = this;
     this.spinner.show();
     let lang = localStorage.getItem('language_code');
-    const input = { keyword: '', hide_blocked: 1, language: lang == 'en'? 1 : 2 };
+    const input = { keyword: '', hide_blocked: 1, language: lang == 'en' ? 1 : 2 };
     input.keyword = this.amenitiesKeyword;
     this.admin.postDataApi('getHotelAmenities', input).subscribe(res => {
       // this.all_amenities = res.data.map(item => { item.selected = false; item.images = []; return item; });
@@ -621,15 +629,15 @@ export class AddHotelComponent implements OnInit {
             item.videos = [];
             return item;
           });
-          if(self.office_amenities && self.office_amenities.length > 0){
-            this.all_amenities.forEach(item=>{
-            self.office_amenities.forEach(element => {
-              if(item.id == element.id){
-                item.selected = element.selected;
-              }
+          if (self.office_amenities && self.office_amenities.length > 0) {
+            this.all_amenities.forEach(item => {
+              self.office_amenities.forEach(element => {
+                if (item.id == element.id) {
+                  item.selected = element.selected;
+                }
+              });
             });
-          });
-        }
+          }
           break;
         case 2:
           const all_amenities = res.data.map(item => {
@@ -642,7 +650,7 @@ export class AddHotelComponent implements OnInit {
           });
           this.allTowerAmenities = JSON.parse(JSON.stringify(all_amenities));
           break;
-          case 3:
+        case 3:
           const all_amenities1 = res.data.map(item => {
             item.selected = false;
             item.images = [];
@@ -659,17 +667,17 @@ export class AddHotelComponent implements OnInit {
     });
   }
 
-  selecteAmenities(a){
-    let data = this.office_amenities.find(item=> item.id == a.id);
-    if(!data){
-    a.selected = true;
-    this.office_amenities.push(a);
+  selecteAmenities(a) {
+    let data = this.office_amenities.find(item => item.id == a.id);
+    if (!data) {
+      a.selected = true;
+      this.office_amenities.push(a);
     }
-    else{
-      let index = this.office_amenities.findIndex(item=> item.id == a.id);
+    else {
+      let index = this.office_amenities.findIndex(item => item.id == a.id);
       this.office_amenities.splice(index, 1)
     }
-    
+
   }
 
   modelOpenFun() {
@@ -1084,7 +1092,7 @@ export class AddHotelComponent implements OnInit {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAtleastOneImage'), 'error');
       return false;
     }
-   // this.file4.upload().then(r1 => {
+    // this.file4.upload().then(r1 => {
     //   this.new_config.images = this.file4.files;
     //     this.config(count, totalFilesCount);
     // });
@@ -1101,14 +1109,14 @@ export class AddHotelComponent implements OnInit {
 
     this.config360Img.upload().then(r1 => {
       this.configVideos.upload().then(r1 => {
-      this.file4.upload().then(r1 => {
-        this.spinner.hide();
-        this.new_config.images = this.file4.files;
-        this.new_config.images360 = this.config360Img.files;
-        this.new_config.videos = this.configVideos.files;
-        this.config(count, totalFilesCount);
+        this.file4.upload().then(r1 => {
+          this.spinner.hide();
+          this.new_config.images = this.file4.files;
+          this.new_config.images360 = this.config360Img.files;
+          this.new_config.videos = this.configVideos.files;
+          this.config(count, totalFilesCount);
+        });
       });
-    });
     });
     this.file4.files.forEach(element => {
       if (element.loading !== true) {
@@ -1127,7 +1135,7 @@ export class AddHotelComponent implements OnInit {
     });
   }
 
-  config(count, totalFilesCount){
+  config(count, totalFilesCount) {
     if (count === totalFilesCount) {
       this.spinner.hide();
       if (this.new_config_edit >= 0) {
@@ -1150,7 +1158,7 @@ export class AddHotelComponent implements OnInit {
   //     this.closeConfigPopup.nativeElement.click();
   //   }
   // }
-  
+
   // config_Video(countTwo, configVideoCount){
   //   if (countTwo === configVideoCount) {
   //     this.spinner.hide();
@@ -1189,6 +1197,7 @@ export class AddHotelComponent implements OnInit {
     modelSave.cover_image = this.file1.image;
     modelSave.project_logo = this.projectLogo.image;
     modelSave.document = this.model.document;
+    modelSave.hotel_type_id = modelSave.hotel_type_id;
     if (this.model.doc_loader) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.uploadingDocument'), 'error');
       return;
@@ -1213,7 +1222,7 @@ export class AddHotelComponent implements OnInit {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLocality'), 'error');
       return false;
     }
-   
+
     if (modelSave.images) {
       modelSave.hotel_images = modelSave.images.map(r => r.image);
     }
@@ -1230,6 +1239,13 @@ export class AddHotelComponent implements OnInit {
     modelSave.dev_dialcode = modelSave.developer.dial_code ? modelSave.developer.dial_code : this.constant.dial_code;
     modelSave.dev_logo = this.file5.image;
     modelSave.developer_image = this.file6.image;
+    //hotelcompany
+    modelSave.hotel_company_name = modelSave.hotel_company.name;
+    modelSave.hotel_company_email = modelSave.hotel_company.email;
+    modelSave.hotel_company_phone = modelSave.hotel_company.phone;
+    modelSave.hotel_company_countrycode = modelSave.hotel_company.country_code ? modelSave.hotel_company.country_code : this.constant.country_code;
+    modelSave.hotel_company_dialcode = modelSave.hotel_company.dial_code ? modelSave.hotel_company.dial_code : this.constant.dial_code;
+    modelSave.hotel_company_logo = this.file22.image;
     modelSave.amenities = this.all_amenities.filter(op => {
       if (op.selected === true) {
         return op;
@@ -1409,6 +1425,8 @@ export class AddHotelComponent implements OnInit {
     if (this.id) {
       modelSave.hotel_id = this.id;
       modelSave.developer_id = modelSave.developer.id;
+      modelSave.hotel_tower_manager_companies_id = modelSave.hotel_company.id;
+
       modelSave.manager_id = modelSave.manager && modelSave.manager.id ? modelSave.manager.id : null;
       modelSave.company_id = modelSave.company && modelSave.company.id ? modelSave.company.id : null;
       modelSave.agency_id = modelSave.agency && modelSave.agency.id ? modelSave.agency.id : null;
@@ -1529,13 +1547,14 @@ export class AddHotelComponent implements OnInit {
     });
     this.model.custom_attributes = this.model.custom_values;
     this.file5.image = this.model.developer.image;
+    this.file22.image = this.model.hotel_company.image;
     this.file6.image = this.model.developer.developer_image;
 
     if (data['locality']) {
       this.setCountryToLocality(data['locality']);
     }
     let lang = localStorage.getItem('language_code');
-    this.admin.postDataApi('getHotelAmenities', { hide_blocked: 1, language: lang == 'en'? 1 : 2 }).subscribe(res => {
+    this.admin.postDataApi('getHotelAmenities', { hide_blocked: 1, language: lang == 'en' ? 1 : 2 }).subscribe(res => {
       this.all_amenities = res.data.map(item => {
         item.selected = false;
         item.images = [];
@@ -1596,6 +1615,17 @@ export class AddHotelComponent implements OnInit {
     });
   }
 
+  selectHotelCompany(name: string, type: number) {
+    this.spinner.show();
+    this.admin.postDataApi('HotelTowerManagerCompany', { name: name }).subscribe(r => {
+      this.spinner.hide();
+      this.all_hotels = r.data;
+      if (type !== 2) {
+        this.openHotelListModel.nativeElement.click();
+      }
+    });
+  }
+
   addDeveloper() {
     this.router.navigate(['/dashboard/developers/add-developer/0']);
   }
@@ -1635,6 +1665,40 @@ export class AddHotelComponent implements OnInit {
     };
   }
 
+  setHotel(item) {
+    this.canEditdeveloperInfo = false;
+    this.model.hotel_company = {
+      id: '', name: '', email: '',
+      country_code: this.constant.country_code,
+      dial_code: this.constant.dial_code,
+      phone: '', logo: '', image: '', hotel_company_image: '',
+      hotel_company_company: '', hotel_company_desc: ''
+    };
+    this.model.hotel_company.id = item.id;
+    this.model.hotel_tower_manager_companies_id = item.id;
+    this.model.hotel_company.name = item.name;
+    this.model.hotel_company.email = item.email;
+    this.model.hotel_company.phone = item.phone;
+    this.model.hotel_company.dial_code = item.dial_code;
+    this.model.hotel_company.country_code = item.country_code;
+    this.model.hotel_company.logo = item.image;
+    this.model.hotel_company.hotel_company_company = item.hotel_company_company;
+    this.model.hotel_company.hotel_company_desc = item.hotel_company_desc;
+    this.file22.image = item.image;
+    this.file6.image = item.hotel_company_image;
+    this.closeHotelListModel.nativeElement.click();
+  }
+
+  removeHotel(name: string, type: number) {
+    this.canEditdeveloperInfo = false;
+    this.model.hotel_company = {
+      id: '', name: '', email: '',
+      country_code: this.constant.country_code,
+      dial_code: this.constant.dial_code,
+      phone: '', logo: '', image: '', hotel_company_image: '',
+      hotel_company_company: '', hotel_company_desc: ''
+    };
+  }
 
   addNewTower() {
     if (!this.newTower.tower_name) {
@@ -1650,7 +1714,7 @@ export class AddHotelComponent implements OnInit {
       return false;
     }
 
-    
+
     const tempAmen = JSON.parse(JSON.stringify(this.allTowerAmenities));
     this.selectedTowerAmenitiesId = tempAmen.filter(op => {
       if (op.selected === true) {
@@ -2055,14 +2119,6 @@ export class AddHotelComponent implements OnInit {
 
   setManagedBy(item: any) {
     this.canEditdeveloperInfo = false;
-    // this.model.developer = {
-    //   id: '', name: '', email: '',
-    //   country_code: this.constant.country_code,
-    //   dial_code: this.constant.dial_code,
-    //   phone: '', logo: '', image: '', developer_image: '',
-    //   developer_company: '', developer_desc: ''
-    // };
-    // this.model.developer.id = item.id;
     if (this.parameter.managedBy === 1) {
       this.model.manager = item;
       this.model.manager_id = item.id;
@@ -2070,16 +2126,6 @@ export class AddHotelComponent implements OnInit {
       this.model.company = item;
       this.model.company_id = item.id;
     }
-    // this.model.developer.name = item.name;
-    // this.model.developer.email = item.email;
-    // this.model.developer.phone = item.phone;
-    // this.model.developer.dial_code = item.dial_code;
-    // this.model.developer.country_code = item.country_code;
-    // this.model.developer.logo = item.image;
-    // this.model.developer.developer_company = item.developer_company;
-    // this.model.developer.developer_desc = item.developer_desc;
-    // this.file5.image = item.image;
-    // this.file6.image = item.developer_image;
     this.closeManagedByModel.nativeElement.click();
   }
 
@@ -2238,7 +2284,7 @@ export class AddHotelComponent implements OnInit {
       if (iterator.possession_status_id == null || iterator.possession_status_id == '') {
         result = false;
         break;
-      }    
+      }
     }
     return result;
   }
@@ -2421,10 +2467,10 @@ export class AddHotelComponent implements OnInit {
     switch (index) {
       case 1:
         this.openAmenitiesModal.nativeElement.click();
-        if(this.office_amenities.length > 0){
-          this.all_amenities.forEach(item=>{
-            this.office_amenities.forEach(element=>{
-              if(item.id == element.id){
+        if (this.office_amenities.length > 0) {
+          this.all_amenities.forEach(item => {
+            this.office_amenities.forEach(element => {
+              if (item.id == element.id) {
                 item.selected = element.selected;
               }
             });
@@ -2489,7 +2535,7 @@ export class AddHotelComponent implements OnInit {
     this.configVideos.files.splice(index, 1);
   }
 
-  removeCoverImage(){
+  removeCoverImage() {
     this.file9.image = '';
   }
 

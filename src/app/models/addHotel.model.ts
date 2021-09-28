@@ -63,6 +63,20 @@ export class AddHotelModel {
     developer_desc: ''
   };
   developer_id: any;
+  hotel_company = {
+    id: '',
+    name: '',
+    email: '',
+    country_code: '',
+    dial_code: '',
+    phone: '',
+    logo: '',
+    image: '',
+    hotel_company_image: '',
+    hotel_company_company: '',
+    hotel_company_desc: ''
+  };
+  hotel_tower_manager_companies_id: any;
   dev_countrycode: any = '';
   dev_dialcode: any = '';
   dev_email: any = '';
@@ -80,9 +94,9 @@ export class AddHotelModel {
   doc_loader?: boolean;
   is_completed: any;
   hotel_request_id: '';
-    hotel_parking_space_lots?: Array<Parking>;
-    hotel_parking_space_rent?: Array<Parking>;
-    
+  hotel_parking_space_lots?: Array<Parking>;
+  hotel_parking_space_rent?: Array<Parking>;
+
   hotel_towers: Array<Towers>;
   property_offer_payment: Array<pay>;
   building_tower_edit_index: any;
@@ -151,7 +165,7 @@ export class Configuration {
   videos: any = [];
   updated_at: any = '';
   name: any = '';
-  cover_profile:any='';
+  cover_profile: any = '';
 }
 
 export class Towers {

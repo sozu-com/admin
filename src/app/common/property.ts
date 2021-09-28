@@ -3,10 +3,12 @@ export interface IProperty {
   loading?: boolean;                      // loader
   itemsPerPage?: number;
   expenditures_id?: any;
+  hotel_company_name?: any;
   commission_status_color?: any;               // total items per page
   total?: number;
   random_id?: any;                  // total records count
   p?: number;
+  hotel_type?: any;
   building_type?: any;                        // page
   sizeLimit?: number;                     // file size limit --- 5000000 means 5MB
   title?: string;
