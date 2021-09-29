@@ -134,10 +134,11 @@ export class PaymentReceiptService {
             {
               text: this.translate.instant('generatePDF.detail12') + (concept.calc_payment_amount ? this.price.transform(Number(concept.calc_payment_amount).toFixed(2)) : "N/A") + this.translate.instant('generatePDF.detail14') + (concept.calc_payment_amount ? conver.NumerosALetras(concept.calc_payment_amount) : "N/A") + 
                     this.translate.instant('generatePDF.detail13') + this.translate.instant('generatePDF.detail15'),
-              margin: [0, 0, 0, 80], background: 'yellow'
+              margin: [0, 0, 0, 80]
             }
             : {
-              text: ''
+              text: '',
+              margin: [0, 0, 0, 50]
             }
           ]
         },
@@ -148,10 +149,10 @@ export class PaymentReceiptService {
             widths: [510],
             body: [
               [
-                { text: this.translate.instant('generatePDF.receipt'), border: [true, true, true, false], bold: true, fontSize: 12, },    
+                { text: this.translate.instant('generatePDF.receipt'), border: [false, false, false, false], bold: true, fontSize: 12, },    
               ],
               [
-                { text:this.collection_data.property.building.developer ? (this.collection_data.property.building.developer.name  + this.collection_data.property.building.developer.first_surname + this.collection_data.property.building.developer.second_surname) : 'N/A', border: [true, false, true, true], bold: true, margin: [0, 0, 0, 30] },    
+                { text:this.collection_data.property.building.developer ? (this.collection_data.property.building.developer.name  + this.collection_data.property.building.developer.first_surname + this.collection_data.property.building.developer.second_surname) : 'N/A', border: [false, false, false, false], bold: true, margin: [0, 0, 0, 30] },    
               ],
             ],
           }
@@ -175,11 +176,12 @@ export class PaymentReceiptService {
                 image: this.projectLogoImageBase64,
                 alignment: 'right',
                 width: 100,
-                margin: [40, 20, 20, 20],
+                margin: [60, 20, 20, 20],
               } :
               {
                 text: this.collection_data.property.building.name,
                 bold: true,
+                margin: [0, 20, 0, 0],
               },
             ]
           },
