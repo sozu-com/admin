@@ -295,8 +295,9 @@
                  
                 </td>
                 <td *ngIf="selectedColumnsToShow?.properties">
-                  <a title="{{'table.title.clickToViewProperties' | translate}}" (click)="goWay(p)"><span
-                      class="green-color cursor-pointer">{{p?.properties_count_all || 0 | numberWithCommas}}</span></a>
+                  <!-- <a title="{{'table.title.clickToViewProperties' | translate}}" (click)="goWay(p)"> -->
+                    <span>{{p?.num_of_properties || 0 | numberWithCommas}}</span>
+                    <!-- </a> -->
                 </td>
                
                 <td *ngIf="selectedColumnsToShow?.action">

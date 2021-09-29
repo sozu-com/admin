@@ -367,7 +367,7 @@ const demoNodes: MyTreeNode[] = [
         title: 'Manual Leads',
         title_es: 'Leads manuales',
         url: '/dashboard/manual-leads/view-all',
-        icon: 'assets/img/Rectangle.png',
+        icon: 'assets/img/Ellipse.png',
       },
       {
         title: 'Manage Leads',
