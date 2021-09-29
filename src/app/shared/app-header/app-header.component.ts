@@ -318,16 +318,16 @@ const demoNodes: MyTreeNode[] = [
   {
     title: 'Manage Credits',
     title_es: 'Gestionar créditos',
-    url: '/dashboard/credit/view-credit',
+    url: '',
     icon: 'assets/img/vuesax_twotone_card.png',
-    // children: [
-    //   {
-    //     title: '',
-    //     title_es: '',
-    //     url: '',
-    //     icon: '',
-    //   }
-    // ]
+    children: [
+      {
+        title: 'Credits',
+        title_es: 'créditos',
+        url: '/dashboard/credit/view-credit',
+        icon: 'assets/img/Ellipse.png',
+      }
+    ]
   },
   //Property
   {
@@ -491,16 +491,16 @@ const demoNodes: MyTreeNode[] = [
   {
     title: 'Contracts',
     title_es: 'Contratos',
-    url: '/dashboard/manage-contracts/view-all',
+    url: '',
     icon: 'assets/img/vuesax_twotone_document-text.png',
-    // children: [
-    //   {
-    //     title: '',
-    //     title_es: '',
-    //     url: '',
-    //     icon: '',
-    //   }
-    // ]
+    children: [
+      {
+        title: 'Contracts',
+        title_es: 'Contratos',
+        url: '/dashboard/manage-contracts/view-all',
+        icon: 'assets/img/Ellipse.png',
+      }
+    ]
   },
   //collection
   {
@@ -727,6 +727,13 @@ const demoNodes: MyTreeNode[] = [
 export class AppHeaderComponent implements OnInit {
   treeControl: NestedTreeControl<MyTreeNode>
   treeDataSource: MatTreeNestedDataSource<MyTreeNode>
+  // Fixed node height
+  options = {
+    useVirtualScroll: true,
+    nodeHeight: 22
+  }
+  activeState: any;
+  activeIcon: any;
   message: any;
   public parameter: IProperty = {};
   fullName: string;
@@ -785,7 +792,11 @@ export class AppHeaderComponent implements OnInit {
     })
 
   }
-
+  setStateAsActive(item) {
+    this.activeState = this.language_code == 'en' ? item.title : item.title_es;
+    this.activeIcon = item.icon;
+    console.log(this.activeIcon, "item");
+  }
   updateDeviceToken() {
     this.admin.postDataApi('updateDeviceToken', { device_id: this.admin.deviceId, device_token: this.messagingService.fcmTokens })
       .subscribe(
