@@ -288,10 +288,7 @@
       </div>
     </div>
     <div class="tab-content white-bg">
-      <div class="padding20 center" *ngIf="cs.homeData.length < 1">
-        <img src="assets/img/loading_content.gif" style="width: 100%;">
-     </div>
-      <div class="tab-pane active" *ngIf="cs.homeData.length > 1">
+      <div class="tab-pane active">
         <div class="tabel-section">
           <div class="table-responsive">
             <table class="table table-striped table-align-left">
@@ -615,16 +612,10 @@
                   </div>
                 </td>
               </tr>
-              <!-- <tr *ngIf="total == 0">
-                          <td colspan="10">
-                              <img src="assets/img/404-error.png">
-                          </td>
-                        </tr> -->
-
             </table>
-            <!-- <div class="padding20 center" *ngIf="cs.homeData?.length < 1">
+            <div class="padding20 center" *ngIf="cs.homeData.length < 1">
               <img src="assets/img/404-error.png">
-            </div> -->
+            </div>
           </div>
         </div>
       </div>
@@ -632,7 +623,7 @@
     </div>
   </div>
 
-  <div class="btn-cont marginT15">
+  <div class="btn-cont marginT15" *ngIf="cs.homeData.length > 1">
     <div class="row">
       <div class="col-6">
         <div class="title-group">

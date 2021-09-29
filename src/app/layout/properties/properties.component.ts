@@ -264,8 +264,6 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     };
   }
 
-
-
   ngOnInit(): void {
     this.configurationCount = ['1', '2', '3', '4', '5+'];
     this.language_code = localStorage.getItem('language_code');

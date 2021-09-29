@@ -23,3 +23,9 @@ input[type="text"] {
   border-color: #00B96F;
   text-align: center;
 }
+button:disabled,
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
