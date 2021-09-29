@@ -8,6 +8,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
 import { IMarritalStatus } from 'src/app/common/marrital-status-interface';
 import { EventEmitter } from '@angular/core';
+import { forkJoin } from 'rxjs';
 // import { TranslateService } from 'src/app/lang/translate.service';
 declare let swal: any;
 
@@ -83,6 +84,7 @@ export class FillInformationComponent implements OnInit {
     private translate: TranslateService) { }
 
   ngOnInit() {
+    this.firstTime = true;
     this.getCountries(this.lead_id);
     this.parameter.country_id = '9';
     this.parameter.state_id = '13';
@@ -471,8 +473,9 @@ export class FillInformationComponent implements OnInit {
     this.parameter.noResultFound = false;
     this.parameter.lead_id = lead_id;
     //this.showPropertyModal.nativeElement.click();
-    this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
-      this.location.countries = r['data'];
+    forkJoin([
+    this.admin.postDataApi('getCountryLocality', {})]).subscribe(r => {
+      this.location.countries = r[0].data;
       const selectedCountry = this.location.countries.filter(x => x.id.toString() === this.parameter.country_id);
       this.location.states = selectedCountry[0].states;
       const selectedState = this.location.states.filter(x => x.id.toString() === this.parameter.state_id);
