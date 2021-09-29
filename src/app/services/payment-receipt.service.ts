@@ -108,7 +108,7 @@ export class PaymentReceiptService {
           columns: [
             {
               text: [
-                {text: this.translate.instant('generatePDF.detail1') + (concept.calc_payment_amount ? concept.calc_payment_amount : "N/A") + this.translate.instant('generatePDF.detail14') + 
+                {text: this.translate.instant('generatePDF.detail1') + (concept.calc_payment_amount ? this.price.transform(Number(concept.calc_payment_amount).toFixed(2)) : "N/A") + this.translate.instant('generatePDF.detail14') + 
                 (concept.calc_payment_amount ? conver.NumerosALetras(concept.calc_payment_amount) : "N/A") + this.translate.instant('generatePDF.detail13') + this.translate.instant('generatePDF.detail2') + buyer_name + this.translate.instant('generatePDF.detail3')},
               {text:(this. language_code == 'en' ? concept.payment_choice.name_en :  this. language_code == 'es' ? concept.name_es : 'N/A'), bold: true},
               {text:this.translate.instant('generatePDF.detail4') + this.collection_data.property.building.name + this.translate.instant('generatePDF.detail5') + 
@@ -132,14 +132,12 @@ export class PaymentReceiptService {
           columns: [
             concept.payment_choice.id == 1 ?
             {
-              text: this.translate.instant('generatePDF.detail12') + (concept.calc_payment_amount ? concept.calc_payment_amount : "N/A") + this.translate.instant('generatePDF.detail14') + (concept.calc_payment_amount ? conver.NumerosALetras(concept.calc_payment_amount) : "N/A") + 
+              text: this.translate.instant('generatePDF.detail12') + (concept.calc_payment_amount ? this.price.transform(Number(concept.calc_payment_amount).toFixed(2)) : "N/A") + this.translate.instant('generatePDF.detail14') + (concept.calc_payment_amount ? conver.NumerosALetras(concept.calc_payment_amount) : "N/A") + 
                     this.translate.instant('generatePDF.detail13') + this.translate.instant('generatePDF.detail15'),
               margin: [0, 0, 0, 80], background: 'yellow'
             }
             : {
-              text: this.translate.instant('generatePDF.detail12') + (concept.calc_payment_amount ? concept.calc_payment_amount : "N/A") + this.translate.instant('generatePDF.detail14') + (concept.calc_payment_amount ? conver.NumerosALetras(concept.calc_payment_amount) : "N/A") + 
-                    this.translate.instant('generatePDF.detail13') + this.translate.instant('generatePDF.detail15'),
-              margin: [0, 0, 0, 80]
+              text: ''
             }
           ]
         },
@@ -153,7 +151,7 @@ export class PaymentReceiptService {
                 { text: this.translate.instant('generatePDF.receipt'), border: [true, true, true, false], bold: true, fontSize: 12, },    
               ],
               [
-                { text:this.collection_data.property.building.developer ? this.collection_data.property.building.developer.name : 'N/A', border: [true, false, true, true], bold: true, margin: [0, 0, 0, 30] },    
+                { text:this.collection_data.property.building.developer ? (this.collection_data.property.building.developer.name  + this.collection_data.property.building.developer.first_surname + this.collection_data.property.building.developer.second_surname) : 'N/A', border: [true, false, true, true], bold: true, margin: [0, 0, 0, 30] },    
               ],
             ],
           }
