@@ -318,16 +318,15 @@
                    </td> -->
                   <td *ngIf="selectedColumnsToShow?.action">
                     <div class="table-actions">
-                      <button  
+                      <button 
                        title="{{'table.title.quickVisuaization' | translate}}" 
                        class="action-icon"
                        (click)="all(p)" 
                        style="cursor: pointer;">
-                        <img src="assets/img/eye-icon.png" alt="img" >
+                        <img src="assets/img/eye-icon.png" alt="img">
                       </button> 
 
                       <button 
-                        [disabled]="admin?.admin_acl['Manage Collections']?.can_read == 0"
                         (click)="viewDocument(p)"
                         title="{{'table.title.Receipt_view' | translate}}"
                         class="action-icon">
@@ -335,7 +334,7 @@
                       </button>
 
                         <button 
-                        [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
+                        [disabled]="p?.collection_payment_choice?.payment_choice_id == 6"
                         title="{{'table.title.editPayment' | translate}}" 
                         class="action-icon"
                         (click)="editCollectionCommReceipt(p)">

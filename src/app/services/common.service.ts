@@ -87,7 +87,7 @@ export class CommonService {
       this.admin.postDataApi('getAgencies', input),
       // this.admin.postDataApi('getIncomeHomeData', input),
     ]).subscribe(success => {
-
+      this.spinner.hide();
       this.items = success[0].data || [];
       this.totalSale = success[0].total_count;
       this.items.forEach(function (element) {
@@ -127,7 +127,7 @@ export class CommonService {
       //agencies
       this.agencies = success[3].data || [];
       this.totalAgencies = success[3].total_count;
-      this.spinner.hide();
+
       //incomes
       // this.incomes = success[4].data || [];
       // for (let index = 0; index < this.incomes.length; index++) {
