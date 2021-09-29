@@ -362,7 +362,7 @@ export class FillInformationComponent implements OnInit {
 
   SearchPreferences(data){
     this.firstTime = data;
-    if(!data){
+    if(data){
       this.parameter.country_id = '9';
       this.parameter.state_id = '13';
       this.parameter.city_id = '13';
@@ -479,7 +479,7 @@ export class FillInformationComponent implements OnInit {
       this.location.cities = selectedState[0].cities;
       const selectedcity = this.location.cities.filter(x => x.id.toString() === this.parameter.city_id);
       this.location.localities = selectedcity[0].localities;
-      if(!this.firstTime){
+      if(this.firstTime){
         self.parameter.locality_ids = [];
         this.location.localities.forEach(element => {
           self.locality_ids.forEach(item=>{
