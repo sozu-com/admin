@@ -513,13 +513,13 @@ const demoNodes: MyTreeNode[] = [
         title: 'Manage Collections',
         title_es: 'Administrar colecciones',
         url: '/dashboard/collections/view-collections',
-        icon: 'assets/img/Rectangle.png',
+        icon: 'assets/img/Ellipse.png',
       },
       {
         title: 'Manage Commissions',
         title_es: 'Administrar Comisiones',
         url: '/dashboard/commissions/view-commissions',
-        icon: 'assets/img/Rectangle.png',
+        icon: 'assets/img/Ellipse.png',
       },
       {
         title: 'Collection Reports',
