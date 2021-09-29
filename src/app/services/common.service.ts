@@ -87,6 +87,7 @@ export class CommonService {
       this.admin.postDataApi('getAgencies', input),
       // this.admin.postDataApi('getIncomeHomeData', input),
     ]).subscribe(success => {
+      this.parameter.keyword = '';
       this.spinner.hide();
       this.items = success[0].data || [];
       this.totalSale = success[0].total_count;
