@@ -137,9 +137,7 @@ export class PaymentReceiptService {
               margin: [0, 0, 0, 80], background: 'yellow'
             }
             : {
-              text: this.translate.instant('generatePDF.detail12') + (concept.calc_payment_amount ? this.price.transform(Number(concept.calc_payment_amount).toFixed(2)) : "N/A") + this.translate.instant('generatePDF.detail14') + (concept.calc_payment_amount ? conver.NumerosALetras(concept.calc_payment_amount) : "N/A") + 
-                    this.translate.instant('generatePDF.detail13') + this.translate.instant('generatePDF.detail15'),
-              margin: [0, 0, 0, 80]
+              text: ''
             }
           ]
         },
