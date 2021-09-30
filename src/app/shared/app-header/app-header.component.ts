@@ -727,11 +727,8 @@ const demoNodes: MyTreeNode[] = [
 export class AppHeaderComponent implements OnInit {
   treeControl: NestedTreeControl<MyTreeNode>
   treeDataSource: MatTreeNestedDataSource<MyTreeNode>
-  // Fixed node height
-  options = {
-    useVirtualScroll: true,
-    nodeHeight: 22
-  }
+  isShowIcon: boolean = false;
+  isShowSidebar: boolean = false;
   activeState: any;
   activeIcon: any;
   message: any;
@@ -876,5 +873,11 @@ export class AppHeaderComponent implements OnInit {
       localStorage.setItem('notificationCount', r.data.count);
       // this.msg_count = r.total_count;
     });
+  }
+  showIcon() {
+    this.isShowIcon = !this.isShowIcon;
+  }
+  show() {
+    this.isShowIcon = false;
   }
 }

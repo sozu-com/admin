@@ -60,7 +60,8 @@
 
 
     <!--slide menu start-->
-    <div id="side-menu-bar">
+    <div id="side-menu-bar" *ngIf="!isShowIcon" style="height: 57px;
+    width: 254px;">
       <div class="scrollbox" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
         <nav class="navbar navbar-expand-md navbar-dark">
           <!-- Brand -->
@@ -150,7 +151,8 @@
                         routerLink="view-inhouse-users/csr-closers">{{'sidebar.CSRClosure' | translate}}</a></li>
                     <li *ngIf="admin?.admin_acl['Credit Agent Management']?.can_read==1" [routerLinkActive]="'active'">
                       <a class="dropdown-item" href="javascript://"
-                        routerLink="view-inhouse-users/credit-agents">{{'sidebar.creditAgent' | translate}}</a></li>
+                        routerLink="view-inhouse-users/credit-agents">{{'sidebar.creditAgent' | translate}}</a>
+                    </li>
                     <li *ngIf="admin?.admin_acl['Renter Management']?.can_read==1" [routerLinkActive]="'active'"><a
                         class="dropdown-item" href="javascript://"
                         routerLink="view-inhouse-users/csr-renters">{{'sidebar.CSRRenter' | translate}}</a></li>
@@ -218,10 +220,12 @@
                   <ul>
                     <li *ngIf="admin?.admin_acl['Inhouse Agent Management']?.can_read==1" [routerLinkActive]="'active'">
                       <a class="dropdown-item" href="javascript://"
-                        routerLink="view-inhouse-users/inhouse-broker">{{'sidebar.inhouseAgent' | translate}}</a></li>
+                        routerLink="view-inhouse-users/inhouse-broker">{{'sidebar.inhouseAgent' | translate}}</a>
+                    </li>
                     <li *ngIf="admin?.admin_acl['Outside Agent Management']?.can_read==1" [routerLinkActive]="'active'">
                       <a class="dropdown-item" href="javascript://"
-                        routerLink="view-inhouse-users/outside-broker">{{'sidebar.outsideAgent' | translate}}</a></li>
+                        routerLink="view-inhouse-users/outside-broker">{{'sidebar.outsideAgent' | translate}}</a>
+                    </li>
                   </ul>
                 </div>
               </li>
@@ -406,24 +410,24 @@
                     translate}}</span></a>
               </li>
 
-           
-              <li *ngIf="admin?.admin_acl['Cashflow']?.can_read==1" class="nav-item dropdown"
-              [routerLinkActive]="'active'">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
-                <i><img src="assets/img/graph2.png"></i><span>{{'sidebar.manageFlow' | translate}}</span></a>
-              <div class="dropdown-menu">
-                <ul>
-                  <li [routerLinkActive]="'active'"><a class="dropdown-item"
-                      routerLink="cash/income">{{'sidebar.icome' | translate}}</a>
-                  </li>
-                  <li [routerLinkActive]="'active'"><a class="dropdown-item"
-                      routerLink="cash/expenditures">{{'sidebar.Expenditures' | translate}}</a>
-                  </li>
-                </ul>
-              </div>
-            </li>
 
-            
+              <li *ngIf="admin?.admin_acl['Cashflow']?.can_read==1" class="nav-item dropdown"
+                [routerLinkActive]="'active'">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                  <i><img src="assets/img/graph2.png"></i><span>{{'sidebar.manageFlow' | translate}}</span></a>
+                <div class="dropdown-menu">
+                  <ul>
+                    <li [routerLinkActive]="'active'"><a class="dropdown-item"
+                        routerLink="cash/income">{{'sidebar.icome' | translate}}</a>
+                    </li>
+                    <li [routerLinkActive]="'active'"><a class="dropdown-item"
+                        routerLink="cash/expenditures">{{'sidebar.Expenditures' | translate}}</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+
+
               <li *ngIf="admin?.admin_acl['Collection Reports']?.can_read==1" class="nav-item dropdown"
                 [routerLinkActive]="'active'">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript://">
@@ -544,37 +548,68 @@
           </div>
         </nav>
         <!-- desktop -->
-        
+
         <mat-tree [dataSource]="treeDataSource" [treeControl]="treeControl" class="example-tree">
-          <mat-tree-node 
-          *matTreeNodeDef="let node" 
-          matTreeNodeToggle 
-          routerLink="{{node.url}}"
-          routerLinkActive="active" 
-          (click)="setStateAsActive(node)"
-          style="cursor:pointer;border-bottom:none;padding: 12px;">
-          <img [src]="node.icon" class="child-img" [class.active]="node.icon === activeIcon">
-          <a style="
+          <mat-tree-node  *matTreeNodeDef="let node" matTreeNodeToggle routerLink="{{node.url}}"
+            routerLinkActive="active" (click)="setStateAsActive(node)"
+            style="cursor:pointer;border-bottom:none;padding: 12px;">
+            <img [src]="node.icon" class="child-img" [class.active]="node.icon === activeIcon">
+            <a style="
              font-size: 14px;
              font-family: 'sf_ui_textregular';
              margin-left: 7%;line-height: 17px;" [class.active]="node.title === activeState">
-             {{language_code == 'en'? node.title : node.title_es}}
-          </a>
+              {{language_code == 'en'? node.title : node.title_es}}
+            </a>
           </mat-tree-node>
 
           <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChildren">
-            <div class="mat-tree-node" style="cursor: pointer;height: 57px;">
-              <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.title">
+            <div class="mat-tree-node" style="cursor: pointer;">
+              <button mat-icon-button matTreeNodeToggle>
                 <img [src]="node.icon" style="margin-left: 30%;">
                 <strong style="color: #434B52;
                  font-family: 'sf_ui_textmedium';
                  font-size: 16px;
-                 font-weight: 500;margin-left: 40%;">
-                 {{language_code == 'en'? node.title : node.title_es}}
-                </strong>&nbsp;
-                <mat-icon class="mat-icon-rtl-mirror">
+                 font-weight: 500;
+                 margin-left: 40%;">
+                  {{language_code == 'en'? node.title : node.title_es}}
+                </strong>
+                <mat-icon  
+                style="color: #00B96F;
+                font-size: 19px;
+                font-weight: 500;text-align: right;">
                   {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
                 </mat-icon>
+              </button>
+            </div>
+
+            <div [class.example-tree-invisible]="!treeControl.isExpanded(node)" role="group">
+              <ng-container matTreeNodeOutlet></ng-container>
+            </div>
+          </mat-nested-tree-node>
+        </mat-tree>
+
+        <button type="button" class="btn btn-dark" style=" height: 57px;
+        width: 69px;border-radius: 0px;
+        background-color: #000;border-color: black; cursor: pointer;" (click)="showIcon()">
+          <img src="assets/img/vuesax_twotone_arrow-2.png">
+        </button>
+      </div>
+    </div>
+    <!--side menu end-->
+
+    <!--Icon side menu start-->
+    <div id="side-menu-bar" 
+    style="height: 57px;
+    width: 69px;" *ngIf="isShowIcon">
+      <div class="scrollbox" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+        <mat-tree [dataSource]="treeDataSource" [treeControl]="treeControl" class="example-tree">
+          <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChildren">
+            <div class="mat-tree-node" style="cursor: pointer;">
+              <button mat-icon-button matTreeNodeToggle>
+                <img [src]="node.icon" 
+                style="margin-left: 48%;
+                height: 24px;
+                width: 24px;" (click)="show()">
               </button>
             </div>
             <div [class.example-tree-invisible]="!treeControl.isExpanded(node)" role="group">
@@ -582,14 +617,13 @@
             </div>
           </mat-nested-tree-node>
         </mat-tree>
-      
         <button type="button" class="btn btn-dark" style=" height: 57px;
         width: 69px;border-radius: 0px;
-        background-color: #000;border-color: black; cursor: pointer;" (click)="onLoggedout()">
+        background-color: #000;border-color: black; cursor: pointer;" (click)="showIcon()">
           <img src="assets/img/vuesax_twotone_arrow-2.png">
         </button>
       </div>
     </div>
-    <!--side menu end-->
+    <!--Icon side menu end-->
   </div>
 </header>
