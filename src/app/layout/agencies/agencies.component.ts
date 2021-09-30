@@ -35,7 +35,8 @@ export class AgenciesComponent implements OnInit {
   public isSelectAllColumns: boolean = false;
   public keyword: string = '';
   language_code: string;
-
+  total: any = 0;
+  is_filter: boolean = false;
   constructor(public constant: Constant,
     private spinner: NgxSpinnerService,
     public admin: AdminService, private router: Router,
@@ -90,8 +91,9 @@ export class AgenciesComponent implements OnInit {
       .subscribe(
         success => {
           this.spinner.hide();
-          this.cs.agencies = success.data;
-          this.cs.totalAgencies = success.total_count;
+          this.is_filter = true;
+          this.items = success.data;
+          this.total = success.total_count;
         }, error => {
           this.spinner.hide();
         });
