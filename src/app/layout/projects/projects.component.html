@@ -753,7 +753,7 @@
                 </tr>
               </tbody>
             </table>
-            <div class="padding20 center" *ngIf="cs.homeData.length < 1">
+            <div class="padding20 center" *ngIf="cs.homeData?.length < 1">
               <img src="assets/img/404-error.png">
             </div>
           </div>
@@ -763,7 +763,7 @@
     </div>
   </div>
 
-  <div class="btn-cont marginT15" *ngIf="!is_filter && cs.homeData.length > 1">
+  <div class="btn-cont marginT15" *ngIf="!is_filter && cs.homeData?.length > 1">
     <div class="row">
       <div class="col-6">
         <div class="title-group">
@@ -776,7 +776,7 @@
       </div>
     </div>
   </div>
-  <div class="btn-cont marginT15" *ngIf="is_filter && cs.items.length > 1">
+  <div class="btn-cont marginT15" *ngIf="is_filter && items.length > 1">
     <div class="row">
       <div class="col-6">
         <div class="title-group">
