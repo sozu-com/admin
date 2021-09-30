@@ -482,7 +482,7 @@
                             <td class="text-left green-color cursor-pointer" (click)="openAddChangeStatusModel(item)">
                                 <span>
                                     {{item?.status && translate.defaultLang == 'en' ?
-                                    item.status.status_details.name_en.slice(0, 11) :
+                                    item.status.status_details.name.slice(0, 11) :
                                     item?.status && translate.defaultLang != 'en' ?
                                     item.status.status_details.name_es.slice(0, 11) :
                                     ('table.tr.td.add' | translate)}}

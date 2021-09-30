@@ -427,10 +427,10 @@
                                         item?.admin?.name:('leads.linkCreditAgent' | translate)}}</span></td>
                                 <td class="text-left green-color cursor-pointer" (click)="$event.stopPropagation()">
                                     <span (click)="openAddChangeStatusModel(item)">
-                                        {{item?.status && item.status.status_details.name_en && translate.defaultLang == 'en' ?
-                                        item.status.status_details.name_en.slice(0, 11) :
-                                        item?.status && item.status.status_details.name_es && translate.defaultLang != 'en' ?
-                                        item.status.status_details.name_es.slice(0, 11) :
+                                        {{item?.status && item.status.status_detailss.name_en && translate.defaultLang == 'en' ?
+                                        item.status.status_detailss.name_en.slice(0, 11) :
+                                        item?.status && item.status.status_detailss.name_es && translate.defaultLang != 'en' ?
+                                        item.status.status_detailss.name_es.slice(0, 11) :
                                         ('table.tr.td.add' | translate)}}
                                     </span>
                                 </td>

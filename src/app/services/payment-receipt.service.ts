@@ -58,7 +58,7 @@ export class PaymentReceiptService {
     this.language_code = localStorage.getItem('language_code');
     let current_date = new Date();
     let concept = this.collection_data.payment_choices.find(item=> item.id == this.payment_concept.id);
-    let date = this.datePipe.transform((concept.created_at? concept.created_at : new Date()), 'MMM d, y');
+    let date = this.datePipe.transform((concept.collection_paymentss[concept.collection_paymentss.length - 1].payment_date? concept.collection_paymentss[concept.collection_paymentss.length - 1].payment_date : new Date()), 'MMM d, y');
     let monthNames = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
           'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']
     if (this.language_code != 'en') {
@@ -110,9 +110,9 @@ export class PaymentReceiptService {
               text: [
                 {text: this.translate.instant('generatePDF.detail1') + (concept.calc_payment_amount ? this.price.transform(Number(concept.calc_payment_amount).toFixed(2)) : "N/A") + this.translate.instant('generatePDF.detail14') + 
                 (concept.calc_payment_amount ? conver.NumerosALetras(concept.calc_payment_amount) : "N/A") + this.translate.instant('generatePDF.detail13') + this.translate.instant('generatePDF.detail2') + buyer_name + this.translate.instant('generatePDF.detail3')},
-              {text:(this. language_code == 'en' ? concept.payment_choice.name_en :  this. language_code == 'es' ? concept.name_es : 'N/A'), bold: true},
+              {text:(this.language_code == 'en' ? concept.payment_choice.name_en :  this.language_code == 'es' ? concept.payment_choice.name_es : 'N/A'), bold: true},
               {text:this.translate.instant('generatePDF.detail4') + this.collection_data.property.building.name + this.translate.instant('generatePDF.detail5') + 
-                    this.collection_data.property.building.address},
+                    this.collection_data.property.building.address + '.'},
           ],
           margin: [0, 10, 0, 30]
         }
@@ -133,7 +133,7 @@ export class PaymentReceiptService {
             concept.payment_choice.id == 1 ?
             {
               text: this.translate.instant('generatePDF.detail12') + (concept.calc_payment_amount ? this.price.transform(Number(concept.calc_payment_amount).toFixed(2)) : "N/A") + this.translate.instant('generatePDF.detail14') + (concept.calc_payment_amount ? conver.NumerosALetras(concept.calc_payment_amount) : "N/A") + 
-                    this.translate.instant('generatePDF.detail13') + this.translate.instant('generatePDF.detail15'),
+                    this.translate.instant('generatePDF.detail13') + this.translate.instant('generatePDF.detail15') + '.',
               margin: [0, 0, 0, 80]
             }
             : {
@@ -152,7 +152,7 @@ export class PaymentReceiptService {
                 { text: this.translate.instant('generatePDF.receipt'), border: [false, false, false, false], bold: true, fontSize: 12, },    
               ],
               [
-                { text:this.collection_data.property.building.developer ? (this.collection_data.property.building.developer.name  + this.collection_data.property.building.developer.first_surname + this.collection_data.property.building.developer.second_surname) : 'N/A', border: [false, false, false, false], bold: true, margin: [0, 0, 0, 30] },    
+                { text:this.collection_data.property.building.developer ? this.collection_data.property.building.developer.developer_company : 'N/A', border: [false, false, false, false], bold: true, margin: [0, 0, 0, 30] },    
               ],
             ],
           }
@@ -162,6 +162,16 @@ export class PaymentReceiptService {
         columns: [
           {
             columns: [
+              this.base64 && this.base64!= ''?
+              {
+                text:[
+                  { text: this.collection_data.property.building.project_additional_url ? this.collection_data.property.building.project_additional_url : '' },
+                  { text: this.collection_data.property.building.project_additional_url || this.collection_data.property.building.project_tagline? ' | ' : '' },
+                  { text: this.collection_data.property.building.project_tagline ? this.collection_data.property.building.project_tagline : '' },
+                ],
+                width: 480,
+                margin: [45, 20, 20, 20]
+              } :
               {
                 text:[
                   { text: this.collection_data.property.building.project_additional_url ? this.collection_data.property.building.project_additional_url : '' },
@@ -170,13 +180,14 @@ export class PaymentReceiptService {
                 ],
                 width: 450,
                 margin: [45, 20, 20, 20]
-              },
+              }
+              ,
               this.base64 && this.base64!= ''?
               {
                 image: this.projectLogoImageBase64,
                 alignment: 'right',
-                width: 100,
-                margin: [60, 20, 20, 20],
+                margin: [20, 20, 20, 20],
+                width: 150,
               } :
               {
                 text: this.collection_data.property.building.name,
