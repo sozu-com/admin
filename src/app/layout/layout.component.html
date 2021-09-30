@@ -2,7 +2,10 @@
 <section id="wrapper">
   <app-header></app-header>
   <section id="main">
-    <div id="content">
+    <div id="content" *ngIf="!$user">
+      <router-outlet></router-outlet>
+    </div>
+    <div class="content_icon" *ngIf="$user">
       <router-outlet></router-outlet>
     </div>
   </section>

@@ -418,7 +418,7 @@ const demoNodes: MyTreeNode[] = [
             icon: 'assets/img/Rectangle.png',
           },
           {
-            title: '"CSR Renter',
+            title: 'CSR Renter',
             title_es: 'CSR Renter',
             url: '/dashboard/leads/csr-renters',
             icon: 'assets/img/Rectangle.png',
@@ -876,6 +876,11 @@ export class AppHeaderComponent implements OnInit {
   }
   showIcon() {
     this.isShowIcon = !this.isShowIcon;
+    if (this.isShowIcon) {
+      this.admin.setUser(this.isShowSidebar = true);
+    } else {
+      this.admin.setUser(this.isShowSidebar = false);
+    }
   }
   show() {
     this.isShowIcon = false;

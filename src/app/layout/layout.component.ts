@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AdminService } from '../services/admin.service';
 
 @Component({
   selector: 'app-layout',
@@ -7,6 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class LayoutComponent implements OnInit {
-  constructor() {}
-  ngOnInit() {}
+  $user: string;
+  constructor(public admin: AdminService) { }
+  ngOnInit() {
+    this.admin.userback.subscribe(user => {
+      this.$user = user;
+      console.log(this.$user, "test");
+    });
+  }
 }

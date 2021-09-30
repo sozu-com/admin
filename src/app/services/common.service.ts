@@ -79,7 +79,7 @@ export class CommonService {
       page: 1,
       flag: 3
     }
-    this.spinner.show()
+    // this.spinner.show()
     forkJoin([
       this.admin.postDataApi('propertyForSale', this.parameter),
       this.admin.postDataApi('projectHome', input),
