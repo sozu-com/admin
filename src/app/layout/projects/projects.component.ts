@@ -86,6 +86,8 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.cs.homeData = JSON.parse(localStorage.getItem('project_data'));
+    this.cs.total = JSON.parse(localStorage.getItem('project_total'));
     this.getProjectHome();
     this.admin.postDataApi('getBuildingTypes', { hide_blocked: 1 }).subscribe(r => {
       this.all_building_types = r.data;

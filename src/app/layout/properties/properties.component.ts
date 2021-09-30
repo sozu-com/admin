@@ -268,6 +268,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.configurationCount = ['1', '2', '3', '4', '5+'];
     this.language_code = localStorage.getItem('language_code');
+    this.cs.propertyData = JSON.parse(localStorage.getItem('property_data'));
+    this.cs.totalProperty = JSON.parse(localStorage.getItem('property_total'));
     this.getPropertyHome();
     this.getPropertyFilter();
     this.iniDropDownSetting();

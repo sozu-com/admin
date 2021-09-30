@@ -91,10 +91,13 @@ export class CommonService {
       this.spinner.hide();
       this.items = success[0].data || [];
       this.totalSale = success[0].total_count;
+      localStorage.setItem('property_sale_data', JSON.stringify(this.items));
+      localStorage.setItem('property_sale_total', JSON.stringify(this.totalSale));
       this.items.forEach(function (element) {
         element['price_per_square_meter'] =
           (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
       });
+      //project
       this.homeData = success[1].data || [];
       (this.possessionStatuses || []).forEach(r => {
         (this.homeData || []).forEach(ele => {
@@ -115,6 +118,8 @@ export class CommonService {
         element['avgg_price_hold'] = (((parseFloat(element.avg_price_hold) || 0) / (parseFloat(element.avg_carpet_area_hold) || 0)));
       });
       this.total = success[1].total_count;
+      localStorage.setItem('project_data', JSON.stringify(this.homeData));
+      localStorage.setItem('project_total', JSON.stringify(this.total));
       // //property home
       this.propertyData = success[2].data || [];
       this.propertyData.forEach(function (element) {
@@ -125,6 +130,8 @@ export class CommonService {
         }
       });
       this.totalProperty = success[2].total_count;
+      localStorage.setItem('property_data', JSON.stringify(this.propertyData));
+      localStorage.setItem('property_total', JSON.stringify(this.totalProperty));
       //agencies
       this.agencies = success[3].data || [];
       this.totalAgencies = success[3].total_count;

@@ -203,6 +203,8 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.cs.items = JSON.parse(localStorage.getItem('property_sale_data'));
+    this.cs.totalSale = JSON.parse(localStorage.getItem('property_sale_total'));
     this.language_code = localStorage.getItem('language_code');
     this.getPropertyHome();
     this.iniDropDownSetting();
