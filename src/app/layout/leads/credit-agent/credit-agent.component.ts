@@ -523,7 +523,7 @@ export class CreditAgentComponent implements OnInit {
     this.spinner.show();
     this.addChangeStatusNames = [];
     //this.addChangeStatusNames = ['Mailbox', 'Call later', 'Not interested', 'Scheduled appointment', 'Incorrect data', 'Real estate advisory', 'Lead lost', 'N/A'];
-    this.admin.getApi("leads/all-csr-buyer-statuses" ).subscribe(r => {
+    this.admin.getApi("leads/all-credit-agent-statusess" ).subscribe(r => {
        r.data.forEach(item=>{
         if(item.id != 6){
           this.addChangeStatusNames.push(item);
