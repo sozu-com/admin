@@ -107,7 +107,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
   exportfinalData: Array<any>;
   baseUrl = this.admin.baseUrl + 'exportProperties';
-  is_back: boolean;
+  is_back: boolean = false;
+  is_filter: boolean = false;
   amenities = Array<any>();
   availabilityStatus = Array<any>();
   projectAmenities = Array<any>();
@@ -545,16 +546,17 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     input.parking_for_sale = this.parameter.parking_for_sale;
     this.admin.postDataApi('propertyHome', input).subscribe(
       success => {
+        this.is_filter = true;
         localStorage.setItem('parametersForProperty', JSON.stringify(input));
-        this.cs.propertyData = success.data;
-        this.cs.propertyData.forEach(function (element) {
+        this.items = success.data;
+        this.items.forEach(function (element) {
           if (element.id == (element.collection || {}).property_id) {
             element['avgg_price'] = (((parseFloat(element.final_price) || 0) / (parseFloat(element.max_area) || 0)));
           } else {
             element['avgg_price'] = (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
           }
         });
-        this.cs.totalProperty = success.total_count;
+        this.total = success.total_count;
         this.spinner.hide();
       },
       error => {

@@ -276,8 +276,9 @@
                      </th>
                     </tr>
 
+                  <tbody *ngIf="is_filter">
                     <tr
-                       *ngFor="let p of cs.items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: cs.totalSale }; let i=index">
+                       *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
                        <td *ngIf="selectedPropertyColumnsToShow?.id">
                         <span class="green-color cursor-pointer">
                            {{p?.id ? p?.id : ('table.tr.td.NA' | translate)}}</span>
@@ -342,7 +343,85 @@
                            </span>
                         </td>
                     </tr>
+                  </tbody>
+                  <!-- chache wla data -->
+                  <tbody *ngIf="!is_filter">
+                     <tr
+                        *ngFor="let p of cs.items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: cs.totalSale }; let i=index">
+                        <td *ngIf="selectedPropertyColumnsToShow?.id">
+                         <span class="green-color cursor-pointer">
+                            {{p?.id ? p?.id : ('table.tr.td.NA' | translate)}}</span>
+                      </td>
+                        <td *ngIf="selectedPropertyColumnsToShow?.building_name">
+                           <strong>{{p?.building?.name || ('table.tr.td.NA' | translate)}}</strong>
+                           <div class="clearfix"></div>
+                           <small *ngIf="p.quantity > 0">
+                              {{p.quantity}}
+                              <span *ngIf="p.quantity == 1">property</span>
+                              <span *ngIf="p.quantity > 1">properties</span>
+                           </small>
+                        </td>
+                        <td *ngIf="selectedPropertyColumnsToShow?.tower_name"><span>{{p?.building_towers ? p?.building_towers?.tower_name : ('table.tr.td.NA' |
+                              translate)}}</span>
+                        </td>
+                        <td *ngIf="selectedPropertyColumnsToShow?.floor">
+                           <span> {{p?.building_towers?.tower_name
+                              ? (p?.floor_num == 0 ? ('addCollection.groundFloor' | translate) : ('addCollection.floor'
+                              | translate) + ' ' + p?.floor_num)
+                              : ('table.tr.td.NA' | translate)}}
+                              </span>
+                        </td>
+                        <td *ngIf="selectedPropertyColumnsToShow?.apartment">
+                           <span>
+                              {{p?.name || ('table.tr.td.NA' | translate)}}
+                           </span>
+                        </td>
+                        
+                        <td *ngIf="selectedPropertyColumnsToShow?.model">
+                           <span [style.textAlign]="'center'">
+                              <b>{{p?.building_configuration?.name || ('table.tr.td.NA' | translate)}}</b>
+                           </span>
+                        </td>
+                        <td *ngIf="selectedPropertyColumnsToShow?.configuration">
+                           <app-property-configuration *ngIf="p?.building_configuration"
+                              [configuration]="p.building_configuration.config"></app-property-configuration>
+                        </td>
+                        <!-- <td><span>
+                           <button (click)="editPricePopup(p, i)"
+                              [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                              title="{{'table.title.editPrice' | translate}}" class="action-icon"><img
+                                 src="assets/img/edit.png" alt="img"></button>
+                        </span></td> -->
+                        <td *ngIf="selectedPropertyColumnsToShow?.list_price"><span>{{p.min_price | price}}</span></td>
+                        <td *ngIf="selectedPropertyColumnsToShow?.price_per_m2"><span>${{ p.price_per_square_meter ? (p.price_per_square_meter | number : '1.2-2') : 0.00}}</span></td>
+                        <td *ngIf="selectedPropertyColumnsToShow?.carpet_area"><span>{{p?.max_area ? p.max_area : 0.00}}</span></td>
+                        <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.commercialized_sozu"><span>{{p?.is_commercialized ? ( 'table.th.yes' | translate ): ( 'table.th.no' | translate )}}</span></td>
+                       <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.possession_status"><span>{{p?.building_towers?.possession_status_id == apiConstant.possessionStatus.sale ?
+                         ('table.tr.td.sale' | translate) : ('table.tr.td.presale' | translate)}}</span></td>
                    
+                        <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.change_seller" title="{{p?.selected_seller?.user?.name ? ('table.title.clickToChangeSeller' | translate) : ('table.title.clickToAddSeller' | translate)}}">
+                           <span *ngIf="p?.selected_seller?.user?.legal_entity">
+                              {{p?.selected_seller?.user?.legal_entity?.comm_name || ('table.tr.td.NA' | translate)}}
+                           </span>
+                           <span *ngIf="!p?.selected_seller?.user?.legal_entity">
+                              {{p?.selected_seller?.user?.name || ('table.tr.td.NA' | translate)}}
+                           </span>
+                        </td>
+ 
+                        <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.link_unlink_outside_agent">
+                            <span>
+                               <span title="{{p?.external_outside_agent?.id ? ('table.title.clickToChange' | translate) : ('table.title.clickToAssign' | translate) }}">
+                                  {{p?.external_outside_agent?.id ? p?.external_outside_agent?.name : ('table.tr.td.NA' | translate)}}</span>
+                            </span>
+                         </td>
+                         <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.link_agency" (click)="getAgency(p, '',i)">
+                            <span>
+                               <span title="{{p?.get_agency?.id ? ('table.title.clickToChange' | translate) : ('table.title.clickToAssign' | translate) }}">
+                                  {{p?.get_agency?.id ? p?.get_agency?.name : ('table.tr.td.NA' | translate)}}</span>
+                            </span>
+                         </td>
+                     </tr>
+                   </tbody>
                  </table>
                  <div class="padding20 center" *ngIf="cs.totalSale == 0">
                     <img src="assets/img/404-error.png">
@@ -354,11 +433,11 @@
      </div>
   </div>
 
-  <div class="btn-cont marginT15" *ngIf="cs.totalSale">
+  <div class="btn-cont marginT15" *ngIf="!is_filter && cs.items.length > 1">
      <div class="row">
         <div class="col-6">
            <div class="title-group">
-              <p>{{'table.pagination.showing' | translate}} {{cs.propertySaleDate?.length}} {{'table.pagination.outof' | translate}}
+              <p>{{'table.pagination.showing' | translate}} {{cs.items?.length}} {{'table.pagination.outof' | translate}}
                  {{cs.totalSale}}</p>
            </div>
         </div>
@@ -367,6 +446,19 @@
         </div>
      </div>
   </div>
+  <div class="btn-cont marginT15" *ngIf="is_filter && items.length > 1">
+   <div class="row">
+      <div class="col-6">
+         <div class="title-group">
+            <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}}
+               {{total}}</p>
+         </div>
+      </div>
+      <div class="col-6 text-right">
+         <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+      </div>
+   </div>
+</div>
 </div>
 
 

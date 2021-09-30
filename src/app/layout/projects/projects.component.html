@@ -474,9 +474,9 @@
                   </div>
                 </th>
               </tr>
-
+              <tbody *ngIf="is_filter">
               <tr
-                *ngFor="let p of cs.homeData | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: cs.total }; let i=index">
+                *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
                 <td *ngIf="selectedColumnsToShow?.image">
                   <img *ngIf="p.main_image" [defaultImage]="p.main_image| img:'thumb'" [lazyLoad]="p.main_image"
                     class="rounded-circle" alt="img">
@@ -612,6 +612,146 @@
                   </div>
                 </td>
               </tr>
+              </tbody>
+              <tbody *ngIf="!is_filter">
+                <tr
+                  *ngFor="let p of cs.homeData | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: cs.total }; let i=index">
+                  <td *ngIf="selectedColumnsToShow?.image">
+                    <img *ngIf="p.main_image" [defaultImage]="p.main_image| img:'thumb'" [lazyLoad]="p.main_image"
+                      class="rounded-circle" alt="img">
+                    <img *ngIf="!p.main_image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
+                  </td>
+                  <!--  -->
+                  <td   *ngIf="selectedColumnsToShow?.building_name" class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
+                  routerLink="/dashboard/projects/details/{{p.id}}">
+                    <strong>{{p?.name}}</strong>
+                  </td>
+                  <td [ngClass]="{'green-color cursor-pointer': p?.developer?.name}"  *ngIf="selectedColumnsToShow?.developer" (click)="viewDeveloper(p)">
+                    <span>{{p?.developer?.name ? p?.developer?.name : ('table.tr.td.NA' | translate)}}</span>
+                  </td>
+                  <td [ngClass]="{'green-color cursor-pointer': p?.agency?.name}"  *ngIf="selectedColumnsToShow?.agency" (click)="viewAgency(p)">
+                    <span>{{p?.agency?.name ? p?.agency?.name : ('table.tr.td.NA' | translate)}}</span>
+                  </td>
+                  <!-- (click)="viewLegalEntity(p)" -->
+                  <td   *ngIf="selectedColumnsToShow?.legal_entity" [ngClass]="{'green-color cursor-pointer': p?.legal_entity_info?.length > 0 }">
+                    <span (click)="this.openLegalEnityListModel(p.legal_entity_info)" *ngIf="p?.legal_entity_info?.length > 0">
+                      {{this.getLegalEntityInfo(p.legal_entity_info)}}</span>
+                      <span *ngIf="p?.legal_entity_info?.length == 0">{{'table.tr.td.NA' | translate}}</span>
+                  </td>
+                   <!-- (click)="viewContributor(p)" -->
+                   <td   *ngIf="selectedColumnsToShow?.contributor" [ngClass]="{'green-color cursor-pointer': p?.building_contributors?.length > 0 }">                   
+                      <span (click)="this.openContributorListModel(p.building_contributors)" *ngIf="p?.building_contributors?.length > 0">
+                      {{p.building_contributors && p.building_contributors.length > 0  ? this.getBuildingContributorsInfo(p.building_contributors) : ('table.tr.td.NA' | translate)}}</span>
+                      <span *ngIf="p?.building_contributors?.length == 0">{{'table.tr.td.NA' | translate}}</span>
+                  </td>
+                  <td   *ngIf="selectedColumnsToShow?.managed_company" [ngClass]="{'green-color cursor-pointer': p?.manager?.id || p?.company?.id}"
+                    (click)="viewCompanyManager(p)">
+                    <span>{{p?.manager?.id ? p?.manager?.name : p?.company?.id ? p?.company?.name : ('table.tr.td.NA' |
+                      translate)}}</span>
+                    <div class="clearfix"></div>
+                    <small>
+                      {{p?.manager?.id ? ('table.tr.td.manager' | translate) : p?.company?.id ? ('table.tr.td.company' |
+                      translate) : ''}}
+                    </small>
+                  </td>
+                  <td  *ngIf="selectedColumnsToShow?.possesion">
+                    <span *ngIf="p?.possession_status_id">{{p?.possession_status_id ? p?.status_possion : ('table.tr.td.presale' | translate)}}</span>
+                      <span  *ngIf="!p?.possession_status_id">{{'table.tr.td.NA' | translate}}</span>
+                  </td>
+                  <td  *ngIf="selectedColumnsToShow?.building_type">
+                    <span *ngIf="p?.building_type_id">
+                      {{p?.building_type_id ? p?.status_building :  p?.status_building}}
+                    </span>
+                      <span  *ngIf="!p?.building_type_id">{{'table.tr.td.NA' | translate}}</span>
+                  </td>
+                  <!-- <td  *ngIf="selectedColumnsToShow?.possesion">
+                    <span *ngIf="p?.possession_status_id">{{p?.possession_status_id == apiConstant.possessionStatus.sale ? ('table.tr.td.sale' |
+                      translate) : ('table.tr.td.presale' | translate)}}</span>
+                      <span  *ngIf="!p?.possession_status_id">{{'table.tr.td.NA' | translate}}</span>
+                  </td> -->
+                  <td  *ngIf="selectedColumnsToShow?.parking_lots">
+                    <a class="add1" href="javascript://" (click)="addNote(p)">
+                      <span style="color: green;">{{totalParkingCount(p) || '0'}}</span>
+                    </a>
+                   
+                  </td>
+                  <td  *ngIf="selectedColumnsToShow?.properties">
+                    <a title="{{'table.title.clickToViewProperties' | translate}}" (click)="goWay(p)"><span
+                        class="green-color cursor-pointer">{{(p?.properties_count_all || 0) | numberWithCommas}}</span></a>
+                  </td>
+                  <td  *ngIf="selectedColumnsToShow?.property_for_rent">
+                    <a title="{{'table.title.clickToViewProperties' | translate}}"
+                      routerLink="/dashboard/properties/view-properties/{{p.name}}/2"><span
+                        class="green-color">{{((p?.rent_and_sale_count_all || 0) + (p?.rent_count_all || 0)) | numberWithCommas}}</span></a>
+                  </td>
+                  <td  *ngIf="selectedColumnsToShow?.property_for_sale">
+                    <a title="{{'table.title.clickToViewProperties' | translate}}"
+                      routerLink="/dashboard/properties/view-properties/{{p.name}}/1"><span
+                        class="green-color">{{((p?.sale_count_all || 0) + (p?.rent_and_sale_count_all || 0)) | numberWithCommas}}</span></a>
+                  </td>
+                  <td  *ngIf="selectedColumnsToShow?.sale_rent">
+                    <a title="{{'table.title.clickToViewProperties' | translate}}"
+                      routerLink="/dashboard/properties/view-properties/{{p.name}}/1"><span
+                        class="green-color">{{(p?.rent_and_sale_count_all || 0) | numberWithCommas}}</span></a>
+                  </td>
+                  <td  *ngIf="selectedColumnsToShow?.list_price"><span>${{ p.avg_price ? (p.avg_price | number : '1.2-2') : 0.00}}</span></td>
+                  <td  *ngIf="selectedColumnsToShow?.carpet_area"><span>{{ p.avg_carpet_area ? (p.avg_carpet_area | number : '1.2-2') : 0.00}}</span></td>
+                  <td *ngIf="selectedColumnsToShow?.price_per_metter"><span>${{ p.avgg_price ? (p.avgg_price | number : '1.2-2') : 0.00}}</span></td>
+  
+                  <td *ngIf="selectedColumnsToShow?.inventory_list_price"><span>${{ p.avg_price_hold ? (p.avg_price_hold | number : '1.2-2') : 0.00}}</span></td>
+                  <td *ngIf="selectedColumnsToShow?.inventory_carpet_area"><span>{{ p.avg_carpet_area_hold ? (p.avg_carpet_area_hold | number : '1.2-2') : 0.00}}</span></td>
+                  <td *ngIf="selectedColumnsToShow?.inventory_per_metter"><span>${{ p.avgg_price_hold ? (p.avgg_price_hold | number : '1.2-2') : 0.00}}</span></td>
+                  <td *ngIf="selectedColumnsToShow?.avg_price_rent"><span>${{ p.rent_avg_price ? (p.rent_avg_price | number : '1.2-2') : 0.00}}</span></td>
+                  <td *ngIf="selectedColumnsToShow?.document">
+                    <span *ngIf="!p?.document">{{'table.tr.td.NA' | translate}}</span>
+                    <button *ngIf="p?.document" [disabled]="admin?.admin_acl['Project Management']?.can_read==0"
+                      (click)="viewDocument(p?.document)" class="action-icon">
+                      <img src="assets/img/eye-icon.png" alt="img"></button>
+                  </td>
+                  <td *ngIf="selectedColumnsToShow?.project_status">
+                    <span>{{(p?.is_completed == apiConstant.projectStatus.without_information) ? ('table.th.projectStatus.withoutInformation' | translate) : 
+                      (p?.is_completed == apiConstant.projectStatus.basic_information) ? ('table.th.projectStatus.basicInformation' | translate) :
+                      (p?.is_completed == apiConstant.projectStatus.semicompleted) ? ('table.th.projectStatus.semicompleted' | translate) : 
+                      (p?.is_completed == apiConstant.projectStatus.completed) ? ('table.th.projectStatus.completed' | translate) :''}}</span>
+                  </td>
+                  <td *ngIf="selectedColumnsToShow?.action">
+                    <div class="table-actions">
+                      <button [disabled]="admin?.admin_acl['Project Management']?.can_read == 0 " 
+                      (click)="getNotes(p)"
+                      title="Project Notes" class="action-icon"><img
+                        src="assets/img/chat-icon.png" alt="img"></button>
+                      <!-- <div class="message"> -->
+                      <button [disabled]="admin?.admin_acl['Project Management']?.can_update==0"
+                        routerLink="/dashboard/projects/edit-project/{{p.id}}"
+                        title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
+                          src="assets/img/edit.png" alt="img"></button>
+                      <button [disabled]="admin?.admin_acl['Project Management']?.can_delete==0" *ngIf="!p.is_blocked"
+                        (click)="blockUnblock(p, 1);" class="action-icon" title="{{'table.title.block' | translate}}"><img
+                          src="assets/img/block.png" alt="img"></button>
+                      <button [disabled]="admin?.admin_acl['Project Management']?.can_delete==0"
+                        *ngIf="p.is_blocked == true" (click)="blockUnblock(p, 0);" class="action-icon unblock-bg"
+                        title="{{'table.title.unblock' | translate}}"><img src="assets/img/unblock.png"
+                          alt="img"></button>
+                      <!-- unapprove => when status=2(pending), 1(approved)   (click)="openCancellationModal(p, i)"-->
+                      <a style="display:none;" #modalOpen data-toggle="modal" data-target="#addNote"></a>
+                      <button (click)="openCancellationModal(p, i)"
+                        [disabled]="admin?.admin_acl['Project Management']?.can_update==0"
+                        *ngIf="p.status == 1 || p.status==2" class="action-icon"
+                        title="{{'table.title.unapprove' | translate}}"><img src="assets/img/ic_disapprove.png"
+                          alt="img"></button>
+                      <!-- approve => when status=2(pending), 4(rejected)-->
+                      <button [disabled]="admin?.admin_acl['Project Management']?.can_update==0"
+                        *ngIf="p.status == 2 || p.status == 4" (click)="approveProject(p, 1);" class="action-icon"
+                        title="{{'table.title.approve' | translate}}"><img src="assets/img/tick.png" alt="img"></button>
+                      <!-- delete project -->
+                      <button [disabled]="admin?.admin_acl['Project Management']?.can_purge==0"
+                        (click)="deletePopup(p, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img
+                          src="assets/img/ic_delete.png" alt="img"></button>
+                      <!-- </div> -->
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
             </table>
             <div class="padding20 center" *ngIf="cs.homeData.length < 1">
               <img src="assets/img/404-error.png">
@@ -623,12 +763,25 @@
     </div>
   </div>
 
-  <div class="btn-cont marginT15" *ngIf="cs.homeData.length > 1">
+  <div class="btn-cont marginT15" *ngIf="!is_filter && cs.homeData.length > 1">
     <div class="row">
       <div class="col-6">
         <div class="title-group">
           <p>{{'table.pagination.showing' | translate}} {{cs.homeData?.length}} {{'table.pagination.outof' | translate}}
             {{cs.total}}</p>
+        </div>
+      </div>
+      <div class="col-6 text-right">
+        <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+      </div>
+    </div>
+  </div>
+  <div class="btn-cont marginT15" *ngIf="is_filter && cs.items.length > 1">
+    <div class="row">
+      <div class="col-6">
+        <div class="title-group">
+          <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}}
+            {{total}}</p>
         </div>
       </div>
       <div class="col-6 text-right">

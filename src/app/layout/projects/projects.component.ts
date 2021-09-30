@@ -47,6 +47,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   exportfinalData: Array<any>;
   //local_storage_parameter: any;
   is_back: boolean = false;
+  is_filter: boolean = false;
   public multiDropdownSettings = {};
   public language_code: string;
   public selectedLocation: { selectedCountry: string, selectedStates: any[], selectedCities: any[], selectedLocalities: any[] } =
@@ -189,27 +190,28 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
     this.admin.postDataApi('projectHome', input).subscribe(
       success => {
-        this.cs.homeData = success.data;
+        this.is_filter = true;
+        this.items = success.data;
         (this.possessionStatuses || []).forEach(r => {
-          (this.cs.homeData || []).forEach(ele => {
+          (this.items || []).forEach(ele => {
             if (ele.possession_status_id == r.id) {
               ele['status_possion'] = r.name_en;
             }
           })
         });
         (this.all_building_types || []).forEach(r => {
-          (this.cs.homeData || []).forEach(ele => {
+          (this.items || []).forEach(ele => {
             if (ele.building_type_id == r.id) {
               ele['status_building'] = r.name_en;
             }
           })
         });
-        this.cs.homeData.forEach(function (element) {
+        this.items.forEach(function (element) {
           element['avgg_price'] = (((parseFloat(element.avg_price) || 0) / (parseFloat(element.avg_carpet_area) || 0)));
           element['avgg_price_hold'] = (((parseFloat(element.avg_price_hold) || 0) / (parseFloat(element.avg_carpet_area_hold) || 0)));
         });
         this.total = success.total_count;
-        this.cs.total = success.total_count
+        //this.cs.total = success.total_count
         this.spinner.hide();
       },
       error => {

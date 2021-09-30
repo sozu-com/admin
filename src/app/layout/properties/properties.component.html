@@ -649,9 +649,9 @@
                            </div>
                         </th>
                      </tr>
-
+                     <tbody *ngIf="is_filter">
                      <tr
-                        *ngFor="let p of cs.propertyData | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: cs.totalProperty }; let i=index">
+                        *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
                         <td *ngIf="selectedPropertyColumnsToShow?.property_id">
                            <span class="green-color cursor-pointer" routerLink="/dashboard/properties/edit-property/{{p.id}}/edit">
                               {{p?.id ? p?.id : ('table.tr.td.NA' | translate)}}</span>
@@ -927,6 +927,286 @@
 
                         </td>
                      </tr>
+                     </tbody>
+                     <tbody *ngIf="!is_filter">
+                        <tr
+                           *ngFor="let p of cs.propertyData | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: cs.totalProperty }; let i=index">
+                           <td *ngIf="selectedPropertyColumnsToShow?.property_id">
+                              <span class="green-color cursor-pointer" routerLink="/dashboard/properties/edit-property/{{p.id}}/edit">
+                                 {{p?.id ? p?.id : ('table.tr.td.NA' | translate)}}</span>
+                           </td>
+                           <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
+                              (click)="viewPropertyDetails(p.id, p)" *ngIf="selectedPropertyColumnsToShow?.building_name">
+   
+                              <strong>{{p?.building?.name || ('table.tr.td.NA' | translate)}}</strong>
+                              <div class="clearfix"></div>
+                              <small *ngIf="p.quantity > 0">
+                                 {{p.quantity}}
+                                 <span *ngIf="p.quantity == 1">property</span>
+                                 <span *ngIf="p.quantity > 1">properties</span>
+                              </small>
+                           </td>
+                           <td *ngIf="selectedPropertyColumnsToShow?.tower_name"><span>{{p?.building_towers ?
+                                 p?.building_towers?.tower_name : ('table.tr.td.NA' |
+                                 translate)}}</span></td>
+                           <td *ngIf="selectedPropertyColumnsToShow?.floor"><span>{{p?.building_towers?.tower_name
+                                 ? (p?.floor_num == 0 ? ('addCollection.groundFloor' | translate) : ('addCollection.floor'
+                                 | translate) + ' ' + p?.floor_num)
+                                 : ('table.tr.td.NA' | translate)}}</span></td>
+                           <td *ngIf="selectedPropertyColumnsToShow?.apartment"><span>{{p?.name || ('table.tr.td.NA' |
+                                 translate)}}</span></td>
+                           <td *ngIf="selectedPropertyColumnsToShow?.model">
+                              <span [style.textAlign]="'center'">
+                                 <b>{{p?.building_configuration?.name || ('table.tr.td.NA' | translate)}}</b>
+                              </span>
+                           </td>
+                           <td *ngIf="selectedPropertyColumnsToShow?.configuration">
+                              <app-property-configuration *ngIf="p?.building_configuration"
+                                 [configuration]="p.building_configuration.config"></app-property-configuration>
+                           </td>
+                           <td *ngIf="selectedPropertyColumnsToShow?.edit_list_price"><span>
+                                 <button (click)="editPricePopup(p, i)"
+                                    [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                                    title="{{'table.title.editPrice' | translate}}" class="action-icon"><img
+                                       src="assets/img/edit.png" alt="img"></button>
+                              </span></td>
+                           <td *ngIf="selectedPropertyColumnsToShow?.list_price"><span>{{p.min_price | price}}</span></td>
+                           <td *ngIf="selectedPropertyColumnsToShow?.final_price"><span>{{p.final_price ? (p.final_price |
+                                 price) : ('table.tr.td.NA' | translate)}}</span></td>
+                           <td *ngIf="selectedPropertyColumnsToShow?.rent_price"><span>{{p.rent_price | price}}</span></td>
+                           <td *ngIf="selectedPropertyColumnsToShow?.price_per_m2">
+                              <span>${{ p.avgg_price ? (p.avgg_price | number : '1.2-2') : 0.00}}</span>
+                           </td>
+                           <td *ngIf="selectedPropertyColumnsToShow?.commercial_offers">
+                              <span *ngIf="p?.offer_count">
+                                 <a class="add1" href="javascript://" (click)="openOfferModel(p, i)"
+                                    style="color: #00B96F;">
+                                    <b>{{p?.offer_count || ('table.tr.td.NA' | translate)}}</b>
+                                 </a>
+                              </span>
+                              <span *ngIf="!p?.offer_count">
+                                 <b>{{'table.tr.td.NA' | translate}}</b>
+                              </span>
+                           </td>
+   
+                           <!-- <td><span>{{p?.carpet_areas && p?.carpet_areas?.length>0 ? (p?.carpet_areas[0]?.area| number : '1.2-2') : 0.00}}</span></td> -->
+                           <td *ngIf="selectedPropertyColumnsToShow?.carpet_area"><span>{{p?.max_area ? p.max_area :
+                                 0.00}}</span></td>
+                                 <td *ngIf="selectedPropertyColumnsToShow?.commercialized_sozu"><span>{{p?.is_commercialized ? (
+                                    'table.th.yes' | translate ): ( 'table.th.no' | translate )
+                                    }}</span></td>
+                           <!-- <td *ngIf="selectedPropertyColumnsToShow?.is_published"><span>{{p?.is_published ? (
+                                 'table.th.yes' | translate ): ( 'table.th.no' | translate )
+                                 }}</span></td> -->
+                                 
+                           <td *ngIf="selectedPropertyColumnsToShow?.possession_status">
+                              <span>{{p?.building_towers?.possession_status_id == apiConstant.possessionStatus.sale ?
+                                 ('table.tr.td.sale' |
+                                 translate) : ('table.tr.td.presale' | translate)}}</span>
+                           </td>
+   
+                           <td *ngIf="selectedPropertyColumnsToShow?.agent_commission"><span>{{p.broker_commision |
+                                 percentage}}</span></td>
+                           <td *ngIf="selectedPropertyColumnsToShow?.edit_agent_commission"><span>
+                                 <button (click)="editAgentCommissionPopup(p, i, true)"
+                                    [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                                    title="{{'table.title.editPrice' | translate}}" class="action-icon"><img
+                                       src="assets/img/edit.png" alt="img"></button>
+                              </span></td>
+   
+                           <td *ngIf="selectedPropertyColumnsToShow?.total_commission"><span>{{p?.total_commission |
+                                 percentage}}</span></td>
+                           <td *ngIf="selectedPropertyColumnsToShow?.edit_total_commission"><span>
+                                 <button (click)="editAgentCommissionPopup(p, i, false)"
+                                    [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                                    title="{{'table.title.editPrice' | translate}}" class="action-icon"><img
+                                       src="assets/img/edit.png" alt="img"></button>
+                              </span></td>
+   
+                           <td *ngIf="selectedPropertyColumnsToShow?.leads"><span>{{p.lead_properties_count |
+                                 roundNumber}}</span></td>
+   
+                           <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.change_buyer"
+                              class="cursor-pointer"
+                              title="{{p?.selected_buyer?.user?.name ? ('table.title.clickToChangeBuyer' | translate) : ('table.title.clickToAddBuyer' | translate)}}"
+                              (click)="getAllSellers(p, '1', i, 'buyer', 1)">
+                              <span *ngIf="p?.selected_buyer?.user?.legal_entity" class="green-color">
+                                 {{p?.selected_buyer?.user?.legal_entity?.comm_name || ('table.tr.td.add' | translate)}}
+                              </span>
+                              <span *ngIf="!p?.selected_buyer?.user?.legal_entity" class="green-color">
+                                 {{p?.selected_buyer?.user?.name || ('table.tr.td.add' | translate)}}
+                              </span>
+                           </td>
+   
+                           <td *ngIf="parameter.flag==5  && selectedPropertyColumnsToShow?.view_seller_request"
+                              class="cursor-pointer" title="{{'table.title.viewSellerRequest' | translate}}"
+                              (click)="showAllSellers(p?.id, i)">
+                              <span class="green-color"><span>{{'table.tr.td.view' | translate}}</span></span>
+                           </td>
+   
+                           <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.change_seller"
+                              class="cursor-pointer"
+                              title="{{p?.selected_seller?.user?.name ? ('table.title.clickToChangeSeller' | translate) : ('table.title.clickToAddSeller' | translate)}}"
+                              (click)="getAllSellers(p, '1', i, 'seller', 1)">
+                              <span *ngIf="p?.selected_seller?.user?.legal_entity" class="green-color">
+                                 {{p?.selected_seller?.user?.legal_entity?.comm_name || ('table.tr.td.add' | translate)}}
+                              </span>
+                              <span *ngIf="!p?.selected_seller?.user?.legal_entity" class="green-color">
+                                 {{p?.selected_seller?.user?.name || ('table.tr.td.add' | translate)}}
+                              </span>
+                           </td>
+   
+                           <td *ngIf="parameter.flag!=5  && selectedPropertyColumnsToShow?.link_unlink_inhouse_agent"
+                              class="cursor-pointer" (click)="getBothBroker(p, '', true)">
+                              <span class="green-color">
+                                 <span
+                                    title="{{p?.external_broker?.id ? ('table.title.clickToChange' | translate) : ('table.title.clickToAssign' | translate) }}">
+                                    {{p?.external_broker?.id
+                                    ? ('table.tr.td.change' | translate) : ('table.tr.td.link' | translate)}}</span>
+                              </span>
+                           </td>
+                           <td *ngIf="parameter.flag!=5  && selectedPropertyColumnsToShow?.link_unlink_outside_agent"
+                              class="cursor-pointer" (click)="getBothBroker(p, '', false)">
+                              <span class="green-color">
+                                 <span
+                                    title="{{p?.external_outside_agent?.id ? ('table.title.clickToChange' | translate) : ('table.title.clickToAssign' | translate) }}">
+                                    {{p?.external_outside_agent?.id
+                                    ? ('table.tr.td.change' | translate) : ('table.tr.td.link' | translate)}}</span>
+                              </span>
+                           </td>
+                           <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.link_agency"
+                              class="cursor-pointer" (click)="getAgency(p, '',i)">
+                              <span class="green-color">
+                                 <span
+                                    title="{{p?.get_agency?.id ? ('table.title.clickToChange' | translate) : ('table.title.clickToAssign' | translate) }}">
+                                    {{p?.get_agency?.id
+                                    ? ('table.tr.td.change' | translate) : ('table.tr.td.link' | translate)}}</span>
+                              </span>
+                           </td>
+                           <td *ngIf="parameter.flag!=5  && selectedPropertyColumnsToShow?.change_availability"
+                              class="cursor-pointer">
+                              <select (change)="changeSoldStatusPopup(p, i, $event)">
+                                 <option [selected]="p.for_sale==1" value="1">{{'table.th.buy' | translate}}</option>
+                                 <option [selected]="p.for_rent==1" value="2">{{'table.th.rent' | translate}}</option>
+                                 <option [selected]="p.for_hold==1" value="3">{{'table.th.inventory' | translate}}</option>
+                                 <option [selected]="p.for_resale==1" value="4">{{'leadDetails.saleAndrent' | translate}}</option>
+                              </select>
+                           </td>
+                           <td *ngIf="parameter.flag!=5  && selectedPropertyColumnsToShow?.is_property_sold">
+                              {{p?.is_property_sold ? ('table.th.yes' | translate) : ('table.th.no' | translate)}}
+                           </td>
+                           <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.linked_collection">
+                              <span *ngIf="p?.collection && p?.collection?.is_cancelled!=1">{{'table.th.yes' | translate}}
+                                 <span class="green-color cursor-pointer"
+                                    routerLink="/dashboard/collections/view-collections/{{p?.collection?.id}}">{{p?.collection?.id}}</span>
+                              </span>
+                              <span
+                                 *ngIf="!p?.collection || (p?.collection && p?.collection?.is_cancelled==1)">{{'table.th.no'
+                                 | translate}}</span>
+                           </td>
+                           <td *ngIf="parameter.flag!=5  && selectedPropertyColumnsToShow?.action">
+                              <div class="table-actions">
+                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_read == 0 " 
+                                 (click)="getNotes(p)"
+                                 title="Property Notes" class="action-icon"><img
+                                   src="assets/img/chat-icon.png" alt="img"></button>
+                                 <!--this button to open installment modal -->
+                                 <button class="action-icon disable" 
+                                 [disabled]="p?.collection && p?.collection?.is_cancelled!=1 && parameter?.flag == 3"
+                                 *ngIf="p?.collection && p?.collection?.is_cancelled!=1 && parameter?.flag == 3" 
+                                 title="{{'table.title.pusblishDisable' | translate}}">
+                                 <img src="assets/img/BLOCKED.jpg" alt="img" style="width: 25px;
+                                    height: 25px;">
+                                 </button>
+                                 <!-- <button class="action-icon" 
+                                 [disabled]="p?.collection && p?.collection?.is_cancelled!=1 && parameter?.flag == 3"
+                                 *ngIf="p?.collection && p?.collection?.is_cancelled!=1 && parameter?.flag == 3"  
+                                 title="{{'table.title.pusblish' | translate}}">
+                                 <img src="assets/img/BLOCKED.jpg" alt="img" style="width: 25px;
+                                 height: 25px;"></button> -->
+   
+                                 <button (click)="this.pusblish(p);" class="action-icon" 
+                                 *ngIf="p.is_published == 0 && parameter?.flag == 3 && !p?.collection" 
+                                 title="{{'table.title.unPusblish' | translate}}">
+                                 <img src="assets/img/UNACTIVE.jpg" alt="img" style="width: 31px;
+                                 height: 27px;
+                                 margin-left: -3px;">
+                                 </button>
+                                 
+                                 <button (click)="this.pusblish(p);" class="action-icon" 
+                                 *ngIf="p.is_published == 1 && parameter?.flag == 3 && !p?.collection" 
+                                 title="{{'table.title.pusblish' | translate}}">
+                                 <img src="assets/img/ACTIVE.jpg" alt="img" style="width: 25px;
+                                 height: 25px;"></button>
+   
+                                 <button (click)="this.openModalInstallment(p);" class="action-icon"
+                                    [disabled]="!!p?.collection" *ngIf="parameter?.flag == 3"
+                                    title="{{'table.title.generatePDF' | translate}}"><img
+                                       src="assets/img/commercial_pdf.png" alt="img"></button>
+   
+                                 <!-- <button (click)="this.updateCommercialized(p,1);" class="action-icon" [disabled]="!!p?.collection" *ngIf="parameter?.flag == 3"
+                                    [title]="p?.is_commercialized ? ('table.title.commercializedProperty' | translate ): ('table.title.markCommercialized' | translate)"><img
+                                       [src]="p?.is_commercialized ? 'assets/img/tick-selected.png' : 'assets/img/tick.png' " alt="img"></button> -->
+   
+                                 <button (click)="this.updateCommercialized(p,1);" class="action-icon"
+                                    [disabled]="!!p?.collection" *ngIf="p.is_commercialized !=1 && parameter?.flag == 3"
+                                    title="{{'table.title.commercializedProperty' | translate}}">
+                                    <img src="assets/img/tick.png" alt="img"></button>
+   
+                                 <button (click)="this.updateCommercialized(p,0);" class="action-icon"
+                                    [disabled]="!!p?.collection"
+                                    *ngIf="p.is_commercialized == true && parameter?.flag == 3"
+                                    title="{{'table.title.markCommercialized' | translate}}">
+                                    <img src="assets/img/tick-selected.png" alt="img"></button>
+   
+                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                                    *ngIf="parameter?.flag!=3" routerLink="/dashboard/properties/edit-property/{{p.id}}"
+                                    title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
+                                       src="assets/img/edit.png" alt="img"></button>
+                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                                    *ngIf="parameter?.flag==3"
+                                    routerLink="/dashboard/properties/edit-property/{{p.id}}/edit"
+                                    title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
+                                       src="assets/img/edit.png" alt="img"></button>
+                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_delete==0"
+                                    *ngIf="!p.is_blocked" (click)="blockUnblock(p, 1);" class="action-icon"
+                                    title="{{'table.title.block' | translate}}"><img src="assets/img/block.png"
+                                       alt="img"></button>
+                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_delete==0"
+                                    *ngIf="p.is_blocked == true" (click)="blockUnblock(p, 0);"
+                                    class="action-icon unblock-bg" title="{{'table.title.unblock' | translate}}"><img
+                                       src="assets/img/unblock.png" alt="img"></button>
+   
+                                 <!-- unapprove -->
+                                 <a style="display:none;" #modalOpen data-toggle="modal"
+                                    data-target="#addPropertyReason"></a>
+                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                                    *ngIf="p.status == 3" (click)="changeStatus(p, 4);" class="action-icon"
+                                    title="{{'table.title.unapprove' | translate}}"><img src="assets/img/ic_disapprove.png"
+                                       alt="img"></button>
+                                 <!-- *ngIf="p.status == 2 -->
+                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                                    *ngIf="p.status !=1 && p.status !=3" (click)="changeStatus(p,3);" class="action-icon"
+                                    title="{{'table.title.approve' | translate}}"><img src="assets/img/tick.png"
+                                       alt="img"></button>
+                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                                    *ngIf="p.status == 3 && p.is_featured==0" (click)="markPropertyFeatured(p,1);"
+                                    class="action-icon" title="{{'table.title.markFeauture' | translate}}"><img
+                                       src="assets/img/ic_featured.png" alt="img"></button>
+                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
+                                    *ngIf="p.status == 3 && p.is_featured==1" (click)="markPropertyFeatured(p,0);"
+                                    class="action-icon" title="{{'table.title.markUnfeauture' | translate}}"><img
+                                       src="assets/img/tick-selected.png" alt="img"></button>
+                                 <!-- delete -->
+                                 <button [disabled]="admin?.admin_acl['Property Management']?.can_purge==0"
+                                    (click)="deletePopup(p, i)" class="action-icon"
+                                    title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png"
+                                       alt="img"></button>
+                              </div>
+   
+                           </td>
+                        </tr>
+                     </tbody>
                   </table>
                   <div class="padding20 center" *ngIf="cs.propertyData.length < 1">
                      <img src="assets/img/404-error.png">
@@ -938,12 +1218,25 @@
       </div>
    </div>
 
-   <div class="btn-cont marginT15" *ngIf="cs.propertyData.length > 1">
+   <div class="btn-cont marginT15" *ngIf="!is_filter && cs.propertyData.length > 1">
       <div class="row">
          <div class="col-6">
             <div class="title-group">
                <p>{{'table.pagination.showing' | translate}} {{cs.propertyData?.length}} {{'table.pagination.outof' | translate}}
                   {{cs.totalProperty}}</p>
+            </div>
+         </div>
+         <div class="col-6 text-right">
+            <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+         </div>
+      </div>
+   </div>
+   <div class="btn-cont marginT15" *ngIf="is_filter && items.length > 1">
+      <div class="row">
+         <div class="col-6">
+            <div class="title-group">
+               <p>{{'table.pagination.showing' | translate}} {{items?.length}} {{'table.pagination.outof' | translate}}
+                  {{total}}</p>
             </div>
          </div>
          <div class="col-6 text-right">

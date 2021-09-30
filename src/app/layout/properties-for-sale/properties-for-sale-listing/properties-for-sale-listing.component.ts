@@ -146,7 +146,9 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
   select_columns_list: any[] = [];
   public selectedPropertyColumnsToShow: any = {};
   public isSelectAllColumns: boolean = false;
-
+  items: any[] = [];
+  total: any = 0;
+  is_filter: boolean = false;
   constructor(
     public constant: Constant, private toastr: ToastrService,
     public apiConstant: ApiConstants, public admin: AdminService,
@@ -394,12 +396,13 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     }
     this.admin.postDataApi('propertyForSale', input).subscribe(
       success => {
+        this.is_filter = true;
         // localStorage.setItem('parametersForProperty', JSON.stringify(this.parameter));
-        this.cs.items = success.data;
-        this.cs.items.forEach(function (element) {
+        this.items = success.data;
+        this.items.forEach(function (element) {
           element['price_per_square_meter'] = (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
         });
-        this.cs.totalSale = success.total_count;
+        this.total = success.total_count;
         this.spinner.hide();
       },
       error => {
