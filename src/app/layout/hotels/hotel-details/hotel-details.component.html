@@ -9,8 +9,8 @@
     <div class="details-header marginB30">
       <div class="row">
         <div class="col-md-6 col-12">
-          <h4>{{hotel.name | titlecase}} <span *ngIf="hotel.building_type"
-                                                 class="new-hotel">{{hotel.building_type.name}}</span></h4>
+          <h4>{{hotel.name | titlecase}} <span *ngIf="hotel.hotel_type"
+                                                 class="new-hotel">{{hotel.hotel_type.name}}</span></h4>
           <p class="p14" *ngIf="hotel.developer">{{'commonBlock.by' | translate}} {{hotel.developer.name}}</p>
           <p class="p18">{{hotel.address}}</p>
           <p class="p14">{{hotel?.possession_status?.name}}</p>
@@ -21,7 +21,7 @@
             <p class="p18">
            
               <span>{{'addForm.basePrice' | translate}}:</span>
-              {{hotel?.mprice ? (hotel?.mprice | currency:'USD':'symbol':'.0'): 'N/A'}}
+              {{hotel?.min_price ? (hotel?.min_price | currency:'USD':'symbol':'.0'): 'N/A'}}
               
               <b *ngIf="hotel?.max_price">-</b>
               <b *ngIf="hotel?.max_price">{{hotel?.max_price ? (hotel?.max_price | currency:'USD':'symbol':'.0'): 'N/A'}}</b>
@@ -53,13 +53,13 @@
     </div>
     <div class="img-des">
       <div class="row">
-        <div class="col-md-3 col-sm-6 col-12 img-c">
+        <div class="col-md-4 col-sm-6 col-12 img-c">
           <div class="block">
             <p class="p18">{{hotel.base_min_price | customPrice}} / {{'addForm.mts2' | translate}}</p>
             <p class="p13">{{'addForm.AveragePricePerMts2' | translate}}</p>
           </div>
         </div>
-        <div class="col-md-3 col-sm-6 col-12 img-c">
+        <div class="col-md-4 col-sm-6 col-12 img-c">
           <div class="block">
             <p class="p18">{{hotel?.hotel_towers?.length}} {{'addForm.tower.tower' | translate}} - {{hotel?.units}}
               {{('addForm.units' | translate)}}</p>
@@ -67,18 +67,10 @@
             <p class="p13">{{'addForm.hotelSize' | translate}}</p>
           </div>
         </div>
-        <div class="col-md-3 col-sm-6 col-12 img-c">
+        <div class="col-md-4 col-sm-6 col-12 img-c">
           <div class="block">
-            <p class="p18">{{hotel.total_sale}} {{'addForm.sale' | translate}} - {{hotel.total_rent}} {{'addForm.Rent' | translate}}</p>
-            <p class="p13">{{'addForm.Properties'  | translate}}</p>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-12 img-c">
-          <div *ngIf="configuration" class="block">
-            <p class="p18">{{carpet_area_string}}</p>
-            <p class="p13">{{'addForm.Carpet_Area'  | translate}}
-
-            </p>
+            <p class="p18">{{hotel.num_of_properties}}</p>
+            <p class="p13">{{'addForm.rooms'  | translate}}</p>
           </div>
         </div>
       </div>
@@ -248,7 +240,7 @@
                       </div>
                       <div class="col-md-6 col-xs-6 text-right">
                         <a 
-                           class="p12 marginB0 green">{{'addForm.viewProperties'  | translate}}</a>
+                           class="p12 marginB0 green">{{'addForm.viewHotelRooms'  | translate}}</a>
                       </div>
                     </div>
                   </div>
@@ -460,7 +452,7 @@
                           {{'addForm.Rent' | translate}}:{{item?.rent_properties_count}}</p>
                       </div>
                       <div class="col-md-6 col-xs-6 text-right">
-                        <a class="p12 marginB0 green">{{'addForm.viewProperties' | translate}}</a>
+                        <a class="p12 marginB0 green">{{'addForm.viewHotelRooms' | translate}}</a>
                       </div>
                     </div>
                   </div>

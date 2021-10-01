@@ -17,20 +17,25 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 //import { NumberexPipe } from 'src/app/pipes/numberex.pipe';
 import { SharedModule } from 'src/app/modules/shared.module';
 import { NgxMaskModule } from 'ngx-mask';
+import { OfficeDetailsComponent } from './office-details/office-details.component';
 
 const routes: Routes = [
   {
     path: 'view-office', component: ManageOfficeComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Project Management', 'can_read', 'can_data_collector'] }
+    canActivate: [AclUserGuard], data: { roles: ['Manage Offices', 'can_read', 'can_data_collector'] }
   },
   {
     path: 'add-office', component: AddOfficeComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Project Management', 'can_create', 'can_data_collector'] }
+    canActivate: [AclUserGuard], data: { roles: ['Manage Offices', 'can_create', 'can_data_collector'] }
   },
   {
     path: 'edit-office/:id', component: AddOfficeComponent,
-    canActivate: [AclUserGuard], data: { roles: ['Project Management', 'can_update', 'can_data_collector'] }
-  }
+    canActivate: [AclUserGuard], data: { roles: ['Manage Offices', 'can_update', 'can_data_collector'] }
+  },
+  {
+    path: 'details/:office_id', component: OfficeDetailsComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Manage Offices', 'can_read', 'can_data_collector'] }
+  },
 ];
 
 @NgModule({
@@ -57,6 +62,7 @@ const routes: Routes = [
   declarations: [
     AddOfficeComponent,
     ManageOfficeComponent,
+    OfficeDetailsComponent,
     //NumberexPipe
   ]
 })

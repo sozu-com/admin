@@ -83,8 +83,8 @@ export class HotelDetailsComponent implements OnInit {
   getListing() {
     this.loadingListing = true;
     this.spinner.show();
-    this.admin.postDataApi('getHotelDetails', { hotel_id: this.id }).subscribe(r => {
-      this.hotel = r['data'].hotel;
+    this.admin.postDataApi('getHotelById', { hotel_id: this.id }).subscribe(r => {
+      this.hotel = r['data'];
       this.loadingListing = false;
       //coverImage
       if ((this.hotel || {}).main_image) {

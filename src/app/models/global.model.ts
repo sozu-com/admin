@@ -67,6 +67,7 @@ export class Building {
   images?: any[] = [];
   videos?: any[] = [];
   amliy?: test;
+  office_towers?: any[] = [];
 }
 export class test {
   ;

@@ -364,6 +364,10 @@
     "numOfProperties": "No. of properties",
     "numORooms": "No. of rooms",
     "pdfDocument": "PDF Document",
+    "viewHotelRooms": "View hotel rooms",
+    "hotelSize": "Hotel size",
+    "rooms": "Rooms",
+    "totalSquareMeters": "Total square meters",
     "buildingType": {
       "label": "Building Type",
       "chooseType": "Choose Building type",
