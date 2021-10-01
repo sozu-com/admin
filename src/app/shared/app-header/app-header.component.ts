@@ -858,8 +858,11 @@ export class AppHeaderComponent implements OnInit {
     this.language_code = localStorage.getItem('language_code');
     this.treeControl = new NestedTreeControl<MyTreeNode>(this.makeGetChildrenFunction())
     this.treeDataSource = new MatTreeNestedDataSource()
-    this.treeDataSource.data = demoNodes
+    this.treeDataSource.data = demoNodes,
+      this.treeDataSource.data.forEach(x => {
 
+        console.log(x.title, "node");
+      })
     this.admin.loginData$.subscribe(success => {
       this.fullName = success['name'];
       this.image = success['image'];
@@ -871,12 +874,7 @@ export class AppHeaderComponent implements OnInit {
       // }
     });
 
-    // this.msg.currentMessage$.subscribe(r => {
-    //   if ( r != null && r.data.notification_type !== 100) {
-    //     /* count if not a push of chat messages */
-    //     this.msg_count++;
-    //   }
-    // });
+
     this.getNotifications();
     this.getNotificationsCount();
   }

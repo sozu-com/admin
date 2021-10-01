@@ -19,12 +19,15 @@ export class CommonService {
   propertyData: any = [];
   items: any[] = [];
   agencies: any = [];
-  incomes: any = [];
-  totalIncomes: any = 0;
+  collections: any = [];
+  totalCollections: any = 0;
   total: any = 0; logoImageBase64: any;
   totalProperty: any = 0;
   totalAgencies: any = 0;
   totalSale: any = 0;
+  paid_purchase_commision_amount: number;
+  paid_agent_commision_amount: number;
+  paid_collection_commision_amount: number;
   public selectedColumnsToShow: any = {};
   public country = new BehaviorSubject({});
   countryData$ = this.country.asObservable();
@@ -79,13 +82,21 @@ export class CommonService {
       page: 1,
       flag: 3
     }
+    //collection
+    const test = {
+      itemsPerPage: 10,
+      page: 1,
+      dash_flag: 4,
+      flag: 1,
+      is_approved: 1
+    }
     // this.spinner.show()
     forkJoin([
       this.admin.postDataApi('propertyForSale', this.parameter),
       this.admin.postDataApi('projectHome', input),
       this.admin.postDataApi('propertyHome', input),
       this.admin.postDataApi('getAgencies', input),
-      // this.admin.postDataApi('getIncomeHomeData', input),
+      this.admin.postDataApi('getCollection', test),
     ]).subscribe(success => {
       this.parameter.keyword = '';
       this.spinner.hide();
@@ -137,16 +148,86 @@ export class CommonService {
       this.totalAgencies = success[3].total_count;
 
       //incomes
-      // this.incomes = success[4].data || [];
-      // for (let index = 0; index < this.incomes.length; index++) {
-      //   const element = this.incomes[index];
-      //   element['collection_payment_choice'] = element.collection_payment_choice;
-      //   element['property_collection'] = element['collection_payment_choice'].property_collection;
-      //   element['buyer'] = element['property_collection'].buyer;
-      //   element['property'] = element['property_collection'].property;
-      //   element['building'] = element['property'].building;
-      // }
-      // this.totalIncomes = success[4].total;
+      this.collections = success[4].data || [];
+      this.collections.forEach(function (element) {
+        element['avgg_price_per'] = (((parseFloat(element.final_price) || 0) / (parseFloat(element.final_price_per_m2) || 0)));
+      });
+
+      // fetching payment status
+      for (let index = 0; index < this.collections.length; index++) {
+        const element = this.collections[index];
+        this.paid_purchase_commision_amount = element.paid_purchase_commision_amount;
+        this.paid_agent_commision_amount = element.paid_agent_commision_amount;
+        this.paid_collection_commision_amount = element.paid_collection_commision_amount;
+        const dif = (element.property.final_price || 0).toFixed(2) - (element.total_deals_sum || 0).toFixed(2);
+        const currency_id = element.currency_id;
+        element['remaining'] = (((parseFloat(element.final_price) || 0) + (parseFloat(element.penalty) || 0)) - (parseFloat(element.total_payment_recieved) || 0));
+        if (!element.total_deals_sum) {
+          element.payment_status = 6;
+        } else if ((dif >= 5 && currency_id == 78) || (dif >= 0.5 && currency_id == 124)) {
+          element.payment_status = 6;
+        } else if (element.next_payment && element.next_payment.date) {
+          element.payment_status = element.collection_status;
+        } else {
+          element.payment_status = 5;
+        }
+
+        // fetching commissions %
+        let cc_percent = 0, cc_received = 0, cc_receipt = 0, cc_invoice = 0, cc_active = 0;
+        let pc_received = 0, pc_receipt = 0, pc_invoice = 0, pc_active = 0;
+        let ac_receipt = 0, ac_invoice = 0, ac_active = 0;
+        for (let i = 0; i < element.collection_commissions.length; i++) {
+          const ele = element.collection_commissions[i];
+          cc_percent = cc_percent + (ele.add_collection_commission ? ele.percent : 0);
+          cc_received = cc_received + (ele.add_collection_commission ? ele.amount : 0);
+          pc_received = pc_received + (ele.add_purchase_commission ? ele.purchase_comm_amount : 0);
+          if (ele.add_collection_commission) {
+            cc_active++;
+          }
+          if (ele.payment) {
+            cc_receipt++;
+            if (ele.payment.invoice_id) {
+              cc_invoice++;
+            }
+          }
+
+          if (ele.add_purchase_commission) {
+            pc_active++;
+          }
+          if (ele.purchase_payment) {
+            pc_receipt++;
+            if (ele.purchase_payment.invoice_id && ele.purchase_payment.pdf_url && ele.purchase_payment.xml_url) {
+              pc_invoice++;
+            }
+          }
+
+          if (ele.add_agent_commission) {
+            ac_active++;
+          }
+          if (ele.agent_payment) {
+            ac_receipt++;
+            if (ele.agent_payment.invoice_id) {
+              ac_invoice++;
+            }
+          }
+        }
+        element['sum_pc'] = pc_received;
+        element['cc_percent'] = this.numberUptoNDecimal((cc_percent / cc_active), 3);
+        element['cc_received'] = element.iva_percent && element.add_iva_to_cc ?
+          (cc_received + (cc_received * element.iva_percent) / 100) : cc_received;
+        element['cc_receipt'] = cc_receipt == cc_active && cc_receipt != 0 ? 1 : 0;
+        element['cc_invoice'] = cc_invoice == cc_active && cc_invoice != 0 ? 1 : 0;
+        element['pc_received'] = element.iva_percent && element.add_iva_to_pc ?
+          (pc_received + (pc_received * element.iva_percent) / 100) : pc_received;
+        element['pc_receipt'] = pc_receipt == pc_active && pc_receipt != 0 ? 1 : 0;
+        element['pc_invoice'] = pc_invoice == pc_active && pc_invoice != 0 ? 1 : 0;
+
+        element['ac_receipt'] = ac_receipt == ac_active && ac_receipt != 0 ? 1 : 0;
+        element['ac_invoice'] = ac_invoice == ac_active && ac_invoice != 0 ? 1 : 0;
+      }
+      this.totalCollections = success[4].total_count;
+      localStorage.setItem('collections', JSON.stringify(this.collections));
+      localStorage.setItem('collection_total', JSON.stringify(this.totalCollections));
     });
   }
 
@@ -184,7 +265,9 @@ export class CommonService {
 
   //   });
   // }
-
+  numberUptoNDecimal(num: any, n: number) {
+    return num ? num.toFixed(n) : 0;
+  }
   getCountries(keyword) {
     this.spinner.show();
     this.parameter.url = 'getCountries';
