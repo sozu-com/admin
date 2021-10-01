@@ -267,8 +267,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.language_code = localStorage.getItem('language_code');
-    this.cs.collections = JSON.parse(localStorage.getItem('collections'));
-    this.cs.totalCollections = JSON.parse(localStorage.getItem('collection_total'));
+    // this.cs.collections = JSON.parse(localStorage.getItem('collections'));
+    //this.cs.totalCollections = JSON.parse(localStorage.getItem('collection_total'));
     this.admin.globalSettings$.subscribe(success => {
       this.cashLimit = success['cash_limit'];
     });
@@ -540,7 +540,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         this.parameter.locality_id = '0';
         this.parameter.building_id = '0';
       }
-      //this.getListing();
+      this.getListing();
     });
   }
 
