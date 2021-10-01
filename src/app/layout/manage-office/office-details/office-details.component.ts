@@ -1,23 +1,23 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Property, Building } from 'src/app/models/global.model';
+import { NumberWithCommasPipe } from 'src/app/pipes/number-with-commas.pipe';
 import { AdminService } from 'src/app/services/admin.service';
-import { TranslateService } from '@ngx-translate/core';
 import jspdf from 'jspdf';
 import html2canvas from 'html2canvas';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { NumberWithCommasPipe } from 'src/app/pipes/number-with-commas.pipe';
 declare const google;
 
 @Component({
-  selector: 'app-hotel-details',
-  templateUrl: './hotel-details.component.html',
-  styleUrls: ['./hotel-details.component.css'],
+  selector: 'app-office-details',
+  templateUrl: './office-details.component.html',
+  styleUrls: ['./office-details.component.css'],
   providers: [Building, NumberWithCommasPipe]
 })
-export class HotelDetailsComponent implements OnInit {
+export class OfficeDetailsComponent implements OnInit {
 
   viewer: any;
   PSV: any;
@@ -63,7 +63,7 @@ export class HotelDetailsComponent implements OnInit {
     public ts: TranslateService,
     private modalService: BsModalService,
     private commasPipe: NumberWithCommasPipe,
-    public hotel: Building,
+    public office: Building,
     private admin: AdminService,
     private spinner: NgxSpinnerService,
   ) { }
@@ -71,7 +71,7 @@ export class HotelDetailsComponent implements OnInit {
   ngOnInit() {
     this.language_code = localStorage.getItem('language_code');
     this.route.params.subscribe(params => {
-      this.id = params['hotel_id'];
+      this.id = params['office_id'];
       this.getListing();
     });
 
@@ -83,58 +83,58 @@ export class HotelDetailsComponent implements OnInit {
   getListing() {
     this.loadingListing = true;
     this.spinner.show();
-    this.admin.postDataApi('getHotelById', { hotel_id: this.id }).subscribe(r => {
-      this.hotel = r['data'];
+    this.admin.postDataApi('getOfficeById', { office_id: this.id }).subscribe(r => {
+      this.office = r['data'];
       this.loadingListing = false;
       //coverImage
-      if ((this.hotel || {}).main_image) {
+      if ((this.office || {}).main_image) {
         this.admin
           .postDataApi('getCoverImage', {
-            image: (this.hotel || {}).main_image,
+            image: (this.office || {}).main_image,
           })
           .subscribe((response: any) => {
             this.main_image = 'data:image/jpeg;base64,' + response.data
           })
       }
       //images1
-      if ((this.hotel || {}).images) {
+      if ((this.office || {}).images) {
         this.admin
           .postDataApi('getCoverImage', {
-            image: this.hotel.images[0] ? this.hotel.images[0].image : []
+            image: this.office.images[0] ? this.office.images[0].image : []
           })
           .subscribe((response: any) => {
             this.galleryImageOne = 'data:image/jpeg;base64,' + response.data
           })
       }
       //images1
-      if ((this.hotel || {}).images) {
+      if ((this.office || {}).images) {
         this.admin
           .postDataApi('getCoverImage', {
-            image: this.hotel.images[1] ? this.hotel.images[1].image : [],
+            image: this.office.images[1] ? this.office.images[1].image : [],
           })
           .subscribe((response: any) => {
             this.galleryImagetwo = 'data:image/jpeg;base64,' + response.data
           })
       }
       //images 360
-      if ((this.hotel.images360 || [])) {
+      if ((this.office.images360 || [])) {
         // const input = this.hotel.images360[0].image ? this.hotel.images360[0].image : []
-        this.admin.postDataApi('getCoverImage', { image: this.hotel.images360[0] ? this.hotel.images360[0].image : [] })
+        this.admin.postDataApi('getCoverImage', { image: this.office.images360[0] ? this.office.images360[0].image : [] })
           .subscribe((abc: any) => {
             this.image_360 = 'data:image/jpeg;base64,' + abc.data;
           })
       }
       //video
-      if ((this.hotel.videos || [])) {
+      if ((this.office.videos || [])) {
         // const input = this.hotel.images360[0].image ? this.hotel.images360[0].image : [] this.hotel.videos[0].thumb
-        this.admin.postDataApi('getCoverImage', { image: this.hotel.videos[0] ? this.hotel.videos[0].thumb : [] })
+        this.admin.postDataApi('getCoverImage', { image: this.office.videos[0] ? this.office.videos[0].thumb : [] })
           .subscribe((abc: any) => {
             this.video_thumb = 'data:image/jpeg;base64,' + abc.data;
           })
       }
       //configuration
-      if ((this.hotel || {}).configurations) {
-        (this.hotel || {}).configurations.forEach(x => {
+      if ((this.office || {}).configurations) {
+        (this.office || {}).configurations.forEach(x => {
           this.admin.postDataApi('getCoverImage', { image: x.floor_map_image })
             .subscribe(success => {
               const con = 'data:image/jpeg;base64,' + success.data;
@@ -143,8 +143,8 @@ export class HotelDetailsComponent implements OnInit {
         });
       }
       //amenities
-      if ((this.hotel || {}).amenities) {
-        (this.hotel || {}).amenities.forEach(r => {
+      if ((this.office || {}).amenities) {
+        (this.office || {}).amenities.forEach(r => {
           this.admin.postDataApi('getCoverImage', { image: r.icon })
             .subscribe(success => {
               const mails = 'data:image/jpeg;base64,' + success.data;
@@ -153,35 +153,35 @@ export class HotelDetailsComponent implements OnInit {
         });
       }
       this.spinner.hide();
-      this.hotel.total_rent = 0;
-      this.hotel.total_sale = 0;
-      this.hotel.units = 0;
-      this.hotel.hotel_towers.forEach(bt => {
-        this.hotel.units = bt.properties_total_count + this.hotel.units;
+      this.office.total_rent = 0;
+      this.office.total_sale = 0;
+      this.office.units = 0;
+      this.office.hotel_towers.forEach(bt => {
+        this.office.units = bt.properties_total_count + this.office.units;
       });
-      this.hotel.hotel_towers.forEach(bt => {
-        this.hotel.total_sale = bt.sale_properties_count + this.hotel.total_sale;
+      this.office.hotel_towers.forEach(bt => {
+        this.office.total_sale = bt.sale_properties_count + this.office.total_sale;
       });
-      this.hotel.hotel_towers.forEach(bt => {
-        this.hotel.total_rent = bt.rent_properties_count + this.hotel.total_rent;
+      this.office.hotel_towers.forEach(bt => {
+        this.office.total_rent = bt.rent_properties_count + this.office.total_rent;
       });
       // this.updateSchema(this.hotel);
       this.properties = r['data'].properties;
-      this.configurations = this.hotel.configurations;
+      this.configurations = this.office.configurations;
       this.configuration = this.configurations[0];
-      this.config_string = this.hotel.configurations.map(r => { return r.config.name; }).join(', ');
+      this.config_string = this.office.configurations.map(r => { return r.config.name; }).join(', ');
 
 
-      if (this.hotel.configurations.length < 1) {
+      if (this.office.configurations.length < 1) {
         this.carpet_area_string = 'Not Available';
-      } else if (this.hotel.configurations.length === 1) {
-        this.carpet_area_string = this.commasPipe.transform(this.hotel.min_carpet_area || 0) + ' mts2';
+      } else if (this.office.configurations.length === 1) {
+        this.carpet_area_string = this.commasPipe.transform(this.office.min_carpet_area || 0) + ' mts2';
       } else {
-        this.carpet_area_string = this.commasPipe.transform(this.hotel.min_carpet_area || 0) + ' mts2 - ' +
-          this.commasPipe.transform(this.hotel.max_carpet_area || 0) + ' mts2';
+        this.carpet_area_string = this.commasPipe.transform(this.office.min_carpet_area || 0) + ' mts2 - ' +
+          this.commasPipe.transform(this.office.max_carpet_area || 0) + ' mts2';
       }
 
-      const config_prices = this.hotel.configurations.map(r => {
+      const config_prices = this.office.configurations.map(r => {
         return parseInt(r.base_price);
       });
       if (config_prices.length < 1) {
@@ -213,12 +213,12 @@ export class HotelDetailsComponent implements OnInit {
           const infowindow = new google.maps.InfoWindow();
           let marker, i;
           marker = new google.maps.Marker({
-            position: new google.maps.LatLng(this.hotel.lat, this.hotel.lng),
+            position: new google.maps.LatLng(this.office.lat, this.office.lng),
             map: map
           });
           google.maps.event.addListener(marker, 'click', ((marker, i) => {
             return () => {
-              infowindow.setContent('<p>' + this.hotel.name + '</p>');
+              infowindow.setContent('<p>' + this.office.name + '</p>');
               infowindow.open(map, marker);
             }
           })(marker, i));
@@ -279,3 +279,4 @@ export class HotelDetailsComponent implements OnInit {
   }
 
 }
+

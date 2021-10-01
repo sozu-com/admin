@@ -286,6 +286,10 @@
     "hotels": "Habitacional",
     "housing": "Hoteleria",
     "offices": "Oficina",
+    "viewHotelRooms": "Ver habitaciones de hotel",
+    "hotelSize": "Tamaño del hotel",
+    "rooms": "habitaciones",
+    "totalSquareMeters": "Metros cuadrados totales",
     "moreImages": {
       "label": "Imágenes",
       "addMoreBtn": "+ Agregar más imágenes",

@@ -258,7 +258,7 @@
                 </td>
                 <!--  -->
                 <td   *ngIf="selectedColumnsToShow?.office_name" class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
-                routerLink="/dashboard/projects/details/{{p.id}}">
+                routerLink="/dashboard/office/details/{{p.id}}"  >
                   <strong>{{p?.name}}</strong>
                 </td>
                 <td [ngClass]="{'green-color cursor-pointer': p?.developer?.name}"  *ngIf="selectedColumnsToShow?.developer" (click)="viewDeveloper(p)">

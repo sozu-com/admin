@@ -9,11 +9,11 @@
     <div class="details-header marginB30">
       <div class="row">
         <div class="col-md-6 col-12">
-          <h4>{{hotel.name | titlecase}} <span *ngIf="hotel.hotel_type"
-                                                 class="new-hotel">{{hotel.hotel_type.name}}</span></h4>
-          <p class="p14" *ngIf="hotel.developer">{{'commonBlock.by' | translate}} {{hotel.developer.name}}</p>
-          <p class="p18">{{hotel.address}}</p>
-          <p class="p14">{{hotel?.possession_status?.name}}</p>
+          <h4>{{office.name | titlecase}} <span *ngIf="office.office_type"
+                                                 class="new-hotel">{{office.office_type.name}}</span></h4>
+          <p class="p14" *ngIf="office.developer">{{'commonBlock.by' | translate}} {{office.developer.name}}</p>
+          <p class="p18">{{office.address}}</p>
+          <p class="p14">{{office?.possession_status?.name}}</p>
         </div>
         {{fixed}}
         <div class="col-md-6 col-12">
@@ -21,10 +21,10 @@
             <p class="p18">
            
               <span>{{'addForm.basePrice' | translate}}:</span>
-              {{hotel?.min_price ? (hotel?.min_price | currency:'USD':'symbol':'.0'): 'N/A'}}
+              {{office?.min_price ? (office?.min_price | currency:'USD':'symbol':'.0'): 'N/A'}}
               
-              <b *ngIf="hotel?.max_price">-</b>
-              <b *ngIf="hotel?.max_price">{{hotel?.max_price ? (hotel?.max_price | currency:'USD':'symbol':'.0'): 'N/A'}}</b>
+              <b *ngIf="office?.max_price">-</b>
+              <b *ngIf="office?.max_price">{{office?.max_price ? (office?.max_price | currency:'USD':'symbol':'.0'): 'N/A'}}</b>
               
             </p>
             <p class="p16">{{'addForm.Price_on_Request' | translate}}</p>
@@ -40,11 +40,11 @@
           <img class="main-photo img-fluid" [lazyLoad]="main_image"
                [defaultImage]="main_image" onerror='this.src="assets/img/placeholder.png"'>
         </div>
-        <div class="col-md-4 cust-col" *ngIf="hotel.images">
-          <img *ngIf="hotel.images[0]" class="secondary-photo img-fluid"
+        <div class="col-md-4 cust-col" *ngIf="office.images">
+          <img *ngIf="office.images[0]" class="secondary-photo img-fluid"
                [src]="galleryImageOne" onerror="this.src='assets/img/placeholder.png'"
                alt="img">
-          <img *ngIf="hotel.images[1]" class="secondary-photo img-fluid"
+          <img *ngIf="office.images[1]" class="secondary-photo img-fluid"
                [src]="galleryImagetwo" onerror="this.src='assets/img/placeholder.png'"
                alt="img">
         </div>
@@ -55,13 +55,13 @@
       <div class="row">
         <div class="col-md-4 col-sm-6 col-12 img-c">
           <div class="block">
-            <p class="p18">{{hotel.base_min_price | customPrice}} / {{'addForm.mts2' | translate}}</p>
+            <p class="p18">{{office.base_min_price | customPrice}} / {{'addForm.mts2' | translate}}</p>
             <p class="p13">{{'addForm.AveragePricePerMts2' | translate}}</p>
           </div>
         </div>
         <div class="col-md-4 col-sm-6 col-12 img-c">
           <div class="block">
-            <p class="p18">{{hotel?.hotel_towers?.length}} {{'addForm.tower.tower' | translate}} - {{hotel?.units}}
+            <p class="p18">{{office?.office_towers?.length}} {{'addForm.tower.tower' | translate}} - {{office?.units}}
               {{('addForm.units' | translate)}}</p>
            
             <p class="p13">{{'addForm.hotelSize' | translate}}</p>
@@ -69,8 +69,8 @@
         </div>
         <div class="col-md-4 col-sm-6 col-12 img-c">
           <div class="block">
-            <p class="p18">{{hotel.num_of_properties}}</p>
-            <p class="p13">{{'addForm.rooms'  | translate}}</p>
+            <p class="p18">{{office.total_square_meters}}</p>
+            <p class="p13">{{'addForm.totalSquareMeters'  | translate}}</p>
           </div>
         </div>
       </div>
@@ -107,15 +107,15 @@
             <div class="tab-content">
               <div *ngIf="tab==1">
                 <p class="p14">{{'addForm.overview' | translate}}</p>
-                <p class="newline">{{hotel.description  | translate}}</p>
+                <p class="newline">{{office.description  | translate}}</p>
                 <p class="p14">{{'addForm.Address'  | translate}}: </p>
-                <p class="newline">{{hotel.address}}</p>
+                <p class="newline">{{office.address}}</p>
 
                 <div class="row">
-                  <div *ngIf="hotel.custom_values" class="overview-table marginT15 col-6">
+                  <div *ngIf="office.custom_values" class="overview-table marginT15 col-6">
                     <table style="width: 100%">
                       <tbody>
-                      <tr *ngFor="let item of hotel.custom_values">
+                      <tr *ngFor="let item of office.custom_values">
                         <td><label>{{item.name}}:</label></td>
                         <td><label>{{item.value}}</label></td>
                       </tr>
@@ -132,8 +132,8 @@
 
                 <div class="spacer30"></div>
 
-                <p *ngIf="hotel.configurations && hotel.configurations.length > 0" class="p14">{{'addForm.ConfigurationTypes'  | translate}}</p>
-                <div *ngFor="let config of hotel.configurations">
+                <p *ngIf="office.configurations && office.configurations.length > 0" class="p14">{{'addForm.ConfigurationTypes'  | translate}}</p>
+                <div *ngFor="let config of office.configurations">
                   <div class="config-table">
                     <table style="width:100%;">
                       <tbody>
@@ -188,20 +188,20 @@
 
                 <div class="spacer30"></div>
                 <p class="p14">{{'addForm.Gallery'  | translate}}</p>
-                <div class="hotel-gallery marginB15" *ngIf="hotel?.images360 && hotel?.images360.length>0">
+                <div class="hotel-gallery marginB15" *ngIf="office?.images360 && office?.images360.length>0">
                   <img [lazyLoad]="image_360"
                            [defaultImage]="image_360|img:'thumb'"
                            onerror='this.src="assets/img/placeholder.png"'>
                 </div>
-                <div *ngIf="(hotel?.images && hotel?.images.length>0) || (hotel?.videos && hotel?.videos.length>0)" class="gallery-bottom">
-                  <div *ngIf="hotel?.images.length>0" class="images-wrapper">
+                <div *ngIf="(office?.images && office?.images.length>0) || (office?.videos && office?.videos.length>0)" class="gallery-bottom">
+                  <div *ngIf="office?.images.length>0" class="images-wrapper">
                     <a [href]="galleryImageOne" data-lightbox="image">
                       <img [lazyLoad]="galleryImageOne"
                            [defaultImage]="galleryImageOne|img:'thumb'"
                            onerror='this.src="assets/img/placeholder.png"'>
                     </a>
                   </div>
-                  <div *ngIf="hotel?.videos && hotel?.videos.length>0" class="video-wrapper">
+                  <div *ngIf="office?.videos && office?.videos.length>0" class="video-wrapper">
                     <img [lazyLoad]="video_thumb"
                          [defaultImage]="video_thumb|img:'thumb'"
                          onerror='this.src="assets/img/placeholder.png"'
@@ -217,7 +217,7 @@
 
                 <div class="spacer30"></div>
                 <p class="p14">{{'addForm.Towers' | translate}}</p>
-                <div *ngFor="let item of hotel?.hotel_towers">
+                <div *ngFor="let item of office?.office_towers">
                   <div class="tower-block">
                     <div class="row marginB15">
                       <div class="col-md-6 col-xs-6">
@@ -249,7 +249,7 @@
                 <div class="spacer30"></div>
                 <p class="p14">{{'addForm.Amenities'  | translate}}</p>
                 <div class="icons-group">
-                  <div *ngFor="let am of hotel.amenities" class="icons-control">
+                  <div *ngFor="let am of office.amenities" class="icons-control">
                     <div class="fig-block">  <!-- (click)="viewAmenities(am)"-->
                       <img class="icon" [src]="am.iconBase" onerror='src="assets/img/placeholder.png"'>
                     </div>
@@ -258,21 +258,21 @@
                   </div>
                 </div>
 
-                <div *ngIf="hotel.banks.length > 0">
+                <div *ngIf="office.banks.length > 0">
                   <div class="row">
                     <div class="col-6">
                       <p class="p14">{{'addForm.Home_Loans'  | translate}}</p>
                     </div>
-                    <div class="col-6" *ngIf="hotel.banks.length > 3 && bankClicked == false">
+                    <div class="col-6" *ngIf="office.banks.length > 3 && bankClicked == false">
                       <div class="text-right">
                         <a class="see-more" (click)="bankLimit = 100; bankClicked = true;"
-                           href="javascript://"><span>+{{hotel.banks.length - 3}} more</span> <i
+                           href="javascript://"><span>+{{office.banks.length - 3}} more</span> <i
                           class="fa fa-angle-right"></i></a>
                       </div>
                     </div>
                   </div>
                   <div class="bank-blocks">
-                    <div *ngFor="let bank of hotel.banks | slice : 0 : bankLimit" class="block">
+                    <div *ngFor="let bank of office.banks | slice : 0 : bankLimit" class="block">
                       <div class="fig-block text-center">
                         <img class="img-fluid" [src]="bank.image| img:'small'"
                              onerror="this.src='assets/img/placeholder.png'" alt="img">
@@ -291,7 +291,7 @@
               <div *ngIf="tab==2">
 
                 <p class="p14">{{'addForm.ConfigurationTypes'  | translate}}</p>
-                <div *ngFor="let config of hotel.configurations">
+                <div *ngFor="let config of office.configurations">
                   <div class="config-table">
                     <table style="width:100%;">
                       <tbody>
@@ -347,7 +347,7 @@
               <div *ngIf="tab==3">
                 <p class="p14">{{'addForm.Amenities'  | translate}}</p>
                 <div class="icons-group">
-                  <div *ngFor="let am of hotel.amenities" class="icons-control">
+                  <div *ngFor="let am of office.amenities" class="icons-control">
                     <div class="fig-block" >
                       <!-- (click)="viewAmenities(am)" -->
                       <img class="icon" [src]="am.iconBase" onerror='src="assets/img/placeholder.png"' alt="img">
@@ -359,23 +359,23 @@
               </div>
               <div *ngIf="tab==4">
                 <p class="p14">{{'addForm.ContactUs'  | translate}}</p>
-                <div *ngIf="hotel?.developer" class="contact-developer white-bg">
+                <div *ngIf="office?.developer" class="contact-developer white-bg">
                   <table class="table">
                     <tr>
                       <td style="width:10%">
                         <div class="fig-block">
-                          <img class="img-fluid" [src]="hotel?.developer?.developer_image| img:'thumb'"
+                          <img class="img-fluid" [src]="office?.developer?.developer_image| img:'thumb'"
                                onerror='this.src="assets/img/placeholder.png"' alt="img">
                         </div>
                       </td>
                       <td style="width:30%">
                         <p class="p11">{{'addForm.Developer'  | translate}}</p>
-                        <p class="p16">{{hotel?.developer.name}}</p>
-                        <p class="p13">{{hotel?.developer.developer_title}}</p>
+                        <p class="p16">{{office?.developer.name}}</p>
+                        <p class="p13">{{office?.developer.developer_title}}</p>
                       </td>
                       <td style="width:60%;">
                         <p class="p16">1</p>
-                        <p class="p13">{{'addForm.hotels'  | translate}}</p>
+                        <p class="p13">{{'addForm.office'  | translate}}</p>
                       </td>
                     </tr>
                     <tr>
@@ -384,7 +384,7 @@
                       </td>
                       <td>
                         <p class="p12">{{'addForm.ContactUs'  | translate}}</p>
-                        <p>{{hotel?.developer?.dial_code}} {{hotel?.developer?.phone}}</p>
+                        <p>{{office?.developer?.dial_code}} {{office?.developer?.phone}}</p>
                       </td>
                       <td>
                         &nbsp;
@@ -400,21 +400,21 @@
                 <p class="p14">{{'addForm.Gallery'  | translate}}</p>
 
 
-                <div class="hotel-gallery marginB15" *ngIf="hotel?.images360.length>0">
+                <div class="hotel-gallery marginB15" *ngIf="office?.images360.length>0">
                   <img [lazyLoad]="image_360"
                   [defaultImage]="image_360|img:'thumb'"
                   onerror='this.src="assets/img/placeholder.png"'>
                       
                 </div>
-                <div *ngIf="hotel?.images.length>0 || hotel?.videos.length>0" class="gallery-bottom">
-                  <div *ngIf="hotel?.images.length>0" class="images-wrapper">
+                <div *ngIf="office?.images.length>0 || office?.videos.length>0" class="gallery-bottom">
+                  <div *ngIf="office?.images.length>0" class="images-wrapper">
                     <a [href]="galleryImageOne" data-lightbox="image">
                       <img [lazyLoad]="galleryImageOne"
                            [defaultImage]="galleryImageOne|img:'thumb'"
                            onerror='this.src="assets/img/placeholder.png"'>
                     </a>
                   </div>
-                  <div *ngIf="hotel?.videos.length>0" class="video-wrapper">
+                  <div *ngIf="office?.videos.length>0" class="video-wrapper">
                     <img [lazyLoad]="video_thumb"
                          [defaultImage]="video_thumb|img:'thumb'"
                          onerror='this.src="assets/img/placeholder.png"'
@@ -430,7 +430,7 @@
 
               <div *ngIf="tab==6">
                 <p class="p14">{{'addForm.Towers' | translate}}</p>
-                <div *ngFor="let item of hotel?.hotel_towers">
+                <div *ngFor="let item of office?.office_towers">
                   <div class="tower-block">
                     <div class="row marginB15">
                       <div class="col-md-6 col-xs-6">
