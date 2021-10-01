@@ -884,5 +884,6 @@ export class AppHeaderComponent implements OnInit {
   }
   show() {
     this.isShowIcon = false;
+    this.admin.setUser(this.isShowSidebar = false);
   }
 }
