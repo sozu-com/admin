@@ -269,7 +269,6 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     this.language_code = localStorage.getItem('language_code');
     this.cs.collections = JSON.parse(localStorage.getItem('collections'));
     this.cs.totalCollections = JSON.parse(localStorage.getItem('collection_total'));
-    console.log(this.cs.totalCollections, "aaa")
     this.admin.globalSettings$.subscribe(success => {
       this.cashLimit = success['cash_limit'];
     });
