@@ -156,13 +156,13 @@ export class OfficeDetailsComponent implements OnInit {
       this.office.total_rent = 0;
       this.office.total_sale = 0;
       this.office.units = 0;
-      this.office.hotel_towers.forEach(bt => {
+      this.office.office_towers.forEach(bt => {
         this.office.units = bt.properties_total_count + this.office.units;
       });
-      this.office.hotel_towers.forEach(bt => {
+      this.office.office_towers.forEach(bt => {
         this.office.total_sale = bt.sale_properties_count + this.office.total_sale;
       });
-      this.office.hotel_towers.forEach(bt => {
+      this.office.office_towers.forEach(bt => {
         this.office.total_rent = bt.rent_properties_count + this.office.total_rent;
       });
       // this.updateSchema(this.hotel);
@@ -273,7 +273,7 @@ export class OfficeDetailsComponent implements OnInit {
         doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
         heightLeft -= pageHeight;
       }
-      doc.save('hotel-details.pdf'); // Generated PDF 
+      doc.save('office-details.pdf'); // Generated PDF 
       this.spinner.hide();
     });
   }
