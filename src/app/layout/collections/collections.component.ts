@@ -235,6 +235,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   layaway_payment = 0;
   down_payment = 0;
   special_payment = 0;
+  is_filter: boolean = false;
   payment_upon_delivery = 0;
   status_collection: number;
   index_collection: number;
@@ -249,7 +250,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     private router: Router,
     private translate: TranslateService,
     public model: Notes,
-    private cs: CommonService,
+    public cs: CommonService,
     private fb: FormBuilder,
     private toastr: ToastrService,
     public modelForDoc: Document,
@@ -266,6 +267,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.language_code = localStorage.getItem('language_code');
+    this.cs.collections = JSON.parse(localStorage.getItem('collections'));
+    this.cs.totalCollections = JSON.parse(localStorage.getItem('collection_total'));
+    console.log(this.cs.totalCollections, "aaa")
     this.admin.globalSettings$.subscribe(success => {
       this.cashLimit = success['cash_limit'];
     });
@@ -411,6 +415,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     input.is_approved = this.parameter.flag;
     this.admin.postDataApi('getCollection', input).subscribe(
       success => {
+        this.is_filter = true;
         this.items = success.data;
         this.total = success.total_count;
 
@@ -536,7 +541,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         this.parameter.locality_id = '0';
         this.parameter.building_id = '0';
       }
-      this.getListing();
+      //this.getListing();
     });
   }
 
@@ -1732,7 +1737,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             if (this.surplus_payment_type == '4') {
               input['collection_payment_choice_id'] = this.surplus_payment_choice_id;
             }
-            let find_index = this.paymentConcepts.findIndex(item=> item.id == this.payment_choice_id.id);
+            let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
             this.paymentReceipt.getCollectionById(this.property_collection_id, find_index, this.payment_choice_id, false);
             this.admin.postDataApi(url, input).subscribe(r => {
               // if (this.surplus_payment_type == '1' || this.surplus_payment_type == '4') {
@@ -1740,7 +1745,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
               // }
             });
           }
-          let find_index = this.paymentConcepts.findIndex(item=> item.id == this.payment_choice_id.id);
+          let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
           this.paymentReceipt.getCollectionById(this.property_collection_id, find_index, this.payment_choice_id, false);
           this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
           this.paymentModalClose.nativeElement.click();
@@ -1966,7 +1971,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           if (this.surplus_payment_type == '4') {
             input['collection_payment_choice_id'] = this.surplus_payment_choice_id;
           }
-          let find_index = this.paymentConcepts.findIndex(item=> item.id == this.payment_choice_id.id);
+          let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
           this.paymentReceipt.getCollectionById(this.property_collection_id, find_index, this.payment_choice_id, false);
           this.admin.postDataApi(url, input).subscribe(r => {
             // if (this.surplus_payment_type == '1' || this.surplus_payment_type == '4') {
@@ -1974,7 +1979,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             // }
           });
         }
-        let find_index = this.paymentConcepts.findIndex(item=> item.id == this.payment_choice_id.id);
+        let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
         this.paymentReceipt.getCollectionById(this.property_collection_id, find_index, this.payment_choice_id, false);
         this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
         this.paymentModalClose.nativeElement.click();
@@ -2014,7 +2019,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         if (this.surplus_payment_type == '4') {
           input['collection_payment_choice_id'] = this.surplus_payment_choice_id;
         }
-        let find_index = this.paymentConcepts.findIndex(item=> item.id == this.payment_choice_id.id);
+        let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
         this.paymentReceipt.getCollectionById(this.property_collection_id, find_index, this.payment_choice_id, false);
         this.admin.postDataApi(url, input).subscribe(r => {
           // if (this.surplus_payment_type == '1' || this.surplus_payment_type == '4') {
@@ -2022,7 +2027,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           // }
         });
       }
-      let find_index = this.paymentConcepts.findIndex(item=> item.id == this.payment_choice_id.id);
+      let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
       this.paymentReceipt.getCollectionById(this.property_collection_id, find_index, this.payment_choice_id, false);
       this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
       this.paymentModalClose.nativeElement.click();
