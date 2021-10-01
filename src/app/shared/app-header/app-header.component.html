@@ -550,7 +550,9 @@
         <!-- desktop -->
 
         <mat-tree [dataSource]="treeDataSource" [treeControl]="treeControl" class="example-tree">
-          <mat-tree-node  *matTreeNodeDef="let node" matTreeNodeToggle routerLink="{{node.url}}"
+          <ng-container *matTreeNodeDef="let node">
+            <ng-container *ngIf="node.acl"> 
+          <mat-tree-node  matTreeNodeToggle routerLink="{{node.url}}"
             routerLinkActive="active" (click)="setStateAsActive(node)"
             style="cursor:pointer;border-bottom:none;padding: 12px;">
             <img [src]="node.icon" class="child-img" [class.active]="node.icon === activeIcon">
@@ -561,9 +563,10 @@
               {{language_code == 'en'? node.title : node.title_es}}
             </a>
           </mat-tree-node>
-
+        </ng-container>
+      </ng-container>
           <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChildren">
-            <div class="mat-tree-node" style="cursor: pointer;">
+            <div class="mat-tree-node" style="cursor: pointer;" *ngIf="node.acl">
               <button mat-icon-button matTreeNodeToggle>
                 <img [src]="node.icon" style="margin-left: 30%;">
                 <strong style="color: #434B52;
@@ -604,7 +607,7 @@
       <div class="scrollbox" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
         <mat-tree [dataSource]="treeDataSource" [treeControl]="treeControl" class="example-tree">
           <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChildren">
-            <div class="mat-tree-node" style="cursor: pointer;">
+            <div class="mat-tree-node" style="cursor: pointer;" *ngIf="node.acl">
               <button mat-icon-button matTreeNodeToggle>
                 <img [src]="node.icon" 
                 style="margin-left: 48%;

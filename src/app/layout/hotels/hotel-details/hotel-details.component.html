@@ -1,0 +1,477 @@
+
+<div *ngIf="loadingListing" style="margin-top:120px;" class="container">
+  <img style="width:100%" src="assets/img/loading_content.gif">
+</div>
+<div class="inner-page-wrapper details-page gray-bg-1" *ngIf="!loadingListing" id="contentToConvert">
+  <div class="container">
+    <!-- <app-schema [schema]="schema"></app-schema> -->
+    <div class="clearfix"></div>
+    <div class="details-header marginB30">
+      <div class="row">
+        <div class="col-md-6 col-12">
+          <h4>{{hotel.name | titlecase}} <span *ngIf="hotel.building_type"
+                                                 class="new-hotel">{{hotel.building_type.name}}</span></h4>
+          <p class="p14" *ngIf="hotel.developer">{{'commonBlock.by' | translate}} {{hotel.developer.name}}</p>
+          <p class="p18">{{hotel.address}}</p>
+          <p class="p14">{{hotel?.possession_status?.name}}</p>
+        </div>
+        {{fixed}}
+        <div class="col-md-6 col-12">
+          <div class="header-details-right text-right">
+            <p class="p18">
+           
+              <span>{{'addForm.basePrice' | translate}}:</span>
+              {{hotel?.mprice ? (hotel?.mprice | currency:'USD':'symbol':'.0'): 'N/A'}}
+              
+              <b *ngIf="hotel?.max_price">-</b>
+              <b *ngIf="hotel?.max_price">{{hotel?.max_price ? (hotel?.max_price | currency:'USD':'symbol':'.0'): 'N/A'}}</b>
+              
+            </p>
+            <p class="p16">{{'addForm.Price_on_Request' | translate}}</p>
+            <div class="btn-cont float-right"><a (click)="downloadPDF()" class="btn btn-primary btn-lg"
+                                                 href="javascript://">{{'propertyDetail.DownloadPDF' | translate}}</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="details-photos">
+      <div class="row cust-row">
+        <div class="col-md-8 cust-col">
+          <img class="main-photo img-fluid" [lazyLoad]="main_image"
+               [defaultImage]="main_image" onerror='this.src="assets/img/placeholder.png"'>
+        </div>
+        <div class="col-md-4 cust-col" *ngIf="hotel.images">
+          <img *ngIf="hotel.images[0]" class="secondary-photo img-fluid"
+               [src]="galleryImageOne" onerror="this.src='assets/img/placeholder.png'"
+               alt="img">
+          <img *ngIf="hotel.images[1]" class="secondary-photo img-fluid"
+               [src]="galleryImagetwo" onerror="this.src='assets/img/placeholder.png'"
+               alt="img">
+        </div>
+      </div>
+
+    </div>
+    <div class="img-des">
+      <div class="row">
+        <div class="col-md-3 col-sm-6 col-12 img-c">
+          <div class="block">
+            <p class="p18">{{hotel.base_min_price | customPrice}} / {{'addForm.mts2' | translate}}</p>
+            <p class="p13">{{'addForm.AveragePricePerMts2' | translate}}</p>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-12 img-c">
+          <div class="block">
+            <p class="p18">{{hotel?.hotel_towers?.length}} {{'addForm.tower.tower' | translate}} - {{hotel?.units}}
+              {{('addForm.units' | translate)}}</p>
+           
+            <p class="p13">{{'addForm.hotelSize' | translate}}</p>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-12 img-c">
+          <div class="block">
+            <p class="p18">{{hotel.total_sale}} {{'addForm.sale' | translate}} - {{hotel.total_rent}} {{'addForm.Rent' | translate}}</p>
+            <p class="p13">{{'addForm.Properties'  | translate}}</p>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-12 img-c">
+          <div *ngIf="configuration" class="block">
+            <p class="p18">{{carpet_area_string}}</p>
+            <p class="p13">{{'addForm.Carpet_Area'  | translate}}
+
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cust-tabs full-width-tabs marginT20">
+    <hr id="bottomDetails">
+    
+    <div class="container">
+      <ul class="nav nav-pills">
+        <li class="nav-item" (click)="tab=1" [ngClass]="{'active':tab==1}">
+          <a class="nav-link" data-toggle="pill" href="javascript://">{{'addForm.overview'  | translate}}</a>
+        </li>
+        <li class="nav-item" (click)="tab=2" [ngClass]="{'active':tab==2}">
+          <a class="nav-link" data-toggle="pill" href="javascript://">{{'addForm.ConfigurationTypes'  | translate}}</a>
+        </li>
+        <li class="nav-item" (click)="tab=5" [ngClass]="{'active':tab==5}">
+          <a class="nav-link" data-toggle="pill" href="javascript://">{{'addForm.Gallery'  | translate}}</a>
+        </li>
+        <li class="nav-item" (click)="tab=6" [ngClass]="{'active':tab==6}">
+          <a class="nav-link" data-toggle="pill" href="javascript://">{{'addForm.Towers'  | translate}}</a>
+        </li>
+        <li class="nav-item" (click)="tab=3" [ngClass]="{'active':tab==3}">
+          <a class="nav-link" data-toggle="pill" href="javascript://">{{'addForm.Amenities'  | translate}}</a>
+        </li>
+      </ul>
+    </div>
+    <hr>
+    <div class="spacer30"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-7 col-md-12 col-sm-12 col-12">
+          <div class="white-bg padding40">
+            <div class="tab-content">
+              <div *ngIf="tab==1">
+                <p class="p14">{{'addForm.overview' | translate}}</p>
+                <p class="newline">{{hotel.description  | translate}}</p>
+                <p class="p14">{{'addForm.Address'  | translate}}: </p>
+                <p class="newline">{{hotel.address}}</p>
+
+                <div class="row">
+                  <div *ngIf="hotel.custom_values" class="overview-table marginT15 col-6">
+                    <table style="width: 100%">
+                      <tbody>
+                      <tr *ngFor="let item of hotel.custom_values">
+                        <td><label>{{item.name}}:</label></td>
+                        <td><label>{{item.value}}</label></td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+             
+                <div class="map-3 marginT30">
+                  <div style="height:350px;" #mapListing>
+                  </div>
+                </div>
+
+                <div class="spacer30"></div>
+
+                <p *ngIf="hotel.configurations && hotel.configurations.length > 0" class="p14">{{'addForm.ConfigurationTypes'  | translate}}</p>
+                <div *ngFor="let config of hotel.configurations">
+                  <div class="config-table">
+                    <table style="width:100%;">
+                      <tbody>
+                      <tr>
+                        <th>{{'addForm.Configuration_type'  | translate}}</th>
+                        <th>{{'addForm.Carpet_Area'  | translate}}</th>
+                        <th>{{'addForm.Base_Price'  | translate}}</th>
+                      </tr>
+                      <tr>
+                        <td>
+                      
+                          <p class="p14 marginB0">
+                            {{config?.config?.bedroom ? config?.config?.bedroom + ' ' + ('addForm.Bed'  | translate ): ''}}
+                            {{config?.config?.bathroom ? ' · ' + config?.config?.bathroom + ' ' + ('addForm.Bath'  | translate) : ''}}
+                            {{config?.config?.half_bathroom ? ' · ' + config?.config?.half_bathroom + ' ' + ('addForm.Half_Bath'  | translate): ''}}
+                          </p>
+                          <a *ngIf="config?.name" class="available-for">
+                            {{config?.name}}
+                          </a>
+
+                        </td>
+                        <td>
+                          <table style="width:100%;">
+                            <tbody>
+                            <tr>
+                              <td>{{config.carpet_area ? (config.carpet_area | numberWithCommas): 'N/A'}} {{config.carpet_area ? ('addForm.mts2'  | translate) : ''}}</td>
+                            </tr>
+
+                            </tbody>
+                          </table>
+                        </td>
+                        <td>
+                          <table style="width:100%;">
+                            <tbody>
+                            <tr *ngIf="config?.base_price>0">
+                              <td>{{(config.base_price || 0 ) | customPrice}}</td>
+                            </tr>
+                            <tr *ngIf="config?.base_price <=0">
+                              <td>{{'addForm.soldOut'  | translate}}</td>
+                            </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="fig-block padding40 text-center">
+                    <img class="img-fluid" [src]="config.configBase" alt="img">
+                  </div>
+                </div>
+
+                <div class="spacer30"></div>
+                <p class="p14">{{'addForm.Gallery'  | translate}}</p>
+                <div class="hotel-gallery marginB15" *ngIf="hotel?.images360 && hotel?.images360.length>0">
+                  <img [lazyLoad]="image_360"
+                           [defaultImage]="image_360|img:'thumb'"
+                           onerror='this.src="assets/img/placeholder.png"'>
+                </div>
+                <div *ngIf="(hotel?.images && hotel?.images.length>0) || (hotel?.videos && hotel?.videos.length>0)" class="gallery-bottom">
+                  <div *ngIf="hotel?.images.length>0" class="images-wrapper">
+                    <a [href]="galleryImageOne" data-lightbox="image">
+                      <img [lazyLoad]="galleryImageOne"
+                           [defaultImage]="galleryImageOne|img:'thumb'"
+                           onerror='this.src="assets/img/placeholder.png"'>
+                    </a>
+                  </div>
+                  <div *ngIf="hotel?.videos && hotel?.videos.length>0" class="video-wrapper">
+                    <img [lazyLoad]="video_thumb"
+                         [defaultImage]="video_thumb|img:'thumb'"
+                         onerror='this.src="assets/img/placeholder.png"'
+                         alt="img">
+                    <div class="upload-caption" >
+                      <p class="number ng-star-inserted">
+                        <img src="assets/img/ic_video.png" alt="360 img">
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="spacer30"></div>
+                <p class="p14">{{'addForm.Towers' | translate}}</p>
+                <div *ngFor="let item of hotel?.hotel_towers">
+                  <div class="tower-block">
+                    <div class="row marginB15">
+                      <div class="col-md-6 col-xs-6">
+                        <p class="p14 marginB0">{{item?.tower_name}}</p>
+                        <p class="p12 bold">{{'addForm.totalFloors'  | translate}}:{{item?.num_of_floors}}
+                          
+                        </p>
+                      </div>
+                      <div class="col-md-6 col-xs-6 text-right">
+                        <p class="p12 bold marginB0">{{'addForm.possession_Status'  | translate}}:
+                          {{item?.possession_status?.name_en ? (item?.possession_status?.name_en): 'N/A'}}</p>
+                        
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6 col-xs-6">
+                        <p class="p12 marginB0 green">
+                          {{'addForm.availableForSale'  | translate}}:{{item?.sale_properties_count}} |
+                          {{'addForm.Rent' | translate}}:{{item?.rent_properties_count}}</p>
+                      </div>
+                      <div class="col-md-6 col-xs-6 text-right">
+                        <a 
+                           class="p12 marginB0 green">{{'addForm.viewProperties'  | translate}}</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="spacer30"></div>
+                <p class="p14">{{'addForm.Amenities'  | translate}}</p>
+                <div class="icons-group">
+                  <div *ngFor="let am of hotel.amenities" class="icons-control">
+                    <div class="fig-block">  <!-- (click)="viewAmenities(am)"-->
+                      <img class="icon" [src]="am.iconBase" onerror='src="assets/img/placeholder.png"'>
+                    </div>
+                    <p class="p13">{{language_code
+                      == 'en'? am.name_en : am.name_es}}</p>
+                  </div>
+                </div>
+
+                <div *ngIf="hotel.banks.length > 0">
+                  <div class="row">
+                    <div class="col-6">
+                      <p class="p14">{{'addForm.Home_Loans'  | translate}}</p>
+                    </div>
+                    <div class="col-6" *ngIf="hotel.banks.length > 3 && bankClicked == false">
+                      <div class="text-right">
+                        <a class="see-more" (click)="bankLimit = 100; bankClicked = true;"
+                           href="javascript://"><span>+{{hotel.banks.length - 3}} more</span> <i
+                          class="fa fa-angle-right"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="bank-blocks">
+                    <div *ngFor="let bank of hotel.banks | slice : 0 : bankLimit" class="block">
+                      <div class="fig-block text-center">
+                        <img class="img-fluid" [src]="bank.image| img:'small'"
+                             onerror="this.src='assets/img/placeholder.png'" alt="img">
+                      </div>
+                      <div class="d-flex">
+                        <p class="p13">{{'addForm.Fixed_Interest'  | translate}}</p>
+                        <p class="p16">{{bank.floating_int}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                
+
+              </div>
+              <div *ngIf="tab==2">
+
+                <p class="p14">{{'addForm.ConfigurationTypes'  | translate}}</p>
+                <div *ngFor="let config of hotel.configurations">
+                  <div class="config-table">
+                    <table style="width:100%;">
+                      <tbody>
+                      <tr>
+                        <th>{{'addForm.Configuration_type' | translate}}</th>
+                        <th>{{'addForm.Carpet_Area'  | translate}}</th>
+                        <th>{{'addForm.Base_Price'  | translate}}</th>
+                      </tr>
+                      <tr>
+                        <td>
+                
+                          <p class="p14 marginB0">
+                            {{config?.config?.bedroom ? config?.config?.bedroom + ' ' + ('addForm.Bed'  | translate) : ''}}
+                            {{config?.config?.bathroom ? ' · ' + config?.config?.bathroom + ' ' + ('addForm.Bath'  | translate): ''}}
+                            {{config?.config?.half_bathroom ? ' · ' + config?.config?.half_bathroom + ' ' + ('addForm.Half_Bath'  | translate): ''}}
+                          </p>
+                          <a *ngIf="config?.name" class="available-for">
+                            {{config?.name}}
+                          </a>
+                        </td>
+                        <td>
+                          <table style="width:100%;">
+                            <tbody>
+                            <tr>
+                              <td>{{config.carpet_area ? (config.carpet_area | numberWithCommas): 'N/A'}} {{config.carpet_area ? ('addForm.mts2'  | translate): ''}}</td>
+                            </tr>
+
+                            </tbody>
+                          </table>
+                        </td>
+                        <td>
+                          <table style="width:100%;">
+                            <tbody>
+                            <tr *ngIf="config?.base_price>0">
+                              <td>{{config.base_price| customPrice}}</td>
+                            </tr>
+                            <tr *ngIf="config?.base_price <=0">
+                              <td>{{'addForm.soldOut'  | translate}}</td>
+                            </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="fig-block padding40 text-center">
+                    <img class="img-fluid" [src]="config.configBase" alt="img">
+                  </div>
+                </div>
+
+              </div>
+              <div *ngIf="tab==3">
+                <p class="p14">{{'addForm.Amenities'  | translate}}</p>
+                <div class="icons-group">
+                  <div *ngFor="let am of hotel.amenities" class="icons-control">
+                    <div class="fig-block" >
+                      <!-- (click)="viewAmenities(am)" -->
+                      <img class="icon" [src]="am.iconBase" onerror='src="assets/img/placeholder.png"' alt="img">
+                    </div>
+                    <p class="p13">{{language_code
+                      == 'en'? am.name_en : am.name_es}}</p>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="tab==4">
+                <p class="p14">{{'addForm.ContactUs'  | translate}}</p>
+                <div *ngIf="hotel?.developer" class="contact-developer white-bg">
+                  <table class="table">
+                    <tr>
+                      <td style="width:10%">
+                        <div class="fig-block">
+                          <img class="img-fluid" [src]="hotel?.developer?.developer_image| img:'thumb'"
+                               onerror='this.src="assets/img/placeholder.png"' alt="img">
+                        </div>
+                      </td>
+                      <td style="width:30%">
+                        <p class="p11">{{'addForm.Developer'  | translate}}</p>
+                        <p class="p16">{{hotel?.developer.name}}</p>
+                        <p class="p13">{{hotel?.developer.developer_title}}</p>
+                      </td>
+                      <td style="width:60%;">
+                        <p class="p16">1</p>
+                        <p class="p13">{{'addForm.hotels'  | translate}}</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        &nbsp;
+                      </td>
+                      <td>
+                        <p class="p12">{{'addForm.ContactUs'  | translate}}</p>
+                        <p>{{hotel?.developer?.dial_code}} {{hotel?.developer?.phone}}</p>
+                      </td>
+                      <td>
+                        &nbsp;
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                
+              </div>
+
+
+              <div *ngIf="tab==5">
+                <p class="p14">{{'addForm.Gallery'  | translate}}</p>
+
+
+                <div class="hotel-gallery marginB15" *ngIf="hotel?.images360.length>0">
+                  <img [lazyLoad]="image_360"
+                  [defaultImage]="image_360|img:'thumb'"
+                  onerror='this.src="assets/img/placeholder.png"'>
+                      
+                </div>
+                <div *ngIf="hotel?.images.length>0 || hotel?.videos.length>0" class="gallery-bottom">
+                  <div *ngIf="hotel?.images.length>0" class="images-wrapper">
+                    <a [href]="galleryImageOne" data-lightbox="image">
+                      <img [lazyLoad]="galleryImageOne"
+                           [defaultImage]="galleryImageOne|img:'thumb'"
+                           onerror='this.src="assets/img/placeholder.png"'>
+                    </a>
+                  </div>
+                  <div *ngIf="hotel?.videos.length>0" class="video-wrapper">
+                    <img [lazyLoad]="video_thumb"
+                         [defaultImage]="video_thumb|img:'thumb'"
+                         onerror='this.src="assets/img/placeholder.png"'
+                         alt="img">
+                    <div class="upload-caption" >
+                      <p class="number ng-star-inserted">
+                        <img src="assets/img/ic_video.png" alt="360 img">
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="tab==6">
+                <p class="p14">{{'addForm.Towers' | translate}}</p>
+                <div *ngFor="let item of hotel?.hotel_towers">
+                  <div class="tower-block">
+                    <div class="row marginB15">
+                      <div class="col-md-6 col-xs-6">
+                        <p class="p14 marginB0">{{item?.tower_name}}</p>
+                        <p class="p12 bold">{{'addForm.totalFloors'  | translate}}:{{item?.num_of_floors}}
+                          
+                        </p>
+                      </div>
+                      <div class="col-md-6 col-xs-6 text-right">
+                        <p class="p12 bold marginB0">{{'addForm.possession_Status'  | translate}}:
+                          {{item?.possession_status?.name_en}}</p>
+                        
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6 col-xs-6">
+                        <p class="p12 marginB0 green">
+                          {{'addForm.availableForSale' | translate}}:{{item?.sale_properties_count}} |
+                          {{'addForm.Rent' | translate}}:{{item?.rent_properties_count}}</p>
+                      </div>
+                      <div class="col-md-6 col-xs-6 text-right">
+                        <a class="p12 marginB0 green">{{'addForm.viewProperties' | translate}}</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+       
+      </div>
+    </div>
+  </div>
+  <div class="spacer60"></div>
+</div>

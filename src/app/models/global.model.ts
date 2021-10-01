@@ -56,8 +56,9 @@ export class Building {
   data?: any;
   project?: any;
   avg_price?: any;
-  units?:any;
+  units?: any;
   building_towers?: any[] = [];
+  hotel_towers?: any[] = [];
   total_rent?: any;
   total_sale?: any;
   min_carpet_area?: number;
@@ -67,7 +68,8 @@ export class Building {
   videos?: any[] = [];
   amliy?: test;
 }
-export class test {;
+export class test {
+  ;
   id?: any;
   name?: any;
   name_en?: any;

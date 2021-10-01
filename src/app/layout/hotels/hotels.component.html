@@ -259,8 +259,10 @@
                   <img *ngIf="!p.main_image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
                 </td>
                 <!--routerLink="/dashboard/projects/details/{{p.id}}"-->
-                <td *ngIf="selectedColumnsToShow?.hotel_name"  
-                title="{{'table.title.clickToViewDetails' | translate}}">
+                <td *ngIf="selectedColumnsToShow?.hotel_name" 
+                routerLink="/dashboard/hotels/details/{{p.id}}"  
+                title="{{'table.title.clickToViewDetails' | translate}}"
+                [ngClass]="{'green-color cursor-pointer': p?.name}">
                   <strong>{{p?.name}}</strong>
                 </td>
                 <td [ngClass]="{'green-color cursor-pointer': p?.developer?.name}"  *ngIf="selectedColumnsToShow?.developer" (click)="viewDeveloper(p)">

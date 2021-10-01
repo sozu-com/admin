@@ -18,6 +18,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { HotelsComponent } from './hotels.component';
 import { AddHotelComponent } from './add-hotel/add-hotel.component';
+import { HotelDetailsComponent } from './hotel-details/hotel-details.component';
 
 
 const routes: Routes = [
@@ -32,7 +33,11 @@ const routes: Routes = [
   {
     path: 'edit-hotel/:id', component: AddHotelComponent,
     canActivate: [AclUserGuard], data: { roles: ['Hotel Management', 'can_update', 'can_data_collector'] }
-  }
+  },
+  {
+    path: 'details/:hotel_id', component: HotelDetailsComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Hotel Management', 'can_read', 'can_data_collector'] }
+  },
 ];
 
 @NgModule({
@@ -57,7 +62,8 @@ const routes: Routes = [
   ],
   declarations: [
     HotelsComponent,
-    AddHotelComponent
+    AddHotelComponent,
+    HotelDetailsComponent
     // ImgPipe
   ]
 })
