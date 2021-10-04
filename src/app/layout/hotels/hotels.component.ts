@@ -163,7 +163,6 @@ export class HotelsComponent implements OnInit {
     this.admin.postDataApi(this.parameter.url, { hide_blocked: 0 })
       .subscribe(
         success => {
-          this.spinner.hide();
           this.hotelTypes = success.data;
         }, error => {
           this.spinner.hide();
@@ -255,7 +254,6 @@ export class HotelsComponent implements OnInit {
   getCountries() {
     this.spinner.show();
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
-      this.spinner.hide();
       this.location.countries = r['data'];
       if (this.is_back) {
         const selectedCountry = this.location.countries.filter(x => x.id.toString() === this.parameter.country_id);
