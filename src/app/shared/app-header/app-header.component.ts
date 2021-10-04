@@ -859,20 +859,20 @@ export class AppHeaderComponent implements OnInit {
     this.treeControl = new NestedTreeControl<MyTreeNode>(this.makeGetChildrenFunction())
     this.treeDataSource = new MatTreeNestedDataSource()
     this.treeDataSource.data = demoNodes,
-      this.treeDataSource.data.forEach(x => {
+      // this.treeDataSource.data.forEach(x => {
 
-        console.log(x.title, "node");
-      })
-    this.admin.loginData$.subscribe(success => {
-      this.fullName = success['name'];
-      this.image = success['image'];
-      this.messagingService.requestPermission(success['id']);
-      this.messagingService.receiveMessage();
-      this.message = this.messagingService.currentMessage;
-      // if (this.messagingService.fcmTokens) {
-      //   this.updateDeviceToken();
-      // }
-    });
+      //   console.log(x.title, "node");
+      // })
+      this.admin.loginData$.subscribe(success => {
+        this.fullName = success['name'];
+        this.image = success['image'];
+        this.messagingService.requestPermission(success['id']);
+        this.messagingService.receiveMessage();
+        this.message = this.messagingService.currentMessage;
+        // if (this.messagingService.fcmTokens) {
+        //   this.updateDeviceToken();
+        // }
+      });
 
 
     this.getNotifications();
