@@ -236,7 +236,7 @@ export class AddHotelComponent implements OnInit {
       if (this.id) {
         /* if id exists edit mode */
         let self = this;
-        this.canEditdeveloperInfo = false;
+        self.canEditdeveloperInfo = false;
         this.spinner.show()
         this.admin.postDataApi('getHotelById', { hotel_id: this.id }).subscribe(r => {
           this.spinner.hide();
@@ -316,7 +316,7 @@ export class AddHotelComponent implements OnInit {
 
           this.model.custom_attributes = this.model.custom_values;
           this.file5.image = this.model.developer.image;
-          this.file22.image = this.model.hotel_company.image;
+          this.file22.image = this.model.hotel_company ? this.model.hotel_company.image : undefined;
           this.file6.image = this.model.developer.developer_image;
           let lang = localStorage.getItem('language_code');
           this.admin.postDataApi('getHotelAmenities', { hide_blocked: 1, language: lang == 'en' ? 1 : 2 }).subscribe(res => {
@@ -414,7 +414,7 @@ export class AddHotelComponent implements OnInit {
           }
           this.model.custom_attributes = this.model.custom_values;
           this.file5.image = this.model.developer.image;
-          this.file22.image = this.model.hotel_company.image;
+          this.file22.image = this.model.hotel_company ? this.model.hotel_company.image : undefined;
           this.file6.image = this.model.developer.developer_image;
           let lang = localStorage.getItem('language_code');
           this.admin.postDataApi('getHotelAmenities', { hide_blocked: 1, language: lang == 'en' ? 1 : 2 }).subscribe(res => {
@@ -1240,11 +1240,11 @@ export class AddHotelComponent implements OnInit {
     modelSave.dev_logo = this.file5.image;
     modelSave.developer_image = this.file6.image;
     //hotelcompany
-    modelSave.hotel_company_name = modelSave.hotel_company.name;
-    modelSave.hotel_company_email = modelSave.hotel_company.email;
-    modelSave.hotel_company_phone = modelSave.hotel_company.phone;
-    modelSave.hotel_company_countrycode = modelSave.hotel_company.country_code ? modelSave.hotel_company.country_code : this.constant.country_code;
-    modelSave.hotel_company_dialcode = modelSave.hotel_company.dial_code ? modelSave.hotel_company.dial_code : this.constant.dial_code;
+    modelSave.hotel_company_name = modelSave.hotel_company ? modelSave.hotel_company.name : undefined;
+    modelSave.hotel_company_email = modelSave.hotel_company ? modelSave.hotel_company.email : undefined;
+    modelSave.hotel_company_phone = modelSave.hotel_company ? modelSave.hotel_company.phone: undefined;
+    modelSave.hotel_company_countrycode = modelSave.hotel_company && modelSave.hotel_company.country_code ? modelSave.hotel_company.country_code : this.constant.country_code;
+    modelSave.hotel_company_dialcode = modelSave.hotel_company && modelSave.hotel_company.dial_code ? modelSave.hotel_company.dial_code : this.constant.dial_code;
     modelSave.hotel_company_logo = this.file22.image;
     modelSave.amenities = this.all_amenities.filter(op => {
       if (op.selected === true) {
@@ -1425,7 +1425,7 @@ export class AddHotelComponent implements OnInit {
     if (this.id) {
       modelSave.hotel_id = this.id;
       modelSave.developer_id = modelSave.developer.id;
-      modelSave.hotel_tower_manager_companies_id = modelSave.hotel_company.id;
+      modelSave.hotel_tower_manager_companies_id = modelSave.hotel_company ? modelSave.hotel_company.id : undefined;
 
       modelSave.manager_id = modelSave.manager && modelSave.manager.id ? modelSave.manager.id : null;
       modelSave.company_id = modelSave.company && modelSave.company.id ? modelSave.company.id : null;
@@ -1547,7 +1547,7 @@ export class AddHotelComponent implements OnInit {
     });
     this.model.custom_attributes = this.model.custom_values;
     this.file5.image = this.model.developer.image;
-    this.file22.image = this.model.hotel_company.image;
+    this.file22.image = this.model.hotel_company ? this.model.hotel_company.image : undefined;
     this.file6.image = this.model.developer.developer_image;
 
     if (data['locality']) {
