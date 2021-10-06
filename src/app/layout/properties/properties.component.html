@@ -332,9 +332,9 @@
                            <div class="table-search">
                               <label>{{'table.th.nameOfBuilding' | translate}}</label>
                               <div class="searh-3">
-                                 <input class="width100px" type="text" [(ngModel)]="parameter.keyword" name="keyword"
+                                 <input class="width100px" type="text" [(ngModel)]="parameter.building_name" name="building_name"
                                     (keyup.enter)="getListing('','')" autocomplete="address-level4">
-                                 <button *ngIf="parameter.keyword" (click)="getListing('','')"><i
+                                 <button *ngIf="parameter.building_name" (click)="getListing('','')"><i
                                        class="fa fa-search"></i></button>
                               </div>
                            </div>
