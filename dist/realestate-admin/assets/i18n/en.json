@@ -934,6 +934,7 @@
       "expenditure": "Expenditure",
       "income": "Income",
       "sector": "Sector",
+      "remainingCollection": "Send remaining to another collection",
       "possesion": {
         "label": "Possesion",
         "Building_type": "Building type",
@@ -1258,7 +1259,9 @@
       "Deal Done": "Deal Done",
       "Lead Lost": "Lead Lost",
       "chooseSupplier": "Choose supplier",
-      "collectionDetail": "Collection Detail"
+      "collectionDetail": "Collection Detail",
+      "selectCollection": "Select Collection",
+      "transferApplied" : "Transfer applied"
     },
     "pagination": {
       "showing": "Showing",
@@ -2387,7 +2390,8 @@
     "preferencesMatch": "Preferences Match",
     "yes":"Yes",
     "cancel": "Cancel",
-    "continue": "Continue"
+    "continue": "Continue",
+    "finish": "Finish"
   },
   "viewCollections": {
     "choose": "Choose",
