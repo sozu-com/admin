@@ -240,6 +240,12 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   status_collection: number;
   index_collection: number;
   monthly_installment_count: any;
+  remaining_amount_collection: any;
+  collectionId: any;
+  collectionDetailShow: boolean = false;
+  searchCollection: any;
+  searched_collection: any;
+  finish: boolean = false;
   constructor(
     public constant: Constant,
     public apiConstants: ApiConstants,
@@ -762,6 +768,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             self.special_payment = element.category_name.includes('Special payment') ? self.special_payment + (element.calc_payment_amount || 0) : self.special_payment + 0;
             self.payment_upon_delivery = element.category_name.includes('Payment upon Delivery') ? self.payment_upon_delivery + (element.calc_payment_amount || 0) : self.payment_upon_delivery + 0;
           });
+          this.closeCancelModal();
           this.openCancelDetailModal.nativeElement.click();
         } else {
           this.cancelPropertyCollections(item, index, status);
@@ -772,8 +779,13 @@ export class CollectionsComponent implements OnInit, OnDestroy {
 
   closeCancelModal() {
     this.showNext = false;
+    this.finish = false;
+    this.searchCollection = false;
+    this.collectionDetailShow = false;
     this.cancelationCommision = undefined;
-    this.closeCancelDetailModal.nativeElement.click();
+    this.collectionId = undefined;
+    this.remaining_amount_collection = undefined; 
+    this.searchCollection = undefined;
   }
 
   cancelPropertyCollections(item: any, index: number, status: number) {
@@ -783,8 +795,10 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           this.translate.instant('message.success.cancelledSuccessfully') :
           this.translate.instant('message.success.activedSuccessfully');
         this.toastr.success(t, this.translate.instant('swal.success'));
-        this.items[index].is_cancelled = status;
-        this.closeCancelDetailModal.nativeElement.click();
+        this.is_filter ? this.items[index].is_cancelled = status : this.cs.collections[index].is_cancelled = status;
+        if(!this.remaining_amount_collection){
+          this.closeCancelDetailModal.nativeElement.click();
+        }
       },
         error => {
           this.toastr.error(error.error.message, this.translate.instant('swal.error'));
@@ -1426,8 +1440,10 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         this.penaltyAmount = item.penalty ? parseFloat(item.penalty.amount).toFixed(2) : 0;
         this.pendingPayment = 0.00; // amt already paid
         this.currentAmount = (parseFloat(currentAmt) - parseFloat(currentAmtPaid)).toFixed(2);
+        if(!this.remaining_amount_collection){
         this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment) +
           parseFloat(this.penaltyAmount)).toFixed(2);
+        }
         this.calculatedPayAmount = [...this.paymentAmount];
       } else if (this.payment_type == 1) {
         for (let index = 0; index < this.paymentConcepts.length; index++) {
@@ -1445,7 +1461,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         this.penaltyAmount = item.penalty ? parseFloat(item.penalty.amount).toFixed(2) : 0;
         this.pendingPayment = (amt - amtPaid).toFixed(2);
         this.currentAmount = (parseFloat(currentAmt) - parseFloat(currentAmtPaid)).toFixed(2);
+        if(!this.remaining_amount_collection){
         this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);
+        }
         this.calculatedPayAmount = [...this.paymentAmount];
       }
     }
@@ -1717,7 +1735,13 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         // this.toastr.error(this.translate.instant('message.error.cashLimitReached'), this.translate.instant('swal.error'));
         // return false;
       }
-      const url = this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'applyCommissionPayment';
+      let url;
+      if(!this.remaining_amount_collection){
+      url = this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'applyCommissionPayment';
+      }
+      else{
+        url = 'applyCollectionPayment';
+      }
       // if (this.typeOfPayment) {
       //   this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'apply-popup';
       // } else {
@@ -1738,6 +1762,10 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             }
             let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
             this.paymentReceipt.getCollectionById(this.property_collection_id, find_index, this.payment_choice_id, false);
+            if(this.remaining_amount_collection){
+              this.collectionDetailShow = true;
+              this.openCancelDetailModal.nativeElement.click();
+            }
             this.admin.postDataApi(url, input).subscribe(r => {
               // if (this.surplus_payment_type == '1' || this.surplus_payment_type == '4') {
               //   input['collection_payment_choice_id'] = this.payment_choice_id['id']
@@ -1746,7 +1774,19 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           }
           let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
           this.paymentReceipt.getCollectionById(this.property_collection_id, find_index, this.payment_choice_id, false);
+          if(!this.remaining_amount_collection){
           this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
+          }
+          else{
+            this.payment_method_id = undefined;
+            this.paymentAmount = 0;
+            this.docsFile1.nativeElement.value = '';
+            this.cancelPropertyCollections(this.select_collection, this.index_collection, this.status_collection);
+            this.closePaymentModal();
+            this.openCancelDetailModal.nativeElement.click();
+            this.searchCollection = false;
+            this.finish = true;
+          }
           this.paymentModalClose.nativeElement.click();
           this.closeCollReceiptModal();
 
@@ -2249,8 +2289,11 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   }
 
   closeCollReceiptModal() {
-    this.paymentAmount = 0; this.docFile = ''; this.description = '';
-    this.penaltyAmount = 0; this.pendingPayment = 0; this.currentAmount = 0;
+    this.penaltyAmount = 0; this.docFile = ''; this.description = '';
+    if(!this.remaining_amount_collection){
+    this.paymentAmount = 0; 
+    }
+    this.pendingPayment = 0; this.currentAmount = 0;
     // this.docsFile.nativeElement.value = '';
     if (this.commission_type == 1) {
       this.collectionTypeSelect.nativeElement.value = '';
@@ -2384,10 +2427,17 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         amt = parseFloat(amt) + parseFloat(r['amount']) + parseFloat(penaltyamt);
         amtPaid = parseFloat(amtPaid) + parseFloat(currentAmtPaid);
       }
+      if(!this.remaining_amount_collection){
       this.paymentAmount = (amt - amtPaid).toFixed(2);
       this.calculatedPayAmount = [...this.paymentAmount];
+      }
+      else{
+        this.calculatedPayAmount = (amt - amtPaid).toFixed(2);
+      }
     }
+    if(!this.remaining_amount_collection){
     this.applyPaymentMethodId.nativeElement.value = '';
+    }
   }
 
   setPayMentTypeSurplus(payment_type: string) {
@@ -4038,6 +4088,50 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         break;
     }
 
+  }
+
+  cancelYes(){
+    if(this.remaining_amount_collection){
+      this.searchCollection = true;
+      this.showNext = true;
+      this.collectionDetailShow = false;
+    }
+    else{
+      this.collectionDetailShow = true;
+      this.searchCollection = false
+      this.showNext = true;
+    }
+  }
+
+  searchCollectionById(){
+    this.spinner.show();
+    this.admin.postDataApi('getCollectionById', { id:  this.collectionId})
+    .subscribe(
+      success => {
+        this.spinner.hide();
+        this.searched_collection = success['data'];
+      });
+  }
+
+  paymentAdjust(){
+    this.paymentAmount = this.select_collection.total_payment_recieved - (this.cancelationCommision || 0);
+    this.paymentConcepts = this.searched_collection.payment_choices;
+    this.closeCancelDetailModal.nativeElement.click();
+    this.showPaymentBanks(this.searched_collection);
+    this.property_collection_id = this.searched_collection.id;
+    this.paymentModalOpen.nativeElement.click();
+  }
+
+  closeCancel(){
+    this.closeCancelDetailModal.nativeElement.click();
+    this.showNext = false;
+    this.finish = false;
+    this.searchCollection = false;
+    this.collectionDetailShow = false;
+    this.cancelationCommision = undefined;
+    this.collectionId = undefined;
+    this.remaining_amount_collection = undefined; 
+    this.searchCollection = undefined;
   }
 
 }

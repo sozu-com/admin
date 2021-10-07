@@ -932,6 +932,7 @@
       "expenditure": "Gasto",
       "income": "Ingreso",
       "sector": "Sector",
+      "remainingCollection": "Enviar el resto a otra colección",
       "possesion": {
         "label": "Fecha de entrega",
         "Building_type": "Tipo de construcción",
@@ -1259,7 +1260,9 @@
       "Deal Done": "Trato hecho",
       "Lead Lost": "Plomo perdido",
       "chooseSupplier": "Elija proveedor",
-      "collectionDetail": "Colección Detalle"
+      "collectionDetail": "Colección Detalle",
+      "selectCollection": "Seleccionar colección",
+      "transferApplied" : "Transferencia aplicada"
     },
     "pagination": {
       "showing": "Mostrando",
@@ -2380,7 +2383,8 @@
     "preferencesMatch": "Resultados de preferencias",
     "yes":"Sí",
     "cancel": "Cancelar",
-    "continue": "continuar"
+    "continue": "continuar",
+    "finish": "Terminar"
   },
   "viewCollections": {
     "choose": "Escoger",
