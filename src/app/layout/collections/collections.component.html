@@ -3268,20 +3268,20 @@ Special p.                {{special_payment | currency}}
                 </label>
               </td>
               <td style="border-bottom: none;padding-bottom: 0px;">
-                <span *ngIf="select_collection?.buyer_type == 1">
-                  <strong>{{select_collection?.buyer?.name ? (select_collection?.buyer?.name + ' ' +
-                    select_collection?.buyer?.first_surname + ' ' +
-                    select_collection?.buyer?.second_surname) : ('table.tr.td.NA' | translate)}}</strong>
+                <span *ngIf="searched_collection?.buyer_type == 1">
+                  <strong>{{searched_collection?.buyer?.name ? (searched_collection?.buyer?.name + ' ' +
+                    searched_collection?.buyer?.first_surname + ' ' +
+                    searched_collection?.buyer?.second_surname) : ('table.tr.td.NA' | translate)}}</strong>
                 </span>
-                <span *ngIf="select_collection?.buyer_type == 2">
-                  <strong>{{select_collection?.buyer_legal_entity?.comm_name ?
-                    (select_collection?.buyer_legal_entity?.comm_name) : ('table.tr.td.NA' |
+                <span *ngIf="searched_collection?.buyer_type == 2">
+                  <strong>{{searched_collection?.buyer_legal_entity?.comm_name ?
+                    (searched_collection?.buyer_legal_entity?.comm_name) : ('table.tr.td.NA' |
                     translate)}}</strong>
                 </span>
-                <span *ngIf="select_collection?.buyer_type == 3">
-                  <strong>{{select_collection?.buyer?.name ? (select_collection?.buyer?.name + ' ' +
-                    select_collection?.buyer?.first_surname + ' ' +
-                    select_collection?.buyer?.second_surname) : ('table.tr.td.NA' | translate)}}</strong>
+                <span *ngIf="searched_collection?.buyer_type == 3">
+                  <strong>{{searched_collection?.buyer?.name ? (searched_collection?.buyer?.name + ' ' +
+                    searched_collection?.buyer?.first_surname + ' ' +
+                    searched_collection?.buyer?.second_surname) : ('table.tr.td.NA' | translate)}}</strong>
                 </span>
               </td>
             </tr>
@@ -3295,7 +3295,7 @@ Special p.                {{special_payment | currency}}
               </td>
               <td style="border-bottom: none;padding-bottom: 0px;">
                 <span>
-                  <strong>{{select_collection?.property?.building?.name ? select_collection?.property?.building?.name:
+                  <strong>{{searched_collection?.property?.building?.name ? searched_collection?.property?.building?.name:
                     ('table.tr.td.NA' |
                     translate)}}</strong>
                 </span>
@@ -3310,8 +3310,8 @@ Special p.                {{special_payment | currency}}
                 </label>
               </td>
               <td style="border-bottom: none;padding-bottom: 0px;">
-                <span><strong>{{select_collection?.property?.building_towers ?
-                    select_collection?.property?.building_towers?.tower_name : ('table.tr.td.NA'
+                <span><strong>{{searched_collection?.property?.building_towers ?
+                  searched_collection?.property?.building_towers?.tower_name : ('table.tr.td.NA'
                     | translate)}}</strong></span>
               </td>
             </tr>
@@ -3324,7 +3324,7 @@ Special p.                {{special_payment | currency}}
                 </label>
               </td>
               <td style="border-bottom: none;padding-bottom: 0px;">
-                <span><strong> {{select_collection?.property?.name}}</strong></span>
+                <span><strong> {{searched_collection?.property?.name}}</strong></span>
               </td>
             </tr>
           </table>
@@ -3337,7 +3337,7 @@ Special p.                {{special_payment | currency}}
               </label>
             </div>
             <div class="col-6">
-              <span><strong>{{(select_collection?.total_payment_recieved || 0) | currency}}</strong></span>
+              <span><strong>{{(searched_collection?.total_payment_recieved || 0) | currency}}</strong></span>
             </div>
           </div>
           <div class="row">
@@ -3502,7 +3502,7 @@ Special p.                {{special_payment | currency}}
               </label>
             </td>
             <td style="border-bottom: none;padding-bottom: 0px;">
-              <span><strong>{{(cancelationCommision || 0) | currency}}</strong></span>
+              <span><strong>{{(select_collection.total_payment_recieved - (cancelationCommision || 0) || 0) | currency}}</strong></span>
             </td>
           </tr>
           <tr>
