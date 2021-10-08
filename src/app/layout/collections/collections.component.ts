@@ -735,6 +735,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   }
 
   cancelPopup(item: any, index: number, status: number) {
+    if(item.is_cancelled == 0){
     let self = this;
     this.monthly_installment_count = 0;
     this.monthly_installment_amounts = 0;
@@ -775,6 +776,10 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         }
       }
     });
+  }
+  else{
+
+  }
   }
 
   closeCancelModal() {
