@@ -608,8 +608,9 @@
             </td>
               <td>
                 {{p?.status_value == 1 ? ('quickVisualization.toBePaid' | translate) : p?.status_value == 2 ? ('quickVisualization.onTime' | translate) : 
-                p?.status_value == 3 ? ('quickVisualization.overdue' | translate) : p?.status_value == 4 ? ('quickVisualization.overdue30' | translate) : 
-                p?.status_value == 5 ? ('quickVisualization.overdue60' | translate) : p?.status_value == 6 ? ('quickVisualization.overdue90' | translate) : ''}}
+                p?.status_value == 3 ? ('quickVisualization.paid' | translate) : p?.status_value == 4 ? ('quickVisualization.overdue' | translate) : 
+                p?.status_value == 5 ? ('quickVisualization.overdue30' | translate) : p?.status_value == 6 ? ('quickVisualization.overdue60' | translate) : 
+                p?.status_value == 7 ? ('quickVisualization.overdue90' | translate) : ''}}
             </td>
               <!-- <td>
                 <a class="green-color fontW500" *ngIf="p?.collection_payment && p?.key!='total'" target="_blank" href="{{p?.collection_payment?.receipt}}">
