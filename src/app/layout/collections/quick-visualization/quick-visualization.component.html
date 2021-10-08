@@ -481,6 +481,12 @@
               <th [style.width]="'120px'">
                   <b>{{'quickVisualization.toBePaidByUser' | translate}}</b>
               </th>
+              <th [style.width]="'120px'">
+                <b>{{'quickVisualization.record' | translate}}</b>
+            </th>
+            <th [style.width]="'120px'">
+              <b>{{'quickVisualization.status' | translate}}</b>
+          </th>
               <!-- <th>
                   <b>{{'quickVisualization.paymentAttachment' | translate}}</b>
               </th>
@@ -597,6 +603,14 @@
               <td>
                   {{p?.amount ? ((p?.amount || 0) | currency) : ''}}
               </td>
+              <td>
+                {{p?.status_value == 2 ? 1 : p?.status_value >= 3 ? (p?.status_value - 1) : ''}}
+            </td>
+              <td>
+                {{p?.status_value == 1 ? ('quickVisualization.toBePaid' | translate) : p?.status_value == 2 ? ('quickVisualization.onTime' | translate) : 
+                p?.status_value == 3 ? ('quickVisualization.overdue' | translate) : p?.status_value == 4 ? ('quickVisualization.overdue30' | translate) : 
+                p?.status_value == 5 ? ('quickVisualization.overdue60' | translate) : p?.status_value == 6 ? ('quickVisualization.overdue90' | translate) : ''}}
+            </td>
               <!-- <td>
                 <a class="green-color fontW500" *ngIf="p?.collection_payment && p?.key!='total'" target="_blank" href="{{p?.collection_payment?.receipt}}">
                   {{'quickVisualization.view' | translate}}

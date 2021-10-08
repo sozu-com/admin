@@ -2900,7 +2900,15 @@
     "finalprice":"Final Price",
     "finalpricesquare":"Final price per m2",
     "carpetArea": "Carpet Area",
-    "bankReference": "Bank Reference"
+    "bankReference": "Bank Reference",
+    "status": "Status",
+    "record": "Record",
+    "toBePaid": "To be paid",
+    "onTime": "On time",
+    "overdue": "Overdue",
+    "overdue30": "Overdue +30",
+    "overdue60": "Overdue +60",
+    "overdue90": "Overdue +90"
   },
   "addCollectionValidations": {
     "thisIsRequired": "This is required",
