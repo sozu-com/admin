@@ -2892,7 +2892,15 @@
     "finalPrice":"Precio final",
     "finalpricesquare":"Precio final por m2",
     "carpetArea": "Area de piso",
-    "bankReference": "Referencia Bancaria"
+    "bankReference": "Referencia Bancaria",
+    "status": "Estado",
+    "record": "Registro",
+    "toBePaid": "A pagar",
+    "onTime": "A tiempo",
+    "overdue": "Atrasado",
+    "overdue30": "Atrasado +30",
+    "overdue60": "Atrasado +60",
+    "overdue90": "Atrasado +90"
   },
   "addCollectionValidations": {
     "thisIsRequired": "Esto es requerido",
