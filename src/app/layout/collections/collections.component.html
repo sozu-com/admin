@@ -3502,7 +3502,7 @@ Special p.                {{special_payment | currency}}
               </label>
             </td>
             <td style="border-bottom: none;padding-bottom: 0px;">
-              <span><strong>{{(select_collection.total_payment_recieved - (cancelationCommision || 0) || 0) | currency}}</strong></span>
+              <span><strong>{{((select_collection.total_payment_recieved || 0) - (cancelationCommision || 0) || 0) | currency}}</strong></span>
             </td>
           </tr>
           <tr>
@@ -3514,7 +3514,7 @@ Special p.                {{special_payment | currency}}
               </label>
             </td>
             <td style="border-bottom: none;padding-bottom: 0px;">
-              <span><strong>{{(searched_collection?.total_payment_recieved || 0) | currency}}</strong></span>
+              <span><strong>{{((searched_collection?.total_payment_recieved || 0) + ((select_collection.total_payment_recieved || 0) - (cancelationCommision || 0))) | currency}}</strong></span>
             </td>
           </tr>
           <tr style="background: #F2F2F3;">
