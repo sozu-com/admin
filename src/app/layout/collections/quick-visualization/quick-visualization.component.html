@@ -604,7 +604,7 @@
                   {{p?.amount ? ((p?.amount || 0) | currency) : ''}}
               </td>
               <td>
-                {{p?.status_value == 2 ? 1 : p?.status_value >= 3 ? (p?.status_value - 1) : ''}}
+                {{p?.record_value ? p?.record_value : ''}}
             </td>
               <td>
                 {{p?.status_value == 1 ? ('quickVisualization.toBePaid' | translate) : p?.status_value == 2 ? ('quickVisualization.onTime' | translate) : 
