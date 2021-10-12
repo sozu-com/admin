@@ -117,6 +117,7 @@ export class AddProjectModel {
   building_contributors: Array<contributorsParam> = [];
   legal_entity_info: any;
   total_square_meters: any;
+  full_address?: any;
 }
 
 export class AddOfficeModel {

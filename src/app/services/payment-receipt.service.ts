@@ -112,7 +112,7 @@ export class PaymentReceiptService {
                 (concept.calc_payment_amount ? conver.NumerosALetras(concept.calc_payment_amount) : "N/A") + this.translate.instant('generatePDF.detail13') + this.translate.instant('generatePDF.detail2') + buyer_name + this.translate.instant('generatePDF.detail3')},
               {text:(this.language_code == 'en' ? concept.payment_choice.name_en :  this.language_code == 'es' ? concept.payment_choice.name_es : 'N/A'), bold: true},
               {text:this.translate.instant('generatePDF.detail4') + this.collection_data.property.building.name + this.translate.instant('generatePDF.detail5') + 
-                    this.collection_data.property.building.address + '.'},
+                    this.collection_data.property.building.full_address + '.'},
           ],
           margin: [0, 10, 0, 30]
         }

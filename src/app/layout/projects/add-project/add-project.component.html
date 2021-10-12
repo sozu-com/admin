@@ -163,7 +163,16 @@
                 </div>
               </div>
 
-
+              <div class="col-sm-12 col-12">
+                <div class="form-group-3">
+                  <label>{{'addForm.address' | translate}}
+                    <span class="color-red">*</span>
+                  </label>
+                  <input required placeholder="{{'addForm.address' | translate}}"
+                    autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search
+                    (input)="loadPlaces()" name="full_address" [(ngModel)]="model.full_address" autocomplete="off">
+                </div>
+              </div>
               <div class="col-sm-12 col-12">
                 <div class="form-group-3">
                   <label>{{'addForm.location.label' | translate}}
