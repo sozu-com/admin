@@ -34,7 +34,7 @@ export class CashFlowComponent implements OnInit {
   today = new Date();
   reportData: any;
   reportsData: any;
-  expectedTotal:  any;
+  expectedTotal: any;
   actualTotal: any;
   expectedData: any;
   actualData: Array<any>;
@@ -61,7 +61,7 @@ export class CashFlowComponent implements OnInit {
     private price: PricePipe) {
   }
 
-  onSelect(event) {}
+  onSelect(event) { }
 
   ngOnInit() {
     this.reportType = 1;
@@ -78,7 +78,7 @@ export class CashFlowComponent implements OnInit {
     this.translate.onDefaultLangChange.subscribe((event: LangChangeEvent) => {
       this.initCalendarLocale();
     });
-   
+
   }
 
   getListing() {
@@ -101,70 +101,70 @@ export class CashFlowComponent implements OnInit {
     if (this.input.end_purchase_date) {
       input.end_purchase_date = moment(this.input.end_purchase_date).format('YYYY-MM-DD');
     }
-    
+
     this.spinner.show();
     this.admin.postDataApi('graphs/cash-flow-v2', input).subscribe(r => {
       this.spinner.hide();
       this.reportsData = r['data'];
-       this.finalDataExpacted = [];
+      this.finalDataExpacted = [];
       for (let index = 0; index < this.reportsData['expected'].length; index++) {
         const element = this.reportsData['expected'][index];
         // array to export
         const obj = {
-           label: element.label, 
-           expected: element.y, 
-           total_expected: this.reportsData['total_expected'][index].y,
-           pending: this.reportsData['pending'][index].y,
-           total_pending: this.reportsData['total_pending'][index].y,
-           actual: this.reportsData['actual'][index].y
+          label: element.label,
+          expected: element.y,
+          total_expected: this.reportsData['total_expected'][index].y,
+          pending: this.reportsData['pending'][index].y,
+          total_pending: this.reportsData['total_pending'][index].y,
+          actual: this.reportsData['actual'][index].y
         };
         this.finalDataExpacted.push(obj);
       }
-      
 
-    // this.admin.postDataApi('graphs/cash-flow-v2', input).subscribe(r => {
-    //   this.spinner.hide();
-    //   this.finalDataExpacted = [];
-    //   this.finalDataActual = [];
-    //   this.finalDataPending = [];
-    //   this.finalDatadue = []
-    //   const reportData = r['data'];
-    //   console.log(reportData,"reportData")
-    //   for (let index = 0; index < reportData['expected'].length; index++) {
-    //     const element = reportData['expected'][index];
-    //     for (let ind = 0; ind < element.y.length; ind++) {
-    //       const obj = {expected: element.y[ind].y, label: element.y[ind].label};
-    //     this.finalDataExpacted.push(obj);
-    //     }
-    //   }
-    //   for (let index = 0; index < reportData['actual'].length; index++) {
-    //     const element = reportData['actual'][index];
-    //     for (let ind = 0; ind < element.y.length; ind++) {
-    //       const obj = {actual: element.y[ind].y, label: element.y[ind].label};
-    //     this.finalDataActual.push(obj);
-    //     }
-    //   }
-    //   for (let index = 0; index < reportData['pending'].length; index++) {
-    //     const element = reportData['pending'][index];
-    //     for (let ind = 0; ind < element.y.length; ind++) {
-    //       const obj = {pending: element.y[ind].y, label: element.y[ind].label};
-    //     this.finalDataPending.push(obj);
-    //     }
-    //   }
 
-    //   for (let index = 0; index < reportData['total_over_due'].length; index++) {
-    //     const element = reportData['total_over_due'][index];
-    //     for (let ind = 0; ind < element.y.length; ind++) {
-    //       const obj = {total_over_due: element.y[ind].y, label: element.y[ind].label};
-    //     this.finalDatadue.push(obj);
-    //     }
-    //   }
+      // this.admin.postDataApi('graphs/cash-flow-v2', input).subscribe(r => {
+      //   this.spinner.hide();
+      //   this.finalDataExpacted = [];
+      //   this.finalDataActual = [];
+      //   this.finalDataPending = [];
+      //   this.finalDatadue = []
+      //   const reportData = r['data'];
+      //   console.log(reportData,"reportData")
+      //   for (let index = 0; index < reportData['expected'].length; index++) {
+      //     const element = reportData['expected'][index];
+      //     for (let ind = 0; ind < element.y.length; ind++) {
+      //       const obj = {expected: element.y[ind].y, label: element.y[ind].label};
+      //     this.finalDataExpacted.push(obj);
+      //     }
+      //   }
+      //   for (let index = 0; index < reportData['actual'].length; index++) {
+      //     const element = reportData['actual'][index];
+      //     for (let ind = 0; ind < element.y.length; ind++) {
+      //       const obj = {actual: element.y[ind].y, label: element.y[ind].label};
+      //     this.finalDataActual.push(obj);
+      //     }
+      //   }
+      //   for (let index = 0; index < reportData['pending'].length; index++) {
+      //     const element = reportData['pending'][index];
+      //     for (let ind = 0; ind < element.y.length; ind++) {
+      //       const obj = {pending: element.y[ind].y, label: element.y[ind].label};
+      //     this.finalDataPending.push(obj);
+      //     }
+      //   }
+
+      //   for (let index = 0; index < reportData['total_over_due'].length; index++) {
+      //     const element = reportData['total_over_due'][index];
+      //     for (let ind = 0; ind < element.y.length; ind++) {
+      //       const obj = {total_over_due: element.y[ind].y, label: element.y[ind].label};
+      //     this.finalDatadue.push(obj);
+      //     }
+      //   }
 
     }, error => {
       this.spinner.hide();
     });
   }
-  
+
   initCalendarLocale() {
     if (this.translate.defaultLang === 'en') {
       this.locale = {
@@ -173,7 +173,7 @@ export class CashFlowComponent implements OnInit {
         dayNamesShort: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
         dayNamesMin: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
         monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
-            'November', 'December'],
+          'November', 'December'],
         monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         today: 'Today',
         clear: 'Clear',
@@ -264,10 +264,11 @@ export class CashFlowComponent implements OnInit {
     this.reportType = 1;
     this.getReportData1();
     this.getReportData2();
+    this.getReportData3();
     this.getListing();
   }
 
-  getReportData1 () {
+  getReportData1() {
     const input: any = JSON.parse(JSON.stringify(this.input));
     input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
     input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
@@ -280,14 +281,14 @@ export class CashFlowComponent implements OnInit {
       const d = this.selectedCurrencies.map(o => o.id);
       input.currency_id = d;
     }
-   
+
     if (this.input.start_purchase_date) {
       input.start_purchase_date = moment(this.input.start_purchase_date).format('YYYY-MM-DD');
     }
     if (this.input.end_purchase_date) {
       input.end_purchase_date = moment(this.input.end_purchase_date).format('YYYY-MM-DD');
     }
-  
+
 
     this.spinner.show();
     this.admin.postDataApi('graphs/cash-flow', input).subscribe(r => {
@@ -300,16 +301,15 @@ export class CashFlowComponent implements OnInit {
       for (let index = 0; index < reportData['expected'].length; index++) {
         const element = reportData['expected'][index];
         const ff = []; let d = {};
-        let sum: any = element.y.map(a => a.y).reduce(function(a, b)
-        {
+        let sum: any = element.y.map(a => a.y).reduce(function (a, b) {
           return a + b;
         });
-          this.empList.push(sum);
-          var total = this.empList.reduce(function(a, b){ return a + b; }); 
-          this.expectedTotal = total;
+        this.empList.push(sum);
+        var total = this.empList.reduce(function (a, b) { return a + b; });
+        this.expectedTotal = total;
 
         for (let ind = 0; ind < element.y.length; ind++) {
-          d = {y: element.y[ind].y, label: element.y[ind].label};
+          d = { y: element.y[ind].y, label: element.y[ind].label };
           ff.push(d);
         }
         this.finalData.push({
@@ -318,22 +318,21 @@ export class CashFlowComponent implements OnInit {
           type: 'stackedColumn',
           dataPoints: ff
         });
-       
+
       }
       this.plotData();
 
       for (let index = 0; index < reportData['actual'].length; index++) {
         const element = reportData['actual'][index];
         const ff = []; let d = {};
-        let sum1: any = element.y.map(a => a.y).reduce(function(a, b)
-        {
+        let sum1: any = element.y.map(a => a.y).reduce(function (a, b) {
           return a + b;
         });
         this.actualList.push(sum1);
-        var total = this.actualList.reduce(function(a, b){ return a + b; }); 
+        var total = this.actualList.reduce(function (a, b) { return a + b; });
         this.actualTotal = total;
         for (let ind = 0; ind < element.y.length; ind++) {
-          d = {y: element.y[ind].y, label: element.y[ind].label};
+          d = { y: element.y[ind].y, label: element.y[ind].label };
           ff.push(d);
         }
         this.finalData1.push({
@@ -351,7 +350,7 @@ export class CashFlowComponent implements OnInit {
 
 
 
-  getReportData2 () {
+  getReportData2() {
     const input: any = JSON.parse(JSON.stringify(this.input));
     input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
     input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
@@ -371,7 +370,7 @@ export class CashFlowComponent implements OnInit {
     if (this.input.end_purchase_date) {
       input.end_purchase_date = moment(this.input.end_purchase_date).format('YYYY-MM-DD');
     }
-    
+
     this.spinner.show();
     this.admin.postDataApi('graphs/cash-flows', input).subscribe(r => {
       this.spinner.hide();
@@ -381,23 +380,101 @@ export class CashFlowComponent implements OnInit {
       for (let index = 0; index < this.reportData['expected'].length; index++) {
         const element = this.reportData['expected'][index];
         // array to export
-        const obj = {label: element.label, expected: element.y, actual: this.reportData['actual'][index].y};
+        const obj = { label: element.label, expected: element.y, actual: this.reportData['actual'][index].y };
 
         this.items.push(obj);
         // expected output: 81
       }
-      let sum: number = this.items.map(a => a.expected).reduce(function(a, b)
-        {
-          return a + b;
-        });
-        console.log(sum,"Expected & Actual Revenue");
-        let sum1: number = this.items.map(a => a.actual).reduce(function(a, b)
-        {
-          return a + b;
-        });
-        console.log(sum1,"Expected & Actual Revenue");
-        
+      let sum: number = this.items.map(a => a.expected).reduce(function (a, b) {
+        return a + b;
+      });
+      console.log(sum, "Expected & Actual Revenue");
+      let sum1: number = this.items.map(a => a.actual).reduce(function (a, b) {
+        return a + b;
+      });
+      console.log(sum1, "Expected & Actual Revenue");
+
       this.plotData2();
+    }, error => {
+      this.spinner.hide();
+    });
+  }
+
+  getReportData3() {
+    const input: any = JSON.parse(JSON.stringify(this.input));
+    input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
+    input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
+
+    if (this.selctedProjects) {
+      const d = this.selctedProjects.map(o => o.id);
+      input.building_id = d;
+    }
+    if (this.selectedCurrencies) {
+      const d = this.selectedCurrencies.map(o => o.id);
+      input.currency_id = d;
+    }
+
+    if (this.input.start_purchase_date) {
+      input.start_purchase_date = moment(this.input.start_purchase_date).format('YYYY-MM-DD');
+    }
+    if (this.input.end_purchase_date) {
+      input.end_purchase_date = moment(this.input.end_purchase_date).format('YYYY-MM-DD');
+    }
+
+
+    this.spinner.show();
+    this.admin.postDataApi('graphs/cash-flow', input).subscribe(r => {
+      this.spinner.hide();
+      this.finalData = [];
+      this.finalData1 = [];
+      this.empList = [];
+      this.actualList = [];
+      const reportData = r['data'];
+      for (let index = 0; index < reportData['expected'].length; index++) {
+        const element = reportData['expected'][index];
+        const ff = []; let d = {};
+        let sum: any = element.y.map(a => a.y).reduce(function (a, b) {
+          return a + b;
+        });
+        this.empList.push(sum);
+        var total = this.empList.reduce(function (a, b) { return a + b; });
+        this.expectedTotal = total;
+
+        for (let ind = 0; ind < element.y.length; ind++) {
+          d = { y: element.y[ind].y, label: element.y[ind].label };
+          ff.push(d);
+        }
+        this.finalData.push({
+          legendText: element.label,
+          showInLegend: 'true',
+          type: 'stackedColumn',
+          dataPoints: ff
+        });
+
+      }
+      this.plotData();
+
+      for (let index = 0; index < reportData['actual'].length; index++) {
+        const element = reportData['actual'][index];
+        const ff = []; let d = {};
+        let sum1: any = element.y.map(a => a.y).reduce(function (a, b) {
+          return a + b;
+        });
+        this.actualList.push(sum1);
+        var total = this.actualList.reduce(function (a, b) { return a + b; });
+        this.actualTotal = total;
+        for (let ind = 0; ind < element.y.length; ind++) {
+          d = { y: element.y[ind].y, label: element.y[ind].label };
+          ff.push(d);
+        }
+        this.finalData1.push({
+          legendText: element.label,
+          showInLegend: 'true',
+          type: 'stackedColumn',
+          dataPoints: ff
+        });
+      }
+      this.plotData3();
     }, error => {
       this.spinner.hide();
     });
@@ -411,33 +488,33 @@ export class CashFlowComponent implements OnInit {
       exportEnabled: true,
       toolTip: {
         shared: true,
-      contentFormatter: function (e) {
-				var content = " ";
-				for (var i = 0; i < e.entries.length; i++) {
-          if(i == 0){
-					content += "<span style='color:#5a728d'> Layaway Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
-					content += "<br/>";
+        contentFormatter: function (e) {
+          var content = " ";
+          for (var i = 0; i < e.entries.length; i++) {
+            if (i == 0) {
+              content += "<span style='color:#5a728d'> Layaway Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
+            else if (i == 1) {
+              content += "<span style='color:#c0514f'> Down Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
+            else if (i == 2) {
+              content += "<span style='color:#9bbb58'> Payment Upon Delivery</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
+            else if (i == 3) {
+              content += "<span style='color:#23bfaa'> Special Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
+            else if (i == 4) {
+              content += "<span style='color:#8165a2'> Monthly Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
           }
-          else if(i == 1){
-          content += "<span style='color:#c0514f'> Down Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
-          content += "<br/>";
-          }
-          else if(i == 2){
-          content += "<span style='color:#9bbb58'> Payment Upon Delivery</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
-          content += "<br/>";
-          }
-          else if(i == 3){
-          content += "<span style='color:#23bfaa'> Special Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
-          content += "<br/>";
-          }
-          else if(i == 4){
-          content += "<span style='color:#8165a2'> Monthly Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
-          content += "<br/>";
-          }
-				}
-				return content;
-			}
-    },
+          return content;
+        }
+      },
       title: {
         // text: "Crude Oil Reserves vs Production, 2016"
       },
@@ -446,7 +523,7 @@ export class CashFlowComponent implements OnInit {
     chart.render();
 
     function toggleDataSeries(e) {
-      if (typeof(e.dataSeries.visible) === 'undefined' || e.dataSeries.visible) {
+      if (typeof (e.dataSeries.visible) === 'undefined' || e.dataSeries.visible) {
         e.dataSeries.visible = false;
       } else {
         e.dataSeries.visible = true;
@@ -466,39 +543,39 @@ export class CashFlowComponent implements OnInit {
       },
       toolTip: {
         shared: true,
-      contentFormatter: function (e) {
-				var content = " ";
-				for (var i = 0; i < e.entries.length; i++) {
-          if(i == 0){
-					content += "<span style='color:#5a728d'> Layaway Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
-					content += "<br/>";
+        contentFormatter: function (e) {
+          var content = " ";
+          for (var i = 0; i < e.entries.length; i++) {
+            if (i == 0) {
+              content += "<span style='color:#5a728d'> Layaway Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
+            else if (i == 1) {
+              content += "<span style='color:#c0514f'> Down Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
+            else if (i == 2) {
+              content += "<span style='color:#9bbb58'> Payment Upon Delivery</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
+            else if (i == 3) {
+              content += "<span style='color:#23bfaa'> Special Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
+            else if (i == 4) {
+              content += "<span style='color:#8165a2'> Monthly Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
           }
-          else if(i == 1){
-          content += "<span style='color:#c0514f'> Down Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
-          content += "<br/>";
-          }
-          else if(i == 2){
-          content += "<span style='color:#9bbb58'> Payment Upon Delivery</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
-          content += "<br/>";
-          }
-          else if(i == 3){
-          content += "<span style='color:#23bfaa'> Special Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
-          content += "<br/>";
-          }
-          else if(i == 4){
-          content += "<span style='color:#8165a2'> Monthly Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
-          content += "<br/>";
-          }
-				}
-				return content;
-			}
-    },
+          return content;
+        }
+      },
       data: this.finalData1
     });
     chart.render();
 
     function toggleDataSeries(e) {
-      if (typeof(e.dataSeries.visible) === 'undefined' || e.dataSeries.visible) {
+      if (typeof (e.dataSeries.visible) === 'undefined' || e.dataSeries.visible) {
         e.dataSeries.visible = false;
       } else {
         e.dataSeries.visible = true;
@@ -539,12 +616,65 @@ export class CashFlowComponent implements OnInit {
         showInLegend: true,
         dataPoints: this.reportData['actual']
       }
-    ]
+      ]
     });
     chart.render();
 
     function toggleDataSeries(e) {
-      if (typeof(e.dataSeries.visible) === 'undefined' || e.dataSeries.visible) {
+      if (typeof (e.dataSeries.visible) === 'undefined' || e.dataSeries.visible) {
+        e.dataSeries.visible = false;
+      } else {
+        e.dataSeries.visible = true;
+      }
+      chart.render();
+    }
+  }
+
+
+  plotData3() {
+    let self = this;
+    const chart = new CanvasJS.Chart('chartContainer3', {
+      animationEnabled: true,
+      exportFileName: 'cash-flow',
+      exportEnabled: true,
+      title: {
+        // text: "Crude Oil Reserves vs Production, 2016"
+      },
+      toolTip: {
+        shared: true,
+        contentFormatter: function (e) {
+          var content = " ";
+          for (var i = 0; i < e.entries.length; i++) {
+            if (i == 0) {
+              content += "<span style='color:#5a728d'> Layaway Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
+            else if (i == 1) {
+              content += "<span style='color:#c0514f'> Down Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
+            else if (i == 2) {
+              content += "<span style='color:#9bbb58'> Payment Upon Delivery</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
+            else if (i == 3) {
+              content += "<span style='color:#23bfaa'> Special Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
+            else if (i == 4) {
+              content += "<span style='color:#8165a2'> Monthly Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
+          }
+          return content;
+        }
+      },
+      data: this.finalData1
+    });
+    chart.render();
+
+    function toggleDataSeries(e) {
+      if (typeof (e.dataSeries.visible) === 'undefined' || e.dataSeries.visible) {
         e.dataSeries.visible = false;
       } else {
         e.dataSeries.visible = true;
@@ -562,7 +692,7 @@ export class CashFlowComponent implements OnInit {
     this.selectedCurrencies = [];
     this.selctedProjects = [];
   }
-  
+
   exportData() {
     const input: any = JSON.parse(JSON.stringify(this.input));
     input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
@@ -583,18 +713,18 @@ export class CashFlowComponent implements OnInit {
     if (this.input.end_purchase_date) {
       input.end_purchase_date = moment(this.input.end_purchase_date).format('YYYY-MM-DD');
     }
-    
+
     this.spinner.show();
     this.admin.postDataApi('graphs/cash-flows-export', input).subscribe(r => {
       let data = r.data;
       const finalData = [];
-      data.actual.forEach((element, index) =>{
+      data.actual.forEach((element, index) => {
         finalData.push({
           'Month': element.label || '',
           'Expected Amount': data.expected[index].y || 0,
           'Actual Amount': element.y || 0
         });
-        element.id.forEach(item=>{
+        element.id.forEach(item => {
           finalData.push({
             'Collection ID': item.id || '',
             'Property name': item.name || '',
@@ -606,7 +736,7 @@ export class CashFlowComponent implements OnInit {
       })
       this.spinner.hide();
       this.exportAsExcelFile(finalData, 'cashFlow-');
-  });
+    });
   }
   // will be used in case of excel
   public exportAsExcelFile(json: any[], excelFileName: string): void {
@@ -642,25 +772,25 @@ export class CashFlowComponent implements OnInit {
   }
 
   getCashFlowInfo(item, index) {
-    if(item && (this.reportData.actual || []).length > 0){
-    if(index != this.already_index){
-      this.already_index = index;
-      this.cashFlowInfos = [];
-    let data = this.reportData.actual.find(value=> value.label == item.label);
-    let  id = data.id ? data.id.split(',') : undefined;
-    let param ={
-      id: id
-    }
-    this.spinner.show();
-    this.admin.postDataApi('graphs/cash-flow-actualinfo', param)
-      .subscribe(
-        success => {
-          this.cashFlowInfos = success.data;
-          this.spinner.hide();
-        }, error => {
-          this.spinner.hide();
-        });
+    if (item && (this.reportData.actual || []).length > 0) {
+      if (index != this.already_index) {
+        this.already_index = index;
+        this.cashFlowInfos = [];
+        let data = this.reportData.actual.find(value => value.label == item.label);
+        let id = data.id ? data.id.split(',') : undefined;
+        let param = {
+          id: id
+        }
+        this.spinner.show();
+        this.admin.postDataApi('graphs/cash-flow-actualinfo', param)
+          .subscribe(
+            success => {
+              this.cashFlowInfos = success.data;
+              this.spinner.hide();
+            }, error => {
+              this.spinner.hide();
+            });
       }
+    }
   }
-}
 }
