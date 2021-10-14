@@ -434,6 +434,10 @@ export class CashFlowComponent implements OnInit {
           content += "<span style='color:#8165a2'> Monthly Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
           content += "<br/>";
           }
+          else if(i == 5){
+            content += "<span style='color:#4aacc5'> Cancel Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+            content += "<br/>";
+            }
 				}
 				return content;
 			}
@@ -489,6 +493,10 @@ export class CashFlowComponent implements OnInit {
           content += "<span style='color:#8165a2'> Monthly Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
           content += "<br/>";
           }
+          else if(i == 5){
+            content += "<span style='color:#4aacc5'> Cancel Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+            content += "<br/>";
+            }
 				}
 				return content;
 			}

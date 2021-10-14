@@ -2905,10 +2905,10 @@
     "record": "Record",
     "toBePaid": "To be paid",
     "onTime": "On time",
-    "overdue": "Overdue",
-    "overdue30": "Overdue +30",
-    "overdue60": "Overdue +60",
-    "overdue90": "Overdue +90"
+    "overdue": "Overdue 30",
+    "overdue30": "Overdue 60",
+    "overdue60": "Overdue 90",
+    "overdue90": "Past-Due"
   },
   "addCollectionValidations": {
     "thisIsRequired": "This is required",

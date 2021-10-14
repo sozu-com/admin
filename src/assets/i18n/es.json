@@ -2897,10 +2897,10 @@
     "record": "Registro",
     "toBePaid": "A pagar",
     "onTime": "A tiempo",
-    "overdue": "Atrasado",
-    "overdue30": "Atrasado +30",
-    "overdue60": "Atrasado +60",
-    "overdue90": "Atrasado +90"
+    "overdue": "Atrasado 30",
+    "overdue30": "Atrasado 60",
+    "overdue60": "Atrasado 90",
+    "overdue90": "Vencida"
   },
   "addCollectionValidations": {
     "thisIsRequired": "Esto es requerido",
