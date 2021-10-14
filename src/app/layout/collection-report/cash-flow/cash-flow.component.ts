@@ -423,7 +423,7 @@ export class CashFlowComponent implements OnInit {
 
 
     this.spinner.show();
-    this.admin.postDataApi('graphs/cash-flow', input).subscribe(r => {
+    this.admin.postDataApi('graphs/expenditure-cash-flow', input).subscribe(r => {
       this.spinner.hide();
       this.finalData = [];
       this.finalData1 = [];
