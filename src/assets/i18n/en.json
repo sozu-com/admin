@@ -2040,7 +2040,8 @@
     "linkInHouseAgent": "Link Inhouse Agent",
     "linkOutsideAgent": "Link Outside Agent",
     "changeInHouseAgent": "Change Inhouse Agent",
-    "changeOutsideAgent": "Change Outside Agent"
+    "changeOutsideAgent": "Change Outside Agent",
+    "max3Month": "Please select max 3 month range"
   },
   "reports": {
     "label": "Report",
@@ -2307,7 +2308,8 @@
     "locationAnalysis": "Location Analysis",
     "office": "Office",
     "manageOffice": "Manage Offices",
-    "manageContacts": "Contracts"
+    "manageContacts": "Contracts",
+    "totalArrear":"Total Arrear"
   },
   "commonBlock": {
     "propertiesAvailable": "Properties available",

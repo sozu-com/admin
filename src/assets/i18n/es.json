@@ -2034,7 +2034,8 @@
     "linkInHouseAgent": "Agente interno de enlace",
     "linkOutsideAgent": "Vincular agente externo",
     "changeInHouseAgent": "Cambio de agente interno",
-    "changeOutsideAgent": "Cambiar agente externo"
+    "changeOutsideAgent": "Cambiar agente externo",
+    "max3Month": "Seleccione un intervalo máximo de 3 meses"
   },
   "reports": {
     "label": "Reporte",
@@ -2301,7 +2302,8 @@
     "locationAnalysis": "Análisis De Ubicación",
     "office": "Oficina",
     "manageOffice": "Gestionar Oficina",
-    "manageContacts": "Contratos"
+    "manageContacts": "Contratos",
+    "totalArrear":"Atrasos totales"
   },
   "commonBlock": {
     "job": "Trabajo",

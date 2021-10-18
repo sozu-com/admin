@@ -55,6 +55,9 @@ export class CashFlowComponent implements OnInit {
   cashFlowInfos: any[];
   empList: Array<any>;
   actualList: Array<any> = [];
+  finalData3: Array<any> = [];
+  arrearList: Array<any> = [];
+  arrearTotal: any;
   constructor(public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
@@ -343,6 +346,28 @@ export class CashFlowComponent implements OnInit {
         });
       }
       this.plotData1();
+
+      for (let index = 0; index < reportData['arrear'].length; index++) {
+        const element = reportData['arrear'][index];
+        const ff = []; let d = {};
+        let sum1: any = element.y.map(a => a.y).reduce(function (a, b) {
+          return a + b;
+        });
+        this.arrearList.push(sum1);
+        var total = this.actualList.reduce(function (a, b) { return a + b; });
+        this.arrearTotal = total;
+        for (let ind = 0; ind < element.y.length; ind++) {
+          d = { y: element.y[ind].y, label: element.y[ind].label };
+          ff.push(d);
+        }
+        this.finalData3.push({
+          legendText: element.label,
+          showInLegend: 'true',
+          type: 'stackedColumn',
+          dataPoints: ff
+        });
+      }
+      this.plotData4();
     }, error => {
       this.spinner.hide();
     });
@@ -678,6 +703,54 @@ export class CashFlowComponent implements OnInit {
         }
       },
       data: this.finalData1
+    });
+    chart.render();
+
+    function toggleDataSeries(e) {
+      if (typeof (e.dataSeries.visible) === 'undefined' || e.dataSeries.visible) {
+        e.dataSeries.visible = false;
+      } else {
+        e.dataSeries.visible = true;
+      }
+      chart.render();
+    }
+  }
+
+  plotData4() {
+    let self = this;
+    const chart = new CanvasJS.Chart('chartContainer4', {
+      animationEnabled: true,
+      exportFileName: 'Total-Arrear',
+      exportEnabled: true,
+      toolTip: {
+        shared: true,
+        contentFormatter: function (e) {
+          var content = " ";
+          for (var i = 0; i < e.entries.length; i++) {
+            if (i == 0) {
+              content += "<span style='color:#5a728d'> Overdue 30</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
+            else if (i == 1) {
+              content += "<span style='color:#c0514f'> Overdue 60</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
+            else if (i == 2) {
+              content += "<span style='color:#9bbb58'> Overdue 90</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
+            else if (i == 3) {
+              content += "<span style='color:#23bfaa'> Past due</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
+          }
+          return content;
+        }
+      },
+      title: {
+        // text: "Crude Oil Reserves vs Production, 2016"
+      },
+      data: this.finalData3
     });
     chart.render();
 
