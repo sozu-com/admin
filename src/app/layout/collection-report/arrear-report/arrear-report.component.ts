@@ -34,7 +34,7 @@ export class ArrearReportComponent implements OnInit {
   };
   arrearData:any;
   colorScheme = {
-    domain: ['#DFDFDF', '#4c4e50', '#DE2400', '#03b971', '#DEA000']
+    domain: ['#fb6d6d', '#ff9315', '#cf0000', '#f1b92a']
   };
   view: any[] = [250, 250];
   views: any[] = [1300, 250];
