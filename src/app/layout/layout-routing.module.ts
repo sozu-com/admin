@@ -148,6 +148,10 @@ const routes: Routes = [
         loadChildren: './manage-commissions/manage-commissions.module#ManageCommissionsModule'
       },
       {
+        path: 'income',
+        loadChildren: './sozu-income/sozu-income.module#SozuIncomeModule'
+      },
+      {
         path: 'properties-for-sale',
         loadChildren: './properties-for-sale/properties-for-sale.module#PropertiesForSaleModule'
       },

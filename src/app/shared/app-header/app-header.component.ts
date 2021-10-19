@@ -19,6 +19,22 @@ interface MyTreeNode {
 declare let swal: any;
 const demoNodes: MyTreeNode[] = [
   {
+    title: 'Sozu',
+    title_es: 'Sozu',
+    url: '',
+    acl: "admin?.admin_acl['Dashboard']?.can_read==1",
+    icon: 'assets/img/ic_commission.png',
+    children: [
+      {
+        title: 'Income',
+        title_es: 'Ingresos',
+        url: '/dashboard/income/sozu-income',
+        acl: "admin?.admin_acl['Dashboard']?.can_read==1",
+        icon: 'assets/img/Ellipse.png'
+      }
+    ]
+  },
+  {
     title: 'Dashboards',
     title_es: 'Cuadros de mando',
     url: '',
