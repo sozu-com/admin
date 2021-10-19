@@ -489,6 +489,20 @@ export class SozuIncomeComponent implements OnInit {
   getListing() {
     this.spinner.show();
     const input: any = JSON.parse(JSON.stringify(this.parameter));
+    input.start_date = moment(input.start_date).format('YYYY-MM-DD');
+    input.end_date = moment(input.end_date).format('YYYY-MM-DD');
+
+    const a = moment(input.end_date);
+    const b = moment(input.start_date);
+    const f = a.diff(b, 'days');
+    if (this.selctedProjects) {
+      const d = this.selctedProjects.map(o => o.id);
+      input.building_id = d;
+    }
+    if (this.selectedDevelopers) {
+      const d = this.selectedDevelopers.map(o => o.id);
+      input.developer_id = d;
+    }
     if (this.parameter.deal_to_date && this.parameter.deal_from_date) {
       input.deal_to_date = this.parameter.deal_to_date;
       input.deal_from_date = this.parameter.deal_from_date;
@@ -510,7 +524,7 @@ export class SozuIncomeComponent implements OnInit {
     }
 
     input.is_approved = this.parameter.flag;
-    this.admin.postDataApi('getCommissions', input).subscribe(
+    this.admin.postDataApi('getDeveloperCommissions', input).subscribe(
       success => {
         // localStorage.setItem('parametersForCollection', JSON.stringify(this.parameter));
         this.items = success.data;
