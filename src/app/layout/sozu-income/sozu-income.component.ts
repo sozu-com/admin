@@ -1443,7 +1443,16 @@ export class SozuIncomeComponent implements OnInit {
     this.paymentConcepts = [];
     this.editPaymentModalClose.nativeElement.click();
   }
+  onItemDeSelect(arrayNAme: any, obj: any) {
+    this[arrayNAme].push(obj);
+  }
 
+  onItemSelect(param: any, obj: any) {
+    this[param].push(obj);
+  }
+
+  onSelectAll(obj: any) {
+  }
   deleteCollectionCommReceipt(item: any) {
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' +
