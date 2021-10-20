@@ -14,6 +14,7 @@ import { ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from 'src/app/services/common.service';
 declare let swal: any;
+import * as CanvasJS from 'src/assets/js/canvasjs.min.js';
 
 @Component({
   selector: 'app-sozu-income',
@@ -21,7 +22,7 @@ declare let swal: any;
   styleUrls: ['./sozu-income.component.css']
 })
 export class SozuIncomeComponent implements OnInit {
-
+  commissionss: Array<any>;
   public parameter: IProperty = {};
   public location: IProperty = {};
   is_back: boolean;
@@ -48,6 +49,9 @@ export class SozuIncomeComponent implements OnInit {
   cancellation_commission: any;
   selectedLevel: any;
   pay_id: any = [];
+  colorScheme = {
+    domain: ['#ee7b7c', '#f5d05c']
+  };
   clicked = false;
   clickedTop = false;
   @ViewChild('collectionReceiptOpen') collectionReceiptOpen: ElementRef;
@@ -189,7 +193,7 @@ export class SozuIncomeComponent implements OnInit {
   language_code: string;
   public paymentBankDetailsArray: any[] = [];
   private bankDetails: any;
-  fedTaxPayer: any;
+  fedTaxPayer: any; reportType: number;
   local_storage_parameter: any;
   footer_address: any;
   legal_name: any;
@@ -200,7 +204,7 @@ export class SozuIncomeComponent implements OnInit {
   projects: Array<any>;
   selctedProjects: Array<any>;
   singleDropdownSettings: any;
-  multiDropdownSettings: any;
+  multiDropdownSettings: any; reportData: any; selectedCommissions: Array<any>;
   constructor(
     private propertyService: PropertyService,
     private spinner: NgxSpinnerService,
@@ -214,6 +218,10 @@ export class SozuIncomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.reportType = 1;
+    this.selectedCommissions = [
+      { id: 1, name: this.translate.instant('collectionReport.purchaseCommission') }
+    ];
     this.parameter.page = this.constant.p;
     this.parameter.dash_flag = this.constant.dash_flag;
     this.parameter.itemsPerPage = 10;
@@ -348,7 +356,11 @@ export class SozuIncomeComponent implements OnInit {
     this.resetDates();
     this.getListing();
   }
-
+  getReportData() {
+    this.reportType = 1;
+    this.getListing();
+    this.getReportData2();
+  }
   resetDates() {
     this.parameter.min = '';
     this.parameter.max = '';
@@ -386,7 +398,7 @@ export class SozuIncomeComponent implements OnInit {
         this.parameter.building_id = '0';
         this.parameter.commission_type = '1';
       }
-      this.getListing();
+      this.getReportData();
     });
   }
 
@@ -1891,6 +1903,84 @@ export class SozuIncomeComponent implements OnInit {
       // this.toastr.error(error.message, this.translate.instant('swal.error'));
       return false;
     });
+  }
+
+  plotData2() {
+    const chart = new CanvasJS.Chart('chartContainer2', {
+      animationEnabled: true,
+      exportFileName: 'cash-flow',
+      exportEnabled: true,
+      title: {
+        // text: "Crude Oil Reserves vs Production, 2016"
+      },
+      toolTip: {
+        shared: true
+      },
+      legend: {
+        cursor: 'pointer',
+        itemclick: toggleDataSeries
+      },
+      data: [{
+        type: 'column',
+        name: 'Expected',
+        legendText: 'Expected',
+        color: '#4a85ff',
+        showInLegend: true,
+        dataPoints: this.reportData['expected']
+      },
+      {
+        type: 'column',
+        name: 'Actual',
+        legendText: 'Actual',
+        color: '#ee7b7c',
+        // axisYType: "secondary",
+        showInLegend: true,
+        dataPoints: this.reportData['actual']
+      }
+      ]
+    });
+    chart.render();
+
+    function toggleDataSeries(e) {
+      if (typeof (e.dataSeries.visible) === 'undefined' || e.dataSeries.visible) {
+        e.dataSeries.visible = false;
+      } else {
+        e.dataSeries.visible = true;
+      }
+      chart.render();
+    }
+  }
+  getReportData2() {
+
+    const input: any = JSON.parse(JSON.stringify(this.parameter));
+    input.start_date = moment(this.parameter.start_date).format('YYYY-MM-DD');
+    input.end_date = moment(this.parameter.end_date).format('YYYY-MM-DD');
+    input.start = moment(this.parameter.start_date).format('YYYY-MM-DD');
+    input.end = moment(this.parameter.end_date).format('YYYY-MM-DD');
+    if (this.selctedProjects) {
+      const d = this.selctedProjects.map(o => o.id);
+      input.building_id = d;
+    }
+    if (!input.commission_type) {
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectCommissionType'), 'error');
+      return false;
+    }
+
+    this.spinner.show();
+    this.admin.postDataApi('graphs/cash-flow-income ', input).subscribe(r => {
+      this.spinner.hide();
+      this.reportData = r['data'];
+      this.commissionss = [];
+      for (let index = 0; index < this.reportData['expected'].length; index++) {
+        const element = this.reportData['expected'][index];
+        const obj = { label: element.label, expected: element.y, actual: this.reportData['actual'][index].y };
+        this.commissionss.push(obj);
+      }
+      this.plotData2();
+    }, error => {
+      this.spinner.hide();
+    });
+
   }
 
   userinfo = (userdata: any): void => {
