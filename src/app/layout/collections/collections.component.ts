@@ -309,6 +309,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       if (params['id']) {
         this.parameter.collection_id = params['id'];
         this.parameter.dash_flag = 4;
+        this.getListing();
       }
       if (params.for == 'back') {
         this.is_back = true;
@@ -735,51 +736,51 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   }
 
   cancelPopup(item: any, index: number, status: number) {
-    if(item.is_cancelled == 0){
-    let self = this;
-    this.monthly_installment_count = 0;
-    this.monthly_installment_amounts = 0;
-    this.layaway_payment = 0;
-    this.down_payment = 0;
-    this.special_payment = 0;
-    this.payment_upon_delivery = 0;
-    this.select_collection = item;
-    this.index_collection = index;
-    this.status_collection = status;
-    const t = status == 1 ?
-      this.translate.instant('message.error.wantToCancelCollection') :
-      this.translate.instant('message.error.wantToActiveCollection');
-    swal({
-      html: this.translate.instant('message.error.areYouSure') + '<br>' + t,
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: this.constant.confirmButtonColor,
-      cancelButtonColor: this.constant.cancelButtonColor,
-      confirmButtonText: 'Yes'
-    }).then((result) => {
-      if (result.value) {
-        if (this.select_collection.is_cancelled != 1) {
-          self.select_collection.payment_choices.forEach(function (element, index) {
-            if (element.category_name.includes('Monthly Installment')) {
-              self.monthly_installment_count = self.monthly_installment_count + 1;
-            }
-            self.monthly_installment_amounts = element.category_name.includes('Monthly Installment') ? self.monthly_installment_amounts + (element.calc_payment_amount || 0) : self.monthly_installment_amounts + 0;
-            self.layaway_payment = element.category_name.includes('Layaway Payment') ? self.layaway_payment + (element.calc_payment_amount || 0) : self.layaway_payment + 0;
-            self.down_payment = element.category_name.includes('Down Payment') ? self.down_payment + (element.calc_payment_amount || 0) : self.down_payment + 0;
-            self.special_payment = element.category_name.includes('Special payment') ? self.special_payment + (element.calc_payment_amount || 0) : self.special_payment + 0;
-            self.payment_upon_delivery = element.category_name.includes('Payment upon Delivery') ? self.payment_upon_delivery + (element.calc_payment_amount || 0) : self.payment_upon_delivery + 0;
-          });
-          this.closeCancelModal();
-          this.openCancelDetailModal.nativeElement.click();
-        } else {
-          this.cancelPropertyCollections(item, index, status);
+    if (item.is_cancelled == 0) {
+      let self = this;
+      this.monthly_installment_count = 0;
+      this.monthly_installment_amounts = 0;
+      this.layaway_payment = 0;
+      this.down_payment = 0;
+      this.special_payment = 0;
+      this.payment_upon_delivery = 0;
+      this.select_collection = item;
+      this.index_collection = index;
+      this.status_collection = status;
+      const t = status == 1 ?
+        this.translate.instant('message.error.wantToCancelCollection') :
+        this.translate.instant('message.error.wantToActiveCollection');
+      swal({
+        html: this.translate.instant('message.error.areYouSure') + '<br>' + t,
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: this.constant.confirmButtonColor,
+        cancelButtonColor: this.constant.cancelButtonColor,
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          if (this.select_collection.is_cancelled != 1) {
+            self.select_collection.payment_choices.forEach(function (element, index) {
+              if (element.category_name.includes('Monthly Installment')) {
+                self.monthly_installment_count = self.monthly_installment_count + 1;
+              }
+              self.monthly_installment_amounts = element.category_name.includes('Monthly Installment') ? self.monthly_installment_amounts + (element.calc_payment_amount || 0) : self.monthly_installment_amounts + 0;
+              self.layaway_payment = element.category_name.includes('Layaway Payment') ? self.layaway_payment + (element.calc_payment_amount || 0) : self.layaway_payment + 0;
+              self.down_payment = element.category_name.includes('Down Payment') ? self.down_payment + (element.calc_payment_amount || 0) : self.down_payment + 0;
+              self.special_payment = element.category_name.includes('Special payment') ? self.special_payment + (element.calc_payment_amount || 0) : self.special_payment + 0;
+              self.payment_upon_delivery = element.category_name.includes('Payment upon Delivery') ? self.payment_upon_delivery + (element.calc_payment_amount || 0) : self.payment_upon_delivery + 0;
+            });
+            this.closeCancelModal();
+            this.openCancelDetailModal.nativeElement.click();
+          } else {
+            this.cancelPropertyCollections(item, index, status);
+          }
         }
-      }
-    });
-  }
-  else{
+      });
+    }
+    else {
 
-  }
+    }
   }
 
   closeCancelModal() {
@@ -789,7 +790,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     this.collectionDetailShow = false;
     this.cancelationCommision = undefined;
     this.collectionId = undefined;
-    this.remaining_amount_collection = undefined; 
+    this.remaining_amount_collection = undefined;
     this.searchCollection = undefined;
   }
 
@@ -801,7 +802,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           this.translate.instant('message.success.activedSuccessfully');
         this.toastr.success(t, this.translate.instant('swal.success'));
         this.is_filter ? this.items[index].is_cancelled = status : this.cs.collections[index].is_cancelled = status;
-        if(!this.remaining_amount_collection){
+        if (!this.remaining_amount_collection) {
           this.closeCancelDetailModal.nativeElement.click();
         }
       },
@@ -1445,9 +1446,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         this.penaltyAmount = item.penalty ? parseFloat(item.penalty.amount).toFixed(2) : 0;
         this.pendingPayment = 0.00; // amt already paid
         this.currentAmount = (parseFloat(currentAmt) - parseFloat(currentAmtPaid)).toFixed(2);
-        if(!this.remaining_amount_collection){
-        this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment) +
-          parseFloat(this.penaltyAmount)).toFixed(2);
+        if (!this.remaining_amount_collection) {
+          this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment) +
+            parseFloat(this.penaltyAmount)).toFixed(2);
         }
         this.calculatedPayAmount = [...this.paymentAmount];
       } else if (this.payment_type == 1) {
@@ -1466,8 +1467,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         this.penaltyAmount = item.penalty ? parseFloat(item.penalty.amount).toFixed(2) : 0;
         this.pendingPayment = (amt - amtPaid).toFixed(2);
         this.currentAmount = (parseFloat(currentAmt) - parseFloat(currentAmtPaid)).toFixed(2);
-        if(!this.remaining_amount_collection){
-        this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);
+        if (!this.remaining_amount_collection) {
+          this.paymentAmount = (parseFloat(this.currentAmount) + parseFloat(this.pendingPayment) + parseFloat(this.penaltyAmount)).toFixed(2);
         }
         this.calculatedPayAmount = [...this.paymentAmount];
       }
@@ -1741,10 +1742,10 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         // return false;
       }
       let url;
-      if(!this.remaining_amount_collection){
-      url = this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'applyCommissionPayment';
+      if (!this.remaining_amount_collection) {
+        url = this.typeOfPayment === 'apply-popup' ? 'applyCollectionPayment' : 'applyCommissionPayment';
       }
-      else{
+      else {
         url = 'applyCollectionPayment';
       }
       // if (this.typeOfPayment) {
@@ -1767,7 +1768,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             }
             let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
             this.paymentReceipt.getCollectionById(this.property_collection_id, find_index, this.payment_choice_id, false);
-            if(this.remaining_amount_collection){
+            if (this.remaining_amount_collection) {
               this.collectionDetailShow = true;
               this.openCancelDetailModal.nativeElement.click();
             }
@@ -1779,10 +1780,10 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           }
           let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
           this.paymentReceipt.getCollectionById(this.property_collection_id, find_index, this.payment_choice_id, false);
-          if(!this.remaining_amount_collection){
-          this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
+          if (!this.remaining_amount_collection) {
+            this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
           }
-          else{
+          else {
             this.payment_method_id = undefined;
             this.paymentAmount = 0;
             this.docsFile1.nativeElement.value = '';
@@ -2295,8 +2296,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
 
   closeCollReceiptModal() {
     this.penaltyAmount = 0; this.docFile = ''; this.description = '';
-    if(!this.remaining_amount_collection){
-    this.paymentAmount = 0; 
+    if (!this.remaining_amount_collection) {
+      this.paymentAmount = 0;
     }
     this.pendingPayment = 0; this.currentAmount = 0;
     // this.docsFile.nativeElement.value = '';
@@ -2432,16 +2433,16 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         amt = parseFloat(amt) + parseFloat(r['amount']) + parseFloat(penaltyamt);
         amtPaid = parseFloat(amtPaid) + parseFloat(currentAmtPaid);
       }
-      if(!this.remaining_amount_collection){
-      this.paymentAmount = (amt - amtPaid).toFixed(2);
-      this.calculatedPayAmount = [...this.paymentAmount];
+      if (!this.remaining_amount_collection) {
+        this.paymentAmount = (amt - amtPaid).toFixed(2);
+        this.calculatedPayAmount = [...this.paymentAmount];
       }
-      else{
+      else {
         this.calculatedPayAmount = (amt - amtPaid).toFixed(2);
       }
     }
-    if(!this.remaining_amount_collection){
-    this.applyPaymentMethodId.nativeElement.value = '';
+    if (!this.remaining_amount_collection) {
+      this.applyPaymentMethodId.nativeElement.value = '';
     }
   }
 
@@ -4095,30 +4096,30 @@ export class CollectionsComponent implements OnInit, OnDestroy {
 
   }
 
-  cancelYes(){
-    if(this.remaining_amount_collection){
+  cancelYes() {
+    if (this.remaining_amount_collection) {
       this.searchCollection = true;
       this.showNext = true;
       this.collectionDetailShow = false;
     }
-    else{
+    else {
       this.collectionDetailShow = true;
       this.searchCollection = false
       this.showNext = true;
     }
   }
 
-  searchCollectionById(){
+  searchCollectionById() {
     this.spinner.show();
-    this.admin.postDataApi('getCollectionById', { id:  this.collectionId})
-    .subscribe(
-      success => {
-        this.spinner.hide();
-        this.searched_collection = success['data'];
-      });
+    this.admin.postDataApi('getCollectionById', { id: this.collectionId })
+      .subscribe(
+        success => {
+          this.spinner.hide();
+          this.searched_collection = success['data'];
+        });
   }
 
-  paymentAdjust(){
+  paymentAdjust() {
     this.paymentAmount = this.select_collection.total_payment_recieved - (this.cancelationCommision || 0);
     this.paymentConcepts = this.searched_collection.payment_choices;
     this.closeCancelDetailModal.nativeElement.click();
@@ -4127,7 +4128,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     this.paymentModalOpen.nativeElement.click();
   }
 
-  closeCancel(){
+  closeCancel() {
     this.closeCancelDetailModal.nativeElement.click();
     this.showNext = false;
     this.finish = false;
@@ -4135,7 +4136,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     this.collectionDetailShow = false;
     this.cancelationCommision = undefined;
     this.collectionId = undefined;
-    this.remaining_amount_collection = undefined; 
+    this.remaining_amount_collection = undefined;
     this.searchCollection = undefined;
   }
 
