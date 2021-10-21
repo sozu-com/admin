@@ -38,6 +38,10 @@ const routes: Routes = [
     path: 'details/:hotel_id', component: HotelDetailsComponent,
     canActivate: [AclUserGuard], data: { roles: ['Hotel Management', 'can_read', 'can_data_collector'] }
   },
+  {
+    path: 'view-hotels/:type/:id', component: HotelsComponent,
+    canActivate: [AclUserGuard], data: { roles: ['Hotel Management', 'can_update', 'can_data_collector'] }
+  },
 ];
 
 @NgModule({
