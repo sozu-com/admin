@@ -55,6 +55,7 @@ export class Manager {
     selected?: any;
     manager_notes?: Array<Note>;
     sector?:any;
+    hotel_sort?:any;
 }
 export class Note {
     id: string;
