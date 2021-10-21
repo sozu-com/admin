@@ -935,6 +935,7 @@
       "income": "Income",
       "sector": "Sector",
       "remainingCollection": "Send remaining to another collection",
+      "linkedHotel": "Linked Hotel",
       "possesion": {
         "label": "Possesion",
         "Building_type": "Building type",

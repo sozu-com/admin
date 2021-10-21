@@ -31,6 +31,7 @@ export class Company {
 
 export class Manager {
     id: number;
+    Hotel_sort: any;
     company?: Company;
     name: string;
     first_surname?: string;
@@ -54,8 +55,8 @@ export class Manager {
     company_id?: number;
     selected?: any;
     manager_notes?: Array<Note>;
-    sector?:any;
-    hotel_sort?:any;
+    sector?: any;
+    hotel_sort?: any;
 }
 export class Note {
     id: string;
