@@ -69,8 +69,8 @@ export class ManagersComponent implements OnInit {
     this.file1 = new FileUpload(false, this.admin);
     this.model = new Manager();
     this.model.is_company = 'true';
-    this.model.project_sort = 2;
-    this.model.hotel_sort = 2;
+    this.model.project_sort = 0;
+    this.model.hotel_sort = 0;
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
     this.model.company = new Company();
@@ -367,10 +367,12 @@ export class ManagersComponent implements OnInit {
 
   sortData(value: number) {
     this.model.project_sort = value;
+    this.model.hotel_sort = 0;
     this.getTowerManager();
   }
 
   sortDataHotel(value: number) {
+    this.model.project_sort = 0;
     this.model.hotel_sort = value;
     this.getTowerManager();
   }
