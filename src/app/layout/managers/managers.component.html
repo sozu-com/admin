@@ -163,8 +163,8 @@
             <th style="width:5%; vertical-align: top;">
               <div class="table-search">
                 <label>{{'table.th.linkedHotel' | translate}}</label>
-                <a (click)="sortData(model.Hotel_sort==1?2:1)" href="javascript://"><img
-                    [ngClass]="{'upsidedown':model.Hotel_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
+                <a (click)="sortDataHotel(model.hotel_sort==1?2:1)" href="javascript://"><img
+                    [ngClass]="{'upsidedown':model.hotel_sort==2}" src="assets/img/top-arrow.png" alt="img"></a>
               </div>
             </th>
             <th style="width:5%; vertical-align: top;">
@@ -225,13 +225,13 @@
                                   ('addForm.offices' | translate) : ('table.tr.td.NA' | translate)}}</td>
             <td class="text-left">{{item.email || ('table.tr.td.NA' | translate)}}</td>
             <td class="text-left">
-              <a routerLink="/dashboard/projects/view-hotel/manager/{{item.id}}">
-                <span class="green-color">{{item.hotel_count | numberWithCommas}}</span>
+              <a routerLink="/dashboard/projects/view-projects/manager/{{item.id}}">
+                <span class="green-color">{{item.project_count | numberWithCommas}}</span>
               </a>
             </td>
             <td class="text-left">
-              <a routerLink="/dashboard/projects/view-projects/manager/{{item.id}}">
-                <span class="green-color">{{item.project_count | numberWithCommas}}</span>
+              <a routerLink="/dashboard/projects/view-hotel/manager/{{item.id}}">
+                <span class="green-color">{{item.hotel_count | numberWithCommas}}</span>
               </a>
             </td>
             <td class="text-left">

@@ -370,10 +370,16 @@ export class ManagersComponent implements OnInit {
     this.getTowerManager();
   }
 
+  sortDataHotel(value: number) {
+    this.model.hotel_sort = value;
+    this.getTowerManager();
+  }
+
   getTowerManager() {
     this.spinner.show();
     const input = new FormData();
     input.append('project_sort', this.model.project_sort);
+    input.append('hotel_sort', this.model.hotel_sort);
     input.append('page', this.parameter.p.toString());
     if (this.parameter.name) { input.append('name', this.parameter.name); }
     if (this.parameter.agent) { input.append('agent', this.parameter.agent); }
