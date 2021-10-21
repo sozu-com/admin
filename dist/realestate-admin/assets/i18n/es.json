@@ -283,8 +283,8 @@
     "editContract": "Editar Contratos",
     "paymentReceipt": "Recibo de pago",
     "sector": "Sector",
-    "hotels": "Habitacional",
-    "housing": "Hoteleria",
+    "hotels": "Hoteleria",
+    "housing": "Habitacional",
     "offices": "Oficina",
     "viewHotelRooms": "Ver habitaciones de hotel",
     "hotelSize": "Tamaño del hotel",
@@ -933,6 +933,7 @@
       "income": "Ingreso",
       "sector": "Sector",
       "remainingCollection": "Enviar el resto a otra colección",
+      "linkedHotel": "hoteles vinculados",
       "possesion": {
         "label": "Fecha de entrega",
         "Building_type": "Tipo de construcción",

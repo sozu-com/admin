@@ -28,6 +28,7 @@ export class SozuIncomeComponent implements OnInit {
   is_back: boolean;
   locale: any;
   items: any = [];
+  records: any = [];
   total: any = 0;
   today: Date;
   purchase__amount: any;
@@ -48,7 +49,7 @@ export class SozuIncomeComponent implements OnInit {
   collection_commission: any;
   cancellation_commission: any;
   selectedLevel: any;
-  pay_id: any = [];
+  pay_id: any = []; already_index: any; commissions = [];
   colorScheme = {
     domain: ['#ee7b7c', '#f5d05c']
   };
@@ -360,6 +361,7 @@ export class SozuIncomeComponent implements OnInit {
     this.reportType = 1;
     this.getListing();
     this.getReportData2();
+    this.getReportData1();
   }
   resetDates() {
     this.parameter.min = '';
@@ -1951,7 +1953,6 @@ export class SozuIncomeComponent implements OnInit {
     }
   }
   getReportData2() {
-
     const input: any = JSON.parse(JSON.stringify(this.parameter));
     input.start_date = moment(this.parameter.start_date).format('YYYY-MM-DD');
     input.end_date = moment(this.parameter.end_date).format('YYYY-MM-DD');
@@ -1991,6 +1992,62 @@ export class SozuIncomeComponent implements OnInit {
   }
   ngOnDestroy(): void {
     localStorage.setItem('parametersForCommission', JSON.stringify(this.parameter));
+  }
+
+  getReportData1() {
+    const input: any = JSON.parse(JSON.stringify(this.parameter));
+    input.start_date = moment(this.parameter.start_date).format('YYYY-MM-DD');
+    input.end_date = moment(this.parameter.end_date).format('YYYY-MM-DD');
+    if (this.selctedProjects) {
+      const d = this.selctedProjects.map(o => o.id);
+      input.building_id = d;
+    }
+    if (this.selectedCommissions) {
+      const d = this.selectedCommissions.map(o => o.id);
+      input.commission_type = d[0];
+    }
+    if (!input.commission_type) {
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectCommissionType'), 'error');
+      return false;
+    }
+    this.spinner.show();
+    this.admin.postDataApi('graphs/sozu-commission-income', input).subscribe(r => {
+      this.spinner.hide();
+      this.records = [];
+      this.reportData = r['data'];
+      for (let index = 0; index < this.reportData.commission.length; index++) {
+        const e = this.reportData.commission[index];
+        const obj = { label: e.label, commission: e.y, iva_amount: this.reportData.iva_amount[index].y };
+        this.records.push(obj);
+      }
+    }, error => {
+      this.spinner.hide();
+    });
+  }
+  getCommission(item, index) {
+    if (item && (this.reportData.commission || []).length > 0) {
+      if (index != this.already_index) {
+        this.already_index = index;
+        this.commissions = [];
+        let data = this.reportData.commission.find(value => value.label == item.label);
+        let id = data.id.split(',');
+        let param = {
+          commission_type: this.selectedCommissions[0].id,
+          id: id
+        }
+        this.spinner.show();
+        this.admin.postDataApi('graphs/sozu-get-commission', param)
+          .subscribe(
+            success => {
+              this.spinner.show();
+              this.commissions = success.data;
+              this.spinner.hide();
+            }, error => {
+              this.spinner.hide();
+            });
+      }
+    }
+
   }
 }
 
