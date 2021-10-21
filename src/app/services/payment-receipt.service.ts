@@ -152,7 +152,7 @@ export class PaymentReceiptService {
                 { text: this.translate.instant('generatePDF.receipt'), border: [false, false, false, false], bold: true, fontSize: 12, },    
               ],
               [
-                { text:this.collection_data.property.building.developer ? this.collection_data.property.building.developer.developer_company : 'N/A', border: [false, false, false, false], bold: true, margin: [0, 0, 0, 30] },    
+                { text:this.collection_data.seller_legal_name ? this.collection_data.seller_legal_name : 'N/A', border: [false, false, false, false], bold: true, margin: [0, 0, 0, 30] },    
               ],
             ],
           }

@@ -70,6 +70,7 @@ export class ManagersComponent implements OnInit {
     this.model = new Manager();
     this.model.is_company = 'true';
     this.model.project_sort = 2;
+    this.model.hotel_sort = 2;
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
     this.model.company = new Company();
