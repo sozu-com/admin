@@ -312,7 +312,6 @@ export class ArrearReportComponent implements OnInit {
           const element = self.model[index];
           let tempTotalAmount = 0;
           self.data[element].forEach((r, index) => {
-            //let t = 0;
             self.data[element][index]['showInfo'] = true;
             tempTotalAmount = tempTotalAmount + (((r['amount'] || 0) + (r['penelty'] || 0)) - (r.calc_payment_amount || 0));
             // self.data[element][index]['total_amount'] = t;
