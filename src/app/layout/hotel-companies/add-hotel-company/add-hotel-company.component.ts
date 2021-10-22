@@ -118,6 +118,7 @@ export class AddHotelCompanyComponent implements OnInit {
 
   add(formData: NgForm) {
     const modelSave: Users = JSON.parse(JSON.stringify(this.model));
+
     if (modelSave.legal_representative.phone) {
       modelSave.legal_representative.country_code = modelSave.legal_representative.country_code || this.constant.country_code;
       modelSave.legal_representative.dial_code = modelSave.legal_representative.dial_code || this.constant.dial_code;
@@ -129,35 +130,39 @@ export class AddHotelCompanyComponent implements OnInit {
     }
     delete this.model.logo_loader;
     delete this.model.img_loader;
+    modelSave.legal_representative.name
+    modelSave.legal_representative.first_surname
+    modelSave.legal_representative.second_surname
+    modelSave.legal_representative.fed_tax_pay
+    if (!modelSave.legal_representative.phone) {
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativePhone'), 'error');
+      return;
+    }
+    if (!modelSave.legal_representative.email) {
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeEmail'), 'error');
+      return;
+    }
+    // if (modelSave.legal_representative.phone || modelSave.legal_representative.email) {
+    // if any of key present, then all must be entered
+    // if (!modelSave.legal_representative.name) {
+    //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeName'), 'error');
+    //   return;
+    // }
+    // if (!modelSave.legal_representative.first_surname) {
+    //   swal(this.translate.instant('swal.error'),
+    //     this.translate.instant('message.error.pleaseEnterLegalRepresentativeFirstName'), 'error');
+    //   return;
+    // }
 
-    if (modelSave.legal_representative.phone || modelSave.legal_representative.email) {
-      // if any of key present, then all must be entered
-      // if (!modelSave.legal_representative.name) {
-      //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeName'), 'error');
-      //   return;
-      // }
-      // if (!modelSave.legal_representative.first_surname) {
-      //   swal(this.translate.instant('swal.error'),
-      //     this.translate.instant('message.error.pleaseEnterLegalRepresentativeFirstName'), 'error');
-      //   return;
-      // }
-      if (!modelSave.legal_representative.phone) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativePhone'), 'error');
-        return;
-      }
-      if (!modelSave.legal_representative.email) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeEmail'), 'error');
-        return;
-      }
-      // if (!modelSave.legal_representative.fed_tax_pay) {
-      //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeFTPR'), 'error');
-      //   return;
-      // }
-    }
-    if (!modelSave.legal_representative.phone
-      || !modelSave.legal_representative.email) {
-      delete modelSave.legal_representative;
-    }
+    // if (!modelSave.legal_representative.fed_tax_pay) {
+    //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeFTPR'), 'error');
+    //   return;
+    // }
+    // }
+    // if (!modelSave.legal_representative.phone
+    //   || !modelSave.legal_representative.email) {
+    //   delete modelSave.legal_representative;
+    // }
 
     if (modelSave['legal_representative'] && modelSave['legal_representative']['legal_rep_banks'] &&
       modelSave['legal_representative']['legal_rep_banks'].length > 0) {
