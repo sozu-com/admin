@@ -64,7 +64,9 @@
     "totalCommissionOnPlatform": "Total Commission on platform",
     "yourSales": "Your Sales",
     "dashboardProjects":"Dashboard projects",
-    "dashboardProperties":"Dashboard properties"
+    "dashboardProperties":"Dashboard properties",
+    "commissionAmount": "Commission Amount",
+    "IVAAmount":"IVA Amount"
   },
   "filters": {
     "time": {

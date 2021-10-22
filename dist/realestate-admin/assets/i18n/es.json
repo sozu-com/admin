@@ -64,7 +64,9 @@
     "totalCommissionOnPlatform": "Comisión total",
     "yourSales": "Tus ventas",
     "dashboardProjects":"Proyectos de tablero",
-    "dashboardProperties":"Propiedades del tablero"
+    "dashboardProperties":"Propiedades del tablero",
+    "commissionAmount": "Monto de la comisión",
+    "IVAAmount":"Importe IVA"
   },
   "filters": {
     "time": {
