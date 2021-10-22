@@ -206,6 +206,8 @@ export class SozuIncomeComponent implements OnInit {
   selctedProjects: Array<any>;
   singleDropdownSettings: any;
   multiDropdownSettings: any; reportData: any; selectedCommissions: Array<any>;
+  amount_comission: any;
+  amount_iva: any;
   constructor(
     private propertyService: PropertyService,
     private spinner: NgxSpinnerService,
@@ -1971,6 +1973,8 @@ export class SozuIncomeComponent implements OnInit {
     this.admin.postDataApi('graphs/cash-flow-income ', input).subscribe(r => {
       this.spinner.hide();
       this.reportData = r['data'];
+      this.amount_comission = r['data'].commission;
+      this.amount_iva = r['data'].iva;
       this.commissionss = [];
       for (let index = 0; index < this.reportData['expected'].length; index++) {
         const element = this.reportData['expected'][index];

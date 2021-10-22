@@ -180,6 +180,30 @@
       </div>
     </div>
   </div>
+  <div [style.display]="reportType==1 ? 'block' : 'none'">
+    <div class="img-des">
+          <div class="row">
+            <div class="col-md-4 col-sm-6 col-12 img-c">
+              <div class="block">
+                <p class="p18">{{((amount_comission + amount_iva) || 0) | currency}}</p>
+                <p class="p13" style="color: black;font-weight: bold;">{{'dashboard.total' | translate}}</p>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-12 img-c">
+              <div class="block">
+                <p class="p18">{{(amount_comission || 0) | currency}}</p>
+                <p class="p13">{{'dashboard.commissionAmount' | translate}}</p>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-12 img-c">
+              <div class="block">
+                <p class="p18">{{(amount_iva || 0) | currency}}</p>
+                <p class="p13">{{'dashboard.IVAAmount' | translate}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+</div>
   <div class="white-bg marginT15" style="padding:9px;">
     <div class="graph-area" [style.display]="reportType==1 ? 'block' : 'none'">
       <div id="chartContainer2" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;">
