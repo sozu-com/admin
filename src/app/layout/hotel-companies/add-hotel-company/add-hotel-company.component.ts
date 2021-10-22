@@ -130,18 +130,17 @@ export class AddHotelCompanyComponent implements OnInit {
     delete this.model.logo_loader;
     delete this.model.img_loader;
 
-    if (modelSave.legal_representative.name || modelSave.legal_representative.first_surname || modelSave.legal_representative.phone
-      || modelSave.legal_representative.email) {
+    if (modelSave.legal_representative.phone || modelSave.legal_representative.email) {
       // if any of key present, then all must be entered
-      if (!modelSave.legal_representative.name) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeName'), 'error');
-        return;
-      }
-      if (!modelSave.legal_representative.first_surname) {
-        swal(this.translate.instant('swal.error'),
-          this.translate.instant('message.error.pleaseEnterLegalRepresentativeFirstName'), 'error');
-        return;
-      }
+      // if (!modelSave.legal_representative.name) {
+      //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativeName'), 'error');
+      //   return;
+      // }
+      // if (!modelSave.legal_representative.first_surname) {
+      //   swal(this.translate.instant('swal.error'),
+      //     this.translate.instant('message.error.pleaseEnterLegalRepresentativeFirstName'), 'error');
+      //   return;
+      // }
       if (!modelSave.legal_representative.phone) {
         swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterLegalRepresentativePhone'), 'error');
         return;
