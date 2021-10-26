@@ -1,8 +1,9 @@
 import { UserModel } from "./inhouse-users.model";
-import { LegalEntity, Banks, LegalRepresentative, Docs } from "./legalEntity.model";
+import { LegalEntity, Banks, LegalRepresentative, Docs, Legal_developer_access } from "./legalEntity.model";
 
 export class Users {
     id: string;
+    legal_entities_id: string;
     company_name?: string;
     name: string;
     first_surname?: string;
@@ -46,6 +47,7 @@ export class Users {
     beneficiary?: Array<Beneficiaries>;
     user_linked_documents?: Array<Docs>;
     legal_representative?: LegalRepresentative;
+    legal_developer_access?: Array<Legal_developer_access>;
     gender?: string;
     dob?: string;
     curp?: string;

@@ -36,7 +36,7 @@ export class AddLegalEntityComponent implements OnInit {
   multiDropdownSettings: any;
   data_fetch: boolean = false;
 
-  public developer_access_formGroup: FormGroup;
+  public legal_developer_access_formGroup: FormGroup;
 
   constructor(
     public constant: Constant,
@@ -49,8 +49,8 @@ export class AddLegalEntityComponent implements OnInit {
     private translate: TranslateService,
     private fb: FormBuilder
   ) {
-    this.developer_access_formGroup = this.fb.group({
-      developer_access: this.fb.array([])
+    this.legal_developer_access_formGroup = this.fb.group({
+      legal_developer_access: this.fb.array([])
     });
   }
 
@@ -156,7 +156,7 @@ export class AddLegalEntityComponent implements OnInit {
         sales_commission: [''],
         login_website: [0],
         //developer_id: ['']
-      //  addThisInformationAsAUser:[false]
+        //  addThisInformationAsAUser:[false]
       })
 
     });
@@ -287,7 +287,7 @@ export class AddLegalEntityComponent implements OnInit {
           }
           this.patchForm(success.data);
           self.data_fetch = true;
-          this.loadDeveloperAccessData((success.data || {}).developer_access);
+          this.loadDeveloperAccessData((success.data || {}).legal_developer_access);
         }, error => {
           this.spinner.hide();
         });
@@ -347,8 +347,8 @@ export class AddLegalEntityComponent implements OnInit {
   add(formData: NgForm) {
     formData['country_code'] = this.model.country_code;
     formData['dial_code'] = this.model.dial_code;
-    formData['legal_rep']['country_code'] = this.model.country_code;
-    formData['legal_rep']['dial_code'] = this.model.dial_code;
+    formData['legal_rep']['country_code'] = this.model.country_code ? this.model.country_code : "";
+    formData['legal_rep']['dial_code'] = this.model.dial_code ? this.model.dial_code : "";
     formData['legal_rep']['have_dev_panel_access'] = formData['legal_rep']['have_dev_panel_access'] ? 1 : 0;
     formData['send_mail'] = this.model.send_mail ? this.model.send_mail : 0;
     if (this.model.id) {
@@ -420,7 +420,7 @@ export class AddLegalEntityComponent implements OnInit {
       if (this.checkDeveloperAccessFormArrayInvalid()) {
         return;
       } else {
-        formData['developer_access'] = this.getDeveloperAccessFormArray.getRawValue();
+        formData['legal_developer_access'] = this.getDeveloperAccessFormArray.getRawValue();
       }
     }
     //formData['developer_id'] = (this.addDataForm.get('legal_rep') as FormGroup).get('developer_id').value;
@@ -524,7 +524,7 @@ export class AddLegalEntityComponent implements OnInit {
   }
 
   get getDeveloperAccessFormArray(): FormArray {
-    return this.developer_access_formGroup.get('developer_access') as FormArray;
+    return this.legal_developer_access_formGroup.get('legal_developer_access') as FormArray;
   }
 
   get getDeveloperAccessFormArrayLength(): number {
@@ -636,7 +636,7 @@ export class AddLegalEntityComponent implements OnInit {
               tax_municipality: ((success.data || [])[0] || {}).Municipio || '', // Municipality
               tax_state: ((success.data || [])[0] || {}).Entidad || '', // State
               tax_city: ((success.data || [])[0] || {}).Ciudad || '', // city
-              tax_country:  ((success.data || [])[0] || {}).Municipio || ((success.data || [])[0] || {}).Entidad || ((success.data || [])[0] || {}).Ciudad ? 'Mexico' : '', // Country
+              tax_country: ((success.data || [])[0] || {}).Municipio || ((success.data || [])[0] || {}).Entidad || ((success.data || [])[0] || {}).Ciudad ? 'Mexico' : '', // Country
               tax_neighbourhood: (this.model.tax_neighbourhoods || [])[0] || ''
             });
           } else {
@@ -649,7 +649,7 @@ export class AddLegalEntityComponent implements OnInit {
               tax_municipality: ((success.data || [])[0] || {}).Municipio || '', // Municipality
               tax_state: ((success.data || [])[0] || {}).Entidad || '', // State
               tax_city: ((success.data || [])[0] || {}).Ciudad || '', // city
-              tax_country:  ((success.data || [])[0] || {}).Municipio || ((success.data || [])[0] || {}).Entidad || ((success.data || [])[0] || {}).Ciudad ? 'Mexico' : '', // Country
+              tax_country: ((success.data || [])[0] || {}).Municipio || ((success.data || [])[0] || {}).Entidad || ((success.data || [])[0] || {}).Ciudad ? 'Mexico' : '', // Country
               neighbourhood: (this.model.neighbourhoods || [])[0] || ''
             });
             this.onClickUseUserSameAddress();
@@ -699,8 +699,8 @@ export class AddLegalEntityComponent implements OnInit {
     }
   }
 
-  loginWebsite(value){
-      this.addDataForm.get('legal_rep').value.login_website = value.target.checked? 1 : 0;
+  loginWebsite(value) {
+    this.addDataForm.get('legal_rep').value.login_website = value.target.checked ? 1 : 0;
   }
 
 }
