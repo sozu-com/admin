@@ -106,6 +106,7 @@
               <!-- <td class="text-left" routerLink="/dashboard/projects/view-projects/developer/{{item.id}}">{{item?.user?.name || ('table.tr.td.NA' | translate)}}</td> -->
               <td><input name="have_dev_panel_access{{i}}" disabled class="form-control checkbox_size" type="checkbox" [checked]="item?.legal_reps?.have_dev_panel_access ? 'checked' : ''" readonly> </td>
               <td>
+                
                 <div class="table-actions">
                   <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Manage Legal Entity']?.can_update==0" 
                     (click)="editUser(item)" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
