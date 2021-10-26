@@ -660,7 +660,7 @@
 <!-- Create access to system dashboard -->
 <div class="container-fluid" style="margin-top: 30px;padding: 0px;">
   <div class="white-bg padding40">
-    <form [formGroup]="this.developer_access_formGroup">
+    <form [formGroup]="this.legal_developer_access_formGroup">
       <div class="col-xl-12 col-lg-12 col-md-12 col-12">
         <div class="row">
           <div class="col-lg-3 col-md-6 col-sm-6 col-3">
@@ -676,9 +676,9 @@
           </div>
         </div>
         <div class="col-12">
-          <div formArrayName="developer_access" *ngIf="this.getDeveloperAccessFormArrayLength > 0">
+          <div formArrayName="legal_developer_access" *ngIf="this.getDeveloperAccessFormArrayLength > 0">
             <ng-container
-              *ngFor="let temp_developer_access of this.getDeveloperAccessFormArray['controls']; let i=index">
+              *ngFor="let temp_legal_developer_access of this.getDeveloperAccessFormArray['controls']; let i=index">
               <div [formGroupName]="i">
                 <div class="row">
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12">
@@ -721,7 +721,7 @@
                       <input minlength="8" maxlength="15" autocomplete="off" type="text"
                         [pattern]="constant.phonePattern" class="form-control" id="phone" required
                         formControlName="user_contact_number" name="user_contact_number" ng2TelInput
-                        [ng2TelInputOptions]="{initialCountry:temp_developer_access.get('user_country_code').value}"
+                        [ng2TelInputOptions]="{initialCountry:temp_legal_developer_access.get('user_country_code').value}"
                         (countryChange)="onCountryChange($event,i)" />
                     </div>
                   </div>
@@ -732,13 +732,13 @@
                     </div>
                   </div>
                   <div class="col-lg-2 col-md-6 col-sm-6 col-12"
-                    *ngIf="temp_developer_access.get('is_access').value == 0">
+                    *ngIf="temp_legal_developer_access.get('is_access').value == 0">
                     <div style="margin: 20px;border-style: solid;padding: 10px;text-align: center;">
                       <label>{{'addForm.noAccess' | translate}}</label>
                     </div>
                   </div>
                   <div class="col-lg-2 col-md-6 col-sm-6 col-12"
-                    *ngIf="temp_developer_access.get('is_access').value == 1">
+                    *ngIf="temp_legal_developer_access.get('is_access').value == 1">
                     <div style="margin: 20px;border-style: solid;padding: 10px;text-align: center;">
                       <label>{{'addForm.hasAccess' | translate}}</label>
                     </div>
@@ -748,7 +748,7 @@
                       <label>{{'addCollection.remove' | translate}}</label>
                       <div class="clearfix"></div>
                       <button type="button"
-                        (click)="this.removeDeveloperAccessFormGroup($event, i,temp_developer_access)">{{'addCollection.remove'
+                        (click)="this.removeDeveloperAccessFormGroup($event, i,temp_legal_developer_access)">{{'addCollection.remove'
                         |
                         translate}}</button>
                     </div>

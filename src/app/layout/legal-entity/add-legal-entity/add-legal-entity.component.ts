@@ -36,7 +36,7 @@ export class AddLegalEntityComponent implements OnInit {
   multiDropdownSettings: any;
   data_fetch: boolean = false;
 
-  public developer_access_formGroup: FormGroup;
+  public legal_developer_access_formGroup: FormGroup;
 
   constructor(
     public constant: Constant,
@@ -49,8 +49,8 @@ export class AddLegalEntityComponent implements OnInit {
     private translate: TranslateService,
     private fb: FormBuilder
   ) {
-    this.developer_access_formGroup = this.fb.group({
-      developer_access: this.fb.array([])
+    this.legal_developer_access_formGroup = this.fb.group({
+      legal_developer_access: this.fb.array([])
     });
   }
 
@@ -287,7 +287,7 @@ export class AddLegalEntityComponent implements OnInit {
           }
           this.patchForm(success.data);
           self.data_fetch = true;
-          this.loadDeveloperAccessData((success.data || {}).developer_access);
+          this.loadDeveloperAccessData((success.data || {}).legal_developer_access);
         }, error => {
           this.spinner.hide();
         });
@@ -420,7 +420,7 @@ export class AddLegalEntityComponent implements OnInit {
       if (this.checkDeveloperAccessFormArrayInvalid()) {
         return;
       } else {
-        formData['developer_access'] = this.getDeveloperAccessFormArray.getRawValue();
+        formData['legal_developer_access'] = this.getDeveloperAccessFormArray.getRawValue();
       }
     }
     //formData['developer_id'] = (this.addDataForm.get('legal_rep') as FormGroup).get('developer_id').value;
@@ -524,7 +524,7 @@ export class AddLegalEntityComponent implements OnInit {
   }
 
   get getDeveloperAccessFormArray(): FormArray {
-    return this.developer_access_formGroup.get('developer_access') as FormArray;
+    return this.legal_developer_access_formGroup.get('legal_developer_access') as FormArray;
   }
 
   get getDeveloperAccessFormArrayLength(): number {

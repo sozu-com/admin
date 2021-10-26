@@ -79,3 +79,17 @@ export class LegalRepresentative {
     building_ids?: Array<any>;
     sales_commission?: number;
 }
+export class Legal_developer_access {
+    id?: string;
+    name: string;
+    legal_entities_id?: string;
+    approved?: any;
+    first_surname?: string;
+    second_surname?: string;
+    dial_code: string;
+    country_code: string;
+    phone: string;
+    email: string;
+    fed_tax_pay: string;
+    have_dev_panel_access?: number;
+}
