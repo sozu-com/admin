@@ -15,6 +15,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { SharedModule } from 'src/app/modules/shared.module'
+import { ContractPdfService } from 'src/app/services/contract-pdf.service';
 
 const routes: Routes = [
   {
@@ -51,6 +52,7 @@ const routes: Routes = [
     TranslateModule,
     NgMultiSelectDropDownModule.forRoot(),
   ],
-  declarations: [ManageContractsComponent, AddEditContractsComponent]
+  declarations: [ManageContractsComponent, AddEditContractsComponent],
+  providers: [ContractPdfService]
 })
 export class ManageContractsModule { }
