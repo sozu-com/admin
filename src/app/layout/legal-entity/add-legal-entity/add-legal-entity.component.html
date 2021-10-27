@@ -676,7 +676,8 @@
           </div>
         </div>
         <div class="col-12">
-          <div formArrayName="legal_developer_access" *ngIf="this.getDeveloperAccessFormArrayLength > 0">
+          <div formArrayName="legal_developer_access" 
+          *ngIf="this.getDeveloperAccessFormArrayLength > 0">
             <ng-container
               *ngFor="let temp_legal_developer_access of this.getDeveloperAccessFormArray['controls']; let i=index">
               <div [formGroupName]="i">

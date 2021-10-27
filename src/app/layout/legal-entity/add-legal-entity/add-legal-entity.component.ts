@@ -92,7 +92,6 @@ export class AddLegalEntityComponent implements OnInit {
   }
 
   uploadDoc(legalentity) {
-    //console.log(legalentity, "legal-entity id")
     this.router.navigate(['/dashboard/legal-entities/document-upload', legalentity.id]);
   }
 
@@ -201,7 +200,6 @@ export class AddLegalEntityComponent implements OnInit {
   }
 
   removeLegalEntityBank($event: Event, i: number, item) {
-    // console.log(item);
     $event.stopPropagation();
     this.legalEntityBanks.removeAt(i);
     if (item && item.value.id) {
@@ -306,7 +304,10 @@ export class AddLegalEntityComponent implements OnInit {
         control.push(this.fb.group(x));
       });
     }
-    this.addDataForm.patchValue({ legal_rep: data.legal_reps });
+    if (data.legal_reps) {
+      this.addDataForm.patchValue({ legal_rep: data.legal_reps ? data.legal_reps : {} });
+    }
+
     if (data.legal_reps) {
       this.model.legal_rep.sales_commission = data.legal_reps.sales_commission;
     }
