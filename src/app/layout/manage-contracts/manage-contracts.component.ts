@@ -10,6 +10,7 @@ import * as moment from 'moment';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 import { ContractPdfService } from 'src/app/services/contract-pdf.service';
+import { LegalContractPdfService } from 'src/app/services/legal-contract-pdf.service';
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
@@ -43,7 +44,8 @@ export class ManageContractsComponent implements OnInit {
     public projectService: ProjectService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
-    private contract: ContractPdfService
+    private contract: ContractPdfService,
+    private legal_contract: LegalContractPdfService
   ) { }
 
   ngOnInit() {
@@ -206,4 +208,8 @@ export class ManageContractsComponent implements OnInit {
   downloadContract(){
    this.contract.getCollectionById(504);
   }
+
+  downloadLegalContract(){
+    this.legal_contract.getCollectionById(504);
+   }
 }
