@@ -66,7 +66,7 @@ collection_data: any;
         {
           columns: [
             {
-              text: this.translate.instant('generatePDF.contractDetail') + buyer_name + this.translate.instant('generatePDF.contractDetail1'),
+              text: this.translate.instant('generatePDF.contractDetail') + buyer_name.toLocaleLowerCase() + this.translate.instant('generatePDF.contractDetail1'),
               bold: true,
               fontSize: 12,
               margin: [0, 30, 0, 0],
