@@ -61,7 +61,7 @@ collection_data: any;
     let buyer_name_FTRP = this.collection_data.buyer && this.collection_data.buyer.name ? this.collection_data.buyer.fed_tax_pay : this.collection_data.buyer_legal_entity ? this.collection_data.buyer_legal_entity.fed_tax_pay : 'N/A';
     let docDefinition = {
       pageSize: 'LEGAL',
-      pageMargins: [40, 40, 40, 40],
+      pageMargins: [40, 40, 40, 60],
       content: [
         {
           columns: [
@@ -1320,47 +1320,118 @@ collection_data: any;
             }
           ]
         },
+        {
+          style: 'table2',
+          table: {
+            headerRows: 1,
+            widths: [200],
+            body: [
+              [
+                { text: buyer_name, border: [false, true, false, false], bold: true },    
+              ],
+            ],
+          }
+        },
+        {
+          columns: [
+            {
+              text: [
+                {text: this.translate.instant('generatePDF.contractDetail64'), bold: true, fontSize: 12, alignment: 'center', }
+               
+              ],
+            }
+          ],
+          margin: [0, 10, 0, 0]
+        },
+        {
+          columns: [
+            {
+              text: [
+                {text: this.translate.instant('generatePDF.contractDetail212'), bold: true, fontSize: 12, alignment: 'center', }
+               
+              ],
+            }
+          ]
+        },
+        {
+        columns: [
+        {
+          style: 'table1',
+          table: {
+            headerRows: 1,
+            widths: [225],
+            body: [
+              [
+                { text: this.translate.instant('generatePDF.contractDetail209'), border: [false, true, false, false], bold: true},    
+              ],
+              [
+                { text: this.translate.instant('generatePDF.contractDetail210'), border: [false, false, false, false], bold: true},    
+              ],
+            ],
+          }
+        },
+        {
+          style: 'table3',
+          table: {
+            headerRows: 1,
+            widths: [225],
+            body: [
+              [
+                { text: this.translate.instant('generatePDF.contractDetail211'), border: [false, true, false, false], bold: true},    
+              ],
+              [
+                { text: this.translate.instant('generatePDF.contractDetail210'), border: [false, false, false, false], bold: true},    
+              ],
+            ],
+          }
+        }
+      ]
+    },
       ],
       footer: function (currentPage, pageCount) {
-        var t = {
+        var t = [
+          {
           layout: "noBorders",
-          fontSize: 12,
-          margin: [40, 0, 0, 40],
+          fontSize: 10,
+          margin: [40, 5, 40, 0],
           columns: [
           {
-            text: self.translate.instant('generatePDF.detail6') + self.collection_data.property.building_configuration.name + self.translate.instant('generatePDF.detail8') + 
-            self.collection_data.property.floor_num + self.translate.instant('generatePDF.detail9') + self.collection_data.property.name + self.translate.instant('generatePDF.detail10') + 
-            self.collection_data.property.max_area + self.translate.instant('generatePDF.detail11'),
-            margin: [0, 0, 0, 15]
-          },
-          {
-              text: currentPage,
-              fontSize: 12,
-              alignment: 'center',
-              margin: [0, 10, 0, 0],
+            text: self.translate.instant('generatePDF.contractFooter1') + buyer_name + '/' + self.collection_data.id + '\n' +
+            self.translate.instant('generatePDF.contractFooter2') + '\n' + self.translate.instant('generatePDF.contractFooter3') + 
+            ' N/A ' +  self.translate.instant('generatePDF.contractFooter4') + ' N/A ' + 
+            self.translate.instant('generatePDF.contractFooter5') + ' N/A'
           }
         ]
-        };
+        },
+        {
+          layout: "noBorders",
+          fontSize: 10,
+          columns: [
+          {
+              text: currentPage,
+              fontSize: 10,
+              alignment: 'center'
+          }
+        ]
+      }
+      ]; 
         return t;
-      // footer: {
-      //   columns: [
-      //     {
-      //       text: this.translate.instant('generatePDF.detail6') + this.collection_data.property.building_configuration.name + this.translate.instant('generatePDF.detail8') + 
-      //       this.collection_data.property.floor_num + this.translate.instant('generatePDF.detail9') + this.collection_data.property.name + this.translate.instant('generatePDF.detail10') + 
-      //       this.collection_data.property.max_area + this.translate.instant('generatePDF.detail11'),
-      //       margin: [0, 0, 0, 30]
-      //     }
-      //   ]
        },
       styles: {
         table:{
           margin: [15, 0, 15, 0]
         },
         table1:{
-          margin: [45, 0, 15, 0]
+          alignment: 'center',
+          margin: [10, 60, 0, 20]
+        },
+        table3:{
+          alignment: 'center',
+          margin: [0, 60, 0, 20]
         },
         table2:{
-          alignment: 'center'
+          alignment: 'center',
+          margin: [160, 60, 0, 20]
         }
       }
     }
