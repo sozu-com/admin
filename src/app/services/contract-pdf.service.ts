@@ -6,7 +6,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AdminService } from './admin.service';
 import { PricePipe } from '../pipes/price.pipe';
-import { forkJoin } from 'rxjs';
 import { moment } from 'ngx-bootstrap/chronos/test/chain';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -1435,6 +1434,6 @@ collection_data: any;
         }
       }
     }
-    pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.paymentReceipt') + ' ' + current_date.toISOString() + '.pdf');
+    pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.personContract') + ' ' + current_date.toISOString() + '.pdf');
   }
 }
