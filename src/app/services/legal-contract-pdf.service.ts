@@ -1476,6 +1476,9 @@ export class LegalContractPdfService {
       ]; 
         return t;
        },
+      defaultStyle: {
+        alignment: 'justify',
+      },
       styles: {
         table:{
           margin: [15, 0, 15, 0]

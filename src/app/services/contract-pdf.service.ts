@@ -57,6 +57,7 @@ collection_data: any;
     //    date.includes('Nov') ? date.replace('Nov', 'noviembre') : date.includes('Dec') ? date.replace('Dec', 'diciembre') : ' ';
     //   }
     let buyer_name = this.collection_data.buyer && this.collection_data.buyer.name ? this.collection_data.buyer.name + ' ' + this.collection_data.buyer.first_surname + ' ' + this.collection_data.buyer.second_surname : this.collection_data.buyer_legal_entity ? this.collection_data.buyer_legal_entity.comm_name : 'N/A';
+    let buyer_name_first_letter = this.collection_data.buyer && this.collection_data.buyer.name ? this.collection_data.buyer.name[0] + this.collection_data.buyer.first_surname[0] + this.collection_data.buyer.second_surname[0] : this.collection_data.buyer_legal_entity ? this.collection_data.buyer_legal_entity.comm_name : 'N/A';
     let buyer_name_FTRP = this.collection_data.buyer && this.collection_data.buyer.name ? this.collection_data.buyer.fed_tax_pay : this.collection_data.buyer_legal_entity ? this.collection_data.buyer_legal_entity.fed_tax_pay : 'N/A';
     let docDefinition = {
       pageSize: 'LEGAL',
@@ -98,7 +99,7 @@ collection_data: any;
             {
               text: [
                 {text: this.translate.instant('generatePDF.a'), bold: true, fontSize: 12},
-                {text: this.translate.instant('generatePDF.contractDetail4'), fontSize: 12,},
+                {text: this.translate.instant('generatePDF.contractDetail4'), fontSize: 12},
                 {text:this.translate.instant('generatePDF.contractDetail4a'), bold: true, fontSize: 12},
                 {text:this.translate.instant('generatePDF.contractDetail4b'), fontSize: 12},
           ],
@@ -696,7 +697,7 @@ collection_data: any;
           columns: [
             {
               text: [
-                {text: this.translate.instant('generatePDF.contractDetail106'), fontSize: 12 },
+                {text: this.translate.instant('generatePDF.contractDetail106'), fontSize: 12, decoration: 'underline' },
                 {text: this.translate.instant('generatePDF.contractDetail106a'), fontSize: 12}
               ],
             }
@@ -707,7 +708,7 @@ collection_data: any;
           columns: [
             {
               text: [
-                {text: this.translate.instant('generatePDF.contractDetail107'), fontSize: 12 },
+                {text: this.translate.instant('generatePDF.contractDetail107'), fontSize: 12, decoration: 'underline' },
                 {text: this.translate.instant('generatePDF.contractDetail107a'), fontSize: 12},
                 {text: this.collection_data.final_price ? this.price.transform(this.collection_data.final_price) : 'N/A', bold: true, fontSize: 12},
                 {text: (this.collection_data.final_price ? (' (' + conver.NumerosALetras(this.collection_data.final_price) + ')') : "N/A"), bold: true, fontSize: 12},
@@ -722,7 +723,7 @@ collection_data: any;
           columns: [
             {
               text: [
-                {text: this.translate.instant('generatePDF.contractDetail110'), fontSize: 12 },
+                {text: this.translate.instant('generatePDF.contractDetail110'), fontSize: 12, decoration: 'underline' },
                 {text: this.translate.instant('generatePDF.contractDetail110a'), fontSize: 12}
               ],
             }
@@ -1395,7 +1396,7 @@ collection_data: any;
           margin: [40, 5, 40, 0],
           columns: [
           {
-            text: self.translate.instant('generatePDF.contractFooter1') + buyer_name + '/' + self.collection_data.id + '\n' +
+            text: self.translate.instant('generatePDF.contractFooter1') + buyer_name_first_letter + '/' + self.collection_data.id + '\n' +
             self.translate.instant('generatePDF.contractFooter2') + '\n' + self.translate.instant('generatePDF.contractFooter3') + 
             ' N/A ' +  self.translate.instant('generatePDF.contractFooter4') + ' N/A ' + 
             self.translate.instant('generatePDF.contractFooter5') + ' N/A'
@@ -1416,6 +1417,9 @@ collection_data: any;
       ]; 
         return t;
        },
+      defaultStyle: {
+        alignment: 'justify',
+      },
       styles: {
         table:{
           margin: [15, 0, 15, 0]
