@@ -275,7 +275,8 @@
           <div class="form-group-3">
             <label>{{'addForm.ZIP' | translate}}</label>
             <input minlength="8" maxlength="15" autocomplete="off" type="text" class="form-control" id="zipcode"
-              minlength="1" [(ngModel)]="model.zipcode" name="zipcode" (keyup)="this.getCounrtyByZipcode(false)" />
+              minlength="1" [(ngModel)]="model.zipcode" name="zipcode"  />
+              <!-- (keyup)="this.getCounrtyByZipcode(false)" -->
           </div>
         </div>
       </div>
@@ -323,11 +324,13 @@
         <div class="col-4">
           <div class="form-group-3">
             <label>{{'addForm.neighbourhood' | translate}}</label>
-            <select class="form-control" [(ngModel)]="model.neighborhood" name="neighborhood"
+            <input autocomplete="off" type="text" class="form-control" id="neighborhood" 
+            [(ngModel)]="model.neighborhood" name="neighborhood" />
+            <!-- <select class="form-control" [(ngModel)]="model.neighborhood" name="neighborhood"
               (change)="this.onClickUseUserSameAddress()">
               <option *ngFor="let tempNeighbourhood of model.neighbourhoods" value="{{tempNeighbourhood}}">
                 {{tempNeighbourhood}}</option>
-            </select>
+            </select> -->
           </div>
         </div>
       </div>
@@ -409,9 +412,9 @@
         <div class="col-3">
           <div class="form-group-3">
             <label>{{'addForm.ZIP' | translate}}</label>
-            <input minlength="8" maxlength="15" autocomplete="off" type="text" class="form-control" id="tax_zipcode"
-              minlength="1" [(ngModel)]="model.tax_zipcode" name="tax_zipcode"
-              (keyup)="this.getCounrtyByZipcode(true)" />
+            <input minlength="8" maxlength="15" autocomplete="off" type="text"  class="form-control" id="tax_zipcode" minlength="1" 
+            [(ngModel)]="model.tax_zipcode" name="tax_zipcode"/>
+            <!-- (keyup)="this.getCounrtyByZipcode(true)" -->
           </div>
         </div>
       </div>
@@ -458,12 +461,14 @@
         </div>
         <div class="col-4">
           <div class="form-group-3">
-            <label>{{'addForm.neighbourhood' | translate}}</label>
-            <select class="form-control" [(ngModel)]="model.tax_neighbourhood" name="tax_neighbourhood">
+            <label>{{'addForm.neighbourhood' | translate}}</label> 
+            <input autocomplete="off" type="text" class="form-control" id="tax_neighbourhood" 
+            [(ngModel)]="model.tax_neighbourhood" name="tax_neighbourhood" />
+            <!-- <select class="form-control" [(ngModel)]="model.tax_neighbourhood" name="tax_neighbourhood">
               <option *ngFor="let temp_tax_neighbourhood of model.tax_neighbourhoods"
                 value="{{temp_tax_neighbourhood}}">
                 {{temp_tax_neighbourhood}}</option>
-            </select>
+            </select> -->
           </div>
         </div>
       </div>
@@ -673,7 +678,7 @@
              [pattern]="constant.phonePattern" class="form-control" id="phone" 
              [(ngModel)]="beneficiary.beneficiary_phone" name="beneficiary_phone" ng2TelInput 
              [ng2TelInputOptions]="{ initialCountry: model.country_code }"
-             (countryChange)="onCountryChange($event,1)" />
+             (countryChange)="onCountryChange($event,1)" [pattern]="constant.onlyWhiteSpaces"/>
              <!-- <input  minlength="10" maxlength="10" autocomplete="off" class="form-control" type="text" name="beneficiary_phone"
              [(ngModel)]="beneficiary.beneficiary_phone"> -->
            </div>
