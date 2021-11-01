@@ -370,7 +370,7 @@ collection_data: any;
                 {text: this.translate.instant('generatePDF.contractDetail45'), fontSize: 12},
                 {text: concept_downpayment.amount ? this.price.transform(concept_downpayment.amount) : 0 , bold: true, fontSize: 12},
                 {text: (concept_downpayment.amount ? (' (' + conver.NumerosALetras(concept_downpayment.amount) + ') ') : "N/A"), bold: true, fontSize: 12},
-                {text: concept_downpayment.date ? this.datePipe.transform((concept_downpayment.date), 'dd/MM/yyyy') : 'N/A', fontSize: 12}
+                {text: concept_downpayment.date ? (this.datePipe.transform((concept_downpayment.date), 'dd/MM/yyyy') + '.') : 'N/A.', fontSize: 12}
               ],
             }
           ],
@@ -389,7 +389,7 @@ collection_data: any;
                 {text: this.translate.instant('generatePDF.contractDetail49'), fontSize: 12},
                 {text: concept_monthly.date ? moment(concept_monthly.date).format('MMMM') : 'N/A', bold: true, fontSize: 12},
                 {text: this.translate.instant('generatePDF.contractDetail50'), fontSize: 12},
-                {text: concept_monthly.date ? moment(concept_monthly.date).format('YYYY') : 'N/A', bold: true, fontSize: 12},
+                {text: concept_monthly.date ? (moment(concept_monthly.date).format('YYYY') + '.') : 'N/A.', bold: true, fontSize: 12},
               ],
             }
           ],
@@ -467,7 +467,7 @@ collection_data: any;
                 {text: this.translate.instant('generatePDF.contractDetail66'), fontSize: 12},
                 {text: '"' + this.translate.instant('generatePDF.contractDetail64') + '"', fontSize: 12 },
                 {text: this.translate.instant('generatePDF.contractDetail67'), fontSize: 12},
-                {text: '"' + this.translate.instant('generatePDF.contractDetail64') + '"', fontSize: 12 },
+                {text: '"' + this.translate.instant('generatePDF.contractDetail64') + '".', fontSize: 12 },
               ],
             }
           ],
@@ -665,7 +665,7 @@ collection_data: any;
                 {text: this.translate.instant('generatePDF.contractDetail101'), fontSize: 12},
                 {text: '"' + this.translate.instant('generatePDF.contractDetail60') + '"', fontSize: 12 },
                 {text: this.translate.instant('generatePDF.contractDetail102'), fontSize: 12},
-                {text: '"' + this.translate.instant('generatePDF.contractDetail64') + '"', fontSize: 12 }
+                {text: '"' + this.translate.instant('generatePDF.contractDetail64') + '".', fontSize: 12 }
               ],
             }
           ],
@@ -676,7 +676,7 @@ collection_data: any;
             {
               text: [
                 {text: this.translate.instant('generatePDF.contractDetail103'), fontSize: 12},
-                {text: '"' + this.translate.instant('generatePDF.contractDetail64') + '"', fontSize: 12 }
+                {text: '"' + this.translate.instant('generatePDF.contractDetail64') + '".', fontSize: 12 }
               ],
             }
           ],
@@ -790,7 +790,7 @@ collection_data: any;
                 {text: this.translate.instant('generatePDF.si'), fontSize: 12},
                 {text: '"' + this.translate.instant('generatePDF.contractDetail60') + '"', fontSize: 12 },
                 {text: this.translate.instant('generatePDF.contractDetail122'), fontSize: 12},
-                {text: '"' + this.translate.instant('generatePDF.contractDetail64') + '"', fontSize: 12, }
+                {text: '"' + this.translate.instant('generatePDF.contractDetail64') + '".', fontSize: 12, }
               ],
             }
           ],
@@ -1419,6 +1419,7 @@ collection_data: any;
        },
       defaultStyle: {
         alignment: 'justify',
+        lineHeight: 1.3
       },
       styles: {
         table:{

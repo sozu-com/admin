@@ -57,6 +57,7 @@ export class LegalContractPdfService {
     //    date.includes('Nov') ? date.replace('Nov', 'noviembre') : date.includes('Dec') ? date.replace('Dec', 'diciembre') : ' ';
     //   }
     let buyer_name = this.collection_data.buyer && this.collection_data.buyer.name ? this.collection_data.buyer.name + ' ' + this.collection_data.buyer.first_surname + ' ' + this.collection_data.buyer.second_surname : this.collection_data.buyer_legal_entity ? this.collection_data.buyer_legal_entity.comm_name : 'N/A';
+    let buyer_name_first_letter = this.collection_data.buyer && this.collection_data.buyer.name ? this.collection_data.buyer.name[0] + this.collection_data.buyer.first_surname[0] + this.collection_data.buyer.second_surname[0] : this.collection_data.buyer_legal_entity ? this.collection_data.buyer_legal_entity.comm_name : 'N/A';
     let legal_rep_name = this.collection_data.buyer_legal_entity ? (this.collection_data.buyer_legal_entity.legal_reps.name + ' ' + 
                      this.collection_data.buyer_legal_entity.legal_reps.first_surname + '' + this.collection_data.buyer_legal_entity.legal_reps.second_surname) : 'N/A';
     let buyer_name_FTRP = this.collection_data.buyer && this.collection_data.buyer.name ? this.collection_data.buyer.fed_tax_pay : this.collection_data.buyer_legal_entity ? this.collection_data.buyer_legal_entity.fed_tax_pay : 'N/A';
@@ -218,7 +219,7 @@ export class LegalContractPdfService {
                 {text: this.translate.instant('generatePDF.legalContractDetail8'), fontSize: 12},
                 {text: 'N/A', bold: true, fontSize: 12},
                 {text: this.translate.instant('generatePDF.legalContractDetail9'), fontSize: 12},
-                {text: buyer_name_FTRP, bold: true, fontSize: 12}
+                {text: buyer_name_FTRP ? (buyer_name_FTRP + '.') : 'N/A.', bold: true, fontSize: 12}
               ],
             }
           ],
@@ -255,7 +256,7 @@ export class LegalContractPdfService {
               text: [
                 {text: this.translate.instant('generatePDF.d'), bold: true, fontSize: 12},
                 {text: this.translate.instant('generatePDF.legalContractDetail13'), fontSize: 12},
-                {text: 'N/A', fontSize: 12, bold: true, },
+                {text: 'N/A.', fontSize: 12, bold: true, },
               ],
             }
           ],
@@ -267,7 +268,7 @@ export class LegalContractPdfService {
               text: [
                 {text: this.translate.instant('generatePDF.e'), bold: true, fontSize: 12},
                 {text: this.translate.instant('generatePDF.legalContractDetail14'), fontSize: 12},
-                {text: buyer_name_FTRP, fontSize: 12, bold: true, },
+                {text: buyer_name_FTRP ? (buyer_name_FTRP + '.') : 'N/A.', fontSize: 12, bold: true, },
               ],
             }
           ],
@@ -420,7 +421,7 @@ export class LegalContractPdfService {
                 {text: concept_downpayment.amount ? this.price.transform(concept_downpayment.amount) : 0 , bold: true, fontSize: 12},
                 {text: (concept_downpayment.amount ? (' (' + conver.NumerosALetras(concept_downpayment.amount) + ') ') : "N/A"), bold: true, fontSize: 12},
                 {text: this.translate.instant('generatePDF.legalContractDetail21'), fontSize: 12},
-                {text: concept_downpayment.date ? this.datePipe.transform((concept_downpayment.date), 'dd/MM/yyyy') : 'N/A', fontSize: 12}
+                {text: concept_downpayment.date ? (this.datePipe.transform((concept_downpayment.date), 'dd/MM/yyyy') + '.') : 'N/A.', fontSize: 12}
               ],
             }
           ],
@@ -439,7 +440,7 @@ export class LegalContractPdfService {
                 {text: this.translate.instant('generatePDF.contractDetail49'), fontSize: 12},
                 {text: concept_monthly.date ? moment(concept_monthly.date).format('MMMM') : 'N/A', bold: true, fontSize: 12},
                 {text: this.translate.instant('generatePDF.contractDetail50'), fontSize: 12},
-                {text: concept_monthly.date ? moment(concept_monthly.date).format('YYYY') : 'N/A', bold: true, fontSize: 12},
+                {text: concept_monthly.date ? (moment(concept_monthly.date).format('YYYY') + '.') : 'N/A.', bold: true, fontSize: 12},
               ],
             }
           ],
@@ -517,7 +518,7 @@ export class LegalContractPdfService {
                 {text: this.translate.instant('generatePDF.contractDetail66'), fontSize: 12},
                 {text: '"' + this.translate.instant('generatePDF.contractDetail64') + '"', fontSize: 12 },
                 {text: this.translate.instant('generatePDF.contractDetail67'), fontSize: 12},
-                {text: '"' + this.translate.instant('generatePDF.contractDetail64') + '"', fontSize: 12 },
+                {text: '"' + this.translate.instant('generatePDF.contractDetail64') + '".', fontSize: 12 },
               ],
             }
           ],
@@ -715,7 +716,7 @@ export class LegalContractPdfService {
                 {text: this.translate.instant('generatePDF.contractDetail101'), fontSize: 12},
                 {text: '"' + this.translate.instant('generatePDF.contractDetail60') + '"', fontSize: 12 },
                 {text: this.translate.instant('generatePDF.contractDetail102'), fontSize: 12},
-                {text: '"' + this.translate.instant('generatePDF.contractDetail64') + '"', fontSize: 12 }
+                {text: '"' + this.translate.instant('generatePDF.contractDetail64') + '".', fontSize: 12 }
               ],
             }
           ],
@@ -726,7 +727,7 @@ export class LegalContractPdfService {
             {
               text: [
                 {text: this.translate.instant('generatePDF.contractDetail103'), fontSize: 12},
-                {text: '"' + this.translate.instant('generatePDF.contractDetail64') + '"', fontSize: 12 }
+                {text: '"' + this.translate.instant('generatePDF.contractDetail64') + '".', fontSize: 12 }
               ],
             }
           ],
@@ -840,7 +841,7 @@ export class LegalContractPdfService {
                 {text: this.translate.instant('generatePDF.si'), fontSize: 12},
                 {text: '"' + this.translate.instant('generatePDF.contractDetail60') + '"', fontSize: 12 },
                 {text: this.translate.instant('generatePDF.contractDetail122'), fontSize: 12},
-                {text: '"' + this.translate.instant('generatePDF.contractDetail64') + '"', fontSize: 12, }
+                {text: '"' + this.translate.instant('generatePDF.contractDetail64') + '".', fontSize: 12, }
               ],
             }
           ],
@@ -1367,7 +1368,11 @@ export class LegalContractPdfService {
               fontSize: 12,
               alignment: 'center',
               margin: [0, 35, 0, 0],
-            },
+            }
+          ]
+        },
+        {
+          columns: [
             {
               text: buyer_name,
               bold: true,
@@ -1455,7 +1460,7 @@ export class LegalContractPdfService {
           margin: [40, 5, 40, 0],
           columns: [
           {
-            text: self.translate.instant('generatePDF.contractFooter1') + buyer_name + '/' + self.collection_data.id + '\n' +
+            text: self.translate.instant('generatePDF.contractFooter1') + buyer_name_first_letter + '/' + self.collection_data.id + '\n' +
             self.translate.instant('generatePDF.legalContractFooter1') + buyer_name + self.translate.instant('generatePDF.legalContractFooter2') + 
             '\n' + self.translate.instant('generatePDF.contractFooter3') + ' N/A ' +  self.translate.instant('generatePDF.contractFooter4') + ' N/A ' + 
             self.translate.instant('generatePDF.contractFooter5') + ' N/A'
@@ -1478,6 +1483,7 @@ export class LegalContractPdfService {
        },
       defaultStyle: {
         alignment: 'justify',
+        lineHeight: 1.3
       },
       styles: {
         table:{
