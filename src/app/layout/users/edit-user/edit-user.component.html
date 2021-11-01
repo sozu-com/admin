@@ -824,7 +824,7 @@
                               <select title="{{'addForm.maritalStatus.selectMaritalStatus' | translate}}" name="beneficiary_maritalStatusesId" 
                               class="form-control"  [(ngModel)]="beneficiary.marital_status">
                                 <option value="0" disabled>{{'addForm.maritalStatus.selectMaritalStatus' | translate}}</option>
-                                <option *ngFor="let maritalStatus of marrital_status_list"
+                                <option *ngFor="let maritalStatus of marrital_status_bene"
                                   [selected]="maritalStatus.id == beneficiary.marital_status" value="{{maritalStatus.id}}">{{language_code
                                   == 'en'? maritalStatus.name_en : maritalStatus.name_es}}</option>
                               </select>

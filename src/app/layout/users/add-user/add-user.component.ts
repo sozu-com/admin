@@ -37,7 +37,12 @@ export class AddUserComponent implements OnInit {
   model: Users;
   currencies = Array<any>();
   location: IProperty = {};
-  marrital_status_list = Array<IMarritalStatus>();
+  marrital_status_bene = Array<IMarritalStatus>();
+  marrital_status_list = [
+    { id: 1, name_en: 'Single', name_es: 'Soltero' },
+    { id: 2, name_en: 'Married - Community property', name_es: 'Casado - Bienes mancomunados' },
+    { id: 3, name_en: 'Married - Separate goods', name_es: 'Casado - Bienes separados' }
+  ];
   language_code: string;
   showInput: boolean = false;
   cityDisable: boolean;
@@ -597,7 +602,7 @@ export class AddUserComponent implements OnInit {
 
   getMarritalStatusList() {
     this.admin.postDataApi('getmaritalStatus', {}).subscribe(r => {
-      this.marrital_status_list = r['data'];
+      this.marrital_status_bene = r['data'];
     });
   }
 

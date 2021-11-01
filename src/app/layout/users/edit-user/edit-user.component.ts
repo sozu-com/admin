@@ -35,7 +35,12 @@ export class EditUserComponent implements OnInit {
   model: Users;
   currencies = Array<any>();
   location: IProperty = {};
-  marrital_status_list = Array<IMarritalStatus>();
+  marrital_status_bene = Array<IMarritalStatus>();
+  marrital_status_list = [
+    { id: 1, name_en: 'Single', name_es: 'Soltero' },
+    { id: 2, name_en: 'Married - Community property', name_es: 'Casado - Bienes mancomunados' },
+    { id: 3, name_en: 'Married - Separate goods', name_es: 'Casado - Bienes separados' }
+  ];
   Relationship_list = Array<IDestinationStatus>();
   beneficiary_list: any = [];
   beneficiary: Beneficiary;
@@ -460,7 +465,7 @@ export class EditUserComponent implements OnInit {
 
   getMarritalStatusList() {
     this.admin.postDataApi('getmaritalStatus', {}).subscribe(r => {
-      this.marrital_status_list = r['data'];
+      this.marrital_status_bene = r['data'];
     });
   }
 
@@ -950,14 +955,14 @@ export class EditUserComponent implements OnInit {
     }
   }
 
-  reset(){
+  reset() {
     this.spinner.show();
-    this.admin.postDataApi('resetActivation', {user_id: this.model.id})
+    this.admin.postDataApi('resetActivation', { user_id: this.model.id })
       .subscribe(
         success => {
           this.spinner.hide();
           swal(this.translate.instant('swal.success'), this.translate.instant('message.success.resetSuccessfully'), 'success');
-        }, error=>{
+        }, error => {
           this.spinner.hide();
         });
   }
