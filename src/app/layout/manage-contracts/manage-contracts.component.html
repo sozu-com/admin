@@ -842,6 +842,20 @@
             </div>                                                                          
           </div>
         </div>
+        <div *ngIf="step == 7">
+          <div class="row">
+            <div class="col-12">
+            </div>
+            <div class="col-12">
+            </div>
+          </div>
+          <div class="row" style="margin-top: 25px;">
+            <div class="col-1 offset-4">
+              <button class="btn" style="background-color:#00B96F;color:white;width:90px;"
+              (click)="continueModal(7)">{{'commonBlock.save' | translate}}</button>
+            </div>                                                                          
+          </div>
+        </div>
       </div>
     </div>
   </div>
