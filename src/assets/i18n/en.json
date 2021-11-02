@@ -1293,7 +1293,8 @@
       "address":"Address",
       "propertyInformation":"Property Information",
       "dealInformation":"Deal information",
-      "beneficiaryInformation":"Beneficiary Information"
+      "beneficiaryInformation":"Beneficiary Information",
+      "signatureDate":"Signature date"
     },
     "pagination": {
       "showing": "Showing",

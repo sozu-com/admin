@@ -1294,7 +1294,8 @@
       "address":"Domicilio",
       "propertyInformation":"Datos de la propiedad",
       "dealInformation":"Datos del deal",
-      "beneficiaryInformation":"Datos beneficiarios"
+      "beneficiaryInformation":"Datos beneficiarios",
+      "signatureDate":"Fecha de firma"
     },
     "pagination": {
       "showing": "Mostrando",
