@@ -2,18 +2,18 @@
 
   <div class="row">
     <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-       <div class="form-group">
-          <p class="p16">{{'contract.manageContracts' | translate}}</p>
-       </div>
+      <div class="form-group">
+        <p class="p16">{{'contract.manageContracts' | translate}}</p>
+      </div>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-       <div class="form-group" style="float: right;">
-          <button class="action-icon" (click)="getContractSelection(true)"
-          title="{{'table.title.selectColumns' | translate}}"><i class="fa fa-pause" 
-              style="cursor: pointer;"></i></button>               
-       </div>
+      <div class="form-group" style="float: right;">
+        <button class="action-icon" (click)="getContractSelection(true)"
+          title="{{'table.title.selectColumns' | translate}}"><i class="fa fa-pause"
+            style="cursor: pointer;"></i></button>
+      </div>
     </div>
- </div>
+  </div>
 
   <div class="row">
     <div class="offset-md-4"></div>
@@ -49,27 +49,27 @@
     <div class="row flex-wrap-reverse" style="margin-top: 10px;">
       <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12">
         <ul class="nav nav-tabs">
-           <li class="nav-item">
-              <a [ngClass]="{'active':parameter.flag==1}" (click)="changePropertyFlag(1)"
-                 class="nav-link cursor-pointer">{{'filters.flag.contracts' | translate}}</a>
-           </li>
-           <li class="nav-item">
-              <a [ngClass]="{'active':parameter.flag==2}" (click)="changePropertyFlag(2)"
-                 class="nav-link cursor-pointer">{{'filters.flag.contractType' | translate}}</a>
-           </li>
+          <li class="nav-item">
+            <a [ngClass]="{'active':parameter.flag==1}" (click)="changePropertyFlag(1)"
+              class="nav-link cursor-pointer">{{'filters.flag.contracts' | translate}}</a>
+          </li>
+          <li class="nav-item">
+            <a [ngClass]="{'active':parameter.flag==2}" (click)="changePropertyFlag(2)"
+              class="nav-link cursor-pointer">{{'filters.flag.contractType' | translate}}</a>
+          </li>
         </ul>
-     </div>
+      </div>
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="add-new pull-right">
           <a *ngIf="admin?.admin_acl['Manage Contracts']?.can_create==1 || admin?.permissions?.can_data_collector==1"
-            class="btn" href="javascript://" routerLink="/dashboard/manage-contracts/add-contract">{{'contract.addNewContract' |
+            class="btn" href="javascript://" (click)="openContractModal()">{{'contract.addNewContract' |
             translate}}</a>
         </div>
         <div class="export-project pull-right mr-4">
-           <a class="btn" href="javascript://" (click)="downloadContract()">{{'table.exportDataBtn' | translate}}</a>
+          <a class="btn" href="javascript://" (click)="downloadContract()">{{'table.exportDataBtn' | translate}}</a>
         </div>
         <div class="export-project pull-right mr-4">
-           <a class="btn" href="javascript://" (click)="downloadLegalContract()">legal contract</a>
+          <a class="btn" href="javascript://" (click)="downloadLegalContract()">legal contract</a>
         </div>
       </div>
     </div>
@@ -137,43 +137,50 @@
 
               <tr
                 *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
-                <td  *ngIf="selectedColumnsToShow?.collection_id">
+                <td *ngIf="selectedColumnsToShow?.collection_id">
                   <a title="{{'table.title.clickToViewProperties' | translate}}"><span>
-                    {{p?.id | numberWithCommas}}</span></a>
+                      {{p?.id | numberWithCommas}}</span></a>
                 </td>
                 <!--  -->
-                <td [ngClass]="{'green-color cursor-pointer': p?.developer?.name}"  *ngIf="selectedColumnsToShow?.developer" (click)="viewDeveloper(p)">
+                <td [ngClass]="{'green-color cursor-pointer': p?.developer?.name}"
+                  *ngIf="selectedColumnsToShow?.developer" (click)="viewDeveloper(p)">
                   <span>{{p?.developer?.name ? p?.developer?.name : ('table.tr.td.NA' | translate)}}</span>
                 </td>
-                <td [ngClass]="{'green-color cursor-pointer': p?.agency?.name}"  *ngIf="selectedColumnsToShow?.project" (click)="viewAgency(p)">
+                <td [ngClass]="{'green-color cursor-pointer': p?.agency?.name}" *ngIf="selectedColumnsToShow?.project"
+                  (click)="viewAgency(p)">
                   <span>{{p?.agency?.name ? p?.agency?.name : ('table.tr.td.NA' | translate)}}</span>
                 </td>
                 <!-- (click)="viewLegalEntity(p)" -->
-                <td   *ngIf="selectedColumnsToShow?.apartment" [ngClass]="{'green-color cursor-pointer': p?.legal_entity_info?.length > 0 }">
-                  <span (click)="this.openLegalEnityListModel(p.legal_entity_info)" *ngIf="p?.legal_entity_info?.length > 0">
+                <td *ngIf="selectedColumnsToShow?.apartment"
+                  [ngClass]="{'green-color cursor-pointer': p?.legal_entity_info?.length > 0 }">
+                  <span (click)="this.openLegalEnityListModel(p.legal_entity_info)"
+                    *ngIf="p?.legal_entity_info?.length > 0">
                     {{this.getLegalEntityInfo(p.legal_entity_info)}}</span>
-                    <span *ngIf="p?.legal_entity_info?.length == 0">{{'table.tr.td.NA' | translate}}</span>
+                  <span *ngIf="p?.legal_entity_info?.length == 0">{{'table.tr.td.NA' | translate}}</span>
                 </td>
-                 <!-- (click)="viewContributor(p)" -->
-                 <td   *ngIf="selectedColumnsToShow?.buyer" [ngClass]="{'green-color cursor-pointer': p?.office_contributors?.length > 0 }">                   
-                    <span (click)="this.openContributorListModel(p.office_contributors)" *ngIf="p?.office_contributors?.length > 0">
-                    {{p.office_contributors && p.office_contributors.length > 0  ? this.getBuildingContributorsInfo(p.office_contributors) : ('table.tr.td.NA' | translate)}}</span>
-                    <span *ngIf="p?.office_contributors ?.length == 0">{{'table.tr.td.NA' | translate}}</span>
+                <!-- (click)="viewContributor(p)" -->
+                <td *ngIf="selectedColumnsToShow?.buyer"
+                  [ngClass]="{'green-color cursor-pointer': p?.office_contributors?.length > 0 }">
+                  <span (click)="this.openContributorListModel(p.office_contributors)"
+                    *ngIf="p?.office_contributors?.length > 0">
+                    {{p.office_contributors && p.office_contributors.length > 0 ?
+                    this.getBuildingContributorsInfo(p.office_contributors) : ('table.tr.td.NA' | translate)}}</span>
+                  <span *ngIf="p?.office_contributors ?.length == 0">{{'table.tr.td.NA' | translate}}</span>
                 </td>
-                <td  *ngIf="selectedColumnsToShow?.type_of_contract">
-                  <span *ngIf="p?.possession_status">{{this.language_code == 'en' ? p.possession_status.name_en : p.possession_status.name_es}}</span>
-                    <span  *ngIf="!p?.possession_status">{{'table.tr.td.NA' | translate}}</span>
+                <td *ngIf="selectedColumnsToShow?.type_of_contract">
+                  <span *ngIf="p?.possession_status">{{this.language_code == 'en' ? p.possession_status.name_en :
+                    p.possession_status.name_es}}</span>
+                  <span *ngIf="!p?.possession_status">{{'table.tr.td.NA' | translate}}</span>
                 </td>
-                <td  *ngIf="selectedColumnsToShow?.signature_date">
-                  <a class="add1" href="javascript://"
-                  (click)="addNote(p)">
+                <td *ngIf="selectedColumnsToShow?.signature_date">
+                  <a class="add1" href="javascript://" (click)="addNote(p)">
                     <span style="color: green;">{{totalParkingCount(p) || '0'}}</span>
                   </a>
-                 
+
                 </td>
-                <td  *ngIf="selectedColumnsToShow?.status">
+                <td *ngIf="selectedColumnsToShow?.status">
                   <a title="{{'table.title.clickToViewProperties' | translate}}"><span>
-                    {{p?.total_square_meters | numberWithCommas}}</span></a>
+                      {{p?.total_square_meters | numberWithCommas}}</span></a>
                 </td>
                 <td *ngIf="selectedColumnsToShow?.actions">
                   <div class="table-actions">
@@ -183,8 +190,8 @@
                       title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
                         src="assets/img/edit.png" alt="img"></button>
                     <!-- delete project -->
-                    <button [disabled]="admin?.admin_acl['Manage Contracts']?.can_purge==0"
-                      (click)="deletePopup(p, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img
+                    <button [disabled]="admin?.admin_acl['Manage Contracts']?.can_purge==0" (click)="deletePopup(p, i);"
+                      class="action-icon" title="{{'table.title.delete' | translate}}"><img
                         src="assets/img/ic_delete.png" alt="img"></button>
                     <!-- </div> -->
                   </div>
@@ -216,7 +223,7 @@
                       <button *ngIf="parameter.agency_name" (click)="getListing()"><i class="fa fa-search"></i></button>
                     </div> -->
                   </div>
-                </th>                                                           
+                </th>
                 <th style="width:15%" *ngIf="selectedColumnsToShow?.type_of_contract">
                   <div class="table-search">
                     <label>{{'table.th.typeOfContract' | translate}}</label>
@@ -236,25 +243,31 @@
 
               <tr
                 *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
-                <td [ngClass]="{'green-color cursor-pointer': p?.developer?.name}"  *ngIf="selectedColumnsToShow?.contract_id" (click)="viewDeveloper(p)">
+                <td [ngClass]="{'green-color cursor-pointer': p?.developer?.name}"
+                  *ngIf="selectedColumnsToShow?.contract_id" (click)="viewDeveloper(p)">
                   <span>{{p?.developer?.name ? p?.developer?.name : ('table.tr.td.NA' | translate)}}</span>
                 </td>
                 <!--  -->
-                <td [ngClass]="{'green-color cursor-pointer': p?.developer?.name}"  *ngIf="selectedColumnsToShow?.developer" (click)="viewDeveloper(p)">
+                <td [ngClass]="{'green-color cursor-pointer': p?.developer?.name}"
+                  *ngIf="selectedColumnsToShow?.developer" (click)="viewDeveloper(p)">
                   <span>{{p?.developer?.name ? p?.developer?.name : ('table.tr.td.NA' | translate)}}</span>
                 </td>
-                <td [ngClass]="{'green-color cursor-pointer': p?.agency?.name}"  *ngIf="selectedColumnsToShow?.project" (click)="viewAgency(p)">
+                <td [ngClass]="{'green-color cursor-pointer': p?.agency?.name}" *ngIf="selectedColumnsToShow?.project"
+                  (click)="viewAgency(p)">
                   <span>{{p?.agency?.name ? p?.agency?.name : ('table.tr.td.NA' | translate)}}</span>
                 </td>
                 <!-- (click)="viewLegalEntity(p)" -->
-                <td   *ngIf="selectedColumnsToShow?.type_of_contract" [ngClass]="{'green-color cursor-pointer': p?.legal_entity_info?.length > 0 }">
-                  <span (click)="this.openLegalEnityListModel(p.legal_entity_info)" *ngIf="p?.legal_entity_info?.length > 0">
+                <td *ngIf="selectedColumnsToShow?.type_of_contract"
+                  [ngClass]="{'green-color cursor-pointer': p?.legal_entity_info?.length > 0 }">
+                  <span (click)="this.openLegalEnityListModel(p.legal_entity_info)"
+                    *ngIf="p?.legal_entity_info?.length > 0">
                     {{this.getLegalEntityInfo(p.legal_entity_info)}}</span>
-                    <span *ngIf="p?.legal_entity_info?.length == 0">{{'table.tr.td.NA' | translate}}</span>
-                </td>   
-                <td [ngClass]="{'green-color cursor-pointer': p?.agency?.name}"  *ngIf="selectedColumnsToShow?.status" (click)="viewAgency(p)">
+                  <span *ngIf="p?.legal_entity_info?.length == 0">{{'table.tr.td.NA' | translate}}</span>
+                </td>
+                <td [ngClass]="{'green-color cursor-pointer': p?.agency?.name}" *ngIf="selectedColumnsToShow?.status"
+                  (click)="viewAgency(p)">
                   <span>{{p?.agency?.name ? p?.agency?.name : ('table.tr.td.NA' | translate)}}</span>
-                </td>        
+                </td>
                 <td *ngIf="selectedColumnsToShow?.action">
                   <div class="table-actions">
                     <!-- <div class="message"> -->
@@ -299,63 +312,537 @@
 <!-- select columns -->
 <a data-toggle="modal" data-target="#link-select-columns-model" #openSelectColumnsModal style="display: none;"></a>
 <div class="modal" id="link-select-columns-model">
-   <div class="modal-dialog" style="width: max-content; margin: 0 auto;">
-      <div class="modal-content notary-avail">
-         <div class="modal-header popup-header">
-            <h4 class="modal-title">{{'table.title.columnsSelection' | translate}}</h4>
-            <button type="button" class="close" #closeSelectColumnsModal data-dismiss="modal">&times;</button>
-         </div>
-         <div class="modal-body">
-            <p class="modal-title">{{'table.title.selectTheColumnYouWantToVisualize' | translate}}</p>
-          <br/>
-          <div class="row">
-            <div class="col-md-8 col-6">
-                     <label class="p16-two">
-                       <input class="form-control" class="is_commission_sale_enabled" type="checkbox"
-                         name="SelectAll" (change)="changeSelectAll()"  [(ngModel)]="isSelectAllColumns" >
-                       <span style="margin-left: 10px; vertical-align: super;">{{'commonBlock.selectAll' |
-                         translate}}</span>
-                     </label>
-            </div>
-            <div class="col-md-4 col-6 btn-cont">
-               <a class="btn btn-primary pull-right" href="javascript://"
-                  (click)="applyShowSelectedColumns()">{{'filters.location.applyBtn' | translate}}</a>
-            </div>
-         </div>
-         <div class="spacer40"></div>
-            <div class="row">
-               <div class="col-md-8 col-6">
-                  <input style="max-width:200px;background-color: white;" (keyup.enter)="getProjectSelection(false, keyword)" [(ngModel)]="keyword"
-                     class="form-control" type="text" name="keyword"
-                     placeholder="{{'addForm.placeholder.search' | translate}}">
-               </div>
-               <div class="col-md-4 col-5 btn-cont">
-                  <a class="btn btn-primary pull-right" href="javascript://"
-                     (click)="getProjectSelection(false, keyword)">{{'viewProperty.search' | translate}}</a>
-               </div>
-            </div>
-
-            <div class="spacer40"></div>
-            <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
-               <table class="table">
-                  <tr *ngFor="let item of select_columns_list; let ii=index">
-                     <td>
-                        <div class="row">
-                           <div class="col-md-12 col-12">
-                              <label class="p16-two">
-                                 <input class="form-control" class="is_commission_sale_enabled" type="checkbox"
-                                        name="checkbox{{ii}}" [(ngModel)]="item.isCheckBoxChecked" (change)="changeSelect()">
-                                 <span style="margin-left: 10px; vertical-align: super;">
-                                    {{this.language_code == 'en' ? item.name_en : item.name_es }}
-                                 </span>
-                                 </label>
-                           </div>
-                        </div>
-                     </td>
-                  </tr>
-               </table>
-            </div>
-         </div>
+  <div class="modal-dialog" style="width: max-content; margin: 0 auto;">
+    <div class="modal-content notary-avail">
+      <div class="modal-header popup-header">
+        <h4 class="modal-title">{{'table.title.columnsSelection' | translate}}</h4>
+        <button type="button" class="close" #closeSelectColumnsModal data-dismiss="modal">&times;</button>
       </div>
-   </div>
+      <div class="modal-body">
+        <p class="modal-title">{{'table.title.selectTheColumnYouWantToVisualize' | translate}}</p>
+        <br />
+        <div class="row">
+          <div class="col-md-8 col-6">
+            <label class="p16-two">
+              <input class="form-control" class="is_commission_sale_enabled" type="checkbox" name="SelectAll"
+                (change)="changeSelectAll()" [(ngModel)]="isSelectAllColumns">
+              <span style="margin-left: 10px; vertical-align: super;">{{'commonBlock.selectAll' |
+                translate}}</span>
+            </label>
+          </div>
+          <div class="col-md-4 col-6 btn-cont">
+            <a class="btn btn-primary pull-right" href="javascript://"
+              (click)="applyShowSelectedColumns()">{{'filters.location.applyBtn' | translate}}</a>
+          </div>
+        </div>
+        <div class="spacer40"></div>
+        <div class="row">
+          <div class="col-md-8 col-6">
+            <input style="max-width:200px;background-color: white;" (keyup.enter)="getProjectSelection(false, keyword)"
+              [(ngModel)]="keyword" class="form-control" type="text" name="keyword"
+              placeholder="{{'addForm.placeholder.search' | translate}}">
+          </div>
+          <div class="col-md-4 col-5 btn-cont">
+            <a class="btn btn-primary pull-right" href="javascript://"
+              (click)="getProjectSelection(false, keyword)">{{'viewProperty.search' | translate}}</a>
+          </div>
+        </div>
+
+        <div class="spacer40"></div>
+        <div class="modal-table-data" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+          <table class="table">
+            <tr *ngFor="let item of select_columns_list; let ii=index">
+              <td>
+                <div class="row">
+                  <div class="col-md-12 col-12">
+                    <label class="p16-two">
+                      <input class="form-control" class="is_commission_sale_enabled" type="checkbox"
+                        name="checkbox{{ii}}" [(ngModel)]="item.isCheckBoxChecked" (change)="changeSelect()">
+                      <span style="margin-left: 10px; vertical-align: super;">
+                        {{this.language_code == 'en' ? item.name_en : item.name_es }}
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a data-toggle="modal" data-target="#link-contract-model" #openLinkContractModal style="display: none;"></a>
+<div class="modal" id="link-contract-model">
+  <div class="modal-dialog" style="max-width: 570px;">
+    <div class="modal-content notary-avail">
+      <div class="modal-header popup-header">
+        <h4 class="modal-title">{{step == 1 ? ('table.title.contractType' | translate) : step == 2 ?
+          ('table.title.generalInformation' | translate) : step == 3 ? ('table.title.address' | translate) :
+          step == 4 ? ('table.title.propertyInformation' | translate) : step == 5 ? ('table.title.dealInformation' |
+          translate) : step == 6 ? ('table.title.beneficiaryInformation' | translate) : ('table.title.signatureDate' | translate)}}
+        </h4>
+        <button type="button" class="close" #closeLinkContractModal data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="step == 1">
+          <div class="row">
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.collectionId' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="collectionId" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <button (click)="searchCollectionById()" style="margin-left: 5px;border: 1px solid rgba(196, 196, 196, 0.5);background-color: #00b96f;
+              font-size: 12px;color: #fff; ;"><i class="fa fa-search"></i></button>
+            </div>
+            <div class="col-12" *ngIf="searched_collection">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.projectName' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12" *ngIf="searched_collection">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="searched_collection.property.building.name" style="width:78%;height:70%;">
+            </div>
+            <div class="col-12" *ngIf="searched_collection">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.contractType' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-6" *ngIf="searched_collection">
+              <select class="form-control" (change)="selectContract($event.target.value)"
+                [(ngModel)]="parameter.country_id">
+                <option value="0">{{'contract.physicalPerson' | translate}}</option>
+                <option value="0">{{'contract.moralPerson' | translate}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="row" *ngIf="searched_collection" style="margin-top: 25px;">
+            <div class="col-5" style="margin-left: 77px;">
+              <button class="btn" style="background-color:#FF0040;color:white;width:90px;"
+              (click)="continueModal()">{{'commonBlock.back' | translate}}</button>
+            </div>
+            <div class="col-5">
+              <button class="btn" style="background-color:#00B96F;color:white;width:90px;"
+              (click)="continueModal(2)">{{'commonBlock.continue' | translate}}</button>
+            </div>                                                                          
+          </div>
+        </div>
+        <div *ngIf="step == 2">
+          <div class="row">
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.name' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="searched_collection.buyer.name" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.firstName' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="searched_collection.buyer.first_surname" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.secondSurname' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="searched_collection.buyer.second_surname" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.RFC' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="searched_collection.buyer.fed_tax_pay" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.CURP' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="searched_collection.buyer.curp" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.Ocupation' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="searched_collection.buyer.assigned_csr_buyer_id" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.marrigeType' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="searched_collection.buyer.assigned_csr_buyer_id" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.IdType' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="searched_collection.buyer.assigned_csr_buyer_id" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.idNumber' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="searched_collection.buyer.assigned_csr_buyer_id" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+          </div>
+          <div class="row" style="margin-top: 25px;">
+            <div class="col-5" style="margin-left: 77px;">
+              <button class="btn" style="background-color:#FF0040;color:white;width:90px;"
+              (click)="continueModal(1)">{{'commonBlock.back' | translate}}</button>
+            </div>
+            <div class="col-5">
+              <button class="btn" style="background-color:#00B96F;color:white;width:90px;"
+              (click)="continueModal(3)">{{'commonBlock.continue' | translate}}</button>
+            </div>                                                                          
+          </div>
+        </div>
+        <div *ngIf="step == 3">
+          <div class="row">
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.street' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="searched_collection.buyer.street_address" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.externalNumber' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="searched_collection.buyer.external_number" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.internalNumber' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="searched_collection.buyer.internal_number" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.zipCode' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="searched_collection.buyer.zipcode" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.municipality' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="searched_collection.buyer.municipality" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.country' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="searched_collection.buyer.country" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.state' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="searched_collection.buyer.state" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.neighbourhood' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="searched_collection.buyer.neighborhood" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+          </div>
+          <div class="row" style="margin-top: 25px;">
+            <div class="col-5" style="margin-left: 77px;">
+              <button class="btn" style="background-color:#FF0040;color:white;width:90px;"
+              (click)="continueModal(2)">{{'commonBlock.back' | translate}}</button>
+            </div>
+            <div class="col-5">
+              <button class="btn" style="background-color:#00B96F;color:white;width:90px;"
+              (click)="continueModal(4)">{{'commonBlock.continue' | translate}}</button>
+            </div>                                                                          
+          </div>
+        </div>
+        <div *ngIf="step == 4">
+          <div class="row">
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.name' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="searched_collection.property.name" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.floor' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="searched_collection.property.floor_num" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.model' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="searched_collection.property.building_configuration.name" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.m2' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="searched_collection.property.max_area" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.parkingLot' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="searched_collection.property.parking_count" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.finalPrice' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="searched_collection.property.final_price" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+          </div>
+          <div class="row" style="margin-top: 25px;">
+            <div class="col-5" style="margin-left: 77px;">
+              <button class="btn" style="background-color:#FF0040;color:white;width:90px;"
+              (click)="continueModal(3)">{{'commonBlock.back' | translate}}</button>
+            </div>
+            <div class="col-5">
+              <button class="btn" style="background-color:#00B96F;color:white;width:90px;"
+              (click)="continueModal(5)">{{'commonBlock.continue' | translate}}</button>
+            </div>                                                                          
+          </div>
+        </div>
+        <div *ngIf="step == 5">
+          <div class="row">
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.layaway' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="concept_layaway.amount" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.downPayment' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="concept_downpayment.amount" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.dateOfPaymentD' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="concept_downpayment.date" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.monthlyInstallment' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="concept_monthly.amount" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.noMonthlyInstallment' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="concept_monthly_no" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.dateInstallment' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="collectionId" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'table.th.paymentUponDelivery' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
+                [(ngModel)]="concept_payment.amount" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+            </div>
+          </div>
+          <div class="row" style="margin-top: 25px;">
+            <div class="col-5" style="margin-left: 77px;">
+              <button class="btn" style="background-color:#FF0040;color:white;width:90px;"
+              (click)="continueModal(4)">{{'commonBlock.back' | translate}}</button>
+            </div>
+            <div class="col-5">
+              <button class="btn" style="background-color:#00B96F;color:white;width:90px;"
+              (click)="continueModal(6)">{{'commonBlock.continue' | translate}}</button>
+            </div>                                                                          
+          </div>
+        </div>
+        <div *ngIf="step == 6">
+          <div class="row">
+            <div class="col-12">
+            </div>
+            <div class="col-12">
+            </div>
+          </div>
+          <div class="row" style="margin-top: 25px;">
+            <div class="col-5" style="margin-left: 77px;">
+              <button class="btn" style="background-color:#FF0040;color:white;width:90px;"
+              (click)="continueModal(5)">{{'commonBlock.back' | translate}}</button>
+            </div>
+            <div class="col-5">
+              <button class="btn" style="background-color:#00B96F;color:white;width:90px;"
+              (click)="continueModal(7)">{{'commonBlock.continue' | translate}}</button>
+            </div>                                                                          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

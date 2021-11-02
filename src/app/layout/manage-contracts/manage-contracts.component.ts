@@ -11,6 +11,7 @@ import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 import { ContractPdfService } from 'src/app/services/contract-pdf.service';
 import { LegalContractPdfService } from 'src/app/services/legal-contract-pdf.service';
+import { Collection } from 'src/app/models/collection.model';
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
@@ -26,6 +27,8 @@ export class ManageContractsComponent implements OnInit {
 
   @ViewChild('openSelectColumnsModal') openSelectColumnsModal: ElementRef;
   @ViewChild('closeSelectColumnsModal') closeSelectColumnsModal: ElementRef;
+  @ViewChild('openLinkContractModal') openLinkContractModal: ElementRef;
+  @ViewChild('closeLinkContractModal') closeLinkContractModal: ElementRef;
 
   public parameter: IProperty = {};
   public select_columns_list: any[] = [];
@@ -36,6 +39,14 @@ export class ManageContractsComponent implements OnInit {
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
   items: any = [];
   total: any = 0;
+  collectionId: any;
+  searched_collection: Collection;
+  step = 1;
+  concept_layaway: any;
+  concept_downpayment: any;
+  concept_monthly: any;
+  concept_monthly_no: any;
+  concept_payment: any;
 
   constructor(
     public constant: Constant,
@@ -212,4 +223,28 @@ export class ManageContractsComponent implements OnInit {
   downloadLegalContract(){
     this.legal_contract.getCollectionById(504);
    }
+
+   searchCollectionById() {
+    this.spinner.show();
+    this.admin.postDataApi('getCollectionById', { id: this.collectionId })
+      .subscribe(
+        success => {
+          this.spinner.hide();
+          this.searched_collection = success['data'];
+          this.concept_payment = this.searched_collection.payment_choices.find(item=> item.category_name == 'Payment upon Delivery');
+          this.concept_layaway = this.searched_collection.payment_choices.find(item=> item.category_name == 'Layaway Payment');
+          this.concept_downpayment = this.searched_collection.payment_choices.find(item=> item.category_name == 'Down Payment');
+          this.concept_monthly = this.searched_collection.payment_choices.find(item=> item.category_name == 'Monthly Installment 1');
+          let concept_monthly_ins= this.searched_collection.payment_choices.filter(item=> item.payment_choice.name == 'Monthly Installment');
+          this.concept_monthly_no = concept_monthly_ins.length;
+        });
+  }
+
+  openContractModal(){
+    this.openLinkContractModal.nativeElement.click();
+  }
+
+  continueModal(step){
+    this.step = step;
+  }
 }
