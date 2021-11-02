@@ -83,7 +83,7 @@ export class UsersComponent implements OnInit {
     this.entityModalClose.nativeElement.click();
   }
 
-  sendMail = (data: any): void => {
+  sendMail = (data: any, active_role): void => {
     swal({
       html:
         this.translate.instant('message.error.areYouSure') +
@@ -100,7 +100,7 @@ export class UsersComponent implements OnInit {
       if (result.value) {
         this.spinner.show();
         this.admin.postDataApi('verifedEmail', {
-          id: (data || {}).id, is_language: this.language_code == 'en' ? 1 : 2, email_date: moment.utc(new Date()).toDate()
+          id: (data || {}).id, is_language: this.language_code == 'en' ? 1 : 2, email_date: moment.utc(new Date()).toDate(), active_role : active_role
         }).subscribe((success) => {
           this.spinner.hide();
           swal(this.translate.instant('swal.success'), this.translate.instant('message.success.emailSent'), 'success');
