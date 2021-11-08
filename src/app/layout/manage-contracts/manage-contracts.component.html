@@ -138,55 +138,36 @@
               <tr
                 *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
                 <td *ngIf="selectedColumnsToShow?.collection_id">
-                  <a title="{{'table.title.clickToViewProperties' | translate}}"><span>
-                      {{p?.id | numberWithCommas}}</span></a>
+                  <span> {{p?.property_collection_id | numberWithCommas}}</span>
                 </td>
-                <!--  -->
                 <td [ngClass]="{'green-color cursor-pointer': p?.developer?.name}"
-                  *ngIf="selectedColumnsToShow?.developer" (click)="viewDeveloper(p)">
+                  *ngIf="selectedColumnsToShow?.developer">
                   <span>{{p?.developer?.name ? p?.developer?.name : ('table.tr.td.NA' | translate)}}</span>
                 </td>
-                <td [ngClass]="{'green-color cursor-pointer': p?.agency?.name}" *ngIf="selectedColumnsToShow?.project"
-                  (click)="viewAgency(p)">
+                <td *ngIf="selectedColumnsToShow?.project">
                   <span>{{p?.agency?.name ? p?.agency?.name : ('table.tr.td.NA' | translate)}}</span>
                 </td>
-                <!-- (click)="viewLegalEntity(p)" -->
-                <td *ngIf="selectedColumnsToShow?.apartment"
-                  [ngClass]="{'green-color cursor-pointer': p?.legal_entity_info?.length > 0 }">
-                  <span (click)="this.openLegalEnityListModel(p.legal_entity_info)"
-                    *ngIf="p?.legal_entity_info?.length > 0">
-                    {{this.getLegalEntityInfo(p.legal_entity_info)}}</span>
-                  <span *ngIf="p?.legal_entity_info?.length == 0">{{'table.tr.td.NA' | translate}}</span>
+                <td *ngIf="selectedColumnsToShow?.apartment">
+                  <span>{{p?.agency?.name ? p?.agency?.name : ('table.tr.td.NA' | translate)}}</span>
                 </td>
-                <!-- (click)="viewContributor(p)" -->
-                <td *ngIf="selectedColumnsToShow?.buyer"
-                  [ngClass]="{'green-color cursor-pointer': p?.office_contributors?.length > 0 }">
-                  <span (click)="this.openContributorListModel(p.office_contributors)"
-                    *ngIf="p?.office_contributors?.length > 0">
-                    {{p.office_contributors && p.office_contributors.length > 0 ?
-                    this.getBuildingContributorsInfo(p.office_contributors) : ('table.tr.td.NA' | translate)}}</span>
-                  <span *ngIf="p?.office_contributors ?.length == 0">{{'table.tr.td.NA' | translate}}</span>
+                <td *ngIf="selectedColumnsToShow?.buyer">
+                  <span>{{p?.agency?.name ? p?.agency?.name : ('table.tr.td.NA' | translate)}}</span>
                 </td>
                 <td *ngIf="selectedColumnsToShow?.type_of_contract">
-                  <span *ngIf="p?.possession_status">{{this.language_code == 'en' ? p.possession_status.name_en :
-                    p.possession_status.name_es}}</span>
-                  <span *ngIf="!p?.possession_status">{{'table.tr.td.NA' | translate}}</span>
+                  <span *ngIf="p?.type_of_contract">{{p.type_of_contract == '1' ? ('contract.physicalPerson' | translate) :
+                    p.type_of_contract == '2' ? ('contract.moralPerson' | translate) : ('table.tr.td.NA' | translate)}}</span>
                 </td>
                 <td *ngIf="selectedColumnsToShow?.signature_date">
-                  <a class="add1" href="javascript://" (click)="addNote(p)">
-                    <span style="color: green;">{{totalParkingCount(p) || '0'}}</span>
-                  </a>
-
+                  <span>{{p.signature_date | date:'dd/MMM/yyyy'}}</span>
                 </td>
                 <td *ngIf="selectedColumnsToShow?.status">
-                  <a title="{{'table.title.clickToViewProperties' | translate}}"><span>
-                      {{p?.total_square_meters | numberWithCommas}}</span></a>
+                    <span>{{p.status}}</span>
                 </td>
                 <td *ngIf="selectedColumnsToShow?.actions">
                   <div class="table-actions">
                     <!-- <div class="message"> -->
                     <button [disabled]="admin?.admin_acl['Manage Contracts']?.can_update==0"
-                      routerLink="/dashboard/contract/edit-contract/{{p.id}}"
+                    (click)="editContract(p)"
                       title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
                         src="assets/img/edit.png" alt="img"></button>
                     <!-- delete project -->
@@ -247,32 +228,25 @@
                   *ngIf="selectedColumnsToShow?.contract_id" (click)="viewDeveloper(p)">
                   <span>{{p?.developer?.name ? p?.developer?.name : ('table.tr.td.NA' | translate)}}</span>
                 </td>
-                <!--  -->
-                <td [ngClass]="{'green-color cursor-pointer': p?.developer?.name}"
-                  *ngIf="selectedColumnsToShow?.developer" (click)="viewDeveloper(p)">
+                <td *ngIf="selectedColumnsToShow?.developer" (click)="viewDeveloper(p)">
                   <span>{{p?.developer?.name ? p?.developer?.name : ('table.tr.td.NA' | translate)}}</span>
                 </td>
-                <td [ngClass]="{'green-color cursor-pointer': p?.agency?.name}" *ngIf="selectedColumnsToShow?.project"
-                  (click)="viewAgency(p)">
+                <td *ngIf="selectedColumnsToShow?.project">
                   <span>{{p?.agency?.name ? p?.agency?.name : ('table.tr.td.NA' | translate)}}</span>
                 </td>
-                <!-- (click)="viewLegalEntity(p)" -->
                 <td *ngIf="selectedColumnsToShow?.type_of_contract"
                   [ngClass]="{'green-color cursor-pointer': p?.legal_entity_info?.length > 0 }">
-                  <span (click)="this.openLegalEnityListModel(p.legal_entity_info)"
-                    *ngIf="p?.legal_entity_info?.length > 0">
-                    {{this.getLegalEntityInfo(p.legal_entity_info)}}</span>
-                  <span *ngIf="p?.legal_entity_info?.length == 0">{{'table.tr.td.NA' | translate}}</span>
+                  <span *ngIf="p?.type_of_contract">{{p.type_of_contract == '1' ? ('contract.physicalPerson' | translate) :
+                    p.type_of_contract == '2' ? ('contract.moralPerson' | translate) : ('table.tr.td.NA' | translate)}}</span>
                 </td>
-                <td [ngClass]="{'green-color cursor-pointer': p?.agency?.name}" *ngIf="selectedColumnsToShow?.status"
-                  (click)="viewAgency(p)">
-                  <span>{{p?.agency?.name ? p?.agency?.name : ('table.tr.td.NA' | translate)}}</span>
+                <td *ngIf="selectedColumnsToShow?.status">
+                  <span>{{p.status}}</span>
                 </td>
                 <td *ngIf="selectedColumnsToShow?.action">
                   <div class="table-actions">
                     <!-- <div class="message"> -->
                     <button [disabled]="admin?.admin_acl['Manage Contracts']?.can_update==0"
-                      routerLink="/dashboard/contract/edit-contract/{{p.id}}"
+                      (click)="editContract(p)"
                       title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
                         src="assets/img/edit.png" alt="img"></button>
                     <!-- delete project -->
@@ -398,7 +372,7 @@
             <div class="col-12">
               <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
                 [(ngModel)]="collectionId" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
-              <button (click)="searchCollectionById()" style="margin-left: 5px;border: 1px solid rgba(196, 196, 196, 0.5);background-color: #00b96f;
+              <button *ngIf="!is_edit" (click)="searchCollectionById()" style="margin-left: 5px;border: 1px solid rgba(196, 196, 196, 0.5);background-color: #00b96f;
               font-size: 12px;color: #fff; ;"><i class="fa fa-search"></i></button>
             </div>
             <div class="col-12" *ngIf="searched_collection">
@@ -421,9 +395,9 @@
             </div>
             <div class="col-6" *ngIf="searched_collection">
               <select class="form-control" (change)="selectContract($event.target.value)"
-                [(ngModel)]="parameter.country_id">
-                <option value="0">{{'contract.physicalPerson' | translate}}</option>
-                <option value="0">{{'contract.moralPerson' | translate}}</option>
+                [(ngModel)]="contract_type">
+                <option value="1">{{'contract.physicalPerson' | translate}}</option>
+                <option value="2">{{'contract.moralPerson' | translate}}</option>
               </select>
             </div>
           </div>
@@ -827,8 +801,28 @@
         <div *ngIf="step == 6">
           <div class="row">
             <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'contract.beneficiary' | translate}}
+                </span>
+              </label>
             </div>
             <div class="col-12">
+              <select class="form-control" (change)="selectBeneficairy($event.target.value)"
+              [(ngModel)]="beneficiary_id">
+              <option *ngFor="let beneficiary of beneficiary_list" [value]="beneficiary.id">{{beneficiary.beneficiary_name}}</option>
+            </select>
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'contract.percent' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="percent"
+                [(ngModel)]="percent" style="width:78%;height:70%;">
             </div>
           </div>
           <div class="row" style="margin-top: 25px;">
@@ -845,14 +839,22 @@
         <div *ngIf="step == 7">
           <div class="row">
             <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'contract.selectDate' | translate}}
+                </span>
+              </label>
             </div>
             <div class="col-12">
+              <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true" [(ngModel)]="signatureDate"
+              [maxDate]="today" showButtonBar="true" [monthNavigator]="true"
+              [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
             </div>
           </div>
           <div class="row" style="margin-top: 25px;">
             <div class="col-1 offset-4">
               <button class="btn" style="background-color:#00B96F;color:white;width:90px;"
-              (click)="continueModal(7)">{{'commonBlock.save' | translate}}</button>
+              (click)="createContract()">{{'commonBlock.save' | translate}}</button>
             </div>                                                                          
           </div>
         </div>

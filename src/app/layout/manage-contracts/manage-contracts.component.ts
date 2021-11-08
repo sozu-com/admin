@@ -12,6 +12,7 @@ import * as XLSX from 'xlsx';
 import { ContractPdfService } from 'src/app/services/contract-pdf.service';
 import { LegalContractPdfService } from 'src/app/services/legal-contract-pdf.service';
 import { Collection } from 'src/app/models/collection.model';
+import { ToastrService } from 'ngx-toastr';
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
@@ -47,6 +48,13 @@ export class ManageContractsComponent implements OnInit {
   concept_monthly: any;
   concept_monthly_no: any;
   concept_payment: any;
+  locale: any;
+  signatureDate: any;
+  beneficiary_id: any;
+  status: any;
+  contract_type: any;
+  beneficiary_list = [];
+  is_edit: boolean = false;
 
   constructor(
     public constant: Constant,
@@ -56,19 +64,68 @@ export class ManageContractsComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
     private contract: ContractPdfService,
-    private legal_contract: LegalContractPdfService
+    private legal_contract: LegalContractPdfService,
+    private toastr: ToastrService,
   ) { }
 
   ngOnInit() {
+    this.initCalendarLocale();
     this.language_code = localStorage.getItem('language_code');
     this.parameter.flag = 1;
     this.parameter.dash_flag = this.projectService.dash_flag ? this.projectService.dash_flag : this.constant.dash_flag;
     this.getContractHome();
+    this.getContract();
   }
+
+  initCalendarLocale() {
+    if (this.translate.defaultLang === 'en') {
+      this.locale = {
+        firstDayOfWeek: 0,
+        dayNames: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+        dayNamesShort: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        dayNamesMin: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+        monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
+          'November', 'December'],
+        monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        today: 'Today',
+        clear: 'Clear',
+        dateFormat: 'mm/dd/yy',
+        weekHeader: 'Wk',
+        dataType: 'string'
+      };
+    } else {
+      this.locale = {
+        firstDayOfWeek: 0,
+        dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+        dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+        dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+        monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+          'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+        monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun',
+          'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+        today: 'Hoy',
+        clear: 'Clara',
+        dateFormat: 'mm/dd/yy',
+        weekHeader: 'Sm',
+        dataType: 'string'
+      };
+    }
+  }
+
 
   changePropertyFlag(tab) {
     this.parameter.flag = tab;
     this.getContractHome();
+  }
+
+  getContract(){
+    this.spinner.show();
+    this.admin.postDataApi('getContracts', this.parameter)
+    .subscribe(
+      success => {
+        this.items = success['data'];
+        this.spinner.hide();
+      });
   }
 
   getExportlisting() {
@@ -230,6 +287,7 @@ export class ManageContractsComponent implements OnInit {
       .subscribe(
         success => {
           this.spinner.hide();
+          this.getUserById(success['data'].buyer_id);
           this.searched_collection = success['data'];
           this.concept_payment = this.searched_collection.payment_choices.find(item=> item.category_name == 'Payment upon Delivery');
           this.concept_layaway = this.searched_collection.payment_choices.find(item=> item.category_name == 'Layaway Payment');
@@ -241,10 +299,85 @@ export class ManageContractsComponent implements OnInit {
   }
 
   openContractModal(){
+    this.collectionId = undefined; 
+    this.contract = undefined; 
+    this.signatureDate = undefined, 
+    this.beneficiary_id = undefined, 
+    this.status = undefined;      
     this.openLinkContractModal.nativeElement.click();
+    
   }
 
   continueModal(step){
     this.step = step;
+  }
+
+  selectContract(value){
+  this.contract = value;
+  }
+
+  getUserById(id: string) {
+    this.admin.postDataApi('getUserById', { 'user_id': id })
+      .subscribe(
+        success => {
+          this.beneficiary_list = success['data'].beneficiary;
+        });
+  }
+
+  createContract(){
+    this.spinner.show();
+    let input ={
+      property_collection_id: this.collectionId, 
+      type_of_contract: this.contract, 
+      signature_date: this.signatureDate, 
+      beneficiary_id: this.beneficiary_id, 
+      status: this.status
+    }
+    this.admin.postDataApi(this.is_edit ? 'updateContract' : 'addContract', input)
+      .subscribe(
+        success => {
+          this.getContract();
+          this.spinner.hide();
+          this.closeLinkContractModal.nativeElement.click();
+        });
+  }
+
+  editContract(data){
+    this.is_edit = true;
+    this.step = 1;
+    this.collectionId = data.property_collection_id;
+    this.searchCollectionById();
+    this.contract = data.type_of_contract; 
+    this.signatureDate = new Date(data.signature_date), 
+    this.beneficiary_id = data.beneficiary_id, 
+    this.status = data.status;      
+    this.openLinkContractModal.nativeElement.click();
+  }
+
+  
+  deletePopup(item: any, index: number) {
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' +
+        this.translate.instant('message.error.wantToDeleteContract'),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteContract(item, index);
+      }
+    });
+  }
+
+  deleteContract(item: any, index: number) {
+    this.admin.postDataApi('deleteContract', { contract_id: item.id }).subscribe(r => {
+      this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+      this.items.splice(index, 1);
+    },
+      error => {
+        this.toastr.error(error.error.message, this.translate.instant('swal.error'));
+      });
   }
 }
