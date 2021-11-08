@@ -1692,6 +1692,7 @@
       "wantToBlockCollection": "You want to block this Collection?",
       "wantToUnblockCollection": "You want to unblock this Collection?",
       "wantToDeleteCollection": "You want to delete this Collection?",
+      "wantToDeleteContract": "You want to delete this Contract?",
       "wantToDeletePossessionStatus": "You want to delete this Project Possession Status?",
       "wantToCancelCollection": "You want to cancel this Collection?",
       "wantToActiveCollection": "You want to active this Collection?",
@@ -3682,6 +3683,11 @@
   },
   "contract": {
     "manageContracts": "Manage Contracts",
-    "addNewContract": "+ Add new"
+    "addNewContract": "+ Add new",
+    "physicalPerson": "Physical Person",
+    "moralPerson": "Moral Person",
+    "beneficiary":"Beneficiary",
+    "percent":"Percent",
+    "selectDate":"Select Date"
   }
 }

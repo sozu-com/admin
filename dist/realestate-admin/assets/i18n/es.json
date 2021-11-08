@@ -1692,6 +1692,7 @@
       "wantToBlockCollection": "¿Quieres bloquear esta colección?",
       "wantToUnblockCollection": "¿Quieres desbloquear esta colección?",
       "wantToDeleteCollection": "¿Quieres eliminar esta colección?",
+      "wantToDeleteContract": "¿Quieres eliminar esta Contratos?",
       "wantToDeletePossessionStatus":"¿Quieres eliminar este estado de posesión del proyecto?",
       "wantToCancelCollection": "¿Quieres cancelar esta colección?",
       "wantToActiveCollection": "¿Quieres activar esta colección?",
@@ -3672,6 +3673,8 @@
   },
   "contract": {
     "manageContracts": "Administrar Contratos",
-    "addNewContract": "+ Agregar"
+    "addNewContract": "+ Agregar",
+    "physicalPerson": "Persona física",
+    "moralPerson": "Persona moral"
   }
 }
