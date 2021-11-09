@@ -3675,6 +3675,9 @@
     "manageContracts": "Administrar Contratos",
     "addNewContract": "+ Agregar",
     "physicalPerson": "Persona física",
-    "moralPerson": "Persona moral"
+    "moralPerson": "Persona moral",
+    "beneficiary":"Beneficiario",
+    "percent":"Percent% (Por Beneficiario)",
+    "selectDate":"Seleccionar fecha"
   }
 }

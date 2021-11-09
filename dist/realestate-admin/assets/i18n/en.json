@@ -3687,7 +3687,7 @@
     "physicalPerson": "Physical Person",
     "moralPerson": "Moral Person",
     "beneficiary":"Beneficiary",
-    "percent":"Percent",
+    "percent":"Percent% (Per Beneficiary)",
     "selectDate":"Select Date"
   }
 }
