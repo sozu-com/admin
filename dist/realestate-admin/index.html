@@ -1,0 +1,177 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <title>Sozu | Real Estate in Mexico</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+  
+  <link rel="manifest" href="./manifest.json">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#00B96F">
+  <meta name="msapplication-navbutton-color" content="#00B96F">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="msapplication-starturl" content="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="icon" type="image/png" sizes="512*512" href="assets/img/app-icon.png">
+  <link rel="apple-touch-icon" type="image/png" sizes="512*512" href="assets/img/app-icon.png">
+
+
+  <!-- <link rel="stylesheet" href="src/styles.css"> -->
+  <link rel="stylesheet" href="assets/css/example1.css">
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/media.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/popper.min.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+  
+  <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase-messaging.js"></script>
+
+  <script src="assets/js/three.min.js"></script>
+  <script src="assets/js/photo-sphere-viewer.min.js"></script>
+  <script src="assets/js/example1.js"></script>
+  
+  <!-- <script src="src/js/angular-socialshare.js"></script>  -->
+  <style>
+.lds-dual-ring {
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 46px;
+  height: 46px;
+  margin: 1px;
+  border-radius: 50%;
+  border: 5px solid #222;
+  border-color: #222 transparent #222 transparent;
+  /* border: 5px solid #fff;
+  border-color: #fff transparent #fff transparent; */
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+  </style>
+
+<!-- <style>
+    .loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: -1;
+    }
+    .loading-bar {
+      display: inline-block;
+      width: 4px;
+      height: 18px;
+      border-radius: 4px;
+      animation: loading 1s ease-in-out infinite;
+    }
+    .loading-bar:nth-child(1) {
+      background-color: #00B96F;
+      animation-delay: 0;
+    }
+    .loading-bar:nth-child(2) {
+      background-color: #00B96F;
+      animation-delay: 0.09s;
+    }
+    .loading-bar:nth-child(3) {
+      background-color: #00B96F;
+      animation-delay: .18s;
+    }
+    .loading-bar:nth-child(4) {
+      background-color: #00B96F;
+      animation-delay: .27s;
+    }
+    
+    @keyframes loading {
+      0% {
+        transform: scale(1);
+      }
+      20% {
+        transform: scale(1, 2.2);
+      }
+      40% {
+        transform: scale(1);
+      }
+    }
+  </style> -->
+
+  <script>
+    $(document).ready(function () {
+      $(document).click(function (event) {
+        $('.navbar-nav li a').on('click', function(){
+            if(!$( this ).hasClass('dropdown-toggle')){
+                $('.navbar-collapse').collapse('hide');
+            }
+        });
+      });
+    });
+
+
+    // $(document).ready(function() {
+    // $(window).keyup(function(e){
+    //   if(e.keyCode == 44){
+    //     $("body").hide();
+    //   }
+
+    // }); });
+
+
+//     window.onscroll = function() {myFunction()};
+
+// var header = document.getElementById("myHeader");
+// var sticky = header.offsetTop;
+
+// function myFunction() {
+//   if (window.pageYOffset > sticky) {
+//     header.classList.add("sticky");
+//   } else {
+//     header.classList.remove("sticky");
+//   }
+// }
+  </script>
+  <script>
+$('#accordion').click(function() {
+  if ( !$(this).next().hasClass('in') ) {
+    $(this).parent().children('#collapse.in').collapse('hide');
+  }
+  $(this).next().collapse('accordion');
+});
+</script>
+<link rel="stylesheet" href="styles.88bcd1b24d50ce1eccff.css"></head>
+<body>
+  <app-root>
+      <div class="lds-dual-ring"></div>
+    <!-- <div class="loading">
+      <div class="loading-bar"></div>
+      <div class="loading-bar"></div>
+      <div class="loading-bar"></div>
+      <div class="loading-bar"></div>
+    </div> -->
+  </app-root>
+<script type="text/javascript" src="runtime.8ad130fba9af89e0db57.js"></script><script type="text/javascript" src="polyfills.f02e4fb21733729a1825.js"></script><script type="text/javascript" src="scripts.981900ffad781562e39b.js"></script><script type="text/javascript" src="main.3f9f8e233185c4d823d5.js"></script></body>
+</html>
