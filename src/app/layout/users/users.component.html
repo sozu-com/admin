@@ -192,10 +192,16 @@
                   title="{{'table.title.sendActivationEmail' | translate}}">
                   <i class="fa fa-map-marker" aria-hidden="true" 
                   style="font-size: 166%;color: black;"></i></button> -->
-                  <button [disabled]="item.is_email_verified && item.is_phone_verified" (click)="this.sendMail(item, 1)" 
-                  class="action-icon" title="{{'table.title.confirmEmail' | translate}}"><img src="assets/img/tick.png" alt="img">
+                  <button  (click)="this.sendMail(item, 1)" 
+                  *ngIf="!item.is_email_verified || !item.is_phone_verified"
+                  class="action-icon" title="{{'table.title.confirmEmail' | translate}}">
+                  <img src="assets/img/tick.png" alt="img">
                   </button>
-
+                  <button   *ngIf="item.is_email_verified && item.is_phone_verified"
+                  class="action-icon" title="{{'table.title.confirmEmail' | translate}}" disabled>
+                  <img src="assets/img/tick.png" alt="img">
+                  </button>
+                  
                   <button  class="action-icon" (click)="this.sendMail(item, 2)"
                      [disabled]="item.is_email_verified && item.is_phone_verified"
                      title="{{'table.title.confirmEmail' | translate}}">
