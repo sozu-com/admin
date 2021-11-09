@@ -192,15 +192,22 @@
                   title="{{'table.title.sendActivationEmail' | translate}}">
                   <i class="fa fa-map-marker" aria-hidden="true" 
                   style="font-size: 166%;color: black;"></i></button> -->
-                  <button [disabled]="item.is_email_verified && item.is_phone_verified" (click)="this.sendMail(item, 1)" 
-                  class="action-icon" title="{{'table.title.confirmEmail' | translate}}"><img src="assets/img/tick.png" alt="img">
+                  <button  (click)="this.sendMail(item, 1)" 
+                  *ngIf="!item.is_email_verified || !item.is_phone_verified"
+                  class="action-icon" title="{{'table.title.confirmEmail' | translate}}">
+                  <img src="assets/img/tick.png" alt="img">
                   </button>
-
+                  <button   *ngIf="item.is_email_verified && item.is_phone_verified"
+                  class="action-icon" title="{{'table.title.confirmEmail' | translate}}" disabled>
+                  <img src="assets/img/tick.png" alt="img">
+                  </button>
+                  
+                  <!-- [disabled]="item.is_email_verified && item.is_phone_verified" -->
                   <button  class="action-icon" (click)="this.sendMail(item, 2)"
-                     [disabled]="item.is_email_verified && item.is_phone_verified"
                      title="{{'table.title.confirmEmail' | translate}}">
-                     <i class="fa fa-map-marker" aria-hidden="true" style="font-size: 166%;color: lightgray;" *ngIf="item.is_email_verified && item.is_phone_verified"></i>
-                     <i class="fa fa-map-marker" aria-hidden="true" style="font-size: 166%;color: black;" *ngIf="!item.is_email_verified || !item.is_phone_verified"></i>
+                     <!-- <i class="fa fa-map-marker" aria-hidden="true" style="font-size: 166%;color: lightgray;" *ngIf="item.is_email_verified && item.is_phone_verified"></i> -->
+                     <i class="fa fa-map-marker" aria-hidden="true" style="font-size: 166%;color: black;"></i>
+                     <!-- *ngIf="!item.is_email_verified || !item.is_phone_verified" -->
                   </button>
 
                       <!-- <a href="javascript://" (click)="editUser(item, i)" class="icon-block edit-icon"><img src="assets/img/edit.png" alt="img"></a>

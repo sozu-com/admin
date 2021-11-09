@@ -1,3 +1,8 @@
 .add-img{
     background-size: cover;background-repeat: no-repeat;
 }
+button:disabled,
+button[disabled]{
+  border: 1px solid #F4F4F4;
+  background-color: rgb(0 0 0 / 12%);
+}

@@ -220,7 +220,7 @@ export class CashFlowComponent implements OnInit {
       unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
       searchPlaceholderText: this.translate.instant('commonBlock.search'),
       allowSearchFilter: true,
-      itemsShowLimit: 1
+      itemsShowLimit: 3
     };
   }
 
@@ -469,14 +469,14 @@ export class CashFlowComponent implements OnInit {
           d = { y: element.y[ind].y, label: element.y[ind].label };
           ff.push(d);
         }
-      //   this.finalData.push({
-      //     legendText: element.label,
-      //     showInLegend: 'true',
-      //     type: 'stackedColumn',
-      //     dataPoints: ff
-      //   });
+        //   this.finalData.push({
+        //     legendText: element.label,
+        //     showInLegend: 'true',
+        //     type: 'stackedColumn',
+        //     dataPoints: ff
+        //   });
 
-       }
+      }
       //this.plotData();
 
       for (let index = 0; index < reportData['actual'].length; index++) {
