@@ -50,11 +50,16 @@ export class ManageContractsComponent implements OnInit {
   concept_payment: any;
   locale: any;
   signatureDate: any;
-  beneficiary_id: any;
+  beneficiary_id: any[] = [];
   status: any;
   contract_type: any;
   beneficiary_list = [];
   is_edit: boolean = false;
+  multiDropdownSettings = {};
+  today: any;
+  beneficiary_ids: any[];
+  percent: any;
+  contract_id: any;
 
   constructor(
     public constant: Constant,
@@ -70,11 +75,26 @@ export class ManageContractsComponent implements OnInit {
 
   ngOnInit() {
     this.initCalendarLocale();
+    this.initializedDropDownSetting();
+    this.today = new Date();
     this.language_code = localStorage.getItem('language_code');
     this.parameter.flag = 1;
     this.parameter.dash_flag = this.projectService.dash_flag ? this.projectService.dash_flag : this.constant.dash_flag;
     this.getContractHome();
     this.getContract();
+  }
+
+  initializedDropDownSetting = (): void => {
+    this.multiDropdownSettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'beneficiary_name',
+      selectAllText: this.translate.instant('commonBlock.selectAll'),
+      unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
+      searchPlaceholderText: this.translate.instant('commonBlock.search'),
+      allowSearchFilter: true,
+      itemsShowLimit: 2
+    };
   }
 
   initCalendarLocale() {
@@ -317,10 +337,20 @@ export class ManageContractsComponent implements OnInit {
   }
 
   getUserById(id: string) {
+    let self = this;
     this.admin.postDataApi('getUserById', { 'user_id': id })
       .subscribe(
         success => {
           this.beneficiary_list = success['data'].beneficiary;
+          let ids = this.beneficiary_id;
+          this.beneficiary_id = [];
+          this.beneficiary_list.forEach(item=>{
+            ids.forEach(data=>{
+              if(item.id == data){
+                self.beneficiary_id.push(item);
+               }
+            })
+          })
         });
   }
 
@@ -330,10 +360,20 @@ export class ManageContractsComponent implements OnInit {
       property_collection_id: this.collectionId, 
       type_of_contract: this.contract, 
       signature_date: this.signatureDate, 
-      beneficiary_id: this.beneficiary_id, 
+      beneficiary_id: this.beneficiary_ids,
+      percentage: this.percent,
       status: this.status
     }
-    this.admin.postDataApi(this.is_edit ? 'updateContract' : 'addContract', input)
+    let input1 ={
+      contract_id: this.contract_id,
+      property_collection_id: this.collectionId, 
+      type_of_contract: this.contract, 
+      signature_date: this.signatureDate, 
+      beneficiary_id: this.beneficiary_ids,
+      percentage: this.percent,
+      status: this.status
+    }
+    this.admin.postDataApi(this.is_edit ? 'updateContract' : 'addContract',this.is_edit ? input1 : input)
       .subscribe(
         success => {
           this.getContract();
@@ -345,12 +385,15 @@ export class ManageContractsComponent implements OnInit {
   editContract(data){
     this.is_edit = true;
     this.step = 1;
+    this.beneficiary_id = data.beneficiary_id,
+    this.contract_id = data.id;
     this.collectionId = data.property_collection_id;
     this.searchCollectionById();
     this.contract = data.type_of_contract; 
-    this.signatureDate = new Date(data.signature_date), 
-    this.beneficiary_id = data.beneficiary_id, 
-    this.status = data.status;      
+    this.contract_type = data.type_of_contract;
+    this.signatureDate = new Date(data.signature_date),  
+    this.status = data.status;
+    this.percent = data.percentage;     
     this.openLinkContractModal.nativeElement.click();
   }
 
@@ -379,5 +422,32 @@ export class ManageContractsComponent implements OnInit {
       error => {
         this.toastr.error(error.error.message, this.translate.instant('swal.error'));
       });
+  }
+
+  selectBeneficairy(data, value){
+    if(value && value.length > 0){
+     this.percent = (100 / value.length); 
+    }
+    else if(value && !value.length){
+    value =[value];
+    this.percent = (100 / value.length); 
+    }
+    if (data == "all") {
+      const d = value.map(o => o.id);
+      let id = [];
+      d.forEach(item=>{
+       id.push(item.id)
+      });
+      this.beneficiary_ids = d;
+    } else if (data == "select") {
+      const d = value.map(o => o.id);
+      let id = [];
+      d.forEach(item=>{
+       id.push(item.id)
+      });
+      this.beneficiary_ids = d;
+    } else if (data == "unselect") {
+      this.beneficiary_ids = [];
+    }
   }
 }

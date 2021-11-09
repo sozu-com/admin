@@ -142,16 +142,16 @@
                 </td>
                 <td [ngClass]="{'green-color cursor-pointer': p?.developer?.name}"
                   *ngIf="selectedColumnsToShow?.developer">
-                  <span>{{p?.developer?.name ? p?.developer?.name : ('table.tr.td.NA' | translate)}}</span>
+                  <span>{{p?.property_collection?.property?.building?.developer ? p?.property_collection?.property?.building?.developer?.name : ('table.tr.td.NA' | translate)}}</span>
                 </td>
                 <td *ngIf="selectedColumnsToShow?.project">
-                  <span>{{p?.agency?.name ? p?.agency?.name : ('table.tr.td.NA' | translate)}}</span>
+                  <span>{{p?.property_collection?.property?.building ? p?.property_collection?.property?.building?.name : ('table.tr.td.NA' | translate)}}</span>
                 </td>
                 <td *ngIf="selectedColumnsToShow?.apartment">
-                  <span>{{p?.agency?.name ? p?.agency?.name : ('table.tr.td.NA' | translate)}}</span>
+                  <span>{{p?.property_collection?.property?.name ? p?.property_collection?.property?.name : ('table.tr.td.NA' | translate)}}</span>
                 </td>
                 <td *ngIf="selectedColumnsToShow?.buyer">
-                  <span>{{p?.agency?.name ? p?.agency?.name : ('table.tr.td.NA' | translate)}}</span>
+                  <span>{{p?.property_collection?.buyer ? p?.property_collection?.buyer?.name : ('table.tr.td.NA' | translate)}}</span>
                 </td>
                 <td *ngIf="selectedColumnsToShow?.type_of_contract">
                   <span *ngIf="p?.type_of_contract">{{p.type_of_contract == '1' ? ('contract.physicalPerson' | translate) :
@@ -808,10 +808,21 @@
               </label>
             </div>
             <div class="col-12">
-              <select class="form-control" (change)="selectBeneficairy($event.target.value)"
+              <!-- <select class="form-control" (change)="selectBeneficairy($event.target.value)"
               [(ngModel)]="beneficiary_id">
               <option *ngFor="let beneficiary of beneficiary_list" [value]="beneficiary.id">{{beneficiary.beneficiary_name}}</option>
-            </select>
+            </select> -->
+            <ng-multiselect-dropdown 
+                              class="col-6 section-section5 multi-select" 
+                              [placeholder]="''"
+                              name="beneficiary" 
+                              [data]="beneficiary_list" 
+                              [(ngModel)]="beneficiary_id"
+                              [settings]="multiDropdownSettings" 
+                              (onDeSelect)="selectBeneficairy('unselect',$event)"
+                              (onSelect)="selectBeneficairy('select',$event)" 
+                              (onSelectAll)="selectBeneficairy('all',$event)">
+                              </ng-multiselect-dropdown>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -822,7 +833,7 @@
             </div>
             <div class="col-12">
               <input class="form-control" class="is_commission_sale_enabled" type="text" name="percent"
-                [(ngModel)]="percent" style="width:78%;height:70%;">
+                [(ngModel)]="percent" style="width:78%;height:70%;" readonly>
             </div>
           </div>
           <div class="row" style="margin-top: 25px;">
@@ -847,7 +858,7 @@
             </div>
             <div class="col-12">
               <p-calendar dateFormat="dd/M/yy" [locale]="locale" showIcon="true" [(ngModel)]="signatureDate"
-              [maxDate]="today" showButtonBar="true" [monthNavigator]="true"
+              [minDate]="today" showButtonBar="true" [monthNavigator]="true"
               [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
             </div>
           </div>
