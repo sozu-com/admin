@@ -71,7 +71,7 @@ export class PaymentReceiptService {
 
     }
     let buyer_name = this.collection_data.buyer && this.collection_data.buyer.name ? this.collection_data.buyer.name + ' ' + this.collection_data.buyer.first_surname + ' ' + this.collection_data.buyer.second_surname : this.collection_data.buyer_legal_entity ? this.collection_data.buyer_legal_entity.comm_name : 'N/A';
-    let seller_rep_name = this.collection_data.seller_legal_entity && this.collection_data.seller_legal_entity.name ? this.collection_data.seller_legal_entity.name + ' ' + this.collection_data.seller_legal_entity.first_surname + ' ' + this.collection_data.seller_legal_entity.second_surname : 'N/A';
+    let seller_rep_name = this.collection_data.seller_legal_entity.legal_name ? this.collection_data.seller_legal_entity.legal_name : 'N/A';
     let docDefinition = {
       pageSize: 'LEGAL',
       pageMargins: [40, 70, 40, 80],
