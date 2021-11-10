@@ -161,7 +161,14 @@
                   <span>{{p.signature_date | date:'dd/MMM/yyyy'}}</span>
                 </td>
                 <td *ngIf="selectedColumnsToShow?.status">
-                    <span>{{p.status}}</span>
+                  <select class="cursor-pointer" (change)="selectStatus(p, $event.target.value)">
+                  <option [selected]="p.status==1" value="1">{{'contract.draft' | translate}}</option>
+                  <option [selected]="p.status==2" value="2">{{'contract.inComplete' | translate}}</option>
+                  <option [selected]="p.status==3" value="3">{{'contract.forReview' | translate}}</option>
+                  <option [selected]="p.status==4" value="4">{{'contract.readyToBeValidated' | translate}}</option>
+                  <option [selected]="p.status==5" value="5">{{'contract.validatedByLegal' | translate}}</option>
+                  <option [selected]="p.status==6" value="6">{{'contract.signed' | translate}}</option>
+                </select>
                 </td>
                 <td *ngIf="selectedColumnsToShow?.actions">
                   <div class="table-actions">
@@ -225,22 +232,28 @@
               <tr
                 *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
                 <td [ngClass]="{'green-color cursor-pointer': p?.developer?.name}"
-                  *ngIf="selectedColumnsToShow?.contract_id" (click)="viewDeveloper(p)">
+                  *ngIf="selectedColumnsToShow?.contract_id">
                   <span>{{p?.developer?.name ? p?.developer?.name : ('table.tr.td.NA' | translate)}}</span>
                 </td>
-                <td *ngIf="selectedColumnsToShow?.developer" (click)="viewDeveloper(p)">
-                  <span>{{p?.developer?.name ? p?.developer?.name : ('table.tr.td.NA' | translate)}}</span>
+                <td *ngIf="selectedColumnsToShow?.developer">
+                  <span>{{p?.property_collection?.property?.building?.developer ? p?.property_collection?.property?.building?.developer?.name : ('table.tr.td.NA' | translate)}}</span>
                 </td>
                 <td *ngIf="selectedColumnsToShow?.project">
-                  <span>{{p?.agency?.name ? p?.agency?.name : ('table.tr.td.NA' | translate)}}</span>
+                  <span>{{p?.property_collection?.property?.building ? p?.property_collection?.property?.building?.name : ('table.tr.td.NA' | translate)}}</span>
                 </td>
-                <td *ngIf="selectedColumnsToShow?.type_of_contract"
-                  [ngClass]="{'green-color cursor-pointer': p?.legal_entity_info?.length > 0 }">
+                <td *ngIf="selectedColumnsToShow?.type_of_contract">
                   <span *ngIf="p?.type_of_contract">{{p.type_of_contract == '1' ? ('contract.physicalPerson' | translate) :
                     p.type_of_contract == '2' ? ('contract.moralPerson' | translate) : ('table.tr.td.NA' | translate)}}</span>
                 </td>
                 <td *ngIf="selectedColumnsToShow?.status">
-                  <span>{{p.status}}</span>
+                  <select class="cursor-pointer" (change)="selectStatus(p, $event.target.value)">
+                  <option [selected]="p.status==1" value="1">{{'contract.draft' | translate}}</option>
+                  <option [selected]="p.status==2" value="2">{{'contract.inComplete' | translate}}</option>
+                  <option [selected]="p.status==3" value="3">{{'contract.forReview' | translate}}</option>
+                  <option [selected]="p.status==4" value="4">{{'contract.readyToBeValidated' | translate}}</option>
+                  <option [selected]="p.status==5" value="5">{{'contract.validatedByLegal' | translate}}</option>
+                  <option [selected]="p.status==6" value="6">{{'contract.signed' | translate}}</option>
+                </select>
                 </td>
                 <td *ngIf="selectedColumnsToShow?.action">
                   <div class="table-actions">
@@ -396,8 +409,8 @@
             <div class="col-6" *ngIf="searched_collection">
               <select class="form-control" (change)="selectContract($event.target.value)"
                 [(ngModel)]="contract_type">
-                <option value="1">{{'contract.physicalPerson' | translate}}</option>
-                <option value="2">{{'contract.moralPerson' | translate}}</option>
+                <option [selected]="contract_type==1" value="1">{{'contract.physicalPerson' | translate}}</option>
+                <option [selected]="contract_type==2" value="2">{{'contract.moralPerson' | translate}}</option>
               </select>
             </div>
           </div>

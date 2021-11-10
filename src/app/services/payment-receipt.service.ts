@@ -71,6 +71,7 @@ export class PaymentReceiptService {
 
     }
     let buyer_name = this.collection_data.buyer && this.collection_data.buyer.name ? this.collection_data.buyer.name + ' ' + this.collection_data.buyer.first_surname + ' ' + this.collection_data.buyer.second_surname : this.collection_data.buyer_legal_entity ? this.collection_data.buyer_legal_entity.comm_name : 'N/A';
+    let seller_rep_name = this.collection_data.seller_legal_entity && this.collection_data.seller_legal_entity.name ? this.collection_data.seller_legal_entity.name + ' ' + this.collection_data.seller_legal_entity.first_surname + ' ' + this.collection_data.seller_legal_entity.second_surname : 'N/A';
     let docDefinition = {
       pageSize: 'LEGAL',
       pageMargins: [40, 70, 40, 80],
@@ -152,7 +153,7 @@ export class PaymentReceiptService {
                 { text: this.translate.instant('generatePDF.receipt'), border: [false, false, false, false], bold: true, fontSize: 12, },    
               ],
               [
-                { text:this.collection_data.seller_legal_name ? this.collection_data.seller_legal_name : 'N/A', border: [false, false, false, false], bold: true, margin: [0, 0, 0, 30] },    
+                { text: seller_rep_name, border: [false, false, false, false], bold: true, margin: [0, 0, 0, 30] },    
               ],
             ],
           }
@@ -171,7 +172,7 @@ export class PaymentReceiptService {
                 ],
                 width: 480,
                 margin: [45, 20, 20, 20]
-              } :
+              } : 
               {
                 text:[
                   { text: this.collection_data.property.building.project_additional_url ? this.collection_data.property.building.project_additional_url : '' },

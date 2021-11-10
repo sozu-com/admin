@@ -3678,6 +3678,12 @@
     "moralPerson": "Persona moral",
     "beneficiary":"Beneficiario",
     "percent":"Percent% (Por Beneficiario)",
-    "selectDate":"Seleccionar fecha"
+    "selectDate":"Seleccionar fecha",
+    "draft": "borrador",
+    "inComplete": "En completo",
+    "forReview": "Para la revisión",
+    "readyToBeValidated": "Listo para ser validado",
+    "validatedByLegal": "Validado por legal",
+    "signed": "Firmado"
   }
 }

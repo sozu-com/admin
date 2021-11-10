@@ -450,4 +450,18 @@ export class ManageContractsComponent implements OnInit {
       this.beneficiary_ids = [];
     }
   }
+
+  selectStatus(data, status){
+    let input ={
+      contract_id : data.id,
+      status: status
+    }
+    this.spinner.show();
+    this.admin.postDataApi('updateContractStatus', input)
+    .subscribe(
+      success => {
+        this.getContract();
+        this.spinner.hide();
+      });
+  }
 }
