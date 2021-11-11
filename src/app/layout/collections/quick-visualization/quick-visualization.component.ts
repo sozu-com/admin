@@ -359,7 +359,7 @@ export class QuickVisualizationComponent implements OnInit {
 
             // calculating total paid and total outstanding payment
             this.totalPaid = this.totalPaid + m.paid_amount;
-            m['outstanding_amount'] = m.amount - (m.calc_payment_amount || 0);
+            m['outstanding_amount'] = (m.amount + ((m.penalty || {}).amount || 0)) - (m.calc_payment_amount || 0);
             if ((m.amount - (m.calc_payment_amount || 0)) >= 0) {
               const a = (m.calc_payment_amount || 0);
               m['is_pending'] = a ? 1 : 0;

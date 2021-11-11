@@ -396,8 +396,8 @@
               </label>
             </div>
             <div class="col-12" *ngIf="searched_collection">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="searched_collection.property.building.name" style="width:78%;height:70%;">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="building_name"
+                [(ngModel)]="searched_collection.property.building.name" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12" *ngIf="searched_collection">
               <label class="p16-two">
@@ -435,8 +435,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="searched_collection.buyer.name" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="buyer_name"
+                [(ngModel)]="searched_collection.buyer.name" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -446,8 +446,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="searched_collection.buyer.first_surname" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="first_surname"
+                [(ngModel)]="searched_collection.buyer.first_surname" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -457,8 +457,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="searched_collection.buyer.second_surname" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="second_surname"
+                [(ngModel)]="searched_collection.buyer.second_surname" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -468,8 +468,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="searched_collection.buyer.fed_tax_pay" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="fed_tax_pay"
+                [(ngModel)]="searched_collection.buyer.fed_tax_pay" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -479,8 +479,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="searched_collection.buyer.curp" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="curp"
+                [(ngModel)]="searched_collection.buyer.curp" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -490,8 +490,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="searched_collection.buyer.assigned_csr_buyer_id" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="ocupation"
+                [(ngModel)]="searched_collection.buyer.ocupation" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -501,8 +501,13 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="searched_collection.buyer.assigned_csr_buyer_id" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <select title="Select Marital Status" name="marital_status" class="form-control" style="width: 77%;margin-bottom: 15px;" disabled>
+                            <option value="0" disabled>{{'addForm.maritalStatus.selectMaritalStatus' | translate}}
+                            </option>
+                            <option *ngFor="let maritalStatus of marrital_status_list"
+                              [selected]="maritalStatus.id == searched_collection.buyer.marital_statuses_id" value="{{maritalStatus.id}}">
+                              {{language_code == 'en'? maritalStatus.name_en : maritalStatus.name_es}}</option>
+                          </select>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -512,8 +517,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="searched_collection.buyer.assigned_csr_buyer_id" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="id_type"
+                [(ngModel)]="searched_collection.buyer.id_type" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -523,8 +528,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="searched_collection.buyer.assigned_csr_buyer_id" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="id_number"
+                [(ngModel)]="searched_collection.buyer.id_number" style="width:78%;height:70%;" readonly>
             </div>
           </div>
           <div class="row" style="margin-top: 25px;">
@@ -548,8 +553,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="searched_collection.buyer.street_address" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="street_address"
+                [(ngModel)]="searched_collection.buyer.street_address" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -559,8 +564,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="searched_collection.buyer.external_number" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="external_number"
+                [(ngModel)]="searched_collection.buyer.external_number" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -570,8 +575,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="searched_collection.buyer.internal_number" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="internal_number"
+                [(ngModel)]="searched_collection.buyer.internal_number" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -581,8 +586,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="searched_collection.buyer.zipcode" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="zipcode"
+                [(ngModel)]="searched_collection.buyer.zipcode" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -592,8 +597,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="searched_collection.buyer.municipality" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="municipality"
+                [(ngModel)]="searched_collection.buyer.municipality" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -603,8 +608,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="searched_collection.buyer.country" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="country"
+                [(ngModel)]="searched_collection.buyer.country" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -614,8 +619,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="searched_collection.buyer.state" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="state"
+                [(ngModel)]="searched_collection.buyer.state" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -625,8 +630,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="searched_collection.buyer.neighborhood" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="neighborhood"
+                [(ngModel)]="searched_collection.buyer.neighborhood" style="width:78%;height:70%;" readonly>
             </div>
           </div>
           <div class="row" style="margin-top: 25px;">
@@ -650,8 +655,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="searched_collection.property.name" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="property_name"
+                [(ngModel)]="searched_collection.property.name" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -661,8 +666,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="searched_collection.property.floor_num" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="floor_num"
+                [(ngModel)]="searched_collection.property.floor_num" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -672,8 +677,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="searched_collection.property.building_configuration.name" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="building_configuration_name"
+                [(ngModel)]="searched_collection.property.building_configuration.name" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -683,8 +688,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="searched_collection.property.max_area" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="max_area"
+                [(ngModel)]="searched_collection.property.max_area" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -694,8 +699,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="searched_collection.property.parking_count" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="parking_count"
+                [(ngModel)]="searched_collection.property.parking_count" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -705,8 +710,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="searched_collection.property.final_price" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="final_price"
+                [(ngModel)]="searched_collection.property.final_price" style="width:78%;height:70%;" readonly>
             </div>
           </div>
           <div class="row" style="margin-top: 25px;">
@@ -730,8 +735,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="concept_layaway.amount" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="concept_layaway_amount"
+                [(ngModel)]="concept_layaway.amount" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -741,8 +746,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="concept_downpayment.amount" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="concept_downpayment_amount"
+                [(ngModel)]="concept_downpayment.amount" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -752,8 +757,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="concept_downpayment.date" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="concept_downpayment_date"
+                [(ngModel)]="concept_downpayment.date" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -763,8 +768,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="concept_monthly.amount" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="concept_monthly_amount"
+                [(ngModel)]="concept_monthly.amount" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -774,8 +779,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="concept_monthly_no" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="concept_monthly_no"
+                [(ngModel)]="concept_monthly_no" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -785,8 +790,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="collectionId" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="concept_monthly_date"
+                [(ngModel)]="concept_monthly.date" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -796,8 +801,8 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="collectionId"
-                [(ngModel)]="concept_payment.amount" style="width:78%;height:70%;" (keyup.enter)="searchCollectionById()">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="concept_payment_amount"
+                [(ngModel)]="concept_payment.amount" style="width:78%;height:70%;" readonly>
             </div>
           </div>
           <div class="row" style="margin-top: 25px;">

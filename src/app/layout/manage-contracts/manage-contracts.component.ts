@@ -60,6 +60,11 @@ export class ManageContractsComponent implements OnInit {
   beneficiary_ids: any[];
   percent: any;
   contract_id: any;
+  marrital_status_list = [
+    { id: 1, name_en: 'Single', name_es: 'Soltero' },
+    { id: 2, name_en: 'Married - Community property', name_es: 'Casado - Bienes mancomunados' },
+    { id: 3, name_en: 'Married - Separate goods', name_es: 'Casado - Bienes separados' }
+  ];
 
   constructor(
     public constant: Constant,

@@ -288,6 +288,8 @@
     "hotels": "Hotels",
     "housing": "Housing",
     "offices": "Offices",
+    "idType": "Id Type",
+    "idNumber": "Id Number",
     "moreImages": {
       "label": "Images",
       "addMoreBtn": "+ Add more images",
