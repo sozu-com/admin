@@ -292,6 +292,8 @@
     "hotelSize": "Tamaño del hotel",
     "rooms": "habitaciones",
     "totalSquareMeters": "Metros cuadrados totales",
+    "idType": "Tipo de ID",
+    "idNumber": "Número ID",
     "moreImages": {
       "label": "Imágenes",
       "addMoreBtn": "+ Agregar más imágenes",
