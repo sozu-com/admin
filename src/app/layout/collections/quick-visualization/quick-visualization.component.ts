@@ -967,6 +967,8 @@ export class QuickVisualizationComponent implements OnInit {
       this.isApplyBtnClicked = true;
       this.admin.postDataApi('applyCollectionPayment', input).subscribe(r => {
         this.isApplyBtnClicked = false;
+        let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
+          this.paymentReceipt.getCollectionById(undefined, this.property_collection_id, find_index, this.payment_choice_id, false);
         if (this.surplus_payment_type) {
           input['amount'] = this.paymentAmount - this.calculatedPayAmount;
           input['type'] = this.surplus_payment_type;
@@ -974,7 +976,6 @@ export class QuickVisualizationComponent implements OnInit {
           if (this.surplus_payment_type == '4') {
             input['collection_payment_choice_id'] = this.surplus_payment_choice_id;
           }
-
           this.admin.postDataApi('applyCollectionPayment', input).subscribe(r => {
             // if (this.surplus_payment_type == '1' || this.surplus_payment_type == '4') {
             //   input['collection_payment_choice_id'] = this.payment_choice_id['id']
@@ -1001,6 +1002,8 @@ export class QuickVisualizationComponent implements OnInit {
 
   callToPaymentApi(input) {
     this.isApplyBtnClicked = true;
+    let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
+    this.paymentReceipt.getCollectionById(undefined, this.property_collection_id, find_index, this.payment_choice_id, false);
     this.admin.postDataApi('applyCollectionPayment', input).subscribe(r => {
       this.isApplyBtnClicked = false;
       if (this.surplus_payment_type) {
@@ -1010,7 +1013,6 @@ export class QuickVisualizationComponent implements OnInit {
         if (this.surplus_payment_type == '4') {
           input['collection_payment_choice_id'] = this.surplus_payment_choice_id;
         }
-
         this.admin.postDataApi('applyCollectionPayment', input).subscribe(r => {
           // if (this.surplus_payment_type == '1' || this.surplus_payment_type == '4') {
           //   input['collection_payment_choice_id'] = this.payment_choice_id['id']
@@ -1273,6 +1275,6 @@ export class QuickVisualizationComponent implements OnInit {
 
   downloadReceipt() {
     let find_index = this.paymentConcepts.findIndex(item => item.id == this.paymentSelect.id);
-    this.paymentReceipt.getCollectionById(this.property_collection_id, find_index, this.paymentSelect, true);
+    this.paymentReceipt.getCollectionById(this.item,this.property_collection_id, find_index, this.paymentSelect, true);
   }
 }

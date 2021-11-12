@@ -19,6 +19,7 @@ export class PaymentReceiptService {
   index: any;
   payment_concept: any;
   language_code: string;
+  payment: any;
   constructor(
     private translate: TranslateService,
     private spinner: NgxSpinnerService,
@@ -28,8 +29,9 @@ export class PaymentReceiptService {
   ) { 
   }
 
-  getCollectionById(id, index, payment_concept, loader){
+  getCollectionById(payment, id, index, payment_concept, loader){
     this.index = index;
+    this.payment = payment;
     this.payment_concept = payment_concept;
     if(loader){
       this.spinner.show();
@@ -58,6 +60,7 @@ export class PaymentReceiptService {
     this.language_code = localStorage.getItem('language_code');
     let current_date = new Date();
     let concept = this.collection_data.payment_choices.find(item=> item.id == this.payment_concept.id);
+    this.payment = this.payment ? this.payment :  concept.collection_paymentss[concept.collection_paymentss.length - 1];
     let date = this.datePipe.transform((concept.collection_paymentss[concept.collection_paymentss.length - 1].payment_date? concept.collection_paymentss[concept.collection_paymentss.length - 1].payment_date : new Date()), 'MMM d, y');
     let monthNames = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
           'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']
@@ -109,7 +112,7 @@ export class PaymentReceiptService {
           columns: [
             {
               text: [
-                {text: this.translate.instant('generatePDF.detail1') + (concept.calc_payment_amount ? this.price.transform(Number(concept.calc_payment_amount).toFixed(2)) : "N/A") + this.translate.instant('generatePDF.detail14') + 
+                {text: this.translate.instant('generatePDF.detail1') + (this.payment.amount ? this.price.transform(Number(this.payment.amount).toFixed(2)) : "N/A") + this.translate.instant('generatePDF.detail14') + 
                 (concept.calc_payment_amount ? conver.NumerosALetras(concept.calc_payment_amount) : "N/A") + this.translate.instant('generatePDF.detail13') + this.translate.instant('generatePDF.detail2') + buyer_name + this.translate.instant('generatePDF.detail3')},
               {text:(this.language_code == 'en' ? concept.payment_choice.name_en :  this.language_code == 'es' ? concept.payment_choice.name_es : 'N/A'), bold: true},
               {text:this.translate.instant('generatePDF.detail4') + this.collection_data.property.building.name + this.translate.instant('generatePDF.detail5') + 
