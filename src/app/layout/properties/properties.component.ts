@@ -105,7 +105,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   min_carpet_area: any;
   max_carpet_area: any;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
-  exportfinalData: Array<any>;
+  exportfinalData: Array<any> = [];
   baseUrl = this.admin.baseUrl + 'exportProperties';
   is_back: boolean = false;
   is_filter: boolean = false;
@@ -209,6 +209,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   project_id: any;
   configurationCount: Array<any>;
   possessionStatuses: Array<any>;
+  export_num: any;
 
   constructor(
     public constant: Constant, public cs: CommonService,
@@ -279,6 +280,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.selctedFilters = [];
     this.selctedProjectAmenities = [];
     this.seller_type = 1;
+    this.export_num = 1;
     this.locale = {
       firstDayOfWeek: 0,
       dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
@@ -1410,6 +1412,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   getExportlisting() {
+    let self = this;
     this.spinner.show();
     this.makePostRequest();
     const input: any = JSON.parse(JSON.stringify(this.parameter));
@@ -1440,11 +1443,23 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     input.max_price = this.parameter.max_price == '0.00' ? 0 : this.parameter.max_price;
     input.min_carpet_area = this.parameter.min_carpet_area == '0.00' ? 0 : this.parameter.min_carpet_area;
     input.max_carpet_area = this.parameter.max_carpet_area == '0.00' ? 0 : this.parameter.max_carpet_area;
+    input.export = this.export_num;
     this.admin.postDataApi('propertyHome', input).subscribe(
       success => {
-        this.exportfinalData = success['data'];
-        this.exportData();
-        this.spinner.hide();
+        if(success['data'] && success['data'].length > 0){
+          success['data'].forEach(element => {
+            this.exportfinalData.push(element);
+          });
+        if(this.exportfinalData.length == this.total){
+          self.export_num = 1;
+          self.exportData();
+          this.spinner.hide();
+        }
+        else{
+          self.export_num = this.export_num + 1;
+          self.getExportlisting();
+        }
+      }
       },
       error => {
         // this.spinner.hide();
