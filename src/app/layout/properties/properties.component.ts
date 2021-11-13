@@ -1444,7 +1444,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     input.min_carpet_area = this.parameter.min_carpet_area == '0.00' ? 0 : this.parameter.min_carpet_area;
     input.max_carpet_area = this.parameter.max_carpet_area == '0.00' ? 0 : this.parameter.max_carpet_area;
     input.export = this.export_num;
-    this.admin.postDataApi('propertyHome', input).subscribe(
+    this.admin.postDataApi('propertyHomeForExport', input).subscribe(
       success => {
         if(success['data'] && success['data'].length > 0){
           success['data'].forEach(element => {
