@@ -210,6 +210,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   configurationCount: Array<any>;
   possessionStatuses: Array<any>;
   export_num: any;
+  progress_bar_per: number;
 
   constructor(
     public constant: Constant, public cs: CommonService,
@@ -1451,11 +1452,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
             this.exportfinalData.push(element);
           });
         if(this.exportfinalData.length == this.total){
+          self.progress_bar_per = (self.exportfinalData.length / self.total) * 100;
           self.export_num = 1;
           self.exportData();
           this.spinner.hide();
         }
         else{
+          self.progress_bar_per = (self.exportfinalData.length / self.total) * 100;
           self.export_num = this.export_num + 1;
           self.getExportlisting();
         }
