@@ -138,7 +138,11 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   dateTime: any;
   logoImageBase64: any;
   projectLogoImageBase64: any;
+  signatureImageBase64: any;
+  addressImageBase64: any;
   base64: any;
+  base64_address: any;
+  base64_signature: any;
   minimumDate = new Date();
   select_columns_list: any[] = [];
   public selectedCollectionColumnsToShow: any = {};
@@ -3308,7 +3312,11 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   getBase64ImageFromUrl(id) {
     this.admin.postDataApi('getPdfImage', { id: id }).subscribe((success) => {
       this.base64 = (success || {}).data;
+      this.base64_address = (success || {}).address;
+      this.base64_signature = (success || {}).signature;
       this.projectLogoImageBase64 = 'data:image/jpeg;base64,' + this.base64;
+      this.signatureImageBase64 = 'data:image/jpeg;base64,' + this.base64_signature;
+      this.addressImageBase64 = 'data:image/jpeg;base64,' + this.base64_address;
     }, (error) => {
     });
   }
