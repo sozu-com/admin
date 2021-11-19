@@ -122,7 +122,7 @@ export class PaymentReceiptService {
               text: [
                 {
                   text: this.translate.instant('generatePDF.detail1') + (this.payment.amount ? this.price.transform(Number(this.payment.amount).toFixed(2)) : "N/A") + this.translate.instant('generatePDF.detail14') +
-                    (concept.calc_payment_amount ? conver.NumerosALetras(concept.calc_payment_amount) : "N/A") + this.translate.instant('generatePDF.detail13') + this.translate.instant('generatePDF.detail2') + buyer_name + this.translate.instant('generatePDF.detail3')
+                    (this.payment.amount ? conver.NumerosALetras(this.payment.amount) : "N/A") + this.translate.instant('generatePDF.detail13') + this.translate.instant('generatePDF.detail2') + buyer_name + this.translate.instant('generatePDF.detail3')
                 },
                 { text: (this.language_code == 'en' ? concept.payment_choice.name_en : this.language_code == 'es' ? concept.payment_choice.name_es : 'N/A'), bold: true },
                 {

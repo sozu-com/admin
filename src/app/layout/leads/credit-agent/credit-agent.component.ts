@@ -607,6 +607,7 @@ export class CreditAgentComponent implements OnInit {
     this.admin.postDataApi('addCreditsUser', input).subscribe(
       success => {
         console.log(success.data);
+        this.getListing();
         this.spinner.hide();
       }, error => {
         this.spinner.hide();

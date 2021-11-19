@@ -2187,7 +2187,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     this.editCollectionReceiptOpen.nativeElement.click();
   }
 
-  deleteCollectionCommReceipt(item: any) {
+  deleteCollectionCommReceipt(item: any, index: number) {
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' +
         this.translate.instant('message.error.wantToDeleteCommission'),
@@ -2201,10 +2201,11 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         this.admin.postDataApi('deleteCommissionPayment', { id: item.id, commission_type: item.commission_type })
           .subscribe(
             success => {
-              this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
-              this.closeEditPaymentModal();
+              //this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
+              // this.closeEditPaymentModal();
               this.toastr.clear();
               this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+              this.items.splice(index, 1);
             },
             error => {
               this.toastr.error(error.error.message, this.translate.instant('swal.error'));

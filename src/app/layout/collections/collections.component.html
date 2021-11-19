@@ -1839,7 +1839,7 @@
                         src="assets/img/ic_commission.png" alt="img"></button>
 
                     <button *ngIf="p.commission && p.commission.payment"
-                      (click)="deleteCollectionCommReceipt(p.commission.payment)"
+                      (click)="deleteCollectionCommReceipt(p.commission.payment, i)"
                       title="{{'table.title.deleteCCPayment' | translate}}" class="action-icon"><img
                         src="assets/img/ic_delete.png" alt="img"></button>
                     <br>
@@ -1849,7 +1849,7 @@
                         src="assets/img/ic_commission.png" alt="img"></button>
 
                     <button *ngIf="p.commission && p.commission.purchase_payment"
-                      (click)="deleteCollectionCommReceipt(p.commission.purchase_payment)"
+                      (click)="deleteCollectionCommReceipt(p.commission.purchase_payment, i)"
                       title="{{'table.title.deletePCPayment' | translate}}" class="action-icon"><img
                         src="assets/img/ic_delete.png" alt="img"></button>
                     <br>
@@ -1859,7 +1859,7 @@
                         src="assets/img/ic_commission.png" alt="img"></button>
 
                     <button *ngIf="p.commission && p.commission.agent_payment"
-                      (click)="deleteCollectionCommReceipt(p.commission.agent_payment)"
+                      (click)="deleteCollectionCommReceipt(p.commission.agent_payment, i)"
                       title="{{'table.title.deleteACPayment' | translate}}" class="action-icon"><img
                         src="assets/img/ic_delete.png" alt="img"></button>
 
