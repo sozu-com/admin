@@ -392,7 +392,7 @@
                   </label>
               </td> -->
                                 <td>
-                                    <span class="name" *ngIf="item.created_at">{{item.created_at | date}}</span>
+                                    <span class="name" *ngIf="item.updated_at">{{item.updated_at | date}}</span>
                                 </td>
                                 <td>
                                     <img class="rounded-circle" *ngIf="item.image"
@@ -450,6 +450,20 @@
                 <button *ngIf="!item.lead_status_agent" [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
                 (click)="changeLeadStatus(2, item.id, i)" title="{{'table.title.lostLeads' | translate}}" 
                 class="action-icon"><img src="assets/img/lost-items.png" alt="img"></button> -->
+                                    <button  *ngIf="item.add_credit == 0" class="action-icon" [disabled]="item.deal_finance == 0"
+                                    title="{{'table.title.confirmEmail' | translate}}" 
+                                    (click)="this.credit(item)" >
+                                    <i class="fa fa-credit-card" aria-hidden="true"
+                                        style="font-size: 140%;margin-top: 4px;">
+                                    </i>
+                                    </button>
+                                    <button class="action-icon" *ngIf="item.add_credit == 1" 
+                                    [disabled]="item.add_credit == 1"
+                                    title="{{'table.title.confirmEmail' | translate}}" 
+                                    (click)="this.credit(item)" >
+                                    <i class="fa fa-credit-card" aria-hidden="true"
+                                        style="font-size: 140%;margin-top: 4px;"></i>
+                                </button>
                                     <button class="action-icon" (click)="this.sendMail(item)" [disabled]="item.user_id"
                                         title="{{'table.title.confirmEmail' | translate}}">
                                         <i class="fa fa-map-marker" aria-hidden="true"
