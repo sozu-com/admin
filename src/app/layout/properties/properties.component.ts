@@ -459,6 +459,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   close() {
+    this.export_num = 1;
+    this.exportfinalData = [];
+    this.progress_bar_per = 0;
     $('.modal').modal('hide');
   }
 
@@ -1416,8 +1419,19 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     let self = this;
     this.spinner.show();
     this.makePostRequest();
-    const input: any = JSON.parse(JSON.stringify(this.parameter));
-    input.page = 0;
+    let input: any = JSON.parse(JSON.stringify(this.parameter));
+    if (this.value1) {
+      if (this.value == "all") {
+        const d = this.value1.map(o => o.id);
+        input.availability_filter = d;
+      } else if (this.value == "select") {
+        const d = this.parameter.availability_filter.map(o => o.id);
+        input.availability_filter = d;
+      } else if (this.value == "unselect") {
+        const d = this.parameter.availability_filter.map(o => o.id);
+        input.availability_filter = d;
+      }
+    }
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
     } else {
@@ -1438,12 +1452,38 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     } else {
       delete input.agency_id;
     }
+    if (this.parameter.property_type_id) {
+      input.property_type_id = this.parameter.property_type_id;
+    } else {
+      delete input.property_type_id;
+    }
     delete input.seller_id;
     delete input.buyer_id;
+
+
+    if (this.selctedAmenities) {
+      const d = this.selctedAmenities.map(o => o.id);
+      input.amenities_id = d;
+    }
+    if (this.selctedProjectAmenities) {
+      const d = this.selctedProjectAmenities.map(o => o.id);
+      input.building_amenities_id = d;
+    }
+    if (this.property_for !== '' && this.property_for !== '0') {
+      input.property_for = this.property_for.filter(f => { return f.is_selected == true }).map(r => { return r.id })[0] || '';
+    }
+    input.bedroom = this.bedrooms.filter(f => { return f.is_selected == true }).map(r => { return r.name });
+    input.bathroom = this.bathrooms.filter(f => { return f.is_selected == true }).map(r => { return r.name });
+    input.half_bathroom = this.halfBathrooms.filter(f => { return f.is_selected == true }).map(r => { return r.name });
+    input.property_id = this.propertyTypes.filter(f => { return f.is_selected == true }).map(r => { return r.id });
     input.min_price = this.parameter.min_price == '0.00' ? 0 : this.parameter.min_price;
     input.max_price = this.parameter.max_price == '0.00' ? 0 : this.parameter.max_price;
     input.min_carpet_area = this.parameter.min_carpet_area == '0.00' ? 0 : this.parameter.min_carpet_area;
     input.max_carpet_area = this.parameter.max_carpet_area == '0.00' ? 0 : this.parameter.max_carpet_area;
+    input.parking = this.parameter.parking;
+    input.furnished = this.parameter.furnished;
+    input.parking_place = this.parameter.parking_place;
+    input.parking_for_sale = this.parameter.parking_for_sale;
     input.export = this.export_num;
     this.admin.postDataApi('propertyHomeForExport', input).subscribe(
       success => {
@@ -1508,38 +1548,39 @@ export class PropertiesComponent implements OnInit, OnDestroy {
           'Is Property Sold': p.is_property_sold ? 'yes' : 'no',
           'Linked Collection': p.collection ? 'yes' : 'no',
         };
-        this.selectedPropertyColumnsToShow.property_id == 0 ? delete obj['ID'] : undefined;
-        this.selectedPropertyColumnsToShow.building_name == 0 ? delete obj['Name of Building'] : undefined;
-        this.selectedPropertyColumnsToShow.tower_name == 0 ? delete obj['Name of Tower'] : undefined;
-        this.selectedPropertyColumnsToShow.floor == 0 ? delete obj['Floor'] : undefined;
-        this.selectedPropertyColumnsToShow.apartment == 0 ? delete obj['Apartment'] : undefined;
-        this.selectedPropertyColumnsToShow.model == 0 ? delete obj['Model'] : undefined;
-        this.selectedPropertyColumnsToShow.configuration == 0 ? delete obj['Configuration Bed'] : undefined;
-        this.selectedPropertyColumnsToShow.configuration == 0 ? delete obj['Configuration Bath'] : undefined;
-        this.selectedPropertyColumnsToShow.configuration == 0 ? delete obj['Configuration Half Bath'] : undefined;
-        this.selectedPropertyColumnsToShow.list_price == 0 ? delete obj['List Price'] : undefined;
-        this.selectedPropertyColumnsToShow.final_price == 0 ? delete obj['Final Price'] : undefined;
-        this.selectedPropertyColumnsToShow.rent_price == 0 ? delete obj['Rent Price'] : undefined;
-        this.selectedPropertyColumnsToShow.commercial_offers == 0 ? delete obj['Commercial offers'] : undefined;
-        this.selectedPropertyColumnsToShow.carpet_area == 0 ? delete obj['Carpet Area'] : undefined;
-        this.selectedPropertyColumnsToShow.commercialized_sozu == 0 ? delete obj['Commercialized by SOZU'] : undefined;
-        this.selectedPropertyColumnsToShow.possession_status == 0 ? delete obj['Possession Status'] : undefined;
-        this.selectedPropertyColumnsToShow.agent_commission == 0 ? delete obj['Agent Commission (in %)'] : undefined;
-        this.selectedPropertyColumnsToShow.total_commission == 0 ? delete obj['Total Commission (in %)'] : undefined;
-        this.selectedPropertyColumnsToShow.leads == 0 ? delete obj['Leads'] : undefined;
-        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.change_buyer == 0 ? delete obj['Buyer'] : undefined;
-        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.change_seller == 0 ? delete obj['Seller'] : undefined;
-        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.link_unlink_inhouse_agent == 0 ? delete obj['Inhouse Agent'] : undefined;
-        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.link_unlink_outside_agent == 0 ? delete obj['Outside Agent'] : undefined;
-        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.link_agency == 0 ? delete obj['Agency'] : undefined;
-        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.change_availability == 0 ? delete obj['Availability'] : undefined;
-        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.is_property_sold == 0 ? delete obj['Is Property Sold'] : undefined;
-        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.linked_collection == 0 ? delete obj['Linked Collection'] : undefined;
-        this.selectedPropertyColumnsToShow.price_per_m2 == 0 ? delete obj['Price per m2'] : undefined;
+        // this.selectedPropertyColumnsToShow.property_id == 0 ? delete obj['ID'] : undefined;
+        // this.selectedPropertyColumnsToShow.building_name == 0 ? delete obj['Name of Building'] : undefined;
+        // this.selectedPropertyColumnsToShow.tower_name == 0 ? delete obj['Name of Tower'] : undefined;
+        // this.selectedPropertyColumnsToShow.floor == 0 ? delete obj['Floor'] : undefined;
+        // this.selectedPropertyColumnsToShow.apartment == 0 ? delete obj['Apartment'] : undefined;
+        // this.selectedPropertyColumnsToShow.model == 0 ? delete obj['Model'] : undefined;
+        // this.selectedPropertyColumnsToShow.configuration == 0 ? delete obj['Configuration Bed'] : undefined;
+        // this.selectedPropertyColumnsToShow.configuration == 0 ? delete obj['Configuration Bath'] : undefined;
+        // this.selectedPropertyColumnsToShow.configuration == 0 ? delete obj['Configuration Half Bath'] : undefined;
+        // this.selectedPropertyColumnsToShow.list_price == 0 ? delete obj['List Price'] : undefined;
+        // this.selectedPropertyColumnsToShow.final_price == 0 ? delete obj['Final Price'] : undefined;
+        // this.selectedPropertyColumnsToShow.rent_price == 0 ? delete obj['Rent Price'] : undefined;
+        // this.selectedPropertyColumnsToShow.commercial_offers == 0 ? delete obj['Commercial offers'] : undefined;
+        // this.selectedPropertyColumnsToShow.carpet_area == 0 ? delete obj['Carpet Area'] : undefined;
+        // this.selectedPropertyColumnsToShow.commercialized_sozu == 0 ? delete obj['Commercialized by SOZU'] : undefined;
+        // this.selectedPropertyColumnsToShow.possession_status == 0 ? delete obj['Possession Status'] : undefined;
+        // this.selectedPropertyColumnsToShow.agent_commission == 0 ? delete obj['Agent Commission (in %)'] : undefined;
+        // this.selectedPropertyColumnsToShow.total_commission == 0 ? delete obj['Total Commission (in %)'] : undefined;
+        // this.selectedPropertyColumnsToShow.leads == 0 ? delete obj['Leads'] : undefined;
+        // this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.change_buyer == 0 ? delete obj['Buyer'] : undefined;
+        // this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.change_seller == 0 ? delete obj['Seller'] : undefined;
+        // this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.link_unlink_inhouse_agent == 0 ? delete obj['Inhouse Agent'] : undefined;
+        // this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.link_unlink_outside_agent == 0 ? delete obj['Outside Agent'] : undefined;
+        // this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.link_agency == 0 ? delete obj['Agency'] : undefined;
+        // this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.change_availability == 0 ? delete obj['Availability'] : undefined;
+        // this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.is_property_sold == 0 ? delete obj['Is Property Sold'] : undefined;
+        // this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.linked_collection == 0 ? delete obj['Linked Collection'] : undefined;
+        // this.selectedPropertyColumnsToShow.price_per_m2 == 0 ? delete obj['Price per m2'] : undefined;
 
         exportfinalData.push(obj);
       }
       new ExcelDownload().exportAsExcelFile(exportfinalData, 'properties');
+      this.close();
     }
   }
 
