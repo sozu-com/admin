@@ -138,7 +138,11 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   dateTime: any;
   logoImageBase64: any;
   projectLogoImageBase64: any;
+  signatureImageBase64: any;
+  addressImageBase64: any;
   base64: any;
+  base64_address: any;
+  base64_signature: any;
   minimumDate = new Date();
   select_columns_list: any[] = [];
   public selectedCollectionColumnsToShow: any = {};
@@ -2183,7 +2187,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     this.editCollectionReceiptOpen.nativeElement.click();
   }
 
-  deleteCollectionCommReceipt(item: any) {
+  deleteCollectionCommReceipt(item: any, index: number) {
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' +
         this.translate.instant('message.error.wantToDeleteCommission'),
@@ -2197,10 +2201,11 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         this.admin.postDataApi('deleteCommissionPayment', { id: item.id, commission_type: item.commission_type })
           .subscribe(
             success => {
-              this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
-              this.closeEditPaymentModal();
+              //this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
+              // this.closeEditPaymentModal();
               this.toastr.clear();
               this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+              this.items.splice(index, 1);
             },
             error => {
               this.toastr.error(error.error.message, this.translate.instant('swal.error'));
@@ -3308,7 +3313,11 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   getBase64ImageFromUrl(id) {
     this.admin.postDataApi('getPdfImage', { id: id }).subscribe((success) => {
       this.base64 = (success || {}).data;
+      this.base64_address = (success || {}).address;
+      this.base64_signature = (success || {}).signature;
       this.projectLogoImageBase64 = 'data:image/jpeg;base64,' + this.base64;
+      this.signatureImageBase64 = 'data:image/jpeg;base64,' + this.base64_signature;
+      this.addressImageBase64 = 'data:image/jpeg;base64,' + this.base64_address;
     }, (error) => {
     });
   }

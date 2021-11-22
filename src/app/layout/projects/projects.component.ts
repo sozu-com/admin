@@ -111,10 +111,16 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       weekHeader: 'Wk'
     };
     this.route.params.subscribe(params => {
+      console.log(params, "params");
       this.parameter.userType = params.type;
       this.parameter.id = params.id;
       if (params.for) {
         this.is_back = true;
+      }
+      if (params.type == "developer") {
+        this.parameter.userType = params.type;
+        this.parameter.id = params.id;
+        this.getListing();
       }
     });
     this.parameter.itemsPerPage = this.constant.itemsPerPage;

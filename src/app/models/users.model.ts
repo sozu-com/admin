@@ -3,6 +3,7 @@ import { LegalEntity, Banks, LegalRepresentative, Docs, Legal_developer_access }
 
 export class Users {
     id: string;
+    deal_finance: any;
     legal_entities_id: string;
     company_name?: string;
     name: string;
