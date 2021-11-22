@@ -1420,6 +1420,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.spinner.show();
     this.makePostRequest();
     let input: any = JSON.parse(JSON.stringify(this.parameter));
+    input.page = 0;
     if (this.value1) {
       if (this.value == "all") {
         const d = this.value1.map(o => o.id);
