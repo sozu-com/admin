@@ -1291,13 +1291,14 @@
       "collectionDetail": "Colección Detalle",
       "selectCollection": "Seleccionar colección",
       "transferApplied" : "Transferencia aplicada",
-      "contractType": "Contract Type",
+      "contractType": "Tipo de contrato",
       "generalInformation": "Información general",
       "address":"Domicilio",
       "propertyInformation":"Datos de la propiedad",
       "dealInformation":"Datos del deal",
       "beneficiaryInformation":"Datos beneficiarios",
-      "signatureDate":"Fecha de firma"
+      "signatureDate":"Fecha de firma",
+      "newContract": "Nuevo Contrato"
     },
     "pagination": {
       "showing": "Mostrando",

@@ -317,18 +317,21 @@ export class ManageContractsComponent implements OnInit {
           this.concept_payment = this.searched_collection.payment_choices.find(item=> item.category_name == 'Payment upon Delivery');
           this.concept_layaway = this.searched_collection.payment_choices.find(item=> item.category_name == 'Layaway Payment');
           this.concept_downpayment = this.searched_collection.payment_choices.find(item=> item.category_name == 'Down Payment');
-          this.concept_monthly = this.searched_collection.payment_choices.find(item=> item.category_name == 'Monthly Installment 1');
+          this.concept_monthly = this.searched_collection.payment_choices.find(item=> item.category_name == 'Monthly Installment 1' || item.category_name == 'Monthly Installment1');
           let concept_monthly_ins= this.searched_collection.payment_choices.filter(item=> item.payment_choice.name == 'Monthly Installment');
           this.concept_monthly_no = concept_monthly_ins.length;
         });
   }
 
   openContractModal(){
+    this.searched_collection = undefined;
+    this.contract_type = undefined;
     this.collectionId = undefined; 
     this.contract = undefined; 
     this.signatureDate = undefined, 
     this.beneficiary_id = undefined, 
-    this.status = undefined;      
+    this.status = undefined;
+    this.step = 1;      
     this.openLinkContractModal.nativeElement.click();
     
   }
