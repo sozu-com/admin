@@ -49,7 +49,114 @@
                 <input class="form-control" type="date" [ngModel] ="post.publish_date | date:'yyyy-MM-dd'" (ngModelChange)="post.publish_date = $event"/>
             </div>
             <div class="form-group-3">
-                <p class="p16-two">{{'addForm.postType' | translate}}<span class="color-red">*</span></p>
+                <p class="p16-two">{{'addForm.autor' | translate}}
+                    <span class="color-red">*</span>
+                </p>
+                <select title="{{'addForm.chooseWriter' | translate}}"  class="form-control" [(ngModel)] ="post.autor_id" name="autor_id" required> 
+                <option value="">{{'addForm.chooseWriter' | translate}}</option>
+                <option *ngFor="let user of users" value="{{user.id}}">
+                    {{user.name}}{{user.first_surname}}{{user.second_surname}}
+                </option>
+              </select>
+            </div>
+            <div class="form-group-3">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="p16-two">
+                            {{'addForm.post_category' | translate}}
+                            <span class="color-red">*</span>
+                        </p>
+                    </div>
+                    <div class="col-md-6" style="text-align: right;">
+                        <p class="p16-two" style="color: #00B96F; cursor: pointer;" 
+                        (click)="toggleShow()">
+                            {{'addForm.add_new_cate' | translate}}
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group-3" *ngIf="isShow">
+                    <input class="form-control" type="text" [(ngModel)] = "category_name"  
+                    placeholder="{{'addForm.add_new_cate' | translate}}" name="category_name"/>
+                    <p style="margin-top: -32px;color: #00B96F;
+                        margin-right: 9px;cursor: pointer;float: right;
+                        width: 40px;" (click)="addCategory()">
+                        +Add
+                    </p>
+                </div>
+                <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        
+                   <span (click)="deleteCategory(state.id)" style="cursor: pointer;">
+                    &#xf014;
+                   </span> -->
+                <select title="{{'addForm.chooseWriter' | translate}}" required class="form-control fa" [(ngModel)] ="post.post_category_id" name="post_category_id">
+                <option value="">{{'addForm.select_cate' | translate}}</option>
+                <option *ngFor="let state of list_cate" value="{{state.id}}">
+                   {{state.name_en}} 
+                </option>
+              </select>
+            </div>
+            
+            <div class="form-group-3">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="p16-two">
+                            {{'addForm.postTag' | translate}}
+                            <span class="color-red">*</span>
+                        </p>
+                    </div>
+                    <div class="col-md-6" style="text-align: right;">
+                        <p class="p16-two" style="color: #00B96F; cursor: pointer;"
+                        (click)="togglePost()">
+                            {{'addForm.post_new_tag' | translate}}
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group-3" *ngIf="isPost">
+                    <input class="form-control" type="text" [(ngModel)] ="tag_name" name="tag_name" placeholder="{{'addForm.post_new_tag' | translate}}"/>
+                    <p style="margin-top: -32px;color: #00B96F;
+                        margin-right: 9px;cursor: pointer;float: right;
+                        width: 40px;" (click)="addTag()">
+                        +Add
+                    </p>
+                </div>
+                <select title="{{'addForm.chooseWriter' | translate}}" name="state" required class="form-control" [(ngModel)] ="post.post_tag_id" name="post_tag_id">
+                <option value="">{{'addForm.select_tag' | translate}}</option>
+                <option *ngFor="let tag of list_tag" value="{{tag.id}}">
+                    {{tag.name_en}}
+                </option>
+              </select>
+            </div>
+
+            <div class="row">
+                <div class="form-group-3">
+                    <p class="p16-two">
+                        {{'addForm.post_category' | translate}}
+                    </p>
+                    <label class="cust-radio" *ngFor="let state of list_cate; let i=index">
+                        <input type="checkbox">
+                        <span class="checkmark" (click)="openDeleteConfirmationPopup(state,i)" style="cursor: pointer;"> 
+                            {{state.name_en}} <i class="fa fa-times"></i></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group-3">
+                    <p class="p16-two">
+                        {{'addForm.postTag' | translate}}
+                    </p>
+                    <label class="cust-radio" *ngFor="let tag of list_tag; let i=index">
+                        <input type="checkbox">
+                        <span class="checkmark" (click)="openDeletePopup(tag,i)" style="cursor: pointer;"> 
+                            {{tag.name_en}} <i class="fa fa-times"></i></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="form-group-3">
+                <p class="p16-two">{{'addForm.postType' | translate}}
+                    <span class="color-red">*</span>
+                </p>
                 <label class="cust-radio">
                     <input type="radio" (change)="post.post_type=1" value="1" [checked]="post.post_type == '1' ? 'checked' : ''" name="post_type">
                     <span class="checkmark">{{'addForm.type.post' | translate}}</span>

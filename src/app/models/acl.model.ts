@@ -44,9 +44,10 @@ export class ACL {
     admin_acl?: Array<Permission> = [];
     address?: Array<NewAddress>;
     user_type?: any;
-    is_cordinator?:any;
-    can_csr_coordinator?:any;
-    can_credit_coordinator?:any;
+    is_cordinator?: any;
+    can_csr_coordinator?: any;
+    can_credit_coordinator?: any;
+    can_content_creator?: any;
 }
 
 export class Permission {

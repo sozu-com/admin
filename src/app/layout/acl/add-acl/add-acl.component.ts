@@ -65,7 +65,7 @@ export class AddAclComponent implements OnInit {
     this.model.is_company = 'true';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
-    this.initialCountry = {initialCountry: this.constant.country_code};
+    this.initialCountry = { initialCountry: this.constant.country_code };
     this.parameter.routeName = this.router.url;
     this.tempAdd = this.model.address;
     this.setCurrentPosition();
@@ -144,7 +144,7 @@ export class AddAclComponent implements OnInit {
           this.spinner.hide();
           success.data.forEach(element => {
             const e = new Permission();
-            const acl = {name: element.name};
+            const acl = { name: element.name };
             e.acl_id = element.id; e.acl = acl; e.show = false;
             e.can_create = 1; e.can_update = 1; e.can_read = 1; e.can_delete = 1; e.can_purge = 1; e.can_crud = 1;
             this.model.admin_acl.push(e);
@@ -168,10 +168,10 @@ export class AddAclComponent implements OnInit {
       this.model.admin_acl[index]['can_crud'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
     } else {
       this.model.admin_acl[index][param] = this.model.admin_acl[index][param] &&
-      this.model.admin_acl[index][param] === 1 ? 0 : 1;
+        this.model.admin_acl[index][param] === 1 ? 0 : 1;
       this.model.admin_acl[index]['can_crud'] = this.model.admin_acl[index]['can_create'] === 1 &&
-      this.model.admin_acl[index]['can_read'] === 1 && this.model.admin_acl[index]['can_update'] === 1 &&
-      this.model.admin_acl[index]['can_delete'] === 1 && this.model.admin_acl[index]['can_purge'] === 1 ? 1 : 0;
+        this.model.admin_acl[index]['can_read'] === 1 && this.model.admin_acl[index]['can_update'] === 1 &&
+        this.model.admin_acl[index]['can_delete'] === 1 && this.model.admin_acl[index]['can_purge'] === 1 ? 1 : 0;
     }
   }
 
@@ -219,6 +219,7 @@ export class AddAclComponent implements OnInit {
     input.append('is_cordinator', this.model.is_cordinator ? '1' : '0');
     input.append('can_csr_coordinator', this.model.can_csr_coordinator ? '1' : '0');
     input.append('can_credit_coordinator', this.model.can_credit_coordinator ? '1' : '0');
+    input.append('can_content_creator', this.model.can_content_creator ? '1' : '0');
     input.append('have_access', '1');
 
     if (this.model.is_external_agent && this.model.is_company == 'false') {
@@ -320,7 +321,7 @@ export class AddAclComponent implements OnInit {
       const userdata = r['data'];
       for (let index = 0; index < userdata.admin_acls.length; index++) {
         const element = userdata.admin_acls[index];
-        element['acl'] = {name: element.name, id: element.acl_id};
+        element['acl'] = { name: element.name, id: element.acl_id };
       }
       this.user_type = userdata.user_type;
       this.model.address = [];
@@ -369,6 +370,7 @@ export class AddAclComponent implements OnInit {
       this.model.is_cordinator = userdata.permissions && userdata.permissions.can_cordinator == 1 ? true : false;
       this.model.can_csr_coordinator = userdata.permissions && userdata.permissions.can_csr_coordinator == 1 ? true : false;
       this.model.can_credit_coordinator = userdata.permissions && userdata.permissions.can_credit_coordinator == 1 ? true : false;
+      this.model.can_content_creator = userdata.permissions && userdata.permissions.can_content_creator == 1 ? true : false;
 
       for (let ind = 0; ind < userdata.countries.length; ind++) {
         const tempAdd = {
@@ -395,11 +397,11 @@ export class AddAclComponent implements OnInit {
       for (let index = 0; index < userdata.admin_acls.length; index++) {
         const element = userdata.admin_acls[index];
         element.can_create = element.can_create || 0,
-        element.can_delete = element.can_delete || 0,
-        element.can_update = element.can_update || 0,
-        element.can_read = element.can_read || 0,
-        element.can_crud = element.can_crud || 0,
-        element.can_purge = element.can_purge || 0;
+          element.can_delete = element.can_delete || 0,
+          element.can_update = element.can_update || 0,
+          element.can_read = element.can_read || 0,
+          element.can_crud = element.can_crud || 0,
+          element.can_purge = element.can_purge || 0;
       }
       this.setUserType(userdata.user_type);
     }, erorr => {
@@ -416,7 +418,7 @@ export class AddAclComponent implements OnInit {
   }
 
 
-  
+
 
   removeAddressObj(index) {
     this.model.address.splice(index, 1);
@@ -669,31 +671,31 @@ export class AddAclComponent implements OnInit {
     }
   }
 
-  checkPer(user_type: number){
-    if(this.model.id && user_type == 1){
+  checkPer(user_type: number) {
+    if (this.model.id && user_type == 1) {
       let input = {
         all: 1,
         admin_id: this.model.id,
         can_csr_buyer: 1,
         can_csr_seller: 1,
-        can_in_house_broker:1,
-        can_credit_agent:1,
+        can_in_house_broker: 1,
+        can_credit_agent: 1,
       }
       this.spinner.show();
       this.admin.postDataApi('checkLeadAssign', input).subscribe(r => {
-        if(r.success != '1'){
+        if (r.success != '1') {
           this.model.user_type = this.user_type;
-      this.toastr.warning(this.translate.instant('message.error.thisUserHasLeadsAssignedPleaseDeleteTheDependenciesFirst'), this.translate.instant('swal.warning'));
+          this.toastr.warning(this.translate.instant('message.error.thisUserHasLeadsAssignedPleaseDeleteTheDependenciesFirst'), this.translate.instant('swal.warning'));
         }
-        else{
+        else {
           this.setUserType(user_type);
         }
         this.spinner.hide();
-      },error=>{
+      }, error => {
         this.spinner.hide();
       });
     }
-    else{
+    else {
       this.setUserType(user_type);
     }
   }
@@ -739,7 +741,7 @@ export class AddAclComponent implements OnInit {
           title: this.translate.instant('addForm.creditAgent'),
           key: 'is_credit_agent',
           value: this.model.is_credit_agent
-        },{
+        }, {
           title: this.translate.instant('addForm.allianceAgent'),
           key: 'is_alliance_agent',
           value: this.model.is_alliance_agent
@@ -760,6 +762,10 @@ export class AddAclComponent implements OnInit {
           title: this.translate.instant('addForm.creditCoordinator'),
           key: 'can_credit_coordinator',
           value: this.model.can_credit_coordinator
+        }, {
+          title: this.translate.instant('addForm.contentCreator'),
+          key: 'can_content_creator',
+          value: this.model.can_content_creator
         }
 
         // {
@@ -768,7 +774,7 @@ export class AddAclComponent implements OnInit {
         //   value: this.model.is_developer || false
         // }
       ];
-    } else {  
+    } else {
       this.predefinedUsers = [
         {
           title: this.translate.instant('addForm.acl'),
@@ -780,7 +786,7 @@ export class AddAclComponent implements OnInit {
   }
 
   setPredefinedUsers(item, value, i: number) {
-    if(this.model.id && !value && (item.title == 'CSR Buyer' || item.title == 'CSR Seller' || item.title == 'Inhouse Agent' ||  item.title == 'Outside Agent')){
+    if (this.model.id && !value && (item.title == 'CSR Buyer' || item.title == 'CSR Seller' || item.title == 'Inhouse Agent' || item.title == 'Outside Agent')) {
       let input = {
         all: 0,
         admin_id: this.model.id,
@@ -791,26 +797,26 @@ export class AddAclComponent implements OnInit {
       }
       this.spinner.show();
       this.admin.postDataApi('checkLeadAssign', input).subscribe(r => {
-        if(r.success != '1'){
+        if (r.success != '1') {
           this.predefinedUsers[i].value = true;
           this.toastr.warning(this.translate.instant('message.error.thisUserHasLeadsAssignedPleaseDeleteTheDependenciesFirst'), this.translate.instant('swal.warning'));
         }
-        else{
-      this.model[item.key] = value;
-      this.predefinedUsers[i].value = value;
+        else {
+          this.model[item.key] = value;
+          this.predefinedUsers[i].value = value;
         }
         this.spinner.hide();
-      },error=>{
+      }, error => {
         this.predefinedUsers[i].value = true;
         this.spinner.hide();
       });
     }
-    else{
+    else {
       this.model[item.key] = value;
       this.predefinedUsers[i].value = value;
     }
   }
-  
+
   setIsCompany(is_company: string) {
     this.model.is_company = is_company;
   }

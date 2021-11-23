@@ -8,6 +8,8 @@ import { IProperty } from 'src/app/common/property';
 import { MainTemplateTypes } from 'src/app/models/template.model';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
+import { Constant } from 'src/app/common/constants';
+import { ToastrService } from 'ngx-toastr';
 declare let swal: any;
 
 @Component({
@@ -38,16 +40,25 @@ export class AddTemplateComponent implements OnInit {
     meta_description_es: '',
     image: '',
     publish_date: '',
-    main_template_id: ''
+    main_template_id: '',
+    post_category_id: '',
+    post_tag_id: '',
+    autor_id: ''
   };
 
   file1: any;
-
+  isShow: boolean = false;
+  isPost: boolean = false;
+  category_name: any;
+  tag_name: any;
+  list_cate: any = [];
+  list_tag: any = [];
+  users: any = [];
   constructor(
-    private admin: AdminService,
+    private admin: AdminService, private constant: Constant,
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
-    private http: HttpInterceptor,
+    private http: HttpInterceptor, private toastr: ToastrService,
     private translate: TranslateService) {
   }
 
@@ -150,7 +161,9 @@ export class AddTemplateComponent implements OnInit {
   ngOnInit() {
     this.http.loader.next({ value: false });
     this.file1 = new FileUpload(true, this.admin);
-
+    this.listCate();
+    this.listTags();
+    this.autors();
     this.route.params.subscribe(params => {
       this.post.id = params.id;
       if (this.post.id > 0) {
@@ -170,16 +183,161 @@ export class AddTemplateComponent implements OnInit {
     });
   }
 
+  toggleShow() {
+    this.isShow = !this.isShow;
+  }
+  togglePost() {
+    this.isPost = !this.isPost;
+  }
+  autors() {
+    this.spinner.show();
+    this.admin.postDataApi('getCreatorUsers', {}).subscribe(r => {
+      this.spinner.hide();
+      this.users = r['data'];
+    },
+      error => {
+        this.spinner.hide();
+        swal(this.translate.instant('swal.error'), error.message, 'error');
+      });
+  }
+  addCategory() {
+    const input = {
+      name_en: this.category_name
+    }
+    this.spinner.show();
+    this.admin.postDataApi('addPostCategory', input).subscribe(r => {
+      this.spinner.hide();
+      this.category_name = '';
+      this.listCate();
+    },
+      error => {
+        this.spinner.hide();
+        swal(this.translate.instant('swal.error'), error.message, 'error');
+      });
+  }
+
+  listCate() {
+    this.spinner.show();
+    this.admin.postDataApi('getPostCategory', {}).subscribe(r => {
+      this.spinner.hide();
+      this.list_cate = r['data'];
+      this.isShow = false;
+    },
+      error => {
+        this.spinner.hide();
+        swal(this.translate.instant('swal.error'), error.message, 'error');
+      });
+  }
+
+  addTag() {
+    const input = {
+      name_en: this.tag_name
+    }
+    this.spinner.show();
+    this.admin.postDataApi('addPostTag', input).subscribe(r => {
+      this.spinner.hide();
+      this.tag_name = '';
+      this.listTags();
+    },
+      error => {
+        this.spinner.hide();
+        swal(this.translate.instant('swal.error'), error.message, 'error');
+      });
+  }
+
+  listTags() {
+    this.spinner.show();
+    this.admin.postDataApi('getPostTag', {}).subscribe(r => {
+      this.spinner.hide();
+      this.list_tag = r['data'];
+      this.isPost = false;
+    },
+      error => {
+        this.spinner.hide();
+        swal(this.translate.instant('swal.error'), error.message, 'error');
+      });
+  }
+
+  openDeletePopup = (data: any, index: number): void => {
+    let text = this.translate.instant('message.error.wantToDeleteTag')
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteTag(data, index);
+      }
+    });
+  }
+
+  deleteTag = (item: any, index: number): void => {
+    this.spinner.show();
+    this.admin.postDataApi('deletePostTag', { id: item.id }).subscribe((response) => {
+      this.spinner.hide();
+      if (response.success == '0') {
+        this.toastr.error(this.translate.instant('message.error.youCannotDeleteThisPossessionStatus'), this.translate.instant('swal.error'));
+      } else {
+        this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+        this.list_tag.splice(index, 1);
+        this.listTags();
+      }
+    }, (error) => {
+      this.spinner.hide();
+      this.toastr.error(error.error.message, this.translate.instant('swal.error'));
+    });
+  }
+
+  openDeleteConfirmationPopup = (data: any, index: number): void => {
+    let text = this.translate.instant('message.error.wantToDeleteCate')
+    swal({
+      html: this.translate.instant('message.error.areYouSure') + '<br>' + text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteCategory(data, index);
+      }
+    });
+  }
+
+  deleteCategory = (item: any, index: number): void => {
+    this.spinner.show();
+    this.admin.postDataApi('deletePostCategory', { id: item.id }).subscribe((response) => {
+      this.spinner.hide();
+      if (response.success == '0') {
+        this.toastr.error(this.translate.instant('message.error.youCannotDeleteThisPossessionStatus'), this.translate.instant('swal.error'));
+      } else {
+        this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+        this.list_cate.splice(index, 1);
+        this.listCate();
+      }
+    }, (error) => {
+      this.spinner.hide();
+      this.toastr.error(error.error.message, this.translate.instant('swal.error'));
+    });
+  }
+
+
   submitAll() {
 
     if (!this.post.post_type) { swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPostType'), 'error'); return false; }
     if (!this.post.title_en) { swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterTitleEng'), 'error'); return false; }
     if (!this.post.description_en && !this.post.description_es) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterDesc'), 'error'); return false; }
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterDesc'), 'error'); return false;
+    }
     if (!this.post.meta_title_en && !this.post.meta_title_es) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterMetaTitle'), 'error'); return false; }
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterMetaTitle'), 'error'); return false;
+    }
     if (!this.post.meta_description_en && !this.post.meta_description_es) {
-      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterMetaDesc'), 'error'); return false; }
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterMetaDesc'), 'error'); return false;
+    }
 
     this.post.image = this.file1.image;
     if (this.post.id) {
@@ -190,8 +348,8 @@ export class AddTemplateComponent implements OnInit {
     this.admin.postDataApi('addBlog', this.post).subscribe(r => {
       this.spinner.hide();
       this.post.id ? swal(this.translate.instant('swal.success'),
-      this.translate.instant('message.success.updatedSuccessfully'), 'success') :
-      swal('Sucsess', this.translate.instant('message.success.addedSuccessfully'), 'success');
+        this.translate.instant('message.success.updatedSuccessfully'), 'success') :
+        swal('Sucsess', this.translate.instant('message.success.addedSuccessfully'), 'success');
       this.post = r['data'];
     },
       error => {
