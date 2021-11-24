@@ -3708,6 +3708,8 @@
     "forReview": "For Review",
     "readyToBeValidated": "Ready To Be Validated",
     "validatedByLegal": "Validated By Legal",
-    "signed": "Signed"
+    "signed": "Signed",
+    "other": "Other",
+    "passport": "Passport"
   }
 }

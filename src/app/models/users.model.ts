@@ -83,8 +83,8 @@ export class Users {
     use_user_same_address: boolean = false;
     nationality_name?: string;
     nationality_id?: number = 1;
-    id_type?: string;
-    id_number?: string;
+    id_type?: any;
+    id_number?: any;
 }
 export class Beneficiaries {
     id?: number;
