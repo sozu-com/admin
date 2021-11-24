@@ -45,7 +45,7 @@ export class AddTemplateComponent implements OnInit {
     post_tag_id: [],
     autor_id: ''
   };
-  selctedAmenities: Array<any>;
+  selctedAmenities: Array<any> = [];
   multiDropdownSettings = {};
   file1: any;
   isShow: boolean = false;
@@ -166,33 +166,33 @@ export class AddTemplateComponent implements OnInit {
     this.http.loader.next({ value: false });
     this.file1 = new FileUpload(true, this.admin);
     this.iniDropDownSetting();
-    this.selctedAmenities = [];
     this.listCate();
     this.listTags();
     this.autors();
     this.route.params.subscribe(params => {
       this.post.id = params.id;
-      if (this.post.id > 0) {
-        this.spinner.show();
-        this.admin.postDataApi('getBlogById', { id: this.post.id }).subscribe(r => {
-          this.spinner.hide();
-          this.post = r['data'];
-          (this.post.blog_metatag || []).forEach(r => {
-            if (r.tag_name) {
-              this.selctedAmenities.push({ id: r.tag_name.id, name_en: r.tag_name.name_en });
-            }
-          });
-          console.log(this.selctedAmenities, "this.category");
-          this.file1.image = this.post.image;
-        }, error => {
-          this.spinner.hide();
-          swal(this.translate.instant('swal.error'), error, 'error');
-        });
-      } else {
-        delete this.post.id;
-      }
+      this.getBlog(this.post.id)
       this.getMainTemplatesType();
     });
+  }
+
+  getBlog(id) {
+    this.spinner.show();
+    this.admin.postDataApi('getBlogById', { id: id }).subscribe(r => {
+      this.spinner.hide();
+      this.post = r['data'];
+      (this.post.blog_metatag || []).forEach(r => {
+        if (r.tag_name) {
+          this.selctedAmenities.push({ id: r.tag_name.id, name_en: r.tag_name.name_en });
+        }
+      });
+      console.log(this.selctedAmenities, "this.category");
+      this.file1.image = this.post.image;
+    }, error => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error, 'error');
+    });
+
   }
 
   unsetProject(item: any) {

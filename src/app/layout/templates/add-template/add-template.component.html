@@ -133,7 +133,7 @@
                 [settings]="multiDropdownSettings" (onDeSelect)="unsetProject($event)"
                 (onSelect)="onItemSelect('selctedAmenities', $event)" (onSelectAll)="onSelectAll($event)">
              </ng-multiselect-dropdown>
-             {{selctedAmenities | json}}
+             <!-- {{selctedAmenities | json}} -->
                 <!-- <select title="{{'addForm.chooseWriter' | translate}}" name="state" required class="form-control" [(ngModel)] ="post.post_tag_id" name="post_tag_id">
                 <option value="">{{'addForm.select_tag' | translate}}</option>
                 <option *ngFor="let tag of list_tag" value="{{tag.id}}">
