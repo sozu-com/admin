@@ -60,6 +60,7 @@ export class ManageContractsComponent implements OnInit {
   beneficiary_ids: any[];
   percent: any;
   contract_id: any;
+  id_type: any;
   marrital_status_list = [
     { id: 1, name_en: 'Single', name_es: 'Soltero' },
     { id: 2, name_en: 'Married - Community property', name_es: 'Casado - Bienes mancomunados' },
@@ -344,6 +345,10 @@ export class ManageContractsComponent implements OnInit {
   this.contract = value;
   }
 
+  selectIdType(value){
+    this.id_type = value;
+    }
+
   getUserById(id: string) {
     let self = this;
     this.admin.postDataApi('getUserById', { 'user_id': id })
@@ -364,7 +369,7 @@ export class ManageContractsComponent implements OnInit {
 
   createContract(){
     this.spinner.show();
-    let input ={
+    let input = {
       property_collection_id: this.collectionId, 
       type_of_contract: this.contract, 
       signature_date: this.signatureDate, 
@@ -372,7 +377,7 @@ export class ManageContractsComponent implements OnInit {
       percentage: this.percent,
       status: this.status
     }
-    let input1 ={
+    let input1 = {
       contract_id: this.contract_id,
       property_collection_id: this.collectionId, 
       type_of_contract: this.contract, 

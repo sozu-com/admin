@@ -610,6 +610,10 @@ export class AddUserComponent implements OnInit {
     this.model.marital_statuses_id = maritalStatusId;
   }
 
+  selectIdType(value){
+    this.model.id_type = value;
+  }
+
   getStatesNew1(countryId) {
     this.parameter.citiesAdd = []; this.parameter.localitiesAdd = []; this.parameter.buildingsAdd = [];
     this.parameter.country_id = countryId;
