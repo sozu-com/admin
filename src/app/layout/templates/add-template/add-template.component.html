@@ -67,7 +67,8 @@
                             <span class="color-red">*</span>
                         </p>
                     </div>
-                    <div class="col-md-6" style="text-align: right;">
+                    <div class="col-md-6" style="text-align: right;" 
+                    *ngIf="list_cate?.length < 1">
                         <p class="p16-two" style="color: #00B96F; cursor: pointer;" 
                         (click)="toggleShow()">
                             {{'addForm.add_new_cate' | translate}}
@@ -83,17 +84,25 @@
                         +Add
                     </p>
                 </div>
-                <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        
-                   <span (click)="deleteCategory(state.id)" style="cursor: pointer;">
-                    &#xf014;
-                   </span> -->
-                <select title="{{'addForm.chooseWriter' | translate}}" required class="form-control fa" [(ngModel)] ="post.post_category_id" name="post_category_id">
+                <div class="dropdown menu-dropdown">
+                    <button id="dLabel" class="dropdown-select" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{cate?.name_en || 'selecciona una categoría'}} 
+                      <span class=""><i class="fa fa-angle-down" aria-hidden="true"></i>
+                      </span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dLabel">
+                      <li *ngFor="let item of list_cate; index as i;" (click)="changeCate(item);">
+                          {{item?.name_en}}
+                          <span style="float: right; cursor: pointer;" (click)="deleteCategory(item)"><i class="fa fa-trash" aria-hidden="true"></i></span>
+                     </li>
+                    </ul>
+                  </div>
+                <!-- <select title="{{'addForm.chooseWriter' | translate}}" required class="form-control fa" [(ngModel)] ="post.post_category_id" name="post_category_id">
                 <option value="">{{'addForm.select_cate' | translate}}</option>
                 <option *ngFor="let state of list_cate" value="{{state.id}}">
                    {{state.name_en}} 
                 </option>
-              </select>
+              </select> -->
             </div>
             
             <div class="form-group-3">
@@ -119,12 +128,18 @@
                         +Add
                     </p>
                 </div>
-                <select title="{{'addForm.chooseWriter' | translate}}" name="state" required class="form-control" [(ngModel)] ="post.post_tag_id" name="post_tag_id">
+                <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
+                name="selctedAmenities" [data]="list_tag" [(ngModel)]="selctedAmenities"
+                [settings]="multiDropdownSettings" (onDeSelect)="unsetProject($event)"
+                (onSelect)="onItemSelect('selctedAmenities', $event)" (onSelectAll)="onSelectAll($event)">
+             </ng-multiselect-dropdown>
+             {{selctedAmenities | json}}
+                <!-- <select title="{{'addForm.chooseWriter' | translate}}" name="state" required class="form-control" [(ngModel)] ="post.post_tag_id" name="post_tag_id">
                 <option value="">{{'addForm.select_tag' | translate}}</option>
                 <option *ngFor="let tag of list_tag" value="{{tag.id}}">
                     {{tag.name_en}}
                 </option>
-              </select>
+              </select> -->
             </div>
 
             <div class="row">

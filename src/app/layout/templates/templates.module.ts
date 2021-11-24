@@ -14,6 +14,7 @@ import { AclUserGuard } from 'src/app/guards/acl-user.guard';
 import { AddTemplateComponent } from './add-template/add-template.component';
 import { TemplatesComponent } from './templates.component';
 import { SharedModule } from 'src/app/modules/shared.module';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 const routes: Routes = [
   {
@@ -39,6 +40,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     LazyLoadImageModule,
     ModalModule.forRoot(),
+    NgMultiSelectDropDownModule.forRoot(),
     NgxSpinnerModule,
     NgxPaginationModule,
     FroalaEditorModule.forRoot(),
