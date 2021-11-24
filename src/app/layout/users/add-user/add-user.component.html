@@ -183,8 +183,11 @@
         <div class="col-4">
           <div class="form-group-3">
             <label class="p16-two">{{'addForm.idType' | translate}}</label> 
-            <input autocomplete="off" class="form-control" type="text" name="ocupation"
+             <select class="form-control" (change)="selectIdType($event.target.value)"
              [(ngModel)]="model.id_type">
+             <option [selected]="model.id_type == 1" value="1">{{'contract.other' | translate}}</option>
+             <option [selected]="model.id_type == 2" value="2">{{'contract.passport' | translate}}</option>
+           </select>
           </div>
         </div>
         <div class="col-4">

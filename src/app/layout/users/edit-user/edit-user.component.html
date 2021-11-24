@@ -13,7 +13,7 @@
             class="btn btn-primary">{{'addForm.addBtn'
             | translate}}</button>
           <button *ngIf="model?.id" type="submit" class="btn btn-primary"
-          [disabled]="admin?.admin_acl['User Management']?.can_update==0">{{'addForm.updateBtn' | translate}}</button>
+            [disabled]="admin?.admin_acl['User Management']?.can_update==0">{{'addForm.updateBtn' | translate}}</button>
         </div>
       </div>
     </div>
@@ -73,7 +73,8 @@
                   </div>
                   <h6 style="text-align: center;">{{'addForm.emptyCredit' | translate}}</h6>
                 </div>
-                <div class="tab-pane fade" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab" *ngIf="isGetEditUserData">
+                <div class="tab-pane fade" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab"
+                  *ngIf="isGetEditUserData">
                   <div class="col-12">
                     <div class="spacer40"></div>
                   </div>
@@ -98,8 +99,8 @@
                       </div>
                       <div class="col-md-2">
                         <div class="btn-cont text-right">
-                          <button  (click)="goBack()"
-                            class="btn btn-primary">{{'quickVisualization.back' | translate}}</button>
+                          <button (click)="goBack()" class="btn btn-primary">{{'quickVisualization.back' |
+                            translate}}</button>
                         </div>
                       </div>
                     </div>
@@ -163,7 +164,8 @@
                           <label>{{'addForm.contact_number' | translate}} <span class="color-red">*</span></label>
                           <input minlength="8" maxlength="15" autocomplete="off" type="text"
                             [pattern]="constant.phonePattern" class="form-control" id="phone" required
-                            [(ngModel)]="model.phone" name="phone" ng2TelInput [ng2TelInputOptions]="{ initialCountry: model.country_code }"
+                            [(ngModel)]="model.phone" name="phone" ng2TelInput
+                            [ng2TelInputOptions]="{ initialCountry: model.country_code }"
                             (countryChange)="onCountryChange($event,1)" />
                         </div>
                       </div>
@@ -236,23 +238,27 @@
                       </div>
                       <div class="col-4">
                         <div class="form-group-3">
-                          <label class="p16-two">{{'addForm.ocupation' | translate}}</label> 
+                          <label class="p16-two">{{'addForm.ocupation' | translate}}</label>
                           <input autocomplete="off" class="form-control" type="text" name="ocupation"
-                           [(ngModel)]="model.ocupation">
+                            [(ngModel)]="model.ocupation">
                         </div>
                       </div>
                       <div class="col-4">
                         <div class="form-group-3">
-                          <label class="p16-two">{{'addForm.idType' | translate}}</label> 
-                          <input autocomplete="off" class="form-control" type="text" name="ocupation"
-                           [(ngModel)]="model.id_type">
+                          <label class="p16-two">{{'addForm.idType' | translate}}</label>
+                          <select class="form-control" (change)="selectIdType($event.target.value)"
+                            [(ngModel)]="model.id_type">
+                            <option [selected]="model.id_type == 1" value="1">{{'contract.other' | translate}}</option>
+                            <option [selected]="model.id_type == 2" value="2">{{'contract.passport' | translate}}
+                            </option>
+                          </select>
                         </div>
                       </div>
                       <div class="col-4">
                         <div class="form-group-3">
-                          <label class="p16-two">{{'addForm.idNumber' | translate}}</label> 
+                          <label class="p16-two">{{'addForm.idNumber' | translate}}</label>
                           <input autocomplete="off" class="form-control" type="text" name="ocupation"
-                           [(ngModel)]="model.id_number">
+                            [(ngModel)]="model.id_number">
                         </div>
                       </div>
                     </div>
@@ -338,8 +344,7 @@
                         <div class="form-group-3">
                           <label>{{'addForm.externalNumber' | translate}}</label>
                           <input type="text" class="form-control" name="external_number"
-                            [(ngModel)]="model.external_number"
-                            (keyup)="this.onClickUseUserSameAddress()" />
+                            [(ngModel)]="model.external_number" (keyup)="this.onClickUseUserSameAddress()" />
                         </div>
                       </div>
                       <div class="col-sm-3">
@@ -353,9 +358,8 @@
                         <div class="form-group-3">
                           <label>{{'addForm.ZIP' | translate}}</label>
                           <input minlength="8" maxlength="15" autocomplete="off" type="text" class="form-control"
-                            id="zipcode" minlength="1" [(ngModel)]="model.zipcode" name="zipcode"
-                             />
-                             <!-- (keyup)="this.getCounrtyByZipcode(false)" -->
+                            id="zipcode" minlength="1" [(ngModel)]="model.zipcode" name="zipcode" />
+                          <!-- (keyup)="this.getCounrtyByZipcode(false)" -->
                         </div>
                       </div>
                     </div>
@@ -404,8 +408,8 @@
                       <div class="col-4">
                         <div class="form-group-3">
                           <label>{{'addForm.neighbourhood' | translate}}</label>
-                          <input autocomplete="off" type="text" class="form-control" id="neighborhood" 
-            [(ngModel)]="model.neighborhood" name="neighborhood" />
+                          <input autocomplete="off" type="text" class="form-control" id="neighborhood"
+                            [(ngModel)]="model.neighborhood" name="neighborhood" />
                           <!-- <select class="form-control" [(ngModel)]="model.neighborhood" name="neighborhood"
                             (change)="this.onClickUseUserSameAddress()">
                             <option *ngFor="let tempNeighbourhood of model.neighbourhoods" [value]="tempNeighbourhood">
@@ -481,7 +485,7 @@
                         <div class="form-group-3">
                           <label>{{'addForm.externalNumber' | translate}}</label>
                           <input type="text" class="form-control" name="tax_external_number"
-                             [(ngModel)]="model.tax_external_number" />
+                            [(ngModel)]="model.tax_external_number" />
                         </div>
                       </div>
                       <div class="col-sm-3">
@@ -495,9 +499,8 @@
                         <div class="form-group-3">
                           <label>{{'addForm.ZIP' | translate}}</label>
                           <input minlength="8" maxlength="15" autocomplete="off" type="text" class="form-control"
-                            id="zipcode" minlength="1" [(ngModel)]="model.tax_zipcode" name="tax_zipcode"
-                             />
-                             <!-- (keyup)="this.getCounrtyByZipcode(true)" -->
+                            id="zipcode" minlength="1" [(ngModel)]="model.tax_zipcode" name="tax_zipcode" />
+                          <!-- (keyup)="this.getCounrtyByZipcode(true)" -->
                         </div>
                       </div>
                     </div>
@@ -545,7 +548,8 @@
                       <div class="col-4">
                         <div class="form-group-3">
                           <label>{{'addForm.neighbourhood' | translate}}</label>
-                          <input autocomplete="off" type="text" class="form-control" id="tax_neighbourhood" [(ngModel)]="model.tax_neighbourhood" name="tax_neighbourhood" />
+                          <input autocomplete="off" type="text" class="form-control" id="tax_neighbourhood"
+                            [(ngModel)]="model.tax_neighbourhood" name="tax_neighbourhood" />
                           <!-- <select class="form-control" [(ngModel)]="model.tax_neighbourhood" name="tax_neighbourhood">
                             <option *ngFor="let temp_tax_neighbourhood of model.tax_neighbourhoods"
                               [value]="temp_tax_neighbourhood">
@@ -611,7 +615,8 @@
                           <input minlength="8" maxlength="15" autocomplete="off" type="text"
                             [pattern]="constant.phonePattern" class="form-control" id="legal_representative_phone"
                             [(ngModel)]="model.legal_representative.phone" name="legal_representative_phone" ng2TelInput
-                            [ng2TelInputOptions]="{ initialCountry: model.legal_representative.country_code }" (countryChange)="onCountryChange($event,2)" />
+                            [ng2TelInputOptions]="{ initialCountry: model.legal_representative.country_code }"
+                            (countryChange)="onCountryChange($event,2)" />
                         </div>
                       </div>
                       <div class="col-4">
@@ -699,13 +704,14 @@
                   <div class="col-12">
                     <div class="spacer40"></div>
                   </div>
-                
+
                   <form role="form" ngNativeValidate #addForm="ngForm">
                     <div class="white-bg padding40">
-                       <!-- Beneficiaries -->
-                       <div class="row">
-                        <div class="col-md-12">                         
-                            <h5 style="color: black;font-weight: bold;">{{beneficiary.id ? ('creditForm.editBeneficiaries' | translate) : ('creditForm.AddBeneficiaries' | translate)}}</h5>
+                      <!-- Beneficiaries -->
+                      <div class="row">
+                        <div class="col-md-12">
+                          <h5 style="color: black;font-weight: bold;">{{beneficiary.id ? ('creditForm.editBeneficiaries'
+                            | translate) : ('creditForm.AddBeneficiaries' | translate)}}</h5>
                         </div>
                         <!-- <div class="col-md-2">
                           <div class="btn-cont">
@@ -714,48 +720,212 @@
                           </div>
                         </div> -->
                       </div>
-                        <!-- <h5 style="color: black;font-weight: bold;">
+                      <!-- <h5 style="color: black;font-weight: bold;">
                           {{beneficiary.id ? ('creditForm.editBeneficiaries' | translate) : ('creditForm.AddBeneficiaries' | translate)}}
                          </h5> -->
+                      <div class="row">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                          <div class="form-group-3">
+                            <label>{{'addForm.names' | translate}} <span class="color-red">*</span></label>
+                            <div class="clearfix"></div>
+                            <input autocomplete="off" class="form-control" type="text" name="beneficiary_name"
+                              [(ngModel)]="beneficiary.beneficiary_name">
+                          </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                          <div class="form-group-3">
+                            <label>{{'addForm.firstSurname' | translate}}</label>
+                            <div class="clearfix"></div>
+                            <input autocomplete="off" class="form-control" type="text" name="beneficiary_firstSurname"
+                              [(ngModel)]="beneficiary.beneficiary_firstSurname">
+                          </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                          <div class="form-group-3">
+                            <label>{{'addForm.secondSurname' | translate}}</label>
+                            <div class="clearfix"></div>
+                            <input autocomplete="off" class="form-control" type="text" name="beneficiary_secondSurname"
+                              [(ngModel)]="beneficiary.beneficiary_secondSurname">
+                          </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                          <div class="form-group-3">
+                            <div>
+                              <label>{{'creditForm.RELATIONSHIP' | translate}}</label>
+                              <select title="{{'creditForm.selectRELATIONSHIP' | translate}}" class="form-control"
+                                name="beneficiary_relationship" [(ngModel)]="beneficiary.beneficiary_relationship">
+                                <option disabled selected value="undefined">{{'creditForm.selectRELATIONSHIP' |
+                                  translate}}
+                                </option>
+                                <option *ngFor="let dest of Relationship_list" [value]="dest.id">
+                                  {{language_code
+                                  == 'en'? dest.name_en : dest.name_es}}</option>
+                              </select>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                          <div class="form-group-3">
+                            <label>{{'addForm.dateOfBirth' | translate}}</label>
+                            <input class="form-control" type="date" name="beneficiary_dob" [max]="toDayDate"
+                              [(ngModel)]="beneficiary.beneficiary_dob" (ngModelChange)="ageFromDateOfBirthday($event)">
+                          </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                          <div class="form-group-3">
+                            <label>{{'addForm.address' | translate}}</label>
+                            <input autocomplete="off" class="form-control" type="text" name="beneficiary_address"
+                              [(ngModel)]="beneficiary.beneficiary_address">
+                          </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                          <div class="form-group-3">
+                            <label>{{'addForm.phone' | translate}} </label>
+                            <div class="clearfix"></div>
+                            <input minlength="8" maxlength="15" autocomplete="off" type="text"
+                              [pattern]="constant.phonePattern" class="form-control" id="phone"
+                              [(ngModel)]="beneficiary.beneficiary_phone" name="beneficiary_phone" ng2TelInput
+                              [ng2TelInputOptions]="{ initialCountry: model.country_code }"
+                              (countryChange)="onCountryChange($event,1)" />
+                            <!-- <input  autocomplete="off" class="form-control" type="text" name="beneficiary_phone"
+                              [(ngModel)]="beneficiary.beneficiary_phone"> -->
+                          </div>
+                        </div>
+
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                          <div class="form-group-3">
+                            <label>{{'addForm.email' | translate}} </label>
+                            <div class="clearfix"></div>
+                            <input autocomplete="off" class="form-control" type="email" name="beneficiary_email"
+                              [(ngModel)]="beneficiary.beneficiary_email">
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                          <div class="form-group-3">
+                            <label>{{'addForm.CURP' | translate}}</label>
+                            <input (keydown.space)="$event.preventDefault();" autocomplete="off" type="text"
+                              minlength="18" maxlength="18" class="form-control" [(ngModel)]="beneficiary.curp"
+                              name="beneficiary_curp">
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                          <div class="form-group-3">
+                            <label>{{'addForm.fedralTaxPayerRegistry' | translate}}</label>
+                            <input autocomplete="off" minlength="13" maxlength="13" [pattern]="constant.onlyWhiteSpaces"
+                              type="text" class="form-control" [(ngModel)]="beneficiary.fedtax_pay"
+                              name="beneficiary_fedTaxPay">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                          <div class="form-group-3">
+                            <label class="p16-two">{{'addForm.nacionality' | translate}}</label>
+                            <select title="Select Nationality" [(ngModel)]="beneficiary.nationality" name="nationality"
+                              class="form-control"
+                              (change)="this.updateBeneficiaryNationalityName($event.target.value)">
+                              <option *ngFor="let tempNationalityDetails of nationalityDetails"
+                                [selected]="tempNationalityDetails.id == beneficiary.nationality"
+                                value="{{tempNationalityDetails.id}}">
+                                {{tempNationalityDetails.name}}</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-12" *ngIf="beneficiary.nationality == 0">
+                          <div class="form-group-3">
+                            <label>{{'addForm.specifyNationality' | translate}}</label>
+                            <input (keydown.space)="$event.preventDefault();" autocomplete="off" type="text"
+                              class="form-control" [(ngModel)]="beneficiary.nationality_name" name="nationality_name">
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                          <div class="form-group-3">
+                            <label class="p16-two">{{'addForm.marital_status' | translate}}</label>
+                            <select title="{{'addForm.maritalStatus.selectMaritalStatus' | translate}}"
+                              name="beneficiary_maritalStatusesId" class="form-control"
+                              [(ngModel)]="beneficiary.marital_status">
+                              <option value="0" disabled>{{'addForm.maritalStatus.selectMaritalStatus' | translate}}
+                              </option>
+                              <option *ngFor="let maritalStatus of marrital_status_bene"
+                                [selected]="maritalStatus.id == beneficiary.marital_status"
+                                value="{{maritalStatus.id}}">{{language_code
+                                == 'en'? maritalStatus.name_en : maritalStatus.name_es}}</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                          <div class="form-group-3">
+                            <label>{{'addForm.gender' | translate}}</label><br />
+                            <input type="radio" name="beneficiary_gender" value="male"
+                              [checked]="isCheckedBeneficiaryGender('male')"
+                              [(ngModel)]="beneficiary.gender">{{'addForm.male' | translate}} &nbsp;&nbsp;
+                            <input type="radio" name="beneficiary_gender" value="female"
+                              [checked]="isCheckedBeneficiaryGender('female')"
+                              [(ngModel)]="beneficiary.gender">{{'addForm.female' | translate}}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="spacer40"></div>
+                      </div>
+                      <!-- Tutor -->
+                      <div class="white-bg padding40" *ngIf="age< 18">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <h5 style="color: black;font-weight: bold;">{{'addCollection.Tutor' | translate}}</h5>
+                          </div>
+                          <!-- <div class="col-md-2">
+                              <div class="btn-cont">
+                                <button *ngIf="model?.id" (click)="uploadDoc('tutor')" [disabled]="beneficiary.id ? false : true"
+                                  class="btn btn-primary">{{'addForm.documentation' | translate}}</button>
+                              </div>
+                            </div> -->
+                        </div>
+                        <!-- <h5 style="color: black;font-weight: bold;">{{'addCollection.Tutor' | translate}}</h5> -->
                         <div class="row">
                           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                             <div class="form-group-3">
                               <label>{{'addForm.names' | translate}} <span class="color-red">*</span></label>
                               <div class="clearfix"></div>
-                              <input  autocomplete="off" class="form-control" type="text" name="beneficiary_name"
-                              [(ngModel)]="beneficiary.beneficiary_name">
+                              <input autocomplete="off" class="form-control" type="text" name="tutor_name"
+                                [(ngModel)]="beneficiary.tutor.tutor_name">
                             </div>
                           </div>
                           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                             <div class="form-group-3">
                               <label>{{'addForm.firstSurname' | translate}}</label>
                               <div class="clearfix"></div>
-                              <input  autocomplete="off" class="form-control" type="text" name="beneficiary_firstSurname"
-                              [(ngModel)]="beneficiary.beneficiary_firstSurname">
+                              <input autocomplete="off" class="form-control" type="text" name="tutor_firstSurname"
+                                [(ngModel)]="beneficiary.tutor.tutor_firstSurname">
                             </div>
                           </div>
                           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                             <div class="form-group-3">
                               <label>{{'addForm.secondSurname' | translate}}</label>
                               <div class="clearfix"></div>
-                              <input  autocomplete="off" class="form-control" type="text" name="beneficiary_secondSurname"
-                              [(ngModel)]="beneficiary.beneficiary_secondSurname">
+                              <input autocomplete="off" class="form-control" type="text" name="tutor_secondSurname"
+                                [(ngModel)]="beneficiary.tutor.tutor_secondSurname">
                             </div>
                           </div>
                           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                             <div class="form-group-3">
                               <div>
                                 <label>{{'creditForm.RELATIONSHIP' | translate}}</label>
-                                <select title="{{'creditForm.selectRELATIONSHIP' | translate}}"
-                                  class="form-control" name="beneficiary_relationship"
-                                  [(ngModel)]="beneficiary.beneficiary_relationship">
-                                  <option disabled selected value="undefined">{{'creditForm.selectRELATIONSHIP' | translate}}
+                                <select title="{{'creditForm.selectRELATIONSHIP' | translate}}" class="form-control"
+                                  name="tutor_relationship" [(ngModel)]="beneficiary.tutor.tutor_relationship">
+                                  <option disabled selected value="undefined">{{'creditForm.selectRELATIONSHIP' |
+                                    translate}}
                                   </option>
                                   <option *ngFor="let dest of Relationship_list" [value]="dest.id">
                                     {{language_code
                                     == 'en'? dest.name_en : dest.name_es}}</option>
                                 </select>
-                  
+
                               </div>
                             </div>
                           </div>
@@ -764,15 +934,15 @@
                           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                             <div class="form-group-3">
                               <label>{{'addForm.dateOfBirth' | translate}}</label>
-                              <input class="form-control" type="date" name="beneficiary_dob" [max]="toDayDate"
-                              [(ngModel)]="beneficiary.beneficiary_dob" (ngModelChange)="ageFromDateOfBirthday($event)">
+                              <input class="form-control" type="date" name="tutor_dob" [max]="toDayDate"
+                                [(ngModel)]="beneficiary.tutor.tutor_dob">
                             </div>
                           </div>
                           <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                             <div class="form-group-3">
                               <label>{{'addForm.address' | translate}}</label>
-                              <input  autocomplete="off" class="form-control" type="text" name="beneficiary_address"
-                              [(ngModel)]="beneficiary.beneficiary_address">
+                              <input autocomplete="off" class="form-control" type="text" name="tutor_address"
+                                [(ngModel)]="beneficiary.tutor.tutor_address">
                             </div>
                           </div>
                           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -780,212 +950,62 @@
                               <label>{{'addForm.phone' | translate}} </label>
                               <div class="clearfix"></div>
                               <input minlength="8" maxlength="15" autocomplete="off" type="text"
-                              [pattern]="constant.phonePattern" class="form-control" id="phone" 
-                              [(ngModel)]="beneficiary.beneficiary_phone" name="beneficiary_phone" ng2TelInput [ng2TelInputOptions]="{ initialCountry: model.country_code }"
-                              (countryChange)="onCountryChange($event,1)" />
-                              <!-- <input  autocomplete="off" class="form-control" type="text" name="beneficiary_phone"
-                              [(ngModel)]="beneficiary.beneficiary_phone"> -->
+                                [pattern]="constant.phonePattern" class="form-control" id="phone"
+                                [(ngModel)]="beneficiary.tutor.tutor_phone" name="tutor_phone" ng2TelInput
+                                [ng2TelInputOptions]="{ initialCountry: model.country_code }"
+                                (countryChange)="onCountryChange($event,1)" />
+                              <!-- <input  autocomplete="off" class="form-control" type="text" name="tutor_phone"
+                                [(ngModel)]="beneficiary.tutor.tutor_phone"> -->
                             </div>
                           </div>
-                         
                         </div>
                         <div class="row">
                           <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                             <div class="form-group-3">
                               <label>{{'addForm.email' | translate}} </label>
                               <div class="clearfix"></div>
-                              <input  autocomplete="off" class="form-control" type="email" name="beneficiary_email"
-                              [(ngModel)]="beneficiary.beneficiary_email">
+                              <input autocomplete="off" class="form-control" type="email" name="tutor_email"
+                                [(ngModel)]="beneficiary.tutor.tutor_email">
                             </div>
                           </div>
                           <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                             <div class="form-group-3">
-                              <label>{{'addForm.CURP' | translate}}</label>
-                              <input (keydown.space)="$event.preventDefault();" autocomplete="off" type="text" minlength="18"
-                                maxlength="18" class="form-control" [(ngModel)]="beneficiary.curp" name="beneficiary_curp">
-                            </div>
-                          </div>
-                          <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                            <div class="form-group-3">
-                              <label>{{'addForm.fedralTaxPayerRegistry' | translate}}</label>
-                              <input autocomplete="off" minlength="13" maxlength="13" [pattern]="constant.onlyWhiteSpaces" type="text"
-                                class="form-control" [(ngModel)]="beneficiary.fedtax_pay" name="beneficiary_fedTaxPay">
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                            <div class="form-group-3">
-                              <label class="p16-two">{{'addForm.nacionality' | translate}}</label> 
-                              <select title="Select Nationality" [(ngModel)]="beneficiary.nationality" name="nationality" class="form-control" 
-                              (change)="this.updateBeneficiaryNationalityName($event.target.value)">
+                              <label class="p16-two">{{'addForm.nacionality' | translate}}</label>
+                              <select title="Select Nationality" [(ngModel)]="beneficiary.tutor.tutor_nationality"
+                                name="tutor_nationality" class="form-control"
+                                (change)="this.updateTutorNationalityName($event.target.value)">
                                 <option *ngFor="let tempNationalityDetails of nationalityDetails"
-                                  [selected]="tempNationalityDetails.id == beneficiary.nationality" value="{{tempNationalityDetails.id}}">
+                                  [selected]="tempNationalityDetails.id == beneficiary.tutor.tutor_nationality"
+                                  value="{{tempNationalityDetails.id}}">
                                   {{tempNationalityDetails.name}}</option>
                               </select>
                             </div>
                           </div>
-                          <div class="col-lg-4 col-md-6 col-sm-6 col-12" *ngIf="beneficiary.nationality == 0">
+                          <div class="col-lg-4 col-md-6 col-sm-6 col-12"
+                            *ngIf="beneficiary.tutor.tutor_nationality == 0">
                             <div class="form-group-3">
                               <label>{{'addForm.specifyNationality' | translate}}</label>
-                              <input (keydown.space)="$event.preventDefault();" autocomplete="off" type="text" class="form-control"
-                                [(ngModel)]="beneficiary.nationality_name" name="nationality_name">
-                            </div>
-                          </div>
-                          <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                            <div class="form-group-3">
-                              <label class="p16-two">{{'addForm.marital_status' | translate}}</label>
-                              <select title="{{'addForm.maritalStatus.selectMaritalStatus' | translate}}" name="beneficiary_maritalStatusesId" 
-                              class="form-control"  [(ngModel)]="beneficiary.marital_status">
-                                <option value="0" disabled>{{'addForm.maritalStatus.selectMaritalStatus' | translate}}</option>
-                                <option *ngFor="let maritalStatus of marrital_status_bene"
-                                  [selected]="maritalStatus.id == beneficiary.marital_status" value="{{maritalStatus.id}}">{{language_code
-                                  == 'en'? maritalStatus.name_en : maritalStatus.name_es}}</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                            <div class="form-group-3">
-                              <label>{{'addForm.gender' | translate}}</label><br />
-                              <input type="radio" name="beneficiary_gender" value="male" [checked]="isCheckedBeneficiaryGender('male')"
-                              [(ngModel)]="beneficiary.gender">{{'addForm.male' | translate}} &nbsp;&nbsp;
-                              <input type="radio" name="beneficiary_gender" value="female" [checked]="isCheckedBeneficiaryGender('female')"
-                              [(ngModel)]="beneficiary.gender">{{'addForm.female' | translate}}
+                              <input (keydown.space)="$event.preventDefault();" autocomplete="off" type="text"
+                                class="form-control" [(ngModel)]="beneficiary.tutor.tutor_nationality_name"
+                                name="tutor_nationality_name">
                             </div>
                           </div>
                         </div>
-                        <div class="col-12">
-                          <div class="spacer40"></div>
-                        </div>
-                         <!-- Tutor -->
-                        <div class="white-bg padding40" *ngIf="age< 18">
-                          <div class="row">
-                            <div class="col-md-12">                         
-                                <h5 style="color: black;font-weight: bold;">{{'addCollection.Tutor' | translate}}</h5>
-                            </div>
-                            <!-- <div class="col-md-2">
-                              <div class="btn-cont">
-                                <button *ngIf="model?.id" (click)="uploadDoc('tutor')" [disabled]="beneficiary.id ? false : true"
-                                  class="btn btn-primary">{{'addForm.documentation' | translate}}</button>
-                              </div>
-                            </div> -->
-                          </div>
-                          <!-- <h5 style="color: black;font-weight: bold;">{{'addCollection.Tutor' | translate}}</h5> -->
-                          <div class="row">
-                            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                              <div class="form-group-3">
-                                <label>{{'addForm.names' | translate}} <span class="color-red">*</span></label>
-                                <div class="clearfix"></div>
-                                <input  autocomplete="off" class="form-control" type="text" name="tutor_name"
-                                  [(ngModel)]="beneficiary.tutor.tutor_name">
-                              </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                              <div class="form-group-3">
-                                <label>{{'addForm.firstSurname' | translate}}</label>
-                                <div class="clearfix"></div>
-                                <input  autocomplete="off" class="form-control" type="text" name="tutor_firstSurname"
-                                [(ngModel)]="beneficiary.tutor.tutor_firstSurname">
-                              </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                              <div class="form-group-3">
-                                <label>{{'addForm.secondSurname' | translate}}</label>
-                                <div class="clearfix"></div>
-                                <input  autocomplete="off" class="form-control" type="text" name="tutor_secondSurname"
-                                 [(ngModel)]="beneficiary.tutor.tutor_secondSurname">
-                              </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                              <div class="form-group-3">
-                                <div>
-                                  <label>{{'creditForm.RELATIONSHIP' | translate}}</label>
-                                  <select title="{{'creditForm.selectRELATIONSHIP' | translate}}"
-                                    class="form-control" name="tutor_relationship" 
-                                    [(ngModel)]="beneficiary.tutor.tutor_relationship">
-                                    <option disabled selected value="undefined">{{'creditForm.selectRELATIONSHIP' | translate}}
-                                    </option>
-                                    <option *ngFor="let dest of Relationship_list" [value]="dest.id">
-                                      {{language_code
-                                      == 'en'? dest.name_en : dest.name_es}}</option>
-                                  </select>
-                    
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                              <div class="form-group-3">
-                                <label>{{'addForm.dateOfBirth' | translate}}</label>
-                                <input class="form-control" type="date" name="tutor_dob" [max]="toDayDate"
-                                [(ngModel)]="beneficiary.tutor.tutor_dob">
-                              </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                              <div class="form-group-3">
-                                <label>{{'addForm.address' | translate}}</label>
-                                <input  autocomplete="off" class="form-control" type="text" name="tutor_address"
-                                [(ngModel)]="beneficiary.tutor.tutor_address">
-                              </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                              <div class="form-group-3">
-                                <label>{{'addForm.phone' | translate}} </label>
-                                <div class="clearfix"></div>
-                                <input minlength="8" maxlength="15" autocomplete="off" type="text"
-                                [pattern]="constant.phonePattern" class="form-control" id="phone" 
-                                [(ngModel)]="beneficiary.tutor.tutor_phone" name="tutor_phone" ng2TelInput 
-                                [ng2TelInputOptions]="{ initialCountry: model.country_code }"
-                                (countryChange)="onCountryChange($event,1)" />
-                                <!-- <input  autocomplete="off" class="form-control" type="text" name="tutor_phone"
-                                [(ngModel)]="beneficiary.tutor.tutor_phone"> -->
-                              </div>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                              <div class="form-group-3">
-                                <label>{{'addForm.email' | translate}} </label>
-                                <div class="clearfix"></div>
-                                <input  autocomplete="off" class="form-control" type="email" name="tutor_email"
-                                [(ngModel)]="beneficiary.tutor.tutor_email">
-                              </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                              <div class="form-group-3">
-                                <label class="p16-two">{{'addForm.nacionality' | translate}}</label> 
-                                <select title="Select Nationality" [(ngModel)]="beneficiary.tutor.tutor_nationality" name="tutor_nationality" class="form-control" 
-                                (change)="this.updateTutorNationalityName($event.target.value)">
-                                  <option *ngFor="let tempNationalityDetails of nationalityDetails"
-                                    [selected]="tempNationalityDetails.id == beneficiary.tutor.tutor_nationality" value="{{tempNationalityDetails.id}}">
-                                    {{tempNationalityDetails.name}}</option>
-                                </select>
-                              </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-6 col-12" *ngIf="beneficiary.tutor.tutor_nationality == 0">
-                              <div class="form-group-3">
-                                <label>{{'addForm.specifyNationality' | translate}}</label>
-                                <input (keydown.space)="$event.preventDefault();" autocomplete="off" type="text" class="form-control"
-                                  [(ngModel)]="beneficiary.tutor.tutor_nationality_name" name="tutor_nationality_name">
-                              </div>
-                            </div>
-                          </div>
-                          </div>
+                      </div>
                     </div>
-         
-                      <div class="spacer15"></div>
+
+                    <div class="spacer15"></div>
                     <div class="row">
                       <div class="col-12">
                         <div class="btn-cont text-right">
-                          <button class="btn btn-primary" 
-                          [disabled]="hasErrorBeneficiary()" type="button" (click)="addBeneficiary()">
+                          <button class="btn btn-primary" [disabled]="hasErrorBeneficiary()" type="button"
+                            (click)="addBeneficiary()">
                             {{'creditForm.saveBeneficiaries' | translate}}
                           </button>
                         </div>
                       </div>
                     </div>
-                      <div class="spacer15"></div>
+                    <div class="spacer15"></div>
                     <div class="white-bg padding40">
                       <h5 style="color: black;font-weight: bold;">{{'creditForm.ListBeneficiaries' | translate}}</h5>
                       <div class="col-12">
@@ -1008,13 +1028,18 @@
                         <tbody>
                           <tr *ngFor="let beneficiary of beneficiary_list; let i=index">
                             <td>{{(i+1)}}</td>
-                            <td>{{beneficiary?.beneficiary_name ? this.getBeneficiaryText(beneficiary) : ('table.tr.td.NA' | translate)}}</td>
-                            <td>{{beneficiary?.tutor?.tutor_name ? this.getTutorText(beneficiary) : ('table.tr.td.NA' | translate)}}</td>
-                            <td>{{beneficiary?.beneficiary_relationship ? this.getAccountTypeText(beneficiary?.beneficiary_relationship) : ('table.tr.td.NA' | translate)}}
+                            <td>{{beneficiary?.beneficiary_name ? this.getBeneficiaryText(beneficiary) :
+                              ('table.tr.td.NA' | translate)}}</td>
+                            <td>{{beneficiary?.tutor?.tutor_name ? this.getTutorText(beneficiary) : ('table.tr.td.NA' |
+                              translate)}}</td>
+                            <td>{{beneficiary?.beneficiary_relationship ?
+                              this.getAccountTypeText(beneficiary?.beneficiary_relationship) : ('table.tr.td.NA' |
+                              translate)}}
                             </td>
-                              <td>
-                                {{beneficiary?.beneficiary_dob ? ageFromDateOfBirthday2(beneficiary?.beneficiary_dob) : ('table.tr.td.NA' | translate)}}</td>
-                              <td>
+                            <td>
+                              {{beneficiary?.beneficiary_dob ? ageFromDateOfBirthday2(beneficiary?.beneficiary_dob) :
+                              ('table.tr.td.NA' | translate)}}</td>
+                            <td>
                               <button class="action-icon" title="{{'addCollection.edit' | translate}}"
                                 (click)="editBeneficiary(beneficiary,i)">
                                 <img src="assets/img/edit.png" alt="img">
@@ -1027,24 +1052,29 @@
                               </button>
                             </td>
                             <td>
-                              <button class="action-icon" title="{{'addCollection.beneficiaryDocumentation' | translate}}"
-                              (click)="uploadDoc(2,beneficiary)" [disabled]="beneficiary?.id ? false : true ">
-                              <i class="fa fa-file-o" aria-hidden="true"></i>
-                            </button>
+                              <button class="action-icon"
+                                title="{{'addCollection.beneficiaryDocumentation' | translate}}"
+                                (click)="uploadDoc(2,beneficiary)" [disabled]="beneficiary?.id ? false : true ">
+                                <i class="fa fa-file-o" aria-hidden="true"></i>
+                              </button>
                             </td>
                             <td>
                               <button class="action-icon" title="{{'addCollection.tutorDocumentation' | translate}}"
-                              (click)="uploadDoc(3,beneficiary)"  [disabled]="beneficiary?.tutor?.tutor_name ? false : true ">
-                              <i class="fa fa-file-o" aria-hidden="true"></i>
-                            </button>
+                                (click)="uploadDoc(3,beneficiary)"
+                                [disabled]="beneficiary?.tutor?.tutor_name ? false : true ">
+                                <i class="fa fa-file-o" aria-hidden="true"></i>
+                              </button>
                             </td>
                           </tr>
-                          <tr *ngIf="beneficiary_list?.length == 0"><th colspan="9" style="text-align: center;">{{'message.error.noRecordFound' | translate}}</th></tr>
+                          <tr *ngIf="beneficiary_list?.length == 0">
+                            <th colspan="9" style="text-align: center;">{{'message.error.noRecordFound' | translate}}
+                            </th>
+                          </tr>
                         </tbody>
                       </table>
-                     
+
                     </div>
-                  
+
                   </form>
                 </div>
               </div>
@@ -1062,5 +1092,3 @@
     <!-- Street Address,External Number,Internal Number,Neighborhood,Municipality,City,ZIP code,State,Address -->
 
   </form>
-  
-  

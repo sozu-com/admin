@@ -3698,6 +3698,8 @@
     "forReview": "Para la revisión",
     "readyToBeValidated": "Listo para ser validado",
     "validatedByLegal": "Validado por legal",
-    "signed": "Firmado"
+    "signed": "Firmado",
+    "other": "INE",
+    "passport": "Pasaporte"
   }
 }
