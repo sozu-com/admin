@@ -55,6 +55,8 @@ export class AddTemplateComponent implements OnInit {
   users: any = [];
   new_array: any;
   category: Array<any>;
+  linked_category: Array<any> = [];
+  blog_metatags: Array<any> = [];
   loading = true;
   selectedObjects: any[];
   category_obj: any = '';
@@ -167,7 +169,7 @@ export class AddTemplateComponent implements OnInit {
 
   ngOnInit() {
     this.selectedObjects = [];
-    this.category_obj = '';
+    // this.category_obj = '';
     this.http.loader.next({ value: false });
     this.file1 = new FileUpload(true, this.admin);
     this.listCate();
@@ -195,7 +197,13 @@ export class AddTemplateComponent implements OnInit {
     this.admin.postDataApi('getBlogById', { id: id }).subscribe(r => {
       this.spinner.hide();
       this.post = r['data'];
-      this.category_obj = this.post.category_post;
+      this.linked_category = this.post ? this.post.linked_category : [];
+      this.blog_metatags = this.post ? this.post.blog_metatag : [];
+      (this.post.linked_category || []).forEach(r => {
+        if (r.cat_name) {
+          this.category_obj = r.cat_name;
+        }
+      });
       (this.post.blog_metatag || []).forEach(r => {
         if (r.tag_name) {
           this.selectedObjects.push({ id: r.tag_name.id, name_en: r.tag_name.name_en, name_es: r.tag_name.name_es, created_at: r.tag_name.created_at, updated_at: r.tag_name.updated_at });
@@ -300,8 +308,23 @@ export class AddTemplateComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.deleteTag(data, index);
+        this.deletemainTag(data, index);
       }
+    });
+  }
+  deletemainTag = (item: any, index: number): void => {
+    this.spinner.show();
+    this.admin.postDataApi('deleteLinkedPostTag', { id: item.id }).subscribe((response) => {
+      this.spinner.hide();
+      if (response.success == '0') {
+        this.toastr.error(this.translate.instant('message.error.youCannotDeleteThisPossessionStatus'), this.translate.instant('swal.error'));
+      } else {
+        this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+        this.getBlog(this.post.id);
+      }
+    }, (error) => {
+      this.spinner.hide();
+      this.toastr.error(error.error.message, this.translate.instant('swal.error'));
     });
   }
 
@@ -333,8 +356,25 @@ export class AddTemplateComponent implements OnInit {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        this.deleteCategory(data, index);
+        this.deleteBlog(data, index);
       }
+    });
+  }
+
+
+  deleteBlog = (item: any, index: number): void => {
+    this.spinner.show();
+    this.admin.postDataApi('deleteLinkedCat', { id: item.id }).subscribe((response) => {
+      this.spinner.hide();
+      if (response.success == '0') {
+        this.toastr.error(this.translate.instant('message.error.youCannotDeleteThisPossessionStatus'), this.translate.instant('swal.error'));
+      } else {
+        this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+        this.getBlog(this.post.id);
+      }
+    }, (error) => {
+      this.spinner.hide();
+      this.toastr.error(error.error.message, this.translate.instant('swal.error'));
     });
   }
 
@@ -388,6 +428,8 @@ export class AddTemplateComponent implements OnInit {
         this.translate.instant('message.success.updatedSuccessfully'), 'success') :
         swal('Sucsess', this.translate.instant('message.success.addedSuccessfully'), 'success');
       this.post = r['data'];
+      this.linked_category = this.post ? this.post.linked_category : [];
+      this.blog_metatags = this.post ? this.post.blog_metatag : [];
     },
       error => {
         this.spinner.hide();
