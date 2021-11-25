@@ -10,6 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
 import { Constant } from 'src/app/common/constants';
 import { ToastrService } from 'ngx-toastr';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 declare let swal: any;
 
 @Component({
@@ -45,7 +46,7 @@ export class AddTemplateComponent implements OnInit {
     post_tag_id: [],
     autor_id: ''
   };
-  selctedAmenities: Array<any>;
+  selctedAmenities: Array<any> = [];
   multiDropdownSettings = {};
   file1: any;
   isShow: boolean = false;
@@ -58,12 +59,15 @@ export class AddTemplateComponent implements OnInit {
   tag: any = {}; cate: any = {};
   new_array: any;
   category: Array<any>;
+  loading = true;
+  public myForms: FormGroup;
   constructor(
     private admin: AdminService, private constant: Constant,
     private route: ActivatedRoute,
-    private spinner: NgxSpinnerService,
+    private spinner: NgxSpinnerService, private fb: FormBuilder,
     private http: HttpInterceptor, private toastr: ToastrService,
     private translate: TranslateService) {
+
   }
 
   public editorContent = 'My Document\'s Title';
@@ -166,7 +170,6 @@ export class AddTemplateComponent implements OnInit {
     this.http.loader.next({ value: false });
     this.file1 = new FileUpload(true, this.admin);
     this.iniDropDownSetting();
-    this.selctedAmenities = [];
     this.listCate();
     this.listTags();
     this.autors();
@@ -174,6 +177,7 @@ export class AddTemplateComponent implements OnInit {
       this.post.id = params.id;
       if (this.post.id > 0) {
         this.spinner.show();
+        this.loading = true;
         this.admin.postDataApi('getBlogById', { id: this.post.id }).subscribe(r => {
           this.spinner.hide();
           this.post = r['data'];
@@ -182,8 +186,8 @@ export class AddTemplateComponent implements OnInit {
               this.selctedAmenities.push({ id: r.tag_name.id, name_en: r.tag_name.name_en });
             }
           });
-          console.log(this.selctedAmenities, "this.category");
           this.file1.image = this.post.image;
+          this.loading = false;
         }, error => {
           this.spinner.hide();
           swal(this.translate.instant('swal.error'), error, 'error');
@@ -191,9 +195,10 @@ export class AddTemplateComponent implements OnInit {
       } else {
         delete this.post.id;
       }
-      this.getMainTemplatesType();
     });
   }
+
+
 
   unsetProject(item: any) {
     let i = 0;
@@ -392,6 +397,7 @@ export class AddTemplateComponent implements OnInit {
       );
       this.post.post_tag_id = uniq;
     }
+    // this.post.post_category_id = this.cate.id;
     if (this.post.id) {
       if (!this.post.slug) { swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSlug'), 'error'); return false; }
       this.post.blog_id = this.post.id;
@@ -435,6 +441,7 @@ export class AddTemplateComponent implements OnInit {
   }
   changeCate(city: any) {
     this.cate = city;
+    //this.post.post_category_id = this.cate.id;
   }
   changetag(tag: any) {
     this.tag = tag;
