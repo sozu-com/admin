@@ -84,28 +84,55 @@
                         +Add
                     </p>
                 </div>
-                <div class="dropdown menu-dropdown">
-                    <button id="dLabel" class="dropdown-select" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {{cate?.name_en || 'selecciona una categoría'}} 
-                      <span class=""><i class="fa fa-angle-down" aria-hidden="true"></i>
-                      </span>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dLabel">
-                      <li *ngFor="let item of list_cate; index as i;" (click)="changeCate(item);">
-                          {{item?.name_en}}
-                          <span style="float: right; cursor: pointer;" (click)="deleteCategory(item)"><i class="fa fa-trash" aria-hidden="true"></i></span>
-                     </li>
-                    </ul>
-                  </div>
-                <!-- <select title="{{'addForm.chooseWriter' | translate}}" required class="form-control fa" [(ngModel)] ="post.post_category_id" name="post_category_id">
+
+               
+                <select title="{{'addForm.chooseWriter' | translate}}" required class="form-control fa" [(ngModel)] ="post.post_category_id" name="post_category_id">
                 <option value="">{{'addForm.select_cate' | translate}}</option>
                 <option *ngFor="let state of list_cate" value="{{state.id}}">
                    {{state.name_en}} 
+                   <span style="float: right; cursor: pointer;" 
+                          (click)="deleteCategory(item)">
+                          <i class="fa fa-trash" aria-hidden="true"></i>
+                </span>
                 </option>
-              </select> -->
+              </select>
+            </div>
+
+            <div class="form-group-3" *ngIf="loading">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="p16-two">
+                            {{'addForm.postTag' | translate}}
+                            <span class="color-red">*</span>
+                        </p>
+                    </div>
+                    <div class="col-md-6" style="text-align: right;">
+                        <p class="p16-two" style="color: #00B96F; cursor: pointer;"
+                        (click)="togglePost()">
+                            {{'addForm.post_new_tag' | translate}}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group-3" *ngIf="isPost">
+                    <input class="form-control" type="text" [(ngModel)] ="tag_name" name="tag_name" placeholder="{{'addForm.post_new_tag' | translate}}"/>
+                    <p style="margin-top: -32px;color: #00B96F;
+                        margin-right: 9px;cursor: pointer;float: right;
+                        width: 40px;" (click)="addTag()">
+                        +Add
+                    </p>
+                </div>
+
+                <div class="form-group-3" style="margin-top: -4%;">
+                    <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
+                    name="selctedAmenities" [data]="list_tag" [(ngModel)]="selctedAmenities"
+                    [settings]="multiDropdownSettings" (onDeSelect)="unsetProject($event)"
+                    (onSelect)="onItemSelect('selctedAmenities', $event)" (onSelectAll)="onSelectAll($event)">
+                 </ng-multiselect-dropdown>
+                </div>
             </div>
             
-            <div class="form-group-3">
+            <div class="form-group-3" *ngIf="!loading">
                 <div class="row">
                     <div class="col-md-6">
                         <p class="p16-two">
@@ -128,11 +155,15 @@
                         +Add
                     </p>
                 </div>
-                <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
-                name="selctedAmenities" [data]="list_tag" [(ngModel)]="selctedAmenities"
-                [settings]="multiDropdownSettings" (onDeSelect)="unsetProject($event)"
-                (onSelect)="onItemSelect('selctedAmenities', $event)" (onSelectAll)="onSelectAll($event)">
-             </ng-multiselect-dropdown>
+                <div class="form-group-3" style="margin-top: -4%;">
+                    <ng-multiselect-dropdown class="col-3 section-section2 multi-select" 
+                    [placeholder]="''"
+                    name="selctedAmenities" [data]="list_tag" [(ngModel)]="selctedAmenities"
+                    [settings]="multiDropdownSettings" (onDeSelect)="unsetProject($event)"
+                    (onSelect)="onItemSelect('selctedAmenities', $event)" (onSelectAll)="onSelectAll($event)">
+                 </ng-multiselect-dropdown>
+                </div>
+               
              <!-- {{selctedAmenities | json}} -->
                 <!-- <select title="{{'addForm.chooseWriter' | translate}}" name="state" required class="form-control" [(ngModel)] ="post.post_tag_id" name="post_tag_id">
                 <option value="">{{'addForm.select_tag' | translate}}</option>
