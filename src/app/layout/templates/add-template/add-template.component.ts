@@ -10,7 +10,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
 import { Constant } from 'src/app/common/constants';
 import { ToastrService } from 'ngx-toastr';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 declare let swal: any;
 
 @Component({
@@ -46,8 +45,6 @@ export class AddTemplateComponent implements OnInit {
     post_tag_id: [],
     autor_id: ''
   };
-  selctedAmenities: Array<any> = [];
-  multiDropdownSettings = {};
   file1: any;
   isShow: boolean = false;
   isPost: boolean = false;
@@ -56,16 +53,18 @@ export class AddTemplateComponent implements OnInit {
   list_cate: any = [];
   list_tag: any = [];
   users: any = [];
-  tag: any = {}; cate: any = {};
   new_array: any;
   category: Array<any>;
   loading = true;
-  public myForms: FormGroup;
+  selectedObjects: any[];
+  category_obj: any = '';
   constructor(
-    private admin: AdminService, private constant: Constant,
+    private admin: AdminService,
+    private constant: Constant,
     private route: ActivatedRoute,
-    private spinner: NgxSpinnerService, private fb: FormBuilder,
-    private http: HttpInterceptor, private toastr: ToastrService,
+    private spinner: NgxSpinnerService,
+    private http: HttpInterceptor,
+    private toastr: ToastrService,
     private translate: TranslateService) {
 
   }
@@ -167,65 +166,51 @@ export class AddTemplateComponent implements OnInit {
 
 
   ngOnInit() {
+    this.selectedObjects = [];
+    this.category_obj = '';
     this.http.loader.next({ value: false });
     this.file1 = new FileUpload(true, this.admin);
-    this.iniDropDownSetting();
     this.listCate();
     this.listTags();
     this.autors();
     this.route.params.subscribe(params => {
       this.post.id = params.id;
       if (this.post.id > 0) {
-        this.spinner.show();
-        this.loading = true;
-        this.admin.postDataApi('getBlogById', { id: this.post.id }).subscribe(r => {
-          this.spinner.hide();
-          this.post = r['data'];
-          (this.post.blog_metatag || []).forEach(r => {
-            if (r.tag_name) {
-              this.selctedAmenities.push({ id: r.tag_name.id, name_en: r.tag_name.name_en });
-            }
-          });
-          this.file1.image = this.post.image;
-          this.loading = false;
-        }, error => {
-          this.spinner.hide();
-          swal(this.translate.instant('swal.error'), error, 'error');
-        });
+        this.getBlog(this.post.id);
       } else {
         delete this.post.id;
       }
     });
   }
 
-
-
-  unsetProject(item: any) {
-    let i = 0;
-    this.selctedAmenities.map(r => {
-      if (r.id == item.id) {
-        this.selctedAmenities.splice(i, 1);
-      }
-      i = i + 1;
+  comparer(o1: any, o2: any): boolean {
+    return o1 && o2 ? o1.label === o2.label : o2 === o2;
+  }
+  deleteFieldValue(index) {
+    this.list_tag.splice(index, 1);
+  }
+  getBlog(id) {
+    this.spinner.show();
+    this.loading = true;
+    this.admin.postDataApi('getBlogById', { id: id }).subscribe(r => {
+      this.spinner.hide();
+      this.post = r['data'];
+      this.category_obj = this.post.category_post;
+      (this.post.blog_metatag || []).forEach(r => {
+        if (r.tag_name) {
+          this.selectedObjects.push({ id: r.tag_name.id, name_en: r.tag_name.name_en, name_es: r.tag_name.name_es, created_at: r.tag_name.created_at, updated_at: r.tag_name.updated_at });
+        }
+      });
+      this.file1.image = this.post.image;
+      this.loading = false;
+    }, error => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error, 'error');
     });
   }
-  onItemSelect(param: any, obj: any) {
-    this[param].push(obj);
-    //console.log(this[param], "this[param]");
-  }
-  onSelectAll(obj: any) { }
-  iniDropDownSetting() {
-    this.multiDropdownSettings = {
-      singleSelection: false,
-      idField: 'id',
-      textField: 'name_en',
-      selectAllText: this.translate.instant('commonBlock.selectAll'),
-      unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
-      searchPlaceholderText: this.translate.instant('commonBlock.search'),
-      allowSearchFilter: true,
-      itemsShowLimit: 3
-    };
-  }
+
+
+
   toggleShow() {
     this.isShow = !this.isShow;
   }
@@ -329,7 +314,6 @@ export class AddTemplateComponent implements OnInit {
       } else {
         this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
         this.list_tag.splice(index, 1);
-        this.tag.name_en = '';
         this.listTags();
       }
     }, (error) => {
@@ -363,7 +347,6 @@ export class AddTemplateComponent implements OnInit {
       } else {
         this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
         this.list_cate.splice(index, 1);
-        this.cate.name_en = '';
         this.listCate();
       }
     }, (error) => {
@@ -388,16 +371,12 @@ export class AddTemplateComponent implements OnInit {
     }
 
     this.post.image = this.file1.image;
-    if (this.selctedAmenities) {
-      console.log(this.selctedAmenities, "this.selctedAmenities");
-      const d = this.selctedAmenities.map(o => o.id);
-      const uniq = d.reduce((uniqArr, item) => {
-        return uniqArr.includes(item) ? uniqArr : [...uniqArr, item]
-      }, []
-      );
-      this.post.post_tag_id = uniq;
+    if (this.selectedObjects) {
+      console.log(this.selectedObjects, "selectedObjects");
+      const d = this.selectedObjects.map(o => o.id);
+      this.post.post_tag_id = d;
     }
-    // this.post.post_category_id = this.cate.id;
+    this.post.post_category_id = this.category_obj.id;
     if (this.post.id) {
       if (!this.post.slug) { swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterSlug'), 'error'); return false; }
       this.post.blog_id = this.post.id;
@@ -439,11 +418,7 @@ export class AddTemplateComponent implements OnInit {
   showMainTemplatesType(type: number) {
     this.post.post_type = type;
   }
-  changeCate(city: any) {
-    this.cate = city;
-    //this.post.post_category_id = this.cate.id;
-  }
-  changetag(tag: any) {
-    this.tag = tag;
-  }
+
+
+
 }

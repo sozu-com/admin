@@ -291,6 +291,11 @@
                       <a href="javascript://" *ngIf="item.is_blocked == 1" (click)="blockUnblockPopup(i, item.id, 0, parameter.type)" title="Unblock user" class="icon-block block-icon unblock-bg"><img src="assets/img/block.png" alt="img"></a>
                       <a href="javascript://" *ngIf="item.is_blocked == 0" (click)="blockUnblockPopup(i, item.id, 1, parameter.type)" title="Block user" class="icon-block block-icon"><img src="assets/img/unblock.png" alt="img"></a> -->
                       <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Manage Credits']?.can_update==0" 
+                      (click)="this.credit(item)" class="action-icon">
+                      <i class="fa fa-play-circle-o" aria-hidden="true" style="font-size: 25px;"></i>
+                    </button>
+
+                      <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Manage Credits']?.can_update==0" 
                       routerLink="/dashboard/credit/edit-credit/{{item.id}}" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
                       <!-- <button title="{{'table.title.addLegalEntity' | translate}}" 
                       [disabled]="admin?.admin_acl['User Management']?.can_update==0" 

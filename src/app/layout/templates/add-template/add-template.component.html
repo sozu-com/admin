@@ -84,18 +84,40 @@
                         +Add
                     </p>
                 </div>
-
-               
-                <select title="{{'addForm.chooseWriter' | translate}}" required class="form-control fa" [(ngModel)] ="post.post_category_id" name="post_category_id">
-                <option value="">{{'addForm.select_cate' | translate}}</option>
-                <option *ngFor="let state of list_cate" value="{{state.id}}">
-                   {{state.name_en}} 
-                   <span style="float: right; cursor: pointer;" 
-                          (click)="deleteCategory(item)">
-                          <i class="fa fa-trash" aria-hidden="true"></i>
-                </span>
-                </option>
-              </select>
+                <div class="form-group-3" style="margin-top: -4%;" *ngIf="loading">
+                    <mat-form-field class="example-full-width" style="width: 100%;">
+                        <mat-select [(ngModel)] ="category_obj" name="category_obj">
+                            <mat-select-trigger>
+                                {{category_obj.name_en}}
+                              </mat-select-trigger>
+                            <mat-option *ngFor="let year of list_cate" [value]="year">
+                                <div style="display:flex; justify-content: space-between">
+                                  <span>{{year.name_en}}</span>
+                                  <span fxFlex = '1 0 auto'></span>
+                               <mat-icon class="mat-24 mt-12 float-right"  (click)='deleteCategory(year)'>delete</mat-icon>
+                                </div>
+                              </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                </div>
+                <div class="form-group-3" style="margin-top: -4%;" *ngIf="!loading">
+                    <mat-form-field class="example-full-width" style="width: 100%;">
+                        <mat-select [(ngModel)] ="category_obj" 
+                        [compareWith]="comparer">
+                            <mat-select-trigger>
+                                {{category_obj.name_en}}
+                              </mat-select-trigger>
+                            <mat-option *ngFor="let year of list_cate" [value]="year">
+                                <div style="display:flex; justify-content: space-between">
+                                  <span>{{year.name_en}}</span>
+                                  <span fxFlex = '1 0 auto'></span>
+                               <mat-icon class="mat-24 mt-12 float-right"  
+                               (click)='deleteCategory(year)'>delete</mat-icon>
+                                </div>
+                              </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                </div>
             </div>
 
             <div class="form-group-3" *ngIf="loading">
@@ -124,11 +146,26 @@
                 </div>
 
                 <div class="form-group-3" style="margin-top: -4%;">
-                    <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
-                    name="selctedAmenities" [data]="list_tag" [(ngModel)]="selctedAmenities"
-                    [settings]="multiDropdownSettings" (onDeSelect)="unsetProject($event)"
-                    (onSelect)="onItemSelect('selctedAmenities', $event)" (onSelectAll)="onSelectAll($event)">
-                 </ng-multiselect-dropdown>
+                    <mat-form-field class="example-full-width" style="width: 100%;"> 
+                        <mat-select 
+                        multiple
+                        [(ngModel)]="selectedObjects"
+                        [compareWith]="comparer"
+                        >
+                        <mat-select-trigger>
+                            <span *ngFor="let category of selectedObjects;">
+                                {{category.name_en}}
+                            </span>
+                        </mat-select-trigger>
+                        <mat-option 
+                          *ngFor="let el of list_tag" 
+                          [value]="el">
+                           {{el.name_en}}
+                           <span fxFlex = '1 0 auto'></span>
+                               <mat-icon class="mat-24 mt-12 float-right"  (click)='deleteTag(item)'>delete</mat-icon>
+                        </mat-option>
+                      </mat-select>
+                      </mat-form-field>
                 </div>
             </div>
             
@@ -156,21 +193,27 @@
                     </p>
                 </div>
                 <div class="form-group-3" style="margin-top: -4%;">
-                    <ng-multiselect-dropdown class="col-3 section-section2 multi-select" 
-                    [placeholder]="''"
-                    name="selctedAmenities" [data]="list_tag" [(ngModel)]="selctedAmenities"
-                    [settings]="multiDropdownSettings" (onDeSelect)="unsetProject($event)"
-                    (onSelect)="onItemSelect('selctedAmenities', $event)" (onSelectAll)="onSelectAll($event)">
-                 </ng-multiselect-dropdown>
+                    <mat-form-field class="example-full-width" style="width: 100%;"> 
+                        <mat-select 
+                        multiple
+                        [(ngModel)]="selectedObjects"
+                        [compareWith]="comparer"
+                        >
+                        <mat-select-trigger>
+                            <span *ngFor="let category of selectedObjects; let i = index">
+                                {{category.name_en}}
+                            </span>
+                        </mat-select-trigger>
+                        <mat-option 
+                          *ngFor="let el of list_tag" 
+                          [value]="el">
+                           {{el.name_en}}
+                           <span fxFlex = '1 0 auto'></span>
+                               <mat-icon class="mat-24 mt-12 float-right"  (click)='deleteFieldValue(i)'>delete</mat-icon>
+                        </mat-option>
+                      </mat-select>
+                      </mat-form-field>
                 </div>
-               
-             <!-- {{selctedAmenities | json}} -->
-                <!-- <select title="{{'addForm.chooseWriter' | translate}}" name="state" required class="form-control" [(ngModel)] ="post.post_tag_id" name="post_tag_id">
-                <option value="">{{'addForm.select_tag' | translate}}</option>
-                <option *ngFor="let tag of list_tag" value="{{tag.id}}">
-                    {{tag.name_en}}
-                </option>
-              </select> -->
             </div>
 
             <div class="row">

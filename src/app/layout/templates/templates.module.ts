@@ -15,6 +15,7 @@ import { AddTemplateComponent } from './add-template/add-template.component';
 import { TemplatesComponent } from './templates.component';
 import { SharedModule } from 'src/app/modules/shared.module';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { MatFormFieldModule, MatInputModule, MatSelectModule, MatIconModule } from '@angular/material';
 
 const routes: Routes = [
   {
@@ -33,6 +34,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
+    MatFormFieldModule, MatInputModule, MatSelectModule, MatIconModule,
     RouterModule.forChild(routes),
     CommonModule,
     TranslateModule,
@@ -52,7 +54,7 @@ const routes: Routes = [
     TemplatesComponent,
     AddTemplateComponent
   ],
-  exports: [RouterModule]
+  exports: [RouterModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatIconModule]
 })
 
 export class TemplatesModule { }
