@@ -27,8 +27,6 @@
             </div>
         </div>
         <div class="col-lg-2 col-md-12 col-sm-12 col-12">
-            <!-- <a title="Preview" target="_blank" [routerLink]="post.blog_url" class="action-icon"><img src="assets/img/viewfull.png" alt="img"></a> -->
-            <!-- <a title="Preview" target="_blank" (click)="previewPost(post.blog_url)" class="action-icon"><img src="assets/img/viewfull.png" alt="img"></a> -->
             <a title="Preview" target="_blank" href="{{post.blog_url}}" class="action-icon"><img src="assets/img/viewfull.png" alt="img"></a>
         </div>
     </div>
@@ -208,7 +206,7 @@
                           [value]="el">
                            {{el.name_en}}
                            <span fxFlex = '1 0 auto'></span>
-                               <mat-icon class="mat-24 mt-12 float-right"  (click)='deleteFieldValue(i)'>delete</mat-icon>
+                               <mat-icon class="mat-24 mt-12 float-right"  (click)='deleteTag(el,i)'>delete</mat-icon>
                         </mat-option>
                       </mat-select>
                       </mat-form-field>
