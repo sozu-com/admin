@@ -333,6 +333,7 @@ export class ManageContractsComponent implements OnInit {
     this.signatureDate = undefined, 
     this.beneficiary_id = undefined, 
     this.status = undefined;
+    this.percent = undefined;
     this.step = 1;      
     this.openLinkContractModal.nativeElement.click();
     
