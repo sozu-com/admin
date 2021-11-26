@@ -13,6 +13,7 @@ import { ContractPdfService } from 'src/app/services/contract-pdf.service';
 import { LegalContractPdfService } from 'src/app/services/legal-contract-pdf.service';
 import { Collection } from 'src/app/models/collection.model';
 import { ToastrService } from 'ngx-toastr';
+import { ThousandPipe } from 'src/app/pipes/thousand.pipe';
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
@@ -337,8 +338,40 @@ export class ManageContractsComponent implements OnInit {
     
   }
 
-  continueModal(step){
+  continueModal(step, data){
     this.step = step;
+    if(this.step == 7){
+      this.contract_id = data ? data.id : this.contract_id;
+      this.openLinkContractModal.nativeElement.click();
+    }
+  }
+
+  signatureDateDailog(step){
+    this.spinner.show();
+    let input = {
+      property_collection_id: this.collectionId, 
+      type_of_contract: this.contract,
+      beneficiary_id: this.beneficiary_ids,
+      percentage: this.percent,
+      status: this.status
+    }
+    let input1 = {
+      contract_id: this.contract_id,
+      property_collection_id: this.collectionId, 
+      type_of_contract: this.contract,
+      beneficiary_id: this.beneficiary_ids,
+      percentage: this.percent,
+      status: 2
+    }
+    this.admin.postDataApi(this.is_edit ? 'updateContract' : 'addContract',this.is_edit ? input1 : input)
+      .subscribe(
+        success => {
+          this.step = step;
+          this.contract_id = success.data.id;
+          this.getContract();
+          this.spinner.hide();
+          
+        });
   }
 
   selectContract(value){
@@ -389,7 +422,9 @@ export class ManageContractsComponent implements OnInit {
         success => {
           this.getContract();
           this.spinner.hide();
+          if(this.step != 7){
           this.closeLinkContractModal.nativeElement.click();
+          }
         });
   }
 
@@ -476,17 +511,18 @@ export class ManageContractsComponent implements OnInit {
       });
   }
 
-  addSignatureDate(data){
+  addSignatureDate(){
     let input ={
-      contract_id : data ? data.id : this.contract_id,
+      contract_id : this.contract_id,
       status: 3,
       signature_date: this.signatureDate
     }
     this.spinner.show();
-    this.admin.postDataApi('updateContractStatus', input)
+    this.admin.postDataApi('updateContractSignature', input)
     .subscribe(
       success => {
         this.getContract();
+        this.closeLinkContractModal.nativeElement.click();
         this.spinner.hide();
       });
   }

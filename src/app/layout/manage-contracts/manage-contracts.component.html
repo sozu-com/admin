@@ -158,7 +158,8 @@
                     p.type_of_contract == '2' ? ('contract.moralPerson' | translate) : ('table.tr.td.NA' | translate)}}</span>
                 </td>
                 <td *ngIf="selectedColumnsToShow?.signature_date">
-                  <span (click)="continueModal(7)" class="green-color">{{p.signature_date ? (p.signature_date | date:'dd/MMM/yyyy') : ('addForm.select' | translate)}}</span>
+                  <a *ngIf="!p.signature_date"(click)="continueModal(7, p)"><span class="green-color" style="cursor: pointer;">{{'addForm.select' | translate}}</span></a>
+                  <span *ngIf="p.signature_date">{{p.signature_date | date:'dd/MMM/yyyy'}}</span>
                 </td>
                 <td *ngIf="selectedColumnsToShow?.status">
                   <select class="cursor-pointer" (change)="selectStatus(p, $event.target.value)">
@@ -415,13 +416,9 @@
             </div>
           </div>
           <div class="row" *ngIf="searched_collection" style="margin-top: 25px;">
-            <div class="col-5" style="margin-left: 77px;">
-              <button class="btn" style="background-color:#FF0040;color:white;width:90px;"
-              (click)="continueModal()">{{'commonBlock.back' | translate}}</button>
-            </div>
-            <div class="col-5">
+            <div class="col-5 offset-4">
               <button class="btn" style="background-color:#00B96F;color:white;width:90px;"
-              (click)="continueModal(2)" [disabled]="!contract_type">{{'commonBlock.continue' | translate}}</button>
+              (click)="continueModal(2, null)" [disabled]="!contract_type">{{'commonBlock.continue' | translate}}</button>
             </div>                                                                          
           </div>
         </div>
@@ -540,11 +537,11 @@
           <div class="row" style="margin-top: 25px;">
             <div class="col-5" style="margin-left: 77px;">
               <button class="btn" style="background-color:#FF0040;color:white;width:90px;"
-              (click)="continueModal(1)">{{'commonBlock.back' | translate}}</button>
+              (click)="continueModal(1, null)">{{'commonBlock.back' | translate}}</button>
             </div>
             <div class="col-5">
               <button class="btn" style="background-color:#00B96F;color:white;width:90px;"
-              (click)="continueModal(3)" [disabled]="!searched_collection.buyer.name || !searched_collection.buyer.fed_tax_pay || !searched_collection.buyer.curp || 
+              (click)="continueModal(3, null)" [disabled]="!searched_collection.buyer.name || !searched_collection.buyer.fed_tax_pay || !searched_collection.buyer.curp || 
               !searched_collection.buyer.ocupation || !searched_collection.buyer.marital_statuses_id || !searched_collection.buyer.id_type || !searched_collection.buyer.id_number">{{'commonBlock.continue' | translate}}</button>
             </div>                                                                          
           </div>
@@ -643,11 +640,11 @@
           <div class="row" style="margin-top: 25px;">
             <div class="col-5" style="margin-left: 77px;">
               <button class="btn" style="background-color:#FF0040;color:white;width:90px;"
-              (click)="continueModal(2)">{{'commonBlock.back' | translate}}</button>
+              (click)="continueModal(2, null)">{{'commonBlock.back' | translate}}</button>
             </div>
             <div class="col-5">
               <button class="btn" style="background-color:#00B96F;color:white;width:90px;"
-              (click)="continueModal(4)" [disabled]="!searched_collection.buyer.street_address || !searched_collection.buyer.external_number || !searched_collection.buyer.internal_number || 
+              (click)="continueModal(4, null)" [disabled]="!searched_collection.buyer.street_address || !searched_collection.buyer.external_number || !searched_collection.buyer.internal_number || 
               !searched_collection.buyer.zipcode || !searched_collection.buyer.municipality || !searched_collection.buyer.country || !searched_collection.buyer.state || !searched_collection.buyer.neighborhood">{{'commonBlock.continue' | translate}}</button>
             </div>                                                                          
           </div>
@@ -724,11 +721,11 @@
           <div class="row" style="margin-top: 25px;">
             <div class="col-5" style="margin-left: 77px;">
               <button class="btn" style="background-color:#FF0040;color:white;width:90px;"
-              (click)="continueModal(3)">{{'commonBlock.back' | translate}}</button>
+              (click)="continueModal(3, null)">{{'commonBlock.back' | translate}}</button>
             </div>
             <div class="col-5">
               <button class="btn" style="background-color:#00B96F;color:white;width:90px;"
-              (click)="continueModal(5)">{{'commonBlock.continue' | translate}}</button>
+              (click)="continueModal(5, null)">{{'commonBlock.continue' | translate}}</button>
             </div>                                                                          
           </div>
         </div>
@@ -815,11 +812,11 @@
           <div class="row" style="margin-top: 25px;">
             <div class="col-5" style="margin-left: 77px;">
               <button class="btn" style="background-color:#FF0040;color:white;width:90px;"
-              (click)="continueModal(4)">{{'commonBlock.back' | translate}}</button>
+              (click)="continueModal(4, null)">{{'commonBlock.back' | translate}}</button>
             </div>
             <div class="col-5">
               <button class="btn" style="background-color:#00B96F;color:white;width:90px;"
-              (click)="continueModal(6)">{{'commonBlock.continue' | translate}}</button>
+              (click)="continueModal(6, null)">{{'commonBlock.continue' | translate}}</button>
             </div>                                                                          
           </div>
         </div>
@@ -862,17 +859,17 @@
             </div>
           </div>
           <div class="row" style="margin-top: 25px;">
-            <div class="col-5" style="margin-left: 15px;">
+            <div class="col-3" style="margin-left: 5px;">
               <button class="btn" style="background-color:#FF0040;color:white;width:90px;"
-              (click)="continueModal(5)">{{'commonBlock.back' | translate}}</button>
+              (click)="continueModal(5, null)">{{'commonBlock.back' | translate}}</button>
             </div>
-            <div class="col-5">
-              <button class="btn" style="background-color:#00B96F;color:white;width:90px;"
-              (click)="createContract()">{{'commonBlock.createContract' | translate}}</button>
+            <div class="col-4">
+              <button class="btn" style="background-color:#00B96F;color:white;width:144px;"
+              (click)="createContract()" [disabled]="!percent">{{'commonBlock.createContract' | translate}}</button>
             </div>     
-            <div class="col-5">
+            <div class="col-4">
               <button class="btn" style="background-color:#00B96F;color:white;width:90px;"
-              (click)="continueModal(7)">{{'commonBlock.signatureDate' | translate}}</button>
+              (click)="signatureDateDailog(7)" [disabled]="!percent">{{'commonBlock.signatureDate' | translate}}</button>
             </div>                                                                          
           </div>
         </div>
@@ -891,9 +888,9 @@
               [yearNavigator]="true" yearRange="2000:2040"></p-calendar>
             </div>
           </div>
-          <div class="row" style="margin-top: 25px;">
-            <div class="col-5">
-              <button class="btn" style="background-color:#00B96F;color:white;width:90px;"
+          <div class="row" style="margin-top: 35px;">
+            <div class="col-5 offset-3">
+              <button class="btn" style="background-color:#00B96F;color:white;width:153px;"
               (click)="addSignatureDate()">{{'commonBlock.finalizeContract' | translate}}</button>
             </div>                                                                       
           </div>
