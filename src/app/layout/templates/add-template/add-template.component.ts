@@ -188,9 +188,7 @@ export class AddTemplateComponent implements OnInit {
   comparer(o1: any, o2: any): boolean {
     return o1 && o2 ? o1.label === o2.label : o2 === o2;
   }
-  deleteFieldValue(index) {
-    this.list_tag.splice(index, 1);
-  }
+
   getBlog(id) {
     this.spinner.show();
     this.loading = true;
@@ -320,7 +318,9 @@ export class AddTemplateComponent implements OnInit {
         this.toastr.error(this.translate.instant('message.error.youCannotDeleteThisPossessionStatus'), this.translate.instant('swal.error'));
       } else {
         this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
-        this.getBlog(this.post.id);
+        this.selectedObjects.splice(index, 1);
+        this.blog_metatags.splice(index, 1);;
+        //this.getBlog(this.post.id);
       }
     }, (error) => {
       this.spinner.hide();
@@ -370,7 +370,8 @@ export class AddTemplateComponent implements OnInit {
         this.toastr.error(this.translate.instant('message.error.youCannotDeleteThisPossessionStatus'), this.translate.instant('swal.error'));
       } else {
         this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
-        this.getBlog(this.post.id);
+        this.category_obj = '';
+        this.linked_category.splice(index, 1);
       }
     }, (error) => {
       this.spinner.hide();
