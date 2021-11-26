@@ -2442,7 +2442,10 @@
     "cancel": "Cancel",
     "continue": "Continue",
     "finish": "Finish",
-    "back": "Back"
+    "back": "Back",
+    "finalizeContract": "Finalize Contract",
+    "createContract": "Create Contract",
+    "signatureDate":"Signature date"
   },
   "viewCollections": {
     "choose": "Choose",

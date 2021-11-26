@@ -2434,7 +2434,10 @@
     "yes":"Sí",
     "cancel": "Cancelar",
     "continue": "continuar",
-    "finish": "Terminar"
+    "finish": "Terminar",
+    "finalizeContract": "Terminar contracto",
+    "createContract": "contracto crear",
+    "signatureDate":"Fecha de firma"
   },
   "viewCollections": {
     "choose": "Escoger",

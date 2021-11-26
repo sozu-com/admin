@@ -371,8 +371,7 @@ export class ManageContractsComponent implements OnInit {
     this.spinner.show();
     let input = {
       property_collection_id: this.collectionId, 
-      type_of_contract: this.contract, 
-      signature_date: this.signatureDate, 
+      type_of_contract: this.contract,
       beneficiary_id: this.beneficiary_ids,
       percentage: this.percent,
       status: this.status
@@ -380,11 +379,10 @@ export class ManageContractsComponent implements OnInit {
     let input1 = {
       contract_id: this.contract_id,
       property_collection_id: this.collectionId, 
-      type_of_contract: this.contract, 
-      signature_date: this.signatureDate, 
+      type_of_contract: this.contract,
       beneficiary_id: this.beneficiary_ids,
       percentage: this.percent,
-      status: this.status
+      status: 2
     }
     this.admin.postDataApi(this.is_edit ? 'updateContract' : 'addContract',this.is_edit ? input1 : input)
       .subscribe(
@@ -468,6 +466,21 @@ export class ManageContractsComponent implements OnInit {
     let input ={
       contract_id : data.id,
       status: status
+    }
+    this.spinner.show();
+    this.admin.postDataApi('updateContractStatus', input)
+    .subscribe(
+      success => {
+        this.getContract();
+        this.spinner.hide();
+      });
+  }
+
+  addSignatureDate(data){
+    let input ={
+      contract_id : data ? data.id : this.contract_id,
+      status: 3,
+      signature_date: this.signatureDate
     }
     this.spinner.show();
     this.admin.postDataApi('updateContractStatus', input)
