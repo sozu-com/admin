@@ -319,7 +319,8 @@ export class AddTemplateComponent implements OnInit {
       } else {
         this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
         this.selectedObjects.splice(index, 1);
-        this.blog_metatags.splice(index, 1);;
+        this.blog_metatags.splice(index, 1);
+        this.listTags();
         //this.getBlog(this.post.id);
       }
     }, (error) => {
@@ -333,10 +334,12 @@ export class AddTemplateComponent implements OnInit {
     this.admin.postDataApi('deletePostTag', { id: item.id }).subscribe((response) => {
       this.spinner.hide();
       if (response.success == '0') {
-        this.toastr.error(this.translate.instant('message.error.youCannotDeleteThisPossessionStatus'), this.translate.instant('swal.error'));
+        this.toastr.error(this.translate.instant('message.error.youCannotDeleteThisTagStatus'), this.translate.instant('swal.error'));
       } else {
         this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
         this.list_tag.splice(index, 1);
+        this.selectedObjects.splice(index, 1);
+        this.blog_metatags.splice(index, 1);
         this.listTags();
       }
     }, (error) => {
@@ -384,10 +387,12 @@ export class AddTemplateComponent implements OnInit {
     this.admin.postDataApi('deletePostCategory', { id: item.id }).subscribe((response) => {
       this.spinner.hide();
       if (response.success == '0') {
-        this.toastr.error(this.translate.instant('message.error.youCannotDeleteThisPossessionStatus'), this.translate.instant('swal.error'));
+        this.toastr.error(this.translate.instant('message.error.youCannotDeleteThisCateStatus'), this.translate.instant('swal.error'));
       } else {
         this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
         this.list_cate.splice(index, 1);
+        this.category_obj = '';
+        this.linked_category.splice(index, 1);
         this.listCate();
       }
     }, (error) => {

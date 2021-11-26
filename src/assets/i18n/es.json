@@ -1726,6 +1726,8 @@
       "youCannotDeleteThisPropertyConfiguration":"No puede eliminar esta configuración de propiedad",
       "youCannotDeleteThisAmenities":"No puede eliminar estas comodidades",
       "youCannotDeleteThisPossessionStatus":"No puede eliminar este estado de posesión",
+      "youCannotDeleteThisCateStatus":"La categoría ya está asignada a otro blog",
+      "youCannotDeleteThisTagStatus":"La etiqueta ya está asignada a otro blog",
       "youCannotDeleteThisProjectType":"No puedes eliminar este tipo de proyecto",
       "doYouWantToEditTheFinalPriceOfCollection":"¿Quieres editar el precio final de la colección",
       "SorryYouDoNotHaveThePermissionToGoThere":"Lo lamento, no tienes los permisos para realizar esta acción",
