@@ -16,6 +16,8 @@ export class ContractPdfService {
 
 language_code: string;
 collection_data: any;
+nationalityDetails: any[] = [];
+signature: Date;
 
   constructor(
     private translate: TranslateService,
@@ -25,14 +27,25 @@ collection_data: any;
     private price: PricePipe,
   ) { }
 
-  getCollectionById(id){
+  getCollectionById(data){
     this.spinner.show();
-    this.admin.postDataApi('getCollectionById', { id: id }).subscribe(
+    this.signature = data.signature_date ? new Date(data.signature_date) : undefined;
+    this.getNationality();
+    this.admin.postDataApi('getCollectionById', { id: data.property_collection.id }).subscribe(
       success => {
         this.collection_data = success['data'];
         this.generatePaymentReceiptPDF();
         this.spinner.hide();
       });
+  }
+
+  getNationality = (): void => {
+    this.admin.postDataApi('getNationality', {}).subscribe((success) => {
+      this.spinner.hide();
+      this.nationalityDetails = success.data || [];
+      this.nationalityDetails.push({ id: 0, name: 'Other' });
+    }, (error) => {
+    });
   }
 
   generatePaymentReceiptPDF() {
@@ -45,20 +58,17 @@ collection_data: any;
     let concept_monthly = this.collection_data.payment_choices.find(item=> item.category_name == 'Monthly Installment 1' || item.category_name == 'Monthly Installment1');
     let concept_monthly_no = this.collection_data.payment_choices.filter(item=> item.payment_choice.name == 'Monthly Installment');
     let concept_payment = this.collection_data.payment_choices.find(item=> item.category_name == 'Payment upon Delivery');
-    //  let concept_downpayment_date = this.datePipe.transform((concept_downpayment.payment_date? concept.collection_paymentss.payment_date : new Date()), 'dd/MM/yyyy');
-    //  let monthNames = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-    //       'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']
-    //  if (this.language_code != 'en') {
-    //    date = date.includes('Jan') ? date.replace('Jan', 'enero') : date.includes('Feb') ? date.replace('Feb', 'febrero') :
-    //    date.includes('Mar') ? date.replace('Mar', 'marzo') : date.includes('Apr') ? date.replace('Apr', 'abril') :
-    //    date.includes('May') ? date.replace('May', 'mayo') : date.includes('Jun') ? date.replace('Jun', 'junio') :
-    //    date.includes('Jul') ? date.replace('Jul', 'julio') : date.includes('Aug') ? date.replace('Aug', 'agosto') :
-    //    date.includes('Sep') ? date.replace('Sep', 'septiembre') : date.includes('Oct') ? date.replace('Oct', 'octubre') :
-    //    date.includes('Nov') ? date.replace('Nov', 'noviembre') : date.includes('Dec') ? date.replace('Dec', 'diciembre') : ' ';
-    //   }
     let buyer_name = this.collection_data.buyer && this.collection_data.buyer.name ? this.collection_data.buyer.name + ' ' + this.collection_data.buyer.first_surname + ' ' + this.collection_data.buyer.second_surname : this.collection_data.buyer_legal_entity ? this.collection_data.buyer_legal_entity.comm_name : 'N/A';
     let buyer_name_first_letter = this.collection_data.buyer && this.collection_data.buyer.name ? this.collection_data.buyer.name[0] + this.collection_data.buyer.first_surname[0] + this.collection_data.buyer.second_surname[0] : this.collection_data.buyer_legal_entity ? this.collection_data.buyer_legal_entity.comm_name : 'N/A';
     let buyer_name_FTRP = this.collection_data.buyer && this.collection_data.buyer.name ? this.collection_data.buyer.fed_tax_pay : this.collection_data.buyer_legal_entity ? this.collection_data.buyer_legal_entity.fed_tax_pay : 'N/A';
+    let address = (this.collection_data.buyer.tax_street_address && this.collection_data.buyer.tax_street_address != '0' ? this.collection_data.buyer.tax_street_address + ' ' : '') +
+    (this.collection_data.buyer.tax_external_number ? this.collection_data.buyer.tax_external_number  : '');
+    let nationality = this.nationalityDetails.find(item => item.id ==  this.collection_data.buyer.nationality_id);
+    let sign_day = this.signature ? (' ' + self.signature.getDay() + ' ') : ' N/A';
+    let month = this.signature ? + self.signature.getMonth() : ' N/A';
+    let sign_month = month == 1 ? ' enero ' : month == 2 ? ' febrero ' : month == 3 ? ' marzo ' : month == 4 ? ' abril ' : month == 5 ? ' mayo ' : month == 6 ? ' junio ' : month == 7 ? 
+    ' julio ' : month == 8 ? ' agosto ' : month == 9 ? ' septiembre ' : month == 10 ? ' octubre ' : month == 1 ? ' noviembre ' : month == 12 ? ' diciembre ' : ' N/A ';
+    let sign_year = this.signature ? (' ' + self.signature.getFullYear()) : ' N/A';
     let docDefinition = {
       pageSize: 'LEGAL',
       pageMargins: [40, 40, 40, 60],
@@ -207,15 +217,17 @@ collection_data: any;
                 {text: this.translate.instant('generatePDF.contractDetail13'), bold: true, fontSize: 12},
                 {text: buyer_name, bold: true, fontSize: 12},
                 {text: this.translate.instant('generatePDF.contractDetail14'), bold: true, fontSize: 12},
-                {text: 'N/A', bold: true, fontSize: 12},
+                {text: nationality ? nationality.name : 'N/A', bold: true, fontSize: 12},
                 {text: this.translate.instant('generatePDF.contractDetail15'), bold: true, fontSize: 12},
-                {text: 'N/A', bold: true, fontSize: 12},
+                {text: this.collection_data.buyer && this.collection_data.buyer.dob ? this.collection_data.buyer.dob : 'N/A', bold: true, fontSize: 12},
                 {text: this.translate.instant('generatePDF.contractDetail16'), bold: true, fontSize: 12},
-                {text: 'N/A', bold: true, fontSize: 12},
+                {text: this.collection_data.buyer && this.collection_data.buyer.marital_statuses_id ? (this.collection_data.buyer.marital_statuses_id == 1 ?
+                  'Soltero' : this.collection_data.buyer.marital_statuses_id == 2 ? 'Casado - Bienes mancomunados' : this.collection_data.buyer.marital_statuses_id == 2 ? 
+                  'Casado - Bienes separados' : 'N/A') : 'N/A', bold: true, fontSize: 12},
                 {text: this.translate.instant('generatePDF.contractDetail17'), bold: true, fontSize: 12},
-                {text: 'N/A', bold: true, fontSize: 12},
+                {text: this.collection_data.buyer && this.collection_data.buyer.ocupation ? this.collection_data.buyer.ocupation : 'N/A', bold: true, fontSize: 12},
                 {text: this.translate.instant('generatePDF.contractDetail18'), bold: true, fontSize: 12},
-                {text: 'N/A', bold: true, fontSize: 12},
+                {text: address, bold: true, fontSize: 12},,
                 {text: this.translate.instant('generatePDF.contractDetail19'), bold: true, fontSize: 12},
                 {text: buyer_name_FTRP, bold: true, fontSize: 12},
                 {text: this.translate.instant('generatePDF.contractDetail20'), bold: true, fontSize: 12},
@@ -1398,8 +1410,8 @@ collection_data: any;
           {
             text: self.translate.instant('generatePDF.contractFooter1') + buyer_name_first_letter + '/' + self.collection_data.id + '\n' +
             self.translate.instant('generatePDF.contractFooter2') + '\n' + self.translate.instant('generatePDF.contractFooter3') + 
-            ' N/A ' +  self.translate.instant('generatePDF.contractFooter4') + ' N/A ' + 
-            self.translate.instant('generatePDF.contractFooter5') + ' N/A'
+            sign_day +  self.translate.instant('generatePDF.contractFooter4') + sign_month + 
+            self.translate.instant('generatePDF.contractFooter5') + sign_year
           }
         ]
         },
