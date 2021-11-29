@@ -86,7 +86,8 @@
                         <mat-select [(ngModel)] ="category_obj" name="category_obj">
                             <mat-select-trigger>
                                 {{category_obj?.name_en}}
-                              </mat-select-trigger>
+                            </mat-select-trigger>
+                            <mat-option value="0">{{'addForm.select_cate' | translate}}</mat-option>
                             <mat-option *ngFor="let year of list_cate" [value]="year">
                                 <div style="display:flex; justify-content: space-between">
                                   <span>{{year.name_en}}</span>
@@ -104,6 +105,7 @@
                             <mat-select-trigger>
                                 {{category_obj.name_en}}
                               </mat-select-trigger>
+                              <mat-option value="0">{{'addForm.select_cate' | translate}}</mat-option>
                             <mat-option *ngFor="let year of list_cate" [value]="year">
                                 <div style="display:flex; justify-content: space-between">
                                   <span>{{year.name_en}}</span>
@@ -154,6 +156,7 @@
                                 {{category?.name_en}}
                             </span>
                         </mat-select-trigger>
+                        <mat-option value="0">{{'addForm.select_tag' | translate}}</mat-option>
                         <mat-option 
                           *ngFor="let el of list_tag" 
                           [value]="el">
@@ -201,6 +204,7 @@
                                 {{category?.name_en.replace('delete','') + (isLast ? '' : ', ')}}
                             </span>
                         </mat-select-trigger>
+                        <mat-option value="0">{{'addForm.select_tag' | translate}}</mat-option>
                         <mat-option 
                           *ngFor="let el of list_tag; let i = index" 
                           [value]="el">
