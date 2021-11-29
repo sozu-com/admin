@@ -1307,7 +1307,8 @@
       "dealInformation":"Datos del deal",
       "beneficiaryInformation":"Datos beneficiarios",
       "signatureDate":"Fecha de firma",
-      "newContract": "Nuevo Contrato"
+      "newContract": "Nuevo Contrato",
+      "download": "Descargar"
     },
     "pagination": {
       "showing": "Mostrando",
