@@ -42,7 +42,7 @@ collection_data: any;
     let current_date = new Date();
     let concept_layaway = this.collection_data.payment_choices.find(item=> item.category_name == 'Layaway Payment');
     let concept_downpayment = this.collection_data.payment_choices.find(item=> item.category_name == 'Down Payment');
-    let concept_monthly = this.collection_data.payment_choices.find(item=> item.category_name == 'Monthly Installment 1');
+    let concept_monthly = this.collection_data.payment_choices.find(item=> item.category_name == 'Monthly Installment 1' || item.category_name == 'Monthly Installment1');
     let concept_monthly_no = this.collection_data.payment_choices.filter(item=> item.payment_choice.name == 'Monthly Installment');
     let concept_payment = this.collection_data.payment_choices.find(item=> item.category_name == 'Payment upon Delivery');
     //  let concept_downpayment_date = this.datePipe.transform((concept_downpayment.payment_date? concept.collection_paymentss.payment_date : new Date()), 'dd/MM/yyyy');

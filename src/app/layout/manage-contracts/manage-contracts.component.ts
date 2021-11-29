@@ -300,8 +300,8 @@ export class ManageContractsComponent implements OnInit {
     }
   }
 
-  downloadContract(){
-   this.contract.getCollectionById(504);
+  downloadContract(id){
+   this.contract.getCollectionById(id);
   }
 
   downloadLegalContract(){

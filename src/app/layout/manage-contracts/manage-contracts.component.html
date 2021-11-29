@@ -178,6 +178,11 @@
                     (click)="editContract(p)"
                       title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
                         src="assets/img/edit.png" alt="img"></button>
+                    <button [disabled]="admin?.admin_acl['Manage Contracts']?.can_read==0"
+                    (click)="downloadContract(p.property_collection.id)"
+                      title="{{'table.title.download' | translate}}" class="action-icon">
+                      <i class="fa fa-download" aria-hidden="true"></i>
+                    </button>
                     <!-- delete project -->
                     <button [disabled]="admin?.admin_acl['Manage Contracts']?.can_purge==0" (click)="deletePopup(p, i);"
                       class="action-icon" title="{{'table.title.delete' | translate}}"><img

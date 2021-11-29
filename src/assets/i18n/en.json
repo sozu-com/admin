@@ -1306,7 +1306,8 @@
       "dealInformation":"Deal information",
       "beneficiaryInformation":"Beneficiary Information",
       "signatureDate":"Signature date",
-      "newContract": "New Contract"
+      "newContract": "New Contract",
+      "download": "Download"
     },
     "pagination": {
       "showing": "Showing",
