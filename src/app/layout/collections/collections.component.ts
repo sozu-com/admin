@@ -1255,14 +1255,17 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     }).then((result) => {
       if (result.value) {
         // this.admin.postDataApi('deleteCollectionPayment', {payment_id: payment_id})
+        this.spinner.show();
         this.admin.postDataApi('deletePayment', { parent_id: payment_id })
           .subscribe(
             success => {
               // this.paymentConcepts[mainIndex].collection_paymentss.splice(index, 1);
-              this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
-              this.closeEditPaymentModal();
+              // this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
+              this.paymentConcepts[mainIndex].collection_paymentss.splice(index, 1);
+              //this.closeEditPaymentModal();
               this.toastr.clear();
               this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
+              this.spinner.hide();
             },
             error => {
               this.toastr.error(error.message, this.translate.instant('swal.error'));
