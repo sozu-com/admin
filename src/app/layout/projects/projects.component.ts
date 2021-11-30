@@ -622,6 +622,24 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.admin.postDataApi('projectHome', input).subscribe(
       success => {
         this.exportfinalData = success['data'];
+        (this.possessionStatuses || []).forEach(r => {
+          (this.exportfinalData || []).forEach(ele => {
+            if (ele.possession_status_id == r.id) {
+              ele['status_possion'] = r.name_en;
+            }
+          })
+        });
+        (this.all_building_types || []).forEach(r => {
+          (this.exportfinalData || []).forEach(ele => {
+            if (ele.building_type_id == r.id) {
+              ele['status_building'] = r.name_en;
+            }
+          })
+        });
+        this.exportfinalData.forEach(function (element) {
+          element['avgg_price'] = (((parseFloat(element.avg_price) || 0) / (parseFloat(element.avg_carpet_area) || 0)));
+          element['avgg_price_hold'] = (((parseFloat(element.avg_price_hold) || 0) / (parseFloat(element.avg_carpet_area_hold) || 0)));
+        });
         this.exportData();
         this.spinner.hide();
       },
@@ -873,9 +891,6 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       case 11:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.property_for_sale;
         break;
-      case 23:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.sale_rent;
-        break;
       case 12:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.list_price;
         break;
@@ -910,6 +925,9 @@ export class ProjectsComponent implements OnInit, OnDestroy {
         this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.avg_price_rent;
         break;
       case 23:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.property_abl_for_sale_rent;
+        break;
+      case 24:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.building_type;
         break;
       default:
@@ -968,7 +986,6 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       properties: (this.select_columns_list[8] || []).isCheckBoxChecked,
       property_for_rent: (this.select_columns_list[9] || []).isCheckBoxChecked,
       property_for_sale: (this.select_columns_list[10] || []).isCheckBoxChecked,
-      sale_rent: (this.select_columns_list[22] || []).isCheckBoxChecked,
       list_price: (this.select_columns_list[11] || []).isCheckBoxChecked,
       carpet_area: (this.select_columns_list[12] || []).isCheckBoxChecked,
       price_per_metter: (this.select_columns_list[13] || []).isCheckBoxChecked,
@@ -980,6 +997,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       inventory_per_metter: (this.select_columns_list[19] || []).isCheckBoxChecked,
       image: (this.select_columns_list[20] || []).isCheckBoxChecked,
       avg_price_rent: (this.select_columns_list[21] || []).isCheckBoxChecked,
+      property_abl_for_sale_rent: (this.select_columns_list[22] || []).isCheckBoxChecked,
       building_type: (this.select_columns_list[23] || []).isCheckBoxChecked
     };
   }
