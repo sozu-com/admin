@@ -599,14 +599,15 @@ export class CreditAgentComponent implements OnInit {
   }
 
   credit = (data: any): void => {
+
     let input = {
       lead_id: data.id,
-      user_id: data.user_id
+      user_id: data.user_id,
+      collection_id: data.collection_id
     }
     this.spinner.show();
     this.admin.postDataApi('addCreditsUser', input).subscribe(
       success => {
-        console.log(success.data);
         this.getListing();
         this.spinner.hide();
       }, error => {

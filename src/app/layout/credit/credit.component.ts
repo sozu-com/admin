@@ -50,19 +50,22 @@ export class CreditComponent implements OnInit {
   }
 
   credit = (data: any): void => {
-    // let input = {
-    //   lead_id: data.id,
-    //   user_id: data.user_id
-    // }
-    // this.spinner.show();
-    // this.admin.postDataApi('addCreditsUser', input).subscribe(
-    //   success => {
-    //     console.log(success.data);
-    //     this.getListing();
-    //     this.spinner.hide();
-    //   }, error => {
-    //     this.spinner.hide();
-    //   });
+    let input = {
+      collection_id: data.collection_id,
+      user_id: data.user.id,
+      id: data.id
+    }
+    this.spinnerService.show();
+    this.admin.postDataApi('addDealside', input).subscribe(
+      success => {
+        console.log(success.data);
+        this.getBuyers(this.parameter.page, this.parameter.id, this.parameter.name,
+          this.parameter.first_surname, this.parameter.second_surname);
+
+        this.spinnerService.hide();
+      }, error => {
+        this.spinnerService.hide();
+      });
   }
 
 
