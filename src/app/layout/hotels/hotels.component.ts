@@ -159,7 +159,6 @@ export class HotelsComponent implements OnInit {
   getHotelType() {
     this.spinner.show();
     this.parameter.url = 'getHotelType';
-    const input = new FormData();
     this.admin.postDataApi(this.parameter.url, { hide_blocked: 0 })
       .subscribe(
         success => {
@@ -334,25 +333,6 @@ export class HotelsComponent implements OnInit {
     });
     this.location.localities = localities;
   }
-
-  // onCityChange(id) {
-  //   this.location.localities = []; this.parameter.locality_id = '0';
-  //   if (!id || id === '0') {
-  //     this.parameter.locality_id = '0';
-  //     return false;
-  //   }
-  //   this.parameter.city_id = id;
-  //   const selectedCountry = this.location.cities.filter(x => x.id.toString() === id);
-  //   this.location.localities = selectedCountry[0].localities;
-  // }
-
-  // onLocalityChange(id) {
-  //   this.parameter.locality_id = '';
-  //   if (!id || id === '0') {
-  //     return false;
-  //   }
-  //   this.parameter.locality_id = id;
-  // }
 
   changeFlag(flag: number) {
     this.parameter.dash_flag = flag;
