@@ -3706,6 +3706,7 @@
     "validatedByLegal": "Validado por legal",
     "signed": "Firmado",
     "other": "INE",
-    "passport": "Pasaporte"
+    "passport": "Pasaporte",
+    "ine": "INE"
   }
 }
