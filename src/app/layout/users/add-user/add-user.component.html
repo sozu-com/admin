@@ -306,7 +306,7 @@
         <div class="col-4">
           <div class="form-group-3">
             <label>{{'addForm.municipality' | translate}}</label>
-            <input (keydown.space)="$event.preventDefault();" autocomplete="off" type="text" class="form-control"
+            <input autocomplete="off" type="text" class="form-control"
               [(ngModel)]="model.municipality" name="municipality" (keyup)="this.onClickUseUserSameAddress()">
           </div>
         </div>
@@ -444,7 +444,7 @@
         <div class="col-4">
           <div class="form-group-3">
             <label>{{'addForm.municipality' | translate}}</label>
-            <input (keydown.space)="$event.preventDefault();" autocomplete="off" type="text" class="form-control"
+            <input  autocomplete="off" type="text" class="form-control"
               [(ngModel)]="model.tax_municipality" name="tax_municipality">
           </div>
         </div>
