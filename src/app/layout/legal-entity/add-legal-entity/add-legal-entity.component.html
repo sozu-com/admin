@@ -243,11 +243,13 @@
         <div class="col-4">
           <div class="form-group-3">
             <label>{{'addForm.neighbourhood' | translate}}</label>
-            <select class="form-control" formControlName="neighbourhood" name="neighbourhood"
+            <input autocomplete="off" type="text" class="form-control" id="neighbourhood" formControlName="neighbourhood"
+            name="neighbourhood" />
+            <!-- <select class="form-control" formControlName="neighbourhood" name="neighbourhood"
               (change)="this.onClickUseUserSameAddress()">
               <option *ngFor="let tempNeighbourhood of model.neighbourhoods" value="{{tempNeighbourhood}}">
                 {{tempNeighbourhood}}</option>
-            </select>
+            </select> -->
           </div>
         </div>
       </div>
@@ -376,11 +378,13 @@
         <div class="col-4">
           <div class="form-group-3">
             <label>{{'addForm.neighbourhood' | translate}}</label>
-            <select class="form-control" formControlName="tax_neighbourhood" name="tax_neighbourhood">
+            <input autocomplete="off" type="text" class="form-control" id="tax_neighbourhood" formControlName="tax_neighbourhood"
+            name="tax_neighbourhood" />
+            <!-- <select class="form-control" formControlName="tax_neighbourhood" name="tax_neighbourhood">
               <option *ngFor="let temp_tax_neighbourhood of model.tax_neighbourhoods"
                 value="{{temp_tax_neighbourhood}}">
                 {{temp_tax_neighbourhood}}</option>
-            </select>
+            </select> -->
           </div>
         </div>
       </div>

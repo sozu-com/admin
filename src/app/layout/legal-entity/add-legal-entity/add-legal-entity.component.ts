@@ -317,10 +317,10 @@ export class AddLegalEntityComponent implements OnInit {
         repBanks.push(this.fb.group(x));
       });
     }
-    this.model['neighbourhoods'] = [];
-    this.model.neighbourhoods.push(this.addDataForm.get('neighbourhood').value);
-    this.model['tax_neighbourhoods'] = [];
-    this.model.tax_neighbourhoods.push(this.addDataForm.get('tax_neighbourhood').value);
+    //this.model['neighbourhoods'] = [];
+    //this.model.neighbourhoods.push(this.addDataForm.get('neighbourhood').value);
+    // this.model['tax_neighbourhoods'] = [];
+    // this.model.tax_neighbourhoods.push(this.addDataForm.get('tax_neighbourhood').value);
     // (this.addDataForm.get('legal_rep') as FormGroup).get('developer_id').setValue(data.developer_id);
   }
 
@@ -638,7 +638,7 @@ export class AddLegalEntityComponent implements OnInit {
               tax_state: ((success.data || [])[0] || {}).Entidad || '', // State
               tax_city: ((success.data || [])[0] || {}).Ciudad || '', // city
               tax_country: ((success.data || [])[0] || {}).Municipio || ((success.data || [])[0] || {}).Entidad || ((success.data || [])[0] || {}).Ciudad ? 'Mexico' : '', // Country
-              tax_neighbourhood: (this.model.tax_neighbourhoods || [])[0] || ''
+              tax_neighbourhood: this.model.tax_neighbourhoods || ''
             });
           } else {
             const tempNeighbourhoods = [];
@@ -668,7 +668,7 @@ export class AddLegalEntityComponent implements OnInit {
           tax_country: '',
           tax_neighbourhood: ''
         });
-        this.model.tax_neighbourhoods = [];
+        this.model.tax_neighbourhoods = undefined;
       } else {
         this.addDataForm.patchValue({
           municipality: '',
