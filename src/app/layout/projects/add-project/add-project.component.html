@@ -259,9 +259,9 @@
               <div class="col-md-6 col-sm-6 col-12">
                 <div class="form-group-3">
                   <label>{{'addForm.possessionStatus.label' | translate}}
-                    <!-- <span class="color-red">*</span> -->
+                    <span class="color-red">*</span>
                   </label>
-                  <select [(ngModel)]="model.possession_status_id" class="form-control" name="possession_status_id">
+                  <select [(ngModel)]="model.possession_status_id" class="form-control" name="possession_status_id" required>
                     <option value="">{{'addForm.possessionStatus.selectStatus' | translate}}</option>
                     <option *ngFor="let s of all_possession_statuses" [value]="s.id">
                       {{s.name}}
