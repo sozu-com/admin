@@ -2861,7 +2861,8 @@
     "paymentconcpets": "Conceptos de pago",
     "paymentMade": "Pago realizado",
     "paymentMethod": "Método de pago",
-    "finalPrice":"Precio final"
+    "finalPrice":"Precio final",
+    "collectionId": "ID colección"
   },
   "quickVisualization": {
     "Commission":"Comisión",
