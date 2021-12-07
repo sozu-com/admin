@@ -108,7 +108,8 @@ const routes: Routes = [
     SharedModule,
     TranslateModule,
     DropdownModule,
-    NgMultiSelectDropDownModule.forRoot()
+    NgMultiSelectDropDownModule.forRoot(),
+    MalihuScrollbarModule.forRoot(),
   ],
   declarations: [
     CollectionReportComponent,

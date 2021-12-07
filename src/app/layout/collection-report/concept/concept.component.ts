@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { IProperty } from 'src/app/common/property';
@@ -17,6 +17,8 @@ const EXCEL_EXTENSION = '.xlsx';
   styleUrls: ['./concept.component.css']
 })
 export class ConceptComponent implements OnInit {
+  @ViewChild('openConceptModal') openConceptModal: ElementRef;
+  @ViewChild('closeConceptModal') closeConceptModal: ElementRef;
 
   public parameter: IProperty = {};
   singleDropdownSettings: any;
@@ -41,6 +43,8 @@ export class ConceptComponent implements OnInit {
   selectedDevelopers: Array<any>;
   colCount: number;
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
+  selected_concept: any;
+  concept_data: any[] = [];
 
   constructor(
     public constant: Constant,
@@ -330,5 +334,56 @@ export class ConceptComponent implements OnInit {
     FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
   }
 
+  getConcept(concept) {
+    ''.includes
+    this.selected_concept = concept;
+    let mode = concept.p.includes('Monthly Installment')? this.paymentChoices.find(item => item.name_en == 'Monthly Installment') : this.paymentChoices.find(item => item.name_en == concept.p);
+    this.spinner.show();
+    const input: any = JSON.parse(JSON.stringify(this.input));
+    input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
+    input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
 
+    if (this.selctedProjects) {
+      const d = this.selctedProjects.map(o => o.id);
+      input.building_id = d;
+    }
+    if (this.selectedDevelopers) {
+      const d = this.selectedDevelopers.map(o => o.id);
+      input.developer_id = d;
+    }
+    if (this.selectedCurrencies) {
+      const d = this.selectedCurrencies.map(o => o.id);
+      input.currency_id = d;
+    }
+    if (this.selctedConcepts) {
+      const d = this.selctedConcepts.map(o => o.id);
+      input.payment_choice_id = d;
+    }
+    input.payment_choice_id = mode.id;
+    input.payment_choice_name = this.selected_concept.p;
+    this.admin.postDataApi('getPaymentConcept', input).subscribe(
+      success => {
+        this.concept_data = success.data;
+        this.openConceptModal.nativeElement.click();
+        this.spinner.hide();
+      });
+    }
+
+    getExportConcept(){
+      if (this.concept_data) {
+        const data = [];
+        for (let index = 0; index < this.concept_data.length; index++) {
+          const p = this.concept_data[index];
+  
+          data.push({
+            'Collection Id': p.collection_id || '',
+            'Property Name': p.property_name || '',
+            'Buyer Name': p.buyer_name || '',
+            'Date': p.payment_date || '',
+            'Amount Paid': p.amount || '',
+          });
+        }
+        this.exportAsExcelFile(data, (this.concept_data[0].category_name + '-'));
+      }
+    }
 }

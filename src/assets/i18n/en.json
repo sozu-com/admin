@@ -2869,7 +2869,8 @@
     "paymentconcpets": "Payment Concepts",
     "paymentMade": "Payment Made",
     "paymentMethod": "Payment Method",
-    "finalPrice":"Final Price"
+    "finalPrice":"Final Price",
+    "collectionId":"Collection ID"
   },
   "quickVisualization": {
     "Commission":"Commission",
