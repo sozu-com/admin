@@ -392,7 +392,9 @@
                   </label>
               </td> -->
                                 <td>
-                                    <span class="name" *ngIf="item.updated_at">{{item.updated_at | date}}</span>
+                                    <span class="name" *ngIf="item.updated_at">
+                                        {{item.created_at ? item.created_at : item.updated_at | date}}
+                                    </span>
                                 </td>
                                 <td>
                                     <img class="rounded-circle" *ngIf="item.image"
