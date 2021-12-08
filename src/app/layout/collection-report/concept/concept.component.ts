@@ -335,7 +335,6 @@ export class ConceptComponent implements OnInit {
   }
 
   getConcept(concept) {
-    ''.includes
     this.selected_concept = concept;
     let mode = concept.p.includes('Monthly Installment')? this.paymentChoices.find(item => item.name_en == 'Monthly Installment') : this.paymentChoices.find(item => item.name_en == concept.p);
     this.spinner.show();
