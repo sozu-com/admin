@@ -40,6 +40,7 @@ import { CustomPricePipe } from '../pipes/custom-price.pipe';
 import { InterestedProjectComponent } from '../layout/common-blocks/interested-project/interested-project.component';
 import { PreferencesPropertyComponent } from '../layout/common-blocks/preferences-property/preferences-property.component';
 import { MaterialModule } from '../material.module';
+import { UserBlockComponent } from '../layout/common-blocks/user-block/user-block.component';
 
 @NgModule({
   imports: [
@@ -87,7 +88,8 @@ import { MaterialModule } from '../material.module';
     UptoThreeDecimalDirective,
     OnlyNumberDirective,
     OnlyDecimalDirective,
-    CustomPricePipe
+    CustomPricePipe,
+    UserBlockComponent
   ],
   exports: [
     CsrBuyerDetailComponent,
@@ -119,7 +121,8 @@ import { MaterialModule } from '../material.module';
     UptoThreeDecimalDirective,
     OnlyNumberDirective,
     OnlyDecimalDirective,
-    CustomPricePipe
+    CustomPricePipe,
+    UserBlockComponent
   ]
 })
 export class SharedModule { }
