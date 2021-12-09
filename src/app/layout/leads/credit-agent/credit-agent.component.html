@@ -452,7 +452,7 @@
                 <button *ngIf="!item.lead_status_agent" [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
                 (click)="changeLeadStatus(2, item.id, i)" title="{{'table.title.lostLeads' | translate}}" 
                 class="action-icon"><img src="assets/img/lost-items.png" alt="img"></button> -->
-                                    <!-- <button  *ngIf="item.add_credit == 0" class="action-icon" [disabled]="item.deal_finance == 0"
+                                    <button  *ngIf="item.add_credit == 0" class="action-icon" [disabled]="item.deal_finance == 0"
                                     title="{{'table.title.confirmEmail' | translate}}" 
                                     (click)="this.credit(item)" >
                                     <i class="fa fa-credit-card" aria-hidden="true"
@@ -465,7 +465,7 @@
                                     (click)="this.credit(item)" >
                                     <i class="fa fa-credit-card" aria-hidden="true"
                                         style="font-size: 140%;margin-top: 4px;"></i>
-                                </button> -->
+                                </button>
                                     <button class="action-icon" (click)="this.sendMail(item)" [disabled]="item.user_id"
                                         title="{{'table.title.confirmEmail' | translate}}">
                                         <i class="fa fa-map-marker" aria-hidden="true"

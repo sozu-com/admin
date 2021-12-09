@@ -20,6 +20,7 @@ import { CalendarModule } from 'primeng/primeng';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { DocumentsUploadComponent } from './documents-upload/documents-upload.component';
+import { SpouseDocComponent } from './spouse-doc/spouse-doc.component';
 
 const routes: Routes = [
   {
@@ -40,6 +41,10 @@ const routes: Routes = [
   },
   {
     path: 'documents-upload/:userId', component: DocumentsUploadComponent,
+    canActivate: [AclUserGuard], data: { roles: ['User Management', 'can_read', ''] }
+  },
+  {
+    path: 'spouse-doc/:userId', component: SpouseDocComponent,
     canActivate: [AclUserGuard], data: { roles: ['User Management', 'can_read', ''] }
   },
   {
@@ -76,7 +81,8 @@ const routes: Routes = [
     UsersComponent,
     AddUserComponent,
     EditUserComponent,
-    DocumentsUploadComponent
+    DocumentsUploadComponent,
+    SpouseDocComponent
   ]
 })
 

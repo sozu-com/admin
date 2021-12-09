@@ -177,7 +177,7 @@
           <div class="form-group-3">
             <label class="p16-two">{{'addForm.ocupation' | translate}}</label> 
             <input autocomplete="off" class="form-control" type="text" name="ocupation"
-             [(ngModel)]="model.ocupation">
+             [(ngModel)]="model.ocupation" [ngModelOptions]="{standalone: true}">
           </div>
         </div>
         <div class="col-4">
@@ -261,6 +261,178 @@
       <div class="spacer40"></div>
     </div>
 
+    <!-- //sponose -->
+    <div class="white-bg padding40">
+      <div class="row">
+        <div class="col-3">
+          <h3>{{'addForm.add_spouse' | translate}}</h3>
+        </div>
+        <div class="col-3">
+          <label class="switch">
+            <input class="switch-input" type="checkbox" [(ngModel)]="model.spouse_status"  [ngModelOptions]="{standalone: true}" [disabled]="model?.marital_statuses_id != 2"/>
+            <span class="switch-label" data-on="On" data-off="Off"></span> 
+            <span class="switch-handle"></span> 
+          </label>
+        </div>
+      </div>
+      
+      <div class="white-bg padding40" *ngIf="model?.spouse_status == 1">
+        <div class="row">
+          <div class="col-4">
+            <div class="form-group-3">
+              <label>{{'addForm.names' | translate}} <span class="color-red">*</span></label>
+              <input autocomplete="off" minlength="1" maxlength="30"
+                [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" required type="text"
+                class="form-control" [(ngModel)]="model.user_name" name="user_name">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group-3">
+              <label>{{'addForm.firstSurname' | translate}}
+                <span class="color-red">*</span>
+              </label>
+              <input autocomplete="off" minlength="1" maxlength="30"
+                [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" type="text" class="form-control"
+                required [(ngModel)]="model.user_first_surname" name="user_first_surname">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group-3">
+              <label>{{'addForm.secondSurname' | translate}}
+                <!-- <span class="color-red">*</span> -->
+              </label>
+              <input autocomplete="off" minlength="1" maxlength="30"
+                [pattern]="constant.acceptAlphabetNumberAccentscharactersWithWhiteSpace" type="text" class="form-control"
+                [(ngModel)]="model.user_second_surname" name="user_second_surname">
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="spacer40"></div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <div class="form-group-3">
+              <label>{{'addForm.gender' | translate}}</label><br />
+              <input type="radio" name="gender" value="male" [checked]="isChecked('male')"
+                (change)="selectGenderUser($event.target.value)">{{'addForm.male' | translate}} &nbsp;&nbsp;
+              <input type="radio" name="gender" value="female" [checked]="isChecked('female')"
+                (change)="selectGenderUser($event.target.value)">{{'addForm.female' | translate}}
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group-3">
+              <label>{{'addForm.email' | translate}} <span class="color-red">*</span></label>
+              <input (keydown.space)="$event.preventDefault();" autocomplete="off" required
+                [pattern]="constant.emailPattern" type="email" class="form-control" [(ngModel)]="model.user_email" name="user_email">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group-3">
+              <label>{{'addForm.contact_number' | translate}} <span class="color-red">*</span></label>
+              <input minlength="10" maxlength="10" autocomplete="off" type="text" [pattern]="constant.phonePattern"
+                class="form-control" id="phone" required [(ngModel)]="model.user_phone" name="user_phone" ng2TelInput
+                [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event,3)" />
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="spacer40"></div>
+        </div>
+  
+        <div class="row">
+          <div class="col-4">
+            <div class="form-group-3">
+              <label>{{'addForm.dateOfBirth' | translate}}</label>
+              <input class="form-control" type="date" name="user_dob" [(ngModel)]="model.user_dob">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group-3">
+              <label>{{'addForm.CURP' | translate}}</label>
+              <input (keydown.space)="$event.preventDefault();" autocomplete="off" type="text" minlength="18"
+                maxlength="18" class="form-control" [(ngModel)]="model.user_curp" name="user_curp">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group-3">
+              <label>{{'addForm.fedralTaxPayerRegistry' | translate}}</label>
+              <input autocomplete="off" minlength="13" maxlength="13" [pattern]="constant.onlyWhiteSpaces" type="text"
+                class="form-control" [(ngModel)]="model.user_fed_tax_pay" name="user_fed_tax_pay">
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-12">
+          <div class="spacer40"></div>
+        </div>
+  
+        <div class="row">
+          <div class="col-4">
+            <div class="form-group-3">
+              <label class="p16-two">{{'addForm.nacionality' | translate}}</label>
+              <select title="Select Nationality" [(ngModel)]="model.user_nationality" name="user_nationality" class="form-control" (change)="this.updateNationalityName($event.target.value)">
+                <!-- <option value="-1" disabled>{{'addForm.selectNationality' | translate}}</option> -->
+                <option *ngFor="let tempNationalityDetails of nationalityDetails"
+                  [selected]="tempNationalityDetails.id == model.user_nationality" value="{{tempNationalityDetails.id}}">
+                  {{tempNationalityDetails.name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-4" *ngIf="model.user_nationality == 0">
+            <div class="form-group-3">
+              <label>{{'addForm.specifyNationality' | translate}}</label>
+              <input (keydown.space)="$event.preventDefault();" autocomplete="off" type="text" class="form-control"
+                [(ngModel)]="model.nationality_name" name="nationality_name">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group-3">
+              <label class="p16-two">{{'addForm.marital_status' | translate}}</label>
+              <select title="Select Marital Status" name="marital_status" class="form-control"
+                (change)="getMaritalStatusUser($event.target.value)">
+                <option value="0" disabled>{{'addForm.maritalStatus.selectMaritalStatus' | translate}}</option>
+                <option *ngFor="let maritalStatus of marrital_status_list"
+                  [selected]="maritalStatus.id == model.user_marital_statuses_id" value="{{maritalStatus.id}}">{{language_code
+                  == 'en'? maritalStatus.name_en : maritalStatus.name_es}}</option>
+              </select>
+  
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group-3">
+              <label class="p16-two">{{'addForm.ocupation' | translate}}</label> 
+              <input autocomplete="off" class="form-control" type="text" name="user_ocupation"
+               [(ngModel)]="model.user_ocupation">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group-3">
+              <label class="p16-two">{{'addForm.idType' | translate}}</label> 
+               <select class="form-control" (change)="selectIdTypes($event.target.value)"
+               [(ngModel)]="model.user_id_type">
+               <option [selected]="model.user_id_type == 1" value="1">{{'contract.other' | translate}}</option>
+               <option [selected]="model.user_id_type == 2" value="2">{{'contract.passport' | translate}}</option>
+               <option [selected]="model.user_id_type == 3" value="3">{{'contract.ine' | translate}}</option>
+             </select>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group-3">
+              <label class="p16-two">{{'addForm.idNumber' | translate}}</label> 
+              <input autocomplete="off" class="form-control" type="text" name="user_id_number"
+               [(ngModel)]="model.user_id_number">
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-12">
+      <div class="spacer40"></div>
+    </div>
+    <!-- ----edit------ -->
     <div class="white-bg padding40">
       <h3>{{'addForm.address' | translate}}</h3>
       <div class="col-12">

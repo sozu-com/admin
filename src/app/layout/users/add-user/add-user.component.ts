@@ -191,6 +191,10 @@ export class AddUserComponent implements OnInit {
         this.model.legal_representative.country_code = e.iso2;
         this.model.legal_representative.dial_code = '+' + e.dialCode;
         break;
+      case 3:
+        this.model.user_country_code = e.iso2;
+        this.model.user_dial_code = '+' + e.dialCode;
+        break;
       default:
         break;
     }
@@ -358,7 +362,8 @@ export class AddUserComponent implements OnInit {
 
   add(formData: NgForm) {
     const modelSave: Users = JSON.parse(JSON.stringify(this.model));
-
+    modelSave.gender = this.model.gender ? this.model.gender : 'male';
+    modelSave.user_gender = this.model.gender ? this.model.gender : 'male';
     if (modelSave.legal_representative.phone) {
       modelSave.legal_representative.country_code = modelSave.legal_representative.country_code || this.constant.country_code;
       modelSave.legal_representative.dial_code = modelSave.legal_representative.dial_code || this.constant.dial_code;
@@ -573,6 +578,9 @@ export class AddUserComponent implements OnInit {
     this.model.gender = gender;
   }
 
+  selectGenderUser(gender) {
+    this.model.user_gender = gender;
+  }
   isChecked(gender) {
     return gender == this.model.gender ? true : false;
 
@@ -609,11 +617,15 @@ export class AddUserComponent implements OnInit {
   getMaritalStatus(maritalStatusId) {
     this.model.marital_statuses_id = maritalStatusId;
   }
-
-  selectIdType(value){
+  getMaritalStatusUser(maritalStatusId) {
+    this.model.user_marital_statuses_id = maritalStatusId;
+  }
+  selectIdType(value) {
     this.model.id_type = value;
   }
-
+  selectIdTypes(value) {
+    this.model.user_id_type = value;
+  }
   getStatesNew1(countryId) {
     this.parameter.citiesAdd = []; this.parameter.localitiesAdd = []; this.parameter.buildingsAdd = [];
     this.parameter.country_id = countryId;
