@@ -269,6 +269,8 @@ export class AddEditCollectionComponent implements OnInit {
   client_rfc: any;
   checker: any;
   tempmodelForBank: any;
+  searchedUser = [];
+  selectedUser = [];
   constructor(
     public model: Collection,
     private adminService: AdminService,
@@ -944,6 +946,11 @@ export class AddEditCollectionComponent implements OnInit {
         this.addFormStep4.controls.day.patchValue('01');
         this.isShown = true;
       }
+      if(data.collection_viewer){
+      data.collection_viewer.forEach(item=>{
+        this.selectedUser.push(item.viewer);
+      })
+    }
     }
     // buyer as a legal entity
     if (this.model.buyer_type == '2') {
@@ -2935,6 +2942,11 @@ export class AddEditCollectionComponent implements OnInit {
         return;
       }
       formdata['property_beneficiary'] = this.property_beneficiary;
+      let userIds = [];
+      this.selectedUser.forEach(item=>{
+        userIds.push(item.id);
+      })
+      formdata['collection_viewer'] = userIds; 
     }
 
     if (this.model.step == 4) {
@@ -3769,5 +3781,60 @@ export class AddEditCollectionComponent implements OnInit {
     } else {
       this.addFormStep4.get('delivery_date').disable({ onlySelf: true });
     }
+  }
+
+  searchUser = (keyword: string): void => {
+    if (!keyword) {
+      this.toastr.clear()
+      this.toastr.error(
+        this.translate.instant('message.error.pleaseEnterSomeText'),
+        this.translate.instant('swal.error'),
+      )
+    } else {
+      this.showBuilding = false
+      this.buildingLoading = true
+      this.searchedUser = []
+      this.adminService
+        .postDataApi('getUsers', { name: keyword })
+        .subscribe(
+          (success) => {
+            this.searchedUser = success['data']
+            this.parameter.buildingCount = success['data'].length
+            if (this.parameter.buildingCount === 0) {
+              this.showText = true
+            }
+            this.buildingLoading = false
+          },
+          (error) => {
+            this.buildingLoading = true
+          },
+        )
+    }
+  }
+
+  getUserIndex(i: number) {
+    const searchindex = (this.parameter.page - 1) * 4 + i
+    if(this.searchedUser[searchindex].selected){
+      this.searchedUser[searchindex].selected = false;
+    }
+    else{
+    this.searchedUser[searchindex].selected = true;
+    this.searchedUser.forEach(item=>{
+      if(item.selected){
+        this.selectedUser.push(item);
+      }
+    });
+  }
+  }
+
+  deleteUser(user, index){
+    this.selectedUser.splice(index, 1);
+  }
+
+  setUserId(building: any) {
+    //this.creditModel.user = building
+   // this.creditModel.user.id = building.id
+    // this.creditModel.user = building;
+    //console.log(building, 'building')
   }
 }

@@ -1628,9 +1628,73 @@
         </ng-container>
       </div>
 
-
       <div class="spacer15"></div>
 
+      <div class="padding40">
+        <h5 class="p16-two">{{'addRequest.ShowDealCardToAnotherUser' | translate}}</h5>
+        <div class="searh d-flex">
+          <input autocomplete="off" class="border-right-0" autocomplete="off" type="text" #buildingname
+           name="buildingName" [(ngModel)]="userName">
+          <button type="button" class="btn" type="button"
+            (click)="searchUser(buildingname.value)">{{'addCollection.search' | translate}}</button>
+        </div>
+        <div class="spacer50"></div>
+        <div *ngIf="buildingLoading">
+          <img src="assets/img/loading_content.gif" />
+        </div>
+
+        <!-- buildings listing -->
+        <div class="row">
+          <div class="col-lg-6 col-md-12 col-sm-12 col-12"
+            *ngFor="let item of searchedUser| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.buildingCount }; let i = index">
+            <app-user-block (setUser)="setUserId($event)" (UserIndex)="getUserIndex($event)" [data]="item"
+              [index]="i"></app-user-block>
+          </div>
+        </div>
+        <div class="row" *ngIf="searchedUser?.length>0">
+          <div class="col-lg-6 col-md-12 col-sm-12 col-12"></div>
+          <div class="col-lg-6 col-md-12 col-sm-12 col-12 btn-cont text-right marginT15">
+            <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+          </div>
+        </div>
+      </div>
+      <div class="spacer15"></div>
+
+      <div class="padding40">
+        <h5 class="p16-two">{{'addRequest.DealCardToViewer' | translate}}</h5>
+        <table class="table">
+          <thead class="thead-light">
+            <tr>
+              <th style="color: black;">&nbsp;</th>
+              <th style="color: black;">{{'table.th.name' | translate}}</th>
+              <th style="color: black;">{{'table.th.firstSurname' | translate}}:</th>
+              <th style="color: black;">{{'table.th.secondSurname' | translate}}:</th>
+              <th style="color: black;">{{'addCollection.delete' | translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of selectedUser; let i=index">
+              <td>
+                <img *ngIf="user.image" [defaultImage]="user.image| img:'thumb'" [lazyLoad]="user.image" class="image-css " alt="img">
+                <img *ngIf="!user.image" class="image-css" src="assets/img/default_img.png" alt="img">
+              </td>
+              <td>{{user?.name ? user?.name : ('table.tr.td.NA' | translate)}}</td>
+              <td>{{user?.first_surname ? user?.first_surname : ('table.tr.td.NA' | translate)}}</td>
+              <td>{{user?.second_surname || ('table.tr.td.NA' | translate)}}</td>
+              <td>
+                <button class="action-icon" title="{{'addCollection.delete' | translate}}"
+                  (click)="deleteUser(user,i)" type="button">
+                  <img src="assets/img/ic_delete.png" alt="img">
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="this.selectedUser.length == 0"><th colspan="5" style="text-align: center;">{{'message.error.noRecordFound' | translate}}</th></tr>
+          </tbody>
+        </table>
+      </div>
+
+
+      <div class="spacer15"></div>
       <div class="spacer15"></div>
       <div class="row">
         <div class="col-md-12">
