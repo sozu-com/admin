@@ -25,6 +25,7 @@ import { QuickVisualizationComponent } from './quick-visualization/quick-visuali
 import { AccountStatementComponent } from './account-statement/account-statement.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgOtpInputModule } from  'ng-otp-input';
+import { UserBlockComponent } from '../common-blocks/user-block/user-block.component';
 
 const routes: Routes = [
   // {
@@ -89,7 +90,8 @@ const routes: Routes = [
     AddEditCollectionComponent,
     AnalyticsComponent,
     QuickVisualizationComponent,
-    AccountStatementComponent
+    AccountStatementComponent,
+    UserBlockComponent
   ]
 })
 

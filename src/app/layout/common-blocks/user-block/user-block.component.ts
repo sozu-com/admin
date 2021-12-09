@@ -7,6 +7,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class UserBlockComponent implements OnInit {
   @Input('data') data: any;
+  @Input('multiSelect') multiSelect: any;
   @Input('index') index: number;
   @Output('setUser') setBuilding = new EventEmitter();
   @Output('UserIndex') buildingIndex = new EventEmitter();

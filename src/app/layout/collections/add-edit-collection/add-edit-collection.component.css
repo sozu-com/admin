@@ -189,3 +189,9 @@
         text-align: center;
     }
 }
+
+.image-css{
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+}

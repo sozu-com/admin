@@ -3418,7 +3418,9 @@
   "addRequest":{
     "addLabel": "Agregar nueva solicitud",
     "sellectUser": "Selecciona un usuario",
-    "SearchAUserInOurDatabase": "Selecciona un usuario en nuestra base de datos"
+    "SearchAUserInOurDatabase": "Selecciona un usuario en nuestra base de datos",
+    "ShowDealCardToAnotherUser": "Mostrar tarjeta de trato a otro usuario",
+    "DealCardToViewer": "Tarjeta de trato al espectador"
   },
   "creditForm":{
     "credit":"Créditos",
