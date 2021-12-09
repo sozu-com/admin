@@ -3427,7 +3427,9 @@
   "addRequest": {
     "addLabel": "Add New Request",
     "sellectUser": "Sellect a user",
-    "SearchAUserInOurDatabase": "Search a user in our database"
+    "SearchAUserInOurDatabase": "Search a user in our database",
+    "ShowDealCardToAnotherUser": "Show Deal Card To Another User",
+    "DealCardToViewer": "Deal Card To Viewer"
   },
   "creditForm": {
     "credit": "Credits",
