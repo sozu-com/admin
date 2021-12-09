@@ -59,7 +59,7 @@ export class EditUserComponent implements OnInit {
   public selectedAddr;
   isGetEditUserData: boolean = false;
   toDayDate: any;
-
+  spouse_user: any = {};
   constructor(
     public constant: Constant,
     private cs: CommonService,
@@ -148,7 +148,27 @@ export class EditUserComponent implements OnInit {
           this.spinner.hide();
           this.model = new Users();
           this.model = success.data;
+          this.spouse_user = success.data.spouse_user;
           this.isGetEditUserData = true;
+          if (this.spouse_user) {
+            this.model.user_name = this.spouse_user.name;
+            this.model.user_first_surname = this.spouse_user.first_surname;
+            this.model.user_second_surname = this.spouse_user.second_surname;
+            this.model.user_gender = this.spouse_user.gender;
+            this.model.user_email = this.spouse_user.email;
+            this.model.user_country_code = this.spouse_user.country_code;
+            this.model.user_dial_code = this.spouse_user.dial_code;
+            this.model.user_phone = this.spouse_user.phone;
+            this.model.user_dob = this.spouse_user.dob;
+            this.model.user_curp = this.spouse_user.curp;
+            this.model.user_fed_tax_pay = this.spouse_user.fed_tax_pay;
+            this.model.user_nationality = this.spouse_user.nationality;
+            this.model.user_marital_statuses_id = this.spouse_user.marital_statuses_id;
+            this.model.user_ocupation = this.spouse_user.ocupation;
+            this.model.user_id_type = this.spouse_user.id_type;
+            this.model.user_id_number = this.spouse_user.id_number;
+            this.model.user_spouse_id = this.spouse_user.id;
+          }
           // this.model.legal_representative = new LegalRepresentative();
           this.model.legal_rep_banks = success.data.legal_rep_banks;
           this.model.legal_representative = success.data.legal_representative || new LegalRepresentative();
@@ -205,6 +225,10 @@ export class EditUserComponent implements OnInit {
         this.model.legal_representative.country_code = e.iso2;
         this.model.legal_representative.dial_code = '+' + e.dialCode;
         break;
+      case 3:
+        this.model.user_country_code = e.iso2;
+        this.model.user_dial_code = '+' + e.dialCode;
+        break;
       default:
         break;
     }
@@ -222,6 +246,9 @@ export class EditUserComponent implements OnInit {
       case 3:
         route = `${'/dashboard/users/documents-upload/'}${this.model.id || 0}${'/'}${beneficiaryDetails.id}${'/'}${beneficiaryDetails.tutor.id}`;
         break;
+      case 4:
+        route = `${'/dashboard/users/spouse-doc/'}${this.model.id || 0}`;
+        break;
       default:
         break;
     }
@@ -234,6 +261,9 @@ export class EditUserComponent implements OnInit {
 
   add(formData: NgForm) {
     const modelSave: Users = JSON.parse(JSON.stringify(this.model));
+    modelSave.user_spouse_id = this.model.user_spouse_id;
+    console.log(modelSave.user_spouse_id, "edit");
+    console.log(this.model.user_spouse_id, "modelll");
     if (modelSave.legal_representative.phone) {
       modelSave.legal_representative.country_code = modelSave.legal_representative.country_code || this.constant.country_code;
       modelSave.legal_representative.dial_code = modelSave.legal_representative.dial_code || this.constant.dial_code;
@@ -306,6 +336,7 @@ export class EditUserComponent implements OnInit {
     modelSave.country_id = this.countryInput == 'other' ? 0 : modelSave.country_id;
     modelSave.state_id = this.stateInput == 'other' ? 0 : modelSave.state_id;
     modelSave.city_id = this.cityInput == 'other' ? 0 : modelSave.city_id;
+
     if (this.current_nationality_id != modelSave.nationality_id) {
       swal({
         html: this.translate.instant('message.error.youHaveChangedTheNationality') + '<br>' +
@@ -435,7 +466,9 @@ export class EditUserComponent implements OnInit {
   selectGender(gender) {
     this.model.gender = gender;
   }
-
+  selectGenderUser(gender) {
+    this.model.user_gender = gender;
+  }
   isChecked(gender) {
     return gender == this.model.gender ? true : false;
 
@@ -472,9 +505,14 @@ export class EditUserComponent implements OnInit {
   getMaritalStatus(maritalStatusId) {
     this.model.marital_statuses_id = maritalStatusId;
   }
-
-  selectIdType(value){
+  getMaritalStatusUser(maritalStatusId) {
+    this.model.user_marital_statuses_id = maritalStatusId;
+  }
+  selectIdType(value) {
     this.model.id_type = value;
+  }
+  selectIdTypes(value) {
+    this.model.user_id_type = value;
   }
   getStatesNew1(countryId) {
     this.parameter.citiesAdd = []; this.parameter.localitiesAdd = []; this.parameter.buildingsAdd = [];
