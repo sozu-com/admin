@@ -309,6 +309,7 @@
                       <!-- <button title="{{'table.title.addLegalEntity' | translate}}" 
                       [disabled]="admin?.admin_acl['User Management']?.can_update==0" 
                       (click)="addLegalEntity(item, i)" class="action-icon"><img src="assets/img/stamp.png" alt="img"></button> -->
+                      
                       <button [disabled]="admin?.admin_acl['Manage Credits']?.can_delete==0"
                         (click)="blockUnblockPopup(i, item.id, item.is_blocked==1?0:1, parameter.type)" 
                         title="{{item.is_blocked==1 ? ('table.title.unblock' | translate) : ('table.title.block' | translate)}}" [ngClass]="{'unblock-bg':item.is_blocked==1}"
