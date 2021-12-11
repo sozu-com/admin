@@ -441,6 +441,17 @@
                                         translate) : ('table.tr.td.NA' | translate)}}</span> </td>
                                 <td (click)="$event.stopPropagation()" style="display: inline-flex">
 
+                                    <!-- <button *ngIf="item.lead_status_agent==1" [disabled]="admin?.admin_acl['Credit Agent Lead Management']?.can_update==0"
+                title="{{'table.title.openLeads' | translate}}" (click)="changeLeadStatus(0, item.id, i)"
+                class="action-icon"><img src="assets/img/open-lock.png" alt="img"></button>
+                
+                <button *ngIf="!item.lead_status_agent || item.lead_status_agent==2" [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
+                (click)="changeLeadStatus(1, item.id, i)" title="{{'table.title.closeLeads' | translate}}" 
+                class="action-icon"><img src="assets/img/locked-padlock.png" alt="img"></button>  
+                
+                <button *ngIf="!item.lead_status_agent" [disabled]="admin?.admin_acl['Manage Collections']?.can_update==0"
+                (click)="changeLeadStatus(2, item.id, i)" title="{{'table.title.lostLeads' | translate}}" 
+                class="action-icon"><img src="assets/img/lost-items.png" alt="img"></button> -->
 
                                     <button  *ngIf="item.add_credit == 0" class="action-icon" [disabled]="item.deal_finance == 0"
                                     title="{{'table.title.confirmEmail' | translate}}" 

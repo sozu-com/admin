@@ -262,8 +262,8 @@ export class EditUserComponent implements OnInit {
   add(formData: NgForm) {
     const modelSave: Users = JSON.parse(JSON.stringify(this.model));
     modelSave.user_spouse_id = this.model.user_spouse_id;
-    console.log(modelSave.user_spouse_id, "edit");
-    console.log(this.model.user_spouse_id, "modelll");
+    modelSave.gender = this.model.gender ? this.model.gender : 'male';
+    modelSave.user_gender = this.model.gender ? this.model.gender : 'male';
     if (modelSave.legal_representative.phone) {
       modelSave.legal_representative.country_code = modelSave.legal_representative.country_code || this.constant.country_code;
       modelSave.legal_representative.dial_code = modelSave.legal_representative.dial_code || this.constant.dial_code;
