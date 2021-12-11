@@ -363,7 +363,7 @@ export class AddUserComponent implements OnInit {
   add(formData: NgForm) {
     const modelSave: Users = JSON.parse(JSON.stringify(this.model));
     modelSave.gender = this.model.gender ? this.model.gender : 'male';
-    modelSave.user_gender = this.model.gender ? this.model.gender : 'male';
+    modelSave.user_gender = this.model.user_gender ? this.model.user_gender : 'male';
     if (modelSave.legal_representative.phone) {
       modelSave.legal_representative.country_code = modelSave.legal_representative.country_code || this.constant.country_code;
       modelSave.legal_representative.dial_code = modelSave.legal_representative.dial_code || this.constant.dial_code;
@@ -578,14 +578,17 @@ export class AddUserComponent implements OnInit {
     this.model.gender = gender;
   }
 
-  selectGenderUser(gender) {
-    this.model.user_gender = gender;
+  selectGenderUser(user_gender) {
+    this.model.user_gender = user_gender;
   }
   isChecked(gender) {
     return gender == this.model.gender ? true : false;
 
   }
+  isCheckedd(user_gender) {
+    return user_gender == this.model.user_gender ? true : false;
 
+  }
   isCheckedBeneficiaryGender(gender) {
     return gender == this.beneficiary.gender ? true : false;
   }

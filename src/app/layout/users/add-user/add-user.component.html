@@ -314,9 +314,9 @@
           <div class="col-4">
             <div class="form-group-3">
               <label>{{'addForm.gender' | translate}}</label><br />
-              <input type="radio" name="gender" value="male" [checked]="isChecked('male')"
+              <input type="radio" name="user_gender" value="male" [checked]="isCheckedd('male')"
                 (change)="selectGenderUser($event.target.value)">{{'addForm.male' | translate}} &nbsp;&nbsp;
-              <input type="radio" name="gender" value="female" [checked]="isChecked('female')"
+              <input type="radio" name="user_gender" value="female" [checked]="isCheckedd('female')"
                 (change)="selectGenderUser($event.target.value)">{{'addForm.female' | translate}}
             </div>
           </div>
