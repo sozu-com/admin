@@ -385,9 +385,9 @@
         <div class="form-group-3">
           <label>{{'addForm.gender' | translate}}</label><br />
           <input type="radio" name="gender" value="male" [checked]="isChecked('male')"
-            (change)="selectGenderUser($event.target.value)" [(ngModel)]="model.user_gender" name="user_gender">{{'addForm.male' | translate}} &nbsp;&nbsp;
+            (change)="selectGenderUser($event.target.value)">{{'addForm.male' | translate}} &nbsp;&nbsp;
           <input type="radio" name="gender" value="female" [checked]="isChecked('female')"
-            (change)="selectGenderUser($event.target.value)" [(ngModel)]="model.user_gender" name="user_gender">{{'addForm.female' | translate}}
+            (change)="selectGenderUser($event.target.value)">{{'addForm.female' | translate}}
         </div>
       </div>
       <div class="col-4">
