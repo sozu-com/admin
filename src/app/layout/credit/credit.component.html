@@ -288,7 +288,7 @@
                 <td>
                   <div class="table-actions">
 
-                      <!-- <button title="{{'table.title.editDetails' | translate}}" 
+                      <button title="{{'table.title.editDetails' | translate}}" 
                       *ngIf="item.collection_id"
                       [disabled]="item.deal_status == 1"
                       (click)="this.credit(item)" 
@@ -301,7 +301,7 @@
                     [disabled]="!item.collection_id" 
                     class="action-icon">
                     <i class="fa fa-play-circle-o" aria-hidden="true" style="font-size: 25px;"></i>
-                  </button> -->
+                  </button>
 
                       <button title="{{'table.title.editDetails' | translate}}" [disabled]="admin?.admin_acl['Manage Credits']?.can_update==0" 
                       routerLink="/dashboard/credit/edit-credit/{{item.id}}" class="action-icon"><img src="assets/img/edit.png" alt="img"></button>
