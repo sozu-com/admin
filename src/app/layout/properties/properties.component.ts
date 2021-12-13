@@ -1488,22 +1488,22 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     input.export = this.export_num;
     this.admin.postDataApi('propertyHomeForExport', input).subscribe(
       success => {
-        if(success['data'] && success['data'].length > 0){
+        if (success['data'] && success['data'].length > 0) {
           success['data'].forEach(element => {
             this.exportfinalData.push(element);
           });
-        if(this.exportfinalData.length == this.total){
-          self.progress_bar_per = (self.exportfinalData.length / self.total) * 100;
-          self.export_num = 1;
-          self.exportData();
-          this.spinner.hide();
+          if (this.exportfinalData.length == this.total) {
+            self.progress_bar_per = (self.exportfinalData.length / self.total) * 100;
+            self.export_num = 1;
+            self.exportData();
+            this.spinner.hide();
+          }
+          else {
+            self.progress_bar_per = (self.exportfinalData.length / self.total) * 100;
+            self.export_num = this.export_num + 1;
+            self.getExportlisting();
+          }
         }
-        else{
-          self.progress_bar_per = (self.exportfinalData.length / self.total) * 100;
-          self.export_num = this.export_num + 1;
-          self.getExportlisting();
-        }
-      }
       },
       error => {
         // this.spinner.hide();
@@ -1538,6 +1538,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
           'Total Commission (in %)': parseFloat(p.total_commission).toFixed(3) || 0,
           'Possession Status': p.building_towers && p.building_towers.possession_status_id == this.apiConstant.possessionStatus.sale ?
             this.translate.instant('table.tr.td.sale') : this.translate.instant('table.tr.td.presale'),
+          'Delivery estimated date': p.building_towers.launch_date || 0,
           'Inhouse Agent': p.external_broker && p.external_broker.id ? p.external_broker.name : '',
           'Outside Agent': p.external_outside_agent && p.external_outside_agent.id ? p.external_outside_agent.name : '',
           'Agency': p.get_agency && p.get_agency.id ? p.get_agency.name : '',
@@ -2611,8 +2612,6 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       leads: (this.select_columns_list[16] || []).isCheckBoxChecked,
       change_buyer: (this.select_columns_list[17] || []).isCheckBoxChecked,
       change_seller: (this.select_columns_list[18] || []).isCheckBoxChecked,
-      link_unlink_inhouse_agent: (this.select_columns_list[27] || []).isCheckBoxChecked,
-      link_unlink_outside_agent: (this.select_columns_list[28] || []).isCheckBoxChecked,
       link_agency: (this.select_columns_list[19] || []).isCheckBoxChecked,
       change_availability: (this.select_columns_list[20] || []).isCheckBoxChecked,
       is_property_sold: (this.select_columns_list[21] || []).isCheckBoxChecked,
@@ -2621,8 +2620,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       view_seller_request: (this.select_columns_list[24] || []).isCheckBoxChecked,
       action: (this.select_columns_list[25] || []).isCheckBoxChecked,
       price_per_m2: (this.select_columns_list[26] || []).isCheckBoxChecked,
+      link_unlink_inhouse_agent: (this.select_columns_list[27] || []).isCheckBoxChecked,
+      link_unlink_outside_agent: (this.select_columns_list[28] || []).isCheckBoxChecked,
       rent_price: (this.select_columns_list[29] || []).isCheckBoxChecked,
       property_id: (this.select_columns_list[30] || []).isCheckBoxChecked,
+      launch_date: (this.select_columns_list[31] || []).isCheckBoxChecked,
     };
   }
 
@@ -2751,6 +2753,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         break;
       case 34:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.property_id;
+        break;
+      case 35:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.launch_date;
         break;
       default:
         break;

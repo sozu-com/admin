@@ -815,6 +815,7 @@
     },
     "th": {
       "carpetArea": "Carpet Area",
+      "Delivery": "Delivery estimated date",
       "all": "All",
       "id": "ID",
       "currency": "Currency",

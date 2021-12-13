@@ -508,7 +508,10 @@
                               </select> -->
                            </div>
                         </th>
-
+                        <th style="width:18%;vertical-align:top;"
+                        *ngIf="selectedPropertyColumnsToShow?.launch_date">
+                           <label>{{'table.th.Delivery' | translate}}</label>
+                     </th>
 
                         <th style="width:8%;vertical-align:top;"
                            *ngIf="selectedPropertyColumnsToShow?.agent_commission">
@@ -726,6 +729,10 @@
                            <span>{{p?.building_towers?.possession_status_id == apiConstant.possessionStatus.sale ?
                               ('table.tr.td.sale' |
                               translate) : ('table.tr.td.presale' | translate)}}</span>
+                        </td>
+
+                        <td *ngIf="selectedPropertyColumnsToShow?.launch_date">
+                           {{p?.building_towers?.launch_date | date: 'MMMM d, y'}}
                         </td>
 
                         <td *ngIf="selectedPropertyColumnsToShow?.agent_commission"><span>{{p.broker_commision |
@@ -1006,7 +1013,9 @@
                                  ('table.tr.td.sale' |
                                  translate) : ('table.tr.td.presale' | translate)}}</span>
                            </td>
-   
+                           <td *ngIf="selectedPropertyColumnsToShow?.launch_date">
+                              {{p?.building_towers?.launch_date | date: 'MMMM d, y'}}
+                           </td>
                            <td *ngIf="selectedPropertyColumnsToShow?.agent_commission"><span>{{p.broker_commision |
                                  percentage}}</span></td>
                            <td *ngIf="selectedPropertyColumnsToShow?.edit_agent_commission"><span>

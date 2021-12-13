@@ -815,6 +815,7 @@
     "th": {
       "hotel_type": "Tipo de hotel",
       "carpetArea": "Área de piso",
+      "Delivery": "Fecha estimada de entrega",
       "all": "All",
       "id": "ID",
       "currency": "Moneda",
