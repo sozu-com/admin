@@ -250,6 +250,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   searchCollection: any;
   searched_collection: any;
   finish: boolean = false;
+  totalPenalty = 0;
+  fill: number = 0;
   constructor(
     public constant: Constant,
     public apiConstants: ApiConstants,
@@ -3122,8 +3124,15 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           const monthNamesES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
             'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
           ];
+          let totalPaid = 0;
+          let totalPayable = 0;
+          let totalPending = 0;
           this.collection_data.payment_choices.forEach(function (element, index) {
-            let fill = index % 2;
+            self.fill = index % 2;
+            totalPaid = totalPaid + element.calc_payment_amount;
+            totalPending = totalPending + (element.amount - (element.calc_payment_amount || 0));
+            totalPayable = totalPayable + element.amount;
+            self.totalPenalty = element.penalty ? self.totalPenalty + element.penalty.amount : self.totalPenalty + 0;
             let month = new Date(element.date);
             let current_date = new Date();
             self.bill_month = self.translate.defaultLang === 'en' ? monthNames[current_date.getUTCMonth()] : monthNamesES[current_date.getUTCMonth()];
@@ -3189,27 +3198,27 @@ export class CollectionsComponent implements OnInit, OnDestroy {
               {
                 text: element.category_name == 'Special payment' ? element.name : self.language_code == 'en' && element.category_name != 'Special payment' ?
                   element.payment_choice.name_en : self.language_code == 'es' && element.category_name != 'Special payment' ? element.payment_choice.name_es : element.name, border: [false, false, false, false], bold: true, color: 'white',
-                fillColor: fill == 0 ? '#a9a9a9' : '#929292', fontSize: 11
+                fillColor: self.fill == 0 ? '#a9a9a9' : '#929292', fontSize: 11
               },
-              { text: element.date, border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#929292' },
+              { text: element.date, border: [false, false, false, false], bold: true, color: 'white', fillColor: self.fill == 0 ? '#a9a9a9' : '#929292' },
               {
                 text: element.calc_payment_amount && element.calc_payment_amount > '0.1' ? self.price.transform(Number(element.calc_payment_amount).toFixed(2)) : '', border: [false, false, false, false], bold: true,
-                color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#929292', fontSize: 11
+                color: 'white', fillColor: self.fill == 0 ? '#a9a9a9' : '#929292', fontSize: 11
               },
               {
                 text: element.amount - (element.calc_payment_amount || 0) ? self.price.transform(Number(element.amount - (element.calc_payment_amount || 0)).toFixed(2)) : '-', border: [false, false, false, false],
-                bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#929292', fontSize: 11, alignment: 'center'
+                bold: true, color: 'white', fillColor: self.fill == 0 ? '#a9a9a9' : '#929292', fontSize: 11, alignment: 'center'
               },
               {
                 text: element.amount ? self.price.transform(Number(element.amount).toFixed(2)) : '', border: [false, false, false, false], bold: true, color: 'white',
-                fillColor: fill == 0 ? '#a9a9a9' : '#929292', fontSize: 11
+                fillColor: self.fill == 0 ? '#a9a9a9' : '#929292', fontSize: 11
               },
               {
                 text: element.penalty ? self.price.transform(Number(element.penalty.amount).toFixed(2)) : '', border: [false, false, false, false], bold: true, color: 'white',
-                fillColor: fill == 0 ? '#a9a9a9' : '#929292', fontSize: 11
+                fillColor: self.fill == 0 ? '#a9a9a9' : '#929292', fontSize: 11
               },
               {
-                text: element.penalty ? element.penalty.description : '', border: [false, false, false, false], bold: true, color: 'white', fillColor: fill == 0 ? '#a9a9a9' : '#929292',
+                text: element.penalty ? element.penalty.description : '', border: [false, false, false, false], bold: true, color: 'white', fillColor: self.fill == 0 ? '#a9a9a9' : '#929292',
                 fontSize: 11
               }
             ]);
@@ -3222,6 +3231,33 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             { text: monthly_installment_amunt_per || 'N/A', border: [false, false, false, false], bold: true },
             { text: self.monthly_installment_amunts >= 0 ? self.price.transform(Number(self.monthly_installment_amunts).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true }
           );
+            self.table_data.push([
+              {
+                text: 'Total' , border: [false, false, false, false], bold: true, color: 'white',
+                fillColor: self.fill == 0 ? '#a9a9a9' : '#929292', fontSize: 11
+              },
+              { text: '', border: [false, false, false, false], bold: true, color: 'white', fillColor: self.fill == 0 ? '#a9a9a9' : '#929292' },
+              {
+                text: self.price.transform(Number(totalPaid).toFixed(2)), border: [false, false, false, false], bold: true,
+                color: 'white', fillColor: self.fill == 0 ? '#a9a9a9' : '#929292', fontSize: 11
+              },
+              {
+                text: self.price.transform(Number(totalPending).toFixed(2)), border: [false, false, false, false],
+                bold: true, color: 'white', fillColor: self.fill == 0 ? '#a9a9a9' : '#929292', fontSize: 11, alignment: 'center'
+              },
+              {
+                text: self.price.transform(Number(totalPayable).toFixed(2)), border: [false, false, false, false], bold: true, color: 'white',
+                fillColor: self.fill == 0 ? '#a9a9a9' : '#929292', fontSize: 11
+              },
+              {
+                text: self.price.transform(Number(self.totalPenalty).toFixed(2)), border: [false, false, false, false], bold: true, color: 'white',
+                fillColor: self.fill == 0 ? '#a9a9a9' : '#929292', fontSize: 11
+              },
+              {
+                text: '', border: [false, false, false, false], bold: true, color: 'white', fillColor: self.fill == 0 ? '#a9a9a9' : '#929292',
+                fontSize: 11
+              }
+            ]);
           self.getBanks(this.collection_data.property.id);
         });
   }
@@ -3328,7 +3364,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   generatePDF() {
     let current_date = new Date();
     let date = this.datePipe.transform(current_date, 'd/M/y');
-    let remaining_amount = this.collection_data.total - this.collection_data.total_amount_paid;
+    let remaining_amount = (this.collection_data.total - this.collection_data.total_amount_paid) + this.totalPenalty;
     let purchase_date = this.datePipe.transform(this.collection_data.deal_purchase_date, 'MMM d, y');
     if (this.translate.defaultLang != 'en') {
       purchase_date = purchase_date.includes('Jan') ? purchase_date.replace('Jan', 'ene') : purchase_date.includes('Feb') ? purchase_date.replace('Feb', 'feb') :
