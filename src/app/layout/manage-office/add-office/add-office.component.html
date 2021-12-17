@@ -320,7 +320,7 @@
 
               <div class="col-12">
                 <div class="form-group-3 marginB0">
-                  <label>{{'addForm.amenitiesAvailable' | translate}}</label>
+                  <label>{{'addForm.amenitiesAvailable_pro' | translate}}</label>
                   <ul class="loc-tags-group">
                     <li *ngFor="let a of office_amenities; let i=index" [ngClass]="a.selected==true ? 'width100' : ''">
                       <span *ngIf="a.selected==true" class="width78 amen-img">{{a.name}}
@@ -697,7 +697,7 @@
 
                   <div class="col-12">
                     <div class="form-group-3 marginB0">
-                      <label>{{'addForm.amenitiesAvailable' | translate}}</label>
+                      <label>{{'addForm.amenitiesAvailable_pro' | translate}}</label>
 
                       <ul class="loc-tags-group">
                         <li *ngFor="let at of allTowerAmenities; let j=index"
@@ -801,7 +801,7 @@
 
                   <div class="col-12">
                     <div class="form-group-3 marginB0">
-                      <label>{{'addForm.amenitiesAvailable' | translate}}</label>
+                      <label>{{'addForm.amenitiesAvailable_pro' | translate}}</label>
                       <ul class="loc-tags-group" *ngIf="model?.office_tower_edit_index!=i">
                         <span *ngIf="btower.amenitiesCount==0">{{'addForm.tower.noAmenityAdded' | translate}}</span>
                         <li *ngFor="let a of btower?.amenities">
