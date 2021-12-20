@@ -667,6 +667,8 @@
     "enterMetaDescr": "Enter meta descripción",
     "leadType": "Tipo de cliente potencial",
     "csrCoordinator": "Coordinador de RSC",
+    "contractValidator": "Validador de contrato",
+    "contractAgent": "Agente de contrato",
     "creditCoordinator": "Coordinador de Credit",
     "contentCreator": "Creador de contenido",
     "addOffice": "Agregar Oficina",
