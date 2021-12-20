@@ -668,6 +668,8 @@
     "enterMetaDescr": "Enter meta description",
     "leadType": "Lead type",
     "csrCoordinator": "CSR Coordinator",
+    "contractValidator": "Contract Validator",
+    "contractAgent": "Contract Agent",
     "creditCoordinator": "Credit Coordinator",
     "contentCreator": "Content Creator",
     "addOffice": "Add Office",

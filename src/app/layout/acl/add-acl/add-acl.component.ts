@@ -217,6 +217,8 @@ export class AddAclComponent implements OnInit {
     input.append('is_csr_renter', this.model.is_csr_renter ? '1' : '0');
     input.append('is_alliance_agent', this.model.is_alliance_agent ? '1' : '0');
     input.append('is_cordinator', this.model.is_cordinator ? '1' : '0');
+    input.append('contract_validator', this.model.contract_validator ? '1' : '0');
+    input.append('contract_agent', this.model.contract_agent ? '1' : '0');
     input.append('can_csr_coordinator', this.model.can_csr_coordinator ? '1' : '0');
     input.append('can_credit_coordinator', this.model.can_credit_coordinator ? '1' : '0');
     input.append('can_content_creator', this.model.can_content_creator ? '1' : '0');
@@ -369,6 +371,8 @@ export class AddAclComponent implements OnInit {
       this.model.is_alliance_agent = userdata.permissions && userdata.permissions.can_alliance_agent == 1 ? true : false;
       this.model.is_cordinator = userdata.permissions && userdata.permissions.can_cordinator == 1 ? true : false;
       this.model.can_csr_coordinator = userdata.permissions && userdata.permissions.can_csr_coordinator == 1 ? true : false;
+      this.model.contract_validator = userdata.permissions && userdata.permissions.contract_validator == 1 ? true : false;
+      this.model.contract_agent = userdata.permissions && userdata.permissions.contract_agent == 1 ? true : false;
       this.model.can_credit_coordinator = userdata.permissions && userdata.permissions.can_credit_coordinator == 1 ? true : false;
       this.model.can_content_creator = userdata.permissions && userdata.permissions.can_content_creator == 1 ? true : false;
 
@@ -766,6 +770,15 @@ export class AddAclComponent implements OnInit {
           title: this.translate.instant('addForm.contentCreator'),
           key: 'can_content_creator',
           value: this.model.can_content_creator
+        }, {
+          title: this.translate.instant('addForm.contractValidator'),
+          key: 'contract_validator',
+          value: this.model.contract_validator
+        }
+        , {
+          title: this.translate.instant('addForm.contractAgent'),
+          key: 'contract_agent',
+          value: this.model.contract_agent
         }
 
         // {

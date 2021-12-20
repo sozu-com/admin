@@ -415,6 +415,7 @@
                                     <img [src]="item.image| img:'thumb'" onerror='src="assets/img/house.png"' alt="img">
                                     <div class="n-avail-info">
                                         <p title="Apartment" class="p12">{{item.name}}</p>
+                                        <p class="p13">{{item.building.address.slice(0, 90)}}</p>
                                         <p class="p13">{{item.building.name}} &middot;
                                             {{item.building_towers.tower_name}} &middot;
                                             {{item.building_towers.num_of_floors == 0 ? ('commonBlock.groundFloor' |
@@ -422,11 +423,13 @@
                                             item.building_towers.num_of_floors}}
                                         </p>
                                         <!-- <p class="p10 marginB0">{{item.building.address ? item.building.address : 'NA'}}</p> -->
-                                        <p class="p10">
+                                        <p class="p10" style="margin-bottom: 2px;">
                                             <app-property-configuration *ngIf="item.configuration"
                                                 [configuration]="item.configuration"></app-property-configuration>
                                             <span>&middot; {{item.property_type.name}}</span>
                                         </p>
+                                        <p class="p12" title="Type"><strong>
+                                            {{item.min_price|price}}</strong></p>
                                         <!-- <p class="p10">{{item.configuration.name}}</p> -->
                                     </div>
                                 </div>
