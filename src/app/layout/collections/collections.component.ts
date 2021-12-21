@@ -3234,27 +3234,27 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             self.table_data.push([
               {
                 text: 'Total' , border: [false, false, false, false], bold: true, color: 'white',
-                fillColor: self.fill != 0 ? '#a9a9a9' : '#929292', fontSize: 11
+                fillColor: '#525659', fontSize: 11
               },
-              { text: '', border: [false, false, false, false], bold: true, color: 'white', fillColor: self.fill != 0 ? '#a9a9a9' : '#929292' },
+              { text: '', border: [false, false, false, false], bold: true, color: 'white', fillColor: '#525659' },
               {
-                text: self.price.transform(Number(totalPaid).toFixed(2)), border: [false, false, false, false], bold: true,
-                color: 'white', fillColor: self.fill != 0 ? '#a9a9a9' : '#929292', fontSize: 11
-              },
-              {
-                text: self.price.transform(Number(totalPending).toFixed(2)), border: [false, false, false, false],
-                bold: true, color: 'white', fillColor: self.fill != 0 ? '#a9a9a9' : '#929292', fontSize: 11, alignment: 'center'
+                text: self.price.transform(Number(totalPaid).toFixed(0)), border: [false, false, false, false], bold: true,
+                color: 'white', fillColor: '#525659', fontSize: 11
               },
               {
-                text: self.price.transform(Number(totalPayable).toFixed(2)), border: [false, false, false, false], bold: true, color: 'white',
-                fillColor: self.fill != 0 ? '#a9a9a9' : '#929292', fontSize: 11
+                text: self.price.transform(Number(totalPending).toFixed(0)), border: [false, false, false, false],
+                bold: true, color: 'white', fillColor: '#525659', fontSize: 11, alignment: 'center'
               },
               {
-                text: self.price.transform(Number(self.totalPenalty).toFixed(2)), border: [false, false, false, false], bold: true, color: 'white',
-                fillColor: self.fill != 0 ? '#a9a9a9' : '#929292', fontSize: 11
+                text: self.price.transform(Number(totalPayable).toFixed(0)), border: [false, false, false, false], bold: true, color: 'white',
+                fillColor: '#525659', fontSize: 11
               },
               {
-                text: '', border: [false, false, false, false], bold: true, color: 'white', fillColor: self.fill != 0 ? '#a9a9a9' : '#929292',
+                text: self.price.transform(Number(self.totalPenalty).toFixed(0)), border: [false, false, false, false], bold: true, color: 'white',
+                fillColor: '#525659', fontSize: 11
+              },
+              {
+                text: '', border: [false, false, false, false], bold: true, color: 'white', fillColor: '#525659',
                 fontSize: 11
               }
             ]);
