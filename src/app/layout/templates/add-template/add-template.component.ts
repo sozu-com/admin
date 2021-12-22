@@ -405,14 +405,14 @@ export class AddTemplateComponent implements OnInit {
   submitAll() {
 
     if (!this.post.post_type) { swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterPostType'), 'error'); return false; }
-    if (!this.post.title_en) { swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterTitleEng'), 'error'); return false; }
-    if (!this.post.description_en && !this.post.description_es) {
+    // if (!this.post.title_en) { swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterTitleEng'), 'error'); return false; }
+    if (!this.post.description_es) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterDesc'), 'error'); return false;
     }
-    if (!this.post.meta_title_en && !this.post.meta_title_es) {
+    if (!this.post.meta_title_es) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterMetaTitle'), 'error'); return false;
     }
-    if (!this.post.meta_description_en && !this.post.meta_description_es) {
+    if (!this.post.meta_description_es) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseEnterMetaDesc'), 'error'); return false;
     }
 
