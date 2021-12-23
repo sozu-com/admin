@@ -27,7 +27,20 @@
         </label>
         <div class="clearfix"></div>
     </div>
-
+    <div class="form-group-5">
+        <label>{{'commonBlock.In' | translate}}</label>
+        <div class="_box skill_add">
+            <input type="text" placeholder="Ejem. Americana" id="newTag" [(ngModel)]="text_data">
+            <button type="button" class="btn btn-img add_btn" (click)="add_text()"
+              style="cursor: pointer;">+</button>
+            <ul class="tagList search_keyword">
+              <li *ngFor="let item of allValues;">
+                  {{item}}
+                  <span class="rmTag" (click)="delete(item)" style="cursor: pointer;">×</span>
+              </li>
+            </ul>
+          </div>
+    </div>
     <!-- <div class="form-group-5 marginT20" *ngIf="!_leadData?.user_id">
         <label>{{'commonBlock.configuration' | translate}}</label>
         <div class="clearfix"></div>
@@ -86,6 +99,15 @@
         </label>
         <div class="clearfix"></div>
         <!-- [checked]="half_bedroom.is_selected == 0 ? '' : 'checked'" -->
+    </div>
+    <div class="form-group-5 marginT20">
+        <label>{{'commonBlock.parkingLOts' | translate}}</label> <br>
+        <label class="cust-radio" *ngFor="let count of configurationCount">
+            <input [disabled]="sent_as==2" name="parking_lot" type="radio" (change)="setPrefValue('parking_lot', count)"
+                [checked]="_leadData.prefs.parking_lot == count ?'checked':''">
+            <span class="checkmark">{{count}}</span>
+        </label>
+        <div class="clearfix"></div>
     </div>
     <div class="form-group-4 marginT20">
         <label>{{'commonBlock.priceExpectations' | translate}}</label>
@@ -214,15 +236,7 @@
         </label>
         <div class="clearfix"></div>
     </div>
-    <div class="form-group-5 marginT20">
-        <label>{{'commonBlock.parkingLOts' | translate}}</label> <br>
-        <label class="cust-radio" *ngFor="let count of configurationCount">
-            <input [disabled]="sent_as==2" name="parking_lot" type="radio" (change)="setPrefValue('parking_lot', count)"
-                [checked]="_leadData.prefs.parking_lot == count ?'checked':''">
-            <span class="checkmark">{{count}}</span>
-        </label>
-        <div class="clearfix"></div>
-    </div>
+   
     <!-- <div class="form-group-5 marginT20" *ngIf="!_leadData?.user_id">
         <label>{{'commonBlock.carsYouHave' | translate}}</label>
         <div class="clearfix"></div>

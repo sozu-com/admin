@@ -1,0 +1,42 @@
+._box.skill_add {
+    position: relative;
+}
+div#modal_box ._box.skill_add input {
+    width: 100%;
+    height: 42px;
+    padding: 10px 40px 10px 10px;
+    outline: 0;
+    font-family: "sf_ui_textlight";
+    background: #FFFFFF;
+    border: 1px solid #EDEDED;
+    box-sizing: border-box;
+    border-radius: 6px;
+    box-shadow: none!important;
+}
+._box.skill_add button.btn.btn-img.add_btn {
+    background: #00B96F;
+    border-radius: 6px;
+    font-size: 18px;
+    color: #fff;
+    margin: 4px;
+    margin-top: -44px;
+    float: right;
+    position: relative;
+}
+
+ul.tagList.search_keyword {
+    display: flex;
+}
+ul.tagList.search_keyword li {
+    background: #F0F0F0;
+    border-radius: 6px;
+    margin: 10px 12px 10px 0;
+    padding: 8px;
+    font-family: SF UI Text;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 12px;
+    text-align: center;
+    color: #262626;
+}

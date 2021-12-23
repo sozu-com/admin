@@ -2362,6 +2362,7 @@
     "totalArrear":"Atrasos totales"
   },
   "commonBlock": {
+    "In":"En",
     "job": "Trabajo",
     "propertiesAvailable": "Departamentos disponibles",
     "noPropertyFound": "No se ha encontrado ninguna propiedad para los filtros seleccionados.",

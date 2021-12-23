@@ -19,7 +19,7 @@ declare let swal: any;
 })
 
 export class FillInformationComponent implements OnInit {
- @Output() referDetail: EventEmitter<any> = new EventEmitter();
+  @Output() referDetail: EventEmitter<any> = new EventEmitter();
   @Input('lead_id') lead_id: string;
   //@Input('_leadData') _leadData: Leads;
 
@@ -27,11 +27,16 @@ export class FillInformationComponent implements OnInit {
   language_code: string;
   locality_ids: number[];
   firstTime: any;
+  text_data: any;
   get leadData(): any {
     return this.leadData;
   }
   @Input() set leadData(value: any) {
     this._leadData = value;
+    (this._leadData.lead_text || []).forEach(element => {
+      this.allValues.push(element.text);
+      //this.allValues = element.text;
+    });
     this.updatePeriodTypes();
   }
 
@@ -78,7 +83,7 @@ export class FillInformationComponent implements OnInit {
     { is_selected: 0, name: 3 },
     { is_selected: 0, name: 4 },
     { is_selected: 0, name: 5 }
-  ];
+  ]; allValues: any[] = [];
   constructor(public admin: AdminService, public constant: Constant,
     private spinner: NgxSpinnerService,
     private translate: TranslateService) { }
@@ -92,7 +97,7 @@ export class FillInformationComponent implements OnInit {
     this.locality_ids = [40, 59, 60, 45, 41];
     this.language_code = localStorage.getItem('language_code');
     this.initializedDropDownSetting();
-    this.getMarritalStatusList();this.parameter.country_id = '9';
+    this.getMarritalStatusList(); this.parameter.country_id = '9';
     this.parameter.state_id = '13';
     this.parameter.city_id = '13';
     this.locality_ids = [40, 59, 60, 45, 41];
@@ -135,7 +140,17 @@ export class FillInformationComponent implements OnInit {
       e.stopPropagation();
     });
   }
-
+  add_text() {
+    this.text_data = this.text_data ? this.text_data : '';
+    this.allValues.push(this.text_data);
+    if (this.allValues) {
+      this.text_data = '';
+    }
+    //this._leadData.lead_text = this.allValues;
+  }
+  delete(item) {
+    this.allValues.slice(item);
+  }
   initializedDropDownSetting = (): void => {
     this.multiDropdownSettings = {
       singleSelection: false,
@@ -293,6 +308,7 @@ export class FillInformationComponent implements OnInit {
 
     this.model.lead_id = this.lead_id;
     this.model.looking_for = this._leadData.prefs.looking_for;
+    this.model.lead_text = this.allValues;
     //  this.model.bedroom = this._leadData.prefs.bedroom;
     //  this.model.bathroom = this._leadData.prefs.bathroom;
     //   this.model.half_bathroom = this._leadData.prefs.half_bathroom;
@@ -362,9 +378,9 @@ export class FillInformationComponent implements OnInit {
     this.SearchPreferences(false);
   }
 
-  SearchPreferences(data){
+  SearchPreferences(data) {
     this.firstTime = data;
-    if(data){
+    if (data) {
       this.parameter.country_id = '9';
       this.parameter.state_id = '13';
       this.parameter.city_id = '13';
@@ -439,12 +455,12 @@ export class FillInformationComponent implements OnInit {
       this.model.property_purpose = [];
       // this.model.payment_plans = [];
     }
-    this.model.looking_for = this.model.looking_for == 1 ? 9 : this.model.looking_for == 2 ? 8 :  this.model.looking_for;
+    this.model.looking_for = this.model.looking_for == 1 ? 9 : this.model.looking_for == 2 ? 8 : this.model.looking_for;
     let ids = [];
     this.model.country_id = this.parameter.country_id;
     this.model.state_id = this.parameter.state_id;
-    this.parameter.locality_ids.forEach(item=>{
-    ids.push(item.id);
+    this.parameter.locality_ids.forEach(item => {
+      ids.push(item.id);
     });
     this.model.city_id = this.parameter.city_id;
     this.model.locality_id = data ? this.locality_ids : ids;
@@ -474,25 +490,25 @@ export class FillInformationComponent implements OnInit {
     this.parameter.lead_id = lead_id;
     //this.showPropertyModal.nativeElement.click();
     forkJoin([
-    this.admin.postDataApi('getCountryLocality', {})]).subscribe(r => {
-      this.location.countries = r[0].data;
-      const selectedCountry = this.location.countries.filter(x => x.id.toString() === this.parameter.country_id);
-      this.location.states = selectedCountry[0].states;
-      const selectedState = this.location.states.filter(x => x.id.toString() === this.parameter.state_id);
-      this.location.cities = selectedState[0].cities;
-      const selectedcity = this.location.cities.filter(x => x.id.toString() === this.parameter.city_id);
-      this.location.localities = selectedcity[0].localities;
-      if(this.firstTime){
-        self.parameter.locality_ids = [];
-        this.location.localities.forEach(element => {
-          self.locality_ids.forEach(item=>{
-            if(item == element.id){
-              self.parameter.locality_ids.push({id: element.id, name_en: element.name_en, name_es: element.name_es})
-            }
+      this.admin.postDataApi('getCountryLocality', {})]).subscribe(r => {
+        this.location.countries = r[0].data;
+        const selectedCountry = this.location.countries.filter(x => x.id.toString() === this.parameter.country_id);
+        this.location.states = selectedCountry[0].states;
+        const selectedState = this.location.states.filter(x => x.id.toString() === this.parameter.state_id);
+        this.location.cities = selectedState[0].cities;
+        const selectedcity = this.location.cities.filter(x => x.id.toString() === this.parameter.city_id);
+        this.location.localities = selectedcity[0].localities;
+        if (this.firstTime) {
+          self.parameter.locality_ids = [];
+          this.location.localities.forEach(element => {
+            self.locality_ids.forEach(item => {
+              if (item == element.id) {
+                self.parameter.locality_ids.push({ id: element.id, name_en: element.name_en, name_es: element.name_es })
+              }
+            });
           });
-        });
-      }
-    });
+        }
+      });
   }
 
   onCountryChange(id) {
@@ -569,7 +585,7 @@ export class FillInformationComponent implements OnInit {
         confirmButtonText: 'Yes'
       }).then((result) => {
         if (result.value) {
-          const input = {property_id: self.property_ids, lead_id: self.lead_id};
+          const input = { property_id: self.property_ids, lead_id: self.lead_id };
           self.admin.postDataApi('leads/addLeadPreferencesProperty', input).subscribe(r => {
             self.referDetail.emit('true');
             self.hidePropertyModal.nativeElement.click();

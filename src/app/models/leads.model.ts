@@ -352,6 +352,7 @@ export class AddPrefrences {
     min_price: number;
     max_price: number;
     looking_for: number;
+    lead_text: any[] = [];
     bedroom: number;
     bathroom: number;
     half_bathroom: number;
