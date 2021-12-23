@@ -2368,6 +2368,7 @@
     "totalArrear":"Total Arrear"
   },
   "commonBlock": {
+    "In":"In",
     "propertiesAvailable": "Properties available",
     "noPropertyFound": "No property found for selected filters.",
     "groundFloor": "Ground Floor",
