@@ -127,7 +127,6 @@
       <table class="table table-striped">
       <tbody><tr>
           <td>
-              <!-- <img class="rounded-circle" [src]="item.image| img:'small'" onerror='this.src="assets/img/default_img.png"' alt="img"> -->
               <img *ngIf="item.image" class="rounded-circle" onerror='src="assets/img/default_img.png"' alt="img"
                             [defaultImage]="item.image| img:'thumb'" [lazyLoad]="item.image">
               <img *ngIf="!item.image" class="rounded-circle" src="assets/img/default_img.png" alt="img">
