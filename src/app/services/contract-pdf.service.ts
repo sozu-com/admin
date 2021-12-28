@@ -56,6 +56,7 @@ signature: Date;
     let concept_layaway = this.collection_data.payment_choices.find(item=> item.category_name == 'Layaway Payment');
     let concept_downpayment = this.collection_data.payment_choices.find(item=> item.category_name == 'Down Payment');
     let concept_monthly = this.collection_data.payment_choices.find(item=> item.category_name == 'Monthly Installment 1' || item.category_name == 'Monthly Installment1');
+    concept_monthly = concept_monthly ? concept_monthly : {};
     let concept_monthly_no = this.collection_data.payment_choices.filter(item=> item.payment_choice.name == 'Monthly Installment');
     let concept_payment = this.collection_data.payment_choices.find(item=> item.category_name == 'Payment upon Delivery');
     let buyer_name = this.collection_data.buyer && this.collection_data.buyer.name ? this.collection_data.buyer.name + ' ' + this.collection_data.buyer.first_surname + ' ' + this.collection_data.buyer.second_surname : this.collection_data.buyer_legal_entity ? this.collection_data.buyer_legal_entity.comm_name : 'N/A';
@@ -395,7 +396,7 @@ signature: Date;
                 {text: '  ' + this.translate.instant('generatePDF.c'), bold: true, fontSize: 12 },
                 {text: this.translate.instant('generatePDF.contractDetail47'), fontSize: 12},
                 {text: concept_monthly.amount ? this.price.transform(concept_monthly.amount) : 0 , bold: true, fontSize: 12},
-                {text: (concept_monthly.amount ? (' (' + conver.NumerosALetras(concept_monthly.amount) + ') ') : "N/A"), bold: true, fontSize: 12},
+                {text: (concept_monthly.amount ? (' (' + conver.NumerosALetras(concept_monthly.amount) + ') ') : " (N/A)"), bold: true, fontSize: 12},
                 {text: this.translate.instant('generatePDF.contractDetail48'), fontSize: 12},
                 {text: concept_monthly_no ? (' ' + concept_monthly_no.length) : 'N/A' , bold: true, fontSize: 12},
                 {text: this.translate.instant('generatePDF.contractDetail49'), fontSize: 12},

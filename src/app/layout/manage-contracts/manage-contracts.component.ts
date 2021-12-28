@@ -62,6 +62,7 @@ export class ManageContractsComponent implements OnInit {
   percent: any;
   contract_id: any;
   id_type: any;
+  contract: any;
   marrital_status_list = [
     { id: 1, name_en: 'Single', name_es: 'Soltero' },
     { id: 2, name_en: 'Married - Community property', name_es: 'Casado - Bienes mancomunados' },
@@ -75,7 +76,7 @@ export class ManageContractsComponent implements OnInit {
     public projectService: ProjectService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
-    private contract: ContractPdfService,
+    private download_contract: ContractPdfService,
     private legal_contract: LegalContractPdfService,
     private toastr: ToastrService,
   ) { }
@@ -301,7 +302,7 @@ export class ManageContractsComponent implements OnInit {
   }
 
   downloadContract(data){
-   this.contract.getCollectionById(data);
+   this.download_contract.getCollectionById(data);
   }
 
   downloadLegalContract(){
@@ -320,6 +321,7 @@ export class ManageContractsComponent implements OnInit {
           this.concept_layaway = this.searched_collection.payment_choices.find(item=> item.category_name == 'Layaway Payment');
           this.concept_downpayment = this.searched_collection.payment_choices.find(item=> item.category_name == 'Down Payment');
           this.concept_monthly = this.searched_collection.payment_choices.find(item=> item.category_name == 'Monthly Installment 1' || item.category_name == 'Monthly Installment1');
+          this.concept_monthly = this.concept_monthly ? this.concept_monthly : {};
           let concept_monthly_ins= this.searched_collection.payment_choices.filter(item=> item.payment_choice.name == 'Monthly Installment');
           this.concept_monthly_no = concept_monthly_ins.length;
         });
