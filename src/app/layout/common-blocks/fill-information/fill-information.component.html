@@ -102,11 +102,16 @@
     </div>
     <div class="form-group-5 marginT20">
         <label>{{'commonBlock.parkingLOts' | translate}}</label> <br>
-        <label class="cust-radio" *ngFor="let count of configurationCount">
+        <label class="cust-radio" *ngFor="let parking of parkings; let i=index">
+            <input [disabled]="sent_as==2" type="checkbox" (click)="setAccepted(parking)" name="radio1"
+                [checked]="parking.is_selected == 0 ? '' : 'checked'">
+            <span class="checkmark">{{parking.name}}</span>
+        </label>
+        <!-- <label class="cust-radio" *ngFor="let count of configurationCount">
             <input [disabled]="sent_as==2" name="parking_lot" type="radio" (change)="setPrefValue('parking_lot', count)"
                 [checked]="_leadData.prefs.parking_lot == count ?'checked':''">
             <span class="checkmark">{{count}}</span>
-        </label>
+        </label> -->
         <div class="clearfix"></div>
     </div>
     <div class="form-group-4 marginT20">

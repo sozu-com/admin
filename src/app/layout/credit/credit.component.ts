@@ -20,6 +20,7 @@ export class CreditComponent implements OnInit {
   reportData: any;
   total: any = 0;
   sort_date = 1;
+  lead_collection: any[] = [];
   constructor(
     private translate: TranslateService,
     public admin: AdminService,
@@ -50,10 +51,13 @@ export class CreditComponent implements OnInit {
   }
 
   credit = (data: any): void => {
+    (data.lead_collection || []).forEach(ele => {
+      this.lead_collection.push(ele.id);
+    });
     let input = {
-      collection_id: data.collection_id,
-      user_id: data.user.id,
-      id: data.id
+      // collection_id: data.collection_id,
+      // user_id: data.user.id,
+      id: this.lead_collection
     }
     this.spinnerService.show();
     this.admin.postDataApi('addDealside', input).subscribe(
@@ -174,6 +178,14 @@ export class CreditComponent implements OnInit {
     this.admin.postDataApi('getCreditsUser', this.parameter).subscribe(
       success => {
         this.parameter.items = success.data;
+        (this.parameter.items || []).forEach(item => {
+          (item.lead_collection || []).forEach(ele => {
+            // if
+            // this.lead_collection.push(ele.id);
+            item['statuss'] = ele.status;
+          });
+          console.log(item, "item");
+        });
         this.parameter.total = success.total;
         this.spinnerService.hide();
       }, error => {

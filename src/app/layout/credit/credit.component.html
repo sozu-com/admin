@@ -290,7 +290,7 @@
 
                       <button title="{{'table.title.editDetails' | translate}}" 
                       *ngIf="item.collection_id"
-                      [disabled]="item.deal_status == 1"
+                      [disabled]="item.statuss == 1"
                       (click)="this.credit(item)" 
                       class="action-icon">
                       <i class="fa fa-play-circle-o" aria-hidden="true" style="font-size: 25px;"></i>

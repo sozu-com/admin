@@ -70,6 +70,13 @@ export class FillInformationComponent implements OnInit {
     { is_selected: 0, name: 4 },
     { is_selected: 0, name: 5 }
   ];
+  parkings: any = [
+    { is_selected: 0, name: 1 },
+    { is_selected: 0, name: 2 },
+    { is_selected: 0, name: 3 },
+    { is_selected: 0, name: 4 },
+    { is_selected: 0, name: 5 }
+  ];
   bathrooms: any = [
     { is_selected: 0, name: 1 },
     { is_selected: 0, name: 2 },
@@ -180,6 +187,23 @@ export class FillInformationComponent implements OnInit {
       this.noteEmails = newArray;
       (this.noteEmails || []).forEach(res => {
         this.bedrooms.forEach(element => {
+          if (element.name === res && element.is_selected == 0) {
+            element['is_selected'] = 1;
+          } else if (element.name != res && element.is_selected == 0) {
+            element['is_selected'] = 0;
+          }
+        });
+      });
+    }
+    if (this._leadData.lead_parking) {
+      let newArraies = [];
+      for (var i = 0; i < this._leadData.lead_parking.length; i++) {
+        let mails = this._leadData.lead_parking[i].parking_lot;
+        newArraies.push(mails);
+      }
+      this.noteEmails = newArraies;
+      (this.noteEmails || []).forEach(res => {
+        this.parkings.forEach(element => {
           if (element.name === res && element.is_selected == 0) {
             element['is_selected'] = 1;
           } else if (element.name != res && element.is_selected == 0) {
@@ -343,7 +367,8 @@ export class FillInformationComponent implements OnInit {
     this._leadData.prefs.proximity_other = this.showOtherTextBox ? this._leadData.prefs.proximity_other : '';
     this.model.family_size = this._leadData.prefs.family_size;
     this.model.marital_status = this._leadData.prefs.marital_statuses_id;
-    this.model.parking_lot = this._leadData.prefs.parking_lot;
+    this.model.parking_lot = this.parkings.filter(f => { return f.is_selected == 1 }).map(r => { return r.name });
+    //this.model.parking_lot = this._leadData.prefs.parking_lot;
     this.model.job = this._leadData.prefs.job;
     this.model.kid_count = this._leadData.prefs.kid_count;
     this.model.pets = this._leadData.prefs.pets;
