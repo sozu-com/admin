@@ -104,7 +104,7 @@
         <div class="col-4">
           <div class="form-group-3">
             <label>{{'addForm.contact_number' | translate}} <span class="color-red">*</span></label>
-            <input minlength="10" maxlength="10" autocomplete="off" type="text" [pattern]="constant.phonePattern"
+            <input minlength="10" maxlength="10" autocomplete="off" type="number" [pattern]="constant.onlyWhiteSpaces"
               class="form-control" id="phone" required [(ngModel)]="model.phone" name="phone" ng2TelInput
               [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event,1)" />
           </div>
@@ -330,9 +330,15 @@
           <div class="col-4">
             <div class="form-group-3">
               <label>{{'addForm.contact_number' | translate}} <span class="color-red">*</span></label>
-              <input minlength="10" maxlength="10" autocomplete="off" type="text" [pattern]="constant.phonePattern"
-                class="form-control" id="phone" required [(ngModel)]="model.user_phone" name="user_phone" ng2TelInput
-                [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event,3)" />
+              <input minlength="10" maxlength="10" autocomplete="off" type="number"
+              [pattern]="constant.onlyWhiteSpaces"
+              class="form-control" 
+              id="phone" 
+              required 
+              [(ngModel)]="model.user_phone" 
+              name="user_phone" ng2TelInput
+              [ng2TelInputOptions]="initialCountry" 
+              (countryChange)="onCountryChange($event,3)" />
             </div>
           </div>
         </div>
@@ -714,10 +720,11 @@
         <div class="col-4">
           <div class="form-group-3">
             <label>{{'addForm.contactNumber' | translate}}</label>
-            <input minlength="8" maxlength="15" autocomplete="off" type="text" [pattern]="constant.phonePattern"
-              class="form-control" id="phone" [(ngModel)]="model.legal_representative.phone"
-              name="legal_representative_phone" ng2TelInput [ng2TelInputOptions]="initialCountry"
-              (countryChange)="onCountryChange($event,2)" />
+            <input minlength="8" maxlength="15" autocomplete="off" type="number" 
+            [pattern]="constant.onlyWhiteSpaces"
+            class="form-control" id="phone" [(ngModel)]="model.legal_representative.phone"
+            name="legal_representative_phone" ng2TelInput [ng2TelInputOptions]="initialCountry"
+            (countryChange)="onCountryChange($event,2)" />
           </div>
         </div>
         <div class="col-4">
@@ -864,12 +871,12 @@
            <div class="form-group-3">
              <label>{{'addForm.phone' | translate}} </label>
              <div class="clearfix"></div>
-             <input minlength="8" maxlength="15" autocomplete="off" type="text"
-             [pattern]="constant.phonePattern" class="form-control" id="phone" 
+             <input minlength="8" maxlength="15" autocomplete="off" type="number"
+             [pattern]="constant.onlyWhiteSpaces" class="form-control" id="phone" 
              [(ngModel)]="beneficiary.beneficiary_phone" name="beneficiary_phone" ng2TelInput 
              [ng2TelInputOptions]="{ initialCountry: model.country_code }"
              (countryChange)="onCountryChange($event,1)" [pattern]="constant.onlyWhiteSpaces"/>
-             <!-- <input  minlength="10" maxlength="10" autocomplete="off" class="form-control" type="text" name="beneficiary_phone"
+             <!-- <input  minlength="10" maxlength="10" autocomplete="off" class="form-control" type="text" name="beneficiary_phone" [pattern]="constant.phonePattern" 
              [(ngModel)]="beneficiary.beneficiary_phone"> -->
            </div>
          </div>
@@ -1009,11 +1016,11 @@
           <div class="form-group-3">
             <label>{{'addForm.phone' | translate}} </label>
             <div class="clearfix"></div>
-            <input minlength="8" maxlength="15" autocomplete="off" type="text"
-            [pattern]="constant.phonePattern" class="form-control" id="phone" 
+            <input minlength="8" maxlength="15" autocomplete="off" type="number"
+            [pattern]="constant.onlyWhiteSpaces" class="form-control" id="phone" 
             [(ngModel)]="beneficiary.tutor.tutor_phone" name="tutor_phone" ng2TelInput [ng2TelInputOptions]="{ initialCountry: model.country_code }"
             (countryChange)="onCountryChange($event,1)" />
-            <!-- <input  minlength="10" maxlength="10" autocomplete="off" class="form-control" type="text" name="tutor_phone"
+            <!-- <input  minlength="10" maxlength="10" autocomplete="off" class="form-control" type="text" name="tutor_phone" [pattern]="constant.phonePattern" 
             [(ngModel)]="beneficiary.tutor.tutor_phone"> -->
           </div>
         </div>
