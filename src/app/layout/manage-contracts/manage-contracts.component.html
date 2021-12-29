@@ -649,8 +649,9 @@
             </div>
             <div class="col-5">
               <button class="btn" style="background-color:#00B96F;color:white;width:90px;"
-              (click)="continueModal(4, null)" [disabled]="!searched_collection.buyer.street_address || !searched_collection.buyer.external_number || !searched_collection.buyer.internal_number || 
-              !searched_collection.buyer.zipcode || !searched_collection.buyer.municipality || !searched_collection.buyer.country || !searched_collection.buyer.state || !searched_collection.buyer.neighborhood">{{'commonBlock.continue' | translate}}</button>
+              (click)="continueModal(4, null)" [disabled]="!searched_collection.buyer.street_address || !searched_collection.buyer.external_number || !searched_collection.buyer.zipcode 
+              || !searched_collection.buyer.municipality || !searched_collection.buyer.country || !searched_collection.buyer.state || !searched_collection.buyer.neighborhood">
+              {{'commonBlock.continue' | translate}}</button>
             </div>                                                                          
           </div>
         </div>
