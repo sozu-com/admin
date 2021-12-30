@@ -45,6 +45,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   min_carpet_area: any;
   max_carpet_area: any;
   exportfinalData: Array<any>;
+  launch_date: any[] = [];
   //local_storage_parameter: any;
   is_back: boolean = false;
   is_filter: boolean = false;
@@ -622,6 +623,13 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.admin.postDataApi('projectHome', input).subscribe(
       success => {
         this.exportfinalData = success['data'];
+        (this.exportfinalData || []).forEach(ele => {
+          (ele.building_towers || []).forEach(r => {
+            ele['launch_date'] = r.launch_date;
+            // this.launch_date.push(r.launch_date);
+            //console.log(this.launch_date, "kkk");
+          })
+        });
         (this.possessionStatuses || []).forEach(r => {
           (this.exportfinalData || []).forEach(ele => {
             if (ele.possession_status_id == r.id) {
@@ -667,6 +675,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
           'Manager Name': p.manager && p.manager.name ? p.manager.name : '',
           'Company Name': p.company && p.company.name ? p.company.name : '',
           'Possession Status': p.possession_status_id == this.apiConstant.possessionStatus.sale ? 'Sale' : 'Presale',
+          'Delivery estimated date': p.launch_date || 0,
           'Building Type': p.status_building,
           'Parking Lots': this.totalParkingCount(p) || 0,
           'Properties': parseInt(p.properties_count_all) || 0,
