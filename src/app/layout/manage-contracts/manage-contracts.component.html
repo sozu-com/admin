@@ -487,6 +487,39 @@
             <div class="col-12">
               <label class="p16-two">
                 <span style="margin-left: 10px; vertical-align: super;">
+                  {{'addForm.dateOfBirth' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="curp"
+                [(ngModel)]="searched_collection.buyer.dob" style="width:78%;height:70%;" readonly>
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'addForm.stateOfBirth' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="curp"
+                [(ngModel)]="searched_collection.buyer.birth_state" style="width:78%;height:70%;" readonly>
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
+                  {{'addForm.cityOfBirth' | translate}}
+                </span>
+              </label>
+            </div>
+            <div class="col-12">
+              <input class="form-control" class="is_commission_sale_enabled" type="text" name="curp"
+                [(ngModel)]="searched_collection.buyer.birth_city" style="width:78%;height:70%;" readonly>
+            </div>
+            <div class="col-12">
+              <label class="p16-two">
+                <span style="margin-left: 10px; vertical-align: super;">
                   {{'table.th.Ocupation' | translate}}
                 </span>
               </label>

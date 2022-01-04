@@ -295,6 +295,8 @@
     "totalSquareMeters": "Metros cuadrados totales",
     "idType": "Tipo de ID",
     "idNumber": "Número ID",
+    "stateOfBirth": "Estado de nacimiento",
+    "cityOfBirth": "Ciudad de nacimiento",
     "moreImages": {
       "label": "Imágenes",
       "addMoreBtn": "+ Agregar más imágenes",

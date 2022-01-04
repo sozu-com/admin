@@ -291,6 +291,8 @@
     "offices": "Offices",
     "idType": "Id Type",
     "idNumber": "Id Number",
+    "stateOfBirth": "State Of Birth",
+    "cityOfBirth": "City Of Birth",
     "moreImages": {
       "label": "Images",
       "addMoreBtn": "+ Add more images",

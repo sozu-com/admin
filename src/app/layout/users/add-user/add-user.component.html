@@ -198,6 +198,20 @@
              [(ngModel)]="model.id_number">
           </div>
         </div>
+        <div class="col-4">
+          <div class="form-group-3">
+            <label class="p16-two">{{'addForm.stateOfBirth' | translate}}</label> 
+            <input autocomplete="off" class="form-control" type="text" name="birth_state"
+             [(ngModel)]="model.birth_state">
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group-3">
+            <label class="p16-two">{{'addForm.cityOfBirth' | translate}}</label> 
+            <input autocomplete="off" class="form-control" type="text" name="birth_city"
+             [(ngModel)]="model.birth_city">
+          </div>
+        </div>
       </div>
       <div class="col-12">
         <div class="spacer40"></div>

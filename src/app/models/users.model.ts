@@ -103,6 +103,8 @@ export class Users {
     nationality_id?: number = 1;
     id_type?: any;
     id_number?: any;
+    birth_state?: any;
+    birth_city?: any;
 }
 export class Beneficiaries {
     id?: number;
