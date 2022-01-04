@@ -485,7 +485,7 @@ export class CommissionIncomeComponent implements OnInit {
         finalData1.push({
           'Month': p.label || '',
           'Cancelation Amount': p.expected || 0,
-          //'IVA Amount': p.iva_amount || 0
+          'IVA Amount': p.iva_amount || 0
         });
       }
       this.exportAsExcelFile(finalData1, 'commissionReport-');
