@@ -11,7 +11,6 @@ export const environment = {
   //socketUrl: 'https://sockettest.sozu.com',
   //versionCheckURL: 'http://admintest.sozu.com/verskion.json',
   deviceId: 'ADMIN',
-
   
   firebase: {
     apiKey: 'AIzaSyAZMJdN4-tFi3vkKLz-c-BoFHMq7eAkoAc',
