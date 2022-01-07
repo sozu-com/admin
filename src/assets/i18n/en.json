@@ -293,6 +293,10 @@
     "idNumber": "Id Number",
     "stateOfBirth": "State Of Birth",
     "cityOfBirth": "City Of Birth",
+    "parentAccountReference": "Parent Account Reference",
+    "stpReference": "STP Reference",
+    "mexico": "Mexico",
+    "parentAccountCode": "Parent Account Code",
     "moreImages": {
       "label": "Images",
       "addMoreBtn": "+ Add more images",

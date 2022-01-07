@@ -12,6 +12,8 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { TranslateModule } from '@ngx-translate/core';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { NgOtpInputModule } from  'ng-otp-input';
+
 
 // general components
 import { AclUserGuard } from 'src/app/guards/acl-user.guard';
@@ -59,7 +61,8 @@ const routes: Routes = [
     SharedModule,
     TranslateModule,
     MalihuScrollbarModule.forRoot(),
-    NgMultiSelectDropDownModule.forRoot()
+    NgMultiSelectDropDownModule.forRoot(),
+    NgOtpInputModule
   ],
   declarations: [
     LegalEntityComponent,

@@ -393,6 +393,89 @@
     <div class="col-12">
       <div class="spacer15"></div>
     </div>
+    
+    <div class="white-bg padding40">
+      <div class="row">
+        <div class="col-4">
+          <h3>{{'addForm.parentAccountReference' | translate}}</h3>
+        </div>
+        <div class="col-4">
+          <div class="form-group-3">
+            <div class="form-check">
+              <input type="checkbox" id="switch3" (click)="showBankReferenceId($event)" [checked]="isBankReferenceId">
+              <label for="switch3">Toggle</label>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-lg-3 col-sm-12 col-md-12 col-12">
+          <ng-otp-input #ngOtpInput [config]="config"></ng-otp-input>
+          <hr class="new1">
+          <label class="new1">{{'addCollection.stpReference' | translate}}</label>
+        </div>
+  
+        <div class="col-lg-3 col-sm-12 col-md-12 col-12" style="clear: both;
+        overflow: hidden;
+        white-space: nowrap; padding-left: 0px !important;">
+          <ng-otp-input #ngOtpInput1 [config]="config1"></ng-otp-input>
+          <hr class="new2">
+          <label class="new2">{{'addCollection.mexico' | translate}}</label>
+        </div>
+  
+        <div class="col-lg-3 col-sm-12 col-md-12 col-12">
+          <ng-otp-input #ngOtpInput2 [config]="config2"></ng-otp-input>
+          <hr class="new3">
+          <label class="new3">{{'addCollection.parentAccountCode' | translate}}</label>
+        </div>
+  
+        <div class="col-lg-2 col-sm-12 col-md-12 col-12" style="clear: both;
+        overflow: hidden;
+        white-space: nowrap; padding-left: 0px;">
+          <ng-otp-input #ngOtpInput3 [config]="config3"></ng-otp-input>
+          <hr class="new4">
+          <label class="new4">{{'addCollection.developer' | translate}}</label>
+        </div>
+        </div>
+      <br/><br/>
+      <div class="row">
+        <p style="background-color:#00B96F;height: 20px;
+          width: 20px;" title=""></p> &nbsp;
+         <p style="margin-left: 12px;">{{'addForm.first_line' | translate}}</p>
+      </div>
+  
+      <div class="row">
+          <p style="background-color:#00B96F;height: 20px;
+          width: 20px;" title=""></p>
+         <p style="margin-left: 12px;">{{'addForm.second_line' | translate}}</p>
+      </div>
+  
+      <div class="row">
+          <p style="background-color:#00B96F;height: 20px;
+          width: 20px;" title=""></p>
+         <p style="margin-left: 12px;">{{'addForm.third_line' | translate}}</p>
+      </div>
+  
+      <div class="row">
+          <p style="background-color:#00B96F;height: 20px;
+          width: 20px;" title=""></p>
+         <p style="margin-left: 12px;">{{'addForm.forth_line' | translate}}</p>
+      </div>
+      
+      <div class="row">
+          <p style="background-color:#00B96F;height: 20px;
+          width: 20px;" title=""></p>
+        <div class="col-lg-10 col-md-10 col-sm-12 col-12">
+         <p>{{'addForm.fifth_line' | translate}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="spacer15"></div>
+    </div>
 
     <div class="white-bg padding40">
       <div class="row" formGroupName="legal_rep">

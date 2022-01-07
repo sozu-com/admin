@@ -35,6 +35,68 @@ export class AddLegalEntityComponent implements OnInit {
   selctedProjects = Array<any>();
   multiDropdownSettings: any;
   data_fetch: boolean = false;
+  isBankReferenceId = false;
+  BankReferenceId: any;
+  @ViewChild('ngOtpInput') ngOtpInputRef: any;
+  @ViewChild('ngOtpInput1') ngOtpInputRef1: any;
+  @ViewChild('ngOtpInput2') ngOtpInputRef2: any;
+  @ViewChild('ngOtpInput3') ngOtpInputRef3: any;
+  config = {
+    allowNumbersOnly: false,
+    length: 3,
+    isPasswordInput: false,
+    disableAutoFocus: false,
+    placeholder: '',
+    inputStyles: {
+      'box- sizing': 'border- box',
+      'height': '35px',
+      'width': '35px',
+      'background-color': '#dadada',
+      'font-size': '15px'
+    }
+  };
+  config1 = {
+    allowNumbersOnly: false,
+    length: 3,
+    isPasswordInput: false,
+    disableAutoFocus: false,
+    placeholder: '',
+    inputStyles: {
+      'box- sizing': 'border- box',
+      'height': '35px',
+      'width': '35px',
+      'background-color': '#dadada',
+      'font-size': '15px'
+    }
+  };
+  config2 = {
+    allowNumbersOnly: false,
+    length: 4,
+    isPasswordInput: false,
+    disableAutoFocus: false,
+    placeholder: '',
+    inputStyles: {
+      'box- sizing': 'border- box',
+      'height': '35px',
+      'width': '35px',
+      'background-color': '#dadada',
+      'font-size': '15px'
+    }
+  };
+  config3 = {
+    allowNumbersOnly: false,
+    length: 4,
+    isPasswordInput: false,
+    disableAutoFocus: false,
+    placeholder: '',
+    inputStyles: {
+      'box- sizing': 'border- box',
+      'height': '35px',
+      'width': '35px',
+      'background-color': '#dadada',
+      'font-size': '15px'
+    }
+  };
 
   public legal_developer_access_formGroup: FormGroup;
 
@@ -283,6 +345,12 @@ export class AddLegalEntityComponent implements OnInit {
               // }
             }
           }
+          if(success.data.legal_entity_bank_ref){
+            this.ngOtpInputRef.setValue(success.data.legal_entity_bank_ref.substr(0, 3));
+            this.ngOtpInputRef1.setValue(success.data.legal_entity_bank_ref.substr(3, 3));
+            this.ngOtpInputRef2.setValue(success.data.legal_entity_bank_ref.substr(6, 4));
+            this.ngOtpInputRef3.setValue(success.data.legal_entity_bank_ref.substr(10, 4));
+          }
           this.patchForm(success.data);
           self.data_fetch = true;
           this.loadDeveloperAccessData((success.data || {}).legal_developer_access);
@@ -423,6 +491,12 @@ export class AddLegalEntityComponent implements OnInit {
       } else {
         formData['legal_developer_access'] = this.getDeveloperAccessFormArray.getRawValue();
       }
+    }
+    if(this.isBankReferenceId){
+     formData['legal_entity_bank_ref'] = this.BankReferenceId;
+    }
+    else{
+      formData['legal_entity_bank_ref'] = null;
     }
     //formData['developer_id'] = (this.addDataForm.get('legal_rep') as FormGroup).get('developer_id').value;
     this.spinner.show();
@@ -702,6 +776,24 @@ export class AddLegalEntityComponent implements OnInit {
 
   loginWebsite(value) {
     this.addDataForm.get('legal_rep').value.login_website = value.target.checked ? 1 : 0;
+  }
+
+  showBankReferenceId(event){
+    this.isBankReferenceId = this.isBankReferenceId ? false : true;
+   this.ngOtpInputRef.setValue(646);
+   this.ngOtpInputRef1.setValue(180);
+   this.ngOtpInputRef2.setValue(2874);
+   this.getBankCount()
+  }
+
+  getBankCount(){
+    this.spinner.show();
+    this.admin.postDataApi('countBankRef', {}).subscribe(r => {
+      this.spinner.hide();
+      this.ngOtpInputRef3.setValue(r.data);
+      this.BankReferenceId = (6461802874) + r.data;
+      this.isBankReferenceId = true;
+    });
   }
 
 }

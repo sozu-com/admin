@@ -297,6 +297,10 @@
     "idNumber": "Número ID",
     "stateOfBirth": "Estado de nacimiento",
     "cityOfBirth": "Ciudad de nacimiento",
+    "parentAccountReference": "Referencia cuenta padre",
+    "stpReference": "STP Referencia",
+    "mexico": "México",
+    "parentAccountCode": "Codigo cuenta padre",
     "moreImages": {
       "label": "Imágenes",
       "addMoreBtn": "+ Agregar más imágenes",
