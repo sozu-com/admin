@@ -104,7 +104,7 @@
             </label>
             <div formArrayName="legal_entity_banks">
               <ng-container *ngFor="let lebanks of addDataForm.get('legal_entity_banks')['controls']; let i=index">
-    
+
                 <div class="row" [formGroupName]="i">
                   <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                     <div class="form-group-3">
@@ -144,18 +144,17 @@
                     <div class="form-group-3">
                       <label>{{'addCollection.remove' | translate}}</label>
                       <div class="clearfix"></div>
-                      <button type="button"
-                        (click)="removeLegalEntityBank($event, i, lebanks)">{{'addCollection.remove' |
+                      <button type="button" (click)="removeLegalEntityBank($event, i, lebanks)">{{'addCollection.remove' |
                         translate}}</button>
                     </div>
                   </div>
                 </div>
               </ng-container>
             </div>
-    
+
           </div>
-        
-    
+
+
         </div>
       </div>
     </div>
@@ -243,8 +242,8 @@
         <div class="col-4">
           <div class="form-group-3">
             <label>{{'addForm.neighbourhood' | translate}}</label>
-            <input autocomplete="off" type="text" class="form-control" id="neighbourhood" formControlName="neighbourhood"
-            name="neighbourhood" />
+            <input autocomplete="off" type="text" class="form-control" id="neighbourhood"
+              formControlName="neighbourhood" name="neighbourhood" />
             <!-- <select class="form-control" formControlName="neighbourhood" name="neighbourhood"
               (change)="this.onClickUseUserSameAddress()">
               <option *ngFor="let tempNeighbourhood of model.neighbourhoods" value="{{tempNeighbourhood}}">
@@ -378,8 +377,8 @@
         <div class="col-4">
           <div class="form-group-3">
             <label>{{'addForm.neighbourhood' | translate}}</label>
-            <input autocomplete="off" type="text" class="form-control" id="tax_neighbourhood" formControlName="tax_neighbourhood"
-            name="tax_neighbourhood" />
+            <input autocomplete="off" type="text" class="form-control" id="tax_neighbourhood"
+              formControlName="tax_neighbourhood" name="tax_neighbourhood" />
             <!-- <select class="form-control" formControlName="tax_neighbourhood" name="tax_neighbourhood">
               <option *ngFor="let temp_tax_neighbourhood of model.tax_neighbourhoods"
                 value="{{temp_tax_neighbourhood}}">
@@ -393,86 +392,93 @@
     <div class="col-12">
       <div class="spacer15"></div>
     </div>
-    
+
     <div class="white-bg padding40">
       <div class="row">
         <div class="col-4">
           <h3>{{'addForm.parentAccountReference' | translate}}</h3>
         </div>
         <div class="col-4">
-          <div class="form-group-3">
+          <label class="switch">
+            <input class="switch-input" type="checkbox" [(ngModel)]="isBankReferenceId"
+              [ngModelOptions]="{standalone: true}" (click)="showBankReferenceId()"/>
+            <span class="switch-label" data-on="On" data-off="Off"></span>
+            <span class="switch-handle"></span>
+          </label>
+          <!-- <div class="form-group-3">
             <div class="form-check">
               <input type="checkbox" id="switch3" (click)="showBankReferenceId($event)" [checked]="isBankReferenceId">
               <label for="switch3">Toggle</label>
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="col-4">
         </div>
-        </div>
+      </div>
+      <div class="white-bg padding40" *ngIf="isBankReferenceId">
         <div class="row">
-        <div class="col-lg-3 col-sm-12 col-md-12 col-12">
-          <ng-otp-input #ngOtpInput [config]="config"></ng-otp-input>
-          <hr class="new1">
-          <label class="new1">{{'addCollection.stpReference' | translate}}</label>
-        </div>
-  
-        <div class="col-lg-3 col-sm-12 col-md-12 col-12" style="clear: both;
+          <div class="col-lg-3 col-sm-12 col-md-12 col-12">
+            <ng-otp-input #ngOtpInput [config]="config"></ng-otp-input>
+            <hr class="new1">
+            <label class="new1">{{'addCollection.stpReference' | translate}}</label>
+          </div>
+
+          <div class="col-lg-3 col-sm-12 col-md-12 col-12" style="clear: both;
         overflow: hidden;
         white-space: nowrap; padding-left: 0px !important;">
-          <ng-otp-input #ngOtpInput1 [config]="config1"></ng-otp-input>
-          <hr class="new2">
-          <label class="new2">{{'addCollection.mexico' | translate}}</label>
-        </div>
-  
-        <div class="col-lg-3 col-sm-12 col-md-12 col-12">
-          <ng-otp-input #ngOtpInput2 [config]="config2"></ng-otp-input>
-          <hr class="new3">
-          <label class="new3">{{'addCollection.parentAccountCode' | translate}}</label>
-        </div>
-  
-        <div class="col-lg-2 col-sm-12 col-md-12 col-12" style="clear: both;
+            <ng-otp-input #ngOtpInput1 [config]="config1"></ng-otp-input>
+            <hr class="new2">
+            <label class="new2">{{'addCollection.mexico' | translate}}</label>
+          </div>
+
+          <div class="col-lg-3 col-sm-12 col-md-12 col-12">
+            <ng-otp-input #ngOtpInput2 [config]="config2"></ng-otp-input>
+            <hr class="new3">
+            <label class="new3">{{'addCollection.parentAccountCode' | translate}}</label>
+          </div>
+
+          <div class="col-lg-2 col-sm-12 col-md-12 col-12" style="clear: both;
         overflow: hidden;
         white-space: nowrap; padding-left: 0px;">
-          <ng-otp-input #ngOtpInput3 [config]="config3"></ng-otp-input>
-          <hr class="new4">
-          <label class="new4">{{'addCollection.developer' | translate}}</label>
+            <ng-otp-input #ngOtpInput3 [config]="config3"></ng-otp-input>
+            <hr class="new4">
+            <label class="new4">{{'addCollection.developer' | translate}}</label>
+          </div>
         </div>
-        </div>
-      <br/><br/>
-      <div class="row">
-        <p style="background-color:#00B96F;height: 20px;
+        <br /><br />
+        <div class="row">
+          <p style="background-color:#00B96F;height: 20px;
           width: 20px;" title=""></p> &nbsp;
-         <p style="margin-left: 12px;">{{'addForm.first_line' | translate}}</p>
-      </div>
-  
-      <div class="row">
+          <p style="margin-left: 12px;">{{'addForm.first_line' | translate}}</p>
+        </div>
+
+        <div class="row">
           <p style="background-color:#00B96F;height: 20px;
           width: 20px;" title=""></p>
-         <p style="margin-left: 12px;">{{'addForm.second_line' | translate}}</p>
-      </div>
-  
-      <div class="row">
+          <p style="margin-left: 12px;">{{'addForm.second_line' | translate}}</p>
+        </div>
+
+        <div class="row">
           <p style="background-color:#00B96F;height: 20px;
           width: 20px;" title=""></p>
-         <p style="margin-left: 12px;">{{'addForm.third_line' | translate}}</p>
-      </div>
-  
-      <div class="row">
+          <p style="margin-left: 12px;">{{'addForm.third_line' | translate}}</p>
+        </div>
+
+        <div class="row">
           <p style="background-color:#00B96F;height: 20px;
           width: 20px;" title=""></p>
-         <p style="margin-left: 12px;">{{'addForm.forth_line' | translate}}</p>
-      </div>
-      
-      <div class="row">
+          <p style="margin-left: 12px;">{{'addForm.forth_line' | translate}}</p>
+        </div>
+
+        <div class="row">
           <p style="background-color:#00B96F;height: 20px;
           width: 20px;" title=""></p>
-        <div class="col-lg-10 col-md-10 col-sm-12 col-12">
-         <p>{{'addForm.fifth_line' | translate}}</p>
+          <div class="col-lg-10 col-md-10 col-sm-12 col-12">
+            <p>{{'addForm.fifth_line' | translate}}</p>
+          </div>
         </div>
       </div>
     </div>
-
     <div class="col-12">
       <div class="spacer15"></div>
     </div>
@@ -487,7 +493,7 @@
               class="form-control" formControlName="fed_tax_pay" name="fed_tax_pay1">
           </div>
         </div> -->
-       
+
         <!-- <div class="col-12">
           <label>{{'addCollection.bankAccount' | translate}}
             <span class="pull-right"><a class="add" (click)="addLegalRepBank($event)"
@@ -569,20 +575,21 @@
           <div class="form-group-2">
             <h5>{{'addCollection.legalRepresentativeInfo' | translate}}</h5>
           </div>
-        </div> 
+        </div>
 
         <div class="col-2">
           <div class="form-group-3">
             <div class="form-check">
               <input type="checkbox" name="use_user_same_address" formControlName="login_website"
-              [checked]="addDataForm.get('legal_rep').value.login_website" style="height: 17px;width: 17px;" (change)="loginWebsite($event)">
+                [checked]="addDataForm.get('legal_rep').value.login_website" style="height: 17px;width: 17px;"
+                (change)="loginWebsite($event)">
               <label class="form-check-label">
                 <span style="margin-left: 5px;">{{'addForm.loginWebsite' | translate}}</span>
               </label>
             </div>
           </div>
         </div>
-       
+
         <div class="col-12">
           <div class="form-group-2">
             <label>{{'addForm.names' | translate}}
@@ -763,8 +770,7 @@
           </div>
         </div>
         <div class="col-12">
-          <div formArrayName="legal_developer_access" 
-          *ngIf="this.getDeveloperAccessFormArrayLength > 0">
+          <div formArrayName="legal_developer_access" *ngIf="this.getDeveloperAccessFormArrayLength > 0">
             <ng-container
               *ngFor="let temp_legal_developer_access of this.getDeveloperAccessFormArray['controls']; let i=index">
               <div [formGroupName]="i">

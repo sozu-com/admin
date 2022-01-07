@@ -35,7 +35,7 @@ export class AddLegalEntityComponent implements OnInit {
   selctedProjects = Array<any>();
   multiDropdownSettings: any;
   data_fetch: boolean = false;
-  isBankReferenceId = false;
+  isBankReferenceId: any;
   BankReferenceId: any;
   @ViewChild('ngOtpInput') ngOtpInputRef: any;
   @ViewChild('ngOtpInput1') ngOtpInputRef1: any;
@@ -345,7 +345,7 @@ export class AddLegalEntityComponent implements OnInit {
               // }
             }
           }
-          if(success.data.legal_entity_bank_ref){
+          if (success.data.legal_entity_bank_ref) {
             this.ngOtpInputRef.setValue(success.data.legal_entity_bank_ref.substr(0, 3));
             this.ngOtpInputRef1.setValue(success.data.legal_entity_bank_ref.substr(3, 3));
             this.ngOtpInputRef2.setValue(success.data.legal_entity_bank_ref.substr(6, 4));
@@ -492,10 +492,10 @@ export class AddLegalEntityComponent implements OnInit {
         formData['legal_developer_access'] = this.getDeveloperAccessFormArray.getRawValue();
       }
     }
-    if(this.isBankReferenceId){
-     formData['legal_entity_bank_ref'] = this.BankReferenceId;
+    if (this.isBankReferenceId) {
+      formData['legal_entity_bank_ref'] = this.BankReferenceId;
     }
-    else{
+    else {
       formData['legal_entity_bank_ref'] = null;
     }
     //formData['developer_id'] = (this.addDataForm.get('legal_rep') as FormGroup).get('developer_id').value;
@@ -778,21 +778,24 @@ export class AddLegalEntityComponent implements OnInit {
     this.addDataForm.get('legal_rep').value.login_website = value.target.checked ? 1 : 0;
   }
 
-  showBankReferenceId(event){
-    this.isBankReferenceId = this.isBankReferenceId ? false : true;
-   this.ngOtpInputRef.setValue(646);
-   this.ngOtpInputRef1.setValue(180);
-   this.ngOtpInputRef2.setValue(2874);
-   this.getBankCount()
+  showBankReferenceId() {
+    this.isBankReferenceId = this.isBankReferenceId ? 0 : 1;
+    if (this.isBankReferenceId == 1) {
+      this.ngOtpInputRef.setValue(646);
+      this.ngOtpInputRef1.setValue(180);
+      this.ngOtpInputRef2.setValue(2874);
+      this.getBankCount()
+    }
+
   }
 
-  getBankCount(){
+  getBankCount() {
     this.spinner.show();
     this.admin.postDataApi('countBankRef', {}).subscribe(r => {
       this.spinner.hide();
       this.ngOtpInputRef3.setValue(r.data);
       this.BankReferenceId = (6461802874) + r.data;
-      this.isBankReferenceId = true;
+      this.isBankReferenceId = 1;
     });
   }
 
