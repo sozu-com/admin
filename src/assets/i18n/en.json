@@ -445,7 +445,8 @@
       "petsFriendly": "Pet Friendly",
       "studentsFriendly": "Students Friendly?",
       "LGBTFriendly": "LGBT Friendly?",
-      "MaturePeopleFriendly": "Mature People Friendly?"
+      "MaturePeopleFriendly": "Mature People Friendly?",
+      "MaturePeoplebuyer": "Show the deal card to the buyer?"
     },
     "tower": {
       "label": "Tower Details",
@@ -1607,6 +1608,7 @@
       "wantToBlockOffice": "Want to unBlock office?",
       "wantToUnBlockOffice": "Want to unBlock office?",
       "wantToDeleteProject": "You want to delete this project?",
+      "wantToDeleteCard": "you want to show the deal card to",
       "wantToDeleteHotel": "You want to delete this hotel?",
       "wantToDeleteOffice": "You want to delete this office?",
       "wantToDeleteProduct": "You want to delete this product?",

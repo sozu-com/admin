@@ -444,7 +444,8 @@
       "petsFriendly": "Mascota amigable",
       "studentsFriendly": "Ambiente estudiantil",
       "LGBTFriendly": "Amigable con comunidad LGBT?",
-      "MaturePeopleFriendly": "¿Ambiente para personas mayores?"
+      "MaturePeopleFriendly": "¿Ambiente para personas mayores?",
+      "MaturePeoplebuyer": "¿Mostrar la tarjeta de trato a la compradora?"
     },
     "tower": {
       "label": "Detalles de la torre",
@@ -1608,6 +1609,7 @@
       "wantToBlockOffice": "¿Quieres bloquear este Oficina?",
       "wantToUnBlockOffice": "¿Quieres desbloquear este Oficina?",
       "wantToDeleteProject": "¿Quieres eliminar este proyecto?",
+      "wantToDeleteCard": "quieres mostrarle la tarjeta de trato",
       "wantToDeleteHotel": "¿Quieres eliminar este hotel?",
       "wantToDeleteOffice": "¿Quieres eliminar este Oficina?",
       "wantToDeleteProduct": "¿Quieres eliminar este Producto?",

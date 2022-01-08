@@ -53,6 +53,7 @@ export class AddPropertyModel {
     students_friendly = 1;
     lgtb_friendly = 1;
     mature_people_friendly = 1;
+    deal_card_status = 0;
     property_price = 1;
     marital_status: any = [1];
     custom_attributes: any = [];
@@ -75,8 +76,8 @@ export class AddPropertyModel {
     outside_agent_commission?: number;
     parking_area: Array<any> = [];
     final_price: any;
-    configuration_toggle:any=false;
-    external_outside_agent:any;
+    configuration_toggle: any = false;
+    external_outside_agent: any;
 }
 export class Docs {
     id: string;
@@ -91,9 +92,9 @@ export class userDoc {
 }
 export class Notes {
     note: string;
-    title : string;
-    agent_id : any;
-    userinfo?:User;
+    title: string;
+    agent_id: any;
+    userinfo?: User;
 }
 export class Building {
     id: string;
