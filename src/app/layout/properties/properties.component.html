@@ -1168,10 +1168,7 @@
                                     title="{{'table.title.generatePDF' | translate}}"><img
                                        src="assets/img/commercial_pdf.png" alt="img"></button>
    
-                                 <!-- <button (click)="this.updateCommercialized(p,1);" class="action-icon" [disabled]="!!p?.collection" *ngIf="parameter?.flag == 3"
-                                    [title]="p?.is_commercialized ? ('table.title.commercializedProperty' | translate ): ('table.title.markCommercialized' | translate)"><img
-                                       [src]="p?.is_commercialized ? 'assets/img/tick-selected.png' : 'assets/img/tick.png' " alt="img"></button> -->
-   
+                                
                                  <button (click)="this.updateCommercialized(p,1);" class="action-icon"
                                     [disabled]="!!p?.collection" *ngIf="p.is_commercialized !=1 && parameter?.flag == 3"
                                     title="{{'table.title.commercializedProperty' | translate}}">
