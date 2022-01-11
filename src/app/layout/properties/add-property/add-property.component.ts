@@ -714,6 +714,22 @@ export class AddPropertyComponent implements OnInit {
           //   this.deleteProject(item,index);
           // }
         });
+      } else if (value == '0') {
+
+        this.parameter.text = this.translate.instant('message.error.wantToDeletezero');
+        swal({
+          html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text + '<br>' + this.selected_name + '?',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: this.constant.confirmButtonColor,
+          cancelButtonColor: this.constant.cancelButtonColor,
+          confirmButtonText: 'Yes'
+        }).then((result) => {
+          // if (result.value) {
+          //   this.deleteProject(item,index);
+          // }
+        });
+
       }
     }
     this.model[key] = value;
