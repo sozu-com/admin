@@ -285,7 +285,7 @@ export class AddPropertyComponent implements OnInit {
           this.approved = this.propertyData ? this.propertyData.status : '0';
           this.selected_buyer = this.propertyData ? this.propertyData.selected_buyer.id : '0';
           this.selected_seller = this.propertyData ? this.propertyData.selected_seller.id : '0';
-          this.selected_name = this.propertyData ? this.propertyData.selected_seller.user.name : '';
+          this.selected_name = this.propertyData ? this.propertyData.selected_buyer.user.name : '';
           console.log(this.is_property_sold, this.approved, this.selected_buyer, this.selected_seller, this.selected_name, "values ayi");
           this.model.rent_price = this.propertyData.rent_price
           this.model.external_outside_agent = this.propertyData.external_outside_agent || {};

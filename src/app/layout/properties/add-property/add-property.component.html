@@ -1217,7 +1217,7 @@
         <label class="cust-radio">
           <input type="radio" (change)="setValue('deal_card_status', 1)" value="1" 
           [checked]="model.deal_card_status == 1 ? 'checked' : ''"
-          name="deal_card_status" [disabled]="is_property_sold != 1 || approved != 3 || !selected_buyer 
+          name="deal_card_status" [disabled]="approved != 3 || !selected_buyer 
           || !selected_seller">
           <span class="checkmark">{{'addForm.yes' | translate}}</span>
         </label>
