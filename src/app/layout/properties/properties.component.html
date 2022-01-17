@@ -841,22 +841,41 @@
                               title="Property Notes" class="action-icon"><img
                                 src="assets/img/chat-icon.png" alt="img"></button>
                               <!--this button to open installment modal -->
-                              <button class="action-icon disable" 
-                              [disabled]="p?.collection && p?.collection?.is_cancelled!=1 && parameter?.flag == 3"
-                              *ngIf="p?.collection && p?.collection?.is_cancelled!=1 && parameter?.flag == 3" 
+                              <!-- <button class="action-icon disable" 
+                              [disabled]="p?.collection && p?.collection?.is_cancelled!=1 && parameter?.flag == 3 && p.for_sale !=1"
+                              *ngIf="p?.collection && p?.collection?.is_cancelled!=1 && parameter?.flag == 3 && p.for_sale !=1" 
                               title="{{'table.title.pusblishDisable' | translate}}">
                               <img src="assets/img/BLOCKED.jpg" alt="img" style="width: 25px;
                                  height: 25px;">
                               </button>
-                              <!-- <button class="action-icon" 
-                              [disabled]="p?.collection && p?.collection?.is_cancelled!=1 && parameter?.flag == 3"
-                              *ngIf="p?.collection && p?.collection?.is_cancelled!=1 && parameter?.flag == 3"  
-                              title="{{'table.title.pusblish' | translate}}">
+                              
+                              <button  class="action-icon" 
+                              [disabled]="!p?.collection && parameter?.flag == 3 && p.for_sale !=1"
+                              *ngIf="parameter?.flag == 3 && !p?.collection && 
+                              p.for_sale != 1" 
+                              title="{{'table.title.unPusblish' | translate}}">
+                              <img src="assets/img/BLOCKED.jpg" alt="img" style="width: 31px;
+                              height: 27px;
+                              margin-left: -3px;">
+                              </button> -->
+                              <button class="action-icon disable" (click)="changePop(p);"
+                              *ngIf="p?.collection && p?.collection?.is_cancelled!=1 && parameter?.flag == 3 && p.for_hold == 1" 
+                              title="{{'table.title.pusblishDisable' | translate}}">
                               <img src="assets/img/BLOCKED.jpg" alt="img" style="width: 25px;
-                              height: 25px;"></button> -->
+                                 height: 25px;">
+                              </button>
+
+                              <button  class="action-icon" (click)="changePop(p);"
+                              *ngIf="parameter?.flag == 3 && !p?.collection && 
+                              p.for_hold == 1" 
+                              title="{{'table.title.unPusblish' | translate}}">
+                              <img src="assets/img/BLOCKED.jpg" alt="img" style="width: 25px;
+                                 height: 25px;">
+                              </button>
 
                               <button (click)="this.pusblish(p);" class="action-icon" 
-                              *ngIf="p.is_published == 0 && parameter?.flag == 3 && !p?.collection" 
+                              *ngIf="p.is_published == 0 && parameter?.flag == 3 && !p?.collection && 
+                              p.for_hold != 1" 
                               title="{{'table.title.unPusblish' | translate}}">
                               <img src="assets/img/UNACTIVE.jpg" alt="img" style="width: 31px;
                               height: 27px;
@@ -864,19 +883,29 @@
                               </button>
                               
                               <button (click)="this.pusblish(p);" class="action-icon" 
-                              *ngIf="p.is_published == 1 && parameter?.flag == 3 && !p?.collection" 
+                              *ngIf="p.is_published == 1 && parameter?.flag == 3 && !p?.collection && 
+                              p.for_hold != 1" 
                               title="{{'table.title.pusblish' | translate}}">
                               <img src="assets/img/ACTIVE.jpg" alt="img" style="width: 25px;
                               height: 25px;"></button>
 
-                              <button (click)="this.openModalInstallment(p);" class="action-icon"
-                                 [disabled]="!!p?.collection" *ngIf="parameter?.flag == 3"
+                              <!-- <button (click)="this.openModalInstallment(p);" class="action-icon"
+                                 [disabled]="!p?.collection || p?.for_sale != 1" 
+                                 *ngIf="parameter?.flag == 3"
                                  title="{{'table.title.generatePDF' | translate}}"><img
-                                    src="assets/img/commercial_pdf.png" alt="img"></button>
+                                    src="assets/img/commercial_pdf.png" alt="img"></button> -->
 
-                              <!-- <button (click)="this.updateCommercialized(p,1);" class="action-icon" [disabled]="!!p?.collection" *ngIf="parameter?.flag == 3"
-                                 [title]="p?.is_commercialized ? ('table.title.commercializedProperty' | translate ): ('table.title.markCommercialized' | translate)"><img
-                                    [src]="p?.is_commercialized ? 'assets/img/tick-selected.png' : 'assets/img/tick.png' " alt="img"></button> -->
+                                    <button (click)="this.openModalInstallment(p);" class="action-icon"
+                                    [disabled]="!!p?.collection"
+                                    *ngIf="parameter?.flag == 3 && p?.for_hold != 1 "
+                                    title="{{'table.title.generatePDF' | translate}}"><img
+                                       src="assets/img/commercial_pdf.png" alt="img"></button>
+
+                                       <button (click)="changePop(p);" class="action-icon"
+                                    *ngIf="parameter?.flag == 3 && !p?.collection && p?.for_hold == 1"
+                                    title="{{'table.title.generatePDF' | translate}}"><img
+                                       src="assets/img/commercial_pdf.png" alt="img"></button>
+   
 
                               <button (click)="this.updateCommercialized(p,1);" class="action-icon"
                                  [disabled]="!!p?.collection" *ngIf="p.is_commercialized !=1 && parameter?.flag == 3"
@@ -1121,23 +1150,26 @@
                                  (click)="getNotes(p)"
                                  title="Property Notes" class="action-icon"><img
                                    src="assets/img/chat-icon.png" alt="img"></button>
+
                                  <!--this button to open installment modal -->
-                                 <button class="action-icon disable" 
-                                 [disabled]="p?.collection && p?.collection?.is_cancelled!=1 && parameter?.flag == 3"
-                                 *ngIf="p?.collection && p?.collection?.is_cancelled!=1 && parameter?.flag == 3" 
+                                 <button class="action-icon disable" (click)="changePop(p);"
+                                 *ngIf="p?.collection && p?.collection?.is_cancelled!=1 && parameter?.flag == 3 && p.for_hold == 1" 
                                  title="{{'table.title.pusblishDisable' | translate}}">
                                  <img src="assets/img/BLOCKED.jpg" alt="img" style="width: 25px;
                                     height: 25px;">
                                  </button>
-                                 <!-- <button class="action-icon" 
-                                 [disabled]="p?.collection && p?.collection?.is_cancelled!=1 && parameter?.flag == 3"
-                                 *ngIf="p?.collection && p?.collection?.is_cancelled!=1 && parameter?.flag == 3"  
-                                 title="{{'table.title.pusblish' | translate}}">
+
+                                 <button  class="action-icon" (click)="changePop(p);"
+                                 *ngIf="parameter?.flag == 3 && !p?.collection && 
+                                 p.for_hold == 1" 
+                                 title="{{'table.title.unPusblish' | translate}}">
                                  <img src="assets/img/BLOCKED.jpg" alt="img" style="width: 25px;
-                                 height: 25px;"></button> -->
+                                    height: 25px;">
+                                 </button>
    
                                  <button (click)="this.pusblish(p);" class="action-icon" 
-                                 *ngIf="p.is_published == 0 && parameter?.flag == 3 && !p?.collection" 
+                                 *ngIf="p.is_published == 0 && parameter?.flag == 3 && !p?.collection && 
+                                 p.for_hold != 1" 
                                  title="{{'table.title.unPusblish' | translate}}">
                                  <img src="assets/img/UNACTIVE.jpg" alt="img" style="width: 31px;
                                  height: 27px;
@@ -1145,13 +1177,20 @@
                                  </button>
                                  
                                  <button (click)="this.pusblish(p);" class="action-icon" 
-                                 *ngIf="p.is_published == 1 && parameter?.flag == 3 && !p?.collection" 
+                                 *ngIf="p.is_published == 1 && parameter?.flag == 3 && !p?.collection && 
+                                 p.for_hold != 1" 
                                  title="{{'table.title.pusblish' | translate}}">
                                  <img src="assets/img/ACTIVE.jpg" alt="img" style="width: 25px;
                                  height: 25px;"></button>
    
                                  <button (click)="this.openModalInstallment(p);" class="action-icon"
-                                    [disabled]="!!p?.collection" *ngIf="parameter?.flag == 3"
+                                 [disabled]="!!p?.collection"
+                                    *ngIf="parameter?.flag == 3  && p?.for_hold != 1 "
+                                    title="{{'table.title.generatePDF' | translate}}"><img
+                                       src="assets/img/commercial_pdf.png" alt="img"></button>
+
+                                       <button (click)="changePop(p);" class="action-icon"
+                                    *ngIf="parameter?.flag == 3 && !p?.collection && p?.for_hold == 1"
                                     title="{{'table.title.generatePDF' | translate}}"><img
                                        src="assets/img/commercial_pdf.png" alt="img"></button>
    

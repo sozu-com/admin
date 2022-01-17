@@ -211,6 +211,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   possessionStatuses: Array<any>;
   export_num: any;
   progress_bar_per: number;
+  text_1: any;
 
   constructor(
     public constant: Constant, public cs: CommonService,
@@ -880,6 +881,29 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     }, (error) => {
       this.spinner.hide();
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
+
+  changePop(p) {
+    if (p.for_rent == 1) {
+      this.text_1 = this.translate.instant('table.th.rent');
+    } else if (p.for_hold == 1) {
+      this.text_1 = this.translate.instant('table.th.inventory');
+    } else if (p.for_resale == 1) {
+      this.text_1 = this.translate.instant('table.th.saleAndrent');
+    }
+    this.parameter.text = this.translate.instant('message.error.wantToDeletepop');
+    swal({
+      html: this.parameter.text + '\xa0' + this.text_1 + '<br>' + this.translate.instant('message.error.wantToDeletepoped'),
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: this.constant.confirmButtonColor,
+      cancelButtonColor: this.constant.cancelButtonColor,
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      // if (result.value) {
+      //   this.deleteProject(item,index);
+      // }
     });
   }
 

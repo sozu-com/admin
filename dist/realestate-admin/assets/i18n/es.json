@@ -297,6 +297,10 @@
     "idNumber": "Número ID",
     "stateOfBirth": "Estado de nacimiento",
     "cityOfBirth": "Ciudad de nacimiento",
+    "parentAccountReference": "Referencia cuenta padre",
+    "stpReference": "STP Referencia",
+    "mexico": "México",
+    "parentAccountCode": "Codigo cuenta padre",
     "moreImages": {
       "label": "Imágenes",
       "addMoreBtn": "+ Agregar más imágenes",
@@ -440,7 +444,8 @@
       "petsFriendly": "Mascota amigable",
       "studentsFriendly": "Ambiente estudiantil",
       "LGBTFriendly": "Amigable con comunidad LGBT?",
-      "MaturePeopleFriendly": "¿Ambiente para personas mayores?"
+      "MaturePeopleFriendly": "¿Ambiente para personas mayores?",
+      "MaturePeoplebuyer": "¿Mostrar la tarjeta de trato a la compradora?"
     },
     "tower": {
       "label": "Detalles de la torre",
@@ -1604,6 +1609,10 @@
       "wantToBlockOffice": "¿Quieres bloquear este Oficina?",
       "wantToUnBlockOffice": "¿Quieres desbloquear este Oficina?",
       "wantToDeleteProject": "¿Quieres eliminar este proyecto?",
+      "wantToDeleteCard": "quieres mostrarle la tarjeta de trato",
+      "wantToDeletezero": "desea eliminar la tarjeta de trato para",
+      "wantToDeletepop": "Lo siento, la propiedad está en",
+      "wantToDeletepoped": "por favor cámbialo a en venta.",
       "wantToDeleteHotel": "¿Quieres eliminar este hotel?",
       "wantToDeleteOffice": "¿Quieres eliminar este Oficina?",
       "wantToDeleteProduct": "¿Quieres eliminar este Producto?",

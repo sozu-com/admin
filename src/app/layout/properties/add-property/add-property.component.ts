@@ -136,6 +136,11 @@ export class AddPropertyComponent implements OnInit {
   public parkingLotFormGroup: FormGroup = new FormGroup({
     parkingLotFormArray: new FormArray([])
   });
+  is_property_sold: any;
+  approved: any;
+  selected_buyer: any;
+  selected_seller: any;
+  selected_name: any;
 
   constructor(public model: AddPropertyModel, public us: AdminService, private cs: CommonService,
     private router: Router, private sanitization: DomSanitizer, private mapsAPILoader: MapsAPILoader,
@@ -275,6 +280,13 @@ export class AddPropertyComponent implements OnInit {
           this.parameter.propertyDetails = success['data'];
           this.getParkingSpaceLotsAndparkingSpaceRent();
           this.propertyData = success['data'];
+
+          this.is_property_sold = this.propertyData ? this.propertyData.is_property_sold : '0';
+          this.approved = this.propertyData ? this.propertyData.status : '0';
+          this.selected_buyer = this.propertyData ? this.propertyData.selected_buyer.id : '0';
+          this.selected_seller = this.propertyData ? this.propertyData.selected_seller.id : '0';
+          this.selected_name = this.propertyData ? this.propertyData.selected_buyer.user.name : '';
+          console.log(this.is_property_sold, this.approved, this.selected_buyer, this.selected_seller, this.selected_name, "values ayi");
           this.model.rent_price = this.propertyData.rent_price
           this.model.external_outside_agent = this.propertyData.external_outside_agent || {};
           if (this.model.configuration_toggle && this.model.building_configuration_id) {
@@ -360,7 +372,8 @@ export class AddPropertyComponent implements OnInit {
           this.model.lgtb_friendly = success['data'].lgtb_friendly !== null ? success['data'].lgtb_friendly : '1';
           this.model.mature_people_friendly = success['data'].mature_people_friendly !== null ?
             success['data'].mature_people_friendly : '1';
-
+          this.model.deal_card_status = success['data'].deal_card_status !== null ?
+            success['data'].deal_card_status : '0';
           for (let index = 0; index < this.testMarital.length; index++) {
             if (success['data'].marital_statuses.length !== 0) {
               for (let i = 0; i < success['data'].marital_statuses.length; i++) {
@@ -416,7 +429,7 @@ export class AddPropertyComponent implements OnInit {
     this.model.students_friendly = data.students_friendly !== null ? data.students_friendly : '1';
     this.model.lgtb_friendly = data.lgtb_friendly !== null ? data.lgtb_friendly : '1';
     this.model.mature_people_friendly = data.mature_people_friendly !== null ? data.mature_people_friendly : '1';
-
+    this.model.deal_card_status = data.deal_card_status !== null ? data.deal_card_status : '0';
     // this.model.for_rent = data.for_rent === 1 ? true : false;
     // this.model.for_sale = data.for_sale === 1 ? true : false;
     // this.getStates(data.locality.city.state.country.id, '');
@@ -686,7 +699,41 @@ export class AddPropertyComponent implements OnInit {
   }
 
   setValue(key: any, value: any) {
+    if (key == 'deal_card_status') {
+      if (value == '1') {
+        this.parameter.text = this.translate.instant('message.error.wantToDeleteCard');
+        swal({
+          html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text + '<br>' + this.selected_name + '?',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: this.constant.confirmButtonColor,
+          cancelButtonColor: this.constant.cancelButtonColor,
+          confirmButtonText: 'Yes'
+        }).then((result) => {
+          // if (result.value) {
+          //   this.deleteProject(item,index);
+          // }
+        });
+      } else if (value == '0') {
+
+        this.parameter.text = this.translate.instant('message.error.wantToDeletezero');
+        swal({
+          html: this.translate.instant('message.error.areYouSure') + '<br>' + this.parameter.text + '<br>' + this.selected_name + '?',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: this.constant.confirmButtonColor,
+          cancelButtonColor: this.constant.cancelButtonColor,
+          confirmButtonText: 'Yes'
+        }).then((result) => {
+          // if (result.value) {
+          //   this.deleteProject(item,index);
+          // }
+        });
+
+      }
+    }
     this.model[key] = value;
+
   }
 
   getConfigurations() {
@@ -1234,6 +1281,7 @@ export class AddPropertyComponent implements OnInit {
         input.append('students_friendly', this.model.students_friendly.toString());
         input.append('lgtb_friendly', this.model.lgtb_friendly.toString());
         input.append('mature_people_friendly', this.model.mature_people_friendly.toString());
+        input.append('deal_card_status', this.model.deal_card_status.toString());
         input.append('marital_status', JSON.stringify(this.model.marital_status));
       }
       if (this.model.step === 4) {
@@ -1310,6 +1358,7 @@ export class AddPropertyComponent implements OnInit {
     this.model.students_friendly = building.students_friendly !== null ? building.students_friendly : '1';
     this.model.lgtb_friendly = building.lgtb_friendly !== null ? building.lgtb_friendly : '1';
     this.model.mature_people_friendly = building.mature_people_friendly !== null ? building.mature_people_friendly : '1';
+    this.model.deal_card_status = building.deal_card_status !== null ? building.deal_card_status : '0';
 
 
     for (let index = 0; index < this.testMarital.length; index++) {
