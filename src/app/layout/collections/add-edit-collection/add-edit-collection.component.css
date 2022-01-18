@@ -95,6 +95,11 @@
         width: 35px;
         margin-left: 0px;
         background-color: #00B96F;
+    }hr.new6 {
+        height: 3px;
+        width: 123px;
+        margin-left: 0px;
+        background-color: #00B96F;
     }label.new1 {
         margin-left: 9px;
     }label.new2 {
@@ -103,6 +108,9 @@
         margin-left: 11px;
     }label.new4 {
         margin-left: 48px;
+    }
+    label.new6 {
+        margin-left: 18px;
     }
     label {
         height: 17px;

@@ -19,6 +19,7 @@ import { Document } from 'src/app/models/document.model';
 import { IDestinationStatus } from 'src/app/common/marrital-status-interface';
 import { forkJoin } from 'rxjs';
 import { GenerateOfferPdfService } from 'src/app/services/generate-offer-pdf.service';
+import { element } from 'protractor';
 declare let swal: any;
 
 @Component({
@@ -252,7 +253,7 @@ export class AddEditCollectionComponent implements OnInit {
   };
   config4 = {
     allowNumbersOnly: false,
-    length: 4,
+    length: 3,
     isPasswordInput: false,
     disableAutoFocus: false,
     placeholder: '',
@@ -1235,9 +1236,61 @@ export class AddEditCollectionComponent implements OnInit {
     this.adminService.postDataApi('collectionBankRef', {}).subscribe(r => {
       this.spinner.hide();
       this.ngOtpInputRef4.setValue(r.data);
-      this.ngOtpInputRef5.setValue(1);
+      this.ngOtpInputRef4.otpForm.disable();
+      this.createChecker(bankId + r.data)
       this.addFormStep6.controls.bank_reference_id.patchValue(bankId + r.data + 1);
     });
+  }
+  
+  createChecker(bankId){
+   let array =  bankId.split("");
+   let count = 1;
+   let result = '';
+   for(let i = 1; i <= array.length; i++){
+     if(count == 1){
+      let value = array[array.length - i] * 7;
+      let arrayValue = value.toString().split("");
+      if(arrayValue.length == 2){
+        result = result + arrayValue[1];
+      }
+      else if(arrayValue.length == 1){
+        result = result + value;
+      }
+     }
+     else if(count == 2){
+      let value = array[array.length - i] * 3;
+      let arrayValue = value.toString().split("");
+      if(arrayValue.length == 2){
+        result = result + arrayValue[1];
+      }
+      else if(arrayValue.length == 1){
+        result = result + value;
+      }
+     }
+     else if(count == 3){
+      let value = array[array.length - i] * 1;
+      let arrayValue = value.toString().split("");
+      if(arrayValue.length == 2){
+        result = result + arrayValue[1];
+      }
+      else if(arrayValue.length == 1){
+        result = result + value;
+      }
+     }
+     else{
+       count = 1;
+     }
+     count = count + 1;
+   };
+   let resultArray = result.split("");
+   let resultSum = 0;
+   resultArray.forEach(element =>{
+    resultSum = resultSum + Number(element);
+   });
+    let ResultNum = resultSum.toString().split("");
+    let finalResult = 10 - Number(ResultNum[1]);
+    this.ngOtpInputRef5.setValue(finalResult);
+    this.ngOtpInputRef5.otpForm.disable();
   }
 
   getChecker(bank_reference_id, projectname, fed_tax_pay){
