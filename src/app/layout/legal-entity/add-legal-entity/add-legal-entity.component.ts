@@ -293,7 +293,8 @@ export class AddLegalEntityComponent implements OnInit {
       bank_name: ['', [Validators.required]],
       account_number: ['', [Validators.required]],
       swift: ['', [Validators.required]],
-      currency_id: ['', [Validators.required]]
+      currency_id: ['', [Validators.required]],
+      status: ['', [Validators.required]]
     });
   }
 
@@ -390,7 +391,7 @@ export class AddLegalEntityComponent implements OnInit {
       this.ngOtpInputRef2.setValue(data.legal_entity_bank_ref.substr(6, 4));
       this.ngOtpInputRef3.setValue(data.legal_entity_bank_ref.substr(10, 4));
     }
-    else{
+    else {
       this.isBankReferenceId = 0;
     }
     //this.model['neighbourhoods'] = [];

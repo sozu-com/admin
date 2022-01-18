@@ -106,7 +106,7 @@
               <ng-container *ngFor="let lebanks of addDataForm.get('legal_entity_banks')['controls']; let i=index">
 
                 <div class="row" [formGroupName]="i">
-                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                     <div class="form-group-3">
                       <label>{{'addCollection.bankName' | translate}}</label>
                       <div class="clearfix"></div>
@@ -114,7 +114,7 @@
                         name="bank_name" formControlName="bank_name">
                     </div>
                   </div>
-                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                     <div class="form-group-3">
                       <label>{{'addCollection.accountNumber' | translate}}</label>
                       <div class="clearfix"></div>
@@ -148,13 +148,17 @@
                         translate}}</button>
                     </div>
                   </div>
+                  <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>STP</label>
+                      <div class="clearfix"></div>
+                      <input type="checkbox" name="status" formControlName="status">
+                    </div>
+                  </div>
                 </div>
               </ng-container>
             </div>
-
           </div>
-
-
         </div>
       </div>
     </div>
