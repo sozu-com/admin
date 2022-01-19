@@ -1247,6 +1247,9 @@ export class AddEditCollectionComponent implements OnInit {
    let count = 1;
    let result = '';
    for(let i = 1; i <= array.length; i++){
+    if(count >= 4){
+      count = 1;
+    }
      if(count == 1){
       let value = array[array.length - i] * 7;
       let arrayValue = value.toString().split("");
@@ -1276,9 +1279,6 @@ export class AddEditCollectionComponent implements OnInit {
       else if(arrayValue.length == 1){
         result = result + value;
       }
-     }
-     else{
-       count = 1;
      }
      count = count + 1;
    };
