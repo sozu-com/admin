@@ -1182,52 +1182,29 @@ export class AddEditCollectionComponent implements OnInit {
 
   patchFormStep6(data) {
     this.edit_bank = false;
-    let collection_account = data.id;
-    // let count = 5 - data.id.toString().length;
-    // if (count > 0) {
-    //   for (let i = 1; i <= count; i++) {
-    //     collection_account = '0' + collection_account;
-    //   }
-    // }
-    // this.ngOtpInputRef.setValue(collection_account);
-    // this.ngOtpInputRef.otpForm.disable();
-    // let projectname = data.property.building.name.split(' ').join('');
-    // let count2 = 7 - data.property.building.name.toString().length;
-    // if (count2 > 0) {
-    //   for (let i = 1; i <= count2; i++) {
-    //     projectname = projectname + '0';
-    //   }
-    // }
-    // this.ngOtpInputRef1.setValue(projectname);
-    // this.ngOtpInputRef1.otpForm.disable();
-    // let property_name = data.property.name;
-    // let count1 = 5 - data.property.name.toString().length;
-    // if (count1 > 0) {
-    //   for (let i = 1; i <= count1; i++) {
-    //     property_name = '0' + property_name;
-    //   }
-    // }
-    // this.ngOtpInputRef2.setValue(property_name);
-    // this.ngOtpInputRef2.otpForm.disable();
-    // this.ngOtpInputRef3.setValue(((data.buyer_type == 1 || data.buyer_type == 3) && data.buyer ? (data.buyer.name.substr(0, 2) + (data.buyer.first_surname ? data.buyer.first_surname.substr(0, 2) : '00')) : data.buyer_type == 2 && data.buyer_legal_entity.legal_name ? data.buyer_legal_entity.legal_name.substr(0, 4) : '0000'));
-    // this.ngOtpInputRef3.otpForm.disable();
-    // let bank_reference_id = collection_account.substr(0, 5) + projectname.substr(0, 7) + property_name.substr(0, 5) + ((data.buyer_type == 1 || data.buyer_type == 3) && data.buyer ? (data.buyer.name.substr(0, 2) + (data.buyer.first_surname ? data.buyer.first_surname.substr(0, 2) : '00')) : data.buyer_type == 2 && data.buyer_legal_entity.legal_name ? data.buyer_legal_entity.legal_name.substr(0, 4) : '0000');
-    // let tax_pay = (data.buyer_type == 1 || data.buyer_type == 3) && data.buyer ? (data.buyer.name.substr(0, 2) + (data.buyer.first_surname ? data.buyer.first_surname.substr(0, 2) : '00')) : data.buyer_type == 2 && data.buyer_legal_entity.legal_name ? data.buyer_legal_entity.legal_name.substr(0, 4) : '0000';
+    if(!data.bank_reference_id){
     if (data.seller_legal_entity && data.seller_legal_entity.legal_entity_bank_ref) {
-      this.ngOtpInputRef.otpForm.disable();
-      this.ngOtpInputRef1.otpForm.disable();
-      this.ngOtpInputRef2.otpForm.disable();
-      this.ngOtpInputRef3.otpForm.disable();
       this.ngOtpInputRef.setValue(data.seller_legal_entity.legal_entity_bank_ref.substr(0, 3));
       this.ngOtpInputRef1.setValue(data.seller_legal_entity.legal_entity_bank_ref.substr(3, 3));
       this.ngOtpInputRef2.setValue(data.seller_legal_entity.legal_entity_bank_ref.substr(6, 4));
       this.ngOtpInputRef3.setValue(data.seller_legal_entity.legal_entity_bank_ref.substr(10, 4));
       this.getBankReferenceCount(data.seller_legal_entity.legal_entity_bank_ref);
     }
-    //let value = this.getChecker(bank_reference_id, data.property.building.name.split(' ').join(''), tax_pay);
-    //bank_reference_id = bank_reference_id + value;
-   // this.ngOtpInputRef4.setValue(value);
-    //this.ngOtpInputRef4.otpForm.disable();
+  }
+  else{
+    this.ngOtpInputRef.setValue(data.bank_reference_id.substr(0, 3));
+      this.ngOtpInputRef1.setValue(data.bank_reference_id.substr(3, 3));
+      this.ngOtpInputRef2.setValue(data.bank_reference_id.substr(6, 4));
+      this.ngOtpInputRef3.setValue(data.bank_reference_id.substr(10, 4));
+      this.ngOtpInputRef4.setValue(data.bank_reference_id.substr(14, 3));
+      this.ngOtpInputRef5.setValue(data.bank_reference_id.substr(17, 1));
+  }
+    this.ngOtpInputRef.otpForm.disable();
+    this.ngOtpInputRef1.otpForm.disable();
+    this.ngOtpInputRef2.otpForm.disable();
+    this.ngOtpInputRef3.otpForm.disable();
+    this.ngOtpInputRef4.otpForm.disable();
+    this.ngOtpInputRef5.otpForm.disable();
     this.addFormStep6.controls.step.patchValue(6);
   }
 
@@ -1236,7 +1213,6 @@ export class AddEditCollectionComponent implements OnInit {
     this.adminService.postDataApi('collectionBankRef', {}).subscribe(r => {
       this.spinner.hide();
       this.ngOtpInputRef4.setValue(r.data);
-      this.ngOtpInputRef4.otpForm.disable();
       this.createChecker(bankId + r.data)
       this.addFormStep6.controls.bank_reference_id.patchValue(bankId + r.data + 1);
     });
@@ -1290,7 +1266,6 @@ export class AddEditCollectionComponent implements OnInit {
     let ResultNum = resultSum.toString().split("");
     let finalResult = 10 - Number(ResultNum[1]);
     this.ngOtpInputRef5.setValue(finalResult);
-    this.ngOtpInputRef5.otpForm.disable();
   }
 
   getChecker(bank_reference_id, projectname, fed_tax_pay){
