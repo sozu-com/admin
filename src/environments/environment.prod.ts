@@ -12,6 +12,7 @@ export const environment = {
   versionCheckURL: 'http://admintest.sozu.com/verskion.json',
   deviceId: 'ADMIN',
   
+  
   firebase: {
     apiKey: 'AIzaSyAZMJdN4-tFi3vkKLz-c-BoFHMq7eAkoAc',
     authDomain: 'nequore-user.firebaseapp.com',
