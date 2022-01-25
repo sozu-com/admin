@@ -146,14 +146,14 @@ export class ManageContractsComponent implements OnInit {
     this.getContractHome();
   }
 
-  getContract(){
+  getContract() {
     this.spinner.show();
     this.admin.postDataApi('getContracts', this.parameter)
-    .subscribe(
-      success => {
-        this.items = success['data'];
-        this.spinner.hide();
-      });
+      .subscribe(
+        success => {
+          this.items = success['data'];
+          this.spinner.hide();
+        });
   }
 
   getExportlisting() {
@@ -167,7 +167,7 @@ export class ManageContractsComponent implements OnInit {
   }
   getContractSelection = (isFirstTime: boolean, keyword?: string): void => {
     this.spinner.show();
-    let url = this.parameter.flag == 1 ? 'getContractSelection' : 'getContractTypeSelection';
+    let url = 'getContractSelection';
     this.admin.postDataApi(url, { name: keyword }).subscribe((response) => {
       this.spinner.hide();
       this.select_columns_list = (response.data || []).sort((a, b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0));
@@ -186,7 +186,27 @@ export class ManageContractsComponent implements OnInit {
       swal(this.translate.instant('swal.error'), ((error || {}).error || {}).message, 'error');
     });
   }
-
+  getContractSelection_type = (isFirstTime: boolean, keyword?: string): void => {
+    this.spinner.show();
+    let url = 'getContractTypeSelection';
+    this.admin.postDataApi(url, { name: keyword }).subscribe((response) => {
+      this.spinner.hide();
+      this.select_columns_list = (response.data || []).sort((a, b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0));
+      (this.select_columns_list || []).forEach((data, index) => {
+        this.makeSelectedColumns_type(data.id, index);
+      });
+      this.changeSelect();
+      if (isFirstTime) {
+        this.keyword = '';
+        this.isSelectAllColumns = false;
+        this.language_code = localStorage.getItem('language_code');
+        this.openSelectColumnsModal.nativeElement.click();
+      }
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), ((error || {}).error || {}).message, 'error');
+    });
+  }
   changeSelect = (): void => {
     let index = 0;
     (this.select_columns_list || []).forEach((data) => {
@@ -236,6 +256,23 @@ export class ManageContractsComponent implements OnInit {
 
   }
 
+  makeSelectedColumns_type = (id: number, index: number): void => {
+    switch (id) {
+      case 1:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.developer;
+        break;
+      case 2:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.project;
+        break;
+      case 3:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedColumnsToShow.type_of_contract;
+        break;
+      default:
+        break;
+    }
+
+  }
+
   getContractHome = (): void => {
     //this.spinner.show();
     let url = this.parameter.flag == 1 ? 'getContractHome' : 'getContractTypeHome';
@@ -277,39 +314,36 @@ export class ManageContractsComponent implements OnInit {
     if (this.parameter.flag == 1) {
       return {
         user_id: JSON.parse(localStorage.getItem('user-id')) || 0,
-        collection_id: (this.select_columns_list[3] || []).isCheckBoxChecked,
-        developer: (this.select_columns_list[4] || []).isCheckBoxChecked,
-        project: (this.select_columns_list[5] || []).isCheckBoxChecked,
-        apartment: (this.select_columns_list[1] || []).isCheckBoxChecked,
-        buyer: (this.select_columns_list[2] || []).isCheckBoxChecked,
-        type_of_contract: (this.select_columns_list[8] || []).isCheckBoxChecked,
+        collection_id: (this.select_columns_list[0] || []).isCheckBoxChecked,
+        developer: (this.select_columns_list[1] || []).isCheckBoxChecked,
+        project: (this.select_columns_list[2] || []).isCheckBoxChecked,
+        apartment: (this.select_columns_list[3] || []).isCheckBoxChecked,
+        buyer: (this.select_columns_list[4] || []).isCheckBoxChecked,
+        type_of_contract: (this.select_columns_list[5] || []).isCheckBoxChecked,
         signature_date: (this.select_columns_list[6] || []).isCheckBoxChecked,
         status: (this.select_columns_list[7] || []).isCheckBoxChecked,
-        actions: (this.select_columns_list[0] || []).isCheckBoxChecked,
+        actions: (this.select_columns_list[8] || []).isCheckBoxChecked,
       };
     }
     else {
       return {
         user_id: JSON.parse(localStorage.getItem('user-id')) || 0,
-        contract_id: (this.select_columns_list[1] || []).isCheckBoxChecked,
-        developer: (this.select_columns_list[2] || []).isCheckBoxChecked,
-        project: (this.select_columns_list[3] || []).isCheckBoxChecked,
-        type_of_contract: (this.select_columns_list[5] || []).isCheckBoxChecked,
-        status: (this.select_columns_list[4] || []).isCheckBoxChecked,
-        actions: (this.select_columns_list[0] || []).isCheckBoxChecked,
+        developer: (this.select_columns_list[0] || []).isCheckBoxChecked,
+        project: (this.select_columns_list[1] || []).isCheckBoxChecked,
+        type_of_contract: (this.select_columns_list[2] || []).isCheckBoxChecked
       };
     }
   }
 
-  downloadContract(data){
-   this.download_contract.getCollectionById(data);
+  downloadContract(data) {
+    this.download_contract.getCollectionById(data);
   }
 
-  downloadLegalContract(){
+  downloadLegalContract() {
     this.legal_contract.getCollectionById(504);
-   }
+  }
 
-   searchCollectionById() {
+  searchCollectionById() {
     this.spinner.show();
     this.admin.postDataApi('getCollectionById', { id: this.collectionId })
       .subscribe(
@@ -317,42 +351,42 @@ export class ManageContractsComponent implements OnInit {
           this.spinner.hide();
           this.getUserById(success['data'].buyer_id);
           this.searched_collection = success['data'];
-          this.concept_payment = this.searched_collection.payment_choices.find(item=> item.category_name == 'Payment upon Delivery');
-          this.concept_layaway = this.searched_collection.payment_choices.find(item=> item.category_name == 'Layaway Payment');
-          this.concept_downpayment = this.searched_collection.payment_choices.find(item=> item.category_name == 'Down Payment');
-          this.concept_monthly = this.searched_collection.payment_choices.find(item=> item.category_name == 'Monthly Installment 1' || item.category_name == 'Monthly Installment1');
+          this.concept_payment = this.searched_collection.payment_choices.find(item => item.category_name == 'Payment upon Delivery');
+          this.concept_layaway = this.searched_collection.payment_choices.find(item => item.category_name == 'Layaway Payment');
+          this.concept_downpayment = this.searched_collection.payment_choices.find(item => item.category_name == 'Down Payment');
+          this.concept_monthly = this.searched_collection.payment_choices.find(item => item.category_name == 'Monthly Installment 1' || item.category_name == 'Monthly Installment1');
           this.concept_monthly = this.concept_monthly ? this.concept_monthly : {};
-          let concept_monthly_ins= this.searched_collection.payment_choices.filter(item=> item.payment_choice.name == 'Monthly Installment');
+          let concept_monthly_ins = this.searched_collection.payment_choices.filter(item => item.payment_choice.name == 'Monthly Installment');
           this.concept_monthly_no = concept_monthly_ins.length;
         });
   }
 
-  openContractModal(){
+  openContractModal() {
     this.searched_collection = undefined;
     this.contract_type = undefined;
-    this.collectionId = undefined; 
-    this.contract = undefined; 
-    this.signatureDate = undefined, 
-    this.beneficiary_id = undefined, 
-    this.status = undefined;
+    this.collectionId = undefined;
+    this.contract = undefined;
+    this.signatureDate = undefined,
+      this.beneficiary_id = undefined,
+      this.status = undefined;
     this.percent = undefined;
-    this.step = 1;      
+    this.step = 1;
     this.openLinkContractModal.nativeElement.click();
-    
+
   }
 
-  continueModal(step, data){
+  continueModal(step, data) {
     this.step = step;
-    if(this.step == 7){
+    if (this.step == 7) {
       this.contract_id = data ? data.id : this.contract_id;
       this.openLinkContractModal.nativeElement.click();
     }
   }
 
-  signatureDateDailog(step){
+  signatureDateDailog(step) {
     this.spinner.show();
     let input = {
-      property_collection_id: this.collectionId, 
+      property_collection_id: this.collectionId,
       type_of_contract: this.contract,
       beneficiary_id: this.beneficiary_ids,
       percentage: this.percent,
@@ -360,30 +394,30 @@ export class ManageContractsComponent implements OnInit {
     }
     let input1 = {
       contract_id: this.contract_id,
-      property_collection_id: this.collectionId, 
+      property_collection_id: this.collectionId,
       type_of_contract: this.contract,
       beneficiary_id: this.beneficiary_ids,
       percentage: this.percent,
       status: 2
     }
-    this.admin.postDataApi(this.is_edit ? 'updateContract' : 'addContract',this.is_edit ? input1 : input)
+    this.admin.postDataApi(this.is_edit ? 'updateContract' : 'addContract', this.is_edit ? input1 : input)
       .subscribe(
         success => {
           this.step = step;
           this.contract_id = success.data.id;
           this.getContract();
           this.spinner.hide();
-          
+
         });
   }
 
-  selectContract(value){
-  this.contract = value;
+  selectContract(value) {
+    this.contract = value;
   }
 
-  selectIdType(value){
+  selectIdType(value) {
     this.id_type = value;
-    }
+  }
 
   getUserById(id: string) {
     let self = this;
@@ -393,20 +427,20 @@ export class ManageContractsComponent implements OnInit {
           this.beneficiary_list = success['data'].beneficiary;
           let ids = this.beneficiary_id;
           this.beneficiary_id = [];
-          this.beneficiary_list.forEach(item=>{
-            ids.forEach(data=>{
-              if(item.id == data){
+          this.beneficiary_list.forEach(item => {
+            ids.forEach(data => {
+              if (item.id == data) {
                 self.beneficiary_id.push(item);
-               }
+              }
             })
           })
         });
   }
 
-  createContract(){
+  createContract() {
     this.spinner.show();
     let input = {
-      property_collection_id: this.collectionId, 
+      property_collection_id: this.collectionId,
       type_of_contract: this.contract,
       beneficiary_id: this.beneficiary_ids,
       percentage: this.percent,
@@ -414,39 +448,39 @@ export class ManageContractsComponent implements OnInit {
     }
     let input1 = {
       contract_id: this.contract_id,
-      property_collection_id: this.collectionId, 
+      property_collection_id: this.collectionId,
       type_of_contract: this.contract,
       beneficiary_id: this.beneficiary_ids,
       percentage: this.percent,
       status: 2
     }
-    this.admin.postDataApi(this.is_edit ? 'updateContract' : 'addContract',this.is_edit ? input1 : input)
+    this.admin.postDataApi(this.is_edit ? 'updateContract' : 'addContract', this.is_edit ? input1 : input)
       .subscribe(
         success => {
           this.getContract();
           this.spinner.hide();
-          if(this.step != 7){
-          this.closeLinkContractModal.nativeElement.click();
+          if (this.step != 7) {
+            this.closeLinkContractModal.nativeElement.click();
           }
         });
   }
 
-  editContract(data){
+  editContract(data) {
     this.is_edit = true;
     this.step = 1;
     this.beneficiary_id = data.beneficiary_id,
-    this.contract_id = data.id;
+      this.contract_id = data.id;
     this.collectionId = data.property_collection_id;
     this.searchCollectionById();
-    this.contract = data.type_of_contract; 
+    this.contract = data.type_of_contract;
     this.contract_type = data.type_of_contract;
-    this.signatureDate = new Date(data.signature_date),  
-    this.status = data.status;
-    this.percent = data.percentage;     
+    this.signatureDate = new Date(data.signature_date),
+      this.status = data.status;
+    this.percent = data.percentage;
     this.openLinkContractModal.nativeElement.click();
   }
 
-  
+
   deletePopup(item: any, index: number) {
     swal({
       html: this.translate.instant('message.error.areYouSure') + '<br>' +
@@ -473,26 +507,26 @@ export class ManageContractsComponent implements OnInit {
       });
   }
 
-  selectBeneficairy(data, value){
-    if(value && value.length > 0){
-     this.percent = (100 / value.length); 
+  selectBeneficairy(data, value) {
+    if (value && value.length > 0) {
+      this.percent = (100 / value.length);
     }
-    else if(value && !value.length){
-    value =[value];
-    this.percent = (100 / value.length); 
+    else if (value && !value.length) {
+      value = [value];
+      this.percent = (100 / value.length);
     }
     if (data == "all") {
       const d = value.map(o => o.id);
       let id = [];
-      d.forEach(item=>{
-       id.push(item.id)
+      d.forEach(item => {
+        id.push(item.id)
       });
       this.beneficiary_ids = d;
     } else if (data == "select") {
       const d = value.map(o => o.id);
       let id = [];
-      d.forEach(item=>{
-       id.push(item.id)
+      d.forEach(item => {
+        id.push(item.id)
       });
       this.beneficiary_ids = d;
     } else if (data == "unselect") {
@@ -500,33 +534,33 @@ export class ManageContractsComponent implements OnInit {
     }
   }
 
-  selectStatus(data, status){
-    let input ={
-      contract_id : data.id,
+  selectStatus(data, status) {
+    let input = {
+      contract_id: data.id,
       status: status
     }
     this.spinner.show();
     this.admin.postDataApi('updateContractStatus', input)
-    .subscribe(
-      success => {
-        this.getContract();
-        this.spinner.hide();
-      });
+      .subscribe(
+        success => {
+          this.getContract();
+          this.spinner.hide();
+        });
   }
 
-  addSignatureDate(){
-    let input ={
-      contract_id : this.contract_id,
+  addSignatureDate() {
+    let input = {
+      contract_id: this.contract_id,
       status: 3,
       signature_date: this.signatureDate
     }
     this.spinner.show();
     this.admin.postDataApi('updateContractSignature', input)
-    .subscribe(
-      success => {
-        this.getContract();
-        this.closeLinkContractModal.nativeElement.click();
-        this.spinner.hide();
-      });
+      .subscribe(
+        success => {
+          this.getContract();
+          this.closeLinkContractModal.nativeElement.click();
+          this.spinner.hide();
+        });
   }
 }

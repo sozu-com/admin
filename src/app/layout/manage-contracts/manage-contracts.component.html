@@ -7,8 +7,13 @@
       </div>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-      <div class="form-group" style="float: right;">
+      <div class="form-group" style="float: right;" *ngIf="parameter.flag == 1">
         <button class="action-icon" (click)="getContractSelection(true)"
+          title="{{'table.title.selectColumns' | translate}}"><i class="fa fa-pause"
+            style="cursor: pointer;"></i></button>
+      </div>
+      <div class="form-group" style="float: right;" *ngIf="parameter.flag == 2">
+        <button class="action-icon" (click)="getContractSelection_type(true)"
           title="{{'table.title.selectColumns' | translate}}"><i class="fa fa-pause"
             style="cursor: pointer;"></i></button>
       </div>
@@ -194,28 +199,19 @@
             </table>
             <table class="table table-striped table-align-left" *ngIf="parameter.flag == 2">
               <tr>
-                <th style="vertical-align:top;width:6%" *ngIf="selectedColumnsToShow?.contract_id">
+                <!-- <th style="vertical-align:top;width:6%" *ngIf="selectedColumnsToShow?.contract_id">
                   <div class="d-flex table-search">
                     <label>{{'table.th.contractId' | translate}}</label>
                   </div>
-                </th>
+                </th> -->
                 <th style="width:14%" *ngIf="selectedColumnsToShow?.developer">
                   <div class="table-search">
                     <label>{{'table.th.developer' | translate}}</label>
-                    <!-- <div class="searh-3">
-                      <input class="width100px" type="text" [(ngModel)]="parameter.email" (keyup.enter)="getListing()" autocomplete="address-level4" >
-                      <button *ngIf="parameter.email" (click)="getListing()"><i class="fa fa-search"></i></button>
-                    </div> -->
                   </div>
                 </th>
                 <th style="width:15%" *ngIf="selectedColumnsToShow?.project">
                   <div class="table-search">
                     <label>{{'table.th.project' | translate}}</label>
-                    <!-- <div class="searh-3">
-                      <input class="width100px" type="text" [(ngModel)]="parameter.agency_name"
-                        (keyup.enter)="getListing()" autocomplete="address-level4">
-                      <button *ngIf="parameter.agency_name" (click)="getListing()"><i class="fa fa-search"></i></button>
-                    </div> -->
                   </div>
                 </th>
                 <th style="width:15%" *ngIf="selectedColumnsToShow?.type_of_contract">
@@ -223,35 +219,29 @@
                     <label>{{'table.th.typeOfContract' | translate}}</label>
                   </div>
                 </th>
-                <th style="width:15%" *ngIf="selectedColumnsToShow?.status">
+                <!-- <th style="width:15%" *ngIf="selectedColumnsToShow?.status">
                   <div class="table-search">
                     <label>{{'table.th.status' | translate}}</label>
                   </div>
-                </th>
-                <th style="vertical-align:top;width:100px;width:20%" *ngIf="selectedColumnsToShow?.actions">
+                </th> -->
+                <!-- <th style="vertical-align:top;width:100px;width:20%" *ngIf="selectedColumnsToShow?.actions">
                   <div class="table-search">
                     <label>{{'table.th.actions.label' | translate}}</label>
                   </div>
-                </th>
+                </th> -->
               </tr>
 
-              <tr
-                *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
-                <td [ngClass]="{'green-color cursor-pointer': p?.developer?.name}"
-                  *ngIf="selectedColumnsToShow?.contract_id">
-                  <span>{{p?.developer?.name ? p?.developer?.name : ('table.tr.td.NA' | translate)}}</span>
-                </td>
+              <tr>
                 <td *ngIf="selectedColumnsToShow?.developer">
-                  <span>{{p?.property_collection?.property?.building?.developer ? p?.property_collection?.property?.building?.developer?.name : ('table.tr.td.NA' | translate)}}</span>
+                  <span>Investimento</span>
                 </td>
                 <td *ngIf="selectedColumnsToShow?.project">
-                  <span>{{p?.property_collection?.property?.building ? p?.property_collection?.property?.building?.name : ('table.tr.td.NA' | translate)}}</span>
+                  <span>Bottura</span>
                 </td>
                 <td *ngIf="selectedColumnsToShow?.type_of_contract">
-                  <span *ngIf="p?.type_of_contract">{{p.type_of_contract == '1' ? ('contract.physicalPerson' | translate) :
-                    p.type_of_contract == '2' ? ('contract.moralPerson' | translate) : ('table.tr.td.NA' | translate)}}</span>
+                  <span>Physical Person</span>
                 </td>
-                <td *ngIf="selectedColumnsToShow?.status">
+                <!-- <td *ngIf="selectedColumnsToShow?.status">
                   <select class="cursor-pointer" (change)="selectStatus(p, $event.target.value)">
                   <option [selected]="p.status==1" value="1">{{'contract.draft' | translate}}</option>
                   <option [selected]="p.status==2" value="2">{{'contract.inComplete' | translate}}</option>
@@ -260,20 +250,41 @@
                   <option [selected]="p.status==5" value="5">{{'contract.validatedByLegal' | translate}}</option>
                   <option [selected]="p.status==6" value="6">{{'contract.signed' | translate}}</option>
                 </select>
-                </td>
-                <td *ngIf="selectedColumnsToShow?.action">
+                </td> -->
+                <!-- <td *ngIf="selectedColumnsToShow?.action">
                   <div class="table-actions">
-                    <!-- <div class="message"> -->
                     <button [disabled]="admin?.admin_acl['Manage Contracts']?.can_update==0"
                       (click)="editContract(p)"
                       title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
                         src="assets/img/edit.png" alt="img"></button>
-                    <!-- delete project -->
                     <button [disabled]="admin?.admin_acl['Manage Contractss']?.can_purge==0"
                       (click)="deletePopup(p, i);" class="action-icon" title="{{'table.title.delete' | translate}}"><img
                         src="assets/img/ic_delete.png" alt="img"></button>
-                    <!-- </div> -->
                   </div>
+                </td> -->
+              </tr>
+
+              <tr>
+                <td *ngIf="selectedColumnsToShow?.developer">
+                  <span>Investimento</span>
+                </td>
+                <td *ngIf="selectedColumnsToShow?.project">
+                  <span>Margot</span>
+                </td>
+                <td *ngIf="selectedColumnsToShow?.type_of_contract">
+                  <span>Physical Person</span>
+                </td>
+              </tr>
+
+              <tr>
+                <td *ngIf="selectedColumnsToShow?.developer">
+                  <span>Investimento</span>
+                </td>
+                <td *ngIf="selectedColumnsToShow?.project">
+                  <span>Margot</span>
+                </td>
+                <td *ngIf="selectedColumnsToShow?.type_of_contract">
+                  <span>Moral Person</span>
                 </td>
               </tr>
             </table>
