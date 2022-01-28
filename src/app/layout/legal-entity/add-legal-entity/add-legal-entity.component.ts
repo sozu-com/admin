@@ -99,6 +99,7 @@ export class AddLegalEntityComponent implements OnInit {
   };
 
   public legal_developer_access_formGroup: FormGroup;
+  status: any;
 
   constructor(
     public constant: Constant,
@@ -355,7 +356,6 @@ export class AddLegalEntityComponent implements OnInit {
         });
   }
 
-
   patchForm(data) {
     this.addDataForm.patchValue(data);
     if (data.lat && data.lng) {
@@ -365,6 +365,9 @@ export class AddLegalEntityComponent implements OnInit {
     const control = this.addDataForm.get('legal_entity_banks') as FormArray;
     if (data.legal_entity_banks) {
       data.legal_entity_banks.forEach(x => {
+        if (x.status == '1') {
+          this.status = x.status;
+        }
         control.push(this.fb.group(x));
       });
     }
