@@ -294,7 +294,7 @@ export class AddLegalEntityComponent implements OnInit {
       account_number: ['', [Validators.required]],
       swift: ['', [Validators.required]],
       currency_id: ['', [Validators.required]],
-      status: ['']
+      status: ['', [Validators.required]]
     });
   }
 
