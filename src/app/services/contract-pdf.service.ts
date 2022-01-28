@@ -62,9 +62,18 @@ signature: Date;
     let buyer_name = this.collection_data.buyer && this.collection_data.buyer.name ? this.collection_data.buyer.name + ' ' + this.collection_data.buyer.first_surname + ' ' + this.collection_data.buyer.second_surname : this.collection_data.buyer_legal_entity ? this.collection_data.buyer_legal_entity.comm_name : 'N/A';
     let buyer_name_first_letter = this.collection_data.buyer && this.collection_data.buyer.name ? this.collection_data.buyer.name[0] + this.collection_data.buyer.first_surname[0] + this.collection_data.buyer.second_surname[0] : this.collection_data.buyer_legal_entity ? this.collection_data.buyer_legal_entity.comm_name : 'N/A';
     let buyer_name_FTRP = this.collection_data.buyer && this.collection_data.buyer.name ? this.collection_data.buyer.fed_tax_pay : this.collection_data.buyer_legal_entity ? this.collection_data.buyer_legal_entity.fed_tax_pay : 'N/A';
-    let address = (this.collection_data.buyer.tax_street_address && this.collection_data.buyer.tax_street_address != '0' ? this.collection_data.buyer.tax_street_address + ' ' : '') +
-    (this.collection_data.buyer.tax_external_number ? this.collection_data.buyer.tax_external_number  : '');
-    let nationality = this.nationalityDetails.find(item => item.id ==  this.collection_data.buyer.nationality_id);
+    let address;
+    let nationality;
+    if (this.collection_data.buyer_legal_entity) {
+      address = (this.collection_data.buyer_legal_entity.tax_street_address && this.collection_data.buyer_legal_entity.tax_street_address != '0' ? this.collection_data.buyer_legal_entity.tax_street_address + ' ' : '') +
+        (this.collection_data.buyer_legal_entity.tax_external_number ? this.collection_data.buyer_legal_entity.tax_external_number : '');
+      nationality = this.nationalityDetails.find(item => item.id == this.collection_data.buyer_legal_entity.nationality_id);
+    }
+    else {
+      address = (this.collection_data.buyer.tax_street_address && this.collection_data.buyer.tax_street_address != '0' ? this.collection_data.buyer.tax_street_address + ' ' : '') +
+        (this.collection_data.buyer.tax_external_number ? this.collection_data.buyer.tax_external_number : '');
+      nationality = this.nationalityDetails.find(item => item.id == this.collection_data.buyer.nationality_id);
+    }
     let sign_day = this.signature ? (' ' + self.signature.getDay() + ' ') : ' N/A';
     let month = this.signature ? + self.signature.getMonth() : ' N/A';
     let sign_month = month == 1 ? ' enero ' : month == 2 ? ' febrero ' : month == 3 ? ' marzo ' : month == 4 ? ' abril ' : month == 5 ? ' mayo ' : month == 6 ? ' junio ' : month == 7 ? 
