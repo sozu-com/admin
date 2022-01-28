@@ -815,4 +815,15 @@ export class AddLegalEntityComponent implements OnInit {
     });
   }
 
+  clickBankSelect(selected){
+    this.addDataForm.get('legal_entity_banks')['controls'].forEach(element => {
+      if(element.value.id == selected.value.id){
+        element.value.status = 1;
+      }
+      else{
+        element.value.status = 0;
+      }
+    });
+  }
+
 }

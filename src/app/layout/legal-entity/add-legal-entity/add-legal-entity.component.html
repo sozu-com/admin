@@ -154,7 +154,7 @@
                       <div class="clearfix"></div>
                       <label class="container">
                         <input type="radio" value="1" name="status" formControlName="status"
-                        [checked]="lebanks.value.status == status">
+                        [checked]="lebanks.value.status == status" (change)="clickBankSelect(lebanks);">
                         <span class="checkmark"></span>
                       </label>
                     </div>
