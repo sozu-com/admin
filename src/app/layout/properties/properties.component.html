@@ -675,10 +675,12 @@
                         <td *ngIf="selectedPropertyColumnsToShow?.tower_name"><span>{{p?.building_towers ?
                               p?.building_towers?.tower_name : ('table.tr.td.NA' |
                               translate)}}</span></td>
-                        <td *ngIf="selectedPropertyColumnsToShow?.floor"><span>{{p?.building_towers?.tower_name
-                              ? (p?.floor_num == 0 ? ('addCollection.groundFloor' | translate) : ('addCollection.floor'
+                        <td *ngIf="selectedPropertyColumnsToShow?.floor"><span>
+                           {{(p?.floor_num == 0 ? ('addCollection.groundFloor' | translate) : ('addCollection.floor'| translate) + ' ' + p?.floor_num)}}
+                           <!-- {{p ? (p?.floor_num == 0 ? ('addCollection.groundFloor' | translate) : ('addCollection.floor'
                               | translate) + ' ' + p?.floor_num)
-                              : ('table.tr.td.NA' | translate)}}</span></td>
+                              : ('table.tr.td.NA' | translate)}} -->
+                           </span></td>
                         <td *ngIf="selectedPropertyColumnsToShow?.apartment"><span>{{p?.name || ('table.tr.td.NA' |
                               translate)}}</span></td>
                         <td *ngIf="selectedPropertyColumnsToShow?.model">
