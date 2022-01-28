@@ -16,6 +16,8 @@ export class LegalContractPdfService {
 
   language_code: string;
   collection_data: any;
+  nationalityDetails: any[] = [];
+  signature: Date;
   
     constructor(
       private translate: TranslateService,
@@ -25,9 +27,10 @@ export class LegalContractPdfService {
       private price: PricePipe,
     ) { }
 
-  getCollectionById(id){
+  getCollectionById(data){
     this.spinner.show();
-    this.admin.postDataApi('getCollectionById', { id: id }).subscribe(
+    this.signature = data.signature_date ? new Date(data.signature_date) : undefined;
+    this.admin.postDataApi('getCollectionById', { id: data.property_collection.id }).subscribe(
       success => {
         this.collection_data = success['data'];
         this.generatePaymentReceiptPDF();

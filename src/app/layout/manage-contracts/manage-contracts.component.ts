@@ -14,6 +14,7 @@ import { LegalContractPdfService } from 'src/app/services/legal-contract-pdf.ser
 import { Collection } from 'src/app/models/collection.model';
 import { ToastrService } from 'ngx-toastr';
 import { ThousandPipe } from 'src/app/pipes/thousand.pipe';
+import { BotturaContractPdfService } from 'src/app/services/bottura-contract-pdf.service';
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
@@ -78,6 +79,7 @@ export class ManageContractsComponent implements OnInit {
     private translate: TranslateService,
     private download_contract: ContractPdfService,
     private legal_contract: LegalContractPdfService,
+    private botturaContractPdfService: BotturaContractPdfService,
     private toastr: ToastrService,
   ) { }
 
@@ -336,11 +338,22 @@ export class ManageContractsComponent implements OnInit {
   }
 
   downloadContract(data) {
-    this.download_contract.getCollectionById(data);
-  }
-
-  downloadLegalContract() {
-    this.legal_contract.getCollectionById(504);
+    if(data.property_collection.property.building.name == "Margot"){
+      if(data.type_of_contract == 1){
+      this.download_contract.getCollectionById(data);
+      }
+      else{
+        this.legal_contract.getCollectionById(data);
+      }
+    }
+    else if(data.property_collection.property.building.name == "Bottura"){
+      if(data.type_of_contract == 1){
+        this.botturaContractPdfService.getCollectionById(data);
+        }
+        else{
+  
+        }
+    }
   }
 
   searchCollectionById() {
