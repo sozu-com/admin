@@ -100,6 +100,7 @@ export class AddLegalEntityComponent implements OnInit {
 
   public legal_developer_access_formGroup: FormGroup;
   status: any;
+  legal_entity_bank_ref: any;
 
   constructor(
     public constant: Constant,
@@ -348,6 +349,7 @@ export class AddLegalEntityComponent implements OnInit {
               // }
             }
           }
+          this.legal_entity_bank_ref = success.data.legal_entity_bank_ref;
           this.patchForm(success.data);
           self.data_fetch = true;
           this.loadDeveloperAccessData((success.data || {}).legal_developer_access);

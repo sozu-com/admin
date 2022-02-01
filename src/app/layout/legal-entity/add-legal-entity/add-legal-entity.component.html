@@ -409,7 +409,7 @@
         <div class="col-4">
           <label class="switch">
             <input class="switch-input" type="checkbox" [(ngModel)]="isBankReferenceId"
-              [ngModelOptions]="{standalone: true}" (click)="showBankReferenceId()"/>
+              [ngModelOptions]="{standalone: true}" (click)="showBankReferenceId()" [disabled]="legal_entity_bank_ref"/>
             <span class="switch-label" data-on="On" data-off="Off"></span>
             <span class="switch-handle"></span>
           </label>
