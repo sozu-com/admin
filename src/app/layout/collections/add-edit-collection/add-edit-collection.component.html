@@ -2626,12 +2626,12 @@
               <div class="form-group" style="width: 25%;" *ngIf="selectedReciverUser == 3">
                 <input type="text" [(ngModel)]="searchValue" placeholder="Search for a legal entity" id="newTag"
                   autocomplete="off" />
-                  <button (click)="searchFunc(newTag)" style="margin-left: 5px;border: 1px solid rgba(196, 196, 196, 0.5);background-color: #00b96f;
-                  font-size: 12px;color: #fff; margin-top: 12px; position: absolute;"><i class="fa fa-search"></i></button>
+                  <button (click)="searchFunc(newTag)" style="border: 1px solid rgba(196, 196, 196, 0.5);background-color: #00b96f;    height: 45px;
+                  font-size: 12px;color: #fff; position: absolute;"><i class="fa fa-search"></i></button>
 <div class="stock-search-result" (click)="clear() && hide()" *ngIf="searchTickers && show">
             <!-- locality -->
             <div *ngFor="let stock of searchTickers" class="search-result-item">
-              <div class="search-result-name" (click)="getBoth('Search')" style="cursor: pointer;">
+              <div class="search-result-name"  style="cursor: pointer;">
                 {{ stock.comm_name }}
               </div>
             </div>
