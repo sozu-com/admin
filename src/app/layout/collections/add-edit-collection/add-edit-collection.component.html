@@ -2610,6 +2610,52 @@
               name="payment_received_by" (change)="onAgencyOrSellerChange($event.target.value)">
               <span class="checkmark">{{'addCollection.Seller' | translate}}</span>
             </label>
+            <label class="cust-radio">
+              <input class="form-control" type="radio" formControlName="payment_received_by" 
+              value="3" 
+              name="payment_received_by" (change)="onAgencyOrSellerChange($event.target.value)">
+              <span class="checkmark">{{'addCollection.commissionSeller' | translate}}</span>
+            </label>
+            <label class="cust-radio">
+              <input class="form-control" type="radio" formControlName="payment_received_by" 
+              value="4 " 
+              name="payment_received_by" (change)="onAgencyOrSellerChange($event.target.value)">
+              <span class="checkmark">{{'addCollection.person' | translate}}</span>
+            </label>
+            <div class="clearfix"></div><div class="form-group-3">
+              <div class="form-group" style="width: 25%;" *ngIf="selectedReciverUser == 3">
+                <input type="text" [(ngModel)]="searchValue" placeholder="Search for a legal entity" id="newTag"
+                  autocomplete="off" />
+                  <button *ngIf="!is_edit" (click)="searchFunc($event)" style="margin-left: 5px;border: 1px solid rgba(196, 196, 196, 0.5);background-color: #00b96f;
+                  font-size: 12px;color: #fff; margin-top: 12px; position: absolute;"><i class="fa fa-search"></i></button>
+<div class="stock-search-result" (click)="clear() && hide()" *ngIf="searchTickers && show">
+            <!-- locality -->
+            <div *ngFor="let stock of searchTickers" class="search-result-item">
+              <div class="search-result-name" (click)="getBoth('Search')" style="cursor: pointer;">
+                {{ stock.name }}
+              </div>
+            </div>
+            <!-- locality end -->
+          </div>
+              </div>
+              <div class="form-group" style="width: 25%;" *ngIf="selectedReciverUser == 4">
+                <input type="text" [(ngModel)]="searchValue" (ngModelChange)="searchFunc($event)"
+                  placeholder="Search for a person" id="newTag" (keyup.enter)="getBoth('Search')"
+                  autocomplete="off" />
+
+<div class="stock-search-result" (click)="clear() && hide()" *ngIf="searchTickers && show">
+            <!-- locality -->
+            <div *ngFor="let entity of searchTickers" class="search-result-item">
+              <div class="search-result-name" (click)="getBoth('Search')" style="cursor: pointer;"
+                (keyup.enter)="getBoth('Search')">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;&nbsp;
+                {{ entity.name }}
+              </div>
+            </div>
+            <!-- locality end -->
+          </div>
+              </div>
+              </div>
             <div class="clearfix"></div><div class="form-group-3">
               <div class="form-group" style="width: 25%;">
                  <select name="payment_bank" class="form-control" formControlName="bank_id">

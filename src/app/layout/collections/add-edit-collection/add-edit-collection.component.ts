@@ -287,6 +287,12 @@ export class AddEditCollectionComponent implements OnInit {
   tempmodelForBank: any;
   searchedUser = [];
   selectedUser = [];
+  search: any;
+  timeout: any;
+  show: boolean;
+  searchTickers: any;
+  searchValue: any;
+  selectedReciverUser: any;
   constructor(
     public model: Collection,
     private adminService: AdminService,
@@ -3477,6 +3483,7 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   onAgencyOrSellerChange = (value): void => {
+    this.selectedReciverUser = value;
     this.isAgencyBank = value == '1' ? true : false;
     this.addFormStep5.get('bank_id').setValue('');
     this.makePaymentBankDetailsArray(false);
@@ -3899,5 +3906,42 @@ export class AddEditCollectionComponent implements OnInit {
    // this.creditModel.user.id = building.id
     // this.creditModel.user = building;
     //console.log(building, 'building')
+  }
+
+  searchFunc(value) {
+    this.search = value;
+    if (value != '') {
+      clearTimeout(this.timeout)
+      this.timeout = setTimeout(() => {
+        this.show = true
+        this.fetchResults(this.search);
+      }, 500);
+    } else {
+      this.parameter.name = '';
+      this.show = false;
+      this.searchTickers = null;
+    }
+  }
+
+open() {
+    this.show = true
+  }
+  hide() {
+    this.show = false
+  }
+  clear() {
+    this.search = ''
+  }
+fetchResults(name) {
+    if (!name) this.hide();
+    this.adminService.postDataApi('searchLegalEntity', {name : this.searchValue }).subscribe(r => {
+      this.searchTickers = r['data'];
+      if (this.searchTickers.length) {
+        this.parameter.page = 1;
+        this.show = true;
+      } else {
+        this.show = false;
+      }
+    })
   }
 }
