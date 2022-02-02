@@ -293,6 +293,7 @@ export class AddEditCollectionComponent implements OnInit {
   searchTickers: any;
   searchValue: any;
   selectedReciverUser: any;
+  ReciverUser: any;
   constructor(
     public model: Collection,
     private adminService: AdminService,
@@ -654,7 +655,8 @@ export class AddEditCollectionComponent implements OnInit {
       collection_commissions: this.formBuilder.array([]),
       is_commission_sale_enabled: [''],
       payment_received_by: [''],
-      bank_id: ['']
+      bank_id: [''],
+      searchValue: ['']
     });
     // if (this.model.id === '0') {
     // this.addAgent('');
@@ -1136,6 +1138,22 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep5.controls.outside_agent_commission_percentage.patchValue(data.outside_agent_commission_percentage || 0);
     this.addFormStep5.controls.outside_agent_commission_amount.patchValue(data.outside_agent_commission_amount || 0);
     this.addFormStep5.controls.outside_agent_commission_iva_amount.patchValue(data.outside_agent_commission_iva_amount || 0);
+    this.ReciverUser = data.payment_received_by == 3 ? data.commission_seller_legal_entity : data.payment_received_by == 4 ? data.person : null;
+    this.selectedReciverUser = data.payment_received_by;
+    if(data.payment_received_by == 3){
+      this.paymentBankDetailsArray = [];
+      if (data.commission_seller_legal_entity.legal_entity_banks) {
+        for (let index = 0; index < data.commission_seller_legal_entity.legal_entity_banks.length; index++) {
+          const element = data.commission_seller_legal_entity.legal_entity_banks[index];
+          element.name = 'Legal Entity Bank | ' + element.bank_name;
+          element.is_agency = 1;
+          element.bank_id = null;
+          element.legal_rep_bank_id = element.id;
+          element.Legal_name = '';
+          this.paymentBankDetailsArray.push(element);
+        }
+      }
+    }
     let index;
     if (this.isByOffer) {
       index = data.property.property_offer_payment.findIndex(x => x.random_id == data.offer_id);
@@ -1189,7 +1207,14 @@ export class AddEditCollectionComponent implements OnInit {
   patchFormStep6(data) {
     this.edit_bank = false;
     if(!data.bank_reference_id){
-    if (data.seller_legal_entity && data.seller_legal_entity.legal_entity_bank_ref) {
+    if (data.commission_seller_legal_entity && data.commission_seller_legal_entity.legal_entity_bank_ref) {
+      this.ngOtpInputRef.setValue(data.commission_seller_legal_entity.legal_entity_bank_ref.substr(0, 3));
+      this.ngOtpInputRef1.setValue(data.commission_seller_legal_entity.legal_entity_bank_ref.substr(3, 3));
+      this.ngOtpInputRef2.setValue(data.commission_seller_legal_entity.legal_entity_bank_ref.substr(6, 4));
+      this.ngOtpInputRef3.setValue(data.commission_seller_legal_entity.legal_entity_bank_ref.substr(10, 4));
+      this.getBankReferenceCount(data.commission_seller_legal_entity.legal_entity_bank_ref);
+    }
+    else if (data.seller_legal_entity && data.seller_legal_entity.legal_entity_bank_ref) {
       this.ngOtpInputRef.setValue(data.seller_legal_entity.legal_entity_bank_ref.substr(0, 3));
       this.ngOtpInputRef1.setValue(data.seller_legal_entity.legal_entity_bank_ref.substr(3, 3));
       this.ngOtpInputRef2.setValue(data.seller_legal_entity.legal_entity_bank_ref.substr(6, 4));
@@ -3144,6 +3169,12 @@ export class AddEditCollectionComponent implements OnInit {
         formdata['add_iva_to_ac'] = formdata['add_iva_to_ac'] ? 1 : 0;
         formdata['add_iva_to_oac'] = formdata['add_iva_to_oac'] ? 1 : 0;
         formdata['payment_received_by'] = formdata['payment_received_by'];
+        if(formdata['payment_received_by'] == 3){
+        formdata['commission_seller_legal_entity_id'] = this.ReciverUser.id;
+        }
+        else if(formdata['payment_received_by'] == 4){
+        formdata['person_id'] = this.ReciverUser.id;
+        }
       } else {
         this.showError = true;
         return false;
@@ -3195,6 +3226,12 @@ export class AddEditCollectionComponent implements OnInit {
             if (tab == 5) {
               this.initFormStep5();
               this.patchFormStep5(success['data']);
+              if(success['data'].payment_received_by == 3){
+                this.initFormStep6();
+              setTimeout(() => {
+                this.patchFormStep6(success['data']);
+              }, 1000);
+              }
             }
             if (tab == 6) {
               this.initFormStep6();
@@ -3908,13 +3945,13 @@ export class AddEditCollectionComponent implements OnInit {
     //console.log(building, 'building')
   }
 
-  searchFunc(value) {
+  searchFunc(value, no) {
     this.search = value;
     if (value != '') {
       clearTimeout(this.timeout)
       this.timeout = setTimeout(() => {
         this.show = true
-        this.fetchResults(this.search);
+        this.fetchResults(this.search, no);
       }, 500);
     } else {
       this.parameter.name = '';
@@ -3930,11 +3967,11 @@ open() {
     this.show = false
   }
   clear() {
-    this.search = ''
+    this.addFormStep5.controls.searchValue.patchValue('');
   }
-fetchResults(name) {
+fetchResults(name, value) {
     //if (!name) this.hide();
-    this.adminService.postDataApi('searchLegalEntity', {name : this.searchValue }).subscribe(r => {
+    this.adminService.postDataApi(value == 1 ? 'searchLegalEntity' : 'searchuser', {name : this.addFormStep5.value.searchValue }).subscribe(r => {
       this.searchTickers = r['data'];
       if (this.searchTickers.length) {
         this.show = true;
@@ -3943,4 +3980,23 @@ fetchResults(name) {
       }
     })
   }
+
+  selectUserReciver(stock){
+    this.ReciverUser = stock;
+    if (this.ReciverUser.legal_entity_banks) {
+      this.paymentBankDetailsArray = [];
+      for (let index = 0; index < this.ReciverUser.legal_entity_banks.length; index++) {
+        const element = this.ReciverUser.legal_entity_banks[index];
+        element.name = 'Legal Entity Bank | ' + element.bank_name;
+        element.is_agency = 1;
+        element.bank_id = null;
+        element.legal_rep_bank_id = element.id;
+        element.Legal_name = '';
+        this.paymentBankDetailsArray.push(element);
+      }
+    }
+    this.hide();
+    this.clear();
+  }
+
 }

@@ -2624,35 +2624,39 @@
             </label>
             <div class="clearfix"></div><div class="form-group-3">
               <div class="form-group" style="width: 25%;" *ngIf="selectedReciverUser == 3">
-                <input type="text" [(ngModel)]="searchValue" placeholder="Search for a legal entity" id="newTag"
+                <input type="text" formControlName="searchValue" placeholder="Search for a legal entity" id="newTag"
                   autocomplete="off" />
-                  <button (click)="searchFunc(newTag)" type="button" style="border: 1px solid rgba(196, 196, 196, 0.5);background-color: #00b96f;    height: 45px;
+                  <button (click)="searchFunc(newTag, 1)" type="button" style="border: 1px solid rgba(196, 196, 196, 0.5);background-color: #00b96f;height: 45px;
                   font-size: 12px;color: #fff; position: absolute;"><i class="fa fa-search"></i></button>
 <div class="stock-search-result" (click)="clear() && hide()" *ngIf="searchTickers && show">
             <!-- locality -->
             <div *ngFor="let stock of searchTickers" class="search-result-item">
-              <div class="search-result-name"  style="cursor: pointer;">
+              <div class="search-result-name"  style="cursor: pointer;" (click)="selectUserReciver(stock)">
                 {{ stock.comm_name }}
               </div>
             </div>
             <!-- locality end -->
           </div>
+          <div *ngIf="ReciverUser">
+            <label>{{ReciverUser.comm_name}}</label>
+          </div>
               </div>
               <div class="form-group" style="width: 25%;" *ngIf="selectedReciverUser == 4">
-                <input type="text" [(ngModel)]="searchValue" (ngModelChange)="searchFunc($event)"
-                  placeholder="Search for a person" id="newTag1" (keyup.enter)="getBoth('Search')"
+                <input type="text" formControlName="searchValue" placeholder="Search for a person" id="newTag1"
                   autocomplete="off" />
-
+                  <button (click)="searchFunc(newTag, 2)" type="button" style="border: 1px solid rgba(196, 196, 196, 0.5);background-color: #00b96f;height: 45px;
+                  font-size: 12px;color: #fff; position: absolute;"><i class="fa fa-search"></i></button>
 <div class="stock-search-result" (click)="clear() && hide()" *ngIf="searchTickers && show">
             <!-- locality -->
-            <div *ngFor="let entity of searchTickers" class="search-result-item">
-              <div class="search-result-name" (click)="getBoth('Search')" style="cursor: pointer;"
-                (keyup.enter)="getBoth('Search')">
-                <i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;&nbsp;
-                {{ entity.name }}
+            <div *ngFor="let user of searchTickers" class="search-result-item">
+              <div class="search-result-name" (click)="selectUserReciver(user)" style="cursor: pointer;">
+                {{ user.name }} {{user.first_surname}} {{user.second_surname}}
               </div>
             </div>
             <!-- locality end -->
+          </div>
+          <div *ngIf="ReciverUser">
+            <label>{{ ReciverUser.name }} {{ReciverUser.first_surname}} {{ReciverUser.second_surname}}</label>
           </div>
               </div>
               </div>
