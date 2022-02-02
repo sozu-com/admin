@@ -2739,7 +2739,8 @@
     "projectName": "Project Name",
     "propertyName": "Property Name",
     "clientRFC": "Client RFC",
-    "checker": "Checker"
+    "checker": "Checker",
+    "commissionSeller": "Commission seller"
   },
   "swal": {
     "error": "Error",
