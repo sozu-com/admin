@@ -3933,11 +3933,10 @@ open() {
     this.search = ''
   }
 fetchResults(name) {
-    if (!name) this.hide();
+    //if (!name) this.hide();
     this.adminService.postDataApi('searchLegalEntity', {name : this.searchValue }).subscribe(r => {
       this.searchTickers = r['data'];
       if (this.searchTickers.length) {
-        this.parameter.page = 1;
         this.show = true;
       } else {
         this.show = false;
