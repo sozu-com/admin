@@ -129,11 +129,12 @@
     }
   },
   "addForm": {
-    "first_line":"Cuenta de colección: 5 espacios, numérico, los espacios vacíos en el lado izquierdo",
-    "second_line":"Nombre del proyecto: 7 espacios, alfanumérico, si tiene menos de 7 caracteres 0 = nulo en el lado derecho.",
-    "third_line":"Nombre del apartamento: 5 espacios, alfanumérico, si tiene menos de 5 caracteres 0 = nulo en el lado izquierdo",
-    "forth_line":"Cliente RFC: 4 espacios, alfanumérico, los primeros 4 caracteres en el RFC",
+    "first_line":"STP Referencia",
+    "second_line":"México",
+    "third_line":"Codigo cuenta padre",
+    "forth_line":"Desarrollador",
     "fifth_line":"Verificador: 1 espacio, numérico, la suma de cada número en los otros espacios, y si el resultado tiene más de 1 dígito, deben ser la suma entre sí.",
+    "sixth_line":"ID de colección",
     "ocupation":"Ocupación",
     "addManualLead":"Agregar cliente potencial manual",
     "editManualLead":"Editar cliente potencial manual",
