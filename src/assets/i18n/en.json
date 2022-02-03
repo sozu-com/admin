@@ -135,6 +135,7 @@
     "forth_line":"Developer",
     "fifth_line":"Checker: 1 space, Numeric, the sum of every number in the other spaces, and if the result has more than 1 digit they need to be the sum eachother.",
     "sixth_line":"Collection ID",
+    "message": "Please select STP Bank in legal entity. It's important for automatic payment",
     "ocupation":"Ocupation",
     "addManualLead":"Add Manual Lead",
     "editManualLead":"Edit Manual Lead",
