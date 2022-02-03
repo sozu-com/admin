@@ -253,13 +253,19 @@
                     </h5>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-5"
+            <div class="col-lg-4 col-md-4 col-5"
                 *ngIf="admin?.admin_acl['Credit Agent Lead Management']?.can_read==1 && !this.parameter.assignee_id">
                 <div class="add-new text-right">
                     <a class="btn" (click)="bulkAssign()" href="javascript://">{{'table.th.bulkReassign' |
                         translate}}</a>
                 </div>
             </div>
+            <div class="col-lg-2 col-md-2 col-1">
+                <div class="export-project pull-right mr-4">
+                    <a class="btn" href="javascript://" (click)="getExportlisting()">{{'table.exportDataBtn' | translate}}</a>
+                  </div>
+            </div>
+            
         </div>
         <div class="white-bg">
             <div class="tabel-section">

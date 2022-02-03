@@ -9,8 +9,11 @@ import { AdminService } from 'src/app/services/admin.service';
 import { LeadsService } from 'src/app/services/leads.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
 declare let swal: any;
-
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 @Component({
   selector: 'app-credit-agent',
   templateUrl: './credit-agent.component.html',
@@ -38,7 +41,7 @@ export class CreditAgentComponent implements OnInit {
   users: any = [];
   selectedUser: any;
   initSelection = false;
-
+  exportfinalData: Array<any>;
   dash: any = {
     lead_total: 0,
     lead_property_pending: 0,
@@ -642,5 +645,99 @@ export class CreditAgentComponent implements OnInit {
         });
       }
     });
+  }
+  getExportlisting() {
+    this.spinner.show();
+    const input: any = JSON.parse(JSON.stringify(this.parameter));
+    input.page = 0;
+    if (this.parameter.min) {
+      input.min = moment(this.parameter.min).format('YYYY-MM-DD');
+    } else {
+      delete input.min;
+    }
+    if (this.parameter.max) {
+      input.max = moment(this.parameter.max).format('YYYY-MM-DD');
+    } else {
+      delete input.max;
+    }
+    if (this.selectedUser) {
+      input.assignee_id = this.selectedUser.id;
+    } else if (this.parameter.assignee_id) {
+      input.assignee_id = this.parameter.assignee_id;
+    }
+    this.admin.postDataApi('leads/credit-agent', input).subscribe(
+      success => {
+        this.exportfinalData = success['data'];
+        (this.exportfinalData || []).forEach(r => {
+          if (r.deal_finance == 1) {
+            this.deal_finance = r.deal_finance;
+          }
+        });
+        this.exportData();
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      });
+  }
+
+  exportData() {
+    if (this.exportfinalData) {
+      const exportfinalData = [];
+      for (let index = 0; index < this.exportfinalData.length; index++) {
+        const p = this.exportfinalData[index];
+        let obj = {
+          'Nombre': p.name || '',
+          'Correo': p.email || '',
+          'Telefono': p.dial_code && p.phone || '',
+          'Ya_eligio_inmueble': p.lead_amount ? p.lead_amount.is_employee : 0,
+          'Donde_cotiza': p.lead_amount ? p.lead_amount.quotechoose : '',
+          'Valor_departamento': p.lead_amount ? p.lead_amount.valorDepartamento : 0,
+          'Costo_escritura': p.lead_amount ? p.lead_amount.costoEscritura : 0,
+          'Inversion': p.lead_amount ? p.lead_amount.inversion : 0,
+          'Tu_ahorro': p.lead_amount ? p.lead_amount.tuAhorro : 0,
+          'Credito_bancario': p.lead_amount ? p.lead_amount.creditoBanco : 0,
+          'Plazo': p.lead_amount ? p.lead_amount.plazo : '',
+          'Mensualidad': p.lead_amount ? p.lead_amount.mensualidad : 0,
+          'Ingreso': p.lead_amount ? p.lead_amount.ingreso : 0,
+        }
+        exportfinalData.push(obj);
+      }
+      this.exportAsExcelFile(exportfinalData, 'credit_Leads-');
+    }
+  }
+
+
+  public exportAsExcelFile(json: any[], excelFileName: string): void {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { data: worksheet },
+      SheetNames: ['data']
+    };
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array'
+    });
+    this.spinner.hide();
+    this.saveAsExcelFile(excelBuffer, excelFileName);
+  }
+
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    const today = new Date();
+    const date =
+      today.getDate() +
+      '-' +
+      today.getMonth() +
+      '-' +
+      today.getFullYear() +
+      '_' +
+      today.getHours() +
+      '_' +
+      today.getMinutes() +
+      '_' +
+      today.getSeconds();
+    fileName = fileName + date;
+    FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
   }
 }
