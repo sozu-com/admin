@@ -253,13 +253,19 @@
                     </h5>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-5"
+            <div class="col-lg-4 col-md-4 col-5"
                 *ngIf="admin?.admin_acl['Credit Agent Lead Management']?.can_read==1 && !this.parameter.assignee_id">
                 <div class="add-new text-right">
                     <a class="btn" (click)="bulkAssign()" href="javascript://">{{'table.th.bulkReassign' |
                         translate}}</a>
                 </div>
             </div>
+            <div class="col-lg-2 col-md-2 col-1">
+                <div class="export-project pull-right mr-4">
+                    <a class="btn" href="javascript://" (click)="getExportlisting()">{{'table.exportDataBtn' | translate}}</a>
+                  </div>
+            </div>
+            
         </div>
         <div class="white-bg">
             <div class="tabel-section">
@@ -341,6 +347,57 @@
                                         </div>
                                     </div>
                                 </th>
+                                <!-- Property chose -->
+                                <th style="width:10%;">
+                                    <div class="table-search">
+                                        <label>{{'table.th.Property_chose' | translate}}</label>
+                                    </div>
+                                </th>
+                                <th style="width:10%;">
+                                    <div class="table-search">
+                                        <label>{{'table.th.Where_quote' | translate}}</label>
+                                    </div>
+                                </th>
+                                <th style="width:10%;">
+                                    <div class="table-search">
+                                        <label>{{'table.th.Property_cost' | translate}}</label>
+                                    </div>
+                                </th>
+                                <th style="width:10%;">
+                                    <div class="table-search">
+                                        <label>{{'table.th.Property_deed_chose' | translate}}</label>
+                                    </div>
+                                </th>
+                                <th style="width:10%;">
+                                    <div class="table-search">
+                                        <label>{{'table.th.investment' | translate}}</label>
+                                    </div>
+                                </th>
+                                <th style="width:10%;">
+                                    <div class="table-search">
+                                        <label>{{'table.th.Your_savings' | translate}}</label>
+                                    </div>
+                                </th>
+                                <th style="width:10%;">
+                                    <div class="table-search">
+                                        <label>{{'table.th.Bank_credit' | translate}}</label>
+                                    </div>
+                                </th>
+                                <th style="width:10%;">
+                                    <div class="table-search">
+                                        <label>{{'table.th.Term' | translate}}</label>
+                                    </div>
+                                </th>
+                                <th style="width:10%;">
+                                    <div class="table-search">
+                                        <label>{{'table.th.Monthly_amount' | translate}}</label>
+                                    </div>
+                                </th>
+                                <th style="width:10%;">
+                                    <div class="table-search">
+                                        <label>{{'table.th.Income' | translate}}</label>
+                                    </div>
+                                </th>
                                 <th style="width:10%;">
                                     <div class="table-search">
                                         <label>{{'table.th.price' | translate}}</label>
@@ -417,6 +474,38 @@
                                 <td class="text-left">
                                     {{item.email}}
                                 </td>
+                                <td class="text-left">
+                                    <span *ngIf="item?.lead_amount?.is_employee == 0">{{'table.th.no' | translate}}</span>
+                                    <span *ngIf="item?.lead_amount?.is_employee == 1"> {{'table.th.yes' | translate}}</span>
+                                </td>
+                                <td class="text-left">
+                                    {{item?.lead_amount?.quotechoose}}
+                                </td>
+                                <td class="text-left">
+                                    {{(item?.lead_amount?.valorDepartamento || 0) | currency}}
+                                </td>
+                                <td class="text-left">
+                                    {{(item?.lead_amount?.costoEscritura || 0) | currency}}
+                                </td>
+                                <td class="text-left">
+                                    {{(item?.lead_amount?.inversion || 0) | currency}}
+                                </td>
+                                <td class="text-left">
+                                    {{(item?.lead_amount?.tuAhorro || 0) | currency}}
+                                </td>
+                                <td class="text-left">
+                                    {{(item?.lead_amount?.creditoBanco || 0) | currency}}
+                                </td>
+                                <td class="text-left">
+                                    {{item?.lead_amount?.plazo}}
+                                </td>
+                                <td class="text-left">
+                                    {{(item?.lead_amount?.mensualidad || 0) | currency}}
+                                </td>
+                                <td class="text-left">
+                                    {{(item?.lead_amount?.ingreso || 0) | currency}}
+                                </td>
+                                <!-- end -->
                                 <td class="text-left">
                                     {{(item.price || 0) | currency}}
                                 </td>

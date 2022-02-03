@@ -824,6 +824,17 @@
       "closed": "Cerrado"
     },
     "th": {
+      "Property_chose":"Ya_eligio_inmueble",
+      "Where_quote":"Donde_cotiza",
+      "Property_cost":"Valor_departamento",
+      "Property_deed_chose":"Costo_escritura",
+      "investment":"Inversion",
+      "Your_savings":"Tu_ahorro",
+      "Bank_credit":"Credito_bancario",
+      "Term":"Plazo",
+      "Mensualidad":"Monthly amount",
+      "Income":"Ingreso",
+
       "hotel_type": "Tipo de hotel",
       "carpetArea": "Área de piso",
       "Delivery": "Fecha estimada de entrega",

@@ -824,6 +824,17 @@
       "closed": "Closed"
     },
     "th": {
+      "Property_chose":"Property chose",
+      "Where_quote":"Where to quote",
+      "Property_cost":"Property cost",
+      "Property_deed_chose":"Property deed cost",
+      "investment":"investment",
+      "Your_savings":"Your savings",
+      "Bank_credit":"Bank credit",
+      "Term":"Term",
+      "Monthly_amount":"Monthly amount",
+      "Income":"Income",
+
       "carpetArea": "Carpet Area",
       "Delivery": "Delivery estimated date",
       "all": "All",
