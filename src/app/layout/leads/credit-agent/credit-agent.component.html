@@ -477,7 +477,7 @@
                                 <td class="text-left">
                                     <span *ngIf="item?.lead_amount?.is_employee == '0'">
                                         {{'table.th.no' | translate}}</span>
-                                    <span *ngIf="item?.lead_amount?.is_employee == null">
+                                    <span *ngIf="item?.lead_amount?.is_employee === null && item?.lead_amount?.is_employee === undefined">
                                         {{'table.th.no' | translate}}</span>
                                     <span *ngIf="item?.lead_amount?.is_employee === '1'"> 
                                         {{'table.th.yes' | translate}}</span>
