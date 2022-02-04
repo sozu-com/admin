@@ -20,7 +20,7 @@ const routes: Routes = [
   {
     path: 'view-all', component: ManagersComponent,
     canActivate: [AclUserGuard], data: { roles: ['Managers Management', 'can_read', ''] }
-  },{
+  }, {
     path: 'view-all/:type/:name', component: ManagersComponent,
     canActivate: [AclUserGuard], data: { roles: ['Managers Management', 'can_read', ''] }
   }
@@ -36,7 +36,7 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDykCJGMqHIwJluSmSiqKTJBVN2KauM_uQ',
+      apiKey: 'AIzaSyCHX_-aQlnqaVaJyo3Prw54qX_ECT6wC6w',
       libraries: ['drawing', 'places']
     }),
     Ng2TelInputModule,

@@ -24,7 +24,7 @@ import { AnalyticsComponent } from './analytics/analytics.component';
 import { QuickVisualizationComponent } from './quick-visualization/quick-visualization.component';
 import { AccountStatementComponent } from './account-statement/account-statement.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-import { NgOtpInputModule } from  'ng-otp-input';
+import { NgOtpInputModule } from 'ng-otp-input';
 
 const routes: Routes = [
   // {
@@ -65,7 +65,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     NgxSpinnerModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDykCJGMqHIwJluSmSiqKTJBVN2KauM_uQ',
+      apiKey: 'AIzaSyCHX_-aQlnqaVaJyo3Prw54qX_ECT6wC6w',
       libraries: ['drawing', 'places']
     }),
     Ng2TelInputModule,

@@ -21,7 +21,7 @@ const routes: Routes = [
   {
     path: 'view-all', component: DevelopersComponent,
     canActivate: [AclUserGuard], data: { roles: ['Developers Management', 'can_read', ''] }
-  },{
+  }, {
     path: 'view-all/:name', component: DevelopersComponent,
     canActivate: [AclUserGuard], data: { roles: ['Developers Management', 'can_read', ''] }
   },
@@ -38,7 +38,7 @@ const routes: Routes = [
     NgxSpinnerModule,
     LazyLoadImageModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDykCJGMqHIwJluSmSiqKTJBVN2KauM_uQ',
+      apiKey: 'AIzaSyCHX_-aQlnqaVaJyo3Prw54qX_ECT6wC6w',
       libraries: ['drawing', 'places']
     }),
     NgxPaginationModule,

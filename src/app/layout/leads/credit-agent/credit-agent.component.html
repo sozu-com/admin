@@ -475,8 +475,12 @@
                                     {{item.email}}
                                 </td>
                                 <td class="text-left">
-                                    <span *ngIf="item?.lead_amount?.is_employee == 0">{{'table.th.no' | translate}}</span>
-                                    <span *ngIf="item?.lead_amount?.is_employee == 1"> {{'table.th.yes' | translate}}</span>
+                                    <span *ngIf="item?.lead_amount?.is_employee == '0'">
+                                        {{'table.th.no' | translate}}</span>
+                                    <span *ngIf="item?.lead_amount?.is_employee == null">
+                                        {{'table.th.no' | translate}}</span>
+                                    <span *ngIf="item?.lead_amount?.is_employee === '1'"> 
+                                        {{'table.th.yes' | translate}}</span>
                                 </td>
                                 <td class="text-left">
                                     {{item?.lead_amount?.quotechoose}}

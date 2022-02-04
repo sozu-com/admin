@@ -12,7 +12,7 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { TranslateModule } from '@ngx-translate/core';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-import { NgOtpInputModule } from  'ng-otp-input';
+import { NgOtpInputModule } from 'ng-otp-input';
 
 
 // general components
@@ -51,7 +51,7 @@ const routes: Routes = [
     NgxSpinnerModule,
     LazyLoadImageModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDykCJGMqHIwJluSmSiqKTJBVN2KauM_uQ',
+      apiKey: 'AIzaSyCHX_-aQlnqaVaJyo3Prw54qX_ECT6wC6w',
       libraries: ['drawing', 'places']
     }),
     NgxPaginationModule,
