@@ -725,9 +725,6 @@ export class AddPropertyComponent implements OnInit {
           cancelButtonColor: this.constant.cancelButtonColor,
           confirmButtonText: 'Yes'
         }).then((result) => {
-          // if (result.value) {
-          //   this.deleteProject(item,index);
-          // }
         });
 
       }
