@@ -1151,6 +1151,9 @@ export class AddEditCollectionComponent implements OnInit {
           element.legal_rep_bank_id = element.id;
           element.Legal_name = '';
           this.paymentBankDetailsArray.push(element);
+          if(element.status){
+            this.addFormStep5.controls.bank_id.patchValue(element.id);
+          }    
         }
       }
     }
@@ -1158,7 +1161,9 @@ export class AddEditCollectionComponent implements OnInit {
     if (this.isByOffer) {
       index = data.property.property_offer_payment.findIndex(x => x.random_id == data.offer_id);
     }
+    if(data.payment_received_by != 3){
     this.addFormStep5.controls.bank_id.patchValue(this.isByOffer ? data.property.property_offer_payment[index].bank_id || 0 : data.bank_id || 0);
+    }
     this.addFormStep5.controls.payment_received_by.patchValue(this.isByOffer ? (data.property.property_offer_payment[index].account_type == 1 ? 1 : '0') : data.payment_received_by.toString() || '0');
 
     // this.addFormStep5.controls.deal_commission_agents.patchValue(data.deal_commission_agents);
@@ -3027,7 +3032,7 @@ export class AddEditCollectionComponent implements OnInit {
         if (this.model.buyer_type != '1') {
           if (!formdata['buyer_leg_rep_name'] || !formdata['buyer_leg_rep_phone'] ||
             !formdata['buyer_leg_rep_email'] || !formdata['buyer_leg_rep_fed_tax']) {
-            this.toastr.error(this.translate.instant('message.error.pleaseFillLegalRepInfo'), this.translate.instant('swal.error'));
+            this.toastr.error(this.translate.instant('message.error.pleaseFillLegalRepInfo'), this.translate.instant('swal.error'));                      
             return;
           }
         }
@@ -3993,6 +3998,9 @@ fetchResults(name, value) {
         element.legal_rep_bank_id = element.id;
         element.Legal_name = '';
         this.paymentBankDetailsArray.push(element);
+        if(element.status){
+          this.addFormStep5.controls.bank_id.patchValue(element.id);
+        }     
       }
     }
     this.hide();

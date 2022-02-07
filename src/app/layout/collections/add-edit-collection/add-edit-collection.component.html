@@ -2662,7 +2662,7 @@
               </div>
             <div class="clearfix"></div><div class="form-group-3">
               <div class="form-group" style="width: 25%;">
-                 <select name="payment_bank" class="form-control" formControlName="bank_id">
+                 <select name="payment_bank" class="form-control" formControlName="bank_id" [disabled]="selectedReciverUser == 3">
                     <option value="" selected="!addFormStep5.value.bank_id || addFormStep5.value.bank_id == ''">{{'generatePDF.selectAccount' | translate}}</option>
                     <option *ngFor="let tempPaymentBankDetailsArray of paymentBankDetailsArray"
                        [ngValue]="tempPaymentBankDetailsArray.id" selected="tempPaymentBankDetailsArray.id == addFormStep5.value.bank_id">
