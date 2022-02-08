@@ -1234,6 +1234,7 @@ export class AddEditCollectionComponent implements OnInit {
       this.ngOtpInputRef3.setValue(data.bank_reference_id.substr(10, 4));
       this.ngOtpInputRef4.setValue(data.bank_reference_id.substr(14, 3));
       this.ngOtpInputRef5.setValue(data.bank_reference_id.substr(17, 1));
+      this.addFormStep6.controls.bank_reference_id.patchValue(data.bank_reference_id);
   }
     this.ngOtpInputRef.otpForm.disable();
     this.ngOtpInputRef1.otpForm.disable();
