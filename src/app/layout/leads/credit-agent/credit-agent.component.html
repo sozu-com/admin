@@ -442,12 +442,6 @@
                             <tr class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
                                 *ngFor="let item of items| paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: parameter.total }; let i =index"
                                 (click)="viewLeadDetails(item.id, item)">
-                                <!-- <td *ngIf="admin?.admin_acl['Credit Agent Lead Management']?.can_read==1 && !this.parameter.assignee_id" (click)="$event.stopPropagation()">
-                                <label class="cust-check-bx marginT0">
-                                <input type="checkbox" [(ngModel)]="item.selected" name="document">
-                                <span class="checkmark"></span>
-                                </label>
-                                </td> -->
                                 <td>
                                     <span class="name" *ngIf="item.updated_at">
                                         {{item.created_at ? (item.created_at | date) : (item.updated_at | date)}}
