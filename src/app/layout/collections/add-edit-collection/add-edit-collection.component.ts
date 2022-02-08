@@ -2045,7 +2045,7 @@ export class AddEditCollectionComponent implements OnInit {
 
   saveCollectionFolders() {
     this.spinner.show();
-    this.adminService.postDataApi('addCollection', { id: this.model.id, step: 6, 'collection_folders': this.collectionFolders })
+    this.adminService.postDataApi('addCollection', { id: this.model.id, step: 7, 'collection_folders': this.collectionFolders })
       .subscribe(
         success => {
           this.spinner.hide();
