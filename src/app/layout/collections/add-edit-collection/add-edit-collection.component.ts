@@ -1255,61 +1255,24 @@ export class AddEditCollectionComponent implements OnInit {
   }
   
   createChecker(bankId){
-   let array =  bankId.split("");
-   let count = 1;
-   let result = '';
-   for(let i = 1; i <= array.length; i++){
-    if(count >= 4){
-      count = 1;
-    }
-     if(count == 1){
-      let value = array[array.length - i] * 7;
-      if(value > 9){
-        let value1 = value % 10;
-        result = result + value1;
-      }
-      else{
-        result = result + value;
-      }
-     }
-     else if(count == 2){
-      let value = array[array.length - i] * 3;
-      if(value > 9){
-        let value1 = value % 10;
-        result = result + value1;
-      }
-      else{
-        result = result + value;
-      }
-     }
-     else if(count == 3){
-      let value = array[array.length - i] * 1;
-      if(value > 9){
-        let value1 = value % 10;
-        result = result + value1;
-      }
-      else{
-        result = result + value;
-      }
-     }
-     count = count + 1;
-   };
-   let resultArray = result.split("");
-   let resultSum = 0;
-   resultArray.forEach(element =>{
-    resultSum = resultSum + Number(element);
-   });
-    let ResultNum = resultSum.toString().split("");
-    let finalResult = 10 - Number(ResultNum[1]);
-    let finalResultArray = finalResult.toString().split("");
-    if(finalResult == 10){
-      this.ngOtpInputRef5.setValue(finalResultArray[1]);
-    }
-    else{
-      this.ngOtpInputRef5.setValue(finalResult);
-    }
-    this.addFormStep6.controls.bank_reference_id.patchValue(bankId + finalResult);
+   let bankIdArray = bankId.split('');
+   const multiBankArray = [3,7,1,3,7,1,3,7,1,3,7,1,3,7,1,3,7];
+   let resultMulti = [];
+   let resultModel = [];
+   let sum = 0;
+   let sum1 = 0;
+   let finalResult = 0;
+   for(let i = 0; i <= 16; i++){
+   resultMulti.push(bankIdArray[i] * multiBankArray[i]);
+   resultModel.push(resultMulti[i] % 10); 
+   sum = sum + resultModel[i];
+  };
+    sum1 = 10 - (sum % 10);
+    finalResult = sum1 % 10;
+    finalResult ? this.ngOtpInputRef5.setValue(finalResult) : this.ngOtpInputRef5.setValue(finalResult.toString());
+
   }
+  
 
   getChecker(bank_reference_id, projectname, fed_tax_pay){
     let alpha = [{ id : "a", value: 1}, { id : "b", value: 2}, { id : "c", value: 3}, { id : "d", value: 4}, { id : "e", value: 5}, { id : "f", value: 6}, { id : "g", value: 7}, 
