@@ -1302,7 +1302,7 @@ export class AddEditCollectionComponent implements OnInit {
     let ResultNum = resultSum.toString().split("");
     let finalResult = 10 - Number(ResultNum[1]);
     let finalResultArray = finalResult.toString().split("");
-    if(finalResult){
+    if(finalResult == 10){
       this.ngOtpInputRef5.setValue(finalResultArray[1]);
     }
     else{
