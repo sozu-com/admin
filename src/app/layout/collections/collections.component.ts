@@ -901,7 +901,6 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         });
 
       } else {
-        // console.log("popup")
         this.reminderPopup(value);
       }
     }
@@ -3231,33 +3230,33 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             { text: monthly_installment_amunt_per || 'N/A', border: [false, false, false, false], bold: true },
             { text: self.monthly_installment_amunts >= 0 ? self.price.transform(Number(self.monthly_installment_amunts).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true }
           );
-            self.table_data.push([
-              {
-                text: 'Total' , border: [false, false, false, false], bold: true, color: 'white',
-                fillColor: '#525659', fontSize: 11
-              },
-              { text: '', border: [false, false, false, false], bold: true, color: 'white', fillColor: '#525659' },
-              {
-                text: self.price.transform(Number(totalPaid).toFixed(0)), border: [false, false, false, false], bold: true,
-                color: 'white', fillColor: '#525659', fontSize: 11
-              },
-              {
-                text: self.price.transform(Number(totalPending).toFixed(0)), border: [false, false, false, false],
-                bold: true, color: 'white', fillColor: '#525659', fontSize: 11, alignment: 'center'
-              },
-              {
-                text: self.price.transform(Number(totalPayable).toFixed(0)), border: [false, false, false, false], bold: true, color: 'white',
-                fillColor: '#525659', fontSize: 11
-              },
-              {
-                text: self.price.transform(Number(self.totalPenalty).toFixed(0)), border: [false, false, false, false], bold: true, color: 'white',
-                fillColor: '#525659', fontSize: 11
-              },
-              {
-                text: '', border: [false, false, false, false], bold: true, color: 'white', fillColor: '#525659',
-                fontSize: 11
-              }
-            ]);
+          self.table_data.push([
+            {
+              text: 'Total', border: [false, false, false, false], bold: true, color: 'white',
+              fillColor: '#525659', fontSize: 11
+            },
+            { text: '', border: [false, false, false, false], bold: true, color: 'white', fillColor: '#525659' },
+            {
+              text: self.price.transform(Number(totalPaid).toFixed(0)), border: [false, false, false, false], bold: true,
+              color: 'white', fillColor: '#525659', fontSize: 11
+            },
+            {
+              text: self.price.transform(Number(totalPending).toFixed(0)), border: [false, false, false, false],
+              bold: true, color: 'white', fillColor: '#525659', fontSize: 11, alignment: 'center'
+            },
+            {
+              text: self.price.transform(Number(totalPayable).toFixed(0)), border: [false, false, false, false], bold: true, color: 'white',
+              fillColor: '#525659', fontSize: 11
+            },
+            {
+              text: self.price.transform(Number(self.totalPenalty).toFixed(0)), border: [false, false, false, false], bold: true, color: 'white',
+              fillColor: '#525659', fontSize: 11
+            },
+            {
+              text: '', border: [false, false, false, false], bold: true, color: 'white', fillColor: '#525659',
+              fontSize: 11
+            }
+          ]);
           self.getBanks(this.collection_data.property.id);
         });
   }
