@@ -1266,7 +1266,8 @@ export class AddEditCollectionComponent implements OnInit {
       let value = array[array.length - i] * 7;
       let arrayValue = value.toString().split("");
       if(arrayValue.length == 2){
-        result = result + arrayValue[1];
+        let value1 = value / 10;
+        result = result + value1;
       }
       else if(arrayValue.length == 1){
         result = result + value;
@@ -1276,7 +1277,8 @@ export class AddEditCollectionComponent implements OnInit {
       let value = array[array.length - i] * 3;
       let arrayValue = value.toString().split("");
       if(arrayValue.length == 2){
-        result = result + arrayValue[1];
+        let value1 = value / 10;
+        result = result + value1;
       }
       else if(arrayValue.length == 1){
         result = result + value;
@@ -1286,7 +1288,8 @@ export class AddEditCollectionComponent implements OnInit {
       let value = array[array.length - i] * 1;
       let arrayValue = value.toString().split("");
       if(arrayValue.length == 2){
-        result = result + arrayValue[1];
+        let value1 = value / 10;
+        result = result + value1;
       }
       else if(arrayValue.length == 1){
         result = result + value;
@@ -1303,7 +1306,8 @@ export class AddEditCollectionComponent implements OnInit {
     let finalResult = 10 - Number(ResultNum[1]);
     let finalResultArray = finalResult.toString().split("");
     if(finalResultArray.length == 2){
-      this.ngOtpInputRef5.setValue(finalResultArray[1]);
+      let value1 = finalResult / 10;
+      this.ngOtpInputRef5.setValue(value1);
     }
     else{
       this.ngOtpInputRef5.setValue(finalResult);
