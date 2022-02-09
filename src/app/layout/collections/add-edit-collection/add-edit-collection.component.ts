@@ -1264,34 +1264,31 @@ export class AddEditCollectionComponent implements OnInit {
     }
      if(count == 1){
       let value = array[array.length - i] * 7;
-      let arrayValue = value.toString().split("");
-      if(arrayValue.length == 2){
-        let value1 = value / 10;
+      if(value > 9){
+        let value1 = value % 10;
         result = result + value1;
       }
-      else if(arrayValue.length == 1){
+      else{
         result = result + value;
       }
      }
      else if(count == 2){
       let value = array[array.length - i] * 3;
-      let arrayValue = value.toString().split("");
-      if(arrayValue.length == 2){
-        let value1 = value / 10;
+      if(value > 9){
+        let value1 = value % 10;
         result = result + value1;
       }
-      else if(arrayValue.length == 1){
+      else{
         result = result + value;
       }
      }
      else if(count == 3){
       let value = array[array.length - i] * 1;
-      let arrayValue = value.toString().split("");
-      if(arrayValue.length == 2){
-        let value1 = value / 10;
+      if(value > 9){
+        let value1 = value % 10;
         result = result + value1;
       }
-      else if(arrayValue.length == 1){
+      else{
         result = result + value;
       }
      }
@@ -1305,14 +1302,12 @@ export class AddEditCollectionComponent implements OnInit {
     let ResultNum = resultSum.toString().split("");
     let finalResult = 10 - Number(ResultNum[1]);
     let finalResultArray = finalResult.toString().split("");
-    if(finalResultArray.length == 2){
-      let value1 = finalResult / 10;
-      this.ngOtpInputRef5.setValue(value1);
+    if(finalResult){
+      this.ngOtpInputRef5.setValue(finalResultArray[1]);
     }
     else{
       this.ngOtpInputRef5.setValue(finalResult);
     }
-    this.ngOtpInputRef5.setValue(finalResult);
     this.addFormStep6.controls.bank_reference_id.patchValue(bankId + finalResult);
   }
 
