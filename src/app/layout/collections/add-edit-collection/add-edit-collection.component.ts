@@ -1301,6 +1301,13 @@ export class AddEditCollectionComponent implements OnInit {
    });
     let ResultNum = resultSum.toString().split("");
     let finalResult = 10 - Number(ResultNum[1]);
+    let finalResultArray = finalResult.toString().split("");
+    if(finalResultArray.length == 2){
+      this.ngOtpInputRef5.setValue(finalResultArray[1]);
+    }
+    else{
+      this.ngOtpInputRef5.setValue(finalResult);
+    }
     this.ngOtpInputRef5.setValue(finalResult);
     this.addFormStep6.controls.bank_reference_id.patchValue(bankId + finalResult);
   }
