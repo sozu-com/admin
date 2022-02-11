@@ -1247,7 +1247,7 @@ export class AddEditCollectionComponent implements OnInit {
 
   getBankReferenceCount(bankId) {
     this.spinner.show();
-    this.adminService.postDataApi('collectionBankRef', {}).subscribe(r => {
+    this.adminService.postDataApi('collectionBankRef', {id : this.tempmodel.id}).subscribe(r => {
       this.spinner.hide();
       this.ngOtpInputRef4.setValue(r.data);
       this.createChecker(bankId + r.data)
@@ -1270,7 +1270,7 @@ export class AddEditCollectionComponent implements OnInit {
     sum1 = 10 - (sum % 10);
     finalResult = sum1 % 10;
     finalResult ? this.ngOtpInputRef5.setValue(finalResult) : this.ngOtpInputRef5.setValue(finalResult.toString());
-
+    this.addFormStep6.controls.bank_reference_id.patchValue(bankId + finalResult);
   }
   
 
