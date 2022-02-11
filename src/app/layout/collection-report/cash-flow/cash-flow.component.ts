@@ -33,6 +33,7 @@ export class CashFlowComponent implements OnInit {
   locale: any;
   today = new Date();
   reportData: any;
+  reportData_stp: any;
   reportsData: any;
   expectedTotal: any;
   actualTotal: any;
@@ -41,6 +42,7 @@ export class CashFlowComponent implements OnInit {
   paymentChoices: Array<any>;
   finalData: Array<any>;
   finalData1: Array<any>;
+  stp_final: Array<any>;
   finalData2: Array<any>;
   items: Array<any>;
   finalDataExpacted: Array<any>;
@@ -268,8 +270,63 @@ export class CashFlowComponent implements OnInit {
     this.getReportData1();
     this.getReportData2();
     this.getReportData3();
+    this.getReportData4();
     this.getListing();
   }
+  getReportData4() {
+    const input: any = JSON.parse(JSON.stringify(this.input));
+    input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
+    input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
+
+    if (this.selctedProjects) {
+      const d = this.selctedProjects.map(o => o.id);
+      input.building_id = d;
+    }
+    if (this.selectedCurrencies) {
+      const d = this.selectedCurrencies.map(o => o.id);
+      input.currency_id = d;
+    }
+
+    if (this.input.start_purchase_date) {
+      input.start_purchase_date = moment(this.input.start_purchase_date).format('YYYY-MM-DD');
+    }
+    if (this.input.end_purchase_date) {
+      input.end_purchase_date = moment(this.input.end_purchase_date).format('YYYY-MM-DD');
+    }
+
+
+    this.spinner.show();
+    this.admin.postDataApi('graphs/payment-cash-flow', input).subscribe(r => {
+      this.spinner.hide();
+      //this.finalData = [];
+      this.stp_final = [];
+      // this.empList = [];
+      //this.actualList = [];
+      const reportData = r['data'];
+      console.log(reportData, "reportData");
+      for (let index = 0; index < reportData['testing'].length; index++) {
+        const element = reportData['testing'][index];
+        const ff = []; let d = {};
+        for (let ind = 0; ind < element.y.length; ind++) {
+          d = { y: element.y[ind].y, label: element.y[ind].label };
+          ff.push(d);
+        }
+        this.stp_final.push({
+          legendText: element.label,
+          showInLegend: 'true',
+          type: 'stackedColumn',
+          dataPoints: ff
+        });
+      }
+
+      4
+
+      this.plotData5();
+    }, error => {
+      this.spinner.hide();
+    });
+  }
+
 
   getReportData1() {
     const input: any = JSON.parse(JSON.stringify(this.input));
@@ -372,8 +429,6 @@ export class CashFlowComponent implements OnInit {
       this.spinner.hide();
     });
   }
-
-
 
   getReportData2() {
     const input: any = JSON.parse(JSON.stringify(this.input));
@@ -663,7 +718,6 @@ export class CashFlowComponent implements OnInit {
     }
   }
 
-
   plotData3() {
     let self = this;
     const chart = new CanvasJS.Chart('chartContainer3', {
@@ -751,6 +805,85 @@ export class CashFlowComponent implements OnInit {
         // text: "Crude Oil Reserves vs Production, 2016"
       },
       data: this.finalData3
+    });
+    chart.render();
+
+    function toggleDataSeries(e) {
+      if (typeof (e.dataSeries.visible) === 'undefined' || e.dataSeries.visible) {
+        e.dataSeries.visible = false;
+      } else {
+        e.dataSeries.visible = true;
+      }
+      chart.render();
+    }
+  }
+
+  plotData5() {
+    let self = this;
+    const chart = new CanvasJS.Chart('chartContainer5', {
+      animationEnabled: true,
+      exportFileName: 'cash-flow',
+      exportEnabled: true,
+      title: {
+        // text: "Crude Oil Reserves vs Production, 2016"
+      },
+      toolTip: {
+        shared: true,
+        contentFormatter: function (e) {
+          var content = " ";
+          for (var i = 0; i < e.entries.length; i++) {
+            if (i == 0) {
+              content += "<span style='color:#5a728d'> Layaway Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
+            else if (i == 1) {
+              content += "<span style='color:#c0514f'> Down Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
+            else if (i == 2) {
+              content += "<span style='color:#9bbb58'> Payment Upon Delivery</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
+            else if (i == 3) {
+              content += "<span style='color:#23bfaa'> Special Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
+            else if (i == 4) {
+              content += "<span style='color:#8165a2'> Monthly Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
+          }
+          return content;
+        }
+      },
+      data: this.stp_final
+      // data: [{
+      //   //type: 'column',
+      //   name: 'Bank transfer',
+      //   legendText: 'Bank transfer',
+      //   type: 'stackedColumn',
+      //   color: '#FBBC04',
+      //   showInLegend: true,
+      //   dataPoints: this.reportData_stp['bank_transfer']
+      // },
+      // {
+      //   //type: 'column',
+      //   type: 'stackedColumn',
+      //   name: 'Check',
+      //   legendText: 'Check',
+      //   color: '#EA4335',
+      //   showInLegend: true,
+      //   dataPoints: this.reportData_stp['cheque']
+      // },
+      // {
+      //   //type: 'column',
+      //   type: 'stackedColumn',
+      //   name: 'Cash',
+      //   legendText: 'Cash',
+      //   color: '#4285F4',
+      //   showInLegend: true,
+      //   dataPoints: this.reportData_stp['cash']
+      // }]
     });
     chart.render();
 
