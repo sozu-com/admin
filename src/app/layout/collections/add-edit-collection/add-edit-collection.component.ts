@@ -294,6 +294,7 @@ export class AddEditCollectionComponent implements OnInit {
   searchValue: any;
   selectedReciverUser: any;
   ReciverUser: any;
+  old_commision_legal_id: any;
   constructor(
     public model: Collection,
     private adminService: AdminService,
@@ -694,6 +695,7 @@ export class AddEditCollectionComponent implements OnInit {
           this.tempmodel = JSON.parse(JSON.stringify(success['data']));
           this.tempmodelForBank = JSON.parse(JSON.stringify(success['data']));
           this.property_beneficiary = (success.data || {}).beneficiary || [];
+          this.old_commision_legal_id = this.tempmodel.commission_seller_legal_entity_id;
           this.getParkingSpaceLots(((success.data || {}).property || {}).building_id);
           this.getCollectionDocument(success.data);
           (success.data || {}).buyer_type == 1 ? this.getAllBeneficiary(success.data) : '';
@@ -1165,7 +1167,6 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep5.controls.bank_id.patchValue(this.isByOffer ? data.property.property_offer_payment[index].bank_id || 0 : data.bank_id || 0);
     }
     this.addFormStep5.controls.payment_received_by.patchValue(this.isByOffer ? (data.property.property_offer_payment[index].account_type == 1 ? 1 : '0') : data.payment_received_by.toString() || '0');
-
     // this.addFormStep5.controls.deal_commission_agents.patchValue(data.deal_commission_agents);
     const control1 = this.addFormStep5.get('deal_commission_agents') as FormArray;
     const control2 = this.addFormStep5.get('deal_commission_outside_agents') as FormArray;
@@ -1228,6 +1229,7 @@ export class AddEditCollectionComponent implements OnInit {
     }
   }
   else{
+    if(data.commission_seller_legal_entity_id == this.old_commision_legal_id){
     this.ngOtpInputRef.setValue(data.bank_reference_id.substr(0, 3));
       this.ngOtpInputRef1.setValue(data.bank_reference_id.substr(3, 3));
       this.ngOtpInputRef2.setValue(data.bank_reference_id.substr(6, 4));
@@ -1235,6 +1237,14 @@ export class AddEditCollectionComponent implements OnInit {
       this.ngOtpInputRef4.setValue(data.bank_reference_id.substr(14, 3));
       this.ngOtpInputRef5.setValue(data.bank_reference_id.substr(17, 1));
       this.addFormStep6.controls.bank_reference_id.patchValue(data.bank_reference_id);
+    }
+    else{
+      this.ngOtpInputRef.setValue(data.commission_seller_legal_entity.legal_entity_bank_ref.substr(0, 3));
+      this.ngOtpInputRef1.setValue(data.commission_seller_legal_entity.legal_entity_bank_ref.substr(3, 3));
+      this.ngOtpInputRef2.setValue(data.commission_seller_legal_entity.legal_entity_bank_ref.substr(6, 4));
+      this.ngOtpInputRef3.setValue(data.commission_seller_legal_entity.legal_entity_bank_ref.substr(10, 4));
+      this.getBankReferenceCount(data.commission_seller_legal_entity.legal_entity_bank_ref);
+    }
   }
     this.ngOtpInputRef.otpForm.disable();
     this.ngOtpInputRef1.otpForm.disable();

@@ -1582,7 +1582,7 @@
                   <select name="payment_method" #applyPaymentMethodId required class="form-control"
                     [(ngModel)]="payment_method_id">
                     <option value="">{{'viewCollections.choosePaymentMethod' | translate}}</option>
-                    <option *ngFor="let bt of paymentMethods" [value]="bt.id"> {{bt?.name}}</option>
+                    <option *ngFor="let bt of paymentMethods" [value]="bt.id"> {{this.language_code == 'en' ? bt.name_en : bt.name_es }}</option>
                   </select>
                 </div>
               </div>
@@ -1966,7 +1966,7 @@
                   <select name="payment_method" #applyPaymentMethodId required class="form-control"
                     [(ngModel)]="payment_method_id">
                     <option value="">{{'viewCollections.choosePaymentMethod' | translate}}</option>
-                    <option *ngFor="let bt of paymentMethods" [value]="bt.id"> {{bt?.name}}</option>
+                    <option *ngFor="let bt of paymentMethods" [value]="bt.id"> {{this.language_code == 'en' ? bt.name_en : bt.name_es }}</option>
                   </select>
                 </div>
               </div>
@@ -2162,7 +2162,7 @@
                   <select name="payment_method" required #applyPaymentMethodId1 class="form-control"
                     [(ngModel)]="payment_method_id">
                     <option value="">{{'viewCollections.choosePaymentMethod' | translate}}</option>
-                    <option *ngFor="let bt of paymentMethods" [value]="bt.id"> {{bt?.name}}</option>
+                    <option *ngFor="let bt of paymentMethods" [value]="bt.id"> {{this.language_code == 'en' ? bt.name_en : bt.name_es }}</option>
                   </select>
                 </div>
               </div>
@@ -2328,7 +2328,7 @@
                   <select name="payment_method" required #applyPaymentMethodId1 class="form-control"
                     [(ngModel)]="payment_method_id">
                     <option value="">{{'viewCollections.choosePaymentMethod' | translate}}</option>
-                    <option *ngFor="let bt of paymentMethods" [value]="bt.id"> {{bt?.name}}</option>
+                    <option *ngFor="let bt of paymentMethods" [value]="bt.id"> {{this.language_code == 'en' ? bt.name_en : bt.name_es }}</option>
                   </select>
                 </div>
               </div>

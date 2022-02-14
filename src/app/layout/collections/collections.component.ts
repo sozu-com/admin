@@ -260,7 +260,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
     private router: Router,
-    private translate: TranslateService,
+    public translate: TranslateService,
     public model: Notes,
     public cs: CommonService,
     private fb: FormBuilder,
@@ -1019,6 +1019,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   }
 
   showUpdatePaymentPopup(item: any, i: number) {
+    this.language_code = localStorage.getItem('language_code');
     this.payment_id = item.id;
     this.payment_type = item.payment_type;
     this.payment_method_id = item.payment_method.id;
@@ -1276,6 +1277,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   }
 
   showApplyPaymentPopup(item: any, i: number, type: string) {
+    this.language_code = localStorage.getItem('language_code');
     this.paymentConcepts = [];
     this.surplus_payment_type = null;
     this.payment_type = null;
@@ -2160,6 +2162,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   }
 
   showCollectionCommReceipt(item: any, i: number, type: string) {
+    this.language_code = localStorage.getItem('language_code');
     this.property_collection_id = item.id;
     this.cancel_commission_status = item.cancellation_commission_status;
     this.selectedItem = item;
@@ -2174,6 +2177,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
 
 
   editCollectionCommReceipt(item: any) {
+    this.language_code = localStorage.getItem('language_code');
     this.payment_id = item.id;
     this.payment_method_id = (item.payment_method || {}).id;
     this.description = item.description;
