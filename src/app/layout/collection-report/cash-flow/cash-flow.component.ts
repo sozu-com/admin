@@ -846,7 +846,7 @@ export class CashFlowComponent implements OnInit {
             //   content += "<br/>";
             // }
           }
-          content += "<span style='color:#4285F4'> Total </span>" + "   " + self.price.transform(this.pay_method_Total);
+          content += "<span style='color:#00B96F;'> Total </span>" + "   " + self.price.transform(this.pay_method_Total);
           content += "<br/>";
           return content;
         }
