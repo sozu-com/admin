@@ -37,6 +37,7 @@ export class CashFlowComponent implements OnInit {
   reportsData: any;
   expectedTotal: any;
   actualTotal: any;
+  pay_method_Total: any;
   expectedData: any;
   actualData: Array<any>;
   paymentChoices: Array<any>;
@@ -57,6 +58,7 @@ export class CashFlowComponent implements OnInit {
   cashFlowInfos: any[];
   empList: Array<any>;
   actualList: Array<any> = [];
+  methodList: Array<any> = [];
   finalData3: Array<any> = [];
   arrearList: Array<any> = [];
   arrearTotal: any;
@@ -298,29 +300,23 @@ export class CashFlowComponent implements OnInit {
     this.spinner.show();
     this.admin.postDataApi('graphs/payment-cash-flow', input).subscribe(r => {
       this.spinner.hide();
-      //this.finalData = [];
       this.stp_final = [];
-      // this.empList = [];
-      //this.actualList = [];
       const reportData = r['data'];
-      console.log(reportData, "reportData");
-      for (let index = 0; index < reportData['testing'].length; index++) {
-        const element = reportData['testing'][index];
+      for (let index = 0; index < reportData['payment'].length; index++) {
+        const element = reportData['payment'][index];
         const ff = []; let d = {};
+        let sum1: any = element.y.map(a => a.y).reduce(function (a, b) {
+          return a + b;
+        });
+        this.actualList.push(sum1);
+        var total = this.actualList.reduce(function (a, b) { return a + b; });
+        this.actualTotal = total;
         for (let ind = 0; ind < element.y.length; ind++) {
-          d = { y: element.y[ind].y, label: element.y[ind].label };
+          d = { y: element.y[ind].y, label: element.y[ind].label, };
           ff.push(d);
         }
-        this.stp_final.push({
-          legendText: element.label,
-          showInLegend: 'true',
-          type: 'stackedColumn',
-          dataPoints: ff
-        });
+        this.stp_final.push(ff);
       }
-
-      4
-
       this.plotData5();
     }, error => {
       this.spinner.hide();
@@ -385,12 +381,12 @@ export class CashFlowComponent implements OnInit {
       for (let index = 0; index < reportData['actual'].length; index++) {
         const element = reportData['actual'][index];
         const ff = []; let d = {};
-        let sum1: any = element.y.map(a => a.y).reduce(function (a, b) {
-          return a + b;
-        });
-        this.actualList.push(sum1);
-        var total = this.actualList.reduce(function (a, b) { return a + b; });
-        this.actualTotal = total;
+        // let sum1: any = element.y.map(a => a.y).reduce(function (a, b) {
+        //   return a + b;
+        // });
+        // this.actualList.push(sum1);
+        // var total = this.actualList.reduce(function (a, b) { return a + b; });
+        // this.actualTotal = total;
         for (let ind = 0; ind < element.y.length; ind++) {
           d = { y: element.y[ind].y, label: element.y[ind].label };
           ff.push(d);
@@ -537,12 +533,12 @@ export class CashFlowComponent implements OnInit {
       for (let index = 0; index < reportData['actual'].length; index++) {
         const element = reportData['actual'][index];
         const ff = []; let d = {};
-        let sum1: any = element.y.map(a => a.y).reduce(function (a, b) {
-          return a + b;
-        });
-        this.actualList.push(sum1);
-        var total = this.actualList.reduce(function (a, b) { return a + b; });
-        this.actualTotal = total;
+        // let sum1: any = element.y.map(a => a.y).reduce(function (a, b) {
+        //   return a + b;
+        // });
+        // this.actualList.push(sum1);
+        // var total = this.actualList.reduce(function (a, b) { return a + b; });
+        // this.actualTotal = total;
         for (let ind = 0; ind < element.y.length; ind++) {
           d = { y: element.y[ind].y, label: element.y[ind].label };
           ff.push(d);
@@ -832,58 +828,60 @@ export class CashFlowComponent implements OnInit {
         contentFormatter: function (e) {
           var content = " ";
           for (var i = 0; i < e.entries.length; i++) {
+            var total = e.entries.reduce((accumulator, current) => accumulator + current.dataPoint.y, 0);
+            console.log(total, "sum1");
+            this.pay_method_Total = (total).toFixed(2);
             if (i == 0) {
-              content += "<span style='color:#5a728d'> Layaway Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<span style='color:#FBBC04'> Bank transfer </span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
               content += "<br/>";
             }
             else if (i == 1) {
-              content += "<span style='color:#c0514f'> Down Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<span style='color:#EA4335'> Check </span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
               content += "<br/>";
             }
             else if (i == 2) {
-              content += "<span style='color:#9bbb58'> Payment Upon Delivery</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<span style='color:#4285F4'> Cash </span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
               content += "<br/>";
             }
-            else if (i == 3) {
-              content += "<span style='color:#23bfaa'> Special Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
-              content += "<br/>";
-            }
-            else if (i == 4) {
-              content += "<span style='color:#8165a2'> Monthly Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
-              content += "<br/>";
-            }
+            // else if (i == 3) {
+            //   content += "<span style='color:#23bfaa'> Special Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+            //   content += "<br/>";
+            // }
+            // else if (i == 4) {
+            //   content += "<span style='color:#8165a2'> Monthly Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+            //   content += "<br/>";
+            // }
           }
+          content += "<span style='color:#00B96F;'> Total </span>" + "   " + self.price.transform(this.pay_method_Total);
+          content += "<br/>";
           return content;
         }
       },
-      data: this.stp_final
-      // data: [{
-      //   //type: 'column',
-      //   name: 'Bank transfer',
-      //   legendText: 'Bank transfer',
-      //   type: 'stackedColumn',
-      //   color: '#FBBC04',
-      //   showInLegend: true,
-      //   dataPoints: this.reportData_stp['bank_transfer']
-      // },
-      // {
-      //   //type: 'column',
-      //   type: 'stackedColumn',
-      //   name: 'Check',
-      //   legendText: 'Check',
-      //   color: '#EA4335',
-      //   showInLegend: true,
-      //   dataPoints: this.reportData_stp['cheque']
-      // },
-      // {
-      //   //type: 'column',
-      //   type: 'stackedColumn',
-      //   name: 'Cash',
-      //   legendText: 'Cash',
-      //   color: '#4285F4',
-      //   showInLegend: true,
-      //   dataPoints: this.reportData_stp['cash']
-      // }]
+      // data: this.stp_final
+      data: [{
+        name: 'Cash',
+        legendText: 'Cash',
+        type: 'stackedColumn',
+        color: '#4285F4',
+        showInLegend: true,
+        dataPoints: this.stp_final[0]
+      },
+      {
+        type: 'stackedColumn',
+        name: 'Check',
+        legendText: 'Check',
+        color: '#EA4335',
+        showInLegend: true,
+        dataPoints: this.stp_final[1]
+      },
+      {
+        type: 'stackedColumn',
+        name: 'Bank transfer',
+        legendText: 'Bank transfer',
+        color: '#FBBC04',
+        showInLegend: true,
+        dataPoints: this.stp_final[2]
+      }]
     });
     chart.render();
 

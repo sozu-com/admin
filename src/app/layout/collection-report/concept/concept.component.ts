@@ -79,7 +79,7 @@ export class ConceptComponent implements OnInit {
         dayNamesShort: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
         dayNamesMin: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
         monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
-            'November', 'December'],
+          'November', 'December'],
         monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         today: 'Today',
         clear: 'Clear',
@@ -230,7 +230,7 @@ export class ConceptComponent implements OnInit {
         const months = [];
         for (const property in this.data) {
           if (property) {
-            months.push({key: property, value: 0});
+            months.push({ key: property, value: 0 });
             this.allMonths.push(property);
           }
         }
@@ -264,11 +264,13 @@ export class ConceptComponent implements OnInit {
           });
           grandTotal = grandTotal + this.finalData[i].total;
         }
-        const obj1 = {p: 'Total', key: 1, total: grandTotal};
+        const obj1 = { p: 'Total', key: 1, total: grandTotal };
         months.map(m => {
           obj1[m.key] = m.value;
         });
         this.finalData.push(obj1);
+
+        console.log(this.finalData, "this.finalData");
         this.spinner.hide();
       },
       error => {
@@ -336,7 +338,7 @@ export class ConceptComponent implements OnInit {
 
   getConcept(concept) {
     this.selected_concept = concept;
-    let mode = concept.p.includes('Monthly Installment')? this.paymentChoices.find(item => item.name_en == 'Monthly Installment') : this.paymentChoices.find(item => item.name_en == concept.p);
+    let mode = concept.p.includes('Monthly Installment') ? this.paymentChoices.find(item => item.name_en == 'Monthly Installment') : this.paymentChoices.find(item => item.name_en == concept.p);
     this.spinner.show();
     const input: any = JSON.parse(JSON.stringify(this.input));
     input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
@@ -366,23 +368,23 @@ export class ConceptComponent implements OnInit {
         this.openConceptModal.nativeElement.click();
         this.spinner.hide();
       });
-    }
+  }
 
-    getExportConcept(){
-      if (this.concept_data) {
-        const data = [];
-        for (let index = 0; index < this.concept_data.length; index++) {
-          const p = this.concept_data[index];
-  
-          data.push({
-            'Collection Id': p.collection_id || '',
-            'Property Name': p.property_name || '',
-            'Buyer Name': p.buyer_name || '',
-            'Date': p.payment_date || '',
-            'Amount Paid': p.amount || '',
-          });
-        }
-        this.exportAsExcelFile(data, (this.concept_data[0].category_name + '-'));
+  getExportConcept() {
+    if (this.concept_data) {
+      const data = [];
+      for (let index = 0; index < this.concept_data.length; index++) {
+        const p = this.concept_data[index];
+
+        data.push({
+          'Collection Id': p.collection_id || '',
+          'Property Name': p.property_name || '',
+          'Buyer Name': p.buyer_name || '',
+          'Date': p.payment_date || '',
+          'Amount Paid': p.amount || '',
+        });
       }
+      this.exportAsExcelFile(data, (this.concept_data[0].category_name + '-'));
     }
+  }
 }
