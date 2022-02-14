@@ -1257,7 +1257,7 @@ export class AddEditCollectionComponent implements OnInit {
 
   getBankReferenceCount(bankId) {
     this.spinner.show();
-    this.adminService.postDataApi('collectionBankRef', {id : this.tempmodel.id}).subscribe(r => {
+    this.adminService.postDataApi('collectionBankRef', {id : this.tempmodel.id ? this.tempmodel.id : this.tempmodelForBank.id}).subscribe(r => {
       this.spinner.hide();
       this.ngOtpInputRef4.setValue(r.data);
       this.createChecker(bankId + r.data)
