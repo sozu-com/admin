@@ -2279,6 +2279,7 @@
     "roomType": "Tipo de habitación"
   },
   "sidebar": {
+    "payment_method":"Métodos de Pago",
     "entities":"Entidades",
     "users":"Usuarias",
     "profile": "Perfil",

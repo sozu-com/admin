@@ -2285,6 +2285,7 @@
     "roomType": "Room Type"
   },
   "sidebar": {
+    "payment_method":"Payment methods",
     "entities":"Entities",
     "users":"Users",
     "profile": "Profile",

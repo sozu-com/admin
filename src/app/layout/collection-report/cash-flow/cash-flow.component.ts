@@ -37,6 +37,7 @@ export class CashFlowComponent implements OnInit {
   reportsData: any;
   expectedTotal: any;
   actualTotal: any;
+  pay_method_Total: any;
   expectedData: any;
   actualData: Array<any>;
   paymentChoices: Array<any>;
@@ -57,6 +58,7 @@ export class CashFlowComponent implements OnInit {
   cashFlowInfos: any[];
   empList: Array<any>;
   actualList: Array<any> = [];
+  methodList: Array<any> = [];
   finalData3: Array<any> = [];
   arrearList: Array<any> = [];
   arrearTotal: any;
@@ -300,7 +302,6 @@ export class CashFlowComponent implements OnInit {
       this.spinner.hide();
       this.stp_final = [];
       const reportData = r['data'];
-      console.log(reportData, "reportData");
       for (let index = 0; index < reportData['payment'].length; index++) {
         const element = reportData['payment'][index];
         const ff = []; let d = {};
@@ -309,7 +310,6 @@ export class CashFlowComponent implements OnInit {
           ff.push(d);
         }
         this.stp_final.push(ff);
-        console.log(this.stp_final[0], "this.stp_final");
       }
       this.plotData5();
     }, error => {
@@ -822,6 +822,9 @@ export class CashFlowComponent implements OnInit {
         contentFormatter: function (e) {
           var content = " ";
           for (var i = 0; i < e.entries.length; i++) {
+            var total = e.entries.reduce((accumulator, current) => accumulator + current.dataPoint.y, 0);
+            console.log(total, "sum1");
+            this.pay_method_Total = (total).toFixed(2);
             if (i == 0) {
               content += "<span style='color:#FBBC04'> Bank transfer </span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
               content += "<br/>";
@@ -843,6 +846,8 @@ export class CashFlowComponent implements OnInit {
             //   content += "<br/>";
             // }
           }
+          content += "<span style='color:#4285F4'> Total </span>" + "   " + self.price.transform(this.pay_method_Total);
+          content += "<br/>";
           return content;
         }
       },
