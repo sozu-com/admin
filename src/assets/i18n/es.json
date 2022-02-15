@@ -1778,6 +1778,7 @@
   },
   "viewProjects": {
     "label": "Administrar proyectos",
+    "label_1": "Transferencias electrónicas",
     "Expenditures": "Gastos",
     "income":"Ingreso",
     "addBtn": "+Agregar nuevo proyecto",
