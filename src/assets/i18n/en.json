@@ -1777,6 +1777,7 @@
   },
   "viewProjects": {
     "label": "Manage Projects",
+    "label_1": "Wire transfers",
     "Expenditures": "Expenditures",
     "income":"Income",
     "addBtn": "+Add New Project",

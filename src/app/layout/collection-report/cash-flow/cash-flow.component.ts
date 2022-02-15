@@ -43,6 +43,7 @@ export class CashFlowComponent implements OnInit {
   paymentChoices: Array<any>;
   finalData: Array<any>;
   finalData1: Array<any>;
+  bankTransfer_cash_flow: Array<any>;
   stp_final: Array<any>;
   finalData2: Array<any>;
   items: Array<any>;
@@ -273,6 +274,7 @@ export class CashFlowComponent implements OnInit {
     this.getReportData2();
     this.getReportData3();
     this.getReportData4();
+    this.getReportData6();
     this.getListing();
   }
   getReportData4() {
@@ -551,6 +553,54 @@ export class CashFlowComponent implements OnInit {
         });
       }
       this.plotData3();
+    }, error => {
+      this.spinner.hide();
+    });
+  }
+
+  getReportData6() {
+    const input: any = JSON.parse(JSON.stringify(this.input));
+    input.start_date = moment(this.input.start_date).format('YYYY-MM-DD');
+    input.end_date = moment(this.input.end_date).format('YYYY-MM-DD');
+
+    if (this.selctedProjects) {
+      const d = this.selctedProjects.map(o => o.id);
+      input.building_id = d;
+    }
+    if (this.selectedCurrencies) {
+      const d = this.selectedCurrencies.map(o => o.id);
+      input.currency_id = d;
+    }
+
+    if (this.input.start_purchase_date) {
+      input.start_purchase_date = moment(this.input.start_purchase_date).format('YYYY-MM-DD');
+    }
+    if (this.input.end_purchase_date) {
+      input.end_purchase_date = moment(this.input.end_purchase_date).format('YYYY-MM-DD');
+    }
+
+
+    this.spinner.show();
+    this.admin.postDataApi('graphs/bankTransfer-cash-flow', input).subscribe(r => {
+      this.spinner.hide();
+      this.bankTransfer_cash_flow = [];
+      const reportData = r['data'];
+      console.log(reportData, "bankTransfer-cash-flow");
+      for (let index = 0; index < reportData['payment'].length; index++) {
+        const element = reportData['payment'][index];
+        const ff = []; let d = {};
+        for (let ind = 0; ind < element.y.length; ind++) {
+          d = { y: element.y[ind].y, label: element.y[ind].label };
+          ff.push(d);
+        }
+        this.bankTransfer_cash_flow.push({
+          legendText: element.label,
+          showInLegend: 'true',
+          type: 'stackedColumn',
+          dataPoints: ff
+        });
+      }
+      this.plotData6();
     }, error => {
       this.spinner.hide();
     });
@@ -893,6 +943,49 @@ export class CashFlowComponent implements OnInit {
       }
       chart.render();
     }
+  }
+
+  plotData6() {
+    let self = this;
+    const chart = new CanvasJS.Chart('chartContainer6', {
+      animationEnabled: true,
+      exportFileName: 'cash-flow',
+      exportEnabled: true,
+      title: {
+        // text: "Crude Oil Reserves vs Production, 2016"
+      },
+      toolTip: {
+        shared: true,
+        contentFormatter: function (e) {
+          var content = " ";
+          for (var i = 0; i < e.entries.length; i++) {
+            if (i == 0) {
+              content += "<span style='color:#5a728d'> Layaway Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
+            else if (i == 1) {
+              content += "<span style='color:#c0514f'> Down Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
+            else if (i == 2) {
+              content += "<span style='color:#9bbb58'> Payment Upon Delivery</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
+            else if (i == 3) {
+              content += "<span style='color:#23bfaa'> Special Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
+            else if (i == 4) {
+              content += "<span style='color:#8165a2'> Monthly Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
+          }
+          return content;
+        }
+      },
+      data: this.bankTransfer_cash_flow
+    });
+    chart.render();
   }
 
   resetFilters() {
