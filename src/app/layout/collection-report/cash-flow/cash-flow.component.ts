@@ -353,6 +353,7 @@ export class CashFlowComponent implements OnInit {
       this.spinner.hide();
       this.finalData = [];
       this.finalData1 = [];
+      this.finalData3 = [];
       this.empList = [];
       this.actualList = [];
       const reportData = r['data'];
@@ -405,16 +406,18 @@ export class CashFlowComponent implements OnInit {
       for (let index = 0; index < reportData['arrear'].length; index++) {
         const element = reportData['arrear'][index];
         const ff = []; let d = {};
-        let sum1: any = element.y.map(a => a.y).reduce(function (a, b) {
-          return a + b;
-        });
-        this.arrearList.push(sum1);
-        var total = this.actualList.reduce(function (a, b) { return a + b; });
-        this.arrearTotal = total;
+        // let sum1: any = element.y.map(a => a.y).reduce(function (a, b) {
+        //   return a + b;
+        // });
+        // this.arrearList.push(sum1);
+        // var total = this.actualList.reduce(function (a, b) { return a + b; });
+        // this.arrearTotal = total;
         for (let ind = 0; ind < element.y.length; ind++) {
           d = { y: element.y[ind].y, label: element.y[ind].label };
           ff.push(d);
         }
+
+        console.log(ff, "bankTransfer-cash-flow");
         this.finalData3.push({
           legendText: element.label,
           showInLegend: 'true',
@@ -585,7 +588,6 @@ export class CashFlowComponent implements OnInit {
       this.spinner.hide();
       this.bankTransfer_cash_flow = [];
       const reportData = r['data'];
-      console.log(reportData, "bankTransfer-cash-flow");
       for (let index = 0; index < reportData['payment'].length; index++) {
         const element = reportData['payment'][index];
         const ff = []; let d = {};
