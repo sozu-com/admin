@@ -953,8 +953,6 @@ export class CashFlowComponent implements OnInit {
         contentFormatter: function (e) {
           var content = " ";
           for (var i = 0; i < e.entries.length; i++) {
-            var total_1 = e.entries.reduce((accumulator, current) => accumulator + current.dataPoint.y, 0);
-            this.manually_method_total = (total_1).toFixed(2);
             if (i == 0) {
               content += "<span style='color:#5a728d'>bank amount</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
               content += "<br/>";
@@ -978,7 +976,7 @@ export class CashFlowComponent implements OnInit {
           }
           // content += "<span style='color:#00B96F;'> Total </span>" + "   " + self.price.transform(this.manually_method_total);
           // content += "<br/>";
-          // return content;
+          return content;
         }
       },
       //data: this.bankTransfer_cash_flow
