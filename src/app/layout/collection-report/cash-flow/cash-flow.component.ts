@@ -594,12 +594,6 @@ export class CashFlowComponent implements OnInit {
           ff.push(d);
         }
         this.bankTransfer_cash_flow.push(ff);
-        // this.bankTransfer_cash_flow.push({
-        //   legendText: element.label,
-        //   showInLegend: 'true',
-        //   type: 'stackedColumn',
-        //   dataPoints: ff
-        // });
       }
       this.plotData6();
     }, error => {
@@ -960,14 +954,13 @@ export class CashFlowComponent implements OnInit {
           var content = " ";
           for (var i = 0; i < e.entries.length; i++) {
             var total_1 = e.entries.reduce((accumulator, current) => accumulator + current.dataPoint.y, 0);
-            console.log(total_1, "sum1");
             this.manually_method_total = (total_1).toFixed(2);
             if (i == 0) {
-              content += "<span style='color:#5a728d'>STP bank amounts</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<span style='color:#5a728d'>bank amount</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
               content += "<br/>";
             }
             else if (i == 1) {
-              content += "<span style='color:#c0514f'>Manually amounts</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<span style='color:#c0514f'>STP amount</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
               content += "<br/>";
             }
             // else if (i == 2) {
@@ -983,15 +976,15 @@ export class CashFlowComponent implements OnInit {
             //   content += "<br/>";
             // }
           }
-          content += "<span style='color:#00B96F;'> Total </span>" + "   " + self.price.transform(this.manually_method_total);
-          content += "<br/>";
-          return content;
+          // content += "<span style='color:#00B96F;'> Total </span>" + "   " + self.price.transform(this.manually_method_total);
+          // content += "<br/>";
+          // return content;
         }
       },
       //data: this.bankTransfer_cash_flow
       data: [{
-        name: 'STP bank amounts',
-        legendText: 'STP bank amounts',
+        name: 'bank amount',
+        legendText: 'bank amount',
         type: 'stackedColumn',
         color: '#4285F4',
         showInLegend: true,
@@ -999,8 +992,8 @@ export class CashFlowComponent implements OnInit {
       },
       {
         type: 'stackedColumn',
-        name: 'Manually amounts',
-        legendText: 'Manually amounts',
+        name: 'STP amount',
+        legendText: 'STP amount',
         color: '#EA4335',
         showInLegend: true,
         dataPoints: this.bankTransfer_cash_flow[1]
