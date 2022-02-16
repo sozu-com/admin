@@ -307,12 +307,12 @@ export class CashFlowComponent implements OnInit {
       for (let index = 0; index < reportData['payment'].length; index++) {
         const element = reportData['payment'][index];
         const ff = []; let d = {};
-        let sum1: any = element.y.map(a => a.y).reduce(function (a, b) {
-          return a + b;
-        });
-        this.actualList.push(sum1);
-        var total = this.actualList.reduce(function (a, b) { return a + b; });
-        this.actualTotal = total;
+        // let sum1: any = element.y.map(a => a.y).reduce(function (a, b) {
+        //   return a + b;
+        // });
+        // this.actualList.push(sum1);
+        // var total = this.actualList.reduce(function (a, b) { return a + b; });
+        // this.actualTotal = total;
         for (let ind = 0; ind < element.y.length; ind++) {
           d = { y: element.y[ind].y, label: element.y[ind].label, };
           ff.push(d);
@@ -384,12 +384,12 @@ export class CashFlowComponent implements OnInit {
       for (let index = 0; index < reportData['actual'].length; index++) {
         const element = reportData['actual'][index];
         const ff = []; let d = {};
-        // let sum1: any = element.y.map(a => a.y).reduce(function (a, b) {
-        //   return a + b;
-        // });
-        // this.actualList.push(sum1);
-        // var total = this.actualList.reduce(function (a, b) { return a + b; });
-        // this.actualTotal = total;
+        let sum1: any = element.y.map(a => a.y).reduce(function (a, b) {
+          return a + b;
+        });
+        this.actualList.push(sum1);
+        var total = this.actualList.reduce(function (a, b) { return a + b; });
+        this.actualTotal = total;
         for (let ind = 0; ind < element.y.length; ind++) {
           d = { y: element.y[ind].y, label: element.y[ind].label };
           ff.push(d);
@@ -538,12 +538,12 @@ export class CashFlowComponent implements OnInit {
       for (let index = 0; index < reportData['actual'].length; index++) {
         const element = reportData['actual'][index];
         const ff = []; let d = {};
-        // let sum1: any = element.y.map(a => a.y).reduce(function (a, b) {
-        //   return a + b;
-        // });
-        // this.actualList.push(sum1);
-        // var total = this.actualList.reduce(function (a, b) { return a + b; });
-        // this.actualTotal = total;
+        let sum1: any = element.y.map(a => a.y).reduce(function (a, b) {
+          return a + b;
+        });
+        this.actualList.push(sum1);
+        var total = this.actualList.reduce(function (a, b) { return a + b; });
+        this.actualTotal = total;
         for (let ind = 0; ind < element.y.length; ind++) {
           d = { y: element.y[ind].y, label: element.y[ind].label };
           ff.push(d);
