@@ -816,6 +816,7 @@
   "table": {
     "addNewBtn": "+Add New",
     "exportDataBtn": "Export",
+    "exportDataBtn_1": "Download Collections",
     "bulkReAssign": "Bulk Re-assign",
     "dashboard": {
       "allLeads": "All Leads",
