@@ -3,6 +3,7 @@ export interface IProperty {
   loading?: boolean;                      // loader
   itemsPerPage?: number;
   expenditures_id?: any;
+  bank_reference_id?: any;
   hotel_company_name?: any;
   commission_status_color?: any;               // total items per page
   total?: number;
@@ -262,7 +263,7 @@ export interface IProperty {
   preferences_properties?: any;
   fav_project_count?: any;
   locality_ids?: Array<any>;
-  sector_id?:any;
+  sector_id?: any;
 }
 export class Docs {
   id: string;

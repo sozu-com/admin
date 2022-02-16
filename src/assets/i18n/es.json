@@ -825,6 +825,7 @@
       "closed": "Cerrado"
     },
     "th": {
+      "back_referencs":"STP key",
       "Property_chose":"Ya_eligio_inmueble",
       "Where_quote":"Donde_cotiza",
       "Property_cost":"Valor_departamento",

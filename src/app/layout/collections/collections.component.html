@@ -198,6 +198,17 @@
                       </div>
                     </div>
                   </th>
+                  <th style="text-align:left; width: 170px;">
+                    <div class="table-search">
+                      <label>{{'table.th.back_referencs' | translate}}</label>
+                      <div class="searh-3">
+                        <input autocomplete="off" class="width100px" type="text" [(ngModel)]="parameter.bank_reference_id"
+                          (keyup.enter)="getListing()">
+                        <button *ngIf="parameter.bank_reference_id" (click)="getListing()"><i
+                            class="fa fa-search"></i></button>
+                      </div>
+                    </div>
+                  </th>
                   <th style="text-align:left; width: 150px;"
                     *ngIf="selectedCollectionColumnsToShow?.buyer_legal_representative">
                     <div class="table-search">
@@ -537,6 +548,7 @@
                       p?.buyer?.second_surname) : ('table.tr.td.NA' | translate)}}
                     </span>
                   </td>
+                  <td><span>{{p?.bank_reference_id ? p?.bank_reference_id : ('table.tr.td.NA' | translate)}}</span></td>
                   <td *ngIf="selectedCollectionColumnsToShow?.buyer_legal_representative">
                     <span *ngIf="p?.buyer_type == 1">
                       {{p?.buyer?.legal_representative?.name ? (p?.buyer?.legal_representative?.name + ' ' +
@@ -845,6 +857,7 @@
                       p?.buyer?.second_surname) : ('table.tr.td.NA' | translate)}}
                     </span>
                   </td>
+                  <td><span>{{p?.bank_reference_id ? p?.bank_reference_id : ('table.tr.td.NA' | translate)}}</span></td>
                   <td *ngIf="selectedCollectionColumnsToShow?.buyer_legal_representative">
                     <span *ngIf="p?.buyer_type == 1">
                       {{p?.buyer?.legal_representative?.name ? (p?.buyer?.legal_representative?.name + ' ' +

@@ -836,7 +836,7 @@
       "Term":"Term",
       "Monthly_amount":"Monthly amount",
       "Income":"Income",
-
+"back_referencs":"STP key",
       "carpetArea": "Carpet Area",
       "Delivery": "Delivery estimated date",
       "all": "All",
