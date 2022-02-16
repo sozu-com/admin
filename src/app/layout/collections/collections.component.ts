@@ -132,6 +132,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   isPenaltyFormSub: boolean;
   cashLimit: any;
   private exportfinalData: Array<any>;
+  private cLabeData: Array<any>;
   folderId: number;
   payment_folder_id: number;
   sendEmailForm: FormGroup;
@@ -2684,6 +2685,61 @@ export class CollectionsComponent implements OnInit, OnDestroy {
 
   numberUptoNDecimal(num: any, n: number) {
     return num ? num.toFixed(n) : 0;
+  }
+
+
+  getDownlodCollection = (): void => {
+    this.spinner.show();
+    this.exportfinalData = [];
+    const input: any = JSON.parse(JSON.stringify(this.parameter));
+    if (this.parameter.deal_to_date && this.parameter.deal_from_date) {
+      input.deal_to_date = this.parameter.deal_to_date;
+      input.deal_from_date = this.parameter.deal_from_date;
+      // console.log('this.parameter.deal_from_date', this.parameter.deal_from_date);
+    }
+    if (this.parameter.min) {
+      input.min = moment(this.parameter.min).format('YYYY-MM-DD');
+    } else {
+      delete input.min;
+    }
+    if (this.parameter.max) {
+      input.max = moment(this.parameter.max).format('YYYY-MM-DD');
+    } else {
+      delete input.max;
+    }
+    if (this.parameter.deal_purchase_date) {
+      input.deal_purchase_date = moment(this.parameter.deal_purchase_date).format('YYYY-MM-DD');
+    } else {
+      delete input.deal_purchase_date;
+    }
+
+    input.is_approved = this.parameter.flag;
+    input.page = 0;
+    this.admin.postDataApi('getBankRef', input).subscribe((success) => {
+      this.cLabeData = success.data || [];
+      this.makeCollectionData();
+      this.spinner.hide();
+    },
+      (error) => {
+        //  console.log(error);
+        this.spinner.hide();
+      });
+  }
+  makeCollectionData = (): void => {
+    if (this.cLabeData.length > 0) {
+      const tempExportData = [];
+      for (let index = 0; index < this.cLabeData.length; index++) {
+        const pp = this.cLabeData[index];
+        let obj = {
+          'ID collection': pp.id || '',
+          'client name': pp.buyer_name || '',
+          'CLABE': pp.bank_reference || '',
+          'Department': pp.project || ''
+        }
+        tempExportData.push(obj);
+      }
+      new ExcelDownload().exportAsExcelFile(tempExportData, 'Descargar_Colecciones');
+    }
   }
 
   getExportlisting = (): void => {
