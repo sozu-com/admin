@@ -62,7 +62,7 @@ export class CashFlowComponent implements OnInit {
   methodList: Array<any> = [];
   finalData3: Array<any> = [];
   arrearList: Array<any> = [];
-  arrearTotal: any;
+  arrearTotal: any; manually_method_total: any;
   constructor(public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
@@ -307,12 +307,12 @@ export class CashFlowComponent implements OnInit {
       for (let index = 0; index < reportData['payment'].length; index++) {
         const element = reportData['payment'][index];
         const ff = []; let d = {};
-        // let sum1: any = element.y.map(a => a.y).reduce(function (a, b) {
-        //   return a + b;
-        // });
-        // this.actualList.push(sum1);
-        // var total = this.actualList.reduce(function (a, b) { return a + b; });
-        // this.actualTotal = total;
+        let sum1: any = element.y.map(a => a.y).reduce(function (a, b) {
+          return a + b;
+        });
+        this.actualList.push(sum1);
+        var total = this.actualList.reduce(function (a, b) { return a + b; });
+        this.actualTotal = total;
         for (let ind = 0; ind < element.y.length; ind++) {
           d = { y: element.y[ind].y, label: element.y[ind].label, };
           ff.push(d);
@@ -384,12 +384,12 @@ export class CashFlowComponent implements OnInit {
       for (let index = 0; index < reportData['actual'].length; index++) {
         const element = reportData['actual'][index];
         const ff = []; let d = {};
-        let sum1: any = element.y.map(a => a.y).reduce(function (a, b) {
-          return a + b;
-        });
-        this.actualList.push(sum1);
-        var total = this.actualList.reduce(function (a, b) { return a + b; });
-        this.actualTotal = total;
+        // let sum1: any = element.y.map(a => a.y).reduce(function (a, b) {
+        //   return a + b;
+        // });
+        // this.actualList.push(sum1);
+        // var total = this.actualList.reduce(function (a, b) { return a + b; });
+        // this.actualTotal = total;
         for (let ind = 0; ind < element.y.length; ind++) {
           d = { y: element.y[ind].y, label: element.y[ind].label };
           ff.push(d);
@@ -416,8 +416,6 @@ export class CashFlowComponent implements OnInit {
           d = { y: element.y[ind].y, label: element.y[ind].label };
           ff.push(d);
         }
-
-        console.log(ff, "bankTransfer-cash-flow");
         this.finalData3.push({
           legendText: element.label,
           showInLegend: 'true',
@@ -538,12 +536,12 @@ export class CashFlowComponent implements OnInit {
       for (let index = 0; index < reportData['actual'].length; index++) {
         const element = reportData['actual'][index];
         const ff = []; let d = {};
-        let sum1: any = element.y.map(a => a.y).reduce(function (a, b) {
-          return a + b;
-        });
-        this.actualList.push(sum1);
-        var total = this.actualList.reduce(function (a, b) { return a + b; });
-        this.actualTotal = total;
+        // let sum1: any = element.y.map(a => a.y).reduce(function (a, b) {
+        //   return a + b;
+        // });
+        // this.actualList.push(sum1);
+        // var total = this.actualList.reduce(function (a, b) { return a + b; });
+        // this.actualTotal = total;
         for (let ind = 0; ind < element.y.length; ind++) {
           d = { y: element.y[ind].y, label: element.y[ind].label };
           ff.push(d);
@@ -595,12 +593,13 @@ export class CashFlowComponent implements OnInit {
           d = { y: element.y[ind].y, label: element.y[ind].label };
           ff.push(d);
         }
-        this.bankTransfer_cash_flow.push({
-          legendText: element.label,
-          showInLegend: 'true',
-          type: 'stackedColumn',
-          dataPoints: ff
-        });
+        this.bankTransfer_cash_flow.push(ff);
+        // this.bankTransfer_cash_flow.push({
+        //   legendText: element.label,
+        //   showInLegend: 'true',
+        //   type: 'stackedColumn',
+        //   dataPoints: ff
+        // });
       }
       this.plotData6();
     }, error => {
@@ -881,7 +880,6 @@ export class CashFlowComponent implements OnInit {
           var content = " ";
           for (var i = 0; i < e.entries.length; i++) {
             var total = e.entries.reduce((accumulator, current) => accumulator + current.dataPoint.y, 0);
-            console.log(total, "sum1");
             this.pay_method_Total = (total).toFixed(2);
             if (i == 0) {
               content += "<span style='color:#FBBC04'> Bank transfer </span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
@@ -961,31 +959,52 @@ export class CashFlowComponent implements OnInit {
         contentFormatter: function (e) {
           var content = " ";
           for (var i = 0; i < e.entries.length; i++) {
+            var total_1 = e.entries.reduce((accumulator, current) => accumulator + current.dataPoint.y, 0);
+            console.log(total_1, "sum1");
+            this.manually_method_total = (total_1).toFixed(2);
             if (i == 0) {
-              content += "<span style='color:#5a728d'> Layaway Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<span style='color:#5a728d'>STP bank amounts</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
               content += "<br/>";
             }
             else if (i == 1) {
-              content += "<span style='color:#c0514f'> Down Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<span style='color:#c0514f'>Manually amounts</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
               content += "<br/>";
             }
-            else if (i == 2) {
-              content += "<span style='color:#9bbb58'> Payment Upon Delivery</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
-              content += "<br/>";
-            }
-            else if (i == 3) {
-              content += "<span style='color:#23bfaa'> Special Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
-              content += "<br/>";
-            }
-            else if (i == 4) {
-              content += "<span style='color:#8165a2'> Monthly Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
-              content += "<br/>";
-            }
+            // else if (i == 2) {
+            //   content += "<span style='color:#9bbb58'> Payment Upon Delivery</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+            //   content += "<br/>";
+            // }
+            // else if (i == 3) {
+            //   content += "<span style='color:#23bfaa'> Special Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+            //   content += "<br/>";
+            // }
+            // else if (i == 4) {
+            //   content += "<span style='color:#8165a2'> Monthly Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+            //   content += "<br/>";
+            // }
           }
+          content += "<span style='color:#00B96F;'> Total </span>" + "   " + self.price.transform(this.manually_method_total);
+          content += "<br/>";
           return content;
         }
       },
-      data: this.bankTransfer_cash_flow
+      //data: this.bankTransfer_cash_flow
+      data: [{
+        name: 'STP bank amounts',
+        legendText: 'STP bank amounts',
+        type: 'stackedColumn',
+        color: '#4285F4',
+        showInLegend: true,
+        dataPoints: this.bankTransfer_cash_flow[0]
+      },
+      {
+        type: 'stackedColumn',
+        name: 'Manually amounts',
+        legendText: 'Manually amounts',
+        color: '#EA4335',
+        showInLegend: true,
+        dataPoints: this.bankTransfer_cash_flow[1]
+      }]
     });
     chart.render();
   }
