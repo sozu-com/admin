@@ -2732,9 +2732,10 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         const pp = this.cLabeData[index];
         let obj = {
           'ID collection': pp.id || '',
-          'client name': pp.buyer_name || '',
+          'Client name': pp.buyer_name || '',
           'CLABE': pp.bank_reference || '',
-          'Department': pp.project || ''
+          'Project': pp.project || '',
+          'Department': pp.department || ''
         }
         tempExportData.push(obj);
       }
