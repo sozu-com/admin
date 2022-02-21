@@ -876,7 +876,7 @@ export class CashFlowComponent implements OnInit {
             var total = e.entries.reduce((accumulator, current) => accumulator + current.dataPoint.y, 0);
             this.pay_method_Total = (total).toFixed(2);
             if (i == 0) {
-              content += "<span style='color:#FBBC04'> Bank transfer </span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<span style='color:#4285F4'>Cash</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
               content += "<br/>";
             }
             else if (i == 1) {
@@ -884,7 +884,7 @@ export class CashFlowComponent implements OnInit {
               content += "<br/>";
             }
             else if (i == 2) {
-              content += "<span style='color:#4285F4'> Cash </span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<span style='color:#FBBC04'> Bank transfer </span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
               content += "<br/>";
             }
             // else if (i == 3) {
