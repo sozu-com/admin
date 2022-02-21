@@ -984,7 +984,7 @@ export class CashFlowComponent implements OnInit {
         name: 'bank amount',
         legendText: 'bank amount',
         type: 'stackedColumn',
-        color: '#4285F4',
+        color: '#5a728d',
         showInLegend: true,
         dataPoints: this.bankTransfer_cash_flow[0]
       },
@@ -992,7 +992,7 @@ export class CashFlowComponent implements OnInit {
         type: 'stackedColumn',
         name: 'STP amount',
         legendText: 'STP amount',
-        color: '#EA4335',
+        color: '#c0514f',
         showInLegend: true,
         dataPoints: this.bankTransfer_cash_flow[1]
       }]
