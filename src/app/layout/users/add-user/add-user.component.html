@@ -516,7 +516,7 @@
             <!-- <input autocomplete="off" type="text" class="form-control" id="state" [(ngModel)]="model.state" name="state"
               (keyup)="this.onClickUseUserSameAddress()" /> -->
               <select title="{{'table.title.chooseState' | translate}}" name="state_code_id" class="form-control"
-              (change)="selecState($event.target.value, '')">
+              (change)="selectState($event.target.value, '')">
               <option value="">{{'addForm.location.selectState' | translate}}</option>
               <option *ngFor="let state of parameter.states" value="{{state.id}}"
                 [selected]="state.id == model.state_code_id">{{state.name_en}}</option>
