@@ -657,7 +657,8 @@ export class AddEditCollectionComponent implements OnInit {
       is_commission_sale_enabled: [''],
       payment_received_by: [''],
       bank_id: [''],
-      searchValue: ['']
+      searchValue: [''],
+      bank_reference_id: [''],
     });
     // if (this.model.id === '0') {
     // this.addAgent('');
@@ -1142,6 +1143,9 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep5.controls.outside_agent_commission_iva_amount.patchValue(data.outside_agent_commission_iva_amount || 0);
     this.ReciverUser = data.payment_received_by == 3 ? data.commission_seller_legal_entity : data.payment_received_by == 4 ? data.person : null;
     this.selectedReciverUser = data.payment_received_by;
+    if(data.seller_type == 2 && !data.bank_reference_id){
+      this.getBankReferenceCount(this.tempmodelForBank.seller_legal_entity.legal_entity_bank_ref, 5);
+    }
     if(data.payment_received_by == 3){
       this.paymentBankDetailsArray = [];
       if (data.commission_seller_legal_entity.legal_entity_banks) {
@@ -1218,18 +1222,17 @@ export class AddEditCollectionComponent implements OnInit {
       this.ngOtpInputRef1.setValue(data.commission_seller_legal_entity.legal_entity_bank_ref.substr(3, 3));
       this.ngOtpInputRef2.setValue(data.commission_seller_legal_entity.legal_entity_bank_ref.substr(6, 4));
       this.ngOtpInputRef3.setValue(data.commission_seller_legal_entity.legal_entity_bank_ref.substr(10, 4));
-      this.getBankReferenceCount(data.commission_seller_legal_entity.legal_entity_bank_ref);
+      this.getBankReferenceCount(data.commission_seller_legal_entity.legal_entity_bank_ref, 6);
     }
     else if (data.seller_legal_entity && data.seller_legal_entity.legal_entity_bank_ref) {
       this.ngOtpInputRef.setValue(data.seller_legal_entity.legal_entity_bank_ref.substr(0, 3));
       this.ngOtpInputRef1.setValue(data.seller_legal_entity.legal_entity_bank_ref.substr(3, 3));
       this.ngOtpInputRef2.setValue(data.seller_legal_entity.legal_entity_bank_ref.substr(6, 4));
       this.ngOtpInputRef3.setValue(data.seller_legal_entity.legal_entity_bank_ref.substr(10, 4));
-      this.getBankReferenceCount(data.seller_legal_entity.legal_entity_bank_ref);
+      this.getBankReferenceCount(data.seller_legal_entity.legal_entity_bank_ref, 6);
     }
   }
   else{
-    if(data.commission_seller_legal_entity_id == this.old_commision_legal_id){
     this.ngOtpInputRef.setValue(data.bank_reference_id.substr(0, 3));
       this.ngOtpInputRef1.setValue(data.bank_reference_id.substr(3, 3));
       this.ngOtpInputRef2.setValue(data.bank_reference_id.substr(6, 4));
@@ -1238,14 +1241,6 @@ export class AddEditCollectionComponent implements OnInit {
       this.ngOtpInputRef5.setValue(data.bank_reference_id.substr(17, 1));
       this.addFormStep6.controls.bank_reference_id.patchValue(data.bank_reference_id);
     }
-    else{
-      this.ngOtpInputRef.setValue(data.commission_seller_legal_entity.legal_entity_bank_ref.substr(0, 3));
-      this.ngOtpInputRef1.setValue(data.commission_seller_legal_entity.legal_entity_bank_ref.substr(3, 3));
-      this.ngOtpInputRef2.setValue(data.commission_seller_legal_entity.legal_entity_bank_ref.substr(6, 4));
-      this.ngOtpInputRef3.setValue(data.commission_seller_legal_entity.legal_entity_bank_ref.substr(10, 4));
-      this.getBankReferenceCount(data.commission_seller_legal_entity.legal_entity_bank_ref);
-    }
-  }
     this.ngOtpInputRef.otpForm.disable();
     this.ngOtpInputRef1.otpForm.disable();
     this.ngOtpInputRef2.otpForm.disable();
@@ -1255,16 +1250,20 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep6.controls.step.patchValue(6);
   }
 
-  getBankReferenceCount(bankId) {
+  getBankReferenceCount(bankId, tab) {
     this.spinner.show();
-    this.adminService.postDataApi('collectionBankRef', {id : this.tempmodel.id ? this.tempmodel.id : this.tempmodelForBank.id}).subscribe(r => {
+    forkJoin([
+    this.adminService.postDataApi('collectionBankRef', {id : this.tempmodel.id ? this.tempmodel.id : this.tempmodelForBank.id})
+  ]).subscribe(r => {
       this.spinner.hide();
-      this.ngOtpInputRef4.setValue(r.data);
-      this.createChecker(bankId + r.data)
+      if(tab == 6){
+      this.ngOtpInputRef4.setValue(r[0].data);
+      }
+      this.createChecker(bankId + r[0].data, tab)
     });
   }
   
-  createChecker(bankId){
+  createChecker(bankId, tab){
    let bankIdArray = bankId.split('');
    const multiBankArray = [3,7,1,3,7,1,3,7,1,3,7,1,3,7,1,3,7];
    let resultMulti = [];
@@ -1279,8 +1278,13 @@ export class AddEditCollectionComponent implements OnInit {
   };
     sum1 = 10 - (sum % 10);
     finalResult = sum1 % 10;
+    if(tab == 6){
     finalResult ? this.ngOtpInputRef5.setValue(finalResult) : this.ngOtpInputRef5.setValue(finalResult.toString());
     this.addFormStep6.controls.bank_reference_id.patchValue(bankId + finalResult);
+    }
+    else{
+      this.addFormStep5.controls.bank_reference_id.patchValue(bankId + finalResult);
+    }
   }
   
 
@@ -3115,7 +3119,7 @@ export class AddEditCollectionComponent implements OnInit {
             if (tab == 5) {
               this.initFormStep5();
               this.patchFormStep5(success['data']);
-              if(success['data'].payment_received_by == 3){
+              if(success['data'].payment_received_by == 3 || success['data'].seller_type == 2){
                 this.initFormStep6();
               setTimeout(() => {
                 this.patchFormStep6(success['data']);
@@ -3872,6 +3876,7 @@ fetchResults(name, value) {
 
   selectUserReciver(stock){
     this.ReciverUser = stock;
+    this.getBankReferenceCount(this.ReciverUser.legal_entity_bank_ref, 5);
     if (this.ReciverUser.legal_entity_banks) {
       this.paymentBankDetailsArray = [];
       for (let index = 0; index < this.ReciverUser.legal_entity_banks.length; index++) {

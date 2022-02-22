@@ -684,6 +684,68 @@ export class QuickVisualizationComponent implements OnInit {
     this.calculateCash();
     // payment banks
     this.paymentBanks = [];
+    if (this.model.seller_type != 2) {
+        // seller (as a person or developer) banks
+        for (let index = 0; index < this.model.seller.legal_rep_banks.length; index++) {
+          const element = this.model.seller.legal_rep_banks[index];
+          element.name = 'Seller Bank | ' + element.bank_name;
+          element.is_agency = 2;
+          element.bank_id = element.id;
+          element.legal_rep_bank_id = null;
+          this.paymentBanks.push(element);
+    }
+        // agency legal representative banks
+        if (this.model.seller.legal_representative) {
+          for (let index = 0; index < this.model.seller.legal_representative.legal_rep_banks.length; index++) {
+            const element = this.model.seller.legal_representative.legal_rep_banks[index];
+            element.name = 'Seller Legal Rep Bank | ' + element.bank_name;
+            element.is_agency = 2;
+            element.bank_id = null;
+            element.legal_rep_bank_id = element.id;
+            this.paymentBanks.push(element);
+          }
+        }
+      } else {
+        // seller (as a legal entity) banks
+        if (this.model.seller_legal_entity && this.model.seller_legal_entity.legal_entity_banks) {
+          for (let index = 0; index < this.model.seller_legal_entity.legal_entity_banks.length; index++) {
+            const element = this.model.seller_legal_entity.legal_entity_banks[index];
+            element.name = 'Seller Bank | ' + element.bank_name;
+            element.is_agency = 2;
+            element.bank_id = element.id;
+            element.legal_rep_bank_id = null;
+            this.paymentBanks.push(element);
+          }
+
+          // agency legal representative banks
+          if (this.model.seller_legal_entity.legal_reps && this.model.seller_legal_entity.legal_reps.legal_rep_banks) {
+            for (let index = 0; index < this.model.seller_legal_entity.legal_reps.legal_rep_banks.length; index++) {
+              const element = this.model.seller_legal_entity.legal_reps.legal_rep_banks[index];
+              element.name = 'Seller Legal Rep Bank | ' + element.bank_name;
+              element.is_agency = 2;
+              element.bank_id = null;
+              element.legal_rep_bank_id = element.id;
+              this.paymentBanks.push(element);
+            }
+          }
+        }
+      }
+    this.paymentModalOpen.nativeElement.click();
+  }
+
+  showApplyPaymentPopup1() {
+    this.surplus_payment_type = null;
+    this.payment_type = null;
+    this.payment_date = null;
+    this.payment_choice_id = null;
+    const check = this.paymentConcepts.find(r => r.name.includes('Monthly Installment'));
+    this.disablePayToRemaining = true;
+    if (check) {
+      this.disablePayToRemaining = false;
+    }
+    this.calculateCash();
+    // payment banks
+    this.paymentBanks = [];
     if (this.model.payment_received_by) {
       // payment directly received by agency
       if (this.model.property.building && this.model.property.building.agency_id) {
