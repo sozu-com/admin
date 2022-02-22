@@ -1146,6 +1146,9 @@ export class AddEditCollectionComponent implements OnInit {
     if(data.seller_type == 2 && !data.bank_reference_id){
       this.getBankReferenceCount(this.tempmodelForBank.seller_legal_entity.legal_entity_bank_ref, 5);
     }
+    else{
+      this.addFormStep5.controls.bank_reference_id.patchValue(data.bank_reference_id);
+    }
     if(data.payment_received_by == 3){
       this.paymentBankDetailsArray = [];
       if (data.commission_seller_legal_entity.legal_entity_banks) {
@@ -1253,7 +1256,7 @@ export class AddEditCollectionComponent implements OnInit {
   getBankReferenceCount(bankId, tab) {
     this.spinner.show();
     forkJoin([
-    this.adminService.postDataApi('collectionBankRef', {id : this.tempmodel.id ? this.tempmodel.id : this.tempmodelForBank.id})
+    this.adminService.postDataApi('collectionBankRef', {id : this.tempmodel.id ? this.tempmodel.id : this.tempmodelForBank.id, commission_id: this.ReciverUser ? this.ReciverUser.id : null})
   ]).subscribe(r => {
       this.spinner.hide();
       if(tab == 6){
@@ -3876,7 +3879,9 @@ fetchResults(name, value) {
 
   selectUserReciver(stock){
     this.ReciverUser = stock;
+    if(this.ReciverUser.id != this.tempmodelForBank.commission_seller_legal_entity_id){
     this.getBankReferenceCount(this.ReciverUser.legal_entity_bank_ref, 5);
+    }
     if (this.ReciverUser.legal_entity_banks) {
       this.paymentBankDetailsArray = [];
       for (let index = 0; index < this.ReciverUser.legal_entity_banks.length; index++) {
