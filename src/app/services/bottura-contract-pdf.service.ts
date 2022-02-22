@@ -62,8 +62,8 @@ export class BotturaContractPdfService {
     let buyer_name = this.collection_data.buyer && this.collection_data.buyer.name ? this.collection_data.buyer.name + ' ' + this.collection_data.buyer.first_surname + ' ' + this.collection_data.buyer.second_surname : this.collection_data.buyer_legal_entity ? this.collection_data.buyer_legal_entity.comm_name : 'N/A';
     let buyer_name_first_letter = this.collection_data.buyer && this.collection_data.buyer.name ? this.collection_data.buyer.name[0] + this.collection_data.buyer.first_surname[0] + this.collection_data.buyer.second_surname[0] : this.collection_data.buyer_legal_entity ? this.collection_data.buyer_legal_entity.comm_name : 'N/A';
     let buyer_name_FTRP = this.collection_data.buyer && this.collection_data.buyer.name ? this.collection_data.buyer.fed_tax_pay : this.collection_data.buyer_legal_entity ? this.collection_data.buyer_legal_entity.fed_tax_pay : 'N/A';
-    let legal_rep_name = this.collection_data.property.building.legal_entity_info ? this.collection_data.property.building.legal_entity_info[0].legal_entity.legal_name  : 'N/A';
-    let legal_comm_name = this.collection_data.property.building.legal_entity_info ? this.collection_data.property.building.legal_entity_info[0].legal_entity.comm_name : 'N/A';
+    let legal_rep_name = this.collection_data.seller_legal_entity ? this.collection_data.seller_legal_entity.legal_name : 'N/A';
+    let legal_comm_name = this.collection_data.seller_legal_entity ? this.collection_data.seller_legal_entity.comm_name : 'N/A';
     let address;
     let nationality;
     if (this.collection_data.buyer_legal_entity) {
