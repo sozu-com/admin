@@ -14,6 +14,7 @@ import { LegalRepresentative, Banks } from 'src/app/models/legalEntity.model';
 import { IDestinationStatus, IMarritalStatus } from 'src/app/common/marrital-status-interface';
 import { Beneficiary, Tutor } from 'src/app/models/beneficiary.model';
 import * as moment from 'moment';
+import { LocalityToCountry } from 'src/app/models/addProject.model';
 declare const google;
 declare let swal: any;
 
@@ -100,6 +101,7 @@ export class AddUserComponent implements OnInit {
         this.assignedObject();
       }
     });
+    this.getStates();
     this.getNationality();
     this.getRelationship();
   }
@@ -593,7 +595,7 @@ export class AddUserComponent implements OnInit {
     return gender == this.beneficiary.gender ? true : false;
   }
 
-  getCountries() {
+  getCountry() {
     let self = this;
     this.parameter.statesAdd = []; this.parameter.citiesAdd = []; this.parameter.localitiesAdd = [];
     this.parameter.buildingsAdd = [];
@@ -893,5 +895,19 @@ export class AddUserComponent implements OnInit {
     }
   }
 
+
+  getStates() {
+    this.admin.postDataApi('country/getStates', {country_id: 9}).subscribe(success => {
+      this.parameter.states = success['data'];
+    });
+  }
+  
+  selectState(value){
+   this.model.state_code_id = value;
+  }
+
+  selecTaxtState(value){
+    this.model.state_tax_code_id = value;
+  }
 }
 

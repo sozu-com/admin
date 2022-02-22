@@ -105,6 +105,8 @@ export class Users {
     id_number?: any;
     birth_state?: any;
     birth_city?: any;
+    state_code_id?: any;
+    state_tax_code_id?: any;
 }
 export class Beneficiaries {
     id?: number;

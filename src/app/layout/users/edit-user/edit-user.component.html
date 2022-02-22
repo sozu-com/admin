@@ -579,8 +579,14 @@
                       <div class="col-4">
                         <div class="form-group-3">
                           <label>{{'filters.location.state' | translate}}</label>
-                          <input autocomplete="off" type="text" class="form-control" id="state"
-                            [(ngModel)]="model.state" name="state" (keyup)="this.onClickUseUserSameAddress()" />
+                          <!-- <input autocomplete="off" type="text" class="form-control" id="state"
+                            [(ngModel)]="model.state" name="state" (keyup)="this.onClickUseUserSameAddress()" /> -->
+                            <select title="{{'table.title.chooseState' | translate}}" name="state_code_id" class="form-control"
+                            (change)="selectState($event.target.value, '')">
+                            <option value="">{{'addForm.location.selectState' | translate}}</option>
+                            <option *ngFor="let state of parameter.states" value="{{state.id}}"
+                              [selected]="state.id == model.state_code_id">{{state.name_en}}</option>
+                          </select>
                         </div>
                       </div>
                     </div>
@@ -719,8 +725,14 @@
                       <div class="col-4">
                         <div class="form-group-3">
                           <label>{{'filters.location.state' | translate}}</label>
-                          <input autocomplete="off" type="text" class="form-control" id="tax_state"
-                            [(ngModel)]="model.tax_state" name="tax_state" />
+                          <!-- <input autocomplete="off" type="text" class="form-control" id="tax_state"
+                            [(ngModel)]="model.tax_state" name="tax_state" /> -->
+                            <select title="{{'table.title.chooseState' | translate}}" name="state_tax_code_id" class="form-control"
+                            (change)="selecTaxtState($event.target.value, '')">
+                            <option value="">{{'addForm.location.selectState' | translate}}</option>
+                            <option *ngFor="let state of parameter.states" value="{{state.id}}"
+                              [selected]="state.id == model.state_tax_code_id">{{state.name_en}}</option>
+                          </select>
                         </div>
                       </div>
                     </div>

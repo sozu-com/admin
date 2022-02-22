@@ -95,6 +95,7 @@ export class EditUserComponent implements OnInit {
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.p = this.constant.p;
     //console.log(this.model, "model")
+    this.getStates();
     this.getCurrencies();
     this.parameter.sub = this.route.params.subscribe(params => {
       if (params['id']) {
@@ -1011,5 +1012,19 @@ export class EditUserComponent implements OnInit {
           this.spinner.hide();
         });
   }
+
+  getStates() {
+    this.admin.postDataApi('country/getStates', {country_id: 9}).subscribe(success => {
+      this.parameter.states = success['data'];
+    });
+  }
+  
+  selectState(value){
+    this.model.state_code_id = value;
+   }
+ 
+   selecTaxtState(value){
+     this.model.state_tax_code_id = value;
+   }
 
 }
