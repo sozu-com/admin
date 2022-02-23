@@ -1181,7 +1181,7 @@ export class BotturaContractPdfService {
                 { text: this.translate.instant('generatePDF.botturaContract182'), bold: true, fontSize: 12, decoration: 'underline'  },
                 { text: this.translate.instant('generatePDF.botturaContract183'), fontSize: 12 },
                 { text: this.collection_data.final_price ? this.price.transform(this.collection_data.final_price) : "N/A", bold: true, fontSize: 12 },
-                { text: (this.collection_data.final_price ? (' (' + conver.NumerosALetras(this.collection_data.final_price) + ')') : "N/A"), bold: true, fontSize: 12 },
+                { text: (this.collection_data.final_price ? (' (' + conver.NumerosALetras(this.collection_data.final_price) + ').') : "N/A."), bold: true, fontSize: 12 },
               ],
               margin: [10, 0, 0, 0]
             },
