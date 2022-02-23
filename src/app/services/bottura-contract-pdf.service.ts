@@ -81,6 +81,7 @@ export class BotturaContractPdfService {
     let sign_month = month == 1 ? ' enero ' : month == 2 ? ' febrero ' : month == 3 ? ' marzo ' : month == 4 ? ' abril ' : month == 5 ? ' mayo ' : month == 6 ? ' junio ' : month == 7 ?
       ' julio ' : month == 8 ? ' agosto ' : month == 9 ? ' septiembre ' : month == 10 ? ' octubre ' : month == 1 ? ' noviembre ' : month == 12 ? ' diciembre ' : ' N/A ';
     let sign_year = this.signature ? (' ' + self.signature.getFullYear()) : ' N/A';
+    let sign_year_letter = this.signature ? conver.NumerosALetras(this.signature).replace(' Pesos 00/100 M.N.','') : 'N/A';
     let docDefinition = {
       pageSize: 'LEGAL',
       pageMargins: [40, 40, 40, 60],
@@ -98,7 +99,7 @@ export class BotturaContractPdfService {
                 { text: this.translate.instant('generatePDF.botturaContract3'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract4'), fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract4a'), bold: true, fontSize: 12 },
-                { text: buyer_name.toLocaleUpperCase(), bold: true, fontSize: 12, background: 'yellow' },
+                { text: buyer_name.toLocaleUpperCase(), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract5'), fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract6'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract7'), fontSize: 12 },
@@ -166,9 +167,9 @@ export class BotturaContractPdfService {
                 { text: this.translate.instant('generatePDF.botturaContract29a'), fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract29b'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract30'), fontSize: 12 },
-                { text: legal_rep_name, bold: true, fontSize: 12, background: 'yellow' },
+                { text: legal_rep_name, bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract31'), bold: true, fontSize: 12 },
-                { text: legal_comm_name, bold: true, fontSize: 12, background: 'yellow' },
+                { text: legal_comm_name, bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract32'), fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract33'),bold: true,  fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract34'), fontSize: 12 },
@@ -208,13 +209,13 @@ export class BotturaContractPdfService {
             {
               text: [
                 { text: this.translate.instant('generatePDF.botturaContract49'), fontSize: 12 },
-                { text: this.collection_data.property.name, bold: true, fontSize: 12, background: 'yellow' },
+                { text: this.collection_data.property.name, bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract50'), fontSize: 12 },
-                { text: this.collection_data.property.floor_num, bold: true, fontSize: 12, background: 'yellow' },
+                { text: this.collection_data.property.floor_num, bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract51'), fontSize: 12 },
-                { text: this.collection_data.property.building_configuration.name, bold: true, fontSize: 12, background: 'yellow' },
+                { text: this.collection_data.property.building_configuration.name, bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract52'), fontSize: 12 },
-                { text: this.collection_data.property.max_area, bold: true, fontSize: 12, background: 'yellow' },
+                { text: this.collection_data.property.max_area, bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract53'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract54'), fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract55'), bold: true, fontSize: 12 }
@@ -289,6 +290,12 @@ export class BotturaContractPdfService {
             {
               text: [
                 { text: this.translate.instant('generatePDF.a'), fontSize: 12 },
+              ],
+              width: 30,
+              margin: [5, 0, 0, 0]
+            },
+            {
+              text: [
                 { text: this.translate.instant('generatePDF.botturaContract69'), fontSize: 12 }
               ],
             }
@@ -300,6 +307,12 @@ export class BotturaContractPdfService {
             {
               text: [
                 { text: this.translate.instant('generatePDF.b'), fontSize: 12 },
+              ],
+              width: 30,
+              margin: [5, 0, 0, 0]
+            },
+            {
+              text: [
                 { text: this.translate.instant('generatePDF.botturaContract70'), fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract71'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract72'), fontSize: 12 }
@@ -313,6 +326,12 @@ export class BotturaContractPdfService {
             {
               text: [
                 { text: this.translate.instant('generatePDF.c'), fontSize: 12 },
+              ],
+              width: 30,
+              margin: [5, 0, 0, 0]
+            },
+            {
+              text: [
                 { text: this.translate.instant('generatePDF.botturaContract73'), fontSize: 12 }
               ],
             }
@@ -324,6 +343,12 @@ export class BotturaContractPdfService {
             {
               text: [
                 { text: this.translate.instant('generatePDF.d'), fontSize: 12 },
+              ],
+              width: 30,
+              margin: [5, 0, 0, 0]
+            },
+            {
+              text: [
                 { text: this.translate.instant('generatePDF.botturaContract74'), fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract75'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract76'), fontSize: 12 },
@@ -340,6 +365,12 @@ export class BotturaContractPdfService {
             {
               text: [
                 { text: this.translate.instant('generatePDF.e'), fontSize: 12 },
+              ],
+              width: 30,
+              margin: [5, 0, 0, 0]
+            },
+            {
+              text: [
                 { text: this.translate.instant('generatePDF.botturaContract78'), fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract63a'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract79'), fontSize: 12 },
@@ -362,6 +393,12 @@ export class BotturaContractPdfService {
             {
               text: [
                 { text: this.translate.instant('generatePDF.f'), fontSize: 12 },
+              ],
+              width: 30,
+              margin: [5, 0, 0, 0]
+            },
+            {
+              text: [
                 { text: this.translate.instant('generatePDF.botturaContract84'), fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract44'), fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract85'), fontSize: 12 }
@@ -386,20 +423,26 @@ export class BotturaContractPdfService {
             {
               text: [
                 { text: this.translate.instant('generatePDF.a'), fontSize: 12 },
+              ],
+              width: 30,
+              margin: [5, 0, 0, 0]
+            },
+            {
+              text: [
                 { text: this.translate.instant('generatePDF.botturaContract87'), fontSize: 12 },
-                { text: buyer_name, bold: true, fontSize: 12, background: 'yellow' },
+                { text: buyer_name, bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract88'), fontSize: 12 },
-                { text: nationality ? nationality.name : 'N/A', bold: true, fontSize: 12, background: 'yellow' },
+                { text: nationality ? nationality.name : 'N/A', bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract89'), fontSize: 12 },
-                { text: this.collection_data.buyer && this.collection_data.buyer.dob ? (this.collection_data.buyer.dob + ', ') : 'N/A, ', bold: true, fontSize: 12, background: 'yellow' },
+                { text: this.collection_data.buyer && this.collection_data.buyer.dob ? (this.collection_data.buyer.dob + ', ') : 'N/A, ', bold: true, fontSize: 12 },
                 {
                   text: this.collection_data.buyer && this.collection_data.buyer.marital_statuses_id ? (this.collection_data.buyer.marital_statuses_id == 1 ?
                     'Soltero ,' : this.collection_data.buyer.marital_statuses_id == 2 ? 'Casado - Bienes mancomunados ,' : this.collection_data.buyer.marital_statuses_id == 2 ?
-                      'Casado - Bienes separados ,' : 'N/A, ') : 'N/A, ', bold: true, fontSize: 12, background: 'yellow'
+                      'Casado - Bienes separados ,' : 'N/A, ') : 'N/A, ', bold: true, fontSize: 12
                 },
-                { text: this.collection_data.buyer.ocupation ? this.collection_data.buyer.ocupation : 'N/A, ', bold: true, fontSize: 12, background: 'yellow' },
+                { text: this.collection_data.buyer.ocupation ? this.collection_data.buyer.ocupation : 'N/A, ', bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract91'), fontSize: 12 },
-                { text: address, bold: true, fontSize: 12, background: 'yellow' },
+                { text: address, bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract92'), fontSize: 12 }
               ],
             }
@@ -411,10 +454,16 @@ export class BotturaContractPdfService {
             {
               text: [
                 { text: this.translate.instant('generatePDF.b'), fontSize: 12 },
+              ],
+              width: 30,
+              margin: [5, 0, 0, 0]
+            },
+            {
+              text: [
                 { text: this.translate.instant('generatePDF.botturaContract93'), fontSize: 12 },
-                { text: this.collection_data.buyer.curp ? (this.collection_data.buyer.curp + ', ') : 'N/A, ', bold: true, fontSize: 12, background: 'yellow' },
-                { text: this.translate.instant('generatePDF.botturaContract94'), fontSize: 12, background: 'yellow' },
-                { text: buyer_name_FTRP, bold: true, fontSize: 12 },
+                { text: this.collection_data.buyer.curp ? (this.collection_data.buyer.curp + ', ') : 'N/A, ', bold: true, fontSize: 12 },
+                { text: this.translate.instant('generatePDF.botturaContract94'), fontSize: 12 },
+                { text: buyer_name_FTRP + ".", bold: true, fontSize: 12 },
               ]
             }
           ],
@@ -425,39 +474,64 @@ export class BotturaContractPdfService {
             {
               text: [
                 { text: this.translate.instant('generatePDF.c'), fontSize: 12 },
-                { text: this.translate.instant('generatePDF.botturaContract95'), fontSize: 12 },
-                { text: this.collection_data.buyer.id_number ? (this.collection_data.buyer.id_number + ', ') : 'N/A, ', bold: true, fontSize: 12 }
               ],
-              margin: [30, 10, 34, 0]
+              width: 30,
+              margin: [5, 0, 0, 0]
+            },
+            {
+              text: [
+                { text: this.translate.instant('generatePDF.botturaContract95'), fontSize: 12 },
+                { text: this.collection_data.buyer.id_number ? (this.collection_data.buyer.id_number + '.') : 'N/A.', bold: true, fontSize: 12 }
+              ],
             }
-          ]
+          ],
+          margin: [30, 10, 34, 0]
         },
         {
           columns: [
             {
               text: [
                 { text: this.translate.instant('generatePDF.d'), fontSize: 12 },
-                { text: this.translate.instant('generatePDF.botturaContract96'), fontSize: 12 }
               ],
-              margin: [30, 10, 34, 0]
+              width: 30,
+              margin: [5, 0, 0, 0]
+            },
+            {
+              text: [
+                { text: this.translate.instant('generatePDF.botturaContract96'), fontSize: 12 }
+              ]
             }
-          ]
+          ],
+          margin: [30, 10, 34, 0]
         },
         {
           columns: [
             {
               text: [
                 { text: this.translate.instant('generatePDF.e'), fontSize: 12 },
+              ],
+              width: 30,
+              margin: [5, 0, 0, 0]
+            },
+            {
+              text: [
                 { text: this.translate.instant('generatePDF.botturaContract97'), fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract27'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract98'), fontSize: 12 }
-              ],
-              margin: [30, 10, 34, 0]
+              ]
             }
-          ]
+          ],
+          margin: [30, 10, 34, 0]
         },
         {
           columns: [
+            {
+              text: [
+                { text: '', fontSize: 12 },
+              ],
+              width: 30,
+              margin: [5, 0, 0, 0]
+            },
             {
               text: [
                 { text: this.translate.instant('generatePDF.botturaContract99'), fontSize: 12 },
@@ -467,29 +541,41 @@ export class BotturaContractPdfService {
                 { text: this.translate.instant('generatePDF.botturaContract102'), fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract24'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract103'), fontSize: 12 }
-              ],
-              margin: [30, 10, 34, 0]
+              ]
             }
-          ]
+          ],
+          margin: [30, 10, 34, 0]
         },
         {
           columns: [
             {
               text: [
                 { text: this.translate.instant('generatePDF.f'), fontSize: 12 },
+              ],
+              width: 30,
+              margin: [5, 0, 0, 0]
+            },
+            {
+              text: [
                 { text: this.translate.instant('generatePDF.botturaContract104'), fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract24'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract105'), fontSize: 12 }
-              ],
-              margin: [30, 10, 34, 0]
+              ]
             }
-          ]
+          ],
+          margin: [30, 10, 34, 0]
         },
         {
           columns: [
             {
               text: [
                 { text: this.translate.instant('generatePDF.g'), fontSize: 12 },
+              ],
+              width: 30,
+              margin: [5, 0, 0, 0]
+            },
+            {
+              text: [
                 { text: this.translate.instant('generatePDF.botturaContract106'), fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract59'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract107'), fontSize: 12 },
@@ -502,47 +588,65 @@ export class BotturaContractPdfService {
                 { text: this.translate.instant('generatePDF.botturaContract59'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract107d'), fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract55'), bold: true, fontSize: 12 }
-              ],
-              margin: [30, 10, 34, 0]
+              ]
             }
-          ]
+          ],
+          margin: [30, 10, 34, 0]
         },
         {
           columns: [
             {
               text: [
                 { text: this.translate.instant('generatePDF.h'), fontSize: 12 },
+              ],
+              width: 30,
+              margin: [5, 0, 0, 0]
+            },
+            {
+              text: [
                 { text: this.translate.instant('generatePDF.botturaContract108'), fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract27'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract109'), fontSize: 12 }
-              ],
-              margin: [30, 10, 34, 0]
+              ]
             }
-          ]
+          ],
+          margin: [30, 10, 34, 0]
         },
         {
           columns: [
             {
               text: [
                 { text: this.translate.instant('generatePDF.i'), fontSize: 12 },
-                { text: this.translate.instant('generatePDF.botturaContract110'), fontSize: 12 }
               ],
-              margin: [30, 10, 34, 0]
+              width: 30,
+              margin: [5, 0, 0, 0]
+            },
+            {
+              text: [
+                { text: this.translate.instant('generatePDF.botturaContract110'), fontSize: 12 }
+              ]
             }
-          ]
+          ],
+          margin: [30, 10, 34, 0]
         },
         {
           columns: [
             {
               text: [
                 { text: this.translate.instant('generatePDF.j'), fontSize: 12 },
+              ],
+              width: 30,
+              margin: [5, 0, 0, 0]
+            },
+            {
+              text: [
                 { text: this.translate.instant('generatePDF.botturaContract110a'), fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract59'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract110b'), fontSize: 12 }
-              ],
-              margin: [30, 10, 34, 0]
+              ]
             }
-          ]
+          ],
+          margin: [30, 10, 34, 0]
         },
         {
           columns: [
@@ -560,33 +664,51 @@ export class BotturaContractPdfService {
             {
               text: [
                 { text: this.translate.instant('generatePDF.a'), fontSize: 12 },
-                { text: this.translate.instant('generatePDF.botturaContract112'), fontSize: 12 }
               ],
-              margin: [30, 10, 0, 0]
+              width: 30,
+              margin: [5, 0, 0, 0]
+            },
+            {
+              text: [
+                { text: this.translate.instant('generatePDF.botturaContract112'), fontSize: 12 }
+              ]
             }
-          ]
+          ],
+          margin: [30, 10, 34, 0]
         },
         {
           columns: [
             {
               text: [
                 { text: this.translate.instant('generatePDF.b'), fontSize: 12 },
-                { text: this.translate.instant('generatePDF.botturaContract113'), fontSize: 12 }
               ],
-              margin: [30, 10, 34, 0]
+              width: 30,
+              margin: [5, 0, 0, 0]
+            },
+            {
+              text: [
+                { text: this.translate.instant('generatePDF.botturaContract113'), fontSize: 12 }
+              ]
             }
-          ]
+          ],
+          margin: [30, 10, 67, 0]
         },
         {
           columns: [
             {
               text: [
                 { text: this.translate.instant('generatePDF.c'), fontSize: 12 },
-                { text: this.translate.instant('generatePDF.botturaContract114'), fontSize: 12 }
               ],
-              margin: [30, 10, 0, 0]
+              width: 30,
+              margin: [5, 0, 0, 0]
+            },
+            {
+              text: [
+                { text: this.translate.instant('generatePDF.botturaContract114'), fontSize: 12 }
+              ]
             }
-          ]
+          ],
+          margin: [30, 10, 67, 0]
         },
         {
           columns: [
@@ -594,7 +716,7 @@ export class BotturaContractPdfService {
               text: [
                 { text: this.translate.instant('generatePDF.botturaContract115'), fontSize: 12 }
               ],
-              margin: [0, 10, 0, 0]
+              margin: [0, 10, 67, 0]
             }
           ]
         },
@@ -608,7 +730,7 @@ export class BotturaContractPdfService {
                   fontSize: 12,
                   alignment: 'center',
                   decoration: 'underline',
-                  margin: [0, 10, 0, 0],
+                  margin: [0, 10, 67, 0],
                 }
               ]
             },
@@ -627,20 +749,20 @@ export class BotturaContractPdfService {
               ],
             }
           ],
-          margin: [0, 10, 0, 0]
+          margin: [0, 10, 67, 0]
         },
         {
           columns: [
             {
               text: [
                 { text: this.translate.instant('generatePDF.botturaContract120'), fontSize: 12 },
-                { text: this.collection_data.property.name, bold: true, fontSize: 12, background: 'yellow' },
+                { text: this.collection_data.property.name, bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract121'), fontSize: 12 },
-                { text: this.collection_data.property.floor_num, bold: true, fontSize: 12, background: 'yellow' },
+                { text: this.collection_data.property.floor_num, bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract122'), fontSize: 12 },
-                { text: this.collection_data.property.building_configuration.name, bold: true, fontSize: 12, background: 'yellow' },
+                { text: this.collection_data.property.building_configuration.name, bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract123'), fontSize: 12 },
-                { text: this.collection_data.property.max_area, bold: true, fontSize: 12, background: 'yellow' },
+                { text: this.collection_data.property.max_area, bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract53'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract123a'), fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract55'), bold: true, fontSize: 12 },
@@ -654,7 +776,7 @@ export class BotturaContractPdfService {
                 { text: this.translate.instant('generatePDF.botturaContract63a'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract126d'), fontSize: 12 }
               ],
-              margin: [0, 10, 0, 0]
+              margin: [0, 10, 67, 0]
             }
           ]
         },
@@ -667,7 +789,7 @@ export class BotturaContractPdfService {
                 { text: this.translate.instant('generatePDF.botturaContract129'), fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract130'), bold: true, fontSize: 12 }
               ],
-              margin: [0, 10, 0, 0]
+              margin: [0, 10, 67, 0]
             }
           ]
         },
@@ -687,8 +809,8 @@ export class BotturaContractPdfService {
                 { text: this.translate.instant('generatePDF.botturaContract132'), fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract322'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract133'), fontSize: 12 },
-                { text: concept_layaway.amount ? this.price.transform(concept_layaway.amount) : 0, bold: true, fontSize: 12, background: 'yellow' },
-                { text: (concept_layaway.amount ? (' (' + conver.NumerosALetras(concept_layaway.amount) + ')') : "N/A"), bold: true, fontSize: 12, background: 'yellow' },
+                { text: concept_layaway.amount ? this.price.transform(concept_layaway.amount) : 0, bold: true, fontSize: 12 },
+                { text: (concept_layaway.amount ? (' (' + conver.NumerosALetras(concept_layaway.amount) + ')') : "N/A"), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract133a'), fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract323'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract133b'), fontSize: 12 },
@@ -699,7 +821,7 @@ export class BotturaContractPdfService {
               margin: [10, 0, 0, 0]
             },
           ],
-          margin: [0, 10, 0, 0]
+          margin: [0, 10, 67, 0]
         },
         {
           columns: [
@@ -713,14 +835,14 @@ export class BotturaContractPdfService {
             {
               text: [
                 { text: this.translate.instant('generatePDF.botturaContract134'), fontSize: 12 },
-                { text: concept_downpayment.amount ? this.price.transform(concept_downpayment.amount) : 0, bold: true, fontSize: 12, background: 'yellow' },
-                { text: (concept_downpayment.amount ? (' (' + conver.NumerosALetras(concept_downpayment.amount) + ')') : "N/A"), bold: true, fontSize: 12, background: 'yellow' },
+                { text: concept_downpayment.amount ? this.price.transform(concept_downpayment.amount) : 0, bold: true, fontSize: 12 },
+                { text: (concept_downpayment.amount ? (' (' + conver.NumerosALetras(concept_downpayment.amount) + ')') : "N/A"), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract135'), fontSize: 12 },
               ],
               margin: [5, 0, 0, 0]
             }
           ],
-          margin: [0, 10, 0, 0]
+          margin: [0, 10, 67, 0]
         },
         {
           columns: [
@@ -733,25 +855,25 @@ export class BotturaContractPdfService {
             },
             {
               text: [
-                { text: concept_monthly_no ? (' ' + concept_monthly_no.length) : 'N/A', bold: true, fontSize: 12, background: 'yellow' },
-                { text: (concept_monthly_no ? (' (' + conver.NumerosALetras(concept_monthly_no.length) + ') ') : " (N/A)"), bold: true, fontSize: 12, background: 'yellow' },
+                { text: concept_monthly_no ? (' ' + concept_monthly_no.length) : 'N/A', bold: true, fontSize: 12 },
+                { text: (concept_monthly_no ? (' (' + conver.NumerosALetras(concept_monthly_no.length) + ') ').replace(' Pesos 00/100 M.N.','') : " (N/A)"), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract135a'), fontSize: 12 },
-                { text: concept_monthly.amount ? this.price.transform(concept_monthly.amount) : 0, bold: true, fontSize: 12, background: 'yellow' },
-                { text: (concept_monthly.amount ? (' (' + conver.NumerosALetras(concept_monthly.amount) + ') ') : " (N/A)"), bold: true, fontSize: 12, background: 'yellow' },
+                { text: concept_monthly.amount ? this.price.transform(concept_monthly.amount) : 0, bold: true, fontSize: 12 },
+                { text: (concept_monthly.amount ? (' (' + conver.NumerosALetras(concept_monthly.amount) + ') ') : " (N/A)"), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract135b'), fontSize: 12 },
-                { text: concept_monthly.date ? moment(concept_monthly.date).format('MMMM') : 'N/A', bold: true, fontSize: 12, background: 'yellow' },
+                { text: concept_monthly.date ? moment(concept_monthly.date).format('MMMM') : 'N/A', bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract135c'), fontSize: 12 },
-                { text: concept_monthly.date ? (moment(concept_monthly.date).format('YYYY') + '.') : 'N/A.', bold: true, fontSize: 12, background: 'yellow' },
+                { text: concept_monthly.date ? (moment(concept_monthly.date).format('YYYY') + '.') : 'N/A.', bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract135d'), fontSize: 12 },
-                { text: concept_monthly.date ? (moment(concept_last_monthly.date).format('MMMM') + '.') : 'N/A.', bold: true, fontSize: 12, background: 'yellow' },
+                { text: concept_monthly.date ? (moment(concept_last_monthly.date).format('MMMM') + '.') : 'N/A.', bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract135c'), fontSize: 12 },
-                { text: concept_monthly.date ? (moment(concept_last_monthly.date).format('YYYY') + '.') : 'N/A.', bold: true, fontSize: 12, background: 'yellow' }, 
+                { text: concept_monthly.date ? (moment(concept_last_monthly.date).format('YYYY') + '.') : 'N/A.', bold: true, fontSize: 12 }, 
                 { text: this.translate.instant('generatePDF.botturaContract135e'), fontSize: 12 }
               ],
               margin: [5, 0, 0, 0]
             }
           ],
-          margin: [0, 10, 0, 0]
+          margin: [0, 10, 67, 0]
         },
         {
           columns: [
@@ -767,14 +889,14 @@ export class BotturaContractPdfService {
                 { text: this.translate.instant('generatePDF.botturaContract135f'), fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract44'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract135g'), fontSize: 12 },
-                { text: concept_payment.amount ? this.price.transform(concept_payment.amount) : 0, bold: true, fontSize: 12, background: 'yellow' },
-                { text: (concept_payment.amount ? (' (' + conver.NumerosALetras(concept_payment.amount) + ')') : "N/A"), bold: true, fontSize: 12, background: 'yellow' },
+                { text: concept_payment.amount ? this.price.transform(concept_payment.amount) : 0, bold: true, fontSize: 12 },
+                { text: (concept_payment.amount ? (' (' + conver.NumerosALetras(concept_payment.amount) + ')') : "N/A"), bold: true, fontSize: 12 },
                 { text: ".", fontSize: 12 },
               ],
               margin: [5, 0, 0, 0]
             }
           ],
-          margin: [0, 10, 0, 0]
+          margin: [0, 10, 67, 0]
         },
         {
           columns: [
@@ -786,14 +908,14 @@ export class BotturaContractPdfService {
               ],
             }
           ],
-          margin: [15, 10, 0, 0]
+          margin: [15, 10, 67, 0]
         },
         {
           columns: [
             {
               text: [
                 { text: this.translate.instant('generatePDF.botturaContract136b'), fontSize: 12 },
-                { text: this.collection_data.bank_reference_id ?  (this.collection_data.bank_reference_id + "\n") : ("N/A" + "\n"), bold: true, fontSize: 12, background: 'yellow' },
+                { text: this.collection_data.bank_reference_id ?  (this.collection_data.bank_reference_id + "\n") : ("N/A" + "\n"), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract137'), fontSize: 12 }
               ],
             }
@@ -815,7 +937,7 @@ export class BotturaContractPdfService {
               ],
             }
           ],
-          margin: [0, 10, 0, 0]
+          margin: [0, 10, 67, 0]
         },
         {
           columns: [
@@ -842,7 +964,7 @@ export class BotturaContractPdfService {
               ],
             }
           ],
-          margin: [0, 10, 0, 0]
+          margin: [0, 10, 67, 0]
         },
         {
           columns: [
@@ -858,7 +980,7 @@ export class BotturaContractPdfService {
               ],
             }
           ],
-          margin: [0, 10, 0, 0]
+          margin: [0, 10, 67, 0]
         },
         {
           columns: [
@@ -874,7 +996,7 @@ export class BotturaContractPdfService {
               ],
             }
           ],
-          margin: [0, 10, 0, 0]
+          margin: [0, 10, 67, 0]
         },
         {
           columns: [
@@ -896,7 +1018,7 @@ export class BotturaContractPdfService {
               ],
             }
           ],
-          margin: [0, 10, 0, 0]
+          margin: [0, 10, 67, 0]
         },
         {
           columns: [
@@ -919,7 +1041,7 @@ export class BotturaContractPdfService {
               ],
             }
           ],
-          margin: [0, 10, 0, 0]
+          margin: [0, 10, 67, 0]
         },
         {
           columns: [
@@ -937,7 +1059,7 @@ export class BotturaContractPdfService {
               ],
             }
           ],
-          margin: [0, 10, 0, 0]
+          margin: [0, 10, 67, 0]
         },
         {
           columns: [
@@ -967,7 +1089,7 @@ export class BotturaContractPdfService {
               ],
             }
           ],
-          margin: [0, 10, 0, 0]
+          margin: [0, 10, 67, 0]
         },
         {
           columns: [
@@ -987,7 +1109,7 @@ export class BotturaContractPdfService {
               ],
             }
           ],
-          margin: [0, 10, 0, 0]
+          margin: [0, 10, 67, 0]
         },
         {
           columns: [
@@ -1011,7 +1133,7 @@ export class BotturaContractPdfService {
               ],
             }
           ],
-          margin: [0, 10, 0, 0]
+          margin: [0, 10, 67, 0]
         },
         {
           columns: [
@@ -1022,7 +1144,7 @@ export class BotturaContractPdfService {
               ],
             }
           ],
-          margin: [0, 10, 0, 0]
+          margin: [0, 10, 67, 0]
         },
         {
           columns: [
@@ -1043,7 +1165,7 @@ export class BotturaContractPdfService {
               margin: [10, 0, 0, 0]
             },
           ],
-          margin: [0, 10, 0, 0]
+          margin: [0, 10, 67, 0]
         },
         {
           columns: [
@@ -1058,12 +1180,13 @@ export class BotturaContractPdfService {
               text: [
                 { text: this.translate.instant('generatePDF.botturaContract182'), bold: true, fontSize: 12, decoration: 'underline'  },
                 { text: this.translate.instant('generatePDF.botturaContract183'), fontSize: 12 },
-                { text: this.translate.instant('generatePDF.botturaContract183a'), bold: true, fontSize: 12 }
+                { text: this.collection_data.final_price ? this.price.transform(this.collection_data.final_price) : "N/A", bold: true, fontSize: 12 },
+                { text: (this.collection_data.final_price ? (' (' + conver.NumerosALetras(this.collection_data.final_price) + ')') : "N/A"), bold: true, fontSize: 12 },
               ],
               margin: [10, 0, 0, 0]
             },
           ],
-          margin: [0, 10, 0, 0]
+          margin: [0, 10, 67, 0]
         },
         {
           columns: [
@@ -1093,7 +1216,7 @@ export class BotturaContractPdfService {
               margin: [10, 0, 0, 0]
             },
           ],
-          margin: [0, 10, 0, 0]
+          margin: [0, 10, 67, 0]
         },
         {
           columns: [
@@ -1114,11 +1237,11 @@ export class BotturaContractPdfService {
                 { text: this.translate.instant('generatePDF.botturaContract197'), fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract63a'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract175'), fontSize: 12 },
-                { text: this.translate.instant('generatePDF.botturaContract323'), bold: true, fontSize: 12 }
+                { text: this.translate.instant('generatePDF.botturaContract323') + ".", bold: true, fontSize: 12 }
               ],
             }
           ],
-          margin: [0, 10, 0, 0]
+          margin: [0, 10, 67, 0]
         },
         {
           columns: [
@@ -1131,7 +1254,7 @@ export class BotturaContractPdfService {
                 { text: this.translate.instant('generatePDF.botturaContract323'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract200'), fontSize: 12 }
               ],
-              margin: [0, 10, 0, 0]
+              margin: [0, 10, 67, 0]
             },
           ]
         },
@@ -1145,7 +1268,7 @@ export class BotturaContractPdfService {
                 { text: this.translate.instant('generatePDF.botturaContract59'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract203'), fontSize: 12 }
               ],
-              margin: [0, 10, 0, 0]
+              margin: [0, 10, 67, 0]
             },
           ]
         },
@@ -1163,7 +1286,7 @@ export class BotturaContractPdfService {
                 { text: this.translate.instant('generatePDF.botturaContract44'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract206'), fontSize: 12 }
               ],
-              margin: [0, 10, 0, 0]
+              margin: [0, 10, 67, 0]
             },
           ]
         },
@@ -1178,7 +1301,7 @@ export class BotturaContractPdfService {
                 { text: this.translate.instant('generatePDF.botturaContract209'), fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract63c') + ".", bold: true, fontSize: 12 }
               ],
-              margin: [0, 0, 0, 0]
+              margin: [0, 0, 67, 0]
             },
           ]
         },
@@ -1190,7 +1313,7 @@ export class BotturaContractPdfService {
                 { text: this.translate.instant('generatePDF.botturaContract128'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract211'), fontSize: 12 },
               ],
-              margin: [0, 10, 0, 0]
+              margin: [0, 10, 67, 0]
             },
           ]
         },
@@ -1206,7 +1329,7 @@ export class BotturaContractPdfService {
                 { text: this.translate.instant('generatePDF.botturaContract46'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract215'), fontSize: 12 }
               ],
-              margin: [0, 10, 0, 0]
+              margin: [0, 10, 67, 0]
             },
           ]
         },
@@ -1228,7 +1351,7 @@ export class BotturaContractPdfService {
                 { text: this.translate.instant('generatePDF.botturaContract59'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract221'), fontSize: 12 }
               ],
-              margin: [0, 10, 0, 0]
+              margin: [0, 10, 67, 0]
             },
           ]
         },
@@ -1672,49 +1795,16 @@ export class BotturaContractPdfService {
             {
               text: [
                 { text: this.translate.instant('generatePDF.botturaContract317'), fontSize: 12 },
-                { text: sign_day, bold: true, fontSize: 12, background: 'yellow' },
+                { text: sign_day, bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract318'), fontSize: 12 },
-                { text: sign_month, bold: true, fontSize: 12, background: 'yellow' },
+                { text: sign_month, bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract319'), fontSize: 12 },
-                { text: sign_year, bold: true, fontSize: 12, background: 'yellow' }
+                { text: sign_year_letter + ".", bold: true, fontSize: 12 }
               ],
             }
           ],
           margin: [0, 10, 0, 0]
         },
-        // {
-        //   columns: [
-        //     {
-        //       text: [
-        //         { text: this.translate.instant('generatePDF.botturaContract3'), fontSize: 12 }
-        //       ],
-        //       margin: [32, 0, 0, 0]
-        //     },
-        //     {
-        //       text: [
-        //         { text: this.translate.instant('generatePDF.botturaContract22'), fontSize: 12 }
-        //       ],
-        //       margin: [25, 0, 0, 0]
-        //     }
-        //   ],
-        //   margin: [0, 30, 0, 0]
-        // },
-        // {
-        //   columns: [
-        //     {
-        //       text: [
-        //         { text: this.translate.instant('generatePDF.botturaContract325'), fontSize: 11 }
-        //       ],
-        //       margin: [48, 0, 0, 0]
-        //     },
-        //     {
-        //       text: [
-        //         { text: '', fontSize: 12 }
-        //       ],
-        //     }
-        //   ],
-        //   margin: [0, 10, 0, 0]
-        // },
         {
           columns: [
             {
@@ -1732,23 +1822,11 @@ export class BotturaContractPdfService {
                   ],
                   [
                     { text: this.translate.instant('generatePDF.botturaContract321'), border: [true, true, true, true], bold: true, margin: [0, 5, 0, 5] },
-                    { text: buyer_name.toUpperCase(), border: [true, true, true, true], bold: true, background: 'yellow', margin: [0, 5, 0, 5] },
+                    { text: buyer_name.toUpperCase(), border: [true, true, true, true], bold: true, margin: [0, 5, 0, 5] },
                   ]
                 ],
               }
-            },
-            // {
-            //   style: 'table3',
-            //   table: {
-            //     headerRows: 1,
-            //     widths: [225],
-            //     body: [
-            //       [
-            //         { text: buyer_name.toUpperCase(), border: [true, true, true, true], bold: true, background: 'yellow' },
-            //       ]
-            //     ],
-            //   }
-            // }
+            }
           ]
         },
       ],
@@ -1762,17 +1840,17 @@ export class BotturaContractPdfService {
               {
                 text: [
                   { text: self.translate.instant('generatePDF.botturaContractFooter'), fontSize: 11 },
-                  { text: buyer_name_first_letter + '/', fontSize: 11, background: 'yellow' },
-                  { text: self.collection_data.id + '\n', fontSize: 11, background: 'yellow' },
+                  { text: buyer_name_first_letter + '/', fontSize: 11 },
+                  { text: self.collection_data.id + '\n', fontSize: 11 },
                   { text: self.translate.instant('generatePDF.botturaContractFooter1'), fontSize: 11 },
-                  { text: buyer_name , fontSize: 11, background: 'yellow' },
+                  { text: buyer_name , fontSize: 11 },
                   { text: self.translate.instant('generatePDF.botturaContractFooter2') + '\n', fontSize: 11 },
                   { text: self.translate.instant('generatePDF.contractFooter3'), fontSize: 11 },
-                  { text: sign_day, fontSize: 11, background: 'yellow' },
+                  { text: sign_day, fontSize: 11 },
                   { text: self.translate.instant('generatePDF.contractFooter4'), fontSize: 11 },
-                  { text: sign_month, fontSize: 11, background: 'yellow' },
+                  { text: sign_month, fontSize: 11 },
                   { text: self.translate.instant('generatePDF.contractFooter5'), fontSize: 11 },
-                  { text: sign_year, fontSize: 11, background: 'yellow' }
+                  { text: sign_year, fontSize: 11 }
                 ]
               }
             ]
