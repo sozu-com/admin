@@ -64,7 +64,8 @@ export class Collection {
     seller_legal_entity?: any;
     payment_received_by?: number;
     offer_id?: any;
-    commission_seller_legal_entity_id?: any
+    commission_seller_legal_entity_id?: any;
+    commission_seller_legal_entity?: any;
 }
 
 export class DealType {

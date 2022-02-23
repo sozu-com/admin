@@ -684,6 +684,7 @@ export class QuickVisualizationComponent implements OnInit {
     this.calculateCash();
     // payment banks
     this.paymentBanks = [];
+    if(!this.model.commission_seller_legal_entity_id){
     if (this.model.seller_type != 2) {
         // seller (as a person or developer) banks
         for (let index = 0; index < this.model.seller.legal_rep_banks.length; index++) {
@@ -730,6 +731,31 @@ export class QuickVisualizationComponent implements OnInit {
           }
         }
       }
+    }
+    else{
+      if (this.model.commission_seller_legal_entity && this.model.commission_seller_legal_entity.legal_entity_banks) {
+        for (let index = 0; index < this.model.commission_seller_legal_entity.legal_entity_banks.length; index++) {
+          const element = this.model.commission_seller_legal_entity.legal_entity_banks[index];
+          element.name = 'Commission Seller Bank | ' + element.bank_name;
+          element.is_agency = 2;
+          element.bank_id = element.id;
+          element.legal_rep_bank_id = null;
+          this.paymentBanks.push(element);
+        }
+
+        // agency legal representative banks
+        if (this.model.commission_seller_legal_entity.legal_reps && this.model.commission_seller_legal_entity.legal_reps.legal_rep_banks) {
+          for (let index = 0; index < this.model.commission_seller_legal_entity.legal_reps.legal_rep_banks.length; index++) {
+            const element = this.model.commission_seller_legal_entity.legal_reps.legal_rep_banks[index];
+            element.name = 'Commission Seller Legal Rep Bank | ' + element.bank_name;
+            element.is_agency = 2;
+            element.bank_id = null;
+            element.legal_rep_bank_id = element.id;
+            this.paymentBanks.push(element);
+          }
+        }
+      }
+    }
     this.paymentModalOpen.nativeElement.click();
   }
 

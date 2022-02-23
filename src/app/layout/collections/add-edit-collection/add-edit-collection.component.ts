@@ -3886,7 +3886,7 @@ fetchResults(name, value) {
       this.paymentBankDetailsArray = [];
       for (let index = 0; index < this.ReciverUser.legal_entity_banks.length; index++) {
         const element = this.ReciverUser.legal_entity_banks[index];
-        element.name = 'Legal Entity Bank | ' + element.bank_name;
+        element.name = 'Commission Seller Bank | ' + element.bank_name;
         element.is_agency = 1;
         element.bank_id = null;
         element.legal_rep_bank_id = element.id;
