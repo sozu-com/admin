@@ -81,7 +81,7 @@ export class BotturaContractPdfService {
     let sign_month = month == 1 ? ' enero ' : month == 2 ? ' febrero ' : month == 3 ? ' marzo ' : month == 4 ? ' abril ' : month == 5 ? ' mayo ' : month == 6 ? ' junio ' : month == 7 ?
       ' julio ' : month == 8 ? ' agosto ' : month == 9 ? ' septiembre ' : month == 10 ? ' octubre ' : month == 1 ? ' noviembre ' : month == 12 ? ' diciembre ' : ' N/A ';
     let sign_year = this.signature ? (' ' + self.signature.getFullYear()) : ' N/A';
-    let sign_year_letter = this.signature ? conver.NumerosALetras(this.signature).replace(' Pesos 00/100 M.N.','') : 'N/A';
+    let sign_year_letter = sign_year ? conver.NumerosALetras(sign_year).replace(' Pesos 00/100 M.N.','') : 'N/A';
     let docDefinition = {
       pageSize: 'LEGAL',
       pageMargins: [40, 40, 40, 60],
