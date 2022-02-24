@@ -1799,7 +1799,8 @@ export class BotturaContractPdfService {
                 { text: this.translate.instant('generatePDF.botturaContract318'), fontSize: 12 },
                 { text: sign_month, bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract319'), fontSize: 12 },
-                { text: sign_year_letter + ".", bold: true, fontSize: 12 }
+                { text: sign_year, bold: true, fontSize: 12 },
+                { text: " (" + sign_year_letter + ").", bold: true, fontSize: 12 }
               ],
             }
           ],
