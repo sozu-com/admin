@@ -427,7 +427,7 @@
               <select class="form-control" (change)="selectContract($event.target.value)"
                 [(ngModel)]="contract_type">
                 <option [selected]="contract_type==1" value="1">{{'contract.physicalPerson' | translate}}</option>
-                <option [selected]="contract_type==2" value="2">{{'contract.moralPerson' | translate}}</option>
+                <option [selected]="contract_type==2" value="2" *ngIf="searched_collection && searched_collection.property.building.name != 'Bottura'">{{'contract.moralPerson' | translate}}</option>
               </select>
             </div>
           </div>
