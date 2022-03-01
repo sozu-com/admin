@@ -78,8 +78,17 @@ export class BotturaContractPdfService {
     }
     let sign_day = this.signature ? (' ' + self.signature.getDay() + ' ') : ' N/A';
     let month = this.signature ? + self.signature.getMonth() : ' N/A';
-    let sign_month = month == 1 ? ' enero ' : month == 2 ? ' febrero ' : month == 3 ? ' marzo ' : month == 4 ? ' abril ' : month == 5 ? ' mayo ' : month == 6 ? ' junio ' : month == 7 ?
-      ' julio ' : month == 8 ? ' agosto ' : month == 9 ? ' septiembre ' : month == 10 ? ' octubre ' : month == 1 ? ' noviembre ' : month == 12 ? ' diciembre ' : ' N/A ';
+    let sign_month = month == 1 ? ' Enero ' : month == 2 ? ' Febrero ' : month == 3 ? ' Marzo ' : month == 4 ? ' Abril ' : month == 5 ? ' Mayo ' : month == 6 ? ' Junio ' : month == 7 ?
+      ' Julio ' : month == 8 ? ' Agosto ' : month == 9 ? ' Septiembre ' : month == 10 ? ' Octubre ' : month == 11 ? ' Noviembre ' : month == 12 ? ' Diciembre ' : ' N/A ';
+    let concept_month_no = concept_monthly.date ? new Date(concept_monthly.date).getMonth() : 'N/A';
+    let concept_month = concept_month_no == 1 ? 'Enero' : concept_month_no == 2 ? 'Febrero' : concept_month_no == 3 ? 'Marzo' : concept_month_no == 4 ? 'Abril' : 
+    concept_month_no == 5 ? 'Mayo' : concept_month_no == 6 ? 'Junio' : concept_month_no == 7 ? 'Julio' : concept_month_no == 8 ? 'Agosto' : concept_month_no == 9 ? 
+    'Septiembre' : concept_month_no == 10 ? 'Octubre' : concept_month_no == 11 ? 'Noviembre' : concept_month_no == 12 ? 'Diciembre' : 'N/A';
+    let concept_last_month_no = concept_last_monthly.date ? new Date(concept_last_monthly.date).getMonth() : 'N/A';
+    let concept_last_month = concept_last_month_no == 1 ? 'Enero' : concept_last_month_no == 2 ? 'Febrero' : concept_last_month_no == 3 ? 'Marzo' : 
+    concept_last_month_no == 4 ? 'Abril' : concept_last_month_no == 5 ? 'Mayo' : concept_last_month_no == 6 ? 'Junio' : concept_last_month_no == 7 ? 'Julio' : 
+    concept_last_month_no == 8 ? 'Agosto' : concept_last_month_no == 9 ? 'Septiembre' : concept_last_month_no == 10 ? 'Octubre' : concept_last_month_no == 11 ? 
+    'Noviembre' : concept_last_month_no == 12 ? 'Diciembre' : 'N/A';
     let sign_year = this.signature ? (' ' + self.signature.getFullYear()) : ' N/A';
     let sign_year_letter = sign_year ? conver.NumerosALetras(sign_year).replace(' Pesos 00/100 M.N.','') : 'N/A';
     let docDefinition = {
@@ -863,13 +872,13 @@ export class BotturaContractPdfService {
                 { text: concept_monthly.amount ? this.price.transform(concept_monthly.amount) : 0, bold: true, fontSize: 12 },
                 { text: (concept_monthly.amount ? (' (' + conver.NumerosALetras(concept_monthly.amount) + ') ') : " (N/A)"), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract135b'), fontSize: 12 },
-                { text: concept_monthly.date ? moment(concept_monthly.date).format('MMMM') : 'N/A', bold: true, fontSize: 12 },
+                { text: concept_month ? concept_month : 'N/A', bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract135c'), fontSize: 12 },
                 { text: concept_monthly.date ? (moment(concept_monthly.date).format('YYYY') + '.') : 'N/A.', bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract135d'), fontSize: 12 },
-                { text: concept_monthly.date ? (moment(concept_last_monthly.date).format('MMMM') + '.') : 'N/A.', bold: true, fontSize: 12 },
+                { text: concept_last_month ? (concept_last_month + '.') : 'N/A.', bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract135c'), fontSize: 12 },
-                { text: concept_monthly.date ? (moment(concept_last_monthly.date).format('YYYY') + '.') : 'N/A.', bold: true, fontSize: 12 }, 
+                { text: concept_last_monthly.date ? (moment(concept_last_monthly.date).format('YYYY') + '.') : 'N/A.', bold: true, fontSize: 12 }, 
                 { text: this.translate.instant('generatePDF.botturaContract135e'), fontSize: 12 }
               ],
               margin: [5, 0, 0, 0]
