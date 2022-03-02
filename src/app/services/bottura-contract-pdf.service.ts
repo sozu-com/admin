@@ -139,7 +139,7 @@ export class BotturaContractPdfService {
                 { text: this.translate.instant('generatePDF.botturaContract12'), fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract13'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract14'), fontSize: 12 },
-                { text: this.translate.instant('generatePDF.botturaContract15'), bold: true, fontSize: 12 },
+                { text: this.translate.instant('generatePDF.botturaContract15a'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract16'), fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract16a'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract17'), fontSize: 12 },
