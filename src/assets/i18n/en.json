@@ -1003,6 +1003,9 @@
         "Building_type": "Building type",
         "park":"Parking Lots",
         "all": "All",
+        "available": "Available",
+        "Sold_out": "Sold out",
+        "apart": "Apart",
         "sale": "Sale",
         "presale": "Presale"
       },

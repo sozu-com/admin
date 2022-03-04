@@ -243,11 +243,15 @@
                            <label>{{'table.th.possession_status' | translate}}</label>
                            <select [(ngModel)]="parameter.possession_status_id" (change)="getListing()">
                               <option value="0">{{'table.th.possesion.all' | translate}}</option>
-                              <option value="{{apiConstant.possessionStatus.sale}}">{{'table.th.possesion.sale' |
-                                 translate}}
+                              <option value="">
+                                 {{'table.th.possesion.available' | translate}}
                               </option>
-                              <option value="{{apiConstant.possessionStatus.preSale}}">
-                                 {{'table.th.possesion.presale' | translate}}</option>
+                              <option value="{{apiConstant.possessionStatus.preSale}}" disabled>
+                                 {{'table.th.possesion.Sold_out' | translate}}
+                              </option>
+                              <option value="{{apiConstant.possessionStatus.preSale}}" disabled>
+                                 {{'table.th.possesion.apart' | translate}}
+                              </option>
                            </select>
                         </div>
                      </th>
