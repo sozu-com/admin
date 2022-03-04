@@ -1001,6 +1001,9 @@
         "label": "Fecha de entrega",
         "Building_type": "Tipo de construcción",
         "park":"Estacionamientos",
+        "available": "Disponible",
+        "Sold_out": "Vendido",
+        "apart": "Apartado",
         "all": "Todo",
         "sale": "Venta",
         "presale": "Preventa"
