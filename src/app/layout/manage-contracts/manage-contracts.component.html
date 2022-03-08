@@ -569,6 +569,7 @@
                 [(ngModel)]="searched_collection.buyer.id_type" style="width: 77%;margin-bottom: 15px;" disabled>
                 <option [selected]="searched_collection.buyer.id_type==1" value="1">{{'contract.other' | translate}}</option>
                 <option [selected]="searched_collection.buyer.id_type==2" value="2">{{'contract.passport' | translate}}</option>
+                <option [selected]="searched_collection.buyer.id_type==3" value="3">{{'contract.ine' | translate}}</option>
               </select>
             </div>
             <div class="col-12">
@@ -671,8 +672,12 @@
               </label>
             </div>
             <div class="col-12">
-              <input class="form-control" class="is_commission_sale_enabled" type="text" name="state"
-                [(ngModel)]="searched_collection.buyer.state" style="width:78%;height:70%;" readonly>
+              <select title="{{'table.title.chooseState' | translate}}" name="state_code_id" required class="form-control"
+              style="width: 77%;margin-bottom: 15px;" disabled>
+              <option value="">{{'addForm.location.selectState' | translate}}</option>
+              <option *ngFor="let state of parameter.states" value="{{state.id}}"
+                [selected]="state.id ==searched_collection.buyer.state_code_id">{{state.name_en}}</option>
+              </select>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -694,7 +699,7 @@
             <div class="col-5">
               <button class="btn" style="background-color:#00B96F;color:white;width:90px;"
               (click)="continueModal(4, null)" [disabled]="!searched_collection.buyer.street_address || !searched_collection.buyer.external_number || !searched_collection.buyer.zipcode 
-              || !searched_collection.buyer.municipality || !searched_collection.buyer.country || !searched_collection.buyer.state || !searched_collection.buyer.neighborhood">
+              || !searched_collection.buyer.municipality || !searched_collection.buyer.country || !searched_collection.buyer.state_code_id || !searched_collection.buyer.neighborhood">
               {{'commonBlock.continue' | translate}}</button>
             </div>                                                                          
           </div>
@@ -893,7 +898,8 @@
                               [settings]="multiDropdownSettings" 
                               (onDeSelect)="selectBeneficairy('unselect',$event)"
                               (onSelect)="selectBeneficairy('select',$event)" 
-                              (onSelectAll)="selectBeneficairy('all',$event)">
+                              (onSelectAll)="selectBeneficairy('all',$event)"
+                              (onDeSelectAll)="selectBeneficairy('allUnselect', $event)">
                               </ng-multiselect-dropdown>
             </div>
             <div class="col-12">

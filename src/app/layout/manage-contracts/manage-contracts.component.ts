@@ -15,6 +15,7 @@ import { Collection } from 'src/app/models/collection.model';
 import { ToastrService } from 'ngx-toastr';
 import { ThousandPipe } from 'src/app/pipes/thousand.pipe';
 import { BotturaContractPdfService } from 'src/app/services/bottura-contract-pdf.service';
+import { CreditFormPdfService } from 'src/app/services/credit-form-pdf.service';
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
@@ -80,6 +81,7 @@ export class ManageContractsComponent implements OnInit {
     private download_contract: ContractPdfService,
     private legal_contract: LegalContractPdfService,
     private botturaContractPdfService: BotturaContractPdfService,
+    private credito: CreditFormPdfService,
     private toastr: ToastrService,
   ) { }
 
@@ -90,6 +92,7 @@ export class ManageContractsComponent implements OnInit {
     this.language_code = localStorage.getItem('language_code');
     this.parameter.flag = 1;
     this.parameter.dash_flag = this.projectService.dash_flag ? this.projectService.dash_flag : this.constant.dash_flag;
+    this.getStates();
     this.getContractHome();
     this.getContract();
   }
@@ -349,6 +352,7 @@ export class ManageContractsComponent implements OnInit {
     else if(data.property_collection.property.building.name == "Bottura"){
       if(data.type_of_contract == 1){
         this.botturaContractPdfService.getCollectionById(data);
+        //this.credito.getValueScore(data);
         }
         else{
   
@@ -362,7 +366,12 @@ export class ManageContractsComponent implements OnInit {
       .subscribe(
         success => {
           this.spinner.hide();
+          if(success['data'].buyer_id){
           this.getUserById(success['data'].buyer_id);
+          }
+          else{
+            this.getLegalEntityById(success['data'].buyer_legal_entity_id);
+          }
           this.searched_collection = success['data'];
           this.concept_payment = this.searched_collection.payment_choices.find(item => item.category_name == 'Payment upon Delivery');
           this.concept_layaway = this.searched_collection.payment_choices.find(item => item.category_name == 'Layaway Payment');
@@ -371,6 +380,24 @@ export class ManageContractsComponent implements OnInit {
           this.concept_monthly = this.concept_monthly ? this.concept_monthly : {};
           let concept_monthly_ins = this.searched_collection.payment_choices.filter(item => item.payment_choice.name == 'Monthly Installment');
           this.concept_monthly_no = concept_monthly_ins.length;
+        });
+  }
+
+  getLegalEntityById(id: string) {
+    let self = this;
+    this.admin.postDataApi('getLegalEntityById', { id: id })
+      .subscribe(
+        success => {
+          this.beneficiary_list = success['data'].beneficiary ? success['data'].beneficiary : [];
+          let ids = this.beneficiary_id;
+          this.beneficiary_id = [];
+          this.beneficiary_list.forEach(item => {
+            ids.forEach(data => {
+              if (item.id == data) {
+                self.beneficiary_id.push(item);
+              }
+            })
+          })
         });
   }
 
@@ -529,21 +556,29 @@ export class ManageContractsComponent implements OnInit {
       this.percent = (100 / value.length);
     }
     if (data == "all") {
+      this.beneficiary_ids = [];
       const d = value.map(o => o.id);
       let id = [];
       d.forEach(item => {
         id.push(item.id)
       });
       this.beneficiary_ids = d;
+      this.percent = Number(100 / this.beneficiary_ids.length).toFixed(2);
     } else if (data == "select") {
       const d = value.map(o => o.id);
       let id = [];
       d.forEach(item => {
         id.push(item.id)
       });
-      this.beneficiary_ids = d;
+      this.beneficiary_ids.push(d[0]);
+      this.percent = Number(100 / this.beneficiary_ids.length).toFixed(2);
     } else if (data == "unselect") {
-      this.beneficiary_ids = [];
+      let index =  this.beneficiary_ids.findIndex(item=> item.id == value[0].id);
+      this.beneficiary_ids.splice(index, 1)
+      this.percent = Number(100 / this.beneficiary_ids.length).toFixed(2);
+    } else if (data == "allUnselect") {
+      this.beneficiary_ids = []
+      this.percent = undefined;
     }
   }
 
@@ -575,5 +610,11 @@ export class ManageContractsComponent implements OnInit {
           this.closeLinkContractModal.nativeElement.click();
           this.spinner.hide();
         });
+  }
+
+  getStates() {
+    this.admin.postDataApi('country/getStates', {country_id: 9}).subscribe(success => {
+      this.parameter.states = success['data'];
+    });
   }
 }
