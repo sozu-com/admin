@@ -4143,7 +4143,10 @@
     "historialCréditosFijosHipotecarios": "Historial créditos fijos e hipotecarios",
     "score": "Score",
     "BCScore": "BC Score",
-    "scoreIndiceCapacidadCrediticia": "Score con índice capacidad crediticia"
+    "scoreIndiceCapacidadCrediticia": "Score con índice capacidad crediticia",
+    "institución": "Institución",
+    "mensaje": "Mensaje",
+    "fechaReporte": "Fecha de reporte"
   },
   
   "deshboard":{
