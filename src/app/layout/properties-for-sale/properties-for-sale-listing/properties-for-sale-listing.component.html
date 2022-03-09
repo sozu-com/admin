@@ -277,11 +277,11 @@
                     <label>{{'table.th.LinkAgency' | translate}}</label>
                   </div>
                 </th>
-                <th style="width:20%;" *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.action">
+                <!-- <th style="width:20%;" *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.action">
                   <div class="table-search">
                     <label>{{'table.th.actions.label' | translate}}</label>
                   </div>
-                </th>
+                </th> -->
               </tr>
 
               <tbody *ngIf="is_filter">
@@ -359,7 +359,7 @@
                         {{p?.get_agency?.id ? p?.get_agency?.name : ('table.tr.td.NA' | translate)}}</span>
                     </span>
                   </td>
-                  <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.action">
+                  <!-- <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.action">
                     <div class="table-actions">
 
                       <button (click)="this.openModalInstallment(p);" class="action-icon" [disabled]="!!p?.collection"
@@ -384,7 +384,7 @@
                         <img src="assets/img/tick-selected.png" alt="img"></button>
                     </div>
 
-                  </td>
+                  </td> -->
                 </tr>
               </tbody>
               <!-- chache wla data -->
@@ -472,7 +472,7 @@
                         {{p?.get_agency?.id ? p?.get_agency?.name : ('table.tr.td.NA' | translate)}}</span>
                     </span>
                   </td>
-                  <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.action">
+                  <!-- <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.action">
                     <div class="table-actions">
 
                       <button (click)="this.openModalInstallment(p);" class="action-icon" [disabled]="!!p?.collection"
@@ -500,7 +500,7 @@
                       </button>
                     </div>
 
-                  </td>
+                  </td> -->
                 </tr>
               </tbody>
             </table>
