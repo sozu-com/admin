@@ -15,7 +15,6 @@ import { Collection } from 'src/app/models/collection.model';
 import { ToastrService } from 'ngx-toastr';
 import { ThousandPipe } from 'src/app/pipes/thousand.pipe';
 import { BotturaContractPdfService } from 'src/app/services/bottura-contract-pdf.service';
-//import { CreditFormPdfService } from 'src/app/services/credit-form-pdf.service';
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
@@ -81,7 +80,6 @@ export class ManageContractsComponent implements OnInit {
     private download_contract: ContractPdfService,
     private legal_contract: LegalContractPdfService,
     private botturaContractPdfService: BotturaContractPdfService,
-    //private credito: CreditFormPdfService,
     private toastr: ToastrService,
   ) { }
 
@@ -352,7 +350,6 @@ export class ManageContractsComponent implements OnInit {
     else if (data.property_collection.property.building.name == "Bottura") {
       if (data.type_of_contract == 1) {
         this.botturaContractPdfService.getCollectionById(data);
-        //this.credito.getValueScore(data);
       }
       else {
 
