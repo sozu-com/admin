@@ -1912,7 +1912,9 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
       swal(this.translate.instant('swal.error'), ((error || {}).error || {}).message, 'error');
     });
   }
-
+  closeModal() {
+    this.modalClose.nativeElement.click();
+  }
   closeSelectColumnsPopup = (): void => {
     this.keyword = '';
     this.isSelectAllColumns = false;
@@ -1948,10 +1950,22 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
       link_unlink_outside_agent: (this.select_columns_list[13] || []).isCheckBoxChecked,
       link_agency: (this.select_columns_list[11] || []).isCheckBoxChecked,
       price_per_m2: (this.select_columns_list[12] || []).isCheckBoxChecked,
-      id: (this.select_columns_list[14] || []).isCheckBoxChecked
+      id: (this.select_columns_list[14] || []).isCheckBoxChecked,
+      action: (this.select_columns_list[15] || []).isCheckBoxChecked
     };
   }
-
+  updateCommercialized = (propertyDetails: any, is_commercialized): void => {
+    propertyDetails.is_commercialized = is_commercialized;
+    this.admin.postDataApi('updateCommercialized', { id: (propertyDetails || {}).id, is_commercialized: is_commercialized }).subscribe((success) => {
+      // this.spinner.hide();
+      // this.getListing();
+      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.commercializedStatusChanged'), 'success');
+      this.closeModal();
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
   getPropertyHome = (): void => {
     this.admin.postDataApi('getPropertySaleHome',
       { user_id: JSON.parse(localStorage.getItem('user-id')) || 0 }).subscribe((response) => {
@@ -2031,6 +2045,9 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
         break;
       case 30:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.id;
+        break;
+      case 31:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.action;
         break;
       default:
         break;

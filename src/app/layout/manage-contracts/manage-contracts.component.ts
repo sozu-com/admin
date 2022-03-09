@@ -15,7 +15,7 @@ import { Collection } from 'src/app/models/collection.model';
 import { ToastrService } from 'ngx-toastr';
 import { ThousandPipe } from 'src/app/pipes/thousand.pipe';
 import { BotturaContractPdfService } from 'src/app/services/bottura-contract-pdf.service';
-import { CreditFormPdfService } from 'src/app/services/credit-form-pdf.service';
+//import { CreditFormPdfService } from 'src/app/services/credit-form-pdf.service';
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
@@ -81,7 +81,7 @@ export class ManageContractsComponent implements OnInit {
     private download_contract: ContractPdfService,
     private legal_contract: LegalContractPdfService,
     private botturaContractPdfService: BotturaContractPdfService,
-    private credito: CreditFormPdfService,
+    //private credito: CreditFormPdfService,
     private toastr: ToastrService,
   ) { }
 
@@ -341,22 +341,22 @@ export class ManageContractsComponent implements OnInit {
   }
 
   downloadContract(data) {
-    if(data.property_collection.property.building.name == "Margot"){
-      if(data.type_of_contract == 1){
-      this.download_contract.getCollectionById(data);
+    if (data.property_collection.property.building.name == "Margot") {
+      if (data.type_of_contract == 1) {
+        this.download_contract.getCollectionById(data);
       }
-      else{
+      else {
         this.legal_contract.getCollectionById(data);
       }
     }
-    else if(data.property_collection.property.building.name == "Bottura"){
-      if(data.type_of_contract == 1){
+    else if (data.property_collection.property.building.name == "Bottura") {
+      if (data.type_of_contract == 1) {
         this.botturaContractPdfService.getCollectionById(data);
         //this.credito.getValueScore(data);
-        }
-        else{
-  
-        }
+      }
+      else {
+
+      }
     }
   }
 
@@ -366,10 +366,10 @@ export class ManageContractsComponent implements OnInit {
       .subscribe(
         success => {
           this.spinner.hide();
-          if(success['data'].buyer_id){
-          this.getUserById(success['data'].buyer_id);
+          if (success['data'].buyer_id) {
+            this.getUserById(success['data'].buyer_id);
           }
-          else{
+          else {
             this.getLegalEntityById(success['data'].buyer_legal_entity_id);
           }
           this.searched_collection = success['data'];
@@ -573,7 +573,7 @@ export class ManageContractsComponent implements OnInit {
       this.beneficiary_ids.push(d[0]);
       this.percent = Number(100 / this.beneficiary_ids.length).toFixed(2);
     } else if (data == "unselect") {
-      let index =  this.beneficiary_ids.findIndex(item=> item.id == value[0].id);
+      let index = this.beneficiary_ids.findIndex(item => item.id == value[0].id);
       this.beneficiary_ids.splice(index, 1)
       this.percent = Number(100 / this.beneficiary_ids.length).toFixed(2);
     } else if (data == "allUnselect") {
@@ -613,7 +613,7 @@ export class ManageContractsComponent implements OnInit {
   }
 
   getStates() {
-    this.admin.postDataApi('country/getStates', {country_id: 9}).subscribe(success => {
+    this.admin.postDataApi('country/getStates', { country_id: 9 }).subscribe(success => {
       this.parameter.states = success['data'];
     });
   }
