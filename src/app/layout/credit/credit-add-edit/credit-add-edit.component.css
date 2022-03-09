@@ -206,3 +206,29 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.sub-table-color{
+  background: rgba(87, 174, 117, 0.3);
+  color: #57AE75 !important;
+}
+
+.color-change{
+  background: #57AE75;
+  color: white !important;
+}
+
+.background-class{
+  background: rgba(87, 174, 117, 0.1) !important;
+}
+
+.border-class{
+  border: 1px solid black !important;
+  border-collapse: collapse;
+}
+
+.border-class1{
+  border-left: 1px solid black !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  border-collapse: collapse;
+}

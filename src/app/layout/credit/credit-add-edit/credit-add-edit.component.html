@@ -17,11 +17,16 @@
                 <li [ngClass]="{'current': tab == 3}"><span></span>
                   <a (click)="setTab(3)" style="cursor: pointer;">{{'creditForm.Applicant' | translate}}</a>
                 </li>
-                <li [ngClass]="{'current': tab == 4}" *ngIf="this.creditModel?.general_data?.credits_participant_id == 1"><span></span>
+                <li [ngClass]="{'current': tab == 4}"
+                  *ngIf="this.creditModel?.general_data?.credits_participant_id == 1"><span></span>
                   <a (click)="setTab(4)" style="cursor: pointer;">{{'creditForm.Coaccredited' | translate}}</a>
                 </li>
-                <li [ngClass]="{'current': tab == 5}" *ngIf="this.creditModel?.general_data?.credits_participant_id == 2"><span></span>
+                <li [ngClass]="{'current': tab == 5}"
+                  *ngIf="this.creditModel?.general_data?.credits_participant_id == 2"><span></span>
                   <a (click)="setTab(5)" style="cursor: pointer;">{{'creditForm.SolidarityLiability' | translate}}</a>
+                </li>
+                <li [ngClass]="{'current': tab == 6}" *ngIf="this.parameter.property_id"><span></span>
+                  <a (click)="setTab(6)" style="cursor: pointer;">{{'creditForm.reporteDeCrédito' | translate}}</a>
                 </li>
               </ul>
 
@@ -385,7 +390,8 @@
                         class="dropdown-item" style="cursor: pointer;">{{'creditForm.References' |
                         translate}}</a></strong>
                     <strong><span></span><a (click)="setsubTab(5)" [ngClass]="{'active': subtab == 5}"
-                        class="dropdown-item" style="cursor: pointer;">{{'creditForm.SolidarityLiability' | translate}}</a></strong>
+                        class="dropdown-item" style="cursor: pointer;">{{'creditForm.SolidarityLiability' |
+                        translate}}</a></strong>
                   </div>
                 </div>
                 <div class="nav-item dropdown">
@@ -685,27 +691,29 @@
                     <div class="col-lg-3 col-md-6 col-sm-6 col-12" style="margin-top: 34px;">
                       <label style="font-family: 'sf_ui_textmedium';">{{'addForm.no' | translate}}</label>
                       <label class="switch" style="margin: 10px;">
-                        <input type="checkbox" [(ngModel)]="creditModel.general_data.participant_toggel" name="participant_toggel"
-                        (click)="togglePart($event)" [checked]="this.creditModel?.general_data?.credits_participant_id">
+                        <input type="checkbox" [(ngModel)]="creditModel.general_data.participant_toggel"
+                          name="participant_toggel" (click)="togglePart($event)"
+                          [checked]="this.creditModel?.general_data?.credits_participant_id">
                         <span class="slider round" style="background-color: #E0E0E0;height: 25px;;"></span>
                       </label>
                       <label style=" font-family: 'sf_ui_textmedium';">{{'addForm.yes' | translate}}</label>
                     </div>
-                    
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-12" *ngIf="this.creditModel?.general_data?.participant_toggel == 1">
+
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12"
+                      *ngIf="this.creditModel?.general_data?.participant_toggel == 1">
                       <div class="form-group-3">
                         <div class="form-group">
                           <label>{{'creditForm.participanttype' | translate}}</label>
                           <select title="{{'creditForm.selectInterestedin' | translate}}"
-                          [(ngModel)]="creditModel.general_data.credits_participant_id"
-                            name="credits_participant_id" class="form-control">
+                            [(ngModel)]="creditModel.general_data.credits_participant_id" name="credits_participant_id"
+                            class="form-control">
                             <option disabled selected value="undefined">{{'creditForm.selectInterestedin' | translate}}
                             </option>
                             <option *ngFor="let dest of Participant_list" [value]="dest.id">
                               {{language_code
                               == 'en'? dest.name_en : dest.name_es}}</option>
                           </select>
-                          
+
                           <!-- [(ngModel)]="creditModel.general_data.co_credited_relationship" -->
                         </div>
                       </div>
@@ -720,8 +728,7 @@
                   <div class="row">
                     <div class="col-12">
                       <div class="btn-cont text-right">
-                        <button class="btn btn-primary" (click)="addcredits()"
-                          [disabled]="!parameter.property_id">
+                        <button class="btn btn-primary" (click)="addcredits()" [disabled]="!parameter.property_id">
                           {{'creditForm.Saveinformation' |
                           translate}}</button>
                       </div>
@@ -3053,6 +3060,1047 @@
                         </div>
                       </div>
 
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Reporte de crédito -->
+          <div *ngIf="tab==6">
+            <div class="white-bg padding20">
+              <nav>
+                <div class="add-property">
+                  <div class="steps">
+                    <ul class="d-flex">
+                      <li [ngClass]="{'current': creditoTab == 1}"> <span></span>
+                        <a (click)="setTabCredito(1)" style="cursor: pointer;">{{'creditForm.solicitante' |
+                          translate}}</a>
+                      </li>
+                      <li [ngClass]="{'current': creditoTab == 2}"><span></span>
+                        <a (click)="setTabCredito(2)" style="cursor: pointer;">{{'creditForm.coacreditado' |
+                          translate}}</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </nav>
+              <div class="col-12">
+                <div class="spacer40"></div>
+              </div>
+              <div class="row">
+                <div class="col-sm-9 col-lg-9">
+                  <h5><b>{{'creditForm.datosGenerales' | translate}}</b></h5>
+                </div>
+                <div class="col-sm-3 col-lg-3 btn-cont text-right">
+                  <button type="button" class="btn btn-primary" (click)="downloadPdf(13)">{{'creditForm.downloadPdf' |
+                    translate}}</button>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="spacer40"></div>
+              </div>
+              <div class="col-12">
+                <div class="row">
+                  <div class="spacer15"></div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>{{'creditForm.nombreCompleto' | translate}}
+                      </label>
+                      <input autocomplete="off" type="text" readonly class="form-control"
+                        [(ngModel)]="user_data.xml_name.name" name="name"
+                        placeholder="{{'creditForm.nombreCompleto' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.fechaDeNacimiento' | translate}}</label>
+                      <input autocomplete="off" type="text" readonly class="form-control"
+                        [(ngModel)]="user_data.xml_name.FechaNacimiento" name="FechaNacimiento"
+                        placeholder="{{'creditForm.fechaDeNacimiento' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.RFC' | translate}}</label>
+                      <input autocomplete="off" type="text" readonly class="form-control"
+                        [(ngModel)]="user_data.xml_name.RFC" name="RFC" placeholder="{{'creditForm.RFC' | translate}}">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="spacer40"></div>
+              </div>
+              <h5><b>{{'creditForm.domicilio' | translate}}</b></h5>
+              <div class="col-12">
+                <div class="spacer40"></div>
+              </div>
+              <div class="col-12" *ngIf="user_data.xml_address.length > 0">
+                <div class="row" *ngFor="let item of user_data.xml_address">
+                  <div class="spacer15"></div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>{{'creditForm.calleNúmero' | translate}}
+                      </label>
+                      <input autocomplete="off" type="text" readonly class="form-control" [(ngModel)]="item.Direccion1"
+                        name="Direccion1" placeholder="{{'creditForm.calleNúmero' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.colonia' | translate}}</label>
+                      <input autocomplete="off" type="text" readonly class="form-control"
+                        [(ngModel)]="item.ColoniaPoblacion" name="ColoniaPoblacion"
+                        placeholder="{{'creditForm.colonia' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.municipioCiudad' | translate}}</label>
+                      <input autocomplete="off" type="text" readonly class="form-control"
+                        [(ngModel)]="item.DelegacionMunicipio" name="DelegacionMunicipio"
+                        placeholder="{{'creditForm.municipioCiudad' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.estado' | translate}}</label>
+                      <input autocomplete="off" type="text" readonly class="form-control" [(ngModel)]="item.Estado"
+                        name="Estado" placeholder="{{'creditForm.estado' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.códigoPostal' | translate}}</label>
+                      <input autocomplete="off" type="text" readonly class="form-control" [(ngModel)]="item.CP"
+                        name="CP" placeholder="{{'creditForm.códigoPostal' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.teléfono' | translate}}</label>
+                      <input autocomplete="off" type="text" readonly class="form-control"
+                        [(ngModel)]="item.NumeroTelefono" name="NumeroTelefono"
+                        placeholder="{{'creditForm.teléfono' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.fechaRegistro' | translate}}</label>
+                      <input autocomplete="off" type="text" readonly class="form-control"
+                        [(ngModel)]="item.FechaReporteDireccion" name="FechaReporteDireccion"
+                        placeholder="{{'creditForm.fechaRegistro' | translate}}">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12" *ngIf="user_data.xml_address.length == 0">
+                <div class="row">
+                  <div class="spacer15"></div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>{{'creditForm.calleNúmero' | translate}}
+                      </label>
+                      <input autocomplete="off" type="text" readonly class="form-control" name="Direccion1"
+                        placeholder="{{'creditForm.calleNúmero' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.colonia' | translate}}</label>
+                      <input autocomplete="off" type="text" readonly class="form-control" name="ColoniaPoblacion"
+                        placeholder="{{'creditForm.colonia' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.municipioCiudad' | translate}}</label>
+                      <input autocomplete="off" type="text" readonly class="form-control" name="DelegacionMunicipio"
+                        placeholder="{{'creditForm.municipioCiudad' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.estado' | translate}}</label>
+                      <input autocomplete="off" type="text" readonly class="form-control" name="Estado"
+                        placeholder="{{'creditForm.estado' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.códigoPostal' | translate}}</label>
+                      <input autocomplete="off" type="text" readonly class="form-control" name="CP"
+                        placeholder="{{'creditForm.códigoPostal' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.teléfono' | translate}}</label>
+                      <input autocomplete="off" type="text" readonly class="form-control" name="NumeroTelefono"
+                        placeholder="{{'creditForm.teléfono' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.fechaRegistro' | translate}}</label>
+                      <input autocomplete="off" type="text" readonly class="form-control" name="FechaReporteDireccion"
+                        placeholder="{{'creditForm.fechaRegistro' | translate}}">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="spacer40"></div>
+              </div>
+              <h5><b>{{'creditForm.empleo' | translate}}</b></h5>
+              <div class="col-12">
+                <div class="spacer40"></div>
+              </div>
+              <div class="col-12" *ngIf="user_data.xml_address.xml_job > 0">
+                <div class="row" *ngFor="let item of user_data.xml_job">
+                  <div class="spacer15"></div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>{{'creditForm.compañía' | translate}}
+                      </label>
+                      <input autocomplete="off" type="text" readonly class="form-control"
+                        [(ngModel)]="item.NombreEmpresa" name="NombreEmpresa"
+                        placeholder="{{'creditForm.compañía' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>{{'creditForm.calleNúmero' | translate}}
+                      </label>
+                      <input autocomplete="off" type="text" readonly class="form-control" [(ngModel)]="item.Direccion1"
+                        name="Direccion2" placeholder="{{'creditForm.calleNúmero' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.municipioCiudad' | translate}}</label>
+                      <input autocomplete="off" type="text" readonly class="form-control"
+                        [(ngModel)]="item.DelegacionMunicipio" name="DelegacionMunicipio2"
+                        placeholder="{{'creditForm.colonia' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.estado' | translate}}</label>
+                      <input autocomplete="off" type="text" readonly class="form-control" [(ngModel)]="item.Estado"
+                        name="Estado2" placeholder="{{'creditForm.municipioCiudad' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.códigoPostal' | translate}}</label>
+                      <input autocomplete="off" type="text" readonly class="form-control" [(ngModel)]="item.CP"
+                        name="CP2" placeholder="{{'creditForm.estado' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.teléfono' | translate}}</label>
+                      <input autocomplete="off" type="text" readonly class="form-control"
+                        [(ngModel)]="item.NumeroTelefono" name="NumeroTelefono2"
+                        placeholder="{{'creditForm.códigoPostal' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.puesto' | translate}}</label>
+                      <input autocomplete="off" type="text" readonly class="form-control" [(ngModel)]="item.Cargo"
+                        name="Cargo2" placeholder="{{'creditForm.puesto' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.sueldo' | translate}}</label>
+                      <input autocomplete="off" type="text" readonly class="form-control" [(ngModel)]="item.Salario"
+                        name="Salario2" placeholder="{{'creditForm.sueldo' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.fechaRegistro' | translate}}</label>
+                      <input autocomplete="off" type="text" readonly class="form-control"
+                        [(ngModel)]="item.FechaReportoEmpleo" name="FechaReportoEmpleo2"
+                        placeholder="{{'creditForm.fechaRegistro' | translate}}">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12" *ngIf="user_data.xml_job.length == 0">
+                <div class="row">
+                  <div class="spacer15"></div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>{{'creditForm.compañía' | translate}}
+                      </label>
+                      <input autocomplete="off" type="text" readonly class="form-control" name="NombreEmpresa"
+                        placeholder="{{'creditForm.compañía' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label>{{'creditForm.calleNúmero' | translate}}
+                      </label>
+                      <input autocomplete="off" type="text" readonly class="form-control" name="Direccion2"
+                        placeholder="{{'creditForm.calleNúmero' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.municipioCiudad' | translate}}</label>
+                      <input autocomplete="off" type="text" readonly class="form-control" name="DelegacionMunicipio2"
+                        placeholder="{{'creditForm.colonia' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.estado' | translate}}</label>
+                      <input autocomplete="off" type="text" readonly class="form-control" name="Estado2"
+                        placeholder="{{'creditForm.municipioCiudad' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.códigoPostal' | translate}}</label>
+                      <input autocomplete="off" type="text" readonly class="form-control" name="CP2"
+                        placeholder="{{'creditForm.estado' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.teléfono' | translate}}</label>
+                      <input autocomplete="off" type="text" readonly class="form-control" name="NumeroTelefono2"
+                        placeholder="{{'creditForm.códigoPostal' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.puesto' | translate}}</label>
+                      <input autocomplete="off" type="text" readonly class="form-control" name="Cargo2"
+                        placeholder="{{'creditForm.puesto' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.sueldo' | translate}}</label>
+                      <input autocomplete="off" type="text" readonly class="form-control" name="Salario2"
+                        placeholder="{{'creditForm.sueldo' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="form-group-3">
+                      <label class="p16-two">{{'creditForm.fechaRegistro' | translate}}</label>
+                      <input autocomplete="off" type="text" readonly class="form-control" name="FechaReportoEmpleo2"
+                        placeholder="{{'creditForm.fechaRegistro' | translate}}">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="spacer40"></div>
+              </div>
+              <h5><b>{{'creditForm.resumenCréditos' | translate}}</b></h5>
+              <div class="col-12">
+                <div class="spacer40"></div>
+              </div>
+              <div class="col-12">
+                <div class="tab-pane">
+                  <div class="tabel-section">
+                    <div class="table-responsive">
+                      <table class="table table-striped table-align-left" style="margin-top: 10px;"
+                        *ngFor="let item of user_data.xml_accounts; let i=index">
+                        <tr>
+                          <th style="vertical-align:top;width:6%;border-bottom: 1px solid black !important;padding: 0px;" colspan="11">
+                            <div class="d-flex table-search">
+                              <div class="row" style="width: 100%;">
+                                <div class="col-1 color-change"
+                                  style="padding-top: 3%; padding-left: 4%; font-size: 16px;">
+                                  <span><b>{{i + 1}}</b></span>
+                                </div>
+                                <div class="col-11"
+                                  style="background: rgba(87, 174, 117, 0.3); padding-top: 8px; padding-bottom: 8px;">
+                                  <span>{{'creditForm.grantor' | translate}}</span>
+                                  <br />
+                                  <br />
+                                  <span><b>{{item.NombreOtorgante || 'N/A'}}</b></span>
+                                  <br />
+                                  <span><b>{{item.TipoCuentaDes || 'N/A'}}</b></span>
+                                  <br />
+                                  <span><b>{{item.TipoContratoDes || 'N/A'}}</b></span>
+                                  <br />
+                                  <span><b>{{item.ClaveUnidadMonetaria || 'N/A'}}</b></span>
+                                </div>
+                              </div>
+                            </div>
+                          </th>
+                        </tr>
+                        <tr>
+                          <th style="vertical-align:top;width:6%;background-color: white;" class="border-class">
+                            <div class="d-flex table-search">
+                              <label>{{'creditForm.apertura' | translate}}</label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%;background-color: #EBEBEB;" class="border-class">
+                            <div class="d-flex table-search">
+                              <label>{{'creditForm.límiteCrédito' | translate}}</label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%;background-color: white;" class="border-class">
+                            <div class="d-flex table-search">
+                              <label>{{'creditForm.créditoMáximo' | translate}}</label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%;background-color: #EBEBEB;" class="border-class">
+                            <div class="d-flex table-search">
+                              <label>{{'creditForm.saldoActual' | translate}}</label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%;background-color: white;" class="border-class">
+                            <div class="d-flex table-search">
+                              <label>{{'creditForm.montoPagar' | translate}}</label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%;background-color: #EBEBEB;" class="border-class">
+                            <div class="d-flex table-search">
+                              <label>{{'creditForm.frecuenciaPagos' | translate}}</label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%;background-color: white;" class="border-class">
+                            <div class="d-flex table-search">
+                              <label>{{'creditForm.fechaUltimoPago' | translate}}</label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%;background-color: #EBEBEB;" class="border-class">
+                            <div class="d-flex table-search">
+                              <label>{{'creditForm.fechaUltimaCompa' | translate}}</label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%;background-color: white;" class="border-class">
+                            <div class="d-flex table-search">
+                              <label>{{'creditForm.saldoVencido' | translate}}</label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%;background-color: #EBEBEB;" class="border-class">
+                            <div class="d-flex table-search">
+                              <label>{{'creditForm.calificaciónActualPago' | translate}}</label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%;background-color: white;" class="border-class">
+                            <div class="d-flex table-search">
+                              <label>{{'creditForm.fechaActualizaciónCuenta' | translate}}</label>
+                            </div>
+                          </th>
+                        </tr>
+                        <tr>
+                          <td class="border-class">
+                            <span>{{item.FechaAperturaCuentaDate}}</span>
+                          </td>
+                          <td class="border-class">
+                            <span>{{item.LimiteCredito}}</span>
+                          </td>
+                          <td class="border-class">
+                            <span>{{item.CreditoMaximo}}</span>
+                          </td>
+                          <td class="border-class">
+                            <span>{{item.SaldoActual}}</span>
+                          </td>
+                          <td class="border-class">
+                            <span>{{item.MontoPagar}}</span>
+                          </td>
+                          <td class="border-class">
+                            <span>{{item.TipoCuentaDes}}</span>
+                          </td>
+                          <td class="border-class">
+                            <span>{{item.FechaUltimoPagoDate}}</span>
+                          </td>
+                          <td class="border-class">
+                            <span>{{item.FechaUltimaCompraDate}}</span>
+                          </td>
+                          <td class="border-class">
+                            <span>{{item.SaldoVencido}}</span>
+                          </td>
+                          <td class="border-class">
+                            <span>{{item.FormaPagoActual}}</span>
+                          </td>
+                          <td class="border-class">
+                            <span>{{item.FechaActualizacionDate}}</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="11" style="text-align: center;background-color: white;" class="border-class">
+                            <span>
+                              <b>{{'creditForm.históricoPagosClaveObservación' | translate}}</b>
+                            </span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="11" style="padding: 0px;">
+                            <table class="table table-striped table-align-left">
+                              <tr>
+                                <th style="vertical-align:top;width:6%" class="sub-table-color">
+                                  <div class="d-flex table-search">
+                                    <label style="color: #57AE75; "><b>{{'creditForm.mes' | translate}}</b></label>
+                                  </div>
+                                </th>
+                                <th style="vertical-align:top;width:6%" class="border-class1">
+                                  <div class="d-flex table-search">
+                                    <label><b>{{'creditForm.e' | translate}}</b></label>
+                                  </div>
+                                </th>
+                                <th style="vertical-align:top;width:6%" class="border-class1">
+                                  <div class="d-flex table-search">
+                                    <label><b>{{'creditForm.f' | translate}}</b></label>
+                                  </div>
+                                </th>
+                                <th style="vertical-align:top;width:6%" class="border-class1">
+                                  <div class="d-flex table-search">
+                                    <label><b>{{'creditForm.m' | translate}}</b></label>
+                                  </div>
+                                </th>
+                                <th style="vertical-align:top;width:6%" class="border-class1">
+                                  <div class="d-flex table-search">
+                                    <label><b>{{'creditForm.a' | translate}}</b></label>
+                                  </div>
+                                </th>
+                                <th style="vertical-align:top;width:6%" class="border-class1">
+                                  <div class="d-flex table-search">
+                                    <label><b>{{'creditForm.m' | translate}}</b></label>
+                                  </div>
+                                </th>
+                                <th style="vertical-align:top;width:6%" class="border-class1">
+                                  <div class="d-flex table-search">
+                                    <label><b>{{'creditForm.j' | translate}}</b></label>
+                                  </div>
+                                </th>
+                                <th style="vertical-align:top;width:6%" class="border-class1">
+                                  <div class="d-flex table-search">
+                                    <label><a>{{'creditForm.j' | translate}}</a></label>
+                                  </div>
+                                </th>
+                                <th style="vertical-align:top;width:6%" class="border-class1">
+                                  <div class="d-flex table-search">
+                                    <label><b>{{'creditForm.a' | translate}}</b></label>
+                                  </div>
+                                </th>
+                                <th style="vertical-align:top;width:6%" class="border-class1">
+                                  <div class="d-flex table-search">
+                                    <label><b>{{'creditForm.s' | translate}}</b></label>
+                                  </div>
+                                </th>
+                                <th style="vertical-align:top;width:6%" class="border-class1">
+                                  <div class="d-flex table-search">
+                                    <label><b>{{'creditForm.o' | translate}}</b></label>
+                                  </div>
+                                </th>
+                                <th style="vertical-align:top;width:6%" class="border-class1">
+                                  <div class="d-flex table-search">
+                                    <label><b>{{'creditForm.n' | translate}}</b></label>
+                                  </div>
+                                </th>
+                                <th style="vertical-align:top;width:6%" class="border-class1">
+                                  <div class="d-flex table-search">
+                                    <label><b>{{'creditForm.d' | translate}}</b></label>
+                                  </div>
+                                </th>
+                              </tr>
+                              <tr *ngFor="let data of item.HistoricoPagosArray">
+                                <td class="sub-table-color">
+                                  <label><b>{{data.year}}</b></label>
+                                </td>
+                                <td>
+                                  <span><b>{{data.E}}</b></span>
+                                </td>
+                                <td>
+                                  <span><b>{{data.F}}</b></span>
+                                </td>
+                                <td>
+                                  <span><b>{{data.M}}</b></span>
+                                </td>
+                                <td>
+                                  <span><b>{{data.A}}</b></span>
+                                </td>
+                                <td>
+                                  <span><b>{{data.Ma}}</b></span>
+                                </td>
+                                <td>
+                                  <span><b>{{data.J}}</b></span>
+                                </td>
+                                <td>
+                                  <span><b>{{data.Ju}}</b></span>
+                                </td>
+                                <td>
+                                  <span><b>{{data.Au}}</b></span>
+                                </td>
+                                <td>
+                                  <span><b>{{data.S}}</b></span>
+                                </td>
+                                <td>
+                                  <span><b>{{data.O}}</b></span>
+                                </td>
+                                <td>
+                                  <span><b>{{data.N}}</b></span>
+                                </td>
+                                <td>
+                                  <span><b>{{data.D}}</b></span>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td colspan="13" class="sub-table-color" style="text-align: center;">
+                                  <span style="color: black;"><b>{{'creditForm.mOPHistóricoMásAlto' | translate}}
+                                      {{item.MopHistoricoMorosidadMasGrave}}</b></span>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="spacer40"></div>
+              </div>
+              <h5><b>{{'creditForm.indiceCapacidad' | translate}}</b></h5>
+              <div class="col-12">
+                <div class="spacer40"></div>
+              </div>
+              <div class="col-12">
+                <div class="row" style="width: 100%; margin-left: 2px;">
+                  <div class="col-1" style="background: rgba(87, 174, 117, 0.1);">
+                    <label>{{'creditForm.totalCréditos' | translate}}</label>
+                  </div>
+                  <div class="col-11">
+                    <span>{{this.user_data.xml_report ? this.user_data.xml_report[0].NumeroCuentas : ''}}</span>
+                  </div>
+                </div>
+                <div class="tab-pane">
+                  <div class="tabel-section">
+                    <div class="table-responsive">
+                      <table class="table table-striped table-align-left" style="margin-top: 10px;">
+                        <tr>
+                          <th style="vertical-align:top;width:12%" class="color-change">
+                            <div class="d-flex">
+                              <label><b>{{'creditForm.calificaciónMOP' | translate}}</b></label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%" class="background-class">
+                            <div class="d-flex table-search">
+                              <label><b>{{'creditForm.MOP0' | translate}}</b></label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%" class="background-class">
+                            <div class="d-flex table-search">
+                              <label><b>{{'creditForm.MOP1' | translate}}</b></label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%" class="background-class">
+                            <div class="d-flex table-search">
+                              <label><b>{{'creditForm.MOP2' | translate}}</b></label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%" class="background-class">
+                            <div class="d-flex table-search">
+                              <label><b>{{'creditForm.MOP3' | translate}}</b></label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%" class="background-class">
+                            <div class="d-flex table-search">
+                              <label>{{'creditForm.MOP4' | translate}}</label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%" class="background-class">
+                            <div class="d-flex table-search">
+                              <label><b>{{'creditForm.MOP5' | translate}}</b></label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%" class="background-class">
+                            <div class="d-flex table-search">
+                              <label>{{'creditForm.MOP6' | translate}}</label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%" class="background-class">
+                            <div class="d-flex table-search">
+                              <label><b>{{'creditForm.MOP7' | translate}}</b></label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%" class="background-class">
+                            <div class="d-flex table-search">
+                              <label><b>{{'creditForm.MOP96' | translate}}</b></label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%" class="background-class">
+                            <div class="d-flex table-search">
+                              <label><b>{{'creditForm.MOP97' | translate}}</b></label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%" class="background-class">
+                            <div class="d-flex table-search">
+                              <label><b>{{'creditForm.MOP99' | translate}}</b></label>
+                            </div>
+                          </th>
+                        </tr>
+                        <tr *ngFor="let item of this.user_data.xml_report">
+                          <td class="color-change">
+                            <label><b>{{'creditForm.númeroCréditosRegistrados' | translate}}</b></label>
+                          </td>
+                          <td class="background-class">
+                            <span>{{item.NumeroMOP0}}</span>
+                          </td>
+                          <td class="background-class">
+                            <span>{{item.NumeroMOP1}}</span>
+                          </td>
+                          <td class="background-class">
+                            <span>{{item.NumeroMOP2}}</span>
+                          </td>
+                          <td class="background-class">
+                            <span>{{item.NumeroMOP3}}</span>
+                          </td>
+                          <td class="background-class">
+                            <span>{{item.NumeroMOP4}}</span>
+                          </td>
+                          <td class="background-class">
+                            <span>{{item.NumeroMOP5}}</span>
+                          </td>
+                          <td class="background-class">
+                            <span>{{item.NumeroMOP6}}</span>
+                          </td>
+                          <td class="background-class">
+                            <span>{{item.NumeroMOP7}}</span>
+                          </td>
+                          <td class="background-class">
+                            <span>{{item.NumeroMOP96}}</span>
+                          </td>
+                          <td class="background-class">
+                            <span>{{item.NumeroMOP97}}</span>
+                          </td>
+                          <td class="background-class">
+                            <span>{{item.NumeroMOP99}}</span>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="spacer40"></div>
+              </div>
+              <div class="col-12">
+                <div class="tab-pane">
+                  <div class="tabel-section">
+                    <div class="table-responsive">
+                      <table class="table table-striped table-align-left" style="margin-top: 10px;">
+                        <tr>
+                          <th style="vertical-align:top;width:6%" class="color-change">
+                            <div class="d-flex">
+                              <label><b>{{'creditForm.créditosFijosHipotecarios' | translate}}</b></label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%" class="color-change">
+                            <div class="d-flex">
+                              <label><b>{{'creditForm.créditosRevolventes' | translate}}</b></label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%" class="color-change">
+                            <div class="d-flex">
+                              <label><b>{{'creditForm.créditosCerrados' | translate}}</b></label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%" class="color-change">
+                            <div class="d-flex">
+                              <label><b>{{'creditForm.créditosConMorosidadActual' | translate}}</b></label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%" class="color-change">
+                            <div class="d-flex">
+                              <label><b>{{'creditForm.créditosConHistorialMorosidad' | translate}}</b></label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%" class="color-change">
+                            <div class="d-flex">
+                              <label><b>{{'creditForm.crédtiosAclaración' | translate}}</b></label>
+                            </div>
+                          </th>
+                        </tr>
+                        <tr *ngFor="let item of this.user_data.xml_report">
+                          <td>
+                            <span>{{item.CuentasPagosFijosHipotecas}}</span>
+                          </td>
+                          <td>
+                            <span>{{item.CuentasRevolventesAbiertas}}</span>
+                          </td>
+                          <td>
+                            <span>{{item.CuentasCerradas}}</span>
+                          </td>
+                          <td>
+                            <span>{{item.CuentasNegativasActuales}}</span>
+                          </td>
+                          <td>
+                            <span>{{item.CuentasClavesHistoriaNegativa}}</span>
+                          </td>
+                          <td>
+                            <span>{{item.CuentasDisputa}}</span>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="spacer40"></div>
+              </div>
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-12">
+                    <label><b>{{'creditForm.MensajesAlerta' | translate}}</b></label>
+                  </div>
+                  <div class="col-12">
+                    <span>{{this.user_data.xml_report ? this.user_data.xml_report[0].MensajesAlertaDes : 'N/A'}}</span>
+                  </div>
+                  <div class="col-12">
+                    <div class="spacer40"></div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="tab-pane">
+                    <div class="tabel-section">
+                      <div class="table-responsive">
+                        <table class="table table-striped table-align-left" style="margin-top: 10px;">
+                          <tr>
+                            <th style="vertical-align:top;width:6%" class="background-class">
+                              <div class="d-flex">
+                                <label><b>{{'creditForm.fechaAperturaCréditoMásAntiguo' | translate}}</b></label>
+                              </div>
+                            </th>
+                            <th style="vertical-align:top;width:6%" class="background-class">
+                              <div class="d-flex">
+                                <label><b>{{'creditForm.fechaAperturaCréditoMásReciente' | translate}}</b></label>
+                              </div>
+                            </th>
+                            <th style="vertical-align:top;width:6%" class="background-class">
+                              <div class="d-flex">
+                                <label><b>{{'creditForm.fechaConsultaMásReciente' | translate}}</b></label>
+                              </div>
+                            </th>
+                          </tr>
+                          <tr *ngFor="let item of this.user_data.xml_report">
+                            <td>
+                              <span>{{item.FechaAperturaCuentaMasAntiguaDate}}</span>
+                            </td>
+                            <td>
+                              <span>{{item.FechaAperturaCuentaMasRecienteDate}}</span>
+                            </td>
+                            <td>
+                              <span>{{item.FechaSolicitudReporteMasRecienteDate}}</span>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="spacer40"></div>
+              </div>
+              <h5>{{'creditForm.historialCréditosRevolventes' | translate}}</h5>
+              <div class="col-12">
+                <div class="tab-pane">
+                  <div class="tabel-section">
+                    <div class="table-responsive">
+                      <table class="table table-striped table-align-left" style="margin-top: 10px;">
+                        <tr>
+                          <th style="vertical-align:top;width:6%" class="background-class">
+                            <div class="d-flex">
+                              <label><b>{{'creditForm.créditosMáximos' | translate}}</b></label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%" class="background-class">
+                            <div class="d-flex">
+                              <label><b>{{'creditForm.límitesCrédito' | translate}}</b></label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%" class="background-class">
+                            <div class="d-flex">
+                              <label><b>{{'creditForm.saldosActuales' | translate}}</b></label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%" class="background-class">
+                            <div class="d-flex">
+                              <label><b>{{'creditForm.saldosVencidos' | translate}}</b></label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%" class="background-class">
+                            <div class="d-flex">
+                              <label><b>{{'creditForm.porcentajeUsadoLímitesCrédito' | translate}}</b></label>
+                            </div>
+                          </th>
+                          <th style="vertical-align:top;width:6%" class="background-class">
+                            <div class="d-flex">
+                              <label><b>{{'creditForm.totalPagos' | translate}}</b></label>
+                            </div>
+                          </th>
+                        </tr>
+                        <tr *ngFor="let item of this.user_data.xml_report">
+                          <td>
+                            <span>{{item.TotalCreditosMaximosRevolventesChange}}</span>
+                          </td>
+                          <td>
+                            <span>{{item.TotalLimitesCreditoRevolventesChange}}</span>
+                          </td>
+                          <td>
+                            <span>{{item.TotalSaldosActualesRevolventesChange}}</span>
+                          </td>
+                          <td>
+                            <span>{{item.TotalSaldosVencidosRevolventesChange}}</span>
+                          </td>
+                          <td>
+                            <span>{{item.PctLimiteCreditoUtilizadoRevolventesChange}}</span>
+                          </td>
+                          <td>
+                            <span>{{item.TotalPagosRevolventesChange}}</span>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="spacer40"></div>
+              </div>
+              <h5><b>{{'creditForm.historialCréditosFijosHipotecarios' | translate}}</b></h5>
+              <div class="col-12">
+                <div class="col-8">
+                  <div class="tab-pane">
+                    <div class="tabel-section">
+                      <div class="table-responsive">
+                        <table class="table table-striped table-align-left" style="margin-top: 10px;">
+                          <tr>
+                            <th style="vertical-align:top;width:6%" class="background-class">
+                              <div class="d-flex">
+                                <label><b>{{'creditForm.créditosMáximos' | translate}}</b></label>
+                              </div>
+                            </th>
+                            <th style="vertical-align:top;width:6%" class="background-class">
+                              <div class="d-flex">
+                                <label><b>{{'creditForm.saldosActuales' | translate}}</b></label>
+                              </div>
+                            </th>
+                            <th style="vertical-align:top;width:6%" class="background-class">
+                              <div class="d-flex">
+                                <label><b>{{'creditForm.saldosVencidos' | translate}}</b></label>
+                              </div>
+                            </th>
+                            <th style="vertical-align:top;width:6%" class="background-class">
+                              <div class="d-flex">
+                                <label><b>{{'creditForm.totalPagos' | translate}}</b></label>
+                              </div>
+                            </th>
+                          </tr>
+                          <tr *ngFor="let item of this.user_data.xml_report">
+                            <td>
+                              <span>{{item.TotalCreditosMaximosPagosFijosChange}}</span>
+                            </td>
+                            <td>
+                              <span>{{item.TotalSaldosActualesPagosFijosChange}}</span>
+                            </td>
+                            <td>
+                              <span>{{item.TotalSaldosVencidosPagosFijosChange}}</span>
+                            </td>
+                            <td>
+                              <span>{{item.TotalPagosPagosFijosChange}}</span>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="spacer40"></div>
+              </div>
+              <h5><b>{{'creditForm.score' | translate}}</b></h5>
+              <div class="col-12">
+                <div class="col-8">
+                  <div class="tab-pane">
+                    <div class="tabel-section">
+                      <div class="table-responsive">
+                        <table class="table table-striped table-align-left" style="margin-top: 10px;">
+                          <tr>
+                            <th style="vertical-align:top;width:6%" class="color-change">
+                              <div class="d-flex">
+                                <label><b>{{'creditForm.BCScore' | translate}}</b></label>
+                              </div>
+                            </th>
+                            <th class="background-class" style="vertical-align:top;width:6%">
+                              <div class="d-flex">
+                                <label>{{ValorScoreDes007}}</label>
+                              </div>
+                            </th>
+                          </tr>
+                          <tr>
+                            <td class="color-change">
+                              <label><b>{{'creditForm.scoreIndiceCapacidadCrediticia' | translate}}</b></label>
+                            </td>
+                            <td class="background-class">
+                              <span>{{ValorScoreDes004}}</span>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="spacer40"></div>
+              </div>
+              <h5><b>{{'creditForm.alertasHAWK' | translate}}</b></h5>
+              <div class="col-12">
+                <div class="col-9">
+                  <div class="tab-pane">
+                    <div class="tabel-section">
+                      <div class="table-responsive">
+                        <table class="table table-striped table-align-left" style="margin-top: 10px;">
+                          <tr>
+                            <th style="vertical-align:top;width:6%" class="color-change">
+                              <div class="d-flex">
+                                <label><b>{{'creditForm.institución' | translate}}</b></label>
+                              </div>
+                            </th>
+                            <th style="vertical-align:top;width:6%" class="color-change">
+                              <div class="d-flex">
+                                <label><b>{{'creditForm.mensaje' | translate}}</b></label>
+                              </div>
+                            </th>
+                            <th style="vertical-align:top;width:6%" class="color-change">
+                              <div class="d-flex">
+                                <label><b>{{'creditForm.fechaReporte' | translate}}</b></label>
+                              </div>
+                            </th>
+                          </tr>
+                          <tr *ngFor="let item of this.user_data.xml_alert_query">
+                            <td class="background-class">
+                              <span>{{item.TipoInstitucion}}</span>
+                            </td>
+                            <td class="background-class">
+                              <span>{{item.Mensaje}}</span>
+                            </td>
+                            <td class="background-class">
+                              <span>{{item.FechaReporteDate}}</span>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </div>
