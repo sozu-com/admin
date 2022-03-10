@@ -689,6 +689,13 @@
     "officeAge": "Office Age",
     "officeType": "Office Type",
     "chooseOfficeType": "Choose office type",
+    "payment_way": "Payment way",
+    "namePaymentWay": "Name of payment way",
+    "discount": "Discount",
+    "downpayment": "Downpayment",
+    "monthlyInstallment": "Monthly installment",
+    "numberMonthlyInstallments": "Number of monthly installments",
+    "paymentUponDelivery": "Payment upon delivery",
     "manualLead":{
       "name": "Name",
       "firstSurname": "First Surname",

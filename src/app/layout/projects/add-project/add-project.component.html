@@ -1510,6 +1510,51 @@
                 </div>
               </div>
             </div>
+              <!-- Add additional information  -->
+              <div class="row">
+                <div class="col-12">
+                  <div class="page-title paddingL0 paddingR0">
+                    <h3>{{'addForm.payment_way' | translate}}</h3>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.namePaymentWay' | translate}}</label>
+                    <input class="form-control" type="text" name="payment_name" [(ngModel)]="model.payment_name">
+                  </div>
+                </div>
+                
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.discount' | translate}}</label>
+                    <input autocomplete="off" class="form-control" placeholder="%" type="text" name="discount" [(ngModel)]="model.discount" appOnlyDecimal>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.downpayment' | translate}}</label>
+                    <input autocomplete="off" class="form-control" placeholder="%" type="text" name="downpayment" [(ngModel)]="model.downpayment" appOnlyDecimal>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.monthlyInstallment' | translate}}</label>
+                    <input autocomplete="off" class="form-control" placeholder="%" type="text" name="monthly_installment" [(ngModel)]="model.monthly_installment" appOnlyDecimal>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.numberMonthlyInstallments' | translate}}</label>
+                    <input autocomplete="off" class="form-control" placeholder="#"  maxlength="6" type="text" name="number_monthly_payments" [(ngModel)]="model.number_monthly_payments" appOnlyNumber>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12  ">
+                  <div class="form-group-3">
+                    <label>{{'addForm.paymentUponDelivery' | translate}}</label>
+                    <input autocomplete="off" class="form-control" placeholder="%" type="text" name="payment_upon_delivery" [(ngModel)]="model.payment_upon_delivery" appOnlyDecimal>
+                  </div>
+                </div>
+              </div>
               <div class="row">
                 <div class="col-12">
                   <div class="btn-cont text-right">

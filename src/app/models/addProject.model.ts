@@ -118,6 +118,12 @@ export class AddProjectModel {
   legal_entity_info: any;
   total_square_meters: any;
   full_address?: any;
+  payment_name?: any;
+  discount?: any = 0;
+  monthly_installment?: any = 0;
+  number_monthly_payments?: any = 0;
+  payment_upon_delivery?: any = 0;
+  downpayment?: any = 0;
 }
 
 export class AddOfficeModel {

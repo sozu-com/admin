@@ -688,6 +688,13 @@
     "officeAge": "Edad del Oficina",
     "officeType": "Oficina Tipo",
     "chooseOfficeType": "Elija el tipo de oficina",
+    "payment_way": "Forma de pago",
+    "namePaymentWay": "Nombre de la forma de pago",
+    "discount": "Descuento",
+    "downpayment": "Enganche",
+    "monthlyInstallment": "Mensualidades",
+    "numberMonthlyInstallments": "Número de mensualidades",
+    "paymentUponDelivery": "Pago a contraentrega",
     "manualLead":{
       "buyer": "Buyer",
       "seller": "Seller",

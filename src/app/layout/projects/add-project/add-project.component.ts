@@ -1219,6 +1219,12 @@ export class AddProjectComponent implements OnInit {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLocality'), 'error');
       return false;
     }
+    if (modelSave.monthly_installment || modelSave.payment_upon_delivery ||  modelSave.downpayment) {
+      if(this.getTotalPercentage(modelSave.monthly_installment, modelSave.payment_upon_delivery, modelSave.downpayment) != 100.00){
+      swal(this.translate.instant('swal.error'), this.translate.instant('generatePDF.percentageText'), 'error');
+      return false;
+      }
+    }
     // if (!modelSave.possession_status_id) {
     //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectPossesionStatus'), 'error');
     //   return false;
@@ -1562,6 +1568,14 @@ export class AddProjectComponent implements OnInit {
       }
 
     }
+  }
+
+  getTotalPercentage(monthly_installment, payment_upon_delivery, downpayment) {
+    let totalPercentage = 0.00;
+    totalPercentage += parseFloat(monthly_installment || 0.00);
+    totalPercentage += parseFloat(payment_upon_delivery || 0.00);
+    totalPercentage += parseFloat(downpayment || 0.00);
+    return totalPercentage;
   }
 
   file2Select($event) {
