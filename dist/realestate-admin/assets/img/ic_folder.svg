@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="162px" height="151px" viewBox="0 0 162 151" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>ic_file</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Website" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-43">
+            <path d="M7,37 L7,12 C7,5.372583 12.372583,1.21743675e-15 19,0 L67.6113502,0 C68.5107871,1.43249699e-15 69.3839748,0.303138009 70.0899273,0.860468938 L87.4550363,14.5697655 C87.8080126,14.848431 88.2446065,15 88.6943249,15 L143.5,15 C150.127417,15 155.5,20.372583 155.5,27 L155.5,37 L155.5,37 L7,37 Z" id="Path-2" fill="#2980B9"></path>
+            <path d="M18,25 L144,25 C148.418278,25 152,28.581722 152,33 L152,47 L152,47 L10,47 L10,33 C10,28.581722 13.581722,25 18,25 Z" id="Rectangle" fill="#BDC3C7"></path>
+            <rect id="Rectangle" fill="#2980B9" x="0" y="31" width="162" height="120" rx="12"></rect>
+            <rect id="Rectangle-Copy-13" fill="#3498DB" x="0" y="31" width="162" height="115" rx="12"></rect>
+            <g id="Group-42" transform="translate(77.000000, 121.000000)"></g>
+        </g>
+    </g>
+</svg>
