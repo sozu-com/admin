@@ -2405,7 +2405,8 @@
                         <label>{{'generatePDF.downPaymentPercentage' | translate}} <span
                               class="color-red">*</span></label>
                         <input autocomplete="off" type="text" class="form-control" placeholder="%"
-                           formControlName="downPayment" appOnlyDecimal />
+                           formControlName="downPayment" appOnlyDecimal [readonly]="this.property_array &&  (this.property_array.building.discount || this.property_array.building.downpayment || 
+                           this.property_array.building.number_monthly_payments || this.property_array.building.monthly_installment || this.property_array.building.payment_upon_delivery)"/>
                      </div>
                   </div>
                   <div class="col-lg-3 col-md-12 col-sm-12 col-12">
@@ -2419,7 +2420,8 @@
                      <div class="form-group-3">
                         <label>{{'generatePDF.discountPercentage' | translate}}</label>
                         <input autocomplete="off" type="text" class="form-control" placeholder="%"
-                           formControlName="discount" appOnlyDecimal />
+                           formControlName="discount" appOnlyDecimal [readonly]="this.property_array &&  (this.property_array.building.discount || this.property_array.building.downpayment || 
+                           this.property_array.building.number_monthly_payments || this.property_array.building.monthly_installment || this.property_array.building.payment_upon_delivery)"/>
                      </div>
                   </div>
                   <div class="col-lg-3 col-md-12 col-sm-12 col-12">
@@ -2437,7 +2439,8 @@
                         <label>{{'generatePDF.monthlyInstallmentPercentage' | translate}} <span
                               class="color-red">*</span></label>
                         <input autocomplete="off" type="text" class="form-control" placeholder="%"
-                           formControlName="monthlyInstallment" appOnlyDecimal />
+                           formControlName="monthlyInstallment" appOnlyDecimal [readonly]="this.property_array &&  (this.property_array.building.discount || this.property_array.building.downpayment || 
+                           this.property_array.building.number_monthly_payments || this.property_array.building.monthly_installment || this.property_array.building.payment_upon_delivery)"/>
                      </div>
                   </div>
                   <div class="col-lg-3 col-md-12 col-sm-12 col-12">
@@ -2451,7 +2454,8 @@
                      <div class="form-group-3">
                         <label>{{'generatePDF.interest' | translate}}</label>
                         <input autocomplete="off" type="text" class="form-control" placeholder="%"
-                           formControlName="interest" appOnlyDecimal />
+                           formControlName="interest" appOnlyDecimal [readonly]="this.property_array &&  (this.property_array.building.discount || this.property_array.building.downpayment || 
+                           this.property_array.building.number_monthly_payments || this.property_array.building.monthly_installment || this.property_array.building.payment_upon_delivery)"/>
                      </div>
                   </div>
                   <div class="col-lg-3 col-md-12 col-sm-12 col-12">
@@ -2469,7 +2473,8 @@
                         <label style="width: 245px;">{{'generatePDF.numberOfMI' | translate}} <span
                               class="color-red">*</span></label>
                         <input autocomplete="off" type="text" class="form-control" maxlength="6" appOnlyNumber
-                           placeholder="#" formControlName="numberOfMI" />
+                           placeholder="#" formControlName="numberOfMI" [readonly]="this.property_array &&  (this.property_array.building.discount || this.property_array.building.downpayment || 
+                           this.property_array.building.number_monthly_payments || this.property_array.building.monthly_installment || this.property_array.building.payment_upon_delivery)"/>
                      </div>
                   </div>
                   <!-- <div class="col-lg-3 col-md-12 col-sm-12 col-12">
@@ -2487,7 +2492,8 @@
                         <label style="width: 232px;">{{'generatePDF.paymentupondeliveryPercentage' | translate}} <span
                               class="color-red">*</span></label>
                         <input autocomplete="off" type="text" class="form-control" formControlName="paymentupondelivery"
-                           placeholder="%" appOnlyDecimal />
+                           placeholder="%" appOnlyDecimal [readonly]="this.property_array &&  (this.property_array.building.discount || this.property_array.building.downpayment || 
+                           this.property_array.building.number_monthly_payments || this.property_array.building.monthly_installment || this.property_array.building.payment_upon_delivery)"/>
                      </div>
                   </div>
                   <div class="col-lg-3 col-md-12 col-sm-12 col-12">

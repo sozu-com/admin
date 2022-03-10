@@ -917,7 +917,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       this.getParkingSpaceLots(((success || {}).data || {}).building_id);
       this.installmentFormGroup.get('paymentBankDetails').setValue(false);
       this.installmentFormGroup.patchValue({
-        listPrice: this.property_array.min_price ? ('$' + this.getTransformedAmount(this.property_array.min_price)) : ('$' + 0.00)
+        listPrice: this.property_array.min_price ? ('$' + this.getTransformedAmount(this.property_array.min_price)) : ('$' + 0.00),
+        discount: this.property_array.building.downpayment ? (this.getTransformedAmount(this.property_array.building.discount)) : 0.00,
+        downPayment: this.property_array.building.downpayment ? (this.getTransformedAmount(this.property_array.building.downpayment)) : 0.00,
+        numberOfMI: this.property_array.building.number_monthly_payments ? (this.getTransformedAmount(this.property_array.building.number_monthly_payments)) : 0.00,
+        monthlyInstallment: this.property_array.building.monthly_installment ? (this.getTransformedAmount(this.property_array.building.monthly_installment)) : 0.00,
+        paymentupondelivery: this.property_array.building.payment_upon_delivery ? (this.getTransformedAmount(this.property_array.building.payment_upon_delivery)) : 0.00
       });
       this.makePaymentBankDetailsArray(true);
     }, (error) => {
