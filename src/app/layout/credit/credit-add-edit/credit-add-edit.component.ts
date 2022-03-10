@@ -21,6 +21,7 @@ import { ViewChild } from '@angular/core'
 import { ElementRef } from '@angular/core'
 import { CreditFormPdfService } from 'src/app/services/credit-form-pdf.service'
 declare let swal: any
+
 @Component({
   selector: 'app-credit-add-edit',
   templateUrl: './credit-add-edit.component.html',
@@ -110,7 +111,9 @@ export class CreditAddEditComponent implements OnInit {
   ValorScoreDes004: any[] = [];
   ValorScoreDes007: any[] = [];
   creditoTab: any;
-
+  address_one: any;
+  address_two: any;
+  public xmlItems: any;
   constructor(
     public constant: Constant,
     private adminService: AdminService,
@@ -647,6 +650,7 @@ export class CreditAddEditComponent implements OnInit {
       .postDataApi('getcredits', { id: this.parameter.property_id }).subscribe((success) => {
         this.spinnerService.hide();
         this.loadCredits(success.data);
+        this.sendUserForXML();
       }, (error) => {
         this.spinnerService.hide();
       });
@@ -1482,19 +1486,62 @@ export class CreditAddEditComponent implements OnInit {
       });
   }
 
-  sendUserForXML(data) {
-    this.adminService.postDataApi('sendXml', { user_id: 13 }).subscribe(
-      success => {
-
+  sendUserForXML() {
+    let adderss = this.creditModel.user.street_address + ' ' + this.creditModel.user.external_number;
+    var len = adderss.length;
+    if (len <= 40) {
+      this.address_one = this.creditModel.user.street_address + ' ' + this.creditModel.user.external_number;
+    } else {
+      let part_1 = adderss.slice(0, 20);
+      let part_2 = adderss.slice(adderss.length - 20);
+      console.log(part_1, "part 1"); console.log(part_2, "part 2");
+      this.address_one = part_1;
+      this.address_two = part_2;
+    }
+    const input = {
+      first_surname: this.creditModel.user.first_surname,
+      second_surname: this.creditModel.user.second_surname,
+      name: this.creditModel.user.name,
+      second_name: this.creditModel.user.second_surname,
+      rfc: this.creditModel.user.fed_tax_pay,
+      address_one: this.address_one,
+      address_two: this.address_two,
+      neighbourhood: this.creditModel.user.neighborhood,
+      municipality: this.creditModel.user.municipality,
+      // state: this.creditModel.user.state,
+      state: 'DF',
+      // zip_code: this.creditModel.user.zipcode,
+      zip_code: '05120',
+      user_id: this.creditModel.user.id
+    }
+    this.adminService.postDataApi('sendXml', input).subscribe(
+      r => {
+        if (r['data']) {
+          let xml = r['data'].slice(128);
+          this.xmlItems = '<?xml version="1.0" encoding = "UTF-8" ?>' + xml.slice(0, -34);
+          this.sendXML(this.xmlItems);
+        } else {
+          swal(this.translate.instant('swal.error'), 'XML response not get...', 'error');
+          return;
+        }
       });
-    } 
+  }
 
-    sendXML(data) {
-      this.adminService.postDataApi('storeXmlData', { user_id: 13 }).subscribe(
-        success => {
-  
-        });
-      }
+  sendXML(data) {
+    const input = {
+      xml: data,
+      user_id: this.creditModel.user.id
+    }
+    this.adminService.postDataApi('storeXmlData', input).subscribe(
+      r => {
+        if (r['success'] == 1) {
+          console.log(r, "before xml");
+        } else {
+          swal(this.translate.instant('swal.error'), 'Went something wrong', 'error');
+          return;
+        }
+      });
+  }
 
 
   getUserById(data) {
@@ -2185,13 +2232,13 @@ export class CreditAddEditComponent implements OnInit {
 
         this.user_data.xml_alert_query.forEach(item => {
           item.FechaReporteDate = (item.FechaReporte ? ((item.FechaReporte.substring(0, 2) + '/' + item.FechaReporte.substring(2, item.FechaReporte.length)).substring(0, 5) +
-          '/' + item.FechaReporte.substring(4, item.FechaReporte.length)) : '');
+            '/' + item.FechaReporte.substring(4, item.FechaReporte.length)) : '');
         })
         this.spinnerService.hide();
       });
   }
 
-  downloadPdf(data){
+  downloadPdf(data) {
     this.credito.getValueScore(data);
   }
 
