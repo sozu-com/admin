@@ -3498,37 +3498,37 @@
                         </tr>
                         <tr>
                           <td class="border-class">
-                            <span>{{item.FechaAperturaCuentaDate}}</span>
+                            <span>{{item.FechaAperturaCuentaDate  || 'N/A'}}</span>
                           </td>
                           <td class="border-class">
-                            <span>{{item.LimiteCredito}}</span>
+                            <span>{{item.LimiteCredito || 'N/A'}}</span>
                           </td>
                           <td class="border-class">
-                            <span>{{item.CreditoMaximo}}</span>
+                            <span>{{item.CreditoMaximo || 'N/A'}}</span>
                           </td>
                           <td class="border-class">
-                            <span>{{item.SaldoActual}}</span>
+                            <span>{{item.SaldoActual || 'N/A'}}</span>
                           </td>
                           <td class="border-class">
-                            <span>{{item.MontoPagar}}</span>
+                            <span>{{item.MontoPagar || 'N/A'}}</span>
                           </td>
                           <td class="border-class">
-                            <span>{{item.FrecuenciaPagosDes}}</span>
+                            <span>{{item.FrecuenciaPagosDes || 'N/A'}}</span>
                           </td>
                           <td class="border-class">
-                            <span>{{item.FechaUltimoPagoDate}}</span>
+                            <span>{{item.FechaUltimoPagoDate || 'N/A'}}</span>
                           </td>
                           <td class="border-class">
-                            <span>{{item.FechaUltimaCompraDate}}</span>
+                            <span>{{item.FechaUltimaCompraDate || 'N/A'}}</span>
                           </td>
                           <td class="border-class">
-                            <span>{{item.SaldoVencido}}</span>
+                            <span>{{item.SaldoVencido || 'N/A'}}</span>
                           </td>
                           <td class="border-class">
-                            <span>{{item.FormaPagoActual}}</span>
+                            <span>{{item.FormaPagoActual || 'N/A'}}</span>
                           </td>
                           <td class="border-class">
-                            <span>{{item.FechaActualizacionDate}}</span>
+                            <span>{{item.FechaActualizacionDate || 'N/A'}}</span>
                           </td>
                         </tr>
                         <tr>
@@ -3676,7 +3676,7 @@
                     <label>{{'creditForm.totalCréditos' | translate}}</label>
                   </div>
                   <div class="col-11">
-                    <span>{{this.user_data.xml_report ? this.user_data.xml_report[0].NumeroCuentas : ''}}</span>
+                    <span>{{this.user_data.xml_report ? this.user_data.xml_report[0].NumeroCuentas : 'N/A'}}</span>
                   </div>
                 </div>
                 <div class="tab-pane">
@@ -3750,37 +3750,37 @@
                             <label><b>{{'creditForm.númeroCréditosRegistrados' | translate}}</b></label>
                           </td>
                           <td class="background-class border-color">
-                            <span>{{item.NumeroMOP0}}</span>
+                            <span>{{item.NumeroMOP0 || 'N/A'}}</span>
                           </td>
                           <td class="background-class border-color">
-                            <span>{{item.NumeroMOP1}}</span>
+                            <span>{{item.NumeroMOP1 || 'N/A'}}</span>
                           </td>
                           <td class="background-class border-color">
-                            <span>{{item.NumeroMOP2}}</span>
+                            <span>{{item.NumeroMOP2 || 'N/A'}}</span>
                           </td>
                           <td class="background-class border-color">
-                            <span>{{item.NumeroMOP3}}</span>
+                            <span>{{item.NumeroMOP3 || 'N/A'}}</span>
                           </td>
                           <td class="background-class border-color">
-                            <span>{{item.NumeroMOP4}}</span>
+                            <span>{{item.NumeroMOP4 || 'N/A'}}</span>
                           </td>
                           <td class="background-class border-color">
-                            <span>{{item.NumeroMOP5}}</span>
+                            <span>{{item.NumeroMOP5 || 'N/A'}}</span>
                           </td>
                           <td class="background-class border-color">
-                            <span>{{item.NumeroMOP6}}</span>
+                            <span>{{item.NumeroMOP6 || 'N/A'}}</span>
                           </td>
                           <td class="background-class border-color">
-                            <span>{{item.NumeroMOP7}}</span>
+                            <span>{{item.NumeroMOP7 || 'N/A'}}</span>
                           </td>
                           <td class="background-class border-color">
-                            <span>{{item.NumeroMOP96}}</span>
+                            <span>{{item.NumeroMOP96 || 'N/A'}}</span>
                           </td>
                           <td class="background-class border-color">
-                            <span>{{item.NumeroMOP97}}</span>
+                            <span>{{item.NumeroMOP97 || 'N/A'}}</span>
                           </td>
                           <td class="background-class border-color">
-                            <span>{{item.NumeroMOP99}}</span>
+                            <span>{{item.NumeroMOP99 || 'N/A'}}</span>
                           </td>
                         </tr>
                       </table>
@@ -3830,22 +3830,22 @@
                         </tr>
                         <tr *ngFor="let item of this.user_data.xml_report">
                           <td style="background: rgba(87, 174, 117, 0.1);" class="border-color">
-                            <span>{{item.CuentasPagosFijosHipotecas}}</span>
+                            <span>{{item.CuentasPagosFijosHipotecas || 'N/A'}}</span>
                           </td>
                           <td style="background: rgba(87, 174, 117, 0.1);" class="border-color">
-                            <span>{{item.CuentasRevolventesAbiertas}}</span>
+                            <span>{{item.CuentasRevolventesAbiertas || 'N/A'}}</span>
                           </td>
                           <td style="background: rgba(87, 174, 117, 0.1);" class="border-color">
-                            <span>{{item.CuentasCerradas}}</span>
+                            <span>{{item.CuentasCerradas || 'N/A'}}</span>
                           </td>
                           <td style="background: rgba(87, 174, 117, 0.1);" class="border-color">
-                            <span>{{item.CuentasNegativasActuales}}</span>
+                            <span>{{item.CuentasNegativasActuales || 'N/A'}}</span>
                           </td>
                           <td style="background: rgba(87, 174, 117, 0.1);" class="border-color">
-                            <span>{{item.CuentasClavesHistoriaNegativa}}</span>
+                            <span>{{item.CuentasClavesHistoriaNegativa || 'N/A'}}</span>
                           </td>
                           <td style="background: rgba(87, 174, 117, 0.1);" class="border-color">
-                            <span>{{item.CuentasDisputa}}</span>
+                            <span>{{item.CuentasDisputa || 'N/A'}}</span>
                           </td>
                         </tr>
                       </table>
@@ -3892,13 +3892,13 @@
                           </tr>
                           <tr *ngFor="let item of this.user_data.xml_report">
                             <td class="border-class2">
-                              <span>{{item.FechaAperturaCuentaMasAntiguaDate}}</span>
+                              <span>{{item.FechaAperturaCuentaMasAntiguaDate || 'N/A'}}</span>
                             </td>
                             <td class="border-class3">
-                              <span>{{item.FechaAperturaCuentaMasRecienteDate}}</span>
+                              <span>{{item.FechaAperturaCuentaMasRecienteDate || 'N/A'}}</span>
                             </td>
                             <td class="border-class4">
-                              <span>{{item.FechaSolicitudReporteMasRecienteDate}}</span>
+                              <span>{{item.FechaSolicitudReporteMasRecienteDate || 'N/A'}}</span>
                             </td>
                           </tr>
                         </table>
@@ -3950,22 +3950,22 @@
                         </tr>
                         <tr *ngFor="let item of this.user_data.xml_report">
                           <td class="border-class2">
-                            <span>{{item.TotalCreditosMaximosRevolventesChange}}</span>
+                            <span>{{item.TotalCreditosMaximosRevolventesChange || 'N/A'}}</span>
                           </td>
                           <td class="border-class3">
-                            <span>{{item.TotalLimitesCreditoRevolventesChange}}</span>
+                            <span>{{item.TotalLimitesCreditoRevolventesChange || 'N/A'}}</span>
                           </td>
                           <td class="border-class3">
-                            <span>{{item.TotalSaldosActualesRevolventesChange}}</span>
+                            <span>{{item.TotalSaldosActualesRevolventesChange || 'N/A'}}</span>
                           </td>
                           <td class="border-class3">
-                            <span>{{item.TotalSaldosVencidosRevolventesChange}}</span>
+                            <span>{{item.TotalSaldosVencidosRevolventesChange || 'N/A'}}</span>
                           </td>
                           <td class="border-class3">
-                            <span>{{item.PctLimiteCreditoUtilizadoRevolventesChange}}</span>
+                            <span>{{item.PctLimiteCreditoUtilizadoRevolventesChange || 'N/A'}}</span>
                           </td>
                           <td class="border-class4">
-                            <span>{{item.TotalPagosRevolventesChange}}</span>
+                            <span>{{item.TotalPagosRevolventesChange || 'N/A'}}</span>
                           </td>
                         </tr>
                       </table>
@@ -4090,13 +4090,13 @@
                           </tr>
                           <tr *ngFor="let item of this.user_data.xml_alert_query">
                             <td class="background-class border-color">
-                              <span>{{item.TipoInstitucion}}</span>
+                              <span>{{item.TipoInstitucion || 'N/A'}}</span>
                             </td>
                             <td class="background-class border-color">
-                              <span>{{item.Mensaje}}</span>
+                              <span>{{item.Mensaje || 'N/A'}}</span>
                             </td>
                             <td class="background-class border-color">
-                              <span>{{item.FechaReporteDate}}</span>
+                              <span>{{item.FechaReporteDate || 'N/A'}}</span>
                             </td>
                           </tr>
                         </table>
