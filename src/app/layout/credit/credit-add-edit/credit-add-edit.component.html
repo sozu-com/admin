@@ -3498,37 +3498,37 @@
                         </tr>
                         <tr>
                           <td class="border-class">
-                            <span>{{item.FechaAperturaCuentaDate}}</span>
+                            <span>{{item.FechaAperturaCuentaDate  || 'N/A'}}</span>
                           </td>
                           <td class="border-class">
-                            <span>{{item.LimiteCredito}}</span>
+                            <span>{{item.LimiteCredito || 'N/A'}}</span>
                           </td>
                           <td class="border-class">
-                            <span>{{item.CreditoMaximo}}</span>
+                            <span>{{item.CreditoMaximo || 'N/A'}}</span>
                           </td>
                           <td class="border-class">
-                            <span>{{item.SaldoActual}}</span>
+                            <span>{{item.SaldoActual || 'N/A'}}</span>
                           </td>
                           <td class="border-class">
-                            <span>{{item.MontoPagar}}</span>
+                            <span>{{item.MontoPagar || 'N/A'}}</span>
                           </td>
                           <td class="border-class">
-                            <span>{{item.TipoCuentaDes}}</span>
+                            <span>{{item.FrecuenciaPagosDes || 'N/A'}}</span>
                           </td>
                           <td class="border-class">
-                            <span>{{item.FechaUltimoPagoDate}}</span>
+                            <span>{{item.FechaUltimoPagoDate || 'N/A'}}</span>
                           </td>
                           <td class="border-class">
-                            <span>{{item.FechaUltimaCompraDate}}</span>
+                            <span>{{item.FechaUltimaCompraDate || 'N/A'}}</span>
                           </td>
                           <td class="border-class">
-                            <span>{{item.SaldoVencido}}</span>
+                            <span>{{item.SaldoVencido || 'N/A'}}</span>
                           </td>
                           <td class="border-class">
-                            <span>{{item.FormaPagoActual}}</span>
+                            <span>{{item.FormaPagoActual || 'N/A'}}</span>
                           </td>
                           <td class="border-class">
-                            <span>{{item.FechaActualizacionDate}}</span>
+                            <span>{{item.FechaActualizacionDate || 'N/A'}}</span>
                           </td>
                         </tr>
                         <tr>
@@ -3612,47 +3612,47 @@
                                 <td class="sub-table-color">
                                   <label><b>{{data.year}}</b></label>
                                 </td>
-                                <td>
+                                <td [ngClass]="{'tb-background1': data.E == '1' || data.E == '0' || data.E == 'X', 'tb-background' : data.E == '' }">
                                   <span><b>{{data.E}}</b></span>
                                 </td>
-                                <td>
+                                <td [ngClass]="{'tb-background1': data.F == '1' || data.F == '0' || data.F == 'X', 'tb-background' : data.F == '' }">
                                   <span><b>{{data.F}}</b></span>
                                 </td>
-                                <td>
+                                <td [ngClass]="{'tb-background1': data.M == '1' || data.M == '0' || data.M == 'X', 'tb-background' : data.M == '' }">
                                   <span><b>{{data.M}}</b></span>
                                 </td>
-                                <td>
+                                <td [ngClass]="{'tb-background1': data.A == '1' || data.A == '0' || data.A == 'X', 'tb-background' : data.A == '' }">
                                   <span><b>{{data.A}}</b></span>
                                 </td>
-                                <td>
+                                <td [ngClass]="{'tb-background1': data.Ma == '1' || data.Ma == '0' || data.Ma == 'X', 'tb-background' : data.Ma == '' }">
                                   <span><b>{{data.Ma}}</b></span>
                                 </td>
-                                <td>
+                                <td [ngClass]="{'tb-background1': data.J == '1' || data.J == '0' || data.J == 'X', 'tb-background' : data.J == '' }">
                                   <span><b>{{data.J}}</b></span>
                                 </td>
-                                <td>
+                                <td [ngClass]="{'tb-background1': data.Ju == '1' || data.Ju == '0' || data.Ju == 'X', 'tb-background' : data.Ju == '' }">
                                   <span><b>{{data.Ju}}</b></span>
                                 </td>
-                                <td>
+                                <td [ngClass]="{'tb-background1': data.Au == '1' || data.Au == '0' || data.Au == 'X', 'tb-background' : data.Au == '' }">
                                   <span><b>{{data.Au}}</b></span>
                                 </td>
-                                <td>
+                                <td [ngClass]="{'tb-background1': data.S == '1' || data.S == '0' || data.S == 'X', 'tb-background' : data.S == '' }">
                                   <span><b>{{data.S}}</b></span>
                                 </td>
-                                <td>
+                                <td [ngClass]="{'tb-background1': data.O == '1' || data.O == '0' || data.O == 'X', 'tb-background' : data.O == '' }">
                                   <span><b>{{data.O}}</b></span>
                                 </td>
-                                <td>
+                                <td [ngClass]="{'tb-background1': data.N == '1' || data.N == '0' || data.N == 'X', 'tb-background' : data.N == '' }">
                                   <span><b>{{data.N}}</b></span>
                                 </td>
-                                <td>
+                                <td [ngClass]="{'tb-background1': data.D == '1' || data.D == '0' || data.D == 'X', 'tb-background2' : data.D == '' }">
                                   <span><b>{{data.D}}</b></span>
                                 </td>
                               </tr>
                               <tr>
                                 <td colspan="13" class="sub-table-color" style="text-align: center;">
                                   <span style="color: black;"><b>{{'creditForm.mOPHistóricoMásAlto' | translate}}
-                                      {{item.MopHistoricoMorosidadMasGrave}}</b></span>
+                                      {{item.MopHistoricoMorosidadMasGrave || 'N/A'}}</b></span>
                                 </td>
                               </tr>
                             </table>
@@ -3676,7 +3676,7 @@
                     <label>{{'creditForm.totalCréditos' | translate}}</label>
                   </div>
                   <div class="col-11">
-                    <span>{{this.user_data.xml_report ? this.user_data.xml_report[0].NumeroCuentas : ''}}</span>
+                    <span>{{this.user_data.xml_report ? this.user_data.xml_report[0].NumeroCuentas : 'N/A'}}</span>
                   </div>
                 </div>
                 <div class="tab-pane">
@@ -3684,103 +3684,103 @@
                     <div class="table-responsive">
                       <table class="table table-striped table-align-left" style="margin-top: 10px;">
                         <tr>
-                          <th style="vertical-align:top;width:12%" class="color-change">
+                          <th style="vertical-align:top;width:12%" class="color-change border-color">
                             <div class="d-flex">
                               <label><b>{{'creditForm.calificaciónMOP' | translate}}</b></label>
                             </div>
                           </th>
-                          <th style="vertical-align:top;width:6%" class="background-class">
+                          <th style="vertical-align:top;width:6%" class="background-class border-color">
                             <div class="d-flex table-search">
                               <label><b>{{'creditForm.MOP0' | translate}}</b></label>
                             </div>
                           </th>
-                          <th style="vertical-align:top;width:6%" class="background-class">
+                          <th style="vertical-align:top;width:6%" class="background-class border-color">
                             <div class="d-flex table-search">
                               <label><b>{{'creditForm.MOP1' | translate}}</b></label>
                             </div>
                           </th>
-                          <th style="vertical-align:top;width:6%" class="background-class">
+                          <th style="vertical-align:top;width:6%" class="background-class border-color">
                             <div class="d-flex table-search">
                               <label><b>{{'creditForm.MOP2' | translate}}</b></label>
                             </div>
                           </th>
-                          <th style="vertical-align:top;width:6%" class="background-class">
+                          <th style="vertical-align:top;width:6%" class="background-class border-color">
                             <div class="d-flex table-search">
                               <label><b>{{'creditForm.MOP3' | translate}}</b></label>
                             </div>
                           </th>
-                          <th style="vertical-align:top;width:6%" class="background-class">
+                          <th style="vertical-align:top;width:6%" class="background-class border-color">
                             <div class="d-flex table-search">
                               <label>{{'creditForm.MOP4' | translate}}</label>
                             </div>
                           </th>
-                          <th style="vertical-align:top;width:6%" class="background-class">
+                          <th style="vertical-align:top;width:6%" class="background-class border-color">
                             <div class="d-flex table-search">
                               <label><b>{{'creditForm.MOP5' | translate}}</b></label>
                             </div>
                           </th>
-                          <th style="vertical-align:top;width:6%" class="background-class">
+                          <th style="vertical-align:top;width:6%" class="background-class border-color">
                             <div class="d-flex table-search">
                               <label>{{'creditForm.MOP6' | translate}}</label>
                             </div>
                           </th>
-                          <th style="vertical-align:top;width:6%" class="background-class">
+                          <th style="vertical-align:top;width:6%" class="background-class border-color">
                             <div class="d-flex table-search">
                               <label><b>{{'creditForm.MOP7' | translate}}</b></label>
                             </div>
                           </th>
-                          <th style="vertical-align:top;width:6%" class="background-class">
+                          <th style="vertical-align:top;width:6%" class="background-class border-color">
                             <div class="d-flex table-search">
                               <label><b>{{'creditForm.MOP96' | translate}}</b></label>
                             </div>
                           </th>
-                          <th style="vertical-align:top;width:6%" class="background-class">
+                          <th style="vertical-align:top;width:6%" class="background-class border-color">
                             <div class="d-flex table-search">
                               <label><b>{{'creditForm.MOP97' | translate}}</b></label>
                             </div>
                           </th>
-                          <th style="vertical-align:top;width:6%" class="background-class">
+                          <th style="vertical-align:top;width:6%" class="background-class border-color">
                             <div class="d-flex table-search">
                               <label><b>{{'creditForm.MOP99' | translate}}</b></label>
                             </div>
                           </th>
                         </tr>
                         <tr *ngFor="let item of this.user_data.xml_report">
-                          <td class="color-change">
+                          <td class="color-change border-color">
                             <label><b>{{'creditForm.númeroCréditosRegistrados' | translate}}</b></label>
                           </td>
-                          <td class="background-class">
-                            <span>{{item.NumeroMOP0}}</span>
+                          <td class="background-class border-color">
+                            <span>{{item.NumeroMOP0 || 'N/A'}}</span>
                           </td>
-                          <td class="background-class">
-                            <span>{{item.NumeroMOP1}}</span>
+                          <td class="background-class border-color">
+                            <span>{{item.NumeroMOP1 || 'N/A'}}</span>
                           </td>
-                          <td class="background-class">
-                            <span>{{item.NumeroMOP2}}</span>
+                          <td class="background-class border-color">
+                            <span>{{item.NumeroMOP2 || 'N/A'}}</span>
                           </td>
-                          <td class="background-class">
-                            <span>{{item.NumeroMOP3}}</span>
+                          <td class="background-class border-color">
+                            <span>{{item.NumeroMOP3 || 'N/A'}}</span>
                           </td>
-                          <td class="background-class">
-                            <span>{{item.NumeroMOP4}}</span>
+                          <td class="background-class border-color">
+                            <span>{{item.NumeroMOP4 || 'N/A'}}</span>
                           </td>
-                          <td class="background-class">
-                            <span>{{item.NumeroMOP5}}</span>
+                          <td class="background-class border-color">
+                            <span>{{item.NumeroMOP5 || 'N/A'}}</span>
                           </td>
-                          <td class="background-class">
-                            <span>{{item.NumeroMOP6}}</span>
+                          <td class="background-class border-color">
+                            <span>{{item.NumeroMOP6 || 'N/A'}}</span>
                           </td>
-                          <td class="background-class">
-                            <span>{{item.NumeroMOP7}}</span>
+                          <td class="background-class border-color">
+                            <span>{{item.NumeroMOP7 || 'N/A'}}</span>
                           </td>
-                          <td class="background-class">
-                            <span>{{item.NumeroMOP96}}</span>
+                          <td class="background-class border-color">
+                            <span>{{item.NumeroMOP96 || 'N/A'}}</span>
                           </td>
-                          <td class="background-class">
-                            <span>{{item.NumeroMOP97}}</span>
+                          <td class="background-class border-color">
+                            <span>{{item.NumeroMOP97 || 'N/A'}}</span>
                           </td>
-                          <td class="background-class">
-                            <span>{{item.NumeroMOP99}}</span>
+                          <td class="background-class border-color">
+                            <span>{{item.NumeroMOP99 || 'N/A'}}</span>
                           </td>
                         </tr>
                       </table>
@@ -3797,55 +3797,55 @@
                     <div class="table-responsive">
                       <table class="table table-striped table-align-left" style="margin-top: 10px;">
                         <tr>
-                          <th style="vertical-align:top;width:6%" class="color-change">
+                          <th style="vertical-align:top;width:6%" class="color-change border-color">
                             <div class="d-flex">
                               <label><b>{{'creditForm.créditosFijosHipotecarios' | translate}}</b></label>
                             </div>
                           </th>
-                          <th style="vertical-align:top;width:6%" class="color-change">
+                          <th style="vertical-align:top;width:6%" class="color-change border-color">
                             <div class="d-flex">
                               <label><b>{{'creditForm.créditosRevolventes' | translate}}</b></label>
                             </div>
                           </th>
-                          <th style="vertical-align:top;width:6%" class="color-change">
+                          <th style="vertical-align:top;width:6%" class="color-change border-color">
                             <div class="d-flex">
                               <label><b>{{'creditForm.créditosCerrados' | translate}}</b></label>
                             </div>
                           </th>
-                          <th style="vertical-align:top;width:6%" class="color-change">
+                          <th style="vertical-align:top;width:6%" class="color-change border-color">
                             <div class="d-flex">
                               <label><b>{{'creditForm.créditosConMorosidadActual' | translate}}</b></label>
                             </div>
                           </th>
-                          <th style="vertical-align:top;width:6%" class="color-change">
+                          <th style="vertical-align:top;width:6%" class="color-change border-color">
                             <div class="d-flex">
                               <label><b>{{'creditForm.créditosConHistorialMorosidad' | translate}}</b></label>
                             </div>
                           </th>
-                          <th style="vertical-align:top;width:6%" class="color-change">
+                          <th style="vertical-align:top;width:6%" class="color-change border-color">
                             <div class="d-flex">
                               <label><b>{{'creditForm.crédtiosAclaración' | translate}}</b></label>
                             </div>
                           </th>
                         </tr>
                         <tr *ngFor="let item of this.user_data.xml_report">
-                          <td>
-                            <span>{{item.CuentasPagosFijosHipotecas}}</span>
+                          <td style="background: rgba(87, 174, 117, 0.1);" class="border-color">
+                            <span>{{item.CuentasPagosFijosHipotecas || 'N/A'}}</span>
                           </td>
-                          <td>
-                            <span>{{item.CuentasRevolventesAbiertas}}</span>
+                          <td style="background: rgba(87, 174, 117, 0.1);" class="border-color">
+                            <span>{{item.CuentasRevolventesAbiertas || 'N/A'}}</span>
                           </td>
-                          <td>
-                            <span>{{item.CuentasCerradas}}</span>
+                          <td style="background: rgba(87, 174, 117, 0.1);" class="border-color">
+                            <span>{{item.CuentasCerradas || 'N/A'}}</span>
                           </td>
-                          <td>
-                            <span>{{item.CuentasNegativasActuales}}</span>
+                          <td style="background: rgba(87, 174, 117, 0.1);" class="border-color">
+                            <span>{{item.CuentasNegativasActuales || 'N/A'}}</span>
                           </td>
-                          <td>
-                            <span>{{item.CuentasClavesHistoriaNegativa}}</span>
+                          <td style="background: rgba(87, 174, 117, 0.1);" class="border-color">
+                            <span>{{item.CuentasClavesHistoriaNegativa || 'N/A'}}</span>
                           </td>
-                          <td>
-                            <span>{{item.CuentasDisputa}}</span>
+                          <td style="background: rgba(87, 174, 117, 0.1);" class="border-color">
+                            <span>{{item.CuentasDisputa || 'N/A'}}</span>
                           </td>
                         </tr>
                       </table>
@@ -3874,31 +3874,31 @@
                       <div class="table-responsive">
                         <table class="table table-striped table-align-left" style="margin-top: 10px;">
                           <tr>
-                            <th style="vertical-align:top;width:6%" class="background-class">
+                            <th style="vertical-align:top;width:6%;border-bottom: 1px solid black !important;" class="background-class">
                               <div class="d-flex">
                                 <label><b>{{'creditForm.fechaAperturaCréditoMásAntiguo' | translate}}</b></label>
                               </div>
                             </th>
-                            <th style="vertical-align:top;width:6%" class="background-class">
+                            <th style="vertical-align:top;width:6%;border-bottom: 1px solid black !important;" class="background-class">
                               <div class="d-flex">
                                 <label><b>{{'creditForm.fechaAperturaCréditoMásReciente' | translate}}</b></label>
                               </div>
                             </th>
-                            <th style="vertical-align:top;width:6%" class="background-class">
+                            <th style="vertical-align:top;width:6%;border-bottom: 1px solid black !important;" class="background-class">
                               <div class="d-flex">
                                 <label><b>{{'creditForm.fechaConsultaMásReciente' | translate}}</b></label>
                               </div>
                             </th>
                           </tr>
                           <tr *ngFor="let item of this.user_data.xml_report">
-                            <td>
-                              <span>{{item.FechaAperturaCuentaMasAntiguaDate}}</span>
+                            <td class="border-class2">
+                              <span>{{item.FechaAperturaCuentaMasAntiguaDate || 'N/A'}}</span>
                             </td>
-                            <td>
-                              <span>{{item.FechaAperturaCuentaMasRecienteDate}}</span>
+                            <td class="border-class3">
+                              <span>{{item.FechaAperturaCuentaMasRecienteDate || 'N/A'}}</span>
                             </td>
-                            <td>
-                              <span>{{item.FechaSolicitudReporteMasRecienteDate}}</span>
+                            <td class="border-class4">
+                              <span>{{item.FechaSolicitudReporteMasRecienteDate || 'N/A'}}</span>
                             </td>
                           </tr>
                         </table>
@@ -3910,62 +3910,62 @@
               <div class="col-12">
                 <div class="spacer40"></div>
               </div>
-              <h5>{{'creditForm.historialCréditosRevolventes' | translate}}</h5>
+              <h5><b>{{'creditForm.historialCréditosRevolventes' | translate}}</b></h5>
               <div class="col-12">
                 <div class="tab-pane">
                   <div class="tabel-section">
                     <div class="table-responsive">
                       <table class="table table-striped table-align-left" style="margin-top: 10px;">
                         <tr>
-                          <th style="vertical-align:top;width:6%" class="background-class">
+                          <th style="vertical-align:top;width:6%;border-bottom: 1px solid black !important;" class="background-class">
                             <div class="d-flex">
                               <label><b>{{'creditForm.créditosMáximos' | translate}}</b></label>
                             </div>
                           </th>
-                          <th style="vertical-align:top;width:6%" class="background-class">
+                          <th style="vertical-align:top;width:6%;border-bottom: 1px solid black !important;" class="background-class">
                             <div class="d-flex">
                               <label><b>{{'creditForm.límitesCrédito' | translate}}</b></label>
                             </div>
                           </th>
-                          <th style="vertical-align:top;width:6%" class="background-class">
+                          <th style="vertical-align:top;width:6%;border-bottom: 1px solid black !important;" class="background-class">
                             <div class="d-flex">
                               <label><b>{{'creditForm.saldosActuales' | translate}}</b></label>
                             </div>
                           </th>
-                          <th style="vertical-align:top;width:6%" class="background-class">
+                          <th style="vertical-align:top;width:6%;border-bottom: 1px solid black !important;" class="background-class">
                             <div class="d-flex">
                               <label><b>{{'creditForm.saldosVencidos' | translate}}</b></label>
                             </div>
                           </th>
-                          <th style="vertical-align:top;width:6%" class="background-class">
+                          <th style="vertical-align:top;width:6%;border-bottom: 1px solid black !important;" class="background-class">
                             <div class="d-flex">
                               <label><b>{{'creditForm.porcentajeUsadoLímitesCrédito' | translate}}</b></label>
                             </div>
                           </th>
-                          <th style="vertical-align:top;width:6%" class="background-class">
+                          <th style="vertical-align:top;width:6%;border-bottom: 1px solid black !important;" class="background-class">
                             <div class="d-flex">
                               <label><b>{{'creditForm.totalPagos' | translate}}</b></label>
                             </div>
                           </th>
                         </tr>
                         <tr *ngFor="let item of this.user_data.xml_report">
-                          <td>
-                            <span>{{item.TotalCreditosMaximosRevolventesChange}}</span>
+                          <td class="border-class2">
+                            <span>{{item.TotalCreditosMaximosRevolventesChange || 'N/A'}}</span>
                           </td>
-                          <td>
-                            <span>{{item.TotalLimitesCreditoRevolventesChange}}</span>
+                          <td class="border-class3">
+                            <span>{{item.TotalLimitesCreditoRevolventesChange || 'N/A'}}</span>
                           </td>
-                          <td>
-                            <span>{{item.TotalSaldosActualesRevolventesChange}}</span>
+                          <td class="border-class3">
+                            <span>{{item.TotalSaldosActualesRevolventesChange || 'N/A'}}</span>
                           </td>
-                          <td>
-                            <span>{{item.TotalSaldosVencidosRevolventesChange}}</span>
+                          <td class="border-class3">
+                            <span>{{item.TotalSaldosVencidosRevolventesChange || 'N/A'}}</span>
                           </td>
-                          <td>
-                            <span>{{item.PctLimiteCreditoUtilizadoRevolventesChange}}</span>
+                          <td class="border-class3">
+                            <span>{{item.PctLimiteCreditoUtilizadoRevolventesChange || 'N/A'}}</span>
                           </td>
-                          <td>
-                            <span>{{item.TotalPagosRevolventesChange}}</span>
+                          <td class="border-class4">
+                            <span>{{item.TotalPagosRevolventesChange || 'N/A'}}</span>
                           </td>
                         </tr>
                       </table>
@@ -3984,38 +3984,38 @@
                       <div class="table-responsive">
                         <table class="table table-striped table-align-left" style="margin-top: 10px;">
                           <tr>
-                            <th style="vertical-align:top;width:6%" class="background-class">
+                            <th style="vertical-align:top;width:6%;border-bottom: 1px solid black !important;" class="background-class">
                               <div class="d-flex">
                                 <label><b>{{'creditForm.créditosMáximos' | translate}}</b></label>
                               </div>
                             </th>
-                            <th style="vertical-align:top;width:6%" class="background-class">
+                            <th style="vertical-align:top;width:6%;border-bottom: 1px solid black !important;" class="background-class">
                               <div class="d-flex">
                                 <label><b>{{'creditForm.saldosActuales' | translate}}</b></label>
                               </div>
                             </th>
-                            <th style="vertical-align:top;width:6%" class="background-class">
+                            <th style="vertical-align:top;width:6%;border-bottom: 1px solid black !important;" class="background-class">
                               <div class="d-flex">
                                 <label><b>{{'creditForm.saldosVencidos' | translate}}</b></label>
                               </div>
                             </th>
-                            <th style="vertical-align:top;width:6%" class="background-class">
+                            <th style="vertical-align:top;width:6%;border-bottom: 1px solid black !important;" class="background-class">
                               <div class="d-flex">
                                 <label><b>{{'creditForm.totalPagos' | translate}}</b></label>
                               </div>
                             </th>
                           </tr>
                           <tr *ngFor="let item of this.user_data.xml_report">
-                            <td>
+                            <td class="border-class2">
                               <span>{{item.TotalCreditosMaximosPagosFijosChange}}</span>
                             </td>
-                            <td>
+                            <td class="border-class3">
                               <span>{{item.TotalSaldosActualesPagosFijosChange}}</span>
                             </td>
-                            <td>
+                            <td class="border-class3">
                               <span>{{item.TotalSaldosVencidosPagosFijosChange}}</span>
                             </td>
-                            <td>
+                            <td class="border-class4">
                               <span>{{item.TotalPagosPagosFijosChange}}</span>
                             </td>
                           </tr>
@@ -4036,22 +4036,22 @@
                       <div class="table-responsive">
                         <table class="table table-striped table-align-left" style="margin-top: 10px;">
                           <tr>
-                            <th style="vertical-align:top;width:6%" class="color-change">
+                            <th style="vertical-align:top;width:6%" class="color-change border-color">
                               <div class="d-flex">
                                 <label><b>{{'creditForm.BCScore' | translate}}</b></label>
                               </div>
                             </th>
-                            <th class="background-class" style="vertical-align:top;width:6%">
+                            <th class="background-class border-color" style="vertical-align:top;width:6%">
                               <div class="d-flex">
                                 <label>{{ValorScoreDes007}}</label>
                               </div>
                             </th>
                           </tr>
                           <tr>
-                            <td class="color-change">
+                            <td class="color-change border-color">
                               <label><b>{{'creditForm.scoreIndiceCapacidadCrediticia' | translate}}</b></label>
                             </td>
-                            <td class="background-class">
+                            <td class="background-class border-color">
                               <span>{{ValorScoreDes004}}</span>
                             </td>
                           </tr>
@@ -4072,31 +4072,31 @@
                       <div class="table-responsive">
                         <table class="table table-striped table-align-left" style="margin-top: 10px;">
                           <tr>
-                            <th style="vertical-align:top;width:6%" class="color-change">
+                            <th style="vertical-align:top;width:6%" class="color-change border-color">
                               <div class="d-flex">
                                 <label><b>{{'creditForm.institución' | translate}}</b></label>
                               </div>
                             </th>
-                            <th style="vertical-align:top;width:6%" class="color-change">
+                            <th style="vertical-align:top;width:6%" class="color-change border-color">
                               <div class="d-flex">
                                 <label><b>{{'creditForm.mensaje' | translate}}</b></label>
                               </div>
                             </th>
-                            <th style="vertical-align:top;width:6%" class="color-change">
+                            <th style="vertical-align:top;width:6%" class="color-change border-color">
                               <div class="d-flex">
                                 <label><b>{{'creditForm.fechaReporte' | translate}}</b></label>
                               </div>
                             </th>
                           </tr>
                           <tr *ngFor="let item of this.user_data.xml_alert_query">
-                            <td class="background-class">
-                              <span>{{item.TipoInstitucion}}</span>
+                            <td class="background-class border-color">
+                              <span>{{item.TipoInstitucion || 'N/A'}}</span>
                             </td>
-                            <td class="background-class">
-                              <span>{{item.Mensaje}}</span>
+                            <td class="background-class border-color">
+                              <span>{{item.Mensaje || 'N/A'}}</span>
                             </td>
-                            <td class="background-class">
-                              <span>{{item.FechaReporteDate}}</span>
+                            <td class="background-class border-color">
+                              <span>{{item.FechaReporteDate || 'N/A'}}</span>
                             </td>
                           </tr>
                         </table>

@@ -232,3 +232,42 @@ input:checked + .slider:before {
   border-bottom: 1px solid black !important;
   border-collapse: collapse;
 }
+
+.border-class2{
+  border-left: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  border-collapse: collapse;
+  background: white !important;
+}
+
+.border-class3{
+  border-bottom: 1px solid black !important;
+  border-collapse: collapse;
+  background: white !important;
+}
+
+.border-class4{
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  border-collapse: collapse;
+  background: white !important;
+}
+
+.border-color{
+  border: 1px solid #FFFFFF !important;
+}
+
+.tb-background{
+  background: #EBEBEB;
+}
+
+.tb-background1{
+  border: 1px solid black !important;
+  border-collapse: collapse;
+  background: white;
+}
+
+.tb-background2{
+  background: #EBEBEB;
+  border-right: 1px solid black !important;
+}

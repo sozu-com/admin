@@ -1563,16 +1563,16 @@ export class CreditAddEditComponent implements OnInit {
           item.TipoCuentaDes = value2.description;
           item.FechaAperturaCuentaDate = (item.FechaAperturaCuenta ? ((item.FechaAperturaCuenta.substring(0, 2) + '/' +
             item.FechaAperturaCuenta.substring(2, item.FechaAperturaCuenta.length)).substring(0, 5) + '/' +
-            item.FechaAperturaCuenta.substring(4, item.FechaAperturaCuenta.length)) : '');
+            item.FechaAperturaCuenta.substring(4, item.FechaAperturaCuenta.length)) : 'N/A');
           item.FechaUltimoPagoDate = (item.FechaUltimoPago ? ((item.FechaUltimoPago.substring(0, 2) + '/' +
             item.FechaUltimoPago.substring(2, item.FechaUltimoPago.length)).substring(0, 5) + '/' +
-            item.FechaUltimoPago.substring(4, item.FechaUltimoPago.length)) : '');
+            item.FechaUltimoPago.substring(4, item.FechaUltimoPago.length)) : 'N/A');
           item.FechaUltimaCompraDate = (item.FechaUltimaCompra ? ((item.FechaUltimaCompra.substring(0, 2) + '/' +
             item.FechaUltimaCompra.substring(2, item.FechaUltimaCompra.length)).substring(0, 5) + '/' +
-            item.FechaUltimaCompra.substring(4, item.FechaUltimaCompra.length)) : '');
+            item.FechaUltimaCompra.substring(4, item.FechaUltimaCompra.length)) : 'N/A');
           item.FechaActualizacionDate = (item.FechaActualizacion ? ((item.FechaActualizacion.substring(0, 2) + '/' +
             item.FechaActualizacion.substring(2, item.FechaActualizacion.length)).substring(0, 5) + '/' +
-            item.FechaActualizacion.substring(4, item.FechaActualizacion.length)) : '');
+            item.FechaActualizacion.substring(4, item.FechaActualizacion.length)) : 'N/A');
           if (item.HistoricoPagos.length > 0) {
             if (month_no1 == '01') {
               item.HistoricoPagosArray.push(
@@ -2200,23 +2200,23 @@ export class CreditAddEditComponent implements OnInit {
           item.MensajesAlertaDes = value3;
           item.FechaAperturaCuentaMasAntiguaDate = (item.FechaAperturaCuentaMasAntigua ? ((item.FechaAperturaCuentaMasAntigua.substring(0, 2) + '/' +
             item.FechaAperturaCuentaMasAntigua.substring(2, item.FechaAperturaCuentaMasAntigua.length)).substring(0, 5) + '/' +
-            item.FechaAperturaCuentaMasAntigua.substring(4, item.FechaAperturaCuentaMasAntigua.length)) : '');
+            item.FechaAperturaCuentaMasAntigua.substring(4, item.FechaAperturaCuentaMasAntigua.length)) : 'N/A');
           item.FechaAperturaCuentaMasRecienteDate = (item.FechaAperturaCuentaMasReciente ? ((item.FechaAperturaCuentaMasReciente.substring(0, 2) + '/' +
             item.FechaAperturaCuentaMasReciente.substring(2, item.FechaAperturaCuentaMasReciente.length)).substring(0, 5) + '/' +
-            item.FechaAperturaCuentaMasReciente.substring(4, item.FechaAperturaCuentaMasReciente.length)) : '');
+            item.FechaAperturaCuentaMasReciente.substring(4, item.FechaAperturaCuentaMasReciente.length)) : 'N/A');
           item.FechaSolicitudReporteMasRecienteDate = (item.FechaSolicitudReporteMasReciente ? ((item.FechaSolicitudReporteMasReciente.substring(0, 2) + '/' +
             item.FechaSolicitudReporteMasReciente.substring(2, item.FechaSolicitudReporteMasReciente.length)).substring(0, 5) + '/' +
-            item.FechaSolicitudReporteMasReciente.substring(4, item.FechaSolicitudReporteMasReciente.length)) : '');
-          item.TotalCreditosMaximosRevolventesChange = item.TotalCreditosMaximosRevolventes ? (this.price.transform(Number(item.TotalCreditosMaximosRevolventes))).replace('$', '') : '';
-          item.TotalLimitesCreditoRevolventesChange = item.TotalLimitesCreditoRevolventes ? (this.price.transform(Number(item.TotalLimitesCreditoRevolventes))).replace('$', '') : '';
-          item.TotalSaldosActualesRevolventesChange = item.TotalSaldosActualesRevolventes ? (this.price.transform(Number(item.TotalSaldosActualesRevolventes.replace('+', '')))).replace('$', '') : '';
-          item.TotalSaldosVencidosRevolventesChange = item.TotalSaldosVencidosRevolventes ? (this.price.transform(Number(item.TotalSaldosVencidosRevolventes))).replace('$', '') : '';
-          item.PctLimiteCreditoUtilizadoRevolventesChange = item.PctLimiteCreditoUtilizadoRevolventes ? ((Number(item.PctLimiteCreditoUtilizadoRevolventes)) + '%') : '';
-          item.TotalPagosRevolventesChange = item.TotalPagosRevolventes ? (this.price.transform(Number(item.TotalPagosRevolventes))).replace('$', '') : '';
-          item.TotalCreditosMaximosPagosFijosChange = item.TotalCreditosMaximosPagosFijos ? (this.price.transform(Number(item.TotalCreditosMaximosPagosFijos))).replace('$', '') : '';
-          item.TotalSaldosActualesPagosFijosChange = item.TotalSaldosActualesPagosFijos ? (this.price.transform(Number(item.TotalSaldosActualesPagosFijos))).replace('$', '') : '';
-          item.TotalSaldosVencidosPagosFijosChange = item.TotalSaldosVencidosPagosFijos ? (this.price.transform(Number(item.TotalSaldosVencidosPagosFijos))).replace('$', '') : '';
-          item.TotalPagosPagosFijosChange = item.TotalPagosPagosFijos ? (this.price.transform(Number(item.TotalPagosPagosFijos))).replace('$', '') : '';
+            item.FechaSolicitudReporteMasReciente.substring(4, item.FechaSolicitudReporteMasReciente.length)) : 'N/A');
+          item.TotalCreditosMaximosRevolventesChange = item.TotalCreditosMaximosRevolventes ? (this.price.transform(Number(item.TotalCreditosMaximosRevolventes))).replace('$', '') : 'N/A';
+          item.TotalLimitesCreditoRevolventesChange = item.TotalLimitesCreditoRevolventes ? (this.price.transform(Number(item.TotalLimitesCreditoRevolventes))).replace('$', '') : 'N/A';
+          item.TotalSaldosActualesRevolventesChange = item.TotalSaldosActualesRevolventes ? (this.price.transform(Number(item.TotalSaldosActualesRevolventes.replace('+', '')))).replace('$', '') : 'N/A';
+          item.TotalSaldosVencidosRevolventesChange = item.TotalSaldosVencidosRevolventes ? (this.price.transform(Number(item.TotalSaldosVencidosRevolventes))).replace('$', '') : 'N/A';
+          item.PctLimiteCreditoUtilizadoRevolventesChange = item.PctLimiteCreditoUtilizadoRevolventes ? ((Number(item.PctLimiteCreditoUtilizadoRevolventes)) + '%') : 'N/A';
+          item.TotalPagosRevolventesChange = item.TotalPagosRevolventes ? (this.price.transform(Number(item.TotalPagosRevolventes))).replace('$', '') : 'N/A';
+          item.TotalCreditosMaximosPagosFijosChange = item.TotalCreditosMaximosPagosFijos ? (this.price.transform(Number(item.TotalCreditosMaximosPagosFijos))).replace('$', '') : 'N/A';
+          item.TotalSaldosActualesPagosFijosChange = item.TotalSaldosActualesPagosFijos ? (this.price.transform(Number(item.TotalSaldosActualesPagosFijos))).replace('$', '') : 'N/A';
+          item.TotalSaldosVencidosPagosFijosChange = item.TotalSaldosVencidosPagosFijos ? (this.price.transform(Number(item.TotalSaldosVencidosPagosFijos))).replace('$', '') : 'N/A';
+          item.TotalPagosPagosFijosChange = item.TotalPagosPagosFijos ? (this.price.transform(Number(item.TotalPagosPagosFijos))).replace('$', '') : 'N/A';
         });
 
         this.user_data.xml_value_score.forEach(item => {
@@ -2232,7 +2232,7 @@ export class CreditAddEditComponent implements OnInit {
 
         this.user_data.xml_alert_query.forEach(item => {
           item.FechaReporteDate = (item.FechaReporte ? ((item.FechaReporte.substring(0, 2) + '/' + item.FechaReporte.substring(2, item.FechaReporte.length)).substring(0, 5) +
-            '/' + item.FechaReporte.substring(4, item.FechaReporte.length)) : '');
+          '/' + item.FechaReporte.substring(4, item.FechaReporte.length)) : 'N/A');
         })
         this.spinnerService.hide();
       });
