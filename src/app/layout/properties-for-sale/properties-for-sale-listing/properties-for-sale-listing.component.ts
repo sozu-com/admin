@@ -21,7 +21,7 @@ import { ExcelDownload } from 'src/app/common/excelDownload';
 import { ApiConstants } from 'src/app/common/api-constants';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from 'src/app/services/common.service';
-
+import { forkJoin } from 'rxjs';
 
 declare let swal: any;
 declare var $: any;
@@ -61,6 +61,7 @@ class Invoice {
 })
 
 export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
+  [x: string]: any;
 
   selectedvalue: bank;
   public parameter: IProperty = {};
@@ -149,6 +150,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
   items: any[] = [];
   total: any = 0;
   is_filter: boolean = false;
+  user_list: any;
   constructor(
     public constant: Constant, private toastr: ToastrService,
     public apiConstant: ApiConstants, public admin: AdminService,
@@ -203,6 +205,11 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.user_list = JSON.parse(localStorage.getItem('all'));
+    if (this.user_list.data) {
+      this.can_outside_broker = this.user_list.data.permissions.can_outside_broker;
+      console.log(this.user_list.data.permissions.can_outside_broker, "check");
+    }
     this.cs.items = JSON.parse(localStorage.getItem('property_sale_data'));
     this.cs.totalSale = JSON.parse(localStorage.getItem('property_sale_total'));
     this.language_code = localStorage.getItem('language_code');
@@ -1829,7 +1836,62 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     this.notesadddModalClose.nativeElement.click();
     this.modalClose.nativeElement.click();
   }
-
+  getParkingSpaceLots = (buildingId: any): void => {
+    this.spinner.show();
+    forkJoin([
+      //this.admin.postDataApi('parkingSpaceLots', { building_id: buildingId || 0 }),
+      this.admin.postDataApi('parkingSpaceRent', { building_id: buildingId || 0 }),
+    ]).subscribe((response: any[]) => {
+      this.spinner.hide();
+      this.parkingSpaceLotsArray = response[0].data || [];
+      // this.parkingSpaceRentArray = response[1].data;
+    });
+  }
+  getBase64ImageFromUrl(id) {
+    this.admin.postDataApi('getPdfImage', { id: id }).subscribe((success) => {
+      this.base64 = (success || {}).data;
+      this.projectLogoImageBase64 = 'data:image/jpeg;base64,' + this.base64;
+    }, (error) => {
+    });
+  }
+  openModaloffer = (propertyDetails: any): void => {
+    // (propertyDetails.property_offer_payment || []).forEach(e => {
+    //   this.property_offer_payment = e;
+    //  });
+    this.property_array = propertyDetails;
+    this.getBase64ImageFromUrl(this.property_array.id);
+    this.spinner.show();
+    this.admin.postDataApi('getPropertyDetails', { id: (propertyDetails || {}).id }).subscribe((success) => {
+      this.spinner.hide();
+      this.bankDetails = (success || {}).data;
+      this.installmentFormGroup.get('agencyOrSeller').setValue(this.property_array.property_offer_payment[0].account_type == 1 ? false : true);
+      this.makePaymentBankDetailsArray(false);
+      this.getParkingSpaceLots(((success || {}).data || {}).building_id);
+      this.is_for_Offer = true;
+      this.generatePDF();
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
+  openModalInstallment = (propertyDetails: any): void => {
+    this.property_array = propertyDetails;
+    this.getBase64ImageFromUrl(this.property_array.id);
+    this.spinner.show();
+    this.admin.postDataApi('getPropertyDetails', { id: (propertyDetails || {}).id }).subscribe((success) => {
+      this.spinner.hide();
+      this.bankDetails = (success || {}).data;
+      this.getParkingSpaceLots(((success || {}).data || {}).building_id);
+      this.installmentFormGroup.get('paymentBankDetails').setValue(false);
+      this.installmentFormGroup.patchValue({
+        listPrice: this.property_array.min_price ? ('$' + this.getTransformedAmount(this.property_array.min_price)) : ('$' + 0.00)
+      });
+      this.makePaymentBankDetailsArray(true);
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
   getAgency = (property: any, keyword: string, index?: number): void => {
     this.spinner.show();
     if (property) {
@@ -2051,6 +2113,63 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
         break;
       default:
         break;
+    }
+  }
+  makePaymentBankDetailsArray = (isFirstTimeClick: boolean): void => {
+    this.paymentBankDetailsArray = [];
+    // this.installmentFormGroup.get('agencyOrSeller').value if true == seller or false == agency
+    if (!this.installmentFormGroup.get('agencyOrSeller').value) {
+      this.fedTaxPayer = (((this.bankDetails || {}).building || {}).agency || {}).fed_tax_pay || '';
+      // payment directly received by agency
+      if (((this.bankDetails || {}).building || {}).agency_id) {
+        // agency banks
+        for (let index = 0; index < (((this.bankDetails.building || {}).agency || {}).agency_banks || []).length; index++) {
+          const element = this.bankDetails.building.agency.agency_banks[index];
+          element.name = 'Agency Bank | ' + element.bank_name;
+          element.is_agency = 1;
+          element.bank_id = element.id;
+          element.legal_rep_bank_id = null;
+          element.legal_name = (((this.bankDetails || {}).building || {}).agency || {}).razon_social || '';
+          this.paymentBankDetailsArray.push(element);
+        }
+
+        // agency legal representative banks
+        if (((this.bankDetails.building || {}).agency || {}).legal_representative) {
+          for (let index = 0; index < ((this.bankDetails.building.agency.legal_representative || {}).legal_rep_banks || []).length; index++) {
+            const element = this.bankDetails.building.agency.legal_representative.legal_rep_banks[index];
+            element.name = 'Agency Legal Rep Bank | ' + element.bank_name;
+            element.is_agency = 1;
+            element.bank_id = null;
+            element.legal_rep_bank_id = element.id;
+            element.Legal_name = (((this.bankDetails || {}).building || {}).agency || {}).name || '';
+            this.paymentBankDetailsArray.push(element);
+          }
+        }
+      }
+    } else if (this.installmentFormGroup.get('agencyOrSeller').value) {
+      if ((((this.bankDetails || {}).selected_seller || {}).user || {}).developer_company || (((this.bankDetails || {}).selected_seller || {}).user || {}).is_developer == 0 && !(((this.bankDetails || {}).selected_seller || {}).user || {}).legal_entity_id) {
+        this.fedTaxPayer = (((this.bankDetails || {}).selected_seller || {}).user || {}).fed_tax_pay || '';
+        ((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_rep_banks || []).forEach((element, innerIndex) => {
+          element.name = 'Seller Bank | ' + element.bank_name;
+          element.legal_name = this.bankDetails.selected_seller.user.developer_company ? this.bankDetails.selected_seller.user.developer_company :
+            this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id ? this.bankDetails.selected_seller.user.name + ' ' + this.bankDetails.selected_seller.user.first_surname
+              + ' ' + this.bankDetails.selected_seller.user.second_surname : this.bankDetails.selected_seller.user.legal_entity.legal_name ? this.bankDetails.selected_seller.user.legal_entity.legal_name : '';
+          this.paymentBankDetailsArray.push(element);
+        });
+      }
+      else {
+        this.fedTaxPayer = ((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_entity || {}).fed_tax_pay || '';
+        (((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_entity || {}).legal_entity_banks || []).forEach((element, innerIndex) => {
+          element.name = 'Seller Bank | ' + element.bank_name;
+          element.legal_name = this.bankDetails.selected_seller.user.developer_company ? this.bankDetails.selected_seller.user.developer_company :
+            this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id ? this.bankDetails.selected_seller.user.name + ' ' + this.bankDetails.selected_seller.user.first_surname
+              + ' ' + this.bankDetails.selected_seller.user.second_surname : this.bankDetails.selected_seller.user.legal_entity.legal_name ? this.bankDetails.selected_seller.user.legal_entity.legal_name : '';
+          this.paymentBankDetailsArray.push(element);
+        });
+      }
+    }
+    if (isFirstTimeClick) {
+      this.openInstallmentModal.nativeElement.click();
     }
   }
 }
