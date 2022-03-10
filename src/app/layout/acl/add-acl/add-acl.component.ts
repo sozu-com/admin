@@ -281,6 +281,12 @@ export class AddAclComponent implements OnInit {
         .subscribe(
           success => {
             this.spinner.hide();
+            console.log(success['data'].permissions, "success['data']");
+            const user_list = JSON.parse(localStorage.getItem('all'));
+            if (user_list.data) {
+              user_list.data.permissions = success['data'].permissions;
+              localStorage.setItem('all', JSON.stringify(user_list));
+            }
             if (success.success === '0') {
               swal(this.translate.instant('swal.error'), success.message, 'error');
             } else {
