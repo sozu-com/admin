@@ -1508,10 +1508,10 @@ export class CreditAddEditComponent implements OnInit {
       address_two: this.address_two,
       neighbourhood: this.creditModel.user.neighborhood,
       municipality: this.creditModel.user.municipality,
-      // state: this.creditModel.user.state,
-      state: 'DF',
-      // zip_code: this.creditModel.user.zipcode,
-      zip_code: '05120',
+      state: this.creditModel.user.state,
+      //state: 'DF',
+      zip_code: this.creditModel.user.zipcode,
+      //zip_code: '05120',
       user_id: this.creditModel.user.id
     }
     this.adminService.postDataApi('sendXml', input).subscribe(
