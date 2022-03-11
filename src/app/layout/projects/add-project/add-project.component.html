@@ -1514,44 +1514,55 @@
               <div class="row">
                 <div class="col-12">
                   <div class="page-title paddingL0 paddingR0">
-                    <h3>{{'addForm.payment_way' | translate}}</h3>
+                    <h3>{{'addForm.payment_way' | translate}}
+                    <span class="tower pull-right"
+                        (click)="markIsAddVariables(true, $event)">{{'addForm.new' | translate}} </span>
+                    </h3>
                   </div>
+                </div>
+              </div>
+              <div class="row" *ngFor="let item of newPaymentWay; let t=index">
+                <div class="col-12" *ngIf="t">
+                  <h3>
+                  <span class="tower pull-right"
+                  (click)="removePaymentWay(t)">{{'addForm.removePaymentWay' | translate}} </span>
+                </h3>
                 </div>
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>{{'addForm.namePaymentWay' | translate}}</label>
-                    <input class="form-control" type="text" name="payment_name" [(ngModel)]="model.payment_name">
+                    <input class="form-control" type="text" name="payment_name{{t+1}}" [(ngModel)]="item.payment_name">
                   </div>
                 </div>
                 
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>{{'addForm.discount' | translate}}</label>
-                    <input autocomplete="off" class="form-control" placeholder="%" type="text" name="discount" [(ngModel)]="model.discount" appOnlyDecimal>
+                    <input autocomplete="off" class="form-control" placeholder="%" type="text" name="discount{{t+1}}" [(ngModel)]="item.discount" appOnlyDecimal>
                   </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>{{'addForm.downpayment' | translate}}</label>
-                    <input autocomplete="off" class="form-control" placeholder="%" type="text" name="downpayment" [(ngModel)]="model.downpayment" appOnlyDecimal>
+                    <input autocomplete="off" class="form-control" placeholder="%" type="text" name="downpayment{{t+1}}" [(ngModel)]="item.downpayment" appOnlyDecimal>
                   </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>{{'addForm.monthlyInstallment' | translate}}</label>
-                    <input autocomplete="off" class="form-control" placeholder="%" type="text" name="monthly_installment" [(ngModel)]="model.monthly_installment" appOnlyDecimal>
+                    <input autocomplete="off" class="form-control" placeholder="%" type="text" name="monthly_installment{{t+1}}" [(ngModel)]="item.monthly_installment" appOnlyDecimal>
                   </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>{{'addForm.numberMonthlyInstallments' | translate}}</label>
-                    <input autocomplete="off" class="form-control" placeholder="#"  maxlength="6" type="text" name="number_monthly_payments" [(ngModel)]="model.number_monthly_payments" appOnlyNumber>
+                    <input autocomplete="off" class="form-control" placeholder="#"  maxlength="6" type="text" name="number_monthly_payments{{t+1}}" [(ngModel)]="item.number_monthly_payments" appOnlyNumber>
                   </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-12  ">
                   <div class="form-group-3">
                     <label>{{'addForm.paymentUponDelivery' | translate}}</label>
-                    <input autocomplete="off" class="form-control" placeholder="%" type="text" name="payment_upon_delivery" [(ngModel)]="model.payment_upon_delivery" appOnlyDecimal>
+                    <input autocomplete="off" class="form-control" placeholder="%" type="text" name="payment_upon_delivery{{t+1}}" [(ngModel)]="item.payment_upon_delivery" appOnlyDecimal>
                   </div>
                 </div>
               </div>

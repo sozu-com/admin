@@ -178,6 +178,7 @@ export class AddProjectComponent implements OnInit {
   public language_code: string;
   public amenitiesKeyword: string = ''
   project_amenities: any[] = [];
+  newPaymentWay: any[] = [];
   constructor(
     public model: AddProjectModel,
     private admin: AdminService,
@@ -358,6 +359,28 @@ export class AddProjectComponent implements OnInit {
               this.model.building_towers = [];
             }
           });
+          if(this.model.building_payment_way.length > 0){
+            this.model.building_payment_way.forEach(item=>{
+              this.newPaymentWay.push({
+                payment_name: item.payment_name,
+                discount: item.discount,
+                downpayment: item.downpayment,
+                monthly_installment: item.monthly_installment,
+                number_monthly_payments: item.number_monthly_payments,
+                payment_upon_delivery: item.payment_upon_delivery
+              });
+            })
+          }
+          else{
+            this.newPaymentWay.push({
+              payment_name: '',
+              discount: '',
+              downpayment: '',
+              monthly_installment: '',
+              number_monthly_payments: '',
+              payment_upon_delivery: ''
+            });
+          }
           this.zoom = 18;
         }, error => {
           this.spinner.hide();
@@ -458,6 +481,28 @@ export class AddProjectComponent implements OnInit {
               this.model.building_towers = [];
             }
           });
+          if(this.model.building_payment_way.length > 0){
+            this.model.building_payment_way.forEach(item=>{
+              this.newPaymentWay.push({
+                payment_name: item.payment_name,
+                discount: item.discount,
+                downpayment: item.downpayment,
+                monthly_installment: item.monthly_installment,
+                number_monthly_payments: item.number_monthly_payments,
+                payment_upon_delivery: item.payment_upon_delivery
+              });
+            })
+          }
+          else{
+            this.newPaymentWay.push({
+              payment_name: '',
+              discount: '',
+              downpayment: '',
+              monthly_installment: '',
+              number_monthly_payments: '',
+              payment_upon_delivery: ''
+            });
+          }
           this.zoom = 18;
         }, error => {
           this.spinner.hide();
@@ -490,6 +535,14 @@ export class AddProjectComponent implements OnInit {
         this.model.parking_space_rent = new Array<Parking>();
         this.assignedLegalEntity();
         this.initModel();
+        this.newPaymentWay.push({
+          payment_name: '',
+          discount: '',
+          downpayment: '',
+          monthly_installment: '',
+          number_monthly_payments: '',
+          payment_upon_delivery: ''
+        });
       }
       this.zoom = 6;
     });
@@ -1219,11 +1272,21 @@ export class AddProjectComponent implements OnInit {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectLocality'), 'error');
       return false;
     }
-    if (modelSave.monthly_installment || modelSave.payment_upon_delivery ||  modelSave.downpayment) {
-      if(this.getTotalPercentage(modelSave.monthly_installment, modelSave.payment_upon_delivery, modelSave.downpayment) != 100.00){
+    let isContniue = true;
+    this.newPaymentWay.forEach(item=>{
+    if (item.monthly_installment || item.payment_upon_delivery ||  item.downpayment) {
+      if(this.getTotalPercentage(item.monthly_installment, item.payment_upon_delivery, item.downpayment) != 100.00){
+      swal(this.translate.instant('swal.error'), this.translate.instant('generatePDF.percentageText'), 'error');
+      isContniue = false;
+      }
+    }
+    });
+    if(isContniue){
+    modelSave.payment_ways = this.newPaymentWay;
+    }
+    else{
       swal(this.translate.instant('swal.error'), this.translate.instant('generatePDF.percentageText'), 'error');
       return false;
-      }
     }
     // if (!modelSave.possession_status_id) {
     //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseSelectPossesionStatus'), 'error');
@@ -2661,5 +2724,23 @@ export class AddProjectComponent implements OnInit {
 
   removeCoverImage() {
     this.file9.image = '';
+  }
+
+  markIsAddVariables = (isAddVariables: boolean, $event?: any): void => {
+    if ($event) {
+      $event.stopPropagation();
+    }
+    this.newPaymentWay.push({
+      payment_name: '',
+      discount: '',
+      downpayment: '',
+      monthly_installment: '',
+      number_monthly_payments: '',
+      payment_upon_delivery: ''
+    });
+  }
+
+  removePaymentWay(index){
+    this.newPaymentWay.splice(index, 1)
   }
 }

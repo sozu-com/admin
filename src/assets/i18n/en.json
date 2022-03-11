@@ -696,6 +696,8 @@
     "monthlyInstallment": "Monthly installment",
     "numberMonthlyInstallments": "Number of monthly installments",
     "paymentUponDelivery": "Payment upon delivery",
+    "new": "New",
+    "removePaymentWay": "Remove Payment Way",
     "manualLead":{
       "name": "Name",
       "firstSurname": "First Surname",

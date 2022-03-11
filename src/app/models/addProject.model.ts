@@ -124,6 +124,7 @@ export class AddProjectModel {
   number_monthly_payments?: any = 0;
   payment_upon_delivery?: any = 0;
   downpayment?: any = 0;
+  building_payment_way: any [] = [];
 }
 
 export class AddOfficeModel {
